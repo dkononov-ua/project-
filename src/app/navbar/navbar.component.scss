@@ -60,6 +60,18 @@ nav {
   }
 }
 
+li {
+  list-style-type: none;
+  /* Убираем маркеры */
+}
+
+ul {
+  margin-left: 0;
+  /* Отступ слева в браузере IE и Opera */
+  padding-left: 0;
+  /* Отступ слева в браузере Firefox, Safari, Chrome */
+}
+
 .phrases {
   list-style: none;
   padding: 0;
@@ -71,13 +83,17 @@ nav {
     max-width: 250px;
     border-radius: 7px;
     transition: padding 0.25s;
-    list-style-type: none;
 
     &:hover {
       background-color: lightcoral;
       padding-left: 1em;
     }
   }
+}
+
+li.nav-item.dropdown::marker {
+  color: blue;
+  font-size: 1.2em;
 }
 
 .btn-group {
