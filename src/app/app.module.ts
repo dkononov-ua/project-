@@ -9,6 +9,8 @@ import { PaymentsComponent } from './payments/payments.component';
 import { ServicesComponent } from './services/services.component';
 import { LessorComponent } from './registration/lessor/lessor.component';
 import { LesseeComponent } from './registration/lessee/lessee.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { LesseeComponent } from './registration/lessee/lessee.component';
     PaymentsComponent,
     ServicesComponent,
     LessorComponent,
-    LesseeComponent
+    LesseeComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

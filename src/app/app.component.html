@@ -1,9 +1,7 @@
 <h1>Nav</h1>
 
-<nav>
-  <a [routerLinkActive]="'active'" [routerLink]="'/registration'">registration</a>
-  <a [routerLinkActive]="'active'" [routerLink]="'/payments'">payments</a>
-  <a [routerLinkActive]="'active'" [routerLink]="'/services'">services</a>
-</nav>
+<app-navbar></app-navbar>
 
 <router-outlet></router-outlet>
+
+<app-footer></app-footer>
