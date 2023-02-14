@@ -2,6 +2,19 @@
   <div class="container-fluid">
     <a [routerLinkActive]="'active'" [routerLink]="'/services'">Services</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Payments</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/registration'">Registration</a>
+    <li class="nav-item dropdown">
+      <a [routerLinkActive]="'active'" [routerLink]="'/registration'" class="nav-link dropdown-toggle" href="#"
+        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Registration
+      </a>
+      <ul class="dropdown-menu">
+        <li dropdown-menu__link> <a [routerLinkActive]="'active'" [routerLink]="'/lessee'" class="dropdown-item"
+            href="#">Зареєструватись як
+            орендодавець</a>
+        <li dropdown-menu__link> <a [routerLinkActive]="'active'" [routerLink]="'/lessor'" class="dropdown-item"
+            href="#">Зареєструватись як
+            орендар</a></li>
+      </ul>
+    </li>
   </div>
 </nav>
