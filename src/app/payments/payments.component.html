@@ -1,5 +1,10 @@
 <div class="container-fluid">
-  <h2>Home account</h2>
+  <div class="container-title">
+    <h1>Home account</h1>
+    <p>Ця сторінка створена для взаємодії орендодавця з орендатором. <br> Вона дає можливість додавати та видаляти зі списку
+      проживаючих аккаунти орендувальників. Дає можливість переглядати доступні послуги, замовляти нові. Для зручності можна прив'язувати
+      карти для оплати всіх послуг в пару кліків.</p>
+  </div>
   <div class="container-fluid utility-payments-container">
     <div class="card" style="width: 18rem;">
       <div class="img-fluid"> <img src="../../assets/photo1.png" class="card-img-top" alt="...">
@@ -10,9 +15,9 @@
         <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
       </div>
       <div class="card-body">
-        <a href="#" class="card-link">Документи <i class="fa-solid fa-passport"></i></a>
-        <a href="#" class="card-link">Запросити доступ <i class="fa-solid fa-handshake-angle"></i></a>
-        <a href="#" class="card-link">Запросити реквізити <i class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="card-link"><span>Запросити доступ</span><i class="fa-solid fa-handshake-angle"></i></a>
+        <a href="#" class="card-link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
       </div>
     </div>
 
@@ -25,13 +30,13 @@
         <p class="card-text">м.Київ, вулиця Чорнобильська 19, <br> квартира 29</p>
       </div>
       <div class="card-body">
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'">Послуги <i
+        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
             class="fa-sharp fa-solid fa-house-laptop"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'">Замовлення послуг <i
+        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
             class="fa-solid fa-truck-fast"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'">Зауваження <i
+        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
             class="fa-sharp fa-solid fa-message"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'">Оплата послуг <i
+        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Оплата послуг</span><i
             class="fa-solid fa-credit-card"></i></a>
       </div>
     </div>
@@ -45,9 +50,9 @@
         <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
       </div>
       <div class="card-body">
-        <a href="#" class="card-link">Документи <i class="fa-solid fa-passport"></i></a>
-        <a href="#" class="card-link">Надати доступ <i class="fa-solid fa-handshake-angle"></i></a>
-        <a href="#" class="card-link">Запросити реквізити <i class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="card-link"><span>Надати доступ</span><i class="fa-solid fa-handshake-angle"></i></a>
+        <a href="#" class="card-link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
       </div>
     </div>
 
