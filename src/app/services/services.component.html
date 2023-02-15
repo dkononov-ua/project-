@@ -1,72 +1,47 @@
 <div class="container-fluid">
-  <thead>
-    <h1>Список послуг які надаються за адресою <a href=""></a></h1>
-  </thead>
-  <table>
-    <tr>
-      <th>Назва послуги</th>
-      <th>Назва сервісу</th>
-      <th>Номер особового рахунку</th>
-      <th>Останні показники</th>
-      <th>Сума до сплати</th>
-      <th>Сплатити</th>
-    </tr>
-    <tr>
-      <td>Електроенергія</td>
-      <td>Yasno</td>
-      <td>42 15 23 64 97</td>
-      <td></td>
-      <td></td>
-      <td><a href="#">Pay now</a></td>
-    </tr>
-    <tr>
-      <td>Газ</td>
-      <td>Ukrnafta</td>
-      <td>64 43 83 40 72</td>
-      <td></td>
-      <td></td>
-      <td><a href="#">Pay now</a></td>
+  <nav class="navbar">
+    <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Energy</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Water</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Cleaning</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Gas</a>
+  </nav>
+</div>
+<div class="container">
+  <div class="container-title">
+    <h1>Services</h1>
+    <h4>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковуівти
+      щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h4>
 
-    </tr>
-    <tr>
-      <td>Вода</td>
-      <td>Вишнівський водоканал</td>
-      <td>18 40 67 87 32</td>
-      <td></td>
-      <td></td>
-      <td><a href="#">Pay now</a></td>
-
-    </tr>
-    <tr>
-      <td>Сміття</td>
-      <td>Вишнівська ОСББ</td>
-      <td>23 44 78 94 64</td>
-      <td></td>
-      <td></td>
-      <td><a href="#">Pay now</a></td>
-
-    </tr>
-    <tr>
-      <td>Домофон</td>
-      <td>Цифрал</td>
-      <td>11 94 54 32 59</td>
-      <td></td>
-      <td></td>
-      <td><a href="#">Pay now</a></td>
-
-    </tr>
-    <tr>
-      <td>Інтернет</td>
-      <td>Lanet</td>
-      <td>16 33 62 63 64</td>
-      <td>-</td>
-      <td>200 грн</td>
-      <td><a href="#">Pay now</a></td>
-
-    </tr>
-  </table>
-
-  <h2>Карта для оплати</h2>
-
+    <h2>Оплачуй комуналку в зручному та сучасному додатку.</h2>
+  </div>
+<div class="container-servise">
+  <div class="card1" style="width: 20rem;">
+    <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">Електроенергія</h3>
+      <h4 class="card-title">Вібір постачальника</h4>
+    </div>
+    <div class="card-body">
+      <a href="#" class="card-link"><span>Змінити постачальника</span></a>
+      <a href="#" class="card-link"><span>Переглянути реквізити</span></a>
+    </div>
+  </div>
+  <div class="card2" style="width: 20rem;">
+    <div class="img-fluid"> <img src="../../../assets/water.jfif" class="card-img-top" alt="...">
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">Водопостачання</h3>
+      <h4 class="card-title">Вібір постачальника</h4>
+    </div>
+    <div class="card-body">
+      <a href="#" class="card-link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
+      <a href="#" class="card-link"><span>Переглянути реквізити</span><i
+          class="fa-solid fa-money-bill-trend-up"></i></a>
+    </div>
+  </div>
 
 </div>
+</div>
+
+

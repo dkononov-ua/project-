@@ -11,6 +11,8 @@ import { LessorComponent } from './registration/lessor/lessor.component';
 import { LesseeComponent } from './registration/lessee/lessee.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { EnergyComponent } from './services/energy/energy.component';
+import { WaterComponent } from './services/water/water.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { FooterComponent } from './footer/footer.component';
     LessorComponent,
     LesseeComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    EnergyComponent,
+    WaterComponent
   ],
   imports: [
     BrowserModule,

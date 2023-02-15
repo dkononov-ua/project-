@@ -1,4 +1,4 @@
-@use "../style/presets/" as *;
+@use "../../style/presets/" as *;
 
 a {
   font-family: $font-main;
@@ -23,29 +23,26 @@ a {
   }
 }
 
-.container-fluid{
+.container-fluid {
   max-width: 1000px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding: 0;
 }
 
-.container {
-  max-width: 1000px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 0;
+
+h4{
+  overflow: hidden;
 }
 
-.card1{
-  box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 0 0 0 black;
+.tel {
+  border: none;
+  color: black;
 }
 
-.card2{
-  position: absolute;
-  margin-left: 100px;
-  margin-top: 30px;
-  background-color: white;
+.card{
+  margin: 0;
+  background-color: $color-gray-light;
   box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 0 0 0 black;
 }
 
@@ -56,10 +53,6 @@ a {
   align-items: stretch;
   justify-content: flex-end;
   flex-direction: column;
-}
-
-.container-servise{
-  display: flex;
 }
 
 span {
@@ -75,6 +68,22 @@ span {
   justify-content: space-between;
   transition: 1s;
 
+  &:hover {
+    color: $color-accent;
+    background-color: $color-light;
+    transition: 1s;
+
+    span {
+      transition: transform 1s;
+      transform: translate(60px) scale(1.2);
+    }
+
+    .fa-solid, .fa-regular {
+      color: $color-accent;
+      transform: translate(-200px) scale(1.2);
+      transition: transform 1s;
+    }
+  }
 }
 
 img{
@@ -113,23 +122,6 @@ img{
 
 .input-group{
 margin-bottom: 10px;
-}
-
-h2{
-  margin-top: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 80px;
-  color: rgba(5, 5, 5, 0.821);
-  background-image: linear-gradient(to left, #00000000, rgba(0, 0, 0, 0.141));
-  border-radius: 10px;
-  margin-right: 20px;
-
-}
-
-h4{
-  padding-right: 80px;
 }
 
 
