@@ -1,42 +1,77 @@
+@use "../style/presets/" as *;
+
+a {
+  font-family: $font-main;
+  overflow: hidden;
+
+
+  text-decoration: none;
+  display: block;
+  border: 1px solid darkred;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+
+  &.active {
+    background-color: tomato;
+    color: white;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: cornflowerblue;
+    color: white;
+    border-color: indigo;
+  }
+}
+
+h2{
+  text-align: center;
+  font-family: $font-main;
+}
+
+h4{
+  overflow: hidden;
+}
+
+.tel {
+  border: none;
+  color: black;
+}
+
+
 .utility-payments-container{
   display: flex;
+  justify-content: center;
 }
 
 .card{
+  background-color: rgba(152, 149, 149, 0.2);
   margin: 10px;
-}
+  overflow: hidden;
+  overflow: hidden;
 
-.dropdown{
-  display: flex;
-  align-content: center;
-  align-items: stretch;
-  justify-content: center;
-  width: 200px;
-  height: 40px;
-  flex-direction: column;
+
 }
 
 .card-body{
+  z-index: 5;
+  padding: 10px;
   display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  align-items: baseline;
-  justify-content: space-evenly;
   flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-end;
+  flex-direction: column;
+  overflow: hidden;
+
 }
 
 .card-link{
+  margin: 0;
+  margin-bottom: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
-  width: 200px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.141);
-  border: 2px;
-  border-style: groove;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  justify-content: space-between;
 }
 
 img{
@@ -44,12 +79,33 @@ img{
   height: 300px;
   overflow: hidden;
   object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
+}
+
+.img-fluid{
+  overflow: hidden;
+}
+
+.card-img-top {
+
 }
 
 .list-group {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-content: center;
+  overflow: hidden;
+
 }
+
+.container-fluid {
+}
+
+.fa-solid, .fa-regular {
+  color: black;
+  font-size: 25px;
+}
+
+

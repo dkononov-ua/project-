@@ -1,0 +1,30 @@
+body {
+  background-color: #fff;
+}
+table {
+  width: 100%;
+  border-color: #000000;
+  border-style: groove;
+}
+td,th {
+  width: 1fr;
+  height: 50px;
+  border-color: #000000;
+  border-style: groove;
+  border-width: 1px;
+  text-align: center;
+}
+th {
+  background-color: #4f81bd;
+  color: #fff;
+}
+tr:nth-of-type(even) {
+  background-color: #d0d8e8;
+}
+tr:nth-of-type(odd) {
+  background-color: #e9edf4;
+}
+
+.container-fluid {
+  padding: 0 5%;
+}

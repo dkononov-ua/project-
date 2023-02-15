@@ -1,0 +1,177 @@
+.footer {
+  margin-top: 20px;
+  bottom: 0;
+
+  display: inline-block;
+  display: flex;
+  align-items: flex-end;
+
+  width: 100%;
+  padding-bottom: 20px;
+
+  background: linear-gradient(
+  to top,
+  rgba(0, 0, 0, 0.524),
+  rgba(0, 0, 0, 0)
+  );
+}
+
+.footer-box {
+  position: relative;
+  margin-bottom: 40px;
+
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  span {
+    &:nth-of-type(1) {
+      letter-spacing: 0.05em;
+      font-weight: 400;
+    }
+
+    &:nth-of-type(2) {
+      letter-spacing: 0.05em;
+      font-weight: 100;
+    }
+  }
+}
+
+.fab {
+  color: rgb(0, 0, 0);
+  font-size: 25px;
+  margin-top: 10px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+
+  text-shadow: 0 0 15px rgb(67, 66, 66);
+
+  &:hover,
+  &:focus {
+    color: tomato;
+    text-shadow: 0 0 40px tomato;
+  }
+}
+
+.footer-copy{
+  font-weight: normal;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.671);
+  font-size: 15px;
+  animation: border-flicker 4s linear infinite;
+}
+
+
+.fab{
+  padding-top: 10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  perspective: 1.4em;
+  font-size: 30px;
+  position: relative;
+  box-shadow: inset -10px -10px 100px black, 10px 10px 20px black, inset 0px 0px 10px black;
+  display: inline-block;
+  -webkit-box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+    0px 0px 0.5em 0px var(--glow-color);
+  -moz-box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+    0px 0px 0.5em 0px var(--glow-color);
+  box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+    0px 0px 0.5em 0px var(--glow-color);
+  animation: border-flicker 3s linear infinite;
+}
+
+@keyframes faulty-flicker{
+  0%{
+    opacity: 0.1;
+  }
+  2%{
+    opacity: 0.1;
+  }
+  4%{
+    opacity: 0.5;
+  }
+  19%{
+    opacity: 0.5;
+  }
+  21%{
+    opacity: 0.1;
+  }
+  23%{
+    opacity: 1;
+  }
+  80%{
+    opacity: 0.5;
+  }
+  83%{
+    opacity: 0.4;
+  }
+  87%{
+    opacity: 1;
+  }
+}
+@keyframes text-flicker{
+  0%{
+    opacity: 0.1;
+  }
+  2%{
+    opacity: 1;
+  }
+  8%{
+    opacity: 0.1;
+  }
+  9% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+  }
+  25%{
+    opacity: 0.3;
+  }
+  30%{
+    opacity: 1;
+  }
+
+  70%{
+    opacity: 0.7;
+  }
+  72%{
+    opacity: 0.2;
+  }
+
+  77%{
+    opacity: 0.9;
+  }
+  100%{
+    opacity: 0.9;
+  }
+}
+@keyframes border-flicker{
+  0%{
+    opacity: 0.1;
+  }
+  2%{
+    opacity: 1;
+  }
+  4%{
+    opacity: 0.1;
+  }
+
+  8%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 0.7;
+  }
+  100%{
+    opacity: 1;
+  }
+}

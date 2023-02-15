@@ -8,10 +8,16 @@ body {
   padding: 1em;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+.container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 a {
   text-decoration: none;
   color: black;
+  margin: 10px;
 }
 
 button {
@@ -39,7 +45,7 @@ nav {
     display: block;
     border: 1px solid darkred;
     padding: 0.5em 1em;
-    border-radius: 7px;
+    border-radius: 10px;
 
     &.active {
       background-color: tomato;
@@ -53,6 +59,18 @@ nav {
       border-color: indigo;
     }
   }
+}
+
+li {
+  list-style-type: none;
+  /* Убираем маркеры */
+}
+
+ul {
+  margin-left: 0;
+  /* Отступ слева в браузере IE и Opera */
+  padding-left: 0;
+  /* Отступ слева в браузере Firefox, Safari, Chrome */
 }
 
 .phrases {
@@ -74,7 +92,21 @@ nav {
   }
 }
 
+li.nav-item.dropdown::marker {
+  color: blue;
+  font-size: 1.2em;
+}
+
 .btn-group {
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+.dropdown-menu {
+  border-style: none;
+}
+
+
+.dropdown-item {
+  margin-bottom: 10px;
 }
