@@ -11,12 +11,13 @@ body {
 .container-fluid {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 a {
   text-decoration: none;
   color: black;
+  margin: 10px;
 }
 
 button {
@@ -44,7 +45,7 @@ nav {
     display: block;
     border: 1px solid darkred;
     padding: 0.5em 1em;
-    border-radius: 7px;
+    border-radius: 10px;
 
     &.active {
       background-color: tomato;
@@ -99,4 +100,13 @@ li.nav-item.dropdown::marker {
 .btn-group {
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+.dropdown-menu {
+  border-style: none;
+}
+
+
+.dropdown-item {
+  margin-bottom: 10px;
 }
