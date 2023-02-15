@@ -4,6 +4,7 @@ import { PaymentsComponent } from './payments/payments.component';
 import { LesseeComponent } from './registration/lessee/lessee.component';
 import { LessorComponent } from './registration/lessor/lessor.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { EnergyComponent } from './services/energy/energy.component';
 import { ServicesComponent } from './services/services.component';
 import { WaterComponent } from './services/water/water.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'lessor' , component: LessorComponent},
   {path: 'energy' , component: EnergyComponent},
   {path: 'water' , component: WaterComponent},
+  {path: 'cleaning' , component: CleaningComponent},
 ];
 
 @NgModule({

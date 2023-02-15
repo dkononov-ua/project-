@@ -2,46 +2,47 @@
   <nav class="navbar">
     <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Energy</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/water'">Water</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Cleaning</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Cleaning</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/water'">Gas</a>
   </nav>
 </div>
-<div class="container">
+<div class="container-fluid">
   <div class="container-title">
     <h1>Services</h1>
     <h4>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковуівти
       щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h4>
 
     <h2>Оплачуй комуналку в зручному та сучасному додатку.</h2>
+
   </div>
-<div class="container-servise">
-  <div class="card1" style="width: 20rem;">
-    <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+  <div class="container-fluid">
+    <div class="slide-1" style="width: 25rem;">
+      <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">Електроенергія</h3>
+        <h4 class="card-title">Вібір постачальника</h4>
+      </div>
+      <div class="card-body">
+        <a href="#" class="card-link"><span>Змінити постачальника</span></a>
+        <a href="#" class="card-link"><span>Переглянути реквізити</span></a>
+      </div>
     </div>
-    <div class="card-body">
-      <h3 class="card-title">Електроенергія</h3>
-      <h4 class="card-title">Вібір постачальника</h4>
+    <div class="slide-2" style="width: 25rem;">
+      <div class="img-fluid"> <img src="../../../assets/water.jfif" class="card-img-top" alt="...">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">Водопостачання</h3>
+        <h4 class="card-title">Вібір постачальника</h4>
+      </div>
+      <div class="card-body">
+        <a href="#" class="card-link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
+        <a href="#" class="card-link"><span>Переглянути реквізити</span><i
+            class="fa-solid fa-money-bill-trend-up"></i></a>
+      </div>
+
     </div>
-    <div class="card-body">
-      <a href="#" class="card-link"><span>Змінити постачальника</span></a>
-      <a href="#" class="card-link"><span>Переглянути реквізити</span></a>
-    </div>
-  </div>
-  <div class="card2" style="width: 20rem;">
-    <div class="img-fluid"> <img src="../../../assets/water.jfif" class="card-img-top" alt="...">
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Водопостачання</h3>
-      <h4 class="card-title">Вібір постачальника</h4>
-    </div>
-    <div class="card-body">
-      <a href="#" class="card-link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
-      <a href="#" class="card-link"><span>Переглянути реквізити</span><i
-          class="fa-solid fa-money-bill-trend-up"></i></a>
-    </div>
+
   </div>
 
 </div>
-</div>
-
-

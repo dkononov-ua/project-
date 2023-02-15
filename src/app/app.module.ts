@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { EnergyComponent } from './services/energy/energy.component';
 import { WaterComponent } from './services/water/water.component';
+import { CleaningComponent } from './services/cleaning/cleaning.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { WaterComponent } from './services/water/water.component';
     NavbarComponent,
     FooterComponent,
     EnergyComponent,
-    WaterComponent
+    WaterComponent,
+    CleaningComponent
   ],
   imports: [
     BrowserModule,

@@ -25,32 +25,51 @@ a {
 
 .container-fluid{
   max-width: 1000px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
 }
 
-.container {
-  max-width: 1000px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 0;
+.slide-1 {
+    background-color: rgb(255, 255, 255);
+    box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 0 0 0 black;
+    animation: mymove 4s;
+    animation-delay: 0.8s;
+    animation-fill-mode: forwards;
+
+  @keyframes mymove {
+    from {  box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 100px 0 0 rgba(0, 0, 0, 0);
+    }
+    to {box-shadow: inset 0 10px 2px black, 0 10px 20px black, inset 1000px 10px 10px rgb(230, 230, 230);
+    }
+  }
 }
 
-.card1{
-  box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 0 0 0 black;
-}
-
-.card2{
+.slide-2{
   position: absolute;
-  margin-left: 100px;
-  margin-top: 30px;
+  margin-left: 150px;
+  margin-top: 50px;
   background-color: white;
   box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 0 0 0 black;
+
+  animation-duration: 2s;
+  animation-name: slidein;
+
+  @keyframes slidein {
+    from {
+      margin-left: 45%;
+    }
+
+    to {
+      margin-left: 150px;
+    }
+  }
 }
 
 .card-body{
-  padding: 10px;
+  padding: 30px;
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
@@ -73,8 +92,6 @@ span {
   background-color: $color-gray-dark;
   display: flex;
   justify-content: space-between;
-  transition: 1s;
-
 }
 
 img{
@@ -105,7 +122,6 @@ img{
 
 }
 
-
 .btn-link{
   text-decoration: none;
   border-radius: 5px;
@@ -116,20 +132,15 @@ margin-bottom: 10px;
 }
 
 h2{
-  margin-top: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 80px;
+  margin-top: 40px;
+  padding: 20px;
   color: rgba(5, 5, 5, 0.821);
   background-image: linear-gradient(to left, #00000000, rgba(0, 0, 0, 0.141));
   border-radius: 10px;
-  margin-right: 20px;
-
 }
 
 h4{
-  padding-right: 80px;
+  margin-right: 250px;
 }
 
 

@@ -2,22 +2,22 @@
   <nav class="navbar">
     <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Energy</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/water'">Water</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Cleaning</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Gas</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Cleaning</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Gas</a>
   </nav>
 </div>
 <div class="container-fluid">
   <div class="container-title">
-    <h1>Електроенергія</h1>
+    <h1>Прибирання території, вівіз сміття</h1>
     <h5>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковуівти
       щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
   </div>
   <div class="container-fluid utility-payments-container">
     <div class="card" style="width: 18rem;">
-      <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+      <div class="img-fluid"> <img src="../../../assets/cleaning.jpg" class="card-img-top" alt="...">
       </div>
       <div class="card-body">
-        <h3 class="card-title">Електроенергія</h3>
+        <h3 class="card-title">Прибирання території</h3>
         <h4 class="card-title">Вибір постачальника</h4>
       </div>
       <div class="card-body">
@@ -28,22 +28,23 @@
     </div>
   </div>
   <div class="container-fluid utility-payments-container">
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 25rem;">
       <div class="card-body">
         <h4 class="card-title">Компанія постачальника послуг</h4>
-        <h3 class="card-title">Yasno</h3>
+        <h3 class="card-title">КП «Київкомунсервіс»</h3>
 
-        <p>Тариф за спожитий обсяг до 250 кВт·год з ПДВ 1,44 грн/кВт·год</p>
-        <p>Тариф при споживанні обсягу понад 250 кВт·год 1,68 грн/кВт·год</p>
+        <p>Для укладання договору з КП “Київкомунсервіс” необхідно заповнити анкету та подати необхідні документи:
+          1. Копія свідоцтва про реєстрацію;
+          2. Копія свідоцтва платника ПДВ (Єдиного податку);
+          3. Копія договору оренди приміщення;
+          4. Копія витягу права власності (технічний паспорт БТІ);
+          5. Інформаційний талон Департаменту містобудування та архітектури (для тимчасових споруд);
+          6. Копія паспорту та ідентифікаційного коду (для фізичних осіб);
+          7. Копія довіреності (за потреби);</p>
       </div>
       <div class="card-body">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="ПІБ" aria-label="Recipient's username" aria-describedby="button-addon2">
-        </div>
-
-        <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="Показники" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Відправити</button>
         </div>
 
         <div class="input-group">
