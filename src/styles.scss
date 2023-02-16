@@ -87,6 +87,8 @@ img{
 .img-fluid{
   overflow: hidden;
   border-radius: 10px;
+  object-fit: cover;
+
 }
 
 .fa-solid, .fa-regular {

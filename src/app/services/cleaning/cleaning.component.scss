@@ -4,8 +4,8 @@ a {
   padding: 0.5em 1em;
 }
 
-.container-card {
-  margin-right: 20px;
+.container-fluid{
+  display: flex;
 }
 
 .card-link{
@@ -47,3 +47,5 @@ img{
     transform: scale(1.4);
   }
 }
+
+
