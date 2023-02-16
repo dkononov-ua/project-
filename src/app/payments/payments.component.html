@@ -2,7 +2,8 @@
   <div class="container-title">
     <h1>Home account</h1>
     <h5>Ця сторінка створена для взаємодії орендодавця з орендатором. Вона дає можливість додавати та видаляти зі списку
-      проживаючих аккаунти орендувальників. Дає можливість переглядати доступні послуги, замовляти нові. Для зручності можна прив'язувати
+      проживаючих аккаунти орендувальників. Дає можливість переглядати доступні послуги, замовляти нові. Для зручності
+      можна прив'язувати
       карти для оплати всіх послуг в пару кліків.</h5>
   </div>
   <div class="container-fluid utility-payments-container">
@@ -17,12 +18,32 @@
       <div class="card-body">
         <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
         <a href="#" class="card-link"><span>Запросити доступ</span><i class="fa-solid fa-handshake-angle"></i></a>
-        <a href="#" class="card-link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="card-link"><span>Запросити реквізити</span><i
+            class="fa-solid fa-money-bill-trend-up"></i></a>
       </div>
     </div>
 
     <div class="card two" style="width: 20rem;">
-      <div class="img-fluid"><img src="../../assets/previewlist-314.jpg" class="card-img-top" alt="...">
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="../../../assets/badroom.jpg" class="img-fluid" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../../../assets/kitchen.jpg" class="img-fluid" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../../../assets/bathroom-vanity-light.jpg" class="img-fluid" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
       <div class="card-body">
         <h4 class="card-title">Інформація про оселю</h4>
@@ -30,6 +51,8 @@
         <p class="card-text">м.Київ, вулиця Чорнобильська 19, <br> квартира 29</p>
       </div>
       <div class="card-body">
+        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Home account</span><i
+            class="fa-sharp fa-solid fa-house-laptop"></i></a>
         <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
             class="fa-sharp fa-solid fa-house-laptop"></i></a>
         <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
@@ -52,7 +75,8 @@
       <div class="card-body">
         <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
         <a href="#" class="card-link"><span>Надати доступ</span><i class="fa-solid fa-handshake-angle"></i></a>
-        <a href="#" class="card-link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="card-link"><span>Запросити реквізити</span><i
+            class="fa-solid fa-money-bill-trend-up"></i></a>
       </div>
     </div>
 

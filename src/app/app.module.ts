@@ -16,6 +16,7 @@ import { WaterComponent } from './services/water/water.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { GasComponent } from './services/gas/gas.component';
 import { InternetComponent } from './services/internet/internet.component';
+import { HomeAccountComponent } from './payments/home-account/home-account.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { InternetComponent } from './services/internet/internet.component';
     WaterComponent,
     CleaningComponent,
     GasComponent,
-    InternetComponent
+    InternetComponent,
+    HomeAccountComponent
   ],
   imports: [
     BrowserModule,
