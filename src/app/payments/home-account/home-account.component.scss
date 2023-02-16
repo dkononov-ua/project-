@@ -1,36 +1,8 @@
 @use "../../style/presets/" as *;
 
 a {
-  font-family: $font-main;
-  color: $color-text;
-  overflow: hidden;
-
-  text-decoration: none;
-  display: block;
   padding: 0.5em 1em;
-  border-radius: 10px;
-
-  &.active {
-    background-color: $color-accent;
-    color: white;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $color-primary;
-    color: $color-accent;
-    border-color: rgb(255, 255, 255);
-  }
 }
-
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1000px;
-  padding: 0;
-}
-
-
 
 h4{
   overflow: hidden;
@@ -64,6 +36,7 @@ h4{
   animation-delay: 0.5s;
   animation-name: slidein;
   animation-fill-mode: forwards;
+  border-radius: 10px;
 
   @keyframes slidein {
     from {
@@ -159,4 +132,8 @@ img{
   transition: transform 1s;
 }
 
+
+.carousel-inner{
+  border-radius: 10px;
+}
 

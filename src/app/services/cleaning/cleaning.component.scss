@@ -1,59 +1,11 @@
 @use "../../style/presets/" as *;
 
 a {
-  font-family: $font-main;
-  color: $color-text;
-  overflow: hidden;
-
-  text-decoration: none;
-  display: block;
   padding: 0.5em 1em;
-  border-radius: 10px;
-
-  &.active {
-    background-color: $color-accent;
-    color: white;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $color-primary;
-    color: $color-accent;
-    border-color: rgb(255, 255, 255);
-  }
 }
 
-.container-fluid{
-  max-width: 1000px;
-  display: flex;
-}
-
-h4{
-  overflow: hidden;
-}
-
-.tel {
-  border: none;
-  color: black;
-}
-
-.card{
-  margin: 0;
-  background-color: $color-gray-light;
-  box-shadow: inset 0 0 2px black, 10px 10px 20px black, inset 0 0 0 black;
-}
-
-.card-body{
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: flex-end;
-  flex-direction: column;
-}
-
-span {
-  transition: transform 1s;
+.container-card {
+  margin-right: 20px;
 }
 
 .card-link{
@@ -95,34 +47,3 @@ img{
     transform: scale(1.4);
   }
 }
-
-.img-fluid{
-  overflow: hidden;
-}
-
-.list-group {
-  overflow: hidden;
-}
-
-.fa-solid, .fa-regular {
-  color: $color-icon;
-  font-size: 25px;
-  transition: transform 1s;
-
-}
-
-
-.btn-link{
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.input-group{
-margin-bottom: 10px;
-}
-
-h5{
-  padding-right: 40px;
-}
-
-
