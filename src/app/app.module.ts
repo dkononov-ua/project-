@@ -14,6 +14,8 @@ import { FooterComponent } from './footer/footer.component';
 import { EnergyComponent } from './services/energy/energy.component';
 import { WaterComponent } from './services/water/water.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
+import { GasComponent } from './services/gas/gas.component';
+import { InternetComponent } from './services/internet/internet.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { CleaningComponent } from './services/cleaning/cleaning.component';
     FooterComponent,
     EnergyComponent,
     WaterComponent,
-    CleaningComponent
+    CleaningComponent,
+    GasComponent,
+    InternetComponent
   ],
   imports: [
     BrowserModule,

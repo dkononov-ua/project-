@@ -2,20 +2,20 @@
   <nav class="navbar">
     <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Energy</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/water'">Water</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Cleaning</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Cleaning</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Gas</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Internet</a>
   </nav>
 </div>
 <div class="container-fluid">
   <div class="container-title">
-    <h1>Електроенергія</h1>
+    <h1>Газопостачання</h1>
     <h5>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковуівти
       щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
   </div>
   <div class="container-fluid utility-payments-container">
     <div class="card" style="width: 18rem;">
-      <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+      <div class="img-fluid"> <img src="../../../assets/gas.jpg" class="card-img-top" alt="...">
       </div>
       <div class="card-body">
         <h3 class="card-title">Електроенергія</h3>
@@ -32,29 +32,31 @@
     <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h4 class="card-title">Компанія постачальника послуг</h4>
-        <h3 class="card-title">Yasno</h3>
+        <h3 class="card-title">Нафтогаз України</h3>
 
-        <p>Тариф за спожитий обсяг до 250 кВт·год з ПДВ 1,44 грн/кВт·год</p>
-        <p>Тариф при споживанні обсягу понад 250 кВт·год 1,68 грн/кВт·год</p>
+        <p>Ціна тарифного плану «Фіксований» (7,96 грн/м³ з ПДВ) зафіксована на цілий рік. Період дії з 1 травня 2022
+          року по 1 травня 2023 року включно.</p>
       </div>
       <div class="card-body">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="ПІБ" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <input type="text" class="form-control" placeholder="ПІБ" aria-label="Recipient's username"
+            aria-describedby="button-addon2">
         </div>
 
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="Показники" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <input type="number" class="form-control" placeholder="Показники" aria-label="Recipient's username"
+            aria-describedby="button-addon2">
           <button class="btn btn-outline-secondary" type="button" id="button-addon2">Відправити</button>
         </div>
 
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Розрахунок" aria-label="Dollar amount (with dot and two decimal places)">
+          <input type="text" class="form-control" placeholder="Розрахунок"
+            aria-label="Dollar amount (with dot and two decimal places)">
           <span class="input-group-text">$</span>
           <span class="input-group-text">0.00</span>
         </div>
 
-        <a href="#" class="card-link"><span>Оплатити</span><i
-            class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="card-link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
       </div>
     </div>
   </div>

@@ -23,13 +23,10 @@ a {
   }
 }
 
-.container-fluid {
+.container-fluid{
   max-width: 1000px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 0;
+  display: flex;
 }
-
 
 h4{
   overflow: hidden;

@@ -6,6 +6,10 @@
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
+*{
+  box-sizing: border-box;
+}
+
 body {
   background-color: $color-primary;
   font-family: $font-main;
