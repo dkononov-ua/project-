@@ -1,8 +1,9 @@
 <div class="container-fluid">
 
-  <div class="card two" style="width: 30rem;">
+  <div class="col-md-4 card two">
     <div id="carouselExample" class="carousel slide">
       <div class="carousel-inner">
+
         <div class="carousel-item active">
           <img src="../../../assets/badroom.jpg" class="d-block w-100" alt="...">
         </div>
@@ -22,25 +23,72 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+    <button class="btn btn-outline-success my-2 my-sm-0">
+      <i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>
+    </button>
   </div>
 
-  <div class="card-body">
-    <h4 class="card-title">Інформація про оселю</h4>
-    <p class="card-text">Адреса</p>
-    <p class="card-text">м.Київ, вулиця Чорнобильська 19, <br> квартира 29</p>
+  <div class="col-md-4 content-description">
+    <h1>Аккаунт оселі</h1>
+
+    <div class="item-wrapper">
+      <div class="container-description">
+        <h2 class="item-title">Київ, вул Чорнобильська №19. кв №24</h2>
+        <div class="item-description">
+          Основні характеристики.
+        </div>
+        <div class="item-characteristics">
+          <div>
+            <span><strong>Кількість кімнат:</strong> 2</span>
+          </div>
+          <div>
+            <span><strong>Ремонт:</strong> 2015р.</span>
+          </div>
+          <div>
+            <span><strong>Поверх:</strong> 8</span>
+          </div>
+        </div>
+        <div class="price-box">
+          <div class="item-price">9000<sup>₴/міс</sup>
+            <div class="item-actions">
+              <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+                Підписатися
+              </button>
+              <button class="btn btn-outline-success my-2 my-sm-0">
+                <i class="fas fa-heart" aria-hidden="true"></i>
+              </button>
+
+            </div>
+          </div>
+          <div class="item-price">108000<sup>₴/рік</sup>
+            <div class="item-actions">
+              <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+                Підписатися
+              </button>
+              <button class="btn btn-outline-success my-2 my-sm-0">
+                <i class="fas fa-heart" aria-hidden="true"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Home account</span><i
+
+  <div class="col-md-4 card-body">
+    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/payments'"><span>Взаємодія сторін</span><i
         class="fa-sharp fa-solid fa-house-laptop"></i></a>
     <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
-        class="fa-sharp fa-solid fa-house-laptop"></i></a>
+        class="fa-solid fa-house-signal"></i></a>
     <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
         class="fa-solid fa-truck-fast"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
-        class="fa-sharp fa-solid fa-message"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Оплата послуг</span><i
-        class="fa-solid fa-credit-card"></i></a>
-  </div>
+    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
+      <i class="fa-solid fa-box-open"></i></a>
+    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Підписники</span><i
+        class="fa-solid fa-person-praying"></i></a>
 
+  </div>
 
 </div>

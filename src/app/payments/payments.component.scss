@@ -14,7 +14,7 @@ a {
 
 .tel {
   border: none;
-  color: black;
+  color: $color-text;
 }
 
 .utility-payments-container{
@@ -81,11 +81,21 @@ a {
   }
 }
 
+.card-description{
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
 .card-link{
   margin: 0;
   margin-bottom: 10px;
   color: $color-text;
-  background-color: $color-gray-dark;
+  background-color: $color-white;
   display: flex;
   justify-content: space-between;
   transition: 1s;
@@ -93,7 +103,7 @@ a {
 
   &:hover {
     color: $color-accent;
-    background-color: $color-light;
+    background-color: $color-dark;
     transition: 1s;
 
     span {
@@ -103,7 +113,7 @@ a {
 
     .fa-solid, .fa-regular {
       color: $color-accent;
-      transform: translate(-200px) scale(1.2);
+      transform: translate(-220px) scale(1.2);
       transition: transform 1s;
     }
   }
@@ -121,6 +131,15 @@ img{
     transition: transform 1s;
     transform: scale(1.4);
   }
+}
+
+.icon-box{
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: stretch;
 }
 
 

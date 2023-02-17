@@ -12,14 +12,14 @@ a {
   margin: 0;
   margin-bottom: 10px;
   color: $color-text;
-  background-color: $color-gray-dark;
+  background-color: $color-white;
   display: flex;
   justify-content: space-between;
   transition: 1s;
 
   &:hover {
     color: $color-accent;
-    background-color: $color-light;
+    background-color: $color-dark;
     transition: 1s;
 
     span {
@@ -29,7 +29,7 @@ a {
 
     .fa-solid, .fa-regular {
       color: $color-accent;
-      transform: translate(-200px) scale(1.2);
+      transform: translate(-220px) scale(1.2);
       transition: transform 1s;
     }
   }
