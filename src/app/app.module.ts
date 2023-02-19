@@ -17,7 +17,12 @@ import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { GasComponent } from './services/gas/gas.component';
 import { InternetComponent } from './services/internet/internet.component';
 import { HomeAccountComponent } from './payments/home-account/home-account.component';
-import { UserComponent } from './registration/user/user.component';
+import { OurTeamComponent } from './our-team/our-team.component';
+import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -33,14 +38,18 @@ import { UserComponent } from './registration/user/user.component';
     GasComponent,
     InternetComponent,
     HomeAccountComponent,
-    UserComponent,
+    OurTeamComponent,
+    InformationHousingComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

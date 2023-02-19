@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <h1>Опис оселі</h1>
+  <div class="image-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Фото оселі</mat-label>
+      <input type="file" (change)="onFileSelected($event)">
+    </mat-form-field>
+    <img [src]="imageUrl" alt="Фото оселі" *ngIf="imageUrl">
+  </div>
+
+  <div class="form">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Назва оселі</label>
+        <input type="text" id="name" name="name" [(ngModel)]="formData.name">
+      </div>
+      <div class="form-group">
+        <label for="description">Опис оселі</label>
+        <textarea id="description" name="description" [(ngModel)]="formData.description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="price">Ціна за ніч</label>
+        <input type="number" id="price" name="price" [(ngModel)]="formData.price">
+      </div>
+      <div class="form-group">
+        <label for="guests">Кількість гостей</label>
+        <input type="number" id="guests" name="guests" [(ngModel)]="formData.guests">
+      </div>
+      <div class="form-group">
+        <label for="bedrooms">Кількість спалень</label>
+        <input type="number" id="bedrooms" name="bedrooms" [(ngModel)]="formData.bedrooms">
+      </div>
+      <div class="form-group">
+        <label for="bathrooms">Кількість ванних кімнат</label>
+        <input type="number" id="bathrooms" name="bathrooms" [(ngModel)]="formData.bathrooms">
+      </div>
+      <div class="form-group checkboxes">
+        <span>Наповнення оселі:</span>
+        <label>
+          <input type="checkbox" name="wifi" [(ngModel)]="formData.wifi"> Wi-Fi
+        </label>
+        <label>
+          <input type="checkbox" name="parking" [(ngModel)]="formData.parking"> Парковка
+        </label>
+        <label>
+          <input type="checkbox" name="pool" [(ngModel)]="formData.pool"> Басейн
+        </label>
+      </div>
+      <div class="form-group map">
+        <span>Місцезнаходження:</span>
+        <div id="map" #map></div>
+      </div>
+      <div class="form-group">
+        <button type="submit">Зберегти</button>
+      </div>
+    </form>
+  </div>
+</div>

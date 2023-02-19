@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OurTeamComponent } from './our-team/our-team.component';
 import { HomeAccountComponent } from './payments/home-account/home-account.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { EnergyComponent } from './services/energy/energy.component';
@@ -21,6 +23,8 @@ const routes: Routes = [
   {path: 'gas' , component: GasComponent},
   {path: 'internet' , component: InternetComponent},
   {path: 'home-account' , component: HomeAccountComponent},
+  {path: 'our-team' , component: OurTeamComponent},
+  {path: 'information-housing' , component: InformationHousingComponent},
 ];
 
 @NgModule({
