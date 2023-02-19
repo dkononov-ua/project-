@@ -8,7 +8,10 @@ a {
   display: flex;
 }
 
-.card-link{
+.card-link, button{
+  padding: 0.5em 1em;
+  border-radius: 10px;
+
   margin: 0;
   margin-bottom: 10px;
   color: $color-text;
@@ -48,4 +51,14 @@ img{
   }
 }
 
+.card-statick{
+  z-index: 10;
+}
 
+.navbar{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}

@@ -11,7 +11,7 @@ export class OurTeamComponent {
       name: 'Denys Kononov',
       position: 'CEO',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend elit eu urna tristique, ut bibendum eros auctor.',
-      image: './assets/images/team-member-1.jpg',
+      image: '../../assets/photo1.png',
       social: {
         instagram: 'https://www.facebook.com',
         twitter: 'https://www.twitter.com',

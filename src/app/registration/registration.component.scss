@@ -69,7 +69,7 @@ button {
   position: relative;
   border-radius: 20px;
   border: 1px solid #4bb6b7;
-  background-color: #4bb6b7;
+  background-color: #4bb5b7a6;
   color: black;
   font-size: 15px;
   font-weight: 700;
@@ -205,7 +205,7 @@ input {
   width: 50%;
   height: 100%;
   overflow: hidden;
-  transition: transform 0.6 ease-in-out;
+  transition: transform 0.6s ease-in-out;
   z-index: 100;
 }
 
@@ -214,18 +214,37 @@ input {
 }
 
 .overlay {
-  background-image: url('../../assets/photo-1459767129954-1b1c1f9b9ace.jfif');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 0 0;
+  background: linear-gradient(to right, #08cecb, #2098de, #a87ad0);
+background-size: 600% 100%;
+-webkit-animation: gradient 20s ease infinite;
+-moz-animation: gradient 20s ease infinite;
+animation: gradient 20s ease infinite;
+
   color: #fff;
   position: relative;
   left: -100%;
   height: 100%;
   width: 200%;
   transform: translateX(0);
-  transition: transform 0.6 ease-in-out ;
+  transition: transform 0.6s ease-in;
 }
+
+@-webkit-keyframes gradient {
+  0% {background-position: 0% 50%}
+  50% {background-position: 100% 50%}
+  100% {background-position: 0% 50%}
+}
+@-moz-keyframes gradient {
+  0% {background-position: 0% 50%}
+  50% {background-position: 100% 50%}
+  100% {background-position: 0% 50%}
+}
+@keyframes gradient {
+  0% {background-position: 0% 50%}
+  50% {background-position: 100% 50%}
+  100% {background-position: 0% 50%}
+}
+
 
 .overlay::before {
   content: "";
@@ -234,9 +253,6 @@ input {
   right: 0;
   top: 0;
   bottom: 0;
-  background: linear-gradient(to top, rgba(46, 94, 109, 0.4) 40%,
-  rgba(46, 94, 109, 0)
-  );
 }
 
 .container.right-panel-active .overlay {
@@ -255,7 +271,7 @@ input {
   height: 100%;
   width: 50%;
   transform: translateX(0);
-  transition: transform 0.6 ease-in-out;
+  transition: transform 0.6s ease-in-out;
 }
 .overlay-left {
   transform: translateX(-20%);
@@ -287,12 +303,17 @@ input {
   margin: 0 5px;
   height: 40px;
   width: 40px;
-  transition: transform 0.3 ease-in-out ;
+  transition: transform 0.3s ease-in-out ;
 }
 
 .social-container a:hover {
   border: 1px solid #4bb6b7;
 }
+
+
+
+
+
 
 
 

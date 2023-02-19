@@ -11,10 +11,11 @@ import { GasComponent } from './services/gas/gas.component';
 import { InternetComponent } from './services/internet/internet.component';
 import { ServicesComponent } from './services/services.component';
 import { WaterComponent } from './services/water/water.component';
+import { TestComponent } from './style/test/test.component';
 
 const routes: Routes = [
+  {path: '' , redirectTo: 'registration' , pathMatch: 'full' },
   {path: 'registration' , component: RegistrationComponent},
-  {path: '' , redirectTo: 'payments' , pathMatch: 'full' },
   {path: 'payments' , component: PaymentsComponent},
   {path: 'services' , component: ServicesComponent},
   {path: 'energy' , component: EnergyComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'home-account' , component: HomeAccountComponent},
   {path: 'our-team' , component: OurTeamComponent},
   {path: 'information-housing' , component: InformationHousingComponent},
+  {path: 'test' , component: TestComponent},
 ];
 
 @NgModule({

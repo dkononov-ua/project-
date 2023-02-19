@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,6 +24,7 @@ import { InformationHousingComponent } from './registration/information-housing/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { TestComponent } from './style/test/test.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { MatIconModule } from '@angular/material/icon';
     InternetComponent,
     HomeAccountComponent,
     OurTeamComponent,
-    InformationHousingComponent
+    InformationHousingComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
