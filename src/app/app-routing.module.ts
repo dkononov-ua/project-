@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OurTeamComponent } from './our-team/our-team.component';
 import { HomeAccountComponent } from './payments/home-account/home-account.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { LesseeComponent } from './registration/lessee/lessee.component';
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'gas' , component: GasComponent},
   {path: 'internet' , component: InternetComponent},
   {path: 'home-account' , component: HomeAccountComponent},
+  {path: 'our-team' , component: OurTeamComponent},
 ];
 
 @NgModule({
