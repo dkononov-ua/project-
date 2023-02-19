@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeAccountComponent } from './payments/home-account/home-account.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { LesseeComponent } from './registration/lessee/lessee.component';
-import { LessorComponent } from './registration/lessor/lessor.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { EnergyComponent } from './services/energy/energy.component';
@@ -17,8 +15,6 @@ const routes: Routes = [
   {path: '' , redirectTo: 'payments' , pathMatch: 'full' },
   {path: 'payments' , component: PaymentsComponent},
   {path: 'services' , component: ServicesComponent},
-  {path: 'lessee' , component: LesseeComponent},
-  {path: 'lessor' , component: LessorComponent},
   {path: 'energy' , component: EnergyComponent},
   {path: 'water' , component: WaterComponent},
   {path: 'cleaning' , component: CleaningComponent},
