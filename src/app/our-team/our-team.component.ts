@@ -13,7 +13,7 @@ export class OurTeamComponent {
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend elit eu urna tristique, ut bibendum eros auctor.',
       image: '../../assets/photo1.png',
       social: {
-        instagram: 'https://www.facebook.com',
+        instagram: 'https://www.instagram.com',
         twitter: 'https://www.twitter.com',
         linkedin: 'https://www.linkedin.com'
       }
@@ -22,7 +22,7 @@ export class OurTeamComponent {
       name: 'Maksym Oliinyk',
       position: 'CTO',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend elit eu urna tristique, ut bibendum eros auctor.',
-      image: './assets/images/team-member-1.jpg',
+      image: '../../assets/photo2.jpg',
       social: {
         instagram: 'https://instagram.com/maks._.oleynik?igshid=NTE5MzUyOTU=',
         twitter: 'https://twitter.com/MaksimOliynik',
