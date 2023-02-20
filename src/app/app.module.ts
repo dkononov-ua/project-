@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TestComponent } from './style/test/test.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

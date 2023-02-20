@@ -2,11 +2,13 @@
 
 .footer-box {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   flex-direction: column;
   padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .icon-box{
