@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-information-housing',
@@ -6,23 +6,22 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./information-housing.component.scss']
 })
 export class InformationHousingComponent {
-
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    // додаткові дії з файлом, які вам потрібні
-  }
-
-  imageUrl = 'https://via.placeholder.com/300';
-  formData: any = {};
-
-  @ViewChild('map', { static: true }) mapElement: ElementRef | undefined;
-
-  ngOnInit() {
-    // Код для ініціалізації мапи
-  }
+  files: FileList | undefined;
 
   onSubmit() {
-    // Код для обробки подання форми
+    // код для обробки подання форми
+  }
+
+  onFileSelected(event: any) {
+    this.files = event.target.files;
+  }
+
+  onUpload() {
+    // Код для завантаження файлів на сервер та додавання їх до каруселі
+  }
+
+  onDelete() {
+    // Код для видалення вибраних файлів з каруселі
   }
 };
 

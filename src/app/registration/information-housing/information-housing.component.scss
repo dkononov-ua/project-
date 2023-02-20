@@ -1,92 +1,61 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@use "../../style/presets/" as *;
+
+
+.card {
   padding: 20px;
 }
 
-h1 {
-  font-size: 36px;
-  font-weight: bold;
-  margin-bottom: 20px;
+a {
+  padding: 0.5em 1em;
 }
 
-img {
-  max-width: 100%;
-  margin-bottom: 20px;
-}
-
-.form {
+.container-fluid{
   display: flex;
-  flex-direction: column;
+}
+
+.container-card{
+  display: flex;
   align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-
-.form label {
-  display: flex;
   flex-direction: column;
-  width: 100%;
-  margin-bottom: 20px;
+  justify-content: center;
 }
 
-.form label input,
-.form label textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.form label input[type="file"] {
-  display: none;
-}
-
-.form label input[type="file"] + label {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.form button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #2196f3;
-  cursor: pointer;
-}
-
-.form button:hover {
-  background-color: #0c7cd5;
-}
-
-.form button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.image-container {
+.card-link{
+  margin: 0;
+  margin-bottom: 10px;
+  color: $color-text;
+  background-color: $color-white;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  transition: 1s;
 
-  img {
-    max-width: 100%;
-    margin-top: 20px;
+  &:hover {
+    color: $color-accent;
+    background-color: $color-dark;
+    transition: 1s;
+
+    span {
+      transition: transform 1s;
+      transform: translate(60px) scale(1.2);
+    }
+
+    .fa-solid, .fa-regular {
+      color: $color-accent;
+      transform: translate(-220px) scale(1.2);
+      transition: transform 1s;
+    }
   }
 }
 
+img{
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
+}
