@@ -13,6 +13,10 @@ h1.title {
   text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
 }
 
+a:hover{
+  background: none;
+}
+
 p{
   font-size: 14px;
   font-weight: 100;
@@ -25,18 +29,6 @@ p{
 span{
   font-size: 14px;
   margin-top: 25px;
-}
-
-a {
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  margin: 15px 0;
-  transition: 0.3 ease-in-out;
-}
-
-a:hover {
-  color: #4bb6b7;
 }
 
 .content {

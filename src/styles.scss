@@ -45,6 +45,23 @@ a {
   }
 }
 
+.btn {
+  color: $color-text;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: $color-primary;
+  border: none;
+
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -97,7 +114,6 @@ img{
   overflow: hidden;
   border-radius: 10px;
   object-fit: cover;
-
 }
 
 .fa-solid, .fa-regular {
