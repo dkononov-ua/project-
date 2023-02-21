@@ -1,0 +1,223 @@
+<div class="container-fluid">
+  <div class="container-card">
+    <div class="card" style="width: 20rem;">
+      <h3 class="mt-3 mb-3">Картка оселі</h3>
+
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="text-center">
+              <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="text-center">
+              <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="text-center">
+              <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">До десяти фото оселі</label>
+        <input class="form-control" type="file" id="formFileMultiple" multiple>
+      </div>
+
+      <div class="form-group">
+        <label for="inputAddress">Вулиця</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+      </div>
+
+      <div class="form-group">
+        <label for="inputAddress2">Номер/поверх</label>
+        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+      </div>
+
+      <div class="form-group">
+        <label for="inputCity">Місто</label>
+        <input type="text" class="form-control" id="inputCity">
+      </div>
+
+      <div class="form-group">
+        <label for="inputState">Область</label>
+        <select id="inputState" class="form-control">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="inputZip">Індекс</label>
+        <input type="text" class="form-control" id="inputZip">
+      </div>
+
+      <div class="input-group mb-3">
+        <label for="inputZip">Ціна за місяць</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="inputPrice"
+            aria-label="Dollar amount (with dot and two decimal places)">
+          <span class="input-group-text">$</span>
+          <span class="input-group-text">0.00</span>
+        </div>
+      </div>
+
+      <h5 class="mt-3 mb-3">Що поблизу</h5>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="furnished" name="furnished">
+        <label class="form-check-label" for="furnished">Метро</label>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="parking" name="parking">
+        <label class="form-check-label" for="parking">Паркомісце</label>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="furnished" name="furnished">
+        <label class="form-check-label" for="furnished">Парк</label>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="parking" name="parking">
+        <label class="form-check-label" for="parking">Супермаркет</label>
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-text">Опис</span>
+        <textarea class="form-control" aria-label="With textarea"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
+        <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container-card">
+    <div class="card" style="width: 20rem;">
+      <h3 class="mt-3 mb-3">Картка користувача</h3>
+      <form (ngSubmit)="onSubmit()">
+        <div class="img-fluid">
+          <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+        </div>
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Ваше фото профіля</label>
+          <input class="form-control" type="file" id="formFile">
+        </div>
+
+
+        <!-- Ім'я та прізвище -->
+        <div class="form-group">
+          <label for="first-name">Ім'я</label>
+          <input type="text" class="form-control" id="first-name" name="first-name" required>
+        </div>
+        <div class="form-group">
+          <label for="last-name">Прізвище</label>
+          <input type="text" class="form-control" id="last-name" name="last-name" required>
+        </div>
+        <!-- Електронна пошта -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <!-- Пароль -->
+        <div class="form-group">
+          <label for="password">Пароль</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <!-- Підтвердження пароля -->
+        <div class="form-group">
+          <label for="confirmPassword">Підтвердити пароль</label>
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+        </div>
+
+        <div class="form-group">
+          <label for="birthdate">День народження</label>
+          <input type="date" class="form-control" id="birthdate" name="birthdate">
+        </div>
+
+      </form>
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
+        <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container-card">
+    <div class="card" style="width: 20rem;">
+      <h3 class="mt-3 mb-3">Контактні дані</h3>
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label for="phone">Телефон</label>
+          <input type="tel" class="form-control" id="phone" name="phone">
+        </div>
+
+        <div class="form-group">
+          <label for="phone2">Додатковий телефон</label>
+          <input type="tel" class="form-control" id="phone" name="phone">
+        </div>
+
+        <div class="form-group">
+          <label for="inputAddress">Вулиця</label>
+          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="form-group">
+          <label for="inputAddress2">Номер/поверх</label>
+          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputCity">Місто</label>
+            <input type="text" class="form-control" id="inputCity">
+          </div>
+          <div class="form-group">
+            <label for="inputState">Область</label>
+            <select id="inputState" class="form-control">
+              <option selected>Choose...</option>
+              <option>...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputZip">Індекс</label>
+            <input type="text" class="form-control" id="inputZip">
+          </div>
+          <div class="form-group">
+          </div>
+
+          <div class="bankAccount">
+            <label for="bankAccount">Bank Account | Your bank</label>
+            <div class="bankAccount-num"> <input type="number" class="form-control" id="bankAccount" name="bankAccount">
+            </div>
+            <div class="bankAccount-date">
+              <input type="number" class="form-control bankAccount-date-num" id="bankAccount" name="bankAccount">
+              <input type="number" class="form-control bankAccount-date-num" id="bankAccount" name="bankAccount">
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
+        <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
+      </div>
+
+    </div>
+  </div>
+</div>

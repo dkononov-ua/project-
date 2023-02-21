@@ -1,0 +1,44 @@
+.card {
+  width: 300px;
+  height: 200px;
+  border: 1px solid black;
+  padding: 20px;
+  position: absolute;
+  right: -320px;
+  background-color: white;
+  animation: slideIn 0.5s forwards;
+}
+
+button {
+  margin-top: 20px;
+}
+
+@keyframes slideIn {
+  from {
+    right: -320px;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.slideInOut {
+  transition: transform 0.5s;
+}
+
+.slideInOut.ng-leave {
+  animation: slideOut 0.5s forwards;
+}
+
+.slideInOut.ng-enter {
+  animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideOut {
+  from {
+    right: 0;
+  }
+  to {
+    right: -320px;
+  }
+}
