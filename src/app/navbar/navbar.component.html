@@ -1,20 +1,10 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a [routerLinkActive]="'active'" [routerLink]="'/services'">Services</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Home account</a>
-    <li class="nav-item dropdown">
-      <a [routerLinkActive]="'active'" [routerLink]="'/registration'" class="nav-link dropdown-toggle" href="#"
-        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Registration
-      </a>
-      <ul class="dropdown-menu">
-        <li dropdown-menu__link> <a [routerLinkActive]="'active'" [routerLink]="'/lessee'" class="dropdown-item"
-            href="#">Зареєструватись як
-            орендодавець</a>
-        <li dropdown-menu__link> <a [routerLinkActive]="'active'" [routerLink]="'/lessor'" class="dropdown-item"
-            href="#">Зареєструватись як
-            орендар</a></li>
-      </ul>
-    </li>
+    <a [routerLinkActive]="'active'" [routerLink]="'/services'">Послуги</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Сторінка договору</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/home-account'">Аккаунт оселі</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/registration'">Реєстрація</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/our-team'">Розробники</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/test'">test</a>
   </div>
 </nav>

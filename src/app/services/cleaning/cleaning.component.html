@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <div class="container-title">
+    <h1>Прибирання</h1>
+    <h5>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковувати
+      щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
+  </div>
+  <div class="container-fluid">
+
+    <div class="container-fluid m-5">
+      <nav class="navbar">
+        <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Energy</a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/water'">Water</a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Cleaning</a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Gas</a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Internet</a>
+      </nav>
+    </div>
+
+    <div class="container-fluid">
+      <div class="card card-statick" style="width: 20rem;">
+        <div class="img-fluid"> <img src="../../../assets/cleaning.jpg" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Прибирання території</h3>
+          <h4 class="card-title">Вибір постачальника</h4>
+        </div>
+        <div class="card-body">
+          <a href="#" class="card-link"><span>Змінити постачальника</span><i
+              class="fa-solid fa-handshake-angle"></i></a>
+          <a href="#" class="card-link"><span>Переглянути реквізити</span><i
+              class="fa-solid fa-money-bill-trend-up"></i></a>
+          <button (click)="toggleCard()">{{ buttonText }}</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container-fluid">
+      <div [@slideInOut]="cardState" class="card card-slide" style="width: 20rem;">
+        <div class="card-body">
+          <h4 class="card-title">Компанія постачальника послуг</h4>
+          <h3 class="card-title">КП «Київкомунсервіс»</h3>
+
+          <p>Для укладання договору з КП “Київкомунсервіс” необхідно заповнити анкету та подати необхідні документи:
+            1. Копія свідоцтва про реєстрацію;
+            2. Копія свідоцтва платника ПДВ (Єдиного податку);
+            3. Копія договору оренди приміщення;
+            4. Копія витягу права власності (технічний паспорт БТІ);
+        </div>
+        <div class="card-body">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="ПІБ" aria-label="Recipient's username"
+              aria-describedby="button-addon2">
+          </div>
+
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Розрахунок"
+              aria-label="Dollar amount (with dot and two decimal places)">
+            <span class="input-group-text">$</span>
+            <span class="input-group-text">0.00</span>
+          </div>
+
+          <a href="#" class="card-link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
