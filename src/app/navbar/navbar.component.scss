@@ -1,6 +1,6 @@
 @use "../style/presets/" as *;
 
-.container-fluid{
+.container-fluid {
   margin-top: 20px;
   display: flex;
   justify-content: center;
@@ -24,4 +24,3 @@ a {
     color: $color-light;
   }
 }
-

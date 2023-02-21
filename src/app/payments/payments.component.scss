@@ -17,7 +17,7 @@ a {
   color: $color-text;
 }
 
-.utility-payments-container{
+.utility-payments-container {
   display: flex;
   justify-content: space-between;
   padding: 0;
@@ -81,7 +81,7 @@ a {
   }
 }
 
-.card-description{
+.card-description {
   display: flex;
   padding: 10px;
   flex-wrap: wrap;
@@ -91,7 +91,7 @@ a {
   align-content: center;
 }
 
-.card-link{
+.card-link {
   margin: 0;
   margin-bottom: 10px;
   color: $color-text;
@@ -111,7 +111,8 @@ a {
       transform: translate(60px) scale(1.2);
     }
 
-    .fa-solid, .fa-regular {
+    .fa-solid,
+    .fa-regular {
       color: $color-accent;
       transform: translate(-220px) scale(1.2);
       transition: transform 1s;
@@ -119,7 +120,7 @@ a {
   }
 }
 
-img{
+img {
   width: 100%;
   height: 300px;
   overflow: hidden;
@@ -133,7 +134,7 @@ img{
   }
 }
 
-.icon-box{
+.icon-box {
   font-size: 24px;
   display: flex;
   justify-content: center;
@@ -141,8 +142,3 @@ img{
   flex-direction: row;
   align-items: stretch;
 }
-
-
-
-
-
