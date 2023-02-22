@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +31,6 @@ import { TestComponent } from './style/test/test.component';
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent,
     PaymentsComponent,
     ServicesComponent,
     NavbarComponent,
@@ -43,7 +43,8 @@ import { TestComponent } from './style/test/test.component';
     HomeAccountComponent,
     OurTeamComponent,
     InformationHousingComponent,
-    TestComponent
+    TestComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +55,7 @@ import { TestComponent } from './style/test/test.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
