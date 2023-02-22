@@ -17,7 +17,7 @@
     </div>
 
     <div class="container-fluid">
-      <div class="card card-statick" style="width: 20rem;">
+      <div class="card card-static" style="width: 20rem;">
         <div class="img-fluid"> <img src="../../../assets/cleaning.jpg" class="card-img-top" alt="...">
         </div>
         <div class="card-body">
@@ -49,18 +49,18 @@
         </div>
         <div class="card-body">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="ПІБ" aria-label="Recipient's username"
+            <input matInput type="text" class="form-control" placeholder="ПІБ" [disabled]="isCardLocked" aria-label="Recipient's username"
               aria-describedby="button-addon2">
           </div>
 
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Розрахунок"
+            <input matInput type="text" class="form-control" placeholder="Розрахунок" [disabled]="isCardLocked"
               aria-label="Dollar amount (with dot and two decimal places)">
             <span class="input-group-text">$</span>
             <span class="input-group-text">0.00</span>
           </div>
+          <a [ngClass]="{ 'disabled-link': !buttonEnabled }" class="card-link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
 
-          <a href="#" class="card-link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
         </div>
       </div>
     </div>
