@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +35,6 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent,
     PaymentsComponent,
     ServicesComponent,
     NavbarComponent,
@@ -48,8 +48,7 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     OurTeamComponent,
     InformationHousingComponent,
     TestComponent,
-    SearchComponent,
-    HousingSearchComponent
+
   ],
   imports: [
     BrowserModule,
@@ -60,9 +59,7 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatCardModule,
-    BrowserAnimationsModule,
-    DragDropModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
