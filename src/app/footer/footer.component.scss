@@ -11,7 +11,7 @@
   margin-bottom: 10px;
 }
 
-.icon-box{
+.icon-box {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
@@ -19,7 +19,7 @@
   align-items: stretch;
 }
 
-.footer-copy{
+.footer-copy {
   font-weight: normal;
   margin-top: 10px;
   color: $color-text;
@@ -38,4 +38,3 @@
     text-shadow: 0 0 40px $color-accent;
   }
 }
-

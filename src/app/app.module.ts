@@ -25,7 +25,11 @@ import { InformationHousingComponent } from './registration/information-housing/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { TestComponent } from './style/test/test.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SearchComponent } from './payments/search/search.component';
+import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
 
 
 @NgModule({
@@ -44,7 +48,7 @@ import { TestComponent } from './style/test/test.component';
     OurTeamComponent,
     InformationHousingComponent,
     TestComponent,
-    RegistrationComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,7 @@ import { TestComponent } from './style/test/test.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    BrowserAnimationsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
