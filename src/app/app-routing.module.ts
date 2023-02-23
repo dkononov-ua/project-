@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { HomeAccountComponent } from './payments/home-account/home-account.component';
+import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { SearchComponent } from './payments/search/search.component';
 import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
@@ -27,6 +29,8 @@ const routes: Routes = [
   {path: 'our-team' , component: OurTeamComponent},
   {path: 'information-housing' , component: InformationHousingComponent},
   {path: 'test' , component: TestComponent},
+  {path: 'search' , component: SearchComponent},
+  {path: 'housing-search' , component: HousingSearchComponent},
 ];
 
 @NgModule({

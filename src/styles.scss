@@ -63,9 +63,7 @@ a {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+  display: grid;
 }
 
 .container-fluid{
@@ -101,7 +99,6 @@ img{
   overflow: hidden;
   object-fit: cover;
   transition: transform 1s;
-  border-radius: 10px;
 
   &:hover {
     transition: transform 1s;
