@@ -30,6 +30,7 @@ import { TestComponent } from './style/test/test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchComponent } from './payments/search/search.component';
 import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -46,8 +47,11 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     InternetComponent,
     HomeAccountComponent,
     OurTeamComponent,
-    InformationHousingComponent,
     TestComponent,
+    HousingSearchComponent,
+    SearchComponent,
+    InformationHousingComponent,
+    RegistrationComponent,
 
   ],
   imports: [
@@ -59,6 +63,7 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    RouterModule,
 
   ],
   providers: [],
