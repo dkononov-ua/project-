@@ -1,1 +1,72 @@
-<p>services works!</p>
+<div class="container-fluid">
+  <nav class="navbar">
+    <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Energy</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Water</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Cleaning</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Gas</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Internet</a>
+  </nav>
+</div>
+<div class="container-fluid">
+  <div class="container-title col-6">
+    <h1>Послуги</h1>
+    <h5>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковувати
+      щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
+
+    <h2 class="description">Оплатити комунальні,<br> в зручним та сучасному додатку.</h2>
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div class="container-card col-6">
+    <div class="slide-1" style="width: 24rem;">
+      <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">Електроенергія</h3>
+        <h4 class="card-title">Вибір постачальника</h4>
+      </div>
+      <div class="card-body">
+        <a href="#" class="card-link"><span>Змінити постачальника</span></a>
+        <a href="#" class="card-link"><span>Переглянути реквізити</span></a>
+      </div>
+    </div>
+    <div class="slide-2" style="width: 24rem;">
+      <div class="img-fluid"> <img src="../../../assets/water.jfif" class="card-img-top" alt="...">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">Водопостачання</h3>
+        <h4 class="card-title">Вибір постачальника</h4>
+      </div>
+      <div class="card-body">
+        <a href="#" class="card-link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
+        <a href="#" class="card-link"><span>Переглянути реквізити</span><i
+            class="fa-solid fa-money-bill-trend-up"></i></a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
