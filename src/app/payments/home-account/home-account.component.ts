@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-account.component.scss']
 })
 export class HomeAccountComponent {
+  notificationsCount: number = 1;
+  showNotifications: boolean = false;
 
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+  }
 }

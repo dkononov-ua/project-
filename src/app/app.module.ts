@@ -29,6 +29,8 @@ import { TestComponent } from './style/test/test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchComponent } from './payments/search/search.component';
 import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
+import { AgreementComponent } from './agreement/agreement.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -49,7 +51,8 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     InformationHousingComponent,
     TestComponent,
     SearchComponent,
-    HousingSearchComponent
+    HousingSearchComponent,
+    AgreementComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     MatCardModule,
     BrowserAnimationsModule,
     DragDropModule,
-  ],
+    HttpClientModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

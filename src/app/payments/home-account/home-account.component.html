@@ -76,21 +76,28 @@
     </div>
   </div>
 
-  <div class="card-body">
+  <div class="card-link">
 
-
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/payments'"><span>Взаємодія сторін</span><i
+    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/payments'"><span>Взаємодія сторін</span><i
         class="fa-sharp fa-solid fa-house-laptop"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
+    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
         class="fa-solid fa-house-signal"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
+    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
         class="fa-solid fa-truck-fast"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
+    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
       <i class="fa-solid fa-box-open"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Підписники</span><i
-        class="fa-solid fa-person-praying"></i></a>
-    <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Редагувати
-        інформацію</span><i class="fa-solid fa-gear"></i></a>
+      <div>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'">
+          <div class="notifications" (click)="toggleNotifications()">
+            <p class="badge">{{notificationsCount}}</p>
+          </div>
+          <span>Підписники</span><i class="fa-solid fa-person-praying"></i>
+        </a>
+      </div>
+                <a class="link" [routerLinkActive]="'active'" [routerLink]="'/search'"><span>Пошук</span><i
+        class="fa-solid fa-magnifying-glass"></i></a>
+    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Редагувати інфо.</span><i
+        class="fa-solid fa-gear"></i></a>
 
   </div>
 

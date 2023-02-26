@@ -1,11 +1,25 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-housing-search',
   templateUrl: './housing-search.component.html',
-  styleUrls: ['./housing-search.component.scss']
+  styleUrls: ['./housing-search.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('1500ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+            transition('* => void', [
+        animate('800ms ease-in-out', style({ transform: 'translateX(-200%)' }))
+      ])
+    ])
+  ]
 })
+
 export class HousingSearchComponent {
+  @HostBinding('@cardAnimation') cardAnimation = true;
   currentCardIndex = 0;
   currentCard: any;
 
@@ -23,7 +37,7 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'payments',
       createDealText: 'Створити угоду',
       descriptionHouse: 'Інформація про оселю.',
       address: 'Київ, вул Чорнобильська №19. кв №24.',
@@ -36,7 +50,7 @@ export class HousingSearchComponent {
 
     {
       title: 'Картка 2',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про власника.',
       tell: '+380677727447',
       firstName: 'Максим',
       lastName: 'Олійник',
@@ -47,7 +61,7 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'payments',
       createDealText: 'Створити угоду',
       descriptionHouse: 'Інформація про оселю.',
       address: 'Херсон, вул Степана Бандери №3. кв №24.',
@@ -61,7 +75,7 @@ export class HousingSearchComponent {
     },
     {
       title: 'Картка 3',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про власника.',
       tell: '+380677727447',
       firstName: 'Віталій',
       lastName: ' Селіверстов',
@@ -72,7 +86,7 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'payments',
       createDealText: 'Створити угоду',
       descriptionHouse: 'Інформація про оселю.',
       address: 'Львів, вул Варшавська №11. кв №24.',

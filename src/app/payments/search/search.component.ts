@@ -1,11 +1,26 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('1500ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+            transition('* => void', [
+        animate('800ms ease-in-out', style({ transform: 'translateX(-200%)' }))
+      ])
+    ])
+  ]
 })
+
 export class SearchComponent {
+  @HostBinding('@cardAnimation') cardAnimation = true;
+
   currentCardIndex = 0;
   currentCard: any;
 
@@ -23,7 +38,7 @@ export class SearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'payments',
       createDealText: 'Створити угоду',
     },
 
@@ -40,7 +55,7 @@ export class SearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'payments',
       createDealText: 'Створити угоду',
     },
     {
@@ -56,7 +71,7 @@ export class SearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'payments',
       createDealText: 'Створити угоду',
     }
   ];

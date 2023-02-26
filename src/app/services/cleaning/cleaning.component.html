@@ -24,12 +24,12 @@
           <h3 class="card-title">Прибирання території</h3>
           <h4 class="card-title">Вибір постачальника</h4>
         </div>
-        <div class="card-body">
-          <a href="#" class="card-link"><span>Змінити постачальника</span><i
+        <div class="card-link">
+          <a href="#" class="link"><span>Змінити постачальника</span><i
               class="fa-solid fa-handshake-angle"></i></a>
-          <a href="#" class="card-link"><span>Переглянути реквізити</span><i
+          <a href="#" class="link"><span>Переглянути реквізити</span><i
               class="fa-solid fa-money-bill-trend-up"></i></a>
-          <button (click)="toggleCard()">{{ buttonText }}</button>
+          <button class="btn" (click)="toggleCard()">{{ buttonText }}</button>
         </div>
       </div>
 
@@ -59,7 +59,7 @@
             <span class="input-group-text">$</span>
             <span class="input-group-text">0.00</span>
           </div>
-          <a [ngClass]="{ 'disabled-link': !buttonEnabled }" class="card-link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+          <a [ngClass]="{ 'disabled-link': !buttonEnabled }" class="link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
 
         </div>
       </div>
