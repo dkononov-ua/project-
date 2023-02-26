@@ -3,9 +3,9 @@
     <h1>Взаємодіі сторін</h1>
 
     <nav class="navbar">
-      <a [routerLinkActive]="'active'" [routerLink]="'/search'">Пошук оселі</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/search'">Пошук орендаря</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/search'">Домовленість</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a>
     </nav>
   </div>
   <div class="container-title">
@@ -28,19 +28,18 @@
         <div>
           <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
         </div>
-        <div class="icon-box">
+        <div class="card-social-link">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
           <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
           <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
         </div>
 
       </div>
-      <div class="card-body">
-        <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
-        <a href="#" class="card-link"><span>Запросити доступ</span><i class="fa-solid fa-key"></i></a>
-        <a href="#" class="card-link"><span>Запросити реквізити</span><i
-            class="fa-solid fa-money-bill-trend-up"></i></a>
-        <a href="#" class="card-link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
+      <div class="card-link">
+        <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="link"><span>Запросити доступ</span><i class="fa-solid fa-key"></i></a>
+        <a href="#" class="link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
 
       </div>
     </div>
@@ -75,16 +74,16 @@
           <p class="card-text">Київ, вул Чорнобильська №19. кв №24</p>
         </div>
       </div>
-      <div class="card-body">
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Аккаунт оселі</span><i
+      <div class="card-link">
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Аккаунт оселі</span><i
             class="fa-sharp fa-solid fa-house-laptop"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
             class="fa-solid fa-house-signal"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
             class="fa-sharp fa-solid fa-message"></i></a>
-        <a href="#" class="card-link"><span>Заключити угоду</span><i class="fa-solid fa-file-contract"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Опис оселі</span><i
-          class="fa-sharp fa-solid fa-house-laptop"></i></a>
+        <a href="#" class="link"><span>Заключити угоду</span><i class="fa-solid fa-file-contract"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Опис оселі</span><i
+            class="fa-sharp fa-solid fa-house-laptop"></i></a>
 
       </div>
     </div>
@@ -97,26 +96,25 @@
           <h4 class="card-title">Інформація про клієнта</h4>
         </div>
         <div>
-          <p class="card-text">Селіверстов Віталій Сергійович</p>
+          <p class="card-text">Максим Анатолійович Олійник</p>
         </div>
 
         <div>
           <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
         </div>
 
-        <div class="icon-box">
+        <div class="card-social-link">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
           <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
           <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
         </div>
 
       </div>
-      <div class="card-body">
-        <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
-        <a href="#" class="card-link"><span>Надати доступ</span><i class="fa-solid fa-unlock-keyhole"></i></a>
-        <a href="#" class="card-link"><span>Запросити реквізити</span><i
-            class="fa-solid fa-money-bill-trend-up"></i></a>
-        <a href="#" class="card-link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
+      <div class="card-link">
+        <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="link"><span>Надати доступ</span><i class="fa-solid fa-unlock-keyhole"></i></a>
+        <a href="#" class="link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
 
       </div>
     </div>

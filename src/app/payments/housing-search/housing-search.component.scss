@@ -1,67 +1,61 @@
 @use "../../style/presets/" as *;
 
-a {
-  padding: 0.5em 1em;
-  border: 1px groove;
-}
-
-p {
-  padding: 0;
-  margin: 0;
-  font-size: 1.2em;
-}
-
 .container-fluid {
   flex-wrap: wrap;
 }
 
-.owner-container {
-  background-color: white;
-  animation-duration: 2s;
-  animation-name: slidein;
-  animation-fill-mode: forwards;
-  border-radius: 10px;
+.container-owner {
   display: flex;
-  box-shadow: 10px 10px 20px 10px rgb(0 0 0 / 50%);
-  @keyframes slidein {
-    from {
-      margin-top: 55%;
-    }
-
-    to {
-      margin-top: 0%;
-    }
-  }
-}
-
-.owner {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-}
-
-.card-description {
-  overflow: hidden;
-
-  display: flex;
-  padding: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-}
-
-.card-link {
-  margin: 10px;
-  margin-bottom: 10px;
-  color: $color-text;
   background-color: $color-white;
-  display: flex;
-  justify-content: space-between;
-  transition: 1s;
   border-radius: 10px;
+  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, 0.501) ;
+  z-index: 2;
+}
+
+.container-owner-card{
+  display: flex;
+}
+
+.container-tenants {
+  display: flex;
+  align-content: center;
+  align-items: stretch;
+
+  // animation-duration: 2s;
+  // animation-name: slidein;
+  // animation-fill-mode: forwards;
+
+  // @keyframes slidein {
+  //   from {
+  //     margin-top: 55%;
+  //   }
+
+  //   to {
+  //     margin-top: 0%;
+  //   }
+  // }
+}
+
+.card-owner,
+.card-housing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-tenants {
+  border-radius: 10px;
+  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, 0.501) ;
+  z-index: 2;
+  background-color: $color-white;
+}
+
+.card-description{
+  padding: 10px;
+}
+
+.link {
+  transition: 1s;
 
   &:hover {
     color: $color-accent;
@@ -82,105 +76,90 @@ p {
   }
 }
 
-.card-tenants {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.5);
-}
-
-.container {
-  display: flex;
-  padding: 0;
-}
-
 img {
+  width: 100%;
   height: 300px;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
 }
 
-.icon-box {
-  font-size: 24px;
+.price-box {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  align-items: stretch;
 }
 
-.rating {
+.btn{
+  font-family: $font-main;
+}
+
+.card-rating {
   font-size: 2em;
   display: flex;
   flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
   padding: 10px;
+  align-items: stretch;
 }
 
 .star {
   cursor: pointer;
   color: #ccc;
   transition: color 0.2s ease-in-out;
-  &.star:hover {
-    color: gold;
-  }
+}
+
+.star:hover {
+  color: gold;
 }
 
 .filled {
   color: gold;
 }
 
-.card-pick {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-content: center;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-button {
-  background: none;
+.button-subscribe {
+  font-size: 20px;
   border: none;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.168);
-    border-radius: 10px;
-  }
-}
-
-.card-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  align-content: space-between;
-  justify-content: space-around;
-  margin: 10px;
-}
-
-.button-sub {
   width: 100%;
   height: 50px;
   padding: 10px;
-  background-color: #666;
+  background-color: $color-primary;
   border-radius: 10px;
+  border: none;
+  background-color: none;
+  transition: 0.6s ease;
+
+
+  &:hover,:focus{
+    background-color: $color-accent;
+  }
 }
 
-.arrow {
+.next {
+  z-index: 1;
   cursor: pointer;
-  height: 60px;
-  top: 50%;
-  transform: translateX(-20%) translateY(0%);
-  transition: transform 0.1s;
-  width: 50px;
+  width: 60px;
   height: 100%;
+
+  border: none;
+  border-radius: 10px;
+  background-color: $color-white;
+
+  transform: translateX(-15%) translateY(0%) scale(0.7);
+  transition: transform 0.5s;
+
+  &:hover, :focus {
+    background-color: $color-accent;
+  }
+
 }
 
-.arrow-top,
-.arrow-bottom {
+.next-arrow-top,
+.next-arrow-bottom {
   background-color: #666;
   height: 4px;
   left: -5px;
@@ -189,8 +168,8 @@ button {
   width: 100%;
 }
 
-.arrow-top:after,
-.arrow-bottom:after {
+.next-arrow-top:after,
+.next-arrow-bottom:after {
   background-color: #fff;
   content: "";
   height: 100%;
@@ -199,53 +178,61 @@ button {
   transition: all 0.15s;
 }
 
-.arrow-top {
+.next-arrow-top {
   transform: rotate(45deg);
   transform-origin: bottom right;
 }
 
-.arrow-top:after {
+.next-arrow-top:after {
   left: 100%;
   right: 0;
   transition-delay: 0s;
 }
 
-.arrow-bottom {
+.next-arrow-bottom {
   transform: rotate(-45deg);
   transform-origin: top right;
 }
 
-.arrow-bottom:after {
+.next-arrow-bottom:after {
   left: 0;
   right: 100%;
   transition-delay: 0.15s;
 }
 
-.arrow:hover .arrow-top:after {
+.next:hover .next-arrow-top:after {
   left: 0;
   transition-delay: 0.15s;
 }
 
-.arrow:hover .arrow-bottom:after {
+.next:hover .next-arrow-bottom:after {
   right: 0;
   transition-delay: 0s;
 }
 
-.arrow:active {
-  transform: translateX(20%) translateY(0%) scale(0.9);
+.next:active {
+  transform: translateX(0%) translateY(0%) scale(1);
 }
 
-.arrow2 {
+.prev {
   cursor: pointer;
-  height: 60px;
-  transform: translateX(20%) translateY(0%) scaleX(-1);
-  transition: transform 0.1s;
-  width: 50px;
+  width: 60px;
   height: 100%;
+
+  border: none;
+  border-radius: 10px;
+  background-color: $color-white;
+
+  transform: translateX(15%) translateY(0%)  scaleX(-1) scale(0.7);
+  transition: transform 0.5s;
+
+  &:hover, :focus {
+    background-color: $color-accent;
+  }
 }
 
-.arrow-top2,
-.arrow-bottom2 {
+.prev-arrow-top,
+.prev-arrow-bottom {
   background-color: #666;
   height: 4px;
   left: -5px;
@@ -256,7 +243,7 @@ button {
   transform-origin: bottom right;
 }
 
-.arrow-top2:after {
+.prev-arrow-top:after {
   background-color: #fff;
   content: "";
   height: 100%;
@@ -268,7 +255,7 @@ button {
   transition-delay: 0s;
 }
 
-.arrow-bottom2 {
+.prev-arrow-bottom {
   background-color: #666;
   height: 4px;
   left: -5px;
@@ -279,7 +266,7 @@ button {
   transform-origin: top right;
 }
 
-.arrow-bottom2:after {
+.prev-arrow-bottom:after {
   background-color: #fff;
   content: "";
   height: 100%;
@@ -291,38 +278,17 @@ button {
   transition-delay: 0.15s;
 }
 
-.arrow2:hover .arrow-top2:after {
+.prev:hover .prev-arrow-top:after {
   left: 0;
   transition-delay: 0.15s;
 }
 
-.arrow2:hover .arrow-bottom2:after {
+.prev:hover .prev-arrow-bottom:after {
   right: 0;
   transition-delay: 0s;
 }
 
-.arrow2:active {
-  transform: translateX(20%) translateY(0%) scale(0.9);
+.prev:active {
+  transform: translateX(0%) translateY(0%) scale(0.9);
   transform: scaleX(-1);
 }
-
-.card {
-  background: none;
-  box-shadow: none;
-  border: none;
-}
-
-.item-price {
-  font-size: 30px;
-}
-
-.price-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-}
-
-
-

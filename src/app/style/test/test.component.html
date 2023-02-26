@@ -1,5 +1,16 @@
-<div *ngIf="currentCard">
-  <h2>{{ currentCard.title }}</h2>
-  <p>{{ currentCard.description }}</p>
-  <button (click)="toggleCard()">Замінити картку</button>
+<div class="card">
+  <a [routerLinkActive]="'active'" [routerLink]="'/agreement'">agree</a>
+  <div class="card-description">
+    <div class="notifications">
+      <span class="badge">3</span>
+      <i class="fa fa-bell-o"></i>
+    </div>
+
+    <h4 class="card-title">Інформація про орендаря</h4>
+    <p class="card-text">Кононов Денис Анатолійович</p>
+    <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
+  </div>
 </div>
+
+
+<app-agreement></app-agreement>

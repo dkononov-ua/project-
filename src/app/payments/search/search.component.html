@@ -1,46 +1,57 @@
 <div class="container-fluid">
+
   <div class="container-fluid">
-    <h1>Пошук орендаря</h1>
+
+    <div class="title">
+      <h1>Пошук орендаря</h1>
+    </div>
 
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/search'">Пошук орендаря</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a>
     </nav>
+
   </div>
 
-  <div class="owner-container col-6">
-    <div class="owner" style="width: 20rem;">
-      <div class="img-fluid"> <img src="../../assets/photo1.png" class="card-img-top" alt="...">
+  <div class="container-owner col-6">
+    <div class="card-owner" style="width: 20rem;">
+
+      <div class="img-fluid">
+        <img src="../../assets/photo1.png" class="card-img-top" alt="...">
       </div>
+
       <div class="card-description">
-        <div>
-          <h4 class="card-title">Інформація про орендодавця</h4>
+
+        <div class="card-title">
+          <h4>Інформація про орендодавця</h4>
         </div>
-        <div>
-          <p class="card-text">Кононов Денис Анатолійович</p>
+
+        <div class="card-text">
+          <p>Кононов Денис Анатолійович</p>
         </div>
-        <div>
-          <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
+
+        <div class="tel">
+          <a href="tel:+380677727447">tel: +380677727447</a>
         </div>
-        <div class="icon-box">
+
+        <div class="card-social-link">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
           <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
           <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
         </div>
 
       </div>
-      <div class="card-body">
-        <a href="#" class="card-link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
-        <a href="#" class="card-link"><span>Запросити доступ</span><i class="fa-solid fa-key"></i></a>
-        <a href="#" class="card-link"><span>Запросити реквізити</span><i
-            class="fa-solid fa-money-bill-trend-up"></i></a>
-        <a href="#" class="card-link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
 
+      <div class="card-link">
+        <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
       </div>
+
     </div>
 
-    <div class="owner" style="width: 20rem;">
+    <div class="card-housing" style="width: 20rem;">
+
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -62,84 +73,95 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
       <div class="card-description">
-        <div>
-          <h4 class="card-title">Інформація про оселю</h4>
+
+        <div class="card-title">
+          <h4>Інформація про оселю</h4>
         </div>
-        <div>
-          <p class="card-text">Київ, вул Чорнобильська №19. кв №24</p>
+
+        <div class="card-text">
+          <p>Київ, вул Чорнобильська №19. кв №24</p>
         </div>
-      </div>
-      <div class="card-body">
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Аккаунт оселі</span><i
-            class="fa-sharp fa-solid fa-house-laptop"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
-            class="fa-solid fa-house-signal"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
-            class="fa-sharp fa-solid fa-message"></i></a>
-        <a href="#" class="card-link"><span>Заключити угоду</span><i class="fa-solid fa-file-contract"></i></a>
-        <a class="card-link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Опис
-            оселі</span><i class="fa-sharp fa-solid fa-house-laptop"></i></a>
 
       </div>
+
+      <div class="card-link">
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Аккаунт оселі</span><i
+            class="fa-sharp fa-solid fa-house-laptop"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
+            class="fa-solid fa-house-signal"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
+            class="fa-sharp fa-solid fa-message"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Опис
+            оселі</span><i class="fa-sharp fa-solid fa-house-laptop"></i></a>
+      </div>
+
     </div>
+
   </div>
 
-  <div class="tenants-container">
+  <div class="container-tenants" [@cardAnimation]>
 
-    <div class="container-fluid" style="width: 4rem;">
-      <button class="arrow2" (click)="onPrevCard()">
-        <div class="arrow-top2"></div>
-        <div class="arrow-bottom2"></div>
-      </button>
-    </div>
+    <button class="prev" (click)="onPrevCard()">
+      <div class="prev-arrow-top"></div>
+      <div class="prev-arrow-bottom"></div>
+    </button>
 
-    <div *ngIf="currentCard" style="width: 20rem;">
-      <div class="card">
+    <div class="card" *ngIf="currentCard">
+
+      <div class="card-tenants" style="width: 20rem;">
+
         <div class="img-fluid card-img-top">
           <img [src]="currentCard.image">
         </div>
 
         <div class="card-description">
-          <h4>{{ currentCard.description }}</h4>
+          <h4 class="card-title">{{ currentCard.description }}</h4>
           <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
           <p>{{ currentCard.tell }}</p>
         </div>
-        <a [href]="currentCard.passport" class="card-link"><span>{{ currentCard.passportText }}</span><i
-            class="fa-solid fa-passport"></i></a>
-        <a [href]="currentCard.grantAccess" class="card-link"><span>{{ currentCard.grantAccessText }}</span><i
-            class="fa-solid fa-unlock-keyhole"></i></a>
-        <a [href]="currentCard.createDeal" class="card-link"><span>{{ currentCard.createDealText }}</span><i
-            class="fa-solid fa-file-contract"></i></a>
 
-        <div class="icon-box">
+        <div class="card-rating">
+
+          <div class="card-text">
+            <h4>Рейтинг</h4>
+          </div>
+
+          <div class="rating-star">
+            <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
+              (click)="rate(star)">&#9733;</span>
+          </div>
+
+          <div>
+            <button class="button-subscribe" (click)="onSubscribe()">Підписатися</button>
+          </div>
+
+        </div>
+
+        <div class="card-social-link">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
           <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
           <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
         </div>
 
-        <div class="rating">
-          <div>
-            <h4>Рейтинг</h4>
-          </div>
-          <div>
-            <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
-              (click)="rate(star)">&#9733;</span>
-          </div>
-          <div class="card-footer">
-            <button (click)="onSubscribe()">Підписатися</button>
-          </div>
-
+        <div class="card-link">
+          <a [href]="currentCard.passport" class="link"><span>{{ currentCard.passportText }}</span><i
+              class="fa-solid fa-passport"></i></a>
+          <a [href]="currentCard.grantAccess" class="link"><span>{{ currentCard.grantAccessText }}</span><i
+              class="fa-solid fa-unlock-keyhole"></i></a>
+          <a [href]="currentCard.createDeal" class="link"><span>{{ currentCard.createDealText }}</span><i
+              class="fa-solid fa-file-contract"></i></a>
         </div>
+
       </div>
+
     </div>
 
-    <div class="container-fluid" style="width: 4rem;">
-      <button class="arrow" (click)="onNextCard()">
-        <div class="arrow-top"></div>
-        <div class="arrow-bottom"></div>
-      </button>
-    </div>
+    <button class="next" (click)="onNextCard()">
+      <div class="next-arrow-top"></div>
+      <div class="next-arrow-bottom"></div>
+    </button>
 
   </div>
 
