@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,7 +37,6 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent,
     PaymentsComponent,
     ServicesComponent,
     NavbarComponent,
@@ -53,6 +53,8 @@ import { HttpClientModule } from '@angular/common/http';
     SearchComponent,
     HousingSearchComponent,
     AgreementComponent,
+    RegistrationComponent
+
   ],
   imports: [
     BrowserModule,
@@ -66,8 +68,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     BrowserAnimationsModule,
     DragDropModule,
-    HttpClientModule,
-    ],
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
