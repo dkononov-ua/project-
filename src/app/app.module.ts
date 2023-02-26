@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +29,8 @@ import { TestComponent } from './style/test/test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchComponent } from './payments/search/search.component';
 import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
+import { DevelopersPageComponent } from './developers-page/developers-page.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -47,7 +48,12 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     HomeAccountComponent,
     OurTeamComponent,
     InformationHousingComponent,
+    RegistrationComponent,
+    DevelopersPageComponent,
     TestComponent,
+    SearchComponent,
+    HousingSearchComponent,
+
 
   ],
   imports: [
@@ -59,6 +65,10 @@ import { HousingSearchComponent } from './payments/housing-search/housing-search
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    RouterModule,
+    MatCardModule,
+    DragDropModule,
+    BrowserAnimationsModule,
 
   ],
   providers: [],
