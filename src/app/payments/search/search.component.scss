@@ -286,3 +286,14 @@ img {
   transform: scaleX(-1);
 }
 
+.subscriber{
+  background-color: $color-accent;
+  border-radius: 10px;
+}
+
+.btn {
+  &:active {
+    background-color: $color-accent;
+  }
+}
+

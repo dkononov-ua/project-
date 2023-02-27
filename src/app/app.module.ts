@@ -32,6 +32,7 @@ import { SearchComponent } from './payments/search/search.component';
 import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
 import { AgreementComponent } from './agreement/agreement.component';
 import { HttpClientModule } from '@angular/common/http';
+import jsPDF from 'jspdf';
 
 
 @NgModule({
@@ -53,7 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
     SearchComponent,
     HousingSearchComponent,
     AgreementComponent,
-    RegistrationComponent
+    RegistrationComponent,
 
   ],
   imports: [
@@ -68,6 +69,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     BrowserAnimationsModule,
     DragDropModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

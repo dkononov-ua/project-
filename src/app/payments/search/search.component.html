@@ -120,6 +120,7 @@
           <h4 class="card-title">{{ currentCard.description }}</h4>
           <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
           <p>{{ currentCard.tell }}</p>
+          <p class="subscriber">{{ currentCard.subscriber }}</p>
         </div>
 
         <div class="card-rating">
@@ -134,7 +135,7 @@
           </div>
 
           <div>
-            <button class="button-subscribe" (click)="onSubscribe()">Підписатися</button>
+            <button class="button-subscribe" (click)="toggleCard()">{{ buttonText }}</button>
           </div>
 
         </div>

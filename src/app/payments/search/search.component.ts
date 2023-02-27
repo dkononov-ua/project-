@@ -8,11 +8,11 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1500ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(120%)' }),
+        animate('2000ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
             transition('* => void', [
-        animate('800ms ease-in-out', style({ transform: 'translateX(-200%)' }))
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-200%)' }))
       ])
     ])
   ]
@@ -20,6 +20,14 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
 
 export class SearchComponent {
   @HostBinding('@cardAnimation') cardAnimation = true;
+  cardState: string | undefined;
+
+  toggleCard() {
+    this.buttonText = this.cardState === 'out' ? 'Ухвалити' : 'Ухвалено!';
+  }
+
+  buttonText = 'Ухвалити';
+
 
   currentCardIndex = 0;
   currentCard: any;
@@ -27,7 +35,7 @@ export class SearchComponent {
   cards: any[] = [
     {
       title: 'Картка 1',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про орендаря.',
       tell: '+380677727447',
       firstName: 'Олена',
       lastName: 'Кругляк',
@@ -38,13 +46,13 @@ export class SearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'payments',
+      createDeal: 'agreement',
       createDealText: 'Створити угоду',
     },
 
     {
       title: 'Картка 2',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про орендаря.',
       tell: '+380677727447',
       firstName: 'Максим',
       lastName: 'Олійник',
@@ -55,12 +63,13 @@ export class SearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'payments',
+      createDeal: 'agreement',
       createDealText: 'Створити угоду',
+      subscriber: 'Підписаний на вашу оселю',
     },
     {
       title: 'Картка 3',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про орендаря.',
       tell: '+380677727447',
       firstName: 'Віталій',
       lastName: ' Селіверстов',
@@ -71,7 +80,7 @@ export class SearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'payments',
+      createDeal: 'agreement',
       createDealText: 'Створити угоду',
     }
   ];

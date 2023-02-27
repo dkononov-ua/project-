@@ -33,6 +33,7 @@ const routes: Routes = [
   {path: 'search' , component: SearchComponent},
   {path: 'housing-search' , component: HousingSearchComponent},
   {path: 'agreement' , component: AgreementComponent},
+  {path: 'agree' , component: AgreementComponent},
 ];
 
 @NgModule({

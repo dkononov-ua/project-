@@ -8,11 +8,11 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1500ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(120%)' }),
+        animate('2000ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
             transition('* => void', [
-        animate('800ms ease-in-out', style({ transform: 'translateX(-200%)' }))
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-200%)' }))
       ])
     ])
   ]
@@ -26,35 +26,11 @@ export class HousingSearchComponent {
   cards: any[] = [
     {
       title: 'Картка 1',
-      description: 'Інформація про власника.',
+      description: 'Інформація про орендодавця.',
       tell: '+380677727447',
       firstName: 'Олена',
       lastName: 'Кругляк',
       image: 'assets/photo3.JPG',
-      passport: 'https://example.com',
-      passportText: 'Документи',
-      grantAccess: 'https://example.com',
-      grantAccessText: 'Надати доступ',
-      bankDetails: 'https://example.com',
-      bankDetailsText: 'Реквізити',
-      createDeal: 'payments',
-      createDealText: 'Створити угоду',
-      descriptionHouse: 'Інформація про оселю.',
-      address: 'Київ, вул Чорнобильська №19. кв №24.',
-      homeAccount: '/home-account',
-      homeAccountText: 'Аккаунт оселі',
-      imageCarousel: 'assets/badroom.jpg',
-      imageCarousel1: 'assets/kitchwn.jpeg',
-      price: '9 000 ₴/міс',
-    },
-
-    {
-      title: 'Картка 2',
-      description: 'Інформація про власника.',
-      tell: '+380677727447',
-      firstName: 'Максим',
-      lastName: 'Олійник',
-      image: 'assets/photo2.jpg',
       passport: 'https://example.com',
       passportText: 'Документи',
       grantAccess: 'https://example.com',
@@ -69,13 +45,38 @@ export class HousingSearchComponent {
       homeAccountText: 'Аккаунт оселі',
       imageCarousel: 'assets/cd5dc32d8c2c7963e7b0f3bf82f5e0a4.jpg',
       imageCarousel1: 'assets/image.jpg',
+      price: '9 000 ₴/міс',
+    },
+
+    {
+      title: 'Картка 2',
+      description: 'Інформація про орендодавця.',
+      tell: '+380677727447',
+      firstName: 'Денис',
+      lastName: 'Кононов',
+      image: 'assets/photo1.png',
+      passport: 'https://example.com',
+      passportText: 'Документи',
+      grantAccess: 'https://example.com',
+      grantAccessText: 'Надати доступ',
+      bankDetails: 'https://example.com',
+      bankDetailsText: 'Реквізити',
+      createDeal: 'payments',
+      createDealText: 'Створити угоду',
+      descriptionHouse: 'Інформація про оселю.',
+      imageCarousel: 'assets/badroom.jpg',
+      imageCarousel1: 'assets/kitchwn.jpeg',
+
+      address: 'Київ, вул Чорнобильська №19. кв №24.',
+      homeAccount: '/home-account',
+      homeAccountText: 'Аккаунт оселі',
       price: '10 500 ₴/міс',
 
 
     },
     {
       title: 'Картка 3',
-      description: 'Інформація про власника.',
+      description: 'Інформація про орендодавця.',
       tell: '+380677727447',
       firstName: 'Віталій',
       lastName: ' Селіверстов',

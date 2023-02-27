@@ -1,26 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-agreement',
   templateUrl: './agreement.component.html',
   styleUrls: ['./agreement.component.scss']
 })
-export class AgreementComponent implements OnInit {
-  agreementText: string | undefined;
-  name: string | undefined;
-  email: string | undefined;
-  agreeToTerms: boolean | undefined;
+export class AgreementComponent {
+  // ...
 
-  constructor(private http: HttpClient) { }
+public generatePDF() {
+  const doc = new jsPDF();
+  const element = document.getElementById('pdfContent');
 
-  ngOnInit() {
-    this.http.get('assets/agreement.txt', {responseType: 'text'}).subscribe(data => {
-      this.agreementText = data;
+  if (element) {
+    html2canvas(element).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const imgProps = doc.getImageProperties(imgData);
+      const pdfWidth = doc.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      doc.setPage(1);
+      doc.save('example.pdf');
     });
   }
+}
 
-  onSubmit() {
-    // Handle form submission
-  }
 }
