@@ -2,9 +2,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  selector: 'app-tenants-search',
+  templateUrl: './tenants-search.component.html',
+  styleUrls: ['./tenants-search.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -18,7 +18,7 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
   ]
 })
 
-export class SearchComponent {
+export class TenantsSearchComponent {
   @HostBinding('@cardAnimation') cardAnimation = true;
   cardState: string | undefined;
 

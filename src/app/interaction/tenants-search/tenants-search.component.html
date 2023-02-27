@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" [@cardAnimation]>
 
   <div class="container-fluid">
 
@@ -8,9 +8,12 @@
 
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/search'">Пошук орендаря</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
     </nav>
+
+    <app-search-term></app-search-term>
+
 
   </div>
 

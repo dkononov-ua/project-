@@ -1,0 +1,126 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid" [@cardAnimation]>
+  <div class="container-fluid">
+    <h1>Взаємодіі сторін</h1>
+
+    <nav class="navbar">
+      <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a>
+    </nav>
+  </div>
+  <div class="container-title">
+    <!-- <h5>Ця сторінка створена для взаємодії орендодавця з орендатором. Вона дає можливість додавати та видаляти зі списку
+      проживаючих аккаунти орендувальників. Дає можливість переглядати доступні послуги, замовляти нові. Для зручності
+      можна прив'язувати
+      карти для оплати всіх послуг в пару кліків.</h5> -->
+  </div>
+  <div class="container-fluid utility-payments-container">
+    <div class="card one" style="width: 20rem;">
+      <div class="img-fluid"> <img src="../../assets/photo1.png" class="card-img-top" alt="...">
+      </div>
+      <div class="card-description">
+        <div>
+          <h4 class="card-title">Інформація про орендодавця</h4>
+        </div>
+        <div>
+          <p class="card-text">Кононов Денис Анатолійович</p>
+        </div>
+        <div>
+          <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
+        </div>
+        <div class="card-social-link">
+          <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+        </div>
+
+      </div>
+      <div class="card-link">
+        <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="link"><span>Запросити доступ</span><i class="fa-solid fa-key"></i></a>
+        <a href="#" class="link"><span>Запросити реквізити</span><i
+            class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
+
+      </div>
+    </div>
+
+    <div class="card two" style="width: 20rem;">
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="../../../assets/badroom.jpg" class="img-fluid" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../../../assets/kitchen.jpg" class="img-fluid" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../../../assets/bathroom-vanity-light.jpg" class="img-fluid" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div class="card-description">
+        <div>
+          <h4 class="card-title">Інформація про оселю</h4>
+        </div>
+        <div>
+          <p class="card-text">Київ, вул Чорнобильська №19. кв №24</p>
+        </div>
+      </div>
+      <div class="card-link">
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/home-account'"><span>Аккаунт оселі</span><i
+            class="fa-sharp fa-solid fa-house-laptop"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
+            class="fa-solid fa-house-signal"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Обговорення</span><i
+            class="fa-sharp fa-solid fa-message"></i></a>
+        <a href="#" class="link"><span>Заключити угоду</span><i class="fa-solid fa-file-contract"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Опис оселі</span><i
+          class="fa-sharp fa-solid fa-house-laptop"></i></a>
+
+      </div>
+    </div>
+
+    <div class="card three" style="width: 20rem;">
+      <div class="img-fluid"> <img src="../../assets/photo2.jpg" class="card-img-top" alt="...">
+      </div>
+      <div class="card-description">
+        <div>
+          <h4 class="card-title">Інформація про орендаря</h4>
+        </div>
+        <div>
+          <p class="card-text">Максим Сергійович Олійник</p>
+        </div>
+
+        <div>
+          <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
+        </div>
+
+        <div class="card-social-link">
+          <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+        </div>
+
+      </div>
+      <div class="card-link">
+        <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <a href="#" class="link"><span>Надати доступ</span><i class="fa-solid fa-unlock-keyhole"></i></a>
+        <a href="#" class="link"><span>Запросити реквізити</span><i
+            class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
+
+      </div>
+    </div>
+  </div>
+</div>

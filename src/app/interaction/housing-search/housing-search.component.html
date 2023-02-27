@@ -1,57 +1,60 @@
-<div  class="container-fluid">
+<div class="container-fluid" [@cardAnimation]>
+
 
   <div class="container-fluid">
-
     <div class="title">
       <h1>Пошук оселі</h1>
     </div>
 
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/search'">Пошук орендаря</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
     </nav>
+
+    <app-search-term></app-search-term>
+
 
   </div>
 
   <div class="container-tenants col-4">
-      <div class="card-tenants" style="width: 20rem;">
+    <div class="card-tenants" style="width: 20rem;">
 
-        <div class="img-fluid">
-          <img src="../../assets/photo2.jpg" class="card-img-top" alt="...">
+      <div class="img-fluid">
+        <img src="../../assets/photo2.jpg" class="card-img-top" alt="...">
+      </div>
+
+      <div class="card-description">
+        <h4 class="card-title">Інформація про орендаря</h4>
+        <p class="card-text">Олійник Максим Анатолійович</p>
+        <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
+      </div>
+
+      <div class="card-rating">
+
+        <div class="card-text">
+          <h4>Рейтинг</h4>
         </div>
 
-        <div class="card-description">
-          <h4 class="card-title">Інформація про орендаря</h4>
-          <p class="card-text">Олійник Максим Анатолійович</p>
-          <a href="tel:+380677727447" class="tel">tel: +380677727447</a>
-        </div>
-
-        <div class="card-rating">
-
-          <div class="card-text">
-            <h4>Рейтинг</h4>
-          </div>
-
-          <div class="rating-star">
-            <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
-              (click)="rate(star)">&#9733;</span>
-          </div>
-
-        </div>
-
-        <div class="card-social-link">
-          <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
-          <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
-        </div>
-
-
-        <div class="card-link">
-          <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+        <div class="rating-star">
+          <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
+            (click)="rate(star)">&#9733;</span>
         </div>
 
       </div>
+
+      <div class="card-social-link">
+        <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
+        <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+      </div>
+
+
+      <div class="card-link">
+        <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+      </div>
+
+    </div>
   </div>
 
   <div class="container-owner-card col-8">

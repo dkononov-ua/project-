@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="container-fluid">
 
   <div class="col-md-4 card two">
@@ -78,7 +80,7 @@
 
   <div class="card-link">
 
-    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/payments'"><span>Взаємодія сторін</span><i
+    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span>Взаємодія сторін</span><i
         class="fa-sharp fa-solid fa-house-laptop"></i></a>
     <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
         class="fa-solid fa-house-signal"></i></a>
@@ -87,14 +89,14 @@
     <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
       <i class="fa-solid fa-box-open"></i></a>
       <div>
-        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/search'">
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-search'">
           <div class="notifications" (click)="toggleNotifications()">
             <p class="badge">{{notificationsCount}}</p>
           </div>
           <span>Підписники</span><i class="fa-solid fa-person-praying"></i>
         </a>
       </div>
-                <a class="link" [routerLinkActive]="'active'" [routerLink]="'/search'"><span>Пошук</span><i
+                <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-search'"><span>Пошук</span><i
         class="fa-solid fa-magnifying-glass"></i></a>
     <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Редагувати інфо.</span><i
         class="fa-solid fa-gear"></i></a>
