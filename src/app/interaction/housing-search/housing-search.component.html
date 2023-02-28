@@ -15,7 +15,7 @@
 
   </div>
 
-  <div class="container-tenants col-lg-4 col-md-10 col-sm-10 col-12" >
+  <div class="container-tenants col-lg-4 col-md-10 col-sm-10 col-12">
     <div class="card-tenants">
 
       <div class="img-fluid">
@@ -57,10 +57,12 @@
 
   <div class="container-owner-card col-lg-8 col-12">
 
-    <button class="prev" (click)="onPrevCard()">
-      <div class="prev-arrow-top"></div>
-      <div class="prev-arrow-bottom"></div>
-    </button>
+    <div class="btn-container col-lg-1 col-2">
+      <button class="prev" (click)="onPrevCard()">
+        <div class="prev-arrow-top"></div>
+        <div class="prev-arrow-bottom"></div>
+      </button>
+    </div>
 
     <div class="container-owner">
 
@@ -163,12 +165,16 @@
 
     </div>
 
-    <button class="next" (click)="onNextCard()">
-      <div class="next-arrow-top"></div>
-      <div class="next-arrow-bottom"></div>
-    </button>
+    <div class="btn-container col-lg-1 col-2">
+      <button class="next" (click)="onNextCard()">
+        <div class="next-arrow-top"></div>
+        <div class="next-arrow-bottom"></div>
+      </button>
+    </div>
 
   </div>
 
 </div>
+
+<app-footer></app-footer>
 
