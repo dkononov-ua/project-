@@ -24,6 +24,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { TestComponent } from './style/test/test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SearchTermComponent } from './components/search-term/search-term.component';
+import { InformationUserComponent } from './registration/information-user/information-user.component';
+import { HomeAccountComponent } from './interaction/home-account/home-account.component';
+import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
+import { AgreementComponent } from './interaction/agreement/agreement.component';
+import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
+import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
+import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,6 +48,18 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     InternetComponent,
     OurTeamComponent,
     TestComponent,
+    RegistrationComponent,
+    SearchTermComponent,
+    InformationUserComponent,
+    HomeAccountComponent,
+    PaymentsComponent,
+    TenantsSearchComponent,
+    AgreementComponent,
+    HousingSearchComponent,
+    UserInteractionComponent,
+    UserPaymentComponent,
+    InformationUserComponent,
+    InformationHousingComponent,
 
   ],
   imports: [
@@ -50,6 +71,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatCardModule,
+    BrowserAnimationsModule,
+    DragDropModule,
+    HttpClientModule,
+    ReactiveFormsModule,
 
   ],
   providers: [],
