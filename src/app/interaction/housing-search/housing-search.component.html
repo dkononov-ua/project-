@@ -15,8 +15,8 @@
 
   </div>
 
-  <div class="container-tenants col-4">
-    <div class="card-tenants" style="width: 20rem;">
+  <div class="container-tenants col-lg-4 col-md-10 col-sm-10 col-12">
+    <div class="card-tenants">
 
       <div class="img-fluid">
         <img src="../../assets/photo2.jpg" class="card-img-top" alt="...">
@@ -55,16 +55,19 @@
     </div>
   </div>
 
-  <div class="container-owner-card col-8">
+  <div class="container-owner-card col-lg-8 col-12">
 
-    <button class="prev" (click)="onPrevCard()">
-      <div class="prev-arrow-top"></div>
-      <div class="prev-arrow-bottom"></div>
-    </button>
+    <div class="btn-container col-lg-1 col-2">
+      <button class="prev" (click)="onPrevCard()">
+        <div class="prev-arrow-top"></div>
+        <div class="prev-arrow-bottom"></div>
+      </button>
+    </div>
+
 
     <div class="container-owner">
 
-      <div class="card-owner" style="width: 18rem;">
+      <div class="card-owner col-md" style="width: 18rem;">
 
         <div class="img-fluid card-img-top">
           <img [src]="currentCard.image">
@@ -105,7 +108,7 @@
 
       </div>
 
-      <div class="card-housing" style="width: 18rem;">
+      <div class="card-housing col-md" style="width: 18rem;">
 
         <div id="carouselExample" class="carousel slide">
           <div class="carousel-inner">
@@ -163,16 +166,13 @@
 
     </div>
 
-    <button class="next" (click)="onNextCard()">
-      <div class="next-arrow-top"></div>
-      <div class="next-arrow-bottom"></div>
-    </button>
+    <div class="btn-container col-lg-1 col-2">
+      <button class="next" (click)="onNextCard()">
+        <div class="next-arrow-top"></div>
+        <div class="next-arrow-bottom"></div>
+      </button>
+    </div>
 
   </div>
 
 </div>
-
-<app-footer></app-footer>
-<app-energy></app-energy>
-<app-footer></app-footer>
-
