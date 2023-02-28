@@ -1,0 +1,16 @@
+@use "../../style/presets/" as *;
+
+.container-fluid {
+  margin-top: 20px;
+  display: flex;
+  align-content: stretch;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.logo {
+  position: absolute;
+  right: 25%;
+  width: 80px;
+  height: 80px;
+}

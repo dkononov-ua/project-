@@ -1,18 +1,41 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
-  selector: 'app-housing-search',
-  templateUrl: './housing-search.component.html',
-  styleUrls: ['./housing-search.component.scss']
+  selector: 'app-tenants-search',
+  templateUrl: './tenants-search.component.html',
+  styleUrls: ['./tenants-search.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(130%)' }),
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+            transition('* => void', [
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
-export class HousingSearchComponent {
+
+export class TenantsSearchComponent {
+  @HostBinding('@cardAnimation') cardAnimation = true;
+  cardState: string | undefined;
+
+  toggleCard() {
+    this.buttonText = this.cardState === 'out' ? 'Ухвалити' : 'Ухвалено!';
+  }
+
+  buttonText = 'Ухвалити';
+
+
   currentCardIndex = 0;
   currentCard: any;
 
   cards: any[] = [
     {
       title: 'Картка 1',
-      description: 'Інформація про власника.',
+      description: 'Інформація про орендаря.',
       tell: '+380677727447',
       firstName: 'Олена',
       lastName: 'Кругляк',
@@ -23,20 +46,13 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'agreement',
       createDealText: 'Створити угоду',
-      descriptionHouse: 'Інформація про оселю.',
-      address: 'Київ, вул Чорнобильська №19. кв №24.',
-      homeAccount: '/home-account',
-      homeAccountText: 'Аккаунт оселі',
-      imageCarousel: 'assets/badroom.jpg',
-      imageCarousel1: 'assets/kitchwn.jpeg',
-      price: '9 000 ₴/міс',
     },
 
     {
       title: 'Картка 2',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про орендаря.',
       tell: '+380677727447',
       firstName: 'Максим',
       lastName: 'Олійник',
@@ -47,21 +63,13 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'agreement',
       createDealText: 'Створити угоду',
-      descriptionHouse: 'Інформація про оселю.',
-      address: 'Херсон, вул Степана Бандери №3. кв №24.',
-      homeAccount: '/home-account',
-      homeAccountText: 'Аккаунт оселі',
-      imageCarousel: 'assets/cd5dc32d8c2c7963e7b0f3bf82f5e0a4.jpg',
-      imageCarousel1: 'assets/image.jpg',
-      price: '10 500 ₴/міс',
-
-
+      subscriber: 'Підписаний на вашу оселю',
     },
     {
       title: 'Картка 3',
-      description: 'Інформація про орендатора.',
+      description: 'Інформація про орендаря.',
       tell: '+380677727447',
       firstName: 'Віталій',
       lastName: ' Селіверстов',
@@ -72,15 +80,8 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'https://example.com',
+      createDeal: 'agreement',
       createDealText: 'Створити угоду',
-      descriptionHouse: 'Інформація про оселю.',
-      address: 'Львів, вул Варшавська №11. кв №24.',
-      homeAccount: '/home-account',
-      homeAccountText: 'Аккаунт оселі',
-      imageCarousel: 'assets/pjegjb8bq1036v0be3ums2o3o1iqrdsd.jpg',
-      imageCarousel1: 'assets/stat-hitech-01.jpg',
-      price: '12 000 ₴/міс',
     }
   ];
 

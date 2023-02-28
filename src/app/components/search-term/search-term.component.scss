@@ -1,0 +1,16 @@
+.container-fluid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form{
+  display: flex;
+  padding: 10px;
+}
+
+.input-group{
+  display: flex;
+  padding: 10px;
+}

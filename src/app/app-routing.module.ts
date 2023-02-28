@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OurTeamComponent } from './our-team/our-team.component';
-import { HomeAccountComponent } from './payments/home-account/home-account.component';
-import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { SearchComponent } from './payments/search/search.component';
 import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
+import { InformationUserComponent } from './registration/information-user/information-user.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { EnergyComponent } from './services/energy/energy.component';
@@ -14,23 +12,33 @@ import { InternetComponent } from './services/internet/internet.component';
 import { ServicesComponent } from './services/services.component';
 import { WaterComponent } from './services/water/water.component';
 import { TestComponent } from './style/test/test.component';
+import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
+import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
+import { AgreementComponent } from './interaction/agreement/agreement.component';
+import { HomeAccountComponent } from './interaction/home-account/home-account.component';
+import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
+import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 
 const routes: Routes = [
-  {path: '' , redirectTo: 'registration' , pathMatch: 'full' },
-  {path: 'registration' , component: RegistrationComponent},
-  {path: 'payments' , component: PaymentsComponent},
-  {path: 'services' , component: ServicesComponent},
-  {path: 'energy' , component: EnergyComponent},
-  {path: 'water' , component: WaterComponent},
-  {path: 'cleaning' , component: CleaningComponent},
-  {path: 'gas' , component: GasComponent},
-  {path: 'internet' , component: InternetComponent},
-  {path: 'home-account' , component: HomeAccountComponent},
-  {path: 'our-team' , component: OurTeamComponent},
-  {path: 'information-housing' , component: InformationHousingComponent},
-  {path: 'test' , component: TestComponent},
-  {path: 'search' , component: SearchComponent},
-  {path: 'housing-search' , component: HousingSearchComponent},
+  { path: '', redirectTo: 'registration', pathMatch: 'full' },
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'payments', component: PaymentsComponent },
+  { path: 'services', component: ServicesComponent },
+  { path: 'energy', component: EnergyComponent },
+  { path: 'water', component: WaterComponent },
+  { path: 'cleaning', component: CleaningComponent },
+  { path: 'gas', component: GasComponent },
+  { path: 'internet', component: InternetComponent },
+  { path: 'our-team', component: OurTeamComponent },
+  { path: 'information-housing', component: InformationHousingComponent },
+  { path: 'test', component: TestComponent },
+  { path: 'tenants-search', component: TenantsSearchComponent },
+  { path: 'housing-search', component: HousingSearchComponent },
+  { path: 'agreement', component: AgreementComponent },
+  { path: 'home-account', component: HomeAccountComponent },
+  { path: 'user-interaction', component: UserInteractionComponent },
+  { path: 'information-user', component: InformationUserComponent },
+  { path: 'user-payment', component: UserPaymentComponent },
 ];
 
 @NgModule({

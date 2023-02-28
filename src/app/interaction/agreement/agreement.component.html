@@ -1,0 +1,264 @@
+<app-navbar></app-navbar>
+
+<div>
+  <div class="container-fluid">
+    <h1>Укладання угоди оренди житлового приміщення</h1>
+
+    <div class="container-fluid">
+      <div class="form-check-inline">
+        <div class="form-control">
+          <h5>Місце укладання та дата</h5>
+          <label for="city"></label>
+          <input class="form-control" type="text" id="city" placeholder="Місто" name="city">
+          <label for="day"></label>
+          <input class="form-control" type="number" id="day" name="day" placeholder="Число:" min="1" max="31">
+          <label for="month">Місяць:</label>
+          <select class="form-control" id="month" name="month">
+            <option value="01">Січень</option>
+            <option value="02">Лютий</option>
+            <option value="03">Березень</option>
+            <option value="04">Квітень</option>
+            <option value="05">Травень</option>
+            <option value="06">Червень</option>
+            <option value="07">Липень</option>
+            <option value="08">Серпень</option>
+            <option value="09">Вересень</option>
+            <option value="10">Жовтень</option>
+            <option value="11">Листопад</option>
+            <option value="12">Грудень</option>
+          </select>
+
+          <label for="year">Рік:</label>
+          <input class="form-control" type="number" id="year" name="year" min="1900" max="2100">
+
+        </div>
+
+        <div class="form-control">
+          <h5>Сторона орендодавця</h5>
+          <input class="form-control" type="text" name="certificate_number" placeholder="Свідоцтво власника Nо.">
+          <input class="form-control" type="text" name="owner_name" placeholder="Прізвище ім'я по батькові">іменований
+          надалі
+          "Орендодавець", з одного боку, і
+        </div>
+
+        <div class="form-control">
+          <h5>Сторона орендара</h5>
+          <input class="form-control" type="text" name="tenant_name" placeholder="Прізвище ім'я по батькові">іменований
+          надалі "Орендар", з
+          іншого боку,
+          уклали
+          даний договір про наступне:
+        </div>
+
+      </div>
+
+      <ul>1. Предмет договору
+        <li>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на
+          <input class="form-control" type="number" id="lease-term" name="lease-term" placeholder="Дні" required min="1"
+            max="365">
+          <input class="form-control" type="number" name="lease-term" placeholder="Місяці" min="1" max="12">
+          <input class="form-control" type="number" name="lease-term" placeholder="Роки" min="1" max="10" step="1">
+          квартиру загальною площею м²<label for="apartment-size"></label>
+          <input class="form-control" type="number" id="apartment-size" name="apartment-size"
+            placeholder="площа квартири м²" required>
+          за адресою:<label for="apartment-address"></label>
+          <input class="form-control" type="text" id="apartment-address" name="apartment-address"
+            placeholder="адреса квартири" required>,
+          характеристика якої наведена в акті здачі квартири.
+        </li>
+        <li>1.2. За згодою сторін договором встановлюється плата за оренду квартири в розмірі
+          <label for="rent-amount"></label>
+          <input class="form-control" type="number" id="rent-amount" name="rent-amount"
+            placeholder="cума орендної плати на місяць" required>
+          гривень на місяць, до складу якої включені
+          пропорційно
+          орендованої площі платежі на повне відновлення будинку, витрати на обслуговування й
+          ремонт будинку й квартири, витрати по оплаті комунальних і інших послуг.
+        </li>
+      </ul>
+
+      <ul>2. Обов'язку сторін
+        <li>
+          2.1. Орендодавець зобов'язується:
+        </li>
+        <li>
+          2.1.1. Надати в оренду належне йому на праві власності житло в придатному для
+          проживання стані.
+        </li>
+        <li>
+          2.1.2. Здійснювати утримання будинку й технічних обладнань квартири відповідно до
+          вимог користування житловими приміщеннями, утримання житлового будинку і
+          прибудинкової території в Україні.
+        </li>
+        <li>
+          2.1.3. Забезпечувати надання комунальних і інших послуг.
+        </li>
+        <li>
+          2.2. Орендар зобов'язується:
+        </li>
+        <li>
+          2.2.1. Використати здану йому за договором оренди квартиру за призначенням.
+        </li>
+        <li>
+          2.2.2. Дотримуватись вимог до користування житловими приміщеннями, утриманням
+          житлового будинку й прибудинкової території в Україні.
+        </li>
+        <li>
+          2.2.3. Вчасно повідомляти Орендодавцеві про виявлені несправності елементів квартири
+          й будинку.
+        </li>
+        <li>
+          2.2.4. Не пізніше цього дня місяця вносити плату за оренду <label for="rent_due_date"> </label>
+          <input class="form-control" type="number" id="rent_due_date" name="rent_due_date" min="1" max="31"
+            placeholder="число" required>.
+          <br> За несвоєчасне внесення
+          платежів оплачувати пеню з розрахунку <label for="penalty_percentage">відсоток пені за прострочення:</label>
+          <input class="form-control" type="number" id="penalty_percentage" name="penalty_percentage" min="0" max="100"
+            required> % від
+          несплаченої суми за кожний день прострочення,<br>
+          але не більше <label for="max_penalty_percentage">Максимальний відсоток пені:</label>
+          <input class="form-control" type="number" id="max_penalty_percentage" name="max_penalty_percentage" min="0"
+            max="100" required> %
+          суми заборгованості.
+        </li>
+        <li> 2.2.5. Допускати в денний час, а при аваріях і в нічний час, в орендовану квартиру
+          працівників Орендодавця або самого Орендодавця, а також представників підприємств по
+          обслуговуванню й ремонту житла для проведення огляду й ремонту конструкцій і
+          технічних обладнань квартири.
+        </li>
+        <li> 2.2.6. Звільнити орендоване житлове приміщення після закінчення обумовленого в
+          даному договорі строку оренди.
+        </li>
+      </ul>
+
+      <ul> 3. Права сторін
+
+        <li> 3.1. Орендодавець має право:
+        </li>
+        <li> 3.1.1. Вимагати від Орендаря дотримання вимог користування житловими приміщеннями,
+          утримання житлового будинку й прибудинкової території.
+        </li>
+        <li> 3.1.2. Вимагати від Орендаря своєчасного внесення плати за оренду.
+        </li>
+        <li> 3.1.3. Вимагати від Орендаря звільнення житлового приміщення після закінчення строку
+          договору оренди.
+        </li>
+        <li> 3.1.4. Продати Орендареві займану ним квартиру.
+        </li>
+        <li> 3.2. Орендар має право:
+        </li>
+        <li> 3.2.1. Вселити в орендоване житлове приміщення незалежно від згоди Орендодавця своїх
+          неповнолітніх дітей, дружину (чоловіка) і непрацездатних батьків.
+        </li>
+        <li> 3.2.2. Вимагати від Орендодавця своєчасного і якісного виконання комплексу робіт із
+          утримання житлового будинку, квартири й прибудинкової території, а також надання
+          комунальних і інших послуг, передбачених договором оренди.
+        </li>
+        <li> 3.2.3. Викупити в Орендодавця з його згоди орендоване приміщення, уклавши договір
+          купівлі-продажу.
+        </li>
+        <li> 3.2.4. Вимагати обґрунтування збільшення плати за оренду після укладання договору
+          оренди.
+        </li>
+        <li> 3.2.5. Вимагати перерахунку плати за оренду при невиконанні Орендодавцем обов'язків,
+          передбачених у п. п. 2.1.2.
+        </li>
+      </ul>
+
+      <ul> 4. Відповідальність сторін
+        <li> 4.1. Відповідальність Орендодавця:
+        </li>
+        <li> 4.1.1. Орендодавець відшкодовує Орендареві матеріальний збиток, заподіяний у
+          результаті невиконання обов'язків, передбачених у п. п. 2.1.2 даного договору, у
+          встановленому законом порядку.
+        </li>
+        <li> 4.2. Відповідальність Орендаря:
+        </li>
+        <li> 4.2.1. Орендар відшкодовує Орендодавцеві матеріальний збиток, заподіяний у результаті
+          невиконання обов'язків, передбачених у п. п. 2.2.1 і п. п. 2.2.2 даного договору, у
+          встановленому законом порядку.
+        </li>
+      </ul>
+
+      <ul> 5. Заключні умови
+
+        <li> 5.1. Даний договір може бути розірваний із ініціативи кожної зі сторони при наявності
+          умов і в порядку, передбаченому житловим законодавством.
+        </li>
+        <li> 5.2. Виниклі при виконанні даного договору спори між сторонами вирішуються у
+          встановленому законом порядку.
+        </li>
+        <li> 5.3. Даний договір складений в 2-х екземплярах, один із яких перебуває в Орендодавця,
+          іншої - в Орендаря.
+        </li>
+        <li> 5.4. Невід'ємною частиною даного договору є акт здачі квартири Орендареві.
+        </li>
+        <li> 5.5. Договір набуває чинності з моменту його підписання.
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="container-agree">
+      <fieldset class="container-owner">
+        <h2>Орендодавець:</h2>
+        <label for="landlord_passport_number">Паспорт №</label>
+        <input class="form-control" type="text" id="landlord_passport_number" name="landlord_passport_number"
+          placeholder="Номер" required>
+        <label for="landlord_passport_series">Серія </label>
+        <input class="form-control" type="text" id="landlord_passport_series" name="landlord_passport_series"
+          placeholder="Серія" required><br><br>
+
+        <label for="landlord_passport_issued">Виданий</label>
+        <input class="form-control" type="text" id="landlord_passport_issued" name="landlord_passport_issued"
+          placeholder="Місце видачі" required><br><br>
+
+        <label for="landlord_address">Адреса:</label>
+        <input class="form-control" type="text" id="landlord_address" name="landlord_address"
+          placeholder="Адреса орендодавця" required><br><br>
+
+        <label for="landlord_name">Орендодавець</label>
+        <input class="form-control" type="text" id="landlord_name" name="landlord_name" placeholder="Ім'я орендодавця"
+          required><br><br>
+
+
+      </fieldset>
+
+      <fieldset class="container-tenant">
+        <h2>Орендар:</h2>
+        <label for="tenant_passport_number">Паспорт №</label>
+        <input class="form-control" type="text" id="tenant_passport_number" name="tenant_passport_number"
+          placeholder="Номер" required>
+        <label for="tenant_passport_series">Серія </label>
+        <input class="form-control" type="text" id="tenant_passport_series" name="tenant_passport_series"
+          placeholder="Серія" required><br><br>
+
+        <label for="tenant_passport_issued">Виданий</label>
+        <input class="form-control" type="text" id="tenant_passport_issued" name="tenant_passport_issued"
+          placeholder="Місце видачі" required><br><br>
+
+        <label for="tenant_address">Адреса:</label>
+        <input class="form-control" type="text" id="tenant_address" name="tenant_address" placeholder="Адреса орендаря"
+          required><br><br>
+
+        <label for="tenant_name">Орендар</label>
+        <input class="form-control" type="text" id="tenant_name" name="tenant_name" placeholder="Ім'я орендаря"
+          required><br><br>
+
+        <label for="agreement"><input type="checkbox" id="agreement" name="agreement" required>Із вимогами користування
+          житловими приміщеннями, утриманням житлового будинку й прибудинкової території ознайомлений.</label><br>
+
+
+
+        <button class="btn" type="submit"><a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a></button>
+
+
+      </fieldset>
+    </div>
+
+    <button class="btn">Завантажити PDF</button>
+
+  </div>
+
+</div>
+
