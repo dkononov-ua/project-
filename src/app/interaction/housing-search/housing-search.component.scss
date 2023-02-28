@@ -1,17 +1,19 @@
 @use "../../style/presets/" as *;
 
 .container-fluid {
-  flex-wrap: wrap;
   padding: 20px;
-}
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;}
 
 .container-owner {
   display: flex;
-  background-color: $color-white;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, 0.501) ;
+  box-shadow: 0 10px 50px 10px rgb(0 0 0 / 50%);
   z-index: 2;
-}
+  flex-wrap: wrap;
+  justify-content: center;}
 
 .container-owner-card{
   display: flex;
@@ -21,6 +23,8 @@
   display: flex;
   align-content: center;
   align-items: stretch;
+  justify-content: center;
+  margin-bottom: 20px;
 
   // animation-duration: 2s;
   // animation-name: slidein;
@@ -45,6 +49,7 @@
 }
 
 .card-tenants {
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0 10px 50px 10px rgba(0, 0, 0, 0.501) ;
   z-index: 2;
