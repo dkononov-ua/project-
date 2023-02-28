@@ -1,6 +1,7 @@
 @use "../../style/presets/" as *;
 
 .container-fluid {
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -16,6 +17,7 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
 
 .container-owner-card {
   display: flex;
