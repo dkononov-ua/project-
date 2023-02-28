@@ -1,4 +1,4 @@
-<div class="container-fluid" >
+<div class="container-fluid">
   <div class="container" id="container">
     <div class="form-container register-container">
 
@@ -20,8 +20,33 @@
     <div class="form-container login-container">
       <form action="#">
         <h1>Увійти</h1>
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
+        <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+
+          <!-- Електронна пошта -->
+          <div class="inputbox">
+            <input class="form-control" id="email" type="text" formControlName="email" required>
+            <span>Email</span>
+            <i></i>
+
+            <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+          </div>
+
+          <!-- Пароль -->
+          <div class="inputbox">
+            <input class="form-control" id="password" type="text" formControlName="password" required>
+            <span>Пароль</span>
+            <i></i>
+
+            <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+          </div>
+
+          <button type="submit" [disabled]="userForm.invalid" class="btn btn-info">
+            Увійти
+          </button>
+
+
+        </form>
+
         <div class="content">
           <div class="checkbox">
             <input type="checkbox" name="checkbox" id="checkbox">
@@ -31,7 +56,8 @@
             <a href="#">Забули пароль?</a>
           </div>
         </div>
-        <button>Увійти</button>
+
+
         <span>або скористатися своїм обліковим записом</span>
         <div class="social-container">
           <a href="#"><i class="fab fa-brands fa-facebook-f"></i></a>
@@ -68,4 +94,3 @@
 </div>
 
 <app-footer></app-footer>
-

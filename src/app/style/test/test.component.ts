@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-test',
@@ -7,23 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./test.component.scss'],
 })
 export class TestComponent {
-  modal: any;
-  openModal() {
-    this.modal.showModal = true;
+  userForm: FormGroup = new FormGroup<any>({
+    name: new FormControl(),
+    password: new FormControl()
+  }
+  )
+
+  onSubmit(): void {
+    console.log('Form submitted');
+    console.log(this.userForm.value);
   }
 
-  name: string | undefined;
-  email: string | undefined;
-  agreement: string = '';
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.http.get('assets/agreement.txt', {responseType: 'text'}).subscribe(
-      (      data: string) => this.agreement = data,
-      (      error: any) => console.error(error)
-    );
-  }
 
 }
 

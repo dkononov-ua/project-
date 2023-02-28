@@ -60,6 +60,7 @@ import { UserPaymentComponent } from './registration/user-payment/user-payment.c
     HousingSearchComponent,
     UserInteractionComponent,
     UserPaymentComponent,
+    InformationUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +75,7 @@ import { UserPaymentComponent } from './registration/user-payment/user-payment.c
     BrowserAnimationsModule,
     DragDropModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
