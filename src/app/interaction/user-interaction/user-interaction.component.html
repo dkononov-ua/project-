@@ -1,13 +1,14 @@
 <app-navbar></app-navbar>
 
 <div class="container-fluid" [@cardAnimation]>
+
   <div class="container-fluid">
     <h1>Взаємодіі сторін</h1>
 
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
     </nav>
   </div>
   <div class="container-title">
@@ -40,8 +41,7 @@
       <div class="card-link">
         <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
         <a href="#" class="link"><span>Запросити доступ</span><i class="fa-solid fa-key"></i></a>
-        <a href="#" class="link"><span>Запросити реквізити</span><i
-            class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
         <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
 
       </div>
@@ -86,7 +86,7 @@
             class="fa-sharp fa-solid fa-message"></i></a>
         <a href="#" class="link"><span>Заключити угоду</span><i class="fa-solid fa-file-contract"></i></a>
         <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Опис оселі</span><i
-          class="fa-sharp fa-solid fa-house-laptop"></i></a>
+            class="fa-sharp fa-solid fa-house-laptop"></i></a>
 
       </div>
     </div>
@@ -116,11 +116,14 @@
       <div class="card-link">
         <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
         <a href="#" class="link"><span>Надати доступ</span><i class="fa-solid fa-unlock-keyhole"></i></a>
-        <a href="#" class="link"><span>Запросити реквізити</span><i
-            class="fa-solid fa-money-bill-trend-up"></i></a>
+        <a href="#" class="link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
         <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
 
       </div>
     </div>
   </div>
+
 </div>
+
+<app-footer></app-footer>
+

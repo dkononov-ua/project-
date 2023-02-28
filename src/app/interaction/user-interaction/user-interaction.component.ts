@@ -8,11 +8,11 @@ import { Component } from '@angular/core';
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(140%)' }),
-        animate('2000ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(130%)' }),
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
             transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-200%)' }))
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ])
     ])
   ]

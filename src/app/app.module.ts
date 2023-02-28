@@ -32,6 +32,7 @@ import { TenantsSearchComponent } from './interaction/tenants-search/tenants-sea
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
+import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { UserInteractionComponent } from './interaction/user-interaction/user-in
     AgreementComponent,
     HousingSearchComponent,
     UserInteractionComponent,
+    UserPaymentComponent,
   ],
   imports: [
     BrowserModule,

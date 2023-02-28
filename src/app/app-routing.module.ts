@@ -17,6 +17,7 @@ import { HousingSearchComponent } from './interaction/housing-search/housing-sea
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
+import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -36,6 +37,8 @@ const routes: Routes = [
   { path: 'agreement', component: AgreementComponent },
   { path: 'home-account', component: HomeAccountComponent },
   { path: 'user-interaction', component: UserInteractionComponent },
+  { path: 'information-user', component: InformationUserComponent },
+  { path: 'user-payment', component: UserPaymentComponent },
 ];
 
 @NgModule({
