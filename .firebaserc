@@ -1,14 +1,5 @@
 {
   "projects": {
-    "default": "houseconnect"
-  },
-  "targets": {
-    "houseconnect": {
-      "hosting": {
-        "project": [
-          "houseconnect-be0b9"
-        ]
-      }
-    }
+    "default": "konnect-kononov"
   }
 }
