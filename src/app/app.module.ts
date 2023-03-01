@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +29,7 @@ import { TestComponent } from './style/test/test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchComponent } from './payments/search/search.component';
 import { HousingSearchComponent } from './payments/housing-search/housing-search.component';
-import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -47,12 +46,12 @@ import { RouterModule } from '@angular/router';
     InternetComponent,
     HomeAccountComponent,
     OurTeamComponent,
-    TestComponent,
-    HousingSearchComponent,
-    SearchComponent,
     InformationHousingComponent,
     RegistrationComponent,
-
+    TestComponent,
+    SearchComponent,
+    HousingSearchComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,8 +62,10 @@ import { RouterModule } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    RouterModule,
-
+    MatCardModule,
+    BrowserAnimationsModule,
+    DragDropModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
