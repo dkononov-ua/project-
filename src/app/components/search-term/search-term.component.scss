@@ -5,12 +5,18 @@
   justify-content: center;
 }
 
-.form{
+.form {
   display: flex;
   padding: 10px;
+  flex-direction: column;
+  width: 100%;
 }
 
-.input-group{
+.form-select{
+  margin-bottom: 10px;
+}
+
+.input-group {
   display: flex;
   padding: 10px;
 }
