@@ -1,8 +1,14 @@
 @use "../../style/presets/" as *;
 
 .container-fluid {
+  display: flex;
   flex-wrap: wrap;
-  padding: 20px;
+  justify-content: space-around;
+  padding: 0;
+}
+
+.navbar {
+  justify-content: flex-start;
 }
 
 .container-owner {
@@ -12,7 +18,12 @@
   box-shadow: 10px 10px 20px 10px rgba(0, 0, 0, 0.5);
 }
 
+.container-card {
+  display: flex;
+}
+
 .container-tenants {
+  width: 100%;
   display: flex;
   align-content: center;
   align-items: stretch;
@@ -42,11 +53,11 @@
 .card-tenants {
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, 0.501) ;
+  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, 0.501);
   z-index: 2;
 }
 
-.card-description{
+.card-description {
   padding: 10px;
 }
 
@@ -127,8 +138,8 @@ img {
   background-color: none;
   transition: 0.6s ease;
 
-
-  &:hover,:focus{
+  &:hover,
+  :focus {
     background-color: $color-accent;
   }
 }
@@ -146,10 +157,10 @@ img {
   transform: translateX(-15%) translateY(0%) scale(0.7);
   transition: transform 0.5s;
 
-  &:hover, :focus {
+  &:hover,
+  :focus {
     background-color: $color-accent;
   }
-
 }
 
 .next-arrow-top,
@@ -217,10 +228,11 @@ img {
   border-radius: 10px;
   background-color: $color-white;
 
-  transform: translateX(15%) translateY(0%)  scaleX(-1) scale(0.7);
+  transform: translateX(15%) translateY(0%) scaleX(-1) scale(0.7);
   transition: transform 0.5s;
 
-  &:hover, :focus {
+  &:hover,
+  :focus {
     background-color: $color-accent;
   }
 }
@@ -287,7 +299,7 @@ img {
   transform: scaleX(-1);
 }
 
-.subscriber{
+.subscriber {
   background-color: $color-accent;
   border-radius: 10px;
 }
@@ -297,4 +309,3 @@ img {
     background-color: $color-accent;
   }
 }
-
