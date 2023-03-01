@@ -102,6 +102,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "project:build:production",
+            "firebaseProject": "houseconnect",
+            "firebaseHostingSite": "houseconnect-be0b9"
+          }
         }
       }
     }

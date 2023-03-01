@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularFireModule } from '@angular/fire/compat';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +36,9 @@ import { HousingSearchComponent } from './interaction/housing-search/housing-sea
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { HttpClientModule } from '@angular/common/http';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -60,25 +66,37 @@ import { HttpClientModule } from '@angular/common/http';
     UserPaymentComponent,
     InformationUserComponent,
     InformationHousingComponent,
-
-  ],
+   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyASKxca6u2xAacXE7rjkhM-RcurBF7MXT8",
+      authDomain: "houseconnect-be0b9.firebaseapp.com",
+      projectId: "houseconnect",
+      storageBucket: "houseconnect.appspot.com",
+      messagingSenderId: "297607114358",
+      appId: "1:297607114358:web:1806e7481d3f1f258b3957"
+    }),
+
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatCardModule,
-    BrowserAnimationsModule,
     DragDropModule,
     HttpClientModule,
     ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
 
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
