@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -35,10 +32,6 @@ import { HousingSearchComponent } from './interaction/housing-search/housing-sea
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { HttpClientModule } from '@angular/common/http';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -71,8 +64,6 @@ import { AngularFireModule } from '@angular/fire/compat';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularFireModule,
-
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
@@ -83,9 +74,6 @@ import { AngularFireModule } from '@angular/fire/compat';
     DragDropModule,
     HttpClientModule,
     ReactiveFormsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
 
   ],
   providers: [],
