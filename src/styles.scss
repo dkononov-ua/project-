@@ -16,12 +16,6 @@ body {
   background-color: $color-primary;
 }
 
-p {
-  padding: 0;
-  margin: 0;
-  font-size: 1.2em;
-}
-
 a {
   padding: 0.5em 1em;
   margin: 5px;
@@ -53,29 +47,12 @@ a {
   }
 }
 
-.btn {
-  color: $color-text;
-  text-decoration: none;
-  border-radius: 10px;
-  background-color: $color-primary;
-  border: none;
-
-  &.active {
-    background-color: $color-accent;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $color-accent;
-  }
-}
-
 .container {
   display: grid;
+  max-width: 1050px;
 }
 
 .container-fluid {
-  max-width: 1050px;
   display: flex;
   justify-content: space-between;
   align-content: center;
