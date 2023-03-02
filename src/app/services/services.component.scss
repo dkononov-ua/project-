@@ -1,9 +1,5 @@
 @use "../style/presets/" as *;
 
-a {
-  padding: 0.5em 1em;
-}
-
 .container-card {
   display: flex;
   border-radius: 10px;
@@ -53,16 +49,6 @@ a {
       margin-left: 150px;
     }
   }
-}
-
-.link {
-  margin: 0;
-  margin-bottom: 10px;
-  color: $color-text;
-  background-color: $color-white;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 10px;
 }
 
 .description {
