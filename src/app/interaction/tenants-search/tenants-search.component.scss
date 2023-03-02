@@ -21,7 +21,7 @@
   align-items: center;
 }
 
-.wish{
+.characteristics{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,13 +30,13 @@
   padding: 10px;
 }
 
-.wish-list {
+.characteristics-list {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
-.wish-item{
+.characteristics-item{
   height: 40px;
   background-color: rgba(180, 180, 180, 0.375);
   border-radius: 10px;

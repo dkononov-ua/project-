@@ -18,15 +18,14 @@
 }
 
 .button-subscribe {
+  position: relative;
   font-size: 20px;
   border: none;
+  margin: 10px;
   width: 100%;
   height: 50px;
-  padding: 10px;
-  background-color: $color-primary;
   border-radius: 10px;
-  border: none;
-  background-color: none;
+  background-color: $color-primary;
   transition: 0.6s ease;
 
   &:hover,
@@ -44,6 +43,8 @@
   border: none;
   border-radius: 10px;
   background-color: $color-white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
 
   transform: translateX(-15%) translateY(0%) scale(0.7);
   transition: transform 0.5s;
@@ -118,6 +119,8 @@
   border: none;
   border-radius: 10px;
   background-color: $color-white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
 
   transform: translateX(15%) translateY(0%) scaleX(-1) scale(0.7);
   transition: transform 0.5s;

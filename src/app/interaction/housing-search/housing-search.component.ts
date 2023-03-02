@@ -37,15 +37,19 @@ export class HousingSearchComponent {
       grantAccessText: 'Надати доступ',
       bankDetails: 'https://example.com',
       bankDetailsText: 'Реквізити',
-      createDeal: 'payments',
-      createDealText: 'Створити угоду',
       descriptionHouse: 'Інформація про оселю.',
       address: 'Херсон, вул Степана Бандери №3. кв №24.',
-      homeAccount: '/home-account',
+      homeAccount: 'home-account',
       homeAccountText: 'Аккаунт оселі',
       imageCarousel: 'assets/cd5dc32d8c2c7963e7b0f3bf82f5e0a4.jpg',
       imageCarousel1: 'assets/image.jpg',
       price: '9 000 ₴/міс',
+
+      numberRooms: '2',
+      district: 'Поділ',
+      city: 'Київ',
+      typeHousing: 'Квартира',
+      animals: 'Можна з тваринами',
     },
 
     {
@@ -72,7 +76,11 @@ export class HousingSearchComponent {
       homeAccountText: 'Аккаунт оселі',
       price: '10 500 ₴/міс',
 
-
+      numberRooms: '2',
+      district: 'Поділ',
+      city: 'Київ',
+      typeHousing: 'Квартира',
+      animals: 'Можна з тваринами',
     },
     {
       title: 'Картка 3',
@@ -96,6 +104,12 @@ export class HousingSearchComponent {
       imageCarousel: 'assets/pjegjb8bq1036v0be3ums2o3o1iqrdsd.jpg',
       imageCarousel1: 'assets/stat-hitech-01.jpg',
       price: '12 000 ₴/міс',
+
+      numberRooms: '1',
+      district: 'Святошинський',
+      city: 'Київ',
+      typeHousing: 'Квартира',
+      animals: 'Без тварин',
     }
   ];
 
