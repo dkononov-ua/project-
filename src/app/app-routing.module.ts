@@ -11,7 +11,6 @@ import { GasComponent } from './services/gas/gas.component';
 import { InternetComponent } from './services/internet/internet.component';
 import { ServicesComponent } from './services/services.component';
 import { WaterComponent } from './services/water/water.component';
-import { TestComponent } from './style/test/test.component';
 import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
 import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
 import { AgreementComponent } from './interaction/agreement/agreement.component';
@@ -31,7 +30,6 @@ const routes: Routes = [
   { path: 'internet', component: InternetComponent },
   { path: 'our-team', component: OurTeamComponent },
   { path: 'information-housing', component: InformationHousingComponent },
-  { path: 'test', component: TestComponent },
   { path: 'tenants-search', component: TenantsSearchComponent },
   { path: 'housing-search', component: HousingSearchComponent },
   { path: 'agreement', component: AgreementComponent },
