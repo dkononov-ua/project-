@@ -21,7 +21,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { TestComponent } from './style/test/test.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchTermComponent } from './components/search-term/search-term.component';
 import { InformationUserComponent } from './registration/information-user/information-user.component';
@@ -46,7 +45,6 @@ import { HttpClientModule } from '@angular/common/http';
     GasComponent,
     InternetComponent,
     OurTeamComponent,
-    TestComponent,
     RegistrationComponent,
     SearchTermComponent,
     InformationUserComponent,

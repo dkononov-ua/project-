@@ -1,11 +1,7 @@
 @use "../../style/presets/" as *;
 
-.container-fluid {
-  display: flex;
-  align-content: stretch;
-  align-items: center;
-  justify-content: flex-start;
-}
+.navbar {
+  margin-top: 20px;
 
 .logo {
   width: 80px;

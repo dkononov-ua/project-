@@ -1,5 +1,15 @@
 <app-navbar></app-navbar>
 
+<div class="navbar">
+  <nav class="nav">
+    <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Електроенергія</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Водопостачання</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Прибирання</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Газ</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Інтернет</a>
+  </nav>
+</div>
+
 <div class="container-fluid">
   <div class="container-title">
     <h1>Прибирання</h1>
@@ -7,16 +17,6 @@
       щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
   </div>
   <div class="container-fluid">
-
-    <div class="container-fluid m-5">
-      <nav class="navbar">
-        <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Електроенергія</a>
-        <a [routerLinkActive]="'active'" [routerLink]="'/water'">Водопостачання</a>
-        <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Прибирання</a>
-        <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Газ</a>
-        <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Інтернет</a>
-          </nav>
-    </div>
 
     <div class="container-fluid">
       <div class="card card-static" style="width: 20rem;">

@@ -48,6 +48,12 @@ export class TenantsSearchComponent {
       bankDetailsText: 'Реквізити',
       createDeal: 'agreement',
       createDealText: 'Створити угоду',
+      numberRooms: '2-3',
+      district: 'Поділ',
+      city: 'Київ',
+      typeHousing: 'Квартира',
+      animals: 'Кіт',
+      desiredPrice: '8 000грн - 10 000грн',
     },
 
     {
@@ -66,6 +72,13 @@ export class TenantsSearchComponent {
       createDeal: 'agreement',
       createDealText: 'Створити угоду',
       subscriber: 'Підписаний на вашу оселю',
+      numberRooms: '2',
+      district: 'Святошинський',
+      city: 'Київ',
+      typeHousing: 'Квартира',
+      animals: 'Кіт',
+      desiredPrice: '9 000грн - 12 000грн',
+
     },
     {
       title: 'Картка 3',
@@ -82,6 +95,13 @@ export class TenantsSearchComponent {
       bankDetailsText: 'Реквізити',
       createDeal: 'agreement',
       createDealText: 'Створити угоду',
+      numberRooms: '1',
+      district: 'Лопань',
+      city: 'Харків',
+      typeHousing: 'Квартира',
+      animals: 'Пес',
+      desiredPrice: '5 000грн - 6 000грн',
+
     }
   ];
 

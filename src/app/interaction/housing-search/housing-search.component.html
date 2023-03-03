@@ -1,141 +1,143 @@
-<div class="container">
-  <app-navbar></app-navbar>
+<app-navbar></app-navbar>
 
-  <div class="container-fluid" [@cardAnimation]>
-    <div class="container-fluid navbar">
-      <nav class="navbar">
-        <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
-        <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
-        <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
-      </nav>
+<div class="navbar">
+  <nav class="nav">
+    <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
+  </nav>
+</div>
+
+<div class="container-fluid" [@cardAnimation]>
+
+  <div class="container-search col-lg-4 col-md-10 col-sm-10 col-12">
+    <div class="title">
+      <h1>Пошук оселі</h1>
     </div>
-
-    <div class="container-search col-lg-4 col-md-10 col-sm-10 col-12">
-      <div class="title">
-        <h1>Пошук оселі</h1>
-      </div>
-      <app-search-term></app-search-term>
-    </div>
-
-    <div class="container-owner-card col-lg-8 col-12">
-
-      <div class="btn-container col-lg-1 col-2">
-        <button class="prev" (click)="onPrevCard()">
-          <div class="prev-arrow-top"></div>
-          <div class="prev-arrow-bottom"></div>
-        </button>
-      </div>
-
-      <div class="container-owner">
-
-        <div class="card-owner col-md" style="width: 18rem;">
-
-          <div class="img-fluid card-img-top">
-            <img [src]="currentCard.image">
-          </div>
-
-          <div class="card-description">
-            <h4 class="card-title">{{ currentCard.description }}</h4>
-            <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
-            <p>{{ currentCard.tell }}</p>
-          </div>
-
-          <div class="card-rating">
-
-            <div class="card-text">
-              <h4>Рейтинг</h4>
-            </div>
-
-            <div class="rating-star">
-              <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
-                (click)="rate(star)">&#9733;</span>
-            </div>
-
-          </div>
-
-
-          <div class="card-social-link">
-            <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
-            <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
-          </div>
-
-
-          <div class="card-link">
-            <a [href]="currentCard.passport" class="link"><span>{{ currentCard.passportText }}</span><i
-                class="fa-solid fa-passport"></i></a>
-          </div>
-
-
-        </div>
-
-        <div class="card-housing col-md" style="width: 18rem;">
-
-          <div id="carouselExample" class="carousel slide">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img [src]="currentCard.imageCarousel">
-              </div>
-              <div class="carousel-item">
-                <img [src]="currentCard.imageCarousel1">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-
-          <div class="card-description">
-
-            <div class="card-title">
-              <h4>{{ currentCard.descriptionHouse }}</h4>
-            </div>
-
-            <div class="card-text">
-              <p>{{ currentCard.address }}</p>
-            </div>
-
-          </div>
-
-          <div class="price-box">
-            <h2 class="card-text">{{ currentCard.price}}</h2>
-            <div class="item-actions">
-              <button class="btn">
-                Орендувати
-              </button>
-              <button class="btn">Підписатись
-                <i class="fas fa-heart" aria-hidden="true"></i>
-              </button>
-
-            </div>
-          </div>
-
-          <div class="card-link">
-            <a [href]="currentCard.homeAccount" class="link"><span>{{ currentCard.homeAccountText }}</span><i
-                class="fa-solid fa-passport"></i></a>
-            <a [href]="currentCard.createDeal" class="link"><span>{{ currentCard.createDealText }}</span><i
-                class="fa-solid fa-file-contract"></i></a>
-          </div>
-
-
-        </div>
-
-      </div>
-
-      <div class="btn-container col-lg-1 col-2">
-        <button class="next" (click)="onNextCard()">
-          <div class="next-arrow-top"></div>
-          <div class="next-arrow-bottom"></div>
-        </button>
-      </div>
-
-    </div>
+    <app-search-term></app-search-term>
   </div>
 
-  <app-footer></app-footer>
+  <div class="container-card" *ngIf="currentCard">
+
+    <div class="btn-container col-lg-1 col-2">
+      <button class="prev" (click)="onPrevCard()">
+        <div class="prev-arrow-top"></div>
+        <div class="prev-arrow-bottom"></div>
+      </button>
+    </div>
+
+    <div class="card" style="width: 20rem;">
+
+      <div class="img-fluid card-img-top">
+        <img [src]="currentCard.image">
+      </div>
+
+      <div class="card-description">
+        <h5 class="card-title">{{ currentCard.description }}</h5>
+        <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
+        <p>{{ currentCard.tell }}</p>
+
+        <div class="card-rating">
+          <div class="card-text">
+            <h4>Рейтинг</h4>
+          </div>
+          <div class="rating-star">
+            <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
+              (click)="rate(star)">&#9733;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-social-link">
+        <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
+        <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+      </div>
+
+      <div class="card-link">
+        <a [href]="currentCard.passport" class="link"><span>{{ currentCard.passportText }}</span><i
+            class="fa-solid fa-passport"></i></a>
+      </div>
+
+    </div>
+
+    <div class="card" style="width: 20rem;">
+
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img [src]="currentCard.imageCarousel">
+          </div>
+          <div class="carousel-item">
+            <img [src]="currentCard.imageCarousel1">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="characteristics">
+        <h5>Критерії пошуку</h5>
+
+        <div class="subscriber-list">
+          <div class="subscriber">{{ currentCard.subscriber }}</div>
+        </div>
+
+        <div class="characteristics-list">
+          <span class="item-label">Тип житла:</span>
+          <div class="characteristics-item">{{ currentCard.typeHousing }}</div>
+        </div>
+
+        <div class="characteristics-list">
+          <label class="item-label">Кількість кімнат:</label>
+          <div class="characteristics-item">{{ currentCard.numberRooms }}</div>
+        </div>
+
+        <div class="characteristics-list">
+          <label class="item-label">Місто:</label>
+          <div class="characteristics-item">{{ currentCard.city }}</div>
+        </div>
+
+        <div class="characteristics-list">
+          <label class="item-label">Район:</label>
+          <div class="characteristics-item">{{ currentCard.district }}</div>
+        </div>
+
+        <div class="characteristics-list">
+          <label class="item-label">Тварини:</label>
+          <div class="characteristics-item">{{ currentCard.animals }}</div>
+        </div>
+
+      </div>
+
+      <div class="price">
+        <h2 class="card-text">{{ currentCard.price}}</h2>
+        <button class="button-subscribe">Підписатись<i class="fas fa-heart" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="card-link">
+        <a [href]="currentCard.homeAccount" class="link"><span>{{ currentCard.homeAccountText }}</span><i
+            class="fa-solid fa-file-contract"></i></a>
+      </div>
+
+
+    </div>
+
+    <div class="btn-container col-lg-1 col-2">
+      <button class="next" (click)="onNextCard()">
+        <div class="next-arrow-top"></div>
+        <div class="next-arrow-bottom"></div>
+      </button>
+    </div>
+
+  </div>
+
 </div>
+
+<app-footer></app-footer>
