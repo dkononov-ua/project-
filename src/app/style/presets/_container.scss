@@ -1,0 +1,53 @@
+@use "skin" as *;
+
+.container {
+  display: grid;
+  max-width: 1050px;
+}
+
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+}
+
+.container-title {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.card-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-end;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.card-social-link {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.link {
+  display: flex;
+  justify-content: space-between;
+
+  color: $color-text;
+  background-color: $color-white;
+
+  margin: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}

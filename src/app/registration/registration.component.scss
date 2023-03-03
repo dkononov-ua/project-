@@ -1,5 +1,4 @@
-
-h1{
+h1 {
   font-weight: 700;
   letter-spacing: -1.5px;
   margin: 0;
@@ -13,7 +12,11 @@ h1.title {
   text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
 }
 
-p{
+a:hover {
+  background: none;
+}
+
+p {
   font-size: 14px;
   font-weight: 100;
   line-height: 20px;
@@ -22,21 +25,9 @@ p{
   text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
 }
 
-span{
+span {
   font-size: 14px;
   margin-top: 25px;
-}
-
-a {
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  margin: 15px 0;
-  transition: 0.3 ease-in-out;
-}
-
-a:hover {
-  color: #4bb6b7;
 }
 
 .content {
@@ -80,49 +71,49 @@ button {
   transition: 0.3s ease-in-out;
 }
 
-button:hover{
+button:hover {
   letter-spacing: 3px;
 }
 
-button:active{
+button:active {
   transform: scale(0.95);
 }
 
-button:focus{
+button:focus {
   outline: none;
 }
 
-button.ghost{
+button.ghost {
   background-color: rgba(225, 225, 225, 0.2);
   border: 2px solid #fff;
   color: #fff;
 }
 
-button.ghost i{
+button.ghost i {
   position: absolute;
   opacity: 0;
   transition: 0.3s ease-in-out;
 }
 
-button.ghost i.register{
+button.ghost i.register {
   right: 70px;
 }
 
-button.ghost i.login{
+button.ghost i.login {
   left: 70px;
 }
 
-button.ghost:hover i.register{
+button.ghost:hover i.register {
   right: 40px;
   opacity: 1;
 }
 
-button.ghost:hover i.login{
+button.ghost:hover i.login {
   right: 40px;
   opacity: 1;
 }
 
-form{
+form {
   background-color: #fff;
   display: flex;
   align-items: center;
@@ -142,18 +133,20 @@ input {
   width: 100%;
 }
 
+.container-fluid{
+  width: auto;
+  height: auto;
+}
+
 .container {
   margin-top: 5rem;
-  min-height: 100vh;
-  width: 100%;
   background-color: #fff;
   border-radius: 25px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: relative;
   overflow: hidden;
-  width: 768px;
-  max-width: 100%;
-  min-height: 500px;
+  width: 800px;
+  height: 70vh;
 }
 
 .form-container {
@@ -218,10 +211,10 @@ input {
 
 .overlay {
   background: linear-gradient(to right, #08cecb, #2098de, #a87ad0);
-background-size: 600% 100%;
--webkit-animation: gradient 20s ease infinite;
--moz-animation: gradient 20s ease infinite;
-animation: gradient 20s ease infinite;
+  background-size: 600% 100%;
+  -webkit-animation: gradient 20s ease infinite;
+  -moz-animation: gradient 20s ease infinite;
+  animation: gradient 20s ease infinite;
 
   color: #fff;
   position: relative;
@@ -233,21 +226,38 @@ animation: gradient 20s ease infinite;
 }
 
 @-webkit-keyframes gradient {
-  0% {background-position: 0% 50%}
-  50% {background-position: 100% 50%}
-  100% {background-position: 0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @-moz-keyframes gradient {
-  0% {background-position: 0% 50%}
-  50% {background-position: 100% 50%}
-  100% {background-position: 0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @keyframes gradient {
-  0% {background-position: 0% 50%}
-  50% {background-position: 100% 50%}
-  100% {background-position: 0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
-
 
 .overlay::before {
   content: "";
@@ -293,7 +303,7 @@ animation: gradient 20s ease infinite;
   transform: translateX(20%);
 }
 
-.social-container{
+.social-container {
   margin: 20px 0;
 }
 
@@ -306,18 +316,14 @@ animation: gradient 20s ease infinite;
   margin: 0 5px;
   height: 40px;
   width: 40px;
-  transition: transform 0.3s ease-in-out ;
+  transition: transform 0.3s ease-in-out;
 }
 
 .social-container a:hover {
   border: 1px solid #4bb6b7;
 }
 
-
-
-
-
-
-
-
-
+.logo{
+  width: 200px;
+  height: 200px;
+}
