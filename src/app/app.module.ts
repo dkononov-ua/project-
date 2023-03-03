@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -58,25 +57,24 @@ import { HttpClientModule } from '@angular/common/http';
     UserPaymentComponent,
     InformationUserComponent,
     InformationHousingComponent,
-
-  ],
+   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatCardModule,
-    BrowserAnimationsModule,
     DragDropModule,
     HttpClientModule,
     ReactiveFormsModule,
 
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
