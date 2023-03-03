@@ -1,17 +1,30 @@
 @use "../../style/presets/" as *;
 
-.navbar{
+.navbar {
   justify-content: flex-start;
+}
+
+.container-fluid {
+  display: flex;
+  align-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card {
   display: flex;
   justify-content: space-between;
   margin: 10px;
-
 }
 
-.price{
+.price {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -28,7 +41,7 @@
   align-items: center;
 }
 
-.characteristics{
+.characteristics {
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
@@ -110,4 +123,3 @@ img {
 .filled {
   color: gold;
 }
-

@@ -1,25 +1,14 @@
 @use "../../style/presets/" as *;
 
 .container-fluid {
+  display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-}
-
-.container-title {
-  width: 100%;
 }
 
 .tel {
   border: none;
   color: $color-text;
-}
-
-.utility-payments-container {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-  width: 100%;
-  margin: auto;
-  border-radius: 10px;
 }
 
 .card-description {
@@ -31,6 +20,11 @@
   align-items: center;
   align-content: center;
 }
+
+.card{
+  min-width: 32%;
+}
+
 
 .link {
   transition: 1s;
@@ -76,5 +70,3 @@ img {
   flex-direction: row;
   align-items: stretch;
 }
-
-

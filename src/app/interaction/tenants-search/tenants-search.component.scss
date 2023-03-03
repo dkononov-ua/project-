@@ -4,8 +4,19 @@
   justify-content: flex-start;
 }
 
+.container-fluid{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
 .container-card {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card {
