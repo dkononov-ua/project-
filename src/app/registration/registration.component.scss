@@ -2,7 +2,7 @@ h1 {
   font-weight: 700;
   letter-spacing: -1.5px;
   margin: 0;
-  margin-bottom: 15px;
+  margin-bottom: 2.5%;
 }
 
 h1.title {
@@ -17,17 +17,17 @@ a:hover {
 }
 
 p {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 100;
-  line-height: 20px;
+  line-height: 1.25rem;
   letter-spacing: 0.5px;
-  margin: 20px 0 30px;
+  margin: 5% 0 7.5%;
   text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
 }
 
 span {
-  font-size: 14px;
-  margin-top: 25px;
+  font-size: 1rem;
+  margin-top: 5%;
 }
 
 .content {
@@ -62,10 +62,10 @@ button {
   border: 1px solid #4bb6b7;
   background-color: #4bb5b7a6;
   color: black;
-  font-size: 15px;
+  font-size: 1.125rem;
   font-weight: 700;
-  margin: 10px;
-  padding: 12px 80px;
+  margin: 5% 2.5%;
+  padding: 6% 20%;
   letter-spacing: 1px;
   text-transform: capitalize;
   transition: 0.3s ease-in-out;
@@ -96,20 +96,20 @@ button.ghost i {
 }
 
 button.ghost i.register {
-  right: 70px;
+  right: 9.114%;
 }
 
 button.ghost i.login {
-  left: 70px;
+  left: 9.114%;
 }
 
 button.ghost:hover i.register {
-  right: 40px;
+  right: 5.228%;
   opacity: 1;
 }
 
 button.ghost:hover i.login {
-  right: 40px;
+  right: 5.228%;
   opacity: 1;
 }
 
@@ -319,4 +319,116 @@ input {
 
 .social-container a:hover {
   border: 1px solid #4bb6b7;
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 36px;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+  }
+
+  h1.title {
+    font-size: 32px;
+    line-height: 32px;
+    text-shadow: none;
+  }
+
+  p {
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0;
+    margin: 15px 0 20px;
+    text-shadow: none;
+  }
+
+  span {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+
+  .content {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .content .checkbox {
+    margin-bottom: 10px;
+  }
+
+  .content label {
+    font-size: 12px;
+    padding-left: 3px;
+  }
+
+  button {
+    font-size: 12px;
+    margin: 5px;
+    padding: 10px 40px;
+  }
+
+  button.ghost i.register,
+  button.ghost i.login {
+    display: none;
+  }
+
+  input {
+    padding: 10px 12px;
+    margin: 5px 0;
+  }
+
+  .container {
+    margin-top: 3rem;
+    border-radius: 15px;
+  }
+
+  .form-container {
+    position: relative;
+    height: auto;
+    transition: none;
+  }
+
+  .overlay-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+  }
+
+  h1.title {
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  p {
+    font-size: 10px;
+    line-height: 16px;
+    margin: 10px 0 15px;
+  }
+
+  span {
+    font-size: 10px;
+    margin-top: 15px;
+  }
+
+  button {
+    font-size: 10px;
+    margin: 3px;
+    padding: 8px 30px;
+  }
+
+  input {
+    padding: 8px 10px;
+    margin: 3px 0;
+    font-size: 12px;
+  }
+
+  .container {
+    margin-top: 2rem;
+    min-height: 400px;
+  }
 }
