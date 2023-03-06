@@ -1,0 +1,197 @@
+@use "skin" as *;
+
+.btn {
+  color: $color-text;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: $color-primary;
+  border: none;
+
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
+.button-subscribe {
+  position: relative;
+  font-size: 20px;
+  border: none;
+  margin: 10px;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: $color-primary;
+  transition: 0.6s ease;
+
+  &:hover,
+  :focus {
+    background-color: $color-accent;
+  }
+}
+
+.next {
+  z-index: 1;
+  cursor: pointer;
+
+  border: none;
+  border-radius: 10px;
+  background-color: $color-white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+
+  transform: translateX(-15%) translateY(0%) scale(0.7);
+  transition: transform 0.5s;
+
+  &:hover,
+  :focus {
+    background-color: $color-accent;
+  }
+}
+
+.next-arrow-top,
+.next-arrow-bottom {
+  background-color: #666;
+  height: 4px;
+  left: -5px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+
+.next-arrow-top:after,
+.next-arrow-bottom:after {
+  background-color: #fff;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: all 0.15s;
+}
+
+.next-arrow-top {
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+}
+
+.next-arrow-top:after {
+  left: 100%;
+  right: 0;
+  transition-delay: 0s;
+}
+
+.next-arrow-bottom {
+  transform: rotate(-45deg);
+  transform-origin: top right;
+}
+
+.next-arrow-bottom:after {
+  left: 0;
+  right: 100%;
+  transition-delay: 0.15s;
+}
+
+.next:hover .next-arrow-top:after {
+  left: 0;
+  transition-delay: 0.15s;
+}
+
+.next:hover .next-arrow-bottom:after {
+  right: 0;
+  transition-delay: 0s;
+}
+
+.next:active {
+  transform: translateX(0%) translateY(0%) scale(1);
+}
+
+.prev {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  background-color: $color-white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+
+  transform: translateX(15%) translateY(0%) scaleX(-1) scale(0.7);
+  transition: transform 0.5s;
+
+  &:hover,
+  :focus {
+    background-color: $color-accent;
+  }
+}
+
+.prev-arrow-top,
+.prev-arrow-bottom {
+  background-color: #666;
+  height: 4px;
+  left: -5px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+}
+
+.prev-arrow-top:after {
+  background-color: #fff;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: all 0.15s;
+  left: 100%;
+  right: 0;
+  transition-delay: 0s;
+}
+
+.prev-arrow-bottom {
+  background-color: #666;
+  height: 4px;
+  left: -5px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: rotate(-45deg);
+  transform-origin: top right;
+}
+
+.prev-arrow-bottom:after {
+  background-color: #fff;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: all 0.15s;
+  left: 0;
+  right: 100%;
+  transition-delay: 0.15s;
+}
+
+.prev:hover .prev-arrow-top:after {
+  left: 0;
+  transition-delay: 0.15s;
+}
+
+.prev:hover .prev-arrow-bottom:after {
+  right: 0;
+  transition-delay: 0s;
+}
+
+.prev:active {
+  transform: translateX(0%) translateY(0%) scale(0.9);
+  transform: scaleX(-1);
+}
+
+.btn {
+  &:active {
+    background-color: $color-accent;
+  }
+}
+
+
