@@ -1,13 +1,11 @@
-<div class="container-fluid">
-  <div class="container" id="container">
-    <div class="form-container register-container">
+<div class="container" id="container">
 
+  <div class="form-container register-container">
+    <div class="form-group">
       <form action="#">
         <h1>Зареєструватись</h1>
-        <a [routerLinkActive]="'active'" [routerLink]="'/information-housing'">
-          <button type="submit" [disabled]="userForm.invalid" class="btn btn-info">Зареєструватись
-          </button>
-        </a>
+        <button type="submit" class="ghost-black">Зареєструватись
+        </button>
         <span>або скористатися своїм обліковим записом</span>
         <div class="social-container">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
@@ -16,8 +14,10 @@
         </div>
       </form>
     </div>
+  </div>
 
-    <div class="form-container login-container">
+  <div class="form-container login-container">
+    <div class="form-group">
       <form action="#">
         <h1>Увійти</h1>
         <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
@@ -40,7 +40,7 @@
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </div>
 
-          <button type="button" class="btn btn-info" (click)="onSubmit()">
+          <button type="button" class="ghost-black" (click)="onSubmit()">
             Увійти
           </button>
 
@@ -65,31 +65,41 @@
         </div>
       </form>
     </div>
-
-    <div class="overlay-container">
-      <div class="overlay">
-
-        <div class="overlay-panel overlay-left">
-          <h1 class="title">Вітаємо<br>Вас у Konnect</h1>
-          <div>
-            <img class="logo" src="../../assets/logo-smoll.png" alt="">
-          </div>
-
-          <p>якщо у вас є обліковий запис, увійдіть тут</p>
-          <button class="ghost" id="login">Увійти</button>
-        </div>
-        <div class="overlay-panel overlay-right">
-          <h1 class="title">Встановимо <br> Konnect?</h1>
-          <div>
-            <img class="logo" src="../../assets/logo-smoll.png" alt="">
-          </div>
-
-          <p>якщо у вас є обліковий запис, приєднуйтеся до нас і починайте користування</p>
-          <button class="ghost" id="register">Зареєструватись</button>
-        </div>
-      </div>
-    </div>
   </div>
-</div>
 
-<app-footer></app-footer>
+  <div class="overlay-container">
+    <div class="overlay">
+
+      <div class="overlay-panel overlay-left">
+        <app-navbar></app-navbar>
+        <h1 class="title">Вітаємо Вас у Konnect</h1>
+        <div>
+          <img class="logo" src="../../assets/logo-smoll.png" alt="">
+        </div>
+
+        <p>якщо у вас є обліковий запис, увійдіть тут</p>
+        <button class="ghost" id="login">Увійти</button>
+        <app-footer></app-footer>
+
+      </div>
+      <div class="overlay-panel overlay-right">
+        <app-navbar></app-navbar>
+
+        <h1 class="title">Ще немає аккаунту?</h1>
+        <div>
+          <img class="logo" src="../../assets/logo-smoll.png" alt="">
+        </div>
+
+        <p>Зареєструйтесь та створіть свій конект</p>
+        <button class="ghost" id="register">Зареєструватись</button>
+        <app-footer></app-footer>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</div>
