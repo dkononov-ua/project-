@@ -22,17 +22,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { SearchTermComponent } from './components/search-term/search-term.component';
-import { InformationUserComponent } from './registration/information-user/information-user.component';
-import { HomeAccountComponent } from './interaction/home-account/home-account.component';
-import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
-import { AgreementComponent } from './interaction/agreement/agreement.component';
-import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
-import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
-import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DevelopersPageComponent } from './developers-page/developers-page.component';
+import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { RegComponent } from './registration/reg/reg.component';
+import { InformationUserComponent } from './registration/information-user/information-user.component';
+import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
+import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
+import { SearchTermComponent } from './components/search-term/search-term.component';
+import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
+import { HomeAccountComponent } from './interaction/home-account/home-account.component';
+import { AgreementComponent } from './interaction/agreement/agreement.component';
+
 
 @NgModule({
   declarations: [
@@ -48,19 +48,22 @@ import { RegComponent } from './registration/reg/reg.component';
     InternetComponent,
     OurTeamComponent,
     RegistrationComponent,
-    SearchTermComponent,
-    InformationUserComponent,
-    HomeAccountComponent,
-    PaymentsComponent,
-    TenantsSearchComponent,
-    AgreementComponent,
-    HousingSearchComponent,
-    UserInteractionComponent,
-    UserPaymentComponent,
-    InformationUserComponent,
+    OurTeamComponent,
     InformationHousingComponent,
+    RegistrationComponent,
+    InformationHousingComponent,
+    RegistrationComponent,
+    UserPaymentComponent,
     RegComponent,
-   ],
+    InformationUserComponent,
+    UserInteractionComponent,
+    TenantsSearchComponent,
+    SearchTermComponent,
+    HousingSearchComponent,
+    HomeAccountComponent,
+    AgreementComponent,
+
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -72,10 +75,9 @@ import { RegComponent } from './registration/reg/reg.component';
     MatInputModule,
     MatIconModule,
     MatCardModule,
+    BrowserAnimationsModule,
     DragDropModule,
     HttpClientModule,
-    ReactiveFormsModule,
-
   ],
   providers: [],
   bootstrap: [AppComponent],
