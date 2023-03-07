@@ -17,6 +17,8 @@ import { AgreementComponent } from './interaction/agreement/agreement.component'
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
+import { CanActivateGuard } from './shared/auth.guard';
+import { RegComponent } from './registration/reg/reg.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -37,6 +39,7 @@ const routes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent },
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
+  { path: 'reg', component: RegComponent },
 ];
 
 @NgModule({

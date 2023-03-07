@@ -31,6 +31,7 @@ import { HousingSearchComponent } from './interaction/housing-search/housing-sea
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RegComponent } from './registration/reg/reg.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { HttpClientModule } from '@angular/common/http';
     UserPaymentComponent,
     InformationUserComponent,
     InformationHousingComponent,
+    RegComponent,
    ],
   imports: [
     BrowserModule,

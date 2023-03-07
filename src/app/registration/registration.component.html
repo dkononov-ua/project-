@@ -4,10 +4,10 @@
 
       <form action="#">
         <h1>Зареєструватись</h1>
-        <input type="text" placeholder="Name">
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <a [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><button>Зареєструватись</button></a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/information-housing'">
+          <button type="submit" [disabled]="userForm.invalid" class="btn btn-info">Зареєструватись
+          </button>
+        </a>
         <span>або скористатися своїм обліковим записом</span>
         <div class="social-container">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
@@ -40,10 +40,9 @@
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </div>
 
-          <button type="submit" [disabled]="userForm.invalid" class="btn btn-info">
+          <button type="button" class="btn btn-info" (click)="onSubmit()">
             Увійти
           </button>
-
 
         </form>
 
