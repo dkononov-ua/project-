@@ -52,7 +52,7 @@
             <label>Запам'ятати мене</label>
           </div>
           <div class="pass-link">
-            <a href="#">Забули пароль?</a>
+            <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
           </div>
         </div>
 
@@ -74,7 +74,6 @@
     <div class="overlay">
 
       <div class="overlay-panel overlay-left">
-        <app-navbar class="navbar-lg"></app-navbar>
         <div>
           <img class="logo" src="../../assets/logo.png" alt="">
         </div>
@@ -85,7 +84,6 @@
 
       </div>
       <div class="overlay-panel overlay-right">
-        <app-navbar></app-navbar>
         <div>
           <img class="logo" src="../../assets/logo.png" alt="">
         </div>
@@ -103,3 +101,4 @@
   </div>
 
 </div>
+<app-registration-mob class="hide-mobile"></app-registration-mob>

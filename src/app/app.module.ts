@@ -32,6 +32,7 @@ import { SearchTermComponent } from './components/search-term/search-term.compon
 import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { AgreementComponent } from './interaction/agreement/agreement.component';
+import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { AgreementComponent } from './interaction/agreement/agreement.component'
     HousingSearchComponent,
     HomeAccountComponent,
     AgreementComponent,
+    RegistrationMobComponent,
 
   ],
   imports: [

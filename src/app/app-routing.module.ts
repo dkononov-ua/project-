@@ -19,6 +19,7 @@ import { UserInteractionComponent } from './interaction/user-interaction/user-in
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { CanActivateGuard } from './shared/auth.guard';
 import { RegComponent } from './registration/reg/reg.component';
+import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
   { path: 'reg', component: RegComponent },
+  { path: 'registration-mob', component: RegistrationMobComponent},
 ];
 
 @NgModule({
