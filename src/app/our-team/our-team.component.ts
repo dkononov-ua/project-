@@ -11,7 +11,7 @@ export class OurTeamComponent {
     {
       name: 'Denys Kononov',
       position: 'CEO',
-      description: 'Автор ідеї. Зараз активно працює над створенням нового соціального сервісу для нерухомості.',
+      description: 'Автор ідеї Konnect. Активно працює над створенням нового соціального сервісу для нерухомості. Відкритий до спілкування та готовий ділитися своїм досвідом з колегами та друзями.',
       image: '../../assets/photo1.png',
       social: {
         instagram: 'https://www.instagram.com',

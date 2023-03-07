@@ -1,7 +1,10 @@
 @use "../../style/presets/" as *;
 
 .navbar {
-  justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .container-fluid{

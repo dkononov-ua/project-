@@ -26,24 +26,16 @@ a {
   text-decoration: none;
   display: block;
   border-radius: 10px;
-  transition: 0.5s ease;
+  transition: 0.3s ease;
 
   &.active {
-    background-color: $color-accent;
+    color: $color-accent;
   }
 
-  &:hover,
-  &:focus {
-    background-color: $color-primary;
+  .fab {
     color: $color-accent;
-    background-color: $color-white;
-    border-color: rgb(255, 255, 255);
-
-    .fab {
-      color: $color-accent;
-      transform: scale(1.4);
-      transition: transform 2s;
-    }
+    transform: scale(1.4);
+    transition: transform 2s;
   }
 }
 
@@ -77,4 +69,3 @@ img {
 .carousel-inner {
   border-radius: 10px;
 }
-

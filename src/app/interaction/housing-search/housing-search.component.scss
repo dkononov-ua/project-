@@ -1,7 +1,10 @@
 @use "../../style/presets/" as *;
 
 .navbar {
-  justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .container-fluid {
@@ -15,13 +18,13 @@
 .container-card {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .card {
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  margin: 0.2em;
 }
 
 .price {
