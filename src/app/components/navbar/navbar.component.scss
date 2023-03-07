@@ -8,6 +8,10 @@
   justify-content: flex-start;
 }
 
+.navbar-nav{
+  display: flex;
+}
+
 a {
   font-size: 15px;
   border: none;
@@ -44,5 +48,10 @@ a::after {
   height: 100%;
   transition-delay: 0.2s;
   color: $color-accent;
+}
+
+.logo {
+  width: 160px;
+  height: 40px;
 }
 

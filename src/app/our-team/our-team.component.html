@@ -1,30 +1,74 @@
 <app-navbar></app-navbar>
 
-<section class="our-team">
-    <div class="container">
+<div class="container">
+
+  <div class="container-fluid col-lg-6">
+
+    <div class="container-card">
+
+      <p class="section-title">Коротенька відео презентація, про наш додаток</p>
+
+      <video class="video" #myVideo controls>
+        <source src="../../assets/Оселя.mp4" type="video/mp4">
+      </video>
+
+    </div>
+
+    <section class="our-team">
+      <div class="container-card">
         <div class="row">
-            <div class="col-md-12">
-                <h2 class="section-title">Our Team</h2>
-            </div>
+          <div class="col-md-12">
+            <h4 class="section-title">Наша команда</h4>
+          </div>
         </div>
         <div class="row row-mid">
-            <div class="col-md-4" *ngFor="let member of teamMembers">
-                <div class="team-member">
-                    <div class="team-member-image">
-                        <img src="{{ member.image }}" alt="{{ member.name }}">
-                    </div>
-                    <div class="team-member-info">
-                        <h3 class="team-member-name">{{ member.name }}</h3>
-                        <p class="team-member-position">{{ member.position }}</p>
-                        <p class="team-member-description">{{ member.description }}</p>
-                        <div class="team-member-social">
-                            <a href="{{ member.social.instagram }}"><i class="fa fa-instagram"></i></a>
-                            <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
-                            <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
+          <div class="col-md-6" *ngFor="let member of teamMembers">
+            <div class="team-member">
+              <div class="team-member-image">
+                <img src="{{ member.image }}" alt="{{ member.name }}">
+              </div>
+              <div class="team-member-info">
+                <h3 class="team-member-name">{{ member.name }}</h3>
+                <p class="team-member-position">{{ member.position }}</p>
+                <p class="team-member-description">{{ member.description }}</p>
+                <div class="team-member-social">
+                  <a href="{{ member.social.instagram }}"><i class="fa fa-instagram"></i></a>
+                  <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
+                  <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <div class="container-title col-lg-5">
+    <h1 class="descriptison">Привіт!</h1>
+    <h4>Ми команда яка розробляє та створює додаток Konnect.</h4>
+    <div>
+      <img class="logo" src="../../assets/logo.png" alt="">
     </div>
-</section>
+
+    <!-- Button trigger modal -->
+
+    <h5>Проєкт має за мету поєднати у собі функції управління оселею та зробити зручним контакт з нею власників
+      та орендаторів.</h5>
+
+    <p>Наш проєкт націлений на забезпечення зручного та ефективного управління оселями, яке поєднує в собі функції
+      управління та спілкування з власниками та орендаторами. Ми пропонуємо простий та інтуїтивний інтерфейс, який
+      дозволяє вам здійснювати контроль над вашою оселею з будь-якого місця та в будь-який час. Наш додаток дозволяє
+      здійснювати операції, такі як замовлення послуг, взаємодію з технічною підтримкою, а також комунікацію з іншими
+      мешканцями будинку. Використання нашого додатку робить управління вашою оселею більш простим та зручним,
+      дозволяючи вам зосередитися на інших важливих аспектах вашого життя.</p>
+
+
+  </div>
+
+</div>
+
+
+<app-footer></app-footer>

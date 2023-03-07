@@ -6,11 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./our-team.component.scss']
 })
 export class OurTeamComponent {
+
   teamMembers = [
     {
       name: 'Denys Kononov',
       position: 'CEO',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend elit eu urna tristique, ut bibendum eros auctor.',
+      description: 'Автор ідеї. Зараз активно працює над створенням нового соціального сервісу для нерухомості.',
       image: '../../assets/photo1.png',
       social: {
         instagram: 'https://www.instagram.com',
@@ -21,7 +22,7 @@ export class OurTeamComponent {
     {
       name: 'Maksym Oliinyk',
       position: 'CTO',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend elit eu urna tristique, ut bibendum eros auctor.',
+      description: 'Максим має великий досвід у створенні високоякісного програмного забезпечення та знає всі сучасні технології та інструменти для розробки додатків.',
       image: '../../assets/photo2.jpg',
       social: {
         instagram: 'https://instagram.com/maks._.oleynik?igshid=NTE5MzUyOTU=',
