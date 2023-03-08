@@ -2,15 +2,68 @@
 
 <div class="container">
 
-  <div class="container-fluid col-lg-6">
+  <div class="title col-lg-12">
+    <h1>Привіт! Розповімо Вам про проєкт та наші плани.</h1>
+  </div>
 
-    <div class="container-card">
+  <div class="col-lg-8">
+    <img class="logo" src="../../assets/Discussio2.gif" alt="">
+  </div>
 
-      <p class="section-title">Коротенька відео презентація, про наш додаток</p>
 
-      <video class="video" #myVideo controls>
-        <source src="../../assets/Оселя.mp4" type="video/mp4">
-      </video>
+  <div class="container-main col-lg-12">
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="3000">
+          <img src="../../assets/8.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="3000">
+          <img src="../../assets/9.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="3000">
+          <img src="../../assets/10.png" class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <div class="container-title col-lg-3">
+      <p>Проєкт має за мету поєднати у собі функції управління оселею та зробити зручним контакт з нею власників
+        та орендаторів.</p>
+    </div>
+
+  </div>
+
+  <div class="container-fluid col-lg-12">
+
+    <div class="container-main col-lg-12">
+
+      <div class="container-title col-lg-6">
+        <p>Наш проєкт націлений на забезпечення зручного та ефективного управління оселями, яке поєднує в собі функції
+          управління та спілкування з власниками та орендаторами. Ми пропонуємо простий та інтуїтивний інтерфейс, який
+          дозволяє вам здійснювати контроль над вашою оселею з будь-якого місця та в будь-який час. Наш додаток дозволяє
+          здійснювати операції, такі як замовлення послуг, взаємодію з технічною підтримкою, а також комунікацію з
+          іншими
+          мешканцями будинку. Використання нашого додатку робить управління вашою оселею більш простим та зручним,
+          дозволяючи вам зосередитися на інших важливих аспектах вашого життя.</p>
+
+
+      </div>
+
+      <div class="container-card col-lg-6">
+        <p class="section-title">Коротенька відео презентація, про наш додаток</p>
+
+        <video class="video" #myVideo controls>
+          <source src="../../assets/Оселя.mp4" type="video/mp4">
+        </video>
+
+      </div>
 
     </div>
 
@@ -18,7 +71,7 @@
       <div class="container-card">
         <div class="row">
           <div class="col-md-12">
-            <h4 class="section-title">Наша команда</h4>
+            <h4 class="section-title">Команда яка займається додатком</h4>
           </div>
         </div>
         <div class="row row-mid">
@@ -44,31 +97,9 @@
       </div>
     </section>
 
-  </div>
-
-  <div class="container-title col-lg-5">
-    <h1 class="descriptison">Привіт!</h1>
-    <h4>Ми команда яка розробляє та створює додаток Konnect.</h4>
-    <div>
-      <img class="logo" src="../../assets/logo.png" alt="">
-    </div>
-
-    <!-- Button trigger modal -->
-
-    <h5>Проєкт має за мету поєднати у собі функції управління оселею та зробити зручним контакт з нею власників
-      та орендаторів.</h5>
-
-    <p>Наш проєкт націлений на забезпечення зручного та ефективного управління оселями, яке поєднує в собі функції
-      управління та спілкування з власниками та орендаторами. Ми пропонуємо простий та інтуїтивний інтерфейс, який
-      дозволяє вам здійснювати контроль над вашою оселею з будь-якого місця та в будь-який час. Наш додаток дозволяє
-      здійснювати операції, такі як замовлення послуг, взаємодію з технічною підтримкою, а також комунікацію з іншими
-      мешканцями будинку. Використання нашого додатку робить управління вашою оселею більш простим та зручним,
-      дозволяючи вам зосередитися на інших важливих аспектах вашого життя.</p>
 
 
   </div>
 
-</div>
 
-
-<app-footer></app-footer>
+  <app-footer></app-footer>

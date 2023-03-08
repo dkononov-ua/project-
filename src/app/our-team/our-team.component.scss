@@ -1,8 +1,6 @@
 @use "../style/presets/" as *;
 
-
 .our-team {
-  margin-top: 2rem;
   padding: 10px 0;
 
   .section-title {
@@ -21,15 +19,12 @@
   }
 
   .team-member {
-    background-color: #ffffff;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: center;
     padding: 20px;
     margin-bottom: 30px;
 
     &:hover {
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       transform: scale(1.05);
       animation: shake 0.5s;
     }
@@ -141,6 +136,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  margin-top: 2rem;
 }
 
 .container-fluid {
@@ -152,10 +148,9 @@
   flex-direction: column;
 }
 
-.logo {
-  margin-top: 20px;
-  width: 300px;
-  height: 300px;
+.container-main {
+  display: flex;
+  align-items: flex-start;
 }
 
 video {
@@ -171,29 +166,52 @@ video {
   justify-content: center;
 }
 
-
 .container-title {
+  margin: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 30px;
-  max-width: 80%;
 }
 
-.descriptison {
+p {
+  margin-top: 2rem;
+  line-height: 2rem;
+}
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+h4 {
+  margin-bottom: 2rem;
+}
+
+h5 {
+margin-top: 2rem;
+}
+
+.description {
   font-size: 3rem;
   color: #333;
   margin-bottom: 20px;
 }
 
-.logo {
-  width: 150px;
-  height: 150px;
-  margin-bottom: 20px;
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.logo {
+  width: 100%;
+}
 
+.photo {
 
+}
+
+img {
+  width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+}
 

@@ -38,20 +38,6 @@ a {
   }
 }
 
-img {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 1s;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.2);
-    border-radius: 10px;
-  }
-}
-
 .img-fluid {
   overflow: hidden;
   border-radius: 10px;
