@@ -205,13 +205,41 @@ margin-top: 2rem;
   width: 100%;
 }
 
-.photo {
-
-}
-
 img {
   width: 100%;
   overflow: hidden;
   object-fit: cover;
 }
+
+.slide-in {
+  animation: slide-in 0.5s ease-in-out;
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-out {
+  animation: slide-out 0.5s ease-in-out;
+}
+
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(20%);
+  }
+}
+
+
 
