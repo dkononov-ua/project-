@@ -30,7 +30,6 @@ export class DataService {
 })
 export class InformationUserComponent implements OnInit {
 
-
   formErrors: any = {
     name: '',
     password: '',

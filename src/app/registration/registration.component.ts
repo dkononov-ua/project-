@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent },
 ];
 
-
 @NgModule({
   imports: [
     HttpClientModule
