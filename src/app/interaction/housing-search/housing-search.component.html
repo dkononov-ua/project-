@@ -6,27 +6,21 @@
     <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
     <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
   </nav>
+  <h1>Пошук оселі</h1>
 </div>
 
 <div class="container-fluid" [@cardAnimation]>
 
-  <div class="container-search col-lg-4 col-md-10 col-sm-10 col-12">
-    <div class="title">
-      <h1>Пошук оселі</h1>
-    </div>
-    <app-search-term></app-search-term>
-  </div>
+  <app-search-term class="col-lg-3 col-md-3 col-sm-12 col-12"></app-search-term>
 
-  <div class="container-card" *ngIf="currentCard">
+  <div class="container-card col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="currentCard">
 
-    <div class="btn-container col-lg-1 col-2">
-      <button class="prev" (click)="onPrevCard()">
-        <div class="prev-arrow-top"></div>
-        <div class="prev-arrow-bottom"></div>
-      </button>
-    </div>
+    <button class="prev col-md-1 col-sm-2 col-0" (click)="onPrevCard()">
+      <div class="prev-arrow-top"></div>
+      <div class="prev-arrow-bottom"></div>
+    </button>
 
-    <div class="card" style="width: 20rem;">
+    <div class="card col-lg-5 col-md-5 col-sm-9 col-10">
 
       <div class="img-fluid card-img-top">
         <img [src]="currentCard.image">
@@ -61,7 +55,7 @@
 
     </div>
 
-    <div class="card" style="width: 20rem;">
+    <div class="card col-lg-5 col-md-4 col-sm-9 col-10">
 
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
@@ -129,12 +123,10 @@
 
     </div>
 
-    <div class="btn-container col-lg-1 col-2">
-      <button class="next" (click)="onNextCard()">
-        <div class="next-arrow-top"></div>
-        <div class="next-arrow-bottom"></div>
-      </button>
-    </div>
+    <button class="next col-md-1 col-sm-2 col-0" (click)="onNextCard()">
+      <div class="next-arrow-top"></div>
+      <div class="next-arrow-bottom"></div>
+    </button>
 
   </div>
 

@@ -1,0 +1,146 @@
+@use "../../style/mixins/" as *;
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #08cecb, #2098de, #a87ad0);
+  background-size: 600% 100%;
+  -webkit-animation: gradient 20s ease infinite;
+  -moz-animation: gradient 20s ease infinite;
+  animation: gradient 20s ease infinite;
+}
+
+.container-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.checkbox {
+  display: flex;
+}
+
+.content .checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content input {
+  accent-color: #333;
+  width: 12px;
+  height: 12px;
+}
+
+.content label {
+  font-size: 14px;
+  user-select: none;
+  padding-left: 5px;
+}
+
+.social-container {
+  margin: 20px 0;
+}
+
+.social-container a {
+  border: 1px solid;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  height: 40px;
+  width: 40px;
+  transition: transform 0.3s ease-in-out;
+}
+
+button {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid #4bb6b7;
+  background-color: #d3e7e8d6;
+  color: black;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 10px;
+  padding: 10px 20px;
+  width: 250px;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  transition: 0.3s ease-in-out;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  height: 100%;
+  text-align: center;
+}
+
+.form-control {
+  background-color: #eee;
+  border-radius: 10px;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 300px;
+}
+
+@-webkit-keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-moz-keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+img {
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.2);
+    border-radius: 10px;
+  }
+}
+
+
+

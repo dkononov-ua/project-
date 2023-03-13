@@ -28,7 +28,6 @@ export class TenantsSearchComponent {
 
   buttonText = 'Ухвалити';
 
-
   currentCardIndex = 0;
   currentCard: any;
 

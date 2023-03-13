@@ -1,30 +1,120 @@
 <app-navbar></app-navbar>
 
-<section class="our-team">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="section-title">Our Team</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4" *ngFor="let member of teamMembers">
-                <div class="team-member">
-                    <div class="team-member-image">
-                        <img src="{{ member.image }}" alt="{{ member.name }}">
-                    </div>
-                    <div class="team-member-info">
-                        <h3 class="team-member-name">{{ member.name }}</h3>
-                        <p class="team-member-position">{{ member.position }}</p>
-                        <p class="team-member-description">{{ member.description }}</p>
-                        <div class="team-member-social">
-                            <a href="{{ member.social.instagram }}"><i class="fa fa-instagram"></i></a>
-                            <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
-                            <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container-fluid">
+
+  <div class="container slide-in">
+    <div class="title col-lg-12">
+      <h1>Привіт! Розповімо Вам про проєкт та наші плани.</h1>
     </div>
-</section>
+
+    <div class="col-lg-6">
+      <img class="logo" src="../../assets/logo/Discussio2.gif" alt="">
+    </div>
+
+
+    <div class="container-main col-lg-12">
+      <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="../../assets/about/1.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../assets/about/2.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../assets/about/3.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../assets/about/4.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../assets/about/5.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../assets/about/6.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../assets/about/7.png" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div class="container-title col-lg-3">
+        <p>Проєкт має за мету поєднати у собі функції управління оселею та зробити зручним контакт з нею власників
+          та орендаторів.</p>
+      </div>
+
+    </div>
+    </div>
+
+  <div class="container slide-in">
+
+    <div class="container-main col-lg-12">
+
+      <div class="container-title col-lg-6">
+        <p>Наш проєкт націлений на забезпечення зручного та ефективного управління оселями, яке поєднує в собі функції
+          управління та спілкування з власниками та орендаторами. Ми пропонуємо простий та інтуїтивний інтерфейс, який
+          дозволяє вам здійснювати контроль над вашою оселею з будь-якого місця та в будь-який час. Наш додаток дозволяє
+          здійснювати операції, такі як замовлення послуг, взаємодію з технічною підтримкою, а також комунікацію з
+          іншими
+          мешканцями будинку. Використання нашого додатку робить управління вашою оселею більш простим та зручним,
+          дозволяючи вам зосередитися на інших важливих аспектах вашого життя.</p>
+
+
+      </div>
+
+      <div class="container-card col-lg-6">
+        <p class="section-title">Коротенька відео презентація, про наш додаток</p>
+
+        <video class="video" #myVideo controls>
+          <source src="../../assets/Оселя.mp4" type="video/mp4">
+        </video>
+
+      </div>
+
+    </div>
+
+    <section class="our-team">
+      <div class="container-card">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="section-title">Команда яка займається додатком</h4>
+          </div>
+        </div>
+        <div class="row row-mid">
+          <div class="col-md-6" *ngFor="let member of teamMembers">
+            <div class="team-member">
+              <div class="team-member-image">
+                <img src="{{ member.image }}" alt="{{ member.name }}">
+              </div>
+              <div class="team-member-info">
+                <h3 class="team-member-name">{{ member.name }}</h3>
+                <p class="team-member-position">{{ member.position }}</p>
+                <p class="team-member-description">{{ member.description }}</p>
+                <div class="team-member-social">
+                  <a href="{{ member.social.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+                  <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
+                  <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+  </div>
+
+</div>
+
+  <app-footer></app-footer>
