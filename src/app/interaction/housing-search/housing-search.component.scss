@@ -48,6 +48,8 @@
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .characteristics-list {
@@ -105,24 +107,54 @@ img {
   align-items: stretch;
 }
 
-.card-rating {
-  font-size: 2em;
+.card-title {
+  display: flex;
+}
+
+.rating-box, .description-box {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  margin-top: 20px;
 }
 
-.star {
+.rating-box h1 {
+  font-size: 25px;
+  line-height: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+h5 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.rating-box p {
+  font-size: 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rating-box .stars{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rating-box .stars i{
+  color: grey;
+  font-size: 30px;
   cursor: pointer;
-  color: #ccc;
-  transition: color 0.2s ease-in-out;
+  transition: color .2s ease;
 }
 
-.star:hover {
+.rating-box .stars i.active{
   color: gold;
 }
 
-.filled {
-  color: gold;
-}
+

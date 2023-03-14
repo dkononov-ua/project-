@@ -55,6 +55,7 @@ export class RegistrationComponent implements OnInit {
   userForm!: FormGroup
   dataService: any;
   userService: any;
+  router: any;
 
   constructor(private fb: FormBuilder) { }
 
@@ -83,8 +84,8 @@ export class RegistrationComponent implements OnInit {
         this.userService.saveData(this.userForm.value).subscribe(
           () => {
             console.log('Data saved successfully');
-            // редірект на сторінку кабінету
-            window.location.href = '/user-interaction';
+
+            this.router.navigate(['/user-interaction']);
           },
           (error: any) => console.error('Error saving data: ', error)
         );
@@ -93,7 +94,6 @@ export class RegistrationComponent implements OnInit {
       }
     }
   }
-
 
   private initializeForm(): void {
     this.userForm = this.fb.group({

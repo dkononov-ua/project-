@@ -33,7 +33,6 @@ import { HousingSearchComponent } from './interaction/housing-search/housing-sea
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [

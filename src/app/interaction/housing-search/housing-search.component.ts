@@ -1,6 +1,16 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
+// const stars = document.querySelectorAll('.stars i');
+
+// stars.forEach((star, index1) => {
+//   stars.addEventListener('click', () => {
+//     stars.forEach((star, index2) => {
+//       index1 >= index2 ? star.classList.add('active') : star.classList.remove('active');
+//     });
+//   });
+// });
+
 @Component({
   selector: 'app-housing-search',
   templateUrl: './housing-search.component.html',
@@ -11,7 +21,7 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
         style({ transform: 'translateX(130%)' }),
         animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-            transition('* => void', [
+      transition('* => void', [
         animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ])
     ])
@@ -113,14 +123,10 @@ export class HousingSearchComponent {
     }
   ];
 
-  @Input() currentRating = 0;
-  @Output() ratingUpdated = new EventEmitter<number>();
+  rating: number = 5;
 
-  stars = [1, 2, 3, 4, 5];
-
-  rate(rating: number) {
-    this.currentRating = rating;
-    this.ratingUpdated.emit(rating);
+  onClick(value: number) {
+    this.rating = value;
   }
 
   constructor() {

@@ -2,25 +2,24 @@
 
 <div class="container-fluid">
 
-  <div class="col-md-4 card two">
-    <div id="carouselExample" class="carousel slide">
+  <div class="col-md-4 animation card">
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
-
-        <div class="carousel-item active">
-          <img src="../../../assets/badroom.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
+        <div class="carousel-item active" data-bs-interval="3000">
           <img src="../../../assets/kitchen.jpg" class="d-block w-100" alt="...">
         </div>
-        <div class="carousel-item">
+        <div class="carousel-item" data-bs-interval="3000">
+          <img src="../../../assets/badroom.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="3000">
           <img src="../../../assets/bathroom-vanity-light.jpg" class="d-block w-100" alt="...">
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
@@ -30,12 +29,11 @@
     </button>
   </div>
 
-  <div class="col-md-4 content-description">
-    <h1>Аккаунт оселі</h1>
-
+  <div class="col-md-4 card animation container-description1">
     <div class="item-wrapper">
-      <div class="container-description">
-        <h2 class="item-title">Київ, вул Чорнобильська №19. кв №24</h2>
+      <h1>Аккаунт оселі</h1>
+      <div class="content-description">
+        <h3>Київ, вул Чорнобильська №19. кв №24</h3>
         <div class="item-description">
           Основні характеристики.
         </div>
@@ -50,7 +48,6 @@
             <span><strong>Поверх:</strong> 8</span>
           </div>
         </div>
-
 
       </div>
     </div>
@@ -76,34 +73,35 @@
         </div>
       </div>
     </div>
+
   </div>
 
-  <div class="card-link">
-
-    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span>Взаємодія сторін</span><i
-        class="fa-sharp fa-solid fa-house-laptop"></i></a>
-    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
-        class="fa-solid fa-house-signal"></i></a>
-    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
-        class="fa-solid fa-truck-fast"></i></a>
-    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
-      <i class="fa-solid fa-box-open"></i></a>
+  <div class="col-md-4 card animation container-description2">
+    <div class="card-link">
+      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span>Взаємодія сторін</span><i
+          class="fa-sharp fa-solid fa-house-laptop"></i></a>
+      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
+          class="fa-solid fa-house-signal"></i></a>
+      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
+          class="fa-solid fa-truck-fast"></i></a>
+      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
+        <i class="fa-solid fa-box-open"></i></a>
       <div>
-        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-search'">
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">
           <div class="notifications" (click)="toggleNotifications()">
             <p class="badge">{{notificationsCount}}</p>
           </div>
           <span>Підписники</span><i class="fa-solid fa-person-praying"></i>
         </a>
       </div>
-                <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-search'"><span>Пошук</span><i
-        class="fa-solid fa-magnifying-glass"></i></a>
-    <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Редагувати інфо.</span><i
-        class="fa-solid fa-gear"></i></a>
+      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'"><span>Пошук</span><i
+          class="fa-solid fa-magnifying-glass"></i></a>
+      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-housing'"><span>Редагувати
+          інфо.</span><i class="fa-solid fa-gear"></i></a>
 
+    </div>
   </div>
 
 </div>
 
 <app-footer></app-footer>
-

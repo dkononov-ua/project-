@@ -4,8 +4,7 @@
     <div class="form-group">
       <form action="#">
         <h1>Зареєструватись</h1>
-        <button type="submit" class="ghost-black">Зареєструватись
-        </button>
+        <button class="ghost-black" (click)="onSubmit()">Зареєструватись</button>
         <span>або скористатися своїм обліковим записом</span>
         <div class="social-container">
           <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
@@ -40,7 +39,7 @@
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </div>
 
-          <button type="button" class="ghost-black" (click)="onSubmit()">
+          <button class="ghost-black" (click)="onSubmit()">
             Увійти
           </button>
 
@@ -89,8 +88,8 @@
         </div>
 
         <p>Зареєструйтесь та створіть свій конект</p>
-
-        <button class="ghost" id="register">Зареєструватись</button>
+        <button class="ghost" id="register" >Зареєструватись</button>
+        <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
         <app-footer class="navbar-lg"></app-footer>
 
       </div>

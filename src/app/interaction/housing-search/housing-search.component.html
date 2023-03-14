@@ -27,17 +27,22 @@
       </div>
 
       <div class="card-description">
-        <h5 class="card-title">{{ currentCard.description }}</h5>
-        <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
-        <p>{{ currentCard.tell }}</p>
+        <div class="description-box">
+          <h5 class="card-title">{{ currentCard.description }}</h5>
+          <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
+          <p>{{ currentCard.tell }}</p>
+        </div>
 
         <div class="card-rating">
-          <div class="card-text">
-            <h4>Рейтинг</h4>
-          </div>
-          <div class="rating-star">
-            <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
-              (click)="rate(star)">&#9733;</span>
+          <div class="rating-box">
+            <div class="stars">
+              <i class="fa-solid fa-star" (click)="onClick(1)" [ngClass]="{'active': rating >= 1}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(2)" [ngClass]="{'active': rating >= 2}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(3)" [ngClass]="{'active': rating >= 3}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(4)" [ngClass]="{'active': rating >= 4}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(5)" [ngClass]="{'active': rating === 5}"></i>
+            </div>
+            <p>Рейтинг користувача та відгуки.</p>
           </div>
         </div>
       </div>
