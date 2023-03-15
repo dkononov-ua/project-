@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } fro
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserInteractionComponent } from '../interaction/user-interaction/user-interaction.component';
 import { Routes, RouterModule, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { InformationUserComponent } from './information-user/information-user.component';
 
 const appRoutes: Routes = [
@@ -20,13 +19,12 @@ const appRoutes: Routes = [
     RouterModule,
   ]
 })
+
 export class AppRoutingModule { }
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
-}
 
 @Component({
   selector: 'app-registration',
@@ -43,11 +41,6 @@ export class RegistrationComponent implements OnInit {
   };
 
   validationMessages: any = {
-    username: {
-      required: 'Ім`я обов`язково',
-      minlength: 'Мінімальна довжина 3 символи',
-      maxlength: 'Максимальна довжина 15 символів'
-    },
     password: {
       required: 'Пароль обов`язково',
       minlength: 'Мінімальна довжина 7 символів',
@@ -57,7 +50,14 @@ export class RegistrationComponent implements OnInit {
       required: 'Пошта обов`язкова',
       pattern: 'Невірно вказаний пошта',
     },
+  };
 
+  registrationValidationMessages: any = {
+    username: {
+      required: 'Ім`я обов`язково',
+      minlength: 'Мінімальна довжина 3 символи',
+      maxlength: 'Максимальна довжина 15 символів'
+    },
     regPassword: {
       required: 'Пароль обов`язково',
       minlength: 'Мінімальна довжина 7 символів',
@@ -69,12 +69,13 @@ export class RegistrationComponent implements OnInit {
     },
   };
 
-  userForm!: FormGroup;
+  loginForm!: FormGroup;
+  registrationForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
-    this.initializeForm()
+    this.initializeForm();
 
     const registerButton = document.getElementById('register');
     const loginButton = document.getElementById('login');
@@ -82,23 +83,25 @@ export class RegistrationComponent implements OnInit {
 
     registerButton?.addEventListener("click", () => {
       container?.classList.add("right-panel-active");
+      this.registrationForm.reset();
     });
 
     loginButton?.addEventListener("click", () => {
       container?.classList.remove("right-panel-active");
+      this.loginForm.reset();
     });
   }
 
   onSubmit(formType: string): void {
     console.log('Form submitted');
-    console.log(this.userForm.value);
+    console.log(this.loginForm.value);
 
     let route = '/user-interaction';
     if (formType === 'information') {
       route = '/information-user';
     }
 
-    this.http.post('http://localhost:3000', this.userForm.value).subscribe((response: any) => {
+    this.http.post('http://localhost:3000', this.loginForm.value).subscribe((response: any) => {
       console.log(response);
       this.router.navigate([route]); // редірект на відповідну сторінку
     }, (error: any) => {
@@ -106,36 +109,72 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
+  onSubmitRegistrationForm(formType: string): void {
+    console.log('Form submitted');
+    console.log(this.registrationForm.value);
+
+    if (this.registrationForm.valid) {
+      let route = '/user-interaction';
+      if (formType === 'information') {
+        route = '/information-user';
+      }
+
+      this.http.post('http://localhost:3000/register', this.registrationForm.value).subscribe((response: any) => {
+        console.log(response);
+        this.router.navigate([route]); // редірект на відповідну сторінку
+      }, (error: any) => {
+        console.error(error);
+      });
+    }
+  }
 
   private initializeForm(): void {
-    this.userForm = this.fb.group({
-      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+    this.loginForm = this.fb.group({
       password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
+    });
+
+    this.registrationForm = this.fb.group({
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       regPassword: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       regEmail: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
     });
 
-    this.userForm.valueChanges?.subscribe(() => this.onValueChanged());
+    this.loginForm.valueChanges?.subscribe(() => this.onValueChanged());
+    this.registrationForm.valueChanges?.subscribe(() => this.onValueChanged());
   }
 
   private onValueChanged() {
-    const form = this.userForm;
+    const form = this.loginForm;
 
+    // Clear existing form errors
     Object.keys(this.formErrors).forEach(field => {
-      const control = form.get(field);
       this.formErrors[field] = '';
+    });
 
+    // Check login form errors
+    Object.keys(form.controls).forEach(field => {
+      const control = form.get(field);
       if (control && control.dirty && control.invalid) {
         const messages = this.validationMessages[field];
-
         Object.keys(control.errors as ValidationErrors).forEach(key => {
-          console.log(messages[key]);
-          this.formErrors[field] += messages[key] + '';
+          this.formErrors[field] += messages[key] + ' ';
         });
       }
-    })
+    });
+
+    // Check registration form errors
+    Object.keys(this.registrationForm.controls).forEach(field => {
+      const control = this.registrationForm.get(field);
+      if (control && control.dirty && control.invalid) {
+        const messages = this.registrationValidationMessages[field];
+        Object.keys(control.errors as ValidationErrors).forEach(key => {
+          this.formErrors[field] += messages[key] + ' ';
+        });
+      }
+    });
   }
+
 }
 
 

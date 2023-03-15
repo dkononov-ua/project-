@@ -24,7 +24,6 @@ import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
-import { RegComponent } from './registration/reg/reg.component';
 import { InformationUserComponent } from './registration/information-user/information-user.component';
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
@@ -33,6 +32,7 @@ import { HousingSearchComponent } from './interaction/housing-search/housing-sea
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
+import { SliderComponent } from './components/slider/slider.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import { RegistrationMobComponent } from './registration/registration-mob/regist
     InformationHousingComponent,
     RegistrationComponent,
     UserPaymentComponent,
-    RegComponent,
     InformationUserComponent,
     UserInteractionComponent,
     TenantsSearchComponent,
@@ -63,6 +62,7 @@ import { RegistrationMobComponent } from './registration/registration-mob/regist
     HomeAccountComponent,
     AgreementComponent,
     RegistrationMobComponent,
+    SliderComponent,
 
   ],
   imports: [

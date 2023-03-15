@@ -15,11 +15,10 @@
     <div class="container-card info">
 
       <!-- Фото користувача -->
-      <div class="card" style="width: 20rem;">
+      <div class="card card-photo" style="width: 20rem;">
 
         <div class="card-name">
-          <h4>Картка користувача</h4>
-          <p>Заповнення індивідуальної інформації про користувача</p>
+          <h4>Фото користувача</h4>
         </div>
 
         <form>
@@ -31,6 +30,12 @@
             <input class="form-control" type="file" id="formFile">
           </div>
         </form>
+        <!-- Кнопки -->
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
+        </div>
+
       </div>
 
       <!-- Інформація користувача -->
@@ -49,8 +54,8 @@
             <div *ngIf="formErrors.name" class="alert alert-danger">{{formErrors.name}}</div>
           </div>
 
-        <!-- Прізвище -->
-        <div class="inputbox">
+          <!-- Прізвище -->
+          <div class="inputbox">
             <input class="form-control" id="lastName" type="text" formControlName="lastName" required>
             <span>Прізвище</span>
             <i></i>
@@ -75,15 +80,7 @@
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </div>
 
-          <button type="submit" [disabled]="userForm.invalid" class="btn btn-info">
-            Зберегти
-          </button>
-
         </form>
-
-
-
-
 
         <!-- Підтвердження пароля -->
         <div class="inputbox">
@@ -101,7 +98,7 @@
 
         <div class="btn-group">
           <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
         </div>
 
       </div>
@@ -182,7 +179,7 @@
         <!-- Кнопки -->
         <div class="btn-group">
           <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
         </div>
 
       </div>

@@ -81,6 +81,11 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
+  resetForm() {
+    this.userForm.reset();
+  }
+
+
 
   private initializeForm(): void {
     this.userForm = this.fb.group({

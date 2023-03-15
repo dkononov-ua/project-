@@ -202,3 +202,17 @@ a {
   font-size: 13px;
   align-items: center;
 }
+
+p {
+  color: $color-light;
+}
+
+.btn {
+  color: $color-light;
+}
+
+.img-fluid {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}

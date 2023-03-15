@@ -18,7 +18,6 @@ import { HomeAccountComponent } from './interaction/home-account/home-account.co
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { CanActivateGuard } from './shared/auth.guard';
-import { RegComponent } from './registration/reg/reg.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 
 const routes: Routes = [
@@ -40,7 +39,6 @@ const routes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent },
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
-  { path: 'reg', component: RegComponent },
   { path: 'registration-mob', component: RegistrationMobComponent},
 ];
 
