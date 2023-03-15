@@ -4,42 +4,63 @@
     <div class="form-group">
       <form action="#">
         <h1>Зареєструватись</h1>
-        <button class="ghost-black" (click)="onSubmit()">Зареєструватись</button>
+        <form (ngSubmit)="onSubmit('information')" [formGroup]="userForm">
+          <!-- Ім'я користувача -->
+          <div class="inputbox">
+            <input class="form-control" id="username" type="text" formControlName="username"
+              placeholder="Ім'я користувача" required>
+            <div *ngIf="formErrors.username" class="alert alert-danger">{{formErrors.username}}</div>
+          </div>
+
+          <!-- Електронна пошта -->
+          <div class="inputbox">
+            <input class="form-control" id="regEmail" type="text" formControlName="regEmail" placeholder="Email"
+              required>
+            <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
+          </div>
+
+          <!-- Пароль -->
+          <div class="inputbox">
+            <input class="form-control" id="regPassword" type="text" formControlName="regPassword" placeholder="Пароль"
+              required>
+            <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
+          </div>
+
+          <!-- Кнопка -->
+          <button class="ghost-black" (click)="onSubmit('information')">Зареєструватись</button>
+        </form>
         <span>або скористатися своїм обліковим записом</span>
         <div class="social-container">
-          <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
-          <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-google"></i></a>
         </div>
+
       </form>
     </div>
+
   </div>
 
   <div class="form-container login-container col-lg-6 col-md-12">
     <div class="form-group">
       <form action="#">
         <h1>Увійти</h1>
-        <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+        <form (ngSubmit)="onSubmit('user')" [formGroup]="userForm">
 
           <!-- Електронна пошта -->
           <div class="inputbox">
-            <input class="form-control" id="email" type="text" formControlName="email" required>
-            <span>Email</span>
-            <i></i>
-
+            <input class="form-control" id="email" type="text" formControlName="email" placeholder="Email" required>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </div>
 
           <!-- Пароль -->
           <div class="inputbox">
-            <input class="form-control" id="password" type="text" formControlName="password" required>
-            <span>Пароль</span>
-            <i></i>
-
+            <input class="form-control" id="password" type="text" formControlName="password" placeholder="Пароль"
+              required>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </div>
 
-          <button class="ghost-black" (click)="onSubmit()">
+          <button class="ghost-black" (click)="onSubmit('user')">
             Увійти
           </button>
 
@@ -88,7 +109,7 @@
         </div>
 
         <p>Зареєструйтесь та створіть свій конект</p>
-        <button class="ghost" id="register" >Зареєструватись</button>
+        <button class="ghost" id="register">Зареєструватись</button>
         <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
         <app-footer class="navbar-lg"></app-footer>
 

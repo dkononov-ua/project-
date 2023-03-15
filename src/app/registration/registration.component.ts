@@ -1,33 +1,33 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserInteractionComponent } from '../interaction/user-interaction/user-interaction.component';
-import { Routes } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { InformationUserComponent } from './information-user/information-user.component';
 
-const routes: Routes = [
+const appRoutes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent },
+  { path: 'information-user', component: InformationUserComponent },
 ];
 
 @NgModule({
   imports: [
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+  ],
+  exports: [
+    RouterModule,
   ]
 })
+export class AppRoutingModule { }
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-
-  private apiUrl = 'https://example.com/api';
-
-  constructor(private http: HttpClient) { }
-
-  saveData(data: any) {
-    return this.http.post(`${this.apiUrl}/save`, data);
-  }
 }
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -35,29 +35,43 @@ export class DataService {
 })
 export class RegistrationComponent implements OnInit {
   formErrors: any = {
+    username: '',
     password: '',
     email: '',
+    regPassword: '',
+    regEmail: ''
   };
 
   validationMessages: any = {
+    username: {
+      required: 'Ім`я обов`язково',
+      minlength: 'Мінімальна довжина 3 символи',
+      maxlength: 'Максимальна довжина 15 символів'
+    },
     password: {
       required: 'Пароль обов`язково',
-      minlength: 'Мінімальна довжина 4 символів',
-      maxlength: 'Максимальна довжина 15 символів'
+      minlength: 'Мінімальна довжина 7 символів',
+      maxlength: 'Максимальна довжина 25 символів'
     },
     email: {
       required: 'Пошта обов`язкова',
       pattern: 'Невірно вказаний пошта',
     },
 
+    regPassword: {
+      required: 'Пароль обов`язково',
+      minlength: 'Мінімальна довжина 7 символів',
+      maxlength: 'Максимальна довжина 25 символів'
+    },
+    regEmail: {
+      required: 'Пошта обов`язкова',
+      pattern: 'Невірно вказаний пошта',
+    },
   };
 
-  userForm!: FormGroup
-  dataService: any;
-  userService: any;
-  router: any;
+  userForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm()
@@ -75,30 +89,31 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  onSubmit(formType: string): void {
     console.log('Form submitted');
     console.log(this.userForm.value);
 
-    if (this.userService) {
-      if (this.userForm.valid) {
-        this.userService.saveData(this.userForm.value).subscribe(
-          () => {
-            console.log('Data saved successfully');
-
-            this.router.navigate(['/user-interaction']);
-          },
-          (error: any) => console.error('Error saving data: ', error)
-        );
-      } else {
-        alert('Форма містить помилки');
-      }
+    let route = '/user-interaction';
+    if (formType === 'information') {
+      route = '/information-user';
     }
+
+    this.http.post('http://localhost:3000', this.userForm.value).subscribe((response: any) => {
+      console.log(response);
+      this.router.navigate([route]); // редірект на відповідну сторінку
+    }, (error: any) => {
+      console.error(error);
+    });
   }
+
 
   private initializeForm(): void {
     this.userForm = this.fb.group({
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
+      regPassword: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
+      regEmail: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
     });
 
     this.userForm.valueChanges?.subscribe(() => this.onValueChanged());
