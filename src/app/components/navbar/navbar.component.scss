@@ -3,18 +3,13 @@
 .container-fluid {
   margin-top: 20px;
   display: flex;
-  align-content: stretch;
+}
+
+.navbar-collapse {
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: space-around;
   align-items: stretch;
-  justify-content: flex-start;
-}
-
-.navbar-nav {
-  display: flex;
-}
-
-.logo {
-  width: 160px;
-  height: 40px;
 }
 
 .nav-link {
@@ -53,6 +48,6 @@ a {
 }
 
 .logo {
-  width: 35px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }

@@ -19,7 +19,6 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
 })
 
 export class TenantsSearchComponent {
-  @HostBinding('@cardAnimation') cardAnimation = true;
   cardState: string | undefined;
 
   toggleCard() {

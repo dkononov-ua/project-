@@ -9,10 +9,8 @@
 
 .container-fluid {
   display: flex;
-  align-content: center;
-  align-items: stretch;
+  justify-content: center;
   flex-wrap: wrap;
-  flex-direction: row;
 }
 
 .container-card {

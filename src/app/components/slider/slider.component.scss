@@ -21,9 +21,6 @@
   background-color: rgba(233, 233, 233, 0.516);
 }
 
-.carousel:hover {
-}
-
 .carousel:hover .slide {
   animation-play-state: paused;
 }
@@ -81,4 +78,8 @@ h2{
   margin: 0;
   padding: 0;
   font-size: 25px;
+}
+
+.logo {
+  width: 100px;
 }
