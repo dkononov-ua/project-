@@ -1,19 +1,25 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router, Routes } from '@angular/router';
+import { UserInteractionComponent } from 'src/app/interaction/user-interaction/user-interaction.component';
+
+const appRoutes: Routes = [
+  { path: 'user-interaction', component: UserInteractionComponent },
+];
 
 @NgModule({
   imports: [
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
   ]
 })
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
 
+export class DataService {
   private apiUrl = 'https://example.com/api';
 
   constructor(private http: HttpClient) { }
@@ -29,6 +35,13 @@ export class DataService {
   styleUrls: ['./information-user.component.scss']
 })
 export class InformationUserComponent implements OnInit {
+
+  user = {
+    name: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
 
   formErrors: any = {
     name: '',
@@ -63,8 +76,9 @@ export class InformationUserComponent implements OnInit {
   userForm!: FormGroup
   dataService: any;
   userService: any;
+  isDisabled: boolean | undefined;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
   ngOnInit(): void {
     this.initializeForm()
   }
@@ -81,11 +95,15 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
+  edit(): void {
+    this.isDisabled = true; // заблокувати інпути
+    this.userForm.disable(); // альтернативний варіант заблокувати всю форму
+    this.isDisabled = false;
+  }
+
   resetForm() {
     this.userForm.reset();
   }
-
-
 
   private initializeForm(): void {
     this.userForm = this.fb.group({

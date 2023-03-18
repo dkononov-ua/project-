@@ -216,3 +216,12 @@ p {
   align-items: stretch;
   flex-direction: column;
 }
+
+.form-box {
+  height: 100%;
+  display: flex;
+  align-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-around;
+}

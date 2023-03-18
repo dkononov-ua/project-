@@ -22,8 +22,8 @@ import { RegistrationMobComponent } from './registration/registration-mob/regist
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
-  { path: 'registration', component: RegistrationComponent },
-  { path: 'payments', component: PaymentsComponent },
+  { path: 'registration', component: RegistrationComponent  },
+  { path: 'payments', component: PaymentsComponent  },
   { path: 'services', component: ServicesComponent },
   { path: 'energy', component: EnergyComponent },
   { path: 'water', component: WaterComponent },
@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'housing-search', component: HousingSearchComponent },
   { path: 'agreement', component: AgreementComponent },
   { path: 'home-account', component: HomeAccountComponent },
-  { path: 'user-interaction', component: UserInteractionComponent },
+  { path: 'user-interaction', component: UserInteractionComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
   { path: 'registration-mob', component: RegistrationMobComponent},

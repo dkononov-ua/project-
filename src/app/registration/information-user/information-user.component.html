@@ -21,7 +21,7 @@
           <h4>Фото користувача</h4>
         </div>
 
-        <form>
+        <form class="form-box">
           <div class="img-fluid">
             <img src="https://via.placeholder.com/200" class="rounded" alt="...">
           </div>
@@ -43,12 +43,12 @@
         <div class="card-name">
           <h4>Інформація користувача</h4>
         </div>
-        <!-- Ім'я -->
 
-        <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+        <form class="form-box" [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
+          <!-- Ім'я -->
           <div class="inputbox">
-            <input class="form-control" id="name" type="text" formControlName="name" required>
+            <input class="form-control" id="name" type="text" name="name" formControlName="name" required>
             <span>Ім'я</span>
             <i></i>
             <div *ngIf="formErrors.name" class="alert alert-danger">{{formErrors.name}}</div>
@@ -56,7 +56,7 @@
 
           <!-- Прізвище -->
           <div class="inputbox">
-            <input class="form-control" id="lastName" type="text" formControlName="lastName" required>
+            <input class="form-control" id="lastName" type="text" name="lastName" formControlName="lastName" required>
             <span>Прізвище</span>
             <i></i>
             <div *ngIf="formErrors.lastName" class="alert alert-danger">{{formErrors.lastName}}</div>
@@ -64,39 +64,31 @@
 
           <!-- Пароль -->
           <div class="inputbox">
-            <input class="form-control" id="password" type="text" formControlName="password" required>
+            <input class="form-control" id="password" type="text" name="password" formControlName="password" required>
             <span>Пароль</span>
             <i></i>
-
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </div>
 
           <!-- Електронна пошта -->
           <div class="inputbox">
-            <input class="form-control" id="email" type="text" formControlName="email" required>
+            <input class="form-control" id="email" type="text" name="email" formControlName="email" required>
             <span>Email</span>
             <i></i>
-
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+          </div>
+
+          <div class="inputbox">
+            <input type="date" id="birthdate" name="birthdate">
+            <span>Дата народження</span>
+            <i></i>
           </div>
 
         </form>
 
-        <!-- Підтвердження пароля -->
-        <div class="inputbox">
-          <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="off" required>
-          <span>Підтвердити пароль</span>
-          <i></i>
-        </div>
-
         <!-- Дата народження -->
-        <div class="inputbox">
-          <input type="date" id="birthdate" name="birthdate" autocomplete="off">
-          <span>Дата народження</span>
-          <i></i>
-        </div>
-
         <div class="btn-group">
+          <button type="button" class="btn btn-primary mt-3" (click)="edit()">Редагувати</button>
           <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
           <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
         </div>

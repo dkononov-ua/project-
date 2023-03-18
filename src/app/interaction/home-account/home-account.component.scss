@@ -1,37 +1,22 @@
 @use "../../style/presets/" as *;
 
 .container-fluid {
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.card {
-  margin: 10px;
+.card{
+  min-width: 32%;
+  margin: 6px;
 }
 
-.item-wrapper, .content-description {
+.item-wrapper,
+.content-description {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   flex-direction: column;
-}
-
-.animation {
-  margin-left: 100%;
-  animation-duration: 2.4s;
-  animation-delay: 0.2s;
-  animation-name: slidein;
-  animation-fill-mode: forwards;
-  border-radius: 10px;
-
-  @keyframes slidein {
-    from {
-      margin-left: 100%;
-    }
-
-    to {
-      margin-left: 0%;
-    }
-  }
 }
 
 .card-body {
@@ -141,5 +126,20 @@ a.link {
   padding: 25px;
 }
 
+.animation {
+  margin-left: 100%;
+  animation-duration: 2.4s;
+  animation-delay: 0.2s;
+  animation-name: slidein;
+  animation-fill-mode: forwards;
 
+  @keyframes slidein {
+    from {
+      margin-left: 100%;
+    }
 
+    to {
+      margin-left: 0%;
+    }
+  }
+}

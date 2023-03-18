@@ -55,6 +55,7 @@
             required>
           <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
         </div>
+        <div *ngIf="(errorMessage$ | async) as errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
         <button class="ghost-black" [disabled]="!loginForm.valid" (click)="onSubmit('login')">
           Увійти

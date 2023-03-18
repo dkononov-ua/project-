@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CanActivateGuard implements CanActivate {
 
-  canActivate() : boolean {
-    return true;
+  constructor(private router: Router) { }
+
+  canActivate(): boolean {
+    if (localStorage.getItem('user')) {
+      // користувач увійшов в свій аккаунт, дозволяємо доступ до роутів
+      return true;
+    }
+
+    // користувач не увійшов в свій аккаунт, перенаправляємо на сторінку входу
+    this.router.navigate(['registration']);
+    return false;
   }
 }

@@ -29,6 +29,8 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
 })
 
 export class HousingSearchComponent {
+  // @HostBinding('@cardAnimation') cardAnimation = true;
+
   currentCardIndex = 0;
   currentCard: any;
 

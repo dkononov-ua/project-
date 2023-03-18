@@ -11,12 +11,12 @@ import { Component } from '@angular/core';
         style({ transform: 'translateX(130%)' }),
         animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-            transition('* => void', [
+      transition('* => void', [
         animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ])
     ])
   ]
 })
 export class UserInteractionComponent {
-
+  // remove @HostBinding and cardAnimation property
 }

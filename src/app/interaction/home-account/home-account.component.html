@@ -1,9 +1,9 @@
 <app-navbar></app-navbar>
-<app-slider></app-slider>
+<app-slider class="hide-mobile"></app-slider>
 
-<div class="container-fluid">
+<div class="container-fluid animation">
 
-  <div class="col-md-4 animation card">
+  <div class="card col-lg-3 col-md-5 col-sm-6 col-12">
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="3000">
@@ -27,12 +27,9 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <button class="btn btn-outline-success my-2 my-sm-0">
-      <i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>
-    </button>
   </div>
 
-  <div class="col-md-4 card animation container-description1">
+  <div class="card col-lg-3 col-md-5 col-sm-6 col-12 container-description1">
     <div class="item-wrapper">
       <h1>Аккаунт оселі</h1>
       <div class="content-description">
@@ -79,7 +76,7 @@
 
   </div>
 
-  <div class="col-md-4 card animation container-description2">
+  <div class="card col-lg-3 col-md-5 col-sm-6 col-12 container-description2">
     <div class="card-link">
       <a class="link" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span>Взаємодія сторін</span><i
           class="fa-sharp fa-solid fa-house-laptop"></i></a>

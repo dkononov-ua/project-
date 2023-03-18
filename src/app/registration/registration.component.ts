@@ -1,9 +1,11 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserInteractionComponent } from '../interaction/user-interaction/user-interaction.component';
 import { Routes, RouterModule, Router } from '@angular/router';
 import { InformationUserComponent } from './information-user/information-user.component';
+import { AuthService } from 'src/app/registration/auth.service';
+import { Subject } from 'rxjs';
 
 const appRoutes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent },
@@ -14,6 +16,7 @@ const appRoutes: Routes = [
   imports: [
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule,
   ],
   exports: [
     RouterModule,
@@ -32,6 +35,9 @@ export class AppRoutingModule { }
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+
+  errorMessage$: Subject<string> = new Subject<string>();
+
   formErrors: any = {
     username: '',
     password: '',
@@ -71,8 +77,9 @@ export class RegistrationComponent implements OnInit {
 
   loginForm!: FormGroup;
   registrationForm!: FormGroup;
+  submitted: boolean | undefined;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -93,20 +100,20 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(formType: string): void {
-    console.log('Form submitted');
-    console.log(this.loginForm.value);
+    let route = '/information-user';
 
-    let route = '/user-interaction';
-    if (formType === 'information') {
-      route = '/information-user';
-    }
-
-    this.http.post('http://localhost:3000', this.loginForm.value).subscribe((response: any) => {
-      console.log(response);
-      this.router.navigate([route]); // редірект на відповідну сторінку
-    }, (error: any) => {
-      console.error(error);
-    });
+    this.http.post('http://localhost:3000', this.loginForm.value)
+      .subscribe((response: any) => {
+        if (response.status) {
+          localStorage.setItem('user', JSON.stringify(response));
+          this.router.navigate([route]);
+        } else {
+          this.errorMessage$.next('Неправильний логін або пароль');
+        }
+      }, (error: any) => {
+        console.error(error);
+        this.errorMessage$.next('Сталася помилка на сервері');
+      });
   }
 
   onSubmitRegistrationForm(formType: string): void {
@@ -121,6 +128,9 @@ export class RegistrationComponent implements OnInit {
 
       this.http.post('http://localhost:3000/register', this.registrationForm.value).subscribe((response: any) => {
         console.log(response);
+        if (response.status) {
+          localStorage.setItem('user', JSON.stringify(response))
+        } else { }
         this.router.navigate([route]); // редірект на відповідну сторінку
       }, (error: any) => {
         console.error(error);

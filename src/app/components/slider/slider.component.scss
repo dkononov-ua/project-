@@ -1,7 +1,7 @@
 @use "../../style/presets/" as *;
 
 .wrapper {
-  width: 1050px;
+  max-width: 1000px;
   display: flex;
   justify-content: center;
   flex-direction: column;
