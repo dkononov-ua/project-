@@ -238,10 +238,48 @@ p {
 }
 
 .icon {
-  background:none !important;
+  background: none !important;
   position: relative !important;
   font-size: 18px;
   color: #d2d0d0;
 }
 
+// class="cdk-overlay-pane mat-datepicker-popup" style="top: -225.263px; right: -392.6px;
 
+
+.cdk-overlay-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.mat-datepicker-toggle {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.mat-datepicker {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+
+.personal-data__item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.personal-data__label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.birthday-input {
+  margin-right: 8px;
+}
+
+.mat-datepicker-toggle {
+  cursor: pointer;
+}

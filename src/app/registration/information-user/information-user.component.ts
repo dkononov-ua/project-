@@ -106,11 +106,6 @@ export class InformationUserComponent implements OnInit {
       maxlength: 'Максимальна довжина 10 символів',
       pattern: 'Телефон повинен містити тільки цифри'
     },
-    altPhone: {
-      minlength: 'Мінімальна довжина 4 символи',
-      maxlength: 'Максимальна довжина 15 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
-    },
     street: {
       required: 'Вулиця обов`язкова',
       minlength: 'Мінімальна довжина 4 символи',
@@ -120,20 +115,17 @@ export class InformationUserComponent implements OnInit {
     houseNumber: {
       required: 'Обов`язково',
       minlength: 'Мінімальна довжина 1 символ',
-      maxlength: 'Максимальна довжина 10 символів',
+      maxlength: 'Максимальна довжина 100 символів',
     },
     floor: {
       required: 'Обов`язково',
       minlength: 'Мінімальна довжина 1 символ',
-      maxlength: 'Максимальна довжина 10 символів',
       pattern: 'Не коректно',
     },
     apartment: {
       required: 'Обов`язково',
       minlength: 'Мінімальна довжина 1 символ',
-      maxlength: 'Максимальна довжина 10 символів',
       pattern: 'Не коректно',
-
     },
     city: {
       required: 'Місто обов`язкове',
@@ -149,8 +141,8 @@ export class InformationUserComponent implements OnInit {
     },
     index: {
       required: 'Індекс обов`язковий',
-      minlength: 'Мінімальна довжина 3 символи',
-      maxlength: 'Максимальна довжина 10 символів',
+      minlength: 'Мінімальна довжина 5 символи',
+      maxlength: 'Максимальна довжина 5 символів',
       pattern: 'Індекс повинен містити тільки цифри'
     },
   };
@@ -271,12 +263,6 @@ export class InformationUserComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]+$/), // тільки цифри
       ]],
-      altPhone: [null, [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(15),
-        Validators.pattern(/^[0-9]+$/), // тільки цифри
-      ]],
       street: [null, [
         Validators.required,
         Validators.minLength(4),
@@ -286,18 +272,17 @@ export class InformationUserComponent implements OnInit {
       houseNumber: [null, [
         Validators.required,
         Validators.minLength(1),
-        Validators.maxLength(10),
+        Validators.maxLength(100),
       ]],
       floor: [null, [
         Validators.required,
         Validators.minLength(1),
-        Validators.maxLength(10),
+        Validators.maxLength(100),
         Validators.pattern(/^[1-9][0-9]*$/)
       ]],
       apartment: [null, [
         Validators.required,
         Validators.minLength(1),
-        Validators.maxLength(10),
         Validators.pattern(/^[1-9][0-9]*$/)
       ]],
       city: [null, [
@@ -314,8 +299,8 @@ export class InformationUserComponent implements OnInit {
       ]],
       index: [null, [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(10),
+        Validators.minLength(5),
+        Validators.maxLength(5),
         Validators.pattern(/^[0-9]+$/), // тільки цифри
       ]],
       // додайте інші поля, які необхідно заповнити

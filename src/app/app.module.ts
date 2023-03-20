@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { ServicesComponent } from './services/services.component';
@@ -33,6 +33,8 @@ import { HomeAccountComponent } from './interaction/home-account/home-account.co
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { SliderComponent } from './components/slider/slider.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,9 @@ import { SliderComponent } from './components/slider/slider.component';
     BrowserAnimationsModule,
     DragDropModule,
     HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
