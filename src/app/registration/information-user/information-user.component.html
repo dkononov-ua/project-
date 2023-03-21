@@ -48,10 +48,10 @@
 
           <!-- Ім'я -->
           <div class="inputbox">
-            <input class="form-control" id="username" type="text" name="username" formControlName="username" required>
+            <input class="form-control" id="firstName" type="text" name="firstName" formControlName="firstName" required>
             <span>Ім'я</span>
             <i></i>
-            <div *ngIf="formErrors.username" class="alert alert-danger">{{formErrors.username}}</div>
+            <div *ngIf="formErrors.firstName" class="alert alert-danger">{{formErrors.firstName}}</div>
           </div>
 
           <!-- Прізвище -->
@@ -64,10 +64,10 @@
 
           <!-- По батькові -->
           <div class="inputbox">
-            <input class="form-control" id="sureName" type="text" name="surName" formControlName="sureName" required>
+            <input class="form-control" id="surName" type="text" name="surName" formControlName="surName" required>
             <span>По батькові</span>
             <i></i>
-            <div *ngIf="formErrors.sureName" class="alert alert-danger">{{formErrors.sureName}}</div>
+            <div *ngIf="formErrors.surName" class="alert alert-danger">{{formErrors.surName}}</div>
           </div>
 
           <!-- Дата народження -->
@@ -111,9 +111,8 @@
             <i></i>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </div>
-
-
         </form>
+
         <div class="btn-group">
           <button class="btn btn-primary mt-3" (click)="saveUserData()" (click)="onSubmitSaveUserData()"
             [disabled]="!userForm.valid">ЗБЕРЕГТИ</button>
@@ -184,7 +183,7 @@
 
           <!-- Область -->
           <div class="inputbox">
-            <input required="required" type="text" id="inputCity" formControlName="region">
+            <input required="required" type="text" id="inputRegion" formControlName="region">
             <span>Область</span>
             <i></i>
             <div *ngIf="formErrors.region" class="alert alert-danger">{{formErrors.region}}</div>

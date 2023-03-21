@@ -2,9 +2,7 @@ import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
-
-
-
+import { UserService } from './user.service';
 
 @NgModule({
   imports: [
@@ -17,11 +15,22 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 
+export class AppComponent {
+
+  constructor(private userService: UserService) {}
+
+  onSubmit(email: string, password: string) {
+    this.userService.getUserInfo(email, password).subscribe((response) => {
+      console.log(response);
+      // тут ви можете обробити відповідь сервера та відобразити її на сторінці
+    });
+  }
+}
+
 export class DataService {
   saveData(value: any) {
     throw new Error('Method not implemented.');
   }
-
 }
 
 @Component({
@@ -30,16 +39,14 @@ export class DataService {
   styleUrls: ['./information-user.component.scss']
 })
 export class InformationUserComponent implements OnInit {
-
   user = {
-    username: '',
+    firstName: '',
     lastName: '',
-    sureName: '',
+    surName: '',
     email: '',
     password: '',
     dob: '',
     phone: '',
-    altPhone: '',
     street: '',
     houseNumber: '',
     floor: '',
@@ -50,14 +57,13 @@ export class InformationUserComponent implements OnInit {
   };
 
   formErrors: any = {
-    username: '',
+    firstName: '',
     lastName: '',
-    sureName: '',
+    surName: '',
     email: '',
     password: '',
     dob: '',
     phone: '',
-    altPhone: '',
     street: '',
     houseNumber: '',
     floor: '',
@@ -68,7 +74,7 @@ export class InformationUserComponent implements OnInit {
   };
 
   validationMessages: any = {
-    username: {
+    firstName: {
       required: 'Ім`я обов`язково',
       minlength: 'Мінімум 3 символи',
       maxlength: 'Максимальна довжина 15 символів',
@@ -80,7 +86,7 @@ export class InformationUserComponent implements OnInit {
       maxlength: 'Максимальна довжина 15 символів',
       pattern: 'Тільки літери та пробіли'
     },
-    sureName: {
+    surName: {
       required: 'По батькові обов`язково',
       minlength: 'Мінімум 3 символи',
       maxlength: 'Максимальна довжина 15 символів',
@@ -159,32 +165,51 @@ export class InformationUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('Пройшла перевірка користувача')
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
+      // const user = JSON.parse(userJson)
+      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          this.userForm = this.fb.group({
+            firstName: [response.inf.firstName],
+            lastName: [response.inf.lastName],
+            email: [response.inf.email],
+            surName: [response.inf.surName],
+            dob: [response.inf.dob],
+            password: [response.inf.password]
+          });
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+      // ...
+    } else {
+      console.log('user not found');
+    }
+
     this.initializeForm();
   }
 
   onSubmitSaveUserData(): void {
-    this.http.get<{ status: boolean; userData: any }>(
-      'http://localhost:3000/userData'
-    ).subscribe((response) => {
-      if (response.status) {
-        console.log('Data retrieved successfully');
-        const userData = response.userData;
-        this.userForm.patchValue({
-          username: userData.username,
-          lastName: userData.lastName,
-          email: userData.email,
-          password: userData.password,
-          dob: userData.dob,
+    const userJson = localStorage.getItem('user');
+
+    if (userJson !== null) {
+      // const user = JSON.parse(userJson)
+      this.http.post('http://localhost:3000/add', {auth:JSON.parse(userJson), new: this.userForm.value})
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
         });
-      } else {
-        this.errorMessage$.next('Error retrieving data');
-      }
-    });
+      // ...
+    } else {
+      console.log('user not found');
+    }
   }
+
   saveUserData(): void {
     this.userForm.disable();
-    this.isDisabled = true;
-    this.formDisabled = true;
     this.isDisabled = false;
     this.formDisabled = false;
   }
@@ -197,14 +222,13 @@ export class InformationUserComponent implements OnInit {
 
   onSubmitSaveUserFormContacts(): void {
     this.http.get<{ status: boolean; userContactsData: any }>(
-      'http://localhost:3000/userContactsData'
+      'http://localhost:3000/userinfo'
     ).subscribe((response) => {
       if (response.status) {
         console.log('Data retrieved successfully');
         const userContactsData = response.userContactsData;
         this.userFormContacts.patchValue({
           phone: userContactsData.phone,
-          altPhone: userContactsData.altPhone,
           street: userContactsData.street,
           houseNumber: userContactsData.houseNumber,
           floor: userContactsData.floor,
@@ -247,9 +271,9 @@ export class InformationUserComponent implements OnInit {
 
   private initializeForm(): void {
     this.userForm = this.fb.group({
-      username: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+      firstName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
       lastName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-      sureName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+      surName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
       password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
       dob: [null, [Validators.required, Validators.min(Date.parse('1900-01-01')), Validators.max(new Date().getTime())]]
