@@ -19,6 +19,7 @@ import { UserInteractionComponent } from './interaction/user-interaction/user-in
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { CanActivateGuard } from './shared/auth.guard';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
+import { ModalComponent } from './modal/modal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
+  { path: 'modal', component: ModalComponent },
   { path: 'registration-mob', component: RegistrationMobComponent},
 ];
 

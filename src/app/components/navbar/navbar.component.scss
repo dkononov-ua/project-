@@ -12,6 +12,7 @@
   align-items: stretch;
 }
 
+
 .nav-link {
   color: $color-text;
   text-transform: uppercase;
@@ -23,7 +24,7 @@
   letter-spacing: 1px;
 
   &:hover {
-    color: $color-accent;
+    color: $color-accent;;
   }
 
   &:active {
@@ -33,12 +34,24 @@
   }
 
   &.active {
-    background-color: $color-light;
+    background-image: linear-gradient(
+        -45deg,
+        rgb(255, 255, 255) 0%,
+        rgb(199, 199, 201) 25%,
+        rgb(135, 134, 135) 51%,
+        rgb(113, 113, 113) 100%
+  );
+  animation: AnimateBG 20s ease infinite;
     letter-spacing: 5px;
     font-weight: bold;
     color: $color-accent;
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
   }
+}
+@keyframes AnimateBG {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 a {
@@ -50,4 +63,9 @@ a {
 .logo {
   width: 60px;
   height: 60px;
+}
+
+.mid {
+  display: flex;
+  justify-content: center;
 }

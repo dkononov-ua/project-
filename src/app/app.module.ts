@@ -17,11 +17,11 @@ import { GasComponent } from './services/gas/gas.component';
 import { InternetComponent } from './services/internet/internet.component';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatIconModule } from '@angular/material/icon';
+// import { MatCardModule } from '@angular/material/card';
+// import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { InformationUserComponent } from './registration/information-user/information-user.component';
@@ -33,6 +33,8 @@ import { HomeAccountComponent } from './interaction/home-account/home-account.co
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { SliderComponent } from './components/slider/slider.component';
+import { ModalComponent } from './modal/modal.component';
+import { UserLicenceComponent } from './user-licence/user-licence.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { SliderComponent } from './components/slider/slider.component';
     AgreementComponent,
     RegistrationMobComponent,
     SliderComponent,
+    ModalComponent,
+    UserLicenceComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,12 +75,13 @@ import { SliderComponent } from './components/slider/slider.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    BrowserAnimationsModule,
-    DragDropModule,
+    // MatFormFieldModule,
+    // MatInputModule,
+    // MatIconModule,
+    // MatCardModule,
+    // DragDropModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
