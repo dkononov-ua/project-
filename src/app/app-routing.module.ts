@@ -19,7 +19,7 @@ import { UserInteractionComponent } from './interaction/user-interaction/user-in
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { CanActivateGuard } from './shared/auth.guard';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
-// import { OutputComponent } from './registration/information-user/output/output.component';
+import { ModalComponent } from './modal/modal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -38,10 +38,12 @@ const routes: Routes = [
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'home-account', component: HomeAccountComponent, canActivate: [CanActivateGuard] },
   { path: 'user-interaction', component: UserInteractionComponent, canActivate: [CanActivateGuard] },
-  { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
-  { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
-  { path: 'registration-mob', component: RegistrationMobComponent, canActivate: [CanActivateGuard]},
-  // { path: 'user-output', component: OutputComponent, canActivate: [CanActivateGuard]},
+
+  { path: 'information-user', component: InformationUserComponent },
+  { path: 'user-payment', component: UserPaymentComponent },
+  { path: 'modal', component: ModalComponent },
+  { path: 'registration-mob', component: RegistrationMobComponent},
+
 ];
 
 @NgModule({
