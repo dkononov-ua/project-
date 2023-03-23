@@ -75,98 +75,102 @@
           <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
           <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
         </div>
-
-
-
-
       </div>
 
-      <!-- Інформація про оселю -->
+      <!-- Адреса оселі -->
       <div class="card" style="width: 20rem;">
         <div class="card-name">
-          <h4>Інформація про оселю</h4>
+          <h4>Адреса оселі</h4>
         </div>
 
-        <!-- Область -->
-        <div class="inputbox">
-          <label for="">Область</label>
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option value="1">Вінницька</option>
-            <option value="2">Волинська</option>
-            <option value="3">Дніпропетровська</option>
-            <option value="4">Донецька</option>
-            <option value="5">Житомирська</option>
-            <option value="6">Закарпатська</option>
-            <option value="7">Запорізька</option>
-            <option value="8">Івано-Франківська</option>
-            <option value="9">Київська</option>
-            <option value="10">Кіровоградська</option>
-            <option value="11">Луганська</option>
-            <option value="12">Львівська</option>
-            <option value="13">Миколаївська</option>
-            <option value="14">Одеська</option>
-            <option value="15">Полтавська</option>
-            <option value="16">Рівненська</option>
-            <option value="17">Сумська</option>
-            <option value="18">Тернопільська</option>
-            <option value="19">Харківська</option>
-            <option value="20">Херсонська</option>
-            <option value="21">Хмельницька</option>
-            <option value="22">Черкаська</option>
-            <option value="23">Чернівецька</option>
-            <option value="24">Чернігівська</option>
-          </select>
-        </div>
-
-        <!-- Місто -->
-        <div class="inputbox">
-          <input required="required" type="text" id="inputCity">
-          <span>Місто</span>
-          <i></i>
-        </div>
-
-        <!-- Індекс -->
-        <div class="inputbox">
-          <input required="required" type="text" id="inputZip">
-          <span>Індекс</span>
-          <i></i>
-        </div>
-
-        <!-- Вулиця -->
-        <div class="inputbox">
-          <input required="required" type="text" id="inputAddress">
-          <span>Вулиця</span>
-          <i></i>
-        </div>
-
-        <!-- Номер/поверх -->
-        <div class="container-box">
-
+        <form class="form-box" [formGroup]="houseForm">
+          <!-- ID -->
           <div class="inputbox">
-            <input required="required" type="text">
-            <span>Номер</span>
+            <input type="text" id="houseId" name="houseId" formControlName="houseId" required>
+            <span>HouseID</span>
             <i></i>
+            <div *ngIf="formErrors.houseId" class="alert alert-danger">{{formErrors.houseId}}</div>
           </div>
 
+          <!-- Область -->
           <div class="inputbox">
-            <input required="required" type="text">
-            <span>Поверх</span>
+            <input required="required" type="text" id="inputRegion" formControlName="region">
+            <span>Область</span>
             <i></i>
+            <div *ngIf="formErrors.region" class="alert alert-danger">{{formErrors.region}}</div>
           </div>
 
+          <!-- Місто -->
           <div class="inputbox">
-            <input required="required" type="text">
-            <span>Квартира</span>
+            <input required="required" type="text" id="inputCity" formControlName="city">
+            <span>Місто</span>
             <i></i>
+            <div *ngIf="formErrors.city" class="alert alert-danger">{{formErrors.city}}</div>
           </div>
 
+          <!-- Вулиця -->
+          <div class="inputbox">
+            <input required="required" type="text" formControlName="street">
+            <span>Вулиця</span>
+            <i></i>
+            <div *ngIf="formErrors.street" class="alert alert-danger">{{formErrors.street}}</div>
+          </div>
+
+          <div class="container-box">
+
+            <!-- Індекс -->
+            <div class="inputbox">
+              <input required="required" type="number" id="inputZip" formControlName="index">
+              <span>Індекс</span>
+              <i></i>
+              <div *ngIf="formErrors.index" class="alert alert-danger">{{formErrors.index}}</div>
+            </div>
+
+            <!-- Номер -->
+            <div class="inputbox">
+              <input required="required" type="text" formControlName="houseNumber">
+              <span>Номер</span>
+              <i></i>
+              <div *ngIf="formErrors.houseNumber" class="alert alert-danger">{{formErrors.houseNumber}}</div>
+            </div>
+
+          </div>
+
+          <!-- Номер/поверх/квартира -->
+          <div class="container-box">
+
+            <!-- Поверх -->
+            <div class="inputbox">
+              <input required="required" type="number" formControlName="floor">
+              <span>Поверх</span>
+              <i></i>
+              <div *ngIf="formErrors.floor" class="alert alert-danger">{{formErrors.floor}}</div>
+            </div>
+
+            <!-- Квартира -->
+            <div class="inputbox">
+              <input required="required" type="number" formControlName="apartment">
+              <span>Квартира</span>
+              <i></i>
+              <div *ngIf="formErrors.apartment" class="alert alert-danger">{{formErrors.apartment}}</div>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- Кнопки -->
+        <div class="btn-group">
+          <button class="btn btn-primary mt-3" (click)="saveHouseFormData()" (click)="onSubmitSaveHouseData()"
+            [disabled]="!houseForm.valid">ЗБЕРЕГТИ</button>
+          <button class="btn btn-primary mt-3" (click)="editHouseFormData()" [disabled]="isDisabled">РЕДАГУВАТИ</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetHouseForm()">СКИНУТИ</button>
         </div>
+      </div>
 
-
-        <!-- Опис -->
-        <div class="input-group">
-          <span class="input-group-text">Опис</span>
-          <textarea class="form-control" aria-label="With textarea"></textarea>
+      <!-- Ціна та особливості -->
+      <div class="card" style="width: 20rem;">
+        <div class="card-name">
+          <h4>Ціна та особливості</h4>
         </div>
 
         <!-- Ціна за місяць -->
@@ -187,21 +191,6 @@
               aria-label="Dollar amount (with dot and two decimal places)">
             <span class="input-group-text">₴</span>
           </div>
-        </div>
-
-
-        <!-- Кнопки -->
-        <div class="btn-group">
-          <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
-        </div>
-
-      </div>
-
-      <!-- Ціна та особливості -->
-      <div class="card" style="width: 20rem;">
-        <div class="card-name">
-          <h4>Ціна та особливості</h4>
         </div>
 
         <!-- Метро -->
@@ -366,10 +355,8 @@
 
       </div>
 
-
     </div>
   </div>
 </div>
-
 
 <app-footer></app-footer>
