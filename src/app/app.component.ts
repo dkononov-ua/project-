@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       // const user = JSON.parse(userJson)
-      this.http.post('http://localhost:3000/Auth', JSON.parse(userJson))
+      this.http.post('http://localhost:3000/auth', JSON.parse(userJson))
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {

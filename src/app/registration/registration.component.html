@@ -25,7 +25,7 @@
         </div>
 
         <!-- Кнопка -->
-        <button class="ghost-black" [disabled]="!registrationForm.valid" (click)="onSubmitRegistrationForm('information')">Зареєструватись</button>
+        <button class="ghost-black" [disabled]="!registrationForm.valid">Зареєструватись</button>
       </form>
       <span>або скористатися своїм обліковим записом</span>
       <div class="social-container">
@@ -41,7 +41,7 @@
   <div class="form-container login-container col-lg-6 col-md-12">
     <div class="form-group">
       <h1>Увійти</h1>
-      <form (ngSubmit)="onSubmit('login')" [formGroup]="loginForm">
+      <form [formGroup]="loginForm">
 
         <!-- Електронна пошта -->
         <div class="inputbox">

@@ -1,4 +1,8 @@
-@use "../../style/presets/" as *;
+@use "../../../style/presets/" as *;
+
+.container {
+  display: flex;
+}
 
 .card {
   padding: 20px;

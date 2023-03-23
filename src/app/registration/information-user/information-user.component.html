@@ -33,7 +33,7 @@
         <!-- Кнопки -->
         <div class="btn-group">
           <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
         </div>
 
       </div>
@@ -44,14 +44,14 @@
           <h4>Інформація користувача</h4>
         </div>
 
-        <form class="form-box" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <form class="form-box" [formGroup]="userForm">
 
           <!-- Ім'я -->
           <div class="inputbox">
-            <input class="form-control" id="name" type="text" name="name" formControlName="name" required>
+            <input class="form-control" id="firstName" type="text" name="firstName" formControlName="firstName" required>
             <span>Ім'я</span>
             <i></i>
-            <div *ngIf="formErrors.name" class="alert alert-danger">{{formErrors.name}}</div>
+            <div *ngIf="formErrors.firstName" class="alert alert-danger">{{formErrors.firstName}}</div>
           </div>
 
           <!-- Прізвище -->
@@ -62,11 +62,45 @@
             <div *ngIf="formErrors.lastName" class="alert alert-danger">{{formErrors.lastName}}</div>
           </div>
 
+          <!-- По батькові -->
+          <div class="inputbox">
+            <input class="form-control" id="surName" type="text" name="surName" formControlName="surName" required>
+            <span>По батькові</span>
+            <i></i>
+            <div *ngIf="formErrors.surName" class="alert alert-danger">{{formErrors.surName}}</div>
+          </div>
+
+          <!-- Дата народження -->
+          <!-- <mat-form-field>
+            <input matInput [matDatepicker]="picker" mask="00.00.0000" placeholder="Дата народження" formControlName="dob" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="formErrors.dob">{{formErrors.dob}}</mat-error>
+            <mat-hint>Виберіть дату з календаря</mat-hint>
+          </mat-form-field>  -->
+
+          <!-- Дата народження -->
+          <div class="inputbox">
+            <input type="date" class="form-control" id="dob" name="dob" formControlName="dob" required>
+            <div *ngIf="formErrors.dob" class="alert alert-danger">{{formErrors.dob}}</div>
+            <span>Дата народження</span>
+            <i></i>
+            <div *ngIf="formErrors.dob" class="alert alert-danger">{{formErrors.dob}}</div>
+          </div>
+
+
           <!-- Пароль -->
           <div class="inputbox">
-            <input class="form-control" id="password" type="text" name="password" formControlName="password" required>
+            <input class="form-control" id="password" type="{{ passwordType }}" name="password"
+              formControlName="password" required>
             <span>Пароль</span>
             <i></i>
+            <div>
+              <button class="see-password" type="button" (click)="togglePasswordVisibility()">
+                <i class="icon"
+                  [class]="passwordType === 'password' ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'"></i>
+              </button>
+            </div>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </div>
 
@@ -77,20 +111,13 @@
             <i></i>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </div>
-
-          <div class="inputbox">
-            <input type="date" id="birthdate" name="birthdate">
-            <span>Дата народження</span>
-            <i></i>
-          </div>
-
         </form>
 
-        <!-- Дата народження -->
         <div class="btn-group">
-          <button type="button" class="btn btn-primary mt-3" (click)="edit()">Редагувати</button>
-          <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
+          <button class="btn btn-primary mt-3" (click)="saveUserData()" (click)="onSubmitSaveUserData()"
+            [disabled]="!userForm.valid">ЗБЕРЕГТИ</button>
+          <button class="btn btn-primary mt-3" (click)="editUserData()" [disabled]="isDisabled">РЕДАГУВАТИ</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetUserForm()">СКИНУТИ</button>
         </div>
 
       </div>
@@ -100,78 +127,84 @@
         <div class="card-name">
           <h4>Контактні дані</h4>
         </div>
-        <!-- Телефон -->
-        <div class="inputbox">
-          <input required="required" type="tel" id="phone" name="phone">
-          <span>Телефон</span>
-          <i></i>
-        </div>
 
-        <!-- Додатковий телефон -->
-        <div class="inputbox">
-          <input required="required" type="tel" name="phone">
-          <span>Додатковий телефон</span>
-          <i></i>
-        </div>
+        <form class="form-box" [formGroup]="userFormContacts">
 
-        <!-- Вулиця -->
-        <div class="inputbox">
-          <input required="required" type="text">
-          <span>Вулиця</span>
-          <i></i>
-        </div>
-
-        <!-- Номер/поверх -->
-        <div class="container-box">
-
+          <!-- Телефон -->
           <div class="inputbox">
-            <input required="required" type="text">
-            <span>Номер</span>
+            <input type="tel" id="phone" name="phone" formControlName="phone" required>
+            <span>Телефон</span>
             <i></i>
+            <div *ngIf="formErrors.phone" class="alert alert-danger">{{formErrors.phone}}</div>
           </div>
 
+          <!-- Вулиця -->
           <div class="inputbox">
-            <input required="required" type="text">
-            <span>Поверх</span>
+            <input required="required" type="text" formControlName="street">
+            <span>Вулиця</span>
             <i></i>
+            <div *ngIf="formErrors.street" class="alert alert-danger">{{formErrors.street}}</div>
           </div>
 
-          <div class="inputbox">
-            <input required="required" type="text">
-            <span>Квартира</span>
-            <i></i>
+          <!-- Номер/поверх/квартира -->
+          <div class="container-box">
+            <!-- Номер -->
+            <div class="inputbox">
+              <input required="required" type="text" formControlName="houseNumber">
+              <span>Номер</span>
+              <i></i>
+              <div *ngIf="formErrors.houseNumber" class="alert alert-danger">{{formErrors.houseNumber}}</div>
+            </div>
+
+            <!-- Поверх -->
+            <div class="inputbox">
+              <input required="required" type="number" formControlName="floor">
+              <span>Поверх</span>
+              <i></i>
+              <div *ngIf="formErrors.floor" class="alert alert-danger">{{formErrors.floor}}</div>
+            </div>
+
+            <!-- Квартира -->
+            <div class="inputbox">
+              <input required="required" type="number" formControlName="apartment">
+              <span>Квартира</span>
+              <i></i>
+              <div *ngIf="formErrors.apartment" class="alert alert-danger">{{formErrors.apartment}}</div>
+            </div>
           </div>
 
-        </div>
+          <!-- Місто -->
+          <div class="inputbox">
+            <input required="required" type="text" id="inputCity" formControlName="city">
+            <span>Місто</span>
+            <i></i>
+            <div *ngIf="formErrors.city" class="alert alert-danger">{{formErrors.city}}</div>
+          </div>
 
-        <!-- Місто -->
-        <div class="inputbox">
-          <input required="required" type="text" id="inputCity">
-          <span>Місто</span>
-          <i></i>
-        </div>
+          <!-- Область -->
+          <div class="inputbox">
+            <input required="required" type="text" id="inputRegion" formControlName="region">
+            <span>Область</span>
+            <i></i>
+            <div *ngIf="formErrors.region" class="alert alert-danger">{{formErrors.region}}</div>
+          </div>
 
-        <!-- Область -->
-        <div class="inputbox">
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected disabled>Область</option>
-            <option value="1">Київська</option>
-            <option value="2">Чернігівська</option>
-            <option value="3">Житомирська</option>
-          </select>
-        </div>
-
-        <!-- Індекс -->
-        <div class="inputbox">
-          <input required="required" type="text" id="inputZip">
-          <span>Індекс</span>
-          <i></i>
-        </div>
+          <!-- Індекс -->
+          <div class="inputbox">
+            <input required="required" type="number" id="inputZip" formControlName="index">
+            <span>Індекс</span>
+            <i></i>
+            <div *ngIf="formErrors.index" class="alert alert-danger">{{formErrors.index}}</div>
+          </div>
+        </form>
 
         <!-- Кнопки -->
         <div class="btn-group">
-          <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetForm()">Скинути</button>
+          <button class="btn btn-primary mt-3" (click)="saveUserContactsData()" (click)="onSubmitSaveUserFormContacts()"
+            [disabled]="!userFormContacts.valid">ЗБЕРЕГТИ</button>
+          <button class="btn btn-primary mt-3" (click)="editUserContactsData()"
+            [disabled]="isDisabled">РЕДАГУВАТИ</button>
+          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetUserFormContacts()">СКИНУТИ</button>
         </div>
 
       </div>
