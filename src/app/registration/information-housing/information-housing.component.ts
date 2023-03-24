@@ -1,5 +1,5 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { UserService } from '../../registration/information-user/user.service';
@@ -34,15 +34,15 @@ export class AppComponent {
 })
 export class InformationHousingComponent implements OnInit {
 
-  user = {
+  house = {
     houseId: '',
-    street: '',
-    houseNumber: '',
-    floor: '',
-    apartment: '',
-    city: '',
-    region: '',
-    index: '',
+    street: new FormControl({ value: '', disabled: true }),
+    houseNumber: new FormControl({ value: '', disabled: true }),
+    floor: new FormControl({ value: '', disabled: true }),
+    apartment: new FormControl({ value: '', disabled: true }),
+    city: new FormControl({ value: '', disabled: true }),
+    region: new FormControl({ value: '', disabled: true }),
+    index: new FormControl({ value: '', disabled: true }),
   };
 
   formErrors: any = {
@@ -57,6 +57,11 @@ export class InformationHousingComponent implements OnInit {
   };
 
   validationMessages: any = {
+    houseId: {
+      required: 'houseId обов`язково',
+      minlength: 'Мінімальна довжина 4 символи',
+      maxlength: 'Максимальна довжина 20 символів',
+    },
     street: {
       required: 'Вулиця обов`язкова',
       minlength: 'Мінімальна довжина 4 символи',
@@ -99,28 +104,51 @@ export class InformationHousingComponent implements OnInit {
   };
 
   houseForm!: FormGroup;
+  houseCreate!: FormGroup;
   isDisabled = false;
   formDisabled = false;
   errorMessage$ = new Subject<string>();
+  showInput = false;
+  data = '';
+
+  saveData() {
+    if (this.data.trim()) {
+      // зберігаємо дані
+      this.showInput = false;
+    }
+  }
 
   constructor(private fb: FormBuilder, private http: HttpClient) { }
 
   ngOnInit(): void {
     console.log('Пройшла перевірка оселі')
-    const houseJson = localStorage.getItem('house');
-    if (houseJson !== null) {
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
       // const user = JSON.parse(userJson)
-      this.http.post('http://localhost:3000/houseinfo', JSON.parse(houseJson))
+      this.http.post('http://localhost:3000/flatinfo/localflat', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          this.houseCreate = this.fb.group({
+            houseId: [response.flat.flat_id],
+          });
+          this.houseCreate.disable();
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+
+      // const user = JSON.parse(userJson)
+      this.http.post('http://localhost:3000/flatinfo/localflat', JSON.parse(userJson))
         .subscribe((response: any) => {
           this.houseForm = this.fb.group({
-            street: [response.inf.street],
-            houseNumber: [response.inf.houseNumber],
-            floor: [response.inf.floor],
-            apartment: [response.inf.apartment],
-            city: [response.inf.city],
-            region: [response.inf.region],
-            index: [response.inf.index]
+            street: [response.flat.street],
+            houseNumber: [response.flat.houseNumber],
+            floor: [response.flat.floor],
+            apartment: [response.flat.apartment],
+            city: [response.flat.city],
+            region: [response.flat.region],
+            index: [response.flat.index]
           });
+          this.houseForm.disable();
           console.log(response);
         }, (error: any) => {
           console.error(error);
@@ -133,8 +161,36 @@ export class InformationHousingComponent implements OnInit {
     this.initializeForm();
   }
 
+  onSubmitSaveHouseCreate(): void {
+    const userJson = localStorage.getItem('user');
+
+    if (userJson !== null) {
+      // const user = JSON.parse(houseJson)
+      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.houseCreate.value })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+      // ...
+    } else {
+      console.log('house not found');
+    }
+  }
+
+  saveHouseCreate(): void {
+    this.houseForm.disable();
+    this.isDisabled = true;
+    this.formDisabled = true;
+    // відправляємо дані на сервер і зберігаємо їх
+
+    // після успішного збереження змінюємо стан на редагування
+    this.isDisabled = false;
+    this.formDisabled = false;
+  }
+
   onSubmitSaveHouseData(): void {
-    const houseJson = localStorage.getItem('user');
+    const houseJson = localStorage.getItem('house');
 
     if (houseJson !== null) {
       // const user = JSON.parse(houseJson)
@@ -193,7 +249,20 @@ export class InformationHousingComponent implements OnInit {
   // }
 
   private initializeForm(): void {
+    this.houseCreate = this.fb.group({
+      houseId: [null, [
+        Validators.required,
+        Validators.minLength(7),
+        Validators.maxLength(20),
+      ]],
+    });
+
     this.houseForm = this.fb.group({
+      houseId: [null, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(20),
+      ]],
       street: [null, [
         Validators.required,
         Validators.minLength(4),
@@ -237,19 +306,27 @@ export class InformationHousingComponent implements OnInit {
     });
 
     this.houseForm.valueChanges?.subscribe(() => this.onValueChanged());
-  }
-
-  passwordType: string = 'password';
-
-  togglePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+    this.houseCreate.valueChanges?.subscribe(() => this.onValueChanged());
   }
 
   private onValueChanged() {
     this.formErrors = {};
 
-    const houseForm = this.houseForm;
+    const houseCreate = this.houseCreate;
+    for (const field in houseCreate.controls) {
+      const control = houseCreate.get(field);
+      this.formErrors[field] = '';
 
+      if (control && control.dirty && control.invalid) {
+        const messages = this.validationMessages[field];
+
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+
+    const houseForm = this.houseForm;
     for (const field in houseForm.controls) {
       const control = houseForm.get(field);
       this.formErrors[field] = '';

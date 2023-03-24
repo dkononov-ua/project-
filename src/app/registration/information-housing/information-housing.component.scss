@@ -1,8 +1,11 @@
 @use "../../style/presets/" as *;
 
 .card {
-  padding: 20px;
-  justify-content: space-between;
+  display: flex;
+  background-color: rgba(18, 17, 17, 0.769);
+  margin: 10px;
+  color: white;
+  padding: 10px;
 }
 
 .container-navbar {
@@ -39,6 +42,10 @@
 
 .clear {
   clear: both;
+}
+
+.form-box {
+  width: 100%;
 }
 
 .checkBox {
@@ -82,7 +89,8 @@
 .container-checkbox {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: space-around;
 }
 
 a {
@@ -100,13 +108,6 @@ a {
 .container-card {
   display: flex;
   align-items: stretch;
-}
-
-.card {
-  display: flex;
-  background-color: rgba(18, 17, 17, 0.769);
-  margin: 10px;
-  color: white;
 }
 
 .link {
@@ -135,8 +136,10 @@ a {
 .inputbox {
   position: relative;
   display: flex;
-  margin: 1.2rem 5px 1.5rem 5px;
+  margin: 0.4em 5px 0.4rem 5px;
   border-radius: 10px;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .inputbox input {
@@ -173,7 +176,7 @@ a {
   font-size: 0, 75em;
 }
 
-.inputbox i {
+.inputbox .orange {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -186,8 +189,8 @@ a {
   z-index: 9;
 }
 
-.inputbox input:valid ~ i,
-.inputbox input:focus ~ i {
+.inputbox input:valid ~ .orange,
+.inputbox input:focus ~ .orange {
   height: 2.5rem;
 }
 
@@ -211,14 +214,38 @@ p {
   color: $color-light;
 }
 
+.btn-group {
+  display: flex;
+}
+
 .btn {
+  width: 100%;
+  margin: 5px 0 5px 0;
   color: $color-light;
+  height: 45px;
+}
+
+.btn-info {
+  background-color: $color-primary;
+}
+
+.btn-text {
+  font-size: 0.8em;
 }
 
 .img-fluid {
   display: flex;
-  align-items: stretch;
   flex-direction: column;
+  width: 100%;
+}
+
+.card-photo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
 }
 
 .form-box {
@@ -250,3 +277,33 @@ p {
 .span {
   display: flex;
 }
+
+.card-body-cast {
+  background: none;
+}
+
+select {
+  font-size: 16px;
+  padding: 5px;
+  color: $color-accent;
+  background: $color-primary;
+  border: 1px groove $color-accent;
+  border-radius: 10px;
+}
+
+.input-cast {
+  font-size: 16px;
+  color: $color-accent;
+  background: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px groove $color-accent;
+  &:focus-visible {
+    border: 2px groove $color-accent;
+  }
+}
+
+
+
+
+

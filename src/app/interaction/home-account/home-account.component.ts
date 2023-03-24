@@ -31,9 +31,10 @@ export class HomeAccountComponent implements OnInit {
     if (userJson !== null) {
       // const user = JSON.parse(userJson)
       this.dataService.getData().subscribe((response: any) => {
-        console.log(123)
-        console.log(response)
-        this.data = response;
+        this.data.firstName = response.inf.firstName;
+        this.data.lastName = response.inf.lastName;
+        this.data.surName = response.inf.surName;
+        this.data.email = response.inf.email;
       });
     }
   }

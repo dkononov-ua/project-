@@ -14,105 +14,176 @@
   <div class="container-fluid">
     <div class="container-card info">
 
-      <!-- Фото оселі -->
-      <div class="card" style="width: 20rem;">
+      <div>
+        <!-- Реєстрація -->
+        <div class="card" style="width: 20rem;">
 
-        <div class="card-name">
-          <h4>Картка оселі</h4>
-          <p>Заповнення індивідуальної інформації про оселю</p>
-        </div>
+          <div class="card-name">
+            <h4>Ваш HouseID</h4>
+            <p>HouseID</p>
+          </div>
 
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="text-center">
-                <img src="https://via.placeholder.com/200" class="rounded" alt="...">
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="text-center">
-                <img src="https://via.placeholder.com/200" class="rounded" alt="...">
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="text-center">
-                <img src="https://via.placeholder.com/200" class="rounded" alt="...">
-              </div>
+          <div class="btn-group">
+            <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+              aria-expanded="false" aria-controls="collapseExample">Про стутус</button>
+            <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleOne"
+              aria-expanded="false" aria-controls="collapseExample">Про House ID</button>
+          </div>
+
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body-cast">
+              Статус оселі потрібно для правильного відображення інформації орендаторів та орендодавців.
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+          <div class="collapse" id="collapseExampleOne">
+            <div class="card card-body-cast">
+              Створіть унікальний ідентифікаційний код для прив'язки оселі. Приклад заповнення "UserHouse1".
+            </div>
+          </div>
+
+          <!-- Мої оселі -->
+          <div class="inputbox">
+            <p>Оберіть оселю</p>
+
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected disabled>Вибір оселі за HouseID</option>
+              <option value="1">HouseID1</option>
+            </select>
+          </div>
+          <button class="btn btn-primary mt-3">ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</button>
+
+          <div>
+            <p>Створення нової оселі</p>
+          </div>
+
+          <form class="form-box" [formGroup]="houseCreate">
+            <button class="btn btn-primary mt-3" (click)="showInput = true" *ngIf="!showInput">ДОДАТИ НОВУ
+              ОСЕЛЮ</button>
+
+            <div class="inputbox">
+              <input class="input-cast" type="text" [(ngModel)]="data" *ngIf="showInput" id="houseId"
+                placeholder="Створіть свій HouseID" name="houseId" formControlName="houseId" required>
+              <i class="orange"></i>
+
+              <div *ngIf="formErrors.houseId" class="alert alert-danger">{{formErrors.houseId}}</div>
+            </div>
+
+            <button class="btn btn-primary mt-3" (click)="saveData()" *ngIf="showInput">ЗБЕРЕГТИ</button>
+          </form>
+
         </div>
-        <div>
+
+        <!-- Фото оселі -->
+        <div class="card" style="width: 20rem;">
+          <div class="card-name">
+            <h4>Фото оселі</h4>
+          </div>
+
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="text-center">
+                  <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="text-center">
+                  <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="text-center">
+                  <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
           <p>Додати фото оселі</p>
           <input class="form-control" type="file" id="formFileMultiple" multiple>
-        </div>
 
-        <div>
-          <p>Додати документи на оселю</p>
-          <div class="input-group">
-            <input type="file" class="form-control" id="inputGroupFile02">
+          <!-- Кнопки -->
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
+            <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
           </div>
-        </div>
-
-        <div>
-          <p>Додати існуючу угоду</p>
-          <div class="input-group">
-            <input type="file" class="form-control" id="inputGroupFile02">
-          </div>
-        </div>
-
-        <!-- Кнопки -->
-        <div class="btn-group">
-          <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
         </div>
       </div>
 
       <!-- Адреса оселі -->
       <div class="card" style="width: 20rem;">
-        <div class="card-name">
-          <h4>Адреса оселі</h4>
-        </div>
-
         <form class="form-box" [formGroup]="houseForm">
-          <!-- ID -->
-          <div class="inputbox">
-            <input type="text" id="houseId" name="houseId" formControlName="houseId" required>
-            <span>HouseID</span>
-            <i></i>
-            <div *ngIf="formErrors.houseId" class="alert alert-danger">{{formErrors.houseId}}</div>
+          <div class="card-name">
+            <h4>Адреса оселі</h4>
+          </div>
+
+          <!-- Статус -->
+          <div>
+            <p>Визначіть статус оселі</p>
+
+            <div class="container-checkbox">
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch6" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Здаю</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch7" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Проживаю</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch8" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Приватно</span>
+                <i></i>
+              </div>
+
+            </div>
           </div>
 
           <!-- Область -->
           <div class="inputbox">
-            <input required="required" type="text" id="inputRegion" formControlName="region">
+            <input required="required" type="text" id="inputRegion" name="region" formControlName="region">
             <span>Область</span>
-            <i></i>
+            <i class="orange"></i>
             <div *ngIf="formErrors.region" class="alert alert-danger">{{formErrors.region}}</div>
           </div>
 
           <!-- Місто -->
           <div class="inputbox">
-            <input required="required" type="text" id="inputCity" formControlName="city">
+            <input required="required" type="text" id="inputCity" name="city" formControlName="city">
             <span>Місто</span>
-            <i></i>
+            <i class="orange"></i>
             <div *ngIf="formErrors.city" class="alert alert-danger">{{formErrors.city}}</div>
           </div>
 
           <!-- Вулиця -->
           <div class="inputbox">
-            <input required="required" type="text" formControlName="street">
+            <input required="required" type="text" name="street" formControlName="street">
             <span>Вулиця</span>
-            <i></i>
+            <i class="orange"></i>
             <div *ngIf="formErrors.street" class="alert alert-danger">{{formErrors.street}}</div>
           </div>
 
@@ -120,17 +191,17 @@
 
             <!-- Індекс -->
             <div class="inputbox">
-              <input required="required" type="number" id="inputZip" formControlName="index">
+              <input required="required" type="number" id="inputZip" name="index" formControlName="index">
               <span>Індекс</span>
-              <i></i>
+              <i class="orange"></i>
               <div *ngIf="formErrors.index" class="alert alert-danger">{{formErrors.index}}</div>
             </div>
 
             <!-- Номер -->
             <div class="inputbox">
-              <input required="required" type="text" formControlName="houseNumber">
+              <input required="required" type="text" name="houseNumber" formControlName="houseNumber">
               <span>Номер</span>
-              <i></i>
+              <i class="orange"></i>
               <div *ngIf="formErrors.houseNumber" class="alert alert-danger">{{formErrors.houseNumber}}</div>
             </div>
 
@@ -143,7 +214,7 @@
             <div class="inputbox">
               <input required="required" type="number" formControlName="floor">
               <span>Поверх</span>
-              <i></i>
+              <i class="orange"></i>
               <div *ngIf="formErrors.floor" class="alert alert-danger">{{formErrors.floor}}</div>
             </div>
 
@@ -151,18 +222,31 @@
             <div class="inputbox">
               <input required="required" type="number" formControlName="apartment">
               <span>Квартира</span>
-              <i></i>
+              <i class="orange"></i>
               <div *ngIf="formErrors.apartment" class="alert alert-danger">{{formErrors.apartment}}</div>
             </div>
           </div>
 
+          <div>
+            <p>Додати документи на оселю</p>
+            <div class="input-group">
+              <input type="file" class="form-control" id="inputGroupFile02">
+            </div>
+          </div>
+
+          <div>
+            <p>Додати існуючу угоду</p>
+            <div class="input-group">
+              <input type="file" class="form-control" id="inputGroupFile02">
+            </div>
+          </div>
         </form>
 
         <!-- Кнопки -->
         <div class="btn-group">
           <button class="btn btn-primary mt-3" (click)="saveHouseFormData()" (click)="onSubmitSaveHouseData()"
             [disabled]="!houseForm.valid">ЗБЕРЕГТИ</button>
-          <button class="btn btn-primary mt-3" (click)="editHouseFormData()" [disabled]="isDisabled">РЕДАГУВАТИ</button>
+          <button class="btn btn-primary mt-3" [disabled]="isDisabled">РЕДАГУВАТИ</button>
           <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetHouseForm()">СКИНУТИ</button>
         </div>
       </div>
@@ -173,179 +257,182 @@
           <h4>Ціна та особливості</h4>
         </div>
 
-        <!-- Ціна за місяць -->
-        <div class="">
-          <label for="">Ціна за місяць</label>
-          <div class="input-group">
-            <input type="text" class="form-control" id="inputPrice"
-              aria-label="Dollar amount (with dot and two decimal places)">
-            <span class="input-group-text">₴</span>
+        <form action="">
+
+          <!-- Метро -->
+          <div class="inputbox">
+            <label for="">Метро</label>
+
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected disabled>Метро</option>
+              <option value="1">до 100м</option>
+              <option value="2">до 300м</option>
+              <option value="3">до 500м</option>
+              <option value="3">до 1км</option>
+            </select>
           </div>
-        </div>
 
-        <!-- Ціна за рік -->
-        <div class="">
-          <label for="">Ціна за рік</label>
-          <div class="input-group">
-            <input type="text" class="form-control" id="inputPrice"
-              aria-label="Dollar amount (with dot and two decimal places)">
-            <span class="input-group-text">₴</span>
+          <!-- Зупинка транспорту -->
+          <div class="inputbox">
+            <label for="">Зупинка транспорту</label>
+
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected disabled>Зупинка транспорту</option>
+              <option value="1">до 100м</option>
+              <option value="2">до 300м</option>
+              <option value="3">до 500м</option>
+              <option value="3">до 1км</option>
+            </select>
           </div>
-        </div>
 
-        <!-- Метро -->
-        <div class="inputbox">
-          <label for="">Метро</label>
+          <!-- Продуктові магазини -->
+          <div class="inputbox">
+            <label for="">Продуктові магазини</label>
 
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected disabled>Метро</option>
-            <option value="1">до 100м</option>
-            <option value="2">до 300м</option>
-            <option value="3">до 500м</option>
-            <option value="3">до 1км</option>
-          </select>
-        </div>
-
-        <!-- Зупинка транспорту -->
-        <div class="inputbox">
-          <label for="">Зупинка транспорту</label>
-
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected disabled>Зупинка транспорту</option>
-            <option value="1">до 100м</option>
-            <option value="2">до 300м</option>
-            <option value="3">до 500м</option>
-            <option value="3">до 1км</option>
-          </select>
-        </div>
-
-        <!-- Продуктові магазини -->
-        <div class="inputbox">
-          <label for="">Продуктові магазини</label>
-
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected disabled>Продуктові магазини</option>
-            <option value="1">до 100м</option>
-            <option value="2">до 300м</option>
-            <option value="3">до 500м</option>
-            <option value="3">до 1км</option>
-          </select>
-        </div>
-
-        <!-- Парки, сквери -->
-        <div class="inputbox">
-          <label for="">Парк, сквер</label>
-
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected disabled>Парк, сквер</option>
-            <option value="1">до 100м</option>
-            <option value="2">до 300м</option>
-            <option value="3">до 500м</option>
-            <option value="3">до 1км</option>
-          </select>
-        </div>
-
-        <!-- Паркінг -->
-        <div class="inputbox">
-          <label for="">Паркінг</label>
-
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected disabled>Паркінг</option>
-            <option value="1">на території</option>
-            <option value="2">до 300м</option>
-            <option value="3">до 500м</option>
-            <option value="3">до 1км</option>
-          </select>
-        </div>
-
-        <!-- Чекбокс 1 -->
-        <div>
-          <p>Розглядаю</p>
-          <div class="container-checkbox">
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch1" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Студент</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch2" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Жінка</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch3" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Чоловік</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch4" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Сім'я</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch5" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Діти</span>
-              <i></i>
-            </div>
-
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected disabled>Продуктові магазини</option>
+              <option value="1">до 100м</option>
+              <option value="2">до 300м</option>
+              <option value="3">до 500м</option>
+              <option value="3">до 1км</option>
+            </select>
           </div>
-        </div>
 
-        <!-- Чекбокс 2 -->
-        <div>
-          <p>Не проти</p>
+          <!-- Парки, сквери -->
+          <div class="inputbox">
+            <label for="">Парк, сквер</label>
 
-          <div class="container-checkbox">
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch6" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Котів</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch7" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Собак</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="ch8" type="checkbox">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Інше</span>
-              <i></i>
-            </div>
-
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected disabled>Парк, сквер</option>
+              <option value="1">до 100м</option>
+              <option value="2">до 300м</option>
+              <option value="3">до 500м</option>
+              <option value="3">до 1км</option>
+            </select>
           </div>
-        </div>
+
+          <!-- Паркінг -->
+          <div class="inputbox">
+            <label for="">Паркінг</label>
+
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option selected disabled>Паркінг</option>
+              <option value="1">на території</option>
+              <option value="2">до 300м</option>
+              <option value="3">до 500м</option>
+              <option value="3">до 1км</option>
+            </select>
+          </div>
+
+          <!-- Чекбокс 1 -->
+          <div>
+            <p>Розглядаю</p>
+            <div class="container-checkbox">
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch1" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Студент</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch2" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Жінка</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch3" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Чоловік</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch4" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Сім'я</span>
+                <i></i>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Чекбокс 2 -->
+          <div>
+            <p>Не проти тварин</p>
+
+            <div class="container-checkbox">
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch6" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Котів</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch7" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Собак</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch8" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Єнотів</span>
+                <i></i>
+              </div>
+
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch9" type="checkbox">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Інше</span>
+                <i></i>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Ціна за місяць -->
+          <div class="">
+            <label for="">Ціна за місяць</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="inputPrice"
+                aria-label="Dollar amount (with dot and two decimal places)">
+              <span class="input-group-text">₴</span>
+            </div>
+          </div>
+
+          <!-- Ціна за рік -->
+          <div class="">
+            <label for="">Ціна за рік</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="inputPrice"
+                aria-label="Dollar amount (with dot and two decimal places)">
+              <span class="input-group-text">₴</span>
+            </div>
+          </div>
+        </form>
 
         <!-- Кнопки -->
         <div class="btn-group">

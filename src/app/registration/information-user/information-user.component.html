@@ -143,7 +143,7 @@
             <input required="required" type="text" id="inputTelegram" formControlName="telegram">
             <span>Telegram <i class="fa-brands fa-telegram"></i></span>
             <i class="orange"></i>
-            <div *ngIf="" class="alert alert-danger">{{formErrors}}</div>
+            <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div>
           </div>
 
           <!-- Фейсбук -->
@@ -151,7 +151,7 @@
             <input required="required" type="text" id="inputFacebook" formControlName="facebook">
             <span>Facebook <i class="fa-brands fa-facebook"></i></span>
             <i class="orange"></i>
-            <div *ngIf="" class="alert alert-danger">{{formErrors}}</div>
+            <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div>
           </div>
 
           <!-- Інстаграм -->
@@ -159,7 +159,7 @@
             <input required="required" type="text" id="inputInstagram" formControlName="instagram">
             <span>Instagram <i class="fa-brands fa-instagram"></i></span>
             <i class="orange"></i>
-            <div *ngIf="" class="alert alert-danger">{{formErrors}}</div>
+            <div *ngIf="formErrors.instagram" class="alert alert-danger">{{formErrors}}</div>
           </div>
 
           <!-- Вайбер -->
@@ -167,7 +167,7 @@
             <input required="required" type="text" id="inputViber" formControlName="viber">
             <span>Viber <i class="fa-brands fa-viber"></i></span>
             <i class="orange"></i>
-            <div *ngIf="" class="alert alert-danger">{{formErrors}}</div>
+            <div *ngIf="formErrors.viber" class="alert alert-danger">{{formErrors}}</div>
           </div>
 
           <!-- Пошта -->
@@ -175,7 +175,7 @@
             <input required="required" type="text" id="inputMail" formControlName="mail">
             <span>Пошта</span>
             <i class="orange"></i>
-            <div *ngIf="" class="alert alert-danger">{{formErrors}}</div>
+            <div *ngIf="formErrors.mail" class="alert alert-danger">{{formErrors}}</div>
           </div>
         </form>
 

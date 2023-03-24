@@ -1,5 +1,5 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
@@ -40,18 +40,18 @@ export class DataService {
 })
 export class InformationUserComponent implements OnInit {
   user = {
-    firstName: '',
-    lastName: '',
-    surName: '',
-    email: '',
-    password: '',
-    dob: '',
-    phone: '',
-    telegram: '',
-    facebook: '',
-    instagram: '',
-    mail: '',
-    viber: '',
+    firstName: new FormControl({ value: '', disabled: true }),
+    lastName: new FormControl({ value: '', disabled: true }),
+    surName: new FormControl({ value: '', disabled: true }),
+    email: new FormControl({ value: '', disabled: true }),
+    password: new FormControl({ value: '', disabled: true }),
+    dob: new FormControl({ value: '', disabled: true }),
+    phone: new FormControl({ value: '', disabled: true }),
+    telegram: new FormControl({ value: '', disabled: true }),
+    facebook: new FormControl({ value: '', disabled: true }),
+    instagram: new FormControl({ value: '', disabled: true }),
+    mail: new FormControl({ value: '', disabled: true }),
+    viber: new FormControl({ value: '', disabled: true }),
   };
 
   formErrors: any = {
@@ -108,6 +108,36 @@ export class InformationUserComponent implements OnInit {
       maxlength: 'Максимальна довжина 10 символів',
       pattern: 'Телефон повинен містити тільки цифри'
     },
+    telegram: {
+      required: 'Телефон обов`язковий',
+      minlength: 'Формат введення 10 символів',
+      maxlength: 'Максимальна довжина 10 символів',
+      pattern: 'Телефон повинен містити тільки цифри'
+    },
+    facebook: {
+      required: 'Телефон обов`язковий',
+      minlength: 'Формат введення 10 символів',
+      maxlength: 'Максимальна довжина 10 символів',
+      pattern: 'Телефон повинен містити тільки цифри'
+    },
+    instagram: {
+      required: 'Телефон обов`язковий',
+      minlength: 'Формат введення 10 символів',
+      maxlength: 'Максимальна довжина 10 символів',
+      pattern: 'Телефон повинен містити тільки цифри'
+    },
+    viber: {
+      required: 'Телефон обов`язковий',
+      minlength: 'Формат введення 10 символів',
+      maxlength: 'Максимальна довжина 10 символів',
+      pattern: 'Телефон повинен містити тільки цифри'
+    },
+    mail: {
+      required: 'Телефон обов`язковий',
+      minlength: 'Формат введення 10 символів',
+      maxlength: 'Максимальна довжина 10 символів',
+      pattern: 'Телефон повинен містити тільки цифри'
+    },
   };
 
   userForm!: FormGroup;
@@ -133,6 +163,7 @@ export class InformationUserComponent implements OnInit {
             dob: [response.inf.dob],
             password: [response.inf.password],
           });
+          this.userForm.disable();
           console.log(response);
         }, (error: any) => {
           console.error(error);
@@ -141,13 +172,14 @@ export class InformationUserComponent implements OnInit {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           this.userFormContacts = this.fb.group({
-            phone: [response.inf.phone],
-            telegram: [response.inf.telegram],
-            facebook: [response.inf.facebook],
-            instagram: [response.inf.instagram],
-            viber: [response.inf.viber],
-            mail: [response.inf.mail],
+            phone: [response.cont.tell],
+            telegram: [response.cont.telegram],
+            facebook: [response.cont.facebook],
+            instagram: [response.cont.instagram],
+            viber: [response.cont.vider],
+            mail: [response.cont.email],
           });
+          this.userFormContacts.disable(); // додайте цей рядок
           console.log(response);
         }, (error: any) => {
           console.error(error);
@@ -156,7 +188,6 @@ export class InformationUserComponent implements OnInit {
     } else {
       console.log('user not found');
     }
-
     this.initializeForm();
   }
 
@@ -242,6 +273,11 @@ export class InformationUserComponent implements OnInit {
 
     this.userFormContacts = this.fb.group({
       phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      facebook: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      telegram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      instagram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      viber: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      mail: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
     });
 
     this.userForm.valueChanges?.subscribe(() => this.onValueChanged());
@@ -259,11 +295,11 @@ export class InformationUserComponent implements OnInit {
   }
 
   private onValueChanged() {
-    const form = this.userForm;
     this.formErrors = {};
 
-    for (const field in form.controls) {
-      const control = form.get(field);
+    const userForm = this.userForm;
+    for (const field in userForm.controls) {
+      const control = userForm.get(field);
       this.formErrors[field] = '';
 
       if (control && control.dirty && control.invalid) {
@@ -271,14 +307,13 @@ export class InformationUserComponent implements OnInit {
 
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
-        };
-      };
-    };
+        }
+      }
+    }
 
-    const formContacts = this.userFormContacts;
-
-    for (const field in formContacts.controls) {
-      const control = formContacts.get(field);
+    const userFormContacts = this.userFormContacts;
+    for (const field in userFormContacts.controls) {
+      const control = userFormContacts.get(field);
       this.formErrors[field] = '';
 
       if (control && control.dirty && control.invalid) {
