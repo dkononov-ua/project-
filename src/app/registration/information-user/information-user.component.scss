@@ -1,13 +1,9 @@
 @use "../../style/presets/" as *;
 
-.card {
+.container-fluid {
   display: flex;
-  background-color: rgba(18, 17, 17, 0.769);
-  margin: 20px;
-  color: white;
-  align-items: center;
-  padding: 10px;
-  width: 32%;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .container-navbar {
@@ -15,21 +11,21 @@
   justify-content: flex-end;
 }
 
-.container-fluid {
+.container-card {
+  width: 100%;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
-  align-content: center;
   align-items: stretch;
-  margin-top: 20px;
+  justify-content: center;
 }
 
-.content {
+.card {
   display: flex;
-  margin: 5px;
-  width: 50px;
-  flex-direction: column;
+  background-color: rgba(18, 17, 17, 0.792);
+  color: white;
+  padding: 10px;
   align-items: center;
+  align-content: center;
   justify-content: center;
 }
 
@@ -102,22 +98,6 @@ a {
   margin-bottom: 20px;
 }
 
-.container-fluid {
-  display: flex;
-}
-
-.container-card {
-  display: flex;
-  align-items: stretch;
-}
-
-.card {
-  display: flex;
-  background-color: rgba(18, 17, 17, 0.769);
-  margin: 10px;
-  color: white;
-}
-
 .link {
   transition: 1s;
   background-color: $color-primary;
@@ -139,6 +119,27 @@ a {
       transition: transform 1s;
     }
   }
+}
+
+.watch-box {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  margin: 1.2rem 5px 1.5rem 5px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-control {
+  display: flex;
+  padding: 0;
+  margin: 0;
+
+  background: none;
+  border: none;
 }
 
 .inputbox {
@@ -234,9 +235,6 @@ p {
 }
 
 .img-fluid {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 .card-photo {
@@ -257,11 +255,11 @@ p {
   justify-content: space-around;
 }
 
-.see-password {
+.see {
   z-index: 10;
   position: absolute;
   right: 4rem;
-  top: 10px;
+  top: 4px;
   background: none;
   border: none;
   width: 40px;

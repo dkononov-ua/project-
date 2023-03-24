@@ -1,11 +1,9 @@
 @use "../../style/presets/" as *;
 
-.card {
+.container-fluid {
   display: flex;
-  background-color: rgba(18, 17, 17, 0.769);
-  margin: 10px;
-  color: white;
-  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .container-navbar {
@@ -13,13 +11,19 @@
   justify-content: flex-end;
 }
 
-.container-fluid {
+.container-card {
+  width: 100%;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
-  align-content: center;
-  align-items: stretch;
-  margin-top: 20px;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  background-color: rgba(18, 17, 17, 0.792);
+  color: white;
+  padding: 10px;
 }
 
 .content {
@@ -101,14 +105,7 @@ a {
   margin-bottom: 20px;
 }
 
-.container-fluid {
-  display: flex;
-}
 
-.container-card {
-  display: flex;
-  align-items: stretch;
-}
 
 .link {
   transition: 1s;
@@ -136,7 +133,7 @@ a {
 .inputbox {
   position: relative;
   display: flex;
-  margin: 0.4em 5px 0.4rem 5px;
+  margin: 1em 5px 1em 5px;
   border-radius: 10px;
   flex-direction: column;
   align-items: stretch;
@@ -302,8 +299,3 @@ select {
     border: 2px groove $color-accent;
   }
 }
-
-
-
-
-

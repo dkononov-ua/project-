@@ -30,7 +30,7 @@ export class AppComponent {
 @Component({
   selector: 'app-information-housing',
   templateUrl: './information-housing.component.html',
-  styleUrls: ['./information-housing.component.scss']
+  styleUrls: ['./information-housing.component.scss'],
 })
 export class InformationHousingComponent implements OnInit {
 
@@ -105,11 +105,15 @@ export class InformationHousingComponent implements OnInit {
 
   houseForm!: FormGroup;
   houseCreate!: FormGroup;
+  selectHouse!: FormGroup;
   isDisabled = false;
   formDisabled = false;
   errorMessage$ = new Subject<string>();
   showInput = false;
+  houses: { id: string, name: string }[] = [];
   data = '';
+  formBuilder: any;
+
 
   saveData() {
     if (this.data.trim()) {
@@ -121,39 +125,27 @@ export class InformationHousingComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.selectHouse = new FormGroup({
+      house: new FormControl()
+    });
+
     console.log('Пройшла перевірка оселі')
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       // const user = JSON.parse(userJson)
-      this.http.post('http://localhost:3000/flatinfo/localflat', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          this.houseCreate = this.fb.group({
-            houseId: [response.flat.flat_id],
-          });
-          this.houseCreate.disable();
-          console.log(response);
-        }, (error: any) => {
-          console.error(error);
-        });
+      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+        .subscribe((response: any | undefined) => {
+          this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
+            id: index + 1,
+            name: item.flat_id
+          }));
 
-      // const user = JSON.parse(userJson)
-      this.http.post('http://localhost:3000/flatinfo/localflat', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          this.houseForm = this.fb.group({
-            street: [response.flat.street],
-            houseNumber: [response.flat.houseNumber],
-            floor: [response.flat.floor],
-            apartment: [response.flat.apartment],
-            city: [response.flat.city],
-            region: [response.flat.region],
-            index: [response.flat.index]
-          });
-          this.houseForm.disable();
-          console.log(response);
+          // this.selectHouse = this.formBuilder.group({
+          //   houses: ['']
+          // });
         }, (error: any) => {
           console.error(error);
         });
-      // ...
     } else {
       console.log('house not found');
     }
@@ -178,6 +170,41 @@ export class InformationHousingComponent implements OnInit {
     }
   }
 
+  onSubmitSelectHouse(): void {
+        const selectedHouseId = this.selectHouse.get('house')?.value;
+    console.log('Ви вибрали оселю з ID:', selectedHouseId);
+
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedHouseId })
+        .subscribe((response: any) => {
+          // this.selectHouse = this.formBuilder.group({
+          //   houses: ['']
+          // });
+
+
+          console.log(response.flat.street);
+          if(response.flat.street === null){}else{this.houseForm = this.fb.group({
+            street: [response.flat.street]})}
+
+          this.houseForm = this.fb.group({
+            street: [response.flat.street],
+            houseNumber: [response.flat.numb_street],
+            floor: [response.flat.floor],
+            apartment: [response.flat.numb_flat],
+            city: [response.flat.city],
+            region: [response.flat.status],
+            index: [response.flat.flat_index],
+          });
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
+
+
   saveHouseCreate(): void {
     this.houseForm.disable();
     this.isDisabled = true;
@@ -190,11 +217,13 @@ export class InformationHousingComponent implements OnInit {
   }
 
   onSubmitSaveHouseData(): void {
-    const houseJson = localStorage.getItem('house');
+    const selectedHouseId = this.selectHouse.get('house')?.value;
 
-    if (houseJson !== null) {
+    const userJson = localStorage.getItem('user');
+
+    if (userJson !== null) {
       // const user = JSON.parse(houseJson)
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(houseJson), new: this.houseForm.value })
+      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.houseForm.value, flat_id: selectedHouseId  })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {

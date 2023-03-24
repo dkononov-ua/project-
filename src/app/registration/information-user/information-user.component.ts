@@ -4,6 +4,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthService } from '../auth.service';
+import { DataService } from '../../data.service';
 
 @NgModule({
   imports: [
@@ -27,18 +28,28 @@ export class AppComponent {
   }
 }
 
-export class DataService {
-  saveData(value: any) {
-    throw new Error('Method not implemented.');
-  }
-}
-
 @Component({
   selector: 'app-information-user',
   templateUrl: './information-user.component.html',
   styleUrls: ['./information-user.component.scss']
 })
 export class InformationUserComponent implements OnInit {
+
+  data = {
+    firstName: '',
+    lastName: '',
+    surName: '',
+    email: '',
+    password: '',
+    dob: '',
+    phone: '',
+    telegram: '',
+    facebook: '',
+    instagram: '',
+    mail: '',
+    viber: '',
+  };
+
   user = {
     firstName: new FormControl({ value: '', disabled: true }),
     lastName: new FormControl({ value: '', disabled: true }),
@@ -52,6 +63,9 @@ export class InformationUserComponent implements OnInit {
     instagram: new FormControl({ value: '', disabled: true }),
     mail: new FormControl({ value: '', disabled: true }),
     viber: new FormControl({ value: '', disabled: true }),
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   };
 
   formErrors: any = {
@@ -67,6 +81,9 @@ export class InformationUserComponent implements OnInit {
     instagram: '',
     mail: '',
     viber: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   };
 
   validationMessages: any = {
@@ -145,8 +162,22 @@ export class InformationUserComponent implements OnInit {
   isDisabled = false;
   formDisabled = false;
   errorMessage$ = new Subject<string>();
+  changePasswordForm!: FormGroup<{ currentPassword: FormControl<string | null>; newPassword: FormControl<string | null>; confirmPassword: FormControl<string | null>; }>;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+
+  showPassword = false;
+  isPasswordVisible = false;
+  passwordType = 'password';
+  emailType: string = 'password';
+
+  togglePasswordVisibility() {
+    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+  };
+
+  toggleEmailVisibility() {
+    this.emailType = this.emailType === 'password' ? 'text' : 'password';
+  }
 
   ngOnInit(): void {
     console.log('Пройшла перевірка користувача')
@@ -162,6 +193,13 @@ export class InformationUserComponent implements OnInit {
             surName: [response.inf.surName],
             dob: [response.inf.dob],
             password: [response.inf.password],
+          });
+          this.dataService.getData().subscribe((response: any) => {
+            this.data.firstName = response.inf.firstName;
+            this.data.lastName = response.inf.lastName;
+            this.data.surName = response.inf.surName;
+            this.data.email = response.inf.email;
+            this.data.password = response.inf.password;
           });
           this.userForm.disable();
           console.log(response);
@@ -282,12 +320,6 @@ export class InformationUserComponent implements OnInit {
 
     this.userForm.valueChanges?.subscribe(() => this.onValueChanged());
     this.userFormContacts.valueChanges?.subscribe(() => this.onValueChanged());
-  };
-
-  passwordType: string = 'password';
-
-  togglePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   };
 
   logout() {

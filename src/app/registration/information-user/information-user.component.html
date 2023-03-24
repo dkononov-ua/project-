@@ -11,27 +11,25 @@
   </div>
 
   <!-- Картки -->
-  <div class="container-fluid">
-    <div class="container-card info">
-
-      <!-- Фото користувача -->
-      <div class="card">
-
+  <div class="container-card">
+    <!-- Аккаунт користувача/Фото користувача -->
+    <div class="col-lg-4 col-md-5 col-sm-6 col-12">
+      <!-- Аккаунт користувача -->
+      <div class="card m-2">
         <div class="card-name">
-          <h4>Фото користувача</h4>
+          <h4>Аккаунт користувача</h4>
+          <p>Користувач: {{ data.email }}</p>
         </div>
-
-        <form class="card-photo form-box" [formGroup]="userForm">
-          <div class="img-fluid">
-            <img src="https://via.placeholder.com/200" class="rounded" alt="...">
-          </div>
-          <div class="mb-3">
-            <label for="formFile" class="form-label">Ваше фото профіля</label>
+        <div class="img-fluid">
+          <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+        </div>
+        <form class="" [formGroup]="userForm">
+          <div class="container-fluid mb-3">
+            <p>Ваше фото: </p>
             <input class="form-control" type="file" id="formFile">
           </div>
-
           <!-- Пароль -->
-          <div class="inputbox">
+          <!-- <div class="inputbox">
             <input class="form-control" id="password" type="{{ passwordType }}" name="password"
               formControlName="password" required>
             <span>Пароль</span>
@@ -41,14 +39,22 @@
             </button>
             <i class="orange"></i>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
-          </div>
-
-          <!-- Електронна пошта -->
-          <div class="inputbox">
-            <input class="form-control" id="email" type="text" name="email" formControlName="email">
-            <span>Email</span>
+          </div> -->
+          <!-- Пароль -->
+          <div class="watch-box">
+            <p>Ваш пароль: </p>
+            <button class="see" type="button" (click)="togglePasswordVisibility()">
+              <i class="icon"
+                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+            </button>
             <i class="orange"></i>
-            <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+            <ng-container *ngIf="passwordType === 'text'; else passwordHidden">
+              <p>{{ data.password }}</p>
+            </ng-container>
+            <ng-template #passwordHidden>
+              <input class="form-control" id="password" type="{{ passwordType }}" name="password"
+                formControlName="password" required>
+            </ng-template>
           </div>
         </form>
 
@@ -57,10 +63,12 @@
           <button class="btn btn-primary"><span class="btn-text" (click)="logout()">ВИЙТИ З АККАУНТУ</span></button>
         </div>
 
-      </div>
 
-      <!-- Інформація користувача -->
-      <div class="card">
+      </div>
+    </div>
+    <!-- Інформація користувача -->
+    <div class="col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
 
         <div class="card-name">
           <h4>Інформація користувача</h4>
@@ -121,9 +129,10 @@
         </div>
 
       </div>
-
-      <!-- Контактні дані користувача -->
-      <div class="card">
+    </div>
+    <!-- Контактні дані користувача -->
+    <div class="col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
         <div class="card-name">
           <h4>Контактні дані</h4>
         </div>
@@ -190,8 +199,8 @@
         </div>
 
       </div>
-
     </div>
+
   </div>
 </div>
 
