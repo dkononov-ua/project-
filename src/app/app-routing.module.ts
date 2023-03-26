@@ -20,6 +20,7 @@ import { UserPaymentComponent } from './registration/user-payment/user-payment.c
 import { CanActivateGuard } from './shared/auth.guard';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { ModalComponent } from './modal/modal.component';
+import { UserLicenceComponent } from './user-licence/user-licence.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
   { path: 'modal', component: ModalComponent },
+  { path: 'user-licence', component: UserLicenceComponent },
   { path: 'registration-mob', component: RegistrationMobComponent},
 ];
 
