@@ -43,6 +43,7 @@ export class InformationUserComponent implements OnInit {
     password: '',
     dob: '',
     phone: '',
+    phone_alt: '',
     telegram: '',
     facebook: '',
     instagram: '',
@@ -58,6 +59,7 @@ export class InformationUserComponent implements OnInit {
     password: new FormControl({ value: '', disabled: true }),
     dob: new FormControl({ value: '', disabled: true }),
     phone: new FormControl({ value: '', disabled: true }),
+    phone_alt: new FormControl({ value: '', disabled: true }),
     telegram: new FormControl({ value: '', disabled: true }),
     facebook: new FormControl({ value: '', disabled: true }),
     instagram: new FormControl({ value: '', disabled: true }),
@@ -76,6 +78,7 @@ export class InformationUserComponent implements OnInit {
     password: '',
     dob: '',
     phone: '',
+    phone_alt: '',
     telegram: '',
     facebook: '',
     instagram: '',
@@ -120,6 +123,12 @@ export class InformationUserComponent implements OnInit {
       max: 'Дата народження повинна бути не пізніше поточної дати.'
     },
     phone: {
+      required: 'Телефон обов`язковий',
+      minlength: 'Формат введення 10 символів',
+      maxlength: 'Максимальна довжина 10 символів',
+      pattern: 'Телефон повинен містити тільки цифри'
+    },
+    phone_alt: {
       required: 'Телефон обов`язковий',
       minlength: 'Формат введення 10 символів',
       maxlength: 'Максимальна довжина 10 символів',
@@ -210,12 +219,13 @@ export class InformationUserComponent implements OnInit {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           this.userFormContacts = this.fb.group({
-            phone: [response.cont.tell],
+            phone: [response.cont.phone],
+            phone_alt: [response.cont.phone_alt],
+            viber: [response.cont.viber],
             telegram: [response.cont.telegram],
             facebook: [response.cont.facebook],
             instagram: [response.cont.instagram],
-            viber: [response.cont.vider],
-            mail: [response.cont.email],
+            mail: [response.cont.mail],
           });
           this.userFormContacts.disable(); // додайте цей рядок
           console.log(response);
@@ -311,6 +321,7 @@ export class InformationUserComponent implements OnInit {
 
     this.userFormContacts = this.fb.group({
       phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      phone_alt: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
       facebook: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
       telegram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
       instagram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
