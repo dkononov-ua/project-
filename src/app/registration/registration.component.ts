@@ -101,8 +101,9 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(formType: string): void {
     let route = '/information-user';
+    console.log(123)
 
-    this.http.post('http://localhost:3000', this.loginForm.value)
+    this.http.post('http://localhost:3000/login', this.loginForm.value)
       .subscribe((response: any) => {
         if (response.status) {
           localStorage.setItem('user', JSON.stringify(response));
@@ -126,7 +127,7 @@ export class RegistrationComponent implements OnInit {
         route = '/information-user';
       }
 
-      this.http.post('http://localhost:3000/register', this.registrationForm.value).subscribe((response: any) => {
+      this.http.post('http://localhost:3000/registration', this.registrationForm.value).subscribe((response: any) => {
         console.log(response);
         if (response.status) {
           localStorage.setItem('user', JSON.stringify(response))

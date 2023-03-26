@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { ServicesComponent } from './services/services.component';
@@ -35,6 +35,8 @@ import { RegistrationMobComponent } from './registration/registration-mob/regist
 import { SliderComponent } from './components/slider/slider.component';
 import { ModalComponent } from './modal/modal.component';
 import { UserLicenceComponent } from './user-licence/user-licence.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,9 @@ import { UserLicenceComponent } from './user-licence/user-licence.component';
     // DragDropModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
