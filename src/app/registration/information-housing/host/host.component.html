@@ -11,7 +11,6 @@
   <div class="container-fluid">
     <div class="col-lg-4 col-md-5 col-sm-6 col-12">
 
-
       <!-- Реєстрація -->
       <div class="card m-2">
 
@@ -45,7 +44,7 @@
         </div>
 
         <!-- Мої оселі -->
-        <form (ngSubmit)="onSubmitSelectHouse()">
+        <form [formGroup]="selectHouse" (ngSubmit)="onSubmitSelectHouse()">
           <div class="inputbox">
             <p>Оберіть оселю</p>
             <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="house">
@@ -57,7 +56,7 @@
             оселі</button>
         </form>
 
-        <form class="form-box">
+        <form [formGroup]="houseCreate" (ngSubmit)="onSubmitSelectHouse()">
           <div>
             <p>Створення нової оселі</p>
           </div>
@@ -79,8 +78,13 @@
       </div>
     </div>
 
+
+
     <div class="col-lg-8 col-md-5 col-sm-6 col-12">
-        <router-outlet></router-outlet>
+      <div class="card m-2">
+
+      <router-outlet></router-outlet>
+      </div>
     </div>
 
   </div>

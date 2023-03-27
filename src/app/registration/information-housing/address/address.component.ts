@@ -2,14 +2,32 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { HostComponent } from '../host/host.component';
 
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss']
+  styleUrls: ['./address.component.scss'],
+  template: '{{ selectedFlatId }}'
 })
 
 export class AddressComponent implements OnInit {
+  public selectedFlatId: any | null;
+  house = {
+    flat_id: '',
+    country: new FormControl({ value: '', disabled: true }),
+    region: new FormControl({ value: '', disabled: true }),
+    city: new FormControl({ value: '', disabled: true }),
+    street: new FormControl({ value: '', disabled: true }),
+    houseNumber: new FormControl({ value: '', disabled: true }),
+    apartment: new FormControl({ value: '', disabled: true }),
+    private: new FormControl({ value: '', disabled: true }),
+    rent: new FormControl({ value: '', disabled: true }),
+    live: new FormControl({ value: '', disabled: true }),
+    who_live: new FormControl({ value: '', disabled: true }),
+    subscribers: new FormControl({ value: '', disabled: true }),
+  };
+
   formErrors: any = {
     flat_id: '',
     country: '',
@@ -34,44 +52,36 @@ export class AddressComponent implements OnInit {
     },
   };
 
+  addressHouse!: FormGroup;
   errorMessage$ = new Subject<string>();
   houses: any;
   isDisabled?: boolean;
   formDisabled?: boolean;
   selectHouse: any;
 
-  addressHouse!: FormGroup;
-
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.addressHouse = this.fb.group({
-      country: [{ value: '', disabled: true }],
-      region: [{ value: '', disabled: true }],
-      city: [{ value: '', disabled: true }],
-      street: [{ value: '', disabled: true }],
-      houseNumber: [{ value: '', disabled: true }],
-      apartment: [{ value: '', disabled: true }],
-      private: [{ value: '', disabled: true }],
-      rent: [{ value: '', disabled: true }],
-      live: [{ value: '', disabled: true }],
-      who_live: [{ value: '', disabled: true }],
-      subscribers: [{ value: '', disabled: true }],
-    });
-  }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private hostComponent: HostComponent,
+  ) { }
 
   ngOnInit(): void {
-    this.initializeForm();
-  }
+    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
+      this.selectedFlatId = selectedFlatId;
+      console.log(111)
+      console.log(this.selectedFlatId)
 
-  onSubmitSelectHouse(): void {
-    const selectedFlatId = this.selectHouse.get('house')?.value;
-    console.log('Ви вибрали оселю з ID:', selectedFlatId);
-
+    });
+    console.log(222)
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response.flat.street);
+          console.log(333333)
+          console.log(this.selectedFlatId)
+          console.log(response.flat.street !== null);
           if (response.flat.street !== null) {
+            console.log(response.flat.street)
             this.addressHouse = this.fb.group({
               flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
               country: [response.flat.country],
@@ -94,12 +104,13 @@ export class AddressComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+    this.initializeForm();
   }
 
   onSubmitSaveAddressHouse(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.addressHouse.value()})
+      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.addressHouse })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -132,6 +143,7 @@ export class AddressComponent implements OnInit {
   }
 
   // Валідація
+
   private initializeForm(): void {
     this.addressHouse = this.fb.group({
       flat_id: [null, [

@@ -333,7 +333,6 @@ export class InformationHousingComponent implements OnInit {
   }
 
   // HouseAbout
-
   onSubmitSaveHouseAboutData(): void {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {

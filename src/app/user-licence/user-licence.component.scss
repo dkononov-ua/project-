@@ -1,0 +1,22 @@
+.none {
+  list-style-type:none;
+  font-weight: 400;
+}
+.mid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 100px;
+  margin-bottom: 100px;
+
+}
+p {
+  margin: 10px 0;
+  font-size: 30px;
+  text-align: center;
+}
+
+li {
+  margin: 10px 0;
+  font-size: 22px;
+}

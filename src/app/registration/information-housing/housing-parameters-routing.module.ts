@@ -9,7 +9,6 @@ import { HostComponent } from './host/host.component';
 import { HousingParametersComponent } from './housing-parameters.component';
 import { SharedModule } from '../../shared/shared/shared.module';
 
-
 const routes: Routes = [
   {
     path: 'housing-parameters',component: HousingParametersComponent,

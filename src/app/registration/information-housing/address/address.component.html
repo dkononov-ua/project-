@@ -1,8 +1,7 @@
-<form class="form-box" [formGroup]="addressHouse" (ngSubmit)="onSubmitSelectHouse()">
+<form class="form-box" [formGroup]="addressHouse" >
 
   <div class="card-group">
     <!-- Реєстрація -->
-    <div class="card m-2 col-lg-6 col-md-5 col-sm-6 col-12">
 
       <div class="card-name">
         <h4>Адреса оселі</h4>
@@ -33,7 +32,7 @@
       </div>
 
       <!-- Вулиця -->
-      <div class="inputbox">
+       <div class="inputbox">
         <input required="required" type="text" name="street" formControlName="street">
         <span>Вулиця</span>
         <i class="orange"></i>
@@ -64,12 +63,6 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.apartment" class="alert alert-danger">{{formErrors.apartment}}</div>
       </div>
-
-
-    </div>
-
-    <!-- Реєстрація -->
-    <div class="card m-2 col-lg-6 col-md-5 col-sm-6 col-12">
 
       <div class="card-name">
         <h4>Адреса оселі</h4>
@@ -116,16 +109,13 @@
           </p>
         </div>
       </div>
-
-
-    </div>
-
   </div>
+</form>
+
   <!-- Кнопки -->
   <div class="btn-group">
-    <button class="btn btn-primary mt-3" (click)="saveAddressHouse()">ЗБЕРЕГТИ</button>
+    <button class="btn btn-primary mt-3" (click)="saveAddressHouse()" (click)="onSubmitSaveAddressHouse()"
+    (click)="saveAddressHouse()">ЗБЕРЕГТИ</button>
     <button class="btn btn-primary mt-3" (click)="editAddressHouse()">РЕДАГУВАТИ</button>
     <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetAddressHouse()">СКИНУТИ</button>
   </div>
-
-</form>
