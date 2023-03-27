@@ -35,8 +35,8 @@ import { RegistrationMobComponent } from './registration/registration-mob/regist
 import { SliderComponent } from './components/slider/slider.component';
 import { ModalComponent } from './modal/modal.component';
 import { UserLicenceComponent } from './user-licence/user-licence.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -84,9 +84,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     // DragDropModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
+    // MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
