@@ -12,7 +12,10 @@ import { HostComponent } from '../host/host.component';
 })
 
 export class AddressComponent implements OnInit {
+  houses: { id: string, name: string }[] = [];
+
   public selectedFlatId: any | null;
+
   house = {
     flat_id: '',
     country: new FormControl({ value: '', disabled: true }),
@@ -50,28 +53,56 @@ export class AddressComponent implements OnInit {
       minlength: 'Мінімальна довжина 4 символи',
       maxlength: 'Максимальна довжина 20 символів',
     },
+    street: {
+      required: 'Вулиця обов`язкова',
+      minlength: 'Мінімальна довжина 4 символи',
+      maxlength: 'Максимальна довжина 20 символів',
+      pattern: 'Тільки літери та пробіли'
+    },
+    houseNumber: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      maxlength: 'Максимальна довжина 5 символів',
+    },
+    floor: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      pattern: 'Не коректно',
+    },
+    apartment: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      pattern: 'Не коректно',
+    },
+    city: {
+      required: 'Місто обов`язкове',
+      minlength: 'Мінімальна довжина 2 символи',
+      maxlength: 'Максимальна довжина 20 символів',
+      pattern: 'Тільки літери та пробіли'
+    },
+    region: {
+      required: 'Область обов`язкова',
+      minlength: 'Мінімальна довжина 2 символи',
+      maxlength: 'Максимальна довжина 20 символів',
+      pattern: 'Тільки літери та пробіли'
+    },
+    index: {
+      required: 'Індекс обов`язковий',
+      minlength: 'Мінімальна довжина 5 символи',
+      maxlength: 'Максимальна довжина 5 символів',
+      pattern: 'Тільки цифри',
+    },
   };
 
   addressHouse!: FormGroup;
   errorMessage$ = new Subject<string>();
-  houses: any;
   isDisabled?: boolean;
   formDisabled?: boolean;
   selectHouse: any;
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private hostComponent: HostComponent,
-  ) { }
-
-  ngOnInit(): void {
-    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
-      this.selectedFlatId = selectedFlatId;
-      console.log(111)
-      console.log(this.selectedFlatId)
-
-    });
+  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent, )
+  {this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
+    this.selectedFlatId = selectedFlatId;
     console.log(222)
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -80,8 +111,7 @@ export class AddressComponent implements OnInit {
           console.log(333333)
           console.log(this.selectedFlatId)
           console.log(response.flat.street !== null);
-          if (response.flat.street !== null) {
-            console.log(response.flat.street)
+          if (response !== null) {
             this.addressHouse = this.fb.group({
               flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
               country: [response.flat.country],
@@ -105,12 +135,59 @@ export class AddressComponent implements OnInit {
       console.log('user not found');
     }
     this.initializeForm();
+
+  }); }
+
+
+
+
+
+  ngOnInit(): void {
+    console.log(222)
+  //   // this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
+  //   //   this.selectedFlatId = selectedFlatId;
+  //   //   console.log(111)
+  //   //   console.log(this.selectedFlatId)
+
+  //   // });
+  //   console.log(222)
+  //   const userJson = localStorage.getItem('user');
+  //   if (userJson) {
+  //     this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+  //       .subscribe((response: any) => {
+  //         console.log(333333)
+  //         console.log(this.selectedFlatId)
+  //         console.log(response.flat.street !== null);
+  //         if (response !== null) {
+  //           this.addressHouse = this.fb.group({
+  //             flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+  //             country: [response.flat.country],
+  //             region: [response.flat.region, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+  //             city: [response.flat.city, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+  //             street: [response.flat.street, [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+  //             houseNumber: [response.flat.houseNumber, [Validators.required, Validators.minLength(1), Validators.maxLength(5)]],
+  //             apartment: [response.flat.apartment, [Validators.required, Validators.minLength(1), Validators.pattern(/^[0-9]+$/)]],
+  //             flat_index: [response.flat.flat_index, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(/^[0-9]+$/)]],
+  //             private: [response.flat.private],
+  //             rent: [response.flat.rent],
+  //             live: [response.flat.live],
+  //             who_live: [response.flat.who_live],
+  //             subscribers: [response.flat.subscribers],
+  //           });
+  //         }
+  //       }, (error: any) => {
+  //         console.error(error);
+  //       });
+  //   } else {
+  //     console.log('user not found');
+  //   }
+    this.initializeForm();
   }
 
   onSubmitSaveAddressHouse(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.addressHouse })
+      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.addressHouse.value, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -141,8 +218,6 @@ export class AddressComponent implements OnInit {
   resetAddressHouse() {
     this.addressHouse.reset();
   }
-
-  // Валідація
 
   private initializeForm(): void {
     this.addressHouse = this.fb.group({

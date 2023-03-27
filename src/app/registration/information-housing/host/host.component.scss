@@ -1,6 +1,6 @@
 @use "../../../style/presets/" as *;
 
-.container-fluid {
+.container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -31,6 +31,7 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  border-radius: none;
 }
 
 .content {
@@ -111,6 +112,16 @@ a {
 
 .card-name {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-menu {
+  color: $color-text;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .inputbox {
@@ -200,9 +211,18 @@ p {
 
 .btn {
   width: 100%;
-  margin: 5px 0 5px 0;
+  margin: 10px;
   color: $color-light;
   height: 45px;
+}
+
+.btn-menu {
+  font-family: $font-main;
+  width: 250px;
+  height: 40px;
+  background-color: $color-white;
+  border: 1px groove $color-accent;
+  border-radius: 10px;
 }
 
 .info {
@@ -229,9 +249,13 @@ p {
   }
 }
 
+p{
+  color: $color-text !important;
+}
+
 .text-info {
   font-size: 0.9em;
-  color: $color-white !important;
+  color: black !important;
 }
 
 .btn-text {
@@ -283,23 +307,67 @@ p {
   display: flex;
 }
 
+form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .card-body-cast {
   background: none;
 }
 
+.card-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 select {
+  width: 100%;
   font-size: 16px;
-  padding: 5px;
+  height: 40px;
   color: $color-accent;
-  background: $color-primary;
+  background: $color-white;
   border: 1px groove $color-accent;
   border-radius: 10px;
+}
+
+.form-select {
+  width: 250px;
 }
 
 .navbar-house {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
+}
+
+.link {
+  transition: 1s;
+
+  &:hover {
+    color: $color-accent;
+    background-color: $color-dark;
+    transition: transform 1s;
+    transform: scale(1.1);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+
+    span {
+      transition: transform 1s;
+      transform: translate(20px) scale(1.1);
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transform: translate(10px) scale(1.1);
+      transition: transform 0.5s;
+    }
+  }
 }
 
 .input-cast {

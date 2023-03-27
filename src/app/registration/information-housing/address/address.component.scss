@@ -25,6 +25,20 @@
   color: white;
   padding: 10px;
   border-radius: 10px;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.card-box {
+  display: flex;
+}
+
+.card-input {
+  display: flex;
+  background-color: rgba(18, 17, 17, 0.792);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .card-group {

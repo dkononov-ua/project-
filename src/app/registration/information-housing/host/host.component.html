@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container">
   <div class="container-navbar">
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
@@ -7,40 +7,13 @@
     </nav>
   </div>
 
-  <!-- Реєстрація/Фото оселі -->
-  <div class="container-fluid">
-    <div class="col-lg-4 col-md-5 col-sm-6 col-12">
+  <div class="container-card">
 
-      <!-- Реєстрація -->
-      <div class="card m-2">
+    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card-menu m-2">
 
         <div class="card-name">
           <h4>Ваш ID Оселі</h4>
-        </div>
-
-        <nav class="navbar-house">
-          <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">Особливості оселі</a>
-          <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Адреса оселі</a>
-          <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'">Характеристики оселі</a>
-          <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">Додати фото оселі</a>
-        </nav>
-
-
-        <div class="card-group">
-          <p>Що таке ID Оселі?</p>
-          <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse"
-            data-bs-target="#aboutHousesID" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa-solid fa-info"></i>
-          </button>
-        </div>
-
-        <div class="collapse" id="aboutHousesID">
-          <div class="card card-body-cast">
-            <p class="text-info">ID Оселі унікальний ідентифікаційний код для прив'язки оселі до аккаунту користувача. З
-              ID Оселі ви можете створювати декілька профілів оселі для різних потреб. Приклад
-              заповнення "UserHouse1".
-            </p>
-          </div>
         </div>
 
         <!-- Мої оселі -->
@@ -52,8 +25,7 @@
               <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option>
             </select>
           </div>
-          <button class="btn btn-primary mt-3" type="submit">Перейти до вибраної
-            оселі</button>
+          <button class="btn-menu" type="submit">ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</button>
         </form>
 
         <form [formGroup]="houseCreate" (ngSubmit)="onSubmitSelectHouse()">
@@ -61,7 +33,7 @@
             <p>Створення нової оселі</p>
           </div>
 
-          <button class="btn btn-primary mt-3" (click)="showInput = true" *ngIf="!showInput">ДОДАТИ НОВУ
+          <button class="btn-menu" (click)="showInput = true" *ngIf="!showInput">ДОДАТИ НОВУ
             ОСЕЛЮ</button>
 
           <div class="inputbox">
@@ -72,22 +44,26 @@
             <div *ngIf="formErrors.flat_id" class="alert alert-danger">{{formErrors.flat_id}}</div>
           </div>
 
-          <button class="btn btn-primary mt-3" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput">ЗБЕРЕГТИ</button>
+          <button class="btn-menu" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput">ЗБЕРЕГТИ</button>
         </form>
+
+        <div class="card-name">
+          <h4>Меню внесення даних</h4>
+        </div>
+
+        <nav class="navbar-house">
+          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">Особливості оселі</a>
+          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Адреса оселі</a>
+          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'">Характеристики оселі</a>
+          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">Додати фото оселі</a>
+        </nav>
 
       </div>
     </div>
 
-
-
     <div class="col-lg-8 col-md-5 col-sm-6 col-12">
-      <div class="card m-2">
-
       <router-outlet></router-outlet>
-      </div>
     </div>
 
   </div>
-
-
 </div>
