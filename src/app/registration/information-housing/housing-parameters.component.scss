@@ -1,0 +1,23 @@
+@use "../../style/presets/" as *;
+
+a {
+  padding: 0.5em 1em;
+  margin: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: $font-main;
+  color: $color-text;
+  text-decoration: none;
+  display: block;
+  border-radius: 10px;
+  transition: 0.3s ease;
+
+  &.active {
+    color: $color-accent;
+  }
+
+  .fab {
+    transform: scale(1.4);
+    transition: transform 2s;
+  }
+}

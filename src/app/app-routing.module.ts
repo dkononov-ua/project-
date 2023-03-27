@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
 import { InformationUserComponent } from './registration/information-user/information-user.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
@@ -23,8 +22,8 @@ import { ModalComponent } from './modal/modal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
-  { path: 'registration', component: RegistrationComponent  },
-  { path: 'payments', component: PaymentsComponent, canActivate: [CanActivateGuard]  },
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'payments', component: PaymentsComponent, canActivate: [CanActivateGuard] },
   { path: 'services', component: ServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'energy', component: EnergyComponent, canActivate: [CanActivateGuard] },
   { path: 'water', component: WaterComponent, canActivate: [CanActivateGuard] },
@@ -32,18 +31,15 @@ const routes: Routes = [
   { path: 'gas', component: GasComponent, canActivate: [CanActivateGuard] },
   { path: 'internet', component: InternetComponent, canActivate: [CanActivateGuard] },
   { path: 'our-team', component: OurTeamComponent, canActivate: [CanActivateGuard] },
-  { path: 'information-housing', component: InformationHousingComponent, canActivate: [CanActivateGuard] },
   { path: 'tenants-search', component: TenantsSearchComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-search', component: HousingSearchComponent, canActivate: [CanActivateGuard] },
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'home-account', component: HomeAccountComponent, canActivate: [CanActivateGuard] },
   { path: 'user-interaction', component: UserInteractionComponent, canActivate: [CanActivateGuard] },
-
   { path: 'information-user', component: InformationUserComponent },
   { path: 'user-payment', component: UserPaymentComponent },
   { path: 'modal', component: ModalComponent },
-  { path: 'registration-mob', component: RegistrationMobComponent},
-
+  { path: 'registration-mob', component: RegistrationMobComponent },
 ];
 
 @NgModule({

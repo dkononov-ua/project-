@@ -8,7 +8,6 @@ import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { ServicesComponent } from './services/services.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { EnergyComponent } from './services/energy/energy.component';
 import { WaterComponent } from './services/water/water.component';
@@ -16,7 +15,6 @@ import { CleaningComponent } from './services/cleaning/cleaning.component';
 import { GasComponent } from './services/gas/gas.component';
 import { InternetComponent } from './services/internet/internet.component';
 import { OurTeamComponent } from './our-team/our-team.component';
-import { InformationHousingComponent } from './registration/information-housing/information-housing.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,13 +35,15 @@ import { ModalComponent } from './modal/modal.component';
 import { UserLicenceComponent } from './user-licence/user-licence.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HousingParametersRoutingModule } from './registration/information-housing/housing-parameters-routing.module';
+import { HousingParametersModule } from './registration/information-housing/housing-parameters.module';
+import { SharedModule } from './shared/shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     PaymentsComponent,
     ServicesComponent,
-    NavbarComponent,
     FooterComponent,
     EnergyComponent,
     WaterComponent,
@@ -53,9 +53,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     OurTeamComponent,
     RegistrationComponent,
     OurTeamComponent,
-    InformationHousingComponent,
     RegistrationComponent,
-    InformationHousingComponent,
     RegistrationComponent,
     UserPaymentComponent,
     InformationUserComponent,
@@ -69,6 +67,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     SliderComponent,
     ModalComponent,
     UserLicenceComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -87,8 +86,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    HousingParametersRoutingModule,
+    HousingParametersModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

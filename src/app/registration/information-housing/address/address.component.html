@@ -1,0 +1,131 @@
+<form class="form-box" [formGroup]="addressHouse" (ngSubmit)="onSubmitSelectHouse()">
+
+  <div class="card-group">
+    <!-- Реєстрація -->
+    <div class="card m-2 col-lg-6 col-md-5 col-sm-6 col-12">
+
+      <div class="card-name">
+        <h4>Адреса оселі</h4>
+      </div>
+
+      <!-- Країна -->
+      <div class="inputbox">
+        <input required="required" type="text" id="inputcountry" name="country" formControlName="country">
+        <span>Країна</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.country" class="alert alert-danger">{{formErrors.country}}</div>
+      </div>
+
+      <!-- Область -->
+      <div class="inputbox">
+        <input required="required" type="text" id="inputRegion" name="region" formControlName="region">
+        <span>Область</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.region" class="alert alert-danger">{{formErrors.region}}</div>
+      </div>
+
+      <!-- Місто -->
+      <div class="inputbox">
+        <input required="required" type="text" id="inputCity" name="city" formControlName="city">
+        <span>Місто</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.city" class="alert alert-danger">{{formErrors.city}}</div>
+      </div>
+
+      <!-- Вулиця -->
+      <div class="inputbox">
+        <input required="required" type="text" name="street" formControlName="street">
+        <span>Вулиця</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.street" class="alert alert-danger">{{formErrors.street}}</div>
+      </div>
+
+
+      <!-- Індекс -->
+      <div class="inputbox">
+        <input required="required" type="number" id="inputZip" name="index" formControlName="flat_index">
+        <span>Індекс</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.index" class="alert alert-danger">{{formErrors.index}}</div>
+      </div>
+
+      <!-- Номер -->
+      <div class="inputbox">
+        <input required="required" type="text" name="houseNumber" formControlName="houseNumber">
+        <span>Номер будинку</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.houseNumber" class="alert alert-danger">{{formErrors.houseNumber}}</div>
+      </div>
+
+      <!-- Квартира -->
+      <div class="inputbox">
+        <input required="required" type="number" formControlName="apartment">
+        <span>Номер квартири</span>
+        <i class="orange"></i>
+        <div *ngIf="formErrors.apartment" class="alert alert-danger">{{formErrors.apartment}}</div>
+      </div>
+
+
+    </div>
+
+    <!-- Реєстрація -->
+    <div class="card m-2 col-lg-6 col-md-5 col-sm-6 col-12">
+
+      <div class="card-name">
+        <h4>Адреса оселі</h4>
+      </div>
+
+      <div class="container-checkbox">
+        <div class="content">
+          <label class="checkBox">
+            <input id="rent" type="checkbox" formControlName="rent" value="rent">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Здаю</span>
+          <i></i>
+        </div>
+        <div class="content">
+          <label class="checkBox">
+            <input id="live" type="checkbox" formControlName="live" value="live">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Проживаю</span>
+          <i></i>
+        </div>
+        <div class="content">
+          <label class="checkBox">
+            <input id="private" type="checkbox" formControlName="private" value="private">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Приватно</span>
+          <i></i>
+        </div>
+      </div>
+
+
+      <!-- Статус -->
+      <div class="card-group">
+        <p>Що таке статус оселі</p>
+        <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse" data-bs-target="#aboutStatus"
+          aria-expanded="false" aria-controls="collapseExample"><i class="fa-solid fa-info"></i></button>
+      </div>
+      <div class="collapse" id="aboutStatus">
+        <div class="card card-body-cast">
+          <p class="text-info">
+            Статус оселі потрібно для правильного відображення інформації орендаторів та орендодавців.
+          </p>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+  <!-- Кнопки -->
+  <div class="btn-group">
+    <button class="btn btn-primary mt-3" (click)="saveAddressHouse()">ЗБЕРЕГТИ</button>
+    <button class="btn btn-primary mt-3" (click)="editAddressHouse()">РЕДАГУВАТИ</button>
+    <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetAddressHouse()">СКИНУТИ</button>
+  </div>
+
+</form>

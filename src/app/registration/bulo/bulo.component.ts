@@ -3,11 +3,16 @@ import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErr
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { UserService } from '../../registration/information-user/user.service';
+import { ValidationService } from '../../registration/validation.service';
+import { RouterModule, Routes } from '@angular/router';
 
 @NgModule({
   imports: [
     HttpClientModule,
     ReactiveFormsModule,
+  ],
+  exports: [
+    RouterModule,
   ]
 })
 
@@ -29,8 +34,9 @@ export class AppComponent {
 
 @Component({
   selector: 'app-information-housing',
-  templateUrl: './information-housing.component.html',
-  styleUrls: ['./information-housing.component.scss'],
+  templateUrl: './bulo.component.html',
+  styleUrls: ['./bulo.component.scss'],
+  providers: [ValidationService] // Додайте сервіс до списку провайдерів
 })
 export class InformationHousingComponent implements OnInit {
   houseForm!: FormGroup;
@@ -43,6 +49,9 @@ export class InformationHousingComponent implements OnInit {
   houses: { id: string, name: string }[] = [];
   data = '';
   formBuilder: any;
+  showCardFlagHouseParam: boolean = true;
+  showCardFlagHouseForm: boolean = true;
+  showCardFlagHouseAbout: boolean = true;
 
   house = {
     flat_id: '',
@@ -163,7 +172,18 @@ export class InformationHousingComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  showCardHouseParam() {
+    this.showCardFlagHouseParam = true;
+  }
+  showCardHouseForm() {
+    this.showCardFlagHouseForm = true;
+  }
+  showCardHouseAbout() {
+    this.showCardFlagHouseAbout = true;
+  }
+
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private validationService: ValidationService) { }
 
   ngOnInit(): void {
     this.selectHouse = new FormGroup({
@@ -312,22 +332,21 @@ export class InformationHousingComponent implements OnInit {
     }
   }
 
-
   // HouseAbout
 
-  // onSubmitSaveHouseAboutData(): void {
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson !== null) {
-  //     this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.houseAbout })
-  //       .subscribe((response: any) => {
-  //         console.log(response);
-  //       }, (error: any) => {
-  //         console.error(error);
-  //       });
-  //   } else {
-  //     console.log('house not found');
-  //   }
-  // }
+  onSubmitSaveHouseAboutData(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
+      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.houseAbout })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('house not found');
+    }
+  }
 
   // saveHouseAboutData(): void {
   //   this.houseAbout.disable();

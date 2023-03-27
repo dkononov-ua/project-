@@ -1,0 +1,188 @@
+<!-- Ціна та особливості -->
+<div class="card-name">
+  <h4>Ціна та особливості</h4>
+</div>
+
+<form class="form-box">
+
+  <!-- Метро -->
+  <div class="inputbox">
+    <label for="">Метро</label>
+
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="metro">
+      <option selected disabled>Метро</option>
+      <option value="1">до 100м</option>
+      <option value="2">до 300м</option>
+      <option value="3">до 500м</option>
+      <option value="3">до 1км</option>
+    </select>
+  </div>
+
+  <!-- Зупинка транспорту -->
+  <div class="inputbox">
+    <label for="">Зупинка транспорту</label>
+
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+      <option selected disabled>Зупинка транспорту</option>
+      <option value="1">до 100м</option>
+      <option value="2">до 300м</option>
+      <option value="3">до 500м</option>
+      <option value="3">до 1км</option>
+    </select>
+  </div>
+
+  <!-- Продуктові магазини -->
+  <div class="inputbox">
+    <label for="">Продуктові магазини</label>
+
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+      <option selected disabled>Продуктові магазини</option>
+      <option value="1">до 100м</option>
+      <option value="2">до 300м</option>
+      <option value="3">до 500м</option>
+      <option value="3">до 1км</option>
+    </select>
+  </div>
+
+  <!-- Парки, сквери -->
+  <div class="inputbox">
+    <label for="">Парк, сквер</label>
+
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+      <option selected disabled>Парк, сквер</option>
+      <option value="1">до 100м</option>
+      <option value="2">до 300м</option>
+      <option value="3">до 500м</option>
+      <option value="3">до 1км</option>
+    </select>
+  </div>
+
+  <!-- Паркінг -->
+  <div class="inputbox">
+    <label for="">Паркінг</label>
+
+    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+      <option selected disabled>Паркінг</option>
+      <option value="1">на території</option>
+      <option value="2">до 300м</option>
+      <option value="3">до 500м</option>
+      <option value="3">до 1км</option>
+    </select>
+  </div>
+
+  <!-- Чекбокс 1 -->
+  <div>
+    <p>Розглядаю</p>
+    <div class="container-checkbox">
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch1" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Студент</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch2" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Жінка</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch3" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Чоловік</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch4" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Сім'я</span>
+        <i></i>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Чекбокс 2 -->
+  <div>
+    <p>Не проти тварин</p>
+
+    <div class="container-checkbox">
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch6" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Котів</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch7" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Собак</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch8" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Єнотів</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="ch9" type="checkbox">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Інше</span>
+        <i></i>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Ціна за місяць -->
+  <div class="">
+    <label for="">Ціна за місяць</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="inputPrice"
+        aria-label="Dollar amount (with dot and two decimal places)">
+      <span class="input-group-text">₴</span>
+    </div>
+  </div>
+
+  <!-- Ціна за рік -->
+  <div class="">
+    <label for="">Ціна за рік</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="inputPrice"
+        aria-label="Dollar amount (with dot and two decimal places)">
+      <span class="input-group-text">₴</span>
+    </div>
+  </div>
+</form>
+
+<!-- Кнопки -->
+<div class="btn-group">
+  <button class="btn btn-primary mt-3">ЗБЕРЕГТИ</button>
+  <button class="btn btn-primary mt-3">РЕДАГУВАТИ</button>
+  <button type="reset" class="btn btn-secondary mt-3 ml-3">СКИНУТИ</button>
+</div>
