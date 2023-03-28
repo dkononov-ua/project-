@@ -3,11 +3,24 @@ import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErr
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { ValidationService } from '../../validation.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-param',
   templateUrl: './param.component.html',
-  styleUrls: ['./param.component.scss']
+  styleUrls: ['./param.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(165%)' }),
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        animate('1000ms ease-in-out', style({ transform: 'translateX(130%)' }))
+      ])
+    ])
+  ],
+
 })
 export class ParamComponent {
   houseForm!: FormGroup;

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AboutComponent } from './about/about.component';
 import { AddressComponent } from './address/address.component';
-import { HouseIdComponent } from './house-id/house-id.component';
 import { ParamComponent } from './param/param.component';
 import { PhotoComponent } from './photo/photo.component';
 import { HostComponent } from './host/host.component';
@@ -19,7 +18,6 @@ import { SharedModule } from 'src/app/shared/shared/shared.module';
   declarations: [
     AboutComponent,
     AddressComponent,
-    HouseIdComponent,
     ParamComponent,
     PhotoComponent,
     HostComponent,

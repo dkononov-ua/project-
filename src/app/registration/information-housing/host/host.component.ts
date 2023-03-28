@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../information-user/user.service';
 import { ValidationService } from '../../validation.service';
+import { trigger, animate, transition, style, query, group, animateChild } from '@angular/animations';
+import { RouterOutlet } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -34,10 +36,25 @@ export class AppComponent implements OnInit {
   selector: 'app-host',
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.scss'],
-  template: '<app-address></app-address>'
+  template: '<app-address></app-address>',
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(130%)' }),
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
 
 export class HostComponent implements OnInit {
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
 
   public selectedFlatId$ = new BehaviorSubject<any>(undefined);
 

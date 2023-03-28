@@ -15,7 +15,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: stretch;
   justify-content: center;
 }
 
@@ -24,6 +24,12 @@
   background-color: rgba(18, 17, 17, 0.792);
   color: white;
   padding: 10px;
+}
+
+.card-box {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .card-group {
@@ -216,13 +222,27 @@ p {
   height: 45px;
 }
 
+
+
 .btn-menu {
   font-family: $font-main;
-  width: 250px;
+  width: 240px;
   height: 40px;
   background-color: $color-white;
-  border: 1px groove $color-accent;
   border-radius: 10px;
+  border: none;
+  display: flex;
+  padding: 10px;
+  color: $color-text;
+  margin: 10px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    background-color: $color-dark;
+    transform: scale(1.1);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
 }
 
 .info {
@@ -249,8 +269,15 @@ p {
   }
 }
 
-p{
+p {
   color: $color-text !important;
+  text-align: center;
+}
+
+h4{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .text-info {
@@ -319,24 +346,19 @@ form {
   background: none;
 }
 
-.card-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 select {
-  width: 100%;
   font-size: 16px;
   height: 40px;
   color: $color-accent;
-  background: $color-white;
-  border: 1px groove $color-accent;
+  border: none;
+  // border: 1px groove $color-accent;
   border-radius: 10px;
 }
 
 .form-select {
-  width: 250px;
+  width: 240px;
 }
 
 .navbar-house {
@@ -346,18 +368,17 @@ select {
 }
 
 .link {
-  transition: 1s;
+  transition: 0.4s;
 
   &:hover {
     color: $color-accent;
     background-color: $color-dark;
-    transition: transform 1s;
+    transition: 0.4s;
     transform: scale(1.1);
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
-
     span {
-      transition: transform 1s;
+      transition: 0.4s;
       transform: translate(20px) scale(1.1);
     }
 
@@ -365,7 +386,7 @@ select {
     .fa-regular {
       color: $color-accent;
       transform: translate(10px) scale(1.1);
-      transition: transform 0.5s;
+      transition: 0.4s;
     }
   }
 }
@@ -381,3 +402,8 @@ select {
     border: 2px groove $color-accent;
   }
 }
+
+
+
+
+

@@ -11,15 +11,10 @@
 
     <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <div class="card-menu m-2">
-
-        <div class="card-name">
-          <h4>Ваш ID Оселі</h4>
-        </div>
-
         <!-- Мої оселі -->
         <form [formGroup]="selectHouse" (ngSubmit)="onSubmitSelectHouse()">
           <div class="inputbox">
-            <p>Оберіть оселю</p>
+            <h4>Оберіть оселю</h4>
             <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="house">
               <option selected disabled>Вибір оселі за ID</option>
               <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option>
@@ -29,14 +24,14 @@
         </form>
 
         <form [formGroup]="houseCreate" (ngSubmit)="onSubmitSelectHouse()">
-          <div>
-            <p>Створення нової оселі</p>
+          <div class="card-name">
+            <h4>Меню внесення даних</h4>
           </div>
 
           <button class="btn-menu" (click)="showInput = true" *ngIf="!showInput">ДОДАТИ НОВУ
             ОСЕЛЮ</button>
 
-          <div class="inputbox">
+          <div class="inputbox" *ngIf="showInput">
             <input class="input-cast" type="text" id="flat_id" placeholder="Створіть свій ID Оселі" name="flat_id"
               formControlName="flat_id" required>
             <i class="orange"></i>
@@ -47,22 +42,18 @@
           <button class="btn-menu" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput">ЗБЕРЕГТИ</button>
         </form>
 
-        <div class="card-name">
-          <h4>Меню внесення даних</h4>
-        </div>
-
         <nav class="navbar-house">
-          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">Особливості оселі</a>
           <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Адреса оселі</a>
           <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'">Характеристики оселі</a>
+          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">Особливості оселі</a>
           <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">Додати фото оселі</a>
         </nav>
 
       </div>
     </div>
 
-    <div class="col-lg-8 col-md-5 col-sm-6 col-12">
-      <router-outlet></router-outlet>
+    <div [@cardAnimation]="prepareRoute(outlet)" class="col-lg-8 col-md-5 col-sm-6 col-12">
+      <router-outlet #outlet="outlet"></router-outlet>
     </div>
 
   </div>

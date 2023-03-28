@@ -8,7 +8,6 @@ import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { ServicesComponent } from './services/services.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { EnergyComponent } from './services/energy/energy.component';
 import { WaterComponent } from './services/water/water.component';
 import { CleaningComponent } from './services/cleaning/cleaning.component';
@@ -44,7 +43,6 @@ import { SharedModule } from './shared/shared/shared.module';
     AppComponent,
     PaymentsComponent,
     ServicesComponent,
-    FooterComponent,
     EnergyComponent,
     WaterComponent,
     CleaningComponent,

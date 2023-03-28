@@ -1,138 +1,83 @@
 @use "../../../style/presets/" as *;
 
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.container-navbar {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .container-card {
   width: 100%;
+  height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  flex-direction: row;
   justify-content: center;
+  align-items: stretch;
 }
 
 .card {
+  width: 100%;
   display: flex;
   background-color: rgba(18, 17, 17, 0.792);
   color: white;
   padding: 10px;
+  border-radius: 10px;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
-.card-group {
+.card-info {
   display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.content {
-  display: flex;
-  margin: 5px;
-  width: 50px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.checkBox-span {
-  margin-top: 5px;
-  font-size: 1em;
-}
-
-.container-box {
+.card-box {
   display: flex;
-  align-items: flex-end;
-}
-
-.clear {
-  clear: both;
-}
-
-.form-box {
-  width: 100%;
-}
-
-.checkBox {
-  display: block;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0px 0px 0px 2px #fff;
-}
-
-.checkBox div {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  top: -52px;
-  left: -52px;
-  position: absolute;
-  transform: rotateZ(45deg);
-  z-index: 100;
-}
-
-.checkBox input[type="checkbox"]:checked + div {
-  left: -10px;
-  top: -10px;
-}
-
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
-
-.transition {
-  transition: 300ms ease;
-}
-
-.container-checkbox {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-around;
-}
-
-a {
-  padding: 0.5em 1em;
 }
 
 .card-name {
   display: flex;
 }
 
-.link {
-  transition: 1s;
+.btn-group {
+  display: flex;
+}
+.btn {
+  width: 100%;
+  margin: 5px 0 5px 0;
+  color: $color-light;
+  height: 45px;
+}
+
+.info {
+  margin: 0;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text;
+  text-decoration: none;
+  border-radius: 50%;
   background-color: $color-primary;
+  border: none;
 
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
+.text-info {
+  font-size: 0.9em;
+  color: $color-white !important;
+}
+
+.form-select {
+  background-color: none;
   &:hover {
-    color: $color-accent;
-    background-color: $color-dark;
-    transition: 1s;
-
-    span {
-      transition: transform 1s;
-      transform: translate(50px) scale(1.2);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-accent;
-      transform: translate(-190px) scale(1.2);
-      transition: transform 1s;
-    }
+    background-color: $color-white;
   }
 }
 
@@ -143,6 +88,19 @@ a {
   border-radius: 10px;
   flex-direction: column;
   align-items: stretch;
+}
+
+.inputbox .orange {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: $color-accent;
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: 9;
 }
 
 .inputbox input {
@@ -197,119 +155,6 @@ a {
   height: 2.5rem;
 }
 
-.alert-danger {
-  position: absolute;
-  bottom: -2rem;
-  background: none;
-  color: rgb(242, 132, 132);
-  border: none;
-  height: 40px;
-  display: flex;
-  width: 100%;
-  padding: 5px;
-  margin: 0;
-  z-index: 30;
-  font-size: 13px;
-  align-items: center;
-}
-
-p {
-  color: $color-light;
-}
-
-.btn-group {
-  display: flex;
-}
-
-.btn {
-  width: 100%;
-  margin: 5px 0 5px 0;
-  color: $color-light;
-  height: 45px;
-}
-
-.info {
-  margin: 0;
-  padding: 0;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: $color-text;
-  text-decoration: none;
-  border-radius: 50%;
-  background-color: $color-primary;
-  border: none;
-
-  &.active {
-    background-color: $color-accent;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $color-accent;
-  }
-}
-
-.text-info {
-  font-size: 0.9em;
-  color: $color-white !important;
-}
-
-.btn-text {
-  font-size: 0.8em;
-}
-
-.img-fluid {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.card-photo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  align-content: center;
-}
-
-.form-box {
-  height: 100%;
-  display: flex;
-  align-content: space-around;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-around;
-}
-
-.see-password {
-  z-index: 10;
-  position: absolute;
-  right: 4rem;
-  top: 10px;
-  background: none;
-  border: none;
-  width: 40px;
-}
-
-.icon {
-  background: none !important;
-  position: relative !important;
-  font-size: 18px;
-  color: #d2d0d06b;
-}
-
-.span {
-  display: flex;
-}
-
-.card-body-cast {
-  background: none;
-}
-
 select {
   font-size: 16px;
   padding: 5px;
@@ -319,10 +164,8 @@ select {
   border-radius: 10px;
 }
 
-.navbar-house {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.card-body-cast {
+  background: none;
 }
 
 .input-cast {

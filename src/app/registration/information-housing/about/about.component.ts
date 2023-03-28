@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -6,9 +7,20 @@ import { ValidationService } from '../../validation.service';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  styleUrls: ['./about.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(165%)' }),
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
-export class AboutComponent  implements OnInit {
+export class AboutComponent implements OnInit {
   houseAbout = {
     metro: new FormControl({ value: '', disabled: true }),
     distance_metro: new FormControl({ value: '', disabled: true }),

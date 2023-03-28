@@ -1,158 +1,39 @@
 @use "../../../style/presets/" as *;
 
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.container-navbar {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .container-card {
   width: 100%;
+  height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: center;
-}
-
-.card {
-  display: flex;
-  background-color: rgba(18, 17, 17, 0.792);
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  justify-content: space-evenly;
   align-items: stretch;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .card-box {
   display: flex;
 }
 
-.card-input {
+.card {
+  width: 100%;
   display: flex;
   background-color: rgba(18, 17, 17, 0.792);
   color: white;
   padding: 10px;
   border-radius: 10px;
-}
-
-.card-group {
-  display: flex;
-  flex-flow: row wrap;
+  justify-content: flex-start;
   align-items: stretch;
-  justify-content: center;
 }
 
-.content {
+.card-info {
   display: flex;
-  margin: 5px;
-  width: 50px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.checkBox-span {
-  margin-top: 5px;
-  font-size: 1em;
-}
-
-.container-box {
-  display: flex;
-  align-items: flex-end;
-}
-
-.clear {
-  clear: both;
-}
-
-.form-box {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.checkBox {
-  display: block;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0px 0px 0px 2px #fff;
-}
-
-.checkBox div {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  top: -52px;
-  left: -52px;
-  position: absolute;
-  transform: rotateZ(45deg);
-  z-index: 100;
-}
-
-.checkBox input[type="checkbox"]:checked + div {
-  left: -10px;
-  top: -10px;
-}
-
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
-
-.transition {
-  transition: 300ms ease;
-}
-
-.container-checkbox {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-around;
-}
-
-a {
-  padding: 0.5em 1em;
-}
-
 .card-name {
   display: flex;
-}
-
-.link {
-  transition: 1s;
-  background-color: $color-primary;
-
-  &:hover {
-    color: $color-accent;
-    background-color: $color-dark;
-    transition: 1s;
-
-    span {
-      transition: transform 1s;
-      transform: translate(50px) scale(1.2);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-accent;
-      transform: translate(-190px) scale(1.2);
-      transition: transform 1s;
-    }
-  }
 }
 
 .inputbox {
@@ -232,14 +113,66 @@ a {
   align-items: center;
 }
 
-p {
-  color: $color-light;
+.container-checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+.checkBox {
+  display: block;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 0px 0px 2px #fff;
+}
+
+.checkBox div {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  top: -52px;
+  left: -52px;
+  position: absolute;
+  transform: rotateZ(45deg);
+  z-index: 100;
+}
+
+.checkBox input[type="checkbox"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+.transition {
+  transition: 300ms ease;
+}
+
+.content {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .btn-group {
   display: flex;
 }
-
 .btn {
   width: 100%;
   margin: 5px 0 5px 0;
@@ -276,69 +209,4 @@ p {
   color: $color-white !important;
 }
 
-.btn-text {
-  font-size: 0.8em;
-}
 
-.img-fluid {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.card-photo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  align-content: center;
-}
-
-
-
-.see-password {
-  z-index: 10;
-  position: absolute;
-  right: 4rem;
-  top: 10px;
-  background: none;
-  border: none;
-  width: 40px;
-}
-
-.icon {
-  background: none !important;
-  position: relative !important;
-  font-size: 18px;
-  color: #d2d0d06b;
-}
-
-.span {
-  display: flex;
-}
-
-.card-body-cast {
-  background: none;
-}
-
-select {
-  font-size: 16px;
-  padding: 5px;
-  color: $color-accent;
-  background: $color-primary;
-  border: 1px groove $color-accent;
-  border-radius: 10px;
-}
-
-.input-cast {
-  font-size: 16px;
-  color: $color-accent;
-  background: none;
-  border-radius: 10px;
-  padding: 10px;
-  border: 2px groove $color-accent;
-  &:focus-visible {
-    border: 2px groove $color-accent;
-  }
-}

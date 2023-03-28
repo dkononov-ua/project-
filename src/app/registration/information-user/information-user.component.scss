@@ -21,6 +21,7 @@
 
 .card {
   display: flex;
+  width: 100%;
   background-color: rgba(18, 17, 17, 0.792);
   color: white;
   padding: 10px;
@@ -234,9 +235,6 @@ p {
   font-size: 0.8em;
 }
 
-.img-fluid {
-}
-
 .card-photo {
   display: flex;
   flex-wrap: wrap;
@@ -274,4 +272,10 @@ p {
 
 .span {
   display: flex;
+}
+
+
+.card-box {
+  display: flex;
+  align-items: stretch;
 }

@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,6 +9,17 @@ import { HostComponent } from '../host/host.component';
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(165%)' }),
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ],
   template: '{{ selectedFlatId }}'
 })
 
