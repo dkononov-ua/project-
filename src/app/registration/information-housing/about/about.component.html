@@ -24,7 +24,7 @@
         <label for="">Зупинка транспорту</label>
 
         <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-          formControlName="distance_stops">
+          formControlName="distance_stop">
           <option selected disabled>Зупинка транспорту</option>
           <option value="1">до 100м</option>
           <option value="2">до 300м</option>
@@ -151,9 +151,9 @@
       </div>
 
       <!-- Опис оселі -->
-      <div class="form-group">
-        <label for="about">Опис оселі:</label>
-        <textarea class="form-control" id="about" formControlName="about"></textarea>
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" formControlName="about"></textarea>
+        <label for="floatingTextarea"><p>Опис оселі:</p></label>
       </div>
 
       <!-- Ціна за місяць -->

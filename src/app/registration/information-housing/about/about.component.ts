@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidationService } from '../../validation.service';
 import { HostComponent } from '../host/host.component';
 
@@ -42,20 +42,70 @@ export class AboutComponent implements OnInit {
   public selectedFlatId: any | null;
 
   formErrors: any = {
-    floor: '',
+    distance_metro:'',
+    distance_stop:'',
+    distance_shop:'',
+    distance_green:'',
+    distance_parking:'',
+    woman:'',
+    man:'',
+    family:'',
+    students:'',
+    animals:'',
+    price_m:'',
+    price_y:'',
+    about:'',
+    bunker:'',
   };
 
   validationMessages: any = {
-    floor: {
+    distance_metro: {
       required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
+    },
+    distance_stop: {
+      required: 'Обов`язково',
+    },
+    distance_shop: {
+      required: 'Обов`язково',
+    },
+    distance_green: {
+      required: 'Обов`язково',
+    },
+    distance_parking: {
+      required: 'Обов`язково',
+    },
+    woman: {
+      required: 'Обов`язково',
+    },
+    man: {
+      required: 'Обов`язково',
+    },
+    family: {
+      required: 'Обов`язково',
+    },
+    students: {
+      required: 'Обов`язково',
+    },
+    animals: {
+      required: 'Обов`язково',
+    },
+    price_m: {
+      required: 'Обов`язково',
+    },
+    price_y: {
+      required: 'Обов`язково',
+    },
+    about: {
+      required: 'Обов`язково',
+    },
+    bunker: {
+      required: 'Обов`язково',
     },
   };
 
   isDisabled: boolean | undefined;
   formDisabled: boolean | undefined;
-  aboutHouse!: FormGroup<{ distance_metro: FormControl<any>; distance_stops: FormControl<any>; distance_shop: FormControl<any>; distance_green: FormControl<any>; distance_parking: FormControl<any>; woman: FormControl<any>; man: FormControl<any>; family: FormControl<any>; students: FormControl<any>; animals: FormControl<any>; price_m: FormControl<any>; price_y: FormControl<any>; about: FormControl<any>; bunker: FormControl<any>; }>;
+  aboutHouse!: FormGroup<{ distance_metro: FormControl<any>; distance_stop: FormControl<any>; distance_shop: FormControl<any>; distance_green: FormControl<any>; distance_parking: FormControl<any>; woman: FormControl<any>; man: FormControl<any>; family: FormControl<any>; students: FormControl<any>; animals: FormControl<any>; price_m: FormControl<any>; price_y: FormControl<any>; about: FormControl<any>; bunker: FormControl<any>; }>;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
     this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
@@ -69,20 +119,20 @@ export class AboutComponent implements OnInit {
             console.log(this.selectedFlatId)
             if (response !== null) {
               this.aboutHouse = this.fb.group({
-                distance_metro:[response.flat.distance_metro],
-                distance_stops:[response.flat.distance_stops],
-                distance_shop:[response.flat.distance_shop],
-                distance_green:[response.flat.distance_green],
-                distance_parking:[response.flat.distance_parking],
-                woman:[response.flat.woman],
-                man:[response.flat.man],
-                family:[response.flat.family],
-                students:[response.flat.students],
-                animals:[response.flat.animals],
-                price_m:[response.flat.price_m],
-                price_y:[response.flat.price_y],
-                about:[response.flat.about],
-                bunker:[response.flat.bunker],
+                distance_metro:[response.about.distance_metro],
+                distance_stop:[response.about.distance_stop],
+                distance_shop:[response.about.distance_shop],
+                distance_green:[response.about.distance_green],
+                distance_parking:[response.about.distance_parking],
+                woman:[response.about.woman],
+                man:[response.about.man],
+                family:[response.about.family],
+                students:[response.about.students],
+                animals:[response.about.animals],
+                price_m:[response.about.price_m],
+                price_y:[response.about.price_y],
+                about:[response.about.about],
+                bunker:[response.about.bunker],
               });
             }
           }, (error: any) => {
@@ -100,9 +150,10 @@ export class AboutComponent implements OnInit {
   }
 
   onSubmitSaveAboutHouse(): void {
+    console.log(this.aboutHouse.value)
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.aboutHouse.value, flat_id: this.selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/add/about', { auth: JSON.parse(userJson), flat: this.aboutHouse.value, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -135,15 +186,60 @@ export class AboutComponent implements OnInit {
   }
 
   private initializeForm(): void {
+    this.aboutHouse = this.fb.group({
+      distance_metro: [null, [
+        Validators.required,
+      ]],
+      distance_stop: [null, [
+        Validators.required,
+      ]],
+      distance_shop: [null, [
+        Validators.required,
+      ]],
+      distance_green: [null, [
+        Validators.required,
+      ]],
+      distance_parking: [null, [
+        Validators.required,
+      ]],
+      woman: [null, [
+        Validators.required,
+      ]],
+      man: [null, [
+        Validators.required,
+      ]],
+      family: [null, [
+        Validators.required,
+      ]],
+      students: [null, [
+        Validators.required,
+      ]],
+      animals: [null, [
+        Validators.required,
+      ]],
+      price_m: [null, [
+        Validators.required,
+      ]],
+      price_y: [null, [
+        Validators.required,
+      ]],
+      about: [null, [
+        Validators.required,
+      ]],
+      bunker: [null, [
+        Validators.required,
+      ]],
+    });
+
     this.aboutHouse.valueChanges?.subscribe(() => this.onValueChanged());
   }
 
   private onValueChanged() {
     this.formErrors = {};
 
-    const addressHouse = this.aboutHouse;
-    for (const field in addressHouse.controls) {
-      const control = addressHouse.get(field);
+    const aboutHouse = this.aboutHouse;
+    for (const field in aboutHouse.controls) {
+      const control = aboutHouse.get(field);
       this.formErrors[field] = '';
 
       if (control && control.dirty && control.invalid) {

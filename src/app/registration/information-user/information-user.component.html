@@ -20,42 +20,36 @@
           <h4>Аккаунт користувача</h4>
           <p>Користувач: {{ data.email }}</p>
         </div>
+        <div class="watch-box">
+          <p>Ваш пароль: </p>
+          <button class="see" type="button" (click)="togglePasswordVisibility()">
+            <i class="icon"
+              [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+          </button>
+          <i class="orange"></i>
+          <ng-container *ngIf="passwordType === 'text'; else passwordHidden">
+            <p>{{ data.password }}</p>
+          </ng-container>
+          <ng-template #passwordHidden>
+            <input class="form-control" id="password" type="{{ passwordType }}" name="password"
+              formControlName="password" required>
+          </ng-template>
+        </div>
+
         <div class="img-fluid">
           <img src="https://via.placeholder.com/200" class="rounded" alt="...">
         </div>
-        <form class="" [formGroup]="userForm">
-          <div class="container-fluid mb-3">
-            <p>Ваше фото: </p>
-            <input class="form-control" type="file" id="formFile">
+        <form [formGroup]="userForm">
+
+          <div class="photo-box">
+            <div class="input-group">
+              <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            </div>
+            <p>ДОДАТИ ФОТО</p>
+            <button class="btn-create" id="inputGroupFileAddon04" type="button"><i class="fa-solid fa-circle-check"></i></button>
           </div>
-          <!-- Пароль -->
-          <!-- <div class="inputbox">
-            <input class="form-control" id="password" type="{{ passwordType }}" name="password"
-              formControlName="password" required>
-            <span>Пароль</span>
-            <button class="see-password" type="button" (click)="togglePasswordVisibility()">
-              <i class="icon"
-                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-            </button>
-            <i class="orange"></i>
-            <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
-          </div> -->
-          <!-- Пароль -->
-          <div class="watch-box">
-            <p>Ваш пароль: </p>
-            <button class="see" type="button" (click)="togglePasswordVisibility()">
-              <i class="icon"
-                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-            </button>
-            <i class="orange"></i>
-            <ng-container *ngIf="passwordType === 'text'; else passwordHidden">
-              <p>{{ data.password }}</p>
-            </ng-container>
-            <ng-template #passwordHidden>
-              <input class="form-control" id="password" type="{{ passwordType }}" name="password"
-                formControlName="password" required>
-            </ng-template>
-          </div>
+
+
         </form>
 
         <div class="btn-group">

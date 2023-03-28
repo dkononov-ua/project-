@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  flatService: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 

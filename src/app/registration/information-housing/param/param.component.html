@@ -1,5 +1,5 @@
 <form [formGroup]="houseParam" [@cardAnimation] class="container-card">
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+  <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
       <div class="card-name">
         <h4>Параметри оселі</h4>
@@ -7,14 +7,14 @@
       <!-- Кількість кімнат -->
       <div class="inputbox">
         <label for="">Кількість кімнат</label>
-
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="metro">
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="rooms" formControlName="rooms">
           <option selected disabled>Оберіть кількість кімнат</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="3">4</option>
           <option value="3">більше 4</option>
+          <div *ngIf="formErrors.rooms" class="alert alert-danger">{{formErrors.rooms}}</div>
         </select>
       </div>
       <!-- Стан квартири -->
@@ -27,11 +27,12 @@
           <option value="3">Задовільний</option>
           <option value="3">Поганий</option>
         </select>
+        <div *ngIf="formErrors.repair_status" class="alert alert-danger">{{formErrors.repair_status}}</div>
       </div>
       <!-- Балкон -->
       <div class="inputbox">
         <label for="">Наявність балкону і його тип</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="repair_status">
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="balcony">
           <option selected disabled>Оберіть стан квартири</option>
           <option value="1">Класичний балкон</option>
           <option value="2">Французький балкон</option>
@@ -39,24 +40,28 @@
           <option value="3">Тераса</option>
           <option value="3">Веранда</option>
         </select>
+        <div *ngIf="formErrors.balcony" class="alert alert-danger">{{formErrors.balcony}}</div>
       </div>
       <!-- Площа м² квартири -->
       <div class="inputbox">
-        <input required="required" type="number" formControlName="area">
+        <input required="required" type="number" name="area" formControlName="area">
         <span>Площа м²</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.area" class="alert alert-danger">{{formErrors.area}}</div>
       </div>
       <!-- Площа м² кухні -->
       <div class="inputbox">
         <input required="required" type="number" formControlName="kitchen_area">
         <span>Площа кухні м²</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.kitchen_area" class="alert alert-danger">{{formErrors.kitchen_area}}</div>
       </div>
       <!-- Поверх -->
       <div class="inputbox">
         <input required="required" type="number" formControlName="floor">
         <span>Поверх</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.floor" class="alert alert-danger">{{formErrors.floor}}</div>
       </div>
       <!-- Кнопки -->
       <div class="btn-group">
@@ -68,7 +73,7 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+  <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
       <div class="card-info">
         <p>Стан ремонту квартири</p>

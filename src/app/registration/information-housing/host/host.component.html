@@ -20,17 +20,28 @@
               <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option>
             </select>
           </div>
-          <button class="btn-menu" type="submit">ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</button>
+          <button class="btn-create" type="submit"><i class="fa-regular fa-circle-check"></i></button>
+          <p>ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</p>
+
         </form>
 
         <form [formGroup]="houseCreate">
-          <div class="card-name">
-            <h4>Меню внесення даних</h4>
-          </div>
+          <nav class="navbar-house">
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span class="link-text">Адреса оселі</span>
+              </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"><span class="link-text">Характеристики оселі</span>
+              </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"><span class="link-text">Особливості оселі</span>
+              </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">Додати фото оселі</span>
+              </a>
+          </nav>
 
-          <button class="btn-menu" (click)="showInput = true" *ngIf="!showInput">ДОДАТИ НОВУ
-            ОСЕЛЮ</button>
+          <button class="btn-create btn-deleted" (click)="showInput = true" *ngIf="!showInput"><i class="fa-solid fa-circle-minus"></i></button>
+          <p>ВИДАЛИТИ ОСЕЛЮ</p>
 
+          <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i class="fa-solid fa-circle-plus"></i></button>
+          <p>ДОДАТИ НОВУ ОСЕЛЮ</p>
           <div class="inputbox" *ngIf="showInput">
             <input class="input-cast" type="text" id="flat_id" placeholder="Створіть свій ID Оселі" name="flat_id"
               formControlName="flat_id" required>
@@ -39,15 +50,12 @@
             <div *ngIf="formErrors.flat_id" class="alert alert-danger">{{formErrors.flat_id}}</div>
           </div>
 
-          <button class="btn-menu" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput">ЗБЕРЕГТИ</button>
+          <button class="btn-create" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput"><i class="fa-solid fa-circle-check"></i></button>
+          <p>СТВОРИТИ</p>
+
         </form>
 
-        <nav class="navbar-house">
-          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Адреса оселі</a>
-          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'">Характеристики оселі</a>
-          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">Особливості оселі</a>
-          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">Додати фото оселі</a>
-        </nav>
+
 
       </div>
     </div>

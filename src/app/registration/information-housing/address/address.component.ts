@@ -98,7 +98,19 @@ export class AddressComponent implements OnInit {
       maxlength: 'Максимальна довжина 20 символів',
       pattern: 'Тільки літери та пробіли'
     },
-    index: {
+    country: {
+      required: 'Область обов`язкова',
+      minlength: 'Мінімальна довжина 2 символи',
+      maxlength: 'Максимальна довжина 20 символів',
+      pattern: 'Тільки літери та пробіли'
+    },
+    flat_index: {
+      required: 'Індекс обов`язковий',
+      minlength: 'Мінімальна довжина 5 символи',
+      maxlength: 'Максимальна довжина 5 символів',
+      pattern: 'Тільки цифри',
+    },
+    private: {
       required: 'Індекс обов`язковий',
       minlength: 'Мінімальна довжина 5 символи',
       maxlength: 'Максимальна довжина 5 символів',
@@ -122,7 +134,7 @@ export class AddressComponent implements OnInit {
         .subscribe((response: any) => {
           console.log(333333)
           console.log(this.selectedFlatId)
-          console.log(response.flat.street !== null);
+          console.log(response);
           if (response !== null) {
             this.addressHouse = this.fb.group({
               flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
@@ -155,6 +167,7 @@ export class AddressComponent implements OnInit {
   }
 
   onSubmitSaveAddressHouse(): void {
+    console.log(this.addressHouse.value)
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.addressHouse.value, flat_id: this.selectedFlatId })
@@ -230,7 +243,19 @@ export class AddressComponent implements OnInit {
         Validators.maxLength(20),
         Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/), // only letters and spaces
       ]],
-      index: [null, [
+      country: [null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20),
+        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/), // only letters and spaces
+      ]],
+      flat_index: [null, [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(5),
+        Validators.pattern(/^[0-9]+$/), // only digits
+      ]],
+      private: [null, [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(5),

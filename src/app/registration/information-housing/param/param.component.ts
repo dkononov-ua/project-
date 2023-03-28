@@ -27,16 +27,39 @@ import { HostComponent } from '../host/host.component';
 export class ParamComponent {
   public selectedFlatId: any | null;
 
-  form = new FormGroup({
-    floor: new FormControl(0),
-  });
-
-
   formErrors: any = {
-    floor: '',
+    rooms:'',
+    repair_status:'',
+    area:'',
+    kitchen_area:'',
+    balcony:'',
+    floor:'',
   };
 
   validationMessages: any = {
+    rooms: {
+      required: 'Обов`язково',
+    },
+    repair_status: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      pattern: 'Не коректно',
+    },
+    area: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      pattern: 'Не коректно',
+    },
+    kitchen_area: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      pattern: 'Не коректно',
+    },
+    balcony: {
+      required: 'Обов`язково',
+      minlength: 'Мінімальна довжина 1 символ',
+      pattern: 'Не коректно',
+    },
     floor: {
       required: 'Обов`язково',
       minlength: 'Мінімальна довжина 1 символ',
@@ -44,7 +67,7 @@ export class ParamComponent {
     },
   };
 
-  houseParam!: FormGroup<{ rooms: FormControl<any>; repair_status: FormControl<any>; area: FormControl<any>; kitchen_area: FormControl<any>; balcony: FormControl<any>; floor: FormControl<any>; }>;
+  houseParam!: FormGroup | any;
   isDisabled: boolean | undefined;
   formDisabled: boolean | undefined;
 
@@ -56,17 +79,15 @@ export class ParamComponent {
       if (userJson) {
         this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
-            console.log(44444)
-            console.log(this.selectedFlatId)
-            console.log(response.flat.street !== null);
+            console.log(response);
             if (response !== null) {
               this.houseParam = this.fb.group({
-                rooms: [response.flat.rooms],
-                repair_status: [response.flat.repair_status],
-                area: [response.flat.country.area],
-                kitchen_area: [response.flat.kitchen_area],
-                balcony: [response.flat.balcony],
-                floor: [response.flat.floor],
+                rooms: [response.param.rooms],
+                repair_status: [response.param.repair_status],
+                area: [response.param.area],
+                kitchen_area: [response.param.kitchen_area],
+                balcony: [response.param.balcony],
+                floor: [response.param.floor],
               });
             }
           }, (error: any) => {
@@ -86,9 +107,10 @@ export class ParamComponent {
   }
 
   onSubmitSaveHouseParam(): void {
+    console.log(this.houseParam.value)
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.houseParam.value, flat_id: this.selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: this.houseParam.value, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -121,6 +143,27 @@ export class ParamComponent {
   }
 
   private initializeForm(): void {
+    this.houseParam = this.fb.group({
+      rooms: [null, [
+        Validators.required,
+      ]],
+      repair_status: [null, [
+        Validators.required,
+      ]],
+      area: [null, [
+        Validators.required,
+      ]],
+      kitchen_area: [null, [
+        Validators.required,
+      ]],
+      balcony: [null, [
+        Validators.required,
+      ]],
+      floor: [null, [
+        Validators.required,
+      ]],
+    });
+
     this.houseParam.valueChanges?.subscribe(() => this.onValueChanged());
   }
 
