@@ -37,24 +37,9 @@ export class AppComponent implements OnInit {
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.scss'],
   template: '<app-address></app-address>',
-  animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(130%)' }),
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ])
-    ])
-  ]
 })
 
 export class HostComponent implements OnInit {
-
-  prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
-  }
 
   public selectedFlatId$ = new BehaviorSubject<any>(undefined);
 
@@ -95,6 +80,7 @@ export class HostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.selectHouse = new FormGroup({
       house: new FormControl()
     });
@@ -115,7 +101,6 @@ export class HostComponent implements OnInit {
     } else {
       console.log('house not found');
     }
-
     this.initializeForm();
   }
 

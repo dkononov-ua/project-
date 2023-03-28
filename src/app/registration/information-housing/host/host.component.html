@@ -23,7 +23,7 @@
           <button class="btn-menu" type="submit">ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</button>
         </form>
 
-        <form [formGroup]="houseCreate" (ngSubmit)="onSubmitSelectHouse()">
+        <form [formGroup]="houseCreate">
           <div class="card-name">
             <h4>Меню внесення даних</h4>
           </div>
@@ -52,8 +52,8 @@
       </div>
     </div>
 
-    <div [@cardAnimation]="prepareRoute(outlet)" class="col-lg-8 col-md-5 col-sm-6 col-12">
-      <router-outlet #outlet="outlet"></router-outlet>
+    <div class="col-lg-8 col-md-5 col-sm-6 col-12">
+      <router-outlet></router-outlet>
     </div>
 
   </div>

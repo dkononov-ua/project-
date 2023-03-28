@@ -1,4 +1,4 @@
-<form [@cardAnimation] class="container-card">
+<form [formGroup]="houseParam" [@cardAnimation] class="container-card">
   <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
       <div class="card-name">
@@ -60,13 +60,11 @@
       </div>
       <!-- Кнопки -->
       <div class="btn-group">
-        <button class="btn btn-primary mt-3" (click)="onSubmitSaveHouseParamData()"
-          [disabled]="!houseForm.valid">ЗБЕРЕГТИ</button>
-        <button class="btn btn-primary mt-3">РЕДАГУВАТИ</button>
-        <button type="reset" class="btn btn-secondary mt-3 ml-3">СКИНУТИ</button>
+        <button class="btn btn-primary mt-3" (click)="saveHouseParam()" (click)="onSubmitSaveHouseParam()"
+          (click)="saveHouseParam()">ЗБЕРЕГТИ</button>
+        <button class="btn btn-primary mt-3" (click)="editHouseParam()">РЕДАГУВАТИ</button>
+        <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetHouseParam()">СКИНУТИ</button>
       </div>
-
-
     </div>
   </div>
 
