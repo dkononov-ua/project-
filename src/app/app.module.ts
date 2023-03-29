@@ -6,8 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
-import { ServicesComponent } from './services/services.component';
-import { CleaningComponent } from './housing-services/cleaning/cleaning.component';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -32,17 +30,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { HousingParametersRoutingModule } from './registration/information-housing/housing-parameters-routing.module';
 import { HousingParametersModule } from './registration/information-housing/housing-parameters.module';
 import { SharedModule } from './shared/shared/shared.module';
-import { HousingServicesComponent } from './housing-services/housing-services.component';
+import { HousingServicesModule } from './housing-services/housing-services.module';
+import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ServicesComponent,
-    CleaningComponent,
     OurTeamComponent,
-    RegistrationComponent,
-    OurTeamComponent,
-    RegistrationComponent,
     RegistrationComponent,
     UserPaymentComponent,
     InformationUserComponent,
@@ -56,8 +52,6 @@ import { HousingServicesComponent } from './housing-services/housing-services.co
     SliderComponent,
     ModalComponent,
     UserLicenceComponent,
-    HousingServicesComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -79,6 +73,10 @@ import { HousingServicesComponent } from './housing-services/housing-services.co
     SharedModule,
     HousingParametersModule,
     HousingParametersRoutingModule,
+    HousingServicesModule,
+    HousingServicesRoutingModule,
+    RouterModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

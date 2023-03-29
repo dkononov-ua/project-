@@ -2,7 +2,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidationService } from '../../validation.service';
 import { HostComponent } from '../host/host.component';
 
 @Component({

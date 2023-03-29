@@ -1,15 +1,3 @@
-<app-navbar></app-navbar>
-
-<div class="navbar">
-  <nav class="nav">
-    <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Електроенергія</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Водопостачання</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Прибирання</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Газ</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Інтернет</a>
-  </nav>
-</div>
-
 <div class="container-fluid">
   <div class="container-title">
     <h1>Прибирання</h1>
@@ -27,10 +15,8 @@
           <h4 class="card-title">Вибір постачальника</h4>
         </div>
         <div class="card-link">
-          <a href="#" class="link"><span>Змінити постачальника</span><i
-              class="fa-solid fa-handshake-angle"></i></a>
-          <a href="#" class="link"><span>Переглянути реквізити</span><i
-              class="fa-solid fa-money-bill-trend-up"></i></a>
+          <a href="#" class="link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
+          <a href="#" class="link"><span>Переглянути реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
           <button class="btn" (click)="toggleCard()">{{ buttonText }}</button>
         </div>
       </div>
@@ -51,8 +37,8 @@
         </div>
         <div class="card-body">
           <div class="input-group mb-3">
-            <input matInput type="text" class="form-control" placeholder="ПІБ" [disabled]="isCardLocked" aria-label="Recipient's username"
-              aria-describedby="button-addon2">
+            <input matInput type="text" class="form-control" placeholder="ПІБ" [disabled]="isCardLocked"
+              aria-label="Recipient's username" aria-describedby="button-addon2">
           </div>
 
           <div class="input-group">
@@ -61,7 +47,8 @@
             <span class="input-group-text">$</span>
             <span class="input-group-text">0.00</span>
           </div>
-          <a [ngClass]="{ 'disabled-link': !buttonEnabled }" class="link"><span>Оплатити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+          <a [ngClass]="{ 'disabled-link': !buttonEnabled }" class="link"><span>Оплатити</span><i
+              class="fa-solid fa-money-bill-trend-up"></i></a>
 
         </div>
       </div>
@@ -69,6 +56,4 @@
 
   </div>
 </div>
-
-<app-footer></app-footer>
 

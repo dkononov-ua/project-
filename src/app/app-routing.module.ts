@@ -13,6 +13,7 @@ import { CanActivateGuard } from './shared/auth.guard';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
+import { HousingServicesComponent } from './housing-services/housing-services.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -29,7 +30,7 @@ const routes: Routes = [
   { path: 'registration-mob', component: RegistrationMobComponent },
   { path: 'user-licence', component: UserLicenceComponent },
   { path: 'registration-mob', component: RegistrationMobComponent },
-
+  { path: 'housing-services', component: HousingServicesComponent },
 ];
 
 @NgModule({

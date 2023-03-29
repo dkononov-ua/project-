@@ -4,7 +4,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserInteractionComponent } from '../interaction/user-interaction/user-interaction.component';
 import { Routes, RouterModule, Router } from '@angular/router';
 import { InformationUserComponent } from './information-user/information-user.component';
-import { AuthService } from 'src/app/registration/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Subject } from 'rxjs';
 
 const appRoutes: Routes = [

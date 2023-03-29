@@ -2,7 +2,6 @@ import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { ValidationService } from '../../validation.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HostComponent } from '../host/host.component';
 

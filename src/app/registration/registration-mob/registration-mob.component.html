@@ -3,7 +3,7 @@
     <img class="logo" src="../../../assets/logo/logo.svg" alt="">
   </div>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+  <form (ngSubmit)="onSubmit()">
 
     <!-- Електронна пошта -->
     <div class="inputbox">
@@ -23,7 +23,7 @@
         <label>Запам'ятати мене</label>
       </div>
       <div class="pass-link">
-        <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
+        <a class="nav-link">Забули пароль?</a>
       </div>
     </div>
 

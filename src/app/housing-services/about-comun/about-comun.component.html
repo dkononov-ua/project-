@@ -1,14 +1,3 @@
-<app-navbar></app-navbar>
-
-<div class="navbar">
-  <nav class="nav">
-    <a [routerLinkActive]="'active'" [routerLink]="'/energy'">Електроенергія</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/water'">Водопостачання</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/cleaning'">Прибирання</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/gas'">Газ</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/internet'">Інтернет</a>
-  </nav>
-</div>
 <div class="container-fluid">
   <div class="container-title col-6">
     <h1>Послуги</h1>
@@ -16,34 +5,16 @@
       щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
 
     <h2 class="description">Оплатити комунальні,<br> в зручним та сучасному додатку.</h2>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Launch demo modal
-    </button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <a href="housing-services/host-comun"><button class="btn-create"><i
+          class="fa-solid fa-circle-check"></i></button></a>
+    <button (click)="goToHostComun()">Перейти до HostComun</button>
+
+    <p>Перейти до послуг</p>
 
     <div>
       <img class="logo" src="../../assets/LogoGif1.gif" alt="">
     </div>
-
 
   </div>
   <div class="container-card col-6">
@@ -70,11 +41,6 @@
         <a href="#" class="link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
         <a href="#" class="link"><span>Переглянути реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
       </div>
-
     </div>
-
   </div>
-
 </div>
-
-<app-footer></app-footer>

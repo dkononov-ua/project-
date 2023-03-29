@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErr
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
-import { AuthService } from '../auth.service';
-import { DataService } from '../../data.service';
+import { AuthService } from '../../services/auth.service';
+import { DataService } from '../../services/data.service';
 // import { FileUploader } from 'ng2-file-upload';
 
 // const URL = 'http://localhost:3000/api/upload';
@@ -148,7 +148,7 @@ export class InformationUserComponent implements OnInit {
   errorMessage$ = new Subject<string>();
 
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {  }
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
   showPassword = false;
   isPasswordVisible = false;

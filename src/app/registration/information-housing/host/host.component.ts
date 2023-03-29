@@ -3,7 +3,6 @@ import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../information-user/user.service';
-import { ValidationService } from '../../validation.service';
 import { trigger, animate, transition, style, query, group, animateChild } from '@angular/animations';
 import { RouterOutlet } from '@angular/router';
 
@@ -75,7 +74,6 @@ export class HostComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private validationService: ValidationService,
   ) {
   }
 
@@ -151,10 +149,6 @@ export class HostComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(20)
       ]]
-    });
-
-    this.houseCreate.valueChanges.subscribe((data) => {
-      this.formErrors = this.validationService.validateForm(this.houseCreate, this.validationMessages, this.formErrors);
     });
   }
 }
