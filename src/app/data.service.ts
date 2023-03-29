@@ -1,23 +1,56 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+
   constructor(private http: HttpClient) { }
 
-  getData(): any {
-    console.log('Пройшла перевірка користувача')
+  getData(): Observable<any> {
+    const houseJson = localStorage.getItem('house');
+    console.log('Пройшла перевірка користувача');
     const userJson = localStorage.getItem('user');
 
+    let request: Observable<any>;
+
     if (userJson !== null) {
-      const apiUrl = 'http://localhost:3000/userinfo';
-      return this.http.post(apiUrl, JSON.parse(userJson));
+      if (houseJson) {
+        const n = JSON.parse(houseJson);
+        console.log(n.flat_id);
+        const flatinfo = 'http://localhost:3000/flatinfo/localflat';
+        request = this.http.post(flatinfo, { auth: JSON.parse(userJson), flat_id: n.flat_id });
+      } else {
+        console.log('house not found');
+        request = of(null);
+      }
     } else {
       console.log('user not found');
+      request = of(null);
     }
+
+    const userinfo = 'http://localhost:3000/userinfo';
+    const userRequest = this.http.post(userinfo, JSON.parse(userJson ?? 'null')).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log('Failed to retrieve user info:', error.message);
+        return of(null);
+      })
+    );
+
+    return forkJoin([request, userRequest]).pipe(
+      map(([houseData, userData]) => {
+        if (houseData === null) {
+          return userData;
+        } else {
+          return {
+            houseData: houseData,
+            userData: userData,
+          };
+        }
+      })
+    );
   }
 
 }

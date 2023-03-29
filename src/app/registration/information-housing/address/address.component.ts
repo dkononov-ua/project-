@@ -111,10 +111,10 @@ export class AddressComponent implements OnInit {
       pattern: 'Тільки цифри',
     },
     private: {
-      required: 'Індекс обов`язковий',
-      minlength: 'Мінімальна довжина 5 символи',
-      maxlength: 'Максимальна довжина 5 символів',
-      pattern: 'Тільки цифри',
+    },
+    rent: {
+    },
+    live: {
     },
   };
 
@@ -124,43 +124,44 @@ export class AddressComponent implements OnInit {
   formDisabled?: boolean;
   selectHouse: any;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent, )
-  {this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
-    this.selectedFlatId = selectedFlatId;
-    console.log(222)
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          console.log(333333)
-          console.log(this.selectedFlatId)
-          console.log(response);
-          if (response !== null) {
-            this.addressHouse = this.fb.group({
-              flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-              country: [response.flat.country],
-              region: [response.flat.region, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-              city: [response.flat.city, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-              street: [response.flat.street, [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-              houseNumber: [response.flat.houseNumber, [Validators.required, Validators.minLength(1), Validators.maxLength(5)]],
-              apartment: [response.flat.apartment, [Validators.required, Validators.minLength(1), Validators.pattern(/^[0-9]+$/)]],
-              flat_index: [response.flat.flat_index, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(/^[0-9]+$/)]],
-              private: [response.flat.private],
-              rent: [response.flat.rent],
-              live: [response.flat.live],
-              who_live: [response.flat.who_live],
-              subscribers: [response.flat.subscribers],
-            });
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('user not found');
-    }
-    this.initializeForm();
+  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
+    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
+      this.selectedFlatId = selectedFlatId;
+      console.log(222)
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+          .subscribe((response: any) => {
+            console.log(333333)
+            console.log(this.selectedFlatId)
+            console.log(response);
+            if (response !== null) {
+              this.addressHouse = this.fb.group({
+                flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+                country: [response.flat.country],
+                region: [response.flat.region, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+                city: [response.flat.city, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+                street: [response.flat.street, [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
+                houseNumber: [response.flat.houseNumber, [Validators.required, Validators.minLength(1), Validators.maxLength(5)]],
+                apartment: [response.flat.apartment, [Validators.required, Validators.minLength(1), Validators.pattern(/^[0-9]+$/)]],
+                flat_index: [response.flat.flat_index, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(/^[0-9]+$/)]],
+                private: [response.flat.private],
+                rent: [response.flat.rent],
+                live: [response.flat.live],
+                who_live: [response.flat.who_live],
+                subscribers: [response.flat.subscribers],
+              });
+            }
+          }, (error: any) => {
+            console.error(error);
+          });
+      } else {
+        console.log('user not found');
+      }
+      this.initializeForm();
 
-  }); }
+    });
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -255,12 +256,9 @@ export class AddressComponent implements OnInit {
         Validators.maxLength(5),
         Validators.pattern(/^[0-9]+$/), // only digits
       ]],
-      private: [null, [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(5),
-        Validators.pattern(/^[0-9]+$/), // only digits
-      ]],
+      private: [null, [ ]],
+      rent: [null, [ ]],
+      live: [null, [ ]],
     });
 
     this.addressHouse.valueChanges?.subscribe(() => this.onValueChanged());

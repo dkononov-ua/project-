@@ -1,108 +1,147 @@
 <app-navbar></app-navbar>
-<app-slider class="hide-mobile"></app-slider>
 
-<div class="container-fluid animation">
+<div [@cardAnimation] class="container-card animation">
 
-  <div class="card col-lg-3 col-md-5 col-sm-6 col-12">
-    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="3000">
-          <img src="../../../assets/kitchen.jpg" class="d-block w-100" alt="...">
+  <div class="card-box col-lg-4 col-md-6 col-sm-6 col-12">
+    <div class="card m-2">
+      <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="../../../assets/kitchen.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../../assets/badroom.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../../assets/bathroom-vanity-light.jpg" class="d-block w-100" alt="...">
+          </div>
         </div>
-        <div class="carousel-item" data-bs-interval="3000">
-          <img src="../../../assets/badroom.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item" data-bs-interval="3000">
-          <img src="../../../assets/bathroom-vanity-light.jpg" class="d-block w-100" alt="...">
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+      <div class="card-link">
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span>Взаємодія сторін</span><i
+            class="fa-sharp fa-solid fa-house-laptop"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
+            class="fa-solid fa-house-signal"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
+            class="fa-solid fa-truck-fast"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
+          <i class="fa-solid fa-box-open"></i></a>
+        <div>
+          <a class="link" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">
+            <div class="notifications" (click)="toggleNotifications()">
+              <p class="badge">{{notificationsCount}}</p>
+            </div>
+            <span>Підписники</span><i class="fa-solid fa-person-praying"></i>
+          </a>
+        </div>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'"><span>Пошук</span><i
+            class="fa-solid fa-magnifying-glass"></i></a>
+        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span>Редагувати
+            інфо.</span><i class="fa-solid fa-gear"></i></a>
+
+      </div>
     </div>
   </div>
 
-  <div class="card col-lg-3 col-md-5 col-sm-6 col-12 container-description1">
-    <div class="item-wrapper">
-      <h1>Аккаунт оселі</h1>
-      <h1>{{ data.firstName }} {{ data.surName }} {{ data.lastName }} </h1>
-      <p>Email: {{ data.email }}</p>
-      <p>Phone: {{ data.phone }}</p>
+  <div class="card-box col-lg-4 col-md-6 col-sm-6 col-12">
+    <div class="card m-2 p-2">
+      <div class="item-wrapper">
+        <h2>ID оселі: {{ house.flat_id }}</h2>
+        <h1>Власник: {{ user.firstName }} {{ user.surName }} {{ user.lastName }} </h1>
+        <p>Телефон: {{ user.tell }}</p>
+        <p>Email для листування: {{ user.mail }}</p>
 
-      <div class="content-description">
-        <h3>Київ, вул Чорнобильська №19. кв №24</h3>
-        <div class="item-description">
-          Основні характеристики.
-        </div>
-        <div class="item-characteristics">
-          <div>
-            <span><strong>Кількість кімнат:</strong> 2</span>
+        <div class="content-description">
+          <h3>{{ house.city }}, {{ house.street }} {{ house.houseNumber }}, квартира {{ house.apartment }}</h3>
+          <div class="item-description">
+            Основні характеристики:
           </div>
-          <div>
-            <span><strong>Ремонт:</strong> 2015р.</span>
+          <div class="item-characteristics">
+            <div>
+              Кількість кімнат: {{ param.rooms }}
+              Статус ремонту: {{ param.repair_status }}
+              Площа: {{ param.area }}
+              Площа кухні: {{ param.kitchen_area }}
+              Балкон: {{ param.balcony }}
+              Балкон: {{ param.floor }}
+              Відстань до метро: {{ about.distance_metro }}
+              Відстань до зупинки: {{ about.distance_stop }}
+              Відстань до магазину: {{ about.distance_shop }}
+              Відстань до парку: {{ about.distance_green }}
+              Відстань до парковки: {{ about.distance_parking }}
+              Жінки: {{ about.woman }}
+              Чоловіки: {{ about.man }}
+              Сім'ї: {{ about.family }}
+              Студенти: {{ about.students }}
+              Тварини: {{ about.animals }}
+            </div>
           </div>
-          <div>
-            <span><strong>Поверх:</strong> 8</span>
-          </div>
+
+
+
+
         </div>
 
+
+        <div class="card-social-link">
+          <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="{{ user.telegram }}"><i class="fa-brands fa-telegram"></i></a>
+          <a href="{{ user.viber }}"><i class="fa-brands fa-viber"></i></a>
+          <a href="{{ user.facebook }}"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+
+      </div>
+      <div class="price-box">
+        <div class="item-price">{{ about.price_m }}<sup>₴/міс</sup>
+          <div class="item-actions">
+            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+              Орендувати
+            </button>
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="item-price">{{ about.price_y }}<sup>₴/рік</sup>
+          <div class="item-actions">
+            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+              Орендувати
+            </button>
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="price-box">
-      <div class="item-price">9 000<sup>₴/міс</sup>
-        <div class="item-actions">
-          <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
-            Орендувати
-          </button>
-          <button class="btn btn-outline-success my-2 my-sm-0">
-            <i class="fas fa-heart" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-      <div class="item-price">100 000<sup>₴/рік</sup>
-        <div class="item-actions">
-          <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
-            Орендувати
-          </button>
-          <button class="btn btn-outline-success my-2 my-sm-0">
-            <i class="fas fa-heart" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <div class="card col-lg-3 col-md-5 col-sm-6 col-12 container-description2">
-    <div class="card-link">
-      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span>Взаємодія сторін</span><i
-          class="fa-sharp fa-solid fa-house-laptop"></i></a>
-      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Послуги</span><i
-          class="fa-solid fa-house-signal"></i></a>
-      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Замовлення послуг</span><i
-          class="fa-solid fa-truck-fast"></i></a>
-      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/services'"><span>Наповнення</span>
-        <i class="fa-solid fa-box-open"></i></a>
-      <div>
-        <a class="link" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">
-          <div class="notifications" (click)="toggleNotifications()">
-            <p class="badge">{{notificationsCount}}</p>
-          </div>
-          <span>Підписники</span><i class="fa-solid fa-person-praying"></i>
-        </a>
-      </div>
-      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'"><span>Пошук</span><i
-          class="fa-solid fa-magnifying-glass"></i></a>
-      <a class="link" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span>Редагувати
-          інфо.</span><i class="fa-solid fa-gear"></i></a>
+  <div class="card-box col-lg-4 col-md-6 col-sm-6 col-12">
+    <div class="card m-2 p-2">
+      Країна: {{ house.country }}
+      Область: {{ house.region }}
+      Місто: {{ house.city }}
+      Вулиця: {{ house.street }}
+      Номер будинку: {{ house.houseNumber }}
+      Квартира: {{ house.apartment }}
+      Індекс квартири: {{ house.flat_index }}
+      Приватна квартира: {{ house.private }}
+      Оренда квартири: {{ house.rent }}
+      Проживають: {{ house.live }}
+      Хто проживає: {{ house.who_live }}
+      Абоненти: {{ house.subscribers }}
 
+      Про квартиру: {{ about.about }}
     </div>
   </div>
 

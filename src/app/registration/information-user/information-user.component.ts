@@ -5,6 +5,21 @@ import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthService } from '../auth.service';
 import { DataService } from '../../data.service';
+import { FileUploader } from 'ng2-file-upload';
+
+const URL = 'http://localhost:3000/api/upload';
+
+export class FileUploadComponent {
+  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+
+  constructor () {
+    this.uploader.onAfterAddingFile = (file: { withCredentials: boolean; }) => { file.withCredentials = false; };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+        console.log('ImageUpload:uploaded:', item, status, response);
+        alert('File uploaded successfully');
+    };
+  }
+}
 
 @NgModule({
   imports: [
@@ -42,32 +57,13 @@ export class InformationUserComponent implements OnInit {
     email: '',
     password: '',
     dob: '',
-    phone: '',
+    tell: '',
     phone_alt: '',
     telegram: '',
     facebook: '',
     instagram: '',
     mail: '',
     viber: '',
-  };
-
-  user = {
-    firstName: new FormControl({ value: '', disabled: true }),
-    lastName: new FormControl({ value: '', disabled: true }),
-    surName: new FormControl({ value: '', disabled: true }),
-    email: new FormControl({ value: '', disabled: true }),
-    password: new FormControl({ value: '', disabled: true }),
-    dob: new FormControl({ value: '', disabled: true }),
-    phone: new FormControl({ value: '', disabled: true }),
-    phone_alt: new FormControl({ value: '', disabled: true }),
-    telegram: new FormControl({ value: '', disabled: true }),
-    facebook: new FormControl({ value: '', disabled: true }),
-    instagram: new FormControl({ value: '', disabled: true }),
-    mail: new FormControl({ value: '', disabled: true }),
-    viber: new FormControl({ value: '', disabled: true }),
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
   };
 
   formErrors: any = {
@@ -77,7 +73,7 @@ export class InformationUserComponent implements OnInit {
     email: '',
     password: '',
     dob: '',
-    phone: '',
+    tell: '',
     phone_alt: '',
     telegram: '',
     facebook: '',
@@ -122,77 +118,49 @@ export class InformationUserComponent implements OnInit {
       min: 'Дата народження повинна бути не раніше 1900-01-01.',
       max: 'Дата народження повинна бути не пізніше поточної дати.'
     },
-    phone: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+    tell: {
+      required: 'Телефон не обов`язковий',
     },
     phone_alt: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+      required: 'Телефон додатковий не обов`язковий',
     },
     telegram: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+      required: 'telegram не обов`язковий',
     },
     facebook: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+      required: 'facebook не обов`язковий',
     },
     instagram: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+      required: 'instagram не обов`язковий',
     },
     viber: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+      required: 'viber не обов`язковий',
     },
     mail: {
-      required: 'Телефон обов`язковий',
-      minlength: 'Формат введення 10 символів',
-      maxlength: 'Максимальна довжина 10 символів',
-      pattern: 'Телефон повинен містити тільки цифри'
+      required: 'mail не обов`язковий',
     },
   };
 
   userForm!: FormGroup;
   userFormContacts!: FormGroup;
-  isDisabled = false;
-  formDisabled = false;
   errorMessage$ = new Subject<string>();
-  changePasswordForm!: FormGroup<{ currentPassword: FormControl<string | null>; newPassword: FormControl<string | null>; confirmPassword: FormControl<string | null>; }>;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {  }
 
   showPassword = false;
   isPasswordVisible = false;
   passwordType = 'password';
-  emailType: string = 'password';
 
   togglePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   };
 
-  toggleEmailVisibility() {
-    this.emailType = this.emailType === 'password' ? 'text' : 'password';
-  }
-
   ngOnInit(): void {
     console.log('Пройшла перевірка користувача')
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      // const user = JSON.parse(userJson)
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           this.userForm = this.fb.group({
@@ -203,6 +171,9 @@ export class InformationUserComponent implements OnInit {
             dob: [response.inf.dob],
             password: [response.inf.password],
           });
+          this.userForm.disable();
+
+          // це для виводу інформації на профіль користувача h1, p і т.д
           this.dataService.getData().subscribe((response: any) => {
             this.data.firstName = response.inf.firstName;
             this.data.lastName = response.inf.lastName;
@@ -210,16 +181,16 @@ export class InformationUserComponent implements OnInit {
             this.data.email = response.inf.email;
             this.data.password = response.inf.password;
           });
-          this.userForm.disable();
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });
 
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
+          console.log(response);
+
           this.userFormContacts = this.fb.group({
-            phone: [response.cont.phone],
+            tell: [response.cont.tell],
             phone_alt: [response.cont.phone_alt],
             viber: [response.cont.viber],
             telegram: [response.cont.telegram],
@@ -227,8 +198,8 @@ export class InformationUserComponent implements OnInit {
             instagram: [response.cont.instagram],
             mail: [response.cont.mail],
           });
-          this.userFormContacts.disable(); // додайте цей рядок
-          console.log(response);
+
+          // блокуємо форму при оновленні сторінки
         }, (error: any) => {
           console.error(error);
         });
@@ -239,74 +210,56 @@ export class InformationUserComponent implements OnInit {
     this.initializeForm();
   }
 
+  // зберігаємо інфо користувача
   onSubmitSaveUserData(): void {
     const userJson = localStorage.getItem('user');
 
     if (userJson !== null) {
-      // const user = JSON.parse(userJson)
       this.http.post('http://localhost:3000/add/user', { auth: JSON.parse(userJson), new: this.userForm.value })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });
-      // ...
     } else {
-      console.log('user not found');
+      console.log('не вийшло зберегти');
     }
   }
 
-  saveUserData(): void {
-    this.userForm.disable();
-    this.isDisabled = false;
-    this.formDisabled = false;
-  }
-
-  editUserData(): void {
-    this.userForm.enable();
-    this.isDisabled = false;
-    this.formDisabled = false;
-  }
-
-  resetUserForm() {
-    this.userForm.reset();
-  }
-
+  // зберігаємо контактні дані
   onSubmitSaveUserFormContacts(): void {
+    console.log(this.userFormContacts.value)
     const userJson = localStorage.getItem('user');
 
     if (userJson !== null) {
-      // const contacts = JSON.parse(contactsJson)
       this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: this.userFormContacts.value })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
           console.error(error);
         });
-      // ...
     } else {
       console.log('Error retrieving data');
     }
   }
 
-  saveUserFormContactsData(): void {
-    this.userFormContacts.disable();
-    this.isDisabled = true;
-    this.formDisabled = true;
-    // відправляємо дані на сервер і зберігаємо їх
-    // після успішного збереження змінюємо стан на редагування
-    this.isDisabled = false;
-    this.formDisabled = false;
+  saveUserData(): void {
+    this.userForm.disable();
   }
 
-  editUserFormContactsData(): void {
-    this.userFormContacts.enable();
-    this.isDisabled = false;
-    this.formDisabled = false;
+  editUserData(): void {
+    this.userForm.enable();
+  }
+
+  resetUserForm() {
+    this.userForm.reset();
   }
 
   resetUserFormContacts() {
     this.userFormContacts.reset();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   private initializeForm(): void {
@@ -320,7 +273,7 @@ export class InformationUserComponent implements OnInit {
     });
 
     this.userFormContacts = this.fb.group({
-      phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
+      tell: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
       phone_alt: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
       facebook: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
       telegram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
@@ -332,10 +285,6 @@ export class InformationUserComponent implements OnInit {
     this.userForm.valueChanges?.subscribe(() => this.onValueChanged());
     this.userFormContacts.valueChanges?.subscribe(() => this.onValueChanged());
   };
-
-  logout() {
-    this.authService.logout();
-  }
 
   private onValueChanged() {
     this.formErrors = {};

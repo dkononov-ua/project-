@@ -6,13 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
-import { PaymentsComponent } from './payments/payments.component';
 import { ServicesComponent } from './services/services.component';
-import { EnergyComponent } from './services/energy/energy.component';
-import { WaterComponent } from './services/water/water.component';
-import { CleaningComponent } from './services/cleaning/cleaning.component';
-import { GasComponent } from './services/gas/gas.component';
-import { InternetComponent } from './services/internet/internet.component';
+import { CleaningComponent } from './housing-services/cleaning/cleaning.component';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,24 +25,20 @@ import { HomeAccountComponent } from './interaction/home-account/home-account.co
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { SliderComponent } from './components/slider/slider.component';
-import { ModalComponent } from './modal/modal.component';
-import { UserLicenceComponent } from './user-licence/user-licence.component';
+import { ModalComponent } from './pages/modal/modal.component';
+import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HousingParametersRoutingModule } from './registration/information-housing/housing-parameters-routing.module';
 import { HousingParametersModule } from './registration/information-housing/housing-parameters.module';
 import { SharedModule } from './shared/shared/shared.module';
+import { HousingServicesComponent } from './housing-services/housing-services.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PaymentsComponent,
     ServicesComponent,
-    EnergyComponent,
-    WaterComponent,
     CleaningComponent,
-    GasComponent,
-    InternetComponent,
     OurTeamComponent,
     RegistrationComponent,
     OurTeamComponent,
@@ -65,6 +56,7 @@ import { SharedModule } from './shared/shared/shared.module';
     SliderComponent,
     ModalComponent,
     UserLicenceComponent,
+    HousingServicesComponent,
 
   ],
   imports: [

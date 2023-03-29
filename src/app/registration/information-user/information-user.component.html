@@ -16,41 +16,41 @@
     <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <!-- Аккаунт користувача -->
       <div class="card m-2">
-        <div class="card-name">
-          <h4>Аккаунт користувача</h4>
-          <p>Користувач: {{ data.email }}</p>
-        </div>
+        <form>
+          <div class="img-fluid">
+            <img src="../../../assets/photo3.JPG" class="rounded" alt="...">
+          </div>
+          <div class="card-name">
+            <h4>Аккаунт користувача</h4>
+            <h4>{{ data.email }}</h4>
+          </div>
+          <input type="file" ng2FileSelect [uploader]="uploader" />
+          <button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">Upload</button>
+
+          <div class="photo-box">
+            <div class="input-group">
+              <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+                aria-label="Upload">
+            </div>
+            <p>Завантажити нове фото</p>
+            <button class="btn-create" id="inputGroupFileAddon04" type="button"><i
+                class="fa-solid fa-circle-check"></i></button>
+          </div>
+        </form>
+
+
+
         <div class="watch-box">
-          <p>Ваш пароль: </p>
-          <button class="see" type="button" (click)="togglePasswordVisibility()">
-            <i class="icon"
-              [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+          <button class="btn-create" type="button" (click)="togglePasswordVisibility()">
+            <i class="icon" [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
           </button>
-          <i class="orange"></i>
           <ng-container *ngIf="passwordType === 'text'; else passwordHidden">
             <p>{{ data.password }}</p>
           </ng-container>
           <ng-template #passwordHidden>
-            <input class="form-control" id="password" type="{{ passwordType }}" name="password"
-              formControlName="password" required>
+            <p>Ваш пароль:</p>
           </ng-template>
         </div>
-
-        <div class="img-fluid">
-          <img src="https://via.placeholder.com/200" class="rounded" alt="...">
-        </div>
-        <form [formGroup]="userForm">
-
-          <div class="photo-box">
-            <div class="input-group">
-              <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-            </div>
-            <p>ДОДАТИ ФОТО</p>
-            <button class="btn-create" id="inputGroupFileAddon04" type="button"><i class="fa-solid fa-circle-check"></i></button>
-          </div>
-
-
-        </form>
 
         <div class="btn-group">
           <button class="btn btn-primary"><span class="btn-text">ЗМІНИТИ ПАРОЛЬ</span></button>
@@ -114,11 +114,10 @@
         </form>
 
         <div class="btn-group">
-          <button class="btn btn-primary mt-3" (click)="saveUserData()" (click)="onSubmitSaveUserData()"
+          <button class="btn mt-3" (click)="saveUserData()" (click)="onSubmitSaveUserData()"
             [disabled]="!userForm.valid"><span class="btn-text">ЗБЕРЕГТИ</span></button>
-          <button class="btn btn-primary mt-3" (click)="editUserData()" [disabled]="isDisabled"><span
-              class="btn-text">РЕДАГУВАТИ</span></button>
-          <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetUserForm()"><span
+          <button class="btn mt-3" (click)="editUserData()"><span class="btn-text">РЕДАГУВАТИ</span></button>
+          <button type="reset" class="btn mt-3 ml-3" (click)="resetUserForm()"><span
               class="btn-text">СКИНУТИ</span></button>
         </div>
 
@@ -132,15 +131,20 @@
         </div>
 
         <form class="form-box" [formGroup]="userFormContacts">
-
           <!-- Телефон -->
           <div class="inputbox">
-            <input type="tel" id="phone" name="phone" formControlName="phone" required>
+            <input type="tel" id="tell" name="tell" formControlName="tell" required>
             <span>Телефон</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.phone" class="alert alert-danger">{{formErrors.phone}}</div>
+            <div *ngIf="formErrors.tell" class="alert alert-danger">{{formErrors.tell}}</div>
           </div>
-
+          <!-- Телефон -->
+          <div class="inputbox">
+            <input type="tel" id="phone_alt" name="phone_alt" formControlName="phone_alt" required>
+            <span>Телефон додатковий</span>
+            <i class="orange"></i>
+            <div *ngIf="formErrors.phone_alt" class="alert alert-danger">{{formErrors.phone_alt}}</div>
+          </div>
           <!-- Телеграм -->
           <div class="inputbox">
             <input required="required" type="text" id="inputTelegram" formControlName="telegram">
@@ -148,7 +152,6 @@
             <i class="orange"></i>
             <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div>
           </div>
-
           <!-- Фейсбук -->
           <div class="inputbox">
             <input required="required" type="text" id="inputFacebook" formControlName="facebook">
@@ -156,7 +159,6 @@
             <i class="orange"></i>
             <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div>
           </div>
-
           <!-- Інстаграм -->
           <div class="inputbox">
             <input required="required" type="text" id="inputInstagram" formControlName="instagram">
@@ -164,7 +166,6 @@
             <i class="orange"></i>
             <div *ngIf="formErrors.instagram" class="alert alert-danger">{{formErrors}}</div>
           </div>
-
           <!-- Вайбер -->
           <div class="inputbox">
             <input required="required" type="text" id="inputViber" formControlName="viber">
@@ -172,7 +173,6 @@
             <i class="orange"></i>
             <div *ngIf="formErrors.viber" class="alert alert-danger">{{formErrors}}</div>
           </div>
-
           <!-- Пошта -->
           <div class="inputbox">
             <input required="required" type="text" id="inputMail" formControlName="mail">
@@ -181,14 +181,11 @@
             <div *ngIf="formErrors.mail" class="alert alert-danger">{{formErrors}}</div>
           </div>
         </form>
-
         <!-- Кнопки -->
         <div class="btn-group">
-          <button class="btn btn-primary" (click)="saveUserFormContactsData()" (click)="onSubmitSaveUserFormContacts()"
-            [disabled]="!userFormContacts.valid"><span class="btn-text">ЗБЕРЕГТИ</span></button>
-          <button class="btn btn-primary" (click)="editUserFormContactsData()" [disabled]="isDisabled"><span
-              class="btn-text">РЕДАГУВАТИ</span></button>
-          <button class="btn btn-primary" type="reset" (click)="resetUserFormContacts()"><span
+          <button class="btn mt-3" (click)="onSubmitSaveUserFormContacts()"><span
+              class="btn-text">ЗБЕРЕГТИ</span></button>
+          <button type="reset" class="btn mt-3 ml-3" (click)="resetUserFormContacts()"><span
               class="btn-text">СКИНУТИ</span></button>
         </div>
 

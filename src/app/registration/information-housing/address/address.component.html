@@ -5,7 +5,6 @@
       <div class="card-name">
         <h4>Адреса оселі</h4>
       </div>
-
       <!-- Країна -->
       <div class="inputbox">
         <input required="required" type="text" id="inputCountry" name="country" formControlName="country">
@@ -13,7 +12,6 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.country" class="alert alert-danger">{{formErrors.country}}</div>
       </div>
-
       <!-- Область -->
       <div class="inputbox">
         <input required="required" type="text" id="inputRegion" name="region" formControlName="region">
@@ -21,7 +19,6 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.region" class="alert alert-danger">{{formErrors.region}}</div>
       </div>
-
       <!-- Місто -->
       <div class="inputbox">
         <input required="required" type="text" id="inputCity" name="city" formControlName="city">
@@ -29,7 +26,6 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.city" class="alert alert-danger">{{formErrors.city}}</div>
       </div>
-
       <!-- Вулиця -->
       <div class="inputbox">
         <input required="required" type="text" id="inputStreet" name="street" formControlName="street">
@@ -37,16 +33,13 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.street" class="alert alert-danger">{{formErrors.street}}</div>
       </div>
-
-
       <!-- Індекс -->
       <div class="inputbox">
-        <input required="required" type="number" id="inputFlat_index" name="index" formControlName="flat_index">
+        <input required="required" type="number" id="flat_index" name="flat_index" formControlName="flat_index">
         <span>Індекс</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.index" class="alert alert-danger">{{formErrors.index}}</div>
+        <div *ngIf="formErrors.flat_index" class="alert alert-danger">{{formErrors.flat_index}}</div>
       </div>
-
       <!-- Номер -->
       <div class="inputbox">
         <input required="required" type="text" name="houseNumber" formControlName="houseNumber">
@@ -54,7 +47,6 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.houseNumber" class="alert alert-danger">{{formErrors.houseNumber}}</div>
       </div>
-
       <!-- Квартира -->
       <div class="inputbox">
         <input required="required" type="number" formControlName="apartment">
@@ -62,7 +54,6 @@
         <i class="orange"></i>
         <div *ngIf="formErrors.apartment" class="alert alert-danger">{{formErrors.apartment}}</div>
       </div>
-
       <div class="container-checkbox">
         <div class="content">
           <label class="checkBox">

@@ -82,8 +82,9 @@ export class HostComponent implements OnInit {
   ngOnInit(): void {
 
     this.selectHouse = new FormGroup({
-      house: new FormControl()
+      house: new FormControl('виберіть оселю')
     });
+
     console.log('Пройшла перевірка оселі')
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
@@ -119,9 +120,17 @@ export class HostComponent implements OnInit {
   }
 
   onSubmitSelectHouse(): void {
+
+
+
     const selectedFlatId = this.selectHouse.get('house')?.value;
     console.log('Ви вибрали оселю з ID:', selectedFlatId);
 
+    localStorage.removeItem('house');
+    localStorage.setItem('house', JSON.stringify({flat_id: selectedFlatId}))
+    const houseJson = localStorage.getItem('house');
+    if(houseJson){
+    console.log(JSON.parse(houseJson))}
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })

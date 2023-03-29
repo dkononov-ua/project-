@@ -1,14 +1,26 @@
 @use "../../style/presets/" as *;
 
-.container-fluid {
+.container-card {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
-.card{
-  min-width: 32%;
-  margin: 6px;
+.card-box {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  border: none;
+}
+
+.container-slider {
+  max-width: fit-content;
 }
 
 .item-wrapper,
@@ -17,15 +29,6 @@
   justify-content: space-between;
   align-items: stretch;
   flex-direction: column;
-}
-
-.card-body {
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  flex-direction: column;
-  justify-content: flex-start;
 }
 
 .link {
@@ -43,7 +46,8 @@
     }
 
     .fa-solid,
-    .fa-regular {
+    .fa-regular,
+    .fa-brands {
       color: $color-accent;
       transform: translate(10px) scale(2.5);
       transition: transform 0.5s;
@@ -51,9 +55,13 @@
   }
 }
 
+.fab {
+  font-size: 20px;
+}
+
 img {
   width: 100%;
-  height: 500px;
+  height: 300px;
   overflow: hidden;
   object-fit: cover;
   transition: transform 1s;
@@ -95,6 +103,11 @@ a.link {
   position: relative;
 }
 
+a {
+  padding: 10px;
+  margin: 10px;
+}
+
 .notifications {
   position: absolute;
   top: -10px;
@@ -114,32 +127,10 @@ a.link {
   content: "";
 }
 
-.container-description1 {
-  padding: 20px;
+.card-social-link {
+  font-size: 24px;
   display: flex;
-  align-items: center;
-  flex-direction: column;
   justify-content: center;
-}
-
-.container-description2 {
-  padding: 25px;
-}
-
-.animation {
-  margin-left: 100%;
-  animation-duration: 2.4s;
-  animation-delay: 0.2s;
-  animation-name: slidein;
-  animation-fill-mode: forwards;
-
-  @keyframes slidein {
-    from {
-      margin-left: 100%;
-    }
-
-    to {
-      margin-left: 0%;
-    }
-  }
+  flex-wrap: wrap;
+  flex-direction: row;
 }
