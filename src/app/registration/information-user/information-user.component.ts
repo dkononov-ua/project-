@@ -5,21 +5,23 @@ import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthService } from '../auth.service';
 import { DataService } from '../../data.service';
-import { FileUploader } from 'ng2-file-upload';
+// import { FileUploader } from 'ng2-file-upload';
 
-const URL = 'http://localhost:3000/api/upload';
+// const URL = 'http://localhost:3000/api/upload';
+// public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
 
-export class FileUploadComponent {
-  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
 
-  constructor () {
-    this.uploader.onAfterAddingFile = (file: { withCredentials: boolean; }) => { file.withCredentials = false; };
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-        console.log('ImageUpload:uploaded:', item, status, response);
-        alert('File uploaded successfully');
-    };
-  }
-}
+// export class FileUploadComponent {
+//   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+
+//   constructor () {
+//     this.uploader.onAfterAddingFile = (file: { withCredentials: boolean; }) => { file.withCredentials = false; };
+//     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+//         console.log('ImageUpload:uploaded:', item, status, response);
+//         alert('File uploaded successfully');
+//     };
+//   }
+// }
 
 @NgModule({
   imports: [
@@ -145,7 +147,6 @@ export class InformationUserComponent implements OnInit {
   userFormContacts!: FormGroup;
   errorMessage$ = new Subject<string>();
 
-  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
 
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {  }
 
