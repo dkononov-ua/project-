@@ -225,6 +225,7 @@ p {
 .fa-solid,
 .fa-regular {
   color: $color-white;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
 }
 
 .btn-create {
@@ -246,7 +247,6 @@ p {
     background-color: $color-white;
     filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
 
-
     .fa-solid,
     .fa-regular {
       color: rgb(59, 247, 2);
@@ -256,7 +256,7 @@ p {
   }
 }
 
-.btn-deleted{
+.btn-deleted {
   background-color: tomato;
   &:hover {
     transition: 0.4s;
@@ -458,3 +458,4 @@ a {
     border: 2px groove $color-accent;
   }
 }
+

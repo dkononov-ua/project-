@@ -124,7 +124,7 @@ export class AddressComponent implements OnInit {
   formDisabled?: boolean;
   selectHouse: any;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent) {
     this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
       this.selectedFlatId = selectedFlatId;
       console.log(222)

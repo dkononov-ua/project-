@@ -28,6 +28,7 @@
     "firebase": "^9.18.0",
     "firebaseui": "^6.0.2",
     "jspdf": "^2.5.1",
+    "ngx-spinner": "^15.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.5.0",
     "zone.js": "~0.12.0"

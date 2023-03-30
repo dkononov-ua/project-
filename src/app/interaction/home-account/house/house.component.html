@@ -29,6 +29,7 @@
         <h2>ID оселі: {{ house.flat_id }}</h2>
 
         <div class="content-description">
+          <p>Країна: {{ house.country }} Область: {{ house.region }}</p>
           <h3>{{ house.city }}, {{ house.street }} {{ house.houseNumber }}, квартира {{ house.apartment }}</h3>
         </div>
 
@@ -67,37 +68,35 @@
 
   <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
     <div class="card m-2 p-2">
-      <div class="item-description">
-        Основні характеристики:
-        <div class="item-characteristics">
-          <div>
-            Кількість кімнат: {{ param.rooms }}
-            Статус ремонту: {{ param.repair_status }}
-            Площа: {{ param.area }}
-            Площа кухні: {{ param.kitchen_area }}
-          </div>
+      <div class="characteristics">
+        <h4>Параметри оселі:</h4>
+        <div class="characteristics-group">
+          <div class="item-characteristics">Кількість кімнат: {{ param.rooms }}</div>
+          <div class="item-characteristics">Статус ремонту: {{ param.repair_status }}</div>
+          <div class="item-characteristics">Площа: {{ param.area }}</div>
+          <div class="item-characteristics">Площа кухні: {{ param.kitchen_area }}</div>
+          <div class="item-characteristics">Балкон: {{ param.balcony }}</div>
+          <div class="item-characteristics">Поверх: {{ param.floor }}</div>
+          <div class="item-characteristics">{{ about.distance_metro }}</div>
+          <div class="item-characteristics">{{ about.distance_stop }}</div>
+          <div class="item-characteristics">{{ about.distance_shop }}</div>
+          <div class="item-characteristics">{{ about.distance_green }}</div>
+          <div class="item-characteristics">{{ about.distance_parking }}</div>
+          <div class="item-characteristics">Жінки: {{ about.woman }}</div>
+          <div class="item-characteristics">Чоловіки: {{ about.man }}</div>
+          <div class="item-characteristics">Сім'ї: {{ about.family }}</div>
+          <div class="item-characteristics">Студенти: {{ about.students }}</div>
+          <div class="item-characteristics">Тварини: {{ about.animals }}</div>
+          <div class="item-characteristics">Приватна квартира: {{ house.private }}</div>
+          <div class="item-characteristics">Оренда: {{ house.rent }}</div>
+          <div class="item-characteristics">Проживаю: {{ house.live }}</div>
+          <div class="item-characteristics">Хто проживає: {{ house.who_live }}</div>
         </div>
       </div>
-      Країна: {{ house.country }}
-      Область: {{ house.region }}
-      Балкон: {{ param.balcony }}
-      Балкон: {{ param.floor }}
-      {{ about.distance_metro }}
-      {{ about.distance_stop }}
-      {{ about.distance_shop }}
-      {{ about.distance_green }}
-      {{ about.distance_parking }}
-      Жінки: {{ about.woman }}
-      Чоловіки: {{ about.man }}
-      Сім'ї: {{ about.family }}
-      Студенти: {{ about.students }}
-      Тварини: {{ about.animals }}
-      Приватна квартира: {{ house.private }}
-      Оренда квартири: {{ house.rent }}
-      Проживають: {{ house.live }}
-      Хто проживає: {{ house.who_live }}
-      Абоненти: {{ house.subscribers }}
-      Про квартиру: {{ about.about }}
+      <div class="about-text m-2">
+        <h4 class="m-2">Про оселю:</h4>
+        <p>{{ about.about }}</p>
+      </div>
     </div>
   </div>
 </div>

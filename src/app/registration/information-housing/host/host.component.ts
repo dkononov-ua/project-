@@ -83,6 +83,11 @@ export class HostComponent implements OnInit {
       house: new FormControl('виберіть оселю')
     });
 
+    const houseJson = localStorage.getItem('house');
+    if (houseJson) {
+      this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
+    }
+
     console.log('Пройшла перевірка оселі')
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
@@ -117,10 +122,8 @@ export class HostComponent implements OnInit {
     }
   }
 
+
   onSubmitSelectHouse(): void {
-
-
-
     const selectedFlatId = this.selectHouse.get('house')?.value;
     console.log('Ви вибрали оселю з ID:', selectedFlatId);
 

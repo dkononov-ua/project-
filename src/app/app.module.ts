@@ -37,6 +37,7 @@ import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HomeAccountModule } from './interaction/home-account/home-account.module';
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { HomeAccountRoutingModule } from './interaction/home-account/home-account-routing.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { HomeAccountRoutingModule } from './interaction/home-account/home-accoun
     CommonModule,
     HomeAccountModule,
     HomeAccountRoutingModule,
+    NgxSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

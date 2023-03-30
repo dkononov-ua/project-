@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeAccountComponent } from './home-account.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { HomeAccountComponent } from './home-account.component';
     ReactiveFormsModule,
     SharedModule,
     RouterModule,
+    NgxSpinnerModule,
   ]
 })
 export class HomeAccountModule { }
