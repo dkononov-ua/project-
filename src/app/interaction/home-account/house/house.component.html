@@ -1,0 +1,103 @@
+<div class="container-card">
+  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card m-2">
+      <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="../../../assets/kitchen.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../../assets/badroom.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="../../../assets/bathroom-vanity-light.jpg" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="item-wrapper p-2">
+        <h2>ID оселі: {{ house.flat_id }}</h2>
+
+        <div class="content-description">
+          <h3>{{ house.city }}, {{ house.street }} {{ house.houseNumber }}, квартира {{ house.apartment }}</h3>
+        </div>
+
+        <div class="card-social-link">
+          <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="{{ user.telegram }}"><i class="fa-brands fa-telegram"></i></a>
+          <a href="{{ user.viber }}"><i class="fa-brands fa-viber"></i></a>
+          <a href="{{ user.facebook }}"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+
+      </div>
+      <div class="price-box">
+        <div class="item-price">{{ about.price_m }}<sup>₴/міс</sup>
+          <div class="item-actions">
+            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+              Орендувати
+            </button>
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="item-price">{{ about.price_y }}<sup>₴/рік</sup>
+          <div class="item-actions">
+            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+              Орендувати
+            </button>
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card m-2 p-2">
+      <div class="item-description">
+        Основні характеристики:
+        <div class="item-characteristics">
+          <div>
+            Кількість кімнат: {{ param.rooms }}
+            Статус ремонту: {{ param.repair_status }}
+            Площа: {{ param.area }}
+            Площа кухні: {{ param.kitchen_area }}
+          </div>
+        </div>
+      </div>
+      Країна: {{ house.country }}
+      Область: {{ house.region }}
+      Балкон: {{ param.balcony }}
+      Балкон: {{ param.floor }}
+      {{ about.distance_metro }}
+      {{ about.distance_stop }}
+      {{ about.distance_shop }}
+      {{ about.distance_green }}
+      {{ about.distance_parking }}
+      Жінки: {{ about.woman }}
+      Чоловіки: {{ about.man }}
+      Сім'ї: {{ about.family }}
+      Студенти: {{ about.students }}
+      Тварини: {{ about.animals }}
+      Приватна квартира: {{ house.private }}
+      Оренда квартири: {{ house.rent }}
+      Проживають: {{ house.live }}
+      Хто проживає: {{ house.who_live }}
+      Абоненти: {{ house.subscribers }}
+      Про квартиру: {{ about.about }}
+    </div>
+  </div>
+</div>

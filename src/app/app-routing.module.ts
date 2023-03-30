@@ -14,6 +14,7 @@ import { RegistrationMobComponent } from './registration/registration-mob/regist
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
+import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'user-licence', component: UserLicenceComponent },
   { path: 'registration-mob', component: RegistrationMobComponent },
   { path: 'housing-services', component: HousingServicesComponent },
+  { path: 'comun-page', component: ComunPageComponent },
 ];
 
 @NgModule({

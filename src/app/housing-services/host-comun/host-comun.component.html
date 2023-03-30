@@ -1,13 +1,50 @@
-<div class="navbar">
-  <nav class="nav">
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/energy'">Електроенергія</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/water'">Водопостачання</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/cleaning'">Прибирання</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/gas'">Газ</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/internet'">Інтернет</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'">нет</a>
-  </nav>
+<div class="container">
+    <div class="container-card">
+
+    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card-menu m-2">
+        <!-- Мої оселі -->
+        <form>
+          <div class="inputbox">
+            <h4>Оберіть оселю</h4>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="house">
+              <option selected disabled>Вибір оселі за ID</option>
+              <!-- <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option> -->
+            </select>
+          </div>
+          <button class="btn-create" type="submit"><i class="fa-regular fa-circle-check"></i></button>
+          <p>ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</p>
+
+        </form>
+
+        <form>
+          <nav class="navbar-house">
+            <a class="link-menu" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-services/host-comun/energy'"><span class="link-text">Електроенергія</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/water'"><span
+                class="link-text">Водопостачання</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-services/host-comun/cleaning'"><span class="link-text">Прибирання</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/gas'"><span
+                class="link-text">Газ</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/internet'"><span
+                class="link-text">Інтернет</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'"><span
+                class="link-text">Головна</span>
+            </a>
+          </nav>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-md-5 col-sm-6 col-12">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
 </div>
-<router-outlet></router-outlet>
-
-

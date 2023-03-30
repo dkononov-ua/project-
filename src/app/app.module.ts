@@ -19,7 +19,6 @@ import { UserInteractionComponent } from './interaction/user-interaction/user-in
 import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
 import { SearchTermComponent } from './components/search-term/search-term.component';
 import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
-import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { AgreementComponent } from './interaction/agreement/agreement.component';
 import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { SliderComponent } from './components/slider/slider.component';
@@ -34,6 +33,10 @@ import { HousingServicesModule } from './housing-services/housing-services.modul
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ComunPageComponent } from './pages/comun-page/comun-page.component';
+import { HomeAccountModule } from './interaction/home-account/home-account.module';
+import { HomeAccountComponent } from './interaction/home-account/home-account.component';
+import { HomeAccountRoutingModule } from './interaction/home-account/home-account-routing.module';
 
 @NgModule({
   declarations: [
@@ -46,12 +49,12 @@ import { CommonModule } from '@angular/common';
     TenantsSearchComponent,
     SearchTermComponent,
     HousingSearchComponent,
-    HomeAccountComponent,
     AgreementComponent,
     RegistrationMobComponent,
     SliderComponent,
     ModalComponent,
     UserLicenceComponent,
+    ComunPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +80,8 @@ import { CommonModule } from '@angular/common';
     HousingServicesRoutingModule,
     RouterModule,
     CommonModule,
+    HomeAccountModule,
+    HomeAccountRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

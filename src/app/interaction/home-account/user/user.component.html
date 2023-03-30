@@ -1,0 +1,33 @@
+<div class="container-card">
+  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card m-2">
+      <div class="img-fluid">
+        <img src="../../../assets/photo3.JPG" class="rounded" alt="...">
+      </div>
+      <div class="item-wrapper p-2">
+        <h1>Власник: {{ user.firstName }} {{ user.surName }} {{ user.lastName }} </h1>
+        <p>Телефон: {{ user.tell }}</p>
+        <p>Email для листування: {{ user.mail }}</p>
+      </div>
+      <div class="card-social-link">
+        <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+        <a href="{{ user.telegram }}"><i class="fa-brands fa-telegram"></i></a>
+        <a href="{{ user.viber }}"><i class="fa-brands fa-viber"></i></a>
+        <a href="{{ user.facebook }}"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+      <nav class="navbar-house">
+        <div class="card-link">
+          <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+          <a href="#" class="link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+          <a href="#" class="link"><span>Угода</span><i class="fa-solid fa-file-contract"></i></a>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card m-2 p-2">
+      <div class="item-wrapper">
+      </div>
+    </div>
+  </div>
+</div>

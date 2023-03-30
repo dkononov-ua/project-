@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="container-card">
+
+    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card-menu m-2">
+        <!-- Мої оселі -->
+        <form>
+          <div class="inputbox">
+            <h4>Оберіть оселю</h4>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="house">
+              <option selected disabled>Вибір оселі за ID</option>
+              <!-- <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option> -->
+            </select>
+          </div>
+          <button class="btn-create" type="submit"><i class="fa-regular fa-circle-check"></i></button>
+          <p>ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</p>
+
+        </form>
+
+        <form>
+          <nav class="navbar-house">
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/home-account/host-acc/house'"><span
+                class="link-text">Оселя</span> </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/home-account/host-acc/user'"><span
+                class="link-text">Користувач</span></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user-interaction'"><span
+                link-text>Взаємодія сторін</span><i class="fa-sharp fa-solid fa-house-laptop"></i></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'"><span
+                link-text>Послуги</span><i class="fa-solid fa-house-signal"></i></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/services'"><span link-text>Замовлення
+                послуг</span><i class="fa-solid fa-truck-fast"></i></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/services'"><span
+                link-text>Наповнення</span><i class="fa-solid fa-box-open"></i></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">
+              <span link-text>Підписники</span><i class="fa-solid fa-person-praying"></i></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/tenants-search'"><span
+                link-text>Пошук</span><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span
+                link-text>Редагувати
+                інфо.</span><i class="fa-solid fa-gear"></i></a>
+          </nav>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-md-5 col-sm-6 col-12">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

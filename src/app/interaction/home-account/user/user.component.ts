@@ -1,13 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../../services/data.service';
 
 @Component({
-  selector: 'app-home-account',
-  templateUrl: './home-account.component.html',
-  styleUrls: ['./home-account.component.scss'],
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss']
 })
-export class HomeAccountComponent implements OnInit {
+export class UserComponent implements OnInit  {
 
   isFlipped = false;
 

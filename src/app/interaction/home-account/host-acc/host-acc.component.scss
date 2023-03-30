@@ -1,4 +1,4 @@
-@use "../../style/presets/" as *;
+@use "../../../style/presets/" as *;
 
 .container {
   display: flex;
@@ -413,7 +413,7 @@ select {
   border-top: 1px solid tomato;
   border-bottom: 1px solid tomato;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 
 a {

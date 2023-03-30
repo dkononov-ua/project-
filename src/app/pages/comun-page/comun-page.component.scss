@@ -51,6 +51,15 @@
   }
 }
 
+.container-title {
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .description {
   width: 500px;
   padding: 10px;
@@ -78,7 +87,7 @@
   display: flex;
   border-radius: 50%;
   border: none;
-  background-color: tomato;
+  background-color: white;
   width: 60px;
   height: 60px;
   margin: 10px;
@@ -91,12 +100,13 @@
   &:hover {
     transition: 0.4s;
     background-color: $color-white;
-    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+    filter: drop-shadow(0px 0px 40px tomato);
 
 
     .fa-solid,
-    .fa-regular {
-      color: rgb(59, 247, 2);
+    .fa-regular,
+    .fa-solid {
+      color: tomato;
       transform: scale(2.5);
       transition: transform 0.5s;
     }

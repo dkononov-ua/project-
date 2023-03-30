@@ -1,13 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../../services/data.service';
 
 @Component({
-  selector: 'app-home-account',
-  templateUrl: './home-account.component.html',
-  styleUrls: ['./home-account.component.scss'],
+  selector: 'app-house',
+  templateUrl: './house.component.html',
+  styleUrls: ['./house.component.scss']
 })
-export class HomeAccountComponent implements OnInit {
+export class HouseComponent implements OnInit {
 
   isFlipped = false;
 
@@ -146,4 +146,5 @@ export class HomeAccountComponent implements OnInit {
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
   }
+
 }

@@ -10,11 +10,10 @@ import { WaterComponent } from './water/water.component';
 import { EnergyComponent } from './energy/energy.component';
 import { GasComponent } from './gas/gas.component';
 import { InternetComponent } from './internet/internet.component';
-import { HostComunComponent } from './host-comun/host-comun.component';
 import { CleaningComponent } from './cleaning/cleaning.component';
 import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
-import { AboutComunComponent } from './about-comun/about-comun.component';
+import { HostComunComponent } from './host-comun/host-comun.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +22,8 @@ import { AboutComunComponent } from './about-comun/about-comun.component';
     EnergyComponent,
     GasComponent,
     InternetComponent,
-    HostComunComponent,
     CleaningComponent,
-    AboutComunComponent,
+    HostComunComponent,
   ],
   imports: [
     BrowserModule,
