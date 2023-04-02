@@ -6,7 +6,6 @@ import { UserComponent } from './user/user.component';
 import { HouseComponent } from './house/house.component';
 import { HostAccComponent } from './host-acc/host-acc.component';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeAccountComponent } from './home-account.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({

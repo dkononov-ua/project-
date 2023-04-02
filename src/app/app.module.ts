@@ -20,7 +20,6 @@ import { TenantsSearchComponent } from './interaction/tenants-search/tenants-sea
 import { SearchTermComponent } from './components/search-term/search-term.component';
 import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
 import { AgreementComponent } from './interaction/agreement/agreement.component';
-import { RegistrationMobComponent } from './registration/registration-mob/registration-mob.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
@@ -28,7 +27,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HousingParametersRoutingModule } from './registration/information-housing/housing-parameters-routing.module';
 import { HousingParametersModule } from './registration/information-housing/housing-parameters.module';
-import { SharedModule } from './shared/shared/shared.module';
 import { HousingServicesModule } from './housing-services/housing-services.module';
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
 import { RouterModule } from '@angular/router';
@@ -38,6 +36,7 @@ import { HomeAccountModule } from './interaction/home-account/home-account.modul
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { HomeAccountRoutingModule } from './interaction/home-account/home-account-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +50,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     SearchTermComponent,
     HousingSearchComponent,
     AgreementComponent,
-    RegistrationMobComponent,
     SliderComponent,
     ModalComponent,
     UserLicenceComponent,

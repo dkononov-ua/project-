@@ -18,14 +18,14 @@
       <div class="card m-2">
         <form>
           <div class="img-fluid">
-            <img src="../../../assets/photo3.JPG" class="rounded" alt="...">
+            <img [src]="'http://localhost:3000/img/flat/424104ce1b5c5d31441b434a0d14248e.png'">
+            <!-- <img src="../../../assets/photo3.JPG" class="rounded" alt="..."> -->
           </div>
+
           <div class="card-name">
             <h4>Аккаунт користувача</h4>
             <h4>{{ data.email }}</h4>
           </div>
-          <!-- <input type="file" ng2FileSelect [uploader]="uploader" />
-          <button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">Upload</button> -->
 
           <div class="photo-box">
             <div class="input-group">
@@ -35,10 +35,15 @@
             <p>Завантажити нове фото</p>
             <button class="btn-create" id="inputGroupFileAddon04" type="button"><i
                 class="fa-solid fa-circle-check"></i></button>
+
+
           </div>
         </form>
 
-
+        <form>
+          <input type="file" (change)="onFileSelected($event)">
+          <button (click)="onUpload()">Upload</button>
+        </form>
 
         <div class="watch-box">
           <button class="btn-create" type="button" (click)="togglePasswordVisibility()">

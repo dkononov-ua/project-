@@ -6,7 +6,6 @@ import { ParamComponent } from './param/param.component';
 import { PhotoComponent } from './photo/photo.component';
 import { HostComponent } from './host/host.component';
 import { HousingParametersComponent } from './housing-parameters.component';
-import { SharedModule } from '../../shared/shared/shared.module';
 
 const routes: Routes = [
   {

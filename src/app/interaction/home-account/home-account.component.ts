@@ -78,7 +78,6 @@ export class HomeAccountComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    console.log('Пройшла перевірка користувача')
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('user');
     if (userJson !== null) {

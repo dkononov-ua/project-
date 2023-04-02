@@ -77,15 +77,18 @@ export class UserComponent implements OnInit  {
 
   constructor(private dataService: DataService) { }
 
+  rating: number = 5;
+
+  onClick(value: number) {
+    this.rating = value;
+  }
+
   ngOnInit(): void {
-    console.log('Пройшла перевірка користувача')
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('user');
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
-          console.log(response)
-
           this.user.firstName = response.userData.inf.firstName;
           this.user.lastName = response.userData.inf.lastName;
           this.user.surName = response.userData.inf.surName;

@@ -11,7 +11,6 @@ export class DataService {
 
   getData(): Observable<any> {
     const houseJson = localStorage.getItem('house');
-    console.log('Пройшла перевірка користувача');
     const userJson = localStorage.getItem('user');
 
     let request: Observable<any>;
@@ -19,7 +18,6 @@ export class DataService {
     if (userJson !== null) {
       if (houseJson) {
         const n = JSON.parse(houseJson);
-        console.log(n.flat_id);
         const flatinfo = 'http://localhost:3000/flatinfo/localflat';
         request = this.http.post(flatinfo, { auth: JSON.parse(userJson), flat_id: n.flat_id });
       } else {
@@ -52,7 +50,6 @@ export class DataService {
       })
     );
   }
-
 }
 
 

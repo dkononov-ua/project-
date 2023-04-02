@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { WaterComponent } from './water/water.component';
 import { EnergyComponent } from './energy/energy.component';
 import { GasComponent } from './gas/gas.component';
@@ -14,6 +13,7 @@ import { CleaningComponent } from './cleaning/cleaning.component';
 import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
 import { HostComunComponent } from './host-comun/host-comun.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [

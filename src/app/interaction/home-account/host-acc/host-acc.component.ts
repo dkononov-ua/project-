@@ -2,13 +2,37 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-
 @Component({
   selector: 'app-host-acc',
   templateUrl: './host-acc.component.html',
   styleUrls: ['./host-acc.component.scss']
 })
 export class HostAccComponent implements OnInit {
+
+  reloadPageWithLoader() {
+  this.loading = true;
+  setTimeout(() => {
+    location.reload();
+  }, 2000); // Час затримки в мілісекундах (в даному випадку - 2 секунди)
+}
+
+  loading = false;
+
+  toggleLoading = () => {
+    this.loading = true;
+    setTimeout(() => {
+      if (this.loading) {
+        this.loading = false;
+      }
+    }, 2000);
+  }
+
+  showSpinner() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 3000);
+  }
 
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
@@ -23,13 +47,6 @@ export class HostAccComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {}
 
-  showSpinner() {
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 3000);
-  }
-
   ngOnInit(): void {
     this.spinner.show();
 
@@ -38,6 +55,11 @@ export class HostAccComponent implements OnInit {
       // ховаємо лоадер після отримання даних
       this.spinner.hide();
     }, 2000);
+
+    const houseJson = localStorage.getItem('house');
+    if (houseJson) {
+      this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
+    }
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -70,6 +92,7 @@ export class HostAccComponent implements OnInit {
 
         localStorage.removeItem('house');
         localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
+
         const userJson = localStorage.getItem('user');
         if (userJson) {
           this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
@@ -93,8 +116,7 @@ export class HostAccComponent implements OnInit {
       } else {
         console.log('Нічого не вибрано');
       }
-    });
-  }
+    });  }
 
   initializeForm(): void {
     this.addressHouse = this.fb.group({

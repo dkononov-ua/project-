@@ -1,27 +1,10 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { UserService } from './user.service';
+import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
-// import { FileUploader } from 'ng2-file-upload';
-
-// const URL = 'http://localhost:3000/api/upload';
-// public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
-
-
-// export class FileUploadComponent {
-//   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
-
-//   constructor () {
-//     this.uploader.onAfterAddingFile = (file: { withCredentials: boolean; }) => { file.withCredentials = false; };
-//     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-//         console.log('ImageUpload:uploaded:', item, status, response);
-//         alert('File uploaded successfully');
-//     };
-//   }
-// }
 
 @NgModule({
   imports: [
@@ -44,7 +27,6 @@ export class AppComponent {
     });
   }
 }
-
 @Component({
   selector: 'app-information-user',
   templateUrl: './information-user.component.html',
@@ -146,9 +128,70 @@ export class InformationUserComponent implements OnInit {
   userForm!: FormGroup;
   userFormContacts!: FormGroup;
   errorMessage$ = new Subject<string>();
+  selectedFile!: File;
+  selectedFlatId: any;
 
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {
+    // this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
+    //   this.selectedFlatId = selectedFlatId;
+    //   console.log(222)
+    //   const userJson = localStorage.getItem('user');
+    //   if (userJson) {
+    //     this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+    //       .subscribe((response: any) => {
+    //         console.log(44444)
+    //         console.log(this.selectedFlatId)
+    //         if (response !== null) {
+    //           this.imgUser = this.fb.group({
+    //             imgUser: [response.img.User],
+    //           });
+    //         }
+    //       }, (error: any) => {
+    //         console.error(error);
+    //       });
+    //   } else {
+    //     console.log('user not found');
+    //   }
+    //   this.initializeForm();
+    // });
+  }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  // onUpload(): void {
+  //   const formData: FormData = new FormData();
+  //   formData.append('file', this.selectedFile, this.selectedFile.name);
+  //   const userJson = localStorage.getItem('currentUser');
+  //   const headers = {
+  //     'Accept': 'application/json',
+  //     'Authorization': JSON.parse(userJson!).token
+  //   };
+  //   formData.append('auth', JSON.stringify({
+  //     auth: JSON.parse(userJson!),
+  //     flat_id: this.selectedFlatId
+  //   }));
+  //   this.http.post('http://localhost:3000/img/uploadflat', formData, { headers }).subscribe(
+  //     data => console.log(data),
+  //     error => console.log(error)
+  //   );
+  // }
+
+  onUpload(): void {
+    const userJson = localStorage.getItem('user');
+
+    const formData: FormData = new FormData();
+    formData.append('file', this.selectedFile, this.selectedFile.name);
+    formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
+
+    const headers = { 'Accept': 'application/json' };
+    this.http.post('http://localhost:3000/img/uploadflat', formData, { headers }).subscribe(
+      data => console.log(data),
+      error => console.log(error)
+    );
+  }
 
   showPassword = false;
   isPasswordVisible = false;

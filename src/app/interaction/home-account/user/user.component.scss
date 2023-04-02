@@ -199,3 +199,51 @@ a {
   transform: rotateY(0deg);
 }
 
+
+.rating-box, .description-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 20px;
+}
+
+.rating-box h1 {
+  font-size: 25px;
+  line-height: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+h5 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.rating-box p {
+  font-size: 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rating-box .stars{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rating-box .stars i{
+  color: grey;
+  font-size: 30px;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.rating-box .stars i.active{
+  color: gold;
+}
+
+
