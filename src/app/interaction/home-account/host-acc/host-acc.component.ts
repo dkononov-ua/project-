@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-host-acc',
   templateUrl: './host-acc.component.html',
@@ -9,53 +8,26 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class HostAccComponent implements OnInit {
 
-  reloadPageWithLoader() {
-  this.loading = true;
-  setTimeout(() => {
-    location.reload();
-  }, 2000); // Час затримки в мілісекундах (в даному випадку - 2 секунди)
-}
-
   loading = false;
 
-  toggleLoading = () => {
+  reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
-      if (this.loading) {
-        this.loading = false;
-      }
+      location.reload();
     }, 2000);
-  }
-
-  showSpinner() {
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 3000);
   }
 
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
+  addressHouse: FormGroup<{ flat_id: FormControl<any>; }> | undefined;
+
   selectHouse = new FormGroup({
     house: new FormControl('виберіть оселю')
   });
-  addressHouse: FormGroup<{ flat_id: FormControl<any>; }> | undefined;
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private spinner: NgxSpinnerService
-  ) {}
+  constructor( private fb: FormBuilder,  private http: HttpClient, ) { }
 
   ngOnInit(): void {
-    this.spinner.show();
-
-    // Імітація запиту на сервер
-    setTimeout(() => {
-      // ховаємо лоадер після отримання даних
-      this.spinner.hide();
-    }, 2000);
-
     const houseJson = localStorage.getItem('house');
     if (houseJson) {
       this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
@@ -74,22 +46,18 @@ export class HostAccComponent implements OnInit {
             if (houseJson) {
               this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
             }
-            this.spinner.hide();
           },
           (error: any) => {
             console.error(error);
-            this.spinner.hide();
           }
         );
     } else {
       console.log('user not found');
-      this.spinner.hide();
     }
 
     this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
       if (selectedFlatId) {
         console.log('Ви вибрали оселю з ID:', selectedFlatId);
-
         localStorage.removeItem('house');
         localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
 
@@ -116,17 +84,6 @@ export class HostAccComponent implements OnInit {
       } else {
         console.log('Нічого не вибрано');
       }
-    });  }
-
-  initializeForm(): void {
-    this.addressHouse = this.fb.group({
-      flat_id: [null, [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(20)
-      ]]
     });
   }
-
-
 }

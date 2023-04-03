@@ -6,21 +6,22 @@
       <form (ngSubmit)="onSubmitRegistrationForm('information')" [formGroup]="registrationForm">
         <!-- Ім'я користувача -->
         <div class="inputbox">
-          <input class="form-control" id="username" type="text" name="username" formControlName="username"
+          <input class="form-control" id="username" type="text" name="username" formControlName="userName"
             placeholder="Ім'я користувача" required>
-          <div *ngIf="formErrors.username" class="alert alert-danger">{{formErrors.username}}</div>
+          <div *ngIf="formErrors.username" class="alert alert-danger">{{formErrors.userName}}</div>
         </div>
 
         <!-- Електронна пошта -->
         <div class="inputbox">
-          <input class="form-control" id="regEmail" type="text" name="regEmail" formControlName="regEmail" placeholder="Email" required>
+          <input class="form-control" id="regEmail" type="text" name="regEmail" formControlName="regEmail"
+            placeholder="Email" required>
           <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
         </div>
 
         <!-- Пароль -->
         <div class="inputbox">
-          <input class="form-control" id="regPassword" type="text" name="regPassword" formControlName="regPassword" placeholder="Пароль"
-            required>
+          <input class="form-control" id="regPassword" type="password" name="regPassword" formControlName="regPassword"
+            placeholder="Пароль" required>
           <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
         </div>
 
@@ -51,11 +52,17 @@
 
         <!-- Пароль -->
         <div class="inputbox">
-          <input class="form-control" id="password" type="text" formControlName="password" placeholder="Пароль"
-            required>
-          <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+          <div class="password-box">
+            <input class="form-control" id="password" [type]="passwordType" name="password"
+            formControlName="password" placeholder="Пароль" required>
+            <button type="button" (click)="showPassword = !showPassword" class="see">
+              <i class="icon"
+                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+            </button>
+          </div>
+
+          <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
         </div>
-        <div *ngIf="(errorMessage$ | async) as errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
         <button class="ghost-black" [disabled]="!loginForm.valid" (click)="onSubmit('login')">
           Увійти
@@ -106,7 +113,7 @@
         </div>
 
         <p>Зареєструйтесь та створіть свій конект</p>
-   <button class="ghost" id="register">Зареєструватись</button>
+        <button class="ghost" id="register">Зареєструватись</button>
         <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
         <app-footer class="navbar-lg"></app-footer>
 

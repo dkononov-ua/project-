@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   onSubmit(email: string, password: string) {
     this.userService.getUserInfo(email, password).subscribe((response) => {
       console.log(response);
-      // тут ви можете обробити відповідь сервера та відобразити її на сторінці
     });
   }
 }
@@ -39,6 +38,15 @@ export class AppComponent implements OnInit {
 })
 
 export class HostComponent implements OnInit {
+
+  loading = false;
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  }
 
   public selectedFlatId$ = new BehaviorSubject<any>(undefined);
 
@@ -66,7 +74,6 @@ export class HostComponent implements OnInit {
 
   saveData() {
     if (this.data.trim()) {
-      // зберігаємо дані
       this.showInput = false;
     }
   }
@@ -78,48 +85,35 @@ export class HostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const houseJson = localStorage.getItem('house');
+    const defaultHouse = houseJson ? JSON.parse(houseJson).flat_id : 'виберіть оселю';
 
     this.selectHouse = new FormGroup({
-      house: new FormControl('виберіть оселю')
+      house: new FormControl(defaultHouse)
     });
 
-    const houseJson = localStorage.getItem('house');
-    if (houseJson) {
-      this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
-    }
-
-    console.log('Пройшла перевірка оселі')
+    console.log('Пройшла перевірка оселі');
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      // const user = JSON.parse(userJson)
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe((response: any | undefined) => {
-          this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
-            id: index + 1,
-            name: item.flat_id
-          }));
-
-        }, (error: any) => {
-          console.error(error);
-        });
+      .subscribe((response: any | undefined) => {
+        this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
+          id: index + 1,
+          name: item.flat_id
+        }));
+      }, (error: any) => {
+        console.error(error);
+      });
     } else {
       console.log('house not found');
     }
+
+    this.selectHouse.valueChanges.subscribe((value) => {
+      localStorage.setItem('house', JSON.stringify({ flat_id: value.house }));
+    });
+
     this.initializeForm();
-  }
-
-  onSubmitSaveHouseCreate(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.houseCreate.value })
-        .subscribe((response: any) => {
-          console.log(response);
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('house not found');
-    }
+    this.onSubmitSelectHouse();
   }
 
 
@@ -145,6 +139,19 @@ export class HostComponent implements OnInit {
     }
   }
 
+  onSubmitSaveHouseCreate(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.houseCreate.value })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('house not found');
+    }
+  }
 
   initializeForm(): void {
     this.houseCreate = this.fb.group({

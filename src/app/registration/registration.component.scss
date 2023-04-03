@@ -317,3 +317,18 @@ img {
   margin: 0;
   padding: 0;
 }
+
+.password-box {
+  position: relative;
+  display: flex;
+}
+
+.see {
+  z-index: 10;
+  position: absolute;
+  right: 0rem;
+  top: -0.5rem;
+  background: none;
+  border: none;
+  width: 40px;
+}

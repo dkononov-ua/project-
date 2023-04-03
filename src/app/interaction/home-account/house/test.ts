@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from '../../../services/data.service';
+import { HostComponent } from 'src/app/registration/information-housing/host/host.component';
 import { FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-house',
@@ -10,6 +13,12 @@ import { FormBuilder } from '@angular/forms';
 export class HouseComponent implements OnInit {
 
   public selectedFlatId: any;
+  filename: string | undefined;
+
+  selectedFile: any;
+  addressHouse: any;
+  flatImg: any;
+  images: string[] = [];
 
   user = {
     firstName: '',
@@ -69,7 +78,30 @@ export class HouseComponent implements OnInit {
     bunker: '',
   };
 
-  constructor(private fb: FormBuilder, private dataService: DataService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private hostComponent: HostComponent) {
+    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId: any) => {
+      this.selectedFlatId = selectedFlatId;
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+          .subscribe((response: any) => {
+            if (response !== null) {
+              this.addressHouse = this.fb.group({
+                flat_id: [response.flat.flat_id, []],
+              });
+              this.flatImg = response.imgs;
+              for (const img of this.flatImg) {
+                this.images.push('http://localhost:3000/img/flat/' + img.img);
+              }
+            }
+          }, (error: any) => {
+            console.error(error);
+          });
+      } else {
+        console.log('user not found');
+      }
+    });
+  }
 
   ngOnInit(): void {
     console.log('Пройшла перевірка користувача')
@@ -78,6 +110,7 @@ export class HouseComponent implements OnInit {
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
+          console.log(response)
 
           this.user.firstName = response.userData.inf.firstName;
           this.user.lastName = response.userData.inf.lastName;
@@ -132,4 +165,12 @@ export class HouseComponent implements OnInit {
       }
     }
   }
+
+  notificationsCount: number = 1;
+  showNotifications: boolean = false;
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+  }
+
 }

@@ -36,10 +36,14 @@ export class AppRoutingModule { }
 })
 export class RegistrationComponent implements OnInit {
 
+  public showPassword = false;
+  passwordType = 'password';
+
+
   errorMessage$: Subject<string> = new Subject<string>();
 
   formErrors: any = {
-    username: '',
+    userName: '',
     password: '',
     email: '',
     regPassword: '',
@@ -59,7 +63,7 @@ export class RegistrationComponent implements OnInit {
   };
 
   registrationValidationMessages: any = {
-    username: {
+    userName: {
       required: 'Ім`я обов`язково',
       minlength: 'Мінімальна довжина 3 символи',
       maxlength: 'Максимальна довжина 15 символів'
@@ -146,7 +150,7 @@ export class RegistrationComponent implements OnInit {
     });
 
     this.registrationForm = this.fb.group({
-      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      userName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       regPassword: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       regEmail: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
     });
@@ -187,6 +191,8 @@ export class RegistrationComponent implements OnInit {
   }
 
 }
+
+
 
 
 

@@ -20,7 +20,7 @@
               <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option>
             </select>
           </div>
-          <button class="btn-create" type="submit"><i class="fa-regular fa-circle-check"></i></button>
+          <button class="btn-create" type="submit"><i class="fa-regular fa-circle-check" (click)="reloadPageWithLoader()"></i></button>
           <p>ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</p>
 
         </form>
@@ -65,4 +65,8 @@
     </div>
 
   </div>
+</div>
+
+<div *ngIf="loading" class="loader-overlay">
+  <div class="loader"></div>
 </div>

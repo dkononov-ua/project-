@@ -16,41 +16,36 @@
     <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <!-- Аккаунт користувача -->
       <div class="card m-2">
-        <form>
-          <div class="img-fluid">
-            <img [src]="'http://localhost:3000/img/flat/424104ce1b5c5d31441b434a0d14248e.png'">
-            <!-- <img src="../../../assets/photo3.JPG" class="rounded" alt="..."> -->
+        <div class="img-fluid">
+          <!-- <div *ngFor="let img of userImg"> -->
+            <img [src]="'http://localhost:3000/img/users/' + userImg">
+          <!-- </div> -->
+          <!-- <img [src]="{{ userForm.value.img }}"> -->
+          <!-- <img src="../../../assets/photo3.JPG" class="rounded" alt="..."> -->
+        </div>
+
+        <div class="card-name">
+          <h4>Аккаунт користувача</h4>
+          <h3>{{userForm.value.firstName}} {{userForm.value.surName}} {{userForm.value.lastName}} </h3>
+            <h5>ID: {{userForm.value.email}}</h5>
+        </div>
+
+        <div class="photo-box">
+          <div class="input-group">
+            <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
+              aria-describedby="upload" aria-label="Upload">
           </div>
-
-          <div class="card-name">
-            <h4>Аккаунт користувача</h4>
-            <h4>{{ data.email }}</h4>
-          </div>
-
-          <div class="photo-box">
-            <div class="input-group">
-              <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-                aria-label="Upload">
-            </div>
-            <p>Завантажити нове фото</p>
-            <button class="btn-create" id="inputGroupFileAddon04" type="button"><i
-                class="fa-solid fa-circle-check"></i></button>
-
-
-          </div>
-        </form>
-
-        <form>
-          <input type="file" (change)="onFileSelected($event)">
-          <button (click)="onUpload()">Upload</button>
-        </form>
+          <p>Завантажити нове фото</p>
+          <button class="btn-create" id="upload" (click)="onUpload()" type="button"><i
+              class="fa-solid fa-circle-check"></i></button>
+        </div>
 
         <div class="watch-box">
           <button class="btn-create" type="button" (click)="togglePasswordVisibility()">
             <i class="icon" [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
           </button>
           <ng-container *ngIf="passwordType === 'text'; else passwordHidden">
-            <p>{{ data.password }}</p>
+            <p>{{userForm.value.password}}</p>
           </ng-container>
           <ng-template #passwordHidden>
             <p>Ваш пароль:</p>
@@ -61,7 +56,6 @@
           <button class="btn btn-primary"><span class="btn-text">ЗМІНИТИ ПАРОЛЬ</span></button>
           <button class="btn btn-primary"><span class="btn-text" (click)="logout()">ВИЙТИ З АККАУНТУ</span></button>
         </div>
-
 
       </div>
     </div>
@@ -80,7 +74,7 @@
               required>
             <span>Ім'я</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.firstName" class="alert alert-danger">{{formErrors.firstName}}</div>
+            <!-- <div *ngIf="formErrors.firstName" class="alert alert-danger">{{formErrors.firstName}}</div> -->
           </div>
 
           <!-- Прізвище -->
@@ -88,7 +82,7 @@
             <input class="form-control" id="lastName" type="text" name="lastName" formControlName="lastName" required>
             <span>Прізвище</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.lastName" class="alert alert-danger">{{formErrors.lastName}}</div>
+            <!-- <div *ngIf="formErrors.lastName" class="alert alert-danger">{{formErrors.lastName}}</div> -->
           </div>
 
           <!-- По батькові -->
@@ -96,7 +90,7 @@
             <input class="form-control" id="surName" type="text" name="surName" formControlName="surName" required>
             <span>По батькові</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.surName" class="alert alert-danger">{{formErrors.surName}}</div>
+            <!-- <div *ngIf="formErrors.surName" class="alert alert-danger">{{formErrors.surName}}</div> -->
           </div>
 
           <!-- Дата народження -->
@@ -111,10 +105,10 @@
           <!-- Дата народження -->
           <div class="inputbox">
             <input type="date" class="form-control" id="dob" name="dob" formControlName="dob" required>
-            <div *ngIf="formErrors.dob" class="alert alert-danger">{{formErrors.dob}}</div>
+            <!-- <div *ngIf="formErrors.dob" class="alert alert-danger">{{formErrors.dob}}</div> -->
             <span>Дата народження</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.dob" class="alert alert-danger">{{formErrors.dob}}</div>
+            <!-- <div *ngIf="formErrors.dob" class="alert alert-danger">{{formErrors.dob}}</div> -->
           </div>
         </form>
 
@@ -141,49 +135,49 @@
             <input type="tel" id="tell" name="tell" formControlName="tell" required>
             <span>Телефон</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.tell" class="alert alert-danger">{{formErrors.tell}}</div>
+            <!-- <div *ngIf="formErrors.tell" class="alert alert-danger">{{formErrors.tell}}</div> -->
           </div>
           <!-- Телефон -->
           <div class="inputbox">
             <input type="tel" id="phone_alt" name="phone_alt" formControlName="phone_alt" required>
             <span>Телефон додатковий</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.phone_alt" class="alert alert-danger">{{formErrors.phone_alt}}</div>
+            <!-- <div *ngIf="formErrors.phone_alt" class="alert alert-danger">{{formErrors.phone_alt}}</div> -->
           </div>
           <!-- Телеграм -->
           <div class="inputbox">
             <input required="required" type="text" id="inputTelegram" formControlName="telegram">
             <span>Telegram <i class="fa-brands fa-telegram"></i></span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div>
+            <!-- <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div> -->
           </div>
           <!-- Фейсбук -->
           <div class="inputbox">
             <input required="required" type="text" id="inputFacebook" formControlName="facebook">
             <span>Facebook <i class="fa-brands fa-facebook"></i></span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div>
+            <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
           </div>
           <!-- Інстаграм -->
           <div class="inputbox">
             <input required="required" type="text" id="inputInstagram" formControlName="instagram">
             <span>Instagram <i class="fa-brands fa-instagram"></i></span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.instagram" class="alert alert-danger">{{formErrors}}</div>
+            <!-- <div *ngIf="formErrors.instagram" class="alert alert-danger">{{formErrors}}</div> -->
           </div>
           <!-- Вайбер -->
           <div class="inputbox">
             <input required="required" type="text" id="inputViber" formControlName="viber">
             <span>Viber <i class="fa-brands fa-viber"></i></span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.viber" class="alert alert-danger">{{formErrors}}</div>
+            <!-- <div *ngIf="formErrors.viber" class="alert alert-danger">{{formErrors}}</div> -->
           </div>
           <!-- Пошта -->
           <div class="inputbox">
             <input required="required" type="text" id="inputMail" formControlName="mail">
             <span>Пошта</span>
             <i class="orange"></i>
-            <div *ngIf="formErrors.mail" class="alert alert-danger">{{formErrors}}</div>
+            <!-- <div *ngIf="formErrors.mail" class="alert alert-danger">{{formErrors}}</div> -->
           </div>
         </form>
         <!-- Кнопки -->

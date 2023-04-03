@@ -9,10 +9,36 @@
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <div class="text-center">
-              <img src="https://via.placeholder.com/200" class="rounded" alt="...">
+            <div class="img-wrapper">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid">
             </div>
           </div>
+
+          <div class="carousel-item" *ngFor="let image of flatImg.slice(1)">
+            <div class="img-wrapper">
+              <img [src]="'http://localhost:3000/img/flat/' + image.img" class="rounded" alt="...">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+
+      <!-- <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="img-wrapper">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg" alt="Flat Image" class="img-fluid">
+            </div>
+          </div>
+
           <div class="carousel-item">
             <div class="text-center">
               <img src="https://via.placeholder.com/200" class="rounded" alt="...">
@@ -34,10 +60,24 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
-      </div>
+      </div> -->
+
+      <!-- <div class="img-fluid">
+        <div *ngFor="let img of flatImg">
+          <img [src]="'http://localhost:3000/img/flat/' + flatImg">
+        </div>
+      </div> -->
 
       <p>Додати фото оселі</p>
-      <input class="form-control" type="file" id="formFileMultiple" multiple>
+      <div class="photo-box">
+        <div class="input-group">
+          <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
+            aria-describedby="upload" aria-label="Upload" multiple>
+        </div>
+        <p>Завантажити нове фото</p>
+        <button class="btn-create" id="upload" (click)="onUpload()" type="button"><i
+            class="fa-solid fa-circle-check"></i></button>
+      </div>
 
     </div>
   </div>
