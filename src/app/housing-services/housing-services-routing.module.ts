@@ -7,22 +7,23 @@ import { HostComunComponent } from './host-comun/host-comun.component';
 import { HousingServicesComponent } from './housing-services.component';
 import { InternetComponent } from './internet/internet.component';
 import { WaterComponent } from './water/water.component';
+import { CanActivateGuard } from './../services/auth.guard';
 
 const routes: Routes = [
   {
     path: 'housing-services',
-    component: HousingServicesComponent,
+    component: HousingServicesComponent, canActivate: [CanActivateGuard],
     children: [
       {
         path: 'host-comun',
-        component: HostComunComponent,
+        component: HostComunComponent, canActivate: [CanActivateGuard],
         children: [
           { path: '', redirectTo: 'energy', pathMatch: 'full' },
-          { path: 'cleaning', component: CleaningComponent },
-          { path: 'energy', component: EnergyComponent },
-          { path: 'gas', component: GasComponent },
-          { path: 'internet', component: InternetComponent },
-          { path: 'water', component: WaterComponent },
+          { path: 'cleaning', component: CleaningComponent, canActivate: [CanActivateGuard] },
+          { path: 'energy', component: EnergyComponent, canActivate: [CanActivateGuard] },
+          { path: 'gas', component: GasComponent, canActivate: [CanActivateGuard] },
+          { path: 'internet', component: InternetComponent, canActivate: [CanActivateGuard] },
+          { path: 'water', component: WaterComponent, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host-comun', pathMatch: 'full' },

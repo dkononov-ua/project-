@@ -4,19 +4,20 @@ import { HomeAccountComponent } from './home-account.component';
 import { HostAccComponent } from './host-acc/host-acc.component';
 import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
+import { CanActivateGuard } from './../../services/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home-account',
-    component: HomeAccountComponent,
+    component: HomeAccountComponent, canActivate: [CanActivateGuard],
     children: [
       {
         path: 'host-acc',
-        component: HostAccComponent,
+        component: HostAccComponent, canActivate: [CanActivateGuard],
         children: [
           { path: '', redirectTo: 'user', pathMatch: 'full' },
-          { path: 'user', component: UserComponent },
-          { path: 'house', component: HouseComponent },
+          { path: 'user', component: UserComponent, canActivate: [CanActivateGuard] },
+          { path: 'house', component: HouseComponent, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host-acc', pathMatch: 'full' },

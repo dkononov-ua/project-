@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-housing-services',
@@ -8,9 +9,15 @@ import { Router } from '@angular/router';
 })
 export class HousingServicesComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private dataService: DataService) { }
 
   goToHostComun() {
     this.router.navigate(['/housing-services/host-comun']);
+  }
+
+  ngOnInit(): void {
+    this.dataService.getData().subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }

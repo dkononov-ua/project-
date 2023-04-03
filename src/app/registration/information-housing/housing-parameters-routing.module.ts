@@ -6,20 +6,21 @@ import { ParamComponent } from './param/param.component';
 import { PhotoComponent } from './photo/photo.component';
 import { HostComponent } from './host/host.component';
 import { HousingParametersComponent } from './housing-parameters.component';
+import { CanActivateGuard } from './../../services/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'housing-parameters',component: HousingParametersComponent,
+    path: 'housing-parameters',component: HousingParametersComponent, canActivate: [CanActivateGuard],
     children: [
       {
         path: 'host',
-        component: HostComponent,
+        component: HostComponent, canActivate: [CanActivateGuard],
         children: [
           { path: '', redirectTo: 'address', pathMatch: 'full' },
-          { path: 'address', component: AddressComponent, data: { animation: 'address' } },
-          { path: 'param', component: ParamComponent, data: { animation: 'param' } },
-          { path: 'photo', component: PhotoComponent, data: { animation: 'photo' } },
-          { path: 'about', component: AboutComponent, data: { animation: 'about' } },
+          { path: 'address', component: AddressComponent, data: { animation: 'address' }, canActivate: [CanActivateGuard] },
+          { path: 'param', component: ParamComponent, data: { animation: 'param' }, canActivate: [CanActivateGuard] },
+          { path: 'photo', component: PhotoComponent, data: { animation: 'photo' }, canActivate: [CanActivateGuard] },
+          { path: 'about', component: AboutComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host', pathMatch: 'full' },

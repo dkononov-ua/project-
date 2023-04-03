@@ -9,7 +9,7 @@ import { AgreementComponent } from './interaction/agreement/agreement.component'
 import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
-import { CanActivateGuard } from './shared/auth.guard';
+import { CanActivateGuard } from './services/auth.guard';
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
@@ -24,12 +24,12 @@ const routes: Routes = [
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'home-account', component: HomeAccountComponent, canActivate: [CanActivateGuard] },
   { path: 'user-interaction', component: UserInteractionComponent, canActivate: [CanActivateGuard] },
-  { path: 'information-user', component: InformationUserComponent },
-  { path: 'user-payment', component: UserPaymentComponent },
-  { path: 'modal', component: ModalComponent },
-  { path: 'user-licence', component: UserLicenceComponent },
-  { path: 'housing-services', component: HousingServicesComponent },
-  { path: 'comun-page', component: ComunPageComponent },
+  { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
+  { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
+  { path: 'modal', component: ModalComponent, canActivate: [CanActivateGuard] },
+  { path: 'user-licence', component: UserLicenceComponent, },
+  { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
+  { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

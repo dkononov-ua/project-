@@ -109,13 +109,10 @@ export class AboutComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
     this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
       this.selectedFlatId = selectedFlatId;
-      console.log(222)
       const userJson = localStorage.getItem('user');
       if (userJson) {
         this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
-            console.log(44444)
-            console.log(this.selectedFlatId)
             if (response !== null) {
               this.aboutHouse = this.fb.group({
                 distance_metro:[response.about.distance_metro],

@@ -17,8 +17,6 @@ export class HousingParametersComponent implements OnInit {
     this.dataService.getData().subscribe((data: any) => {
       console.log(data);
     });
-    // Інші ініціалізації
   }
-
 }
 

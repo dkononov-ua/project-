@@ -15,9 +15,7 @@ export class AuthService {
     return this.http.post<any>('http://localhost:3000', user);
   }
   logout() {
-    // Тут ви можете видалити токен або інші дані аутентифікації зі сховища (наприклад, localStorage)
     localStorage.removeItem('user');
-    // Перенаправте користувача на сторінку входу або головну сторінку
     this.router.navigate(['/registration']);
   }
 }

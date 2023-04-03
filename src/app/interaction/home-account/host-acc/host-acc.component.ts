@@ -66,7 +66,6 @@ export class HostAccComponent implements OnInit {
           this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
             .subscribe(
               (response: any) => {
-                console.log(response);
                 if (response !== null) {
                   this.addressHouse = this.fb.group({
                     flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],

@@ -73,7 +73,6 @@ export class ParamComponent {
   constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
     this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
       this.selectedFlatId = selectedFlatId;
-      console.log(222)
       const userJson = localStorage.getItem('user');
       if (userJson) {
         this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
