@@ -24,6 +24,16 @@ import { HostComponent } from '../host/host.component';
 })
 
 export class PhotoComponent implements OnInit {
+
+  loading = false;
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  }
+
   public selectedFlatId: any;
   filename: string | undefined;
 
@@ -38,19 +48,19 @@ export class PhotoComponent implements OnInit {
       const userJson = localStorage.getItem('user');
       if (userJson) {
         this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (response !== null) {
-            this.addressHouse = this.fb.group({
-              flat_id: [response.flat.flat_id, []],
-            });
-            this.flatImg = response.imgs;
-            for (const img of this.flatImg) {
-              this.images.push('http://localhost:3000/img/flat/' + img.img);
+          .subscribe((response: any) => {
+            if (response !== null) {
+              this.addressHouse = this.fb.group({
+                flat_id: [response.flat.flat_id, []],
+              });
+              this.flatImg = response.imgs;
+              for (const img of this.flatImg) {
+                this.images.push('http://localhost:3000/img/flat/' + img.img);
+              }
             }
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+          }, (error: any) => {
+            console.error(error);
+          });
       } else {
         console.log('user not found');
       }
@@ -80,5 +90,5 @@ export class PhotoComponent implements OnInit {
         console.log(error);
       }
     );
-      }
+  }
 }

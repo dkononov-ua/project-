@@ -72,7 +72,7 @@ export class InformationUserComponent implements OnInit {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           console.log(response);
-          this.userImg = response.img[5].img;
+          this.userImg = response.img[0].img;
           this.userFormContacts = this.fb.group({
             tell: [response.cont.tell],
             phone_alt: [response.cont.phone_alt],

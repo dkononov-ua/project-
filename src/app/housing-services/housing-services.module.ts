@@ -14,6 +14,9 @@ import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
 import { HostComunComponent } from './host-comun/host-comun.component';
 import { SharedModule } from '../shared/shared.module';
+import { PaymentHistoryComponent } from './energy/payment-history/payment-history.component';
+import { ServiceProfileComponent } from './energy/service-profile/service-profile.component';
+import { DetailsComponent } from './energy/details/details.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { SharedModule } from '../shared/shared.module';
     InternetComponent,
     CleaningComponent,
     HostComunComponent,
+    PaymentHistoryComponent,
+    ServiceProfileComponent,
+    DetailsComponent,
   ],
   imports: [
     BrowserModule,
