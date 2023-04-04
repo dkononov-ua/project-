@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
-  styleUrls: ['./house.component.scss']
+  styleUrls: ['./house.component.scss'],
 })
 export class HouseComponent implements OnInit {
-
-  public selectedFlatId: any;
 
   user = {
     firstName: '',
@@ -69,15 +69,22 @@ export class HouseComponent implements OnInit {
     bunker: '',
   };
 
-  constructor(private fb: FormBuilder, private dataService: DataService) { }
+  addressHouse: any;
+  flatImg: any;
+  images: string[] = [];
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
   ngOnInit(): void {
-    console.log('Пройшла перевірка користувача')
+    console.log('Пройшла перевірка користувача');
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('user');
+    const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
+          this.flatImg = response.houseData.imgs;
+          for (const img of this.flatImg) {
+            this.images.push('http://localhost:3000/img/flat/' + img.img);}
 
           this.user.firstName = response.userData.inf.firstName;
           this.user.lastName = response.userData.inf.lastName;

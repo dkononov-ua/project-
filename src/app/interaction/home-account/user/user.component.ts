@@ -1,19 +1,15 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../services/data.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit  {
+export class UserComponent implements OnInit {
 
-  isFlipped = false;
-
-  flipCard() {
-    this.isFlipped = !this.isFlipped;
-  }
+  userImg: any;
 
   public selectedFlatId: any | null;
 
@@ -75,7 +71,7 @@ export class UserComponent implements OnInit  {
     bunker: '',
   };
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private http: HttpClient) { }
 
   rating: number = 5;
 
@@ -138,15 +134,14 @@ export class UserComponent implements OnInit  {
           this.about.price_y = response.houseData.about.price_y;
           this.about.about = response.houseData.about.about;
           this.about.bunker = response.houseData.about.bunker;
+          this.about.bunker = response.houseData.about.bunker;
         });
+
+        this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+          .subscribe((response: any) => {
+            this.userImg = response.img[0].img;
+          });
       }
     }
-  }
-
-  notificationsCount: number = 1;
-  showNotifications: boolean = false;
-
-  toggleNotifications(): void {
-    this.showNotifications = !this.showNotifications;
   }
 }

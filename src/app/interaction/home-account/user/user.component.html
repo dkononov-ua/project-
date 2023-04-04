@@ -1,9 +1,11 @@
 <div class="container-card">
   <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
     <div class="card m-2">
+
       <div class="img-fluid">
-        <img src="../../../assets/photo3.JPG" class="rounded" alt="...">
+          <img [src]="'http://localhost:3000/img/users/' + userImg">
       </div>
+
       <div class="item-wrapper p-3">
         <h1>Власник: {{ user.firstName }} {{ user.surName }} {{ user.lastName }} </h1>
         <p>Телефон: {{ user.tell }}</p>

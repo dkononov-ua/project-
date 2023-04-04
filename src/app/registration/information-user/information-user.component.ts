@@ -19,8 +19,6 @@ export class InformationUserComponent implements OnInit {
   selectedFlatId: any;
   userImg: any;
 
-
-
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {
   }
 
