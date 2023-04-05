@@ -12,8 +12,8 @@
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
-          <option value="3">4</option>
-          <option value="3">більше 4</option>
+          <option value="4">4</option>
+          <option value="5">більше 4</option>
           <div *ngIf="formErrors.rooms" class="alert alert-danger">{{formErrors.rooms}}</div>
         </select>
       </div>
@@ -25,7 +25,7 @@
           <option value="1">Новий</option>
           <option value="2">Добрий</option>
           <option value="3">Задовільний</option>
-          <option value="3">Поганий</option>
+          <option value="4">Поганий</option>
         </select>
         <div *ngIf="formErrors.repair_status" class="alert alert-danger">{{formErrors.repair_status}}</div>
       </div>
@@ -34,11 +34,11 @@
         <label for="">Наявність балкону і його тип</label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="balcony">
           <option selected disabled>Оберіть стан квартири</option>
-          <option value="1">Класичний балкон</option>
-          <option value="2">Французький балкон</option>
-          <option value="3">Лоджія</option>
-          <option value="3">Тераса</option>
-          <option value="3">Веранда</option>
+          <option value="5">Класичний балкон</option>
+          <option value="6">Французький балкон</option>
+          <option value="7">Лоджія</option>
+          <option value="8">Тераса</option>
+          <option value="9">Веранда</option>
         </select>
         <div *ngIf="formErrors.balcony" class="alert alert-danger">{{formErrors.balcony}}</div>
       </div>

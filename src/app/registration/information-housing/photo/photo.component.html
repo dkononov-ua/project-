@@ -33,11 +33,11 @@
       <p>Додати фото оселі</p>
       <div class="photo-box">
         <div class="input-group">
-          <input type="file" class="form-control" id="upload"
-            aria-describedby="upload" aria-label="Upload">
+          <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
+          aria-describedby="upload" aria-label="Upload">
         </div>
         <p>Завантажити нове фото</p>
-        <button class="btn-create" id="upload" (click)="onUpload()" (click)="reloadPageWithLoader" type="button"><i
+        <button class="btn-create" id="upload" (click)="onUpload()" type="button"><i
             class="fa-solid fa-circle-check"></i></button>
       </div>
 

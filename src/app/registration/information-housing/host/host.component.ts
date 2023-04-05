@@ -153,6 +153,26 @@ export class HostComponent implements OnInit {
     }
   }
 
+  onSubmitDeleteHouse(): void {
+    const selectedFlatId = this.selectHouse.get('house')?.value;
+    const houseJson = localStorage.getItem('house');
+    if (houseJson) {
+      console.log(JSON.parse(houseJson))
+    }
+
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/deleteflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('house not found');
+    }
+  }
+
   initializeForm(): void {
     this.houseCreate = this.fb.group({
       flat_id: [null, [

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-host-acc',
   templateUrl: './host-acc.component.html',
@@ -25,7 +25,7 @@ export class HostAccComponent implements OnInit {
     house: new FormControl('виберіть оселю')
   });
 
-  constructor( private fb: FormBuilder,  private http: HttpClient, ) { }
+  constructor(private fb: FormBuilder, private http: HttpClient) { }
 
   ngOnInit(): void {
     const houseJson = localStorage.getItem('house');
@@ -51,24 +51,21 @@ export class HostAccComponent implements OnInit {
             console.error(error);
           }
         );
-    } else {
-      console.log('user not found');
-    }
 
-    this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
-        console.log('Ви вибрали оселю з ID:', selectedFlatId);
-        localStorage.removeItem('house');
-        localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
+      // додати підписку на valueChanges тут
+      this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
+        if (selectedFlatId) {
+          console.log(localStorage.getItem('house'))
+          console.log('Ви вибрали оселю з ID:', selectedFlatId);
+          localStorage.removeItem('house');
+          localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
 
-        const userJson = localStorage.getItem('user');
-        if (userJson) {
           this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
             .subscribe(
               (response: any) => {
                 if (response !== null) {
                   this.addressHouse = this.fb.group({
-                    flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+                    flat_id: [response.flat.flat_id],
                   });
                 }
               },
@@ -78,11 +75,41 @@ export class HostAccComponent implements OnInit {
             );
           this.selectedFlatId = selectedFlatId;
         } else {
-          console.log('user not found');
+          console.log('Нічого не вибрано');
         }
-      } else {
-        console.log('Нічого не вибрано');
-      }
-    });
+      });
+    } else {
+      console.log('user not found');
+    }
   }
+
+  onSubmitSelectHouse(selectedFlatId: any): void {
+    if (selectedFlatId) {
+      console.log('Ви вибрали оселю з ID:', selectedFlatId);
+      localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
+      // Додатковий код
+      this.selectedFlatId = selectedFlatId;
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+          .subscribe(
+            (response: any) => {
+              if (response !== null) {
+                this.addressHouse = this.fb.group({
+                  flat_id: [response.flat.flat_id],
+                });
+              }
+            },
+            (error: any) => {
+              console.error(error);
+            }
+          );
+      } else {
+        console.log('user not found');
+      }
+    } else {
+      console.log('Нічого не вибрано');
+    }
+  }
+
 }

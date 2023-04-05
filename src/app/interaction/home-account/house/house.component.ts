@@ -35,38 +35,77 @@ export class HouseComponent implements OnInit {
     houseNumber: '',
     apartment: '',
     flat_index: '',
-    private: '',
-    rent: '',
-    live: '',
-    who_live: '',
+    private: Number(''),
+    rent: Number(''),
+    live: Number(''),
+    who_live: Number(''),
     subscribers: '',
   };
 
   param = {
     region: '',
     rooms: '',
-    repair_status: '',
     area: '',
     kitchen_area: '',
-    balcony: '',
+    repair_status: Number(''),
     floor: '',
+    balcony: Number(''),
   };
 
+  options: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'Новий',
+    2: 'Добрий',
+    3: 'Задовільний',
+    4: 'Поганий',
+    5: 'Класичний балкон',
+    6: 'Французький балкон',
+    7: 'Лоджія',
+    8: 'Тераса',
+    9: 'Веранда',
+    10: 'Підземний паркінг',
+    11: 'Є повноцінне укриття в будинку',
+    12: 'Є укриття поряд з будинком',
+    13: 'Немає',
+  }
+
+  aboutDistance: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'до 100м',
+    2: 'до 300м',
+    3: 'до 500м',
+    4: 'до 1км',
+    5: 'на території',
+  }
+
+  checkBox: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'Так',
+    2: 'Ні',
+  }
+
+  checkBoxAnimals: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'Без тварин',
+    2: 'За попередньою домовленістю',
+    3: 'Можна з тваринами',
+  }
+
   about = {
-    distance_metro: '',
-    distance_stop: '',
-    distance_shop: '',
-    distance_green: '',
-    distance_parking: '',
-    woman: '',
-    man: '',
-    family: '',
-    students: '',
-    animals: '',
-    price_m: '',
-    price_y: '',
+    distance_metro: Number(''),
+    distance_stop: Number(''),
+    distance_shop: Number(''),
+    distance_green: Number(''),
+    distance_parking: Number(''),
+    woman: Number(''),
+    man: Number(''),
+    family: Number(''),
+    students: Number(''),
+    animals: Number(''),
+    price_m: Number(''),
+    price_y: Number(''),
     about: '',
-    bunker: '',
+    bunker: Number(''),
   };
 
   addressHouse: any;
@@ -83,9 +122,11 @@ export class HouseComponent implements OnInit {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
           this.flatImg = response.houseData.imgs;
-          for (const img of this.flatImg) {
-            this.images.push('http://localhost:3000/img/flat/' + img.img);}
-
+          if (this.flatImg !== undefined) {
+            for (const img of this.flatImg) {
+              this.images.push('http://localhost:3000/img/flat/' + img.img);
+            }
+          }
           this.user.firstName = response.userData.inf.firstName;
           this.user.lastName = response.userData.inf.lastName;
           this.user.surName = response.userData.inf.surName;

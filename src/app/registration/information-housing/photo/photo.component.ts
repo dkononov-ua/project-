@@ -74,12 +74,29 @@ export class PhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+  // onUpload(): void {
+  //   const userJson = localStorage.getItem('user');
+  //   const formData: FormData = new FormData();
+  //   formData.append('file', this.selectedFile, this.selectedFile.name);
+  //   formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
+
+  //   const headers = { 'Accept': 'application/json' };
+  //   this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
+  //     data => console.log(data),
+  //     error => console.log(error)
+  //   );
+  // }
+
   onUpload(): void {
     const userJson = localStorage.getItem('user');
     const formData: FormData = new FormData();
+
+    console.log(this.selectedFile)
+
     formData.append('file', this.selectedFile, this.selectedFile.name);
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
     formData.append('flat_id', this.selectedFlatId);
+
     const headers = { 'Accept': 'application/json' };
     this.http.post('http://localhost:3000/img/uploadflat', formData, { headers }).subscribe(
       (data: any) => {

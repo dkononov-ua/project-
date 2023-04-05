@@ -16,7 +16,6 @@ import { HomeAccountComponent } from './home-account.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-
 @NgModule({
   declarations: [
     UserComponent,
@@ -36,6 +35,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     RouterModule,
     NgxSpinnerModule,
-  ]
+  ],
+  exports: [ ]
 })
 export class HomeAccountModule { }
