@@ -1,5 +1,9 @@
 @use "../../style/presets/" as *;
 
+.container-card {
+  display: flex;
+}
+
 a {
   padding: 0.5em 1em;
 }

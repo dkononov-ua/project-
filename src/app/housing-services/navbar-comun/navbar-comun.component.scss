@@ -1,0 +1,240 @@
+@use "../../style/presets/" as *;
+
+.fa-solid {
+  color: white;
+}
+
+.btn-create {
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background-color: tomato;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-deleted{
+  background-color: tomato;
+  &:hover {
+    transition: 0.4s;
+    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgba(255, 0, 0, 0.733);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-menu {
+  font-family: $font-main;
+  width: 240px;
+  height: 40px;
+  background-color: $color-white;
+  border-radius: 10px;
+  border: none;
+  display: flex;
+  padding: 10px;
+  color: $color-text;
+  margin: 10px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    background-color: $color-dark;
+    transform: scale(1.1);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+}
+
+.info {
+  margin: 0;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text;
+  text-decoration: none;
+  border-radius: 50%;
+  background-color: $color-primary;
+  border: none;
+
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
+p {
+  font-size: 10px;
+  color: $color-text !important;
+  text-align: center;
+}
+
+h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.text-info {
+  font-size: 0.9em;
+  color: black !important;
+}
+
+.btn-text {
+  font-size: 0.8em;
+}
+
+.img-fluid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card-photo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+}
+
+.form-box {
+  height: 100%;
+  display: flex;
+  align-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.see-password {
+  z-index: 10;
+  position: absolute;
+  right: 4rem;
+  top: 10px;
+  background: none;
+  border: none;
+  width: 40px;
+}
+
+.icon {
+  background: none !important;
+  position: relative !important;
+  font-size: 18px;
+  color: #d2d0d06b;
+}
+
+.span {
+  display: flex;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.card-body-cast {
+  background: none;
+}
+
+select {
+  font-size: 16px;
+  height: 40px;
+  color: $color-accent;
+  border: none;
+  // border: 1px groove $color-accent;
+  border-radius: 10px;
+}
+
+.form-select {
+  width: 240px;
+}
+
+.navbar-house {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid tomato;
+  border-bottom: 1px solid tomato;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+a {
+  background-color: none;
+}
+
+.link-text {
+  font-size: 20px;
+}
+
+.link-menu {
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(1.1);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+    span {
+      transition: 0.4s;
+      transform: translate(20px) scale(1.1);
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transform: translate(10px) scale(1.1);
+      transition: 0.4s;
+    }
+  }
+}
+
+.input-cast {
+  font-size: 16px;
+  color: $color-accent;
+  background: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px groove $color-accent;
+  &:focus-visible {
+    border: 2px groove $color-accent;
+  }
+}
+
+
+

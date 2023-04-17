@@ -1,39 +1,23 @@
-<div class="navbar">
-  <nav class="nav">
-    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/details'"><span
-        class="link-text">Реквізити </span><i class="fa-solid fa-money-check"></i>
-    </a>
-    <a class="link-menu" [routerLinkActive]="'active'"
-      [routerLink]="'/housing-services/host-comun/payment-history'"><span class="link-text">Історія оплат </span><i
-        class="fa-solid fa-book-open"></i>
-    </a>
-    <a class="link-menu" [routerLinkActive]="'active'"
-      [routerLink]="'/housing-services/host-comun/service-profile'"><span class="link-text">Оплата </span><i
-        class="fa-solid fa-credit-card"></i>
-    </a>
-    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/energy'"><span
-        class="link-text">Кабінет послуги </span><i class="fa-solid fa-stapler"></i>
-    </a>
-  </nav>
-</div>
-<div class="container-fluid">
-  <div class="container-title">
-    <h1>Електроенергія</h1>
-    <h5>Ця сторінка створена для перегляду послуг які діють за закріпленою адресою. Вона дає можливість відслідковувати
-      щомісячні витрати, та зручним способом оплачувати комунальні платежі в пару кліків</h5>
-  </div>
-  <div class="container-fluid">
-    <div class="card" style="width: 20rem;">
+<app-navbar-comun></app-navbar-comun>
+<div class="container-card">
+  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+    <div class="card m-2">
+
       <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
       </div>
+
       <div class="card-body">
-        <h3 class="card-title">Електроенергія</h3>
-        <h4 class="card-title">Вибір постачальника</h4>
+        <h4 class="card-title">Компанія постачальника послуг</h4>
+        <h3 class="card-title">Yasno</h3>
+
+        <p>Тариф за спожитий обсяг до 250 кВт·год з ПДВ 1,44 грн/кВт·год</p>
+        <p>Тариф при споживанні обсягу понад 250 кВт·год 1,68 грн/кВт·год</p>
       </div>
-      <div class="card-link">
-        <a href="#" class="link"><span>Змінити постачальника</span><i class="fa-solid fa-handshake-angle"></i></a>
-        <a href="#" class="link"><span>Переглянути реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
-      </div>
+
     </div>
   </div>
+  <div class="col-lg-6 col-md-5 col-sm-6 col-12">
+    <router-outlet ></router-outlet>
+  </div>
 </div>
+

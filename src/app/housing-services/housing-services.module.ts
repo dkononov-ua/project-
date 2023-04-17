@@ -17,6 +17,8 @@ import { SharedModule } from '../shared/shared.module';
 import { PaymentHistoryComponent } from './energy/payment-history/payment-history.component';
 import { ServiceProfileComponent } from './energy/service-profile/service-profile.component';
 import { DetailsComponent } from './energy/details/details.component';
+import { NavbarComunComponent } from './navbar-comun/navbar-comun.component';
+import { EngCabinetComponent } from './energy/eng-cabinet/eng-cabinet.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { DetailsComponent } from './energy/details/details.component';
     PaymentHistoryComponent,
     ServiceProfileComponent,
     DetailsComponent,
+    NavbarComunComponent,
+    EngCabinetComponent,
   ],
   imports: [
     BrowserModule,
