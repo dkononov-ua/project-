@@ -1,4 +1,4 @@
-@use "../../../style/presets/" as *;
+@use "../../style/presets/" as *;
 
 .card {
   display: flex;
@@ -23,6 +23,13 @@
 }
 
 .card-box {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+}
+
+.box {
   display: flex;
   align-items: stretch;
   height: 100%;
@@ -192,8 +199,21 @@ li {
   font-size: 20px;
 }
 
-.link-menu {
+.link-box {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.link-item {
+  display: flex;
+  justify-content: center;
   transition: 0.4s;
+  background-color: $color-white;
+  padding: 5px;
+
 
   &:hover {
     color: $color-accent;
@@ -213,5 +233,11 @@ li {
       transition: 0.4s;
     }
   }
+}
+
+select {
+  background-color: $color-accent;
+  border-radius: 10px;
+  padding: 5px;
 }
 

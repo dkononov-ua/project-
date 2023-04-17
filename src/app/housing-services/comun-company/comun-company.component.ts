@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 
+
 @Component({
-  selector: 'app-energy',
-  templateUrl: './energy.component.html',
-  styleUrls: ['./energy.component.scss'],
+  selector: 'app-comun-company',
+  templateUrl: './comun-company.component.html',
+  styleUrls: ['./comun-company.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -17,6 +18,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ],
 })
-export class EnergyComponent {
+export class ComunCompanyComponent {
 
 }

@@ -9,17 +9,20 @@
             <h4>Оберіть оселю</h4>
             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
               <option selected disabled>Вибір оселі за ID</option>
-              <!-- <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option> -->
             </select>
           </div>
           <button class="btn-create" type="submit"><i class="fa-regular fa-circle-check"></i></button>
           <p>ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</p>
-
         </form>
 
         <nav class="navbar-house">
-          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/energy'"><span
-              class="link-text">Електроенергія </span><i class="fa-regular fa-lightbulb"></i>
+          <a class="link-menu" [routerLinkActive]="'active'"
+            [routerLink]="'/housing-services/host-comun/comun-company'"><span class="link-text">Головна </span><i
+              class="fa-regular fa-lightbulb"></i>
+          </a>
+          <a class="link-menu" [routerLinkActive]="'active'"
+            [routerLink]="'/housing-services/host-comun/energy'"><span class="link-text">Електроенергія </span><i
+              class="fa-regular fa-lightbulb"></i>
           </a>
           <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/water'"><span
               class="link-text">Водопостачання </span><i class="fa-solid fa-faucet"></i>
@@ -36,6 +39,10 @@
               class="fa-solid fa-wifi"></i>
           </a>
         </nav>
+        <button class="btn-create btn-deleted"><i class="fa-solid fa-circle-minus"></i></button>
+        <p>ВИДАЛИТИ ШАБЛОН</p>
+        <button class="btn-create"><i class="fa-solid fa-circle-plus"></i></button>
+        <p>ДОДАТИ ШАБЛОН</p>
       </div>
     </div>
 
