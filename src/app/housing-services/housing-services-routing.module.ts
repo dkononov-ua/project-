@@ -28,10 +28,10 @@ const routes: Routes = [
             path: 'energy', component: EnergyComponent, canActivate: [CanActivateGuard],
             children: [
               { path: '', redirectTo: 'eng-cabinet', pathMatch: 'full' },
-              { path: 'payment-history', component: PaymentHistoryComponent, canActivate: [CanActivateGuard] },
-              { path: 'service-profile', component: ServiceProfileComponent, canActivate: [CanActivateGuard] },
-              { path: 'details', component: DetailsComponent, canActivate: [CanActivateGuard] },
-              { path: 'eng-cabinet', component: EngCabinetComponent, canActivate: [CanActivateGuard] },
+              { path: 'payment-history', component: PaymentHistoryComponent, data: { animation: 'payment-history' }, canActivate: [CanActivateGuard] },
+              { path: 'service-profile', component: ServiceProfileComponent, data: { animation: 'service-profile' }, canActivate: [CanActivateGuard] },
+              { path: 'details', component: DetailsComponent, data: { animation: 'details' }, canActivate: [CanActivateGuard] },
+              { path: 'eng-cabinet', component: EngCabinetComponent, data: { animation: 'eng-cabinet' }, canActivate: [CanActivateGuard] },
             ]
           },
           { path: 'gas', component: GasComponent, canActivate: [CanActivateGuard] },

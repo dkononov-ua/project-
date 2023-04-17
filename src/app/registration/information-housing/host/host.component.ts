@@ -45,7 +45,7 @@ export class HostComponent implements OnInit {
     this.loading = true;
     setTimeout(() => {
       location.reload();
-    }, 2000);
+    }, 500);
   }
 
   public selectedFlatId$ = new BehaviorSubject<any>(undefined);

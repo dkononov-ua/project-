@@ -1,30 +1,5 @@
 @use "../../../style/presets/" as *;
 
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.container-card {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.container-navbar {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.container-card {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: center;
-}
-
 .card {
   display: flex;
   width: 100%;
@@ -33,115 +8,24 @@
   justify-content: space-between;
 }
 
-.checkBox-span {
-  margin-top: 5px;
-  font-size: 1em;
-}
-
-.container-box {
-  display: flex;
-}
-
-.clear {
-  clear: both;
-}
-
-.form-box {
-  width: 100%;
-}
-
-.checkBox {
-  display: block;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0px 0px 0px 2px #fff;
-}
-
-.checkBox div {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  top: -52px;
-  left: -52px;
-  position: absolute;
-  transform: rotateZ(45deg);
-  z-index: 100;
-}
-
-.checkBox input[type="checkbox"]:checked + div {
-  left: -10px;
-  top: -10px;
-}
-
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
-
-.transition {
-  transition: 300ms ease;
-}
-
-.container-checkbox {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
 .card-name {
   margin-bottom: 20px;
 }
 
-.card-link {
+.form-box {
   width: 100%;
-  margin: 0;
-}
-
-
-a {
-  margin: 0;
-}
-
-.link {
-  margin: 0;
-  transition: 1s;
-  background-color: $color-primary;
-
-  &:hover {
-    color: $color-accent;
-    background-color: $color-dark;
-    transition: 1s;
-
-    span {
-      transition: transform 1s;
-      transform: translate(50px) scale(1.2);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-accent;
-      transform: translate(-190px) scale(1.2);
-      transition: transform 1s;
-    }
-  }
-}
-
-.watch-box {
+  height: 100%;
   display: flex;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  margin: 1.2rem 5px 1.5rem 5px;
-  border-radius: 10px;
+  align-content: space-around;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.card-box {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
 }
 
 .inputbox {
@@ -150,7 +34,6 @@ a {
   margin: 1.2rem 5px 1.5rem 5px;
   border-radius: 10px;
 }
-
 
 .inputbox input {
   position: relative;
@@ -173,7 +56,7 @@ a {
   right: 0;
   padding: 10px 10px 10px;
   font-size: 1em;
-  color: #8f8f8f87;
+  color: #36343487;
   letter-spacing: 00.05em;
   transition: 0.6s;
   pointer-events: none;
@@ -181,7 +64,7 @@ a {
 
 .inputbox input:valid ~ span,
 .inputbox input:focus ~ span {
-  color: white;
+  color: rgb(0, 0, 0);
   transform: translateX(-10px) translateY(-2.2rem);
   font-size: 0, 75em;
 }
@@ -230,95 +113,54 @@ p {
 }
 
 .btn {
-  color: $color-light;
+  color: $color-primary;
   height: 45px;
+
+  &:hover {
+    color: black;
+  }
   &.active {
-    background-color: yellow;
+    background-color: white;
+    color: $color-accent;
   }
 }
 
-.btn:disabled {
-  color: coral;
-  background-color: rgba(255, 0, 0, 0.21);
-  font-weight: bolder;
+.btn {
+  color: $color-primary;
+  text-transform: uppercase;
+  font-size: 16px;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  letter-spacing: 1px;
+
+  &:hover {
+    color: black;
+  }
+
+  &:active {
+    transform: scale(0.8);
+    letter-spacing: 0px;
+    box-shadow: inset -10px -10px 40px rgba(0, 0, 0, 0.105), inset 10px 10px 40px rgba(0, 0, 0, 0.105);
+  }
+
+  &.active {
+    color: black;
+    letter-spacing: 5px;
+    font-weight: bold;
+    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
 }
+
 
 .btn-text {
   font-size: 0.8em;
 }
 
-.card-photo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  align-content: center;
-}
-
-.form-box {
-  height: 100%;
-  display: flex;
-  align-content: space-around;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-around;
-}
-
-.see {
-  z-index: 10;
-  position: absolute;
-  right: 4rem;
-  top: 4px;
-  background: none;
-  border: none;
-  width: 40px;
-}
-
-.icon {
-  background: none !important;
-  position: relative !important;
-  font-size: 18px;
-  color: #d2d0d06b;
-}
-
 .span {
   display: flex;
-}
-
-.card-box {
-  display: flex;
-  align-items: stretch;
-  height: 100%;
-}
-
-.btn-create {
-  background: none;
-  border: none;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: tomato;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-
-  &:hover {
-    transition: 0.4s;
-    background-color: $color-white;
-    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
-
-    .fa-solid,
-    .fa-regular {
-      color: rgb(59, 247, 2);
-      transform: scale(2.5);
-      transition: transform 0.5s;
-    }
-  }
-}
-
-.test {
-  display: flex;
-  background: none;
-  border: none;
+  color: $color-primary;
 }
 
 .input-group {
@@ -335,36 +177,3 @@ p {
   border: 2px solid $color-accent;
   color: $color-white;
 }
-
-.photo-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.img-fluid {
-  display: flex;
-  height: 300px;
-  width: 100%;
-  overflow: hidden;
-  margin-bottom: 10px;
-  justify-content: center;
-  align-items: center;
-}
-img {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 1s;
-  border-radius: 10px;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
-  }
-}
-
-
-

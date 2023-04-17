@@ -14,9 +14,19 @@
         <p>Тариф при споживанні обсягу понад 250 кВт·год 1,68 грн/кВт·год</p>
       </div>
 
+      <form class="form-box">
+        <!-- Статус оплати -->
+        <div class="inputbox">
+          <input type="number" name="status" required>
+          <span>Статус оплати:</span>
+          <i class="orange"></i>
+          <!-- <div *ngIf="formErrors.tell" class="alert alert-danger">{{formErrors.tell}}</div> -->
+        </div>
+      </form>
+
     </div>
   </div>
-  <div class="col-lg-6 col-md-5 col-sm-6 col-12">
+  <div [@cardAnimation] class="col-lg-6 col-md-5 col-sm-6 col-12">
     <router-outlet ></router-outlet>
   </div>
 </div>
