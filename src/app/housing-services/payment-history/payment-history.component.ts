@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-
 
 @Component({
   selector: 'app-payment-history',
@@ -9,25 +8,48 @@ import { animate, style, transition, trigger } from '@angular/animations';
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ opacity: 0 }),
-        animate('300ms 200ms ease-in-out', style({ opacity: 1 }))
+        style({ transform: 'translateX(200%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ])
     ])
-  ]
+  ],
 })
-export class PaymentHistoryComponent {
-showMonth(arg0: string) {
-throw new Error('Method not implemented.');
-}
+export class PaymentHistoryComponent implements OnInit {
+  months: string[] = [];
 
-  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  selectedMonth: string | undefined;
-
-  showMonthInfo(month: string) {
-    this.selectedMonth = month;
-    // тут ми можемо викликати метод для відображення інформації про вибраний місяць
+  constructor() {
+    this.generateMonthList();
   }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  generateMonthList(): void {
+    const currentDate = new Date();
+    let prevYear = '';
+
+    for (let i = 0; i < 60; i++) {
+      const year = currentDate.getFullYear() - Math.floor(i / 12);
+      const month = (currentDate.getMonth() - (i % 12) + 12) % 12;
+      const monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
+
+      this.months.push(monthName);
+
+      if (month === 0) {
+        this.months.push(year.toString());
+        prevYear = year.toString();
+      }
+    }
+  }
+
+  onMouseWheel(event: WheelEvent): void {
+    const monthList = document.querySelector('.month-list');
+    if (monthList) {
+      monthList.scrollTop += event.deltaY;
+      event.preventDefault();
+    }
+  }
+
+
+
 }

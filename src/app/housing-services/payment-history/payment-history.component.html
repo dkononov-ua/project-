@@ -1,63 +1,88 @@
-<div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-  <div [@cardAnimation] class="box col-lg-10 col-md-5 col-sm-6 col-12">
+<app-navbar-comun></app-navbar-comun>
+
+<div class="card-box">
+
+  <div [@cardAnimation] class="container-card col-lg-5 col-md-5 col-sm-12 col-12">
     <div class="card m-2 p-2">
       <div class="card-name">
-        <h4>Інформація вашої оселі</h4>
+        <h4>Статистика</h4>
+        <h4>за весь рік</h4>
       </div>
 
       <form class="form-box">
-        <!-- ПІБ -->
         <div class="inputbox">
           <input type="text" name="ACCOUNT-FOR" required>
-          <span>ПІБ:</span>
+          <span>Спожито загалом/рік:</span>
           <i class="orange"></i>
-          <!-- <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div> -->
         </div>
-        <!-- ОСОБИСТИЙ РАХУНОК -->
         <div class="inputbox">
           <input type="number" name="PERSONAL-ACCOUNT" required>
-          <span>ОСОБИСТИЙ РАХУНОК:</span>
+          <span>Оплачено загалом/рік:</span>
           <i class="orange"></i>
-          <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
         </div>
-        <!-- РАХУНОК ЗА -->
         <div class="inputbox">
           <input type="text" name="ACCOUNT-FOR" required>
-          <span>РАХУНОК ЗА:</span>
+          <span>δ/міс оплата:</span>
           <i class="orange"></i>
-          <!-- <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div> -->
         </div>
-
-
-        <!-- Показники попередні -->
         <div class="inputbox">
           <input type="number" name="PERSONAL-ACCOUNT" required>
-          <span>Показники попередні:</span>
+          <span>δ/міс спожито:</span>
           <i class="orange"></i>
-          <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
         </div>
-
-        <!-- Показники поточні -->
         <div class="inputbox">
           <input type="number" name="PERSONAL-ACCOUNT" required>
-          <span>Показники поточні:</span>
+          <span>δ/міс оплата прогнозоване:</span>
           <i class="orange"></i>
-          <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
         </div>
-
+        <div class="inputbox">
+          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <span>δ/міс спож. прогнозоване:</span>
+          <i class="orange"></i>
+        </div>
       </form>
+    </div>
+  </div>
 
+  <div [@cardAnimation] class="container-card col-lg-5 col-md-5 col-sm-12 col-12">
+    <div class="card m-2 p-2">
+      <div class="card-name">
+        <h4>Статистика</h4>
+        <h4>за обраний період</h4>
+      </div>
 
-
-
-
-
-
-
-
-
-
-
+      <form class="form-box">
+        <div class="inputbox">
+          <input type="text" name="ACCOUNT-FOR" required>
+          <span>Спожито:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <span>Оплачено:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input type="text" name="ACCOUNT-FOR" required>
+          <span>Попередні показники:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <span>Поточні показники:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <span>Тариф:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <span>Розрахунок:</span>
+          <i class="orange"></i>
+        </div>
+      </form>
 
       <!-- Кнопки -->
       <div class="btn-group">
@@ -68,25 +93,21 @@
     </div>
   </div>
 
-  <div [@cardAnimation] class="box col-lg-2 col-md-5 col-sm-6 col-12">
-    <div class="link-box m-2 p-2 ">
-      <select class="form-select form-select-sm m-1" aria-label=".form-select-sm example">
-        <option selected disabled>Рік</option>
-        <option>2023</option>
-      </select>
-
-      <a class="link-item" href=""><div (click)="showMonth('Січень')">Січень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Лютий')">Лютий</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Березень')">Березень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Квітень')">Квітень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Травень')">Травень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Червень')">Червень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Липень')">Липень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Серпень')">Серпень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Вересень')">Вересень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Жовтень')">Жовтень</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Листопад')">Листопад</div></a>
-      <a class="link-item" href=""><div (click)="showMonth('Грудень')">Грудень</div></a>
+  <div [@cardAnimation] class="container-card col-lg-2 col-md-2 col-sm-4 col-4">
+    <div class="box-watch m-2 p-2">
+      <div class="link-box p-2">
+        <div class="card-date">
+          <div class="month-list" (wheel)="onMouseWheel($event)">
+            <div class="month" *ngFor="let month of months">
+              <a href="" class="link-item">{{ month }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="watch p-1">
+        <div class="card-date">
+        </div>
+      </div>
     </div>
   </div>
 

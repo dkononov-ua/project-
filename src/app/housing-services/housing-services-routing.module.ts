@@ -19,11 +19,11 @@ const routes: Routes = [
         component: HostComunComponent, canActivate: [CanActivateGuard],
         children: [
           { path: '', redirectTo: 'comun-company', pathMatch: 'full' },
+          { path: 'payment-history', component: PaymentHistoryComponent, data: { animation: 'payment-history' }, canActivate: [CanActivateGuard] },
           {
             path: 'comun-company', component: ComunCompanyComponent, canActivate: [CanActivateGuard],
             children: [
               { path: '', redirectTo: 'eng-cabinet', pathMatch: 'full' },
-              { path: 'payment-history', component: PaymentHistoryComponent, data: { animation: 'payment-history' }, canActivate: [CanActivateGuard] },
               { path: 'service-profile', component: ServiceProfileComponent, data: { animation: 'service-profile' }, canActivate: [CanActivateGuard] },
               { path: 'details', component: DetailsComponent, data: { animation: 'details' }, canActivate: [CanActivateGuard] },
               { path: 'eng-cabinet', component: EngCabinetComponent, data: { animation: 'eng-cabinet' }, canActivate: [CanActivateGuard] },
