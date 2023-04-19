@@ -81,10 +81,11 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('user');
+    const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
-      if (houseJson !== null) {
+      if ( houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
+
           this.user.firstName = response.userData.inf.firstName;
           this.user.lastName = response.userData.inf.lastName;
           this.user.surName = response.userData.inf.surName;

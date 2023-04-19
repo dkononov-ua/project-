@@ -20,9 +20,7 @@ export class PaymentHistoryComponent implements OnInit {
   constructor() {
     this.generateMonthList();
   }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  ngOnInit(): void {  }
 
   generateMonthList(): void {
     const currentDate = new Date();

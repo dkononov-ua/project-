@@ -9,14 +9,13 @@
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <div class="img-wrapper">
-              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid">
+            <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
             </div>
           </div>
-
-          <div class="carousel-item" *ngFor="let image of flatImg.slice(1)">
+          <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
             <div class="img-wrapper">
-              <img [src]="'http://localhost:3000/img/flat/' + image.img" class="rounded" alt="...">
+              <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
             </div>
           </div>
         </div>

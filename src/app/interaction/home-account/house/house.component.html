@@ -4,28 +4,26 @@
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <div class="img-wrapper" *ngIf="flatImg.length > 0">
-              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
-                class="img-fluid rounded">
+            <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
             </div>
           </div>
-          <div class="carousel-item" *ngFor="let image of flatImg.slice(1)">
+          <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
             <div class="img-wrapper">
               <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
 
       <div class="item-wrapper p-2">
         <h2>ID оселі: {{ house.flat_id }}</h2>
@@ -86,11 +84,11 @@
           <div class="item-characteristics">Поверх: {{ param.floor }}</div>
           <div class="item-characteristics">Тип балкону: {{ options[param.balcony] }}</div>
           <div class="item-characteristics">Наявність укриття: {{ options[about.bunker] }}</div>
-          <div class="item-characteristics">До метро: {{ aboutDistance[about.distance_metro] }}</div>
-          <div class="item-characteristics">До зупинок: {{ aboutDistance[about.distance_stop] }}</div>
-          <div class="item-characteristics">До маркетів: {{ aboutDistance[about.distance_shop] }}</div>
-          <div class="item-characteristics">До парків: {{ aboutDistance[about.distance_green] }}</div>
-          <div class="item-characteristics">До паркінгів: {{ aboutDistance[about.distance_parking] }}</div>
+          <div class="item-characteristics">Метро: {{ aboutDistance[about.distance_metro] }}</div>
+          <div class="item-characteristics">Зупинка: {{ aboutDistance[about.distance_stop] }}</div>
+          <div class="item-characteristics">Маркет: {{ aboutDistance[about.distance_shop] }}</div>
+          <div class="item-characteristics">Парк: {{ aboutDistance[about.distance_green] }}</div>
+          <div class="item-characteristics">Паркінг: {{ aboutDistance[about.distance_parking] }}</div>
         </div>
       </div>
 

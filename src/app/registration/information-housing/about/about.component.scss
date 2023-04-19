@@ -265,4 +265,27 @@ select {
   color: $color-white !important;
 }
 
+.form-control {
+  height: auto;
+  overflow-y: hidden; /* Сховати вертикальну прокрутку */
+}
+
+.form-control.resizable {
+  resize: vertical; /* Дозволяємо зміну висоти тільки по вертикалі */
+}
+
+textarea {
+  height: auto;
+  min-height: 200px; /* це можна змінити на бажану висоту мінімального розміру */
+}
+
+.scrollable-textarea {
+  height: auto;
+  overflow: auto;
+}
+
+
+
+
+
 

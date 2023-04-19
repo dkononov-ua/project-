@@ -21,6 +21,11 @@ import { HostComponent } from '../host/host.component';
   ]
 })
 export class AboutComponent implements OnInit {
+  form: FormGroup;
+
+  @ViewChild('textArea', { static: false })
+  textArea!: ElementRef;
+
   houseAbout = {
     distance_metro: new FormControl({ value: '', disabled: true }),
     distance_stops: new FormControl({ value: '', disabled: true }),
@@ -107,6 +112,10 @@ export class AboutComponent implements OnInit {
   aboutHouse!: FormGroup<{ distance_metro: FormControl<any>; distance_stop: FormControl<any>; distance_shop: FormControl<any>; distance_green: FormControl<any>; distance_parking: FormControl<any>; woman: FormControl<any>; man: FormControl<any>; family: FormControl<any>; students: FormControl<any>; animals: FormControl<any>; price_m: FormControl<any>; price_y: FormControl<any>; about: FormControl<any>; bunker: FormControl<any>; }>;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
+    this.form = this.fb.group({
+      about: ['']
+    });
+
     this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
       this.selectedFlatId = selectedFlatId;
       const userJson = localStorage.getItem('user');
@@ -139,6 +148,17 @@ export class AboutComponent implements OnInit {
       }
       this.initializeForm();
     });
+  }
+
+  ngAfterViewInit() {
+    this.textArea.nativeElement.style.height = 'auto';
+    this.textArea.nativeElement.style.height = this.textArea.nativeElement.scrollHeight + 'px';
+  }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   ngOnInit(): void {
