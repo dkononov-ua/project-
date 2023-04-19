@@ -6,15 +6,11 @@
         <!-- Мої оселі -->
         <div class="inputbox">
           <h4>Оберіть оселю</h4>
-          <select [(ngModel)]="selectedFlatId" formControlName="house">
+          <select [(ngModel)]="selectedFlatId" (ngModelChange)="onSelectionChange()">
             <option value="" disabled>виберіть оселю</option>
             <option *ngFor="let house of houses" [value]="house.name">{{house.name}}</option>
           </select>
         </div>
-        <button class="btn-create" type="button" type="submit" (click)="onSubmitSelectHouse(selectedFlatId)" (click)="reloadPageWithLoader()">
-          <i class="fa-regular fa-circle-check"></i>
-        </button>
-        <p>ПЕРЕЙТИ ДО ВИБРАНОЇ ОСЕЛІ</p>
 
         <nav class="navbar-house">
           <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/home-account/host-acc/house'"><span

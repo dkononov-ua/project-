@@ -3,8 +3,6 @@ import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../../services/user.service';
-import { trigger, animate, transition, style, query, group, animateChild } from '@angular/animations';
-import { RouterOutlet } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -116,6 +114,31 @@ export class HostComponent implements OnInit {
     this.onSubmitSelectHouse();
   }
 
+  onSelectionChange() {
+    this.loading = true;
+
+    const selectedFlatId = this.selectHouse.get('house')?.value;
+    console.log('Ви вибрали оселю з ID:', selectedFlatId);
+
+    localStorage.removeItem('house');
+    localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }))
+    const houseJson = localStorage.getItem('house');
+    if (houseJson) {
+      console.log(JSON.parse(houseJson))
+    }
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+        .subscribe((response: any) => { }, (error: any) => {
+          console.error(error);
+        });
+      this.selectedFlatId$.next(selectedFlatId);
+    } else {
+      console.log('user not found');
+    }
+
+    location.reload();
+  }
 
   onSubmitSelectHouse(): void {
     const selectedFlatId = this.selectHouse.get('house')?.value;

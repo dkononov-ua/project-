@@ -1,20 +1,26 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, Injectable, NgModule, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-host-acc',
   templateUrl: './host-acc.component.html',
-  styleUrls: ['./host-acc.component.scss']
+  styleUrls: ['./host-acc.component.scss'],
+  template: '{{ selectedFlatId }}'
 })
 export class HostAccComponent implements OnInit {
 
   loading = false;
 
+  formErrors: any = {
+    house: '',
+  };
+
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
       location.reload();
-    }, 2000);
+    }, 500);
   }
 
   public selectedFlatId: any | null;
@@ -52,7 +58,6 @@ export class HostAccComponent implements OnInit {
           }
         );
 
-      // додати підписку на valueChanges тут
       this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
         if (selectedFlatId) {
           console.log(localStorage.getItem('house'))
@@ -83,15 +88,17 @@ export class HostAccComponent implements OnInit {
     }
   }
 
-  onSubmitSelectHouse(selectedFlatId: any): void {
-    if (selectedFlatId) {
-      console.log('Ви вибрали оселю з ID:', selectedFlatId);
-      localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
-      // Додатковий код
-      this.selectedFlatId = selectedFlatId;
+  onSelectionChange() {
+    this.loading = true;
+
+    if (this.selectedFlatId) {
+      console.log('Ви вибрали оселю з ID:', this.selectedFlatId);
+      localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId }));
+
+      this.selectedFlatId = this.selectedFlatId;
       const userJson = localStorage.getItem('user');
       if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
           .subscribe(
             (response: any) => {
               if (response !== null) {
@@ -107,9 +114,12 @@ export class HostAccComponent implements OnInit {
       } else {
         console.log('user not found');
       }
+
     } else {
       console.log('Нічого не вибрано');
     }
+
+    location.reload();
   }
 
 }

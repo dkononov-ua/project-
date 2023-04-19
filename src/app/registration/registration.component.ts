@@ -11,7 +11,6 @@ const appRoutes: Routes = [
   { path: 'user-interaction', component: UserInteractionComponent },
   { path: 'information-user', component: InformationUserComponent },
 ];
-
 @NgModule({
   imports: [
     HttpClientModule,
@@ -24,7 +23,6 @@ const appRoutes: Routes = [
 })
 
 export class AppRoutingModule { }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,9 +34,10 @@ export class AppRoutingModule { }
 })
 export class RegistrationComponent implements OnInit {
 
-  public showPassword = false;
   passwordType = 'password';
-
+  togglePasswordVisibility() {
+    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+  }
 
   errorMessage$: Subject<string> = new Subject<string>();
 
@@ -162,12 +161,10 @@ export class RegistrationComponent implements OnInit {
   private onValueChanged() {
     const form = this.loginForm;
 
-    // Clear existing form errors
     Object.keys(this.formErrors).forEach(field => {
       this.formErrors[field] = '';
     });
 
-    // Check login form errors
     Object.keys(form.controls).forEach(field => {
       const control = form.get(field);
       if (control && control.dirty && control.invalid) {
@@ -178,7 +175,6 @@ export class RegistrationComponent implements OnInit {
       }
     });
 
-    // Check registration form errors
     Object.keys(this.registrationForm.controls).forEach(field => {
       const control = this.registrationForm.get(field);
       if (control && control.dirty && control.invalid) {

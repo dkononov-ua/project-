@@ -1,5 +1,5 @@
 <div class="container" id="container">
-
+  <!-- Реєстрація -->
   <div class="form-container register-container col-lg-6 col-md-12">
     <div class="form-group">
       <h1>Зареєструватись</h1>
@@ -20,8 +20,15 @@
 
         <!-- Пароль -->
         <div class="inputbox">
-          <input class="form-control" id="regPassword" type="password" name="regPassword" formControlName="regPassword"
-            placeholder="Пароль" required>
+          <div class="password-box">
+            <input class="form-control" id="regPassword" [type]="passwordType" name="regPassword"
+              formControlName="regPassword" placeholder="Пароль" required>
+            <button type="button" (click)="togglePasswordVisibility()" class="see">
+              <i class="icon"
+                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+            </button>
+          </div>
+
           <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
         </div>
 
@@ -36,9 +43,8 @@
       </div>
 
     </div>
-
   </div>
-
+  <!-- Вхід -->
   <div class="form-container login-container col-lg-6 col-md-12">
     <div class="form-group">
       <h1>Увійти</h1>
@@ -53,9 +59,9 @@
         <!-- Пароль -->
         <div class="inputbox">
           <div class="password-box">
-            <input class="form-control" id="password" [type]="passwordType" name="password"
-            formControlName="password" placeholder="Пароль" required>
-            <button type="button" (click)="showPassword = !showPassword" class="see">
+            <input class="form-control" id="password" [type]="passwordType" name="password" formControlName="password"
+              placeholder="Пароль" required>
+            <button type="button" (click)="togglePasswordVisibility()" class="see">
               <i class="icon"
                 [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
             </button>
@@ -63,6 +69,7 @@
 
           <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
         </div>
+
 
         <button class="ghost-black" [disabled]="!loginForm.valid" (click)="onSubmit('login')">
           Увійти
@@ -89,11 +96,8 @@
       </div>
     </div>
   </div>
-
+  <!-- Панель -->
   <div class="overlay-container">
-    <div class="form-group">
-
-    </div>
     <div class="overlay">
 
       <div class="overlay-panel overlay-left">
@@ -121,7 +125,5 @@
 
 
     </div>
-
   </div>
-
 </div>
