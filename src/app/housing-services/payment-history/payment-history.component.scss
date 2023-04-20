@@ -239,36 +239,15 @@ select {
   flex-direction: column;
 }
 
-.card-date {
-  overflow: hidden;
-}
-
-.month-list {
-  height: 600px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-}
-
-.month {
-  width: 100%;
-  border-bottom: 1px solid #ccc;
-}
-
-.watch {
-  background-color: $color-white;
-  border-radius: 0;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-right: 2px solid $color-accent;
-  height: 500px;
-  border-left: 1px solid rgb(189, 189, 189);
-}
-
 .date-box {
   display: flex;
   justify-content: space-around;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .list-form {

@@ -38,6 +38,8 @@ import { HomeAccountRoutingModule } from './interaction/home-account/home-accoun
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
 import { MatSelectModule } from '@angular/material/select';
+import { KrutilkaComponent } from './components/krutilka/krutilka.component';
+import { TestComponent } from './pages/test/test.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { MatSelectModule } from '@angular/material/select';
     ModalComponent,
     UserLicenceComponent,
     ComunPageComponent,
+    KrutilkaComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -40,34 +40,6 @@ export class PaymentHistoryComponent implements OnInit {
   selectedMonth: string | undefined;
   selectedYear: number | undefined;
 
-  // months: string[] = [];
-
-  // generateMonthList(): void {
-  //   const currentDate = new Date();
-  //   let prevYear = '';
-
-  //   for (let i = 0; i < 60; i++) {
-  //     const year = currentDate.getFullYear() - Math.floor(i / 12);
-  //     const month = (currentDate.getMonth() - (i % 12) + 12) % 12;
-  //     const monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
-
-  //     this.months.push(monthName);
-
-  //     if (month === 0) {
-  //       this.months.push(year.toString());
-  //       prevYear = year.toString();
-  //     }
-  //   }
-  // }
-
-  onMouseWheel(event: WheelEvent): void {
-    const monthList = document.querySelector('.month-list');
-    if (monthList) {
-      monthList.scrollTop += event.deltaY;
-      event.preventDefault();
-    }
-  }
-
   formErrors: any = {
     flat_id: '',
   };
@@ -78,7 +50,7 @@ export class PaymentHistoryComponent implements OnInit {
     },
   };
 
-  ComunStatistics!: FormGroup;
+  comunStatistics!: FormGroup;
   errorMessage$ = new Subject<string>();
   isDisabled?: boolean;
   formDisabled?: boolean;
@@ -86,7 +58,6 @@ export class PaymentHistoryComponent implements OnInit {
   selectedFlatId: any;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
-    // this.generateMonthList();
     // this.hostComunComponent.selectedFlatId$.subscribe((selectedFlatId: any) => {
     //   this.selectedFlatId = selectedFlatId;
     //   const userJson = localStorage.getItem('user');
@@ -124,10 +95,10 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   onSubmitSaveComunStatistics(): void {
-    console.log(this.ComunStatistics.value)
+    console.log(this.comunStatistics.value)
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.ComunStatistics.value, flat_id: this.selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.comunStatistics.value, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -139,7 +110,7 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   saveComunStatistics(): void {
-    this.ComunStatistics.disable();
+    this.comunStatistics.disable();
     this.isDisabled = true;
     this.formDisabled = true;
     this.isDisabled = false;
@@ -147,11 +118,11 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   resetComunStatistics() {
-    this.ComunStatistics.reset();
+    this.comunStatistics.reset();
   }
 
   private initializeForm(): void {
-    this.ComunStatistics = this.fb.group({
+    this.comunStatistics = this.fb.group({
       flat_id: [null, [
         Validators.required,
         Validators.minLength(4),

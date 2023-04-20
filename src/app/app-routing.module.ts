@@ -14,6 +14,7 @@ import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
+import { TestComponent } from './pages/test/test.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
+  { path: 'test', component: TestComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

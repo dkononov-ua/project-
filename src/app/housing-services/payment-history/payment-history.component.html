@@ -1,43 +1,25 @@
 <app-navbar-comun></app-navbar-comun>
 
-<div class="date-box">
-
-  <div class="list p-2" (wheel)="onMouseWheel($event)">
-    <mat-form-field class="list-form" appearance="outline">
-      <mat-label class="list-label">Рік</mat-label>
-      <mat-select class="list-select" [(ngModel)]="selectedYear">
-        <mat-option class="list-option" *ngFor="let year of years" [value]="year">
-          {{ year }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="list p-2" (wheel)="onMouseWheel($event)">
-    <mat-form-field class="list-form" appearance="outline">
-      <mat-label class="list-label">Місяць</mat-label>
-      <mat-select class="list-select" [(ngModel)]="selectedMonth">
-        <mat-option class="list-option" *ngFor="let month of months" [value]="month">
-          {{ month }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  
-</div>
-
-
-
-
 <div class="card-box">
   <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
 
     <div class="card m-2 p-2">
       <div class="card-name">
         <h4>Статистика</h4>
-        <h4>за весь рік</h4>
       </div>
 
       <form class="form-box">
+        <div class="list p-2">
+          <mat-form-field class="list-form" appearance="outline">
+            <mat-label class="list-label">Рік</mat-label>
+            <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear" required>
+              <mat-option class="list-option" *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <div class="inputbox">
           <input required="required" type="number" id="totalPaid" name="totalPaid" formControlName="totalPaid">
           <span>Оплачено загалом/рік:</span>
@@ -81,10 +63,20 @@
     <div class="card m-2 p-2">
       <div class="card-name">
         <h4>Статистика</h4>
-        <h4>за обраний період</h4>
       </div>
 
-      <form class="form-box" [formGroup]="ComunStatistics">
+      <form class="form-box" [formGroup]="comunStatistics">
+        <div class="list p-2">
+          <mat-form-field class="list-form" appearance="outline">
+            <mat-label class="list-label">Місяць</mat-label>
+            <mat-select class="list-select" name="selectedMonth" [(ngModel)]="selectedMonth" required>
+              <mat-option class="list-option" *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <div class="inputbox">
           <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
           <span>Спожито:</span>
@@ -127,23 +119,4 @@
 
     </div>
   </div>
-
-  <!-- <div [@cardAnimation] class="container-card col-lg-2 col-md-2 col-sm-4 col-4">
-    <div class="box-watch m-2 p-2">
-      <div class="link-box p-2">
-        <div class="card-date">
-          <div class="month-list" (wheel)="onMouseWheel($event)">
-            <div class="month" *ngFor="let month of months">
-              <a href="" class="link-item">{{ month }}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="watch p-1">
-        <div class="card-date">
-        </div>
-      </div>
-    </div>
-  </div> -->
-
 </div>
