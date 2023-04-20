@@ -15,6 +15,7 @@ import { PaymentHistoryComponent } from './payment-history/payment-history.compo
 import { ServiceProfileComponent } from './service-profile/service-profile.component';
 import { EngCabinetComponent } from './eng-cabinet/eng-cabinet.component';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ComunCompanyComponent } from './comun-company/comun-company.component';
     ReactiveFormsModule,
     SharedModule,
     RouterModule,
+    MatSelectModule,
   ]
 })
 export class HousingServicesModule { }

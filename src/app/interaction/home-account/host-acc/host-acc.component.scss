@@ -127,8 +127,8 @@ a {
   color: rgba(18, 17, 17, 0.8078431373);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: stretch;
 }
 
 .inputbox {
@@ -498,8 +498,3 @@ a {
     transform: rotate(360deg);
   }
 }
-
-
-
-
-

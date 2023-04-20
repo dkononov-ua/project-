@@ -121,5 +121,4 @@ export class HostAccComponent implements OnInit {
 
     location.reload();
   }
-
 }

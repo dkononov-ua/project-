@@ -37,6 +37,7 @@ import { HomeAccountComponent } from './interaction/home-account/home-account.co
 import { HomeAccountRoutingModule } from './interaction/home-account/home-account-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { SharedModule } from './shared/shared.module';
     HomeAccountModule,
     HomeAccountRoutingModule,
     NgxSpinnerModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

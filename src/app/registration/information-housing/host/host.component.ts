@@ -3,6 +3,8 @@ import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../../services/user.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../../delete-dialog/delete-dialog.component';
 
 @NgModule({
   imports: [
@@ -79,7 +81,35 @@ export class HostComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
+    private dialog: MatDialog,
   ) {
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const selectedFlatId = this.selectHouse.get('house')?.value;
+        const houseJson = localStorage.getItem('house');
+        if (houseJson) {
+          console.log(JSON.parse(houseJson))
+        }
+
+        const userJson = localStorage.getItem('user');
+        if (userJson) {
+          this.http.post('http://localhost:3000/flatinfo/deleteflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+            .subscribe((response: any) => {
+              console.log(response);
+            }, (error: any) => {
+              console.error(error);
+            });
+        } else {
+          console.log('house not found');
+        }
+        location.reload();
+          }
+    });
   }
 
   ngOnInit(): void {
@@ -94,14 +124,14 @@ export class HostComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
-      .subscribe((response: any | undefined) => {
-        this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
-          id: index + 1,
-          name: item.flat_id
-        }));
-      }, (error: any) => {
-        console.error(error);
-      });
+        .subscribe((response: any | undefined) => {
+          this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
+            id: index + 1,
+            name: item.flat_id
+          }));
+        }, (error: any) => {
+          console.error(error);
+        });
     } else {
       console.log('house not found');
     }
@@ -174,6 +204,7 @@ export class HostComponent implements OnInit {
     } else {
       console.log('house not found');
     }
+    location.reload();
   }
 
   onSubmitDeleteHouse(): void {
@@ -194,6 +225,7 @@ export class HostComponent implements OnInit {
     } else {
       console.log('house not found');
     }
+    location.reload();
   }
 
   initializeForm(): void {

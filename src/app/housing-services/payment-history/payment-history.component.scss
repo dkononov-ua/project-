@@ -266,3 +266,35 @@ select {
   border-left: 1px solid rgb(189, 189, 189);
 }
 
+.date-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.list-form {
+  border: none;
+  height: 4rem;
+  background-color: none;
+}
+.list-label {
+  border: none;
+  padding: 0;
+}
+.list-select {
+  border: none;
+  font-size: 25px;
+}
+.list-option {
+  border: none;
+  border-radius: 10px;
+}
+
+.mat-form-field-outline {
+  border-color: red !important;
+}
+
+.mat-form-field-outline.mat-form-field-disabled {
+  border-color: rgb(176, 9, 9) !important;
+}
+
+

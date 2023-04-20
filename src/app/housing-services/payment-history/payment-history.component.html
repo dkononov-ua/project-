@@ -1,8 +1,36 @@
 <app-navbar-comun></app-navbar-comun>
 
-<div class="card-box">
+<div class="date-box">
 
-  <div [@cardAnimation] class="container-card col-lg-5 col-md-5 col-sm-12 col-12">
+  <div class="list p-2" (wheel)="onMouseWheel($event)">
+    <mat-form-field class="list-form" appearance="outline">
+      <mat-label class="list-label">Рік</mat-label>
+      <mat-select class="list-select" [(ngModel)]="selectedYear">
+        <mat-option class="list-option" *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="list p-2" (wheel)="onMouseWheel($event)">
+    <mat-form-field class="list-form" appearance="outline">
+      <mat-label class="list-label">Місяць</mat-label>
+      <mat-select class="list-select" [(ngModel)]="selectedMonth">
+        <mat-option class="list-option" *ngFor="let month of months" [value]="month">
+          {{ month }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+</div>
+
+
+
+
+<div class="card-box">
+  <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
+
     <div class="card m-2 p-2">
       <div class="card-name">
         <h4>Статистика</h4>
@@ -11,32 +39,37 @@
 
       <form class="form-box">
         <div class="inputbox">
-          <input type="text" name="ACCOUNT-FOR" required>
-          <span>Спожито загалом/рік:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="totalPaid" name="totalPaid" formControlName="totalPaid">
           <span>Оплачено загалом/рік:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="text" name="ACCOUNT-FOR" required>
+          <input required="required" type="number" id="monthAveragePaid" name="monthAveragePaid"
+            formControlName="monthAveragePaid">
           <span>δ/міс оплата:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
-          <span>δ/міс спожито:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="monthPredictedPaid" name="monthPredictedPaid"
+            formControlName="monthPredictedPaid">
           <span>δ/міс оплата прогнозоване:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="totalConsumption" name="totalConsumption"
+            formControlName="totalConsumption">
+          <span>Спожито загалом/рік:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="number" id="monthAverageConsumption" name="monthAverageConsumption"
+            formControlName="monthAverageConsumption">
+          <span>δ/міс спожито:</span>
+          <i class="orange"></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="number" id="monthPredictedConsumption" name="monthPredictedConsumption"
+            formControlName="monthPredictedConsumption">
           <span>δ/міс спож. прогнозоване:</span>
           <i class="orange"></i>
         </div>
@@ -44,56 +77,58 @@
     </div>
   </div>
 
-  <div [@cardAnimation] class="container-card col-lg-5 col-md-5 col-sm-12 col-12">
+  <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="card m-2 p-2">
       <div class="card-name">
         <h4>Статистика</h4>
         <h4>за обраний період</h4>
       </div>
 
-      <form class="form-box">
+      <form class="form-box" [formGroup]="ComunStatistics">
         <div class="inputbox">
-          <input type="text" name="ACCOUNT-FOR" required>
+          <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
           <span>Спожито:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="paid" name="paid" formControlName="paid">
           <span>Оплачено:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="text" name="ACCOUNT-FOR" required>
+          <input required="required" type="number" id="comunal_counter_before" name="comunal_counter_before"
+            formControlName="comunal_counter_before">
           <span>Попередні показники:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="comunal_counter_now" name="comunal_counter_now"
+            formControlName="comunal_counter_now">
           <span>Поточні показники:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="tariff" name="tariff" formControlName="tariff">
           <span>Тариф:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input type="number" name="PERSONAL-ACCOUNT" required>
+          <input required="required" type="number" id="calculation" name="calculation" formControlName="calculation">
           <span>Розрахунок:</span>
           <i class="orange"></i>
         </div>
       </form>
 
-      <!-- Кнопки -->
       <div class="btn-group">
-        <button class="btn mt-3"><span class="btn-text">ЗБЕРЕГТИ</span></button>
-        <button type="reset" class="btn mt-3 ml-3"><span class="btn-text">СКИНУТИ</span></button>
+        <button class="btn btn-primary mt-3" (click)="saveComunStatistics()"
+          (click)="onSubmitSaveComunStatistics()">ЗБЕРЕГТИ</button>
+        <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunStatistics()">СКИНУТИ</button>
       </div>
 
     </div>
   </div>
 
-  <div [@cardAnimation] class="container-card col-lg-2 col-md-2 col-sm-4 col-4">
+  <!-- <div [@cardAnimation] class="container-card col-lg-2 col-md-2 col-sm-4 col-4">
     <div class="box-watch m-2 p-2">
       <div class="link-box p-2">
         <div class="card-date">
@@ -109,6 +144,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </div>

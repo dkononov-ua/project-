@@ -13,6 +13,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -22,6 +27,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PhotoComponent,
     HostComponent,
     HousingParametersComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +40,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HttpClientModule,
     ReactiveFormsModule,
     SharedModule,
+    MatIconModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ]
 })
 export class HousingParametersModule { }

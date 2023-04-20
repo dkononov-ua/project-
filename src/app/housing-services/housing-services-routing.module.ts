@@ -17,6 +17,7 @@ const routes: Routes = [
       {
         path: 'host-comun',
         component: HostComunComponent, canActivate: [CanActivateGuard],
+
         children: [
           { path: '', redirectTo: 'comun-company', pathMatch: 'full' },
           { path: 'payment-history', component: PaymentHistoryComponent, data: { animation: 'payment-history' }, canActivate: [CanActivateGuard] },

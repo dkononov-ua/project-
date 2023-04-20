@@ -16,7 +16,8 @@
         <form [formGroup]="selectHouse">
           <div class="inputbox">
             <h4>Оберіть оселю</h4>
-            <select (ngModelChange)="onSelectionChange()" class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="house">
+            <select (ngModelChange)="onSelectionChange()" class="form-select form-select-sm"
+              aria-label=".form-select-sm example" formControlName="house">
               <option selected disabled>Вибір оселі за ID</option>
               <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option>
             </select>
@@ -39,9 +40,11 @@
             </a>
           </nav>
 
-          <button class="btn-create btn-deleted" (click)="onSubmitDeleteHouse()"><i
-              class="fa-solid fa-circle-minus"></i></button>
+          <button class="btn-create btn-deleted" mat-icon-button color="warn" (click)="openDialog()"><i
+              class="fa-solid fa-circle-minus"></i>
+          </button>
           <p>ВИДАЛИТИ ОСЕЛЮ</p>
+
 
           <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
               class="fa-solid fa-circle-plus"></i></button>

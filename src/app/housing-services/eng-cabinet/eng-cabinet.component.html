@@ -4,50 +4,49 @@
       <h4>Інформація вашої оселі</h4>
     </div>
 
-    <form class="form-box">
-      <!-- ПІБ -->
+    <form class="form-box" [formGroup]="comunCabinet">
+
       <div class="inputbox">
-        <input type="text" name="ACCOUNT-FOR" required>
-        <span>ПІБ:</span>
+        <input required="required" type="text" id="accountFor" name="accountFor" formControlName="accountFor">
+        <span>ПІБ: {{ user.firstName }} {{ user.surName }} {{ user.lastName }}</span>
         <i class="orange"></i>
-        <!-- <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div> -->
+        <div *ngIf="formErrors.accountFor" class="alert alert-danger">{{formErrors.accountFor}}</div>
       </div>
-      <!-- ОСОБИСТИЙ РАХУНОК -->
+
       <div class="inputbox">
-        <input type="number" name="PERSONAL-ACCOUNT" required>
+        <input required="required" type="number" id="personalAccount" name="personalAccount" formControlName="personalAccount">
         <span>Особистий рахунок:</span>
         <i class="orange"></i>
-        <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
+        <div *ngIf="formErrors.personalAccount" class="alert alert-danger">{{formErrors.personalAccount}}</div>
       </div>
-      <!-- ПОКАЗНИКИ ЗА -->
+
       <div class="inputbox">
-        <input type="text" name="ACCOUNT-FOR" required>
+        <input required="required" type="text" id="indicatorMonth" name="indicatorMonth" formControlName="indicatorMonth">
         <span>Показники за:</span>
         <i class="orange"></i>
-        <!-- <div *ngIf="formErrors.telegram" class="alert alert-danger">{{formErrors}}</div> -->
+        <div *ngIf="formErrors.indicatorMonth" class="alert alert-danger">{{formErrors.indicatorMonth}}</div>
       </div>
 
-
-      <!-- Показники попередні -->
       <div class="inputbox">
-        <input type="number" name="PERSONAL-ACCOUNT" required>
+        <input required="required" type="number" id="comunal_counter_before" name="comunal_counter_before" formControlName="comunal_counter_before">
         <span>Показники попередні:</span>
         <i class="orange"></i>
-        <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
+        <div *ngIf="formErrors.comunal_counter_before" class="alert alert-danger">{{formErrors.comunal_counter_before}}</div>
       </div>
 
-      <!-- Показники поточні -->
       <div class="inputbox">
-        <input type="number" name="PERSONAL-ACCOUNT" required>
+        <input required="required" type="number" id="comunal_counter_now" name="comunal_counter_now" formControlName="comunal_counter_now">
         <span>Показники поточні:</span>
         <i class="orange"></i>
-        <!-- <div *ngIf="formErrors.facebook" class="alert alert-danger">{{formErrors}}</div> -->
+        <div *ngIf="formErrors.comunal_counter_now" class="alert alert-danger">{{formErrors.comunal_counter_now}}</div>
       </div>
 
     </form>
-    <!-- Кнопки -->
+
     <div class="btn-group">
-      <button class="btn mt-3"><span class="btn-text">ВІДПРАВИТИ</span></button>
+      <button class="btn btn-primary mt-3" (click)="saveComunCabinet()"
+        (click)="onSubmitSaveComunCabinet()">ЗБЕРЕГТИ</button>
+      <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunCabinet()">СКИНУТИ</button>
     </div>
 
   </div>

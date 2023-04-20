@@ -5,90 +5,53 @@
       <h4>Реквізити компанії:</h4>
     </div>
 
-    <form class="form-box">
+    <form class="form-box" [formGroup]="comunDetails">
       <div class="inputbox">
-        <input type="number" name="IBAN" required>
+        <input required="required" type="number" id="comunal_name" name="comunal_name" formControlName="comunal_name">
         <span>Назва компанії:</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.comunal_name" class="alert alert-danger">{{formErrors.comunal_name}}</div>
       </div>
       <div class="inputbox">
-        <input type="number" name="IBAN" required>
+        <input required="required" type="number" id="comunal_address" name="comunal_address"
+          formControlName="comunal_address">
         <span>Адреса компанії:</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.comunal_address" class="alert alert-danger">{{formErrors.comunal_address}}</div>
       </div>
       <div class="inputbox">
-        <input type="number" name="IBAN" required>
+        <input required="required" type="number" id="comunal_site" name="comunal_site" formControlName="comunal_site">
         <span>Сайт компанії:</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.comunal_site" class="alert alert-danger">{{formErrors.comunal_site}}</div>
       </div>
       <div class="inputbox">
-        <input type="number" name="IBAN" required>
+        <input required="required" type="number" id="comunal_phone" name="comunal_phone"
+          formControlName="comunal_phone">
         <span>Телефон компанії:</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.comunal_phone" class="alert alert-danger">{{formErrors.comunal_phone}}</div>
       </div>
       <div class="inputbox">
-        <input type="number" name="IBAN" required>
+        <input required="required" type="number" id="IBAN" name="IBAN" formControlName="IBAN">
         <span>IBAN:</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.IBAN" class="alert alert-danger">{{formErrors.IBAN}}</div>
       </div>
       <div class="inputbox">
-        <input type="number" name="ЄДРПОУ" required>
+        <input required="required" type="number" id="EDRPO" name="EDRPO" formControlName="EDRPO">
         <span>ЄДРПОУ:</span>
         <i class="orange"></i>
+        <div *ngIf="formErrors.EDRPO" class="alert alert-danger">{{formErrors.EDRPO}}</div>
       </div>
     </form>
 
     <!-- Кнопки -->
     <div class="btn-group">
-      <button class="btn mt-3"><span class="btn-text">ЗБЕРЕГТИ</span></button>
-      <button type="reset" class="btn mt-3 ml-3"><span class="btn-text">СКИНУТИ</span></button>
+      <button class="btn btn-primary mt-3" (click)="saveComunDetails()"
+        (click)="onSubmitSaveComunDetails()">ЗБЕРЕГТИ</button>
+      <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunDetails()">СКИНУТИ</button>
     </div>
 
   </div>
 </div>
-
-
-<!-- <div class="container-fluid">
-  <div class="container-fluid col-lg-6 col-md-6 col-sm-6 col-12">
-    <div class="card m-2">
-      <div class="card-body">
-        <div class="characteristics">
-          <h4>Реквізити компанії:</h4>
-          <div class="characteristics-group">
-            <div class="item-characteristics">Назва компанії: ТОВ "КИЇВСЬКА ОБЛАСНА ЕК</div>
-            <div class="item-characteristics">Сайт: www.koec.com.ua</div>
-            <div class="item-characteristics">IBAN: UA183226690000026035314586158</div>
-            <div class="item-characteristics">ЄДРПОУ: 42094646</div>
-            <div class="item-characteristics">РАХУНОК ЗА: Період за який оплата</div>
-            <div class="item-characteristics">ОСОБИСТИЙ РАХУНОК: 000400388113</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container-fluid col-lg-6 col-md-6 col-sm-6 col-12">
-    <div class="card m-2">
-      <div class="card-body">
-        <div class="characteristics">
-          <h4>Реквізити компанії:</h4>
-          <div class="characteristics-group">
-            <div class="item-characteristics">Назва компанії: ТОВ "КИЇВСЬКА ОБЛАСНА ЕК</div>
-            <div class="item-characteristics">Сайт: www.koec.com.ua</div>
-            <div class="item-characteristics">IBAN: UA183226690000026035314586158</div>
-            <div class="item-characteristics">ЄДРПОУ: 42094646</div>
-            <div class="item-characteristics">РАХУНОК ЗА: Період за який оплата</div>
-            <div class="item-characteristics">ОСОБИСТИЙ РАХУНОК: 000400388113</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container-fluid col-lg-6 col-md-6 col-sm-6 col-12">
-    <div class="card m-2">
-      <div class="card-body">
-        <h3 class="card-title">Електроенергія</h3>
-        <h4 class="card-title">Вибір постачальника</h4>
-      </div>
-    </div>
-  </div>
-</div> -->

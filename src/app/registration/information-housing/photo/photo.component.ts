@@ -88,6 +88,8 @@ export class PhotoComponent implements OnInit {
   // }
 
   onUpload(): void {
+    this.loading = true;
+
     const userJson = localStorage.getItem('user');
     const formData: FormData = new FormData();
 
@@ -107,5 +109,7 @@ export class PhotoComponent implements OnInit {
         console.log(error);
       }
     );
+    location.reload();
+
   }
 }
