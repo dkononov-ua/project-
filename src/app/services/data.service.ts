@@ -13,6 +13,8 @@ export class DataService {
     const houseJson = localStorage.getItem('house');
     const userJson = localStorage.getItem('user');
 
+    // comunal/get/button
+
     let request: Observable<any>;
 
     if (userJson !== null) {

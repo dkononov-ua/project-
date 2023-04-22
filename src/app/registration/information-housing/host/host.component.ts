@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DeleteDialogComponent } from '../../delete-dialog/delete-dialog.component';
+import { DeleteDialogComponent } from '../../../components/delete-dialog/delete-dialog.component';
 
 @NgModule({
   imports: [
@@ -108,7 +108,7 @@ export class HostComponent implements OnInit {
           console.log('house not found');
         }
         location.reload();
-          }
+      }
     });
   }
 

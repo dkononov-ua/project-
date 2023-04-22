@@ -1,6 +1,9 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DeleteDialogComponent } from '../../components/delete-dialog/delete-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-host-comun',
@@ -8,19 +11,20 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
   styleUrls: ['./host-comun.component.scss'],
   template: '{{ selectedFlatId }}'
 })
-export class HostComunComponent {
+export class HostComunComponent implements OnInit {
 
-  showInput = false;
-  loading = false;
-  selectedFlatId$: any;
-  comunCreate: any;
+  public selectedComunal: any | null;
   public selectedFlatId: any | null;
-  houses: { id: number, name: string }[] = [];
-  addressHouse: FormGroup<{ flat_id: FormControl<any>; }> | undefined;
+  public comunal_name: any;
 
-  formErrors: any = {
-    house: '',
-  };
+  houses: { id: number, name: string }[] = [];
+  addressHouse: FormGroup | undefined;
+
+  selectHouse = new FormGroup({
+    house: new FormControl('виберіть оселю')
+  });
+
+  loading = false;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -29,105 +33,188 @@ export class HostComunComponent {
     }, 500);
   }
 
-  selectHouse = new FormGroup({
-    house: new FormControl('виберіть оселю')
-  });
+  comunCreate!: FormGroup;
+  showInput = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private dialog: MatDialog,) { }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const selectedFlatId = this.selectHouse.get('house')?.value;
+        const houseJson = localStorage.getItem('house');
+        if (houseJson) {
+          console.log(JSON.parse(houseJson))
+        }
+
+        const userJson = localStorage.getItem('user');
+        if (userJson) {
+          this.http.post('http://localhost:3000/flatinfo/deleteflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+            .subscribe((response: any) => {
+              console.log(response);
+            }, (error: any) => {
+              console.error(error);
+            });
+        } else {
+          console.log('house not found');
+        }
+        location.reload();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    const houseJson = localStorage.getItem('house');
-    if (houseJson) {
-      this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
-    }
-
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe(
-          (response: any | undefined) => {
-            this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
-              id: index + 1,
-              name: item.flat_id
-            }));
-            const houseJson = localStorage.getItem('house');
-            if (houseJson) {
-              this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
-            }
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
+      const houseJson = localStorage.getItem('house');
+      if (houseJson) {
+        this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
+      }
 
+      this.getHouseInfo(userJson);
       this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
         if (selectedFlatId) {
-          console.log(localStorage.getItem('house'))
           console.log('Ви вибрали оселю з ID:', selectedFlatId);
           localStorage.removeItem('house');
           localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
+          this.getFlatInfo(userJson, selectedFlatId);
+          this.getComunalInfo(userJson, selectedFlatId, this.comunal_name);
+          console.log(this.comunal_name)
 
-          this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
-            .subscribe(
-              (response: any) => {
-                if (response !== null) {
-                  this.addressHouse = this.fb.group({
-                    flat_id: [response.flat.flat_id],
-                  });
-                }
-              },
-              (error: any) => {
-                console.error(error);
-              }
-            );
-          this.selectedFlatId = selectedFlatId;
+          // Зберегти вибір користувача
+          localStorage.setItem('selectedComunal', selectedFlatId);
         } else {
           console.log('Нічого не вибрано');
         }
       });
+
+      const selectedComunal: string | null = localStorage.getItem('comunal_name');
+      if (selectedComunal) {
+        this.selectedComunal = JSON.parse(selectedComunal).comunal
+        this.getComunalInfo(userJson, selectedComunal, this.comunal_name);
+      }
+
     } else {
       console.log('user not found');
     }
+  }
+
+  getHouseInfo(userJson: string): void {
+    this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+      .subscribe(
+        (response: any) => {
+          this.houses = response.ids.map((item: { flat_id: any }, index: number) => ({
+            id: index + 1,
+            name: item.flat_id
+          }));
+          const houseJson = localStorage.getItem('house');
+          if (houseJson) {
+            this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
+          }
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
   }
 
   onSelectionChange() {
     this.loading = true;
 
     if (this.selectedFlatId) {
+
       console.log('Ви вибрали оселю з ID:', this.selectedFlatId);
       localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId }));
+      this.onSelectionChangeFlatInfo(this.selectedFlatId);
+      this.onSelectionChangeComunalInfo(this.selectedComunal);
 
-      this.selectedFlatId = this.selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe(
-            (response: any) => {
-              if (response !== null) {
-                this.addressHouse = this.fb.group({
-                  flat_id: [response.flat.flat_id],
-                });
-              }
-            },
-            (error: any) => {
-              console.error(error);
-            }
-          );
-      } else {
-        console.log('user not found');
-      }
-
+      location.reload();
     } else {
       console.log('Нічого не вибрано');
     }
+  }
 
-    location.reload();
+  getFlatInfo(userJson: string, selectedFlatId: string): void {
+    this.selectedFlatId = selectedFlatId;
+    this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+      .subscribe(
+        (response: any) => {
+          if (response !== null) {
+            this.addressHouse = this.fb.group({
+              flat_id: [response.flat.flat_id],
+            });
+          }
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+  }
+
+  getComunalInfo(userJson: string, selectedFlatId: string, comunal_name: any): void {
+    this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.comunal_name = response.comunal;
+
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+  }
+
+  onSelectionChangeComunalInfo(comunalName: string) {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      localStorage.removeItem('comunal_name')
+      console.log('Ви вибрали послуги:', comunalName);
+      localStorage.setItem('comunal_name', JSON.stringify({ comunal: comunalName }));
+
+      this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: comunalName })
+        .subscribe(
+          (response: any) => {
+            if (response !== null) {
+              this.selectedComunal.setValue(response.comunal);
+            }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  onSelectionChangeFlatInfo(selectedFlatId: string) {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+        .subscribe(
+          (response: any) => {
+            if (response !== null) {
+              this.addressHouse = this.fb.group({
+                flat_id: [response.flat.flat_id],
+              });
+            }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user not found');
+    }
   }
 
   onSubmitComunCreate(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.comunCreate.value })
+      this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.comunCreate?.value.comunal_name })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -138,7 +225,8 @@ export class HostComunComponent {
     }
   }
 
-  onSubmitDeleteComun(): void {
+
+  onSubmitDeleteHouse(): void {
     const selectedFlatId = this.selectHouse.get('house')?.value;
     const houseJson = localStorage.getItem('house');
     if (houseJson) {
@@ -147,7 +235,7 @@ export class HostComunComponent {
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/deleteflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -156,6 +244,6 @@ export class HostComunComponent {
     } else {
       console.log('house not found');
     }
+    location.reload();
   }
-
 }

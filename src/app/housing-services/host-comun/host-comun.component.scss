@@ -132,7 +132,7 @@ a {
 
 .btn-group {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -141,67 +141,6 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.inputbox {
-  position: relative;
-  display: flex;
-  margin: 1em 5px 1em 5px;
-  border-radius: 10px;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.inputbox input {
-  position: relative;
-  width: 100%;
-  padding: 5px 5px 5px 5px;
-  margin: 0.2em 0.2em 0.2em 0.2em;
-  background: transparent;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  color: white;
-  font-size: 1em;
-  letter-spacing: 0.05em;
-  transition: 0.5s;
-  z-index: 10;
-}
-
-.inputbox span {
-  position: absolute;
-  right: 0;
-  padding: 10px 10px 10px;
-  font-size: 1em;
-  color: #8f8f8f87;
-  letter-spacing: 00.05em;
-  transition: 0.6s;
-  pointer-events: none;
-}
-
-.inputbox input:valid ~ span,
-.inputbox input:focus ~ span {
-  color: white;
-  transform: translateX(-10px) translateY(-2.2rem);
-  font-size: 0, 75em;
-}
-
-.inputbox .orange {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 6px;
-  background: $color-accent;
-  border-radius: 4px;
-  transition: 0.5s;
-  pointer-events: none;
-  z-index: 9;
-}
-
-.inputbox input:valid ~ .orange,
-.inputbox input:focus ~ .orange {
-  height: 2.5rem;
 }
 
 .alert-danger {
@@ -460,6 +399,12 @@ a {
   }
 }
 
+.inputbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .input-cast {
   font-size: 16px;
   color: $color-accent;
@@ -470,6 +415,10 @@ a {
   &:focus-visible {
     border: 2px groove $color-accent;
   }
+}
+
+input {
+  background-color: red;
 }
 
 
@@ -510,5 +459,17 @@ a {
     opacity: 0.5;
     transform: rotate(360deg);
   }
+}
+
+.btn-link{
+  width: 100%;
+  margin: 10px;
+  background-color: none;
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 20px;
+  color: $color-text;
 }
 

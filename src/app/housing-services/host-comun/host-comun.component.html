@@ -5,15 +5,24 @@
       <div class="card-menu m-2">
         <!-- Мої оселі -->
         <div class="inputbox">
-          <h4>Оберіть оселю</h4>
-          <select [(ngModel)]="selectedFlatId" (ngModelChange)="onSelectionChange()">
+          <h4>Оселя</h4>
+          <select class="m-2" [(ngModel)]="selectedFlatId" (ngModelChange)="onSelectionChange()">
             <option value="" disabled>виберіть оселю</option>
             <option *ngFor="let house of houses" [value]="house.name">{{house.name}}</option>
           </select>
         </div>
 
+        <div class="inputbox">
+          <h4>Послуга</h4>
+          <select class="m-2" [(ngModel)]="selectedComunal" (ngModelChange)="onSelectionChange()">
+            <option value="" disabled>виберіть послугу</option>
+            <option *ngFor="let name of comunal_name" [value]="name.comunal_name">{{name.comunal_name}}</option>
+          </select>
+        </div>
+
         <div class="menu">
           <nav class="navbar-house">
+            <button class="btn-link link-menu" *ngFor="let template of comunal_name">{{template!.comunal_name}}</button>
             <a class="link-menu" [routerLinkActive]="'active'"
               [routerLink]="'/housing-services/host-comun/comun-company'"><span class="link-text">Головна </span><i
                 class="fa-regular fa-lightbulb"></i>
@@ -41,32 +50,30 @@
           <div>
             <div class="inputbox" *ngIf="showInput">
               <div class="btn-group">
+                <form class="form-box" [formGroup]!="comunCreate">
+                  <input class="input-cast m-2" type="text" id="comunal_name" placeholder="Назва шаблону"
+                    name="comunal_name" formControlName="comunal_name" required>
+                </form>
+
                 <button class="btn-create" (click)="onSubmitComunCreate()"><i class="fa-solid fa-circle-check"></i>
                 </button>
                 <button class="btn-create btn-deleted" (click)="showInput = false"><i
                     class="fa-solid fa-circle-xmark"></i>
                 </button>
               </div>
-
-              <input class="input-cast" type="text" id="flat_id" placeholder="Створіть свій шаблон" name="flat_id"
-                formControlName="flat_id" required>
-              <i class="orange"></i>
-              <div *ngIf="formErrors.flat_id" class="alert alert-danger">{{formErrors.flat_id}}</div>
-
             </div>
           </div>
-
 
           <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
               class="fa-solid fa-circle-plus"></i>
           </button>
           <p>СТВОРИТИ ШАБЛОН</p>
 
-          <button class="btn-create btn-deleted" (click)="onSubmitDeleteComun()"><i
+          <button class="btn-create btn-deleted" mat-icon-button color="warn" (click)="openDialog()"><i
               class="fa-solid fa-circle-minus"></i></button>
           <p>ВИДАЛИТИ ШАБЛОН</p>
-        </div>
 
+        </div>
 
       </div>
     </div>
@@ -81,3 +88,4 @@
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>
 </div>
+

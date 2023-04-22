@@ -83,7 +83,7 @@ export class UserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
-      if ( houseJson !== null) {
+      if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
 
           this.user.firstName = response.userData.inf.firstName;
@@ -140,8 +140,9 @@ export class UserComponent implements OnInit {
 
         this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
           .subscribe((response: any) => {
+            if (response.img && response.img.length > 0) {
             this.userImg = response.img[0].img;
-          });
+          }});
       }
     }
   }
