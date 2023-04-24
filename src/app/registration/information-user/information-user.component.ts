@@ -11,6 +11,15 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./information-user.component.scss']
 })
 export class InformationUserComponent implements OnInit {
+  loading = false;
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  }
+
 
   userForm!: FormGroup;
   userFormContacts!: FormGroup;
@@ -19,14 +28,15 @@ export class InformationUserComponent implements OnInit {
   selectedFlatId: any;
   userImg: any;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {
-  }
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {  }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
 
   onUpload(): void {
+    this.loading = true;
+
     const userJson = localStorage.getItem('user');
 
     const formData: FormData = new FormData();
@@ -38,6 +48,8 @@ export class InformationUserComponent implements OnInit {
       data => console.log(data),
       error => console.log(error)
     );
+
+    location.reload();
   }
 
   showPassword = false;

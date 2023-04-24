@@ -17,12 +17,9 @@
       <!-- Аккаунт користувача -->
       <div class="card m-2">
         <div class="img-fluid">
-          <!-- <div *ngFor="let img of userImg"> -->
-            <img [src]="'http://localhost:3000/img/users/' + userImg">
-          <!-- </div> -->
-          <!-- <img [src]="{{ userForm.value.img }}"> -->
-          <!-- <img src="../../../assets/photo3.JPG" class="rounded" alt="..."> -->
+          <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')">
         </div>
+
 
         <div class="card-name">
           <h4>Аккаунт користувача</h4>
@@ -195,3 +192,7 @@
 </div>
 
 <app-footer></app-footer>
+
+<div *ngIf="loading" class="loader-overlay">
+  <div class="loader"></div>
+</div>

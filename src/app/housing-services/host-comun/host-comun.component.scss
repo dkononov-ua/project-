@@ -399,11 +399,7 @@ a {
   }
 }
 
-.inputbox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 
 .input-cast {
   font-size: 16px;
@@ -471,5 +467,18 @@ input {
   text-decoration: none;
   font-size: 20px;
   color: $color-text;
+}
+
+.inputbox {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.select-name{
+  font-size: 0.8em;
+  margin: 0;
+  padding: 0;
 }
 

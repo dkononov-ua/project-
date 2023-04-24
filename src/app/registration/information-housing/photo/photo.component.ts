@@ -39,7 +39,7 @@ export class PhotoComponent implements OnInit {
 
   selectedFile: any;
   addressHouse: any;
-  flatImg: any;
+  flatImg: any = [{img:"housing_default.svg"}];
   images: string[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService, private hostComponent: HostComponent) {
@@ -53,10 +53,13 @@ export class PhotoComponent implements OnInit {
               this.addressHouse = this.fb.group({
                 flat_id: [response.flat.flat_id, []],
               });
+              if(response.imgs === 'Картинок нема'){
+              }else{
               this.flatImg = response.imgs;
               for (const img of this.flatImg) {
                 this.images.push('http://localhost:3000/img/flat/' + img.img);
-              }
+              }}
+
             }
           }, (error: any) => {
             console.error(error);
@@ -73,19 +76,6 @@ export class PhotoComponent implements OnInit {
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
-
-  // onUpload(): void {
-  //   const userJson = localStorage.getItem('user');
-  //   const formData: FormData = new FormData();
-  //   formData.append('file', this.selectedFile, this.selectedFile.name);
-  //   formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-
-  //   const headers = { 'Accept': 'application/json' };
-  //   this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
-  //     data => console.log(data),
-  //     error => console.log(error)
-  //   );
-  // }
 
   onUpload(): void {
     this.loading = true;

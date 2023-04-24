@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -20,12 +20,13 @@ import { DataService } from 'src/app/services/data.service';
         animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ])
     ])
-  ]
+  ],
+  template: '{{ selectedFlatId }}'
 })
-export class EngCabinetComponent {
+export class EngCabinetComponent implements OnInit {
   formErrors: any = {
     flat_id: '',
-    accountFor: '',
+    account_for: '',
     personalAccount: '',
     indicatorMonth: '',
     comunal_counter_before: '',
@@ -64,7 +65,7 @@ export class EngCabinetComponent {
   };
 
   validationMessages: any = {
-    accountFor: {
+    account_for: {
       required: 'houseId обов`язково',
     },
     personalAccount: {
@@ -81,7 +82,12 @@ export class EngCabinetComponent {
     },
   };
 
+  public selectedComunal: any | null;
   public selectedFlatId: any | null;
+  public comunal_name!: string | any;
+  houses: { id: number, name: string }[] = [];
+  addressHouse: FormGroup | undefined;
+
   comunCabinet!: FormGroup;
   errorMessage$ = new Subject<string>();
   isDisabled?: boolean;
@@ -91,71 +97,45 @@ export class EngCabinetComponent {
   account_for: any;
 
   constructor(private dataService: DataService, private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
-    // this.hostComunComponent.selectedFlatId$.subscribe((selectedFlatId: any) => {
-    //   this.selectedFlatId = selectedFlatId;
-    //   const userJson = localStorage.getItem('user');
-    //   if (userJson) {
-    //     this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-    //       .subscribe((response: any) => {
-    //         if (response !== null) {
-    //           this.comunCabinet = this.fb.group({
-    //             flat_id: [response.flat_id],
-    //             comunal_name: [response.flat.comunal_name],
-    //             comunal_address: [response.flat.comunal_address],
-    //             comunal_site: [response.flat.comunal_site],
-    //             comunal_phone: [response.flat.comunal_phone],
-    //             IBAN: [response.flat.IBAN],
-    //             EDRPO: [response.flat.EDRPO],
-    //           });
-    //         }
-    //       }, (error: any) => {
-    //         console.error(error);
-    //       });
-    //   } else {
-    //     console.log('user not found');
-    //   }
-    //   this.initializeForm();
-    // });
   }
 
   ngOnInit(): void {
+    this.comunCabinet = this.fb.group({
+      account_for: ['', Validators.required],
+      personalAccount: ['', Validators.required],
+      indicatorMonth: ['', Validators.required],
+      comunal_counter_before: ['', Validators.required],
+      comunal_counter_now: ['', Validators.required],
+    });
+
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
+    localStorage.getItem('selectedComunal');
+
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
-          this.user.firstName = response.userData.inf.firstName;
-          this.user.lastName = response.userData.inf.lastName;
-          this.user.surName = response.userData.inf.surName;
-          this.user.email = response.userData.inf.email;
-          this.user.password = response.userData.inf.password;
-          this.user.dob = response.userData.inf.dob;
+          this.comunCabinet.setValue({
+            account_for: response.userData.inf.lastName + ' ' + response.userData.inf.firstName + ' ' + response.userData.inf.surName,
+            personalAccount: response.comunal.personalAccount,
+            indicatorMonth: response.comunal.indicatorMonth,
+            comunal_counter_before: response.comunal.comunal_counter_before,
+            comunal_counter_now: response.comunal.comunal_counter_now,
+          });
 
-          this.house.region = response.houseData.flat.region;
           this.house.flat_id = response.houseData.flat.flat_id;
-          this.house.country = response.houseData.flat.country;
-          this.house.city = response.houseData.flat.city;
-          this.house.street = response.houseData.flat.street;
-          this.house.houseNumber = response.houseData.flat.houseNumber;
-          this.house.apartment = response.houseData.flat.apartment;
-          this.house.flat_index = response.houseData.flat.flat_index;
-          this.house.private = response.houseData.flat.private;
-          this.house.rent = response.houseData.flat.rent;
-          this.house.live = response.houseData.flat.live;
-          this.house.who_live = response.houseData.flat.who_live;
         });
       }
     }
   }
 
   onSubmitSaveComunCabinet(): void {
-    console.log(this.comunCabinet.value)
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.comunCabinet.value, flat_id: this.selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/add/comunal', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.selectedComunal, new: this.comunCabinet.value })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
+          console.log(this.selectedFlatId)
           console.error(error);
         });
     } else {
@@ -182,7 +162,7 @@ export class EngCabinetComponent {
         Validators.minLength(4),
         Validators.maxLength(20),
       ]],
-      accountFor: [null, [
+      account_for: [null, [
         Validators.required,
         Validators.minLength(4),
         Validators.maxLength(20),

@@ -13,8 +13,6 @@ export class DataService {
     const houseJson = localStorage.getItem('house');
     const userJson = localStorage.getItem('user');
 
-    // comunal/get/button
-
     let request: Observable<any>;
 
     if (userJson !== null) {
@@ -52,6 +50,14 @@ export class DataService {
       })
     );
   }
+
+  getComunalInfo(userJson: string, selectedFlatId: string, comunal_name: any): Observable<any> {
+    return this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.log('Failed to retrieve comunal info:', error.message);
+          return of(null);
+        })
+      );
+  }
 }
-
-

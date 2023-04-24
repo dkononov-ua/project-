@@ -1,5 +1,33 @@
 <app-navbar-comun></app-navbar-comun>
 
+<div class="box-date">
+  <div class="list p-2">
+    <mat-form-field class="list-form" appearance="outline">
+      <mat-label class="list-label">Рік</mat-label>
+      <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear"
+        (selectionChange)="onSelectionChangeYear()" required>
+        <mat-option class="list-option" *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="list p-2">
+    <mat-form-field class="list-form" appearance="outline">
+      <mat-label class="list-label">Місяць</mat-label>
+      <mat-select class="list-select" name="selectedMonth" [(ngModel)]="selectedMonth"
+        (selectionChange)="onSelectionChangeMonth()" required>
+        <mat-option class="list-option" *ngFor="let month of months" [value]="month">
+          {{ month }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</div>
+
+
 <div class="card-box">
   <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
 
@@ -8,18 +36,7 @@
         <h4>Статистика</h4>
       </div>
 
-      <form class="form-box">
-        <div class="list p-2">
-          <mat-form-field class="list-form" appearance="outline">
-            <mat-label class="list-label">Рік</mat-label>
-            <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear" required>
-              <mat-option class="list-option" *ngFor="let year of years" [value]="year">
-                {{ year }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
+      <form class="form-box" [formGroup]="comunStatisticsYear">
         <div class="inputbox">
           <input required="required" type="number" id="totalPaid" name="totalPaid" formControlName="totalPaid">
           <span>Оплачено загалом/рік:</span>
@@ -65,37 +82,26 @@
         <h4>Статистика</h4>
       </div>
 
-      <form class="form-box" [formGroup]="comunStatistics">
-        <div class="list p-2">
-          <mat-form-field class="list-form" appearance="outline">
-            <mat-label class="list-label">Місяць</mat-label>
-            <mat-select class="list-select" name="selectedMonth" [(ngModel)]="selectedMonth" required>
-              <mat-option class="list-option" *ngFor="let month of months" [value]="month">
-                {{ month }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
+      <form class="form-box" [formGroup]="comunStatisticsMonth">
         <div class="inputbox">
           <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
           <span>Спожито:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="paid" name="paid" formControlName="paid">
+          <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
           <span>Оплачено:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="comunal_counter_before" name="comunal_counter_before"
-            formControlName="comunal_counter_before">
+          <input required="required" type="number" id="comunal_before" name="comunal_before"
+            formControlName="comunal_before">
           <span>Попередні показники:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="comunal_counter_now" name="comunal_counter_now"
-            formControlName="comunal_counter_now">
+          <input required="required" type="number" id="comunal_now" name="comunal_now"
+            formControlName="comunal_now">
           <span>Поточні показники:</span>
           <i class="orange"></i>
         </div>
@@ -112,8 +118,7 @@
       </form>
 
       <div class="btn-group">
-        <button class="btn btn-primary mt-3" (click)="saveComunStatistics()"
-          (click)="onSubmitSaveComunStatistics()">ЗБЕРЕГТИ</button>
+        <button class="btn btn-primary mt-3" (click)="onSubmitSaveComunStatisticsMonth()">ЗБЕРЕГТИ</button>
         <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunStatistics()">СКИНУТИ</button>
       </div>
 

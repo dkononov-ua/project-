@@ -7,10 +7,10 @@
     <form class="form-box" [formGroup]="comunCabinet">
 
       <div class="inputbox">
-        <input required="required" type="text" id="accountFor" name="accountFor" formControlName="accountFor">
-        <span>ПІБ: {{ user.firstName }} {{ user.surName }} {{ user.lastName }}</span>
+        <input required="required" type="text" id="account_for" name="account_for" formControlName="account_for">
+        <span>ПІБ власника:</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.accountFor" class="alert alert-danger">{{formErrors.accountFor}}</div>
+        <div *ngIf="formErrors.account_for" class="alert alert-danger">{{formErrors.account_for}}</div>
       </div>
 
       <div class="inputbox">

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,13 +33,15 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HomeAccountModule } from './interaction/home-account/home-account.module';
-import { HomeAccountComponent } from './interaction/home-account/home-account.component';
 import { HomeAccountRoutingModule } from './interaction/home-account/home-account-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
 import { MatSelectModule } from '@angular/material/select';
 import { KrutilkaComponent } from './components/krutilka/krutilka.component';
 import { TestComponent } from './pages/test/test.component';
+import { DeleteComunalComponent } from './components/delete-comunal/delete-comunal.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,10 @@ import { TestComponent } from './pages/test/test.component';
     ComunPageComponent,
     KrutilkaComponent,
     TestComponent,
+    DeleteComunalComponent,
+    DeleteDialogComponent
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -78,7 +83,6 @@ import { TestComponent } from './pages/test/test.component';
     MatNativeDateModule,
     MatFormFieldModule,
     SharedModule,
-    HousingParametersModule,
     HousingParametersRoutingModule,
     HousingServicesModule,
     HousingServicesRoutingModule,
@@ -88,6 +92,7 @@ import { TestComponent } from './pages/test/test.component';
     HomeAccountRoutingModule,
     NgxSpinnerModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

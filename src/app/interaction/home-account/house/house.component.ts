@@ -109,8 +109,8 @@ export class HouseComponent implements OnInit {
   };
 
   addressHouse: any;
-  flatImg: any;
   images: string[] = [];
+  flatImg: any = [{img:"housing_default.svg"}];
 
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
@@ -173,11 +173,14 @@ export class HouseComponent implements OnInit {
             this.about.bunker = response.houseData.about.bunker;
 
             this.flatImg = response.houseData.imgs;
-            if (this.flatImg !== undefined) {
+            if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0) {
               for (const img of this.flatImg) {
                 this.images.push('http://localhost:3000/img/flat/' + img.img);
               }
+            } else {
+              this.images.push('http://localhost:3000/housing_default.svg');
             }
+
           } else {
             console.error('houseData field is missing from server response');
           }

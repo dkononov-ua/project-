@@ -3,9 +3,7 @@
     <div class="card m-2">
 
       <div class="img-fluid">
-        <img
-          [src]="userImg ? 'http://localhost:3000/img/users/' + userImg : 'http://localhost:3000/Static/users/user_default.svg'"
-          alt="User Image">
+        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image">
       </div>
 
       <div class="item-wrapper p-3">

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HostComunComponent } from '../host-comun/host-comun.component';
 import { Subject } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-payment-history',
@@ -17,6 +18,7 @@ import { Subject } from 'rxjs';
       ]),
     ])
   ],
+  template: '{{ selectedFlatId }}'
 })
 export class PaymentHistoryComponent implements OnInit {
 
@@ -35,7 +37,9 @@ export class PaymentHistoryComponent implements OnInit {
     'Грудень'
   ];
 
-  years = [2023, 2022, 2021, 2020 ];
+  years = [2023, 2022, 2021, 2020];
+  houses: { id: number, name: string }[] = [];
+
 
   selectedMonth: string | undefined;
   selectedYear: number | undefined;
@@ -50,55 +54,101 @@ export class PaymentHistoryComponent implements OnInit {
     },
   };
 
-  comunStatistics!: FormGroup;
+  comunStatisticsMonth!: FormGroup;
+  comunStatisticsYear!: FormGroup;
   errorMessage$ = new Subject<string>();
   isDisabled?: boolean;
   formDisabled?: boolean;
   selectHouse: any;
-  selectedFlatId: any;
+  comunal_name: any;
+  public selectedFlatId: any;
+  public selectedComunal: any | null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
-    // this.hostComunComponent.selectedFlatId$.subscribe((selectedFlatId: any) => {
-    //   this.selectedFlatId = selectedFlatId;
-    //   const userJson = localStorage.getItem('user');
-    //   if (userJson) {
-    //     this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-    //       .subscribe((response: any) => {
-    //         if (response !== null) {
-    //           this.ComunStatistics = this.fb.group({
-    //             flat_id: [response.flat_id],
-    //             totalPaid: [response.flat.totalPaid],
-    //             monthAveragePaid: [response.flat.monthAveragePaid],
-    //             monthPredictedPaid: [response.flat.monthPredictedPaid],
-    //             totalConsumption: [response.flat.totalConsumption],
-    //             monthAverageConsumption: [response.flat.monthAverageConsumption],
-    //             monthPredictedConsumption: [response.flat.monthPredictedConsumption],
-    //             consumed: [response.flat.consumed],
-    //             comunal_counter_before: [response.flat.comunal_counter_before],
-    //             comunal_counter_now: [response.flat.comunal_counter_now],
-    //             tariff: [response.flat.tariff],
-    //             calculation: [response.flat.calculation],
-    //           });
-    //         }
-    //       }, (error: any) => {
-    //         console.error(error);
-    //       });
-    //   } else {
-    //     console.log('user not found');
-    //   }
-    //   this.initializeForm();
-    // });
+  constructor(private fb: FormBuilder, private dataService: DataService, private http: HttpClient, private hostComunComponent: HostComunComponent) {
   }
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.comunStatisticsYear = this.fb.group({
+      years: ['', Validators.required],
+      totalPaid: ['', Validators.required],
+      monthAveragePaid: ['', Validators.required],
+      monthPredictedPaid: ['', Validators.required],
+      totalConsumption: ['', Validators.required],
+      monthAverageConsumption: ['', Validators.required],
+      monthPredictedConsumption: ['', Validators.required],
+    });
+
+    this.comunStatisticsMonth = this.fb.group({
+      month: ['', Validators.required],
+      consumed: ['', Validators.required],
+      howmuch_pay: ['', Validators.required],
+      comunal_before: ['', Validators.required],
+      comunal_now: ['', Validators.required],
+      tariff: ['', Validators.required],
+      calculation: ['', Validators.required],
+    });
+
+    this.selectedFlatId = localStorage.getItem('house');
+    console.log(this.selectedFlatId)
+
+    const userJson = localStorage.getItem('user');
+    const houseJson = localStorage.getItem('house');
+    const comunal_name = localStorage.getItem('comunal_name');
+    const selectedYear = localStorage.getItem('selectedYear');
+    const selectedMonth = localStorage.getItem('selectedMonth');
+
+    console.log(this.selectedFlatId)
+    console.log(comunal_name)
+
+    if (userJson !== null) {
+      if (houseJson !== null) {
+        if (comunal_name !== null) {
+          this.dataService.getData().subscribe((response: any) => {
+
+            this.comunStatisticsYear.setValue({
+              year: response.comunal.year,
+              totalPaid: response.comunal.totalPaid,
+              monthAveragePaid: response.comunal.monthAveragePaid,
+              monthPredictedPaid: response.comunal.monthPredictedPaid,
+              totalConsumption: response.comunal.totalConsumption,
+              monthAverageConsumption: response.comunal.monthAverageConsumption,
+              monthPredictedConsumption: response.comunal.monthPredictedConsumption,
+            });
+
+            //  tok.comunal.comunal_company, tok.comunal.comunal_counter, tok.comunal.comunal_before,
+            //  tok.comunal.comunal_now, tok.comunal.edrpo, tok.comunal.iban, tok.comunal.payment_system,
+            //   tok.comunal.howmuch_pay, tok.comunal.about_pay,
+
+            this.comunStatisticsMonth.setValue({
+              months: response.comunal.month,
+              // consumed: response.comunal.consumed,
+              howmuch_pay: response.comunal.howmuch_pay,
+              comunal_before: response.comunal.comunal_before,
+              comunal_now: response.comunal.comunal_now,
+              // tariff: response.comunal.tariff,
+              // calculation: response.comunal.calculation,
+            });
+          });
+        }
+      }
+    }
   }
 
-  onSubmitSaveComunStatistics(): void {
-    console.log(this.comunStatistics.value)
+  onSelectionChangeYear(): void {
+    console.log(123)
+    localStorage.setItem('selectedYear', JSON.stringify({ flat_id: this.selectedFlatId }))
+    localStorage.removeItem('selectedMonth')
+
     const userJson = localStorage.getItem('user');
+    const comunal_name = localStorage.getItem('comunal_name');
+
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.comunStatistics.value, flat_id: this.selectedFlatId })
+      this.http.post('http://localhost:3000/comunal/get/comunal', {
+        auth: JSON.parse(userJson),
+        flat_id: JSON.parse(this.selectedFlatId).flat_id,
+        comunal_name: JSON.parse(comunal_name!).comunal,
+        when_pay_y: this.selectedYear
+      })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -109,8 +159,57 @@ export class PaymentHistoryComponent implements OnInit {
     }
   }
 
+  onSelectionChangeMonth(): void {
+    const userJson = localStorage.getItem('user');
+    const selectedFlatId = localStorage.getItem('selectedFlatId');
+    const comunal_name = localStorage.getItem('comunal_name');
+
+    if (userJson) {
+      this.http.post('http://localhost:3000/comunal/get/comunal', {
+        auth: JSON.parse(userJson),
+        flat_id: JSON.parse(this.selectedFlatId).flat_id,
+        comunal_name: JSON.parse(comunal_name!).comunal,
+        when_pay_y: this.selectedYear,
+        when_pay_m: this.selectedMonth
+      })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  onSubmitSaveComunStatisticsMonth() {
+    const comunal_name = localStorage.getItem('comunal_name');
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      if (this.comunStatisticsMonth) {
+        this.http.post('http://localhost:3000/comunal/add/comunal', {
+          auth: JSON.parse(userJson),
+          flat_id: JSON.parse(this.selectedFlatId).flat_id,
+          comunal_name: JSON.parse(comunal_name!).comunal,
+          when_pay_y: this.selectedYear,
+          when_pay_m: this.selectedMonth,
+          comunal: this.comunStatisticsMonth.value,
+        })
+          .subscribe((response: any) => {
+            console.log(response);
+          }, (error: any) => {
+            console.error(error);
+          });
+      } else {
+        console.log('comunCreate is not defined');
+      }
+    } else {
+      console.log('user not found');
+    }
+  }
+
   saveComunStatistics(): void {
-    this.comunStatistics.disable();
+    this.comunStatisticsMonth.disable();
     this.isDisabled = true;
     this.formDisabled = true;
     this.isDisabled = false;
@@ -118,11 +217,18 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   resetComunStatistics() {
-    this.comunStatistics.reset();
+    this.comunStatisticsMonth.reset();
   }
 
   private initializeForm(): void {
-    this.comunStatistics = this.fb.group({
+    this.comunStatisticsMonth = this.fb.group({
+      flat_id: [null, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(20),
+      ]],
+    });
+    this.comunStatisticsYear = this.fb.group({
       flat_id: [null, [
         Validators.required,
         Validators.minLength(4),

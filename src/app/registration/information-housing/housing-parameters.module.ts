@@ -15,7 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DeleteDialogComponent } from '../../components/delete-dialog/delete-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -27,7 +26,6 @@ import { MatSelectModule } from '@angular/material/select';
     PhotoComponent,
     HostComponent,
     HousingParametersComponent,
-    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
