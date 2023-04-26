@@ -83,10 +83,8 @@ export class HostComunComponent implements OnInit {
       this.getHouseInfo(userJson);
       this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
         if (selectedFlatId) {
-          console.log('Ви вибрали оселю з ID:', selectedFlatId);
           localStorage.removeItem('house');
           localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
-          console.log(selectedFlatId)
           this.getFlatInfo(userJson, selectedFlatId);
           this.getComunalInfo(userJson, selectedFlatId, this.comunal_name);
         } else {

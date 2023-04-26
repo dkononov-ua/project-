@@ -16,6 +16,7 @@ import { ServiceProfileComponent } from './service-profile/service-profile.compo
 import { EngCabinetComponent } from './eng-cabinet/eng-cabinet.component';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ComunDateComponent } from './comun-date/comun-date.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
     NavbarComunComponent,
     EngCabinetComponent,
     ComunCompanyComponent,
+    ComunDateComponent,
   ],
   imports: [
     BrowserModule,

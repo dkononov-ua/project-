@@ -1,0 +1,31 @@
+.box-date {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.list-form {
+  border: none;
+  height: 4rem;
+  background-color: none;
+}
+.list-label {
+  border: none;
+  padding: 0;
+}
+.list-select {
+  border: none;
+  font-size: 25px;
+}
+.list-option {
+  border: none;
+  border-radius: 10px;
+}
+
+

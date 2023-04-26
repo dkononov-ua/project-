@@ -29,8 +29,8 @@ export class EngCabinetComponent implements OnInit {
     account_for: '',
     personalAccount: '',
     indicatorMonth: '',
-    comunal_counter_before: '',
-    comunal_counter_now: '',
+    comunal_before: '',
+    comunal_now: '',
   };
 
   user = {
@@ -74,10 +74,10 @@ export class EngCabinetComponent implements OnInit {
     indicatorMonth: {
       required: 'Обов`язково',
     },
-    comunal_counter_before: {
+    comunal_before: {
       required: 'Обов`язково',
     },
-    comunal_counter_now: {
+    comunal_now: {
       required: 'Обов`язково',
     },
   };
@@ -95,17 +95,24 @@ export class EngCabinetComponent implements OnInit {
   selectHouse: any;
   userImg: any;
   account_for: any;
+  selectedMonth: string | null | undefined;
+  selectedYear: string | null | undefined;
+  comunal_before: any;
 
   constructor(private dataService: DataService, private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
   }
 
   ngOnInit(): void {
+    this.selectedYear = localStorage.getItem('selectedYear');
+    this.selectedMonth = localStorage.getItem('selectedMonth');
+    this.selectedFlatId = localStorage.getItem('house');
+
     this.comunCabinet = this.fb.group({
       account_for: ['', Validators.required],
       personalAccount: ['', Validators.required],
-      indicatorMonth: ['', Validators.required],
-      comunal_counter_before: ['', Validators.required],
-      comunal_counter_now: ['', Validators.required],
+      indicatorMonth: [this.selectedMonth, Validators.required],
+      comunal_before: ['', Validators.required],
+      comunal_now: ['', Validators.required],
     });
 
     const userJson = localStorage.getItem('user');
@@ -119,11 +126,9 @@ export class EngCabinetComponent implements OnInit {
             account_for: response.userData.inf.lastName + ' ' + response.userData.inf.firstName + ' ' + response.userData.inf.surName,
             personalAccount: response.comunal.personalAccount,
             indicatorMonth: response.comunal.indicatorMonth,
-            comunal_counter_before: response.comunal.comunal_counter_before,
-            comunal_counter_now: response.comunal.comunal_counter_now,
+            comunal_before: response.comunal.comunal_before,
+            comunal_now: response.comunal.comunal_now,
           });
-
-          this.house.flat_id = response.houseData.flat.flat_id;
         });
       }
     }
@@ -179,12 +184,12 @@ export class EngCabinetComponent implements OnInit {
         Validators.maxLength(100),
         Validators.pattern(/^[0-9]+$/),
       ]],
-      comunal_counter_before: [null, [
+      comunal_before: [null, [
         Validators.required,
         Validators.minLength(1),
         Validators.pattern(/^[0-9]+$/),
       ]],
-      comunal_counter_now: [null, [
+      comunal_now: [null, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20),

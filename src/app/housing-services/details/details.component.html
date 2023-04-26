@@ -6,21 +6,22 @@
     </div>
 
     <form class="form-box" [formGroup]="comunDetails">
+
       <div class="inputbox">
-        <input required="required" type="number" id="comunal_name" name="comunal_name" formControlName="comunal_name">
+        <input required="required" type="text" id="comunal_company" name="comunal_company" formControlName="comunal_company">
         <span>Назва компанії:</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.comunal_name" class="alert alert-danger">{{formErrors.comunal_name}}</div>
+        <div *ngIf="formErrors.comunal_company" class="alert alert-danger">{{formErrors.comunal_company}}</div>
       </div>
       <div class="inputbox">
-        <input required="required" type="number" id="comunal_address" name="comunal_address"
+        <input required="required" type="text" id="comunal_address" name="comunal_address"
           formControlName="comunal_address">
         <span>Адреса компанії:</span>
         <i class="orange"></i>
         <div *ngIf="formErrors.comunal_address" class="alert alert-danger">{{formErrors.comunal_address}}</div>
       </div>
       <div class="inputbox">
-        <input required="required" type="number" id="comunal_site" name="comunal_site" formControlName="comunal_site">
+        <input required="required" type="text" id="comunal_site" name="comunal_site" formControlName="comunal_site">
         <span>Сайт компанії:</span>
         <i class="orange"></i>
         <div *ngIf="formErrors.comunal_site" class="alert alert-danger">{{formErrors.comunal_site}}</div>
@@ -33,16 +34,16 @@
         <div *ngIf="formErrors.comunal_phone" class="alert alert-danger">{{formErrors.comunal_phone}}</div>
       </div>
       <div class="inputbox">
-        <input required="required" type="number" id="IBAN" name="IBAN" formControlName="IBAN">
+        <input required="required" type="number" id="iban" name="iban" formControlName="iban">
         <span>IBAN:</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.IBAN" class="alert alert-danger">{{formErrors.IBAN}}</div>
+        <div *ngIf="formErrors.iban" class="alert alert-danger">{{formErrors.iban}}</div>
       </div>
       <div class="inputbox">
-        <input required="required" type="number" id="EDRPO" name="EDRPO" formControlName="EDRPO">
+        <input required="required" type="number" id="edrpo" name="edrpo" formControlName="edrpo">
         <span>ЄДРПОУ:</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.EDRPO" class="alert alert-danger">{{formErrors.EDRPO}}</div>
+        <div *ngIf="formErrors.edrpo" class="alert alert-danger">{{formErrors.edrpo}}</div>
       </div>
     </form>
 

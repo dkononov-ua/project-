@@ -1,10 +1,14 @@
 <div [@cardAnimation] class="card-box">
   <div class="card m-2 p-2">
     <div class="card-name">
-      <h4>Інформація вашої оселі</h4>
+      <h4>Передача показників за:</h4>
     </div>
 
     <form class="form-box" [formGroup]="comunCabinet">
+
+      <div class="inputbox">
+        <app-comun-date></app-comun-date>
+      </div>
 
       <div class="inputbox">
         <input required="required" type="text" id="account_for" name="account_for" formControlName="account_for">
@@ -20,33 +24,27 @@
         <div *ngIf="formErrors.personalAccount" class="alert alert-danger">{{formErrors.personalAccount}}</div>
       </div>
 
-      <div class="inputbox">
-        <input required="required" type="text" id="indicatorMonth" name="indicatorMonth" formControlName="indicatorMonth">
-        <span>Показники за:</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.indicatorMonth" class="alert alert-danger">{{formErrors.indicatorMonth}}</div>
-      </div>
+      <div class="box-item">
+        <div class="inputbox">
+          <input required="required" type="number" id="comunal_before" name="comunal_before" formControlName="comunal_before">
+          <span>Попередні:</span>
+          <i class="orange"></i>
+          <div *ngIf="formErrors.comunal_before" class="alert alert-danger">{{formErrors.comunal_before}}</div>
+        </div>
 
-      <div class="inputbox">
-        <input required="required" type="number" id="comunal_counter_before" name="comunal_counter_before" formControlName="comunal_counter_before">
-        <span>Показники попередні:</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.comunal_counter_before" class="alert alert-danger">{{formErrors.comunal_counter_before}}</div>
-      </div>
-
-      <div class="inputbox">
-        <input required="required" type="number" id="comunal_counter_now" name="comunal_counter_now" formControlName="comunal_counter_now">
-        <span>Показники поточні:</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.comunal_counter_now" class="alert alert-danger">{{formErrors.comunal_counter_now}}</div>
+        <div class="inputbox">
+          <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
+          <span>Поточні:</span>
+          <i class="orange"></i>
+          <div *ngIf="formErrors.comunal_now" class="alert alert-danger">{{formErrors.comunal_now}}</div>
+        </div>
       </div>
 
     </form>
 
     <div class="btn-group">
       <button class="btn btn-primary mt-3" (click)="saveComunCabinet()"
-        (click)="onSubmitSaveComunCabinet()">ЗБЕРЕГТИ</button>
-      <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunCabinet()">СКИНУТИ</button>
+        (click)="onSubmitSaveComunCabinet()">НАДІСЛАТИ</button>
     </div>
 
   </div>

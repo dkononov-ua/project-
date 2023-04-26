@@ -1,32 +1,5 @@
 <app-navbar-comun></app-navbar-comun>
-
-<div class="box-date">
-  <div class="list p-2">
-    <mat-form-field class="list-form" appearance="outline">
-      <mat-label class="list-label">Рік</mat-label>
-      <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear"
-        (selectionChange)="onSelectionChangeYear()" required>
-        <mat-option class="list-option" *ngFor="let year of years" [value]="year">
-          {{ year }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="list p-2">
-    <mat-form-field class="list-form" appearance="outline">
-      <mat-label class="list-label">Місяць</mat-label>
-      <mat-select class="list-select" name="selectedMonth" [(ngModel)]="selectedMonth"
-        (selectionChange)="onSelectionChangeMonth()" required>
-        <mat-option class="list-option" *ngFor="let month of months" [value]="month">
-          {{ month }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-</div>
-
+<app-comun-date></app-comun-date>
 
 <div class="card-box">
   <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
@@ -38,37 +11,32 @@
 
       <form class="form-box" [formGroup]="comunStatisticsYear">
         <div class="inputbox">
-          <input required="required" type="number" id="totalPaid" name="totalPaid" formControlName="totalPaid">
+          <input required="required" type="number" id="totalPaid" name="totalPaid">
           <span>Оплачено загалом/рік:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="monthAveragePaid" name="monthAveragePaid"
-            formControlName="monthAveragePaid">
+          <input required="required" type="number" id="monthAveragePaid" name="monthAveragePaid">
           <span>δ/міс оплата:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="monthPredictedPaid" name="monthPredictedPaid"
-            formControlName="monthPredictedPaid">
+          <input required="required" type="number" id="monthPredictedPaid" name="monthPredictedPaid">
           <span>δ/міс оплата прогнозоване:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="totalConsumption" name="totalConsumption"
-            formControlName="totalConsumption">
+          <input required="required" type="number" id="totalConsumption" name="totalConsumption">
           <span>Спожито загалом/рік:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="monthAverageConsumption" name="monthAverageConsumption"
-            formControlName="monthAverageConsumption">
+          <input required="required" type="number" id="monthAverageConsumption" name="monthAverageConsumption">
           <span>δ/міс спожито:</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="monthPredictedConsumption" name="monthPredictedConsumption"
-            formControlName="monthPredictedConsumption">
+          <input required="required" type="number" id="monthPredictedConsumption" name="monthPredictedConsumption">
           <span>δ/міс спож. прогнозоване:</span>
           <i class="orange"></i>
         </div>
@@ -83,14 +51,19 @@
       </div>
 
       <form class="form-box" [formGroup]="comunStatisticsMonth">
+        {{ tariff }}
+        {{ howmuch_pay }}
+        <p>Tariff value: {{ tariffValue }}</p>
+
         <div class="inputbox">
           <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
-          <span>Спожито:</span>
+          <span>Спожито: {{ unit }}</span>
           <i class="orange"></i>
         </div>
+
         <div class="inputbox">
           <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
-          <span>Оплачено:</span>
+          <span>Сума до сплати: {{ howmuch_pay }} грн</span>
           <i class="orange"></i>
         </div>
         <div class="inputbox">
@@ -100,16 +73,23 @@
           <i class="orange"></i>
         </div>
         <div class="inputbox">
-          <input required="required" type="number" id="comunal_now" name="comunal_now"
-            formControlName="comunal_now">
+          <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
           <span>Поточні показники:</span>
           <i class="orange"></i>
         </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="tariff" name="tariff" formControlName="tariff">
-          <span>Тариф:</span>
-          <i class="orange"></i>
+        <div class="box-item">
+          <div class="inputbox">
+            <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
+            <span>Тариф:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input type="number" id="tariffValue" name="tariffValue" formControlName="tariffValue" required="required">
+            <span>Змінити тариф: {{ tariffValue }}</span>
+            <i class="orange"></i>
+          </div>
         </div>
+
         <div class="inputbox">
           <input required="required" type="number" id="calculation" name="calculation" formControlName="calculation">
           <span>Розрахунок:</span>

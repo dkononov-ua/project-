@@ -40,12 +40,6 @@
             </a>
           </nav>
 
-          <button class="btn-create btn-deleted" mat-icon-button color="warn" (click)="openDialog()"><i
-              class="fa-solid fa-circle-minus"></i>
-          </button>
-          <p>ВИДАЛИТИ ОСЕЛЮ</p>
-
-
           <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
               class="fa-solid fa-circle-plus"></i></button>
           <p>ДОДАТИ НОВУ ОСЕЛЮ</p>
@@ -60,6 +54,11 @@
           <button class="btn-create" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput"><i
               class="fa-solid fa-circle-check"></i></button>
           <p>СТВОРИТИ</p>
+
+          <button class="btn-create btn-deleted" mat-icon-button color="warn" (click)="openDialog()"><i
+              class="fa-solid fa-circle-minus"></i>
+          </button>
+          <p>ВИДАЛИТИ ОСЕЛЮ</p>
 
         </form>
       </div>
