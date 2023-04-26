@@ -63,7 +63,6 @@
   outline: none;
   box-shadow: none;
   border: none;
-  color: white;
   font-size: 1em;
   letter-spacing: 0.05em;
   transition: 0.5s;
@@ -120,10 +119,6 @@
   z-index: 30;
   font-size: 13px;
   align-items: center;
-}
-
-p {
-  color: $color-light;
 }
 
 .btn-group {
@@ -186,6 +181,36 @@ p {
   display: flex;
 }
 
+.form-floating {
+  color: black;
+}
+
+.form-control {
+  color: black;
+}
+
+.scrollable-textarea {
+  color: black;
+}
+
+textarea {
+  position: relative;
+  resize: both;
+  min-width: 100%;
+  max-width: fit-content;
+  overflow-y: auto;
+}
+
+textarea {
+  height: auto;
+  min-height: 80px;
+}
+
+.scrollable-textarea {
+  height: auto;
+  overflow: auto;
+}
+
 .input-group {
   position: relative;
   display: flex;
@@ -198,7 +223,6 @@ p {
   width: 100%;
   background: none;
   border: 2px solid $color-accent;
-  color: $color-white;
 }
 
 .link-text {
@@ -240,5 +264,14 @@ p {
 .date-box {
   display: flex;
   justify-content: space-around;
+}
+
+p {
+  color: $color-text;
+  font-size: 14px;
+}
+
+h4 {
+  margin-bottom: 10px;
 }
 

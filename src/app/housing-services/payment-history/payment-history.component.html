@@ -51,49 +51,59 @@
       </div>
 
       <form class="form-box" [formGroup]="comunStatisticsMonth">
-        {{ tariff }}
-        {{ howmuch_pay }}
-        <p>Tariff value: {{ tariffValue }}</p>
 
         <div class="inputbox">
-          <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
-          <span>Спожито: {{ unit }}</span>
+          <input required="required" type="number" id="personalAccount" name="personalAccount"
+            formControlName="personalAccount">
+          <span>Особистий рахунок:</span>
+          <i class="orange"></i>
+        </div>
+
+        <div class="box-item">
+          <div class="inputbox">
+            <input required="required" type="number" id="comunal_before" name="comunal_before"
+              formControlName="comunal_before">
+            <span>Попередні:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
+            <span>Поточні:</span>
+            <i class="orange"></i>
+          </div>
+        </div>
+
+        <div class="box-item">
+          <div class="inputbox">
+            <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
+            <span>Спожито: {{ consumed }}</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
+            <span>Тариф: {{ tariff }}</span>
+            <i class="orange"></i>
+          </div>
+        </div>
+
+        <div class="inputbox">
+          <input type="number" id="calc_howmuch_pay" name="calc_howmuch_pay" formControlName="calc_howmuch_pay">
+          <span>До сплати: {{ howmuch_pay }} грн</span>
           <i class="orange"></i>
         </div>
 
         <div class="inputbox">
           <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
-          <span>Сума до сплати: {{ howmuch_pay }} грн</span>
+          <span>Сплатив:</span>
           <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="comunal_before" name="comunal_before"
-            formControlName="comunal_before">
-          <span>Попередні показники:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
-          <span>Поточні показники:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="box-item">
-          <div class="inputbox">
-            <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
-            <span>Тариф:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input type="number" id="tariffValue" name="tariffValue" formControlName="tariffValue" required="required">
-            <span>Змінити тариф: {{ tariffValue }}</span>
-            <i class="orange"></i>
-          </div>
         </div>
 
-        <div class="inputbox">
-          <input required="required" type="number" id="calculation" name="calculation" formControlName="calculation">
-          <span>Розрахунок:</span>
-          <i class="orange"></i>
+        <div class="form-floating">
+          <textarea #textArea class="form-control scrollable-textarea" placeholder="Коментар про запис:"
+            id="floatingTextarea" formControlName="about_pay" (input)="onInput()"></textarea>
+          <label for="floatingTextarea">
+            <p>Коментар про запис:</p>
+          </label>
         </div>
       </form>
 

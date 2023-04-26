@@ -77,51 +77,73 @@ export class DetailsComponent {
 
   constructor(private dataService: DataService, private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) { }
 
-  ngOnInit(): void {
+  ngOnInit(): any {
     this.comunDetails = this.fb.group({
       comunal_company: ['', Validators.required],
-      // comunal_address: ['', Validators.required],
-      // comunal_site: ['', Validators.required],
-      // comunal_phone: ['', Validators.required],
+      comunal_address: ['', Validators.required],
+      comunal_site: ['', Validators.required],
+      comunal_phone: ['', Validators.required],
       iban: ['', Validators.required],
       edrpo: ['', Validators.required],
     });
 
-    this.selectedFlatId = localStorage.getItem('house');
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
-    const comunal_name = localStorage.getItem('comunal_name');
+    this.selectedFlatId = localStorage.getItem('house');
     const selectedYear = localStorage.getItem('selectedYear');
     const selectedMonth = localStorage.getItem('selectedMonth');
-    const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
-    console.log(com_inf);
+    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
+
     if (selectedYear) {
+      if (userJson) {
+        this.http.post('http://localhost:3000/comunal/get/comunal', {
+          auth: JSON.parse(userJson),
+          flat_id: JSON.parse(this.selectedFlatId).flat_id,
+          comunal_name: comunalName,
+          when_pay_y: JSON.parse(selectedYear)
+        })
+          .subscribe((response: any) => {
+            localStorage.setItem('comunal_inf', JSON.stringify(response));
+            console.log(response);
+          }, (error: any) => {
+            console.error(error);
+          });
+      } else {
+        console.log('user not found');
+      }
+
       this.selectedYear = JSON.parse(selectedYear);
     }
     if (selectedMonth) {
       this.selectedMonth = JSON.parse(selectedMonth);
     }
+
+    const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
     if (userJson) {
       com_inf.comunal.forEach((value: any) => {
-        console.log(com_inf.comunal)
-        if (value.when_pay_m === JSON.parse(localStorage.getItem('selectedMonth')!) && value.when_pay_y === String(JSON.parse(localStorage.getItem('selectedYear')!))) {
-          this.comunDetails.setValue({
-            comunal_company: value.comunal_company,
-            // comunal_address: value.comunal_address,
-            // comunal_site: value.comunal_site,
-            // comunal_phone: value.comunal_phone,
-            iban: value.iban,
-            edrpo: value.edrpo,
-          });
-          console.log(value.comunal_before);
+        console.log(value.when_pay_m);
+        if (value.when_pay_y === String(this.selectedYear)) {
+          if (value.when_pay_m === this.selectedMonth) {
+            if (value.comunal_name === comunalName) {
+              console.log(value);
+              this.comunDetails.setValue({
+                comunal_company: value.comunal_company,
+                comunal_address: value.comunal_address,
+                comunal_site: value.comunal_site,
+                comunal_phone: value.comunal_phone,
+                iban: value.iban,
+                edrpo: value.edrpo,
+              });
+            }
+          }
         }
       });
-    } else {
+    }
+    else {
       console.log('user not found');
     }
   }
 
-  onSubmitSaveComunDetails() {
+    onSubmitSaveComunDetails() {
     this.loading = true;
 
     const comunal_name = localStorage.getItem('comunal_name');
@@ -148,7 +170,6 @@ export class DetailsComponent {
       console.log('user not found');
     }
     location.reload();
-
   }
 
   saveComunDetails(): void {

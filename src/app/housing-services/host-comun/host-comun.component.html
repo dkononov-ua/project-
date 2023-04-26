@@ -5,19 +5,24 @@
       <div class="card-menu m-2">
         <!-- Мої оселі -->
         <div class="inputbox">
-          <h4 class="select-name">ОСЕЛЯ</h4>
-          <select class="m-2" [(ngModel)]="selectedFlatId" (ngModelChange)="onSelectionChangeFlatInfo()">
-            <option value="" disabled>виберіть оселю</option>
-            <option *ngFor="let house of houses" [value]="house.name">{{house.name}}</option>
-          </select>
+          <mat-form-field appearance="outline">
+            <mat-label>ОСЕЛЯ</mat-label>
+            <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChangeFlatInfo()">
+              <mat-option disabled value="">виберіть оселю</mat-option>
+              <mat-option *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="inputbox">
-          <h4 class="select-name">ПОСЛУГА</h4>
-          <select class="m-2" [(ngModel)]="selectedComunal" (ngModelChange)="onSelectionChangeComunalInfo()">
-            <option value="" disabled>виберіть послугу</option>
-            <option *ngFor="let name of comunal_name" [value]="name.comunal_name">{{name.comunal_name}}</option>
-          </select>
+          <mat-form-field appearance="outline">
+            <mat-label>ПОСЛУГА</mat-label>
+            <mat-select class="list-select" [(value)]="selectedComunal" (selectionChange)="onSelectionChangeComunalInfo()">
+              <mat-option disabled value="">виберіть послугу</mat-option>
+              <mat-option *ngFor="let name of comunal_name"
+                [value]="name.comunal_name">{{name.comunal_name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="menu">
@@ -42,18 +47,22 @@
             </a>
           </nav>
 
-          <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i class="fa-solid fa-circle-plus"></i></button>
+          <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
+              class="fa-solid fa-circle-plus"></i></button>
           <p>СТВОРИТИ ПОСЛУГУ</p>
 
           <div>
             <div class="inputbox" *ngIf="showInput">
               <div class="btn-group">
                 <form class="form-box" [formGroup]="comunCreate">
-                  <input class="input-cast m-2" type="text" id="comunal_name" placeholder="Назва шаблону" name="comunal_name" formControlName="comunal_name" required>
+                  <input class="input-cast m-2" type="text" id="comunal_name" placeholder="Назва шаблону"
+                    name="comunal_name" formControlName="comunal_name" required>
                 </form>
 
-                <button class="btn-create" (click)="onSubmitComunCreate()"><i class="fa-solid fa-circle-check"></i></button>
-                <button class="btn-create btn-deleted" (click)="showInput = false"><i class="fa-solid fa-circle-xmark"></i></button>
+                <button class="btn-create" (click)="onSubmitComunCreate()"><i
+                    class="fa-solid fa-circle-check"></i></button>
+                <button class="btn-create btn-deleted" (click)="showInput = false"><i
+                    class="fa-solid fa-circle-xmark"></i></button>
               </div>
             </div>
           </div>
@@ -77,4 +86,3 @@
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>
 </div>
-

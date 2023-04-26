@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -21,12 +21,16 @@ import { DataService } from 'src/app/services/data.service';
   template: '{{ selectedFlatId }}'
 })
 export class PaymentHistoryComponent implements OnInit {
+  @ViewChild('textArea', { static: false })
+  textArea!: ElementRef;
 
   loading = false;
   howmuch_pay: any;
   tariff: any;
   tariffValue: any;
   unit: string | undefined;
+  consumed: any;
+  calc_howmuch_pay: any;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -54,23 +58,22 @@ export class PaymentHistoryComponent implements OnInit {
   ngOnInit(): any {
     this.comunStatisticsYear = this.fb.group({});
     this.comunStatisticsMonth = this.fb.group({
+      personalAccount: ['', Validators.required],
       comunal_before: ['', Validators.required],
       comunal_now: ['', Validators.required],
-      consumed: [''] ,
-      calculation: [''],
-      tariff: [''],
-      howmuch_pay: [''],
-      tariffValue: [''],
+      consumed: ['', Validators.required],
+      tariff: ['', Validators.required],
+      calc_howmuch_pay: ['', Validators.required],
+      howmuch_pay: ['', Validators.required],
+      about_pay: ['', Validators.required],
     });
 
-    this.selectedFlatId = localStorage.getItem('house');
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
+    this.selectedFlatId = localStorage.getItem('house');
     const selectedYear = localStorage.getItem('selectedYear');
     const selectedMonth = localStorage.getItem('selectedMonth');
-
     const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-    const tariff = JSON.parse(localStorage.getItem('tariff')!);
+
     if (selectedYear) {
       if (userJson) {
         this.http.post('http://localhost:3000/comunal/get/comunal', {
@@ -95,7 +98,18 @@ export class PaymentHistoryComponent implements OnInit {
       this.selectedMonth = JSON.parse(selectedMonth);
     }
 
+    let totalConsumed = 0;
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
+    com_inf.comunal.forEach((value: any) => {
+      if (value.when_pay_y === String(this.selectedYear)) {
+        if (value.comunal_name === comunalName) {
+          totalConsumed += value.consumed;
+        }
+      }
+    });
+
+    console.log(totalConsumed);
+
     if (userJson) {
       com_inf.comunal.forEach((value: any) => {
         console.log(value.when_pay_m);
@@ -103,16 +117,15 @@ export class PaymentHistoryComponent implements OnInit {
           if (value.when_pay_m === this.selectedMonth) {
             if (value.comunal_name === comunalName) {
               console.log(value);
-              let consumedValue = value.consumedValue + ' ' + this.unit;
-              console.log(consumedValue)
               this.comunStatisticsMonth.setValue({
+                personalAccount: value.personalAccount,
                 comunal_before: value.comunal_before,
                 comunal_now: value.comunal_now,
-                consumed: consumedValue,
-                calculation: '',
-                tariff: tariff,
+                consumed: '',
+                tariff: '',
+                calc_howmuch_pay: '',
                 howmuch_pay: '',
-                tariffValue: tariff,
+                about_pay: value.about_pay,
               });
               this.calculateConsumed();
             }
@@ -123,6 +136,12 @@ export class PaymentHistoryComponent implements OnInit {
     else {
       console.log('user not found');
     }
+  }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   ngOnChanges() {
@@ -157,14 +176,37 @@ export class PaymentHistoryComponent implements OnInit {
     } else {
       tariff = 1.68;
     }
-    const calculation = tariff * consumed;
+    const calc_howmuch_pay = tariff * consumed;
+
     this.comunStatisticsMonth.patchValue({
       consumed: consumed,
-      calculation: calculation,
+      calc_howmuch_pay: calc_howmuch_pay,
       tariff: tariff,
+      howmuch_pay: calc_howmuch_pay,
     });
     console.log(tariff)
-    this.howmuch_pay = calculation;
+  }
+
+  calculateConsumedYear(): void {
+    const comunal_before = this.comunStatisticsMonth.get('comunal_before')?.value;
+    const comunal_now = this.comunStatisticsMonth.get('comunal_now')?.value;
+
+    let tariff;
+    const consumed = comunal_now - comunal_before;
+    if (consumed <= 250) {
+      tariff = 1.44;
+    } else {
+      tariff = 1.68;
+    }
+    const calc_howmuch_pay = tariff * consumed;
+
+    this.comunStatisticsMonth.patchValue({
+      consumed: consumed,
+      calc_howmuch_pay: calc_howmuch_pay,
+      tariff: tariff,
+      howmuch_pay: calc_howmuch_pay,
+    });
+    console.log(tariff)
   }
 
   onSubmitSaveComunStatisticsMonth() {
@@ -173,15 +215,18 @@ export class PaymentHistoryComponent implements OnInit {
     const comunal_name = localStorage.getItem('comunal_name');
     const userJson = localStorage.getItem('user');
 
-
-
     console.log(JSON.parse(localStorage.getItem('selectedMonth')!));
     if (userJson) {
       if (this.comunStatisticsMonth) {
         const comunalData = {
+          personalAccount: this.comunStatisticsMonth.get('personalAccount')?.value,
           comunal_before: this.comunStatisticsMonth.get('comunal_before')?.value,
           comunal_now: this.comunStatisticsMonth.get('comunal_now')?.value,
+          consumed: this.comunStatisticsMonth.get('consumed')?.value,
+          tariff: this.comunStatisticsMonth.get('tariff')?.value,
+          calc_howmuch_pay: this.comunStatisticsMonth.get('calc_howmuch_pay')?.value,
           howmuch_pay: this.comunStatisticsMonth.get('howmuch_pay')?.value,
+          about_pay: this.comunStatisticsMonth.get('about_pay')?.value,
         };
         this.http
           .post('http://localhost:3000/comunal/add/comunal', {

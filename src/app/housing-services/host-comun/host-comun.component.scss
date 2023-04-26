@@ -128,6 +128,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
+  padding: 20px;
 }
 
 .btn-group {
@@ -346,15 +347,6 @@ form {
   background: none;
 }
 
-select {
-  font-size: 16px;
-  height: 40px;
-  color: $color-accent;
-  border: none;
-  // border: 1px groove $color-accent;
-  border-radius: 10px;
-}
-
 .form-select {
   width: 240px;
 }
@@ -399,8 +391,6 @@ a {
   }
 }
 
-
-
 .input-cast {
   font-size: 16px;
   color: $color-accent;
@@ -412,11 +402,6 @@ a {
     border: 2px groove $color-accent;
   }
 }
-
-input {
-  background-color: red;
-}
-
 
 .loader-overlay {
   position: fixed;
@@ -469,16 +454,41 @@ input {
   color: $color-text;
 }
 
-.inputbox {
+.box-date {
   display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
-.select-name{
-  font-size: 0.8em;
-  margin: 0;
+.list {
+
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.list-form {
+  border: none;
+  height: 4rem;
+  background-color: none;
+}
+.list-label {
+  border: none;
   padding: 0;
 }
+.list-select {
+  border: none;
+  font-size: 15px;
+}
+.list-option {
+  border: none;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+
 

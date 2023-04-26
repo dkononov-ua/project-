@@ -172,8 +172,11 @@ export class HouseComponent implements OnInit {
             this.about.about = response.houseData.about.about;
             this.about.bunker = response.houseData.about.bunker;
 
+            if(response.houseData.imgs !== 'Картинок нема'){
             this.flatImg = response.houseData.imgs;
-            if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0) {
+            }
+
+            if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
               for (const img of this.flatImg) {
                 this.images.push('http://localhost:3000/img/flat/' + img.img);
               }
