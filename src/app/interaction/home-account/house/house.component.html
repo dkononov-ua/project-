@@ -1,11 +1,17 @@
-<div class="container-card">
-  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+<div class="container-box">
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class=" m-2">
+      <app-house-nav></app-house-nav>
+    </div>
+  </div>
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
+                class="img-fluid rounded">
             </div>
           </div>
           <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
@@ -14,11 +20,13 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
@@ -65,51 +73,9 @@
       </div>
     </div>
   </div>
-
-  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
     <div class="card m-2 p-2">
-      <div class="characteristics">
-        <h4>Статус оселі:</h4>
-        <div class="characteristics-group">
-          <div class="item-characteristics">Показувати на сайті: {{ checkBox[house.private] }}</div>
-          <div class="item-characteristics">Здаю в оренду: {{ checkBox[house.rent] }}</div>
-          <div class="item-characteristics">Проживаю: {{ checkBox[house.live] }}</div>
-          <div class="item-characteristics">Хто проживає: {{ checkBox[house.who_live] }}</div>
-        </div>
-      </div>
-      <div class="characteristics">
-        <h4>Параметри оселі:</h4>
-        <div class="characteristics-group">
-          <div class="item-characteristics">Стан оселі: {{ options[param.repair_status] }}</div>
-          <div class="item-characteristics">Поверх: {{ param.floor }}</div>
-          <div class="item-characteristics">Тип балкону: {{ options[param.balcony] }}</div>
-          <div class="item-characteristics">Наявність укриття: {{ options[about.bunker] }}</div>
-          <div class="item-characteristics">Метро: {{ aboutDistance[about.distance_metro] }}</div>
-          <div class="item-characteristics">Зупинка: {{ aboutDistance[about.distance_stop] }}</div>
-          <div class="item-characteristics">Маркет: {{ aboutDistance[about.distance_shop] }}</div>
-          <div class="item-characteristics">Парк: {{ aboutDistance[about.distance_green] }}</div>
-          <div class="item-characteristics">Паркінг: {{ aboutDistance[about.distance_parking] }}</div>
-        </div>
-      </div>
-
-      <div class="characteristics">
-        <h4>Розглядаю:</h4>
-        <div class="characteristics-group">
-          <div class="item-characteristics">Жінки: {{ checkBox[about.woman] }}</div>
-          <div class="item-characteristics">Чоловіки: {{ checkBox[about.man] }}</div>
-          <div class="item-characteristics">Сім'ї: {{ checkBox[about.family] }}</div>
-          <div class="item-characteristics">Студенти: {{ checkBox[about.students] }}</div>
-          <div class="item-characteristics">Тварини: {{ checkBoxAnimals[about.animals] }}</div>
-        </div>
-      </div>
-
-      <div class="characteristics">
-        <h4>Про оселю:</h4>
-        <div class="characteristics-group">
-          <p>{{ about.about }}</p>
-        </div>
-      </div>
-
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

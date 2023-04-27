@@ -1,49 +1,53 @@
 <div [@cardAnimation] class="card-box">
   <div class="card m-2 p-2">
+    <!-- Статус оплати -->
+    <!-- <div class="inputbox">
+      <input type="number" name="status" required>
+      <span>Статус оплати:</span>
+      <i class="orange"></i>
+    </div> -->
     <div class="card-name">
       <h4>Передача показників за:</h4>
     </div>
 
+
     <form class="form-box" [formGroup]="comunCabinet">
+      <app-comun-date></app-comun-date>
+      <mat-form-field appearance="outline">
+        <mat-label>ПІБ власника:</mat-label>
+        <input matInput type="text" id="account_for" name="account_for" formControlName="account_for" readonly>
+        <mat-icon matSuffix></mat-icon>
+        <mat-error *ngIf="formErrors.account_for">{{formErrors.account_for}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Особистий рахунок:</mat-label>
+        <input matInput type="number" id="personalAccount" name="personalAccount" formControlName="personalAccount"
+          readonly required>
+        <mat-icon matSuffix></mat-icon>
+        <mat-error *ngIf="formErrors.personalAccount">{{formErrors.personalAccount}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Попередні показники:</mat-label>
+        <input matInput type="number" id="comunal_before" name="comunal_before" formControlName="comunal_before"
+          required>
+        <mat-icon matSuffix></mat-icon>
+        <mat-error *ngIf="formErrors.comunal_before">{{formErrors.comunal_before}}</mat-error>
+      </mat-form-field>
 
       <div class="inputbox">
-        <app-comun-date></app-comun-date>
-      </div>
-
-      <div class="inputbox">
-        <input required="required" type="text" id="account_for" name="account_for" formControlName="account_for">
-        <span>ПІБ власника:</span>
+        <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
+        <span>Поточні показники:</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.account_for" class="alert alert-danger">{{formErrors.account_for}}</div>
+        <div *ngIf="formErrors.comunal_now" class="alert alert-danger">{{formErrors.comunal_now}}</div>
       </div>
 
-      <div class="inputbox">
-        <input required="required" type="number" id="personalAccount" name="personalAccount" formControlName="personalAccount">
-        <span>Особистий рахунок:</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.personalAccount" class="alert alert-danger">{{formErrors.personalAccount}}</div>
-      </div>
-
-      <div class="box-item">
-        <div class="inputbox">
-          <input required="required" type="number" id="comunal_before" name="comunal_before" formControlName="comunal_before">
-          <span>Попередні:</span>
-          <i class="orange"></i>
-          <div *ngIf="formErrors.comunal_before" class="alert alert-danger">{{formErrors.comunal_before}}</div>
-        </div>
-
-        <div class="inputbox">
-          <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
-          <span>Поточні:</span>
-          <i class="orange"></i>
-          <div *ngIf="formErrors.comunal_now" class="alert alert-danger">{{formErrors.comunal_now}}</div>
-        </div>
-      </div>
 
     </form>
 
     <div class="btn-group">
-      <button class="btn btn-primary mt-3" (click)="saveComunCabinet()"
+      <button mat-raised-button class="btn btn-primary mt-3" (click)="saveComunCabinet()"
         (click)="onSubmitSaveComunCabinet()">НАДІСЛАТИ</button>
     </div>
 

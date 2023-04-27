@@ -1,117 +1,131 @@
-<app-navbar-comun></app-navbar-comun>
 <app-comun-date></app-comun-date>
 
-<div class="card-box">
-  <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
+<div class="container-box">
+  <div class="card-box">
+    <form class="form-box" [formGroup]="comunStatisticsMonth">
 
-    <div class="card m-2 p-2">
-      <div class="card-name">
-        <h4>Статистика</h4>
+      <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
+
+        <div class="card m-2 p-2">
+          <div class="card-name">
+            <h4>Реквізити компанії:</h4>
+          </div>
+
+          <div class="inputbox">
+            <input required="required" type="text" id="comunal_company" name="comunal_company"
+              formControlName="comunal_company">
+            <span>Назва компанії:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input required="required" type="text" id="comunal_address" name="comunal_address"
+              formControlName="comunal_address">
+            <span>Адреса компанії:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input required="required" type="text" id="comunal_site" name="comunal_site" formControlName="comunal_site">
+            <span>Сайт компанії:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input required="required" type="number" id="comunal_phone" name="comunal_phone"
+              formControlName="comunal_phone">
+            <span>Телефон компанії:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input required="required" type="text" id="iban" name="iban" formControlName="iban">
+            <span>IBAN:</span>
+            <i class="orange"></i>
+          </div>
+          <div class="inputbox">
+            <input required="required" type="number" id="edrpo" name="edrpo" formControlName="edrpo">
+            <span>ЄДРПОУ:</span>
+            <i class="orange"></i>
+          </div>
+        </div>
       </div>
 
-      <form class="form-box" [formGroup]="comunStatisticsYear">
-        <div class="inputbox">
-          <input required="required" type="number" id="totalPaid" name="totalPaid">
-          <span>Оплачено загалом/рік:</span>
-          <i class="orange"></i>
+      <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="card m-2 p-2">
+          <div class="card-name">
+            <h4>Статистика</h4>
+          </div>
+
+          <div class="inputbox">
+            <input required="required" type="number" id="personalAccount" name="personalAccount"
+              formControlName="personalAccount">
+            <span>Особистий рахунок:</span>
+            <i class="orange"></i>
+          </div>
+
+          <div class="box-item">
+            <div class="inputbox">
+              <input required="required" type="number" id="comunal_before" name="comunal_before"
+                formControlName="comunal_before">
+              <span>Попередні:</span>
+              <i class="orange"></i>
+            </div>
+            <div class="inputbox">
+              <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
+              <span>Поточні:</span>
+              <i class="orange"></i>
+            </div>
+          </div>
+
+          <div class="box-item">
+            <div class="inputbox">
+              <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
+              <span>Спожито: {{ consumed }}</span>
+              <i class="orange"></i>
+            </div>
+            <div class="inputbox">
+              <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
+              <span>Тариф: {{ tariff }}</span>
+              <i class="orange"></i>
+            </div>
+          </div>
+
+          <div class="inputbox">
+            <input type="number" id="calc_howmuch_pay" name="calc_howmuch_pay" formControlName="calc_howmuch_pay">
+            <span>До сплати: {{ howmuch_pay }} грн</span>
+            <i class="orange"></i>
+          </div>
+
+          <div class="inputbox">
+            <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
+            <span>Сплатив:</span>
+            <i class="orange"></i>
+          </div>
+
+          <div class="form-floating">
+            <textarea #textArea class="form-control scrollable-textarea" placeholder="Коментар про запис:"
+              id="floatingTextarea" formControlName="about_pay" (input)="onInput()"></textarea>
+            <label for="floatingTextarea">
+              <p>Коментар про запис:</p>
+            </label>
+          </div>
+
+
+
         </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthAveragePaid" name="monthAveragePaid">
-          <span>δ/міс оплата:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthPredictedPaid" name="monthPredictedPaid">
-          <span>δ/міс оплата прогнозоване:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="totalConsumption" name="totalConsumption">
-          <span>Спожито загалом/рік:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthAverageConsumption" name="monthAverageConsumption">
-          <span>δ/міс спожито:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthPredictedConsumption" name="monthPredictedConsumption">
-          <span>δ/міс спож. прогнозоване:</span>
-          <i class="orange"></i>
-        </div>
-      </form>
-    </div>
+      </div>
+
+    </form>
+
   </div>
 
-  <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
-    <div class="card m-2 p-2">
-      <div class="card-name">
-        <h4>Статистика</h4>
-      </div>
-
-      <form class="form-box" [formGroup]="comunStatisticsMonth">
-
-        <div class="inputbox">
-          <input required="required" type="number" id="personalAccount" name="personalAccount"
-            formControlName="personalAccount">
-          <span>Особистий рахунок:</span>
-          <i class="orange"></i>
-        </div>
-
-        <div class="box-item">
-          <div class="inputbox">
-            <input required="required" type="number" id="comunal_before" name="comunal_before"
-              formControlName="comunal_before">
-            <span>Попередні:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
-            <span>Поточні:</span>
-            <i class="orange"></i>
-          </div>
-        </div>
-
-        <div class="box-item">
-          <div class="inputbox">
-            <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
-            <span>Спожито: {{ consumed }}</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
-            <span>Тариф: {{ tariff }}</span>
-            <i class="orange"></i>
-          </div>
-        </div>
-
-        <div class="inputbox">
-          <input type="number" id="calc_howmuch_pay" name="calc_howmuch_pay" formControlName="calc_howmuch_pay">
-          <span>До сплати: {{ howmuch_pay }} грн</span>
-          <i class="orange"></i>
-        </div>
-
-        <div class="inputbox">
-          <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
-          <span>Сплатив:</span>
-          <i class="orange"></i>
-        </div>
-
-        <div class="form-floating">
-          <textarea #textArea class="form-control scrollable-textarea" placeholder="Коментар про запис:"
-            id="floatingTextarea" formControlName="about_pay" (input)="onInput()"></textarea>
-          <label for="floatingTextarea">
-            <p>Коментар про запис:</p>
-          </label>
-        </div>
-      </form>
-
-      <div class="btn-group">
-        <button class="btn btn-primary mt-3" (click)="onSubmitSaveComunStatisticsMonth()">ЗБЕРЕГТИ</button>
-        <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunStatistics()">СКИНУТИ</button>
-      </div>
-
-    </div>
+  <div class="btn-group">
+    <button mat-raised-button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetComunStatistics()">СКИНУТИ</button>
+    <button mat-raised-button class="btn btn-primary mt-3" (click)="onSubmitSaveComunStatisticsMonth()">ЗБЕРЕГТИ</button>
+    <button mat-raised-button class="btn btn-primary mt-3" (click)="onSubmit()">ЗБЕРЕГТИ КОПІЮ</button>
+    <button mat-raised-button class="btn btn-primary mt-3" (click)="fillPreviousData()">ЗАВАНТАЖИТИ КОПІЮ</button>
   </div>
+
+
+
 </div>
+
+
+

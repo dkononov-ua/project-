@@ -7,9 +7,9 @@ import { Subject } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-payment-history',
-  templateUrl: './payment-history.component.html',
-  styleUrls: ['./payment-history.component.scss'],
+  selector: 'app-comun-statistics',
+  templateUrl: './comun-statistics.component.html',
+  styleUrls: ['./comun-statistics.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -19,8 +19,9 @@ import { DataService } from 'src/app/services/data.service';
     ])
   ],
   template: '{{ selectedFlatId }}'
+
 })
-export class PaymentHistoryComponent implements OnInit {
+export class ComunStatisticsComponent {
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
 
@@ -39,40 +40,6 @@ export class PaymentHistoryComponent implements OnInit {
     }, 500);
   }
 
-  formErrors: any = {
-    flat_id: '',
-    comunal_name: '',
-    comunal_address: '',
-    comunal_site: '',
-    comunal_phone: '',
-    iban: '',
-    edrpo: '',
-  };
-
-  validationMessages: any = {
-    flat_id: {
-      required: 'houseId обов`язково',
-    },
-    comunal_company: {
-      required: 'Обов`язково',
-    },
-    comunal_address: {
-      required: 'Обов`язково',
-    },
-    comunal_site: {
-      required: 'Обов`язково',
-    },
-    comunal_phone: {
-      required: 'Обов`язково',
-    },
-    iban: {
-      required: 'Обов`язково',
-    },
-    edrpo: {
-      required: 'Обов`язково',
-    },
-  };
-
   houses: { id: number, name: string }[] = [];
   selectedMonth: string | undefined;
   selectedYear: number | undefined;
@@ -89,45 +56,9 @@ export class PaymentHistoryComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService, private http: HttpClient, private hostComunComponent: HostComunComponent) {
   }
 
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-  ngOnChanges() {
-    switch (this.comunal_name) {
-      case 'Холодна вода':
-        this.unit = 'м³';
-        break;
-      case 'Газ':
-        this.unit = 'м³';
-        break;
-      case 'Електроенергія':
-        this.unit = 'кВтг';
-        break;
-      case 'Heating':
-        this.unit = 'Гкал';
-        break;
-      default:
-        this.unit = '';
-        break;
-    }
-    this.comunStatisticsMonth.patchValue({ unit: this.unit });
-  }
-
   ngOnInit(): any {
-    const previousData = JSON.parse(localStorage.getItem('previousData') || '{}');
-
     this.comunStatisticsYear = this.fb.group({});
     this.comunStatisticsMonth = this.fb.group({
-      comunal_company: ['', Validators.required],
-      comunal_address: ['', Validators.required],
-      comunal_site: ['', Validators.required],
-      comunal_phone: ['', Validators.required],
-      iban: ['', Validators.required],
-      edrpo: ['', Validators.required],
-
       personalAccount: ['', Validators.required],
       comunal_before: ['', Validators.required],
       comunal_now: ['', Validators.required],
@@ -168,7 +99,17 @@ export class PaymentHistoryComponent implements OnInit {
       this.selectedMonth = JSON.parse(selectedMonth);
     }
 
+    let totalConsumed = 0;
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
+    com_inf.comunal.forEach((value: any) => {
+      if (value.when_pay_y === String(this.selectedYear)) {
+        if (value.comunal_name === comunalName) {
+          totalConsumed += value.consumed;
+        }
+      }
+    });
+
+    console.log(totalConsumed);
 
     if (userJson) {
       com_inf.comunal.forEach((value: any) => {
@@ -178,13 +119,6 @@ export class PaymentHistoryComponent implements OnInit {
             if (value.comunal_name === comunalName) {
               console.log(value);
               this.comunStatisticsMonth.setValue({
-                comunal_company: value.comunal_company,
-                comunal_address: value.comunal_address,
-                comunal_site: value.comunal_site,
-                comunal_phone: value.comunal_phone,
-                iban: value.iban,
-                edrpo: value.edrpo,
-
                 personalAccount: value.personalAccount,
                 comunal_before: value.comunal_before,
                 comunal_now: value.comunal_now,
@@ -203,6 +137,33 @@ export class PaymentHistoryComponent implements OnInit {
     else {
       console.log('user not found');
     }
+  }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  ngOnChanges() {
+    switch (this.comunal_name) {
+      case 'Холодна вода':
+        this.unit = 'м³';
+        break;
+      case 'Газ':
+        this.unit = 'м³';
+        break;
+      case 'Електроенергія':
+        this.unit = 'кВтг';
+        break;
+      case 'Heating':
+        this.unit = 'Гкал';
+        break;
+      default:
+        this.unit = '';
+        break;
+    }
+    this.comunStatisticsMonth.patchValue({ unit: this.unit });
   }
 
   calculateConsumed(): void {
@@ -228,19 +189,25 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   calculateConsumedYear(): void {
-  }
+    const comunal_before = this.comunStatisticsMonth.get('comunal_before')?.value;
+    const comunal_now = this.comunStatisticsMonth.get('comunal_now')?.value;
 
-  onSubmit(): void {
-    const formData = this.comunStatisticsMonth.value;
+    let tariff;
+    const consumed = comunal_now - comunal_before;
+    if (consumed <= 250) {
+      tariff = 1.44;
+    } else {
+      tariff = 1.68;
+    }
+    const calc_howmuch_pay = tariff * consumed;
 
-    localStorage.setItem('previousData', JSON.stringify(formData));
-
-    this.onSubmitSaveComunStatisticsMonth();
-  }
-
-  fillPreviousData(): void {
-    const previousData = JSON.parse(localStorage.getItem('previousData') || '{}');
-    this.comunStatisticsMonth.patchValue(previousData);
+    this.comunStatisticsMonth.patchValue({
+      consumed: consumed,
+      calc_howmuch_pay: calc_howmuch_pay,
+      tariff: tariff,
+      howmuch_pay: calc_howmuch_pay,
+    });
+    console.log(tariff)
   }
 
   onSubmitSaveComunStatisticsMonth() {
@@ -253,13 +220,6 @@ export class PaymentHistoryComponent implements OnInit {
     if (userJson) {
       if (this.comunStatisticsMonth) {
         const comunalData = {
-          comunal_company: this.comunStatisticsMonth.get('comunal_company')?.value,
-          comunal_address: this.comunStatisticsMonth.get('comunal_address')?.value,
-          comunal_site: this.comunStatisticsMonth.get('comunal_site')?.value,
-          comunal_phone: this.comunStatisticsMonth.get('comunal_phone')?.value,
-          iban: this.comunStatisticsMonth.get('iban')?.value,
-          edrpo: this.comunStatisticsMonth.get('edrpo')?.value,
-
           personalAccount: this.comunStatisticsMonth.get('personalAccount')?.value,
           comunal_before: this.comunStatisticsMonth.get('comunal_before')?.value,
           comunal_now: this.comunStatisticsMonth.get('comunal_now')?.value,
@@ -292,31 +252,6 @@ export class PaymentHistoryComponent implements OnInit {
     }
   }
 
-  // loadData(): void {
-  //   // Отримати дані з localStorage
-  //   const previousData = JSON.parse(localStorage.getItem('previousData') || '{}');
-
-  //   // Отримати збережений рік та місяць
-  //   const selectedYear = JSON.parse(localStorage.getItem('selectedYear')!);
-  //   const selectedMonth = JSON.parse(localStorage.getItem('selectedMonth')!);
-
-  //   // Додати збережені дані до запиту до сервера
-  //   const userJson = localStorage.getItem('user');
-  //   const selectedFlatId = localStorage.getItem('house');
-  //   const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-  //   this.http.post('http://localhost:3000/comunal/get/comunal', {
-  //     auth: JSON.parse(userJson!),
-  //     flat_id: JSON.parse(selectedFlatId!).flat_id,
-  //     comunal_name: comunalName,
-  //     when_pay_y: selectedYear,
-  //     when_pay_m: selectedMonth,
-  //     ...previousData // Додати збережені дані до запиту
-  //   }).subscribe((response: any) => {
-  //     localStorage.setItem('comunal_inf', JSON.stringify(response));
-  //     this.comunStatisticsMonth.reset(); // Скидання значень форми
-  //   });
-  // }
-
   saveComunStatistics(): void {
     this.comunStatisticsMonth.disable();
     this.isDisabled = true;
@@ -328,4 +263,5 @@ export class PaymentHistoryComponent implements OnInit {
   resetComunStatistics() {
     this.comunStatisticsMonth.reset();
   }
+
 }

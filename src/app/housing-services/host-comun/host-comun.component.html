@@ -27,7 +27,9 @@
 
         <div class="menu">
           <nav class="navbar-house">
-            <a class="link-menu" [routerLinkActive]="'active'"
+            <app-navbar-comun></app-navbar-comun>
+
+            <!-- <a class="link-menu" [routerLinkActive]="'active'"
               [routerLink]="'/housing-services/host-comun/energy'"><span class="link-text">Електроенергія </span><i
                 class="fa-regular fa-lightbulb"></i>
             </a>
@@ -44,7 +46,7 @@
             <a class="link-menu" [routerLinkActive]="'active'"
               [routerLink]="'/housing-services/host-comun/internet'"><span class="link-text">Інтернет </span><i
                 class="fa-solid fa-wifi"></i>
-            </a>
+            </a> -->
           </nav>
 
           <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
@@ -76,7 +78,7 @@
       </div>
     </div>
 
-    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+    <div class="container-box col-lg-8 col-md-8 col-sm-12 col-12">
       <router-outlet></router-outlet>
     </div>
 

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
 import { HostComunComponent } from '../host-comun/host-comun.component';
+import { Subject } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -24,11 +24,11 @@ import { DataService } from 'src/app/services/data.service';
   template: '{{ selectedFlatId }}'
 })
 export class EngCabinetComponent implements OnInit {
+
   formErrors: any = {
     flat_id: '',
     account_for: '',
     personalAccount: '',
-    indicatorMonth: '',
     comunal_before: '',
     comunal_now: '',
   };
@@ -37,31 +37,6 @@ export class EngCabinetComponent implements OnInit {
     firstName: '',
     lastName: '',
     surName: '',
-    email: '',
-    password: '',
-    dob: '',
-    tell: '',
-    telegram: '',
-    facebook: '',
-    instagram: '',
-    mail: '',
-    viber: '',
-  };
-
-  house = {
-    flat_id: '',
-    country: '',
-    region: '',
-    city: '',
-    street: '',
-    houseNumber: '',
-    apartment: '',
-    flat_index: '',
-    private: '',
-    rent: '',
-    live: '',
-    who_live: '',
-    subscribers: '',
   };
 
   validationMessages: any = {
@@ -69,9 +44,6 @@ export class EngCabinetComponent implements OnInit {
       required: 'houseId обов`язково',
     },
     personalAccount: {
-      required: 'Обов`язково',
-    },
-    indicatorMonth: {
       required: 'Обов`язково',
     },
     comunal_before: {
@@ -102,35 +74,68 @@ export class EngCabinetComponent implements OnInit {
   constructor(private dataService: DataService, private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
   }
 
-  ngOnInit(): void {
-    this.selectedYear = localStorage.getItem('selectedYear');
-    this.selectedMonth = localStorage.getItem('selectedMonth');
-    this.selectedFlatId = localStorage.getItem('house');
+  ngOnInit(): any {
 
     this.comunCabinet = this.fb.group({
       account_for: ['', Validators.required],
       personalAccount: ['', Validators.required],
-      indicatorMonth: [this.selectedMonth, Validators.required],
       comunal_before: ['', Validators.required],
       comunal_now: ['', Validators.required],
     });
 
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
-    localStorage.getItem('selectedComunal');
+    this.selectedFlatId = localStorage.getItem('house');
+    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
+    const selectedYear = localStorage.getItem('selectedYear');
+    const selectedMonth = localStorage.getItem('selectedMonth');
 
-    if (userJson !== null) {
-      if (houseJson !== null) {
-        this.dataService.getData().subscribe((response: any) => {
-          this.comunCabinet.setValue({
-            account_for: response.userData.inf.lastName + ' ' + response.userData.inf.firstName + ' ' + response.userData.inf.surName,
-            personalAccount: response.comunal.personalAccount,
-            indicatorMonth: response.comunal.indicatorMonth,
-            comunal_before: response.comunal.comunal_before,
-            comunal_now: response.comunal.comunal_now,
+    if (selectedYear) {
+      if (userJson) {
+        this.http.post('http://localhost:3000/comunal/get/comunal', {
+          auth: JSON.parse(userJson),
+          flat_id: JSON.parse(this.selectedFlatId).flat_id,
+          comunal_name: comunalName,
+          when_pay_y: JSON.parse(selectedYear)
+        })
+          .subscribe((response: any) => {
+            localStorage.setItem('comunal_inf', JSON.stringify(response));
+            console.log(response);
+          }, (error: any) => {
+            console.error(error);
           });
-        });
+      } else {
+        console.log('user not found');
       }
+
+      this.selectedYear = JSON.parse(selectedYear);
+    }
+    if (selectedMonth) {
+      this.selectedMonth = JSON.parse(selectedMonth);
+    }
+    const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
+
+    if (userJson) {
+      com_inf.comunal.forEach((value: any) => {
+        console.log(value.when_pay_m);
+        if (value.comunal_name === comunalName) {
+          if (value.when_pay_y === String(this.selectedYear)) {
+            if (value.when_pay_m === this.selectedMonth) {
+              console.log(value);
+              this.dataService.getData().subscribe((response: any) => {
+                this.comunCabinet.setValue({
+                  account_for: response.userData.inf.lastName + ' ' + response.userData.inf.firstName + ' ' + response.userData.inf.surName,
+                  personalAccount: value.personalAccount,
+                  comunal_before: value.comunal_before,
+                  comunal_now: value.comunal_now,
+                });
+              });
+            }
+          }
+        }
+      });
+    }
+    else {
+      console.log('user not found');
     }
   }
 
@@ -177,12 +182,6 @@ export class EngCabinetComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(5),
-      ]],
-      indicatorMonth: [null, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(100),
-        Validators.pattern(/^[0-9]+$/),
       ]],
       comunal_before: [null, [
         Validators.required,

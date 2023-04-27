@@ -1,7 +1,9 @@
-.box-date {
+.form-box {
+  width: 100%;
   display: flex;
+  align-content: space-around;
+  align-items: stretch;
   justify-content: space-around;
-  flex-wrap: wrap;
 }
 
 .list {
@@ -27,5 +29,3 @@
   border: none;
   border-radius: 10px;
 }
-
-

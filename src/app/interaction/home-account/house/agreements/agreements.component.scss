@@ -1,0 +1,9 @@
+@use "../../../../style/presets/" as *;
+
+.card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: none;
+  justify-content: flex-start;
+}

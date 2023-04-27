@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { HomeAccountRoutingModule } from './home-account-routing.module';
 import { UserComponent } from './user/user.component';
 import { HouseComponent } from './house/house.component';
@@ -15,6 +14,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeAccountComponent } from './home-account.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { HouseParamComponent } from './house/house-param/house-param.component';
+import { OrderingServicesComponent } from './house/ordering-services/ordering-services.component';
+import { SubscribersComponent } from './house/subscribers/subscribers.component';
+import { AgreementsComponent } from './house/agreements/agreements.component';
+import { FillingComponent } from './house/filling/filling.component';
+import { HouseNavComponent } from './nav/house-nav/house-nav.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { UserNavComponent } from './nav/user-nav/user-nav.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +30,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HouseComponent,
     HostAccComponent,
     HomeAccountComponent,
+    HouseParamComponent,
+    OrderingServicesComponent,
+    SubscribersComponent,
+    AgreementsComponent,
+    FillingComponent,
+    HouseNavComponent,
+    UserNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +50,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     RouterModule,
     NgxSpinnerModule,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
-  exports: [ ]
+  exports: []
 })
 export class HomeAccountModule { }

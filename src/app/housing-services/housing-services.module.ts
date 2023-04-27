@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
 import { HostComunComponent } from './host-comun/host-comun.component';
 import { SharedModule } from '../shared/shared.module';
-import { DetailsComponent } from './details/details.component';
 import { NavbarComunComponent } from './navbar-comun/navbar-comun.component';
 import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 import { ServiceProfileComponent } from './service-profile/service-profile.component';
@@ -17,6 +16,9 @@ import { EngCabinetComponent } from './eng-cabinet/eng-cabinet.component';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ComunDateComponent } from './comun-date/comun-date.component';
+import { ComunStatisticsComponent } from './comun-statistics/comun-statistics.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -24,11 +26,11 @@ import { ComunDateComponent } from './comun-date/comun-date.component';
     HostComunComponent,
     PaymentHistoryComponent,
     ServiceProfileComponent,
-    DetailsComponent,
     NavbarComunComponent,
     EngCabinetComponent,
     ComunCompanyComponent,
     ComunDateComponent,
+    ComunStatisticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,8 @@ import { ComunDateComponent } from './comun-date/comun-date.component';
     SharedModule,
     RouterModule,
     MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
   ]
 })
 export class HousingServicesModule { }
