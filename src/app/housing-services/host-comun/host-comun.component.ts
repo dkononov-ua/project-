@@ -13,6 +13,20 @@ import { DeleteComunalComponent } from 'src/app/components/delete-comunal/delete
 })
 export class HostComunComponent implements OnInit {
 
+  popular_comunal_names = [
+    "Опалення",
+    "Водопостачання",
+    "Вивіз сміття",
+    "Електроенергія",
+    "Газопостачання",
+    "Комунальна плата за утримання будинку",
+    "Охорона будинку",
+    "Ремонт під'їзду",
+    "Ліфт",
+    "Інтернет та телебачення"
+  ];
+
+
   public selectedComunal: any | null;
   public selectedFlatId: any | null;
   public comunal_name!: string | any;
@@ -156,6 +170,8 @@ export class HostComunComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       localStorage.removeItem('comunal_name')
+      localStorage.removeItem('comunal_inf')
+      localStorage.removeItem('selectedMonth')
       console.log('Ви вибрали послуги:', this.selectedComunal);
       localStorage.setItem('comunal_name', JSON.stringify({ comunal: this.selectedComunal }));
       this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.selectedComunal })
@@ -210,22 +226,16 @@ export class HostComunComponent implements OnInit {
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      if (this.comunCreate) {
-        this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.comunCreate?.value.comunal_name })
-          .subscribe((response: any) => {
-            console.log(response);
-            console.log(this.comunCreate.value);
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        console.log('comunCreate is not defined');
-      }
+      this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.selectedComunal })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
     } else {
       console.log('user not found');
     }
     location.reload();
-
   }
 
 }

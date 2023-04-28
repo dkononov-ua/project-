@@ -23,6 +23,7 @@ export class ComunDateComponent {
   }
 
   months = [
+    'Не обрано',
     'Січень',
     'Лютий',
     'Березень',
@@ -37,7 +38,8 @@ export class ComunDateComponent {
     'Грудень'
   ];
 
-  years = [2023, 2022, 2021, 2020];
+  years = ['Не обрано', 2023, 2022, 2021, 2020];
+
   houses: { id: number, name: string }[] = [];
 
   selectHouse: any;

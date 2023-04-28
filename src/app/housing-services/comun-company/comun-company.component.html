@@ -2,21 +2,24 @@
   <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
 
-      <div class="img-fluid"> <img src="../../assets/energy.jpg" class="card-img-top" alt="...">
+      <div class="img-fluid rounded">
+        <img [src]="selectedImageUrl" alt="...">
       </div>
 
       <div class="card-body">
-        <h4 class="card-title">Компанія постачальника послуг</h4>
-        <h3 class="card-title">Yasno</h3>
+        <h2>{{comunalName}}</h2>
+        <p class="card-title">Компанія постачальника послуг</p>
+        <div class="card-title-group p-2" style="width: 200px;">
+          <h3 class="card-title" style="word-break: break-all">{{ comunalCompany.comunal_company }}</h3>
+        </div>
 
-        <p>Тариф за спожитий обсяг до 250 кВт·год з ПДВ 1,44 грн/кВт·год</p>
-        <p>Тариф при споживанні обсягу понад 250 кВт·год 1,68 грн/кВт·год</p>
+        <p>Тут ви можете детально відстежувати свої рахунки, статистику по спожитому та витрати. Вносити
+          показники лічильників, створювати шаблони та зберігати за місяцями та роками.</p>
       </div>
 
     </div>
   </div>
   <div [@cardAnimation] class="col-lg-6 col-md-12 col-sm-12 col-12">
-    <router-outlet ></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 </div>
-

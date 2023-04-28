@@ -1,10 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HostComunComponent } from '../host-comun/host-comun.component';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-payment-history',
@@ -86,7 +87,15 @@ export class PaymentHistoryComponent implements OnInit {
   public selectedFlatId: any;
   public selectedComunal: any | null;
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private http: HttpClient, private hostComunComponent: HostComunComponent) {
+  constructor(private snackBar: MatSnackBar, private fb: FormBuilder, private dataService: DataService, private http: HttpClient, private hostComunComponent: HostComunComponent) {
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open('Дані збережено', 'Закрити', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
   onInput() {
@@ -116,7 +125,7 @@ export class PaymentHistoryComponent implements OnInit {
     this.comunStatisticsMonth.patchValue({ unit: this.unit });
   }
 
-  ngOnInit(): any {
+  ngOnInit(): void {
     const previousData = JSON.parse(localStorage.getItem('previousData') || '{}');
 
     this.comunStatisticsYear = this.fb.group({});
@@ -144,66 +153,63 @@ export class PaymentHistoryComponent implements OnInit {
     const selectedMonth = localStorage.getItem('selectedMonth');
     const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
 
-    if (selectedYear) {
-      if (userJson) {
-        this.http.post('http://localhost:3000/comunal/get/comunal', {
-          auth: JSON.parse(userJson),
-          flat_id: JSON.parse(this.selectedFlatId).flat_id,
-          comunal_name: comunalName,
-          when_pay_y: JSON.parse(selectedYear)
-        })
-          .subscribe((response: any) => {
-            localStorage.setItem('comunal_inf', JSON.stringify(response));
-            console.log(response);
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        console.log('user not found');
-      }
+    if (selectedYear && userJson) {
+      this.http.post('http://localhost:3000/comunal/get/comunal', {
+        auth: JSON.parse(userJson),
+        flat_id: JSON.parse(this.selectedFlatId).flat_id,
+        comunal_name: comunalName,
+        when_pay_y: JSON.parse(selectedYear)
+      })
+        .subscribe((response: any) => {
+          localStorage.setItem('comunal_inf', JSON.stringify(response));
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
 
-      this.selectedYear = JSON.parse(selectedYear);
-    }
-    if (selectedMonth) {
-      this.selectedMonth = JSON.parse(selectedMonth);
-    }
+    this.selectedYear = selectedYear ? JSON.parse(selectedYear) : null;
+    this.selectedMonth = selectedMonth ? JSON.parse(selectedMonth) : null;
 
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
 
-    if (userJson) {
-      com_inf.comunal.forEach((value: any) => {
-        console.log(value.when_pay_m);
-        if (value.when_pay_y === String(this.selectedYear)) {
-          if (value.when_pay_m === this.selectedMonth) {
-            if (value.comunal_name === comunalName) {
-              console.log(value);
-              this.comunStatisticsMonth.setValue({
-                comunal_company: value.comunal_company,
-                comunal_address: value.comunal_address,
-                comunal_site: value.comunal_site,
-                comunal_phone: value.comunal_phone,
-                iban: value.iban,
-                edrpo: value.edrpo,
-
-                personalAccount: value.personalAccount,
-                comunal_before: value.comunal_before,
-                comunal_now: value.comunal_now,
-                consumed: '',
-                tariff: '',
-                calc_howmuch_pay: '',
-                howmuch_pay: '',
-                about_pay: value.about_pay,
-              });
-              this.calculateConsumed();
-            }
-          }
-        }
+    if (userJson && com_inf) {
+      const value = com_inf.comunal.find((value: any) => {
+        return value.when_pay_y === String(this.selectedYear) &&
+          value.when_pay_m === this.selectedMonth &&
+          value.comunal_name === comunalName;
       });
-    }
-    else {
+
+      if (value) {
+        console.log(value);
+        this.comunStatisticsMonth.patchValue({
+          comunal_company: value.comunal_company,
+          comunal_address: value.comunal_address,
+          comunal_site: value.comunal_site,
+          comunal_phone: value.comunal_phone,
+          iban: value.iban,
+          edrpo: value.edrpo,
+
+          personalAccount: value.personalAccount,
+          comunal_before: value.comunal_before,
+          comunal_now: value.comunal_now,
+          howmuch_pay: value.howmuch_pay,
+          about_pay: value.about_pay,
+        });
+        this.calculateConsumed();
+        this.comunStatisticsMonth.valueChanges.pipe(
+          debounceTime(1000)
+        ).subscribe(() => {
+          this.calculateConsumed();
+        });
+      }
+    } else {
       console.log('user not found');
     }
   }
+
 
   calculateConsumed(): void {
     const comunal_before = this.comunStatisticsMonth.get('comunal_before')?.value;
@@ -219,24 +225,22 @@ export class PaymentHistoryComponent implements OnInit {
     const calc_howmuch_pay = tariff * consumed;
 
     this.comunStatisticsMonth.patchValue({
-      consumed: consumed,
-      calc_howmuch_pay: calc_howmuch_pay,
-      tariff: tariff,
-      howmuch_pay: calc_howmuch_pay,
+      consumed: consumed.toFixed(2),
+      calc_howmuch_pay: calc_howmuch_pay.toFixed(2),
+      tariff: tariff.toFixed(2),
     });
     console.log(tariff)
   }
 
-  calculateConsumedYear(): void {
-  }
-
   onSubmit(): void {
-    const formData = this.comunStatisticsMonth.value;
+    const { comunal_company, comunal_address, comunal_site, comunal_phone, iban, edrpo, personalAccount, comunal_now } = this.comunStatisticsMonth.value;
+    const formData = { comunal_company, comunal_address, comunal_site, comunal_phone, iban, edrpo, personalAccount, comunal_before: comunal_now };
 
     localStorage.setItem('previousData', JSON.stringify(formData));
 
     this.onSubmitSaveComunStatisticsMonth();
   }
+
 
   fillPreviousData(): void {
     const previousData = JSON.parse(localStorage.getItem('previousData') || '{}');
@@ -281,7 +285,7 @@ export class PaymentHistoryComponent implements OnInit {
           .subscribe(
             (response: any) => {
               localStorage.removeItem('selectedMonth');
-              location.reload()
+              location.reload
             },
           );
       } else {
@@ -291,31 +295,6 @@ export class PaymentHistoryComponent implements OnInit {
       console.log('user not found');
     }
   }
-
-  // loadData(): void {
-  //   // Отримати дані з localStorage
-  //   const previousData = JSON.parse(localStorage.getItem('previousData') || '{}');
-
-  //   // Отримати збережений рік та місяць
-  //   const selectedYear = JSON.parse(localStorage.getItem('selectedYear')!);
-  //   const selectedMonth = JSON.parse(localStorage.getItem('selectedMonth')!);
-
-  //   // Додати збережені дані до запиту до сервера
-  //   const userJson = localStorage.getItem('user');
-  //   const selectedFlatId = localStorage.getItem('house');
-  //   const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-  //   this.http.post('http://localhost:3000/comunal/get/comunal', {
-  //     auth: JSON.parse(userJson!),
-  //     flat_id: JSON.parse(selectedFlatId!).flat_id,
-  //     comunal_name: comunalName,
-  //     when_pay_y: selectedYear,
-  //     when_pay_m: selectedMonth,
-  //     ...previousData // Додати збережені дані до запиту
-  //   }).subscribe((response: any) => {
-  //     localStorage.setItem('comunal_inf', JSON.stringify(response));
-  //     this.comunStatisticsMonth.reset(); // Скидання значень форми
-  //   });
-  // }
 
   saveComunStatistics(): void {
     this.comunStatisticsMonth.disable();

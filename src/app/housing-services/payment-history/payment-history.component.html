@@ -10,15 +10,6 @@
           <div class="card-name">
             <h4>Реквізити компанії:</h4>
           </div>
-          <div class="btn-group">
-            <button mat-raised-button class="btn-1 mt-3" (click)="onSubmit()" matTooltip="Копіювати">
-              <i class="fa-solid fa-copy"></i>
-            </button>
-            <button mat-raised-button class="btn-1 mt-3" (click)="fillPreviousData()" matTooltip="Вставити">
-              <i class="fa-solid fa-paste"></i>
-            </button>
-          </div>
-
 
           <div class="inputbox">
             <input required="required" type="text" id="comunal_company" name="comunal_company"
@@ -52,6 +43,15 @@
             <input required="required" type="number" id="edrpo" name="edrpo" formControlName="edrpo">
             <span>ЄДРПОУ:</span>
             <i class="orange"></i>
+          </div>
+          <div class="btn-group">
+            <button mat-raised-button class="btn btn-secondary mt-3 ml-3" (click)="onSubmit()" matTooltip="Копіювати">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+            <button mat-raised-button class="btn btn-secondary mt-3 ml-3" (click)="fillPreviousData()"
+              matTooltip="Вставити">
+              <i class="fa-solid fa-paste"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -92,22 +92,23 @@
             </div>
             <div class="inputbox">
               <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
-              <span>Тариф: {{ tariff }}</span>
+              <span>Тариф &#8372;: {{ tariff }}</span>
               <i class="orange"></i>
             </div>
           </div>
 
           <div class="inputbox">
             <input type="number" id="calc_howmuch_pay" name="calc_howmuch_pay" formControlName="calc_howmuch_pay">
-            <span>До сплати: {{ howmuch_pay }} грн</span>
+            <span>До сплати &#8372;: {{ howmuch_pay }}</span>
             <i class="orange"></i>
           </div>
 
           <div class="inputbox">
             <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
-            <span>Сплатив:</span>
+            <span>Сплатив &#8372;: </span><span></span>
             <i class="orange"></i>
           </div>
+
 
           <div class="form-floating">
             <textarea #textArea class="form-control scrollable-textarea" placeholder="Коментар про запис:"
@@ -116,6 +117,12 @@
               <p>Коментар про запис:</p>
             </label>
           </div>
+          <div class="btn-group">
+            <button mat-raised-button type="reset" class="btn btn-secondary col-1 mt-3 ml-3"
+              (click)="resetComunStatistics()">СКИНУТИ</button>
+            <button mat-raised-button class="btn btn-save mt-3" (click)="onSubmitSaveComunStatisticsMonth()"
+              (click)="openSnackBar('Дані збережено')">ЗБЕРЕГТИ</button>
+          </div>
         </div>
       </div>
 
@@ -123,12 +130,6 @@
 
   </div>
 
-  <div class="btn-group">
-    <button mat-raised-button type="reset" class="btn btn-secondary mt-3 ml-3"
-      (click)="resetComunStatistics()">СКИНУТИ</button>
-    <button mat-raised-button class="btn btn-primary mt-3"
-      (click)="onSubmitSaveComunStatisticsMonth()">ЗБЕРЕГТИ</button>
-  </div>
 
 
 

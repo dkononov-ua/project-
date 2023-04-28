@@ -120,34 +120,6 @@ h4 {
   width: 100%;
 }
 
-.card-photo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  align-content: center;
-}
-
-.form-box {
-  height: 100%;
-  display: flex;
-  align-content: space-around;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-around;
-}
-
-.see-password {
-  z-index: 10;
-  position: absolute;
-  right: 4rem;
-  top: 10px;
-  background: none;
-  border: none;
-  width: 40px;
-}
-
 .icon {
   background: none !important;
   position: relative !important;
@@ -159,18 +131,6 @@ h4 {
   display: flex;
 }
 
-form {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.card-body-cast {
-  background: none;
-}
-
 select {
   font-size: 16px;
   height: 40px;
@@ -179,23 +139,10 @@ select {
   border-radius: 10px;
 }
 
-.form-select {
-  width: 240px;
-}
-
-.navbar-house {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid tomato;
-  border-bottom: 1px solid tomato;
-  justify-content: center;
-  align-items: flex-end;
-}
-
 .nav {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -230,17 +177,7 @@ a {
   }
 }
 
-.input-cast {
-  font-size: 16px;
-  color: $color-accent;
-  background: none;
-  border-radius: 10px;
-  padding: 10px;
-  border: 2px groove $color-accent;
-  &:focus-visible {
-    border: 2px groove $color-accent;
-  }
-}
+
 
 
 

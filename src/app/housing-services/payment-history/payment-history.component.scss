@@ -124,6 +124,7 @@
 .btn-group {
   display: flex;
   width: 100%;
+  justify-content: space-around;
 }
 
 .btn {
@@ -166,6 +167,40 @@
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 }
+
+.btn-save {
+  background-color: rgba(0, 128, 0, 0.154) !important;
+}
+
+.btn-save {
+  display: flex;
+  border: none;
+  background-color: tomato;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.fa-solid,
+.fa-regular {
+  color: rgba(33, 33, 33, 0.75);
+}
+
 
 .btn-text {
   font-size: 0.8em;
@@ -273,4 +308,3 @@ p {
 h4 {
   margin-bottom: 10px;
 }
-

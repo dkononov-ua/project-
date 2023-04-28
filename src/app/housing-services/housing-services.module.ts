@@ -19,6 +19,8 @@ import { ComunDateComponent } from './comun-date/comun-date.component';
 import { ComunStatisticsComponent } from './comun-statistics/comun-statistics.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
+    MatTooltipModule,
   ]
 })
 export class HousingServicesModule { }
