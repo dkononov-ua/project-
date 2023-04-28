@@ -1,4 +1,8 @@
   <div class="characteristics">
+    <div class="content-description">
+      <p>Країна: {{ house.country }} Область: {{ house.region }}</p>
+      <h3>{{ house.city }}, {{ house.street }} {{ house.houseNumber }}, квартира {{ house.apartment }}</h3>
+    </div>
     <h4>Статус оселі:</h4>
     <div class="characteristics-group">
       <div class="item-characteristics">Показувати на сайті: {{ checkBox[house.private] }}</div>
