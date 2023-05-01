@@ -26,15 +26,15 @@ export class ComunCompanyComponent implements OnInit {
   };
 
   comunalServices = [
-    { name: "Опалення", imageUrl: "../../assets/comun/energy.jpg" },
+    { name: "Опалення", imageUrl: "../../assets/comun/default_services.svg" },
     { name: "Водопостачання", imageUrl: "../../assets/comun/water.jfif" },
     { name: "Вивіз сміття", imageUrl: "../../assets/comun/cleaning.jpg" },
     { name: "Електроенергія", imageUrl: "../../assets/comun/energy.jpg" },
     { name: "Газопостачання", imageUrl: "../../assets/comun/gas.jpg" },
     { name: "Комунальна плата за утримання будинку", imageUrl: "../../assets/comun/maintenance.jpg" },
-    { name: "Охорона будинку", imageUrl: "../../assets/comun/security.jpg" },
-    { name: "Ремонт під'їзду", imageUrl: "../../assets/comun/repair.jpg" },
-    { name: "Ліфт", imageUrl: "../../assets/comun/elevator.jpg" },
+    { name: "Охорона будинку", imageUrl: "../../assets/comun/default_services.svg" },
+    { name: "Ремонт під'їзду", imageUrl: "../../assets/comun/default_services.svg" },
+    { name: "Ліфт", imageUrl: "../../assets/comun/default_services.svg" },
     { name: "Інтернет та телебачення", imageUrl: "../../assets/comun/internet.jpg" }
   ];
 
@@ -43,6 +43,7 @@ export class ComunCompanyComponent implements OnInit {
   selectedFlatId: string | null | undefined;
   selectedYear: any;
   selectedMonth: any;
+  defaultImageUrl: any;
 
   constructor(private dataService: DataService, private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
   }
@@ -50,7 +51,8 @@ export class ComunCompanyComponent implements OnInit {
   ngOnInit(): void {
     this.comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
     const selectedService = this.comunalServices.find(service => service.name === this.comunalName);
-    this.selectedImageUrl = selectedService!.imageUrl;
+    this.selectedImageUrl = selectedService?.imageUrl;
+    this.defaultImageUrl = "../../assets/comun/default_services.svg";
 
     const userJson = localStorage.getItem('user');
     this.selectedFlatId = localStorage.getItem('house');

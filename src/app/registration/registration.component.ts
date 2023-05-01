@@ -1,14 +1,14 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { UserInteractionComponent } from '../interaction/user-interaction/user-interaction.component';
 import { Routes, RouterModule, Router } from '@angular/router';
 import { InformationUserComponent } from './information-user/information-user.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subject } from 'rxjs';
+import { UserComponent } from '../account/user/user.component';
 
 const appRoutes: Routes = [
-  { path: 'user-interaction', component: UserInteractionComponent },
+  { path: 'user', component: UserComponent },
   { path: 'information-user', component: InformationUserComponent },
 ];
 @NgModule({

@@ -1,0 +1,87 @@
+<div class="container-box">
+  <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
+    <div class=" m-2">
+      <nav class="navbar-house">
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/parameters'"><span
+            class="link-text">Характеристики</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/subscribers'"><span
+            class="link-text">Підписники</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/documents'"><span
+            class="link-text">Документи</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/order-services'"><span
+            class="link-text">Послуги</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/furniture'"><span
+            class="link-text">Наповнення</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/comun-page'"><span
+            class="link-text">Комунальні</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span
+            class="link-text">Редагувати</span></a>
+      </nav>
+    </div>
+  </div>
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class="card m-2">
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
+                class="img-fluid rounded">
+            </div>
+          </div>
+          <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
+            <div class="img-wrapper">
+              <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="item-wrapper p-2">
+        <h2>ID оселі: {{ house.flat_id }}</h2>
+        <div class="content-description">
+          <p>Країна: {{ house.country }} Область: {{ house.region }}</p>
+          <h3>{{ house.city }}, {{ house.street }} {{ house.houseNumber }}, квартира {{ house.apartment }}</h3>
+        </div>
+      </div>
+
+      <div class="price-box">
+        <div class="item-price">{{ about.price_m }}<sup>₴/міс</sup>
+          <div class="item-actions">
+            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+              Орендувати
+            </button>
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="item-price">{{ about.price_y }}<sup>₴/рік</sup>
+          <div class="item-actions">
+            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
+              Орендувати
+            </button>
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
+    <div class="card m-2 p-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

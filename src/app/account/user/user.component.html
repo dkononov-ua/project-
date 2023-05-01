@@ -1,0 +1,64 @@
+<div class="container-card">
+  <div class="col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class="card-menu-2 m-2 p-2">
+      <nav class="navbar-house">
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'"><span
+            class="link-text">Документи</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'"
+          [routerLink]="'/home-account/host-acc/house/house-param'"><span class="link-text">Реквізити</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'"
+          [routerLink]="'/home-account/host-acc/house/subscribers'"><span class="link-text">Угоди</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'"
+          [routerLink]="'/home-account/host-acc/house/agreements'"><span class="link-text">Підписки</span></a>
+      </nav>
+    </div>
+  </div>
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class="card m-2">
+
+      <div class="img-fluid">
+        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image">
+      </div>
+
+      <div class="item-wrapper p-3">
+        <h1>Власник: {{ user.firstName }} {{ user.surName }} {{ user.lastName }} </h1>
+        <p>Телефон: {{ user.tell }}</p>
+        <p>Email для листування: {{ user.mail }}</p>
+        <div class="card-social-link">
+          <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="{{ user.telegram }}"><i class="fa-brands fa-telegram"></i></a>
+          <a href="{{ user.viber }}"><i class="fa-brands fa-viber"></i></a>
+          <a href="{{ user.facebook }}"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+
+        <div class="card-rating">
+          <div class="rating-box">
+            <div class="stars">
+              <i class="fa-solid fa-star" (click)="onClick(1)" [ngClass]="{'active': rating >= 1}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(2)" [ngClass]="{'active': rating >= 2}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(3)" [ngClass]="{'active': rating >= 3}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(4)" [ngClass]="{'active': rating >= 4}"></i>
+              <i class="fa-solid fa-star" (click)="onClick(5)" [ngClass]="{'active': rating === 5}"></i>
+            </div>
+            <p>Рейтинг користувача та відгуки.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class="card m-2 p-3">
+      <div class="item-wrapper">
+        <nav class="navbar-house">
+          <div class="card-link">
+            <a href="#" class="link"><span>Документи</span><i class="fa-solid fa-passport"></i></a>
+            <a href="#" class="link"><span>Реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
+            <a href="#" class="link"><span>Угоди</span><i class="fa-solid fa-file-contract"></i></a>
+            <a href="#" class="link"><span>Підписники</span><i class="fa-regular fa-face-smile-beam"></i></a>
+            <a href="#" class="link"><span>Підписки</span><i class="fa-solid fa-person-praying"></i></a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

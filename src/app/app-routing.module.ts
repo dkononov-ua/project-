@@ -3,11 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { InformationUserComponent } from './registration/information-user/information-user.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
-import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
-import { AgreementComponent } from './interaction/agreement/agreement.component';
-import { HomeAccountComponent } from './interaction/home-account/home-account.component';
-import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
+import { TenantsSearchComponent } from './search/tenants-search/tenants-search.component';
+import { HousingSearchComponent } from './search/housing-search/housing-search.component';
+import { AgreementComponent } from './components/agreement/agreement.component';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { CanActivateGuard } from './services/auth.guard';
 import { ModalComponent } from './pages/modal/modal.component';
@@ -23,8 +21,6 @@ const routes: Routes = [
   { path: 'tenants-search', component: TenantsSearchComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-search', component: HousingSearchComponent, canActivate: [CanActivateGuard] },
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
-  { path: 'home-account', component: HomeAccountComponent, canActivate: [CanActivateGuard] },
-  { path: 'user-interaction', component: UserInteractionComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
   { path: 'modal', component: ModalComponent, canActivate: [CanActivateGuard] },
@@ -32,6 +28,7 @@ const routes: Routes = [
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
   { path: 'test', component: TestComponent, canActivate: [CanActivateGuard] },
+  { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
 ];
 
 @NgModule({

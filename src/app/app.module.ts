@@ -15,11 +15,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
 import { InformationUserComponent } from './registration/information-user/information-user.component';
-import { UserInteractionComponent } from './interaction/user-interaction/user-interaction.component';
-import { TenantsSearchComponent } from './interaction/tenants-search/tenants-search.component';
+import { TenantsSearchComponent } from './search/tenants-search/tenants-search.component';
 import { SearchTermComponent } from './components/search-term/search-term.component';
-import { HousingSearchComponent } from './interaction/housing-search/housing-search.component';
-import { AgreementComponent } from './interaction/agreement/agreement.component';
+import { HousingSearchComponent } from './search/housing-search/housing-search.component';
+import { AgreementComponent } from './components/agreement/agreement.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
@@ -32,8 +31,6 @@ import { HousingServicesRoutingModule } from './housing-services/housing-service
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
-import { HomeAccountModule } from './interaction/home-account/home-account.module';
-import { HomeAccountRoutingModule } from './interaction/home-account/home-account-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
 import { MatSelectModule } from '@angular/material/select';
@@ -42,6 +39,9 @@ import { TestComponent } from './pages/test/test.component';
 import { DeleteComunalComponent } from './components/delete-comunal/delete-comunal.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SearchComponent } from './search/search.component';
+import { AccountModule } from './account/account.module';
+import { AccountRoutingModule } from './account/account-routing.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     RegistrationComponent,
     UserPaymentComponent,
     InformationUserComponent,
-    UserInteractionComponent,
     TenantsSearchComponent,
     SearchTermComponent,
     HousingSearchComponent,
@@ -62,7 +61,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     KrutilkaComponent,
     TestComponent,
     DeleteComunalComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    SearchComponent,
   ],
 
   imports: [
@@ -88,11 +88,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     HousingServicesRoutingModule,
     RouterModule,
     CommonModule,
-    HomeAccountModule,
-    HomeAccountRoutingModule,
     NgxSpinnerModule,
     MatSelectModule,
     MatDialogModule,
+    AccountModule,
+    AccountRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
