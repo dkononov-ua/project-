@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OurTeamComponent } from './our-team/our-team.component';
-import { InformationUserComponent } from './registration/information-user/information-user.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { OurTeamComponent } from './pages/our-team/our-team.component';
+import { InformationUserComponent } from './account-edit/user/information-user.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 import { TenantsSearchComponent } from './search/tenants-search/tenants-search.component';
 import { HousingSearchComponent } from './search/housing-search/housing-search.component';
 import { AgreementComponent } from './components/agreement/agreement.component';
-import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
+import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { CanActivateGuard } from './services/auth.guard';
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { TestComponent } from './pages/test/test.component';
+import { HousingParametersComponent } from './account-edit/house/housing-parameters.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -29,6 +30,8 @@ const routes: Routes = [
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
   { path: 'test', component: TestComponent, canActivate: [CanActivateGuard] },
   { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
+  { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
+
 ];
 
 @NgModule({

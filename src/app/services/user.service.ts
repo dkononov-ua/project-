@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+  addUserToHome(selectedUserId: string) {
+    throw new Error('Method not implemented.');
+  }
   flatService: any;
 
   constructor(private http: HttpClient) { }

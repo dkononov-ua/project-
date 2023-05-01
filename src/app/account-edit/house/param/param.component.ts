@@ -24,15 +24,16 @@ import { HostComponent } from '../host/host.component';
 
 })
 export class ParamComponent {
+
   public selectedFlatId: any | null;
 
   formErrors: any = {
-    rooms:'',
-    repair_status:'',
-    area:'',
-    kitchen_area:'',
-    balcony:'',
-    floor:'',
+    rooms: '',
+    repair_status: '',
+    area: '',
+    kitchen_area: '',
+    balcony: '',
+    floor: '',
   };
 
   validationMessages: any = {

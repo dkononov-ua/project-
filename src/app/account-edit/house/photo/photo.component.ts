@@ -39,7 +39,7 @@ export class PhotoComponent implements OnInit {
 
   selectedFile: any;
   addressHouse: any;
-  flatImg: any = [{img:"housing_default.svg"}];
+  flatImg: any = [{ img: "housing_default.svg" }];
   images: string[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService, private hostComponent: HostComponent) {
@@ -53,12 +53,13 @@ export class PhotoComponent implements OnInit {
               this.addressHouse = this.fb.group({
                 flat_id: [response.flat.flat_id, []],
               });
-              if(response.imgs === 'Картинок нема'){
-              }else{
-              this.flatImg = response.imgs;
-              for (const img of this.flatImg) {
-                this.images.push('http://localhost:3000/img/flat/' + img.img);
-              }}
+              if (response.imgs === 'Картинок нема') {
+              } else {
+                this.flatImg = response.imgs;
+                for (const img of this.flatImg) {
+                  this.images.push('http://localhost:3000/img/flat/' + img.img);
+                }
+              }
 
             }
           }, (error: any) => {

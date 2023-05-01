@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 
@@ -12,11 +13,10 @@ interface Subscriber {
   viber: string;
   facebook: string;
 }
-
 @Component({
-  selector: 'app-subscribers',
-  templateUrl: './subscribers.component.html',
-  styleUrls: ['./subscribers.component.scss'],
+  selector: 'app-access',
+  templateUrl: './access.component.html',
+  styleUrls: ['./access.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition(':enter', [
@@ -26,7 +26,23 @@ interface Subscriber {
     ])
   ]
 })
-export class SubscribersComponent implements OnInit {
+
+export class AccessComponent implements OnInit{
+  public showInput = false;
+  public userId: string | undefined;
+  searchQuery: string | undefined;
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  public addUserToHouse(): void {
+    // Додати код для додавання користувача до оселі за допомогою userId
+    console.log(`Користувач з ID ${this.userId} доданий до оселі.`);
+    this.userId = '';
+    this.showInput = false;
+  }
   subscribers: Subscriber[] = [
     {
       id: 1,
@@ -48,22 +64,8 @@ export class SubscribersComponent implements OnInit {
       viber: 'https://www.viber.com/',
       facebook: 'https://www.facebook.com/'
     },
-    {
-      id: 3,
-      name: 'Віктор Яковець',
-      photoUrl: 'assets/photo5.jpg',
-      bio: 'Sed do eiusmod tempor',
-      instagram: 'https://www.instagram.com/',
-      telegram: 'https://telegram.org/',
-      viber: 'https://www.viber.com/',
-      facebook: 'https://www.facebook.com/'
-    },
+
   ];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   approveSubscriber(subscriber: Subscriber): void {
     // Code to approve subscriber

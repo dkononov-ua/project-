@@ -237,9 +237,9 @@ export class AddressComponent implements OnInit {
         Validators.maxLength(5),
         Validators.pattern(/^[0-9]+$/), // only digits
       ]],
-      private: [null, [ ]],
-      rent: [null, [ ]],
-      live: [null, [ ]],
+      private: [null, []],
+      rent: [null, []],
+      live: [null, []],
     });
 
     this.addressHouse.valueChanges?.subscribe(() => this.onValueChanged());

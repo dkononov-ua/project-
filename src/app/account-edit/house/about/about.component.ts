@@ -46,20 +46,20 @@ export class AboutComponent implements OnInit {
   public selectedFlatId: any | null;
 
   formErrors: any = {
-    distance_metro:'',
-    distance_stop:'',
-    distance_shop:'',
-    distance_green:'',
-    distance_parking:'',
-    woman:'',
-    man:'',
-    family:'',
-    students:'',
-    animals:'',
-    price_m:'',
-    price_y:'',
-    about:'',
-    bunker:'',
+    distance_metro: '',
+    distance_stop: '',
+    distance_shop: '',
+    distance_green: '',
+    distance_parking: '',
+    woman: '',
+    man: '',
+    family: '',
+    students: '',
+    animals: '',
+    price_m: '',
+    price_y: '',
+    about: '',
+    bunker: '',
   };
 
   validationMessages: any = {
@@ -124,20 +124,20 @@ export class AboutComponent implements OnInit {
           .subscribe((response: any) => {
             if (response !== null) {
               this.aboutHouse = this.fb.group({
-                distance_metro:[response.about.distance_metro],
-                distance_stop:[response.about.distance_stop],
-                distance_shop:[response.about.distance_shop],
-                distance_green:[response.about.distance_green],
-                distance_parking:[response.about.distance_parking],
-                woman:[response.about.woman],
-                man:[response.about.man],
-                family:[response.about.family],
-                students:[response.about.students],
-                animals:[response.about.animals],
-                price_m:[response.about.price_m],
-                price_y:[response.about.price_y],
-                about:[response.about.about],
-                bunker:[response.about.bunker],
+                distance_metro: [response.about.distance_metro],
+                distance_stop: [response.about.distance_stop],
+                distance_shop: [response.about.distance_shop],
+                distance_green: [response.about.distance_green],
+                distance_parking: [response.about.distance_parking],
+                woman: [response.about.woman],
+                man: [response.about.man],
+                family: [response.about.family],
+                students: [response.about.students],
+                animals: [response.about.animals],
+                price_m: [response.about.price_m],
+                price_y: [response.about.price_y],
+                about: [response.about.about],
+                bunker: [response.about.bunker],
               });
             }
           }, (error: any) => {

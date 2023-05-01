@@ -1,0 +1,170 @@
+@use "../../../style/presets/" as *;
+
+.card-container {
+  max-height: 60vh;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 95%;
+  height: 150px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-img-container {
+  position: relative;
+  width: 30%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-img-container:hover,
+.card-img-container:focus {
+  width: 50%;
+  height: 100%;
+}
+
+h2 {
+  justify-content: center;
+}
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s ease;
+  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.card-wrapper:hover,
+.card-wrapper:focus {
+  transform: scale(1.1);
+}
+
+.card-social-link {
+  font-size: 20px;
+  display: flex;
+  width: 200px;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.card-title {
+  font-size: 25px;
+}
+
+a {
+  margin: 5px 15px;
+  padding: 0;
+}
+
+.fab {
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.btn-create {
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background-color: tomato;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-deleted{
+  background-color: tomato;
+  &:hover {
+    transition: 0.4s;
+    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgba(255, 0, 0, 0.733);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.inputbox {
+  width: 100%;
+  position: relative;
+  display: flex;
+  margin: 1.2rem 5px 1.5rem 5px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-content: center;
+  align-items: stretch;
+}
+
+mat-form-field {
+  width: 90%;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-menu {
+  width: 100%;
+}

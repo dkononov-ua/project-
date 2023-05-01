@@ -9,6 +9,7 @@ import { SubscribersComponent } from './house/subscribers/subscribers.component'
 import { DocumentsComponent } from './house/documents/documents.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { FurnitureComponent } from './house/furniture/furniture.component';
+import { AccessComponent } from './house/access/access.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
           { path: 'documents', component: DocumentsComponent, canActivate: [CanActivateGuard] },
           { path: 'order-services', component: OrderServicesComponent, canActivate: [CanActivateGuard] },
           { path: 'furniture', component: FurnitureComponent, canActivate: [CanActivateGuard] },
+          { path: 'access', component: AccessComponent, canActivate: [CanActivateGuard] },
         ],
       },
       { path: 'user', component: UserComponent, canActivate: [CanActivateGuard] },

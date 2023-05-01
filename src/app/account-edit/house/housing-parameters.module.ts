@@ -3,11 +3,8 @@ import { AboutComponent } from './about/about.component';
 import { AddressComponent } from './address/address.component';
 import { ParamComponent } from './param/param.component';
 import { PhotoComponent } from './photo/photo.component';
-import { HostComponent } from './host/host.component';
 import { HousingParametersComponent } from './housing-parameters.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from '../registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -17,31 +14,39 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HostComponent } from './host/host.component';
+import { RouterModule } from '@angular/router';
+import { HousingParametersRoutingModule } from './housing-parameters-routing.module';
 
 @NgModule({
   declarations: [
+    HousingParametersComponent,
     AboutComponent,
     AddressComponent,
     ParamComponent,
     PhotoComponent,
     HostComponent,
-    HousingParametersComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
     NgbModule,
     DragDropModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    SharedModule,
     MatIconModule,
     MatDialogModule,
-    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    SharedModule,
     MatSelectModule,
-  ]
+    MatFormFieldModule,
+    RouterModule,
+    HousingParametersRoutingModule,
+  ],
 })
 export class HousingParametersModule { }

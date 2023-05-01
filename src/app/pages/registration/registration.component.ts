@@ -2,10 +2,10 @@ import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule, Router } from '@angular/router';
-import { InformationUserComponent } from './information-user/information-user.component';
+import { InformationUserComponent } from '../../account-edit/user/information-user.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subject } from 'rxjs';
-import { UserComponent } from '../account/user/user.component';
+import { UserComponent } from '../../account/user/user.component';
 
 const appRoutes: Routes = [
   { path: 'user', component: UserComponent },

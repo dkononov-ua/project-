@@ -5,16 +5,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RegistrationComponent } from './registration/registration.component';
-import { OurTeamComponent } from './our-team/our-team.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
+import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
-import { UserPaymentComponent } from './registration/user-payment/user-payment.component';
-import { InformationUserComponent } from './registration/information-user/information-user.component';
+import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
+import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { TenantsSearchComponent } from './search/tenants-search/tenants-search.component';
 import { SearchTermComponent } from './components/search-term/search-term.component';
 import { HousingSearchComponent } from './search/housing-search/housing-search.component';
@@ -24,8 +24,6 @@ import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { HousingParametersRoutingModule } from './registration/information-housing/housing-parameters-routing.module';
-import { HousingParametersModule } from './registration/information-housing/housing-parameters.module';
 import { HousingServicesModule } from './housing-services/housing-services.module';
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
 import { RouterModule } from '@angular/router';
@@ -42,6 +40,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SearchComponent } from './search/search.component';
 import { AccountModule } from './account/account.module';
 import { AccountRoutingModule } from './account/account-routing.module';
+import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
+import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 
 @NgModule({
   declarations: [
@@ -83,7 +83,6 @@ import { AccountRoutingModule } from './account/account-routing.module';
     MatNativeDateModule,
     MatFormFieldModule,
     SharedModule,
-    HousingParametersRoutingModule,
     HousingServicesModule,
     HousingServicesRoutingModule,
     RouterModule,
@@ -93,6 +92,8 @@ import { AccountRoutingModule } from './account/account-routing.module';
     MatDialogModule,
     AccountModule,
     AccountRoutingModule,
+    HousingParametersModule,
+    HousingParametersRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

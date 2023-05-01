@@ -4,13 +4,13 @@ import { AboutComponent } from './about/about.component';
 import { AddressComponent } from './address/address.component';
 import { ParamComponent } from './param/param.component';
 import { PhotoComponent } from './photo/photo.component';
-import { HostComponent } from './host/host.component';
+import { CanActivateGuard } from '../../services/auth.guard';
 import { HousingParametersComponent } from './housing-parameters.component';
-import { CanActivateGuard } from './../../services/auth.guard';
+import { HostComponent } from './host/host.component';
 
 const routes: Routes = [
   {
-    path: 'housing-parameters',component: HousingParametersComponent, canActivate: [CanActivateGuard],
+    path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard],
     children: [
       {
         path: 'host',

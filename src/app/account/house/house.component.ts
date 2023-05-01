@@ -3,13 +3,24 @@ import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
-  styleUrls: ['./house.component.scss']
+  styleUrls: ['./house.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(130%)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ])
+  ],
 })
 export class HouseComponent implements OnInit {
+
+  isOpen = true;
 
     user = {
       firstName: '',

@@ -6,6 +6,8 @@
             class="link-text">Характеристики</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/subscribers'"><span
             class="link-text">Підписники</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/access'"><span
+            class="link-text">Доступ <i class="fa-solid fa-gear"></i></span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/documents'"><span
             class="link-text">Документи</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/order-services'"><span
@@ -14,8 +16,8 @@
             class="link-text">Наповнення</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/comun-page'"><span
             class="link-text">Комунальні</span></a>
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span
-            class="link-text">Редагувати</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span
+            class="link-text">Редагувати <i class="fa-solid fa-gear"></i></span></a>
       </nav>
     </div>
   </div>
@@ -79,9 +81,13 @@
       </div>
     </div>
   </div>
-  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
-    <div class="card m-2 p-2">
-      <router-outlet></router-outlet>
+  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12" [@cardAnimation]>
+
+    <div class="m-2 p-2" >
+      <router-outlet [@cardAnimation]></router-outlet>
     </div>
   </div>
 </div>
+
+
+
