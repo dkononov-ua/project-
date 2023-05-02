@@ -1,18 +1,3 @@
 <app-navbar></app-navbar>
-<div class="container">
-  <nav class="navbar-acc">
-    <mat-form-field class="list-form m-1" appearance="outline">
-      <mat-label>ОСЕЛЯ</mat-label>
-      <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
-        <mat-option disabled value="">виберіть оселю</mat-option>
-        <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house'"><span
-        class="link-text">Аккаунт Оселі</span></a>
-    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user'"><span
-        class="link-text">Аккаунт Користувача</span></a>
-  </nav>
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>
 <app-footer></app-footer>

@@ -1,0 +1,13 @@
+<div class="btn-group">
+  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="ОСЕЛЯ" [routerLink]="'/house'"><i
+      class="fa-solid fa-house-chimney-user"></i></a>
+  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="КОРИСТУВАЧ" [routerLink]="'/user'"><i class="fa-regular fa-user"></i></a>
+</div>
+
+<mat-form-field class="list-form m-1" appearance="outline">
+  <mat-label>ОСЕЛЯ</mat-label>
+  <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
+    <mat-option disabled value="">виберіть оселю</mat-option>
+    <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
+  </mat-select>
+</mat-form-field>

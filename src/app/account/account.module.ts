@@ -20,6 +20,8 @@ import { AccessComponent } from './house/access/access.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { AccountNavComponent } from './account-nav/account-nav.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { MatInput, MatInputModule } from '@angular/material/input';
     OrderServicesComponent,
     FurnitureComponent,
     AccessComponent,
+    AccountNavComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +54,7 @@ import { MatInput, MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatTooltipModule,
     MatInputModule,
+    MatIconModule,
   ]
 })
 export class AccountModule { }

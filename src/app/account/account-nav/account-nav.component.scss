@@ -1,0 +1,79 @@
+@use "../../style/presets/" as *;
+
+.btn-group {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.link-btn{
+  display: flex;
+  height: 60px;
+  width: 60px;
+  border: 2px solid $color-primary;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  &:hover {
+    transition: 0.4s;
+    color: $color-accent;
+    transform: scale(1.4);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+  &:active {
+    color: $color-accent;
+    transform: scale(0.8);
+    box-shadow: 0px 0px 10px $color-accent;
+  }
+
+  &.active {
+    color: $color-accent;
+    box-shadow: 0px 0px 10px $color-accent;
+    border-color: $color-accent;
+  }
+}
+
+.fa-regular,
+.fa-solid {
+  font-size: 35px;
+  transition: 0.4s;
+  color: $color-primary;
+
+  &:hover {
+    transition: 0.4s;
+    color: $color-accent;
+  }
+  &.active {
+    color: $color-accent;
+    box-shadow: 0px 0px 10px $color-accent;
+    border-color: $color-accent;
+  }
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.list-form {
+  border: none;
+  height: 3rem;
+  background-color: none;
+}
+.list-label {
+  border: none;
+  padding: 0;
+}
+.list-select {
+  border: none;
+  font-size: 20px;
+}
+.list-option {
+  border: none;
+  border-radius: 10px;
+}
+
+
+

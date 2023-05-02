@@ -1,6 +1,7 @@
 <div class="container-box">
   <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
     <div class=" m-2">
+      <app-account-nav></app-account-nav>
       <nav class="navbar-house">
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/parameters'"><span
             class="link-text">Характеристики</span></a>
@@ -58,33 +59,16 @@
       </div>
 
       <div class="price-box">
-        <div class="item-price">{{ about.price_m }}<sup>₴/міс</sup>
-          <div class="item-actions">
-            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
-              Орендувати
-            </button>
-            <button class="btn btn-outline-success my-2 my-sm-0">
-              <i class="fas fa-heart" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-        <div class="item-price">{{ about.price_y }}<sup>₴/рік</sup>
-          <div class="item-actions">
-            <button class="btn btn-block btn-outline-success my-2 my-sm-0 item-actions__cart">
-              Орендувати
-            </button>
-            <button class="btn btn-outline-success my-2 my-sm-0">
-              <i class="fas fa-heart" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
+        <p class="item-price">{{ about.price_m }}<sup>₴/міс</sup></p>
+        <p class="item-price-year">{{ about.price_y }}<sup>₴/рік</sup>
       </div>
+
     </div>
   </div>
-  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12" [@cardAnimation]>
 
+  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12" [@cardAnimation]>
     <div class="m-2 p-2" >
-      <router-outlet [@cardAnimation]></router-outlet>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

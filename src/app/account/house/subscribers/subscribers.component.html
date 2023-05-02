@@ -14,8 +14,10 @@
         <a href="{{ subscriber.viber }}"><i class="fab fa-brands fa-viber"></i></a>
         <a href="{{ subscriber.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
       </div>
-      <button class="btn btn-primary m-1" (click)="approveSubscriber(subscriber)">УХВАЛИТИ</button>
-      <button class="btn btn-danger m-1" (click)="removeSubscriber(subscriber)"><i class="fa-solid fa-user-xmark"></i></button>
+      <div class="btn-group">
+        <button class="btn m-1" (click)="approveSubscriber(subscriber)">УХВАЛИТИ</button>
+        <button class="btn m-1" (click)="removeSubscriber(subscriber)"><i class="fa-solid fa-user-xmark"></i></button>
+      </div>
     </div>
   </div>
 </div>

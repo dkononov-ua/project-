@@ -3,7 +3,7 @@
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/house'"><i class="fa-solid fa-chevron-left"></i></a>
       <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/information-housing'">Профіль оселі</a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Профіль оселі</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/user-payment'">Способи оплати</a>
     </nav>
   </div>
@@ -12,17 +12,15 @@
 
     <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <div class="card-menu m-2">
-        <!-- Мої оселі -->
 
         <form [formGroup]="selectHouse">
-          <div class="inputbox">
-            <h4>Оберіть оселю</h4>
-            <select (ngModelChange)="onSelectionChange()" class="form-select form-select-sm"
-              aria-label=".form-select-sm example" formControlName="house">
-              <option selected disabled>Вибір оселі за ID</option>
-              <option *ngFor="let house of houses" [value]="house.name">{{ house.name }}</option>
-            </select>
-          </div>
+          <mat-form-field class="list-form m-1" appearance="outline">
+            <mat-label>Оберіть оселю</mat-label>
+            <mat-select class="list-select" formControlName="house" (selectionChange)="onSelectionChange()">
+              <mat-option disabled value="">Вибір оселі за ID</mat-option>
+              <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{ house.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </form>
 
         <form [formGroup]="houseCreate">

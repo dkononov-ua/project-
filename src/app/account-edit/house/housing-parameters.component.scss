@@ -1,23 +1,357 @@
 @use "../../style/presets/" as *;
 
+.container-fluid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.container-navbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container-card {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  width: 100%;
+  background-color: rgba(18, 17, 17, 0.792);
+  color: white;
+  padding: 10px;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.checkBox-span {
+  margin-top: 5px;
+  font-size: 1em;
+}
+
+.container-box {
+  display: flex;
+}
+
+.clear {
+  clear: both;
+}
+
+.form-box {
+  width: 100%;
+}
+
+.checkBox {
+  display: block;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 0px 0px 2px #fff;
+}
+
+.checkBox div {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  top: -52px;
+  left: -52px;
+  position: absolute;
+  transform: rotateZ(45deg);
+  z-index: 100;
+}
+
+.checkBox input[type="checkbox"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+.transition {
+  transition: 300ms ease;
+}
+
+.container-checkbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 a {
   padding: 0.5em 1em;
-  margin: 5px;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-family: $font-main;
-  color: $color-text;
-  text-decoration: none;
-  display: block;
-  border-radius: 10px;
-  transition: 0.3s ease;
+}
 
-  &.active {
+.card-name {
+  margin-bottom: 20px;
+}
+
+.link {
+  transition: 1s;
+  background-color: $color-primary;
+
+  &:hover {
     color: $color-accent;
-  }
+    background-color: $color-dark;
+    transition: 1s;
 
-  .fab {
-    transform: scale(1.4);
-    transition: transform 2s;
+    span {
+      transition: transform 1s;
+      transform: translate(50px) scale(1.2);
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transform: translate(-190px) scale(1.2);
+      transition: transform 1s;
+    }
   }
 }
+
+.watch-box {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  margin: 1.2rem 5px 1.5rem 5px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputbox {
+  position: relative;
+  display: flex;
+  margin: 1.2rem 5px 1.5rem 5px;
+  border-radius: 10px;
+}
+
+.inputbox input {
+  position: relative;
+  width: 100%;
+  padding: 5px 5px 5px 5px;
+  margin: 0.2em 0.2em 0.2em 0.2em;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: white;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  z-index: 10;
+}
+
+.inputbox span {
+  position: absolute;
+  right: 0;
+  padding: 10px 10px 10px;
+  font-size: 1em;
+  color: #8f8f8f87;
+  letter-spacing: 00.05em;
+  transition: 0.6s;
+  pointer-events: none;
+}
+
+.inputbox input:valid ~ span,
+.inputbox input:focus ~ span {
+  color: white;
+  transform: translateX(-10px) translateY(-2.2rem);
+  font-size: 0, 75em;
+}
+
+.inputbox .orange {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: $color-accent;
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.inputbox input:valid ~ .orange,
+.inputbox input:focus ~ .orange {
+  height: 2.5rem;
+}
+
+.alert-danger {
+  position: absolute;
+  bottom: -2rem;
+  background: none;
+  color: rgb(242, 132, 132);
+  border: none;
+  height: 40px;
+  display: flex;
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  z-index: 30;
+  font-size: 13px;
+  align-items: center;
+}
+
+p {
+  color: $color-light;
+}
+
+.btn-group {
+  display: flex;
+  width: 100%;
+}
+
+.btn {
+  color: $color-light;
+  height: 45px;
+  &.active {
+    background-color: yellow;
+  }
+}
+
+.btn:disabled {
+  color: coral;
+  background-color: rgba(255, 0, 0, 0.21);
+  font-weight: bolder;
+}
+
+.btn-text {
+  font-size: 0.8em;
+}
+
+.card-photo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+}
+
+.form-box {
+  height: 100%;
+  display: flex;
+  align-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.see {
+  z-index: 10;
+  position: absolute;
+  right: 4rem;
+  top: 4px;
+  background: none;
+  border: none;
+  width: 40px;
+}
+
+.icon {
+  background: none !important;
+  position: relative !important;
+  font-size: 18px;
+  color: #d2d0d06b;
+}
+
+.span {
+  display: flex;
+}
+
+.card-box {
+  display: flex;
+  align-items: stretch;
+}
+
+.btn-create {
+  background: none;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: tomato;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.test {
+  display: flex;
+  background: none;
+  border: none;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form-control {
+  width: 100%;
+  background: none;
+  border: 2px solid $color-accent;
+  color: $color-white;
+}
+
+.photo-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-fluid {
+  display: flex;
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+}
+img {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+  border-radius: 10px;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
+}
+
+

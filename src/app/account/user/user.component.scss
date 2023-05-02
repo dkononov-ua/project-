@@ -1,5 +1,20 @@
 @use "../../style/presets/" as *;
 
+.container-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
 .container-card {
   display: flex;
   flex-wrap: wrap;
@@ -9,26 +24,6 @@
   display: flex;
   align-items: stretch;
   justify-content: center;
-}
-
-.card {
-  width: 100%;
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
-  border: none;
-}
-
-.card-menu-2 {
-  color: rgba(18, 17, 17, 0.8078431373);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-}
-
-.container-slider {
-  max-width: fit-content;
 }
 
 .item-wrapper,
@@ -63,21 +58,18 @@
   }
 }
 
-.fab {
-  font-size: 20px;
+.carousel {
+  width: 100%;
+  position: relative;
 }
 
-img {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 1s;
+.fa-solid {
+  color: $color-primary;
+  font-size: 25px;
+}
 
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
-  }
+.fab {
+  font-size: 20px;
 }
 
 .carousel-inner {
@@ -85,27 +77,25 @@ img {
 }
 
 .item-price {
+  color: $color-dark;
+  font-size: 40px;
+}
+
+.item-price-year {
   font-size: 30px;
 }
 
 .price-box {
+  margin-right: 30px;
+  width: 100%;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 20px 0;
+  align-items: flex-end;
 }
 
-.btn {
-  color: $color-text;
-  background-color: $color-white;
-  padding: 10px 20px;
-  margin: 5px;
-  &:hover {
-    background-color: $color-accent;
-    color: $color-white;
-  }
-}
+
 
 a.link {
   position: relative;
@@ -143,66 +133,47 @@ a {
   flex-direction: row;
 }
 
-.card-flip {
-  position: relative;
-}
-
-.card-flip-front,
-.card-flip-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  transition: all 1s ease;
-}
-
-.rating-box, .description-box {
+.characteristics {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin-top: 20px;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 
-.rating-box h1 {
-  font-size: 25px;
-  line-height: 25px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  text-transform: capitalize;
-  text-align: center;
-}
-
-h5 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.rating-box p {
-  font-size: 15px;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.rating-box .stars{
+.characteristics-group {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  align-items: baseline;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.rating-box .stars i{
-  color: grey;
-  font-size: 30px;
-  cursor: pointer;
-  transition: color .2s ease;
+.item-characteristics {
+  font-weight: 400;
+  margin: 2px;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: $color-primary;
 }
 
-.rating-box .stars i.active{
-  color: gold;
+.img-fluid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+img {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
 }
 
 .card-menu {
@@ -247,5 +218,9 @@ h5 {
     }
   }
 }
+
+
+
+
 
 
