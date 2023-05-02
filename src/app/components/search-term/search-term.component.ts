@@ -37,7 +37,8 @@ export class SearchTermComponent {
     { id: 21, name: 'Хмельницька' },
     { id: 22, name: 'Черкаська' },
     { id: 23, name: 'Чернівецька' },
-    { id: 24, name: 'Чернігівська' }
+    { id: 24, name: 'Чернігівська' },
+    { id: 25, name: 'АР Крим' }
   ];
 
   cities = [
@@ -51,7 +52,7 @@ export class SearchTermComponent {
     { id: 7, name: 'Запоріжжя' },
     { id: 8, name: 'Івано-Франківськ' },
     { id: 9, name: 'Київ' },
-    { id: 10, name: 'Кіровоград' },
+    { id: 10, name: 'Кропивницький' },
     { id: 11, name: 'Луганськ' },
     { id: 12, name: 'Львів' },
     { id: 13, name: 'Миколаїв' },
@@ -65,7 +66,8 @@ export class SearchTermComponent {
     { id: 21, name: 'Хмельницьк' },
     { id: 22, name: 'Черкаси' },
     { id: 23, name: 'Чернівці' },
-    { id: 24, name: 'Чернігів' }
+    { id: 24, name: 'Чернігів' },
+    { id: 25, name: 'АР Крим' }
     ];
 
 }
