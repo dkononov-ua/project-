@@ -9,14 +9,15 @@
 
 .container-fluid {
   display: flex;
-  justify-content: center;
+  align-content: space-around;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .container-card {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .card {
@@ -154,5 +155,120 @@ h5 {
 .rating-box .stars i.active{
   color: gold;
 }
+
+.card-container {
+  max-height: 80vh;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 95%;
+  height: 150px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-img-container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 40%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-img-container:hover,
+.card-img-container:focus {
+  width: 60%;
+  height: 100%;
+}
+
+h2 {
+  justify-content: center;
+}
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s ease;
+  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.card-wrapper:hover,
+.card-wrapper:focus {
+  transform: scale(1.1);
+}
+
+.card-social-link {
+  font-size: 20px;
+  display: flex;
+  width: 200px;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.card-title {
+  font-size: 25px;
+}
+
+a {
+  margin: 5px 15px;
+  padding: 0;
+}
+
+.fab {
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.fa-solid {
+  font-size: 20px;
+}
+
+.btn {
+  height: 35px;
+}
+
+.card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+}
+
+.btn-control {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+
 
 

@@ -61,7 +61,7 @@
   left: -5px;
   position: absolute;
   top: 50%;
-  width: 100%;
+  width: 30%;
 }
 
 .next-arrow-top:after,
@@ -118,7 +118,6 @@
   background-color: $color-white;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
-
   transform: translateX(15%) translateY(0%) scaleX(-1) scale(0.7);
   transition: transform 0.5s;
 
@@ -135,7 +134,7 @@
   left: -5px;
   position: absolute;
   top: 50%;
-  width: 100%;
+  width: 30%;
   transform: rotate(45deg);
   transform-origin: bottom right;
 }
@@ -158,7 +157,7 @@
   left: -5px;
   position: absolute;
   top: 50%;
-  width: 100%;
+  width: 30%;
   transform: rotate(-45deg);
   transform-origin: top right;
 }

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-search-term',
   templateUrl: './search-term.component.html',
   styleUrls: ['./search-term.component.scss']
 })
-export class SearchTermComponent {
+export class SearchTermComponent implements OnInit {
   selectedCity!: number;
   selectedRooms!: number;
   selectedRating!: number;
@@ -70,4 +70,6 @@ export class SearchTermComponent {
     { id: 25, name: 'АР Крим' }
     ];
 
+    ngOnInit(): void {
+    }
 }

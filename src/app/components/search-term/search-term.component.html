@@ -1,15 +1,70 @@
-<div class="container-fluid">
-  <div class="form">
+<div class="navbar">
+  <nav class="nav">
+    <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
+    <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
+  </nav>
+</div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Пошук</mat-label>
-      <input matInput type="text" placeholder="Пошук" aria-label="Search" aria-describedby="search-addon">
-      <button class="p-2" matSuffix mat-icon-button aria-label="Search" id="search-addon">
-        <mat-icon><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
-      </button>
-    </mat-form-field>
+<div class="col-12 p-2">
+  <mat-form-field class="search" appearance="fill">
+    <mat-label>Пошук</mat-label>
+    <input class="search-input" matInput type="text" placeholder="Пошук" aria-label="Search"
+      aria-describedby="search-addon">
+    <button class="p-2" matSuffix mat-icon-button aria-label="Search" id="search-addon">
+      <mat-icon><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
+    </button>
+  </mat-form-field>
+</div>
 
-    <div class="inputbox">
+<div class="col-12 p-2">
+
+  <div class="inputbox range">
+    <label for="customRange1" class="form-label"><p>Ціна за місяць</p></label>
+    <input type="range" class="form-range" id="customRange1">
+  </div>
+
+  <div class="container-checkbox">
+    <div class="content">
+      <label class="checkBox">
+        <input id="students" type="checkbox">
+        <div class="transition"></div>
+      </label>
+      <span class="checkBox-span">Студент</span>
+      <i></i>
+    </div>
+
+    <div class="content">
+      <label class="checkBox">
+        <input id="woman" type="checkbox">
+        <div class="transition"></div>
+      </label>
+      <span class="checkBox-span">Жінка</span>
+      <i></i>
+    </div>
+
+    <div class="content">
+      <label class="checkBox">
+        <input id="man" type="checkbox">
+        <div class="transition"></div>
+      </label>
+      <span class="checkBox-span">Чоловік</span>
+      <i></i>
+    </div>
+
+    <div class="content">
+      <label class="checkBox">
+        <input id="family" type="checkbox">
+        <div class="transition"></div>
+      </label>
+      <span class="checkBox-span">Сім'я</span>
+      <i></i>
+    </div>
+  </div>
+</div>
+
+<div class="container-box col-12">
+  <div class="box">
+    <div class="inputbox m-2">
       <mat-form-field appearance="fill">
         <mat-label>Область</mat-label>
         <mat-select [(ngModel)]="selectedRegion">
@@ -19,8 +74,7 @@
       </mat-form-field>
     </div>
 
-
-    <div class="inputbox">
+    <div class="inputbox m-2">
       <mat-form-field appearance="fill">
         <mat-label>Місто</mat-label>
         <mat-select [(ngModel)]="selectedCity">
@@ -30,7 +84,7 @@
       </mat-form-field>
     </div>
 
-    <div class="inputbox">
+    <div class="inputbox m-2">
       <mat-form-field appearance="fill">
         <mat-label>Кількість кімнат</mat-label>
         <mat-select [(ngModel)]="selectedRooms">
@@ -43,20 +97,7 @@
       </mat-form-field>
     </div>
 
-    <div class="inputbox">
-      <mat-form-field appearance="fill">
-        <mat-label>Рейтинг</mat-label>
-        <mat-select [(ngModel)]="selectedRating">
-          <mat-option disabled selected>Виберіть рейтинг</mat-option>
-          <mat-option value="2">від 2</mat-option>
-          <mat-option value="3">від 3</mat-option>
-          <mat-option value="4">від 4</mat-option>
-          <mat-option value="5">5</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="inputbox">
+    <div class="inputbox m-2">
       <mat-form-field appearance="fill">
         <mat-label>Площа</mat-label>
         <mat-select [(ngModel)]="selectedArea">
@@ -65,6 +106,113 @@
           <mat-option value="2">до 40m2</mat-option>
           <mat-option value="3">до 50m2</mat-option>
           <mat-option value="more">до 60m2 і більше</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Кількість кімнат</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="2">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="3">4+</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Стан квартири</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="1">Новий</mat-option>
+          <mat-option value="2">Добрий</mat-option>
+          <mat-option value="3">Задовільний</mat-option>
+          <mat-option value="3">Поганий</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="box">
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Паркінг</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="1">на території</mat-option>
+          <mat-option value="2">до 100м</mat-option>
+          <mat-option value="3">до 300м</mat-option>
+          <mat-option value="3">до 500м</mat-option>
+          <mat-option value="3">до 1км</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Парк, сквер</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="2">до 100м</mat-option>
+          <mat-option value="3">до 300м</mat-option>
+          <mat-option value="3">до 500м</mat-option>
+          <mat-option value="3">до 1км</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Продуктові магазини</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="2">до 100м</mat-option>
+          <mat-option value="3">до 300м</mat-option>
+          <mat-option value="3">до 500м</mat-option>
+          <mat-option value="3">до 1км</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Зупинка транспорту</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="2">до 100м</mat-option>
+          <mat-option value="3">до 300м</mat-option>
+          <mat-option value="3">до 500м</mat-option>
+          <mat-option value="3">до 1км</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Метро</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть</mat-option>
+          <mat-option value="2">до 100м</mat-option>
+          <mat-option value="3">до 300м</mat-option>
+          <mat-option value="3">до 500м</mat-option>
+          <mat-option value="3">до 1км</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox m-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Дозвіл на тварин</mat-label>
+        <mat-select>
+          <mat-option disabled selected>Виберіть дозвіл на тварин</mat-option>
+          <mat-option value="1">Без тварин</mat-option>
+          <mat-option value="2">За попередньою домовленістю</mat-option>
+          <mat-option value="3">Можна з тваринами</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

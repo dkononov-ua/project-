@@ -1,15 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
-// const stars = document.querySelectorAll('.stars i');
-
-// stars.forEach((star, index1) => {
-//   stars.addEventListener('click', () => {
-//     stars.forEach((star, index2) => {
-//       index1 >= index2 ? star.classList.add('active') : star.classList.remove('active');
-//     });
-//   });
-// });
+interface Subscriber {
+  price: any;
+  id: number;
+  name: string;
+  photoUrl: string;
+}
 
 @Component({
   selector: 'app-housing-search',
@@ -123,6 +120,61 @@ export class HousingSearchComponent {
       animals: 'Без тварин',
     }
   ];
+
+  houses: Subscriber[] = [
+    {
+      id: 1,
+      name: 'Київ',
+      photoUrl: 'assets/bg-reg.jpg',
+      price: '10K ₴',
+    },
+    {
+      id: 2,
+      name: 'Львів',
+      photoUrl: 'assets/image.jpg',
+      price: '9K ₴',
+    },
+    {
+      id: 3,
+      name: 'Київ',
+      photoUrl: 'assets/kitchwn.jpeg',
+      price: '12K ₴',
+    },
+    {
+      id: 4,
+      name: 'Київ',
+      photoUrl: 'assets/kitchwn.jpeg',
+      price: '12K ₴',
+    },
+    {
+      id: 5,
+      name: 'Київ',
+      photoUrl: 'assets/kitchwn.jpeg',
+      price: '12K ₴',
+    },
+    {
+      id: 6,
+      name: 'Київ',
+      photoUrl: 'assets/kitchwn.jpeg',
+      price: '12K ₴',
+    },
+    {
+      id: 7,
+      name: 'Київ',
+      photoUrl: 'assets/kitchwn.jpeg',
+      price: '12K ₴',
+    },
+
+  ];
+
+  approveSubscriber(subscriber: Subscriber): void {
+    // Code to approve subscriber
+  }
+
+  removeSubscriber(subscriber: Subscriber): void {
+    // Code to remove subscriber
+  }
+
 
   rating: number = 5;
 
