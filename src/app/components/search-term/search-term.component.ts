@@ -1,11 +1,116 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
+import { SendDataService } from 'src/app/services/send-data.service';
 
 @Component({
   selector: 'app-search-term',
   templateUrl: './search-term.component.html',
-  styleUrls: ['./search-term.component.scss']
+  styleUrls: ['./search-term.component.scss'],
 })
 export class SearchTermComponent implements OnInit {
+
+  selectedCity!: string;
+  selectedRooms!: number;
+  selectedRating!: number;
+  selectedArea!: number;
+  selectedRegion!: string;
+
+
+  myForm: FormGroup | undefined | any;
+  sendData: any;
+  selectedRepair_status: any;
+  selectedDistance_parking: any;
+  selectedDistance_green: any;
+  selectedDistance_shop: any;
+  selectedDistance_stop: any;
+  selectedDistance_metro: any;
+  selectedAnimals: any;
+
+  onSubmit() {
+    const formValue = this.myForm?.value;
+    const params = new HttpParams()
+      .set('price_of', formValue.price_of)
+      .set('price_to', formValue.price_to)
+      .set('students', formValue.students)
+      .set('woman', formValue.woman)
+      .set('man', formValue.man)
+      .set('family', formValue.family);
+    this.http.get(`${this.endpoint}`, { params }).subscribe(data => {
+    });
+  }
+
+  onSubmit2() {
+    const formData = new FormData();
+    formData.append('region', this.selectedRegion),
+    this.sendData.sendFormData(formData).subscribe((response: any) => {
+      console.log('Server response:', response);
+    });
+  }
+
+
+  endpoint = 'http://localhost:3000/search/flat';
+  private searchSubscription: Subscription | null = null;
+
+  constructor(private http: HttpClient, private SendDataService: SendDataService) { }
+
+  search(searchString: string) {
+    this.searchSubscription?.unsubscribe();
+    if (searchString && searchString.length > 3) {
+      this.searchSubscription = this.http.get(`${this.endpoint}?search=${searchString}`)
+        .subscribe(data => {
+          // do something with the response data
+        });
+    }
+  }
+
+  // submitForm() {
+  //   this.SendDataService.sendFormData(this.myForm).subscribe(
+  //     response => {
+  //       console.log('Дані успішно відправлені на сервер');
+  //     },
+  //     error => {
+  //       console.error('Сталася помилка при відправленні даних на сервер', error);
+  //     }
+  //   );
+  // }
+
+  debounce(cb: any, ms: number) {
+    let timer: any = null;
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      timer = setTimeout(cb, ms);
+    };
+  }
+
+  inputSearchHandler(event: any) {
+    this.debounce(() => {
+      const searchString = event.target.value.trim();
+      this.search(searchString);
+    }, 3000)();
+  }
+
+  ngOnInit() {
+    this.myForm = new FormGroup({
+      price_of: new FormControl(),
+      price_to: new FormControl(),
+      students: new FormControl(),
+      woman: new FormControl(),
+      man: new FormControl(),
+      family: new FormControl()
+    });
+    this.onPriceRangeChange();
+
+    const inputSearch = document.querySelector('.search-input') as HTMLInputElement;
+    inputSearch.addEventListener('keyup', (event) => {
+      this.inputSearchHandler(event);
+    });
+
+  }
 
   minValue: number = 0;
   maxValue: number = 100000;
@@ -15,19 +120,12 @@ export class SearchTermComponent implements OnInit {
 
   onPriceRangeChange() {
     if (this.selectedMaxValue < this.selectedMinValue) {
-      // Якщо максимальне значення менше за мінімальне, то змінюємо місцями ці значення
       const temp = this.selectedMinValue;
       this.selectedMinValue = this.selectedMaxValue;
       this.selectedMaxValue = temp;
     }
   }
 
-
-  selectedCity!: number;
-  selectedRooms!: number;
-  selectedRating!: number;
-  selectedArea!: number;
-  selectedRegion!: number;
 
   regions = [
     { id: 0, name: 'Всі області' },
@@ -86,7 +184,4 @@ export class SearchTermComponent implements OnInit {
     { id: 24, name: 'Чернігів' },
     { id: 25, name: 'АР Крим' }
   ];
-
-  ngOnInit(): void {
-  }
 }

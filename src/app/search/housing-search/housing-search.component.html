@@ -7,46 +7,7 @@
   </div>
 
   <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="currentCard">
-    <!-- <div class="card col-lg-5 col-md-5 col-sm-9 col-10">
-
-      <div class="img-fluid card-img-top">
-        <img [src]="currentCard.image">
-      </div>
-
-      <div class="card-description">
-        <div class="description-box">
-          <h5 class="card-title">{{ currentCard.description }}</h5>
-          <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
-          <p>{{ currentCard.tell }}</p>
-        </div>
-
-        <div class="card-rating">
-          <div class="rating-box">
-            <div class="stars">
-              <i class="fa-solid fa-star" (click)="onClick(1)" [ngClass]="{'active': rating >= 1}"></i>
-              <i class="fa-solid fa-star" (click)="onClick(2)" [ngClass]="{'active': rating >= 2}"></i>
-              <i class="fa-solid fa-star" (click)="onClick(3)" [ngClass]="{'active': rating >= 3}"></i>
-              <i class="fa-solid fa-star" (click)="onClick(4)" [ngClass]="{'active': rating >= 4}"></i>
-              <i class="fa-solid fa-star" (click)="onClick(5)" [ngClass]="{'active': rating === 5}"></i>
-            </div>
-            <p>Рейтинг користувача та відгуки.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-social-link">
-        <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
-        <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
-      </div>
-
-      <div class="card-link">
-        <a [href]="currentCard.passport" class="link"><span>{{ currentCard.passportText }}</span><i
-            class="fa-solid fa-passport"></i></a>
-      </div>
-
-    </div> -->
-    <div>
+    <div class="card-box">
 
       <div class="card">
         <div id="carouselExample" class="carousel slide">
@@ -68,19 +29,33 @@
           </button>
         </div>
       </div>
-        <div class="btn-group">
-          <button mat-raised-button class="prev btn-control" (click)="onPrevCard()">
-            <div class="prev-arrow-top"></div>
-            <div class="prev-arrow-bottom"></div>
-            <div class="bg"></div>
-          </button>
-          <button mat-raised-button class="next btn-control" (click)="onNextCard()">
+
+      <div class="card-btn">
+        <button mat-raised-button class="prev card link">
+          <div class="" (click)="onPrevCard()">
+            <div>
+              <p>Prev</p>
+            </div>
+            <div>
+              <div class="prev-arrow-top"></div>
+              <div class="prev-arrow-bottom"></div>
+              <div class="bg"></div>
+            </div>
+          </div>
+        </button>
+        <button mat-raised-button class="next card link">
+          <div class="" (click)="onNextCard()">
+            <div>
+              <p>Next</p>
+            </div>
             <div class="next-arrow-top"></div>
             <div class="next-arrow-bottom"></div>
             <div class="bg"></div>
-          </button>
-        </div>
-        <div class="card">
+          </div>
+        </button>
+      </div>
+
+      <div class="card">
 
         <div class="characteristics">
           <h5>Критерії пошуку</h5>
@@ -127,12 +102,7 @@
         </div>
       </div>
 
-
-
     </div>
-
-
-
   </div>
 
   <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">

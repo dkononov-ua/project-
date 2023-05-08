@@ -5,246 +5,313 @@
   </nav>
 </div>
 
-<!-- <div class="col-12 p-2">
+<div class="col-12 p-2">
   <mat-form-field class="search" appearance="fill">
     <mat-label>Пошук</mat-label>
     <input class="search-input" matInput type="text" placeholder="Пошук" aria-label="Search"
-      aria-describedby="search-addon">
-    <button class="p-2" matSuffix mat-icon-button aria-label="Search" id="search-addon">
+      aria-describedby="search-addon" #searchInput (input)="inputSearchHandler($event)">
+    <button class="p-2" matSuffix mat-icon-button aria-label="Search" id="search-addon"
+      (click)="search(searchInput.value)">
       <mat-icon><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
     </button>
   </mat-form-field>
-</div> -->
-
-<div class="col-12 p-2 price">
-  <div class="inputbox range">
-    <label for="customRange1" class="form-label">
-      <p>Ціна за місяць {{selectedMinValue}} - {{selectedMaxValue}} грн</p>
-    </label>
-    <div class="selected-price-range">
-      <p></p>
-    </div>
-
-    <div class="inputbox">
-      <div class="input-group">
-        <span class="input-group-text">від</span>
-        <input type="number" class="form-control" [min]="minValue" [max]="maxValue" [(ngModel)]="selectedMinValue"
-          (ngModelChange)="onPriceRangeChange()">
-      </div>
-      <div class="input-group range1">
-        <input type="range" class="form-range" id="customRange1" [min]="minValue" [max]="maxValue"
-          [(ngModel)]="selectedMinValue" (ngModelChange)="onPriceRangeChange()">
-      </div>
-    </div>
-
-    <div class="inputbox">
-      <div class="input-group">
-        <span class="input-group-text">до</span>
-        <input type="number" class="form-control" [min]="minValue" [max]="maxValue" [(ngModel)]="selectedMaxValue"
-          (ngModelChange)="onPriceRangeChange()">
-      </div>
-
-      <div class="input-group range1">
-        <input type="range" class="form-range" id="customRange2" [min]="minValue" [max]="maxValue"
-          [(ngModel)]="selectedMaxValue" (ngModelChange)="onPriceRangeChange()">
-      </div>
-    </div>
-  </div>
-
-
-  <div class="container-checkbox">
-    <div class="content">
-      <label class="checkBox">
-        <input id="students" type="checkbox">
-        <div class="transition"></div>
-      </label>
-      <span class="checkBox-span">Студент</span>
-      <i></i>
-    </div>
-
-    <div class="content">
-      <label class="checkBox">
-        <input id="woman" type="checkbox">
-        <div class="transition"></div>
-      </label>
-      <span class="checkBox-span">Жінка</span>
-      <i></i>
-    </div>
-
-    <div class="content">
-      <label class="checkBox">
-        <input id="man" type="checkbox">
-        <div class="transition"></div>
-      </label>
-      <span class="checkBox-span">Чоловік</span>
-      <i></i>
-    </div>
-
-    <div class="content">
-      <label class="checkBox">
-        <input id="family" type="checkbox">
-        <div class="transition"></div>
-      </label>
-      <span class="checkBox-span">Сім'я</span>
-      <i></i>
-    </div>
-  </div>
 </div>
 
-<div class="container-box col-12">
-  <div class="box">
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Область</mat-label>
-        <mat-select [(ngModel)]="selectedRegion">
-          <mat-option disabled selected>Виберіть область</mat-option>
-          <mat-option *ngFor="let region of regions" [value]="region.id">{{ region.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+<form [formGroup]="myForm" (submit)="onSubmit()">
+
+  <div class="col-12 p-2 price">
+    <div class="inputbox range">
+      <label for="customRange1" class="form-label">
+        <p>Ціна за місяць {{selectedMinValue}} - {{selectedMaxValue}} грн</p>
+      </label>
+      <div class="selected-price-range">
+        <p></p>
+      </div>
+      <div class="inputbox">
+        <div class="input-group">
+          <span class="input-group-text">від</span>
+          <input type="number" class="form-control" [min]="minValue" [max]="maxValue" formControlName="price_of">
+        </div>
+        <div class="input-group">
+          <span class="input-group-text">до</span>
+          <input type="number" class="form-control" [min]="minValue" [max]="maxValue" formControlName="price_to">
+        </div>
+      </div>
     </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Місто</mat-label>
-        <mat-select [(ngModel)]="selectedCity">
-          <mat-option disabled selected>Виберіть місто</mat-option>
-          <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="container-checkbox">
+      <div class="content">
+        <label class="checkBox">
+          <input id="students" type="checkbox" formControlName="students">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Студент</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="woman" type="checkbox" formControlName="woman">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Жінка</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="man" type="checkbox" formControlName="man">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Чоловік</span>
+        <i></i>
+      </div>
+
+      <div class="content">
+        <label class="checkBox">
+          <input id="family" type="checkbox" formControlName="family">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Сім'я</span>
+        <i></i>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Застосувати</button>
+
+</form>
+
+<form (submit)="onSubmit2()">
+  <div class="container-box col-12">
+    <div class="box">
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Область</mat-label>
+          <mat-select [(ngModel)]="selectedRegion" name="selectedRegion">
+            <mat-option disabled selected>Виберіть область</mat-option>
+            <mat-option *ngFor="let region of regions" [value]="region.id">{{ region.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Місто</mat-label>
+          <mat-select [(ngModel)]="selectedCity" name="selectedCity">
+            <mat-option disabled selected>Виберіть місто</mat-option>
+            <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Площа</mat-label>
+          <mat-select [(ngModel)]="selectedArea" name="selectedArea">
+            <mat-option disabled selected>Виберіть площу</mat-option>
+            <mat-option value="1">до 30m2</mat-option>
+            <mat-option value="2">до 40m2</mat-option>
+            <mat-option value="3">до 50m2</mat-option>
+            <mat-option value="more">до 60m2 і більше</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Кількість кімнат</mat-label>
+          <mat-select [(ngModel)]="selectedRooms" name="selectedRooms">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="2">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="3">4+</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Стан квартири</mat-label>
+          <mat-select [(ngModel)]="selectedRepair_status" name="selectedRepair_status">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="1">Новий</mat-option>
+            <mat-option value="2">Добрий</mat-option>
+            <mat-option value="3">Задовільний</mat-option>
+            <mat-option value="3">Поганий</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
     </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Кількість кімнат</mat-label>
-        <mat-select [(ngModel)]="selectedRooms">
-          <mat-option disabled selected>Виберіть кількість кімнат</mat-option>
-          <mat-option value="1">Одна</mat-option>
-          <mat-option value="2">Дві</mat-option>
-          <mat-option value="3">Три</mat-option>
-          <mat-option value="more">Більше</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+    <div class="box">
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Паркінг</mat-label>
+          <mat-select [(ngModel)]="selectedDistance_parking" name="selectedDistance_parking">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="1">на території</mat-option>
+            <mat-option value="2">до 100м</mat-option>
+            <mat-option value="3">до 300м</mat-option>
+            <mat-option value="3">до 500м</mat-option>
+            <mat-option value="3">до 1км</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Площа</mat-label>
-        <mat-select [(ngModel)]="selectedArea">
-          <mat-option disabled selected>Виберіть площу</mat-option>
-          <mat-option value="1">до 30m2</mat-option>
-          <mat-option value="2">до 40m2</mat-option>
-          <mat-option value="3">до 50m2</mat-option>
-          <mat-option value="more">до 60m2 і більше</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Парк, сквер</mat-label>
+          <mat-select [(ngModel)]="selectedDistance_green" name="selectedDistance_green">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="2">до 100м</mat-option>
+            <mat-option value="3">до 300м</mat-option>
+            <mat-option value="3">до 500м</mat-option>
+            <mat-option value="3">до 1км</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Кількість кімнат</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="2">1</mat-option>
-          <mat-option value="2">2</mat-option>
-          <mat-option value="3">3</mat-option>
-          <mat-option value="3">4+</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Продуктові магазини</mat-label>
+          <mat-select [(ngModel)]="selectedDistance_shop" name="selectedDistance_shop">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="2">до 100м</mat-option>
+            <mat-option value="3">до 300м</mat-option>
+            <mat-option value="3">до 500м</mat-option>
+            <mat-option value="3">до 1км</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Стан квартири</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="1">Новий</mat-option>
-          <mat-option value="2">Добрий</mat-option>
-          <mat-option value="3">Задовільний</mat-option>
-          <mat-option value="3">Поганий</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Зупинка транспорту</mat-label>
+          <mat-select [(ngModel)]="selectedDistance_stop" name="selectedDistance_stop">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="2">до 100м</mat-option>
+            <mat-option value="3">до 300м</mat-option>
+            <mat-option value="3">до 500м</mat-option>
+            <mat-option value="3">до 1км</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Метро</mat-label>
+          <mat-select [(ngModel)]="selectedDistance_metro" name="selectedDistance_metro">
+            <mat-option disabled selected>Виберіть</mat-option>
+            <mat-option value="2">до 100м</mat-option>
+            <mat-option value="3">до 300м</mat-option>
+            <mat-option value="3">до 500м</mat-option>
+            <mat-option value="3">до 1км</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputbox m-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Дозвіл на тварин</mat-label>
+          <mat-select [(ngModel)]="selectedAnimals" name="selectedAnimals">
+            <mat-option disabled selected>Виберіть дозвіл на тварин</mat-option>
+            <mat-option value="1">Без тварин</mat-option>
+            <mat-option value="2">За попередньою домовленістю</mat-option>
+            <mat-option value="3">Можна з тваринами</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
   </div>
 
-  <div class="box">
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Паркінг</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="1">на території</mat-option>
-          <mat-option value="2">до 100м</mat-option>
-          <mat-option value="3">до 300м</mat-option>
-          <mat-option value="3">до 500м</mat-option>
-          <mat-option value="3">до 1км</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <button type="submit" class="btn btn-primary">Застосувати</button>
+
+
+</form>
+
+
+
+
+
+
+
+<!-- <form [formGroup]="myForm" (submit)="onSubmit()">
+
+  <div class="col-12 p-2 price">
+    <div class="inputbox range">
+      <label for="customRange1" class="form-label">
+        <p>Ціна за місяць {{selectedMinValue}} - {{selectedMaxValue}} грн</p>
+      </label>
+      <div class="selected-price-range">
+        <p></p>
+      </div>
+
+      <div class="inputbox">
+        <div class="input-group">
+          <span class="input-group-text">від</span>
+          <input type="number" class="form-control" [min]="minValue" [max]="maxValue" [(ngModel)]="selectedMinValue"
+            (ngModelChange)="onPriceRangeChange()">
+        </div>
+        <div class="input-group range1">
+          <input type="range" class="form-range" id="customRange1" [min]="minValue" [max]="maxValue"
+            [(ngModel)]="selectedMinValue" (ngModelChange)="onPriceRangeChange()" formControlName="price_of">
+        </div>
+      </div>
+
+      <div class="inputbox">
+        <div class="input-group">
+          <span class="input-group-text">до</span>
+          <input type="number" class="form-control" [min]="minValue" [max]="maxValue" [(ngModel)]="selectedMaxValue"
+            (ngModelChange)="onPriceRangeChange()" formControlName="price_to">
+        </div>
+
+        <div class="input-group range1">
+          <input type="range" class="form-range" id="customRange2" [min]="minValue" [max]="maxValue"
+            [(ngModel)]="selectedMaxValue" (ngModelChange)="onPriceRangeChange()">
+        </div>
+      </div>
     </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Парк, сквер</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="2">до 100м</mat-option>
-          <mat-option value="3">до 300м</mat-option>
-          <mat-option value="3">до 500м</mat-option>
-          <mat-option value="3">до 1км</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+    <div class="container-checkbox">
+      <div class="content">
+        <label class="checkBox">
+          <input id="students" type="checkbox" formControlName="students">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Студент</span>
+        <i></i>
+      </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Продуктові магазини</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="2">до 100м</mat-option>
-          <mat-option value="3">до 300м</mat-option>
-          <mat-option value="3">до 500м</mat-option>
-          <mat-option value="3">до 1км</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <div class="content">
+        <label class="checkBox">
+          <input id="woman" type="checkbox" formControlName="woman">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Жінка</span>
+        <i></i>
+      </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Зупинка транспорту</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="2">до 100м</mat-option>
-          <mat-option value="3">до 300м</mat-option>
-          <mat-option value="3">до 500м</mat-option>
-          <mat-option value="3">до 1км</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <div class="content">
+        <label class="checkBox">
+          <input id="man" type="checkbox" formControlName="man">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Чоловік</span>
+        <i></i>
+      </div>
 
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Метро</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть</mat-option>
-          <mat-option value="2">до 100м</mat-option>
-          <mat-option value="3">до 300м</mat-option>
-          <mat-option value="3">до 500м</mat-option>
-          <mat-option value="3">до 1км</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="content">
+        <label class="checkBox">
+          <input id="family" type="checkbox" formControlName="family">
+          <div class="transition"></div>
+        </label>
+        <span class="checkBox-span">Сім'я</span>
+        <i></i>
+      </div>
     </div>
-
-    <div class="inputbox m-2">
-      <mat-form-field appearance="fill">
-        <mat-label>Дозвіл на тварин</mat-label>
-        <mat-select>
-          <mat-option disabled selected>Виберіть дозвіл на тварин</mat-option>
-          <mat-option value="1">Без тварин</mat-option>
-          <mat-option value="2">За попередньою домовленістю</mat-option>
-          <mat-option value="3">Можна з тваринами</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
   </div>
-</div>
+
+</form> -->
