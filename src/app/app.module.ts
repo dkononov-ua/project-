@@ -42,6 +42,7 @@ import { AccountModule } from './account/account.module';
 import { AccountRoutingModule } from './account/account-routing.module';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { HousingParametersRoutingModule } from './account-edit/house/housing-par
     AccountRoutingModule,
     HousingParametersModule,
     HousingParametersRoutingModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

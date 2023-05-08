@@ -5,7 +5,7 @@
   </nav>
 </div>
 
-<div class="col-12 p-2">
+<!-- <div class="col-12 p-2">
   <mat-form-field class="search" appearance="fill">
     <mat-label>Пошук</mat-label>
     <input class="search-input" matInput type="text" placeholder="Пошук" aria-label="Search"
@@ -14,14 +14,43 @@
       <mat-icon><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
     </button>
   </mat-form-field>
-</div>
+</div> -->
 
-<div class="col-12 p-2">
-
+<div class="col-12 p-2 price">
   <div class="inputbox range">
-    <label for="customRange1" class="form-label"><p>Ціна за місяць</p></label>
-    <input type="range" class="form-range" id="customRange1">
+    <label for="customRange1" class="form-label">
+      <p>Ціна за місяць {{selectedMinValue}} - {{selectedMaxValue}} грн</p>
+    </label>
+    <div class="selected-price-range">
+      <p></p>
+    </div>
+
+    <div class="inputbox">
+      <div class="input-group">
+        <span class="input-group-text">від</span>
+        <input type="number" class="form-control" [min]="minValue" [max]="maxValue" [(ngModel)]="selectedMinValue"
+          (ngModelChange)="onPriceRangeChange()">
+      </div>
+      <div class="input-group range1">
+        <input type="range" class="form-range" id="customRange1" [min]="minValue" [max]="maxValue"
+          [(ngModel)]="selectedMinValue" (ngModelChange)="onPriceRangeChange()">
+      </div>
+    </div>
+
+    <div class="inputbox">
+      <div class="input-group">
+        <span class="input-group-text">до</span>
+        <input type="number" class="form-control" [min]="minValue" [max]="maxValue" [(ngModel)]="selectedMaxValue"
+          (ngModelChange)="onPriceRangeChange()">
+      </div>
+
+      <div class="input-group range1">
+        <input type="range" class="form-range" id="customRange2" [min]="minValue" [max]="maxValue"
+          [(ngModel)]="selectedMaxValue" (ngModelChange)="onPriceRangeChange()">
+      </div>
+    </div>
   </div>
+
 
   <div class="container-checkbox">
     <div class="content">

@@ -6,6 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-term.component.scss']
 })
 export class SearchTermComponent implements OnInit {
+
+  minValue: number = 0;
+  maxValue: number = 100000;
+
+  selectedMinValue: number = 0;
+  selectedMaxValue: number = 100000;
+
+  onPriceRangeChange() {
+    if (this.selectedMaxValue < this.selectedMinValue) {
+      // Якщо максимальне значення менше за мінімальне, то змінюємо місцями ці значення
+      const temp = this.selectedMinValue;
+      this.selectedMinValue = this.selectedMaxValue;
+      this.selectedMaxValue = temp;
+    }
+  }
+
+
   selectedCity!: number;
   selectedRooms!: number;
   selectedRating!: number;
@@ -68,8 +85,8 @@ export class SearchTermComponent implements OnInit {
     { id: 23, name: 'Чернівці' },
     { id: 24, name: 'Чернігів' },
     { id: 25, name: 'АР Крим' }
-    ];
+  ];
 
-    ngOnInit(): void {
-    }
+  ngOnInit(): void {
+  }
 }
