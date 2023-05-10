@@ -26,6 +26,13 @@
   margin: 0.2em;
 }
 
+.card-mini {
+  display: flex;
+  justify-content: center;
+  margin: 0.2em;
+  flex-direction: row;
+}
+
 .card-btn {
   background-color: rgba(0, 0, 0, 0);
   display: flex;
@@ -201,6 +208,12 @@ h5 {
   flex-direction: column;
 }
 
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
 .card-img-container {
   margin: 0;
   padding: 0;
@@ -335,3 +348,9 @@ a {
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 }
+
+.wrapper.card.mb-4.selected {
+  /* Ваші стилі для виділення */
+  background-color: $color-accent;
+}
+

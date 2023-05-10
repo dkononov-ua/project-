@@ -9,59 +9,81 @@
   <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="selectedFlat">
     <div class="card-box">
 
-      <div class="card">
-        <div id="carouselExample" class="carousel slide">
+
+      <div class="card m-2">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img [src]="getImageUrl">
+              <div class="img-wrapper" *ngIf="selectedFlat?.photos?.length > 0">
+                <img [src]="getImageUrl(selectedFlat.photos[0])" alt="Flat Image" class="img-fluid rounded">
+              </div>
             </div>
-            <div class="carousel-item">
-              <img [src]="getImageUrl">
+            <div class="carousel-item" *ngFor="let photo of selectedFlat?.photos?.slice(1)">
+              <div class="img-wrapper">
+                <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded">
+              </div>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
         </div>
+
+        <div class="card-btn">
+
+          <div class="item-box m-1">
+            <button mat-raised-button class="prev card link" (click)="onPrevCard()">
+              <div class="prev-arrow-top"></div>
+              <div class="prev-arrow-bottom"></div>
+            </button>
+            <div>
+              <p>Попередня</p>
+            </div>
+          </div>
+
+          <div class="item-box">
+            <button class="btn-sbs card link"><i class="fas fa-heart" aria-hidden="true"></i></button>
+            <div>
+              <p>Підписатись</p>
+            </div>
+          </div>
+
+          <div class="item-box m-1">
+            <button mat-raised-button class="next card link" (click)="onNextCard()">
+              <div class="next-arrow-top"></div>
+              <div class="next-arrow-bottom"></div>
+            </button>
+            <div>
+              <p>Наступна</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ selectedFlat?.street }}, {{ selectedFlat?.city }}, {{ selectedFlat?.region }}</h5>
+          <p class="card-text">{{ selectedFlat?.about }}</p>
+          <ul>
+            <li>Кімнат: {{ selectedFlat?.rooms }}</li>
+            <li>Площа: {{ selectedFlat?.area }} м²</li>
+            <li>Статус ремонту: {{ selectedFlat?.repair_status }}</li>
+            <li>Ціна: {{ selectedFlat?.price || 'Немає інформації' }}</li>
+            <!-- Додайте інші властивості, які ви хочете відобразити -->
+          </ul>
+        </div>
       </div>
 
-      <!-- <div class="card-btn">
 
-        <div class="item-box m-1">
-          <button mat-raised-button class="prev card link" (click)="onPrevCard()">
-            <div class="prev-arrow-top"></div>
-            <div class="prev-arrow-bottom"></div>
-          </button>
-          <div>
-            <p>Попередня</p>
-          </div>
-        </div>
 
-        <div class="item-box">
-          <button class="btn-sbs card link"><i class="fas fa-heart" aria-hidden="true"></i></button>
-          <div>
-            <p>Підписатись</p>
-          </div>
-        </div>
 
-        <div class="item-box m-1">
-          <button mat-raised-button class="next card link" (click)="onNextCard()">
-            <div class="next-arrow-top"></div>
-            <div class="next-arrow-bottom"></div>
-          </button>
-          <div>
-            <p>Наступна</p>
-          </div>
-        </div>
-
-      </div> -->
-
-      <div class="card">
+      <!-- <div class="card">
 
         <div class="characteristics">
           <div>
@@ -72,7 +94,6 @@
             <h2>{{ selectedFlat.region }}</h2>
             <p>{{ selectedFlat.city }}</p>
             <p>{{ selectedFlat.rooms }}</p>
-            <!-- Додайте решту полів оселі, які ви хочете відобразити -->
           </div>
 
           <div class="price">
@@ -116,7 +137,7 @@
           <a [href]="currentCard.homeAccount" class="link"><span>{{ currentCard.homeAccountText }}</span><i
               class="fa-solid fa-file-contract"></i></a>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </div>
@@ -127,42 +148,22 @@
     </div> -->
 
   <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">
-
     <div class="card-container p-2" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats" (click)="selectFlat(flat)">
-        <div class="card mb-4" *ngIf="selectedFlat !== flat">
-          <div class="card-img-container">
-            <img class="card-img-container" [src]="getImageUrl(flat.img)" alt="Flat Image">
-          </div>
+      <div class="card-wrapper" *ngFor="let flat of filteredFlats" [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)">
+        <div class="wrapper card mb-4" [class.selected]="selectedFlat === flat">
+
+          <a class="card-img-container">
+            <img class="card-img-top" [src]="getImageUrl(flat.img)" alt="Flat Image">
+          </a>
+
           <div class="card-body">
-            <h4 class="card-title">{{ flat.name }}</h4>
-            <h2>{{ flat.region }}</h2>
-            <p>{{ flat.city }}</p>
+            <h2 class="card-title">{{ flat.region }}</h2>
+            <p class="card-title">{{ flat.city }}</p>
           </div>
+
         </div>
       </div>
     </div>
-
-
   </div>
-
-  <!-- <div class="card-wrapper card mb-4" *ngFor="let house of houses">
-
-        <a class="card-img-container">
-          <img class="card-img-top" [src]="house.photoUrl" alt="Card image cap">
-        </a>
-        <div class="card-body">
-          <h4 class="card-title">{{house.name}}</h4>
-          <h2 class="card-title">{{house.price}}</h2>
-        </div>
-      </div>
-    </div> -->
-
-
-  <!-- </div> -->
-
-
-
-  <!-- </div> -->
 
   <app-footer></app-footer>
