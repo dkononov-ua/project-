@@ -34,6 +34,7 @@ interface SearchParams {
   templateUrl: './search-term.component.html',
   styleUrls: ['./search-term.component.scss'],
 })
+
 export class SearchTermComponent implements OnInit {
 
   @Output() filteredFlatsEvent: EventEmitter<any[]> = new EventEmitter<any[]>();
