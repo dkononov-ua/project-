@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { TenantsSearchComponent } from './search/tenants-search/tenants-search.component';
-import { SearchTermComponent } from './components/search-term/search-term.component';
+import { SearchTermComponent } from './search/housing-search/search-term/search-term.component';
 import { HousingSearchComponent } from './search/housing-search/housing-search.component';
 import { AgreementComponent } from './components/agreement/agreement.component';
 import { SliderComponent } from './components/slider/slider.component';
@@ -30,7 +30,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { SharedModule } from './shared/shared.module';
 import { MatSelectModule } from '@angular/material/select';
 import { KrutilkaComponent } from './components/krutilka/krutilka.component';
 import { TestComponent } from './pages/test/test.component';
@@ -43,61 +42,61 @@ import { AccountRoutingModule } from './account/account-routing.module';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 import { MatSliderModule } from '@angular/material/slider';
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    OurTeamComponent,
-    RegistrationComponent,
-    UserPaymentComponent,
-    InformationUserComponent,
-    TenantsSearchComponent,
-    SearchTermComponent,
-    HousingSearchComponent,
-    AgreementComponent,
-    SliderComponent,
-    ModalComponent,
-    UserLicenceComponent,
-    ComunPageComponent,
-    KrutilkaComponent,
-    TestComponent,
-    DeleteComunalComponent,
-    DeleteDialogComponent,
-    SearchComponent,
-  ],
-
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCardModule,
-    DragDropModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    SharedModule,
-    HousingServicesModule,
-    HousingServicesRoutingModule,
-    RouterModule,
-    CommonModule,
-    NgxSpinnerModule,
-    MatSelectModule,
-    MatDialogModule,
-    AccountModule,
-    AccountRoutingModule,
-    HousingParametersModule,
-    HousingParametersRoutingModule,
-    MatSliderModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        OurTeamComponent,
+        RegistrationComponent,
+        UserPaymentComponent,
+        InformationUserComponent,
+        TenantsSearchComponent,
+        SearchTermComponent,
+        HousingSearchComponent,
+        AgreementComponent,
+        SliderComponent,
+        ModalComponent,
+        UserLicenceComponent,
+        ComunPageComponent,
+        KrutilkaComponent,
+        TestComponent,
+        DeleteComunalComponent,
+        DeleteDialogComponent,
+        SearchComponent,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatCardModule,
+        DragDropModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        HousingServicesModule,
+        HousingServicesRoutingModule,
+        RouterModule,
+        CommonModule,
+        NgxSpinnerModule,
+        MatSelectModule,
+        MatDialogModule,
+        AccountModule,
+        AccountRoutingModule,
+        HousingParametersModule,
+        HousingParametersRoutingModule,
+        MatSliderModule,
+        SharedModule,
+    ]
 })
 export class AppModule { }

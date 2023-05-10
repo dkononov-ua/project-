@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subscription, debounceTime, filter } from 'rxjs';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { SendDataService } from 'src/app/services/send-data.service';
 import { Router } from '@angular/router';
+import { EventEmitter, Output } from '@angular/core';
 
 interface SearchParams {
   [key: string]: any;
@@ -34,6 +35,9 @@ interface SearchParams {
   styleUrls: ['./search-term.component.scss'],
 })
 export class SearchTermComponent implements OnInit {
+
+  @Output() filteredFlatsEvent: EventEmitter<any[]> = new EventEmitter<any[]>();
+
   searchQueryString = '';
   searchParamsString: string = '';
 
@@ -58,24 +62,25 @@ export class SearchTermComponent implements OnInit {
   myForm: FormGroup | undefined | any;
   sendData: any;
   selectedRepair_status: any;
+  searchParamsArr: string[] = [];
+
 
   endpoint = 'http://localhost:3000/search/flat';
   private searchSubscription: Subscription | null = null;
   form: any;
-  searchParamsArr: any;
 
-  constructor(private http: HttpClient, private SendDataService: SendDataService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private SendDataService: SendDataService, private router: Router) {
+    this.myForm = this.formBuilder.group({
+      price_of: [],
+      price_to: [],
+      students: [],
+      woman: [],
+      man: [],
+      family: []
+    });
+  }
 
   ngOnInit() {
-    this.myForm = new FormGroup({
-      price_of: new FormControl(),
-      price_to: new FormControl(),
-      students: new FormControl(),
-      woman: new FormControl(),
-      man: new FormControl(),
-      family: new FormControl()
-    });
-
     this.myForm.valueChanges
       .pipe(
         debounceTime(2000)
@@ -86,6 +91,7 @@ export class SearchTermComponent implements OnInit {
   }
 
   onSubmit() {
+
     const params: SearchParams = {
       region: this.selectedRegion || '',
       city: this.selectedCity || '',
@@ -103,6 +109,13 @@ export class SearchTermComponent implements OnInit {
       distance_parking: this.selectedDistance_parking || '',
       limit: '',
       country: '',
+
+      // price_of: this.myForm.get('price_of').value ? this.myForm.get('price_of').value : '',
+      // price_to: this.myForm.get('price_to').value ? this.myForm.get('price_to').value : '',
+      students: this.myForm.get('students').value ? 1 : '',
+      woman: this.myForm.get('woman').value ? 1 : '',
+      man: this.myForm.get('man').value ? 1 : '',
+      family: this.myForm.get('family').value ? 1 : '',
     };
 
     let searchParamsArr: string[] = [];
@@ -132,14 +145,14 @@ export class SearchTermComponent implements OnInit {
   }
 
   // Додавання значення до масиву параметрів пошуку
-  addSelectedValue(searchParamsArr: string[], label: string, value: string) {
+  private addSelectedValue(arr: string[], label: string, value: any) {
     if (value) {
-      searchParamsArr.push(`${label}: ${value}`);
+      arr.push(`${label}: ${value}`);
     }
   }
 
   // Формування URL для пошуку
-  buildSearchURL(params: SearchParams): string {
+  buildSearchURL(params: any): string {
     const endpoint = 'http://localhost:3000/search/flat';
     const paramsString = Object.keys(params)
       .filter(key => params[key] !== '') // Видаляємо пусті значення
@@ -174,48 +187,17 @@ export class SearchTermComponent implements OnInit {
 
   filterFlatsBySelections(flatInfo: any[]): any[] {
     const filteredFlats = flatInfo.filter((flat) => {
-      // Перевіряємо кожну оселю на відповідність вибраним значенням у селектах
       if (this.selectedCity && flat.city !== this.selectedCity) {
-        return false; // Оселя не відповідає вибраному місту
+        return false;
       }
       if (this.selectedRooms && flat.rooms !== this.selectedRooms) {
-        return false; // Оселя не відповідає вибраній кількості кімнат
+        return false;
       }
-      if (this.selectedArea) {
-        let areaLabel = '';
-        let areaFilter = false;
-        switch (this.selectedArea) {
-          // ...
-        }
-        if (areaFilter) {
-          this.searchParamsArr.push(`Площа: ${areaLabel}`);
-        }
-        return areaFilter;
-      }
-      if (this.myForm) {
-        const price_of = this.myForm.get('price_of').value;
-        const price_to = this.myForm.get('price_to').value;
-        if (price_of && flat.price < price_of) {
-          return false; // Оселя не відповідає вибраній мінімальній ціні
-        }
-        if (price_to && flat.price > price_to) {
-          return false; // Оселя не відповідає вибраній максимальній ціні
-        }
-        const students = this.myForm.get('students').value;
-        const woman = this.myForm.get('woman').value;
-        const man = this.myForm.get('man').value;
-        const family = this.myForm.get('family').value;
-        if ((students && flat.target !== 'students') ||
-            (woman && flat.target !== 'woman') ||
-            (man && flat.target !== 'man') ||
-            (family && flat.target !== 'family')) {
-          return false; // Оселя не відповідає вибраній категорії пошуку
-        }
-      }
-      return true; // Оселя відповідає всім вибраним значенням у селектах та формі
+
+      return true;
     });
 
-    console.log(filteredFlats); // Виводимо відфільтровані дані в консоль
+    this.filteredFlatsEvent.emit(filteredFlats); // Відправка відфільтрованих даних через подію
 
     return filteredFlats;
   }
@@ -242,7 +224,6 @@ export class SearchTermComponent implements OnInit {
   maxValue: number = 100000;
 
   regions = [
-    { id: 0, name: 'Всі області' },
     { id: 1, name: 'Вінницька' },
     { id: 2, name: 'Волинська' },
     { id: 3, name: 'Дніпропетровська' },
