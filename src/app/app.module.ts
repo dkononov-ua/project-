@@ -43,6 +43,7 @@ import { HousingParametersModule } from './account-edit/house/housing-parameters
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 import { MatSliderModule } from '@angular/material/slider';
 import { SharedModule } from "./shared/shared.module";
+import { FilterService } from './search/housing-search/filter.service';
 
 @NgModule({
     declarations: [
@@ -65,7 +66,7 @@ import { SharedModule } from "./shared/shared.module";
         DeleteDialogComponent,
         SearchComponent,
     ],
-    providers: [],
+    providers: [FilterService],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,

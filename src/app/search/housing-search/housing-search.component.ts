@@ -1,9 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, Output, EventEmitter, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { FilterService } from './filter.service';
 
 interface FlatInfo {
   region: string;
@@ -25,20 +26,9 @@ interface FlatInfo {
   price: any;
   id: number;
   name: string;
-  photos: string[]; // Зберігаємо URL-адреси фотографій у властивості photos
+  photos: string[];
   img: string;
 }
-
-
-
-
-interface Subscriber {
-  price: any;
-  id: number;
-  name: string;
-  photoUrl: string;
-}
-
 @Component({
   selector: 'app-housing-search',
   templateUrl: './housing-search.component.html',
@@ -58,55 +48,58 @@ interface Subscriber {
 
 export class HousingSearchComponent implements OnInit {
 
-  getImageUrl(fileName: string): string {
-    return `http://localhost:3000/img/flat/${fileName}`;
-  }
-
-  selectedFlat: FlatInfo | any;
+  private filterSubscription: Subscription | undefined;
+  subscription: Subscription | undefined;
   flatInfo: FlatInfo[] = [];
   filteredFlats: FlatInfo[] | undefined;
-  currentCard: any;
+  selectedFlat: FlatInfo | any;
   filterForm: FormGroup;
-  subscription: Subscription | undefined;
+  currentCard: any;
 
-
-
-  filterChange$: Observable<any> | undefined; // Observable для слідкування за змінами фільтрів
-
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
-    // Решта коду...
-    this.filterForm = this.formBuilder.group({
-      // Визначте ваші фільтри тут
-    });
+  constructor(
+    private filterService: FilterService,
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.filterForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
-    const url = 'http://localhost:3000/search/flat'; // Ваш URL для отримання даних про оселі
+    const url = 'http://localhost:3000/search/flat';
     this.fetchFlatData(url);
-    if (this.filteredFlats && this.filteredFlats.length > 0) {
-      this.currentCardIndex = 0;
-      this.selectedFlat = this.filteredFlats[this.currentCardIndex];
-    }
 
     if (this.filterForm) {
-      this.filterChange$ = this.filterForm.valueChanges;
-      this.filterChange$.subscribe((value) => {
+      this.filterForm.valueChanges.subscribe(() => {
         this.filterFlats();
       });
     }
 
+    this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
+      const filterValue = this.filterService.getFilterValue();
+      if (filterValue) { // Перевірка, чи існує значення фільтра
+        this.updateFilteredData(filterValue);
+      }
+    });
   }
 
+  // ngOnDestroy() {
+  //   this.filterSubscription?.unsubscribe();
+  //   this.subscription?.unsubscribe();
+  // }
 
   selectFlat(flat: FlatInfo) {
     this.selectedFlat = flat;
   }
 
-  handleFilteredFlats(filteredFlats: FlatInfo[]) {
-    console.log(filteredFlats); // Виводимо відфільтровані дані в консоль
-
-    // Відображення відфільтрованих даних на сторінці
-    this.filteredFlats = filteredFlats;
+  handleFilteredFlats(filterValue: FlatInfo[] | undefined) {
+    console.log(filterValue);
+    this.filteredFlats = filterValue;
+    if (filterValue && filterValue.length > 0) {
+      this.selectedFlat = filterValue[0];
+    } else {
+      this.selectedFlat = undefined;
+    }
   }
 
 
@@ -117,19 +110,14 @@ export class HousingSearchComponent implements OnInit {
     }
 
     this.subscription = this.http.get<{ flat_inf: FlatInfo[] }>(url).subscribe((data) => {
-      const flatInfo = data.flat_inf; // Отримуємо інформацію про оселі з відповіді
+      const flatInfo = data.flat_inf;
       if (flatInfo) {
         this.flatInfo = flatInfo.map((flat) => {
           flat.photos = [flat.img];
           return flat;
         });
 
-        this.filterFlats(); // Оновити відфільтровані дані після отримання нових осель
-
-        if (this.filteredFlats && this.filteredFlats.length > 0) {
-          this.currentCardIndex = 0;
-          this.selectedFlat = this.filteredFlats[this.currentCardIndex];
-        }
+        this.filterFlats();
 
         console.log('Отримано інформацію про оселі');
       } else {
@@ -140,50 +128,46 @@ export class HousingSearchComponent implements OnInit {
 
   filterFlats() {
     if (this.filterForm && this.flatInfo) {
-      const filters = this.filterForm.value; // Отримуємо значення фільтрів з форми
-  
+      const filters = this.filterForm.value;
+
       const filteredFlats = this.flatInfo.filter((flat) => {
-        // Перевіряємо, чи оселя відповідає умовам фільтрів
-        // Використовуйте значення з фільтрів для виконання перевірок
-  
-        // Приклад: фільтр за кількістю кімнат
         if (filters.rooms && filters.rooms !== flat.rooms) {
           return false;
         }
-  
-        // Приклад: фільтр за ціною
+
         if (filters.price && flat.price > filters.price) {
           return false;
         }
-  
-        // Додайте інші умови фільтрації, відповідно до вашого вимоги
-  
-        return true; // Повертаємо true, якщо оселя відповідає всім умовам фільтрації
+
+        return true;
       });
-  
-      this.filteredFlats = filteredFlats;
-      this.handleFilteredFlats(filteredFlats); // Оновити відображення на сторінці
+
+      this.handleFilteredFlats(filteredFlats);
     }
   }
-  
 
-
-  filterFlatsBySelections(flatInfo: FlatInfo[]): FlatInfo[] {
-    // Виконується фільтрація осель на основі вибраних умов
-    // Повертає відфільтрований масив FlatInfo[]
-
-    const filteredFlats: FlatInfo[] = [];
-
-    // Додайте код фільтрації осель за вашими умовами
-    // І додайте відповідні оселі до filteredFlats
-
-    return filteredFlats;
+  updateFilteredData(filterValue: any) {
+    this.filterForm.patchValue(filterValue);
+    this.filterFlats();
+    this.filteredFlats = filterValue;
+    console.log(this.filteredFlats); // Вивести відфільтровані дані
   }
 
+  filterValue() {
+    return this.filterForm.value;
+  }
+
+
+
+  getImageUrl(fileName: string): string {
+    return `http://localhost:3000/img/flat/${fileName}`;
+  }
 
   getFlatPhotos(flat: FlatInfo): string[] {
     return flat.photos;
   }
+
+
 
   currentCardIndex: number = 0;
   cards: FlatInfo[] = [];
@@ -197,7 +181,6 @@ export class HousingSearchComponent implements OnInit {
     this.currentCardIndex = (this.currentCardIndex - 1 + this.filteredFlats!.length) % this.filteredFlats!.length;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
   }
-
 
   onSubscribe() {
     // Do something when subscribe button is clicked

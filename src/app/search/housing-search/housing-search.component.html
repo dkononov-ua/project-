@@ -9,20 +9,22 @@
   <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="selectedFlat">
     <div class="card-box">
 
-
       <div class="card m-2">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="img-wrapper" *ngIf="selectedFlat?.photos?.length > 0">
-                <img [src]="getImageUrl(selectedFlat.photos[0])" alt="Flat Image" class="img-fluid rounded">
+            <ng-container *ngIf="selectedFlat && selectedFlat.photos && selectedFlat.photos.length > 0">
+              <div class="carousel-item active">
+                <div class="img-wrapper">
+                  <img [src]="getImageUrl(selectedFlat.photos[0])" alt="Flat Image" class="img-fluid rounded">
+                </div>
               </div>
-            </div>
-            <div class="carousel-item" *ngFor="let photo of selectedFlat?.photos?.slice(1)">
-              <div class="img-wrapper">
-                <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded">
+              <div class="carousel-item" *ngFor="let photo of selectedFlat.photos.slice(1)">
+                <div class="img-wrapper">
+                  <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded">
+                </div>
               </div>
-            </div>
+            </ng-container>
+
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
@@ -75,7 +77,6 @@
             <li>Площа: {{ selectedFlat?.area }} м²</li>
             <li>Статус ремонту: {{ selectedFlat?.repair_status }}</li>
             <li>Ціна: {{ selectedFlat?.price || 'Немає інформації' }}</li>
-            <!-- Додайте інші властивості, які ви хочете відобразити -->
           </ul>
         </div>
       </div>
@@ -142,14 +143,10 @@
     </div>
   </div>
 
-  <!-- <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12"> -->
-  <!-- <div>
-      <p>ЗНАЙДЕНО 235</p>
-    </div> -->
-
   <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">
     <div class="card-container p-2" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats" [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)">
+      <div class="card-wrapper" *ngFor="let flat of filteredFlats" [ngClass]="{ 'selected': selectedFlat === flat }"
+        (click)="selectFlat(flat)">
         <div class="wrapper card mb-4" [class.selected]="selectedFlat === flat">
 
           <a class="card-img-container">

@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subscription, debounceTime, filter } from 'rxjs';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { SendDataService } from 'src/app/services/send-data.service';
 import { Router } from '@angular/router';
 import { EventEmitter, Output } from '@angular/core';
+import { FilterService } from '../filter.service';
 
 interface SearchParams {
   [key: string]: any;
@@ -37,8 +37,6 @@ interface SearchParams {
 
 export class SearchTermComponent implements OnInit {
 
-  @Output() filteredFlatsEvent: EventEmitter<any[]> = new EventEmitter<any[]>();
-
   searchQueryString = '';
   searchParamsString: string = '';
 
@@ -65,12 +63,12 @@ export class SearchTermComponent implements OnInit {
   selectedRepair_status: any;
   searchParamsArr: string[] = [];
 
-
   endpoint = 'http://localhost:3000/search/flat';
   private searchSubscription: Subscription | null = null;
   form: any;
+  filteredFlats: any;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private SendDataService: SendDataService, private router: Router) {
+  constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
     this.myForm = this.formBuilder.group({
       price_of: [],
       price_to: [],
@@ -143,26 +141,24 @@ export class SearchTermComponent implements OnInit {
 
     this.updateURL();
     this.fetchFlatData(url);
+    this.applyFilter(this.filteredFlats);
   }
 
-  // Додавання значення до масиву параметрів пошуку
   private addSelectedValue(arr: string[], label: string, value: any) {
     if (value) {
       arr.push(`${label}: ${value}`);
     }
   }
 
-  // Формування URL для пошуку
   buildSearchURL(params: any): string {
     const endpoint = 'http://localhost:3000/search/flat';
     const paramsString = Object.keys(params)
-      .filter(key => params[key] !== '') // Видаляємо пусті значення
+      .filter(key => params[key] !== '')
       .map(key => key + '=' + params[key])
       .join('&');
     return `${endpoint}?${paramsString}`;
   }
 
-  // Оновлення URL з використанням значень пошуку
   updateURL() {
     this.router.navigate([], {
       queryParams: { searchParams: this.searchParamsString },
@@ -172,18 +168,22 @@ export class SearchTermComponent implements OnInit {
 
   fetchFlatData(url: string) {
     this.subscription = this.http.get<{ flat_inf: any[] }>(url).subscribe((data) => {
-      const flatInfo = data.flat_inf; // Отримуємо інформацію про оселі з відповіді
+      const flatInfo = data.flat_inf;
       if (flatInfo) {
-        // console.log(flatInfo); // Виводимо всі оселі
-
-        // Додаткова фільтрація на сервері
         const filteredFlats = this.filterFlatsBySelections(flatInfo);
-
-        console.log(filteredFlats); // Виводимо відфільтровані дані в консоль
+        this.filteredFlats = filteredFlats; // Оновлення значення this.filteredFlats
+        console.log(filteredFlats);
+        this.applyFilter(this.filteredFlats);
+        console.log(this.filteredFlats);
       } else {
         console.log('flatInfo is undefined');
       }
     });
+  }
+
+  applyFilter(filteredFlats: any) {
+    this.filterService.updateFilter(filteredFlats);
+    console.log(filteredFlats)
   }
 
   filterFlatsBySelections(flatInfo: any[]): any[] {
@@ -198,11 +198,8 @@ export class SearchTermComponent implements OnInit {
       return true;
     });
 
-    this.filteredFlatsEvent.emit(filteredFlats); // Відправка відфільтрованих даних через подію
-
     return filteredFlats;
   }
-
 
   search(searchString: string) {
     this.searchSubscription?.unsubscribe();
