@@ -59,7 +59,6 @@ export class SearchTermComponent implements OnInit {
   flats: any[] | undefined;
 
   myForm: FormGroup | undefined | any;
-  sendData: any;
   selectedRepair_status: any;
   searchParamsArr: string[] = [];
 
@@ -168,6 +167,7 @@ export class SearchTermComponent implements OnInit {
 
   fetchFlatData(url: string) {
     this.subscription = this.http.get<{ flat_inf: any[] }>(url).subscribe((data) => {
+      console.log(data)
       const flatInfo = data.flat_inf;
       if (flatInfo) {
         const filteredFlats = this.filterFlatsBySelections(flatInfo);
@@ -201,22 +201,22 @@ export class SearchTermComponent implements OnInit {
     return filteredFlats;
   }
 
-  search(searchString: string) {
-    this.searchSubscription?.unsubscribe();
-    if (searchString && searchString.length > 3) {
-      this.searchSubscription = this.http.get(`${this.endpoint}?search=${searchString}`)
-        .subscribe(data => {
-          // do something with the response data
-        });
-    }
-  }
+  // search(searchString: string) {
+  //   this.searchSubscription?.unsubscribe();
+  //   if (searchString && searchString.length > 3) {
+  //     this.searchSubscription = this.http.get(`${this.endpoint}?search=${searchString}`)
+  //       .subscribe(data => {
+  //         // do something with the response data
+  //       });
+  //   }
+  // }
 
-  inputSearchHandler(event: any) {
-    const searchString = event.target.value.trim();
-    setTimeout(() => {
-      this.search(searchString);
-    }, 3000);
-  }
+  // inputSearchHandler(event: any) {
+  //   const searchString = event.target.value.trim();
+  //   setTimeout(() => {
+  //     this.search(searchString);
+  //   }, 3000);
+  // }
 
   minValue: number = 0;
   maxValue: number = 100000;

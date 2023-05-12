@@ -7,23 +7,128 @@
   </div>
 
   <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="selectedFlat">
+
+    <div class="card-box">
+      <div class="carousel-inner">
+        <ng-container *ngIf="selectedFlat && selectedFlat.photos && selectedFlat.photos.length > 0; else noPhotos">
+          <div class="carousel-item active">
+            <div class="img-wrapper">
+              <img [src]="getFlatImageUrl(selectedFlat)" alt="Flat Image" class="img-fluid rounded">
+            </div>
+          </div>
+          <div class="carousel-item" *ngFor="let photo of selectedFlat.photos.slice(1)">
+            <div class="img-wrapper">
+              <img [src]="getFlatImageUrl(selectedFlat)" alt="Flat Image" class="img-fluid rounded">
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noPhotos>
+          <div class="carousel-item">
+            <div class="img-wrapper">
+              <img src="path/to/placeholder-image.jpg" alt="No Image" class="img-fluid rounded">
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="card m-2">
+        <div class="img-wrapper">
+          <img [src]="getFlatImageUrl(selectedFlat)" alt="Flat Image" class="img-fluid rounded">
+        </div>
+        <div class="card-btn">
+
+          <div class="item-box m-1">
+            <button mat-raised-button class="prev card link" (click)="onPrevCard()">
+              <div class="prev-arrow-top"></div>
+              <div class="prev-arrow-bottom"></div>
+            </button>
+            <div>
+              <p>Попередня</p>
+            </div>
+          </div>
+
+          <div class="item-box">
+            <button class="btn-sbs card link"><i class="fas fa-heart" aria-hidden="true"></i></button>
+            <div>
+              <p>Підписатись</p>
+            </div>
+          </div>
+
+          <div class="item-box m-1">
+            <button mat-raised-button class="next card link" (click)="onNextCard()">
+              <div class="next-arrow-top"></div>
+              <div class="next-arrow-bottom"></div>
+            </button>
+            <div>
+              <p>Наступна</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ selectedFlat?.street }}, {{ selectedFlat?.city }}, {{ selectedFlat?.region }}</h5>
+          <p class="card-text">{{ selectedFlat?.about }}</p>
+          <ul>
+            <li>Кімнат: {{ selectedFlat?.rooms }}</li>
+            <li>Площа: {{ selectedFlat?.area }} м²</li>
+            <li>Статус ремонту: {{ selectedFlat?.repair_status }}</li>
+            <li>Ціна: {{ selectedFlat?.price || 'Немає інформації' }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <!-- <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="selectedFlat">
+    <div class="card-box">
+      <div class="card m-2">
+        <div class="img-wrapper">
+          <img [src]="getFlatImageUrl(selectedFlat)" alt="Flat Image" class="img-fluid rounded">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ selectedFlat?.street }}, {{ selectedFlat?.city }}, {{ selectedFlat?.region }}</h5>
+          <p class="card-text">{{ selectedFlat?.about }}</p>
+          <ul>
+            <li>Кімнат: {{ selectedFlat?.rooms }}</li>
+            <li>Площа: {{ selectedFlat?.area }} м²</li>
+            <li>Статус ремонту: {{ selectedFlat?.repair_status }}</li>
+            <li>Ціна: {{ selectedFlat?.price || 'Немає інформації' }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+  <!-- <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="selectedFlat">
     <div class="card-box">
 
       <div class="card m-2">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
+
             <ng-container *ngIf="selectedFlat && selectedFlat.photos && selectedFlat.photos.length > 0">
               <div class="carousel-item active">
                 <div class="img-wrapper">
-                  <img [src]="getImageUrl(selectedFlat.photos[0])" alt="Flat Image" class="img-fluid rounded">
+                  <img [src]="getFlatImage(selectedFlat, 0)" alt="Flat Image" class="img-fluid rounded">
                 </div>
               </div>
               <div class="carousel-item" *ngFor="let photo of selectedFlat.photos.slice(1)">
                 <div class="img-wrapper">
-                  <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded">
+                  <img [src]="getFlatImage(selectedFlat, photo)" alt="Flat Image" class="img-fluid rounded">
                 </div>
               </div>
+
             </ng-container>
+
 
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
@@ -80,77 +185,16 @@
           </ul>
         </div>
       </div>
-
-
-
-
-      <!-- <div class="card">
-
-        <div class="characteristics">
-          <div>
-            <h5>Короткий опис</h5>
-          </div>
-
-          <div *ngIf="selectedFlat">
-            <h2>{{ selectedFlat.region }}</h2>
-            <p>{{ selectedFlat.city }}</p>
-            <p>{{ selectedFlat.rooms }}</p>
-          </div>
-
-          <div class="price">
-            <h2 class="card-text">{{ currentCard.price }}</h2>
-          </div>
-
-          <div class="subscriber-list">
-            <div class="subscriber">{{ currentCard.subscriber }}</div>
-          </div>
-
-          <div class="characteristics-list">
-            <span class="item-label">Тип житла:</span>
-            <div class="characteristics-item">{{ currentCard.typeHousing }}</div>
-          </div>
-
-          <div class="characteristics-list">
-            <label class="item-label">Кількість кімнат:</label>
-            <div class="characteristics-item">{{ currentCard.numberRooms }}</div>
-          </div>
-
-          <div class="characteristics-list">
-            <label class="item-label">Місто:</label>
-            <div class="characteristics-item">{{ currentCard.city }}</div>
-          </div>
-
-          <div class="characteristics-list">
-            <label class="item-label">Район:</label>
-            <div class="characteristics-item">{{ currentCard.district }}</div>
-          </div>
-
-          <div class="characteristics-list">
-            <label class="item-label">Тварини:</label>
-            <div class="characteristics-item">{{ currentCard.animals }}</div>
-          </div>
-        </div>
-
-
-
-
-        <div class="card-link">
-          <a [href]="currentCard.homeAccount" class="link"><span>{{ currentCard.homeAccountText }}</span><i
-              class="fa-solid fa-file-contract"></i></a>
-        </div>
-      </div> -->
-
     </div>
-  </div>
+  </div> -->
 
   <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">
     <div class="card-container p-2" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats" [ngClass]="{ 'selected': selectedFlat === flat }"
-        (click)="selectFlat(flat)">
+      <div class="card-wrapper" *ngFor="let flat of filteredFlats" [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)">
         <div class="wrapper card mb-4" [class.selected]="selectedFlat === flat">
 
           <a class="card-img-container">
-            <img class="card-img-top" [src]="getImageUrl(flat.img)" alt="Flat Image">
+            <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
           </a>
 
           <div class="card-body">
