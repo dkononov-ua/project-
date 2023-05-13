@@ -17,6 +17,8 @@
 
 .container-card {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
@@ -353,4 +355,16 @@ a {
   /* Ваші стилі для виділення */
   background-color: $color-accent;
 }
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
