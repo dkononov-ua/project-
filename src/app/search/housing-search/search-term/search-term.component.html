@@ -5,18 +5,18 @@
   </nav>
 </div>
 
-<!-- <div class="col-12 p-2">
-  <mat-form-field class="search" appearance="fill">
-    <mat-label>Пошук</mat-label>
-    <input class="search-input" matInput type="text" placeholder="Пошук" aria-label="Search"
-      aria-describedby="search-addon" [value]="searchParamsString" (input)="inputSearchHandler($event.target)">
-    <button class="p-2" matSuffix mat-icon-button aria-label="Search" id="search-addon"
-      (click)="search(searchParamsString)">
-      <mat-icon><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
-    </button>
-  </mat-form-field>
-</div> -->
-
+<div class="box-search">
+  <div class="item">
+    <mat-form-field class="search-id" appearance="outline">
+      <mat-label>Знайти користувача по id або імені</mat-label>
+      <input matInput type="text" [(ngModel)]="searchQuery" />
+    </mat-form-field>
+  </div>
+  <div class="box-btn">
+    <button class="btn btn-menu m-1" (click)="addUserToHouse()">ЗНАЙТИ</button>
+    <button class="btn btn-menu m-1">ДОДАТИ</button>
+  </div>
+</div>
 
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
 
@@ -39,9 +39,6 @@
     </div>
 
     <div class="container-checkbox">
-      <div class="name">
-        <p>Для кого шукаємо?</p>
-      </div>
       <div class="checkbox-box">
         <div class="content">
           <label class="checkBox">
@@ -84,8 +81,6 @@
   </div>
 
 </form>
-
-
 
 
 <form class="form-box" (submit)="onSubmit()">

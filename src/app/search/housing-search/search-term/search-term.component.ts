@@ -37,6 +37,10 @@ interface SearchParams {
 
 export class SearchTermComponent implements OnInit {
 
+  public showInput = false;
+  public userId: string | undefined;
+  searchQuery: string | undefined;
+
   searchQueryString = '';
   searchParamsString: string = '';
 
@@ -76,6 +80,13 @@ export class SearchTermComponent implements OnInit {
       man: [],
       family: []
     });
+  }
+
+  public addUserToHouse(): void {
+    // Додати код для додавання користувача до оселі за допомогою userId
+    console.log(`Користувач з ID ${this.userId} доданий до оселі.`);
+    this.userId = '';
+    this.showInput = false;
   }
 
   ngOnInit() {

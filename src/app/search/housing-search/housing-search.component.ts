@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, Output, EventEmitter, HostBinding, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -80,8 +80,23 @@ export class HousingSearchComponent implements OnInit {
   images: string[] = [];
   flatImages: any[] = [];
   selectedFlatPhotos: string[] = [];
+  flatPhotos: string[] = [];
+  carouselImages!: { flat_id: any; img: string; }[]
+  selectedFlatPhotoUrls: string[] = [];
+  currentFlatPhotos: string[] = [];
+  currentPhotoIndex: number = 0;
 
 
+
+  carouselOptions = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    dots: true,
+    arrows: false,
+    infinite: true
+  };
 
   flatInfoWithImages: { flat_img: FlatImage; region: string; city: string; rooms: string; area: string; repair_status: string; selectedKitchen_area: string; balcony: string; bunker: string; animals: string; distance_metro: string; distance_stop: string; distance_green: string; distance_shop: string; distance_parking: string; limit: string; country: string; price: any; id: number; name: string; photos: string[]; img: string; }[] | undefined;
   selectedFlatImages: any;
@@ -90,7 +105,8 @@ export class HousingSearchComponent implements OnInit {
     private filterService: FilterService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.filterForm = this.formBuilder.group({});
   }
@@ -109,6 +125,7 @@ export class HousingSearchComponent implements OnInit {
       if (filterValue) {
         this.updateFilteredData(filterValue);
       }
+
     });
   }
 
@@ -122,33 +139,63 @@ export class HousingSearchComponent implements OnInit {
     }
   }
 
+  getDefaultImage(photo: string | undefined | null): string {
+    if (photo === undefined || photo === null) {
+      return 'http://localhost:3000/img/flat/housing_default.svg';
+    } else {
+      return this.getImageUrl(photo);
+    }
+  }
+
   fetchFlatData(url: string) {
     this.http.get<{ flat_inf: FlatInfo[], flat_img: any[] }>(url).subscribe((data) => {
       const flatInfo = data.flat_inf;
       const flatImages = data.flat_img;
-      console.log(flatInfo);
-      console.log(flatImages);
 
       if (flatInfo && flatImages) {
         this.flatInfo = flatInfo;
-        this.flatImages = flatImages; // Додано змінну flatImages
+        this.flatImages = flatImages;
         this.selectedFlat = this.flatInfo[0];
-        this.selectedFlatPhotos = this.selectedFlat?.photos || [];
-        this.images = this.selectedFlatPhotos.map(photo => this.getFlatImage(this.selectedFlat, photo));
+        this.updateSelectedFlatPhotos(); // Оновити фотографії обраної оселі
       }
     });
   }
 
 
+  updateSelectedFlatPhotos() {
+    const selectedFlatId = this.selectedFlat?.flat_id;
+    const selectedFlatImages = this.flatImages.find(flatImage => flatImage.flat_id === selectedFlatId)?.img || [];
+
+    this.selectedFlatPhotos = selectedFlatImages;
+  }
+
+  updateCurrentPhotoIndex(index: number) {
+    this.currentPhotoIndex = index;
+  }
+
   getFlatPhotos(flat: FlatInfo): string[] {
-    console.log(flat.photos)
+    console.log(flat.photos);
     return flat.photos || [];
   }
 
-
   selectFlat(flat: FlatInfo) {
     this.selectedFlat = flat;
+    this.updateSelectedFlatPhotos();
+    this.currentFlatPhotos = [...this.selectedFlatPhotos];
+    this.updateCurrentPhotoIndex(0); // Скидати поточний індекс при виборі нової оселі
   }
+
+
+
+
+
+
+  updateFilteredFlats() {
+    if (this.filteredFlats) {
+      this.filteredFlats = [...this.filteredFlats]; // Створити копію списку обраних осель
+    }
+  }
+
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
@@ -159,16 +206,6 @@ export class HousingSearchComponent implements OnInit {
   filterValue() {
     return this.filterForm.value;
   }
-
-  getFlatImage(flat: FlatInfo, photoIndex: number | FlatPhoto): string {
-    if (typeof photoIndex === 'number') {
-      return this.getImageUrl(flat.photos[photoIndex]);
-    } else {
-      return this.getImageUrl(photoIndex);
-    }
-  }
-
-
 
   getFlatImageUrl(flat: FlatInfo): any {
     let imageUrl = '';
@@ -201,10 +238,13 @@ export class HousingSearchComponent implements OnInit {
   onNextCard() {
     this.currentCardIndex = (this.currentCardIndex + 1) % this.filteredFlats!.length;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.updateSelectedFlatPhotos();
   }
 
   onPrevCard() {
     this.currentCardIndex = (this.currentCardIndex - 1 + this.filteredFlats!.length) % this.filteredFlats!.length;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.updateSelectedFlatPhotos();
   }
+
 }
