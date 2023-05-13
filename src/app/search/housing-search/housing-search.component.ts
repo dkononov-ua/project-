@@ -82,6 +82,7 @@ export class HousingSearchComponent implements OnInit {
   limit: number = 10;
   additionalLoadLimit: number = 5;
   offset: number = 0;
+  localStorageKey!: string;
 
 
   constructor(
@@ -109,6 +110,12 @@ export class HousingSearchComponent implements OnInit {
       }
 
     });
+
+    const selectedFlat = localStorage.getItem(this.localStorageKey);
+    if (selectedFlat) {
+      this.selectedFlat = JSON.parse(selectedFlat) as FlatInfo; // Додано типізацію
+      this.updateSelectedFlatPhotos();
+    }
   }
 
   handleFilteredFlats(filterValue: FlatInfo[] | undefined) {
@@ -164,12 +171,19 @@ export class HousingSearchComponent implements OnInit {
     this.updateSelectedFlatPhotos();
     this.currentFlatPhotos = [...this.selectedFlatPhotos];
     this.updateCurrentPhotoIndex(0);
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.selectedFlat));
   }
 
   updateFilteredFlats() {
     if (this.filteredFlats) {
       this.filteredFlats = [...this.filteredFlats]; // Створити копію списку обраних осель
     }
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.selectedFlat));
+  }
+
+  resetSelectedFlat() {
+    // Видалення обраної оселі з localStorage
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.selectedFlat));
   }
 
   updateFilteredData(filterValue: any) {
