@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HostComponent } from './host/host.component';
 import { RouterModule } from '@angular/router';
 import { HousingParametersRoutingModule } from './housing-parameters-routing.module';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { HousingParametersRoutingModule } from './housing-parameters-routing.mod
     MatFormFieldModule,
     RouterModule,
     HousingParametersRoutingModule,
+    MatInputModule,
   ],
 })
 export class HousingParametersModule { }

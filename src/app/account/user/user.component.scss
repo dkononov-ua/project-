@@ -193,7 +193,8 @@ img {
 }
 
 .link-text {
-  font-size: 20px;
+  font-size: $font-size;
+  font-family: $font-main;
 }
 
 .link-menu {

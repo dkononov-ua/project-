@@ -16,7 +16,7 @@
   color: white;
   padding: 10px;
   border-radius: 10px;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: stretch;
 }
 
@@ -43,6 +43,7 @@
   margin: 5px 0 5px 0;
   color: $color-light;
   height: 45px;
+  font-size: 12px;
 }
 
 .info {

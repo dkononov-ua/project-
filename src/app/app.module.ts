@@ -98,6 +98,7 @@ import { FilterService } from './search/housing-search/filter.service';
         HousingParametersRoutingModule,
         MatSliderModule,
         SharedModule,
+        MatIconModule,
     ]
 })
 export class AppModule { }

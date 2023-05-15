@@ -4,11 +4,15 @@
       <app-account-nav></app-account-nav>
       <nav class="navbar-house">
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/parameters'"><span
-            class="link-text">Характеристики</span></a>
+            class="link-text">Характеристики</span>
+            <span class="material-symbols-outlined">
+              density_small
+              </span>
+          </a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/subscribers'"><span
             class="link-text">Підписники</span></a>
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/access'"><span
-            class="link-text">Доступ <i class="fa-solid fa-gear"></i></span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/access'"><span class="link-text">Доступ
+            <i class="fa-solid fa-gear"></i></span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/documents'"><span
             class="link-text">Документи</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/order-services'"><span
@@ -67,11 +71,8 @@
   </div>
 
   <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12" [@cardAnimation]>
-    <div class="m-2 p-2" >
+    <div class="m-2 p-2">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
-
-

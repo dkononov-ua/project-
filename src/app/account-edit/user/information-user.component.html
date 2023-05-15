@@ -7,7 +7,7 @@
       <a [routerLinkActive]="'active'" [routerLink]="'/user'"><i class="fa-solid fa-chevron-left"></i></a>
       <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Профіль оселі</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/user-payment'">Способи оплати</a>
+      <!-- <a [routerLinkActive]="'active'" [routerLink]="'/user-payment'">Способи оплати</a> -->
     </nav>
   </div>
 
@@ -25,7 +25,7 @@
         <div class="card-name">
           <h4>Аккаунт користувача</h4>
           <h3>{{userForm.value.firstName}} {{userForm.value.surName}} {{userForm.value.lastName}} </h3>
-            <h5>ID: {{userForm.value.email}}</h5>
+          <h5>ID: {{userForm.value.email}}</h5>
         </div>
 
         <div class="photo-box">
@@ -33,9 +33,10 @@
             <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
               aria-describedby="upload" aria-label="Upload">
           </div>
-          <p>Завантажити нове фото</p>
-          <button class="btn-create" id="upload" (click)="onUpload()" type="button"><i
+          <button class="btn-create m-2" id="upload" (click)="onUpload()" type="button"><i
               class="fa-solid fa-circle-check"></i></button>
+          <p>Завантажити нове фото</p>
+
         </div>
 
         <div class="watch-box">

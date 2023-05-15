@@ -219,11 +219,11 @@ p {
 }
 
 .btn {
+  width: 100%;
+  margin: 5px 0 5px 0;
   color: $color-light;
   height: 45px;
-  &.active {
-    background-color: yellow;
-  }
+  font-size: 12px;
 }
 
 .btn:disabled {

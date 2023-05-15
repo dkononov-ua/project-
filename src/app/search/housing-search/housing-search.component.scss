@@ -36,7 +36,6 @@
 }
 
 .card-btn {
-  background-color: rgba(0, 0, 0, 0);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -115,7 +114,7 @@
   }
 }
 
-img {
+.img-fluid {
   width: 100%;
   height: 300px;
   object-fit: cover;
@@ -136,8 +135,29 @@ img {
   align-items: stretch;
 }
 
+h4 {
+  font-weight: 600;
+}
+
+h5 {
+  text-align: center;
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+p {
+  font-weight: 400;
+}
+
 .card-title {
   display: flex;
+  font-family: $font-link;
+  font-size: 14px;
+  justify-content: flex-end;
 }
 
 .rating-box,
@@ -202,17 +222,18 @@ h5 {
 .card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   width: 100%;
   height: 150px;
   overflow: hidden;
   transition: all 0.3s ease;
   flex-direction: column;
+  align-items: center;
 }
 
 .wrapper {
   display: flex;
   flex-wrap: wrap;
+  width: 90%;
   height: 100%;
 }
 
@@ -220,7 +241,7 @@ h5 {
   margin: 0;
   padding: 0;
   position: relative;
-  width: 40%;
+  width: 55%;
   height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -228,7 +249,7 @@ h5 {
 
 .card-img-container:hover,
 .card-img-container:focus {
-  width: 60%;
+  width: 95%;
   height: 100%;
 }
 
@@ -250,7 +271,7 @@ h2 {
 
 .card-wrapper:hover,
 .card-wrapper:focus {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .card-social-link {
@@ -259,10 +280,6 @@ h2 {
   width: 200px;
   justify-content: flex-start;
   flex-direction: row;
-}
-
-.card-title {
-  font-size: 25px;
 }
 
 a {
@@ -285,7 +302,10 @@ a {
   font-size: 20px;
 }
 
-.card-body {
+.card-mini-body {
+  position: absolute;
+  right: 0;
+  padding: 10px;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -352,7 +372,6 @@ a {
 }
 
 .wrapper.card.mb-4.selected {
-  /* Ваші стилі для виділення */
   background-color: $color-accent;
 }
 
@@ -367,4 +386,20 @@ a {
   }
 }
 
+.full-screen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.full-screen-image {
+  max-width: 100%;
+  max-height: 100vh;
+}

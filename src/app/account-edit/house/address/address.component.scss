@@ -178,6 +178,22 @@
   margin: 5px 0 5px 0;
   color: $color-light;
   height: 45px;
+  font-size: 12px;
+}
+
+.location {
+  width: 100%;
+}
+
+.inputbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-map-location {
+  color: #fff;
+  font-size: 30px;
 }
 
 .info {

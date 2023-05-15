@@ -35,6 +35,7 @@ export class AppRoutingModule { }
 export class RegistrationComponent implements OnInit {
 
   passwordType = 'password';
+
   togglePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }
@@ -104,7 +105,6 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(formType: string): void {
     let route = '/information-user';
-    console.log(123)
 
     this.http.post('http://localhost:3000/login', this.loginForm.value)
       .subscribe((response: any) => {

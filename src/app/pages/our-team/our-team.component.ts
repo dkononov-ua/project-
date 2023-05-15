@@ -12,7 +12,7 @@ export class OurTeamComponent {
       name: 'Denys Kononov',
       position: 'Frontend',
       description: 'Автор ідеї Discussio. Активно працює над створенням нового соціального сервісу для нерухомості. Відкритий до спілкування та готовий ділитися своїм досвідом з колегами та друзями.',
-      image: '../../assets/photo1.png',
+      image: '../../assets/photo1.jpg',
       social: {
         instagram: 'https://www.instagram.com',
         twitter: 'https://www.twitter.com',

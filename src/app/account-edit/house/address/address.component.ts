@@ -1,10 +1,9 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { HostComponent } from '../host/host.component';
-
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -20,13 +19,31 @@ import { HostComponent } from '../host/host.component';
       ])
     ])
   ],
-  template: '{{ selectedFlatId }}'
 })
 
 export class AddressComponent implements OnInit {
 
   houses: { id: string, name: string }[] = [];
   public selectedFlatId: any | null;
+  public locationLink: string = '';
+  location: string | null = null;
+  errorMessage$ = new Subject<string>();
+
+  addressHouse: any = {
+    flat_id: '',
+    country: '',
+    region: '',
+    city: '',
+    street: '',
+    houseNumber: '',
+    apartment: '',
+    flat_index: '',
+    private: '',
+    rent: '',
+    live: '',
+    who_live: '',
+    subscribers: '',
+  }
 
   formErrors: any = {
     flat_id: '',
@@ -103,8 +120,6 @@ export class AddressComponent implements OnInit {
     },
   };
 
-  addressHouse!: FormGroup;
-  errorMessage$ = new Subject<string>();
   isDisabled?: boolean;
   formDisabled?: boolean;
   selectHouse: any;
@@ -118,20 +133,34 @@ export class AddressComponent implements OnInit {
           .subscribe((response: any) => {
             if (response !== null) {
               this.addressHouse = this.fb.group({
-                flat_id: [response.flat.flat_id, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+                flat_id: [response.flat.flat_id],
                 country: [response.flat.country],
-                region: [response.flat.region, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-                city: [response.flat.city, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-                street: [response.flat.street, [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-                houseNumber: [response.flat.houseNumber, [Validators.required, Validators.minLength(1), Validators.maxLength(5)]],
-                apartment: [response.flat.apartment, [Validators.required, Validators.minLength(1), Validators.pattern(/^[0-9]+$/)]],
-                flat_index: [response.flat.flat_index, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(/^[0-9]+$/)]],
+                region: [response.flat.region],
+                city: [response.flat.city],
+                street: [response.flat.street],
+                houseNumber: [response.flat.houseNumber],
+                apartment: [response.flat.apartment],
+                flat_index: [response.flat.flat_index],
                 private: [response.flat.private],
                 rent: [response.flat.rent],
                 live: [response.flat.live],
                 who_live: [response.flat.who_live],
                 subscribers: [response.flat.subscribers],
               });
+
+              const baseUrl = 'https://www.google.com/maps/place/';
+              const region = response.flat.region || '';
+              const city = response.flat.city || '';
+              const street = response.flat.street || '';
+              const houseNumber = response.flat.houseNumber || '';
+              const flatIndex = response.flat.flat_index || '';
+
+              const encodedRegion = encodeURIComponent(region);
+              const encodedCity = encodeURIComponent(city);
+              const encodedStreet = encodeURIComponent(street);
+              const encodedHouseNumber = encodeURIComponent(houseNumber);
+              const encodedFlatIndex = encodeURIComponent(flatIndex);
+              this.location = `${baseUrl}${encodedStreet},+${encodedHouseNumber},+${encodedCity},+${encodedRegion},+${encodedFlatIndex}`;
             }
           }, (error: any) => {
             console.error(error);
@@ -146,6 +175,29 @@ export class AddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    if (this.addressHouse.valid) {
+      this.locationLink = this.generateLocationUrl();
+    }
+  }
+
+  generateLocationUrl() {
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.addressHouse.region || '';
+    const city = this.addressHouse.city || '';
+    const street = this.addressHouse.street || '';
+    const houseNumber = this.addressHouse.houseNumber || '';
+    const flatIndex = this.addressHouse.flat_index || '';
+
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+
+    return locationUrl;
   }
 
   onSubmitSaveAddressHouse(): void {
@@ -167,9 +219,6 @@ export class AddressComponent implements OnInit {
     this.addressHouse.disable();
     this.isDisabled = true;
     this.formDisabled = true;
-    // відправляємо дані на сервер і зберігаємо їх
-
-    // після успішного збереження змінюємо стан на редагування
     this.isDisabled = false;
     this.formDisabled = false;
   }
@@ -184,7 +233,7 @@ export class AddressComponent implements OnInit {
     this.addressHouse.reset();
   }
 
-  private initializeForm(): void {
+  initializeForm(): void {
     this.addressHouse = this.fb.group({
       flat_id: [null, [
         Validators.required,
@@ -195,7 +244,7 @@ export class AddressComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
         Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/), // only letters and spaces
+        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
       ]],
       houseNumber: [null, [
         Validators.required,
@@ -206,60 +255,63 @@ export class AddressComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(100),
-        Validators.pattern(/^[0-9]+$/), // only digits
+        Validators.pattern(/^[0-9]+$/),
       ]],
       apartment: [null, [
         Validators.required,
         Validators.minLength(1),
-        Validators.pattern(/^[0-9]+$/), // only digits
+        Validators.pattern(/^[0-9]+$/),
       ]],
       city: [null, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/), // only letters and spaces
+        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
       ]],
       region: [null, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/), // only letters and spaces
+        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
       ]],
       country: [null, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/), // only letters and spaces
+        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
       ]],
       flat_index: [null, [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(5),
-        Validators.pattern(/^[0-9]+$/), // only digits
+        Validators.pattern(/^[0-9]+$/),
       ]],
-      private: [null, []],
-      rent: [null, []],
-      live: [null, []],
+      private: [null, [Validators.required]],
+      rent: [null, [Validators.required]],
+      live: [null, [Validators.required]],
     });
 
     this.addressHouse.valueChanges?.subscribe(() => this.onValueChanged());
   }
 
-  private onValueChanged() {
-    this.formErrors = {};
-
+  onValueChanged() {
     const addressHouse = this.addressHouse;
-    for (const field in addressHouse.controls) {
-      const control = addressHouse.get(field);
-      this.formErrors[field] = '';
+    if (!addressHouse) {
+      return;
+    }
 
+    Object.keys(this.formErrors).forEach(field => {
+      this.formErrors[field] = '';
+    });
+
+    Object.keys(addressHouse.controls).forEach(field => {
+      const control = addressHouse.get(field);
       if (control && control.dirty && control.invalid) {
         const messages = this.validationMessages[field];
-
-        for (const key in control.errors) {
+        Object.keys(control.errors as ValidationErrors).forEach(key => {
           this.formErrors[field] += messages[key] + ' ';
-        }
+        });
       }
-    }
+    });
   }
 }

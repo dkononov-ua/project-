@@ -24,10 +24,25 @@ interface FlatInfo {
   limit: string;
   country: string;
   price: any;
+  price_m: any;
   id: number;
   name: string;
   photos: string[];
   img: string;
+  about: string;
+  apartment: string;
+  family: string;
+  flat_id: string;
+  flat_index: string;
+  floor: string;
+  houseNumber: string;
+  kitchen_area: string;
+  man: string;
+  metro: string;
+  price_y: string;
+  street: string;
+  students: string;
+  woman: string;
 }
 
 interface FlatImage {
@@ -40,7 +55,6 @@ interface Flat {
 }
 
 interface FlatInfo {
-  flat_id: number;
   flat_img: string;
 }
 
@@ -83,7 +97,8 @@ export class HousingSearchComponent implements OnInit {
   additionalLoadLimit: number = 5;
   offset: number = 0;
   localStorageKey!: string;
-
+  showFullScreenImage = false;
+  fullScreenImageUrl = '';
 
   constructor(
     private filterService: FilterService,
@@ -110,12 +125,6 @@ export class HousingSearchComponent implements OnInit {
       }
 
     });
-
-    const selectedFlat = localStorage.getItem(this.localStorageKey);
-    if (selectedFlat) {
-      this.selectedFlat = JSON.parse(selectedFlat) as FlatInfo; // Додано типізацію
-      this.updateSelectedFlatPhotos();
-    }
   }
 
   handleFilteredFlats(filterValue: FlatInfo[] | undefined) {
@@ -171,19 +180,12 @@ export class HousingSearchComponent implements OnInit {
     this.updateSelectedFlatPhotos();
     this.currentFlatPhotos = [...this.selectedFlatPhotos];
     this.updateCurrentPhotoIndex(0);
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.selectedFlat));
   }
 
   updateFilteredFlats() {
     if (this.filteredFlats) {
-      this.filteredFlats = [...this.filteredFlats]; // Створити копію списку обраних осель
+      this.filteredFlats = [...this.filteredFlats];
     }
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.selectedFlat));
-  }
-
-  resetSelectedFlat() {
-    // Видалення обраної оселі з localStorage
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.selectedFlat));
   }
 
   updateFilteredData(filterValue: any) {
@@ -210,7 +212,6 @@ export class HousingSearchComponent implements OnInit {
 
     return imageUrl;
   }
-
 
   getImageUrl(fileName: string | string[]): string {
     if (typeof fileName === 'string') {
@@ -268,5 +269,13 @@ export class HousingSearchComponent implements OnInit {
     this.offset += this.additionalLoadLimit;
   }
 
+  openFullScreenImage(imageUrl: string): void {
+    this.showFullScreenImage = true;
+    this.fullScreenImageUrl = imageUrl;
+  }
 
+  closeFullScreenImage(): void {
+    this.showFullScreenImage = false;
+    this.fullScreenImageUrl = '';
+  }
 }
