@@ -114,7 +114,7 @@ export class HostComponent implements OnInit {
 
   ngOnInit(): void {
     const houseJson = localStorage.getItem('house');
-    const defaultHouse = houseJson ? JSON.parse(houseJson).flat_id : 'виберіть оселю';
+    const defaultHouse = houseJson ? JSON.parse(houseJson).flat_id : '';
 
     this.selectHouse = new FormGroup({
       house: new FormControl(defaultHouse)

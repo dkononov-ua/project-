@@ -50,7 +50,7 @@ export class AccountNavComponent implements OnInit {
             (response: any | undefined) => {
               this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
                 id: index + 1,
-                name: item.flat_id
+                name: item.flat_id,
               }));
               const houseJson = localStorage.getItem('house');
               if (houseJson) {

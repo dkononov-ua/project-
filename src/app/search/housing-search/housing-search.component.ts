@@ -45,19 +45,6 @@ interface FlatInfo {
   woman: string;
 }
 
-interface FlatImage {
-  flat_id: string;
-  img: string[];
-}
-
-interface Flat {
-  flat_img: any;
-}
-
-interface FlatInfo {
-  flat_img: string;
-}
-
 @Component({
   selector: 'app-housing-search',
   templateUrl: './housing-search.component.html',
@@ -93,12 +80,13 @@ export class HousingSearchComponent implements OnInit {
   currentFlatPhotos: string[] = [];
   currentPhotoIndex: number = 0;
   isCarouselAnimating!: boolean;
-  limit: number = 10;
+  limit: number = 0;
   additionalLoadLimit: number = 5;
   offset: number = 0;
   localStorageKey!: string;
   showFullScreenImage = false;
   fullScreenImageUrl = '';
+  photoChangeData: any;
 
   constructor(
     private filterService: FilterService,
@@ -115,6 +103,7 @@ export class HousingSearchComponent implements OnInit {
 
     if (this.filterForm) {
       this.filterForm.valueChanges.subscribe(() => {
+        // Виконати необхідні дії при зміні значень форми фільтрації
       });
     }
 
@@ -123,18 +112,33 @@ export class HousingSearchComponent implements OnInit {
       if (filterValue) {
         this.updateFilteredData(filterValue);
       }
-
     });
+
+    this.filterService.photoChange$.subscribe((data: any[]) => {
+      this.photoChangeData = data;
+      this.updateCardPhotos();
+    });
+
   }
 
-  handleFilteredFlats(filterValue: FlatInfo[] | undefined) {
-    console.log(filterValue);
-    this.filteredFlats = filterValue;
-    if (filterValue && filterValue.length > 0) {
-      this.selectedFlat = filterValue[0];
-    } else {
-      this.selectedFlat = undefined;
-    }
+  private updateCardPhotos(): void {
+    const filteredCards = this.filteredFlats;
+    this.flatImages = []
+
+    console.log(this.photoChangeData)
+
+    this.photoChangeData.flat_img.forEach((i: any) => {
+      this.flatImages.push(i)
+    })
+    this.flatInfo = this.photoChangeData.flat_inf;
+
+    const additionalFlats = this.photoChangeData.flat_inf;
+    this.filteredFlats = [...this.filteredFlats!, ...additionalFlats];
+    console.log(this.flatInfo)
+
+
+
+
   }
 
   getDefaultImage(photo: string | undefined | null): string {
@@ -151,10 +155,10 @@ export class HousingSearchComponent implements OnInit {
       if (flat_inf && flat_img) {
         this.flatInfo = flat_inf;
         this.flatImages = flat_img;
-        this.selectedFlat = this.flatInfo[0];
-        this.updateSelectedFlatPhotos();
+        this.updateFilteredData(this.flatInfo);
       }
     });
+
   }
 
   updateSelectedFlatPhotos() {
@@ -167,35 +171,26 @@ export class HousingSearchComponent implements OnInit {
     this.currentPhotoIndex = index;
   }
 
-  getFlatPhotos(flat: FlatInfo): string[] {
-    console.log(flat.photos);
-    return flat.photos || [];
-  }
-
   selectFlat(flat: FlatInfo) {
-    const selectedFlatId = this.selectedFlat?.flat_id;
-    const selectedFlatImages = this.flatImages.find(flatImage => flatImage.flat_id === selectedFlatId)?.img || [];
-    this.selectedFlatPhotos = selectedFlatImages;
     this.selectedFlat = flat;
     this.updateSelectedFlatPhotos();
     this.currentFlatPhotos = [...this.selectedFlatPhotos];
     this.updateCurrentPhotoIndex(0);
   }
 
-  updateFilteredFlats() {
-    if (this.filteredFlats) {
-      this.filteredFlats = [...this.filteredFlats];
-    }
-  }
+  // updateFilteredFlats() {
+  //   if (this.filteredFlats) {
+  //     this.filteredFlats = [...this.filteredFlats];
+  //   }
+  // }
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
+    console.log(filterValue)
     this.filteredFlats = filterValue;
     this.selectedFlat = this.filteredFlats![0];
-  }
-
-  filterValue() {
-    return this.filterForm.value;
+    this.updateSelectedFlatPhotos(); // Оновлення списку фотографій для вибраної оселі
+    // this.currentFlatPhotos = [...this.selectedFlatPhotos];
   }
 
   getFlatImageUrl(flat: FlatInfo): any {
@@ -261,12 +256,25 @@ export class HousingSearchComponent implements OnInit {
   private updateSelectedFlat() {
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
     this.updateSelectedFlatPhotos();
+    this.currentFlatPhotos = [...this.selectedFlatPhotos];
+    this.updateCurrentPhotoIndex(0);
   }
 
-  loadMore() {
-    const additionalFlats = this.flatInfo.slice(this.limit + this.offset, this.limit + this.offset + this.additionalLoadLimit);
-    this.filteredFlats = [...this.filteredFlats!, ...additionalFlats];
-    this.offset += this.additionalLoadLimit;
+  loadMore(): void {
+    this.limit += 5
+    const url = `http://localhost:3000/search/flat?limit=${this.limit}`;
+    this.http.get<{ flat_inf: FlatInfo[], flat_img: any[] }>(url).subscribe((data) => {
+      console.log(data)
+      const { flat_inf, flat_img } = data;
+      if (flat_inf && flat_img) {
+        flat_img.forEach((i) => {
+          this.flatImages.push(i)
+        })
+        this.flatInfo = flat_inf;
+        const additionalFlats = flat_inf;
+        this.filteredFlats = [...this.filteredFlats!, ...additionalFlats];
+      }
+    });
   }
 
   openFullScreenImage(imageUrl: string): void {

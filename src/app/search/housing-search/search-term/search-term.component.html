@@ -8,13 +8,9 @@
 <div class="box-search">
   <div class="item">
     <mat-form-field class="search-id" appearance="outline">
-      <mat-label>Знайти користувача по id або імені</mat-label>
-      <input matInput type="text" [(ngModel)]="searchQuery" />
+      <mat-label>Знайти оселю по HouseID</mat-label>
+      <input matInput type="text" [(ngModel)]="searchQuery" (input)="startTimer()" />
     </mat-form-field>
-  </div>
-  <div class="box-btn">
-    <button class="btn btn-menu m-1" (click)="addUserToHouse()">ЗНАЙТИ</button>
-    <button class="btn btn-menu m-1">ДОДАТИ</button>
   </div>
 </div>
 
@@ -111,15 +107,38 @@
 
       <div class="inputbox m-1">
         <mat-form-field appearance="fill">
-          <mat-label>Площа</mat-label>
-          <mat-select [(ngModel)]="selectedArea" name="selectedArea">
-            <mat-option [value]="''">Неважливо</mat-option>
-            <mat-option value="30">до 30м2</mat-option>
-            <mat-option value="40">до 40м2</mat-option>
-            <mat-option value="50">до 50м2</mat-option>
-            <mat-option value="60">до 60м2</mat-option>
-            <mat-option value="62">до 62м2</mat-option>
-            <mat-option value="more">70м2 і більше</mat-option>
+          <mat-label>Площа (від)</mat-label>
+          <mat-select  name="minArea">
+            <mat-option [value]="null">Неважливо</mat-option>
+            <mat-option value="10">10м2</mat-option>
+            <mat-option value="20">20м2</mat-option>
+            <mat-option value="30">30м2</mat-option>
+            <mat-option value="40">40м2</mat-option>
+            <mat-option value="50">50м2</mat-option>
+            <mat-option value="60">60м2</mat-option>
+            <mat-option value="70">70м2</mat-option>
+            <mat-option value="80">80м2</mat-option>
+            <mat-option value="90">90м2</mat-option>
+            <mat-option value="100">100м2</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputbox m-1">
+        <mat-form-field appearance="fill">
+          <mat-label>Площа (до)</mat-label>
+          <mat-select  name="maxArea">
+            <mat-option [value]="null">Неважливо</mat-option>
+            <mat-option value="10">10м2</mat-option>
+            <mat-option value="20">20м2</mat-option>
+            <mat-option value="30">30м2</mat-option>
+            <mat-option value="40">40м2</mat-option>
+            <mat-option value="50">50м2</mat-option>
+            <mat-option value="60">60м2</mat-option>
+            <mat-option value="70">70м2</mat-option>
+            <mat-option value="80">80м2</mat-option>
+            <mat-option value="90">90м2</mat-option>
+            <mat-option value="100">100м2</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -129,10 +148,10 @@
           <mat-label>Кількість кімнат</mat-label>
           <mat-select [(ngModel)]="selectedRooms" name="selectedRooms">
             <mat-option [value]="''">Неважливо</mat-option>
-            <mat-option value="2">1</mat-option>
+            <mat-option value="1">1</mat-option>
             <mat-option value="2">2</mat-option>
             <mat-option value="3">3</mat-option>
-            <mat-option value="3">4+</mat-option>
+            <mat-option value="4">4+</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -171,10 +190,10 @@
           <mat-select [(ngModel)]="selectedDistance_parking" name="selectedDistance_parking">
             <mat-option [value]="''">Неважливо</mat-option>
             <mat-option value="1">на території</mat-option>
-            <mat-option value="2">до 100м</mat-option>
-            <mat-option value="3">до 300м</mat-option>
-            <mat-option value="3">до 500м</mat-option>
-            <mat-option value="3">до 1км</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -184,10 +203,10 @@
           <mat-label>Парк, сквер</mat-label>
           <mat-select [(ngModel)]="selectedDistance_green" name="selectedDistance_green">
             <mat-option [value]="''">Неважливо</mat-option>
-            <mat-option value="2">до 100м</mat-option>
-            <mat-option value="3">до 300м</mat-option>
-            <mat-option value="3">до 500м</mat-option>
-            <mat-option value="3">до 1км</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -243,10 +262,9 @@
           </mat-select>
         </mat-form-field>
       </div>
-
     </div>
 
   </div>
-
   <button type="submit" class="btn btn-primary">Застосувати фільтр</button>
+
 </form>

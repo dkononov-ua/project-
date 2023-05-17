@@ -25,6 +25,9 @@ export class ComunCompanyComponent implements OnInit {
     comunal_company: '',
   };
 
+  defaultImageUrl: string = "../../assets/comun/default_services.svg";
+
+
   comunalServices = [
     { name: "Опалення", imageUrl: "../../assets/comun/default_services.svg" },
     { name: "Водопостачання", imageUrl: "../../assets/comun/water.jfif" },
@@ -35,15 +38,14 @@ export class ComunCompanyComponent implements OnInit {
     { name: "Охорона будинку", imageUrl: "../../assets/comun/default_services.svg" },
     { name: "Ремонт під'їзду", imageUrl: "../../assets/comun/default_services.svg" },
     { name: "Ліфт", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Інтернет та телебачення", imageUrl: "../../assets/comun/internet.jpg" }
+    { name: "Інтернет та телебачення", imageUrl: "../../assets/comun/internet.jpg" },
   ];
 
   comunalName: string = '';
-  selectedImageUrl: string | undefined;
+  selectedImageUrl: string | null | undefined;
   selectedFlatId: string | null | undefined;
   selectedYear: any;
   selectedMonth: any;
-  defaultImageUrl: any;
 
   constructor(private dataService: DataService, private fb: FormBuilder, private http: HttpClient, private hostComunComponent: HostComunComponent) {
   }
@@ -51,8 +53,8 @@ export class ComunCompanyComponent implements OnInit {
   ngOnInit(): void {
     this.comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
     const selectedService = this.comunalServices.find(service => service.name === this.comunalName);
-    this.selectedImageUrl = selectedService?.imageUrl;
     this.defaultImageUrl = "../../assets/comun/default_services.svg";
+    this.selectedImageUrl = selectedService?.imageUrl ?? this.defaultImageUrl;
 
     const userJson = localStorage.getItem('user');
     this.selectedFlatId = localStorage.getItem('house');
@@ -84,26 +86,21 @@ export class ComunCompanyComponent implements OnInit {
       this.selectedMonth = JSON.parse(selectedMonth);
     }
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
-
-    if (userJson) {
-      com_inf.comunal.forEach((value: any) => {
-        console.log(value.when_pay_m);
-        if (value.comunal_name === comunalName) {
-          if (value.when_pay_y === String(this.selectedYear)) {
-            if (value.when_pay_m === this.selectedMonth) {
-              console.log(value);
-              this.dataService.getData().subscribe((response: any) => {
-                if (response.houseData) {
-                  this.comunalCompany.comunal_company = value.comunal_company;
-                }
-              });
-            }
-          }
-        }
+    if (userJson && com_inf && com_inf.comunal) {
+      const matchingComunal = com_inf.comunal.find((value: any) => {
+        return value.comunal_name === comunalName && value.when_pay_y === String(this.selectedYear) && value.when_pay_m === this.selectedMonth;
       });
-    }
-    else {
-      console.log('user not found');
+
+      if (matchingComunal) {
+        this.dataService.getData().subscribe((response: any) => {
+          if (response.houseData) {
+            this.comunalCompany.comunal_company = matchingComunal.comunal_company;
+          }
+        });
+      }
+    } else {
+      console.log('user not found or comunal_inf not available');
     }
   }
+
 }

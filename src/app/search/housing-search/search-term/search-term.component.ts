@@ -26,7 +26,7 @@ interface SearchParams {
   distance_green: string;
   distance_shop: string;
   distance_parking: string;
-  limit: string;
+  limit: number | undefined;
 }
 
 @Component({
@@ -40,10 +40,7 @@ export class SearchTermComponent implements OnInit {
   public showInput = false;
   public userId: string | undefined;
   searchQuery: string | undefined;
-
-  searchQueryString = '';
   searchParamsString: string = '';
-
   private subscription: Subscription | undefined;
 
   selectedCity!: string;
@@ -61,15 +58,23 @@ export class SearchTermComponent implements OnInit {
   selectedBunker!: string;
   selectedBalcony!: string;
   flats: any[] | undefined;
+  flatInfo: any[] | undefined;
+  limit!: number | any;
 
   myForm: FormGroup | undefined | any;
   selectedRepair_status: any;
   searchParamsArr: string[] = [];
+  searchSuggestions: string[] = [];
+
+  timer: any;
+
 
   endpoint = 'http://localhost:3000/search/flat';
   private searchSubscription: Subscription | null = null;
   form: any;
   filteredFlats: any;
+  flatImages: any[] | undefined;
+  filteredImages: any[] | any;
 
   constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
     this.myForm = this.formBuilder.group({
@@ -82,8 +87,16 @@ export class SearchTermComponent implements OnInit {
     });
   }
 
+  startTimer() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      if (this.searchQuery && this.searchQuery.length >= 3) {
+        this.onSubmit();
+      }
+    }, 2000);
+  }
+
   public addUserToHouse(): void {
-    // Додати код для додавання користувача до оселі за допомогою userId
     console.log(`Користувач з ID ${this.userId} доданий до оселі.`);
     this.userId = '';
     this.showInput = false;
@@ -99,7 +112,28 @@ export class SearchTermComponent implements OnInit {
       });
   }
 
+  fetchFlatData(url: string) {
+    this.subscription = this.http.get<{ flat_inf: any[], flat_img: any[] }>(url).subscribe((data) => {
+      console.log(data)
+      const { flat_inf, flat_img } = data;
+      if (flat_inf && flat_img) {
+        this.flatInfo = flat_inf;
+        this.flatImages = flat_img;
+        this.filterService.updateFilter(flat_inf, flat_img); // Оновити дані фільтрації та фотографій у службі
+      }
+      this.filteredFlats = data.flat_inf;
+      // this.filteredImages = data;
+      this.applyFilter(this.filteredFlats, data);
+    });
+  }
+
   onSubmit() {
+    if (this.searchQuery) {
+      const flatId = this.searchQuery;
+      const url = `${this.endpoint}/?flat_id=${flatId}`;
+      this.fetchFlatData(url);
+      return;
+    }
 
     const params: SearchParams = {
       region: this.selectedRegion || '',
@@ -116,11 +150,8 @@ export class SearchTermComponent implements OnInit {
       distance_green: this.selectedDistance_green || '',
       distance_shop: this.selectedDistance_shop || '',
       distance_parking: this.selectedDistance_parking || '',
-      limit: '',
+      limit: this.limit || '',
       country: '',
-
-      // price_of: this.myForm.get('price_of').value ? this.myForm.get('price_of').value : '',
-      // price_to: this.myForm.get('price_to').value ? this.myForm.get('price_to').value : '',
       students: this.myForm.get('students').value ? 1 : '',
       woman: this.myForm.get('woman').value ? 1 : '',
       man: this.myForm.get('man').value ? 1 : '',
@@ -143,6 +174,8 @@ export class SearchTermComponent implements OnInit {
     this.addSelectedValue(searchParamsArr, 'Парк', this.selectedDistance_green);
     this.addSelectedValue(searchParamsArr, 'Маркет', this.selectedDistance_shop);
     this.addSelectedValue(searchParamsArr, 'Парковка', this.selectedDistance_parking);
+    this.addSelectedValue(searchParamsArr, 'Limit', this.limit);
+
 
     this.searchParamsString = searchParamsArr.join(', ');
     console.log('Обрані параметри пошуку:', this.searchParamsString);
@@ -151,7 +184,9 @@ export class SearchTermComponent implements OnInit {
 
     this.updateURL();
     this.fetchFlatData(url);
-    this.applyFilter(this.filteredFlats);
+    const filteredFlats = this.filterFlatsBySelections(this.flatInfo!);
+    this.filteredFlats = filteredFlats;
+    this.applyFilter(this.filteredFlats, this.filteredImages);
   }
 
   private addSelectedValue(arr: string[], label: string, value: any) {
@@ -176,25 +211,9 @@ export class SearchTermComponent implements OnInit {
     });
   }
 
-  fetchFlatData(url: string) {
-    this.subscription = this.http.get<{ flat_inf: any[] }>(url).subscribe((data) => {
-      console.log(data)
-      const flatInfo = data.flat_inf;
-      if (flatInfo) {
-        const filteredFlats = this.filterFlatsBySelections(flatInfo);
-        this.filteredFlats = filteredFlats; // Оновлення значення this.filteredFlats
-        console.log(filteredFlats);
-        this.applyFilter(this.filteredFlats);
-        console.log(this.filteredFlats);
-      } else {
-        console.log('flatInfo is undefined');
-      }
-    });
-  }
-
-  applyFilter(filteredFlats: any) {
-    this.filterService.updateFilter(filteredFlats);
-    console.log(filteredFlats)
+  applyFilter(filteredFlats: any, filteredImages: any) {
+    this.filterService.updateFilter(filteredFlats, filteredImages);
+    console.log(filteredFlats);
   }
 
   filterFlatsBySelections(flatInfo: any[]): any[] {
@@ -211,23 +230,6 @@ export class SearchTermComponent implements OnInit {
 
     return filteredFlats;
   }
-
-  // search(searchString: string) {
-  //   this.searchSubscription?.unsubscribe();
-  //   if (searchString && searchString.length > 3) {
-  //     this.searchSubscription = this.http.get(`${this.endpoint}?search=${searchString}`)
-  //       .subscribe(data => {
-  //         // do something with the response data
-  //       });
-  //   }
-  // }
-
-  // inputSearchHandler(event: any) {
-  //   const searchString = event.target.value.trim();
-  //   setTimeout(() => {
-  //     this.search(searchString);
-  //   }, 3000);
-  // }
 
   minValue: number = 0;
   maxValue: number = 100000;
