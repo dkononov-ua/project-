@@ -1,14 +1,39 @@
 <app-navbar></app-navbar>
 
-<div [@cardAnimation] class="container-fluid">
+<div class="container-fluid">
 
   <div class="container-card col-lg-5 col-md-3 col-sm-12 col-12">
-    <app-search-term></app-search-term>
+    <app-search-term [@cardAnimation]></app-search-term>
   </div>
 
-  <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" >
-    <div class="card-box" *ngIf="selectedFlat">
-      <div class=" m-2">
+  <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">
+    <div  [@cardAnimation] class="card-container p-2" cdkScrollable *ngIf="filteredFlats">
+      <div class="card-info">
+        <p class="count">Знайдено {{ filteredFlats.length }}</p>
+      </div>
+      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
+        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
+        [style.animation-delay.ms]="i * 100">
+        <div class="wrapper card mb-4" [class.selected]="selectedFlat === flat" [@slideAnimation]>
+
+          <a class="card-img-container">
+            <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
+          </a>
+          <div class="card-mini-body">
+            <div class="card-title">{{ flat.price_m }} грн/міс</div>
+            <div class="card-title">{{ flat.street }}</div>
+            <div class="card-title">{{ flat.city }}</div>
+            <div class="card-title">{{ flat.area }} м²</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-menu m-1" (click)="loadMore()">Завантажити ще</button>
+    </div>
+  </div>
+
+  <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" [@slideAnimation]>
+    <div [@cardAnimation] class="card-box" *ngIf="selectedFlat">
+      <div class=" m-2" >
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="false">
           <div class="carousel-indicators">
             <button type="button" *ngFor="let photo of currentFlatPhotos; let i = index"
@@ -77,9 +102,11 @@
         </div>
 
         <div class="card card-body">
-          <h5><span class="material-symbols-outlined">
-            location_on
-          </span>Вулиця: {{ selectedFlat?.street }}, {{ selectedFlat?.street }}</h5>
+          <h5><a class="location" [href]="locationLink" target="_blank">
+              <span class="material-symbols-outlined">location_on</span><br>Вулиця: {{ selectedFlat?.street }}, {{
+              selectedFlat?.houseNumber }}
+            </a>
+          </h5>
           <h4>Місто: {{ selectedFlat?.city }}</h4>
           <p>Область: {{ selectedFlat?.region }}</p>
           <p>{{ selectedFlat?.about }}</p>
@@ -95,30 +122,6 @@
     </div>
   </div>
 
-  <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">
-    <div class="card-container p-2" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-info">
-        <p class="count">Знайдено {{ filteredFlats.length }}</p>
-      </div>
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
-        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
-        [style.animation-delay.ms]="i * 100">
-        <div class="wrapper card mb-4" [class.selected]="selectedFlat === flat" [@slideAnimation]>
+</div>
 
-          <a class="card-img-container">
-            <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
-          </a>
-          <div class="card-mini-body">
-            <div class="card-title">{{ flat.price_m }} грн/міс</div>
-            <div class="card-title">{{ flat.street }}</div>
-            <div class="card-title">{{ flat.city }}</div>
-            <div class="card-title">{{ flat.area }} м²</div>
-          </div>
-
-        </div>
-      </div>
-      <button class="btn btn-menu m-1" (click)="loadMore()">Завантажити ще</button>
-    </div>
-  </div>
-
-  <app-footer></app-footer>
+<app-footer></app-footer>

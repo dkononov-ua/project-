@@ -9,10 +9,9 @@
 
 .container-fluid {
   display: flex;
-  align-content: space-around;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 .container-card {
@@ -287,6 +286,7 @@ a {
   padding: 0;
 }
 
+
 .fab {
   transition: 0.4s;
 
@@ -347,7 +347,15 @@ a {
   justify-content: space-evenly;
 }
 
-.link {
+
+.location {
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+}
+
+.link,
+.location {
   color: $color-text;
   text-transform: uppercase;
   transition: all 0.4s ease;
@@ -355,12 +363,13 @@ a {
 
   &:hover {
     color: $color-accent;
+    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 
   &:active {
     transform: scale(0.8);
     letter-spacing: 0px;
-    box-shadow: inset -10px -10px 40px rgba(0, 0, 0, 0.105), inset 10px 10px 40px rgba(0, 0, 0, 0.105);
+    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 
   &.active {

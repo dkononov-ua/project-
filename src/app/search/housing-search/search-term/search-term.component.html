@@ -89,7 +89,7 @@
         <mat-form-field appearance="fill" cdkScrollable>
           <mat-label>Область</mat-label>
           <mat-select [(ngModel)]="selectedRegion" name="selectedRegion">
-            <mat-option [value]="''">Всі області</mat-option> <!-- Додано опцію для невибраного значення -->
+            <mat-option [value]="''">Всі області</mat-option>
             <mat-option *ngFor="let region of regions" [value]="region.name">{{ region.name }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -99,7 +99,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Місто</mat-label>
           <mat-select [(ngModel)]="selectedCity" name="selectedCity">
-            <mat-option [value]="''">Всі міста</mat-option> <!-- Додано опцію для невибраного значення -->
+            <mat-option [value]="''">Всі міста</mat-option>
             <mat-option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -108,7 +108,7 @@
       <div class="inputbox m-1">
         <mat-form-field appearance="fill">
           <mat-label>Площа (від)</mat-label>
-          <mat-select  name="minArea">
+          <mat-select name="minArea">
             <mat-option [value]="null">Неважливо</mat-option>
             <mat-option value="10">10м2</mat-option>
             <mat-option value="20">20м2</mat-option>
@@ -127,7 +127,7 @@
       <div class="inputbox m-1">
         <mat-form-field appearance="fill">
           <mat-label>Площа (до)</mat-label>
-          <mat-select  name="maxArea">
+          <mat-select name="maxArea">
             <mat-option [value]="null">Неважливо</mat-option>
             <mat-option value="10">10м2</mat-option>
             <mat-option value="20">20м2</mat-option>
@@ -180,7 +180,6 @@
           </mat-select>
         </mat-form-field>
       </div>
-
     </div>
 
     <div class="box">

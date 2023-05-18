@@ -44,7 +44,6 @@ interface FlatInfo {
   students: string;
   woman: string;
 }
-
 @Component({
   selector: 'app-housing-search',
   templateUrl: './housing-search.component.html',
@@ -52,12 +51,9 @@ interface FlatInfo {
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(130%)' }),
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(300%)' }),
+        animate('1500ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ])
     ]),
     trigger('slideAnimation', [
       transition(':enter', [
@@ -87,6 +83,16 @@ export class HousingSearchComponent implements OnInit {
   showFullScreenImage = false;
   fullScreenImageUrl = '';
   photoChangeData: any;
+  currentCardIndex: number = 0;
+  cards: FlatInfo[] = [];
+  public locationLink: string = '';
+  location: string | null = null;
+
+  selectedFlatRegion: string = '';
+  selectedFlatCity: string = '';
+  selectedFlatStreet: string = '';
+  selectedFlatHouseNumber: string = '';
+  selectedFlatFlatIndex: string = '';
 
   constructor(
     private filterService: FilterService,
@@ -98,15 +104,6 @@ export class HousingSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const url = 'http://localhost:3000/search/flat';
-    this.fetchFlatData(url);
-
-    if (this.filterForm) {
-      this.filterForm.valueChanges.subscribe(() => {
-        // Виконати необхідні дії при зміні значень форми фільтрації
-      });
-    }
-
     this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
       const filterValue = this.filterService.getFilterValue();
       if (filterValue) {
@@ -119,27 +116,20 @@ export class HousingSearchComponent implements OnInit {
       this.updateCardPhotos();
     });
 
+    this.locationLink = this.generateLocationUrl();
   }
 
   private updateCardPhotos(): void {
-    const filteredCards = this.filteredFlats;
-    this.flatImages = []
-
-    console.log(this.photoChangeData)
-
-    this.photoChangeData.flat_img.forEach((i: any) => {
-      this.flatImages.push(i)
-    })
-    this.flatInfo = this.photoChangeData.flat_inf;
-
-    const additionalFlats = this.photoChangeData.flat_inf;
-    this.filteredFlats = [...this.filteredFlats!, ...additionalFlats];
-    console.log(this.flatInfo)
-
-
-
-
+    if (this.photoChangeData && this.photoChangeData.flat_img) {
+      const filteredCards = this.filteredFlats;
+      this.flatImages = [];
+      this.photoChangeData.flat_img.forEach((i: any) => {
+        this.flatImages.push(i);
+      });
+      this.flatInfo = this.photoChangeData.flat_inf;
+    }
   }
+
 
   getDefaultImage(photo: string | undefined | null): string {
     if (!photo) {
@@ -147,18 +137,6 @@ export class HousingSearchComponent implements OnInit {
     } else {
       return this.getImageUrl(photo);
     }
-  }
-
-  fetchFlatData(url: string) {
-    this.http.get<{ flat_inf: FlatInfo[], flat_img: any[] }>(url).subscribe((data) => {
-      const { flat_inf, flat_img } = data;
-      if (flat_inf && flat_img) {
-        this.flatInfo = flat_inf;
-        this.flatImages = flat_img;
-        this.updateFilteredData(this.flatInfo);
-      }
-    });
-
   }
 
   updateSelectedFlatPhotos() {
@@ -172,25 +150,26 @@ export class HousingSearchComponent implements OnInit {
   }
 
   selectFlat(flat: FlatInfo) {
+    this.selectedFlat = this.filteredFlats![0];
     this.selectedFlat = flat;
-    this.updateSelectedFlatPhotos();
-    this.currentFlatPhotos = [...this.selectedFlatPhotos];
-    this.updateCurrentPhotoIndex(0);
-  }
 
-  // updateFilteredFlats() {
-  //   if (this.filteredFlats) {
-  //     this.filteredFlats = [...this.filteredFlats];
-  //   }
-  // }
+    this.updateSelectedFlatPhotos();
+    this.updateCurrentPhotoIndex(0);
+
+    this.currentFlatPhotos = [...this.selectedFlatPhotos];
+    this.selectedFlatRegion = flat.region || '';
+    this.selectedFlatCity = flat.city || '';
+    this.selectedFlatStreet = flat.street || '';
+    this.selectedFlatHouseNumber = flat.houseNumber || '';
+    this.selectedFlatFlatIndex = flat.flat_index || '';
+    this.locationLink = this.generateLocationUrl();
+  }
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
     console.log(filterValue)
     this.filteredFlats = filterValue;
-    this.selectedFlat = this.filteredFlats![0];
-    this.updateSelectedFlatPhotos(); // Оновлення списку фотографій для вибраної оселі
-    // this.currentFlatPhotos = [...this.selectedFlatPhotos];
+    this.updateSelectedFlatPhotos();
   }
 
   getFlatImageUrl(flat: FlatInfo): any {
@@ -217,8 +196,12 @@ export class HousingSearchComponent implements OnInit {
     return 'http://localhost:3000/img/flat/housing_default.svg';
   }
 
-  currentCardIndex: number = 0;
-  cards: FlatInfo[] = [];
+  private updateSelectedFlat() {
+    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.updateSelectedFlatPhotos();
+    this.currentFlatPhotos = [...this.selectedFlatPhotos];
+    this.updateCurrentPhotoIndex(0);
+  }
 
   onPrevCard() {
     if (!this.isCarouselAnimating) {
@@ -253,13 +236,6 @@ export class HousingSearchComponent implements OnInit {
     return (index + length) % length;
   }
 
-  private updateSelectedFlat() {
-    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    this.updateSelectedFlatPhotos();
-    this.currentFlatPhotos = [...this.selectedFlatPhotos];
-    this.updateCurrentPhotoIndex(0);
-  }
-
   loadMore(): void {
     this.limit += 5
     const url = `http://localhost:3000/search/flat?limit=${this.limit}`;
@@ -285,5 +261,24 @@ export class HousingSearchComponent implements OnInit {
   closeFullScreenImage(): void {
     this.showFullScreenImage = false;
     this.fullScreenImageUrl = '';
+  }
+
+  generateLocationUrl() {
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.selectedFlatRegion || '';
+    const city = this.selectedFlatCity || '';
+    const street = this.selectedFlatStreet || '';
+    const houseNumber = this.selectedFlatHouseNumber || '';
+    const flatIndex = this.selectedFlatFlatIndex || '';
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+
+    return locationUrl;
   }
 }
