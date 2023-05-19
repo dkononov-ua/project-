@@ -1,4 +1,4 @@
-@use "../../../style/presets/" as *;
+@use "../../style/presets/" as *;
 
 .navbar {
   display: flex;
@@ -14,6 +14,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
+}
+
+.card-box {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form {
@@ -65,14 +72,13 @@
 }
 
 .box-search {
-  width: 100%;
+  width: 76%;
   position: relative;
   display: flex;
   border-radius: 10px;
   flex-direction: column;
   align-content: center;
   align-items: stretch;
-  padding: 0 20px;
 }
 
 .search-id {
@@ -134,25 +140,26 @@ button {
   border: none;
 }
 
-.box {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-}
-
 .checkbox-box {
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .form-box {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.select-box {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 mat-form-field {
@@ -170,19 +177,24 @@ mat-label {
   justify-content: center;
 }
 
-.container-checkbox {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: space-evenly;
-  align-items: stretch;
-  flex-wrap: wrap;
-}
-
 .checkBox input[type="checkbox"] {
   position: absolute;
   left: 50px;
   visibility: hidden;
+}
+
+.price-box {
+  display: flex;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.group-item {
+  display: flex;
 }
 
 .checkBox {

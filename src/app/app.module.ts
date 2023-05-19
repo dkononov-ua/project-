@@ -15,9 +15,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
-import { TenantsSearchComponent } from './search/tenants-search/tenants-search.component';
-import { SearchTermComponent } from './search/housing-search/search-term/search-term.component';
-import { HousingSearchComponent } from './search/housing-search/housing-search.component';
 import { AgreementComponent } from './components/agreement/agreement.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { ModalComponent } from './pages/modal/modal.component';
@@ -36,14 +33,14 @@ import { TestComponent } from './pages/test/test.component';
 import { DeleteComunalComponent } from './components/delete-comunal/delete-comunal.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SearchComponent } from './search/search.component';
 import { AccountModule } from './account/account.module';
 import { AccountRoutingModule } from './account/account-routing.module';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 import { MatSliderModule } from '@angular/material/slider';
 import { SharedModule } from "./shared/shared.module";
-import { FilterService } from './search/housing-search/filter.service';
+import { SearchRoutingModule } from './search/search-routing.module';
+import { SearchModule } from './search/search.module';
 
 @NgModule({
     declarations: [
@@ -52,9 +49,6 @@ import { FilterService } from './search/housing-search/filter.service';
         RegistrationComponent,
         UserPaymentComponent,
         InformationUserComponent,
-        TenantsSearchComponent,
-        SearchTermComponent,
-        HousingSearchComponent,
         AgreementComponent,
         SliderComponent,
         ModalComponent,
@@ -64,9 +58,7 @@ import { FilterService } from './search/housing-search/filter.service';
         TestComponent,
         DeleteComunalComponent,
         DeleteDialogComponent,
-        SearchComponent,
     ],
-    providers: [FilterService],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
@@ -85,20 +77,26 @@ import { FilterService } from './search/housing-search/filter.service';
         MatDatepickerModule,
         MatNativeDateModule,
         MatFormFieldModule,
-        HousingServicesModule,
-        HousingServicesRoutingModule,
         RouterModule,
         CommonModule,
         NgxSpinnerModule,
         MatSelectModule,
         MatDialogModule,
-        AccountModule,
-        AccountRoutingModule,
-        HousingParametersModule,
-        HousingParametersRoutingModule,
         MatSliderModule,
         SharedModule,
         MatIconModule,
+
+        HousingServicesModule,
+        HousingServicesRoutingModule,
+
+        AccountModule,
+        AccountRoutingModule,
+
+        HousingParametersModule,
+        HousingParametersRoutingModule,
+
+        SearchModule,
+        SearchRoutingModule,
     ]
 })
 export class AppModule { }

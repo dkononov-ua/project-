@@ -1,8 +1,8 @@
 import { Subscription, debounceTime } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilterService } from '../filter.service';
-import { regions } from '../search-term/data-search';
-import { cities } from '../search-term/data-search';
+import { regions } from './data-search';
+import { cities } from './data-search';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,13 +13,17 @@ interface SearchParams {
   country: string;
   region: string;
   city: string;
-  rooms: number | string;
+  // rooms: number | string;
+
+  selectedMinRooms: number | string;
+  selectedMaxRooms: number | string;
+
   repair_status: string;
   area?: number | string;
   selectedKitchen_area: string;
-  balcony: string;
-  bunker: string;
-  animals: string;
+  selectedBalcony: number | string;
+  selectedBunker: number | string;
+  animals: number | string;
   distance_metro: string;
   distance_stop: string;
   distance_green: string;
@@ -38,10 +42,16 @@ export class SearchTermComponent implements OnInit {
   public userId: string | undefined;
   searchQuery: string | undefined;
   searchParamsString: string = '';
-  private subscription: Subscription | undefined;
+  price_of: number | undefined;
+  price_to: number | undefined;
+  students: boolean = false;
+  woman: boolean = false;
+  man: boolean = false;
+  family: boolean = false;
   selectedCity!: string;
   selectedRooms!: number | any;
-  selectedArea!: string;
+  selectedMinArea!: number;
+  selectedMaxArea!: number;
   selectedKitchen_area!: string;
   selectedRegion!: string;
   selectedAnimals!: string;
@@ -50,36 +60,32 @@ export class SearchTermComponent implements OnInit {
   selectedDistance_green!: string;
   selectedDistance_shop!: string;
   selectedDistance_parking!: string;
-  selectedBunker!: string;
-  selectedBalcony!: string;
+
+  selectedBunker!: number;
+  selectedBalcony!: number;
+  selectedMinRooms!: number;
+  selectedMaxRooms!: number;
+
+
   flats: any[] | undefined;
   flatInfo: any[] | undefined;
-  myForm: FormGroup | undefined | any;
   selectedRepair_status: any;
   searchParamsArr: string[] = [];
   searchSuggestions: string[] = [];
-  timer: any;
   regions = regions;
   cities = cities;
   endpoint = 'http://localhost:3000/search/flat';
-  private searchSubscription: Subscription | null = null;
-  form: any;
   filteredFlats?: any;
   flatImages: any[] | undefined;
   filteredImages: any[] | any;
   minValue: number = 0;
   maxValue: number = 100000;
 
-  constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
-    this.myForm = this.formBuilder.group({
-      price_of: [],
-      price_to: [],
-      students: [],
-      woman: [],
-      man: [],
-      family: []
-    });
-  }
+  form: FormGroup | undefined;
+  timer: any;
+  private subscription: Subscription | undefined;
+
+  constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
   startTimer() {
     clearTimeout(this.timer);
@@ -91,13 +97,7 @@ export class SearchTermComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.myForm.valueChanges
-      .pipe(
-        debounceTime(2000)
-      )
-      .subscribe(() => {
-        this.onSubmit();
-      });
+    this.onSubmit();
   }
 
   fetchFlatData(url: string) {
@@ -112,6 +112,15 @@ export class SearchTermComponent implements OnInit {
     });
   }
 
+  onInputChange() {
+    clearTimeout(this.timer); // Скидання попереднього таймера
+
+    // Встановлення нового таймера на 2 секунди
+    this.timer = setTimeout(() => {
+      this.onSubmit(); // Виклик функції onSubmit після 2-секундної затримки
+    }, 2000);
+  }
+
   onSubmit() {
     if (this.searchQuery) {
       const flatId = this.searchQuery;
@@ -121,14 +130,17 @@ export class SearchTermComponent implements OnInit {
     }
 
     const params: SearchParams = {
+      price_of: this.price_of || '',
+      price_to: this.price_to || '',
       region: this.selectedRegion || '',
       city: this.selectedCity || '',
-      rooms: this.selectedRooms || '',
-      area: this.selectedArea || '',
+      // rooms: this.selectedRooms || '',
+      selectedMinRooms: this.selectedMinRooms || '',
+      selectedMaxRooms: this.selectedMaxRooms || '',
+      selectedMinArea: this.selectedMinArea || '',
+      selectedMaxArea: this.selectedMaxArea || '',
       repair_status: this.selectedRepair_status || '',
       selectedKitchen_area: this.selectedKitchen_area || '',
-      balcony: this.selectedBalcony || '',
-      bunker: this.selectedBunker || '',
       animals: this.selectedAnimals || '',
       distance_metro: this.selectedDistance_metro || '',
       distance_stop: this.selectedDistance_stop || '',
@@ -136,17 +148,20 @@ export class SearchTermComponent implements OnInit {
       distance_shop: this.selectedDistance_shop || '',
       distance_parking: this.selectedDistance_parking || '',
       country: '',
-      students: this.myForm.get('students').value ? 1 : '',
-      woman: this.myForm.get('woman').value ? 1 : '',
-      man: this.myForm.get('man').value ? 1 : '',
-      family: this.myForm.get('family').value ? 1 : '',
+      students: this.students ? 1 : '',
+      woman: this.woman ? 1 : '',
+      man: this.man ? 1 : '',
+      family: this.family ? 1 : '',
+      selectedBalcony: this.selectedBalcony || '',
+      selectedBunker: this.selectedBunker || '',
     };
 
     let searchParamsArr: string[] = [];
     this.addSelectedValue(searchParamsArr, 'Регіон', this.selectedRegion);
     this.addSelectedValue(searchParamsArr, 'Місто', this.selectedCity);
     this.addSelectedValue(searchParamsArr, 'Кімнати', this.selectedRooms);
-    this.addSelectedValue(searchParamsArr, 'Площа', this.selectedArea);
+    this.addSelectedValue(searchParamsArr, 'Площа', this.selectedMinArea);
+    this.addSelectedValue(searchParamsArr, 'Площа', this.selectedMaxArea);
     this.addSelectedValue(searchParamsArr, 'Ремонт', this.selectedRepair_status);
     this.addSelectedValue(searchParamsArr, 'Кухня', this.selectedKitchen_area);
     this.addSelectedValue(searchParamsArr, 'Балкон', this.selectedBalcony);
@@ -157,10 +172,31 @@ export class SearchTermComponent implements OnInit {
     this.addSelectedValue(searchParamsArr, 'Парк', this.selectedDistance_green);
     this.addSelectedValue(searchParamsArr, 'Маркет', this.selectedDistance_shop);
     this.addSelectedValue(searchParamsArr, 'Парковка', this.selectedDistance_parking);
+    this.addSelectedValue(searchParamsArr, 'Балкон', this.selectedBalcony);
+    this.addSelectedValue(searchParamsArr, 'Укриття', this.selectedDistance_parking);
     this.searchParamsString = searchParamsArr.join(', ');
+
+    // Отримати URL для відправки даних
     const url = this.buildSearchURL(params);
-    this.fetchFlatData(url);
-    this.applyFilter(this.filteredFlats, this.filteredImages);
+
+    setTimeout(() => {
+      // Отримати змінні дані форми і відправити на сервер
+      this.fetchFlatData(url);
+      this.applyFilter(this.filteredFlats, this.filteredImages);
+
+      // Побудувати рядок пошуку і створити посилання
+      const searchParams = new URLSearchParams();
+      Object.keys(params).forEach((key) => {
+        if (params[key] !== '') {
+          searchParams.set(key, params[key]);
+        }
+      });
+      const searchQuery = searchParams.toString();
+      const searchURL = `http://localhost:4200/housing-search/${searchQuery}`;
+
+      // Вивести посилання в консолі
+      console.log('Посилання на пошук:', searchURL);
+    }, 2000);
   }
 
   private addSelectedValue(arr: string[], label: string, value: any) {

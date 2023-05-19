@@ -1,19 +1,13 @@
-<app-navbar></app-navbar>
+<div class="container-card">
 
-<div class="container-fluid">
-
-  <div class="container-card col-lg-5 col-md-3 col-sm-12 col-12">
-    <app-search-term [@cardAnimation]></app-search-term>
-  </div>
-
-  <div class="container-card col-lg-3 col-md-9 col-sm-12 col-12">
-    <div  [@cardAnimation] class="card-container p-2" cdkScrollable *ngIf="filteredFlats">
+  <div class="container-box col-lg-5 col-md-9 col-sm-12 col-12">
+    <div [@cardAnimation] class="card-container card-box" cdkScrollable *ngIf="filteredFlats">
       <div class="card-info">
         <p class="count">Знайдено {{ filteredFlats.length }}</p>
       </div>
       <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
-        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
-        [style.animation-delay.ms]="i * 100">
+      [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
+      [style.animation-delay.ms]="i * 100">
         <div class="wrapper card mb-4" [class.selected]="selectedFlat === flat" [@slideAnimation]>
 
           <a class="card-img-container">
@@ -31,10 +25,10 @@
     </div>
   </div>
 
-  <div class="container-card col-lg-4 col-md-9 col-sm-12 col-12" [@slideAnimation]>
+  <div class="container-box col-lg-5 col-md-9 col-sm-12 col-12" [@slideAnimation]>
     <div [@cardAnimation] class="card-box" *ngIf="selectedFlat">
-      <div class=" m-2" >
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="false">
+      <div class="carousel-card m-2" >
+        <div id="carouselExampleIndicators" class="carousel slide card" data-bs-interval="false">
           <div class="carousel-indicators">
             <button type="button" *ngFor="let photo of currentFlatPhotos; let i = index"
               data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i"
@@ -101,6 +95,10 @@
 
         </div>
 
+        <div class="card-container">
+
+        </div>
+
         <div class="card card-body">
           <h5><a class="location" [href]="locationLink" target="_blank">
               <span class="material-symbols-outlined">location_on</span><br>Вулиця: {{ selectedFlat?.street }}, {{
@@ -124,4 +122,4 @@
 
 </div>
 
-<app-footer></app-footer>
+

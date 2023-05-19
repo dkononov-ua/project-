@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class SearchComponent {
 
+  isSearchTermCollapsed: boolean = false;
+
+  toggleSearchTerm() {
+    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  }
+
 }

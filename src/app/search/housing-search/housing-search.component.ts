@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FilterService } from './filter.service';
+import { FilterService } from '../filter.service';
 
 interface FlatInfo {
   region: string;
@@ -129,7 +129,6 @@ export class HousingSearchComponent implements OnInit {
       this.flatInfo = this.photoChangeData.flat_inf;
     }
   }
-
 
   getDefaultImage(photo: string | undefined | null): string {
     if (!photo) {

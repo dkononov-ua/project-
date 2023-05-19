@@ -1,117 +1,88 @@
-<app-navbar></app-navbar>
+<div [@cardAnimation] class="container-card col-12" *ngIf="currentCard">
 
-<div class="navbar">
-  <nav class="nav">
-    <a [routerLinkActive]="'active'" [routerLink]="'/housing-search'">Пошук оселі</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/tenants-search'">Пошук орендаря</a>
-    <a [routerLinkActive]="'active'" [routerLink]="'/user-interaction'">Домовленість</a>
-  </nav>
-  <h1>Пошук орендаря</h1>
-</div>
+  <div class="card m-1 col-lg-5 col-md-5 col-sm-9 col-10">
 
-<div [@cardAnimation] class="container-fluid">
+    <div class="img-fluid card-img-top">
+      <img [src]="currentCard.image">
+    </div>
 
-  <app-search-term class="col-lg-3 col-md-3 col-sm-12 col-12"></app-search-term>
+    <div class="card-description">
+      <h4 class="card-title">{{ currentCard.description }}</h4>
+      <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
+      <p>{{ currentCard.tell }}</p>
 
-  <div class="container-card col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="currentCard">
-
-    <button class="prev col-md-1 col-sm-2 col-0" (click)="onPrevCard()">
-      <div class="prev-arrow-top"></div>
-      <div class="prev-arrow-bottom"></div>
-    </button>
-
-    <div class="card m-1 col-lg-5 col-md-5 col-sm-9 col-10">
-
-      <div class="img-fluid card-img-top">
-        <img [src]="currentCard.image">
-      </div>
-
-      <div class="card-description">
-        <h4 class="card-title">{{ currentCard.description }}</h4>
-        <p class="card-text">{{ currentCard.firstName }} {{ currentCard.lastName }}</p>
-        <p>{{ currentCard.tell }}</p>
-
-        <div class="card-rating">
-          <div class="card-text">
-            <h4>Рейтинг</h4>
-          </div>
-          <div class="rating-star">
-            <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
-              (click)="rate(star)">&#9733;</span>
-          </div>
+      <div class="card-rating">
+        <div class="card-text">
+          <h4>Рейтинг</h4>
+        </div>
+        <div class="rating-star">
+          <span class="star" *ngFor="let star of stars" [class.filled]="star <= currentRating"
+            (click)="rate(star)">&#9733;</span>
         </div>
       </div>
+    </div>
 
-      <div class="card-social-link">
-        <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
-        <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+    <div class="card-social-link">
+      <a href="https://www.facebook.com/denis.kononov.35"><i class="fab fa-brands fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/kononov.den1s/"><i class="fab fa-brands fa-instagram"></i></a>
+      <a href="https://t.me/DenisKononov"><i class="fab fa-brands fa-telegram"></i></a>
+    </div>
+
+    <div class="card-link">
+      <a [href]="currentCard.passport" class="link"><span>{{ currentCard.passportText }}</span><i
+          class="fa-solid fa-passport"></i></a>
+    </div>
+
+  </div>
+
+  <div class="card m-1 col-lg-5 col-md-4 col-sm-9 col-10">
+
+    <div class="characteristics">
+      <h5>Критерії пошуку</h5>
+
+      <div class="subscriber-list">
+        <div class="subscriber">{{ currentCard.subscriber }}</div>
       </div>
 
-      <div class="card-link">
-        <a [href]="currentCard.passport" class="link"><span>{{ currentCard.passportText }}</span><i
-            class="fa-solid fa-passport"></i></a>
+      <div class="characteristics-list">
+        <label class="item-label">Тип житла:</label>
+        <div class="characteristics-item">{{ currentCard.typeHousing }}</div>
+      </div>
+
+      <div class="characteristics-list">
+        <label class="item-label">Кількість кімнат:</label>
+        <div class="characteristics-item">{{ currentCard.numberRooms }}</div>
+      </div>
+
+      <div class="characteristics-list">
+        <label class="item-label">Місто:</label>
+        <div class="characteristics-item">{{ currentCard.city }}</div>
+      </div>
+
+      <div class="characteristics-list">
+        <label class="item-label">Район:</label>
+        <div class="characteristics-item">{{ currentCard.district }}</div>
+      </div>
+
+      <div class="characteristics-list">
+        <label class="item-label">Тварини:</label>
+        <div class="characteristics-item">{{ currentCard.desiredPrice }}</div>
+      </div>
+
+      <div class="characteristics-list">
+        <label class="item-label">Бажана ціна:</label>
+        <div class="characteristics-item">{{ currentCard.animals }}</div>
       </div>
 
     </div>
 
-    <div class="card m-1 col-lg-5 col-md-4 col-sm-9 col-10">
-
-      <div class="characteristics">
-        <h5>Критерії пошуку</h5>
-
-        <div class="subscriber-list">
-          <div class="subscriber">{{ currentCard.subscriber }}</div>
-        </div>
-
-        <div class="characteristics-list">
-          <label class="item-label">Тип житла:</label>
-          <div class="characteristics-item">{{ currentCard.typeHousing }}</div>
-        </div>
-
-        <div class="characteristics-list">
-          <label class="item-label">Кількість кімнат:</label>
-          <div class="characteristics-item">{{ currentCard.numberRooms }}</div>
-        </div>
-
-        <div class="characteristics-list">
-          <label class="item-label">Місто:</label>
-          <div class="characteristics-item">{{ currentCard.city }}</div>
-        </div>
-
-        <div class="characteristics-list">
-          <label class="item-label">Район:</label>
-          <div class="characteristics-item">{{ currentCard.district }}</div>
-        </div>
-
-        <div class="characteristics-list">
-          <label class="item-label">Тварини:</label>
-          <div class="characteristics-item">{{ currentCard.desiredPrice }}</div>
-        </div>
-
-        <div class="characteristics-list">
-          <label class="item-label">Бажана ціна:</label>
-          <div class="characteristics-item">{{ currentCard.animals }}</div>
-        </div>
-
-      </div>
-
-      <div class="card-link">
-        <a [href]="currentCard.grantAccess" class="link"><span>{{ currentCard.grantAccessText }}</span><i
-            class="fa-solid fa-unlock-keyhole"></i></a>
-        <a [href]="currentCard.createDeal" class="link"><span>{{ currentCard.createDealText }}</span><i
-            class="fa-solid fa-file-contract"></i></a>
-      </div>
-
+    <div class="card-link">
+      <a [href]="currentCard.grantAccess" class="link"><span>{{ currentCard.grantAccessText }}</span><i
+          class="fa-solid fa-unlock-keyhole"></i></a>
+      <a [href]="currentCard.createDeal" class="link"><span>{{ currentCard.createDealText }}</span><i
+          class="fa-solid fa-file-contract"></i></a>
     </div>
-
-    <button class="next col-md-1 col-sm-2 col-0" (click)="onNextCard()">
-      <div class="next-arrow-top"></div>
-      <div class="next-arrow-bottom"></div>
-    </button>
 
   </div>
 
 </div>
-
-<app-footer></app-footer>
