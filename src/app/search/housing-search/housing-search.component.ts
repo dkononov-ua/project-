@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../filter.service';
+import { Map, TileLayer, Marker, LatLng } from 'leaflet';
 
 interface FlatInfo {
   region: string;
@@ -66,6 +67,7 @@ interface FlatInfo {
 
 export class HousingSearchComponent implements OnInit {
 
+
   private filterSubscription: Subscription | undefined;
   flatInfo: FlatInfo[] = [];
   filteredFlats: FlatInfo[] | undefined;
@@ -117,6 +119,16 @@ export class HousingSearchComponent implements OnInit {
     });
 
     this.locationLink = this.generateLocationUrl();
+
+    const map = new Map('mapContainer').setView(new LatLng(51.505, -0.09), 13);
+
+    new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    new Marker([51.5, -0.09]).addTo(map)
+      .bindPopup('Hello, World!')
+      .openPopup();
   }
 
   private updateCardPhotos(): void {
@@ -165,7 +177,6 @@ export class HousingSearchComponent implements OnInit {
       this.locationLink = this.generateLocationUrl();
     }, 100);
   }
-
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
@@ -300,5 +311,7 @@ export class HousingSearchComponent implements OnInit {
       (firstSlideIndicator as HTMLButtonElement).click();
     }
   }
+
+
 
 }

@@ -3,7 +3,7 @@
 </div>
 
 <div class="container-card" (click)="handleContainerClick($event)">
-  <div class="section col-lg-6 col-md-9 col-sm-12 col-12">
+  <div class="section col-lg-4 col-md-9 col-sm-12 col-12">
     <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredFlats">
 
       <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
@@ -13,9 +13,9 @@
           <div class="card-img-container">
             <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
           </div>
-          <div class="card-title p-3">
-            <div class="title price_m">{{ flat.price_m }} грн/міс</div>
-            <div class="title">{{ flat.street }}</div>
+          <div class="card-title">
+            <div class="accent">{{ flat.price_m }} грн/міс</div>
+            <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
             <div class="title">{{ flat.city }}</div>
             <div class="title">{{ flat.area }} м²</div>
           </div>
@@ -28,92 +28,139 @@
     </div>
   </div>
 
-  <div class="section col-lg-4 col-md-9 col-sm-12 col-12">
-    <div [@cardAnimation] class="card-container-house m-1" *ngIf="selectedFlat">
-      <div class="card card-selected" id="carouselContainer">
+  <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
+    <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
+      <div [@cardAnimation] class="card-container-house p-1" *ngIf="selectedFlat">
+        <div class="card card-selected" id="carouselContainer">
 
-        <div class="carousel slide" id="carouselExampleIndicators" data-bs-interval="false">
-          <div class="carousel-indicators">
-            <button type="button" *ngFor="let photo of currentFlatPhotos; let i = index"
-              data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i"
-              [ngClass]="{ 'active': i === currentPhotoIndex }" [attr.aria-label]="'Slide ' + (i + 1)"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="img-wrapper">
-                <img [src]="getDefaultImage(currentFlatPhotos[0])" alt="Flat Image" class="img-fluid rounded"
-                  (click)="openFullScreenImage(getDefaultImage(currentFlatPhotos[0]))">
+          <div class="carousel slide" id="carouselExampleIndicators" data-bs-interval="false">
+            <div class="carousel-indicators">
+              <button type="button" *ngFor="let photo of currentFlatPhotos; let i = index"
+                data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i"
+                [ngClass]="{ 'active': i === currentPhotoIndex }" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="img-wrapper">
+                  <img [src]="getDefaultImage(currentFlatPhotos[0])" alt="Flat Image" class="img-fluid rounded"
+                    (click)="openFullScreenImage(getDefaultImage(currentFlatPhotos[0]))">
+                </div>
+              </div>
+              <div class="carousel-item" *ngFor="let photo of currentFlatPhotos?.slice(1)">
+                <div class="img-wrapper">
+                  <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded"
+                    (click)="openFullScreenImage(getImageUrl(photo))">
+                </div>
               </div>
             </div>
-            <div class="carousel-item" *ngFor="let photo of currentFlatPhotos?.slice(1)">
-              <div class="img-wrapper">
-                <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded"
-                  (click)="openFullScreenImage(getImageUrl(photo))">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+          <div class="card-btn-container">
+
+            <div class="item-box m-1">
+              <button mat-raised-button class="prev card link" (click)="onPrevCard()">
+                <div class="prev-arrow-top"></div>
+                <div class="prev-arrow-bottom"></div>
+              </button>
+              <div>
+                <p>Попередня</p>
               </div>
             </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
 
-        <div class="card-btn-container">
-
-          <div class="item-box m-1">
-            <button mat-raised-button class="prev card link" (click)="onPrevCard()">
-              <div class="prev-arrow-top"></div>
-              <div class="prev-arrow-bottom"></div>
-            </button>
-            <div>
-              <p>Попередня</p>
+            <div class="item-box">
+              <button class="btn-sbs card link"><i class="fas fa-heart" aria-hidden="true"></i></button>
+              <div>
+                <p>Підписатись</p>
+              </div>
             </div>
-          </div>
 
-          <div class="item-box">
-            <button class="btn-sbs card link"><i class="fas fa-heart" aria-hidden="true"></i></button>
-            <div>
-              <p>Підписатись</p>
+            <div class="item-box m-1">
+              <button mat-raised-button class="next card link" (click)="onNextCard()">
+                <div class="next-arrow-top"></div>
+                <div class="next-arrow-bottom"></div>
+              </button>
+              <div>
+                <p>Наступна</p>
+              </div>
             </div>
+
           </div>
 
-          <div class="item-box m-1">
-            <button mat-raised-button class="next card link" (click)="onNextCard()">
-              <div class="next-arrow-top"></div>
-              <div class="next-arrow-bottom"></div>
-            </button>
-            <div>
-              <p>Наступна</p>
+          <div class="card-text p-2">
+
+            <div class="title-group">
+              <div class="title-selected">Область : </div>
+              <div class="title-selected-accent">{{ selectedFlat?.region || 'Немає інформації' }}</div>
             </div>
+
+            <div class="title-group">
+              <div class="title-selected">Місто : </div>
+              <div class="title-selected-accent">{{ selectedFlat?.city || 'Немає інформації' }}</div>
+            </div>
+
+            <div class="title-group">
+              <div class="title-selected">Вулиця : </div>
+              <div class="title-selected-accent">{{ selectedFlat?.street || 'Немає інформації' }}</div>
+            </div>
+
+            <div class="title-group">
+              <div class="title-selected">Номер будинку : </div>
+              <div class="title-selected-accent">{{ selectedFlat?.houseNumber || 'Немає інформації' }}</div>
+            </div>
+
+            <div class="title-group">
+              <div class="title-selected">Площа оселі : </div>
+              <div class="title-selected-accent">{{ selectedFlat?.area || 'Немає інформації' }} м²</div>
+            </div>
+
+            <div class="title-group price">
+              <div class="price_m title-selected-accent ">{{ selectedFlat?.price_m || 'Не вказано' }}</div>
+              <div class="title-selected">грн/міс</div>
+            </div>
+
           </div>
 
-        </div>
-
-        <div class="card-text p-2">
-          <a class="location" [href]="locationLink" target="_blank"><span
-              class="material-symbols-outlined">location_on</span><br>Вулиця: {{ selectedFlat?.street }},
-            {{selectedFlat?.houseNumber }}</a>
-          <h4>Місто: {{ selectedFlat?.city }}</h4>
-          <p>Область: {{ selectedFlat?.region }}</p>
-          <p>{{ selectedFlat?.about }}</p>
-          <ul>
-            <li>Кімнат: {{ selectedFlat?.rooms }}</li>
-            <li>Площа: {{ selectedFlat?.area }} м²</li>
-            <li>Статус ремонту: {{ selectedFlat?.repair_status }}</li>
-            <li>Ціна: {{ selectedFlat?.price || 'Немає інформації' }}</li>
-          </ul>
         </div>
 
       </div>
+    </div>
 
+    <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
+      <div [@cardAnimation] class="card-container-house p-1" *ngIf="selectedFlat">
+        <div class="card card-selected">
+
+          <div class="card-text p-2">
+            <div class="title-group">
+              <div class="title-selected">Опис оселі : {{ selectedFlat?.about || 'Немає інформації' }} </div>
+            </div>
+
+            <a class="location" [href]="locationLink" target="_blank"><span
+                class="material-symbols-outlined">location_on</span><br>Вулиця: {{ selectedFlat?.street }},
+              {{selectedFlat?.houseNumber }}
+            </a>
+
+            <div id="mapContainer"></div>
+
+
+            <div id="map" style="height: 400px;"></div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   </div>
+
 </div>
 
 <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
