@@ -152,17 +152,20 @@ export class HousingSearchComponent implements OnInit {
     this.selectedFlat = this.filteredFlats![0];
     this.selectedFlat = flat;
 
-    this.updateSelectedFlatPhotos();
-    this.updateCurrentPhotoIndex(0);
+    setTimeout(() => {
+      this.updateSelectedFlatPhotos();
+      this.updateCurrentPhotoIndex(0);
 
-    this.currentFlatPhotos = [...this.selectedFlatPhotos];
-    this.selectedFlatRegion = flat.region || '';
-    this.selectedFlatCity = flat.city || '';
-    this.selectedFlatStreet = flat.street || '';
-    this.selectedFlatHouseNumber = flat.houseNumber || '';
-    this.selectedFlatFlatIndex = flat.flat_index || '';
-    this.locationLink = this.generateLocationUrl();
+      this.currentFlatPhotos = [...this.selectedFlatPhotos];
+      this.selectedFlatRegion = flat.region || '';
+      this.selectedFlatCity = flat.city || '';
+      this.selectedFlatStreet = flat.street || '';
+      this.selectedFlatHouseNumber = flat.houseNumber || '';
+      this.selectedFlatFlatIndex = flat.flat_index || '';
+      this.locationLink = this.generateLocationUrl();
+    }, 100);
   }
+
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
@@ -206,11 +209,11 @@ export class HousingSearchComponent implements OnInit {
     if (!this.isCarouselAnimating) {
       this.isCarouselAnimating = true;
       this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
-      this.updateSelectedFlat();
-      this.updateCurrentPhotoIndex(0);
-      this.currentFlatPhotos = [...this.selectedFlatPhotos];
 
       setTimeout(() => {
+        this.updateSelectedFlat();
+        this.updateCurrentPhotoIndex(0);
+        this.currentFlatPhotos = [...this.selectedFlatPhotos];
         this.isCarouselAnimating = false;
       }, 100);
     }
@@ -220,15 +223,16 @@ export class HousingSearchComponent implements OnInit {
     if (!this.isCarouselAnimating) {
       this.isCarouselAnimating = true;
       this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
-      this.updateSelectedFlat();
-      this.updateCurrentPhotoIndex(0);
-      this.currentFlatPhotos = [...this.selectedFlatPhotos];
 
       setTimeout(() => {
+        this.updateSelectedFlat();
+        this.updateCurrentPhotoIndex(0);
+        this.currentFlatPhotos = [...this.selectedFlatPhotos];
         this.isCarouselAnimating = false;
       }, 100);
     }
   }
+
 
   private calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
@@ -280,4 +284,21 @@ export class HousingSearchComponent implements OnInit {
 
     return locationUrl;
   }
+
+  handleContainerClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const carouselElement = document.getElementById('carouselExampleIndicators');
+
+    if (!carouselElement?.contains(target)) {
+      this.resetCarousel();
+    }
+  }
+
+  resetCarousel() {
+    const firstSlideIndicator = document.querySelector('#carouselExampleIndicators .carousel-indicators button');
+    if (firstSlideIndicator) {
+      (firstSlideIndicator as HTMLButtonElement).click();
+    }
+  }
+
 }

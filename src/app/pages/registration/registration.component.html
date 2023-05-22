@@ -35,6 +35,14 @@
         <!-- Кнопка -->
         <button class="ghost-black" [disabled]="!registrationForm.valid">Зареєструватись</button>
       </form>
+      <div class="checkbox-box">
+        <input class="checkbox-item" type="checkbox" name="checkbox" id="checkbox">
+        <label>Погоджуюсь з угодою користувача</label>
+      </div>
+      <div class="nav-item mid">
+        <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user-licence'">Угода користувача</a>
+      </div>
+
       <span>або скористатися своїм обліковим записом</span>
       <div class="social-container">
         <a href="#"><i class="fab fa-brands fa-facebook-f"></i></a>

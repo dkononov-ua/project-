@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
-import { AgreementComponent } from './components/agreement/agreement.component';
+import { AgreementComponent } from './pages/agreement/agreement.component';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { CanActivateGuard } from './services/auth.guard';
 import { ModalComponent } from './pages/modal/modal.component';

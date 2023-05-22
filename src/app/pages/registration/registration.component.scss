@@ -17,6 +17,18 @@
   background-color: white;
 }
 
+.checkbox-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkbox-item {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;

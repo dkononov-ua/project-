@@ -15,7 +15,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
-import { AgreementComponent } from './components/agreement/agreement.component';
+import { AgreementComponent } from './pages/agreement/agreement.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
