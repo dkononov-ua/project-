@@ -27,7 +27,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppRoutingModule } from '../app-routing.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-
 @NgModule({
   declarations: [
     SearchTermComponent,

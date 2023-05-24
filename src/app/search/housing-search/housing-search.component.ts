@@ -1,11 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../filter.service';
-import { Map, TileLayer, Marker, LatLng } from 'leaflet';
+declare const L: any;
 
 interface FlatInfo {
   region: string;
@@ -65,7 +65,7 @@ interface FlatInfo {
   ]
 })
 
-export class HousingSearchComponent implements OnInit {
+export class HousingSearchComponent implements OnInit, AfterViewInit {
 
 
   private filterSubscription: Subscription | undefined;
@@ -120,15 +120,30 @@ export class HousingSearchComponent implements OnInit {
 
     this.locationLink = this.generateLocationUrl();
 
-    const map = new Map('mapContainer').setView(new LatLng(51.505, -0.09), 13);
+  }
 
-    new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
+  ngAfterViewInit(): void {
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    new Marker([51.5, -0.09]).addTo(map)
-      .bindPopup('Hello, World!')
-      .openPopup();
+    var marker: any;
+
+    function onMapClick(e: { latlng: { toString: () => string; }; }) {
+      if (marker) {
+        map.removeLayer(marker);
+      }
+
+      marker = L.marker(e.latlng).addTo(map)
+        .bindPopup('Selected Location: ' + e.latlng.toString())
+        .openPopup();
+    }
+
+    map.on('click', onMapClick);
+
   }
 
   private updateCardPhotos(): void {
@@ -244,7 +259,6 @@ export class HousingSearchComponent implements OnInit {
     }
   }
 
-
   private calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
     return (index + length) % length;
@@ -312,6 +326,22 @@ export class HousingSearchComponent implements OnInit {
     }
   }
 
-
-
+// підписка на оселю
+  onSubmitSbs(): void {
+    const selectedFlat = this.selectedFlat.flat_id;
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat};
+      console.log(JSON.parse(userJson))
+      console.log(selectedFlat)
+      this.http.post('http://localhost:3000/subs/subscribe', payload)
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
 }

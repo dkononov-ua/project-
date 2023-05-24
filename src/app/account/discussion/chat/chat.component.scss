@@ -11,35 +11,53 @@
   flex-wrap: wrap;
 }
 
+.card-group > .card:not(:last-child) {
+border-radius: 10px;
+}
+
+.card-group {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
 .card-wrapper {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   width: 95%;
-  height: 150px;
+  height: 200px;
   overflow: hidden;
   transition: all 0.3s ease;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.card-container::-webkit-scrollbar {
+  display: none;
+}
+
+.card-wrapper-group {
+  display: flex;
+  height: 130px;
+  justify-content: space-around;
 }
 
 .card-img-container {
+  width: 40%;
   position: relative;
-  width: 30%;
-  height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .card-body {
+  width: 60%;
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   align-items: stretch;
-}
-
-.card-img-container:hover,
-.card-img-container:focus {
-  width: 50%;
-  height: 100%;
 }
 
 h2 {
@@ -48,19 +66,22 @@ h2 {
 
 .card-img-top {
   height: 100%;
-  width: 100%;
+  width: 90%;
   object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
   transition: all 0.3s ease;
   clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
   background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+
+  &:hover {
+    transition: 0.5s;
+    width: 130%;
+    height: 100%;
+  }
 }
 
 .card-wrapper:hover,
 .card-wrapper:focus {
-  transform: scale(1.1);
+  transition: 1s;
 }
 
 .card-social-link {
@@ -72,7 +93,7 @@ h2 {
 }
 
 .card-title {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 a {
@@ -110,7 +131,6 @@ a {
     background-color: $color-white;
     filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
 
-
     .fa-solid,
     .fa-regular {
       color: rgb(59, 247, 2);
@@ -120,7 +140,7 @@ a {
   }
 }
 
-.btn-deleted{
+.btn-deleted {
   background-color: tomato;
   &:hover {
     transition: 0.4s;
@@ -183,4 +203,3 @@ mat-form-field {
 .btn {
   height: 35px;
 }
-

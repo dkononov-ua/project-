@@ -115,7 +115,7 @@
         <div class="group-item">
           <mat-form-field class="item-select m-1" appearance="fill" class="m-1">
             <mat-label>від</mat-label>
-            <mat-select [(ngModel)]="selectedMinArea" name="selectedMinArea" (ngModelChange)="onSubmit()">
+            <mat-select [(ngModel)]="area_of" name="area_of" (ngModelChange)="onSubmit()">
               <mat-option [value]="null">Неважливо</mat-option>
               <mat-option value="10">10м2</mat-option>
               <mat-option value="20">20м2</mat-option>
@@ -132,7 +132,7 @@
 
           <mat-form-field class="item-select m-1" appearance="fill" class="m-1">
             <mat-label>до</mat-label>
-            <mat-select [(ngModel)]="selectedMaxArea" name="selectedMaxArea" (ngModelChange)="onSubmit()">
+            <mat-select [(ngModel)]="area_to" name="area_to" (ngModelChange)="onSubmit()">
               <mat-option [value]="null">Неважливо</mat-option>
               <mat-option value="10">10м2</mat-option>
               <mat-option value="20">20м2</mat-option>
@@ -149,11 +149,11 @@
 
           <mat-form-field class="item-select m-1" appearance="fill">
             <mat-label>Кухня</mat-label>
-            <mat-select [(ngModel)]="selectedKitchen_area" name="selectedKitchen_area" (ngModelChange)="onSubmit()">
+            <mat-select [(ngModel)]="kitchen_area" name="kitchen_area" (ngModelChange)="onSubmit()">
               <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="1">до 10m2</mat-option>
-              <mat-option value="2">до 20m2</mat-option>
-              <mat-option value="3">до 30m2</mat-option>
+              <mat-option value="10">до 10m2</mat-option>
+              <mat-option value="20">до 20m2</mat-option>
+              <mat-option value="30">до 30m2</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -164,7 +164,7 @@
         <div class="group-item">
           <mat-form-field class="item-select m-1" appearance="fill" class="m-1">
             <mat-label>від</mat-label>
-            <mat-select [(ngModel)]="selectedMinRooms" name="selectedMinRooms" (ngModelChange)="onSubmit()">
+            <mat-select [(ngModel)]="rooms_of" name="rooms_of" (ngModelChange)="onSubmit()">
               <mat-option [value]="null">Неважливо</mat-option>
               <mat-option value="1">1</mat-option>
               <mat-option value="2">2</mat-option>
@@ -175,7 +175,7 @@
 
           <mat-form-field class="item-select m-1" appearance="fill" class="m-1">
             <mat-label>до</mat-label>
-            <mat-select [(ngModel)]="selectedMaxRooms"  name="selectedMaxRooms" (ngModelChange)="onSubmit()">
+            <mat-select [(ngModel)]="rooms_to"  name="rooms_to" (ngModelChange)="onSubmit()">
               <mat-option [value]="null">Неважливо</mat-option>
               <mat-option value="1">1</mat-option>
               <mat-option value="2">2</mat-option>
@@ -219,10 +219,10 @@
             <mat-label>Зупинки</mat-label>
             <mat-select [(ngModel)]="selectedDistance_stop" name="selectedDistance_stop" (ngModelChange)="onSubmit()">
               <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="2">до 100м</mat-option>
-              <mat-option value="3">до 300м</mat-option>
-              <mat-option value="3">до 500м</mat-option>
-              <mat-option value="3">до 1км</mat-option>
+              <mat-option value="100">до 100м</mat-option>
+              <mat-option value="300">до 300м</mat-option>
+              <mat-option value="500">до 500м</mat-option>
+              <mat-option value="1000">до 1км</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -230,11 +230,11 @@
             <mat-label>Метро</mat-label>
             <mat-select [(ngModel)]="selectedDistance_metro" name="selectedDistance_metro" (ngModelChange)="onSubmit()">
               <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="1">до 100м</mat-option>
-              <mat-option value="2">до 300м</mat-option>
-              <mat-option value="3">до 500м</mat-option>
-              <mat-option value="4">до 1км</mat-option>
-              <mat-option value="5">до 2км</mat-option>
+              <mat-option value="100">до 100м</mat-option>
+              <mat-option value="300">до 300м</mat-option>
+              <mat-option value="500">до 500м</mat-option>
+              <mat-option value="1000">до 1км</mat-option>
+              <mat-option value="2000">до 2км</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -258,10 +258,10 @@
             <mat-label>Маркет</mat-label>
             <mat-select [(ngModel)]="selectedDistance_shop" name="selectedDistance_shop" (ngModelChange)="onSubmit()">
               <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="2">до 100м</mat-option>
-              <mat-option value="3">до 300м</mat-option>
-              <mat-option value="3">до 500м</mat-option>
-              <mat-option value="3">до 1км</mat-option>
+              <mat-option value="100">до 100м</mat-option>
+              <mat-option value="300">до 300м</mat-option>
+              <mat-option value="500">до 500м</mat-option>
+              <mat-option value="1000">до 1км</mat-option>
             </mat-select>
           </mat-form-field>
 

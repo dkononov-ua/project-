@@ -1,0 +1,49 @@
+<div class="card-container p-2">
+  <h4>Знайти користувача:</h4>
+
+  <div class="inputbox">
+    <div class="item">
+      <mat-form-field appearance="outline">
+        <mat-label>Знайти користувача по id або імені</mat-label>
+        <input matInput type="text" [(ngModel)]="searchQuery" />
+      </mat-form-field>
+    </div>
+    <div class="box">
+      <button class="btn btn-menu m-1" (click)="addUserToHouse()">ЗНАЙТИ</button>
+      <button class="btn btn-menu m-1">ДОДАТИ</button>
+    </div>
+  </div>
+</div>
+
+<div class="card-container p-2">
+  <h4 class="m-2">Мешканці оселі:</h4>
+
+  <div class="card-group mb-4" *ngFor="let subscriber of subscribers">
+
+    <div class="card-wrapper card">
+      <div class="card-wrapper-group">
+        <div class="card-img-container">
+          <img class="card-img-top" [src]="subscriber.photoUrl" alt="Card image cap">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">{{subscriber.name}}</h2>
+          <div class="card-social-link">
+            <a href="{{ subscriber.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+            <a href="{{ subscriber.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+            <a href="{{ subscriber.viber }}"><i class="fab fa-brands fa-viber"></i></a>
+            <a href="{{ subscriber.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn m-1" (click)="approveSubscriber(subscriber)">УГОДА</button>
+        <button class="btn m-1" (click)="removeSubscriber(subscriber)"><i
+            class="fa-solid fa-message"></i></button>
+        <button class="btn m-1" (click)="removeSubscriber(subscriber)"><i
+            class="fa-solid fa-user-xmark"></i></button>
+      </div>
+    </div>
+
+  </div>
+</div>

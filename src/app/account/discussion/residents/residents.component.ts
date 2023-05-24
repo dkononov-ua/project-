@@ -13,21 +13,13 @@ interface Subscriber {
   viber: string;
   facebook: string;
 }
-@Component({
-  selector: 'app-access',
-  templateUrl: './access.component.html',
-  styleUrls: ['./access.component.scss'],
-  animations: [
-    trigger('cardAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateX(130%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ])
-  ]
-})
 
-export class AccessComponent implements OnInit{
+@Component({
+  selector: 'app-residents',
+  templateUrl: './residents.component.html',
+  styleUrls: ['./residents.component.scss']
+})
+export class ResidentsComponent implements OnInit {
   public showInput = false;
   public userId: string | undefined;
   searchQuery: string | undefined;

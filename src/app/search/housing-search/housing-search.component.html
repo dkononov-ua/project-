@@ -30,7 +30,7 @@
 
   <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-container-house p-1" *ngIf="selectedFlat">
+      <div [@cardAnimation] class="card-container-house p-1">
         <div class="card card-selected" id="carouselContainer">
 
           <div class="carousel slide" id="carouselExampleIndicators" data-bs-interval="false">
@@ -78,11 +78,12 @@
             </div>
 
             <div class="item-box">
-              <button class="btn-sbs card link"><i class="fas fa-heart" aria-hidden="true"></i></button>
+              <button class="btn-sbs card link" (click)="onSubmitSbs()"><i class="fa-regular fa-heart"></i></button>
               <div>
                 <p>Підписатись</p>
               </div>
             </div>
+
 
             <div class="item-box m-1">
               <button mat-raised-button class="next card link" (click)="onNextCard()">
@@ -123,8 +124,8 @@
               <div class="title-selected-accent">{{ selectedFlat?.area || 'Немає інформації' }} м²</div>
             </div>
 
-            <div class="title-group price">
-              <div class="price_m title-selected-accent ">{{ selectedFlat?.price_m || 'Не вказано' }}</div>
+            <div class="price">
+              <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || 'Не вказано' }}</div>
               <div class="title-selected">грн/міс</div>
             </div>
 
@@ -136,12 +137,14 @@
     </div>
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-container-house p-1" *ngIf="selectedFlat">
+      <div [@cardAnimation] class="card-container-house p-1">
+
         <div class="card card-selected">
+          <div class="map" id="map"></div>
 
           <div class="card-text p-2">
             <div class="title-group">
-              <div class="title-selected">Опис оселі : {{ selectedFlat?.about || 'Немає інформації' }} </div>
+              <div class="title-about">Опис оселі : {{ selectedFlat?.about || 'Немає інформації' }} </div>
             </div>
 
             <a class="location" [href]="locationLink" target="_blank"><span
@@ -149,10 +152,6 @@
               {{selectedFlat?.houseNumber }}
             </a>
 
-            <div id="mapContainer"></div>
-
-
-            <div id="map" style="height: 400px;"></div>
           </div>
 
         </div>
@@ -162,6 +161,7 @@
   </div>
 
 </div>
+
 
 <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
   <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">

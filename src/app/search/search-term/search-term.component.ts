@@ -13,14 +13,11 @@ interface SearchParams {
   country: string;
   region: string;
   city: string;
-  // rooms: number | string;
-
-  selectedMinRooms: number | string;
-  selectedMaxRooms: number | string;
-
+  rooms_of: number | string;
+  rooms_to: number | string;
   repair_status: string;
   area?: number | string;
-  selectedKitchen_area: string;
+  kitchen_area: string;
   selectedBalcony: number | string;
   selectedBunker: number | string;
   animals: number | string;
@@ -49,10 +46,11 @@ export class SearchTermComponent implements OnInit {
   man: boolean = false;
   family: boolean = false;
   selectedCity!: string;
-  selectedRooms!: number | any;
-  selectedMinArea!: number;
-  selectedMaxArea!: number;
-  selectedKitchen_area!: string;
+  rooms_of!: number | any;
+  rooms_to!: number | any;
+  area_of!: number;
+  area_to!: number;
+  kitchen_area!: string;
   selectedRegion!: string;
   selectedAnimals!: string;
   selectedDistance_metro!: string;
@@ -63,8 +61,6 @@ export class SearchTermComponent implements OnInit {
 
   selectedBunker!: number;
   selectedBalcony!: number;
-  selectedMinRooms!: number;
-  selectedMaxRooms!: number;
 
 
   flats: any[] | undefined;
@@ -113,11 +109,10 @@ export class SearchTermComponent implements OnInit {
   }
 
   onInputChange() {
-    clearTimeout(this.timer); // Скидання попереднього таймера
+    clearTimeout(this.timer);
 
-    // Встановлення нового таймера на 2 секунди
     this.timer = setTimeout(() => {
-      this.onSubmit(); // Виклик функції onSubmit після 2-секундної затримки
+      this.onSubmit();
     }, 2000);
   }
 
@@ -134,13 +129,12 @@ export class SearchTermComponent implements OnInit {
       price_to: this.price_to || '',
       region: this.selectedRegion || '',
       city: this.selectedCity || '',
-      // rooms: this.selectedRooms || '',
-      selectedMinRooms: this.selectedMinRooms || '',
-      selectedMaxRooms: this.selectedMaxRooms || '',
-      selectedMinArea: this.selectedMinArea || '',
-      selectedMaxArea: this.selectedMaxArea || '',
+      rooms_of: this.rooms_of || '',
+      rooms_to: this.rooms_to || '',
+      area_of: this.area_of || '',
+      area_to: this.area_to || '',
       repair_status: this.selectedRepair_status || '',
-      selectedKitchen_area: this.selectedKitchen_area || '',
+      kitchen_area: this.kitchen_area || '',
       animals: this.selectedAnimals || '',
       distance_metro: this.selectedDistance_metro || '',
       distance_stop: this.selectedDistance_stop || '',
@@ -156,14 +150,17 @@ export class SearchTermComponent implements OnInit {
       selectedBunker: this.selectedBunker || '',
     };
 
+    console.log(params)
+
     let searchParamsArr: string[] = [];
     this.addSelectedValue(searchParamsArr, 'Регіон', this.selectedRegion);
     this.addSelectedValue(searchParamsArr, 'Місто', this.selectedCity);
-    this.addSelectedValue(searchParamsArr, 'Кімнати', this.selectedRooms);
-    this.addSelectedValue(searchParamsArr, 'Площа', this.selectedMinArea);
-    this.addSelectedValue(searchParamsArr, 'Площа', this.selectedMaxArea);
+    this.addSelectedValue(searchParamsArr, 'Кімнати', this.rooms_of);
+    this.addSelectedValue(searchParamsArr, 'Кімнати', this.rooms_to);
+    this.addSelectedValue(searchParamsArr, 'Площа', this.area_of);
+    this.addSelectedValue(searchParamsArr, 'Площа', this.area_to);
     this.addSelectedValue(searchParamsArr, 'Ремонт', this.selectedRepair_status);
-    this.addSelectedValue(searchParamsArr, 'Кухня', this.selectedKitchen_area);
+    this.addSelectedValue(searchParamsArr, 'Кухня', this.kitchen_area);
     this.addSelectedValue(searchParamsArr, 'Балкон', this.selectedBalcony);
     this.addSelectedValue(searchParamsArr, 'Укриття', this.selectedBunker);
     this.addSelectedValue(searchParamsArr, 'Тварини', this.selectedAnimals);

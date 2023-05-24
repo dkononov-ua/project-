@@ -1,0 +1,295 @@
+@use "../../../style/presets/" as *;
+
+.card {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.container-card {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.card-container::-webkit-scrollbar {
+  display: none;
+}
+
+.card-container {
+  max-height: 60vh;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 95%;
+  height: 150px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-img-container {
+  position: relative;
+  width: 30%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-img-container:hover,
+.card-img-container:focus {
+  width: 50%;
+  height: 100%;
+}
+
+h2 {
+  justify-content: center;
+}
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s ease;
+  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.card-wrapper:hover,
+.card-wrapper:focus {
+  transform: scale(1.1);
+}
+
+.card-social-link {
+  font-size: 20px;
+  display: flex;
+  width: 200px;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.card-title {
+  font-size: 20px;
+}
+
+a {
+  margin: 5px 15px;
+  padding: 0;
+}
+
+.fab {
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.fa-solid {
+  font-size: 20px;
+}
+
+.btn {
+  color: $color-text !important;
+  height: 35px;
+}
+
+.title-group {
+  display: flex;
+  border: 1px solid $color-primary;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-box {
+  display: flex;
+  align-items: stretch;
+}
+
+.card-name {
+  display: flex;
+}
+
+.btn-group {
+  display: flex;
+}
+.btn {
+  width: 100%;
+  margin: 5px 0 5px 0;
+  color: $color-light;
+  height: 45px;
+  font-size: 12px;
+}
+
+.info {
+  margin: 0;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text;
+  text-decoration: none;
+  border-radius: 50%;
+  background-color: $color-primary;
+  border: none;
+
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
+.text-info {
+  padding: 10px;
+  font-size: 0.8em;
+  color: $color-accent !important;
+}
+
+.form-select {
+  background-color: none;
+  &:hover {
+    background-color: $color-white;
+  }
+}
+
+.inputbox {
+  position: relative;
+  display: flex;
+  margin: 1em 5px 1em 5px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.inputbox .orange {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: $color-accent;
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.inputbox input {
+  position: relative;
+  width: 100%;
+  padding: 5px 5px 5px 5px;
+  margin: 0.2em 0.2em 0.2em 0.2em;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: white;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  z-index: 10;
+}
+
+.inputbox span {
+  position: absolute;
+  right: 0;
+  padding: 10px 10px 10px;
+  font-size: 1em;
+  color: #8f8f8f87;
+  letter-spacing: 00.05em;
+  transition: 0.6s;
+  pointer-events: none;
+}
+
+.inputbox input:valid ~ span,
+.inputbox input:focus ~ span {
+  color: white;
+  transform: translateX(-10px) translateY(-2.2rem);
+  font-size: 0, 75em;
+}
+
+.inputbox .orange {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: $color-accent;
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.inputbox input:valid ~ .orange,
+.inputbox input:focus ~ .orange {
+  height: 2.5rem;
+}
+
+select {
+  font-size: 16px;
+  padding: 5px;
+  color: $color-accent;
+  background: $color-primary;
+  border: 1px groove $color-accent;
+  border-radius: 10px;
+}
+
+.card-body-cast {
+  background: none;
+}
+
+.input-cast {
+  font-size: 16px;
+  color: $color-accent;
+  background: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px groove $color-accent;
+  &:focus-visible {
+    border: 2px groove $color-accent;
+  }
+}
+

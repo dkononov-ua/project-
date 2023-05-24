@@ -81,10 +81,10 @@ export class ParametersComponent implements OnInit {
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
-    1: 'до 100м',
-    2: 'до 300м',
-    3: 'до 500м',
-    4: 'до 1км',
+    100: 'до 100м',
+    300: 'до 300м',
+    500: 'до 500м',
+    1000: 'до 1км',
     5: 'на території',
   }
 

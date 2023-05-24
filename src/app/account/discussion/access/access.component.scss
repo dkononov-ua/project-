@@ -1,0 +1,301 @@
+@use "../../../style/presets/" as *;
+
+.card {
+  margin: 0;
+  padding: 0;
+}
+
+.card-container {
+  display: flex;
+}
+
+.card-container {
+  width: 100%;
+  max-height: 80vh;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.card-group > .card:not(:last-child) {
+border-radius: 10px;
+}
+
+.card-box {
+  height: 80vh;
+  overflow: auto;
+
+}
+
+.card-group {
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-wrapper {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.card-box::-webkit-scrollbar {
+  display: none;
+}
+
+.card-group>.card:not(:first-child) {
+  border-radius: 10px;
+}
+
+.img-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.card-wrapper-group {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-img-container {
+  height: 200px;
+  width: 80%;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+h2 {
+  justify-content: center;
+}
+
+.card-img-top {
+  height: 100%;
+  overflow: hidden;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+
+  &:hover {
+    transition: 0.5s;
+    overflow: hidden;
+    transform: scale(1.4);
+  }
+}
+
+.card-wrapper:hover,
+.card-wrapper:focus {
+  transition: 1s;
+}
+
+.link {
+  margin: 2px;
+  border: 1px solid $color-primary;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.card-social-link {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 20px;
+}
+
+a {
+  margin: 5px 15px;
+  padding: 0;
+}
+
+.fab {
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.btn-create {
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background-color: tomato;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-deleted {
+  background-color: tomato;
+  &:hover {
+    transition: 0.4s;
+    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgba(255, 0, 0, 0.733);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.inputbox {
+  width: 100%;
+  position: relative;
+  display: flex;
+  margin: 1.2rem 5px 1.5rem 5px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-content: center;
+  align-items: stretch;
+}
+
+mat-form-field {
+  width: 90%;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-menu {
+  width: 100%;
+}
+
+.fa-solid {
+  font-size: 20px;
+}
+
+.btn {
+  height: 35px;
+}
+
+.chat-container {
+  width: 100%;
+  display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-messages {
+  padding: 10px;
+  background-color: #fff;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.message-content {
+  flex: 1;
+}
+
+
+p {
+  margin: 0;
+  font-size: 12px;
+  color: #333;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+

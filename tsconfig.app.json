@@ -4,8 +4,12 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [
-      "@angular/localize"
-    ]
+      "@angular/localize",
+      "googlemaps"
+    ],
+    "paths": {
+      "leaflet": ["node_modules/leaflet/dist/leaflet.js"]
+    }
   },
   "files": [
     "src/main.ts"
@@ -14,3 +18,4 @@
     "src/**/*.d.ts"
   ]
 }
+
