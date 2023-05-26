@@ -29,6 +29,7 @@ import { CardsComponent } from './user/cards/cards.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { ChatComponent } from './discussion/chat/chat.component';
 import { ResidentsComponent } from './discussion/residents/residents.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [

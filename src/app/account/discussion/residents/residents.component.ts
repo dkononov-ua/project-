@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { animate, style, transition, trigger } from '@angular/animations';
-
 
 interface Subscriber {
   id: number;
@@ -20,6 +17,20 @@ interface Subscriber {
   styleUrls: ['./residents.component.scss']
 })
 export class ResidentsComponent implements OnInit {
+// Компонент
+isChatClosed: boolean = true;
+isAccessClosed: boolean = true;
+
+  // Компонент
+  toggleChat() {
+    this.isChatClosed = !this.isChatClosed;
+  }
+
+  toggleAccess() {
+    this.isAccessClosed = !this.isAccessClosed;
+  }
+
+
   public showInput = false;
   public userId: string | undefined;
   searchQuery: string | undefined;

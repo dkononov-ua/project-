@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { SubsCountService } from 'src/app/services/subs-count.service';
 
 
 interface Subscriber {
@@ -23,10 +24,14 @@ export class DiscussionComponent implements OnInit {
   public showInput = false;
   public userId: string | undefined;
   searchQuery: string | undefined;
+  subscribersCount: number = 0;
 
-  constructor() { }
+  constructor( private SubsCountService: SubsCountService ) { }
 
   ngOnInit(): void {
+    this.SubsCountService.subscribersCount$.subscribe(count => {
+      this.subscribersCount = count;
+    });
   }
 
   public addUserToHouse(): void {

@@ -35,7 +35,6 @@ export class AccountNavComponent implements OnInit {
 
     ngOnInit(): void {
       this.dataService.getData().subscribe((data: any) => {
-        console.log(data);
       });
 
       const houseJson = localStorage.getItem('house');
@@ -64,8 +63,6 @@ export class AccountNavComponent implements OnInit {
 
         this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
           if (selectedFlatId) {
-            console.log(localStorage.getItem('house'))
-            console.log('Ви вибрали оселю з ID:', selectedFlatId);
             localStorage.removeItem('house');
             localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
 

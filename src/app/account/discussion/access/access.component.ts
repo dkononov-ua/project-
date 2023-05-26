@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { animate, style, transition, trigger } from '@angular/animations';
-
 
 interface Subscriber {
   id: number;
@@ -17,14 +14,6 @@ interface Subscriber {
   selector: 'app-access',
   templateUrl: './access.component.html',
   styleUrls: ['./access.component.scss'],
-  animations: [
-    trigger('cardAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateX(130%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ])
-  ]
 })
 
 export class AccessComponent implements OnInit{
@@ -40,9 +29,6 @@ export class AccessComponent implements OnInit{
   searchQuery: string | undefined;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   public addUserToHouse(): void {
     // Додати код для додавання користувача до оселі за допомогою userId
@@ -81,4 +67,38 @@ export class AccessComponent implements OnInit{
   removeSubscriber(subscriber: Subscriber): void {
     // Code to remove subscriber
   }
+
+
+  ngOnInit(): void {
+  //   console.log('Пройшла перевірка користувача');
+  //   const userJson = localStorage.getItem('user');
+  //   const houseJson = localStorage.getItem('house');
+  //   if (userJson !== null) {
+  //     if (houseJson !== null) {
+  //       this.dataService.getData().subscribe((response: any) => {
+  //         if (response.houseData) {
+  //           this.user.firstName = response.userData.inf.firstName;
+  //           this.about.bunker = response.houseData.about.bunker;
+
+  //           if (response.houseData.imgs !== 'Картинок нема') {
+  //             this.flatImg = response.houseData.imgs;
+  //           }
+
+  //           if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
+  //             for (const img of this.flatImg) {
+  //               this.images.push('http://localhost:3000/img/flat/' + img.img);
+  //             }
+  //           } else {
+  //             this.images.push('http://localhost:3000/housing_default.svg');
+  //           }
+
+  //         } else {
+  //           console.error('houseData field is missing from server response');
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
+
+}
 }

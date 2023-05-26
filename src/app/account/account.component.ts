@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../services/data.service';
+import { SelectedFlatService } from '../services/selected-flat.service';
 
 @Component({
   selector: 'app-account',
@@ -31,7 +32,7 @@ export class AccountComponent implements OnInit {
       house: new FormControl('виберіть оселю')
     });
 
-    constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService) { }
+    constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private selectedFlatService: SelectedFlatService) { }
 
     ngOnInit(): void {
       this.dataService.getData().subscribe((data: any) => {
@@ -64,8 +65,6 @@ export class AccountComponent implements OnInit {
 
         this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
           if (selectedFlatId) {
-            console.log(localStorage.getItem('house'))
-            console.log('Ви вибрали оселю з ID:', selectedFlatId);
             localStorage.removeItem('house');
             localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
 
@@ -82,7 +81,7 @@ export class AccountComponent implements OnInit {
                   console.error(error);
                 }
               );
-            this.selectedFlatId = selectedFlatId;
+            this.selectedFlatService.setSelectedFlatId(selectedFlatId);
           } else {
             console.log('Нічого не вибрано');
           }
