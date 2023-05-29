@@ -17,6 +17,7 @@ import { CardsComponent } from './user/cards/cards.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { ChatComponent } from './discussion/chat/chat.component';
 import { ResidentsComponent } from './discussion/residents/residents.component';
+import { InfoComponent } from './user/info/info.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
       {
         path: 'user', component: UserComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'contacts', pathMatch: 'full' },
+          { path: '', redirectTo: 'info', pathMatch: 'full' },
+          { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
           { path: 'files', component: FilesComponent, canActivate: [CanActivateGuard] },
           { path: 'contacts', component: ContactsComponent, canActivate: [CanActivateGuard] },
           { path: 'cards', component: CardsComponent, canActivate: [CanActivateGuard] },
@@ -53,7 +55,7 @@ const routes: Routes = [
           { path: 'chat', component: ChatComponent, canActivate: [CanActivateGuard] },
           { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
         ],
-      }
+      },
     ],
   }
 ];

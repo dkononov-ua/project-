@@ -126,7 +126,6 @@ export class HouseComponent implements OnInit {
     constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
     ngOnInit(): void {
-      console.log('Пройшла перевірка користувача');
       const userJson = localStorage.getItem('user');
       const houseJson = localStorage.getItem('house');
       if (userJson !== null) {

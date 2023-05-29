@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { SubsCountService } from 'src/app/services/subs-count.service';
 
 interface Subscriber {
   user_id: string;
@@ -25,11 +24,10 @@ export class SubscribersComponent implements OnInit {
 
   selectedFlatId: string | any;
 
-  constructor(private selectedFlatIdService: SelectedFlatService, private http: HttpClient, private SubsCountService: SubsCountService) { }
+  constructor(private selectedFlatIdService: SelectedFlatService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      console.log('Ви вибрали оселю з ID:', selectedFlatId);
       const offs = 0;
       this.getSubs(selectedFlatId, offs);
     });
@@ -41,7 +39,7 @@ export class SubscribersComponent implements OnInit {
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
-      offs: offs,
+      offs: 0,
     };
 
     try {
@@ -61,27 +59,25 @@ export class SubscribersComponent implements OnInit {
         };
       });
 
-      this.subscribers = [...this.subscribers, ...newSubscribers];
-      const subscribersCount = this.subscribers.length;
-      this.SubsCountService.setSubscribersCount(subscribersCount);
+      this.subscribers = newSubscribers;
     } catch (error) {
       console.error(error);
     }
 
     this.selectedFlatId = selectedFlatId;
   }
-  loadMoreSubs(): void {
-    const selectedFlatId = this.selectedFlatId;
-    const offs = this.subscribers.length;
-    this.getSubs(selectedFlatId, offs);
-  }
+
 
   approveSubscriber(subscriber: Subscriber): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      const data = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      console.log(data)
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: subscriber.user_id,
+      };
+      console.log(data);
       this.http.post('http://localhost:3000/subs/accept', data)
         .subscribe((response: any) => {
           console.log(response);

@@ -379,9 +379,9 @@ mat-form-field {
 .checkBox {
   display: block;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(255, 255, 255, 0);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0);
   border-radius: 10px;
   position: relative;
   overflow: hidden;
@@ -428,15 +428,14 @@ mat-form-field {
   border: 1px solid rgba(1, 19, 12, 0.2);
   border-radius: 10px;
   margin: 5px;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
 }
 
 .content-group {
   width: 100%;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
 }
 

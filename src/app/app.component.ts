@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    console.log('Пройшла перевірка користувача')
+    // console.log('Пройшла перевірка користувача')
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post('http://localhost:3000/auth', JSON.parse(userJson))
