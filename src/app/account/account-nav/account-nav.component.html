@@ -1,6 +1,13 @@
 <div class="btn-group">
-  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="ОСЕЛЯ" [routerLink]="'/house'"><i class="fa-solid fa-house-user fa-fade"></i></a>
-  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="КОРИСТУВАЧ" [routerLink]="'/user'"><i class="fa-regular fa-user fa-fade"></i></a>
+  <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="ОСЕЛЯ" [routerLink]="'/house'">
+    <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+  </a>
+
+  <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="КОРИСТУВАЧ" [routerLink]="'/user'">
+    <div class="img-fluid">
+      <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image" class="img-fluid rounded">
+    </div>
+  </a>
 </div>
 
 <mat-form-field class="list-form m-1" appearance="outline">
