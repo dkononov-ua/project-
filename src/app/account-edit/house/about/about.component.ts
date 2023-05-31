@@ -27,20 +27,20 @@ export class AboutComponent implements OnInit {
   textArea!: ElementRef;
 
   houseAbout = {
-    distance_metro: new FormControl({ value: '', disabled: true }),
-    distance_stops: new FormControl({ value: '', disabled: true }),
-    distance_shop: new FormControl({ value: '', disabled: true }),
-    distance_green: new FormControl({ value: '', disabled: true }),
-    distance_parking: new FormControl({ value: '', disabled: true }),
-    woman: new FormControl({ value: '', disabled: true }),
-    man: new FormControl({ value: '', disabled: true }),
-    family: new FormControl({ value: '', disabled: true }),
-    students: new FormControl({ value: '', disabled: true }),
-    animals: new FormControl({ value: '', disabled: true }),
-    price_m: new FormControl({ value: '', disabled: true }),
-    price_y: new FormControl({ value: '', disabled: true }),
-    about: new FormControl({ value: '', disabled: true }),
-    bunker: new FormControl({ value: '', disabled: true }),
+    distance_metro: new FormControl({ value: null, disabled: true }),
+    distance_stops: new FormControl({ value: null, disabled: true }),
+    distance_shop: new FormControl({ value: null, disabled: true }),
+    distance_green: new FormControl({ value: null, disabled: true }),
+    distance_parking: new FormControl({ value: null, disabled: true }),
+    woman: new FormControl({ value: null, disabled: true }),
+    man: new FormControl({ value: null, disabled: true }),
+    family: new FormControl({ value: null, disabled: true }),
+    students: new FormControl({ value: null, disabled: true }),
+    animals: new FormControl({ value: null, disabled: true }),
+    price_m: new FormControl({ value: null, disabled: true }),
+    price_y: new FormControl({ value: null, disabled: true }),
+    about: new FormControl({ value: null, disabled: true }),
+    bunker: new FormControl({ value: null, disabled: true }),
   };
 
   public selectedFlatId: any | null;

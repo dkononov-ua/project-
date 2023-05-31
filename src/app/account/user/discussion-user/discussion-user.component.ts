@@ -6,9 +6,9 @@ import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-house',
-  templateUrl: './house.component.html',
-  styleUrls: ['./house.component.scss'],
+  selector: 'app-discussion-user',
+  templateUrl: './discussion-user.component.html',
+  styleUrls: ['./discussion-user.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -18,7 +18,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ],
 })
-export class HouseComponent implements OnInit {
+export class DiscussionUserComponent implements OnInit {
 
   isOpen = true;
   isOnline = true;

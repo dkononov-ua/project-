@@ -1,9 +1,22 @@
-@use "../../style/presets/" as *;
+@use "../../../style/presets/" as *;
 
 .container-box {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+
+.container-card {
+  min-height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.card-container::-webkit-scrollbar {
+  display: none;
 }
 
 .card {
@@ -22,9 +35,10 @@
 }
 
 .card-box {
+  width: 100%;
+
   display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
+  flex-direction: column;
 }
 
 .link {

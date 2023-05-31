@@ -57,9 +57,9 @@ export class ParametersComponent implements OnInit {
     rooms: '',
     area: '',
     kitchen_area: '',
-    repair_status: Number(''),
-    floor: '',
-    balcony: Number(''),
+    repair_status: '',
+    floor: Number(''),
+    balcony: '',
   };
 
   options: { [key: number]: string } = {
@@ -73,32 +73,21 @@ export class ParametersComponent implements OnInit {
     7: 'Лоджія',
     8: 'Тераса',
     9: 'Веранда',
-    10: 'Підземний паркінг',
-    11: 'Є повноцінне укриття в будинку',
-    12: 'Є укриття поряд з будинком',
-    13: 'Немає',
   }
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
-    100: 'до 100м',
-    300: 'до 300м',
-    500: 'до 500м',
-    1000: 'до 1км',
-    5: 'на території',
+    5: 'На території будинку',
+    100: '100м',
+    300: '300м',
+    500: '500м',
+    1000: '1км',
   }
 
   checkBox: { [key: number]: string } = {
     0: 'Вибір не зроблено',
     1: 'Так',
     2: 'Ні',
-  }
-
-  checkBoxAnimals: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Без тварин',
-    2: 'За попередньою домовленістю',
-    3: 'Можна з тваринами',
   }
 
   about = {
@@ -111,11 +100,11 @@ export class ParametersComponent implements OnInit {
     man: Number(''),
     family: Number(''),
     students: Number(''),
-    animals: Number(''),
+    animals: '',
     price_m: Number(''),
-    price_y: Number(''),
+    price_y: '',
     about: '',
-    bunker: Number(''),
+    bunker: '',
   };
 
   addressHouse: any;
@@ -130,6 +119,7 @@ export class ParametersComponent implements OnInit {
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
+          console.log(response)
           if (response.houseData) {
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;

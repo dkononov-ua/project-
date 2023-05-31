@@ -18,13 +18,14 @@ import { DiscussionComponent } from './discussion/discussion.component';
 import { ChatComponent } from './discussion/chat/chat.component';
 import { ResidentsComponent } from './discussion/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
+import { DiscussionUserComponent } from './user/discussion-user/discussion-user.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AccountComponent, canActivate: [CanActivateGuard],
     children: [
-      { path: '', redirectTo: 'house', pathMatch: 'full' },
+      { path: '', redirectTo: 'user', pathMatch: 'full' },
       {
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [
@@ -44,6 +45,7 @@ const routes: Routes = [
           { path: 'contacts', component: ContactsComponent, canActivate: [CanActivateGuard] },
           { path: 'cards', component: CardsComponent, canActivate: [CanActivateGuard] },
           { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [CanActivateGuard] },
+          { path: 'discussion-user', component: DiscussionUserComponent, canActivate: [CanActivateGuard] },
         ],
       },
       {

@@ -12,11 +12,11 @@
         <select class="form-select form-select-sm" aria-label=".form-select-sm example"
           formControlName="distance_metro">
           <option selected disabled>Метро</option>
+          <option value=0>Приховати</option>
           <option value="100">до 100м</option>
           <option value="300">до 300м</option>
           <option value="500">до 500м</option>
           <option value="1000">до 1км</option>
-          <option value="0">Можливо колись зроблять</option>
         </select>
       </div>
 
@@ -26,6 +26,7 @@
 
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="distance_stop">
           <option selected disabled>Зупинка транспорту</option>
+          <option value=0>Приховати</option>
           <option value="100">до 100м</option>
           <option value="300">до 300м</option>
           <option value="500">до 500м</option>
@@ -39,6 +40,7 @@
 
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="distance_shop">
           <option selected disabled>Продуктові магазини</option>
+          <option value=0>Приховати</option>
           <option value="100">до 100м</option>
           <option value="300">до 300м</option>
           <option value="500">до 500м</option>
@@ -53,6 +55,7 @@
         <select class="form-select form-select-sm" aria-label=".form-select-sm example"
           formControlName="distance_green">
           <option selected disabled>Парк, сквер</option>
+          <option value=0>Приховати</option>
           <option value="100">до 100м</option>
           <option value="300">до 300м</option>
           <option value="500">до 500м</option>
@@ -67,7 +70,8 @@
         <select class="form-select form-select-sm" aria-label=".form-select-sm example"
           formControlName="distance_parking">
           <option selected disabled>Паркінг</option>
-          <option value="5">на території</option>
+          <option value=0>Приховати</option>
+          <option value="5">На території</option>
           <option value="100">до 100м</option>
           <option value="300">до 300м</option>
           <option value="500">до 500м</option>
@@ -80,9 +84,10 @@
         <label for="">Дозвіл на тварин</label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="animals">
           <option selected disabled>Дозвіл на тварин</option>
-          <option value="1">Без тварин</option>
-          <option value="2">За попередньою домовленістю</option>
-          <option value="3">Можна з тваринами</option>
+          <option value=0>Приховати</option>
+          <option>Без тварин</option>
+          <option>За домовленістю</option>
+          <option>Дозволяю</option>
         </select>
       </div>
 
@@ -101,10 +106,11 @@
         <label for="">Наявність укриття</label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="bunker">
           <option selected disabled>Наявність укриття</option>
-          <option value="10">Підземний паркінг</option>
-          <option value="11">Є повноцінне укриття в будинку</option>
-          <option value="12">Є укриття поряд з будинком</option>
-          <option value="13">Немає</option>
+          <option>Приховати</option>
+          <option>Немає</option>
+          <option>Паркінг</option>
+          <option>В будинку</option>
+          <option>Поряд з будинком</option>
         </select>
       </div>
 

@@ -9,6 +9,7 @@
         <label for="">Кількість кімнат</label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="rooms" formControlName="rooms">
           <option selected disabled>Оберіть кількість кімнат</option>
+          <option value="0">Приховати</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -22,10 +23,11 @@
         <label for="">Стан квартири</label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="repair_status">
           <option selected disabled>Оберіть стан квартири</option>
-          <option value="1">Новий</option>
-          <option value="2">Добрий</option>
-          <option value="3">Задовільний</option>
-          <option value="4">Поганий</option>
+          <option>Приховати</option>
+          <option>Новий</option>
+          <option>Добрий</option>
+          <option>Задовільний</option>
+          <option>Поганий</option>
         </select>
         <div *ngIf="formErrors.repair_status" class="alert alert-danger">{{formErrors.repair_status}}</div>
       </div>
@@ -34,11 +36,12 @@
         <label for="">Наявність балкону і його тип</label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="balcony">
           <option selected disabled>Оберіть наявність балкону</option>
-          <option value="5">Класичний балкон</option>
-          <option value="6">Французький балкон</option>
-          <option value="7">Лоджія</option>
-          <option value="8">Тераса</option>
-          <option value="9">Веранда</option>
+          <option>Приховати</option>
+          <option>Класичний</option>
+          <option>Французький</option>
+          <option>Лоджія</option>
+          <option>Тераса</option>
+          <option>Веранда</option>
         </select>
         <div *ngIf="formErrors.balcony" class="alert alert-danger">{{formErrors.balcony}}</div>
       </div>

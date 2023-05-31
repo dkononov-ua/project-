@@ -30,6 +30,7 @@ import { DiscussionComponent } from './discussion/discussion.component';
 import { ChatComponent } from './discussion/chat/chat.component';
 import { ResidentsComponent } from './discussion/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
+import { DiscussionUserComponent } from './user/discussion-user/discussion-user.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { InfoComponent } from './user/info/info.component';
     ChatComponent,
     ResidentsComponent,
     InfoComponent,
+    DiscussionUserComponent,
   ],
   imports: [
     CommonModule,

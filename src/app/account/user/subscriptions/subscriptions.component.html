@@ -12,6 +12,8 @@
         <div class="card-body">
           <h2 class="card-title">ID Оселі: {{ subscriber.flat_id }} <br> {{ subscriber.price_m }} грн/міс</h2>
           <div class="btn-group">
+            <button class="btn m-1" (click)="goToFlatPage(subscriber.flat_id)">Детальніше</button>
+
             <button class="btn m-1"><i
                 class="fa-solid fa-user-xmark"></i></button>
           </div>
