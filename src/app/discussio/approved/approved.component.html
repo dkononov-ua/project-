@@ -1,0 +1,24 @@
+  <div class="section">
+    <div [@cardAnimation] class="card-container" cdkScrollable>
+
+      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
+        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
+        [style.animation-delay.ms]="i * 100">
+        <a class="card m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
+          <div class="card-img-container">
+            <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
+          </div>
+          <div class="card-title">
+            <div class="accent">{{ flat.price_m }} грн/міс</div>
+            <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
+            <div class="title">{{ flat.city }}</div>
+            <div class="title">{{ flat.area }} м²</div>
+          </div>
+        </a>
+      </div>
+      <button mat-icon-button class="btn-create" matTooltip="Завантажити ще" (click)="loadMore()">
+        <i class="fa-solid fa-arrow-down-short-wide"></i>
+      </button>
+
+    </div>
+  </div>

@@ -6,9 +6,9 @@ import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-discussion-user',
-  templateUrl: './discussion-user.component.html',
-  styleUrls: ['./discussion-user.component.scss'],
+  selector: 'app-house-discussio',
+  templateUrl: './house-discussio.component.html',
+  styleUrls: ['./house-discussio.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -18,7 +18,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ],
 })
-export class DiscussionUserComponent implements OnInit {
+export class HouseDiscussioComponent implements OnInit {
 
   isOpen = true;
   isOnline = true;
@@ -144,8 +144,6 @@ export class DiscussionUserComponent implements OnInit {
   addressHouse: any;
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
-  userImg: any;
-
 
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
@@ -166,12 +164,6 @@ export class DiscussionUserComponent implements OnInit {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
           if (response.houseData) {
-            this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-            .subscribe((response: any) => {
-              if (response.img && response.img.length > 0) {
-              this.userImg = response.img[0].img;
-            }});
-
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;
             this.user.surName = response.userData.inf.surName;
@@ -256,4 +248,5 @@ export class DiscussionUserComponent implements OnInit {
 
 
 }
+
 

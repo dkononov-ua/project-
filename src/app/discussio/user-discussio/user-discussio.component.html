@@ -1,0 +1,55 @@
+<div class="container-box">
+  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+    <div class="card m-2">
+      <div class="container-sticker">
+        <div class="status-container">
+          <a class="link status" [routerLinkActive]="'active'" [routerLink]="'/host-discussio/house-discussio'">
+            <div *ngIf="isOnline">До Оселі</div>
+          </a>
+          <div class="status online" *ngIf="isOnline">Online</div>
+          <div class="status offline" *ngIf="isOffline">Offline</div>
+        </div>
+      </div>
+
+      <div class="img-fluid">
+        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image">
+      </div>
+
+      <div class="item-wrapper p-3">
+        <p>Власник:</p>
+        <h2>{{ user.lastName }} {{ user.firstName }} {{ user.surName }}</h2>
+        <p>Телефон: {{ user.tell }}</p>
+        <p>Email для листування: {{ user.mail }}</p>
+        <div class="card-social-link">
+          <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+          <a href="{{ user.telegram }}"><i class="fa-brands fa-telegram"></i></a>
+          <a href="{{ user.viber }}"><i class="fa-brands fa-viber"></i></a>
+          <a href="{{ user.facebook }}"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+    <div class="card m-2">
+        <div class="chat-header">
+          <h3>Назва чату</h3>
+          <button class="btn m-1">Закрити</button>
+        </div>
+        <div class="chat-messages">
+          <div class="message">
+            <img class="avatar" src="../../../../assets/photo1.jpg" alt="Фото користувача">
+            <div class="message-content">
+              <h4>Ім'я користувача</h4>
+              <p>Текст повідомлення</p>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" placeholder="Напишіть повідомлення">
+          <button class="btn m-1">Надіслати</button>
+        </div>
+      </div>
+  </div>
+</div>

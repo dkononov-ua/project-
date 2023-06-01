@@ -5,26 +5,21 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
+
 @Component({
-  selector: 'app-discussion-user',
-  templateUrl: './discussion-user.component.html',
-  styleUrls: ['./discussion-user.component.scss'],
+  selector: 'app-more-info',
+  templateUrl: './more-info.component.html',
+  styleUrls: ['./more-info.component.scss'],
   animations: [
     trigger('cardAnimation', [
-      transition('void => *', [
+      transition(':enter', [
         style({ transform: 'translateX(130%)' }),
         animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ])
-  ],
+  ]
 })
-export class DiscussionUserComponent implements OnInit {
-
-  isOpen = true;
-  isOnline = true;
-  isOffline = false;
-  idleTimeout: any;
-  isCopied = false;
+export class MoreInfoComponent implements OnInit {
 
   user = {
     firstName: '',
@@ -62,9 +57,9 @@ export class DiscussionUserComponent implements OnInit {
     rooms: '',
     area: '',
     kitchen_area: '',
-    repair_status: Number(''),
-    floor: '',
-    balcony: Number(''),
+    repair_status: '',
+    floor: Number(''),
+    balcony: '',
   };
 
   options: { [key: number]: string } = {
@@ -78,32 +73,21 @@ export class DiscussionUserComponent implements OnInit {
     7: 'Лоджія',
     8: 'Тераса',
     9: 'Веранда',
-    10: 'Підземний паркінг',
-    11: 'Є повноцінне укриття в будинку',
-    12: 'Є укриття поряд з будинком',
-    13: 'Немає',
   }
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
-    1: 'до 100м',
-    2: 'до 300м',
-    3: 'до 500м',
-    4: 'до 1км',
-    5: 'на території',
+    5: 'На території будинку',
+    100: '100м',
+    300: '300м',
+    500: '500м',
+    1000: '1км',
   }
 
   checkBox: { [key: number]: string } = {
     0: 'Вибір не зроблено',
     1: 'Так',
     2: 'Ні',
-  }
-
-  checkBoxAnimals: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Без тварин',
-    2: 'За попередньою домовленістю',
-    3: 'Можна з тваринами',
   }
 
   about = {
@@ -116,62 +100,27 @@ export class DiscussionUserComponent implements OnInit {
     man: Number(''),
     family: Number(''),
     students: Number(''),
-    animals: Number(''),
+    animals: '',
     price_m: Number(''),
     price_y: '',
     about: '',
-    bunker: Number(''),
+    bunker: '',
   };
-
-  copyFlatId() {
-    const flatId = this.house.flat_id;
-
-    navigator.clipboard.writeText(flatId)
-      .then(() => {
-        console.log('ID оселі скопійовано!');
-        this.isCopied = true;
-
-        setTimeout(() => {
-          this.isCopied = false;
-        }, 2000);
-      })
-      .catch((error) => {
-        console.log('Помилка при копіюванні ID оселі.');
-        this.isCopied = false;
-      });
-  }
 
   addressHouse: any;
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
-  userImg: any;
-
 
   constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
   ngOnInit(): void {
-
-    this.startIdleTimer();
-    document.addEventListener('click', () => {
-      if (this.isOnline) {
-        clearTimeout(this.idleTimeout);
-        this.startIdleTimer();
-      }
-    });
-
-
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
+          console.log(response)
           if (response.houseData) {
-            this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-            .subscribe((response: any) => {
-              if (response.img && response.img.length > 0) {
-              this.userImg = response.img[0].img;
-            }});
-
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;
             this.user.surName = response.userData.inf.surName;
@@ -241,19 +190,6 @@ export class DiscussionUserComponent implements OnInit {
       }
     }
   }
-
-  resetOnlineStatus(): void {
-    clearTimeout(this.idleTimeout);
-    this.startIdleTimer();
-  }
-
-  startIdleTimer(): void {
-    this.idleTimeout = setTimeout(() => {
-      this.isOnline = false;
-      this.isOffline = true;
-    }, 5 * 60 * 1000); // 5 хвилин * 60 секунд * 1000 мілісекунд
-  }
-
 
 }
 
