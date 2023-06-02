@@ -1,24 +1,23 @@
-  <div class="section">
-    <div [@cardAnimation] class="card-container" cdkScrollable>
-
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
-        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
-        [style.animation-delay.ms]="i * 100">
-        <a class="card m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
-          <div class="card-img-container">
-            <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
-          </div>
-          <div class="card-title">
-            <div class="accent">{{ flat.price_m }} грн/міс</div>
-            <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
-            <div class="title">{{ flat.city }}</div>
-            <div class="title">{{ flat.area }} м²</div>
-          </div>
-        </a>
+  <div class="card-box">
+    <div class="card-container p-4">
+      <div class="mb-2">
+        <p>Кількість підписок: {{ subscriptions.length }}</p>
       </div>
-      <button mat-icon-button class="btn-create" matTooltip="Завантажити ще" (click)="loadMore()">
-        <i class="fa-solid fa-arrow-down-short-wide"></i>
-      </button>
+      <div class="card-wrapper card mb-4" *ngFor="let subscriber of subscriptions">
+        <div class="card-img-container">
+          <img class="card-img-top" [src]="'http://localhost:3000/img/flat/' + subscriber.flatImg[0]" alt="Flat Image">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">ID Оселі: {{ subscriber.flat_id }} <br> {{ subscriber.price_m }} грн/міс</h2>
+          <div class="btn-group">
+            <button class="btn m-1" (click)="goToFlatPage(subscriber.flat_id)">Детальніше</button>
 
+            <button class="btn m-1"><i
+                class="fa-solid fa-user-xmark"></i></button>
+          </div>
+        </div>
+
+      </div>
+      <button class="link-btn btn m-1">Наступні</button>
     </div>
   </div>
