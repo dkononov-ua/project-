@@ -84,6 +84,7 @@ export class AccountNavComponent implements OnInit {
       if (selectedFlatId) {
         localStorage.removeItem('house');
         localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
+        console.log(selectedFlatId)
 
         this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson!), flat_id: selectedFlatId })
           .subscribe(

@@ -63,29 +63,29 @@ export class AccountComponent implements OnInit {
             }
           );
 
-        // this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
-        //   if (selectedFlatId) {
-        //     localStorage.removeItem('house');
-        //     localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
+        this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
+          if (selectedFlatId) {
+            localStorage.removeItem('house');
+            localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
 
-        //     this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
-        //       .subscribe(
-        //         (response: any) => {
-        //           if (response !== null) {
-        //             this.addressHouse = this.fb.group({
-        //               flat_id: [response.flat.flat_id],
-        //             });
-        //           }
-        //         },
-        //         (error: any) => {
-        //           console.error(error);
-        //         }
-        //       );
-        //     this.selectedFlatService.setSelectedFlatId(selectedFlatId);
-        //   } else {
-        //     console.log('Нічого не вибрано');
-        //   }
-        // });
+            this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
+              .subscribe(
+                (response: any) => {
+                  if (response !== null) {
+                    this.addressHouse = this.fb.group({
+                      flat_id: [response.flat.flat_id],
+                    });
+                  }
+                },
+                (error: any) => {
+                  console.error(error);
+                }
+              );
+            this.selectedFlatService.setSelectedFlatId(selectedFlatId);
+          } else {
+            console.log('Нічого не вибрано');
+          }
+        });
       } else {
         console.log('user not found');
       }

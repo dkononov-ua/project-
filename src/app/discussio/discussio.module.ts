@@ -19,6 +19,14 @@ import { ApprovedComponent } from './approved/approved.component';
 import { UserChatComponent } from './user-discussio/user-chat/user-chat.component';
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
 import { MoreInfoComponent } from './house-discussio/more-info/more-info.component';
+import { ChoseSubscribeService } from './chose-subscribe.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -30,27 +38,29 @@ import { MoreInfoComponent } from './house-discussio/more-info/more-info.compone
     HouseDiscussioComponent,
     MoreInfoComponent
   ],
+  providers: [ChoseSubscribeService],
   imports: [
     CommonModule,
     DiscussioRoutingModule,
-    CommonModule,
-    AccountRoutingModule,
     SharedModule,
     MatSelectModule,
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
     AccountRoutingModule,
-    MatListModule,
     ReactiveFormsModule,
     FormsModule,
-    MatSelectModule,
     MatListModule,
-    MatButtonModule,
-    MatCardModule,
     MatTooltipModule,
-    MatInputModule,
     MatIconModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    NgbModule,
+    DragDropModule,
+    HttpClientModule,
+    RouterModule,
+    MatInputModule,
+    MatSnackBarModule,
   ]
 })
 export class DiscussioModule { }

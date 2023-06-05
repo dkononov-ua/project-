@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { ChoseSubscribeService } from '../../chose-subscribe.service';
 
 
 @Component({
@@ -111,15 +112,25 @@ export class MoreInfoComponent implements OnInit {
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService,
+    private dataService: DataService,
+    private choseSubscribeService: ChoseSubscribeService
+  ) { }
 
   ngOnInit(): void {
+    const selectedFlatId = this.choseSubscribeService.chosenFlatId;
+    if (selectedFlatId !== undefined) {
+      // Тут ви можете використовувати значення selectedFlatId
+    }
+
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
-          console.log(response)
           if (response.houseData) {
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;

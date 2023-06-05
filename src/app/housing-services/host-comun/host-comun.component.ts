@@ -26,7 +26,6 @@ export class HostComunComponent implements OnInit {
     "Інтернет та телебачення"
   ];
 
-
   public selectedComunal: any | null;
   public selectedFlatId: any | null;
   public comunal_name!: string | any;

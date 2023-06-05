@@ -39,14 +39,15 @@ export class SubscribersComponent implements OnInit {
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
-      offs: 0,
+      offs: offs,
     };
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
 
-      const newSubscribers = response.map((item: any) => {
-        return {
+      const newSubscribers: Subscriber[] = response
+        .filter(item => item !== null)
+        .map((item: any) => ({
           user_id: item.user_id,
           firstName: item.firstName,
           lastName: item.lastName,
@@ -56,8 +57,7 @@ export class SubscribersComponent implements OnInit {
           telegram: item.telegram,
           viber: item.viber,
           facebook: item.facebook
-        };
-      });
+        }));
 
       this.subscribers = newSubscribers;
     } catch (error) {
@@ -67,11 +67,10 @@ export class SubscribersComponent implements OnInit {
     this.selectedFlatId = selectedFlatId;
   }
 
-
   approveSubscriber(subscriber: Subscriber): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && subscriber) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
@@ -85,13 +84,13 @@ export class SubscribersComponent implements OnInit {
           console.error(error);
         });
     } else {
-      console.log('user not found');
+      console.log('user or subscriber not found');
     }
   }
 
   removeSubscriber(subscriber: Subscriber): void {
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && subscriber) {
       const data = { auth: JSON.parse(userJson), subscriber_id: subscriber.user_id };
       console.log(data)
       this.http.post('http://localhost:3000/subs/delete/subs', data)
@@ -105,8 +104,7 @@ export class SubscribersComponent implements OnInit {
           }
         );
     } else {
-      console.log('user not found');
+      console.log('user or subscriber not found');
     }
   }
-
 }

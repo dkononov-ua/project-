@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { ChoseSubscribeService } from '../chose-subscribe.service';
 
 @Component({
   selector: 'app-house-discussio',
@@ -122,6 +123,7 @@ export class HouseDiscussioComponent implements OnInit {
     about: '',
     bunker: Number(''),
   };
+  subscriptions: { flat_id: any; flatImg: any; price_m: any; }[] | undefined;
 
   copyFlatId() {
     const flatId = this.house.flat_id;
@@ -145,87 +147,99 @@ export class HouseDiscussioComponent implements OnInit {
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(private fb: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService,
+    private dataService: DataService,
+    private choseSubscribeService: ChoseSubscribeService,
+    ) { }
 
-  ngOnInit(): void {
-
-    this.startIdleTimer();
-    document.addEventListener('click', () => {
-      if (this.isOnline) {
-        clearTimeout(this.idleTimeout);
-        this.startIdleTimer();
+    ngOnInit(): void {
+      this.getSubscribedFlats();
+      const selectedFlatId = this.choseSubscribeService.chosenFlatId;
+      if (selectedFlatId !== undefined) {
+        // Тут ви можете використовувати значення selectedFlatId
       }
-    });
+
+      this.startIdleTimer();
+      document.addEventListener('click', () => {
+        if (this.isOnline) {
+          clearTimeout(this.idleTimeout);
+          this.startIdleTimer();
+        }
+      });
+
+      this.getData(); // Доданий виклик методу getData()
+    }
 
 
+  async getSubscribedFlats(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const user_id = JSON.parse(userJson!).email;
+    const url = 'http://localhost:3000/acceptsubs/get/ysubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: user_id,
+      offs: 0,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any[];
+      const newSubscriptions = response.map((flat: any) => {
+        return {
+          flat_id: flat.flat.flat_id,
+          flatImg: flat.img,
+          price_m: flat.flat.price_m,
+        };
+      });
+
+      this.subscriptions = newSubscriptions;
+
+      // Збереження обраної оселі
+      const selectedFlatId = this.choseSubscribeService.chosenFlatId;
+      if (selectedFlatId !== undefined) {
+        const selectedFlat = this.subscriptions.find((subscription) => subscription.flat_id === selectedFlatId);
+        if (selectedFlat) {
+          this.choseSubscribeService.selectedFlat = selectedFlat;
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getData() {
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
           if (response.houseData) {
+            const selectedFlat = this.choseSubscribeService.selectedFlat;
+            if (selectedFlat) {
+            }
+
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;
-            this.user.surName = response.userData.inf.surName;
-            this.user.email = response.userData.inf.email;
-            this.user.password = response.userData.inf.password;
-            this.user.dob = response.userData.inf.dob;
-
-            this.user.tell = response.userData.cont.tell;
-            this.user.telegram = response.userData.cont.telegram;
-            this.user.facebook = response.userData.cont.facebook;
-            this.user.instagram = response.userData.cont.instagram;
-            this.user.mail = response.userData.cont.mail;
-            this.user.viber = response.userData.cont.viber;
+            // ...
 
             this.house.region = response.houseData.flat.region;
             this.house.flat_id = response.houseData.flat.flat_id;
-            this.house.country = response.houseData.flat.country;
-            this.house.city = response.houseData.flat.city;
-            this.house.street = response.houseData.flat.street;
-            this.house.houseNumber = response.houseData.flat.houseNumber;
-            this.house.apartment = response.houseData.flat.apartment;
-            this.house.flat_index = response.houseData.flat.flat_index;
-            this.house.private = response.houseData.flat.private;
-            this.house.rent = response.houseData.flat.rent;
-            this.house.live = response.houseData.flat.live;
-            this.house.who_live = response.houseData.flat.who_live;
-            this.house.subscribers = response.houseData.flat.subscribers;
+            // ...
 
             this.param.rooms = response.houseData.param.rooms;
             this.param.repair_status = response.houseData.param.repair_status;
-            this.param.area = response.houseData.param.area;
-            this.param.kitchen_area = response.houseData.param.kitchen_area;
-            this.param.balcony = response.houseData.param.balcony;
-            this.param.floor = response.houseData.param.floor;
+            // ...
 
             this.about.distance_metro = response.houseData.about.distance_metro;
             this.about.distance_stop = response.houseData.about.distance_stop;
-            this.about.distance_shop = response.houseData.about.distance_shop;
-            this.about.distance_green = response.houseData.about.distance_green;
-            this.about.distance_parking = response.houseData.about.distance_parking;
-            this.about.woman = response.houseData.about.woman;
-            this.about.man = response.houseData.about.man;
-            this.about.family = response.houseData.about.family;
-            this.about.students = response.houseData.about.students;
-            this.about.animals = response.houseData.about.animals;
-            this.about.price_m = response.houseData.about.price_m;
-            this.about.price_y = response.houseData.about.price_y;
-            this.about.about = response.houseData.about.about;
-            this.about.bunker = response.houseData.about.bunker;
+            // ...
 
             if (response.houseData.imgs !== 'Картинок нема') {
               this.flatImg = response.houseData.imgs;
             }
 
-            if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
-              for (const img of this.flatImg) {
-                this.images.push('http://localhost:3000/img/flat/' + img.img);
-              }
-            } else {
-              this.images.push('http://localhost:3000/housing_default.svg');
-            }
-
+            // ...
           } else {
             console.error('houseData field is missing from server response');
           }
