@@ -1,0 +1,70 @@
+<div class="container-dis">
+
+  <div class="container-box">
+
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
+        <div class="container-sticker">
+          <div class="status-container">
+            <div class="status online" *ngIf="isOnline">Online</div>
+            <div class="status offline" *ngIf="isOffline">Offline</div>
+          </div>
+        </div>
+        <div class="img-fluid">
+          <img [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo || 'user_default.svg')" alt="User Image">
+        </div>
+
+
+        <div class="item-wrapper p-2">
+          <p>ID Користувача: {{ selectedSubscriber?.user_id }}</p>
+          <h2>{{ selectedSubscriber?.lastName }} {{ selectedSubscriber?.firstName }}  {{ selectedSubscriber?.surName }}</h2>
+          <div class="card-social-link">
+            <a *ngIf="selectedSubscriber?.instagram" [href]="'selectedSubscriber?.instagram'">
+              <i class="fab fa-brands fa-instagram"></i>
+            </a>
+            <a *ngIf="selectedSubscriber?.telegram" [href]="'selectedSubscriber?.telegram'">
+              <i class="fab fa-brands fa-telegram"></i>
+            </a>
+            <a *ngIf="selectedSubscriber?.viber" [href]="'selectedSubscriber?.viber'">
+              <i class="fab fa-brands fa-viber"></i>
+            </a>
+            <a *ngIf="selectedSubscriber?.facebook" [href]="'selectedSubscriber?.facebook'">
+              <i class="fab fa-brands fa-facebook"></i>
+            </a>
+          </div>
+          <div class="card-body">
+            <div class="card-links">
+              <a href="#" class="card-link"><span>Запросити Документи</span><i class="fa-solid fa-passport"></i></a>
+              <a href="#" class="card-link"><span>Запросити реквізити</span><i
+                  class="fa-solid fa-money-bill-trend-up"></i></a>
+              <a href="#" class="card-link"><span>Сформувати угоду</span><i class="fa-solid fa-file-contract"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
+        <div class="chat-header">
+          <h3>Назва чату</h3>
+          <button class="btn m-1">Закрити</button>
+        </div>
+        <div class="chat-messages">
+          <div class="message">
+            <img class="avatar" src="../../../../assets/photo1.jpg" alt="Фото користувача">
+            <div class="message-content">
+              <h4>Ім'я користувача</h4>
+              <p>Текст повідомлення</p>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" placeholder="Напишіть повідомлення">
+          <button class="btn m-1">Надіслати</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

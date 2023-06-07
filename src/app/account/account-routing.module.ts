@@ -5,20 +5,15 @@ import { CanActivateGuard } from '../services/auth.guard';
 import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
 import { ParametersComponent } from './house/parameters/parameters.component';
-import { SubscribersComponent } from './discussion/subscribers/subscribers.component';
+import { SubscribersComponent } from './house/subscribers/subscribers.component';
 import { DocumentsComponent } from './house/documents/documents.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { FurnitureComponent } from './house/furniture/furniture.component';
-import { AccessComponent } from './discussion/access/access.component';
 import { FilesComponent } from './user/files/files.component';
 import { ContactsComponent } from './user/contacts/contacts.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
-import { CardsComponent } from './user/cards/cards.component';
-import { DiscussionComponent } from './discussion/discussion.component';
-import { ChatComponent } from './discussion/chat/chat.component';
-import { ResidentsComponent } from './discussion/residents/residents.component';
+import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
-import { DiscussionUserComponent } from './user/discussion-user/discussion-user.component';
 
 const routes: Routes = [
   {
@@ -26,6 +21,8 @@ const routes: Routes = [
     component: AccountComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'user', pathMatch: 'full' },
+      { path: 'subscribers', component: SubscribersComponent, canActivate: [CanActivateGuard] },
+      { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
       {
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [
@@ -43,19 +40,7 @@ const routes: Routes = [
           { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
           { path: 'files', component: FilesComponent, canActivate: [CanActivateGuard] },
           { path: 'contacts', component: ContactsComponent, canActivate: [CanActivateGuard] },
-          { path: 'cards', component: CardsComponent, canActivate: [CanActivateGuard] },
           { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [CanActivateGuard] },
-          { path: 'discussion-user', component: DiscussionUserComponent, canActivate: [CanActivateGuard] },
-        ],
-      },
-      {
-        path: 'discussion', component: DiscussionComponent, canActivate: [CanActivateGuard],
-        children: [
-          { path: '', redirectTo: 'residents', pathMatch: 'full' },
-          { path: 'access', component: AccessComponent, canActivate: [CanActivateGuard] },
-          { path: 'subscribers', component: SubscribersComponent, canActivate: [CanActivateGuard] },
-          { path: 'chat', component: ChatComponent, canActivate: [CanActivateGuard] },
-          { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
         ],
       },
     ],

@@ -29,7 +29,8 @@ const routes: Routes = [
   { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
   { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
   { path: 'search', component: SearchComponent, canActivate: [CanActivateGuard] },
-  { path: 'discussio', loadChildren: () => import('./discussio/discussio.module').then(m => m.DiscussioModule), },
+  { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), },
+  { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), },
 ];
 
 @NgModule({

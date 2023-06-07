@@ -17,6 +17,31 @@
   }
 }
 
+.btn-1 {
+  background-color: $color-accent;
+  border: none;
+  color: $color-text;
+  height: 35px;
+  border-radius: 10px;
+}
+
+.btn-1 {
+  background-color: $color-primary;
+  border: none;
+  color: $color-text;
+  height: 35px;
+  border-radius: 10px;
+
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
 .button-subscribe {
   display: flex;
   position: relative;

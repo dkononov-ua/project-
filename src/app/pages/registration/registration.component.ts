@@ -104,7 +104,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(formType: string): void {
-    let route = '/information-user';
+    let route = '/account';
 
     this.http.post('http://localhost:3000/login', this.loginForm.value)
       .subscribe((response: any) => {

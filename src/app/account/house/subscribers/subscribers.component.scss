@@ -3,7 +3,7 @@
 .container-card {
   min-height: 65vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
   flex-wrap: wrap;
 }
@@ -22,7 +22,6 @@
   max-height: 60vh;
   overflow-y: auto;
 }
-
 
 .card-container {
   width: 100%;
@@ -48,6 +47,7 @@
 }
 
 .card {
+  height: 150px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -63,10 +63,8 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
+  align-items: stretch;
+  justify-content: space-between;
 }
 
 .card-info {
@@ -135,13 +133,7 @@ a {
   }
 }
 
-.btn {
-  color: $color-text;
-  height: 35px;
-}
-
 .title-group {
-  width: 100%;
   display: flex;
   border: 1px solid $color-primary;
   border-radius: 10px;
@@ -179,7 +171,6 @@ a {
 }
 
 .text-info {
-  width: 100%;
   padding: 10px;
   font-size: 0.8em;
   color: $color-accent !important;
@@ -187,6 +178,10 @@ a {
 
 .btn-group {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: center;
+  justify-content: center;
 }
 
 .link-btn{
@@ -212,84 +207,3 @@ a {
     border-color: $color-accent;
   }
 }
-
-.card-wrapper.deleting {
-  animation-name: fadeOut;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    display: none;
-  }
-}
-
-.btn.active {
-  background-color: $color-accent;
-  color: white;
-}
-
-.btn-1 {
-  width: 70px;
-}
-
-.card.selected {
-  height: 300px;
-  border: 1px solid $color-accent;
-  box-shadow: 0 0 10px $color-accent;
-}
-
-.characteristics {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-}
-
-.characteristics-label {
-  font-size: 16px;
-}
-
-.characteristics-group {
-  display: flex;
-  align-content: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.item-characteristics {
-  font-size: 12px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 2px 5px;
-  background-color: $color-white;
-}
-
-.item-characteristics-price {
-  font-size: 14px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 5px;
-}
-
-.item {
-  font-size: 16px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 5px;
-}
-
-
-
-

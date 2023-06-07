@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../filter.service';
+import { Observable, Subject } from 'rxjs';
 declare const L: any;
 
 interface FlatInfo {
@@ -66,7 +67,12 @@ interface FlatInfo {
 })
 
 export class HousingSearchComponent implements OnInit, AfterViewInit {
+  isSubscribed: boolean = false;
 
+
+  showSubscriptionMessage: boolean = false;
+  subscriptionMessage: string | undefined;
+  subscriptionMessageTimeout: Subject<void> = new Subject<void>();
 
   private filterSubscription: Subscription | undefined;
   flatInfo: FlatInfo[] = [];
@@ -106,6 +112,12 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.subscriptionMessageTimeout.subscribe(() => {
+      setTimeout(() => {
+        this.subscriptionMessage = undefined; // Очищення повідомлення
+      }, 2000);
+    });
+
     this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
       const filterValue = this.filterService.getFilterValue();
       if (filterValue) {
@@ -326,17 +338,26 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
     }
   }
 
-// підписка на оселю
   onSubmitSbs(): void {
     const selectedFlat = this.selectedFlat.flat_id;
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat};
-      console.log(JSON.parse(userJson))
-      console.log(selectedFlat)
+      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
+      console.log(JSON.parse(userJson));
+      console.log(selectedFlat);
       this.http.post('http://localhost:3000/subs/subscribe', payload)
         .subscribe((response: any) => {
           console.log(response);
+          this.subscriptionMessage = response.status;
+          this.showSubscriptionMessage = true;
+          if (response.status === 'Ви успішно підписались') {
+            this.isSubscribed = true; // Встановлюємо isSubscribed на true, якщо користувач підписаний
+          } else if (response.status === 'Ви успішно відписались') {
+            this.isSubscribed = false; // Встановлюємо isSubscribed на false, якщо користувач відписаний
+          }
+          setTimeout(() => {
+            this.showSubscriptionMessage = false;
+          }, 2000);
         }, (error: any) => {
           console.error(error);
         });
@@ -344,4 +365,7 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
       console.log('user not found');
     }
   }
+
+
+
 }

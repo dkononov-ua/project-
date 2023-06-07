@@ -41,8 +41,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { SharedModule } from "./shared/shared.module";
 import { SearchRoutingModule } from './search/search-routing.module';
 import { SearchModule } from './search/search.module';
-import { DiscussioModule } from './discussio/discussio.module';
-import { DiscussioRoutingModule } from './discussio/discussio-routing.module';
+import { DiscussioRoutingModule } from './discussi/discussio-user/discussio-routing.module';
+import { DiscussioModule } from './discussi/discussio-user/discussio.module';
+import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
+import { DiscussioHouseModule } from './discussi/discussio-house/discussio-house.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,7 @@ import { DiscussioRoutingModule } from './discussio/discussio-routing.module';
     TestComponent,
     DeleteComunalComponent,
     DeleteDialogComponent,
-  ],
+   ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
@@ -102,6 +104,9 @@ import { DiscussioRoutingModule } from './discussio/discussio-routing.module';
 
     DiscussioModule,
     DiscussioRoutingModule,
+
+    DiscussioHouseModule,
+    DiscussioHouseRoutingModule
   ]
 })
 export class AppModule { }

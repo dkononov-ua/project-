@@ -62,66 +62,8 @@ export class AccountComponent implements OnInit {
               console.error(error);
             }
           );
-
-        this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
-          if (selectedFlatId) {
-            localStorage.removeItem('house');
-            localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
-
-            this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
-              .subscribe(
-                (response: any) => {
-                  if (response !== null) {
-                    this.addressHouse = this.fb.group({
-                      flat_id: [response.flat.flat_id],
-                    });
-                  }
-                },
-                (error: any) => {
-                  console.error(error);
-                }
-              );
-            this.selectedFlatService.setSelectedFlatId(selectedFlatId);
-          } else {
-            console.log('Нічого не вибрано');
-          }
-        });
       } else {
         console.log('user not found');
       }
     }
-
-    onSelectionChange() {
-      this.loading = true;
-
-      if (this.selectedFlatId) {
-        console.log('Ви вибрали оселю з ID:', this.selectedFlatId);
-        localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId }));
-
-        this.selectedFlatId = this.selectedFlatId;
-        const userJson = localStorage.getItem('user');
-        if (userJson) {
-          this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-            .subscribe(
-              (response: any) => {
-                if (response !== null) {
-                  this.addressHouse = this.fb.group({
-                    flat_id: [response.flat.flat_id],
-                  });
-                }
-              },
-              (error: any) => {
-                console.error(error);
-              }
-            );
-        } else {
-          console.log('user not found');
-        }
-
-      } else {
-        console.log('Нічого не вибрано');
-      }
-
-      location.reload();
-    }
-  }
+}

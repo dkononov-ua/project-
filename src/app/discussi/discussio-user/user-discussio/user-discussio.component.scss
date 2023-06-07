@@ -1,0 +1,506 @@
+@use "../../../style/presets/" as *;
+
+.container-dis {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.container-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.card {
+  min-height: 60vh;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.item-wrapper,
+.content-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.carousel {
+  width: 100%;
+  position: relative;
+}
+
+.fa-solid {
+  color: $color-primary;
+  font-size: 25px;
+}
+
+.fab {
+  font-size: 20px;
+}
+
+.carousel-inner {
+  border-radius: 10px;
+}
+
+.price-box {
+  margin-right: 30px;
+  width: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.card-social-link {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.characteristics {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.img-fluid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+img {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
+}
+
+.card-menu {
+  color: rgba(18, 17, 17, 0.8078431373);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.navbar-house {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.link-text {
+  font-size: $font-size;
+  font-family: $font-main;
+}
+
+.chat-header.link-menu {
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(1.1);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+    span {
+      transition: 0.4s;
+      transform: translate(20px) scale(1.1);
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transform: translate(10px) scale(1.1);
+      transition: 0.4s;
+    }
+  }
+}
+
+.chat-container {
+  width: 100%;
+  display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-messages {
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+input {
+  height: 100px;
+}
+
+.message-content {
+  flex: 1;
+}
+
+.chat-input {
+  display: flex;
+  align-items: stretch;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  flex-direction: column;
+}
+
+.container-sticker.input[type="text"] {
+  font-size: 12px;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.container-sticker {
+  z-index: 9999;
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  top: -26px;
+  right: 10px;
+}
+
+.status-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.status {
+  padding: 5px 10px;
+  background-color: $color-accent;
+  margin: 0 3px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.25), 2px 2px 10px rgba(0, 0, 0, 0.22);
+}
+
+.link {
+  background-color: $color-dark;
+  transition: 1s;
+
+  &:hover {
+    color: $color-accent;
+    background-color: $color-dark;
+    transition: transform 1s;
+    transform: scale(1.2);
+
+    span {
+      transition: transform 1s;
+      transform: translate(20px) scale(1.1);
+    }
+
+    .fa-solid,
+    .fa-regular,
+    .fa-brands {
+      color: $color-accent;
+      transform: translate(10px) scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.container-slider {
+  max-width: fit-content;
+}
+
+.btn {
+  color: $color-text;
+  background-color: $color-white;
+  padding: 10px 20px;
+  margin: 5px;
+  &:hover {
+    background-color: $color-accent;
+    color: $color-white;
+  }
+}
+
+a.link {
+  position: relative;
+}
+
+a {
+  padding: 10px;
+  margin: 10px;
+}
+
+.characteristics-label {
+  font-size: 16px;
+}
+
+.item-characteristics {
+  font-size: 12px;
+  font-weight: 400;
+  margin: 2px;
+  border-radius: 10px;
+  padding: 2px 5px;
+  background-color: $color-primary;
+}
+
+.item-characteristics-price {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 2px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.item {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 2px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.about {
+  font-size: 13px;
+}
+
+mat-raised-button {
+  background-color: none;
+}
+
+.copy {
+  width: 20px;
+  height: 20px;
+  background-color: $color-white;
+  border: none;
+}
+
+.message {
+  position: absolute;
+  z-index: 9999;
+  background-color: $color-white;
+  border-radius: 10px;
+  font-size: 15px;
+  padding: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.fa-copy {
+  color: $color-dark;
+  font-size: 20px;
+  &:hover {
+    transition: 1s;
+    color: $color-accent;
+    scale: 1.2;
+  }
+}
+
+.fa-solid {
+  color: $color-primary;
+  font-size: 25px;
+}
+
+.fab {
+  font-size: 25px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.offline {
+  background-color: $color-primary;
+}
+
+.rent-no {
+  background-color: $color-primary;
+}
+
+.characteristics-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.accent {
+  font-size: 16px;
+  color: $color-accent;
+  font-weight: 600;
+}
+
+.title-selected-accent {
+  font-size: 20px;
+  color: $color-accent;
+  font-weight: 600;
+}
+
+.card.selected {
+  color: white;
+  background-color: $color-dark;
+  transition: 1s;
+  height: 90%;
+  width: 90%;
+}
+
+.title-selected {
+  font-size: 18px;
+  color: $color-text;
+}
+
+.title-group {
+  display: flex;
+  border: 1px solid rgba(1, 19, 12, 0.2);
+  border-radius: 10px;
+  padding: 2px 10px;
+  margin: 2px;
+  justify-content: space-between;
+  align-items: baseline;
+  box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.25), 2px 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.copyFlatId {
+  font-size: 10px;
+}
+
+.item-price {
+  font-size: 35px;
+}
+
+.item-price-year {
+  font-size: 20px;
+}
+
+.btn-create {
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background-color: tomato;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.switch-box {
+  position: relative;
+  display: flex;
+  height: 50px;
+  align-content: center;
+  align-items: center;
+  margin-left: 10px;
+
+}
+
+.toggle-button {
+  border-radius: 10px;
+  width: 90px;
+  height: 30px;
+  display: flex;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.toggle-text {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.toggle-switch {
+  width: 40px;
+  height: 20px;
+  background-color: $color-accent;
+  border-radius: 10px;
+  position: absolute;
+  transition: transform 0.3s ease;
+  box-shadow: 10px 2px 5px rgba(0, 0, 0, 0.25), 10px 10px 5px rgba(0, 0, 0, 0.22);
+}
+
+.toggle-switch.enabled {
+  background-color: #4caf50;
+  transform: translateX(45px);
+  box-shadow: 10px 2px 5px rgba(0, 0, 0, 0.25), 10px 10px 5px rgba(0, 0, 0, 0.22);
+}
+
+.item-copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 15px;
+}
