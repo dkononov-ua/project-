@@ -2,9 +2,204 @@
 
 <div>
   <div class="container-fluid">
+
+    <div class="container-box">
+      <app-account-nav></app-account-nav>
+
+      <div class="btn-group">
+        <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user'">
+          <div class="img-fluid">
+            <img
+              [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo ? selectedSubscriber?.photo : 'user_default.svg')"
+              alt="User Image" class="img-fluid rounded">
+          </div>
+        </a>
+        <div class="group">
+          <ng-container *ngIf="subscribers.length > 0">
+            <mat-form-field class="list-form mb-3" appearance="outline">
+              <mat-label>Підписники</mat-label>
+              <mat-select class="list-select" [(value)]="selectedSubscriber"
+                (selectionChange)="onSelectionChange(selectedSubscriber)">
+                <mat-option disabled value="">Виберіть підписника</mat-option>
+                <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
+                  {{ subscriber.firstName }} {{ subscriber.lastName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" mask="00.00.0000" placeholder="Дата укладання угоди"
+              formControlName="dob" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-hint>Виберіть дату з календаря</mat-hint>
+          </mat-form-field>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container-box">
+      <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+        <div class="card m-2">
+
+          <div class="img-fluid">
+            <img
+              [src]="'http://localhost:3000/img/users/' + (userData.img[0].img ? userData.img[0].img : 'user_default.svg')"
+              alt="User Image">
+          </div>
+
+          <div class="item-wrapper p-3">
+
+            <h5>Сторона орендодавця П.І.Б</h5>
+            <h2>{{ userData.inf.lastName }}</h2>
+            <h2>{{ userData.inf.firstName }}</h2>
+            <h2>{{ userData.inf.surName }}</h2>
+            <p>іменований надалі "Орендодавець"</p>
+            <!-- <div class="input-group">
+              <mat-form-field appearance="outline" class="input-mat-5">
+                <mat-label>Свідоцтво власника Nо.</mat-label>
+                <input matInput type="text" name="certificate_number" placeholder="Свідоцтво власника Nо."
+                  class="form-control">
+              </mat-form-field>
+            </div> -->
+
+
+            <p>User ID орендодавця: {{ userData.inf.user_id }}</p>
+            <p>Телефон: {{ userData.inf.tell }}</p>
+            <p>Email: {{ userData.inf.mail }}</p>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+        <div class="card m-2">
+          <div class="img-fluid">
+            <img
+              [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo ? selectedSubscriber?.photo : 'user_default.svg')"
+              alt="User Image">
+          </div>
+          <div class="item-wrapper p-3">
+            <h5>Сторона орендара П.І.Б</h5>
+
+            <h2>{{ selectedSubscriber?.lastName }}</h2>
+            <h2>{{ selectedSubscriber?.firstName }}</h2>
+            <h2>{{ selectedSubscriber?.surName }}</h2>
+            <p>іменований надалі "Орендар"</p>
+
+            <p>User ID орендара: {{ selectedSubscriber?.user_id }}</p>
+            <p>Телефон: {{ selectedSubscriber?.tell }}</p>
+            <p>Email: {{ selectedSubscriber?.mail }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+        <div class="card m-2">
+
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="img-wrapper" *ngIf="houseData.imgs?.length > 0">
+                  <img [src]="'http://localhost:3000/img/flat/' + houseData.imgs[0].img" alt="Flat Image"
+                    class="img-fluid-2 rounded">
+                </div>
+              </div>
+              <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
+                <div class="img-wrapper">
+                  <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image"
+                    class="img-fluid-2 rounded">
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+          <div class="characteristics-group">
+            <div class="item-characteristics">ID оселі: <span class="item">{{ houseData.about.flat_id }}</span>
+            </div>
+
+            <div class="group-select p-2">
+              <p>Термін здачі в оренду</p>
+
+              <p>1. Предмет договору</p>
+              <p>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на</p>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <input matInput type="number" name="lease-term-months" placeholder="Місяці" min="1" max="12">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <input matInput type="number" name="lease-term-years" placeholder="Роки" min="1" max="10" step="1">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <mat-label for="apartment-size">Квартиру площею м²:</mat-label>
+                <input matInput type="text" id="apartment-size" name="apartment-address"
+                  [ngModel]="houseData.param.area ? houseData.param.area : ''" placeholder="м²">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-3">
+                <mat-label>Місто</mat-label>
+                <input matInput type="text" id="city" name="apartment-city"
+                  [ngModel]="houseData.flat.city ? houseData.flat.city : ''" placeholder="Місто">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-3">
+                <mat-label>Вулиця</mat-label>
+                <input matInput type="text" id="street" name="apartment-address"
+                  [ngModel]="houseData.flat.street ? houseData.flat.street : ''" placeholder="Вулиця">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <mat-label for="house-number">будинок:</mat-label>
+                <input matInput type="text" id="house-number" name="apartment-address"
+                  [ngModel]="houseData.flat.houseNumber ? houseData.flat.houseNumber : ''" placeholder="Номер будинку">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <mat-label for="apartment-number">квартира:</mat-label>
+                <input matInput type="text" id="apartment-number" name="apartment-address"
+                  [ngModel]="houseData.flat.apartment ? houseData.flat.apartment : ''" placeholder="Номер квартири">
+              </mat-form-field>
+              <p>1.2. За згодою сторін договором встановлюється плата за оренду квартири в розмірі</p>
+              <div class="input-group">
+                <mat-form-field appearance="outline" class="input-mat-4">
+                  <mat-label>Сума орендної плати на місяць</mat-label>
+                  <input matInput type="text" id="rent-price" name="apartment-address"
+                    [ngModel]="houseData.about.price_m ? houseData.about.price_m : ''"
+                    placeholder="сума орендної плати на місяць">
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
     <h1>Укладання угоди оренди житлового приміщення.</h1>
 
     <div class="container-fluid">
+
+
       <div class="form-check-inline">
         <div class="form-control">
           <h5>Місце укладання та дата</h5>
@@ -250,7 +445,8 @@
 
 
 
-        <button class="btn" type="submit"><a [routerLinkActive]="'active'" [routerLink]="'/payments'">Домовленість</a></button>
+        <button class="btn" type="submit"><a [routerLinkActive]="'active'"
+            [routerLink]="'/payments'">Домовленість</a></button>
 
 
       </fieldset>
@@ -261,4 +457,3 @@
   </div>
 
 </div>
-

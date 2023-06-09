@@ -89,8 +89,6 @@ export class AccountNavComponent implements OnInit {
                 this.selectHouse.setValue({ house: selectedFlatId });
               } else {
                 console.log('Selected house does not exist in the list of houses');
-                // Here you can handle the case where the selected house doesn't exist
-                // For example, you can reset the selected house or show an error message
               }
             } else if (this.houses.length > 0) {
               const firstHouse = this.houses[0].name;
@@ -179,10 +177,12 @@ export class AccountNavComponent implements OnInit {
 
       this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
 
+      setTimeout(() => {
+        location.reload();
+      }, 1300);
     } else {
       console.log('Нічого не вибрано');
     }
-
-    location.reload();
   }
+
 }

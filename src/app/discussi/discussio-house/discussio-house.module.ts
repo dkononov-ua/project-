@@ -21,7 +21,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRoutingModule } from 'src/app/account/account-routing.module';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ChoseSubscribeService } from '../discussio-user/chose-subscribe.service';
 import { ApprovedHComponent } from './approved-h/approved-h.component';
 import { HostDiscussioHComponent } from './host-discussio-h/host-discussio-h.component';
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
@@ -35,7 +34,6 @@ import { HouseDiscussioComponent } from './house-discussio/house-discussio.compo
   ],
   providers: [
     SelectedFlatService,
-    ChoseSubscribeService,
   ],
   imports: [
     CommonModule,

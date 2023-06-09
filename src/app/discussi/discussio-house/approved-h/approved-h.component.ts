@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { ChoseSubscribersService } from '../chose-subscribers.service';
+import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 
 interface Subscriber {
   user_id: string;

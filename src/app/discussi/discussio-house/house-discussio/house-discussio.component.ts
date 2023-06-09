@@ -2,7 +2,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { ChoseSubscribersService } from '../chose-subscribers.service';
+import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 
 interface Subscriber {
   user_id: string;
@@ -63,10 +63,7 @@ export class HouseDiscussioComponent implements OnInit {
       if (subscriberId) {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
-          // Виконайте додаткові дії з отриманим selectedSubscriber
           console.log(selectedSubscriber);
-          // Оновіть дані про обраного підписника в шаблоні
-          // Наприклад:
           this.selectedSubscriber = selectedSubscriber;
         }
       }
@@ -77,7 +74,6 @@ export class HouseDiscussioComponent implements OnInit {
   onSelectionChange(): void {
     this.selectedFlatIdService.setSelectedFlatId(this.selectedFlatId);
   }
-
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');

@@ -1,7 +1,8 @@
 <div class="container-box" (click)="resetOnlineStatus()">
 
-  <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
+  <div class="card-menu col-lg-3 col-md-5 col-sm-6 col-12">
     <div class="m-2">
+      <app-account-nav></app-account-nav>
       <app-house-nav></app-house-nav>
     </div>
   </div>
@@ -53,8 +54,11 @@
       </div>
 
       <div class="price-box">
-        <p class="item-price"><span class="item-characteristics-price">Ціна:</span> {{ about.price_m | number: '1.0-0' }}<sup>₴/міс</sup></p>
-        <p class="item-price-year" *ngIf="about.price_y !== '0.00' && about.price_y !== null"><span class="item-characteristics-price">Ціна за рік:</span> {{ about.price_y | number: '1.0-0' }}<sup>₴/рік</sup></p>
+        <p class="item-price"><span class="item-characteristics-price">Ціна:</span> {{ about.price_m | number: '1.0-0'
+          }}<sup>₴/міс</sup></p>
+        <p class="item-price-year" *ngIf="about.price_y !== '0.00' && about.price_y !== null"><span
+            class="item-characteristics-price">Ціна за рік:</span> {{ about.price_y | number: '1.0-0' }}<sup>₴/рік</sup>
+        </p>
       </div>
 
 
@@ -99,4 +103,5 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+  
 </div>

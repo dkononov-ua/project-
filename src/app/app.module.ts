@@ -46,6 +46,7 @@ import { DiscussioModule } from './discussi/discussio-user/discussio.module';
 import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
 import { DiscussioHouseModule } from './discussi/discussio-house/discussio-house.module';
 import { SelectedFlatService } from './services/selected-flat.service';
+import { ChoseSubscribersService } from './services/chose-subscribers.service';
 
 @NgModule({
   declarations: [

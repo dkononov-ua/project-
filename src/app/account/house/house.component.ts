@@ -15,6 +15,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
         style({ transform: 'translateX(130%)' }),
         animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ height: '0', overflow: 'hidden' }),
+        animate('1200ms 200ms ease-in-out', style({ height: '*' }))
+      ]),
     ])
   ],
 })
