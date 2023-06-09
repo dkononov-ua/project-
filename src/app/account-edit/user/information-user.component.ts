@@ -13,13 +13,16 @@ import { DataService } from '../../services/data.service';
 export class InformationUserComponent implements OnInit {
   loading = false;
 
+  showPassword = false;
+  isPasswordVisible = false;
+  passwordType = 'password';
+
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
       location.reload();
-    }, 2000);
+    }, 1000);
   }
-
 
   userForm!: FormGroup;
   userFormContacts!: FormGroup;
@@ -28,15 +31,13 @@ export class InformationUserComponent implements OnInit {
   selectedFlatId: any;
   userImg: any;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) {  }
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
 
   onUpload(): void {
-    this.loading = true;
-
     const userJson = localStorage.getItem('user');
 
     const formData: FormData = new FormData();
@@ -45,16 +46,16 @@ export class InformationUserComponent implements OnInit {
 
     const headers = { 'Accept': 'application/json' };
     this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
-      data => console.log(data),
+      (data: any) => {
+        this.userImg = data.imgUrl; // Припустимо, що сервер повертає URL завантаженого фото
+        setTimeout(() => {
+          this.reloadPageWithLoader();
+        },);
+      },
       error => console.log(error)
     );
-
-    location.reload();
   }
 
-  showPassword = false;
-  isPasswordVisible = false;
-  passwordType = 'password';
 
   togglePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
@@ -154,6 +155,9 @@ export class InformationUserComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    setTimeout(() => {
+      this.reloadPageWithLoader();
+    },);
   }
 
   private initializeForm(): void {

@@ -1,26 +1,28 @@
 @use "../../../style/presets/" as *;
 
-.container-card {
-  min-height: 65vh;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  flex-wrap: wrap;
+
+.card-box {
+  min-height: 50vh;
+  max-height: 60vh;
+  width: 100%;
+  overflow: auto;
 }
 
-.card-container::-webkit-scrollbar {
+.card-box::-webkit-scrollbar {
   display: none;
 }
 
 .card-container {
-  width: 100%;
-  overflow: auto;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0;
-  padding: 0;
+  width: 100%;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.accent {
+  color: $color-accent;
+  font-weight: 600;
 }
 
 .card-wrapper {
@@ -66,10 +68,6 @@
   justify-content: center;
 }
 
-.card-box {
-  display: flex;
-  align-items: stretch;
-}
 
 .card-name {
   display: flex;

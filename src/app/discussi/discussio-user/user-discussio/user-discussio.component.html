@@ -3,12 +3,13 @@
     <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
       <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
     </button>
-    <span class="toggle-text">{{ isFeatureEnabled ? 'Представник' : 'Оселя' }}</span>
+    <h3 class="switch-box-name">Discussio {{ isFeatureEnabled ? 'з представником оселі' : 'Інформація про оселю' }}</h3>
+
   </div>
 
   <div class="container-box">
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12"
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
       *ngIf="currentIndex === 2 || currentIndex === 3">
       <div class="card m-2">
 
@@ -38,7 +39,7 @@
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12"
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
       *ngIf="currentIndex === 2 || currentIndex === 3">
       <div class="card m-2">
         <div class="chat-header">
@@ -61,7 +62,7 @@
       </div>
     </div>
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12"
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
       *ngIf="currentIndex === 0 || currentIndex === 1">
       <div class="card m-2">
 
@@ -148,16 +149,17 @@
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12"
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
       *ngIf="currentIndex === 0 || currentIndex === 1">
       <div class="card m-2 p-2">
         <div class="container-sticker">
           <div class="status-container">
-            <span class="text" *ngIf="selectedFlat?.flat.family === 1 || selectedFlat?.flat.woman === 1 || selectedFlat?.flat.man === 1 || selectedFlat?.flat.students === 1">ПРІОРИТЕТНО</span>
-            <div class="status rent-yes" *ngIf="selectedFlat?.flat.woman === 1"  matTooltip="Жінки">W</div>
-            <div class="status rent-yes" *ngIf="selectedFlat?.flat.man === 1"  matTooltip="Чоловіки">M</div>
-            <div class="status rent-yes" *ngIf="selectedFlat?.flat.students === 1"  matTooltip="Студенти">S</div>
-            <div class="status rent-yes" *ngIf="selectedFlat?.flat.family === 1"  matTooltip="Сім'ї">F</div>
+            <span class="text"
+              *ngIf="selectedFlat?.flat.family === 1 || selectedFlat?.flat.woman === 1 || selectedFlat?.flat.man === 1 || selectedFlat?.flat.students === 1">ПРІОРИТЕТНО</span>
+            <div class="status rent-yes" *ngIf="selectedFlat?.flat.woman === 1" matTooltip="Жінки">W</div>
+            <div class="status rent-yes" *ngIf="selectedFlat?.flat.man === 1" matTooltip="Чоловіки">M</div>
+            <div class="status rent-yes" *ngIf="selectedFlat?.flat.students === 1" matTooltip="Студенти">S</div>
+            <div class="status rent-yes" *ngIf="selectedFlat?.flat.family === 1" matTooltip="Сім'ї">F</div>
           </div>
         </div>
 

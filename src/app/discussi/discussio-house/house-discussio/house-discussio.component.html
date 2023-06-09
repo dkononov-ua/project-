@@ -1,4 +1,8 @@
 <div class="container-dis">
+  <div class="page-name">
+    <app-housing-selection></app-housing-selection>
+    <h2>Discussio з орендарем</h2>
+  </div>
 
   <div class="container-box">
 
@@ -11,13 +15,15 @@
           </div>
         </div>
         <div class="img-fluid">
-          <img [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo || 'user_default.svg')" alt="User Image">
+          <img [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo || 'user_default.svg')"
+            alt="User Image">
         </div>
 
 
         <div class="item-wrapper p-2">
           <p>ID Користувача: {{ selectedSubscriber?.user_id }}</p>
-          <h2>{{ selectedSubscriber?.lastName }} {{ selectedSubscriber?.firstName }}  {{ selectedSubscriber?.surName }}</h2>
+          <h2>{{ selectedSubscriber?.lastName }} {{ selectedSubscriber?.firstName }} {{ selectedSubscriber?.surName }}
+          </h2>
           <div class="card-social-link">
             <a *ngIf="selectedSubscriber?.instagram" [href]="'selectedSubscriber?.instagram'">
               <i class="fab fa-brands fa-instagram"></i>
@@ -37,7 +43,8 @@
               <a href="#" class="card-link"><span>Запросити Документи</span><i class="fa-solid fa-passport"></i></a>
               <a href="#" class="card-link"><span>Запросити реквізити</span><i
                   class="fa-solid fa-money-bill-trend-up"></i></a>
-              <a href="#" class="card-link"><span>Сформувати угоду</span><i class="fa-solid fa-file-contract"></i></a>
+              <a href="agreement" class="card-link"><span>Сформувати угоду</span><i
+                  class="fa-solid fa-file-contract"></i></a>
             </div>
           </div>
         </div>

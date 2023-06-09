@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HousingSelectionComponent } from '../components/housing-selection/housing-selection.component';
+import { AccountSelectionComponent } from '../components/account-selection/account-selection.component';
 
 
 @NgModule({
@@ -23,12 +25,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FooterComponent,
     LoaderComponent,
     AccountNavComponent,
+    HousingSelectionComponent,
+    AccountSelectionComponent,
   ],
   exports: [
     NavbarComponent,
     FooterComponent,
     LoaderComponent,
     AccountNavComponent,
+    HousingSelectionComponent,
+    AccountSelectionComponent,
   ],
   imports: [
     CommonModule,

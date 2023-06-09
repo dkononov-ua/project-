@@ -10,7 +10,6 @@ import { DocumentsComponent } from './house/documents/documents.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { FurnitureComponent } from './house/furniture/furniture.component';
 import { FilesComponent } from './user/files/files.component';
-import { ContactsComponent } from './user/contacts/contacts.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
 import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
@@ -39,7 +38,6 @@ const routes: Routes = [
           { path: '', redirectTo: 'info', pathMatch: 'full' },
           { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
           { path: 'files', component: FilesComponent, canActivate: [CanActivateGuard] },
-          { path: 'contacts', component: ContactsComponent, canActivate: [CanActivateGuard] },
           { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [CanActivateGuard] },
         ],
       },

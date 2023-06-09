@@ -21,7 +21,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FilesComponent } from './user/files/files.component';
-import { ContactsComponent } from './user/contacts/contacts.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
 import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
@@ -38,7 +37,6 @@ import { HouseNavComponent } from './house/house-nav/house-nav.component';
     OrderServicesComponent,
     FurnitureComponent,
     FilesComponent,
-    ContactsComponent,
     SubscriptionsComponent,
     ResidentsComponent,
     InfoComponent,

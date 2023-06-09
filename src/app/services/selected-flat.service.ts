@@ -8,14 +8,19 @@ export class SelectedFlatService {
   private selectedFlatIdSubject = new BehaviorSubject<string | null>(null);
   public selectedFlatId$ = this.selectedFlatIdSubject.asObservable();
 
+  constructor() {
+    const storedFlatId = localStorage.getItem('selectedFlatId');
+    if (storedFlatId) {
+      this.selectedFlatIdSubject.next(storedFlatId);
+    }
+  }
+
   getSelectedFlatId(): string | null {
-    console.log(this.selectedFlatIdSubject.value)
     return this.selectedFlatIdSubject.value;
   }
 
   setSelectedFlatId(flatId: string): void {
-    console.log(flatId)
-
+    localStorage.setItem('selectedFlatId', flatId);
     this.selectedFlatIdSubject.next(flatId);
   }
 }

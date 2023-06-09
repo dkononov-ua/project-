@@ -100,7 +100,8 @@ export class PhotoComponent implements OnInit {
         console.log(error);
       }
     );
-    location.reload();
-
+    setTimeout(() => {
+      location.reload();
+    }, 1000); // Затримка в 1 секунду
   }
 }

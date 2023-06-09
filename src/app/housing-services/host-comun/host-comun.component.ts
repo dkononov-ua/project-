@@ -29,6 +29,8 @@ export class HostComunComponent implements OnInit {
   public selectedComunal: any | null;
   public selectedFlatId: any | null;
   public comunal_name!: string | any;
+  customComunal: string = '';
+
 
   houses: { id: number, name: string }[] = [];
   addressHouse: FormGroup | undefined;
@@ -82,6 +84,7 @@ export class HostComunComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.comunCreate = this.fb.group({
       comunal_name: ['', Validators.required],
     });
@@ -225,16 +228,22 @@ export class HostComunComponent implements OnInit {
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.selectedComunal })
-        .subscribe((response: any) => {
-          console.log(response);
-        }, (error: any) => {
-          console.error(error);
-        });
+      const selectedComunal = this.selectedComunal || this.customComunal;
+      if (selectedComunal) {
+        this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: selectedComunal })
+          .subscribe((response: any) => {
+            console.log(response);
+          }, (error: any) => {
+            console.error(error);
+          });
+      } else {
+        console.log('Назва послуги не введена');
+      }
     } else {
       console.log('user not found');
     }
     location.reload();
   }
+
 
 }

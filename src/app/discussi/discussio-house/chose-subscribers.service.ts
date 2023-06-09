@@ -9,8 +9,6 @@ export class ChoseSubscribersService {
   public selectedSubscriber$ = this.selectedSubscriberSubject.asObservable();
 
   setSelectedSubscriber(subscriberId: string | null) {
-    console.log(subscriberId)
     this.selectedSubscriberSubject.next(subscriberId);
   }
-
 }

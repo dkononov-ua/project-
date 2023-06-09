@@ -102,6 +102,15 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
   selectedFlatHouseNumber: string = '';
   selectedFlatFlatIndex: string = '';
 
+  aboutDistance: { [key: number]: string } = {
+    0: 'Немає',
+    5: 'На території будинку',
+    100: '100м',
+    300: '300м',
+    500: '500м',
+    1000: '1км',
+  }
+
   constructor(
     private filterService: FilterService,
     private formBuilder: FormBuilder,

@@ -5,23 +5,17 @@ import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
-  selector: 'app-account-nav',
-  templateUrl: './account-nav.component.html',
-  styleUrls: ['./account-nav.component.scss']
+  selector: 'app-account-selection',
+  templateUrl: './account-selection.component.html',
+  styleUrls: ['./account-selection.component.scss']
 })
-export class AccountNavComponent implements OnInit {
-  loading = false;
-
-  formErrors: any = {
-    house: '',
-  };
+export class AccountSelectionComponent implements OnInit {
 
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
   addressHouse: FormGroup | undefined;
   flatImg: any = [{ img: "housing_default.svg" }];
   userImg: any;
-
   selectHouse = new FormGroup({
     house: new FormControl('виберіть оселю')
   });
@@ -32,7 +26,6 @@ export class AccountNavComponent implements OnInit {
   ngOnInit(): void {
     this.loadImages();
     this.loadHouses();
-    this.setupSelectHouseListener();
     this.loadUserImage();
   }
 
@@ -89,8 +82,6 @@ export class AccountNavComponent implements OnInit {
                 this.selectHouse.setValue({ house: selectedFlatId });
               } else {
                 console.log('Selected house does not exist in the list of houses');
-                // Here you can handle the case where the selected house doesn't exist
-                // For example, you can reset the selected house or show an error message
               }
             } else if (this.houses.length > 0) {
               const firstHouse = this.houses[0].name;
@@ -150,39 +141,4 @@ export class AccountNavComponent implements OnInit {
     }
   }
 
-  onSelectionChange() {
-    this.loading = true;
-
-    if (this.selectedFlatId) {
-      console.log('Ви вибрали оселю з ID:', this.selectedFlatId);
-      localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId }));
-
-      this.selectedFlatId = this.selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe(
-            (response: any) => {
-              if (response !== null) {
-                this.addressHouse = this.fb.group({
-                  flat_id: [response.flat.flat_id],
-                });
-              }
-            },
-            (error: any) => {
-              console.error(error);
-            }
-          );
-      } else {
-        console.log('user not found');
-      }
-
-      this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
-
-    } else {
-      console.log('Нічого не вибрано');
-    }
-
-    location.reload();
-  }
 }

@@ -5,68 +5,26 @@ import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
-  selector: 'app-account-nav',
-  templateUrl: './account-nav.component.html',
-  styleUrls: ['./account-nav.component.scss']
+  selector: 'app-housing-selection',
+  templateUrl: './housing-selection.component.html',
+  styleUrls: ['./housing-selection.component.scss']
 })
-export class AccountNavComponent implements OnInit {
-  loading = false;
-
-  formErrors: any = {
-    house: '',
-  };
-
+export class HousingSelectionComponent implements OnInit {
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
   addressHouse: FormGroup | undefined;
-  flatImg: any = [{ img: "housing_default.svg" }];
-  userImg: any;
-
   selectHouse = new FormGroup({
     house: new FormControl('виберіть оселю')
   });
-  images: any;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
-    this.loadImages();
     this.loadHouses();
     this.setupSelectHouseListener();
-    this.loadUserImage();
   }
 
-  loadImages(): void {
-    const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
-    if (userJson !== null && houseJson !== null) {
-      this.dataService.getData().subscribe((response: any) => {
-        if (response.houseData) {
-          if (response.houseData.imgs !== 'Картинок нема') {
-            this.flatImg = response.houseData.imgs;
-          }
 
-          if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
-            this.images = [];
-            for (const img of this.flatImg) {
-              this.images.push('http://localhost:3000/img/flat/' + img.img);
-            }
-          } else {
-            this.images = ['http://localhost:3000/housing_default.svg'];
-          }
-        } else {
-          console.error('houseData field is missing from server response');
-        }
-
-        if (this.images.length > 0) {
-          const selectedFlatId = JSON.parse(houseJson).flat_id;
-          this.selectHouse.setValue({ house: selectedFlatId });
-          this.selectedFlatId = selectedFlatId;
-          this.selectedFlatService.setSelectedFlatId(selectedFlatId);
-        }
-      });
-    }
-  }
 
   loadHouses(): void {
     const userJson = localStorage.getItem('user');
@@ -89,8 +47,6 @@ export class AccountNavComponent implements OnInit {
                 this.selectHouse.setValue({ house: selectedFlatId });
               } else {
                 console.log('Selected house does not exist in the list of houses');
-                // Here you can handle the case where the selected house doesn't exist
-                // For example, you can reset the selected house or show an error message
               }
             } else if (this.houses.length > 0) {
               const firstHouse = this.houses[0].name;
@@ -137,22 +93,7 @@ export class AccountNavComponent implements OnInit {
     });
   }
 
-  loadUserImage(): void {
-    const userJson = localStorage.getItem('user');
-
-    if (userJson) {
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          if (response.img && response.img.length > 0) {
-            this.userImg = response.img[0].img;
-          }
-        });
-    }
-  }
-
   onSelectionChange() {
-    this.loading = true;
-
     if (this.selectedFlatId) {
       console.log('Ви вибрали оселю з ID:', this.selectedFlatId);
       localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId }));
@@ -182,7 +123,6 @@ export class AccountNavComponent implements OnInit {
     } else {
       console.log('Нічого не вибрано');
     }
-
-    location.reload();
   }
 }
+

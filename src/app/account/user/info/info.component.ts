@@ -6,7 +6,15 @@ import { animate, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss']
+  styleUrls: ['./info.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(130%)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ])
+  ],
 })
 export class InfoComponent implements OnInit {
 
@@ -15,6 +23,7 @@ export class InfoComponent implements OnInit {
   public selectedFlatId: any | null;
 
   user = {
+    user_id: '',
     firstName: '',
     lastName: '',
     surName: '',
@@ -31,40 +40,34 @@ export class InfoComponent implements OnInit {
 
   constructor(private dataService: DataService, private http: HttpClient) { }
 
-  rating: number = 5;
-
-  onClick(value: number) {
-    this.rating = value;
-  }
-
   ngOnInit(): void {
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
-      if (houseJson !== null) {
-        this.dataService.getData().subscribe((response: any) => {
+      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          if (response) {
+            console.log(response)
+            this.user.user_id = response.inf?.user_id || '';
 
-          this.user.firstName = response.userData.inf.firstName;
-          this.user.lastName = response.userData.inf.lastName;
-          this.user.surName = response.userData.inf.surName;
-          this.user.email = response.userData.inf.email;
-          this.user.password = response.userData.inf.password;
-          this.user.dob = response.userData.inf.dob;
+            this.user.firstName = response.inf?.firstName || '';
+            this.user.lastName = response.inf?.lastName || '';
+            this.user.surName = response.inf?.surName || '';
+            this.user.email = response.inf?.email || '';
+            this.user.password = response.inf?.password || '';
+            this.user.dob = response.inf?.dob || '';
+            this.user.tell = response.cont?.tell || '';
+            this.user.telegram = response.cont?.telegram || '';
+            this.user.facebook = response.cont?.facebook || '';
+            this.user.instagram = response.cont?.instagram || '';
+            this.user.mail = response.cont?.mail || '';
+            this.user.viber = response.cont?.viber || '';
 
-          this.user.tell = response.userData.cont.tell;
-          this.user.telegram = response.userData.cont.telegram;
-          this.user.facebook = response.userData.cont.facebook;
-          this.user.instagram = response.userData.cont.instagram;
-          this.user.mail = response.userData.cont.mail;
-          this.user.viber = response.userData.cont.viber;
-        });
-
-        this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-          .subscribe((response: any) => {
             if (response.img && response.img.length > 0) {
-            this.userImg = response.img[0].img;
-          }});
-      }
+              this.userImg = response.img[0].img;
+            }
+          }
+        });
     }
   }
+
 }

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
   selector: 'app-parameters',
@@ -111,7 +111,7 @@ export class ParametersComponent implements OnInit {
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService, private selectedFlatIdService: SelectedFlatService) { }
 
   ngOnInit(): void {
     const userJson = localStorage.getItem('user');

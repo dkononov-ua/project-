@@ -17,6 +17,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('house');
-    this.router.navigate(['/registration']);
+    setTimeout(() => {
+      this.router.navigate(['/registration']);
+    }, 500); // Затримка 500 мс (можна змінити значення в залежності від потреб)
   }
+
 }

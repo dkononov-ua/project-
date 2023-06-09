@@ -45,6 +45,7 @@ import { DiscussioRoutingModule } from './discussi/discussio-user/discussio-rout
 import { DiscussioModule } from './discussi/discussio-user/discussio.module';
 import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
 import { DiscussioHouseModule } from './discussi/discussio-house/discussio-house.module';
+import { SelectedFlatService } from './services/selected-flat.service';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,9 @@ import { DiscussioHouseModule } from './discussi/discussio-house/discussio-house
     DeleteComunalComponent,
     DeleteDialogComponent,
    ],
+   providers: [
+    SelectedFlatService,
+  ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,

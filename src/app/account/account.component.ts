@@ -39,11 +39,6 @@ export class AccountComponent implements OnInit {
         console.log(data);
       });
 
-      const houseJson = localStorage.getItem('house');
-      if (houseJson) {
-        this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
-      }
-
       const userJson = localStorage.getItem('user');
       if (userJson) {
         this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
@@ -64,6 +59,10 @@ export class AccountComponent implements OnInit {
           );
       } else {
         console.log('user not found');
+      }
+      const houseJson = localStorage.getItem('house');
+      if (houseJson) {
+        this.selectHouse.setValue({ house: JSON.parse(houseJson).flat_id });
       }
     }
 }

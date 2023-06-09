@@ -7,22 +7,34 @@
       </div>
 
       <div class="item-wrapper p-3">
-        <p>Власник:</p>
-        <h1>{{ user.lastName }} {{ user.firstName }} {{ user.surName }}</h1>
+        <h2>{{ user.lastName }}</h2>
+        <h2>{{ user.firstName }}</h2>
+        <h2>{{ user.surName }}</h2>
+        <p>Ваш user ID: {{ user.user_id }}</p>
         <p>Телефон: {{ user.tell }}</p>
-        <p>Email для листування: {{ user.mail }}</p>
+        <p>Email: {{ user.mail }}</p>
         <div class="card-social-link">
           <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-          <a href="{{ user.telegram }}"><i class="fa-brands fa-telegram"></i></a>
-          <a href="{{ user.viber }}"><i class="fa-brands fa-viber"></i></a>
-          <a href="{{ user.facebook }}"><i class="fa-brands fa-facebook"></i></a>
+          <a href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+          <a href="{{ user.viber }}"><i class="fab fa-brands fa-viber"></i></a>
+          <a href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
         </div>
 
       </div>
     </div>
   </div>
 
-  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
+  <div [@cardAnimation] class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
+    <div class="card m-2 p-3">
+      <h3>Так виглядає Ваша картка користувача в Discussio</h3>
+      <div class="img-fluid">
+        <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
     <div class="m-2">
       <div class="card-info p-2">
         <h4>Підписки на оселю:</h4>
@@ -48,6 +60,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
-

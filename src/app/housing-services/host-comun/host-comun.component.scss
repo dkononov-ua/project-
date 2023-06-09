@@ -16,8 +16,9 @@
 
 .card-box {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .card-group {
@@ -44,11 +45,17 @@
 
 .container-box {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .clear {
   clear: both;
+}
+
+.btn-box {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .form-box {
@@ -116,19 +123,18 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  padding: 20px;
 }
 
 .btn-group {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -152,20 +158,11 @@ p {
   color: $color-light;
 }
 
-.btn-group {
-  display: flex;
-}
-
 .btn {
   width: 100%;
   margin: 10px;
   color: $color-light;
   height: 45px;
-}
-
-.fa-solid,
-.fa-regular {
-  color: $color-white;
 }
 
 .btn-create {
@@ -197,9 +194,48 @@ p {
   }
 }
 
+.fa-solid, .fa-regular {
+  color: $color-white;
+  transition: transform 0.5s;
+
+  &:hover {
+
+    color: $color-accent;
+    transform: scale(2);
+  }
+}
+
+.inputbox {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.pos {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.btn-2 {
+  background-color: rgba(78, 42, 42, 0);
+  border: none;
+  margin-left: 5px;
+  height: 56px;
+  padding: 5px;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+  &:hover {
+    transform: scale(1.2);
+    transition: transform 0.5s;
+    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
+  }
+}
+
 .btn-deleted{
   background-color: tomato;
   &:hover {
+
     transition: 0.4s;
     filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
 

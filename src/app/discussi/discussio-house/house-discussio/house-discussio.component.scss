@@ -529,7 +529,7 @@ mat-raised-button {
   align-items: center;
   justify-content: space-between;
 
-  margin: 5px;
+  margin: 5px 10px;
   border: 1px solid $color-primary;
   padding: 5px 15px;
   border-radius: 10px;
@@ -552,6 +552,13 @@ mat-raised-button {
       transition: 0.4s;
     }
   }
+}
+
+.page-name {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 

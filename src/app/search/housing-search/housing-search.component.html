@@ -140,26 +140,100 @@
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
       <div [@cardAnimation] class="card-container-house p-1">
+        <div class="card card-selected p-2" *ngIf="selectedFlat">
 
-        <div class="card card-selected">
-          <div class="map" id="map"></div>
+          <a class="location" [href]="locationLink" target="_blank"><span
+              class="material-symbols-outlined">location_on</span><br>Вулиця: {{ selectedFlat?.street }},
+            {{selectedFlat?.houseNumber }}
+          </a>
 
-          <div class="card-text p-2">
-            <div class="title-group">
-              <div class="title-about">Опис оселі : {{ selectedFlat?.about || 'Немає інформації' }} </div>
+          <div class="container-sticker">
+            <div class="status-container">
+              <div class="status rent-yes" *ngIf="selectedFlat?.woman === 1">W</div>
+              <div class="status rent-yes" *ngIf="selectedFlat?.man === 1">M</div>
+              <div class="status rent-yes" *ngIf="selectedFlat?.students === 1">S</div>
+              <div class="status rent-yes" *ngIf="selectedFlat?.family === 1">F</div>
             </div>
+          </div>
 
-            <a class="location" [href]="locationLink" target="_blank"><span
-                class="material-symbols-outlined">location_on</span><br>Вулиця: {{ selectedFlat?.street }},
-              {{selectedFlat?.houseNumber }}
-            </a>
+          <div class="characteristics">
+            <div class="characteristics-label">Параметри оселі:</div>
 
+            <div class="characteristics-group">
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.repair_status !== 'Приховати' && selectedFlat?.repair_status !== null">Стан
+                оселі:<span class="item">{{ selectedFlat?.repair_status }}</span> </div>
+              <div class="item-characteristics" *ngIf="selectedFlat?.floor !== 0 && selectedFlat?.floor !== null">
+                Поверх:<span class="item">{{
+                  selectedFlat?.floor }}</span> </div>
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.balcony !== 'Приховати' && selectedFlat?.balcony !== null">Тип
+                балкону:<span class="item">{{ selectedFlat?.balcony }}</span> </div>
+            </div>
+          </div>
+
+          <div class="characteristics">
+            <div class="characteristics-label">Інфраструктура:</div>
+
+            <div class="characteristics-group">
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.distance_metro !== 0 && selectedFlat?.distance_metro !== null">Метро
+                до:<span class="item">{{ aboutDistance[selectedFlat?.distance_metro] }}</span> </div>
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.distance_stop !== 0 && selectedFlat?.distance_stop !== null">Зупинка
+                до:<span class="item">{{ aboutDistance[selectedFlat?.distance_stop] }}</span> </div>
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.distance_shop !== 0 && selectedFlat?.distance_shop !== null">Маркет
+                до:<span class="item">{{ aboutDistance[selectedFlat?.distance_shop] }}</span> </div>
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.distance_green !== 0 && selectedFlat?.distance_green !== null">Парк
+                до:<span class="item">{{ aboutDistance[selectedFlat?.distance_green] }}</span> </div>
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.distance_parking !== 0 && selectedFlat?.distance_parking !== null">
+                Паркінг:<span class="item">{{ aboutDistance[selectedFlat?.distance_parking] }}</span> </div>
+            </div>
+          </div>
+
+          <div class="characteristics">
+            <div class="characteristics-label">Особливості:</div>
+            <div class="characteristics-group">
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.bunker !== 'Приховати' && selectedFlat?.bunker !== null">Наявність
+                укриття:<span class="item">{{ selectedFlat?.bunker }}</span> </div>
+              <div class="item-characteristics" *ngIf="selectedFlat?.animals !== '0' && selectedFlat?.animals !== null">
+                Дозвіл на тварин: <span class="item">{{ selectedFlat?.animals }}</span> </div>
+            </div>
+          </div>
+          <div class="characteristics">
+            <div class="characteristics-label">Про оселю:</div>
+
+            <div class="characteristics-group">
+              <div class="item-characteristics about">{{ selectedFlat?.about }}</div>
+            </div>
+          </div>
+
+          <!-- <div class="map" id="map"></div> -->
+
+
+        </div>
+
+        <div class="card card-selected card-logo p-2" *ngIf="!selectedFlat">
+          <div class="img-wrapper">
+            <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
+          </div>
+          <div class="characteristics-group p-4">
+            <h2>Оберіть оселю і тут будуть її характеристики</h2>
+          </div>
+          <div class="characteristics-group p-4">
+            <h2>© Discussio.</h2>
+            <p> Simplify property management with Discussio.</p>
           </div>
 
         </div>
 
       </div>
     </div>
+
   </div>
 </div>
 

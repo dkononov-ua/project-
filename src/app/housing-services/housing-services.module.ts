@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatSnackBarModule,
     MatTooltipModule,
+    MatAutocompleteModule,
   ]
 })
 export class HousingServicesModule { }

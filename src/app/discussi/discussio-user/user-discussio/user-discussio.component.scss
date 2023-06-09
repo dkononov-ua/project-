@@ -14,7 +14,7 @@
 }
 
 .card {
-  min-height: 60vh;
+  min-height: 50vh;
   display: flex;
   border-radius: 10px;
   flex-direction: column;
@@ -51,10 +51,6 @@
 .fa-solid {
   color: $color-primary;
   font-size: 25px;
-}
-
-.fab {
-  font-size: 20px;
 }
 
 .carousel-inner {
@@ -456,17 +452,22 @@ mat-raised-button {
 .switch-box {
   position: relative;
   display: flex;
-  height: 50px;
+  height: 40px;
   align-content: center;
-  align-items: center;
-  margin-left: 10px;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  align-items: baseline;
+}
 
+.switch-box-name {
+  margin: 0;
+  margin-left: 10px;
 }
 
 .toggle-button {
   border-radius: 10px;
   width: 90px;
-  height: 30px;
+  height: 20px;
   display: flex;
   border: none;
   padding: 2px;
