@@ -110,6 +110,8 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
     500: '500м',
     1000: '1км',
   }
+  statusSubscriptionMessage: boolean | undefined;
+  statusMessage: any;
 
   constructor(
     private filterService: FilterService,
@@ -187,6 +189,7 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
   }
 
   updateSelectedFlatPhotos() {
+
     const selectedFlatId = this.selectedFlat?.flat_id;
     const selectedFlatImages = this.flatImages.find(flatImage => flatImage.flat_id === selectedFlatId)?.img || [];
     this.selectedFlatPhotos = selectedFlatImages;
@@ -211,8 +214,11 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
       this.selectedFlatHouseNumber = flat.houseNumber || '';
       this.selectedFlatFlatIndex = flat.flat_index || '';
       this.locationLink = this.generateLocationUrl();
+
+      this.checkSubscribe();
     }, 100);
   }
+
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
@@ -260,6 +266,7 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.updateSelectedFlat();
         this.updateCurrentPhotoIndex(0);
+        this.checkSubscribe();
         this.currentFlatPhotos = [...this.selectedFlatPhotos];
         this.isCarouselAnimating = false;
       }, 100);
@@ -274,6 +281,7 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.updateSelectedFlat();
         this.updateCurrentPhotoIndex(0);
+        this.checkSubscribe();
         this.currentFlatPhotos = [...this.selectedFlatPhotos];
         this.isCarouselAnimating = false;
       }, 100);
@@ -350,23 +358,41 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
   onSubmitSbs(): void {
     const selectedFlat = this.selectedFlat.flat_id;
     const userJson = localStorage.getItem('user');
+
     if (userJson) {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      console.log(JSON.parse(userJson));
-      console.log(selectedFlat);
       this.http.post('http://localhost:3000/subs/subscribe', payload)
         .subscribe((response: any) => {
           console.log(response);
           this.subscriptionMessage = response.status;
-          this.showSubscriptionMessage = true;
-          if (response.status === 'Ви успішно підписались') {
-            this.isSubscribed = true; // Встановлюємо isSubscribed на true, якщо користувач підписаний
-          } else if (response.status === 'Ви успішно відписались') {
-            this.isSubscribed = false; // Встановлюємо isSubscribed на false, якщо користувач відписаний
-          }
+          this.isSubscribed = true;
+          this.checkSubscribe();
           setTimeout(() => {
             this.showSubscriptionMessage = false;
           }, 2000);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  checkSubscribe(): void {
+    const selectedFlat = this.selectedFlat.flat_id;
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
+      this.http.post('http://localhost:3000/subs/checkSubscribe', payload)
+        .subscribe((response: any) => {
+          this.statusMessage = response.status;
+          this.statusSubscriptionMessage = true;
+
+          if (response.status === 'Ви успішно відписались') {
+            this.isSubscribed = true;
+          } else {
+            this.isSubscribed = false;
+          }
         }, (error: any) => {
           console.error(error);
         });

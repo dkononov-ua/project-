@@ -27,7 +27,9 @@ export class SubscribersComponent implements OnInit {
   constructor(private selectedFlatIdService: SelectedFlatService, private http: HttpClient) { }
 
   ngOnInit(): void {
+
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+      console.log(1111111111111111111)
       const offs = 0;
       this.getSubs(selectedFlatId, offs);
     });
@@ -41,6 +43,7 @@ export class SubscribersComponent implements OnInit {
       flat_id: selectedFlatId,
       offs: offs,
     };
+
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];

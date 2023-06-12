@@ -19,7 +19,7 @@ export class AuthService {
     localStorage.removeItem('house');
     setTimeout(() => {
       this.router.navigate(['/registration']);
-    }, 500); // Затримка 500 мс (можна змінити значення в залежності від потреб)
+    }, 500);
   }
 
 }

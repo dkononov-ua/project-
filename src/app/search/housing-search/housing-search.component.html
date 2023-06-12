@@ -31,7 +31,20 @@
   <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
       <div [@cardAnimation] class="card-container-house p-1">
+
         <div class="card card-selected" id="carouselContainer">
+          <div class="message-container" *ngIf="showSubscriptionMessage">
+            <div class="message">{{ subscriptionMessage }}</div>
+
+          </div>
+
+          <div class="container-sticker">
+            <div class="status-container">
+              <div class="status rent-yes" *ngIf="statusSubscriptionMessage && statusMessage === 'Ви успішно відписались'">Subscribe</div>
+              <div class="status rent-yes" *ngIf="statusSubscriptionMessage && statusMessage === 'Ви в дискусії'">Discussio</div>
+            </div>
+          </div>
+
 
           <div class="carousel slide" id="carouselExampleIndicators" data-bs-interval="false">
             <div class="carousel-indicators">
@@ -44,6 +57,7 @@
                 <div class="img-wrapper">
                   <img [src]="getDefaultImage(currentFlatPhotos[0])" alt="Flat Image" class="img-fluid rounded"
                     (click)="openFullScreenImage(getDefaultImage(currentFlatPhotos[0]))">
+
                 </div>
               </div>
               <div class="carousel-item" *ngFor="let photo of currentFlatPhotos?.slice(1)">
@@ -66,25 +80,17 @@
           </div>
 
           <div class="card-btn-container">
+            <div class="item-box">
+              <button mat-raised-button class="next card link" [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}" (click)="onSubmitSbs()">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
 
             <div class="item-box m-1">
               <button mat-raised-button class="prev card link" (click)="onPrevCard()">
                 <div class="prev-arrow-top"></div>
                 <div class="prev-arrow-bottom"></div>
               </button>
-              <div>
-                <p>Попередня</p>
-              </div>
-            </div>
-
-            <div class="item-box">
-              <button class="btn-sbs card link" (click)="onSubmitSbs()">
-                <i class="fa-regular fa-heart"></i>
-              </button>
-              <div>
-                <p>Підписатись</p>
-              </div>
-              <div class="message" *ngIf="showSubscriptionMessage">{{ subscriptionMessage }}</div>
             </div>
 
             <div class="item-box m-1">
@@ -92,9 +98,6 @@
                 <div class="next-arrow-top"></div>
                 <div class="next-arrow-bottom"></div>
               </button>
-              <div>
-                <p>Наступна</p>
-              </div>
             </div>
 
           </div>

@@ -48,6 +48,20 @@ export class AgreementComponent implements OnInit {
   houseData: any;
   userData: any;
 
+  agreementDate: number | undefined;
+  leaseTermMonths: number | undefined;
+  leaseTermYears: number | undefined;
+  rentDueDate: number | undefined;
+  penaltyPercentage: number | undefined;
+  maxPenaltyPercentage: number | undefined;
+
+  isCityDisabled: boolean = true;
+  isStreetDisabled: boolean = true;
+  isHouseNumberDisabled: boolean = true;
+  isApartmentNumberDisabled: boolean = true;
+  isApartmentSizeDisabled: boolean = true;
+  isRentPriceDisabled: boolean = true;
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -123,7 +137,6 @@ export class AgreementComponent implements OnInit {
       console.log(this.subscribers)
       this.subscribers = newSubscribers;
 
-      // Знайдіть вибраного підписника за його ідентифікатором
       const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === selectedSubscriberId);
       if (selectedSubscriber) {
         console.log(selectedSubscriber);
@@ -136,6 +149,4 @@ export class AgreementComponent implements OnInit {
 
     this.selectedFlatId = selectedSubscriberId;
   }
-
-
 }

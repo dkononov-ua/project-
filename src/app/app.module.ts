@@ -111,7 +111,7 @@ import { ChoseSubscribersService } from './services/chose-subscribers.service';
     DiscussioRoutingModule,
 
     DiscussioHouseModule,
-    DiscussioHouseRoutingModule
+    DiscussioHouseRoutingModule,
   ]
 })
 export class AppModule { }

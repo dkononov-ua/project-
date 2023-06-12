@@ -40,9 +40,6 @@ export class AddressComponent implements OnInit {
     flat_index: '',
     private: '',
     rent: '',
-    live: '',
-    who_live: '',
-    subscribers: '',
   }
 
   formErrors: any = {
@@ -56,9 +53,6 @@ export class AddressComponent implements OnInit {
     flat_index: '',
     private: '',
     rent: '',
-    live: '',
-    who_live: '',
-    subscribers: '',
   };
 
   validationMessages: any = {
@@ -116,8 +110,7 @@ export class AddressComponent implements OnInit {
     },
     rent: {
     },
-    live: {
-    },
+
   };
 
   isDisabled?: boolean;
@@ -143,9 +136,6 @@ export class AddressComponent implements OnInit {
                 flat_index: [response.flat.flat_index],
                 private: [response.flat.private],
                 rent: [response.flat.rent],
-                live: [response.flat.live],
-                who_live: [response.flat.who_live],
-                subscribers: [response.flat.subscribers],
               });
 
               const baseUrl = 'https://www.google.com/maps/place/';
@@ -288,7 +278,6 @@ export class AddressComponent implements OnInit {
       ]],
       private: [null, [Validators.required]],
       rent: [null, [Validators.required]],
-      live: [null, [Validators.required]],
     });
 
     this.addressHouse.valueChanges?.subscribe(() => this.onValueChanged());
