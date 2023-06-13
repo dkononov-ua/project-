@@ -1,12 +1,10 @@
-<app-navbar></app-navbar>
+<div *ngIf="!loading" class="container-fluid">
 
-<div class="container-fluid">
+  <div [@cardAnimation3] class="container-box">
 
-  <div class="container-box">
+    <app-account-nav class="m-1"></app-account-nav>
 
-    <app-account-nav></app-account-nav>
-
-    <div class="btn-group">
+    <div class="btn-group m-1">
       <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user'">
         <div class="img-fluid">
           <img
@@ -38,7 +36,7 @@
   <div class="container-box">
 
     <div class="card-box group col-lg-4 col-md-5 col-sm-6 col-12">
-      <div class="card-box col-lg-12 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation4] class="card-box col-lg-12 col-md-5 col-sm-6 col-12">
         <div class="card m-2">
 
           <div class="img-fluid">
@@ -62,7 +60,7 @@
         </div>
       </div>
 
-      <div class="card-box col-lg-12 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation5] class="card-box col-lg-12 col-md-5 col-sm-6 col-12">
         <div class="card m-2">
           <div class="img-fluid">
             <img
@@ -81,7 +79,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
@@ -181,7 +178,7 @@
       </div>
     </div>
 
-    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div [@cardAnimation2] class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <div class="card m-2 p-2">
 
         <div class="characteristics-group">
@@ -225,29 +222,49 @@
             </mat-form-field>
 
           </div>
-          <div class="content">
-            <label class="checkBox">
-              <input type="checkbox" value="1">
-              <div class="transition"></div>
-            </label>
-            <i></i>
-          </div>
-          <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
-            ознайомлений.</p>
+          <button class="btn" type="submit" (click)="openContainer()"><a [routerLinkActive]="'active'"
+              [routerLink]="'/payments'">Деталі угоди.</a></button>
 
-          <button class="btn" type="submit"><a [routerLinkActive]="'active'"
-              [routerLink]="'/payments'">Сформувати</a></button>
+
+          <div class="group">
+            <div class="content">
+              <label class="checkBox">
+                <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+                <div class="transition"></div>
+              </label>
+              <i></i>
+              <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
+                ознайомлений.</p>
+            </div>
+            <button class="btn" type="submit" [disabled]="!isCheckboxChecked"><a [routerLinkActive]="'active'"
+                [routerLink]="'/payments'">Сформувати</a></button>
+          </div>
+
+
+
+
+
+
         </div>
       </div>
     </div>
   </div>
 
-  <div class="container-box border-1 p-2">
-    <h2 class="mt-3">Укладання угоди оренди житлового приміщення.</h2>
-    <p>Місце укладання та дата: <span class="item-agree">{{ houseData.flat.city }}, {{ agreementDate | date }}</span>
-    </p>
-
+  <div *ngIf="isContainerVisible" class="container-box agree">
+    <div class="close-box">
+      <button class="btn-close" type="submit" (click)="closeContainer()"><a [routerLinkActive]="'active'"
+          [routerLink]="'/payments'"></a></button>
+    </div>
+    <div class="box m-2">
+      <div class="title-group">
+        <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
+        <div class="title">Discussio угода. <br> Укладання угоди оренди житлового приміщення.</div>
+      </div>
+      <h5>Місце укладання та дата: <span class="accent">{{ houseData.flat.city }}, {{ agreementDate | date }}</span>
+      </h5>
+    </div>
     <div class="container-agree">
+
 
       <div class="wrapper-group">
         <div class="agree-wrapper p-2 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -280,7 +297,6 @@
       </div>
 
     </div>
-
     <div class="container-fluid">
       <ul>1. Предмет договору
         <li>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на <span
@@ -414,11 +430,10 @@
 
       </ul>
     </div>
-
     <div class="container-fluid">
       <fieldset class="col-lg-6 col-md-6 col-sm-6 col-12">
         <div class="m-2">
-          <h2>Орендодавець:</h2>
+          <p>Орендодавець:</p>
           <mat-form-field appearance="outline" class="input-mat-4">
             <mat-label>Паспорт №</mat-label>
             <input matInput type="text" id="landlord_passport_number" name="landlord_passport_number"
@@ -456,7 +471,7 @@
 
       <fieldset class="col-lg-6 col-md-6 col-sm-6 col-12">
         <div class="m-2">
-          <h2>Орендар:</h2>
+          <p>Орендар:</p>
           <mat-form-field appearance="outline" class="input-mat-4">
             <mat-label>Паспорт №</mat-label>
             <input matInput type="text" id="tenant_passport_number" name="tenant_passport_number" placeholder="Номер"
@@ -498,4 +513,6 @@
 
 </div>
 
-<app-footer></app-footer>
+<div *ngIf="loading" class="loader-overlay">
+  <div class="loader"></div>
+</div>

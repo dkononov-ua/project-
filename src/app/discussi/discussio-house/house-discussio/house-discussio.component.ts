@@ -41,6 +41,7 @@ export class HouseDiscussioComponent implements OnInit {
   isOnline = true;
   isOffline = false;
   selectedSubscriber: Subscriber | undefined;
+  loading = false;
 
 
   constructor(
@@ -69,6 +70,16 @@ export class HouseDiscussioComponent implements OnInit {
       }
     });
   }
+
+handleGenerateAgreement() {
+  this.loading = true;
+  // Ваш код для формування угоди
+
+  setTimeout(() => {
+    this.loading = false;
+  }, 2000); // 2 секунди
+}
+
 
 
   onSelectionChange(): void {

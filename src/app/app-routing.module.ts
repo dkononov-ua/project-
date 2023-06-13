@@ -6,31 +6,27 @@ import { RegistrationComponent } from './pages/registration/registration.compone
 import { AgreementComponent } from './pages/agreement/agreement.component';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { CanActivateGuard } from './services/auth.guard';
-import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
-import { TestComponent } from './pages/test/test.component';
 import { HousingParametersComponent } from './account-edit/house/housing-parameters.component';
 import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
+  { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'our-team', component: OurTeamComponent, canActivate: [CanActivateGuard] },
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
-  { path: 'modal', component: ModalComponent, canActivate: [CanActivateGuard] },
-  { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
-  { path: 'test', component: TestComponent, canActivate: [CanActivateGuard] },
-  { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
+  { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule), canActivate: [CanActivateGuard] },
   { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
   { path: 'search', component: SearchComponent, canActivate: [CanActivateGuard] },
-  { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), },
-  { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), },
+  { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
+  { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

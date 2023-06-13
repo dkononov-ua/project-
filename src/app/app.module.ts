@@ -17,7 +17,6 @@ import { UserPaymentComponent } from './pages/user-payment/user-payment.componen
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { AgreementComponent } from './pages/agreement/agreement.component';
 import { SliderComponent } from './components/slider/slider.component';
-import { ModalComponent } from './pages/modal/modal.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -29,7 +28,6 @@ import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { KrutilkaComponent } from './components/krutilka/krutilka.component';
-import { TestComponent } from './pages/test/test.component';
 import { DeleteComunalComponent } from './components/delete-comunal/delete-comunal.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -57,11 +55,9 @@ import { ChoseSubscribersService } from './services/chose-subscribers.service';
     InformationUserComponent,
     AgreementComponent,
     SliderComponent,
-    ModalComponent,
     UserLicenceComponent,
     ComunPageComponent,
     KrutilkaComponent,
-    TestComponent,
     DeleteComunalComponent,
     DeleteDialogComponent,
    ],

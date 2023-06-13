@@ -33,12 +33,32 @@ interface Subscriber {
     trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1600ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateY(-100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation4', [
+      transition('void => *', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation5', [
+      transition('void => *', [
+        style({ transform: 'translateY(100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
       ]),
     ])
   ],
-})
 
+
+
+})
 export class AgreementComponent implements OnInit {
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
@@ -61,6 +81,21 @@ export class AgreementComponent implements OnInit {
   isApartmentNumberDisabled: boolean = true;
   isApartmentSizeDisabled: boolean = true;
   isRentPriceDisabled: boolean = true;
+  loading: boolean = true;
+
+  isContainerVisible = false;
+  isCheckboxChecked = false;
+
+
+  openContainer() {
+    this.isContainerVisible = true;
+  }
+  closeContainer() {
+    this.isContainerVisible = false;
+  }
+
+
+
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -71,7 +106,7 @@ export class AgreementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
-        this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       console.log(selectedFlatId);
       if (selectedFlatId) {
         const offs = 0;
@@ -95,13 +130,16 @@ export class AgreementComponent implements OnInit {
     this.choseSubscribersService.setSelectedSubscriber(selectedSubscriberId);
   }
 
-
   loadData(): void {
     this.dataService.getData().subscribe((response: any) => {
       console.log(response.houseData)
       console.log(response.userData)
       this.houseData = response.houseData;
       this.userData = response.userData;
+      this.loading = false; // Приховати лоадер після завантаження даних
+    }, (error) => {
+      console.error(error);
+      this.loading = false; // Приховати лоадер у разі помилки
     });
   }
 
@@ -146,7 +184,5 @@ export class AgreementComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
-
-    this.selectedFlatId = selectedSubscriberId;
   }
 }
