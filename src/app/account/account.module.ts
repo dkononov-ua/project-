@@ -25,6 +25,7 @@ import { SubscriptionsComponent } from './user/subscriptions/subscriptions.compo
 import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
 import { HouseNavComponent } from './house/house-nav/house-nav.component';
+import { HouseResidentsComponent } from './house/house-residents/house-residents.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { HouseNavComponent } from './house/house-nav/house-nav.component';
     ResidentsComponent,
     InfoComponent,
     HouseNavComponent,
+    HouseResidentsComponent,
   ],
   imports: [
     CommonModule,

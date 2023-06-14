@@ -1,27 +1,35 @@
+import { trigger, transition, style, animate } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 interface Subscriber {
-  id: number;
-  name: string;
-  photoUrl: string;
-  bio: string;
+  user_id: string;
+  firstName: string;
+  lastName: string;
+  surName: string;
+  photo: string;
   instagram: string;
   telegram: string;
   viber: string;
   facebook: string;
 }
-
 @Component({
   selector: 'app-residents',
   templateUrl: './residents.component.html',
   styleUrls: ['./residents.component.scss']
 })
 export class ResidentsComponent implements OnInit {
-// Компонент
-isChatClosed: boolean = true;
-isAccessClosed: boolean = true;
+  selectedSubscriber: Subscriber | undefined;
 
-  // Компонент
+  subscribers: Subscriber[] = [];
+  selectedFlatId: string | any;
+  isOnline = true;
+  isOffline = false;
+  loading = false;
+  isChatClosed: boolean = true;
+  isAccessClosed: boolean = true;
+
   toggleChat() {
     this.isChatClosed = !this.isChatClosed;
   }
@@ -30,51 +38,111 @@ isAccessClosed: boolean = true;
     this.isAccessClosed = !this.isAccessClosed;
   }
 
-
   public showInput = false;
   public userId: string | undefined;
   searchQuery: string | undefined;
 
-  constructor() { }
+  constructor(
+    private selectedFlatIdService: SelectedFlatService,
+    private http: HttpClient,
+    private choseSubscribersService: ChoseSubscribersService,
+  ) { }
 
   ngOnInit(): void {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+      if (selectedFlatId) {
+        const offs = 0;
+        this.getSubs(selectedFlatId, offs);
+      }
+    });
+
+    this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
+      if (subscriberId) {
+        const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
+        if (selectedSubscriber) {
+          this.selectedSubscriber = selectedSubscriber;
+        }
+      }
+    });
   }
 
-  public addUserToHouse(): void {
-    // Додати код для додавання користувача до оселі за допомогою userId
-    console.log(`Користувач з ID ${this.userId} доданий до оселі.`);
-    this.userId = '';
-    this.showInput = false;
+  onSelectionChange(): void {
+    this.selectedFlatIdService.setSelectedFlatId(this.selectedFlatId);
   }
-  subscribers: Subscriber[] = [
-    {
-      id: 1,
-      name: 'Віталій Селіверстов',
-      photoUrl: 'assets/photo4.jpg',
-      bio: 'Lorem ipsum dolor sit amet',
-      instagram: 'https://www.instagram.com/',
-      telegram: 'https://telegram.org/',
-      viber: 'https://www.viber.com/',
-      facebook: 'https://www.facebook.com/'
-    },
-    {
-      id: 2,
-      name: 'Максим Олійник',
-      photoUrl: 'assets/photo2.jpg',
-      bio: 'Consectetur adipiscing elit',
-      instagram: 'https://www.instagram.com/',
-      telegram: 'https://telegram.org/',
-      viber: 'https://www.viber.com/',
-      facebook: 'https://www.facebook.com/'
-    },
 
-  ];
+  async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = 'http://localhost:3000/citizen/get/citizen';
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: selectedFlatId,
+      offs: offs,
+    };
+    try {
+      const response = await this.http.post(url, data).toPromise() as any[];
+      const newSubscribers: Subscriber[] = response
+        .filter(user_id => user_id !== null)
+        .map((user_id: any) => ({
+          user_id: user_id.user_id,
+          firstName: user_id.firstName,
+          lastName: user_id.lastName,
+          surName: user_id.surName,
+          photo: user_id.img,
+          instagram: user_id.instagram,
+          telegram: user_id.telegram,
+          viber: user_id.viber,
+          facebook: user_id.facebook
+        }));
+      this.subscribers = newSubscribers;
+
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.selectedFlatId = selectedFlatId;
+  }
 
   approveSubscriber(subscriber: Subscriber): void {
-    // Code to approve subscriber
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson && subscriber) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: subscriber.user_id,
+      };
+      console.log(data);
+      this.http.post('http://localhost:3000/subs/accept', data)
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
   }
 
   removeSubscriber(subscriber: Subscriber): void {
-    // Code to remove subscriber
+    console.log(22222)
+
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson && subscriber) {
+      const data = { auth: JSON.parse(userJson), flat_id: selectedFlat, user_id: subscriber.user_id };
+      console.log(data)
+      this.http.post('http://localhost:3000/citizen/delete/citizen', data)
+        .subscribe(
+          (response: any) => {
+            console.log(response);
+            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user or subscriber not found');
+    }
   }
 }

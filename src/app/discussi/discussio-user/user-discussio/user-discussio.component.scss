@@ -3,8 +3,8 @@
 .container-dis {
   display: flex;
   align-content: center;
-  flex-direction: column;
   align-items: stretch;
+  flex-direction: column;
 }
 
 .container-box {
@@ -14,13 +14,15 @@
 }
 
 .card {
-  min-height: 50vh;
   display: flex;
-  border-radius: 10px;
+  align-items: stretch;
   flex-direction: column;
   justify-content: space-between;
-  align-items: stretch;
+
   width: 100%;
+  min-height: 50vh;
+
+  border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
@@ -31,25 +33,27 @@
 
 .card-box {
   display: flex;
-  justify-content: flex-start;
   align-items: stretch;
+  justify-content: flex-start;
 }
 
 .item-wrapper,
 .content-description {
   display: flex;
-  justify-content: space-between;
   align-items: stretch;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .carousel {
-  width: 100%;
   position: relative;
+
+  width: 100%;
 }
 
 .fa-solid {
   color: $color-primary;
+
   font-size: 25px;
 }
 
@@ -58,42 +62,49 @@
 }
 
 .price-box {
-  margin-right: 30px;
-  width: 100%;
-  display: flex;
   position: relative;
+
+  display: flex;
+  align-items: flex-end;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+
+  width: 100%;
+  margin-right: 30px;
 }
 
 .card-social-link {
-  font-size: 24px;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  font-size: 24px;
 }
 
 .characteristics {
   display: flex;
-  flex-direction: column;
   align-items: stretch;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
 .img-fluid {
   display: flex;
   flex-direction: column;
+
   width: 100%;
 }
 
 img {
+  overflow: hidden;
+
   width: 100%;
   height: 300px;
-  overflow: hidden;
-  object-fit: cover;
+
   transition: transform 1s;
+
+  object-fit: cover;
 
   &:hover {
     transition: transform 1s;
@@ -102,33 +113,36 @@ img {
 }
 
 .card-menu {
-  color: rgba(18, 17, 17, 0.8078431373);
   display: flex;
+  align-items: stretch;
   flex-direction: column;
   justify-content: center;
-  align-items: stretch;
+
+  color: rgba(18, 17, 17, 0.8078431373);
 }
 
 .navbar-house {
   display: flex;
-  justify-content: center;
   align-items: flex-start;
-  flex-wrap: wrap;
   flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .link-text {
-  font-size: $font-size;
   font-family: $font-main;
+  font-size: $font-size;
 }
 
 .chat-header.link-menu {
   transition: 0.4s;
 
   &:hover {
-    color: $color-accent;
     transition: 0.4s;
     transform: scale(1.1);
+
+    color: $color-accent;
+
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
 
     span {
@@ -138,41 +152,49 @@ img {
 
     .fa-solid,
     .fa-regular {
-      color: $color-accent;
-      transform: translate(10px) scale(1.1);
       transition: 0.4s;
+      transform: translate(10px) scale(1.1);
+
+      color: $color-accent;
     }
   }
 }
 
 .chat-container {
-  width: 100%;
   display: flex;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   justify-content: space-between;
+
+  width: 100%;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chat-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+
+  border-bottom: 1px solid #dddddd;
 }
 
 .chat-messages {
-  padding: 10px;
-  max-height: 300px;
   overflow-y: auto;
+
+  max-height: 300px;
+  padding: 10px;
 }
 
 .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
   margin-right: 10px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
 }
 
 input {
@@ -186,55 +208,65 @@ input {
 .chat-input {
   display: flex;
   align-items: stretch;
-  padding: 10px;
-  border-top: 1px solid #ddd;
   flex-direction: column;
+
+  padding: 10px;
+
+  border-top: 1px solid #dddddd;
 }
 
 .container-sticker.input[type="text"] {
-  font-size: 12px;
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+
   margin-right: 10px;
+  padding: 8px;
+
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+
+  font-size: 12px;
 }
 
 .container-sticker {
-  z-index: 9999;
   position: absolute;
-  width: 100%;
-  height: 20px;
+  z-index: 9999;
   top: -26px;
   right: 10px;
+
+  width: 100%;
+  height: 20px;
 }
 
 .status-container {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .status {
-  padding: 5px 10px;
-  background-color: $color-accent;
   margin: 0 3px;
+  padding: 5px 10px;
+
   color: white;
+  border-radius: 4px;
+  background-color: $color-accent;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.25), 2px 2px 10px rgba(0, 0, 0, 0.22);
+
   font-size: 12px;
   font-weight: bold;
-  border-radius: 4px;
-  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.25), 2px 2px 10px rgba(0, 0, 0, 0.22);
 }
 
 .link {
-  background-color: $color-dark;
   transition: 1s;
 
+  background-color: $color-dark;
+
   &:hover {
-    color: $color-accent;
-    background-color: $color-dark;
     transition: transform 1s;
     transform: scale(1.2);
+
+    color: $color-accent;
+    background-color: $color-dark;
 
     span {
       transition: transform 1s;
@@ -244,9 +276,10 @@ input {
     .fa-solid,
     .fa-regular,
     .fa-brands {
-      color: $color-accent;
-      transform: translate(10px) scale(2.5);
       transition: transform 0.5s;
+      transform: translate(10px) scale(2.5);
+
+      color: $color-accent;
     }
   }
 }
@@ -256,13 +289,14 @@ input {
 }
 
 .btn {
+  margin: 5px;
+  padding: 10px 20px;
+
   color: $color-text;
   background-color: $color-white;
-  padding: 10px 20px;
-  margin: 5px;
   &:hover {
-    background-color: $color-accent;
     color: $color-white;
+    background-color: $color-accent;
   }
 }
 
@@ -271,8 +305,8 @@ a.link {
 }
 
 a {
-  padding: 10px;
   margin: 10px;
+  padding: 10px;
 }
 
 .characteristics-label {
@@ -280,28 +314,34 @@ a {
 }
 
 .item-characteristics {
+  margin: 2px;
+  padding: 2px 5px;
+
+  border-radius: 10px;
+  background-color: $color-primary;
+
   font-size: 12px;
   font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 2px 5px;
-  background-color: $color-primary;
 }
 
 .item-characteristics-price {
+  margin: 2px;
+  padding: 5px;
+
+  border-radius: 10px;
+
   font-size: 14px;
   font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 5px;
 }
 
 .item {
+  margin: 2px;
+  padding: 5px;
+
+  border-radius: 10px;
+
   font-size: 16px;
   font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 5px;
 }
 
 .about {
@@ -315,43 +355,54 @@ mat-raised-button {
 .copy {
   width: 20px;
   height: 20px;
-  background-color: $color-white;
+
   border: none;
+  background-color: $color-white;
 }
 
 .message {
   position: absolute;
   z-index: 9999;
-  background-color: $color-white;
-  border-radius: 10px;
-  font-size: 15px;
+
   padding: 10px;
+
+  border-radius: 10px;
+  background-color: $color-white;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+  font-size: 15px;
 }
 
 .fa-copy {
   color: $color-dark;
+
   font-size: 20px;
   &:hover {
     transition: 1s;
+
     color: $color-accent;
+
     scale: 1.2;
   }
 }
 
 .fa-solid {
   color: $color-primary;
+
   font-size: 25px;
 }
 
 .fab {
-  font-size: 25px;
   transition: 0.4s;
 
+  font-size: 25px;
+
   &:hover {
-    color: $color-accent;
     transition: 0.4s;
     transform: scale(2);
+
+    color: $color-accent;
+
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
   }
 }
@@ -366,46 +417,54 @@ mat-raised-button {
 
 .characteristics-group {
   display: flex;
+  align-content: center;
+  align-items: center;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center;
-  align-content: center;
-  border-bottom: 1px solid #ddd;
+
+  border-bottom: 1px solid #dddddd;
 }
 
 .accent {
-  font-size: 16px;
   color: $color-accent;
+
+  font-size: 16px;
   font-weight: 600;
 }
 
 .title-selected-accent {
-  font-size: 20px;
   color: $color-accent;
+
+  font-size: 20px;
   font-weight: 600;
 }
 
 .card.selected {
+  width: 90%;
+  height: 90%;
+
+  transition: 1s;
+
   color: white;
   background-color: $color-dark;
-  transition: 1s;
-  height: 90%;
-  width: 90%;
 }
 
 .title-selected {
-  font-size: 18px;
   color: $color-text;
+
+  font-size: 18px;
 }
 
 .title-group {
   display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  margin: 2px;
+  padding: 2px 10px;
+
   border: 1px solid rgba(1, 19, 12, 0.2);
   border-radius: 10px;
-  padding: 2px 10px;
-  margin: 2px;
-  justify-content: space-between;
-  align-items: baseline;
   box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.25), 2px 1px 2px rgba(0, 0, 0, 0.22);
 }
 
@@ -423,40 +482,48 @@ mat-raised-button {
 
 .btn-create {
   display: flex;
-  border-radius: 50%;
-  border: none;
-  background-color: tomato;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: space-around;
+
   width: 60px;
   height: 60px;
   margin: 10px;
+
+  border: none;
   border-radius: 50%;
+  border-radius: 50%;
+  background-color: tomato;
+
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  justify-content: space-around;
-  flex-direction: column;
-  align-items: stretch;
 
   &:hover {
     transition: 0.4s;
+
     background-color: $color-white;
+
     filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
 
     .fa-solid,
     .fa-regular {
-      color: rgb(59, 247, 2);
-      transform: scale(2.5);
       transition: transform 0.5s;
+      transform: scale(2.5);
+
+      color: rgb(59, 247, 2);
     }
   }
 }
 
 .switch-box {
   position: relative;
+
   display: flex;
-  height: 40px;
   align-content: center;
-  justify-content: flex-start;
-  margin-bottom: 10px;
   align-items: baseline;
+  justify-content: flex-start;
+
+  height: 40px;
+  margin-bottom: 10px;
 }
 
 .switch-box-name {
@@ -465,37 +532,46 @@ mat-raised-button {
 }
 
 .toggle-button {
-  border-radius: 10px;
-  width: 90px;
-  height: 20px;
-  display: flex;
-  border: none;
-  padding: 2px;
-  cursor: pointer;
   position: relative;
+
+  display: flex;
   overflow: hidden;
   align-items: center;
+
+  width: 90px;
+  height: 20px;
+  padding: 2px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .toggle-text {
-  font-size: 20px;
   margin-left: 10px;
+
+  font-size: 20px;
 }
 
 .toggle-switch {
+  position: absolute;
+
   width: 40px;
   height: 20px;
-  background-color: $color-accent;
-  border-radius: 10px;
-  position: absolute;
+
   transition: transform 0.3s ease;
+
+  border-radius: 10px;
+  background-color: $color-accent;
   box-shadow: 10px 2px 5px rgba(0, 0, 0, 0.25), 10px 10px 5px rgba(0, 0, 0, 0.22);
 }
 
 .toggle-switch.enabled {
-  background-color: #4caf50;
   transform: translateX(45px);
+
+  background-color: #4caf50;
   box-shadow: 10px 2px 5px rgba(0, 0, 0, 0.25), 10px 10px 5px rgba(0, 0, 0, 0.22);
 }
 
@@ -503,5 +579,6 @@ mat-raised-button {
   display: flex;
   align-items: center;
   justify-content: center;
+
   margin: 0 15px;
 }

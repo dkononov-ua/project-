@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
 
   constructor(private userService: UserService) { }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
   onSubmit(email: string, password: string) {
     this.userService.getUserInfo(email, password).subscribe((response) => {

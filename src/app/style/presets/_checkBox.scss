@@ -1,0 +1,62 @@
+@use "skin" as *;
+
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 50px;
+
+  visibility: hidden;
+}
+
+.checkBox {
+  position: relative;
+
+  display: block;
+  overflow: hidden;
+
+  width: 30px;
+  height: 30px;
+
+  cursor: pointer;
+
+  border: 3px solid rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px $color-accent;
+}
+
+.checkBox div {
+  position: absolute;
+  z-index: 1;
+  top: -52px;
+  left: -52px;
+
+  width: 60px;
+  height: 60px;
+
+  transform: rotateZ(45deg);
+
+  background-color: $color-accent;
+}
+
+.checkBox input[type="checkbox"]:checked + div {
+  top: -10px;
+  left: -10px;
+}
+
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 50px;
+
+  visibility: hidden;
+}
+
+.transition {
+  transition: 300ms ease;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 10px;
+}

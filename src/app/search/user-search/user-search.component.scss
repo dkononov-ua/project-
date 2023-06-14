@@ -1,0 +1,37 @@
+@use "../../style/presets/" as *;
+
+.box-search {
+  width: 100%;
+  position: relative;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-content: center;
+  align-items: stretch;
+}
+
+.search-id {
+  width: 100%;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.disabled-btn {
+  background-color: $color-primary;
+  &:hover {
+    background-color: $color-primary;
+  }
+}
+
+.enabled-btn {
+  background-color: $color-accent;
+}
+

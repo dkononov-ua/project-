@@ -167,7 +167,7 @@ export class InformationUserComponent implements OnInit {
       surName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
       password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
-      dob: [null, [Validators.required, Validators.min(Date.parse('1900-01-01')), Validators.max(new Date().getTime())]],
+      dob: [null],
     });
 
     this.userFormContacts = this.fb.group({

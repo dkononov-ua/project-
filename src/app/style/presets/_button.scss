@@ -11,6 +11,10 @@
     background-color: $color-accent;
   }
 
+  &:active {
+    background-color: $color-accent;
+  }
+
   &:hover,
   &:focus {
     background-color: $color-accent;
@@ -60,8 +64,26 @@
   }
 }
 
-.btn {
-  &:active {
+.btn-info {
+  margin: 0;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text;
+  text-decoration: none;
+  border-radius: 50%;
+  background-color: $color-primary;
+  border: none;
+
+  &.active {
+    background-color: $color-accent;
+  }
+
+  &:hover,
+  &:focus {
     background-color: $color-accent;
   }
 }
@@ -170,74 +192,3 @@
   right: 0;
   transition-delay: 0.15s;
 }
-
-// Х кнопка
-// .prev {
-//   cursor: pointer;
-//   border: none;
-//   border-radius: 10px;
-//   background-color: $color-white;
-//   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-//   transition: transform 0.5s;
-// }
-
-// .prev-arrow-top,
-// .prev-arrow-bottom {
-//   background-color: #666;
-//   height: 4px;
-//   position: absolute;
-//   top: 50%;
-//   width: 30%;
-// }
-
-// .prev-arrow-top:after,
-// .prev-arrow-bottom:after {
-//   background-color: #fff;
-//   content: "";
-//   height: 100%;
-//   position: absolute;
-//   top: 0;
-//   transition: all 0.15s;
-// }
-
-// .prev-arrow-top {
-//   transform: rotate(-45deg);
-// }
-
-// .prev-arrow-top:after {
-//   position: absolute;
-//   background-color: #fff;
-//   content: "";
-//   height: 100%;
-//   top: 0;
-//   transition: all 0.15s;
-//   left: 100%;
-//   right: 0;
-//   left: 0;
-//   right: 100%;
-//   transition-delay: 0s;
-// }
-
-// .prev-arrow-bottom {
-//   transform: rotate(45deg);
-// }
-
-// .prev-arrow-bottom {
-//   transform: rotate(45deg);
-// }
-
-// .prev-arrow-bottom:after {
-//   left: 100%;
-//   right: 0;
-//   transition-delay: 0.15s;
-// }
-
-// .prev:hover .prev-arrow-top:after {
-//   right: 0;
-//   transition-delay: 0.15s;
-// }
-
-// .prev:hover .prev-arrow-bottom:after {
-//   left: 0;
-//   transition-delay: 0s;
-// }

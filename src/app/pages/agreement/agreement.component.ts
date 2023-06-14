@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DataService } from 'src/app/services/data.service';
@@ -60,6 +60,9 @@ interface Subscriber {
 
 })
 export class AgreementComponent implements OnInit {
+
+  @ViewChild('agreeContainer') agreeContainer: ElementRef | undefined;
+
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   isOnline = true;
@@ -72,8 +75,8 @@ export class AgreementComponent implements OnInit {
   leaseTermMonths: number | undefined;
   leaseTermYears: number | undefined;
   rentDueDate: number | undefined;
-  penaltyPercentage: number | undefined;
-  maxPenaltyPercentage: number | undefined;
+  penalty: number | undefined;
+  maxPenalty: number | undefined;
 
   isCityDisabled: boolean = true;
   isStreetDisabled: boolean = true;
@@ -85,7 +88,7 @@ export class AgreementComponent implements OnInit {
 
   isContainerVisible = false;
   isCheckboxChecked = false;
-
+  isCheckboxPenalty = false;
 
   openContainer() {
     this.isContainerVisible = true;
@@ -93,9 +96,6 @@ export class AgreementComponent implements OnInit {
   closeContainer() {
     this.isContainerVisible = false;
   }
-
-
-
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,

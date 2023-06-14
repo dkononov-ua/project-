@@ -186,30 +186,39 @@
 
           <div class="input-group">
             <p>Не пізніше цього дня місяця вносити плату за оренду</p>
-            <div class="input-group">
-              <mat-form-field appearance="outline" class="input-mat-4">
-                <mat-label>Дата оплати</mat-label>
-                <input matInput type="number" id="rent_due_date" name="rent_due_date" min="1" max="31"
-                  placeholder="число" required [(ngModel)]="rentDueDate">
-              </mat-form-field>
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Дата оплати</mat-label>
+              <input matInput type="number" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="число"
+                required [(ngModel)]="rentDueDate">
+            </mat-form-field>
+
+            <div class="content">
+              <label class="checkBox">
+                <input type="checkbox" [(ngModel)]="isCheckboxPenalty">
+                <div class="transition"></div>
+              </label>
+              <i></i>
+              <p>Штрафні санкції?</p>
             </div>
-          </div>
-          <p>За несвоєчасне внесення платежів оплачувати пеню з розрахунку відсоток пені за прострочення <br> <span
-              class="accent">"% пені"</span> але не
-            більше максимального відсотку пені <br> <span class="accent">"Max % пені"</span> суми заборгованості.
-          </p>
-          <div class="input-group">
+
+            <p>За несвоєчасне внесення платежів оплачувати пеню з розрахунку відсоток пені за прострочення <br> <span
+                class="accent">"% пені"</span> але не
+              більше максимального відсотку пені <br> <span class="accent">"Max % пені"</span> суми заборгованості.
+            </p>
             <mat-form-field appearance="outline" class="input-mat-3">
               <mat-label>% пені</mat-label>
-              <input matInput type="number" id="penalty_percentage" name="penalty_percentage" min="0" max="100" required
-                [(ngModel)]="penaltyPercentage">
+              <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required
+                [(ngModel)]="penalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
+                (ngModelChange)="penalty = $event || 0" placeholder=0>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="input-mat-3">
               <mat-label>Max % пені</mat-label>
-              <input matInput type="number" id="max_penalty_percentage" name="max_penalty_percentage" min="0" max="100"
-                required [(ngModel)]="maxPenaltyPercentage">
+              <input matInput type="number" id="max_penalty" name="max_penalty" min="0" max="100"
+                required [(ngModel)]="maxPenalty" [ngModelOptions]="{standalone: true}"
+                [disabled]="!isCheckboxPenalty" value="0">
             </mat-form-field>
+
           </div>
 
           <p>За згодою сторін договором встановлюється плата за оренду квартири в розмірі</p>
@@ -220,37 +229,29 @@
                 [ngModel]="houseData.about.price_m ? houseData.about.price_m : ''"
                 placeholder="сума орендної плати на місяць" [disabled]="isRentPriceDisabled">
             </mat-form-field>
-
-          </div>
-          <button class="btn" type="submit" (click)="openContainer()"><a [routerLinkActive]="'active'"
-              [routerLink]="'/payments'">Деталі угоди.</a></button>
-
-
-          <div class="group">
-            <div class="content">
-              <label class="checkBox">
-                <input type="checkbox" [(ngModel)]="isCheckboxChecked">
-                <div class="transition"></div>
-              </label>
-              <i></i>
-              <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
-                ознайомлений.</p>
-            </div>
-            <button class="btn" type="submit" [disabled]="!isCheckboxChecked"><a [routerLinkActive]="'active'"
-                [routerLink]="'/payments'">Сформувати</a></button>
           </div>
 
+          <div class="content">
+            <label class="checkBox">
+              <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+              <div class="transition"></div>
+            </label>
+            <i></i>
+            <button class="btn-info" type="submit" (click)="openContainer()"><i class="fa-solid fa-info"></i></button>
+            <p>Деталі угоди.</p>
 
+          </div>
+          <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
+            ознайомлений.</p>
 
-
-
+          <button class="btn" type="submit" [disabled]="!isCheckboxChecked">Сформувати</button>
 
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="isContainerVisible" class="container-box agree">
+  <div *ngIf="isContainerVisible" class="container-box agree" id="agreement-container">
     <div class="close-box">
       <button class="btn-close" type="submit" (click)="closeContainer()"><a [routerLinkActive]="'active'"
           [routerLink]="'/payments'"></a></button>
@@ -349,9 +350,9 @@
         <li>
           2.2.4. Не пізніше <span class="accent">{{ rentDueDate }} дня місяця</span> вносити плату за оренду.
           За несвоєчасне внесення платежів оплачувати пеню з розрахунку <span class="accent">відсоток пені за
-            прострочення: {{ penaltyPercentage }}%</span> від
+            прострочення: {{ penalty }}%</span> від
           несплаченої суми за кожний день прострочення, але не більше <span class="accent">максимальний відсоток пені:
-            {{ maxPenaltyPercentage }}%</span> суми заборгованості.
+            {{ maxPenalty }}%</span> суми заборгованості.
         </li>
         <li> 2.2.5. Допускати в денний час, а при аваріях і в нічний час, в орендовану квартиру
           працівників Орендодавця або самого Орендодавця, а також представників підприємств по
@@ -508,7 +509,7 @@
 
       </fieldset>
     </div>
-    <button class="btn">Завантажити PDF</button>
+    <!-- <button class="btn" (click)="downloadAsPDF()">Завантажити PDF</button> -->
   </div>
 
 </div>

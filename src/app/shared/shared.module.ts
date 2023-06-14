@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
-import { LoaderComponent } from 'src/app/components/loader/loader.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { AccountNavComponent } from '../components/account-nav/account-nav.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -17,24 +16,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HousingSelectionComponent } from '../components/housing-selection/housing-selection.component';
 import { AccountSelectionComponent } from '../components/account-selection/account-selection.component';
-
+import { UserSearchComponent } from '../search/user-search/user-search.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     FooterComponent,
-    LoaderComponent,
     AccountNavComponent,
     HousingSelectionComponent,
     AccountSelectionComponent,
+    UserSearchComponent,
   ],
   exports: [
     NavbarComponent,
     FooterComponent,
-    LoaderComponent,
     AccountNavComponent,
     HousingSelectionComponent,
     AccountSelectionComponent,
+    UserSearchComponent,
   ],
   imports: [
     CommonModule,

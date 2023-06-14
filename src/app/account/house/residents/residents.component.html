@@ -1,139 +1,101 @@
 <div class="card-container">
 
-  <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
+  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
     <div class="m-2">
-      <app-house-nav></app-house-nav>
+      <app-house-residents></app-house-residents>
     </div>
   </div>
 
-  <div class="card-box col-lg-5 col-md-12 col-sm-12 col-12">
-    <div class="card-group p-3" *ngFor="let subscriber of subscribers" cdkScrollable>
-      <div class="card-wrapper  col-lg-12 col-md-5 col-sm-6 col-12 m-2">
-
+  <div class="card-box col-lg-4 col-md-12 col-sm-12 col-12">
+    <div class="card-group p-3">
+      <div class="card-wrapper col-lg-12 col-md-5 col-sm-6 col-12 m-2">
         <div class="one card col-lg-8 col-md-5 col-sm-6 col-12">
           <div class="card-img-group">
             <div class="card-img-container">
-              <img class="card-img-top" [src]="subscriber.photoUrl" alt="Card image cap">
+              <img class="card-img-top" [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo || 'user_default.svg')"
+                alt="User Image">
             </div>
-            <div class="card-social-link ">
-              <a href="{{ subscriber.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-              <a href="{{ subscriber.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
-              <a href="{{ subscriber.viber }}"><i class="fab fa-brands fa-viber"></i></a>
-              <a href="{{ subscriber.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
+
+            <div class="card-social-link">
+              <a href="{{ selectedSubscriber?.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+              <a href="{{ selectedSubscriber?.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+              <a href="{{ selectedSubscriber?.viber }}"><i class="fab fa-brands fa-viber"></i></a>
+              <a href="{{ selectedSubscriber?.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
             </div>
           </div>
 
           <div class="card-body">
-            <h2 class="card-title">{{subscriber.name}}</h2>
+            <h2 class="card-title">{{ selectedSubscriber?.firstName }} {{ selectedSubscriber?.lastName }}</h2>
             <div class="card-links">
-              <a href="#" class="card-link"><span>Запросити Документи</span><i class="fa-solid fa-passport"></i></a>
               <a href="#" class="card-link"><span>Запросити реквізити</span><i
                   class="fa-solid fa-money-bill-trend-up"></i></a>
               <a href="#" class="card-link"><span>Переглянути угоду</span><i class="fa-solid fa-file-contract"></i></a>
             </div>
-            <div class="card-buttons">
-              <button class="card-button btn m-1" (click)="toggleChat()" [hidden]="!isAccessClosed">Написати<i class="fa-solid fa-message"></i></button>
-              <button class="card-button btn m-1" (click)="toggleAccess()" [hidden]="!isChatClosed">Доступ</button>
-            </div>
-
 
           </div>
-        </div>
-        <div class="two col-lg-4 col-md-5 col-sm-6 col-12" [hidden]="isAccessClosed">
-          <div class="container-checkbox p-2">
-            <button class="btn m-1" (click)="toggleAccess()">Закрити</button>
-
-            <button class="btn m-1" (click)="removeSubscriber(subscriber)"><i
-                class="fa-solid fa-user-xmark"></i></button>
-
-            <h3>Дозвіл</h3>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="students" type="checkbox" value="1">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span">Перегляд</span>
+          <div class="two">
+            <div class="container-checkbox p-2">
+              <div class="content">
+                <div class="content-group">
+                  <label class="checkBox">
+                    <input id="students" type="checkbox" value="1">
+                    <div class="transition"></div>
+                  </label>
+                  <span class="checkBox-span">Перегляд комунальних</span>
+                </div>
+                <p class="descr">Перегляд комунальних послуг</p>
+                <i></i>
               </div>
-              <p class="descr">Перегляд комунальних послуг</p>
-              <i></i>
-            </div>
 
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="students" type="checkbox" value="1">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span">Показники</span>
+              <div class="content">
+                <div class="content-group">
+                  <label class="checkBox">
+                    <input id="students" type="checkbox" value="1">
+                    <div class="transition"></div>
+                  </label>
+                  <span class="checkBox-span">Зміна комунальних</span>
+                </div>
+                <p class="descr">Зміна показань комунальних послуг</p>
+                <i></i>
               </div>
-              <p class="descr">Перегляд комунальних послуг</p>
-              <i></i>
-            </div>
 
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="students" type="checkbox" value="1">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span">Адмін</span>
+              <div class="content">
+                <div class="content-group">
+                  <label class="checkBox">
+                    <input id="students" type="checkbox" value="1">
+                    <div class="transition"></div>
+                  </label>
+                  <span class="checkBox-span">Адміністрування</span>
+                </div>
+                <p class="descr">Повний доступ дій</p>
+                <i></i>
               </div>
-              <p class="descr">Перегляд комунальних послуг</p>
-              <i></i>
-            </div>
 
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="students" type="checkbox" value="1">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span">Адмін</span>
+              <div class="content">
+                <div class="content-group">
+                  <label class="checkBox">
+                    <input id="students" type="checkbox" value="1">
+                    <div class="transition"></div>
+                  </label>
+                  <span class="checkBox-span">Замовлення послуг</span>
+                </div>
+                <p class="descr">Замовляти послуги з меню послуг</p>
+                <i></i>
               </div>
-              <p class="descr">Перегляд комунальних послуг</p>
-              <i></i>
-            </div>
 
-            <div class="content">
-              <label class="checkBox">
-                <input id="family" type="checkbox" value="1">
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Замовлення послуг</span>
-              <i></i>
+              <!-- More content here -->
+
             </div>
           </div>
-        </div>
-
-
-      </div>
-      <div class="chat-container card col-lg-12 col-md-5 col-sm-6 col-12 m-2" [hidden]="isChatClosed">
-        <div class="chat-header">
-          <h3>Назва чату</h3>
-          <button class="btn m-1" (click)="toggleChat()">Закрити</button>
-        </div>
-        <div class="chat-messages">
-          <div class="message">
-            <img class="avatar" src="../../../../assets/photo1.jpg" alt="Фото користувача">
-            <div class="message-content">
-              <h4>Ім'я користувача</h4>
-              <p>Текст повідомлення</p>
-            </div>
-          </div>
-        </div>
-        <div class="chat-input">
-          <input type="text" placeholder="Напишіть повідомлення">
-          <button class="btn m-1">Надіслати</button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <div class="card-info col-lg-4 col-md-12 col-sm-12 col-12">
+  <div class="card-info col-lg-3 col-md-12 col-sm-12 col-12">
+
     <div class="card-group p-2">
+      <app-user-search></app-user-search>
       <h4>Дискусія:</h4>
       <div class="card-info-title p-2">
         <p>Тут Ви зможете бачити користувачів яких ви розглядаєте як орендаторів на вашу оселю, Ви можете спілкуватись

@@ -2,11 +2,10 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../filter.service';
 import { Observable, Subject } from 'rxjs';
-declare const L: any;
+import { Router } from '@angular/router';
 
 interface FlatInfo {
   region: string;
@@ -66,9 +65,8 @@ interface FlatInfo {
   ]
 })
 
-export class HousingSearchComponent implements OnInit, AfterViewInit {
+export class HousingSearchComponent implements OnInit {
   isSubscribed: boolean = false;
-
 
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
@@ -125,7 +123,7 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.subscriptionMessageTimeout.subscribe(() => {
       setTimeout(() => {
-        this.subscriptionMessage = undefined; // Очищення повідомлення
+        this.subscriptionMessage = undefined;
       }, 2000);
     });
 
@@ -142,31 +140,6 @@ export class HousingSearchComponent implements OnInit, AfterViewInit {
     });
 
     this.locationLink = this.generateLocationUrl();
-
-  }
-
-  ngAfterViewInit(): void {
-    var map = L.map('map').setView([51.505, -0.09], 13);
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    var marker: any;
-
-    function onMapClick(e: { latlng: { toString: () => string; }; }) {
-      if (marker) {
-        map.removeLayer(marker);
-      }
-
-      marker = L.marker(e.latlng).addTo(map)
-        .bindPopup('Selected Location: ' + e.latlng.toString())
-        .openPopup();
-    }
-
-    map.on('click', onMapClick);
-
   }
 
   private updateCardPhotos(): void {

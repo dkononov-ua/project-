@@ -27,9 +27,8 @@
     "cors": "^2.8.5",
     "firebase": "^9.18.0",
     "firebaseui": "^6.0.2",
-    "jspdf": "^2.5.1",
-    "leaflet": "^1.9.4",
-    "leaflet-geosearch": "^3.8.0",
+
+
     "ngx-spinner": "^15.0.1",
     "ngx-wheel-selector": "^1.0.0",
     "rxjs": "~7.5.0",

@@ -33,7 +33,6 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/leaflet/dist/leaflet.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",

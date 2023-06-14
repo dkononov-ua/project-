@@ -3,6 +3,7 @@
 .card {
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .card-container {
@@ -83,17 +84,12 @@
   justify-content: center;
 }
 
-.one {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .two {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  width: 100%;
 }
 
 .card-img-group {
@@ -107,8 +103,9 @@
   width: 100%;
   display: flex;
   transition: all 0.3s ease;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     transition: 1s;
@@ -132,6 +129,8 @@
 }
 
 .card-body {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -152,13 +151,6 @@
     overflow: hidden;
     transform: scale(1.4);
   }
-}
-.card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .card-img-top {
@@ -364,10 +356,9 @@ mat-form-field {
 
 .container-checkbox {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   align-content: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .checkBox input[type="checkbox"] {

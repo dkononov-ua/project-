@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account.component';
 import { CanActivateGuard } from '../services/auth.guard';
 import { HouseComponent } from './house/house.component';
@@ -13,6 +12,8 @@ import { FilesComponent } from './user/files/files.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
 import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
+import { RouterModule, Routes } from '@angular/router';
+import { HouseResidentsComponent } from './house/house-residents/house-residents.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'user', pathMatch: 'full' },
       { path: 'subscribers', component: SubscribersComponent, canActivate: [CanActivateGuard] },
       { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
+      { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
       {
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [

@@ -80,8 +80,6 @@ handleGenerateAgreement() {
   }, 2000); // 2 секунди
 }
 
-
-
   onSelectionChange(): void {
     this.selectedFlatIdService.setSelectedFlatId(this.selectedFlatId);
   }
