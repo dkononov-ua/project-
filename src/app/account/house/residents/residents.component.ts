@@ -13,6 +13,10 @@ interface Subscriber {
   telegram: string;
   viber: string;
   facebook: string;
+  acces_services: '';
+  acces_admin: '';
+  acces_comunal: '';
+  acces_added: '';
 }
 @Component({
   selector: 'app-residents',
@@ -29,6 +33,10 @@ export class ResidentsComponent implements OnInit {
   loading = false;
   isChatClosed: boolean = true;
   isAccessClosed: boolean = true;
+  acces_added: any;
+  acces_admin: any;
+  acces_services: any;
+  acces_comunal: any;
 
   toggleChat() {
     this.isChatClosed = !this.isChatClosed;
@@ -61,6 +69,10 @@ export class ResidentsComponent implements OnInit {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
+          this.acces_added = selectedSubscriber.acces_added;
+          this.acces_admin = selectedSubscriber.acces_admin;
+          this.acces_services = selectedSubscriber.acces_services;
+          this.acces_comunal = selectedSubscriber.acces_comunal;
         }
       }
     });
@@ -91,8 +103,13 @@ export class ResidentsComponent implements OnInit {
           instagram: user_id.instagram,
           telegram: user_id.telegram,
           viber: user_id.viber,
-          facebook: user_id.facebook
+          facebook: user_id.facebook,
+          acces_services: user_id.acces_services,
+          acces_admin: user_id.acces_admin,
+          acces_comunal: user_id.acces_comunal,
+          acces_added: user_id.acces_added,
         }));
+
       this.subscribers = newSubscribers;
 
     } catch (error) {
@@ -102,39 +119,46 @@ export class ResidentsComponent implements OnInit {
     this.selectedFlatId = selectedFlatId;
   }
 
-  approveSubscriber(subscriber: Subscriber): void {
+  addAccess(
+    subscriber: Subscriber,
+    acces_added: boolean,
+    acces_admin: boolean,
+    acces_services: boolean,
+    acces_comunal: boolean
+  ): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
+
     if (userJson && subscriber) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
         user_id: subscriber.user_id,
+        acces_added: acces_added,
+        acces_admin: acces_admin,
+        acces_services: acces_services,
+        acces_comunal: acces_comunal,
       };
-      console.log(data);
-      this.http.post('http://localhost:3000/subs/accept', data)
-        .subscribe((response: any) => {
-          console.log(response);
-        }, (error: any) => {
+      this.http.post('http://localhost:3000/citizen/add/access', data).subscribe(
+        (response: any) => {
+        },
+        (error: any) => {
           console.error(error);
-        });
+        }
+      );
     } else {
-      console.log('user or subscriber not found');
+      console.log('User or subscriber not found');
     }
   }
 
   removeSubscriber(subscriber: Subscriber): void {
-    console.log(22222)
-
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson && subscriber) {
       const data = { auth: JSON.parse(userJson), flat_id: selectedFlat, user_id: subscriber.user_id };
-      console.log(data)
       this.http.post('http://localhost:3000/citizen/delete/citizen', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
           (error: any) => {

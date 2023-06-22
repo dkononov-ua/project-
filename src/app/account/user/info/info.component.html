@@ -10,9 +10,8 @@
         <h2>{{ user.lastName }}</h2>
         <h2>{{ user.firstName }}</h2>
         <h2>{{ user.surName }}</h2>
-        <p>Ваш user ID: {{ user.user_id }}</p>
-        <p>Телефон: {{ user.tell }}</p>
-        <p>Email: {{ user.mail }}</p>
+        <p>User ID: <span class="accent">{{ user.user_id }}</span></p>
+        <p>Телефон: <span class="accent">{{ user.tell }}</span></p>
         <div class="card-social-link">
           <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
           <a href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>

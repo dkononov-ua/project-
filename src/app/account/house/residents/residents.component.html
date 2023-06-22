@@ -12,7 +12,8 @@
         <div class="one card col-lg-8 col-md-5 col-sm-6 col-12">
           <div class="card-img-group">
             <div class="card-img-container">
-              <img class="card-img-top" [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo || 'user_default.svg')"
+              <img class="card-img-top"
+                [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo || 'user_default.svg')"
                 alt="User Image">
             </div>
 
@@ -27,54 +28,53 @@
           <div class="card-body">
             <h2 class="card-title">{{ selectedSubscriber?.firstName }} {{ selectedSubscriber?.lastName }}</h2>
             <div class="card-links">
-              <a href="#" class="card-link"><span>Запросити реквізити</span><i
-                  class="fa-solid fa-money-bill-trend-up"></i></a>
               <a href="#" class="card-link"><span>Переглянути угоду</span><i class="fa-solid fa-file-contract"></i></a>
             </div>
-
           </div>
+          
           <div class="two">
             <div class="container-checkbox p-2">
               <div class="content">
                 <div class="content-group">
                   <label class="checkBox">
-                    <input id="students" type="checkbox" value="1">
+                    <input id="acces_added" type="checkbox" [(ngModel)]="acces_added">
                     <div class="transition"></div>
                   </label>
-                  <span class="checkBox-span">Перегляд комунальних</span>
+                  <span class="checkBox-span">Дозволити додавати людей</span>
                 </div>
-                <p class="descr">Перегляд комунальних послуг</p>
+                <p class="descr">Дозволити додавати людей</p>
                 <i></i>
               </div>
 
               <div class="content">
                 <div class="content-group">
                   <label class="checkBox">
-                    <input id="students" type="checkbox" value="1">
+                    <input id="acces_comunal" type="checkbox" [(ngModel)]="acces_comunal">
                     <div class="transition"></div>
                   </label>
-                  <span class="checkBox-span">Зміна комунальних</span>
+                  <span class="checkBox-span">Внесення показників</span>
                 </div>
-                <p class="descr">Зміна показань комунальних послуг</p>
+                <p class="descr">Внесення показників</p>
                 <i></i>
               </div>
 
               <div class="content">
                 <div class="content-group">
                   <label class="checkBox">
-                    <input id="students" type="checkbox" value="1">
+                    <input id="acces_admin" type="checkbox" [(ngModel)]="acces_admin">
                     <div class="transition"></div>
                   </label>
                   <span class="checkBox-span">Адміністрування</span>
                 </div>
-                <p class="descr">Повний доступ дій</p>
+                <p class="descr">Доступ до сервісів. Доступ вносити показники. Доступ до редагування комуналки. Доступ
+                  до підписників. Доступ до дискусії.</p>
                 <i></i>
               </div>
 
               <div class="content">
                 <div class="content-group">
                   <label class="checkBox">
-                    <input id="students" type="checkbox" value="1">
+                    <input id="acces_services" type="checkbox" [(ngModel)]="acces_services">
                     <div class="transition"></div>
                   </label>
                   <span class="checkBox-span">Замовлення послуг</span>
@@ -82,9 +82,10 @@
                 <p class="descr">Замовляти послуги з меню послуг</p>
                 <i></i>
               </div>
-
-              <!-- More content here -->
-
+              <button class="btn m-1"
+                (click)="addAccess(selectedSubscriber!, acces_added, acces_admin, acces_services, acces_comunal)">
+                <i class="fa-solid fa-check-double"></i>Підтвердити
+              </button>
             </div>
           </div>
         </div>
@@ -95,30 +96,13 @@
   <div class="card-info col-lg-3 col-md-12 col-sm-12 col-12">
 
     <div class="card-group p-2">
-      <app-user-search></app-user-search>
-      <h4>Дискусія:</h4>
+      <h4><strong>Мешканці оселі:</strong></h4>
       <div class="card-info-title p-2">
-        <p>Тут Ви зможете бачити користувачів яких ви розглядаєте як орендаторів на вашу оселю, Ви можете спілкуватись
-          по умовам оренди оселі, формувати угоду, та надати доступ до оселі орендатору, для того щоб він зміг
-          користуватись функціями перегляду комунальних послуг, інформації про оселю, переглядом послуг які діють в
-          цій оселі і так далі.</p>
-      </div>
-      <div class="card-info-group">
-        <div class="card-info-content">
-          <p>Що робить кнопка ДИСКУСІЯ?</p>
-        </div>
-        <button class="card-info-button col-2 m-3 info" type="button" data-bs-toggle="collapse"
-          data-bs-target="#discussionButton" aria-expanded="false" aria-controls="collapseExample">
-          <i class="fa-solid fa-info"></i>
-        </button>
-      </div>
-
-      <div class="collapse" id="discussionButton">
-        <div class="card-body-cast">
-          <p class="text-info">Вона дозволяє ухвалити користувача для подальшого діалогу між вами в меню ДИСКУСІЯ. В
-            меню дискусія більше інформації про її можливості.
-          </p>
-        </div>
+        <p class="m-2">Тут Ви зможете бачити мешканців яких Ви вже додали в оселю.</p>
+        <p class="m-2">Переглядати інформацію про мешканців</p>
+        <p class="m-2">Надавати права доступу до різної інформації про
+          оселю та права її змінювати, додавати чи коригувати.</p>
+        <p class="m-2">В цьому меню є можливість додавати мешканців не заключаючи з ними угоду</p>
       </div>
     </div>
   </div>

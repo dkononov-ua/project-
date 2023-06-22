@@ -36,7 +36,6 @@ export class AccountComponent implements OnInit {
 
     ngOnInit(): void {
       this.dataService.getData().subscribe((data: any) => {
-        console.log(data);
       });
 
       const userJson = localStorage.getItem('user');

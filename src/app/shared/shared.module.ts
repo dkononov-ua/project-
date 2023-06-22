@@ -17,6 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HousingSelectionComponent } from '../components/housing-selection/housing-selection.component';
 import { AccountSelectionComponent } from '../components/account-selection/account-selection.component';
 import { UserSearchComponent } from '../search/user-search/user-search.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -43,15 +45,11 @@ import { UserSearchComponent } from '../search/user-search/user-search.component
     MatCardModule,
     MatButtonModule,
     MatListModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatSelectModule,
-    MatListModule,
-    MatButtonModule,
-    MatCardModule,
     MatTooltipModule,
     MatInputModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatDialogModule,
   ]
 })
 export class SharedModule { }

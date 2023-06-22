@@ -41,8 +41,14 @@
           <div class="card-body">
             <div class="card-links">
               <a href="#" class="card-link"><span>Запросити Документи</span><i class="fa-solid fa-passport"></i></a>
-              <a href="#" class="card-link"><span>Запросити реквізити</span><i class="fa-solid fa-money-bill-trend-up"></i></a>
-              <a href="agreement" class="card-link" (click)="handleGenerateAgreement()"><span>Сформувати угоду</span><i class="fa-solid fa-file-contract"></i></a>
+              <a href="#" class="card-link"><span>Запросити реквізити</span><i
+                  class="fa-solid fa-money-bill-trend-up"></i></a>
+
+
+              <a class="card-link" [routerLinkActive]="'active'"
+                [routerLink]="['/agreement', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
+                  class="fa-solid fa-file-contract"></i></a>
+
             </div>
           </div>
         </div>
@@ -73,8 +79,3 @@
 
   </div>
 </div>
-
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
-</div>
-

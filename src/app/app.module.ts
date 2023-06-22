@@ -3,7 +3,6 @@ import { AppRoutingModule, RegistrationComponent } from './pages/registration/re
 import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
-import { AgreementComponent } from './pages/agreement/agreement.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
@@ -52,15 +51,14 @@ import { RouterModule } from '@angular/router';
     RegistrationComponent,
     UserPaymentComponent,
     InformationUserComponent,
-    AgreementComponent,
     SliderComponent,
     UserLicenceComponent,
     ComunPageComponent,
     KrutilkaComponent,
     DeleteComunalComponent,
     DeleteDialogComponent,
-   ],
-   providers: [
+  ],
+  providers: [
     SelectedFlatService,
   ],
   bootstrap: [AppComponent],

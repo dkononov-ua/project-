@@ -18,6 +18,8 @@ export class AccountNavComponent implements OnInit {
 
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
+  rentedHouses!: { id: number; name: string; }[];
+
   addressHouse: FormGroup | undefined;
   flatImg: any = [{ img: "housing_default.svg" }];
   userImg: any;
@@ -26,6 +28,8 @@ export class AccountNavComponent implements OnInit {
     house: new FormControl('виберіть оселю')
   });
   images: any;
+  selectedRentedFlatId: any;
+
 
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private selectedFlatService: SelectedFlatService) { }
 
@@ -39,17 +43,20 @@ export class AccountNavComponent implements OnInit {
   loadImages(): void {
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
+
     if (userJson !== null && houseJson !== null) {
       this.dataService.getData().subscribe((response: any) => {
         if (response.houseData) {
           if (response.houseData.imgs !== 'Картинок нема') {
             this.flatImg = response.houseData.imgs;
-          }
 
-          if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
-            this.images = [];
-            for (const img of this.flatImg) {
-              this.images.push('http://localhost:3000/img/flat/' + img.img);
+            if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0) {
+              this.images = [];
+              for (const img of this.flatImg) {
+                this.images.push('http://localhost:3000/img/flat/' + img.img);
+              }
+            } else {
+              this.images = ['http://localhost:3000/housing_default.svg'];
             }
           } else {
             this.images = ['http://localhost:3000/housing_default.svg'];
@@ -68,7 +75,26 @@ export class AccountNavComponent implements OnInit {
     }
   }
 
+  loadUserImage(): void {
+    const userJson = localStorage.getItem('user');
+
+    if (userJson) {
+      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          if (response.img && response.img.length > 0) {
+            this.userImg = response.img[0].img;
+          }
+        });
+    }
+  }
+
+
   loadHouses(): void {
+    this.loadOwnedHouses();
+    this.loadRentedHouses();
+  }
+
+  loadOwnedHouses(): void {
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
 
@@ -76,14 +102,17 @@ export class AccountNavComponent implements OnInit {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
-            this.houses = response.ids.map((item: { flat_id: any; }, index: number) => ({
+            this.houses = response.ids.map((item: { flat_id: any }, index: number) => ({
               id: index + 1,
               name: item.flat_id,
             }));
 
+            this.houses.forEach((house: { id: any, name: any }) => {
+            });
+
             if (houseJson) {
               const selectedFlatId = JSON.parse(houseJson).flat_id;
-              const selectedHouseExists = this.houses.some((house: { name: any; }) => house.name === selectedFlatId);
+              const selectedHouseExists = this.houses.some((house: { name: any }) => house.name === selectedFlatId);
 
               if (selectedHouseExists) {
                 this.selectHouse.setValue({ house: selectedFlatId });
@@ -101,7 +130,32 @@ export class AccountNavComponent implements OnInit {
           }
         );
     } else {
-      console.log('user not found');
+      console.log('User not found');
+    }
+  }
+
+  loadRentedHouses(): void {
+    const userJson = localStorage.getItem('user');
+
+    if (userJson !== null) {
+      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+        .subscribe(
+          (response: any) => {
+            this.rentedHouses = response.citizen_ids
+              .map((item: { flat_id: any }, index: number) => ({
+                id: index + 1,
+                name: item.flat_id,
+              }));
+
+            this.rentedHouses.forEach((house: { id: any, name: any }) => {
+            });
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('User not found');
     }
   }
 
@@ -112,15 +166,18 @@ export class AccountNavComponent implements OnInit {
       if (selectedFlatId) {
         localStorage.removeItem('house');
         localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
-        console.log(selectedFlatId);
 
         this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson!), flat_id: selectedFlatId })
           .subscribe(
             (response: any) => {
               if (response !== null) {
-                this.addressHouse = this.fb.group({
-                  flat_id: [response.flat.flat_id],
-                });
+                if (this.addressHouse === undefined) {
+                  this.addressHouse = this.fb.group({
+                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                  });
+                } else {
+                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                }
               }
             },
             (error: any) => {
@@ -133,19 +190,6 @@ export class AccountNavComponent implements OnInit {
         console.log('Нічого не вибрано');
       }
     });
-  }
-
-  loadUserImage(): void {
-    const userJson = localStorage.getItem('user');
-
-    if (userJson) {
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          if (response.img && response.img.length > 0) {
-            this.userImg = response.img[0].img;
-          }
-        });
-    }
   }
 
   onSelectionChange() {
@@ -162,9 +206,13 @@ export class AccountNavComponent implements OnInit {
           .subscribe(
             (response: any) => {
               if (response !== null) {
-                this.addressHouse = this.fb.group({
-                  flat_id: [response.flat.flat_id],
-                });
+                if (this.addressHouse === undefined) {
+                  this.addressHouse = this.fb.group({
+                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                  });
+                } else {
+                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                }
               }
             },
             (error: any) => {
@@ -176,6 +224,39 @@ export class AccountNavComponent implements OnInit {
       }
 
       this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
+
+      setTimeout(() => {
+        location.reload();
+      }, 1300);
+    } else if (this.selectedRentedFlatId) {
+      console.log('Ви вибрали орендовану оселю з ID:', this.selectedRentedFlatId);
+      localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedRentedFlatId }));
+
+      this.selectedFlatId = this.selectedRentedFlatId;
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedRentedFlatId })
+          .subscribe(
+            (response: any) => {
+              if (response !== null) {
+                if (this.addressHouse === undefined) {
+                  this.addressHouse = this.fb.group({
+                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                  });
+                } else {
+                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                }
+              }
+            },
+            (error: any) => {
+              console.error(error);
+            }
+          );
+      } else {
+        console.log('user not found');
+      }
+
+      this.selectedFlatService.setSelectedFlatId(this.selectedRentedFlatId);
 
       setTimeout(() => {
         location.reload();

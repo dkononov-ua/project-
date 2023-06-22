@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface Subscriber {
   user_id: string;
@@ -48,9 +49,15 @@ export class HouseDiscussioComponent implements OnInit {
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.selectedSubscriber = params['selectedSubscriber'] || null;
+      console.log(this.selectedSubscriber);
+    });
+
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       console.log(selectedFlatId);
       if (selectedFlatId) {

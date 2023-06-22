@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 
-
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss'],
+  selector: 'app-agree-house',
+  templateUrl: './agree-house.component.html',
+  styleUrls: ['./agree-house.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition(':enter', [
@@ -15,10 +14,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ]
 })
-export class DocumentsComponent {
+
+export class AgreeHouseComponent {
   files = [
+    { name: 'Сформувати угоду', url: 'agreement' },
+    { name: 'Надіслані угоди', url: 'agreements-h' },
+    { name: 'Заключені угоди', url: 'assets/files/lease_agreement.pdf' },
     { name: 'документи на оселю', url: 'assets/files/documents.pdf' },
-    { name: 'угода про оренду', url: 'assets/files/lease_agreement.pdf' },
-    { name: 'інші файли', url: 'assets/files/other_files.pdf' }
   ];
 }
+

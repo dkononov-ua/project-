@@ -108,9 +108,15 @@ export class InformationUserComponent implements OnInit {
   // зберігаємо інфо користувача
   onSubmitSaveUserData(): void {
     const userJson = localStorage.getItem('user');
+    console.log(this.userForm.value)
 
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/add/user', { auth: JSON.parse(userJson), new: this.userForm.value })
+      this.http.post('http://localhost:3000/add/user',
+        {
+          auth: JSON.parse(userJson),
+          new: this.userForm.value
+        })
+
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);

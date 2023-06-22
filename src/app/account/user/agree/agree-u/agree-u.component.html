@@ -1,0 +1,503 @@
+<div class="container-fluid">
+  <mat-form-field class="list-form mb-3" appearance="outline">
+    <mat-label>Угода </mat-label>
+
+    <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
+      <mat-option disabled value="">виберіть оселю</mat-option>
+      <mat-option class="list-option" *ngFor="let agreement of agree" [value]="agreement.flat.flat_id">
+        {{ agreement.flat.flat_id }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="agreement-count">
+    <h4>Укладання угоди оренди житлового приміщення.</h4>
+    <span class="accent"> Кількість запропонованих угод {{ agree.length }}</span>
+    <div  *ngIf="selectedFlatId">
+      <h4 class="title-name">Ви обрали для перегляду Угоду №{{ selectedAgreement?.flat?.agreement_id }}</h4>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="!selectedFlatId">
+<h1>Оберіть оселю для детального перегляду умов угоди які вам запропоновані</h1>
+</div>
+
+<div class="container-fluid" *ngIf="selectedFlatId">
+
+
+  <div class="container-box" >
+    <div class="card-box group col-lg-4 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation4]="selectedFlatId" class="card-box col-lg-12 col-md-5 col-sm-6 col-12" >
+        <div class="card m-2">
+
+          <div class="img-fluid">
+            <div class="img-box">
+              <img
+                [src]="'http://localhost:3000/img/users/' + (userData?.img && userData.img[0].img ? userData.img[0].img : 'user_default.svg')"
+                alt="User Image">
+            </div>
+          </div>
+
+
+          <div class="item-wrapper p-3">
+            <p class="item-description">Сторона орендара П.І.Б</p>
+            <div class="item-name">{{ selectedAgreement?.flat?.subscriber_lastName }} {{ selectedAgreement?.flat?.subscriber_firstName }} {{
+              selectedAgreement?.flat?.subscriber_surName }}</div>
+            <p class="item-name"><span class="item-description">іменований надалі "Орендар"</span></p>
+            <p class="item-name"><span class="item-description">User ID:</span> {{ selectedAgreement?.flat?.subscriber_id }}</p>
+            <p class="item-name"><span class="item-description">Телефон:</span> {{ selectedAgreement?.flat?.subscriber_tell }}</p>
+            <p class="item-name"><span class="item-description">Email:</span> {{ selectedAgreement?.flat?.subscriber_email }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div [@cardAnimation5]="selectedFlatId" class="card-box col-lg-12 col-md-5 col-sm-6 col-12">
+        <div class="card m-2">
+          <div class="img-fluid">
+            <div class="img-box">
+              <img
+                [src]="'http://localhost:3000/img/users/' + (selectedAgreement?.flat?.owner_img && selectedAgreement?.flat?.owner_img ? selectedAgreement?.flat?.owner_img : 'user_default.svg')"
+                alt="User Image">
+            </div>
+          </div>
+          <div class="item-wrapper p-3">
+            <p class="item-description">Сторона орендодавця П.І.Б</p>
+            <div class="item-name">{{ selectedAgreement?.flat?.owner_lastName }} {{ selectedAgreement?.flat?.owner_firstName }} {{
+              selectedAgreement?.flat?.owner_surName }}
+            </div>
+            <p class="item-name"><span class="item-description">іменований надалі "Орендодавець"</span></p>
+            <p class="item-name"><span class="item-description">User ID:</span> {{ selectedAgreement?.flat?.owner_id }}</p>
+            <p class="item-name"><span class="item-description">Телефон:</span> {{ selectedAgreement?.flat?.owner_tell }}</p>
+            <p class="item-name"><span class="item-description">Email:</span> {{ selectedAgreement?.flat?.owner_email }}</p>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div [@cardAnimation2]="selectedFlatId" class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="img-wrapper" *ngIf="selectedAgreement.img && selectedAgreement.img.length > 0">
+                <img [src]="'http://localhost:3000/img/flat/' + selectedAgreement?.img[0]" alt="Flat Image"
+                  class="img-fluid-2 rounded">
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+
+
+
+        <div class="characteristics-group">
+          <div class="item-characteristics">ID оселі: <span class="item">{{ selectedAgreement?.flat?.flat_id }}</span>
+          </div>
+          <div class="item-characteristics">Дата укладання: <span class="item">{{ selectedAgreement?.flat?.agreementDate }}</span>
+          </div>
+
+          <div class="group-select p-2">
+            <h5 class="title-name">Предмет договору</h5>
+            <p>Орендодавець представляє Орендареві й членам його родини в користування строком на</p>
+
+            <div class="item-characteristics">
+              <mat-form-field appearance="outline" class="input-mat-3">
+                <mat-label for="lease-term-months">Місяці: </mat-label>
+                <input matInput type="number" name="lease-term-months" placeholder="Місяці" min="1" max="12"
+                  [(ngModel)]="selectedAgreement.flat.month" [disabled]="isMonthDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-3">
+                <mat-label for="lease-term-years">Роки:</mat-label>
+                <input matInput type="number" name="lease-term-years" placeholder="Роки" min="1" max="10" step="1"
+                  [(ngModel)]="selectedAgreement.flat.year" [disabled]="isYearDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-3">
+                <mat-label>Місто</mat-label>
+                <input matInput type="text" id="city" name="apartment-city"
+                  [ngModel]="selectedAgreement?.flat?.city ? selectedAgreement?.flat?.city : ''" placeholder="Місто" [disabled]="isCityDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-3">
+                <mat-label>Вулиця</mat-label>
+                <input matInput type="text" id="street" name="apartment-address"
+                  [ngModel]="selectedAgreement?.flat?.street ? selectedAgreement?.flat?.street : ''" placeholder="Вулиця"
+                  [disabled]="isStreetDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <mat-label for="house-number">Будинок:</mat-label>
+                <input matInput type="text" id="house-number" name="apartment-address"
+                  [ngModel]="selectedAgreement?.flat?.houseNumber ? selectedAgreement?.flat?.houseNumber : ''" placeholder="Номер будинку"
+                  [disabled]="isHouseNumberDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <mat-label for="apartment-number">Квартира:</mat-label>
+                <input matInput type="text" id="apartment-number" name="apartment-address"
+                  [ngModel]="selectedAgreement?.flat?.apartment ? selectedAgreement?.flat?.apartment : ''" placeholder="Номер квартири"
+                  [disabled]="isApartmentNumberDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-1">
+                <mat-label for="apartment-size">Площа м²:</mat-label>
+                <input matInput type="text" id="apartment-size" name="apartment-address"
+                  [ngModel]="selectedAgreement?.flat?.area ? selectedAgreement?.flat?.area : ''" placeholder="м²"
+                  [disabled]="isApartmentSizeDisabled">
+              </mat-form-field>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div [@cardAnimation2]="selectedFlatId" class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="card m-2 p-2">
+
+        <div class="characteristics-group">
+          <h5 class="title-name">Обов'язки сторін</h5>
+
+          <div class="input-group">
+            <p>Не пізніше цього дня місяця вносити плату за оренду</p>
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Дата оплати</mat-label>
+              <input matInput type="number" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="число"
+                required [(ngModel)]="selectedAgreement.flat.rent_due_data" [disabled]="isRentDataDisabled">
+            </mat-form-field>
+
+            <p>За несвоєчасне внесення платежів оплачувати пеню з розрахунку відсоток пені за прострочення <br> <span
+                class="accent">"% пені"</span> але не
+              більше максимального відсотку пені <br> <span class="accent">"Max % пені"</span> суми заборгованості.
+            </p>
+            <mat-form-field appearance="outline" class="input-mat-3">
+              <mat-label>% пені</mat-label>
+              <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required
+                [(ngModel)]="selectedAgreement.flat.penalty" [disabled]="isCheckboxPenalty">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-3">
+              <mat-label>Max % пені</mat-label>
+              <input matInput type="number" id="max_penalty" name="max_penalty" min="0" max="100" required
+                [(ngModel)]="selectedAgreement.flat.max_penalty" [disabled]="isCheckboxPenalty">
+            </mat-form-field>
+          </div>
+
+          <p>За згодою сторін договором встановлюється плата за оренду квартири в розмірі</p>
+          <div class="input-group">
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Сума орендної плати на місяць</mat-label>
+              <input matInput type="text" id="rent-price" name="apartment-address"
+                [ngModel]="selectedAgreement?.flat?.price ? selectedAgreement?.flat?.price : ''" placeholder="сума орендної плати на місяць"
+                [disabled]="isRentPriceDisabled">
+            </mat-form-field>
+          </div>
+
+          <div class="content">
+            <label class="checkBox">
+              <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+              <div class="transition"></div>
+            </label>
+            <i></i>
+            <button class="btn-info" type="submit" (click)="openContainer()"><i class="fa-solid fa-info"></i></button>
+            <p>Деталі угоди.</p>
+
+          </div>
+          <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
+            ознайомлений.</p>
+
+          <button class="btn" type="submit" [disabled]="!isCheckboxChecked" (click)="agreeAgreement(selectedAgreement)">Підписати угоду</button>
+
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isContainerVisible" class="container-box agree" id="agreement-container">
+      <div class="close-box">
+        <button class="btn-close" type="submit" (click)="closeContainer()"><a [routerLinkActive]="'active'"
+            [routerLink]="'/payments'"></a></button>
+      </div>
+      <div class="box m-2">
+        <div class="title-group">
+          <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
+          <div class="title">Discussio угода. <br> Укладання угоди оренди житлового приміщення.</div>
+        </div>
+        <h5>Місце укладання та дата: <span class="accent">{{ selectedAgreement?.flat?.city }}, {{ selectedAgreement?.flat?.agreementDate | date
+            }}</span>
+        </h5>
+      </div>
+      <div class="container-agree">
+
+
+        <div class="wrapper-group">
+          <div class="agree-wrapper p-2 col-lg-6 col-md-6 col-sm-6 col-12">
+            <p class="item-description-agree">Сторона орендодавця</p>
+            <p class="item-agree"><span class="item-description-agree">П.І.Б: </span>{{ selectedAgreement?.flat?.owner_lastName }} {{
+              selectedAgreement?.flat?.owner_firstName }} {{ selectedAgreement?.flat?.owner_surName }}
+            </p>
+            <p class="item-agree"><span class="item-description-agree">User ID: </span> {{ selectedAgreement?.flat?.owner_id }}</p>
+            <p class="item-agree"><span class="item-description-agree">Телефон: </span> {{ selectedAgreement?.flat?.owner_tell }}</p>
+            <p class="item-agree"><span class="item-description-agree">Email: </span> {{ selectedAgreement?.flat?.owner_email }}</p>
+          </div>
+
+          <div class="agree-wrapper p-2 col-lg-6 col-md-6 col-sm-6 col-12">
+            <p class="item-description-agree">Сторона орендара</p>
+            <p class="item-agree"><span class="item-description-agree">П.І.Б:</span>{{ selectedAgreement?.flat?.subscriber_lastName }}
+              {{
+              selectedAgreement?.flat?.subscriber_firstName }} {{selectedAgreement?.flat?.subscriber_surName }}
+            </p>
+            <p class="item-agree"><span class="item-description-agree">User ID:</span> {{ selectedAgreement?.flat?.subscriber_id }}
+            </p>
+            <p class="item-agree"><span class="item-description-agree">Телефон:</span> {{ selectedAgreement?.flat?.subscriber_tell }}
+            </p>
+            <p class="item-agree"><span class="item-description-agree">Email:</span> {{ selectedAgreement?.flat?.subscriber_email }}
+            </p>
+            <p></p>
+          </div>
+        </div>
+
+        <div>
+          <p class="item-description-agree">Сторона орендодавця іменований надалі "Орендодавець", з одного боку,
+            і Сторона орендара іменований надалі "Орендар", з іншого боку, уклали даний договір про наступне:</p>
+        </div>
+
+      </div>
+      <div class="container-fluid">
+        <ul>1. Предмет договору
+          <li>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на <span
+              class="accent"> {{ selectedAgreement?.flat?.year }} роки</span> та
+            <span class="accent"> {{ selectedAgreement?.flat?.month }} місяці </span>
+            квартиру загальною площею: <span class="accent">{{selectedAgreement?.flat?.area}} м² </span>
+            за адресою: вулиця <span class="accent">{{ selectedAgreement?.flat?.street }}, будинок {{ selectedAgreement?.flat?.houseNumber
+              }},
+              квартира {{ selectedAgreement?.flat?.apartment }}</span>,
+            характеристика якої наведена в акті здачі квартири.
+          </li>
+          <li>1.2. За згодою сторін договором встановлюється плата за оренду квартири в розмірі
+            <span class="accent">{{selectedAgreement?.flat?.price}}</span> гривень на місяць, до складу якої включені
+            пропорційно
+            орендованої площі платежі на повне відновлення будинку, витрати на обслуговування й
+            ремонт будинку й квартири, витрати по оплаті комунальних і інших послуг.
+          </li>
+        </ul>
+
+        <ul>2. Обов'язку сторін
+          <li>
+            2.1. Орендодавець зобов'язується:
+          </li>
+          <li>
+            2.1.1. Надати в оренду належне йому на праві власності житло в придатному для
+            проживання стані.
+          </li>
+          <li>
+            2.1.2. Здійснювати утримання будинку й технічних обладнань квартири відповідно до
+            вимог користування житловими приміщеннями, утримання житлового будинку і
+            прибудинкової території в Україні.
+          </li>
+          <li>
+            2.1.3. Забезпечувати надання комунальних і інших послуг.
+          </li>
+          <li>
+            2.2. Орендар зобов'язується:
+          </li>
+          <li>
+            2.2.1. Використати здану йому за договором оренди квартиру за призначенням.
+          </li>
+          <li>
+            2.2.2. Дотримуватись вимог до користування житловими приміщеннями, утриманням
+            житлового будинку й прибудинкової території в Україні.
+          </li>
+          <li>
+            2.2.3. Вчасно повідомляти Орендодавцеві про виявлені несправності елементів квартири
+            й будинку.
+          </li>
+          <li>
+            2.2.4. Не пізніше <span class="accent">{{ selectedAgreement?.flat?.rent_due_data }} дня місяця</span> вносити плату за
+            оренду.
+            За несвоєчасне внесення платежів оплачувати пеню з розрахунку <span class="accent">відсоток пені за
+              прострочення: {{ selectedAgreement?.flat?.penalty }}%</span> від
+            несплаченої суми за кожний день прострочення, але не більше <span class="accent">максимальний відсоток пені:
+              {{ selectedAgreement?.flat?.max_penalty }}%</span> суми заборгованості.
+          </li>
+          <li> 2.2.5. Допускати в денний час, а при аваріях і в нічний час, в орендовану квартиру
+            працівників Орендодавця або самого Орендодавця, а також представників підприємств по
+            обслуговуванню й ремонту житла для проведення огляду й ремонту конструкцій і
+            технічних обладнань квартири.
+          </li>
+          <li> 2.2.6. Звільнити орендоване житлове приміщення після закінчення обумовленого в
+            даному договорі строку оренди.
+          </li>
+        </ul>
+
+        <ul> 3. Права сторін
+
+          <li> 3.1. Орендодавець має право:
+          </li>
+          <li> 3.1.1. Вимагати від Орендаря дотримання вимог користування житловими приміщеннями,
+            утримання житлового будинку й прибудинкової території.
+          </li>
+          <li> 3.1.2. Вимагати від Орендаря своєчасного внесення плати за оренду.
+          </li>
+          <li> 3.1.3. Вимагати від Орендаря звільнення житлового приміщення після закінчення строку
+            договору оренди.
+          </li>
+          <li> 3.1.4. Продати Орендареві займану ним квартиру.
+          </li>
+          <li> 3.2. Орендар має право:
+          </li>
+          <li> 3.2.1. Вселити в орендоване житлове приміщення незалежно від згоди Орендодавця своїх
+            неповнолітніх дітей, дружину (чоловіка) і непрацездатних батьків.
+          </li>
+          <li> 3.2.2. Вимагати від Орендодавця своєчасного і якісного виконання комплексу робіт із
+            утримання житлового будинку, квартири й прибудинкової території, а також надання
+            комунальних і інших послуг, передбачених договором оренди.
+          </li>
+          <li> 3.2.3. Викупити в Орендодавця з його згоди орендоване приміщення, уклавши договір
+            купівлі-продажу.
+          </li>
+          <li> 3.2.4. Вимагати обґрунтування збільшення плати за оренду після укладання договору
+            оренди.
+          </li>
+          <li> 3.2.5. Вимагати перерахунку плати за оренду при невиконанні Орендодавцем обов'язків,
+            передбачених у п. п. 2.1.2.
+          </li>
+        </ul>
+
+        <ul> 4. Відповідальність сторін
+          <li> 4.1. Відповідальність Орендодавця:
+          </li>
+          <li> 4.1.1. Орендодавець відшкодовує Орендареві матеріальний збиток, заподіяний у
+            результаті невиконання обов'язків, передбачених у п. п. 2.1.2 даного договору, у
+            встановленому законом порядку.
+          </li>
+          <li> 4.2. Відповідальність Орендаря:
+          </li>
+          <li> 4.2.1. Орендар відшкодовує Орендодавцеві матеріальний збиток, заподіяний у результаті
+            невиконання обов'язків, передбачених у п. п. 2.2.1 і п. п. 2.2.2 даного договору, у
+            встановленому законом порядку.
+          </li>
+        </ul>
+
+        <ul> 5. Заключні умови
+
+          <li> 5.1. Даний договір може бути розірваний із ініціативи кожної зі сторони при наявності
+            умов і в порядку, передбаченому житловим законодавством.
+          </li>
+          <li> 5.2. Виниклі при виконанні даного договору спори між сторонами вирішуються у
+            встановленому законом порядку.
+          </li>
+          <li> 5.3. Даний договір складений в 2-х екземплярах, один із яких перебуває в Орендодавця,
+            іншої - в Орендаря.
+          </li>
+          <li> 5.4. Невід'ємною частиною даного договору є акт здачі квартири Орендареві.
+          </li>
+          <li> 5.5. Договір набуває чинності з моменту його підписання.
+          </li>
+
+        </ul>
+      </div>
+      <div class="container-fluid">
+        <fieldset class="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="m-2">
+            <p>Орендодавець:</p>
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Паспорт №</mat-label>
+              <input matInput type="text" id="landlord_passport_number" name="landlord_passport_number"
+                placeholder="Номер" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Серія</mat-label>
+              <input matInput type="text" id="landlord_passport_series" name="landlord_passport_series"
+                placeholder="Серія" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Виданий</mat-label>
+              <input matInput type="text" id="landlord_passport_issued" name="landlord_passport_issued"
+                placeholder="Місце видачі" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Адреса:</mat-label>
+              <input matInput type="text" id="landlord_address" name="landlord_address" placeholder="Адреса орендодавця"
+                required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label for="apartment-number">Орендодавець:</mat-label>
+              <input matInput type="text" id="apartment-number" name="apartment-address"
+                [ngModel]="agree ? selectedAgreement?.flat?.owner_lastName + ' ' + selectedAgreement?.flat?.owner_firstName + ' ' + selectedAgreement?.flat?.owner_surName : ''"
+                [disabled]="isApartmentNumberDisabled">
+            </mat-form-field>
+
+          </div>
+
+        </fieldset>
+
+        <fieldset class="col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="m-2">
+            <p>Орендар:</p>
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Паспорт №</mat-label>
+              <input matInput type="text" id="tenant_passport_number" name="tenant_passport_number" placeholder="Номер"
+                required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Серія</mat-label>
+              <input matInput type="text" id="tenant_passport_series" name="tenant_passport_series" placeholder="Серія"
+                required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Виданий</mat-label>
+              <input matInput type="text" id="tenant_passport_issued" name="tenant_passport_issued"
+                placeholder="Місце видачі" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label>Адреса:</mat-label>
+              <input matInput type="text" id="tenant_address" name="tenant_address" placeholder="Адреса орендаря"
+                required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-4">
+              <mat-label for="apartment-number">Орендар:</mat-label>
+              <input matInput type="text" id="apartment-number" name="apartment-address"
+                [ngModel]="agree ? selectedAgreement?.flat?.subscriber_lastName + ' ' + selectedAgreement?.flat?.subscriber_firstName + ' ' + selectedAgreement?.flat?.subscriber_surName : ''"
+                [disabled]="isApartmentNumberDisabled">
+            </mat-form-field>
+
+
+          </div>
+
+        </fieldset>
+      </div>
+      <!-- <button class="btn" (click)="downloadAsPDF()">Завантажити PDF</button> -->
+    </div>
+
+  </div>
+
+</div>
+
+<div *ngIf="loading" class="loader-overlay">
+  <div class="loader"></div>
+</div>

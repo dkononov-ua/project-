@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
-import { AgreementComponent } from './pages/agreement/agreement.component';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { CanActivateGuard } from './services/auth.guard';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
@@ -17,7 +16,6 @@ const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'our-team', component: OurTeamComponent, canActivate: [CanActivateGuard] },
-  { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },

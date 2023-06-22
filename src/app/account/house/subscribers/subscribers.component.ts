@@ -29,7 +29,6 @@ export class SubscribersComponent implements OnInit {
   ngOnInit(): void {
 
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      console.log(1111111111111111111)
       const offs = 0;
       this.getSubs(selectedFlatId, offs);
     });
@@ -84,8 +83,6 @@ export class SubscribersComponent implements OnInit {
       this.http.post('http://localhost:3000/subs/accept', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
-            // Видалення підписника зі списку
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
           (error: any) => {
@@ -112,7 +109,6 @@ export class SubscribersComponent implements OnInit {
       this.http.post('http://localhost:3000/subs/delete/subs', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
           (error: any) => {

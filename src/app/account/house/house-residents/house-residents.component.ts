@@ -59,7 +59,6 @@ export class HouseResidentsComponent implements OnInit {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedSubscriber = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
-    console.log(subscriber.user_id)
   }
 
   async getSubscribers(selectedFlatId: string, offs: number): Promise<void> {
@@ -122,7 +121,6 @@ export class HouseResidentsComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const selectedFlat = this.selectedFlatIdService.getSelectedFlatId();
     const selectedSubscriberId = subscriberId;
-    console.log(subscriberId)
 
     if (userJson && subscriberId && selectedFlat && selectedSubscriberId) {
       const data = {
@@ -134,7 +132,6 @@ export class HouseResidentsComponent implements OnInit {
       this.http.post('http://localhost:3000/citizen/delete/citizen', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriberId);
           },
           (error: any) => {

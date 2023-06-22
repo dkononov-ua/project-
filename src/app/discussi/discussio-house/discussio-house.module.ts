@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { DiscussioHouseRoutingModule } from './discussio-house-routing.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -24,17 +24,23 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ApprovedHComponent } from './approved-h/approved-h.component';
 import { HostDiscussioHComponent } from './host-discussio-h/host-discussio-h.component';
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
+import { AgreementComponent } from 'src/app/account/house/agree-house/agreement/agreement.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     ApprovedHComponent,
     HostDiscussioHComponent,
-    HouseDiscussioComponent
+    HouseDiscussioComponent,
+    AgreementComponent,
   ],
   providers: [
     SelectedFlatService,
+    DatePipe,
   ],
+
   imports: [
     CommonModule,
     DiscussioHouseRoutingModule,
@@ -57,6 +63,8 @@ import { HouseDiscussioComponent } from './house-discussio/house-discussio.compo
     RouterModule,
     MatInputModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatDialogModule,
   ]
 })
 export class DiscussioHouseModule { }

@@ -119,7 +119,6 @@ export class ParametersComponent implements OnInit {
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
-          console.log(response)
           if (response.houseData) {
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;

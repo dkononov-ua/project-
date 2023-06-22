@@ -8,16 +8,16 @@
       <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user'">
         <div class="img-fluid">
           <img
-            [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo ? selectedSubscriber?.photo : 'user_default.svg')"
+            [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')"
             alt="User Image" class="img-fluid rounded">
         </div>
       </a>
       <div class="group">
+        
         <ng-container *ngIf="subscribers.length > 0">
           <mat-form-field class="list-form mb-3" appearance="outline">
             <mat-label>Підписники</mat-label>
-            <mat-select class="list-select" [(value)]="selectedSubscriber"
-              (selectionChange)="onSelectionChange(selectedSubscriber)">
+            <mat-select class="list-select" [(value)]="selectedSubscriber">
               <mat-option disabled value="">Виберіть підписника</mat-option>
               <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
                 {{ subscriber.firstName }} {{ subscriber.lastName }}
@@ -25,6 +25,8 @@
             </mat-select>
           </mat-form-field>
         </ng-container>
+
+
 
 
 
@@ -53,8 +55,8 @@
             </div>
             <p class="item-name"><span class="item-description">іменований надалі "Орендодавець"</span></p>
             <p class="item-name"><span class="item-description">User ID:</span> {{ userData.inf.user_id }}</p>
-            <p class="item-name"><span class="item-description">Телефон:</span> {{ userData.inf.tell }}</p>
-            <p class="item-name"><span class="item-description">Email:</span> {{ userData.inf.mail }}</p>
+            <p class="item-name"><span class="item-description">Телефон:</span> {{ userData.cont.tell }}</p>
+            <p class="item-name"><span class="item-description">Email:</span> {{ userData.cont.mail }}</p>
           </div>
 
         </div>
@@ -64,7 +66,7 @@
         <div class="card m-2">
           <div class="img-fluid">
             <img
-              [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.photo ? selectedSubscriber?.photo : 'user_default.svg')"
+              [src]="'http://localhost:3000/img/users/' + (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')"
               alt="User Image">
           </div>
           <div class="item-wrapper p-3">
@@ -114,9 +116,9 @@
           <div class="item-characteristics">ID оселі: <span class="item">{{ houseData.about.flat_id }}</span>
           </div>
           <h5 class="title-name">Укладання угоди оренди житлового приміщення.</h5>
+
           <mat-form-field>
-            <input matInput [matDatepicker]="picker" mask="00.00.0000" placeholder="Дата укладання угоди" required
-              [(ngModel)]="agreementDate">
+            <input matInput [matDatepicker]="picker" placeholder="Дата укладання угоди" required [(ngModel)]="agreementDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -126,15 +128,15 @@
             <p>Орендодавець представляє Орендареві й членам його родини в користування строком на</p>
 
             <mat-form-field appearance="outline" class="input-mat-3">
-              <mat-label for="lease-term-months">Місяці:</mat-label>
-              <input matInput type="number" name="lease-term-months" placeholder="Місяці" min="1" max="12"
-                [(ngModel)]="leaseTermMonths">
+              <mat-label for="months">Місяці:</mat-label>
+              <input matInput type="number" name="months" placeholder="Місяці" min="1" max="12"
+                [(ngModel)]="months">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="input-mat-3">
-              <mat-label for="lease-term-years">Роки:</mat-label>
-              <input matInput type="number" name="lease-term-years" placeholder="Роки" min="1" max="10" step="1"
-                [(ngModel)]="leaseTermYears">
+              <mat-label for="years">Роки:</mat-label>
+              <input matInput type="number" name="years" placeholder="Роки" min="1" max="10" step="1"
+                [(ngModel)]="years">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="input-mat-3">
@@ -188,7 +190,7 @@
             <p>Не пізніше цього дня місяця вносити плату за оренду</p>
             <mat-form-field appearance="outline" class="input-mat-4">
               <mat-label>Дата оплати</mat-label>
-              <input matInput type="number" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="число"
+              <input matInput type="text" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="число"
                 required [(ngModel)]="rentDueDate">
             </mat-form-field>
 
@@ -209,7 +211,7 @@
               <mat-label>% пені</mat-label>
               <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required
                 [(ngModel)]="penalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
-                (ngModelChange)="penalty = $event || 0" placeholder=0>
+                (ngModelChange)="penalty = $event || 0" placeholder=0 value="0">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="input-mat-3">
@@ -244,7 +246,7 @@
           <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
             ознайомлений.</p>
 
-          <button class="btn" type="submit" [disabled]="!isCheckboxChecked">Сформувати</button>
+            <button class="btn" type="submit" (click)="sendFormAgreement(subscribers[0])" [disabled]="!isCheckboxChecked">Сформувати</button>
 
         </div>
       </div>
@@ -301,8 +303,8 @@
     <div class="container-fluid">
       <ul>1. Предмет договору
         <li>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на <span
-            class="accent"> {{ leaseTermYears }} роки</span> та
-          <span class="accent"> {{ leaseTermMonths }} місяці </span>
+            class="accent"> {{ years }} роки</span> та
+          <span class="accent"> {{ months }} місяці </span>
           квартиру загальною площею: <span class="accent">{{houseData.param.area}} м² </span>
           за адресою: вулиця <span class="accent">{{ houseData.flat.street }}, будинок {{ houseData.flat.houseNumber
             }},

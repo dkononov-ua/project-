@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
@@ -10,7 +10,6 @@ import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
 import { ParametersComponent } from './house/parameters/parameters.component';
 import { SubscribersComponent } from './house/subscribers/subscribers.component';
-import { DocumentsComponent } from './house/documents/documents.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { FurnitureComponent } from './house/furniture/furniture.component';
 import { MatCardModule } from '@angular/material/card';
@@ -26,6 +25,14 @@ import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
 import { HouseNavComponent } from './house/house-nav/house-nav.component';
 import { HouseResidentsComponent } from './house/house-residents/house-residents.component';
+import { AgreementsComponent } from './user/agree/agreements/agreements.component';
+import { AgreementsHComponent } from './house/agree-house/agreements-h/agreements-h.component';
+import { AgreeUComponent } from './user/agree/agree-u/agree-u.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { AgreeHouseComponent } from './house/agree-house/agree-house.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-agree.component';
+import { DealsComponent } from './user/agree/deals/deals.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +41,6 @@ import { HouseResidentsComponent } from './house/house-residents/house-residents
     UserComponent,
     ParametersComponent,
     SubscribersComponent,
-    DocumentsComponent,
     OrderServicesComponent,
     FurnitureComponent,
     FilesComponent,
@@ -43,6 +49,15 @@ import { HouseResidentsComponent } from './house/house-residents/house-residents
     InfoComponent,
     HouseNavComponent,
     HouseResidentsComponent,
+    AgreementsComponent,
+    AgreementsHComponent,
+    AgreeUComponent,
+    AgreeHouseComponent,
+    ConcludedAgreeComponent,
+    DealsComponent,
+  ],
+  providers: [
+    DatePipe
   ],
   imports: [
     CommonModule,
@@ -52,17 +67,14 @@ import { HouseResidentsComponent } from './house/house-residents/house-residents
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
-    AccountRoutingModule,
-    MatListModule,
     ReactiveFormsModule,
     FormsModule,
-    MatSelectModule,
     MatListModule,
-    MatButtonModule,
-    MatCardModule,
     MatTooltipModule,
     MatInputModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatDialogModule
   ]
 })
 export class AccountModule { }
