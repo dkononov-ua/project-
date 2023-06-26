@@ -6,10 +6,10 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-4 col-md-12 col-sm-12 col-12">
-    <div class="card-group p-3">
-      <div class="card-wrapper col-lg-12 col-md-5 col-sm-6 col-12 m-2">
-        <div class="one card col-lg-8 col-md-5 col-sm-6 col-12">
+  <div class="card-box col-lg-8">
+    <div class="card-group">
+      <div class="height col-lg-6 col-md-5 col-sm-6 col-12">
+        <div class="card m-2">
           <div class="card-img-group">
             <div class="card-img-container">
               <img class="card-img-top"
@@ -31,69 +31,190 @@
               <a href="#" class="card-link"><span>Переглянути угоду</span><i class="fa-solid fa-file-contract"></i></a>
             </div>
           </div>
-          
-          <div class="two">
-            <div class="container-checkbox p-2">
-              <div class="content">
-                <div class="content-group">
-                  <label class="checkBox">
-                    <input id="acces_added" type="checkbox" [(ngModel)]="acces_added">
-                    <div class="transition"></div>
-                  </label>
-                  <span class="checkBox-span">Дозволити додавати людей</span>
-                </div>
-                <p class="descr">Дозволити додавати людей</p>
-                <i></i>
-              </div>
+          <ul class="resident-list">
+            <li class="resident-item p-1">Тут Ви зможете бачити мешканців яких Ви вже додали в оселю.</li>
+            <li class="resident-item p-1">Переглядати інформацію про мешканців</li>
+            <li class="resident-item p-1">Надавати права доступу до різної інформації про оселю та права її змінювати,
+              додавати чи коригувати.</li>
+            <li class="resident-item p-1">В цьому меню є можливість додавати мешканців не заключаючи з ними угоду</li>
+          </ul>
 
-              <div class="content">
-                <div class="content-group">
-                  <label class="checkBox">
-                    <input id="acces_comunal" type="checkbox" [(ngModel)]="acces_comunal">
-                    <div class="transition"></div>
-                  </label>
-                  <span class="checkBox-span">Внесення показників</span>
-                </div>
-                <p class="descr">Внесення показників</p>
-                <i></i>
-              </div>
 
-              <div class="content">
-                <div class="content-group">
-                  <label class="checkBox">
-                    <input id="acces_admin" type="checkbox" [(ngModel)]="acces_admin">
-                    <div class="transition"></div>
-                  </label>
-                  <span class="checkBox-span">Адміністрування</span>
-                </div>
-                <p class="descr">Доступ до сервісів. Доступ вносити показники. Доступ до редагування комуналки. Доступ
-                  до підписників. Доступ до дискусії.</p>
-                <i></i>
+        </div>
+      </div>
+      <div class="height col-lg-6 col-md-5 col-sm-6 col-12">
+        <div class="card m-2">
+          <div class="container-checkbox p-2">
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_added" type="checkbox" [(ngModel)]="acces_added">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Дозволити додавати людей</span>
               </div>
-
-              <div class="content">
-                <div class="content-group">
-                  <label class="checkBox">
-                    <input id="acces_services" type="checkbox" [(ngModel)]="acces_services">
-                    <div class="transition"></div>
-                  </label>
-                  <span class="checkBox-span">Замовлення послуг</span>
-                </div>
-                <p class="descr">Замовляти послуги з меню послуг</p>
-                <i></i>
-              </div>
-              <button class="btn m-1"
-                (click)="addAccess(selectedSubscriber!, acces_added, acces_admin, acces_services, acces_comunal)">
-                <i class="fa-solid fa-check-double"></i>Підтвердити
-              </button>
+              <p class="descr">Дозволити додавати людей</p>
+              <i></i>
             </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_comunal" type="checkbox" [(ngModel)]="acces_comunal">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Внесення показників</span>
+              </div>
+              <p class="descr">Внесення показників</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_admin" type="checkbox" [(ngModel)]="acces_admin">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Адміністрування</span>
+              </div>
+              <p class="descr">Якщо надати доступ до "Дозволити додавати людей" та "Адміністрування" то мешканець
+                отримає можливість надавати дозволи.</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_filling" type="checkbox" [(ngModel)]="acces_filling">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Дозвіл внесення наповнення</span>
+              </div>
+              <p class="descr">Додавання та коригування наповнення осеслі</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_subs" type="checkbox" [(ngModel)]="acces_subs">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Управління підписниками оселі</span>
+              </div>
+              <p class="descr">Дозвіл видаляти або додавати підписників</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_discuss" type="checkbox" [(ngModel)]="acces_discuss">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Управління Discussiєю оселі</span>
+              </div>
+              <p class="descr">Дозвіл до меню Discussiї</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_agreement" type="checkbox" [(ngModel)]="acces_agreement">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Управління угодами</span>
+              </div>
+              <p class="descr">Дозвіл на укладання та перегляд угод</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_citizen" type="checkbox" [(ngModel)]="acces_citizen">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Перегляд мешканців</span>
+              </div>
+              <p class="descr">Дозвіл на перегляд вже доданих мешканців оселі</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_comunal_indexes" type="checkbox" [(ngModel)]="acces_comunal_indexes">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Дозвіл на додавання комунальних показників</span>
+              </div>
+              <p class="descr">Можна вносити дані по комунальним послугам без можливості їх створення або видалення</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_agent" type="checkbox" [(ngModel)]="acces_agent">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Представник оселі</span>
+              </div>
+              <p class="descr">Тільки одна особа, вона буде виводитись при веденні Discussiї та створенні угоди.
+                (представника можна змінити лише видаливши попереднього)</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_flat_features" type="checkbox" [(ngModel)]="acces_flat_features">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Зміна опису оселі</span>
+              </div>
+              <p class="descr">Дозволити редагувати інформацію по оселі</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_services" type="checkbox" [(ngModel)]="acces_services">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Замовлення послуг</span>
+              </div>
+              <p class="descr">Замовляти послуги з меню послуг</p>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <div class="content-group">
+                <label class="checkBox">
+                  <input id="acces_flat_chats" type="checkbox" [(ngModel)]="acces_flat_chats">
+                  <div class="transition"></div>
+                </label>
+                <span class="checkBox-span">Доступ до чату оселі</span>
+              </div>
+              <p class="descr">Дозвіл на перегляд та користування чатом від імені оселі</p>
+              <i></i>
+            </div>
+
+            <button class="btn m-1" (click)="addAccess(selectedSubscriber!, acces_added, acces_admin,
+                acces_services, acces_comunal, acces_filling, acces_subs, acces_discuss, acces_agreement,
+                acces_citizen, acces_comunal_indexes, acces_agent, acces_flat_features, acces_flat_chats)">
+              <i class="fa-solid fa-check-double"></i>Підтвердити
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card-info col-lg-3 col-md-12 col-sm-12 col-12">
+  <!-- <div class="card-info col-lg-3 col-md-12 col-sm-12 col-12">
 
     <div class="card-group p-2">
       <h4><strong>Мешканці оселі:</strong></h4>
@@ -107,4 +228,4 @@
     </div>
   </div>
 
-</div>
+</div> -->

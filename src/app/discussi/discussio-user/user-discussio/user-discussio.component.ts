@@ -77,9 +77,9 @@ export class UserDiscussioComponent implements OnInit {
 
     this.isFeatureEnabled = !this.isFeatureEnabled;
     if (this.isFeatureEnabled) {
-      console.log('Функцію увімкнено');
+      console.log('Представник');
     } else {
-      console.log('Функцію вимкнено');
+      console.log('Оселя');
     }
   }
 
@@ -201,14 +201,12 @@ export class UserDiscussioComponent implements OnInit {
 
     this.http.post(url, data).subscribe((response: any) => {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-      console.log(selectedFlat);
 
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
         this.getOwnerInfo();
 
-        this.images = []; // Очистити масив перед додаванням нових фотографій
-        console.log(selectedFlat.img)
+        this.images = [];
 
         if (selectedFlat.img) {
           for (const img of selectedFlat.img) {
@@ -221,7 +219,6 @@ export class UserDiscussioComponent implements OnInit {
 
   getSelectedFlatInfo(): string {
     if (this.selectedSubscription && this.selectedSubscription.flat) {
-      console.log(this.selectedSubscription.flat);
       return `Оселя: ${this.selectedSubscription.flat.flat_id}, Країна: ${this.selectedSubscription.flat.country}, Місто: ${this.selectedSubscription.flat.city}`;
     } else {
       return 'Інформація про обрану оселю відсутня.';

@@ -33,6 +33,7 @@ import { AgreeHouseComponent } from './house/agree-house/agree-house.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-agree.component';
 import { DealsComponent } from './user/agree/deals/deals.component';
+import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { DealsComponent } from './user/agree/deals/deals.component';
     AgreeHouseComponent,
     ConcludedAgreeComponent,
     DealsComponent,
+    ConcludedComponent,
   ],
   providers: [
     DatePipe

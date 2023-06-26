@@ -1,6 +1,6 @@
 import { Subject, Subscription, debounceTime } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../search/filter.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';

@@ -19,7 +19,7 @@ export class AgreeHouseComponent {
   files = [
     { name: 'Сформувати угоду', url: 'agreement' },
     { name: 'Надіслані угоди', url: 'agreements-h' },
-    { name: 'Заключені угоди', url: 'assets/files/lease_agreement.pdf' },
+    { name: 'Заключені угоди', url: 'concluded' },
     { name: 'документи на оселю', url: 'assets/files/documents.pdf' },
   ];
 }

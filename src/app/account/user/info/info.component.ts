@@ -46,7 +46,6 @@ export class InfoComponent implements OnInit {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           if (response) {
-            console.log(response)
             this.user.user_id = response.inf?.user_id || '';
 
             this.user.firstName = response.inf?.firstName || '';

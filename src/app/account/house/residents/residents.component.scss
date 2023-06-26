@@ -3,7 +3,6 @@
 .card {
   margin: 0;
   padding: 0;
-  width: 100%;
 }
 
 .card-container {
@@ -78,10 +77,13 @@
 .card-group {
   display: flex;
   border-radius: 10px;
-  flex-direction: column;
   align-content: center;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
+}
+
+.height {
+  display: flex;
 }
 
 .two {
@@ -97,6 +99,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+  overflow: hidden;
 }
 
 .card-wrapper {
@@ -126,6 +129,7 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .card-body {
@@ -142,31 +146,25 @@
   height: 100%;
   overflow: hidden;
   object-fit: cover;
-  transition: all 0.3s ease;
-  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  transition: all 2s ease;
+  border-radius: 0 50% 50% 0;
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
   &:hover {
-    transition: 0.5s;
+    transition: 1s;
     overflow: hidden;
-    transform: scale(1.4);
+    border-radius: 50% 0 0 50%;
+
+    // transform: scale(1.4);
   }
 }
 
-.card-img-top {
-
-  height: 100%;
-  overflow: hidden;
-  object-fit: cover;
-  transition: all 0.3s ease;
-  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
-
-  &:hover {
-    transition: 0.5s;
-    overflow: hidden;
-    transform: scale(1.4);
-  }
+.resident-item {
+  font-size: 14px;
 }
 
 .card-social-link {
@@ -197,6 +195,7 @@
 }
 
 .card-info-title {
+  font-size: 12px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -433,4 +432,3 @@ mat-form-field {
 .descr {
   font-size: 12px;
 }
-

@@ -19,6 +19,7 @@ import { AgreeUComponent } from './user/agree/agree-u/agree-u.component';
 import { AgreeHouseComponent } from './house/agree-house/agree-house.component';
 import { DealsComponent } from './user/agree/deals/deals.component';
 import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-agree.component';
+import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
       { path: 'agreements-h', component: AgreementsHComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-u/:selectedFlatAgree', component: AgreeUComponent, canActivate: [CanActivateGuard] },
+      { path: 'concluded', component: ConcludedComponent, canActivate: [CanActivateGuard] },
       {
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [

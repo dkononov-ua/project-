@@ -55,11 +55,9 @@ export class HouseDiscussioComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.selectedSubscriber = params['selectedSubscriber'] || null;
-      console.log(this.selectedSubscriber);
     });
 
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      console.log(selectedFlatId);
       if (selectedFlatId) {
         const offs = 0;
         this.getSubs(selectedFlatId, offs);
@@ -67,11 +65,9 @@ export class HouseDiscussioComponent implements OnInit {
     });
 
     this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
-      console.log(subscriberId);
       if (subscriberId) {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
-          console.log(selectedSubscriber);
           this.selectedSubscriber = selectedSubscriber;
         }
       }
@@ -80,11 +76,10 @@ export class HouseDiscussioComponent implements OnInit {
 
 handleGenerateAgreement() {
   this.loading = true;
-  // Ваш код для формування угоди
 
   setTimeout(() => {
     this.loading = false;
-  }, 2000); // 2 секунди
+  }, 2000);
 }
 
   onSelectionChange(): void {
@@ -99,12 +94,8 @@ handleGenerateAgreement() {
       flat_id: selectedFlatId,
       offs: offs,
     };
-    console.log(data)
-    console.log(selectedFlatId)
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
-
       const newSubscribers: Subscriber[] = response
         .filter(user_id => user_id !== null)
         .map((user_id: any) => ({
@@ -118,7 +109,6 @@ handleGenerateAgreement() {
           viber: user_id.viber,
           facebook: user_id.facebook
         }));
-      console.log(this.subscribers)
       this.subscribers = newSubscribers;
 
     } catch (error) {
@@ -137,7 +127,6 @@ handleGenerateAgreement() {
         flat_id: selectedFlat,
         user_id: subscriber.user_id,
       };
-      console.log(data);
       this.http.post('http://localhost:3000/subs/accept', data)
         .subscribe((response: any) => {
           console.log(response);
@@ -153,11 +142,9 @@ handleGenerateAgreement() {
     const userJson = localStorage.getItem('user');
     if (userJson && subscriber) {
       const data = { auth: JSON.parse(userJson), subscriber_id: subscriber.user_id };
-      console.log(data)
       this.http.post('http://localhost:3000/subs/delete/subs', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
           (error: any) => {

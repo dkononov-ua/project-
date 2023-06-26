@@ -13,7 +13,7 @@
         </div>
       </a>
       <div class="group">
-        
+
         <ng-container *ngIf="subscribers.length > 0">
           <mat-form-field class="list-form mb-3" appearance="outline">
             <mat-label>Підписники</mat-label>
@@ -25,11 +25,6 @@
             </mat-select>
           </mat-form-field>
         </ng-container>
-
-
-
-
-
       </div>
     </div>
 
@@ -118,7 +113,7 @@
           <h5 class="title-name">Укладання угоди оренди житлового приміщення.</h5>
 
           <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Дата укладання угоди" required [(ngModel)]="agreementDate">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="agreementDate" (ngModelChange)="onDateChange($event)">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -127,16 +122,22 @@
             <h5 class="title-name">Предмет договору</h5>
             <p>Орендодавець представляє Орендареві й членам його родини в користування строком на</p>
 
-            <mat-form-field appearance="outline" class="input-mat-3">
-              <mat-label for="months">Місяці:</mat-label>
-              <input matInput type="number" name="months" placeholder="Місяці" min="1" max="12"
-                [(ngModel)]="months">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="input-mat-3">
+            <mat-form-field appearance="outline" class="input-mat-3"
+              [ngClass]="{ 'required-field': yearsInput?.invalid && yearsInput?.touched }">
               <mat-label for="years">Роки:</mat-label>
               <input matInput type="number" name="years" placeholder="Роки" min="1" max="10" step="1"
-                [(ngModel)]="years">
+                [(ngModel)]="years" #yearsInput="ngModel" required>
+              <mat-error *ngIf="yearsInput?.invalid && yearsInput?.touched">Це обов'язково</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="input-mat-3"
+              [ngClass]="{ 'required-field': (monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) }">
+              <mat-label for="months">Місяці:</mat-label>
+              <input matInput type="number" name="months" placeholder="Місяці" min="1" max="11" [(ngModel)]="months"
+                #monthsInput="ngModel" required>
+              <mat-error
+                *ngIf="(monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) || !months">Це
+                обов'язково</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="input-mat-3">
@@ -188,11 +189,14 @@
 
           <div class="input-group">
             <p>Не пізніше цього дня місяця вносити плату за оренду</p>
+
             <mat-form-field appearance="outline" class="input-mat-4">
               <mat-label>Дата оплати</mat-label>
               <input matInput type="text" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="число"
-                required [(ngModel)]="rentDueDate">
+                required [(ngModel)]="rentDueDate" #rentDueDateInput="ngModel">
+              <mat-error *ngIf="rentDueDateInput.invalid">Це поле обов'язкове</mat-error>
             </mat-form-field>
+
 
             <div class="content">
               <label class="checkBox">
@@ -200,7 +204,7 @@
                 <div class="transition"></div>
               </label>
               <i></i>
-              <p>Штрафні санкції?</p>
+              <p>Треба штрафні санкції?</p>
             </div>
 
             <p>За несвоєчасне внесення платежів оплачувати пеню з розрахунку відсоток пені за прострочення <br> <span
@@ -209,16 +213,16 @@
             </p>
             <mat-form-field appearance="outline" class="input-mat-3">
               <mat-label>% пені</mat-label>
-              <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required
-                [(ngModel)]="penalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
+              <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required [(ngModel)]="penalty"
+                [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
                 (ngModelChange)="penalty = $event || 0" placeholder=0 value="0">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="input-mat-3">
               <mat-label>Max % пені</mat-label>
-              <input matInput type="number" id="max_penalty" name="max_penalty" min="0" max="100"
-                required [(ngModel)]="maxPenalty" [ngModelOptions]="{standalone: true}"
-                [disabled]="!isCheckboxPenalty" value="0">
+              <input matInput type="number" id="max_penalty" name="max_penalty" min="0" max="100" required
+                [(ngModel)]="maxPenalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
+                value="0">
             </mat-form-field>
 
           </div>
@@ -246,8 +250,12 @@
           <p>Із вимогами користування житловими приміщеннями, утриманням житлового будинку й прибудинкової території
             ознайомлений.</p>
 
-            <button class="btn" type="submit" (click)="sendFormAgreement(subscribers[0])" [disabled]="!isCheckboxChecked">Сформувати</button>
-
+          <div class="agree-btn">
+            <button class="btn btn-agree" type="submit"
+              (click)="isFormEmpty() ? showMessage('А термін угоди, дата оплати?') : sendFormAgreement(subscribers[0])"
+              [disabled]="!isCheckboxChecked">Сформувати</button>
+            <div *ngIf="message" class="error-message">{{ message }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -263,7 +271,8 @@
         <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
         <div class="title">Discussio угода. <br> Укладання угоди оренди житлового приміщення.</div>
       </div>
-      <h5>Місце укладання та дата: <span class="accent">{{ houseData.flat.city }}, {{ agreementDate | date }}</span>
+      <h5>Місце та дата укладання Discussio угоди: <span class="accent">{{ houseData.flat.city }}, {{ agreementDate |
+          date }}</span>
       </h5>
     </div>
     <div class="container-agree">
@@ -517,5 +526,14 @@
 </div>
 
 <div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
 </div>
+
+<div *ngIf="agreementCreated" class="agreementCreated-overlay">
+  <div class="agreementCreated">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="agreementCreated-logo">
+  </div>
+</div>
+

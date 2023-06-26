@@ -68,18 +68,15 @@ export class SubscriptionsComponent implements OnInit {
   async getSubscribedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    console.log(user_id)
     const url = 'http://localhost:3000/subs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
       offs: 0,
     };
-    console.log(data)
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       const newsubscriptions = response.map((flat: any) => {
         return {
           flat_id: flat.flat.flat_id,
@@ -129,11 +126,8 @@ export class SubscriptionsComponent implements OnInit {
       flat_id: flatId,
     };
 
-    console.log(data);
-
     try {
       const response = await this.http.post(url, data).toPromise();
-      console.log(response);
       this.deletingFlatId = flatId;
       setTimeout(() => {
         this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);

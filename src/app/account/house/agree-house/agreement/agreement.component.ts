@@ -93,21 +93,10 @@ interface Subscribers {
     ])
   ],
 
-
-
 })
 export class AgreementComponent implements OnInit {
-  date = new FormControl(moment());
-
-  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value!;
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
-  }
-
   @ViewChild('agreeContainer') agreeContainer: ElementRef | undefined;
+  message: string = '';
   subscribers: Subscribers[] = [];
   selectedFlatId: string | any;
   isOnline = true;
@@ -116,8 +105,6 @@ export class AgreementComponent implements OnInit {
   houseData: any;
   userData: any;
   isLoading: boolean = true;
-
-
   months: number | undefined;
   years: number | undefined;
   rentDueDate: number | undefined;
@@ -135,7 +122,10 @@ export class AgreementComponent implements OnInit {
   isContainerVisible = false;
   isCheckboxChecked = false;
   isCheckboxPenalty = false;
-  agreementDate: any;
+  agreementDate: any = moment();
+  formSubmitted: boolean = false;
+  agreementCreated: boolean | undefined;
+
 
   openContainer() {
     this.isContainerVisible = true;
@@ -154,7 +144,8 @@ export class AgreementComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
-    this.loadData();
+
+    await this.loadData();
 
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       if (selectedFlatId) {
@@ -176,6 +167,7 @@ export class AgreementComponent implements OnInit {
       this.houseData = response.houseData;
       this.userData = response.userData;
       this.loading = false;
+      console.log(this.houseData)
     }, (error) => {
       console.error(error);
       this.loading = false;
@@ -192,6 +184,7 @@ export class AgreementComponent implements OnInit {
     };
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -209,69 +202,180 @@ export class AgreementComponent implements OnInit {
     }
   }
 
+  onDateChange(selectedDate: Moment): void {
+    this.agreementDate = selectedDate;
+  }
+
+  // sendFormAgreement(subscriber: Subscribers): void {
+  //   this.formSubmitted = true;
+  //   if (!this.isFormEmpty()) {
+  //     const selectedFlatId = this.selectedFlatIdService.getSelectedFlatId();
+  //     const userJson = localStorage.getItem('user');
+  //     this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
+  //     if (userJson && selectedFlatId && subscriber) {
+  //       const data = {
+  //         auth: JSON.parse(userJson),
+  //         flat_id: selectedFlatId,
+
+  //         owner: {
+  //           user_id: this.userData.inf?.user_id,
+  //           firstName: this.userData.inf?.firstName,
+  //           lastName: this.userData.inf?.lastName,
+  //           surName: this.userData.inf?.surName,
+  //           tell: this.userData.cont?.tell,
+  //           mail: this.userData.cont?.mail,
+  //           owner_img: this.userData.img[0].img,
+  //         },
+
+  //         subscriber: {
+  //           user_id: this.selectedSubscriber?.user_id,
+  //           firstName: this.selectedSubscriber?.firstName,
+  //           lastName: this.selectedSubscriber?.lastName,
+  //           surName: this.selectedSubscriber?.surName,
+  //           tell: this.selectedSubscriber?.tell,
+  //           mail: this.selectedSubscriber?.mail,
+  //           subscriber_img: this.selectedSubscriber?.img,
+  //         },
+
+  //         house: {
+  //           flat_id: this.houseData?.about.flat_id,
+  //           city: this.houseData?.flat.city,
+  //           houseNumber: this.houseData?.flat.houseNumber,
+  //           apartment: this.houseData?.flat.apartment,
+  //           area: this.houseData?.param.area,
+  //           price: this.houseData?.about.price_m,
+  //           street: this.houseData?.flat.street,
+  //         },
+
+  //         terms: {
+  //           agreementDate: this.agreementDate,
+  //           month: this.months,
+  //           year: this.years,
+  //           rent_due_data: this.rentDueDate,
+  //           penalty: this.penalty,
+  //           max_penalty: this.maxPenalty,
+  //           agree: this.isCheckboxChecked,
+  //         }
+  //       };
+
+  //       console.log(data);
+  //       this.loading = true; // Встановлюємо значення loading в true
+
+  //       this.http.post('http://localhost:3000/agreement/add/agreement', data)
+  //         .subscribe(
+  //           (response: any) => {
+  //             console.log(response);
+  //             setTimeout(() => {
+  //               this.loading = false; // Після 2 секунд змінюємо значення agreementCreated на false
+  //             }, 2000);
+  //             // this.agreementCreated = true; // Встановлюємо значення agreementCreated в true
+  //             // setTimeout(() => {
+  //             //   this.agreementCreated = false; // Після 2 секунд змінюємо значення agreementCreated на false
+  //             // }, 2000);
+  //           },
+  //           (error: any) => {
+  //             console.error(error);
+  //             this.loading = false; // При отриманні помилки встановлюємо значення loading в false
+  //           }
+  //         );
+  //     } else {
+  //       console.log('User, flat, or subscriber not found');
+  //     }
+  //   } else {
+  //     console.log('Input fields are empty. Please fill in all the required fields.');
+  //   }
+  // }
+
   sendFormAgreement(subscriber: Subscribers): void {
-    const selectedFlatId = this.selectedFlatIdService.getSelectedFlatId();
-    const userJson = localStorage.getItem('user');
-    this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
-    if (userJson && selectedFlatId && subscriber) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlatId,
-
-        owner: {
-          user_id: this.userData.inf?.user_id,
-          firstName: this.userData.inf?.firstName,
-          lastName: this.userData.inf?.lastName,
-          surName: this.userData.inf?.surName,
-          tell: this.userData.cont?.tell,
-          mail: this.userData.cont?.mail,
-          owner_img: this.userData.img[0].img,
-        },
-
-        subscriber: {
-          user_id: this.selectedSubscriber?.user_id,
-          firstName: this.selectedSubscriber?.firstName,
-          lastName: this.selectedSubscriber?.lastName,
-          surName: this.selectedSubscriber?.surName,
-          tell: this.selectedSubscriber?.tell,
-          mail: this.selectedSubscriber?.mail,
-          subscriber_img: this.selectedSubscriber?.img,
-        },
-
-        house: {
-          flat_id: this.houseData?.about.flat_id,
-          city: this.houseData?.flat.city,
-          houseNumber: this.houseData?.flat.houseNumber,
-          apartment: this.houseData?.flat.apartment,
-          area: this.houseData?.param.area,
-          price: this.houseData?.about.price_m,
-          street: this.houseData?.flat.street,
-        },
-
-        terms: {
-          agreementDate: this.agreementDate,
-          month: this.months,
-          year: this.years,
-          rent_due_data: this.rentDueDate,
-          penalty: this.penalty,
-          max_penalty: this.maxPenalty,
-          agree: this.isCheckboxChecked,
-        }
-      };
-
-      console.log(data);
-
-      this.http.post('http://localhost:3000/agreement/add/agreement', data)
-        .subscribe(
-          (response: any) => {
-            console.log(response);
+    this.formSubmitted = true;
+    if (!this.isFormEmpty()) {
+      const selectedFlatId = this.selectedFlatIdService.getSelectedFlatId();
+      const userJson = localStorage.getItem('user');
+      this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
+      if (userJson && selectedFlatId && subscriber) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: selectedFlatId,
+          owner: {
+            user_id: this.userData.inf?.user_id,
+            firstName: this.userData.inf?.firstName,
+            lastName: this.userData.inf?.lastName,
+            surName: this.userData.inf?.surName,
+            tell: this.userData.cont?.tell,
+            mail: this.userData.cont?.mail,
+            owner_img: this.userData.img[0].img,
           },
-          (error: any) => {
-            console.error(error);
+
+          subscriber: {
+            user_id: this.selectedSubscriber?.user_id,
+            firstName: this.selectedSubscriber?.firstName,
+            lastName: this.selectedSubscriber?.lastName,
+            surName: this.selectedSubscriber?.surName,
+            tell: this.selectedSubscriber?.tell,
+            mail: this.selectedSubscriber?.mail,
+            subscriber_img: this.selectedSubscriber?.img,
+          },
+
+          house: {
+            flat_id: this.houseData?.about.flat_id,
+            city: this.houseData?.flat.city,
+            houseNumber: this.houseData?.flat.houseNumber,
+            apartment: this.houseData?.flat.apartment,
+            area: this.houseData?.param.area,
+            price: this.houseData?.about.price_m,
+            street: this.houseData?.flat.street,
+          },
+
+          terms: {
+            agreementDate: this.agreementDate,
+            month: this.months,
+            year: this.years,
+            rent_due_data: this.rentDueDate,
+            penalty: this.penalty,
+            max_penalty: this.maxPenalty,
+            agree: this.isCheckboxChecked,
           }
-        );
+        };
+
+        console.log(data);
+        this.loading = true; // Встановлюємо значення loading в true
+
+        this.http.post('http://localhost:3000/agreement/add/agreement', data)
+          .subscribe(
+            (response: any) => {
+              console.log(response);
+              setTimeout(() => {
+                this.loading = false; // Після 2 секунд змінюємо значення loading на false
+              }, 2000);
+              // this.agreementCreated = true; // Встановлюємо значення agreementCreated залежно від статусу успішності створення угоди
+
+            },
+            (error: any) => {
+              console.error(error);
+              this.loading = false; // При отриманні помилки встановлюємо значення loading на false
+              this.agreementCreated = false; // Встановлюємо значення agreementCreated на false
+            }
+          );
+      } else {
+        console.log('User, flat, or subscriber not found');
+      }
     } else {
-      console.log('User, flat, or subscriber not found');
+      console.log('Input fields are empty. Please fill in all the required fields.');
     }
+  }
+
+  isFormEmpty(): boolean {
+    return !this.months || !this.years || !this.rentDueDate || isNaN(Number(this.months));
+  }
+
+  showMessage(msg: string): void {
+    this.message = msg;
+    setTimeout(() => {
+      this.clearMessage();
+    }, 3000); // Затримка у 3 секунди (3000 мілісекунд)
+  }
+
+  clearMessage(): void {
+    this.message = '';
   }
 }

@@ -16,7 +16,6 @@
 
 .row {
   overflow: hidden;
-  height: 70vh;
   display: flex;
   width: 100%;
   overflow: auto;
@@ -141,4 +140,8 @@
   margin-top: 10px;
 
   font-size: 20px;
+}
+
+.container-1 {
+  display: flex;
 }

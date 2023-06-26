@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { SearchComponent } from './search.component';
 import { HousingSearchComponent } from './housing-search/housing-search.component';
 import { TenantsSearchComponent } from './tenants-search/tenants-search.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +25,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppRoutingModule } from '../app-routing.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -39,8 +39,6 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
@@ -61,6 +59,7 @@ import { RouterModule } from '@angular/router';
     SharedModule,
     MatIconModule,
     MatTooltipModule,
+    FormsModule,
   ]
 })
 export class SearchModule { }

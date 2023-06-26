@@ -4,6 +4,15 @@ import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 interface Subscriber {
+  acces_flat_chats: any;
+  acces_flat_features: any;
+  acces_agent: any;
+  acces_comunal_indexes: any;
+  acces_citizen: any;
+  acces_agreement: any;
+  acces_discuss: any;
+  acces_subs: any;
+  acces_filling: any;
   user_id: string;
   firstName: string;
   lastName: string;
@@ -13,10 +22,10 @@ interface Subscriber {
   telegram: string;
   viber: string;
   facebook: string;
-  acces_services: '';
-  acces_admin: '';
-  acces_comunal: '';
-  acces_added: '';
+  acces_services: any;
+  acces_admin: any;
+  acces_comunal: any;
+  acces_added: any;
 }
 @Component({
   selector: 'app-residents',
@@ -37,6 +46,15 @@ export class ResidentsComponent implements OnInit {
   acces_admin: any;
   acces_services: any;
   acces_comunal: any;
+  acces_filling: any;
+  acces_subs: any;
+  acces_discuss: any;
+  acces_agreement: any;
+  acces_citizen: any;
+  acces_comunal_indexes: any;
+  acces_agent: any;
+  acces_flat_features: any;
+  acces_flat_chats: any;
 
   toggleChat() {
     this.isChatClosed = !this.isChatClosed;
@@ -73,6 +91,15 @@ export class ResidentsComponent implements OnInit {
           this.acces_admin = selectedSubscriber.acces_admin;
           this.acces_services = selectedSubscriber.acces_services;
           this.acces_comunal = selectedSubscriber.acces_comunal;
+          this.acces_filling = selectedSubscriber.acces_filling;
+          this.acces_subs = selectedSubscriber.acces_subs;
+          this.acces_discuss = selectedSubscriber.acces_discuss;
+          this.acces_agreement = selectedSubscriber.acces_agreement;
+          this.acces_citizen = selectedSubscriber.acces_citizen;
+          this.acces_comunal_indexes = selectedSubscriber.acces_comunal_indexes;
+          this.acces_agent = selectedSubscriber.acces_agent;
+          this.acces_flat_features = selectedSubscriber.acces_flat_features;
+          this.acces_flat_chats = selectedSubscriber.acces_flat_chats;
         }
       }
     });
@@ -108,6 +135,15 @@ export class ResidentsComponent implements OnInit {
           acces_admin: user_id.acces_admin,
           acces_comunal: user_id.acces_comunal,
           acces_added: user_id.acces_added,
+          acces_filling: user_id.acces_filling,
+          acces_subs: user_id.acces_subs,
+          acces_discuss: user_id.acces_discuss,
+          acces_agreement: user_id.acces_agreement,
+          acces_citizen: user_id.acces_citizen,
+          acces_comunal_indexes: user_id.acces_comunal_indexes,
+          acces_agent: user_id.acces_agent,
+          acces_flat_features: user_id.acces_flat_features,
+          acces_flat_chats: user_id.acces_flat_chats,
         }));
 
       this.subscribers = newSubscribers;
@@ -124,7 +160,16 @@ export class ResidentsComponent implements OnInit {
     acces_added: boolean,
     acces_admin: boolean,
     acces_services: boolean,
-    acces_comunal: boolean
+    acces_comunal: boolean,
+    acces_filling: boolean,
+    acces_subs: boolean,
+    acces_discuss: boolean,
+    acces_agreement: boolean,
+    acces_citizen: boolean,
+    acces_comunal_indexes: boolean,
+    acces_agent: boolean,
+    acces_flat_features: boolean,
+    acces_flat_chats: boolean,
   ): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
@@ -137,8 +182,19 @@ export class ResidentsComponent implements OnInit {
         acces_added: acces_added,
         acces_admin: acces_admin,
         acces_services: acces_services,
+        acces_filling: acces_filling,
         acces_comunal: acces_comunal,
+        acces_subs: acces_subs,
+        acces_discuss: acces_discuss,
+        acces_agreement: acces_agreement,
+        acces_citizen: acces_citizen,
+        acces_comunal_indexes: acces_comunal_indexes,
+        acces_agent: acces_agent,
+        acces_flat_features: acces_flat_features,
+        acces_flat_chats: acces_flat_chats,
       };
+      console.log(data)
+
       this.http.post('http://localhost:3000/citizen/add/access', data).subscribe(
         (response: any) => {
         },

@@ -13,6 +13,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -29,7 +30,6 @@ export const MY_FORMATS = {
 };
 
 registerLocaleData(localeUk);
-
 
 interface Agree {
   flat: {
@@ -65,9 +65,9 @@ interface Agree {
 }
 
 @Component({
-  selector: 'app-concluded-agree',
-  templateUrl: './concluded-agree.component.html',
-  styleUrls: ['./concluded-agree.component.scss'],
+  selector: 'app-concluded',
+  templateUrl: './concluded.component.html',
+  styleUrls: ['./concluded.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
@@ -78,9 +78,9 @@ interface Agree {
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
+
 })
-export class ConcludedAgreeComponent implements OnInit {
-  selectedFlatId: string | null = null;
+export class ConcludedComponent implements OnInit {
   agree: Agree[] = [];
   houseData: any;
   userData: any;
@@ -91,30 +91,31 @@ export class ConcludedAgreeComponent implements OnInit {
   isCityDisabled = true;
   isStreetDisabled = true;
   isApartmentNumberDisabled = true;
-  isHouseNumberDisabled = true;
-  isApartmentSizeDisabled = true;
-  isCheckboxPenalty = true;
-  isRentPriceDisabled = true;
-  isCheckboxChecked = false;
   isContainerVisible = false;
 
   selectedAgreement: any;
   flatId: string | null | undefined;
   selectedFlatAgree: any;
+  selectedFlatId: any;
 
   constructor(
     private http: HttpClient,
     private dataService: DataService,
     private route: ActivatedRoute,
     private datePipe: DatePipe,
+    private selectedFlatIdService: SelectedFlatService,
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+      const offs = 0;
+      this.getAgree(selectedFlatId, offs);
+    });
+
     this.route.params.subscribe(params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
     });
 
-    await this.getAgree();
     this.loadData();
   }
 
@@ -132,14 +133,14 @@ export class ConcludedAgreeComponent implements OnInit {
     );
   }
 
-  async getAgree(): Promise<void> {
+  async getAgree(selectedFlatId: string | null, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/saveyagreements';
+    const url = 'http://localhost:3000/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
-      user_id: user_id,
-      offs: 0
+      flat_id: selectedFlatId,
+      offs: offs,
     };
 
     try {
@@ -148,12 +149,13 @@ export class ConcludedAgreeComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+    this.selectedFlatId = selectedFlatId;
+
   }
 
   onSelectionChange(selectedFlatId: string): void {
     if (selectedFlatId) {
       console.log('You selected a dwelling with ID:', selectedFlatId);
-
       this.selectedFlatId = selectedFlatId;
       this.selectedAgreement = this.agree.find((agreement) => agreement.flat.flat_id === selectedFlatId);
       if (this.selectedAgreement) {
@@ -170,9 +172,6 @@ export class ConcludedAgreeComponent implements OnInit {
   closeContainer(): void {
     this.isContainerVisible = false;
   }
-
-  showDetails(flatId: string) {
-    this.selectedFlatId = flatId;
-  }
 }
+
 

@@ -53,11 +53,7 @@ export class AgreementsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
-      console.log(this.selectedFlatAgree);
     });
-
-    console.log(this.flatId)
-
 
     this.getSubscribedFlats();
   }
@@ -84,28 +80,22 @@ export class AgreementsComponent implements OnInit {
   async getSubscribedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    console.log(user_id)
     const url = 'http://localhost:3000/agreement/get/yagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
       offs: 0,
     };
-    console.log(data)
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-
-
       this.subscriptions = response;
-      console.log(this.subscriptions)
     } catch (error) {
       console.error(error);
     }
   }
 
   async removeAgreement(subscriber: any): Promise<void> {
-    console.log(subscriber)
     this.selectedFlatId = subscriber.flat.flat_id;
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
@@ -117,12 +107,8 @@ export class AgreementsComponent implements OnInit {
       agreement_id: subscriber.flat.agreement_id
     };
 
-
-    console.log(data);
-
     try {
       const response = await this.http.post(url, data).toPromise();
-      console.log(response);
       this.deletingFlatId = subscriber.flat.flat_id;
       setTimeout(() => {
         this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat.flat_id !== subscriber.flat.flat_id);

@@ -17,7 +17,7 @@ const routes: Routes = [
     ],
   },
   { path: 'agreement/:selectedSubscriber?.user_id', component: AgreementComponent, canActivate: [CanActivateGuard] },
-
+  { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

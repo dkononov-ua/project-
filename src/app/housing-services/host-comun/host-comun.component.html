@@ -4,15 +4,8 @@
     <div class="card-box p-4 col-lg-4 col-md-4 col-sm-12 col-12">
       <div class="card-menu m-2">
         <!-- Мої оселі -->
-        <div class="inputbox">
-          <mat-form-field appearance="outline">
-            <mat-label>ОСЕЛЯ</mat-label>
-            <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChangeFlatInfo()">
-              <mat-option disabled value="">виберіть оселю</mat-option>
-              <mat-option *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+
+        <app-housing-selection></app-housing-selection>
 
         <div class="inputbox pos">
           <mat-form-field appearance="outline">
