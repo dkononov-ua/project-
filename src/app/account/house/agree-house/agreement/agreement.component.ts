@@ -146,6 +146,7 @@ export class AgreementComponent implements OnInit {
   async ngOnInit(): Promise<any> {
 
     await this.loadData();
+    // await this.getAgent();
 
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       if (selectedFlatId) {
@@ -173,6 +174,25 @@ export class AgreementComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  // async getAgent(): Promise<any> {
+  //   let selectedFlatId = this.selectedFlatId;
+  //   console.log(selectedFlatId)
+  //   const userJson = localStorage.getItem('user');
+  //   const url = 'http://localhost:3000/userinfo/agent';
+  //   const data = {
+  //     auth: JSON.parse(userJson!),
+  //     flat_id: selectedFlatId,
+  //   };
+  //   console.log(selectedFlatId)
+  //   try {
+  //     const response = await this.http.post(url, data).toPromise() as any[];
+  //     console.log(response)
+  //     this.subscribers = response;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   async getSubs(selectedSubscriberId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
