@@ -1,6 +1,6 @@
 <div class="card-container mb-2">
 
-  <app-housing-selection></app-housing-selection>
+  <app-account-nav></app-account-nav>
   <app-user-search></app-user-search>
 
   <p>Мешканці: <span class="accent">{{ subscribers.length }} </span></p>
@@ -18,7 +18,7 @@
       </div>
 
       <div class="card-body">
-        <div class="card-title">{{ subscriber.lastName }} <br> {{ subscriber.firstName }}</div>
+        <div class="title">{{ subscriber.lastName }} <br> {{ subscriber.firstName }} <br> {{ subscriber.surName }}</div>
         <div class="btn-group">
           <button class="btn m-1" (click)="removeSubscriber(subscriber.user_id)">
             <i class="fa-solid fa-user-xmark"></i>

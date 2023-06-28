@@ -116,6 +116,7 @@ export class ConcludedAgreeComponent implements OnInit {
 
     await this.getAgree();
     this.loadData();
+    this.displayCurrentDate();
   }
 
   loadData(): void {
@@ -174,5 +175,9 @@ export class ConcludedAgreeComponent implements OnInit {
   showDetails(flatId: string) {
     this.selectedFlatId = flatId;
   }
-}
 
+  displayCurrentDate(): void {
+    const currentDate = moment().format('YYYY-MM-DD');
+    console.log(currentDate);
+  }
+}

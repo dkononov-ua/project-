@@ -134,7 +134,7 @@
 
 .card-body {
   margin: 0;
-  padding: 0;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -147,21 +147,32 @@
   overflow: hidden;
   object-fit: cover;
   transition: all 2s ease;
-  border-radius: 0 50% 50% 0;
-  background-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  border-radius: 0 10% 50% 0;
+  animation: border-animation 5s infinite;
 
   &:hover {
-    transition: 1s;
-    overflow: hidden;
-    border-radius: 50% 0 0 50%;
-
-    // transform: scale(1.4);
+    transform: scale(1.1);
   }
 }
+
+@keyframes border-animation {
+  0% {
+    border-radius: 0 10% 40% 0;
+  }
+  25% {
+    border-radius: 0 20% 60% 10%;
+  }
+  50% {
+    border-radius: 0 10% 40% 0;
+  }
+  75% {
+    border-radius: 0 20% 60% 10%;
+  }
+  100% {
+    border-radius: 0 10% 40% 0;
+  }
+}
+
 
 .resident-item {
   font-size: 14px;
@@ -175,9 +186,13 @@
   align-items: center;
 }
 
-.card-title {
-  z-index: 5;
-  font-size: 28px;
+.title-1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.title-2 {
+  font-size: 18px;
 }
 
 .card-info {
@@ -225,10 +240,14 @@
   }
 }
 
+.fa-phone {
+  color: $color-dark !important;
+}
+
 .text-info {
   padding: 10px;
   font-size: 0.8em;
-  color: $color-accent !important;
+  color: $color-dark !important;
 }
 
 .fab {
@@ -360,58 +379,6 @@ mat-form-field {
   flex-wrap: wrap;
 }
 
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
-
-.checkBox {
-  display: block;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0px 0px 0px 2px #000000;
-}
-
-.checkBox div {
-  width: 60px;
-  height: 60px;
-  background-color: #000000;
-  top: -52px;
-  left: -52px;
-  position: absolute;
-  transform: rotateZ(45deg);
-  z-index: 100;
-}
-
-.checkBox input[type="checkbox"]:checked + div {
-  left: -10px;
-  top: -10px;
-}
-
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
-
-.checkBox-span {
-  display: flex;
-  margin-left: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  flex-wrap: wrap;
-}
-
-.transition {
-  transition: 300ms ease;
-}
-
 .content {
   width: 100%;
   display: flex;
@@ -425,10 +392,75 @@ mat-form-field {
 .content-group {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 
 .descr {
-  font-size: 12px;
+  color: $color-white;
+  font-size: 16px;
 }
+
+.content {
+  position: relative;
+}
+
+.checkBox {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px $color-primary;
+}
+
+.checkBox-span {
+  cursor: pointer;
+  transition: 0.5s;
+  &:hover {
+    color: $color-accent;
+    font-weight: 600;
+    transform: scale(1.1);
+  }
+}
+
+.bold {
+  color: $color-accent;
+  font-weight: 600;
+}
+.btn-info {
+  background-color: rgba(255, 255, 255, 0);
+  width: 30px;
+  height: 30px;
+}
+
+.description-container {
+  display: flex;
+  position: absolute;
+  z-index: 9999;
+  background-color: rgb(44, 44, 44);
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.description {
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.close-button {
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+

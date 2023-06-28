@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
+import { NgZone } from '@angular/core';
+
 interface Subscriber {
   acces_flat_chats: any;
   acces_flat_features: any;
@@ -17,6 +19,7 @@ interface Subscriber {
   firstName: string;
   lastName: string;
   surName: string;
+  tell: number;
   photo: string;
   instagram: string;
   telegram: string;
@@ -27,21 +30,54 @@ interface Subscriber {
   acces_comunal: any;
   acces_added: any;
 }
+
 @Component({
   selector: 'app-residents',
   templateUrl: './residents.component.html',
-  styleUrls: ['./residents.component.scss']
+  styleUrls: ['./residents.component.scss'],
+  animations: [
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateY(-100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation4', [
+      transition('void => *', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation5', [
+      transition('void => *', [
+        style({ transform: 'translateY(100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+    ])
+  ],
 })
 export class ResidentsComponent implements OnInit {
   selectedSubscriber: Subscriber | undefined;
-
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
-  isOnline = true;
-  isOffline = false;
   loading = false;
+
   isChatClosed: boolean = true;
   isAccessClosed: boolean = true;
+  descriptionVisibility: { [key: string]: boolean } = {};
+
   acces_added: any;
   acces_admin: any;
   acces_services: any;
@@ -56,29 +92,36 @@ export class ResidentsComponent implements OnInit {
   acces_flat_features: any;
   acces_flat_chats: any;
 
-  toggleChat() {
-    this.isChatClosed = !this.isChatClosed;
+  isDescriptionVisible(key: string): boolean {
+    return this.descriptionVisibility[key] || false;
   }
 
-  toggleAccess() {
-    this.isAccessClosed = !this.isAccessClosed;
+  toggleDescription(key: string): void {
+    this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
   }
-
-  public showInput = false;
-  public userId: string | undefined;
-  searchQuery: string | undefined;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
+    private zone: NgZone,
   ) { }
 
   ngOnInit(): void {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       if (selectedFlatId) {
         const offs = 0;
-        this.getSubs(selectedFlatId, offs);
+        this.getSubs(selectedFlatId, offs).then(() => {
+          if (this.subscribers.length > 0) {
+            if (this.selectedSubscriber) {
+              const foundSubscriber = this.subscribers.find(subscriber => subscriber.user_id === this.selectedSubscriber?.user_id);
+              this.selectedSubscriber = foundSubscriber || this.subscribers[0];
+            } else {
+              this.selectedSubscriber = this.subscribers[0];
+            }
+            this.setAccessProperties(this.selectedSubscriber);
+          }
+        });
       }
     });
 
@@ -87,22 +130,48 @@ export class ResidentsComponent implements OnInit {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
-          this.acces_added = selectedSubscriber.acces_added;
-          this.acces_admin = selectedSubscriber.acces_admin;
-          this.acces_services = selectedSubscriber.acces_services;
-          this.acces_comunal = selectedSubscriber.acces_comunal;
-          this.acces_filling = selectedSubscriber.acces_filling;
-          this.acces_subs = selectedSubscriber.acces_subs;
-          this.acces_discuss = selectedSubscriber.acces_discuss;
-          this.acces_agreement = selectedSubscriber.acces_agreement;
-          this.acces_citizen = selectedSubscriber.acces_citizen;
-          this.acces_comunal_indexes = selectedSubscriber.acces_comunal_indexes;
-          this.acces_agent = selectedSubscriber.acces_agent;
-          this.acces_flat_features = selectedSubscriber.acces_flat_features;
-          this.acces_flat_chats = selectedSubscriber.acces_flat_chats;
+          this.setAccessProperties(selectedSubscriber);
+          this.saveSelectedSubscriber();
         }
       }
     });
+
+    this.loadSelectedSubscriber();
+  }
+
+  saveSelectedSubscriber(): void {
+    if (this.selectedSubscriber) {
+      localStorage.setItem('selectedSubscriber', JSON.stringify(this.selectedSubscriber));
+    }
+  }
+
+  loadSelectedSubscriber(): void {
+    const selectedSubscriberJson = localStorage.getItem('selectedSubscriber');
+    if (selectedSubscriberJson) {
+      const selectedSubscriber = JSON.parse(selectedSubscriberJson);
+      if (selectedSubscriber) {
+        this.selectedSubscriber = selectedSubscriber;
+        this.setAccessProperties(selectedSubscriber);
+      }
+    }
+  }
+
+  setAccessProperties(subscriber: Subscriber | undefined): void {
+    if (subscriber) {
+      this.acces_added = subscriber.acces_added;
+      this.acces_admin = subscriber.acces_admin;
+      this.acces_services = subscriber.acces_services;
+      this.acces_comunal = subscriber.acces_comunal;
+      this.acces_filling = subscriber.acces_filling;
+      this.acces_subs = subscriber.acces_subs;
+      this.acces_discuss = subscriber.acces_discuss;
+      this.acces_agreement = subscriber.acces_agreement;
+      this.acces_citizen = subscriber.acces_citizen;
+      this.acces_comunal_indexes = subscriber.acces_comunal_indexes;
+      this.acces_agent = subscriber.acces_agent;
+      this.acces_flat_features = subscriber.acces_flat_features;
+      this.acces_flat_chats = subscriber.acces_flat_chats;
+    }
   }
 
   onSelectionChange(): void {
@@ -126,6 +195,7 @@ export class ResidentsComponent implements OnInit {
           firstName: user_id.firstName,
           lastName: user_id.lastName,
           surName: user_id.surName,
+          tell: user_id.tell,
           photo: user_id.img,
           instagram: user_id.instagram,
           telegram: user_id.telegram,
@@ -151,6 +221,14 @@ export class ResidentsComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+    if (!this.selectedSubscriber) {
+      const selectedSubscriberId = localStorage.getItem('selectedSubscriber');
+      const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === selectedSubscriberId);
+      if (selectedSubscriber) {
+        this.selectedSubscriber = selectedSubscriber;
+        this.setAccessProperties(selectedSubscriber);
+      }
+    }
 
     this.selectedFlatId = selectedFlatId;
   }
@@ -169,10 +247,11 @@ export class ResidentsComponent implements OnInit {
     acces_comunal_indexes: boolean,
     acces_agent: boolean,
     acces_flat_features: boolean,
-    acces_flat_chats: boolean,
+    acces_flat_chats: boolean
   ): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
+    this.loading = true;
 
     if (userJson && subscriber) {
       const data = {
@@ -193,13 +272,25 @@ export class ResidentsComponent implements OnInit {
         acces_flat_features: acces_flat_features,
         acces_flat_chats: acces_flat_chats,
       };
-      console.log(data)
+      console.log(data);
 
       this.http.post('http://localhost:3000/citizen/add/access', data).subscribe(
         (response: any) => {
+          setTimeout(() => {
+            this.zone.run(() => {
+              location.reload();
+            });
+          },);
         },
         (error: any) => {
           console.error(error);
+        },
+        () => {
+          setTimeout(() => {
+            this.zone.run(() => {
+              this.loading = false;
+            });
+          }, 1000);
         }
       );
     } else {

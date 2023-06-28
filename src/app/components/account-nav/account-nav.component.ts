@@ -18,7 +18,7 @@ export class AccountNavComponent implements OnInit {
 
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
-  rentedHouses!: { id: number; name: string; }[];
+  rentedHouses: { id: number; name: string; }[] = [];
 
   addressHouse: FormGroup | undefined;
   flatImg: any = [{ img: "housing_default.svg" }];

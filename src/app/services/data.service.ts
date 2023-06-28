@@ -6,6 +6,7 @@ import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from
   providedIn: 'root'
 })
 export class DataService {
+  getFlats: any;
 
   constructor(private http: HttpClient) { }
 

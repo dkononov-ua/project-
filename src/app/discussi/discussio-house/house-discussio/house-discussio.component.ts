@@ -55,12 +55,17 @@ export class HouseDiscussioComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.selectedSubscriber = params['selectedSubscriber'] || null;
+      if (!this.selectedSubscriber && this.subscribers.length > 0) {
+        this.selectedSubscriber = this.subscribers[0];
+      }
     });
 
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       if (selectedFlatId) {
         const offs = 0;
-        this.getSubs(selectedFlatId, offs);
+        this.getSubs(selectedFlatId, offs).then(() => {
+          this.updateSelectedSubscriber();
+        });
       }
     });
 
@@ -70,20 +75,10 @@ export class HouseDiscussioComponent implements OnInit {
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
         }
+      } else if (!this.selectedSubscriber && this.subscribers.length > 0) {
+        this.selectedSubscriber = this.subscribers[0];
       }
     });
-  }
-
-handleGenerateAgreement() {
-  this.loading = true;
-
-  setTimeout(() => {
-    this.loading = false;
-  }, 2000);
-}
-
-  onSelectionChange(): void {
-    this.selectedFlatIdService.setSelectedFlatId(this.selectedFlatId);
   }
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
@@ -110,12 +105,28 @@ handleGenerateAgreement() {
           facebook: user_id.facebook
         }));
       this.subscribers = newSubscribers;
-
+      this.selectedFlatId = selectedFlatId;
     } catch (error) {
       console.error(error);
     }
+  }
 
-    this.selectedFlatId = selectedFlatId;
+  updateSelectedSubscriber(): void {
+    if (!this.selectedSubscriber && this.subscribers.length > 0) {
+      this.selectedSubscriber = this.subscribers[0];
+    }
+  }
+
+handleGenerateAgreement() {
+  this.loading = true;
+
+  setTimeout(() => {
+    this.loading = false;
+  }, 2000);
+}
+
+  onSelectionChange(): void {
+    this.selectedFlatIdService.setSelectedFlatId(this.selectedFlatId);
   }
 
   approveSubscriber(subscriber: Subscriber): void {

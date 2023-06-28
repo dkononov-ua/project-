@@ -49,7 +49,7 @@
             <div class="item-name">{{ userData.inf.lastName }} {{ userData.inf.firstName }} {{ userData.inf.surName }}
             </div>
             <p class="item-name"><span class="item-description">іменований надалі "Орендодавець"</span></p>
-            <p class="item-name"><span class="item-description">User ID:</span> {{ userData.inf.user_id }}</p>
+            <p class="item-name"><span class="item-description">User ID:</span> {{ userData.cont.user_id }}</p>
             <p class="item-name"><span class="item-description">Телефон:</span> {{ userData.cont.tell }}</p>
             <p class="item-name"><span class="item-description">Email:</span> {{ userData.cont.mail }}</p>
           </div>
@@ -531,9 +531,10 @@
   </div>
 </div>
 
-<div *ngIf="agreementCreated" class="agreementCreated-overlay">
-  <div class="agreementCreated">
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="agreementCreated-logo">
+<div *ngIf="statusMessage" class="status-message">
+  <div>
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo">
   </div>
+  {{ statusMessage }}
 </div>
 

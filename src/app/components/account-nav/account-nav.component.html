@@ -5,7 +5,7 @@
         class="img-fluid rounded">
     </div>
   </a>
-  <ng-container *ngIf="houses.length > 0 || houses === null || houses === undefined">
+  <ng-container *ngIf="(houses.length > 0 || (houses !== null && houses !== undefined)) || (rentedHouses && rentedHouses.length > 0)">
     <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house'">
       <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
         <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
@@ -15,7 +15,7 @@
 </div>
 
 <ng-container
-  *ngIf="(houses.length > 0 || houses === null || houses === undefined) || (rentedHouses && rentedHouses.length > 0)">
+*ngIf="(houses.length > 0 || (houses !== null && houses !== undefined)) || (rentedHouses && rentedHouses.length > 0)">
   <mat-form-field class="list-form mb-3" appearance="outline">
     <mat-label>ОСЕЛЯ</mat-label>
     <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
@@ -33,5 +33,7 @@
 
 
 <div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
 </div>

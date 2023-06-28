@@ -9,6 +9,8 @@ export class ChoseSubscribersService {
   private selectedSubscriberSubject = new BehaviorSubject<string | null>(null);
   public selectedSubscriber$ = this.selectedSubscriberSubject.asObservable();
   getSelectedSubscriber: any;
+  selectSubscriber: any;
+  getSelectedSubscriberId: any;
 
   constructor() {
     const storedSubscriberId = localStorage.getItem('selectedSubscriberId');

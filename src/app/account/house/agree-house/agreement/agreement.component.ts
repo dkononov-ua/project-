@@ -14,7 +14,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const moment = _rollupMoment || _moment;
 
@@ -125,6 +125,8 @@ export class AgreementComponent implements OnInit {
   agreementDate: any = moment();
   formSubmitted: boolean = false;
   agreementCreated: boolean | undefined;
+  statusMessage: string | undefined;
+
 
 
   openContainer() {
@@ -141,12 +143,13 @@ export class AgreementComponent implements OnInit {
     private dataService: DataService,
     private datePipe: DatePipe,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   async ngOnInit(): Promise<any> {
 
     await this.loadData();
-    // await this.getAgent();
+    await this.getAgent();
 
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       if (selectedFlatId) {
@@ -166,7 +169,6 @@ export class AgreementComponent implements OnInit {
   async loadData(): Promise<void> {
     this.dataService.getData().subscribe((response: any) => {
       this.houseData = response.houseData;
-      this.userData = response.userData;
       this.loading = false;
       console.log(this.houseData)
     }, (error) => {
@@ -175,24 +177,27 @@ export class AgreementComponent implements OnInit {
     });
   }
 
-  // async getAgent(): Promise<any> {
-  //   let selectedFlatId = this.selectedFlatId;
-  //   console.log(selectedFlatId)
-  //   const userJson = localStorage.getItem('user');
-  //   const url = 'http://localhost:3000/userinfo/agent';
-  //   const data = {
-  //     auth: JSON.parse(userJson!),
-  //     flat_id: selectedFlatId,
-  //   };
-  //   console.log(selectedFlatId)
-  //   try {
-  //     const response = await this.http.post(url, data).toPromise() as any[];
-  //     console.log(response)
-  //     this.subscribers = response;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  async getAgent(): Promise<any> {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
+      console.log(selectedFlatId);
+      const userJson = localStorage.getItem('user');
+      const url = 'http://localhost:3000/userinfo/agent';
+      const data = {
+        auth: JSON.parse(userJson!),
+        flat_id: selectedFlatId,
+      };
+      console.log(selectedFlatId);
+      try {
+        const response = await this.http.post(url, data).toPromise() as any[];
+        console.log(response);
+        this.userData = response;
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+
 
   async getSubs(selectedSubscriberId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
@@ -226,85 +231,6 @@ export class AgreementComponent implements OnInit {
     this.agreementDate = selectedDate;
   }
 
-  // sendFormAgreement(subscriber: Subscribers): void {
-  //   this.formSubmitted = true;
-  //   if (!this.isFormEmpty()) {
-  //     const selectedFlatId = this.selectedFlatIdService.getSelectedFlatId();
-  //     const userJson = localStorage.getItem('user');
-  //     this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
-  //     if (userJson && selectedFlatId && subscriber) {
-  //       const data = {
-  //         auth: JSON.parse(userJson),
-  //         flat_id: selectedFlatId,
-
-  //         owner: {
-  //           user_id: this.userData.inf?.user_id,
-  //           firstName: this.userData.inf?.firstName,
-  //           lastName: this.userData.inf?.lastName,
-  //           surName: this.userData.inf?.surName,
-  //           tell: this.userData.cont?.tell,
-  //           mail: this.userData.cont?.mail,
-  //           owner_img: this.userData.img[0].img,
-  //         },
-
-  //         subscriber: {
-  //           user_id: this.selectedSubscriber?.user_id,
-  //           firstName: this.selectedSubscriber?.firstName,
-  //           lastName: this.selectedSubscriber?.lastName,
-  //           surName: this.selectedSubscriber?.surName,
-  //           tell: this.selectedSubscriber?.tell,
-  //           mail: this.selectedSubscriber?.mail,
-  //           subscriber_img: this.selectedSubscriber?.img,
-  //         },
-
-  //         house: {
-  //           flat_id: this.houseData?.about.flat_id,
-  //           city: this.houseData?.flat.city,
-  //           houseNumber: this.houseData?.flat.houseNumber,
-  //           apartment: this.houseData?.flat.apartment,
-  //           area: this.houseData?.param.area,
-  //           price: this.houseData?.about.price_m,
-  //           street: this.houseData?.flat.street,
-  //         },
-
-  //         terms: {
-  //           agreementDate: this.agreementDate,
-  //           month: this.months,
-  //           year: this.years,
-  //           rent_due_data: this.rentDueDate,
-  //           penalty: this.penalty,
-  //           max_penalty: this.maxPenalty,
-  //           agree: this.isCheckboxChecked,
-  //         }
-  //       };
-
-  //       console.log(data);
-  //       this.loading = true; // Встановлюємо значення loading в true
-
-  //       this.http.post('http://localhost:3000/agreement/add/agreement', data)
-  //         .subscribe(
-  //           (response: any) => {
-  //             console.log(response);
-  //             setTimeout(() => {
-  //               this.loading = false; // Після 2 секунд змінюємо значення agreementCreated на false
-  //             }, 2000);
-  //             // this.agreementCreated = true; // Встановлюємо значення agreementCreated в true
-  //             // setTimeout(() => {
-  //             //   this.agreementCreated = false; // Після 2 секунд змінюємо значення agreementCreated на false
-  //             // }, 2000);
-  //           },
-  //           (error: any) => {
-  //             console.error(error);
-  //             this.loading = false; // При отриманні помилки встановлюємо значення loading в false
-  //           }
-  //         );
-  //     } else {
-  //       console.log('User, flat, or subscriber not found');
-  //     }
-  //   } else {
-  //     console.log('Input fields are empty. Please fill in all the required fields.');
-  //   }
-  // }
 
   sendFormAgreement(subscriber: Subscribers): void {
     this.formSubmitted = true;
@@ -317,13 +243,14 @@ export class AgreementComponent implements OnInit {
           auth: JSON.parse(userJson),
           flat_id: selectedFlatId,
           owner: {
-            user_id: this.userData.inf?.user_id,
-            firstName: this.userData.inf?.firstName,
-            lastName: this.userData.inf?.lastName,
-            surName: this.userData.inf?.surName,
-            tell: this.userData.cont?.tell,
-            mail: this.userData.cont?.mail,
-            owner_img: this.userData.img[0].img,
+            user_id: this.userData?.cont
+              ?.user_id,
+            firstName: this.userData?.inf?.firstName,
+            lastName: this.userData?.inf?.lastName,
+            surName: this.userData?.inf?.surName,
+            tell: this.userData?.cont?.tell,
+            mail: this.userData?.cont?.mail,
+            owner_img: this.userData?.img[0].img,
           },
 
           subscriber: {
@@ -358,29 +285,34 @@ export class AgreementComponent implements OnInit {
         };
 
         console.log(data);
-        this.loading = true; // Встановлюємо значення loading в true
+        this.loading = true;
 
         this.http.post('http://localhost:3000/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {
-              console.log(response);
+              console.log(response)
               setTimeout(() => {
-                this.loading = false; // Після 2 секунд змінюємо значення loading на false
-              }, 2000);
-              // this.agreementCreated = true; // Встановлюємо значення agreementCreated залежно від статусу успішності створення угоди
-
+                this.loading = false;
+                setTimeout(() => {
+                  this.statusMessage = 'Угода надіслана на розгляд орендарю!';
+                  setTimeout(() => {
+                    this.router.navigate(['/agreements-h']);
+                  }, 4000);
+                }, 100);
+              }, 3000);
             },
             (error: any) => {
               console.error(error);
-              this.loading = false; // При отриманні помилки встановлюємо значення loading на false
-              this.agreementCreated = false; // Встановлюємо значення agreementCreated на false
+              setTimeout(() => {
+                this.loading = false;
+                this.statusMessage = 'Помилка формування угоди.';
+              }, 3000);
             }
           );
       } else {
         console.log('User, flat, or subscriber not found');
+        this.loading = false;
       }
-    } else {
-      console.log('Input fields are empty. Please fill in all the required fields.');
     }
   }
 
@@ -392,7 +324,7 @@ export class AgreementComponent implements OnInit {
     this.message = msg;
     setTimeout(() => {
       this.clearMessage();
-    }, 3000); // Затримка у 3 секунди (3000 мілісекунд)
+    }, 3000);
   }
 
   clearMessage(): void {

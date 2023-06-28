@@ -17,7 +17,7 @@ import { HousingSelectionComponent } from '../components/housing-selection/housi
 import { AccountSelectionComponent } from '../components/account-selection/account-selection.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UserSearchComponent } from '../pages/user-search/user-search.component';
+import { UserSearchComponent } from '../components/user-search/user-search.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

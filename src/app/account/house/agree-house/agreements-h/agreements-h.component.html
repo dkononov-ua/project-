@@ -2,8 +2,7 @@
 
   <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
     <div class="m-2">
-      <app-account-selection></app-account-selection>
-      <app-housing-selection></app-housing-selection>
+      <app-account-nav></app-account-nav>
       <app-house-nav></app-house-nav>
     </div>
   </div>
@@ -45,8 +44,12 @@
               <div class="expanded-info" *ngIf="selectedFlatId === subscriber.flat.flat_id">
                 <div class="characteristics">
                   <div class="characteristics-group">
+                    <!-- <div class="item-characteristics" *ngIf="subscriber.flat.agreement_id">
+                      ID угоди: <span class="item">{{ subscriber.flat.agreement_id }}</span>
+                    </div> -->
+
                     <div class="item-characteristics" *ngIf="subscriber.flat.agreementDate">
-                      Угода №: <span class="item">{{ subscriber.flat.agreementDate }}</span>
+                      Дата угоди: <span class="item">{{ subscriber.flat.agreementDate }}</span>
                     </div>
                     <div class="item-characteristics" *ngIf="subscriber.flat.street">
                       Вулиця: <span class="item">{{ subscriber.flat.street }} {{ subscriber.flat.houseNumber }}</span>

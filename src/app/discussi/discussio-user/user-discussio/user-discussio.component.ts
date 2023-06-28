@@ -245,7 +245,6 @@ export class UserDiscussioComponent implements OnInit {
     }
   }
 
-
   ngOnDestroy(): void {
     if (this.selectedFlatIdSubscription) {
       this.selectedFlatIdSubscription.unsubscribe();

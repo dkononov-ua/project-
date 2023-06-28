@@ -74,13 +74,13 @@
 
 .card-img-container {
   position: relative;
-  width: 40%;
+  width: 60%;
   height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
   &:hover,
   :focus {
-    width: 60%;
+    width: 70%;
   }
 }
 

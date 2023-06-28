@@ -1,8 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { DatePipe } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
+import { FormControl } from '@angular/forms';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'dd/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
+registerLocaleData(localeUk);
+
 
 interface Agree {
   flat: {
@@ -41,7 +68,18 @@ interface Agree {
   selector: 'app-agree-u',
   templateUrl: './agree-u.component.html',
   styleUrls: ['./agree-u.component.scss'],
-    animations: [
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
+
+  animations: [
     trigger('cardAnimation1', [
       transition('* => *', [
         style({ transform: 'translateX(230%)' }),
@@ -103,12 +141,14 @@ export class AgreeUComponent implements OnInit {
   selectedAgreement: any;
   flatId: string | null | undefined;
   selectedFlatAgree: any;
+  statusMessage: string | undefined;
 
   constructor(
     private http: HttpClient,
     private dataService: DataService,
-    private route: ActivatedRoute
-    ) {}
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   async ngOnInit(): Promise<any> {
     this.route.params.subscribe(params => {
@@ -119,12 +159,8 @@ export class AgreeUComponent implements OnInit {
     console.log(this.flatId)
     await this.getAgree();
     this.loadData();
-    this.onAAChange()
+    this.onChange()
 
-  }
-
-  animationDone(event: any): void {
-    // Perform any necessary actions after the animation is done
   }
 
   loadData(): void {
@@ -173,7 +209,7 @@ export class AgreeUComponent implements OnInit {
     }
   }
 
-  onAAChange(): void {
+  onChange(): void {
     if (this.selectedFlatAgree) {
       console.log('You selected a dwelling with ID:', this.selectedFlatAgree);
 
@@ -195,9 +231,9 @@ export class AgreeUComponent implements OnInit {
     this.isContainerVisible = false;
   }
 
-
   agreeAgreement(a: any): void {
-    console.log(a)
+    this.loading = true;
+
     const selectedFlatId = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlatId) {
@@ -209,19 +245,37 @@ export class AgreeUComponent implements OnInit {
         i_agree: true,
       };
 
-      console.log(data);
-
       this.http.post('http://localhost:3000/agreement/accept/agreement', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
+            console.log(response)
+            setTimeout(() => {
+              this.loading = false;
+              setTimeout(() => {
+                this.statusMessage = 'Угода підписана!';
+                setTimeout(() => {
+                  this.router.navigate(['/user/concluded-agree']);
+                }, 4000);
+              }, 100);
+            }, 3000);
           },
           (error: any) => {
             console.error(error);
+            setTimeout(() => {
+              this.loading = false;
+              this.statusMessage = 'Помилка підписання угоди.';
+            }, 3000);
           }
         );
     } else {
       console.log('User, flat, or subscriber not found');
+      this.loading = false;
     }
   }
+
+
+
+
+
+
 }

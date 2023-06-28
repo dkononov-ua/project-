@@ -79,8 +79,6 @@ export class AgreementsHComponent implements OnInit {
       this.subscribers = response;
     } catch (error) {
     }
-
-    this.selectedFlatId = selectedFlatId;
   }
 
   removeSubscriber(subscriber: Subscriber): void {

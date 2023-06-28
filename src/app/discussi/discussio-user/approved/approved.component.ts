@@ -63,7 +63,7 @@ export class ApprovedComponent implements OnInit, OnDestroy {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      const newSubscriptions = response.map((flat: any) => {
+      const newSubscriptions: ApprovedSubscription[] = response.map((flat: any) => {
         return {
           flat_id: flat.flat.flat_id,
           flatImg: flat.img,
@@ -72,6 +72,9 @@ export class ApprovedComponent implements OnInit, OnDestroy {
       });
 
       this.subscriptions = newSubscriptions;
+      if (newSubscriptions.length > 0) {
+        this.selectFlatId(newSubscriptions[0].flat_id);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -84,10 +87,10 @@ export class ApprovedComponent implements OnInit, OnDestroy {
     this.selectedFlatId = flatId;
   }
 
-
   private restoreSelectedFlatId() {
     const selectedFlatId = this.choseSubscribeService.chosenFlatId;
     if (selectedFlatId) {
+      this.selectFlatId(selectedFlatId);
     }
   }
 
