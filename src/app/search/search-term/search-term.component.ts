@@ -1,4 +1,4 @@
-import { Subscription, debounceTime } from 'rxjs';
+import { Subscription, debounceTime, of } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilterService } from '../filter.service';
 import { regions } from './data-search';
@@ -6,8 +6,20 @@ import { cities } from './data-search';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
+
+
 interface SearchParams {
   [key: string]: any;
+}
+
+interface City {
+  name: any;
 }
 interface SearchParams {
   country: string;
@@ -34,6 +46,10 @@ interface SearchParams {
 })
 
 export class SearchTermComponent implements OnInit {
+  cityNames: any[] = cities;
+
+  cityControl = new FormControl();
+  filteredCities: City[] = [];
 
   public showInput = false;
   public userId: string | undefined;
@@ -63,6 +79,7 @@ export class SearchTermComponent implements OnInit {
   selectedBalcony!: number;
 
 
+
   flats: any[] | undefined;
   flatInfo: any[] | undefined;
   selectedRepair_status: any;
@@ -81,7 +98,13 @@ export class SearchTermComponent implements OnInit {
   timer: any;
   private subscription: Subscription | undefined;
 
-  constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(
+    private filterService: FilterService,
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    config: NgbTypeaheadConfig,
+  ) { config.showHint = true; }
 
   startTimer() {
     clearTimeout(this.timer);
@@ -93,8 +116,47 @@ export class SearchTermComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cityControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((value: string) => this.searchCities(value))
+      )
+      .subscribe((cities: City[]) => {
+        this.filteredCities = cities;
+      });
     this.onSubmit();
   }
+
+  searchCities(query: string): Observable<City[]> {
+    const apiKey = 'discussio';
+    const url = `http://api.geonames.org/searchJSON?name_startsWith=${encodeURIComponent(query)}&country=UA&lang=uk&username=${apiKey}`;
+    return this.http.get<any>(url).pipe(
+      map((data) => {
+        console.log(data);
+
+        const cities: City[] = data.geonames.map((item: any) => ({
+          name: item.name,
+        }));
+
+        cities.forEach((city) => {
+          console.log(city.name);
+        });
+
+        return cities;
+      })
+    );
+  }
+
+  // displayCity(city: City): string {
+  //   console.log(city)
+  //   return city ? city.name : '';
+  // }
+
+  displayCity(): void {
+    console.log(this.selectedCity);
+  }
+
 
   fetchFlatData(url: string) {
     this.subscription = this.http.get<{ flat_inf: any[], flat_img: any[] }>(url).subscribe((data) => {
@@ -107,6 +169,20 @@ export class SearchTermComponent implements OnInit {
       this.applyFilter(this.filteredFlats, data);
     });
   }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(2000),
+      distinctUntilChanged(),
+      switchMap((term) => {
+        if (term.length >= 3) {
+          return this.searchCities(term);
+        } else {
+          return of([]);
+        }
+      })
+    );
+
 
   onInputChange() {
     clearTimeout(this.timer);
@@ -213,5 +289,30 @@ export class SearchTermComponent implements OnInit {
 
   applyFilter(filteredFlats: any, filteredImages: any) {
     this.filterService.updateFilter(filteredFlats, filteredImages);
+  }
+
+  onSubmit1() {
+    const apiKey = 'discussio';
+    const searchQuery = this.searchQuery || '';
+
+    const url = `http://api.geonames.org/searchJSON?q=${encodeURIComponent(
+      searchQuery
+    )}&username=${apiKey}`;
+
+    console.log(url)
+
+    this.http
+      .get(url)
+      .subscribe((data: any) => {
+        console.log(data);
+
+        data.geonames.forEach((item: any) => {
+          console.log(item); // Вивести кожен елемент масиву
+          console.log(item.propertyName); // Приклад виведення конкретного поля
+        });
+
+      }, (error: any) => {
+        console.error('Помилка при виконанні запиту до Geonames API:', error);
+      });
   }
 }
