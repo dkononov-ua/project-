@@ -21,12 +21,12 @@ import { MatSliderModule } from '@angular/material/slider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppRoutingModule } from '../app-routing.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FilterPipe } from './search-term/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     HousingSearchComponent,
     TenantsSearchComponent,
     SearchComponent,
+    FilterPipe,
   ],
   providers: [FilterService],
   imports: [
@@ -53,7 +54,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatFormFieldModule,
     RouterModule,
     CommonModule,
-    NgxSpinnerModule,
     MatSelectModule,
     MatDialogModule,
     MatSliderModule,
@@ -63,6 +63,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     FormsModule,
     MatAutocompleteModule,
     NgbTypeaheadModule,
+  ],
+  exports: [
+    FilterPipe
   ]
 })
 export class SearchModule { }

@@ -5,10 +5,8 @@
     "outDir": "./out-tsc/app",
     "types": [
       "@angular/localize",
-      "googlemaps"
     ],
     "paths": {
-      "leaflet": ["node_modules/leaflet/dist/leaflet.js"]
     }
   },
   "files": [

@@ -20,7 +20,7 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   padding-bottom: 20px;
 }
 
@@ -63,36 +63,22 @@
   overflow: hidden;
 }
 
-.inputbox-item::-webkit-scrollbar {
-  display: none;
-}
-
-.group-label {
-  font-weight: 600;
-  color: $color-accent;
-}
-
-.inputbox {
+.box {
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
   flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
-  justify-content: space-between;
 }
 
 .box-search {
-  width: 76%;
-  position: relative;
   display: flex;
-  border-radius: 10px;
-  flex-direction: column;
   align-content: center;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-id {
-  width: 100%;
+  width: 80%;
+  display: flex;
 }
 
 .item {
@@ -130,7 +116,6 @@
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  margin: 5px;
 }
 
 .form-control {
@@ -151,7 +136,6 @@ button {
 
 .checkbox-box {
   display: flex;
-  width: 100%;
   justify-content: center;
   align-items: center;
 }
@@ -159,7 +143,6 @@ button {
 .form-box {
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -169,7 +152,7 @@ button {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 mat-form-field {
@@ -197,17 +180,52 @@ mat-label {
   display: flex;
 }
 
+.inputbox-item::-webkit-scrollbar {
+  display: none;
+}
+
+.group-label {
+  font-weight: 600;
+  color: $color-accent;
+}
+
 .group {
-  margin: 5px;
-  padding: 2px;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.25), 5px 2px 2px rgba(0, 0, 0, 0.22);
-  background-color: #f5f5f5;
-  border: 1px solid rgba(255, 255, 255, 0.426);
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  padding: 0 10px;
 }
 
 .group-item {
+  width: 100%;
+  padding: 10px 0;
   display: flex;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.25), 5px 2px 2px rgba(0, 0, 0, 0.22);
+  background-color: white;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.group-item-1 {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.mat-mdc-form-field {
+  box-sizing: border-box;
+  width: 100%;
+  height: 60px !important;
+  position: relative;
+}
+
+.item-select {
+  width: 100%;
 }
 
 .checkBox {
@@ -215,17 +233,17 @@ mat-label {
   cursor: pointer;
   width: 30px;
   height: 30px;
-  border: 3px solid rgba(255, 255, 255, 0);
+  border: 1px solid $color-primary;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 0px 0px 2px #fff;
+  box-shadow: 0px 0px 0px 0px #000000;
 }
 
 .checkBox div {
   width: 60px;
   height: 60px;
-  background-color: #fff;
+  background-color: #000000;
   top: -52px;
   left: -52px;
   position: absolute;
@@ -252,6 +270,13 @@ mat-label {
   width: 100px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.content-1 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -324,4 +349,15 @@ mat-label {
 .min-slider::-moz-range-thumb:hover,
 .max-slider::-moz-range-thumb:hover {
   background-color: #3e8e41;
+}
+
+.status {
+  padding: 5px 10px;
+  background-color: $color-accent;
+  margin: 0 3px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.25), 2px 2px 10px rgba(0, 0, 0, 0.22);
 }

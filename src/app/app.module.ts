@@ -39,7 +39,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
 import { HousingServicesModule } from './housing-services/housing-services.module';
 import { RouterModule } from '@angular/router';
@@ -80,7 +79,6 @@ import { RouterModule } from '@angular/router';
     MatNativeDateModule,
     MatFormFieldModule,
     CommonModule,
-    NgxSpinnerModule,
     MatSelectModule,
     MatDialogModule,
     MatSliderModule,

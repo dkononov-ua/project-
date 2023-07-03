@@ -86,16 +86,17 @@
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <div class="img-wrapper" *ngIf="houseData.imgs?.length > 0">
-                <img [src]="'http://localhost:3000/img/flat/' + houseData.imgs[0].img" alt="Flat Image"
+              <div class="img-wrapper" *ngIf="selectedAgreement.img.length > 0">
+                <img [src]="'http://localhost:3000/img/flat/' + selectedAgreement.img[0]" alt="Flat Image"
                   class="img-fluid-2 rounded">
               </div>
             </div>
-            <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
+            <div class="carousel-item" *ngFor="let image of selectedAgreement.img?.slice(1)">
               <div class="img-wrapper">
-                <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid-2 rounded">
+                <img [src]="'http://localhost:3000/img/flat/' + image" alt="Flat Image" class="img-fluid-2 rounded">
               </div>
             </div>
+
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
@@ -242,8 +243,7 @@
 
     <div *ngIf="isContainerVisible" class="container-box agree" id="agreement-container">
       <div class="close-box">
-        <button class="btn-close" type="submit" (click)="closeContainer()"><a [routerLinkActive]="'active'"
-            [routerLink]="'/payments'"></a></button>
+        <button class="btn-close" type="submit" (click)="closeContainer()"></button>
       </div>
       <div class="box m-2">
         <div class="title-group">
@@ -256,7 +256,6 @@
         </h5>
       </div>
       <div class="container-agree">
-
 
         <div class="wrapper-group">
           <div class="agree-wrapper p-2 col-lg-6 col-md-6 col-sm-6 col-12">

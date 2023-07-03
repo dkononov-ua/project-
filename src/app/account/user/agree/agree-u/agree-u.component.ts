@@ -1,6 +1,5 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from 'src/app/services/data.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -29,8 +28,6 @@ export const MY_FORMATS = {
 };
 
 registerLocaleData(localeUk);
-
-
 interface Agree {
   flat: {
     agreementDate: string;
@@ -122,9 +119,7 @@ interface Agree {
 export class AgreeUComponent implements OnInit {
   selectedFlatId: string | null = null;
   agree: Agree[] = [];
-  houseData: any;
-  userData: any;
-  loading: boolean = true;
+  loading: boolean = false;
   isMonthDisabled = true;
   isYearDisabled = true;
   isRentDataDisabled = true;
@@ -145,7 +140,6 @@ export class AgreeUComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private dataService: DataService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
@@ -153,28 +147,10 @@ export class AgreeUComponent implements OnInit {
   async ngOnInit(): Promise<any> {
     this.route.params.subscribe(params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
-      console.log(this.selectedFlatAgree);
     });
 
-    console.log(this.flatId)
     await this.getAgree();
-    this.loadData();
     this.onChange()
-
-  }
-
-  loadData(): void {
-    this.dataService.getData().subscribe(
-      (response: any) => {
-        this.houseData = response.houseData;
-        this.userData = response.userData;
-        this.loading = false;
-      },
-      (error) => {
-        console.error(error);
-        this.loading = false;
-      }
-    );
   }
 
   async getAgree(): Promise<void> {
@@ -189,9 +165,7 @@ export class AgreeUComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      console.log(response);
       this.agree = response;
-      console.log(this.agree);
     } catch (error) {
       console.error(error);
     }
@@ -202,8 +176,8 @@ export class AgreeUComponent implements OnInit {
       console.log('You selected a dwelling with ID:', this.selectedFlatId);
 
       this.selectedAgreement = this.agree.find((agreement) => agreement.flat.flat_id === this.selectedFlatId);
-      if (this.selectedAgreement) {
-      }
+      if (this.selectedAgreement)
+      { }
     } else {
       console.log('Nothing selected');
     }
@@ -272,10 +246,4 @@ export class AgreeUComponent implements OnInit {
       this.loading = false;
     }
   }
-
-
-
-
-
-
 }

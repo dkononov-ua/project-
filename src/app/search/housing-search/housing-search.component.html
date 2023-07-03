@@ -35,7 +35,6 @@
         <div class="card card-selected" id="carouselContainer">
           <div class="message-container" *ngIf="showSubscriptionMessage">
             <div class="message">{{ subscriptionMessage }}</div>
-
           </div>
 
           <div class="container-sticker">
@@ -103,37 +102,37 @@
           </div>
 
           <div class="card-text p-2">
+            <div class="price">
+              <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || '?' }} <span class="title-selected">ціна ₴/міс</span></div>
+              <div *ngIf="selectedFlat?.price_y !== null">
+                <div class="price_y">{{ selectedFlat?.price_y || '?' }} <span>₴ ціна за рік</span></div>
+              </div>
+            </div>
 
             <div class="title-group">
               <div class="title-selected">Область : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.region || 'Немає інформації' }}</div>
+              <div class="title-selected-accent">{{ selectedFlat?.region || '?' }}</div>
             </div>
 
             <div class="title-group">
               <div class="title-selected">Місто : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.city || 'Немає інформації' }}</div>
+              <div class="title-selected-accent">{{ selectedFlat?.city || '?' }}</div>
             </div>
 
             <div class="title-group">
               <div class="title-selected">Вулиця : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.street || 'Немає інформації' }}</div>
+              <div class="title-selected-accent">{{ selectedFlat?.street || '?' }}</div>
             </div>
 
             <div class="title-group">
               <div class="title-selected">Номер будинку : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.houseNumber || 'Немає інформації' }}</div>
+              <div class="title-selected-accent">{{ selectedFlat?.houseNumber || '?' }}</div>
             </div>
 
             <div class="title-group">
-              <div class="title-selected">Площа оселі : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.area || 'Немає інформації' }} м²</div>
+              <div class="title-selected">Площа оселі м²: </div>
+              <div class="title-selected-accent">{{ selectedFlat?.area || '?' }}</div>
             </div>
-
-            <div class="price">
-              <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || 'Не вказано' }}</div>
-              <div class="title-selected">грн/міс</div>
-            </div>
-
           </div>
 
         </div>
