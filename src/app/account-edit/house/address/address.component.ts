@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { HostComponent } from '../host/host.component';
+import { regions } from '../../../shared/data-city';
+import { cities } from '../../../shared/data-city';
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -31,7 +33,7 @@ export class AddressComponent implements OnInit {
 
   addressHouse: any = {
     flat_id: '',
-    country: '',
+    country: 'Україна',
     region: '',
     city: '',
     street: '',
@@ -117,6 +119,13 @@ export class AddressComponent implements OnInit {
   formDisabled?: boolean;
   selectHouse: any;
 
+  regions = regions;
+  cities = cities;
+  filteredRegions: { id: number; name: string; cities: { id: number; name: string; postalCode: string; }[]; }[] | undefined;
+  selectedRegion: any;
+  selectedCity: any;
+  filteredCities: { id: number; name: string; }[] | undefined;
+
   constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent) {
     this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
       this.selectedFlatId = selectedFlatId;
@@ -168,6 +177,24 @@ export class AddressComponent implements OnInit {
     if (this.addressHouse.valid) {
       this.locationLink = this.generateLocationUrl();
     }
+  }
+
+  loadCities() {
+    this.filteredRegions = this.selectedRegion
+      ? this.regions.filter((region) =>
+          region.name.toLowerCase().includes(this.selectedRegion.toLowerCase())
+        )
+      : this.regions;
+    const selectedRegionObj = this.regions.find(
+      (region) => region.name === this.selectedRegion
+    );
+    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
+    this.selectedCity = '';
+  }
+
+
+  loadDistricts() {
+    this.filteredCities = this.selectedCity ? this.cities.filter(city => city.name.toLowerCase().includes(this.selectedCity.toLowerCase())) : this.cities;
   }
 
   generateLocationUrl() {

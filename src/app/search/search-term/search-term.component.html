@@ -99,30 +99,25 @@
           <div class="group-item">
             <mat-form-field class="item-select m-1" appearance="outline" cdkScrollable>
               <mat-label>Область</mat-label>
-              <mat-select [(ngModel)]="selectedRegion" name="selectedRegion" (ngModelChange)="loadCities()">
-                <mat-option [value]="''">Всі області</mat-option>
-                <mat-option *ngFor="let region of regions" [value]="region.name">{{ region.name }}</mat-option>
-              </mat-select>
+              <input name="selectedRegion" matInput [(ngModel)]="selectedRegion" placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
+              <mat-autocomplete #autoRegion="matAutocomplete">
+                <mat-option *ngFor="let region of regions" [value]="region.name">
+                  {{ region.name }}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
+
 
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Місто</mat-label>
-              <mat-select [(ngModel)]="selectedCity" name="selectedCity" (ngModelChange)="onSubmit()">
-                <mat-option [value]="''">Всі міста</mat-option>
-                <mat-option *ngFor="let city of cities | filter: selectedCity" [value]="city.name">
+              <input name="selectedCity" matInput [(ngModel)]="selectedCity" placeholder="Виберіть або введіть місто" (ngModelChange)="onSubmit()" [matAutocomplete]="autoCity">
+              <mat-autocomplete #autoCity="matAutocomplete">
+                <mat-option *ngFor="let city of filteredCities" [value]="city.name">
                   {{ city.name }}
                 </mat-option>
-              </mat-select>
+              </mat-autocomplete>
             </mat-form-field>
 
-
-
-            <!-- <mat-form-field class="item-select m-1" appearance="outline">
-              <mat-label>Країна</mat-label>
-              <mat-select [(ngModel)]="selectedCountry" name="selectedCountry" (ngModelChange)="onSubmit()">
-                <mat-option [value]="''">Україна</mat-option>
-              </mat-select>
-            </mat-form-field> -->
           </div>
         </div>
       </div>

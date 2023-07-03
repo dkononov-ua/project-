@@ -21,6 +21,7 @@ import { HostComponent } from './host/host.component';
 import { RouterModule } from '@angular/router';
 import { HousingParametersRoutingModule } from './housing-parameters-routing.module';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { MatInputModule } from '@angular/material/input';
     RouterModule,
     HousingParametersRoutingModule,
     MatInputModule,
+    MatAutocompleteModule,
   ],
 })
 export class HousingParametersModule { }

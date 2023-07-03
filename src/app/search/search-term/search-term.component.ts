@@ -1,12 +1,11 @@
 import { Subscription, debounceTime } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilterService } from '../filter.service';
-import { regions } from './data-search';
-import { cities } from './data-search';
+import { regions } from './../../shared/data-city';
+import { cities } from './../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FilterPipe } from './filter.pipe';
 
 interface SearchParams {
   [key: string]: any;
@@ -36,6 +35,8 @@ interface SearchParams {
 })
 
 export class SearchTermComponent implements OnInit {
+  filteredCities: any[] | undefined;
+  filteredRegions: any[] | undefined;
 
   public showInput = false;
   public userId: string | undefined;
@@ -90,6 +91,7 @@ export class SearchTermComponent implements OnInit {
   }
 
   loadCities() {
+    this.filteredRegions = this.selectedRegion ? this.regions.filter(region => region.name.toLowerCase().includes(this.selectedRegion.toLowerCase())) : this.regions;
     const selectedRegionObj = this.regions.find(region => region.name === this.selectedRegion);
     this.cities = selectedRegionObj ? selectedRegionObj.cities : [];
     this.selectedCity = '';
@@ -116,6 +118,8 @@ export class SearchTermComponent implements OnInit {
   }
 
   onSubmit() {
+    this.filteredCities = this.selectedCity ? this.cities.filter(city => city.name.toLowerCase().includes(this.selectedCity.toLowerCase())) : this.cities;
+
     if (this.searchQuery) {
       const flatId = this.searchQuery;
       const url = `${this.endpoint}/?flat_id=${flatId}`;

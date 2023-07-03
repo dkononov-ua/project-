@@ -26,7 +26,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { FilterPipe } from './search-term/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,6 @@ import { FilterPipe } from './search-term/filter.pipe';
     HousingSearchComponent,
     TenantsSearchComponent,
     SearchComponent,
-    FilterPipe,
   ],
   providers: [FilterService],
   imports: [
@@ -65,7 +63,6 @@ import { FilterPipe } from './search-term/filter.pipe';
     NgbTypeaheadModule,
   ],
   exports: [
-    FilterPipe
   ]
 })
 export class SearchModule { }

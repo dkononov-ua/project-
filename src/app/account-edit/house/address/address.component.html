@@ -6,29 +6,47 @@
         <h4>Адреса оселі</h4>
       </div>
       <!-- Країна -->
-      <div class="inputbox">
+      <!-- <div class="inputbox">
         <input required="required" type="text" id="inputCountry" name="country" formControlName="country">
         <span>Країна</span>
         <i class="orange"></i>
         <div *ngIf="formErrors.country" class="alert alert-danger">{{formErrors.country}}</div>
-      </div>
+      </div> -->
+
       <!-- Область -->
       <div class="inputbox">
-        <input required="required" type="text" id="inputRegion" name="region" formControlName="region">
+        <input required="required" type="text" id="inputRegion" name="region" formControlName="region"
+          [(ngModel)]="selectedRegion" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion" />
         <span>Область</span>
         <i class="orange"></i>
-        <div
-          *ngIf="addressHouse.controls['region'].invalid && (addressHouse.controls['region'].dirty || addressHouse.controls['region'].touched)"
-          class="alert alert-danger">{{formErrors.region}}</div>
+        <div *ngIf="
+      addressHouse.controls['region'].invalid &&
+      (addressHouse.controls['region'].dirty ||
+        addressHouse.controls['region'].touched)
+    " class="alert alert-danger">
+          {{ formErrors.region }}
+        </div>
       </div>
+      <mat-autocomplete #autoRegion="matAutocomplete">
+        <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
+          {{ region.name }}
+        </mat-option>
+      </mat-autocomplete>
 
       <!-- Місто -->
       <div class="inputbox">
-        <input required="required" type="text" id="inputCity" name="city" formControlName="city">
+        <input required="required" type="text" id="inputCity" name="city" formControlName="city"
+          [(ngModel)]="selectedCity" (ngModelChange)="loadDistricts()" [matAutocomplete]="autoCity" />
         <span>Місто</span>
         <i class="orange"></i>
-        <div *ngIf="formErrors.city" class="alert alert-danger">{{formErrors.city}}</div>
+        <div *ngIf="formErrors.city" class="alert alert-danger">{{ formErrors.city }}</div>
       </div>
+      <mat-autocomplete #autoCity="matAutocomplete">
+        <mat-option *ngFor="let city of filteredCities" [value]="city.name">
+          {{ city.name }}
+        </mat-option>
+      </mat-autocomplete>
+
       <!-- Вулиця -->
       <div class="inputbox">
         <input required="required" type="text" id="inputStreet" name="street" formControlName="street">
