@@ -2,14 +2,15 @@
   <p class="count">Знайдено {{ filteredFlats.length }}</p>
 </div>
 
-<div class="container-card" (click)="handleContainerClick($event)">
+<div class="container-house" (click)="handleContainerClick($event)">
   <div class="section col-lg-4 col-md-9 col-sm-12 col-12">
     <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredFlats">
-
       <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
         [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
         [style.animation-delay.ms]="i * 100">
+
         <a class="card m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
+
           <div class="card-img-container">
             <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
           </div>
@@ -24,13 +25,12 @@
       <button mat-icon-button class="btn-create" matTooltip="Завантажити ще" (click)="loadMore()">
         <i class="fa-solid fa-arrow-down-short-wide"></i>
       </button>
-
     </div>
   </div>
 
   <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-container-house p-1">
+      <div [@cardAnimation] class="card-house p-1">
 
         <div class="card card-selected" id="carouselContainer">
           <div class="message-container" *ngIf="showSubscriptionMessage">
@@ -39,8 +39,10 @@
 
           <div class="container-sticker">
             <div class="status-container">
-              <div class="status rent-yes" *ngIf="statusSubscriptionMessage && statusMessage === 'Ви успішно відписались'">Subscribe</div>
-              <div class="status rent-yes" *ngIf="statusSubscriptionMessage && statusMessage === 'Ви в дискусії'">Discussio</div>
+              <div class="status rent-yes"
+                *ngIf="statusSubscriptionMessage && statusMessage === 'Ви успішно відписались'">Subscribe</div>
+              <div class="status rent-yes" *ngIf="statusSubscriptionMessage && statusMessage === 'Ви в дискусії'">
+                Discussio</div>
             </div>
           </div>
 
@@ -80,7 +82,9 @@
 
           <div class="card-btn-container">
             <div class="item-box">
-              <button mat-raised-button class="next card link" [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}" (click)="onSubmitSbs()">
+              <button mat-raised-button class="next card link"
+                [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}"
+                (click)="onSubmitSbs()">
                 <i class="fa-regular fa-heart"></i>
               </button>
             </div>
@@ -103,7 +107,8 @@
 
           <div class="card-text p-2">
             <div class="price">
-              <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || '?' }} <span class="title-selected">ціна ₴/міс</span></div>
+              <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || '?' }} <span
+                  class="title-selected">ціна ₴/міс</span></div>
               <div *ngIf="selectedFlat?.price_y !== null">
                 <div class="price_y">{{ selectedFlat?.price_y || '?' }} <span>₴ ціна за рік</span></div>
               </div>

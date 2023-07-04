@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../chose-subscribe.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
 interface SelectedFlat {
   flat: any;
   owner: any;
@@ -31,7 +31,7 @@ interface SelectedFlat {
 
 export class UserDiscussioComponent implements OnInit {
   currentIndex: number = 0;
-
+  allMessages: any[] = [];
   firstName: string | undefined;
   lastName: string | undefined;
   surName: string | undefined;
@@ -71,6 +71,10 @@ export class UserDiscussioComponent implements OnInit {
   house: any;
 
   isFeatureEnabled: boolean = false;
+  loading: boolean | undefined;
+  userData: any;
+  currentSubscription: Subject<unknown> | undefined;
+
 
   toggleMode(): void {
     this.currentIndex = (this.currentIndex === 0) ? 2 : 0;
@@ -81,9 +85,6 @@ export class UserDiscussioComponent implements OnInit {
     } else {
       console.log('Оселя');
     }
-  }
-
-  toggleCards(): void {
   }
 
   aboutDistance: { [key: number]: string } = {
@@ -116,14 +117,22 @@ export class UserDiscussioComponent implements OnInit {
   flatImg: any = [{ img: "housing_default.svg" }];
   private selectedFlatIdSubscription: Subscription | undefined;
   images: string[] = ['http://localhost:3000/img/flat/housing_default.svg'];
+  isChatOpen: boolean = false;
+  messageText: string = '';
+  chatMessages: any[] = [];
+  message: any;
+  userImg: any;
 
   constructor(
     private dataService: DataService,
     private http: HttpClient,
-    private choseSubscribeService: ChoseSubscribeService
-  ) { }
+    private choseSubscribeService: ChoseSubscribeService,
+  ) {this.allMessages = [];}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.loadData();
+    this.allMessages = [];
+    this.getUserMessages(this.selectedFlatId);
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(
       flatId => {
         this.selectedFlatId = flatId;
@@ -135,14 +144,29 @@ export class UserDiscussioComponent implements OnInit {
     if (this.selectedFlatId !== null) {
       localStorage.setItem('selectedFlatId', this.selectedFlatId);
       this.getFlatDetails(this.selectedFlatId);
+
     } else {
       const storedFlatId = localStorage.getItem('selectedFlatId');
       if (storedFlatId) {
         this.selectedFlatId = storedFlatId;
         this.getFlatDetails(this.selectedFlatId);
+
       }
     }
     this.getOwnerInfo();
+  }
+
+  async loadData(): Promise<void> {
+    this.dataService.getData().subscribe((response: any) => {
+      this.userData = response.userData;
+      this.loading = false;
+      console.log(this.userData)
+      console.log(this.userData.img[0].img)
+
+    }, (error) => {
+      console.error(error);
+      this.loading = false;
+    });
   }
 
   getOwnerInfo(): void {
@@ -205,6 +229,8 @@ export class UserDiscussioComponent implements OnInit {
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
         this.getOwnerInfo();
+        this.getUserMessages(this.selectedFlat);
+
 
         this.images = [];
 
@@ -220,6 +246,7 @@ export class UserDiscussioComponent implements OnInit {
   getSelectedFlatInfo(): string {
     if (this.selectedSubscription && this.selectedSubscription.flat) {
       return `Оселя: ${this.selectedSubscription.flat.flat_id}, Країна: ${this.selectedSubscription.flat.country}, Місто: ${this.selectedSubscription.flat.city}`;
+
     } else {
       return 'Інформація про обрану оселю відсутня.';
     }
@@ -257,5 +284,102 @@ export class UserDiscussioComponent implements OnInit {
     if (this.selectedFlatId !== null) {
       this.getFlatDetails(this.selectedFlatId);
     }
+  }
+
+  openChat(SelectedFlat: any): void {
+    this.isChatOpen = true;
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson && SelectedFlat) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+      };
+      this.http.post('http://localhost:3000/chat/add/chatUser', data)
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+  sendMessage(SelectedFlat: any): void {
+    this.isChatOpen = true;
+    const userJson = localStorage.getItem('user');
+    if (userJson && SelectedFlat) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: SelectedFlat,
+        message: this.messageText,
+      };
+      this.http.post('http://localhost:3000/chat/sendMessageUser', data)
+        .subscribe((response: any) => {
+          this.getUserMessages(this.selectedFlat);
+          this.messageText = '';
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+  getUserMessages(SelectedFlat: any): void {
+    if (this.currentSubscription) {
+      this.currentSubscription.next(undefined);
+    }
+
+    this.isChatOpen = true;
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+
+    if (userJson && SelectedFlat) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        offs: 0,
+      };
+
+      this.allMessages = [];
+
+      const destroy$ = new Subject();
+
+      this.http.post('http://localhost:3000/chat/get/usermessage', data)
+        .pipe(
+          switchMap((response: any) => {
+            console.log(response.status);
+            this.allMessages = response.status;
+
+            return interval(5000);
+          }),
+          takeUntil(destroy$)
+        )
+        .subscribe(() => {
+          this.http.post('http://localhost:3000/chat/get/usermessage', data)
+            .subscribe((response: any) => {
+              console.log(response.status);
+              this.allMessages = response.status;
+            }, (error: any) => {
+              console.error(error);
+            });
+        });
+
+      this.currentSubscription = destroy$;
+
+      destroy$.subscribe(() => {
+      });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+
+
+  closeChat(): void {
+    this.isChatOpen = false;
+    this.chatMessages = [];
   }
 }

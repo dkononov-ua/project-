@@ -39,40 +39,75 @@
           </div>
           <div class="card-body">
             <div class="card-links">
-              <a href="#" class="card-link"><span>Запросити Документи</span><i class="fa-solid fa-passport"></i></a>
-              <a href="#" class="card-link"><span>Запросити реквізити</span><i
-                  class="fa-solid fa-money-bill-trend-up"></i></a>
-
-
+              <button class="card-link" (click)="openChat(selectedSubscriber?.user_id)"><span>Почати дискусію</span><i
+                  class="fa-solid fa-message"></i></button>
               <a class="card-link" [routerLinkActive]="'active'"
                 [routerLink]="['/agreement', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
                   class="fa-solid fa-file-contract"></i></a>
-
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="isChatOpen && allMessages && selectedSubscriber">
       <div class="card m-2">
         <div class="chat-header">
           <h3>Назва чату</h3>
-          <button class="btn m-1">Закрити</button>
+          <button class="btn-close" (click)="closeChat()"></button>
         </div>
         <div class="chat-messages">
-          <div class="message">
-            <img class="avatar" src="../../../../assets/photo1.jpg" alt="Фото користувача">
-            <div class="message-content">
-              <h4>Ім'я користувача</h4>
-              <p>Текст повідомлення</p>
-            </div>
+          <div class="" *ngFor="let message of allMessages">
+
+            <ng-container *ngIf="message.user_id === selectedSubscriber?.user_id">
+
+              <div class="chat-container-user">
+                <div class="user-message message p-2">
+                  <div class="avatar-wrapper-user">
+                    <img class="avatar-user"
+                      [src]="'http://localhost:3000/img/users/' + (selectedSubscriber.photo ? selectedSubscriber.photo : 'user_default.svg')"
+                      alt="User Image">
+                    <div class="name-user">
+                      <div class="accent-name"><span class="time">{{ message.time }} </span> {{
+                        selectedSubscriber.lastName }} {{ selectedSubscriber.firstName }}</div>
+                    </div>
+                  </div>
+                  <div class="message-content-user">
+                    <div class="message-text-user">{{ message.message }}</div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="message.flat_id !== null">
+              <div class="chat-container-owner">
+                <div class="owner-message message p-2">
+                  <div class="avatar-wrapper-owner">
+                    <img class="avatar-owner"
+                      [src]="'http://localhost:3000/img/users/' + (userData.img[0].img ? userData.img[0].img : 'user_default.svg')"
+                      alt="User Image">
+                    <div class="name-owner">
+                      <div class="accent-name">{{ userData.inf.lastName }} {{ userData.inf.firstName }} <span
+                          class="time">{{ message.time }}</span></div>
+                    </div>
+                  </div>
+
+                  <div class="message-content-owner">
+                    <p class="message-text-owner">{{ message.message }}</p>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
           </div>
         </div>
+
         <div class="chat-input">
-          <input type="text" placeholder="Напишіть повідомлення">
-          <button class="btn m-1">Надіслати</button>
+          <input type="text" placeholder="Напишіть повідомлення" [(ngModel)]="messageText"
+            (keydown.enter)="sendMessage(selectedSubscriber)">
         </div>
+
+        <button class="btn m-1" (click)="sendMessage(selectedSubscriber)">Надіслати</button>
       </div>
     </div>
 
