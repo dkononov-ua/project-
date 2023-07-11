@@ -3,17 +3,18 @@
   <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
     <div class="m-2">
       <!-- <app-account-selection></app-account-selection> -->
-      <app-account-nav></app-account-nav>
+      <app-account-selection></app-account-selection>
 
       <nav class="navbar-house">
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/info'"><span class="link-text">Мій
             аккаунт</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'"><span class="link-text">Повідомлення</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/subscriptions'"><span
             class="link-text">Підписки на оселі</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/host-discussio'"><span
             class="link-text">Discussiї</span></a>
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/deals'"><span
-            class="link-text">Угоди оренди</span></a>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/deals'"><span class="link-text">Угоди
+            оренди</span></a>
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span
             class="link-text">Редагувати <i class="fa-solid fa-gear"></i></span></a>
       </nav>

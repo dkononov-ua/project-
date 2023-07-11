@@ -5,6 +5,8 @@ import { HostDiscussioHComponent } from './host-discussio-h/host-discussio-h.com
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { AgreementComponent } from 'src/app/account/house/agree-house/agreement/agreement.component';
+import { ChatHouseComponent } from './chat-house/chat-house.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,8 @@ const routes: Routes = [
   },
   { path: 'agreement/:selectedSubscriber?.user_id', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
+  { path: 'chat-house', component: ChatHouseComponent, canActivate: [CanActivateGuard] },
+  { path: 'chat', component: ChatComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

@@ -36,8 +36,12 @@ interface Subscriber {
         style({ transform: 'translateX(230%)' }),
         animate('1600ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
+      transition('* => void', [
+        animate('1200ms ease-in-out', style({ transform: 'translateX(230%)' }))
+      ])
     ])
   ],
+
 })
 export class HouseDiscussioComponent implements OnInit {
   subscribers: Subscriber[] = [];
@@ -47,13 +51,8 @@ export class HouseDiscussioComponent implements OnInit {
   selectedSubscriber: Subscriber | undefined;
   loading = false;
   isChatOpen: boolean = false;
-  messageText: string = '';
-  chatMessages: any[] = [];
-  allMessages: any[] = [];
-  message: any;
   houseData: any;
   userData: any;
-  currentSubscription: Subject<unknown> | undefined;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -70,7 +69,7 @@ export class HouseDiscussioComponent implements OnInit {
       this.selectedSubscriber = params['selectedSubscriber'] || null;
       if (!this.selectedSubscriber && this.subscribers.length > 0) {
         this.selectedSubscriber = this.subscribers[0];
-        this.getFlatMessages(this.selectedSubscriber);
+        this.getFlatMessages();
       }
     });
 
@@ -79,7 +78,7 @@ export class HouseDiscussioComponent implements OnInit {
         const offs = 0;
         this.getSubs(selectedFlatId, offs).then(() => {
           this.updateSelectedSubscriber();
-          this.getFlatMessages(this.selectedSubscriber);
+          this.getFlatMessages();
         });
       }
     });
@@ -89,11 +88,11 @@ export class HouseDiscussioComponent implements OnInit {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
-          this.getFlatMessages(this.selectedSubscriber);
+          this.getFlatMessages();
         }
       } else if (!this.selectedSubscriber && this.subscribers.length > 0) {
         this.selectedSubscriber = this.subscribers[0];
-        this.getFlatMessages(this.selectedSubscriber);
+        this.getFlatMessages();
       }
     });
   }
@@ -196,7 +195,7 @@ export class HouseDiscussioComponent implements OnInit {
     }
   }
 
-  openChat(subscriber: any): void {
+  createChat(subscriber: any): void {
     this.isChatOpen = true;
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
@@ -218,106 +217,12 @@ export class HouseDiscussioComponent implements OnInit {
     }
   }
 
-  sendMessage(selectedSubscriber: any): void {
+  getFlatMessages(): void {
     this.isChatOpen = true;
-    const selectedFlat = this.selectedFlatId;
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        user_id: selectedSubscriber.user_id,
-        message: this.messageText,
-      };
-      this.http.post('http://localhost:3000/chat/sendMessageFlat', data)
-        .subscribe((response: any) => {
-          console.log(response);
-          this.getFlatMessages(this.selectedSubscriber);
-          this.messageText = '';
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('user or subscriber not found');
-    }
   }
 
-getFlatMessages(subscriber: Subscriber | undefined): void {
-  if (this.currentSubscription) {
-    this.currentSubscription.next(undefined);
-  }
-
-  this.isChatOpen = true;
-  const selectedFlat = this.selectedFlatId;
-  const userJson = localStorage.getItem('user');
-
-  if (userJson && subscriber) {
-    const data = {
-      auth: JSON.parse(userJson),
-      flat_id: selectedFlat,
-      user_id: subscriber.user_id,
-      offs: 0,
-    };
-
-    const destroy$ = new Subject();
-
-    this.http.post('http://localhost:3000/chat/get/flatmessage', data)
-      .pipe(
-        switchMap((response: any) => {
-          console.log(response.status);
-
-          if (Array.isArray(response.status)) {
-            this.allMessages = response.status.map((message: any) => {
-              const dateTime = new Date(message.data);
-              const time = dateTime.toLocaleTimeString();
-              return { ...message, time };
-            });
-          } else {
-            this.allMessages = [];
-          }
-
-          // Return an interval that emits every 5 seconds
-          return interval(5000);
-        }),
-        takeUntil(destroy$)
-      )
-      .subscribe(() => {
-        this.http.post('http://localhost:3000/chat/get/flatmessage', data)
-          .subscribe((response: any) => {
-            console.log(response.status);
-
-            if (Array.isArray(response.status)) {
-              this.allMessages = response.status.map((message: any) => {
-                const dateTime = new Date(message.data);
-                const time = dateTime.toLocaleTimeString();
-                return { ...message, time };
-              });
-            } else {
-              this.allMessages = [];
-            }
-
-          }, (error: any) => {
-            console.error(error);
-          });
-      });
-
-    // Store the current subscription
-    this.currentSubscription = destroy$;
-
-    // Unsubscribe from the interval when needed (e.g., when the component is destroyed)
-    destroy$.subscribe(() => {
-      // Cleanup code, if any
-    });
-  } else {
-    console.log('user or subscriber not found');
-  }
-}
-
-
-
-    closeChat(): void {
+  closeChat(): void {
     this.isChatOpen = false;
-    this.chatMessages = [];
   }
 
 

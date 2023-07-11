@@ -1,0 +1,28 @@
+<div class="card-container">
+  <div class="card-container mb-2">
+    <p>Кількість: <span class="accent">{{ chats.length }} </span></p>
+  </div>
+
+  <div class="card-box">
+    <div class="card-container p-2">
+
+      <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
+        [ngClass]="{'selected': chat.isSelected}">
+        <div class="card-img-container">
+          <img class="card-img-top"
+            [src]="'http://localhost:3000/img/users/' + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"
+            alt="User Image">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title"> {{ chat.infUser.inf.lastName }} <br> {{
+            chat.infUser.inf.firstName }} <br> {{ chat.infUser.inf.surName }}</h2>
+          <!-- <div class="btn-group">
+            <button class="btn-1 m-1"><i class="fa-solid fa-user-xmark"></i></button>
+          </div> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -14,24 +14,6 @@
   </ng-container>
 </div>
 
-<ng-container
-*ngIf="(houses.length > 0 || (houses !== null && houses !== undefined)) || (rentedHouses && rentedHouses.length > 0)">
-  <mat-form-field class="list-form mb-3" appearance="outline">
-    <mat-label>ОСЕЛЯ</mat-label>
-    <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
-      <mat-option disabled value="">виберіть оселю</mat-option>
-      <mat-optgroup *ngIf="(houses.length > 0 || houses === null || houses === undefined)" label="Власні оселі">
-        <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
-      </mat-optgroup>
-      <mat-optgroup *ngIf="rentedHouses && rentedHouses.length > 0" label="Орендовані оселі">
-        <mat-option class="list-option" *ngFor="let rentedHouse of rentedHouses"
-          [value]="rentedHouse.name">{{rentedHouse.name}}</mat-option>
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-</ng-container>
-
-
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>
 </div>

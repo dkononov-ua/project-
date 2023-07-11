@@ -136,7 +136,7 @@ export class ResidentsComponent implements OnInit {
       }
     });
 
-    this.loadSelectedSubscriber();
+    // this.loadSelectedSubscriber();
   }
 
   saveSelectedSubscriber(): void {
@@ -145,16 +145,17 @@ export class ResidentsComponent implements OnInit {
     }
   }
 
-  loadSelectedSubscriber(): void {
-    const selectedSubscriberJson = localStorage.getItem('selectedSubscriber');
-    if (selectedSubscriberJson) {
-      const selectedSubscriber = JSON.parse(selectedSubscriberJson);
-      if (selectedSubscriber) {
-        this.selectedSubscriber = selectedSubscriber;
-        this.setAccessProperties(selectedSubscriber);
-      }
-    }
-  }
+  // loadSelectedSubscriber(): void {
+  //   const selectedSubscriberJson = localStorage.getItem('selectedSubscriber');
+  //   if (selectedSubscriberJson) {
+  //     const selectedSubscriber = JSON.parse(selectedSubscriberJson);
+  //     if (selectedSubscriber) {
+  //       this.selectedSubscriber = selectedSubscriber;
+  //       this.setAccessProperties(selectedSubscriber);
+  //     }
+  //   }
+  //   console.log(this.selectedSubscriber)
+  // }
 
   setAccessProperties(subscriber: Subscriber | undefined): void {
     if (subscriber) {
@@ -215,6 +216,7 @@ export class ResidentsComponent implements OnInit {
           acces_flat_features: user_id.acces_flat_features,
           acces_flat_chats: user_id.acces_flat_chats,
         }));
+        console.log(response)
 
       this.subscribers = newSubscribers;
 

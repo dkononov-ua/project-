@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="container-card">
+    <div [@cardAnimation4] class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
+      <app-account-selection></app-account-selection>
+      <app-chat-room></app-chat-room>
+    </div>
+
+    <div [@cardAnimation2] class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
+      <div class="name"><h2>Чат Discussio</h2></div>
+      <div class="card m-2">
+        <app-chat-user></app-chat-user>
+      </div>
+    </div>
+
+    <div [@cardAnimation1] class="card-box col-lg-3 col-md-12 col-sm-12 col-12">
+      <div class="m-2">
+        <div class="card-info p-2">
+          <h4>Discussio чат:</h4>
+          <div class="title p-2">
+            <p>Тут Ви зможете бачити користувачів з якими у Вас Discussiя, обмінюйтесь повідомленнями з потенційними
+              орендарами або вже з машканцями оселі.</p>
+          </div>
+          <div class="title-group">
+            <div class="title">
+              <p>Як створити чат?</p>
+            </div>
+            <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse"
+              data-bs-target="#discussionButton" aria-expanded="false" aria-controls="collapseExample">
+              <i class="fa-solid fa-info"></i>
+            </button>
+          </div>
+
+          <div class="collapse" id="discussionButton">
+            <div class="card-body-cast">
+              <p class="text-info">Чат створюється в меню Discussiя, там ви зможете обрати людину яку Ви затвердили та
+                створити з нею переписку.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

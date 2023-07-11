@@ -86,6 +86,8 @@ export class HouseResidentsComponent implements OnInit {
           facebook: item.facebook
         }));
 
+        console.log(response)
+
       this.subscribers = newSubscribers;
     } catch (error) {
       console.error(error);

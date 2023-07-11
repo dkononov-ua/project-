@@ -1,0 +1,78 @@
+<div class="container-chat-messages" *ngIf="selectedUser">
+
+  <!-- <div class="chat-id">
+    <div class="chat-name">Чат ID {{selectedUser.chat_id}}</div>
+  </div> -->
+
+  <div class="chat-messages">
+    <div class="" *ngFor="let message of allMessages">
+
+      <ng-container *ngIf="message.user_id === selectedUser?.user_id">
+        <div class="chat-container-user">
+          <div class="user-message message p-2">
+            <div class="avatar-wrapper-user">
+              <img class="avatar-user"
+                [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
+                alt="User Image">
+              <div class="name-user">
+                <div class="accent-name">{{ selectedUser.lastName }} {{ selectedUser.firstName }} <span class="time">{{
+                    message.time }} </span></div>
+              </div>
+            </div>
+            <div class="message-content-user">
+              <div class="message-text-user">{{ message.message }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="message.flat_id !== null">
+        <div class="chat-container-owner">
+          <div class="owner-message message p-2">
+            <div class="avatar-wrapper-owner">
+              <!-- <img class="avatar-owner"
+                [src]="'http://localhost:3000/img/users/' + (userData.img[0].img ? userData.img[0].img : 'user_default.svg')"
+                alt="User Image"> -->
+              <img class="avatar-owner"
+                [src]="'http://localhost:3000/img/flat/' + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
+                alt="User Image">
+              <!-- <div class="name-owner">
+                <div class="accent-name"><span class="time">{{
+                    message.time }}</span> {{ userData.inf.lastName }} {{ userData.inf.firstName }} </div>
+              </div> -->
+              <div class="name-owner">
+                <div class="accent-name"><span class="time">{{ message.time }}</span> {{ houseData.flat.flat_id }}</div>
+                <!-- <div class="accent-name"> {{ houseData.flat.street }} {{ houseData.flat.houseNumber}}</div> -->
+              </div>
+            </div>
+
+            <div class="message-content-owner">
+              <p class="message-text-owner">{{ message.message }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+  <div class="group">
+
+    <div class="chat-input col-10">
+      <input type="text" placeholder="Напишіть повідомлення" [(ngModel)]="messageText"
+        (keydown.enter)="sendMessage(selectedUser)">
+    </div>
+    <div class="btn-group col-2"> <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedUser)"><i
+          class="fa-solid fa-paper-plane fa-2xl"></i></button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div *ngIf="loading" class="loader-overlay">
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
+</div>

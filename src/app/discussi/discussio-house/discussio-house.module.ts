@@ -27,6 +27,9 @@ import { HouseDiscussioComponent } from './house-discussio/house-discussio.compo
 import { AgreementComponent } from 'src/app/account/house/agree-house/agreement/agreement.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ChatHouseComponent } from './chat-house/chat-house.component';
+import { ChatComponent } from './chat/chat.component';
+import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 
 
 @NgModule({
@@ -35,6 +38,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     HostDiscussioHComponent,
     HouseDiscussioComponent,
     AgreementComponent,
+    ChatHouseComponent,
+    ChatComponent,
+    ChatRoomsComponent,
   ],
   providers: [
     SelectedFlatService,

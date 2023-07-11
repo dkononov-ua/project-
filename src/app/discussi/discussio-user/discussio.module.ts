@@ -24,6 +24,9 @@ import { UserDiscussioComponent } from './user-discussio/user-discussio.componen
 import { ApprovedComponent } from './approved/approved.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AccountRoutingModule } from 'src/app/account/account-routing.module';
+import { ChatUserComponent } from './chat-user/chat-user.component';
+import { ChatHostComponent } from './chat-host/chat-host.component';
+import { ChatRoomComponent } from './chat-room/chat-room.component';
 
 
 @NgModule({
@@ -31,6 +34,9 @@ import { AccountRoutingModule } from 'src/app/account/account-routing.module';
     HostDiscussioComponent,
     UserDiscussioComponent,
     ApprovedComponent,
+    ChatUserComponent,
+    ChatHostComponent,
+    ChatRoomComponent,
   ],
   providers: [ChoseSubscribeService],
   imports: [
