@@ -8,6 +8,11 @@
 
       <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
         [ngClass]="{'selected': chat.isSelected}">
+        <div class="container-sticker">
+          <div class="status-container">
+            <div class="status rent-yes" *ngIf="chat.unread !== 0">{{chat.unread}}</div>
+          </div>
+        </div>
         <div class="card-img-container">
           <img class="card-img-top"
             [src]="'http://localhost:3000/img/users/' + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"

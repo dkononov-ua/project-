@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    console.log(111111)
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post('http://localhost:3000/auth', JSON.parse(userJson))

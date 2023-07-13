@@ -172,12 +172,15 @@ export class ChatHouseComponent implements OnInit {
       this.http.post('http://localhost:3000/chat/get/flatmessage', data)
         .pipe(
           switchMap(async (response: any) => {
+            console.log(response)
             if (Array.isArray(response.status)) {
               this.allMessages = response.status.map((message: any) => {
                 const dateTime = new Date(message.data);
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
+
               });
+
             } else {
               this.allMessages = [];
             }

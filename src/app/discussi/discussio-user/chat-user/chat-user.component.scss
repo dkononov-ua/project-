@@ -38,6 +38,11 @@ img {
   justify-content: flex-start;
 }
 
+.accent {
+  color: red;
+  font-size: 30px;
+}
+
 .card-box {
   display: flex;
   justify-content: flex-start;
@@ -218,13 +223,22 @@ img {
   height: auto;
 }
 
-.chat-messages {
-  flex-grow: 1;
-  padding: 10px;
+.chat-messages-read,
+.chat-messages-unread {
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
-  height: 80%;
+  padding: 20px 5px 5px 5px;
+}
+
+.fa-check-double,
+.fa-check {
+  color: $color-accent;
+  font-size: 12px;
+}
+
+.fa-check {
+  color: $color-dark;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -270,7 +284,7 @@ img {
 .message-text-user,
 .message-text-owner {
   color: $color-white;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .chat-input {
@@ -370,6 +384,10 @@ img {
   padding: 12px 0 0 0;
 }
 
+.message-content-owner {
+  justify-content: flex-end;
+}
+
 .time {
   color: $color-dark;
   font-weight: 300;
@@ -427,4 +445,9 @@ input {
   right: 0;
   top: 0;
   padding: 5px;
+}
+
+.unread {
+  background-color: $color-accent;
+  transform: 1s;
 }

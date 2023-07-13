@@ -184,9 +184,6 @@ export class AboutComponent implements OnInit {
     this.aboutHouse.disable();
     this.isDisabled = true;
     this.formDisabled = true;
-    // відправляємо дані на сервер і зберігаємо їх
-
-    // після успішного збереження змінюємо стан на редагування
     this.isDisabled = false;
     this.formDisabled = false;
   }

@@ -1,5 +1,5 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 
 @Component({
   selector: 'app-chat-host',
@@ -38,6 +38,16 @@ import { Component } from '@angular/core';
     ])
   ],
 })
-export class ChatHostComponent {
 
+export class ChatHostComponent implements AfterViewInit {
+  loading: boolean = true;
+
+  constructor(private cdr: ChangeDetectorRef) { }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }, 1000);
+  }
 }

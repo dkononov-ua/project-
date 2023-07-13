@@ -10,6 +10,7 @@ import { HousingServicesComponent } from './housing-services/housing-services.co
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HousingParametersComponent } from './account-edit/house/housing-parameters.component';
 import { SearchComponent } from './search/search.component';
+import { LookingComponent } from './account-edit/user/looking/looking.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'our-team', component: OurTeamComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
+  { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
   { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },

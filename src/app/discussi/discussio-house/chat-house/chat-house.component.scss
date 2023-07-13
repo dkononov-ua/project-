@@ -213,10 +213,14 @@ img {
 .chat-messages {
   flex-grow: 1;
   padding: 10px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
   height: 80%;
+}
+
+.accent {
+  color: red;
+  font-size: 30px;
 }
 
 .chat-messages::-webkit-scrollbar {

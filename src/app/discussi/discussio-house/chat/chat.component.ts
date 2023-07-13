@@ -1,5 +1,5 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -38,6 +38,15 @@ import { Component } from '@angular/core';
     ])
   ],
 })
-export class ChatComponent {
 
+export class ChatComponent implements AfterViewInit {
+  loading: boolean = true;
+
+  constructor() { }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+  }
 }

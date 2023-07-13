@@ -42,6 +42,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
 import { HousingServicesModule } from './housing-services/housing-services.module';
 import { RouterModule } from '@angular/router';
+import { LookingComponent } from './account-edit/user/looking/looking.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { RouterModule } from '@angular/router';
     KrutilkaComponent,
     DeleteComunalComponent,
     DeleteDialogComponent,
+    LookingComponent,
   ],
   providers: [
     SelectedFlatService,
@@ -85,6 +88,9 @@ import { RouterModule } from '@angular/router';
     SharedModule,
     MatIconModule,
     RouterModule,
+    MatAutocompleteModule,
+    
+
 
     HousingServicesModule,
     HousingServicesRoutingModule,
