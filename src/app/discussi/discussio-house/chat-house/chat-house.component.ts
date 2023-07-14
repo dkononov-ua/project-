@@ -4,8 +4,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { Subject, interval, switchMap, takeUntil } from 'rxjs';
-
+import { EMPTY, Subject, interval, switchMap, takeUntil } from 'rxjs';
 interface User {
   user_id: string;
   chat_id: string;
@@ -16,7 +15,6 @@ interface User {
   lastName: string;
   surName: string;
 }
-
 @Component({
   selector: 'app-chat-house',
   templateUrl: './chat-house.component.html',
@@ -25,14 +23,17 @@ interface User {
 
 export class ChatHouseComponent implements OnInit {
   users: User[] = [];
+  allMessagesNotRead: any[] = [];
   selectedFlatId: string | any;
-  selectedUser: User | undefined;
+  selectedUser: User | any;
   loading = false;
   messageText: string = '';
   allMessages: any[] = [];
   houseData: any;
   userData: any;
   currentSubscription: Subject<unknown> | undefined;
+  interval: any;
+  infoPublic: any[] | undefined;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -42,15 +43,15 @@ export class ChatHouseComponent implements OnInit {
     private dataService: DataService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<any> {
     this.loadData();
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       if (selectedFlatId) {
         this.selectedFlatId = selectedFlatId
         const offs = 0;
-        this.getFlatChats(selectedFlatId, offs).then(() => {
-          this.updateSelectedUser();
-          this.getFlatMessages(this.selectedUser);
+        this.getChats(selectedFlatId, offs).then(() => {
+          this.getMessages(this.selectedUser);
+          // this.autoSelectedUser();
         });
       }
     });
@@ -58,14 +59,13 @@ export class ChatHouseComponent implements OnInit {
     this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
       if (subscriberId) {
         const selectedUser = this.users.find(subscriber => subscriber.user_id === subscriberId);
-        console.log(this.users)
         if (subscriberId) {
           this.selectedUser = selectedUser;
-          this.getFlatMessages({ user_id: subscriberId });
+          this.getMessages(this.selectedUser);
         }
       } else if (!this.selectedUser && this.users.length > 0) {
         this.selectedUser = this.users[0];
-        this.getFlatMessages({ user_id: subscriberId });
+        this.getMessages(this.selectedUser);
       }
     });
   }
@@ -81,10 +81,9 @@ export class ChatHouseComponent implements OnInit {
     });
   }
 
-  async getFlatChats(selectedFlatId: string, offs: number): Promise<any> {
+  async getChats(selectedFlatId: string, offs: number): Promise<any> {
     const selectedFlat = selectedFlatId;
     const url = 'http://localhost:3000/chat/get/flatchats';
-
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
@@ -128,84 +127,51 @@ export class ChatHouseComponent implements OnInit {
     }
   }
 
-  updateSelectedUser(): void {
-    if (!this.selectedUser && this.users.length > 0) {
-      this.selectedUser = this.users[0];
-    }
-  }
+  //Автовибір чату
 
-  sendMessage(selectedUser: any): void {
-    const selectedFlat = this.selectedFlatId;
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        user_id: selectedUser.user_id,
-        message: this.messageText,
-      };
-      this.http.post('http://localhost:3000/chat/sendMessageFlat', data)
-        .subscribe((response: any) => {
-          this.getFlatMessages(this.selectedUser);
-          this.messageText = '';
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('user or subscriber not found');
-    }
-  }
+  // autoSelectedUser(): void {
+  //   if (!this.selectedUser && this.users.length > 0) {
+  //     this.selectedUser = this.users[0];
+  //   }
+  // }
 
-  getFlatMessages(selectedUser: any): void {
+  async getMessages(selectedUser: any): Promise<any> {
+    clearTimeout(this.interval);
+    this.allMessagesNotRead = [];
+    this.allMessages = [];
     if (this.currentSubscription) { this.currentSubscription.next(undefined); }
     const userJson = localStorage.getItem('user');
+    const selectedFlat = this.selectedFlatId;
 
-    if (userJson && selectedUser) {
-      const data = {
+    if (userJson && selectedUser && selectedUser.user_id) {
+      const info = {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         user_id: selectedUser.user_id,
         offs: 0,
       };
+
       const destroy$ = new Subject();
 
-      this.http.post('http://localhost:3000/chat/get/flatmessage', data)
+      this.http.post('http://localhost:3000/chat/get/flatmessage', info)
         .pipe(
-          switchMap(async (response: any) => {
-            console.log(response)
+          switchMap((response: any) => {
             if (Array.isArray(response.status)) {
               this.allMessages = response.status.map((message: any) => {
                 const dateTime = new Date(message.data);
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
-
               });
-
+              this.getNewMessages(selectedUser);
             } else {
               this.allMessages = [];
             }
-
-            return interval(5000);
+            return EMPTY;
           }),
           takeUntil(destroy$)
         )
         .subscribe(() => {
-
-          this.http.post('http://localhost:3000/chat/get/flatmessage', data)
-            .subscribe((response: any) => {
-              if (Array.isArray(response.status)) {
-                this.allMessages = response.status.map((message: any) => {
-                  const dateTime = new Date(message.data);
-                  const time = dateTime.toLocaleTimeString();
-                  return { ...message, time };
-                });
-              } else {
-                this.allMessages = [];
-              }
-
-            }, (error: any) => {
-              console.error(error);
-            });
+          this.getNewMessages(selectedUser);
         });
 
       this.currentSubscription = destroy$;
@@ -213,8 +179,95 @@ export class ChatHouseComponent implements OnInit {
       destroy$.subscribe(() => {
       });
     } else {
-      console.log('user or subscriber not found');
+      // console.log('Оберіть чат');
     }
   }
 
+  async getNewMessages(selectedUser: any): Promise<void> {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+
+    if (userJson && selectedUser) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: selectedUser.user_id,
+        offs: 0,
+        data: this.allMessages[0]?.data,
+      };
+      this.http.post('http://localhost:3000/chat/get/NewMessageFlat', data)
+        .subscribe(
+          async (response: any) => {
+            if (Array.isArray(response.status)) {
+              let c: any = []
+              await Promise.all(response.status.map((i: any, index: any) => {
+                const reverseIndex = response.status.length - 1 - index;
+                let b = response.status[reverseIndex]
+                if (b.is_read == 1) {
+                  let dateTime = new Date(b.data);
+                  let time = dateTime.toLocaleTimeString();
+                  this.allMessages.unshift({ ...b, time })
+                  return 1
+                } else if (b.is_read == 0) {
+                  let dateTime = new Date(b.data);
+                  let time = dateTime.toLocaleTimeString();
+                  c.unshift({ ...b, time })
+                  return 1
+                } else {
+                  return 1
+                }
+              }))
+              this.allMessagesNotRead = c;
+              if (this.selectedUser) {
+                this.messagesHaveBeenRead(this.selectedUser);
+              }
+            }
+            this.interval = setTimeout(() => { this.getNewMessages(selectedUser) }, 5000);
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    }
+  }
+
+  messagesHaveBeenRead(selectedUser: any) {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: selectedUser.user_id,
+      };
+      this.http.post('http://localhost:3000/chat/readMessageFlat', data).subscribe();
+    }
+  }
+
+  sendMessage(selectedUser: any): void {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson && selectedUser) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: selectedUser.user_id,
+        message: this.messageText,
+      };
+
+      this.http.post('http://localhost:3000/chat/sendMessageFlat', data)
+        .subscribe((response: any) => {
+          if (response.status) {
+            this.messageText = '';
+            if (selectedUser === this.selectedUser) {
+              this.getMessages(selectedUser);
+            }
+          } else {
+            console.log("Ваше повідомлення не надіслано");
+          }
+        }, (error: any) => {
+          console.error(error);
+        });
+    }
+  }
 }

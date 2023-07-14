@@ -8,8 +8,9 @@
       </div>
 
       <div [@cardAnimation1] class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
-        <h2>Чат Discussio</h2>
-        <div class="card m-2"><app-chat-house></app-chat-house></div>
+        <div class="chat">
+          <app-chat-house></app-chat-house>
+        </div>
       </div>
 
       <div [@cardAnimation2] class="card-box col-lg-3 col-md-12 col-sm-12 col-12">
@@ -42,6 +43,7 @@
       </div>
     </div>
   </div>
+
 </ng-template>
 
 <ng-container *ngIf="loading; else content">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { ChoseSubscribeService } from '../chose-subscribe.service';
+import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 
 interface Chat {
   user_id: string;
@@ -71,8 +71,6 @@ export class ChatRoomComponent implements OnInit {
         flat_id: chat.flat_id,
       };
       this.http.post(url, data).subscribe()
-      console.log(data)
-
     } else {
       console.log('user or subscriber not found');
     }
@@ -105,11 +103,9 @@ export class ChatRoomComponent implements OnInit {
             let chat = await Promise.all(response.status.map(async (value: any) => {
               let infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
               let infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat,  unread: value.unread }
+              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread }
             }))
             this.chats = chat;
-            console.log(this.chats)
-
           } else {
             console.error('Invalid response format');
           }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ChoseSubscribeService } from '../chose-subscribe.service';
+import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
 interface SelectedFlat {
   flat: any;
@@ -118,7 +118,7 @@ export class UserDiscussioComponent implements OnInit {
     private dataService: DataService,
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.loadData();

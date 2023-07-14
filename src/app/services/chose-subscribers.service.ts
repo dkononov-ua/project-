@@ -26,6 +26,5 @@ export class ChoseSubscribersService {
     } else {
       localStorage.removeItem('selectedSubscriberId');
     }
-    console.log(subscriberId)
   }
 }

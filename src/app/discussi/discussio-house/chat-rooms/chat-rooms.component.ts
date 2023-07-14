@@ -116,8 +116,6 @@ export class ChatRoomsComponent implements OnInit {
         user_id: chat.user_id,
       };
       this.http.post(url, data).subscribe()
-      console.log(data)
-
     } else {
       console.log('user or subscriber not found');
     }
@@ -147,7 +145,6 @@ export class ChatRoomsComponent implements OnInit {
               return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat,  unread: value.unread  }
             }))
             this.chats = chat;
-            console.log()
           } else {
             console.error('Invalid response format');
           }

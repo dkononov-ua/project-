@@ -1,16 +1,26 @@
 @use "../../../style/presets/" as *;
 
+.chat-box {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
 img {
   width: 100%;
   height: 300px;
   overflow: hidden;
   object-fit: cover;
-  transition: transform 1s;
+}
 
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
-  }
+.card {
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 95%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .container-dis {
@@ -30,6 +40,7 @@ img {
   flex-wrap: wrap;
   justify-content: flex-start;
 }
+
 .card-box {
   display: flex;
   justify-content: flex-start;
@@ -78,10 +89,17 @@ img {
 .offline {
   background-color: $color-primary;
 }
+.img-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+}
+
 .img-fluid {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 250px;
+  height: 250px;
 }
 .item-wrapper,
 .content-description {
@@ -153,14 +171,15 @@ img {
 
 .chat-container-user {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin-bottom: 10px;
   border-top: 1px solid #ddd;
+
 }
 
 .chat-container-owner {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-bottom: 10px;
   border-top: 1px solid #ddd;
 }
@@ -193,14 +212,19 @@ img {
 .group {
   width: 100%;
   position: sticky;
-  background-color: $color-white;
-  z-index: 999;
+  background-color: rgb(255, 255, 255);
+  z-index: 99;
   right: 0;
   bottom: 0;
   display: flex;
   align-items: center;
   height: 20%;
-  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.362);
+  border: 1px solid rgba(1, 19, 12, 0.2);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: space-between;
 }
 
 .container-chat-messages {
@@ -208,19 +232,25 @@ img {
   display: flex;
   flex-direction: column;
   height: auto;
+  align-items: center;
 }
 
-.chat-messages {
-  flex-grow: 1;
-  padding: 10px;
+.chat-messages-read,
+.chat-messages-unread {
+  overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
-  height: 80%;
+  padding: 20px 5px 5px 5px;
 }
 
-.accent {
-  color: red;
-  font-size: 30px;
+.fa-check-double,
+.fa-check {
+  color: $color-accent;
+  font-size: 12px;
+}
+
+.fa-check {
+  color: $color-dark;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -251,22 +281,22 @@ img {
   flex-direction: column;
   display: flex;
   min-width: 100px;
-  background-color: $color-dark;
-  border-radius: 0px 10px 10px 10px;
+  background-color: rgba(93, 90, 90, 0.856);
+  border-radius: 10px 0px 10px 10px;
 }
 
 .owner-message {
   flex-direction: column;
   display: flex;
   min-width: 100px;
-  background-color: rgba(93, 90, 90, 0.856);
-  border-radius: 10px 0px 10px 10px;
+  background-color: $color-dark;
+  border-radius: 0px 10px 10px 10px;
 }
 
 .message-text-user,
 .message-text-owner {
   color: $color-white;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .chat-input {
@@ -285,14 +315,14 @@ img {
 }
 
 .name-owner {
-  justify-content: flex-end;
+  left: 40px;
   top: 0;
-  right: 40px;
 }
 
 .name-user {
-  left: 40px;
+  justify-content: flex-end;
   top: 0;
+  right: 40px;
 }
 
 .accent-name {
@@ -322,21 +352,15 @@ img {
 }
 
 .avatar-owner {
-  top: 0;
-  right: -10px;
-  border: 2px solid rgba(93, 90, 90, 0.856);
-}
-
-.avatar-house {
-  top: 0;
-  right: 30px;
-  border: 2px solid rgba(93, 90, 90, 0.856);
-}
-
-.avatar-user {
   left: 0;
   top: 0;
   border: 2px solid $color-dark;
+}
+
+.avatar-user {
+  top: 0;
+  right: -10px;
+  border: 2px solid rgba(93, 90, 90, 0.856);
 }
 
 .avatar-wrapper-user,
@@ -351,12 +375,12 @@ img {
 }
 
 .avatar-wrapper-user {
-  left: 0;
+  right: 0;
+  flex-direction: row-reverse;
 }
 
 .avatar-wrapper-owner {
-  right: 0;
-  flex-direction: row-reverse;
+  left: 0;
 }
 
 .message-content-owner,
@@ -364,6 +388,10 @@ img {
   display: flex;
   overflow: hidden;
   padding: 12px 0 0 0;
+}
+
+.message-content-user {
+  justify-content: flex-end;
 }
 
 .time {
@@ -398,7 +426,7 @@ img {
 }
 
 input {
-  height: 60px;
+  height: 80px;
   border-radius: 10px;
   padding: 10px;
   background: rgba(245, 222, 179, 0);
@@ -423,4 +451,9 @@ input {
   right: 0;
   top: 0;
   padding: 5px;
+}
+
+.unread {
+  background-color: $color-accent;
+  transform: 1s;
 }

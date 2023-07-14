@@ -2,7 +2,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChoseSubscribeService } from '../chose-subscribe.service';
+import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { Subscription } from 'rxjs';
 
 interface ApprovedSubscription {

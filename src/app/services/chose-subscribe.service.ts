@@ -12,18 +12,13 @@ export class ChoseSubscribeService {
 
   get chosenFlatId(): string | null {
     return this.selectedFlatIdSubject.value;
-    console.log(this.selectedFlatIdSubject.value)
-
   }
 
   set chosenFlatId(flatId: string | null) {
     this.selectedFlatIdSubject.next(flatId);
-    console.log(flatId)
-
   }
 
   setSelectedFlatId(flatId: string) {
     this.selectedFlatIdSubject.next(flatId);
-    console.log(flatId)
   }
 }

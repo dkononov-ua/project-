@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ChoseSubscribeService } from '../chose-subscribe.service';
+import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, interval, switchMap, takeUntil } from 'rxjs';
 
 @Component({
@@ -54,7 +54,6 @@ export class ChatUserComponent implements OnInit {
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread };
         }));
         this.infoPublic = this.infoPublic.filter((item) => item.flat_id === selectedFlat);
-        console.log(this.infoPublic)
         return this.infoPublic;
       } else {
         console.error('Invalid response format');
@@ -94,7 +93,6 @@ export class ChatUserComponent implements OnInit {
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
               });
-              console.log(this.allMessages);
               this.getNewMessages(selectedFlat);
             } else {
               this.allMessages = [];
@@ -118,8 +116,6 @@ export class ChatUserComponent implements OnInit {
 
 
   async getNewMessages(selectedFlat: any): Promise<void> {
-
-    console.log(this.allMessages[0]?.data)
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
       this.http.post('http://localhost:3000/chat/get/NewMessageUser', {
@@ -130,7 +126,6 @@ export class ChatUserComponent implements OnInit {
       })
         .subscribe(
           async (response: any) => {
-            console.log(response)
             if (Array.isArray(response.status)) {
               let c: any = []
               await Promise.all(response.status.map((i: any, index: any) => {
@@ -190,7 +185,6 @@ export class ChatUserComponent implements OnInit {
             this.messageText = '';
 
             if (selectedFlat === this.selectedFlat) {
-              console.log(22222222222)
               this.getMessages(selectedFlat);
             }
           } else {
