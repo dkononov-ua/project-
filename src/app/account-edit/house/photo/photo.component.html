@@ -1,16 +1,13 @@
 <form [@cardAnimation] class="container-card">
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-    <div class="card m-2">
-      <!-- Фото оселі -->
-      <div class="card-name">
-        <h4>Фото оселі</h4>
-      </div>
 
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="card-box-photo col-lg-6 col-md-5 col-sm-6 col-12">
+    <div class="m-2">
+      <div id="carouselExampleControls" class="shadow carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
+                class="img-fluid rounded">
             </div>
           </div>
           <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
@@ -19,56 +16,60 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
 
-      <p>Додати фото оселі</p>
-      <div class="photo-box">
-        <div class="input-group">
-          <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
-          aria-describedby="upload" aria-label="Upload">
+      <div class="card">
+        <p>Додати фото оселі</p>
+        <div class="photo-box">
+          <div class="input-group">
+            <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
+              aria-describedby="upload" aria-label="Upload">
+          </div>
+          <button matTooltip="Завантажити нове фото" class="btn-create" id="upload" (click)="onUpload()"
+            type="button"><i class="fa-solid fa-circle-check"></i></button>
         </div>
-        <p>Завантажити нове фото</p>
-        <button class="btn-create" id="upload" (click)="onUpload()" type="button"><i
-            class="fa-solid fa-circle-check"></i></button>
-      </div>
 
+      </div>
     </div>
   </div>
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+
+  <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
-      <div>
-        <p>Додати документи на оселю</p>
-        <div class="input-group">
-          <input type="file" class="form-control" id="inputGroupFile02">
-        </div>
-      </div>
+      <mat-label>Які фото можна завантажувати</mat-label>
+      <div class="card-body-cast">
+        <ul>
+          <li>Формат фото: img, jpg, png, jpeg.</li>
+          <li>Максимальний розмір фото до 5 мб.</li>
+          <li>Максимальна кількість фото 8 шт.</li>
+          <li>Перше завантажене фото буде головним фото вашої оселі.</li>
+          <li>Фото видаляються разом з видаленням оселі.</li>
+          <li>Для
+            підтвердження завантаження фото натисніть на кнопку.</li>
+          <li>Фото можна додавати по одному за раз.</li>
+        </ul>
 
-      <div>
-        <p>Додати існуючу угоду</p>
-        <div class="input-group">
-          <input type="file" class="form-control" id="inputGroupFile02">
-        </div>
-      </div>
+        <p class="text-info">*Така кількість обмежень буде діяти на період запуску додатку для можливості скоротити
+          використання пам'яті на сервері.
+        </p>
 
-      <!-- Кнопки -->
-      <div class="btn-group">
-        <button type="submit" class="btn btn-primary mt-3">Підтвердити</button>
-        <button type="reset" class="btn btn-secondary mt-3 ml-3">Скинути</button>
       </div>
 
     </div>
   </div>
+
 </form>
+
 
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>
 </div>
-

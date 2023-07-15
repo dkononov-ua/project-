@@ -17,8 +17,8 @@
 .card {
   width: 100%;
   display: flex;
-  background-color: rgba(18, 17, 17, 0.792);
-  color: white;
+  background-color: $color-white;
+  color: $color-dark;
   padding: 10px;
   border-radius: 10px;
   justify-content: flex-start;
@@ -59,6 +59,11 @@
   letter-spacing: 0.05em;
   transition: 0.5s;
   z-index: 10;
+}
+
+.group-label {
+  font-weight: 600;
+  color: $color-accent;
 }
 
 .inputbox span {
@@ -192,7 +197,7 @@
 }
 
 .fa-map-location {
-  color: #fff;
+  color: $color-dark;
   font-size: 30px;
 }
 

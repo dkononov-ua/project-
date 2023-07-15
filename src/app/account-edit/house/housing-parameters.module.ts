@@ -12,8 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +20,10 @@ import { RouterModule } from '@angular/router';
 import { HousingParametersRoutingModule } from './housing-parameters-routing.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autoco
     PhotoComponent,
     HostComponent,
   ],
+  providers: [SelectedFlatService],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,12 +48,13 @@ import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autoco
     ReactiveFormsModule,
     CommonModule,
     SharedModule,
-    MatSelectModule,
-    MatFormFieldModule,
     RouterModule,
     HousingParametersRoutingModule,
-    MatInputModule,
     MatAutocompleteModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
   ],
 })
 export class HousingParametersModule { }

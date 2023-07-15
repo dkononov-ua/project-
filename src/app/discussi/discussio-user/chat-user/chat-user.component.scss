@@ -113,6 +113,28 @@ img {
   font-size: 25px;
   font-weight: 300;
 }
+
+.group-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.text-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .card-social-link {
   font-size: 24px;
   display: flex;

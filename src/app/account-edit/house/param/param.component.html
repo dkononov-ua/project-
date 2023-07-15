@@ -1,78 +1,103 @@
-<form [formGroup]="houseParam" [@cardAnimation] class="container-card">
+<form [@cardAnimation] class="container-card">
+
   <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
-      <div class="card-name">
-        <h4>Параметри оселі</h4>
+
+      <mat-label class="group-label">Параметри оселі</mat-label>
+
+
+      <div class="group-item-1">
+        <div class="content">
+          <label class="checkBox">
+            <input id="looking_house" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
+              value="looking_house">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Будинок</span>
+          <i></i>
+        </div>
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="looking_flat" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
+              value="looking_flat">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Квартира</span>
+          <i></i>
+        </div>
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="looking_room" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
+              value="looking_room">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Кімната</span>
+          <i></i>
+        </div>
       </div>
-      <!-- Кількість кімнат -->
-      <div class="inputbox">
-        <label for="">Кількість кімнат</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="rooms" formControlName="rooms">
-          <option selected disabled>Оберіть кількість кімнат</option>
-          <option value="0">Приховати</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">більше 4</option>
-          <div *ngIf="formErrors.rooms" class="alert alert-danger">{{formErrors.rooms}}</div>
-        </select>
+
+      <div class="item-group">
+        <mat-form-field class="item-width-50 m-1" appearance="outline">
+          <mat-label>Площа м²</mat-label>
+          <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled" [(ngModel)]="flatInfo.area" name="area">
+        </mat-form-field>
+
+        <mat-form-field class="item-width-50 m-1" appearance="outline">
+          <mat-label>Кухня м²</mat-label>
+          <input matInput type="number" [min]="minValueKitchen" [disabled]="disabled" [max]="maxValueKitchen"
+            [(ngModel)]="flatInfo.kitchen_area" name="kitchen_area">
+        </mat-form-field>
+
+        <mat-form-field class="item-width-50 m-1" appearance="outline">
+          <mat-label>Поверх</mat-label>
+          <input matInput type="number" [min]="minValueFloor" [disabled]="disabled" [max]="maxValueFloor" [(ngModel)]="flatInfo.floor"
+            name="floor">
+        </mat-form-field>
       </div>
-      <!-- Стан квартири -->
-      <div class="inputbox">
-        <label for="">Стан квартири</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="repair_status">
-          <option selected disabled>Оберіть стан квартири</option>
-          <option>Приховати</option>
-          <option>Новий</option>
-          <option>Добрий</option>
-          <option>Задовільний</option>
-          <option>Поганий</option>
-        </select>
-        <div *ngIf="formErrors.repair_status" class="alert alert-danger">{{formErrors.repair_status}}</div>
-      </div>
-      <!-- Балкон -->
-      <div class="inputbox">
-        <label for="">Наявність балкону і його тип</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="balcony">
-          <option selected disabled>Оберіть наявність балкону</option>
-          <option>Приховати</option>
-          <option>Класичний</option>
-          <option>Французький</option>
-          <option>Лоджія</option>
-          <option>Тераса</option>
-          <option>Веранда</option>
-        </select>
-        <div *ngIf="formErrors.balcony" class="alert alert-danger">{{formErrors.balcony}}</div>
-      </div>
-      <!-- Площа м² квартири -->
-      <div class="inputbox">
-        <input required="required" type="number" name="area" formControlName="area">
-        <span>Площа м²</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.area" class="alert alert-danger">{{formErrors.area}}</div>
-      </div>
-      <!-- Площа м² кухні -->
-      <div class="inputbox">
-        <input required="required" type="number" formControlName="kitchen_area">
-        <span>Площа кухні м²</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.kitchen_area" class="alert alert-danger">{{formErrors.kitchen_area}}</div>
-      </div>
-      <!-- Поверх -->
-      <div class="inputbox">
-        <input required="required" type="number" formControlName="floor">
-        <span>Поверх</span>
-        <i class="orange"></i>
-        <div *ngIf="formErrors.floor" class="alert alert-danger">{{formErrors.floor}}</div>
-      </div>
-      <!-- Кнопки -->
+
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Кількість кімнат</mat-label>
+        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.rooms" name="rooms">
+          <mat-option [value]="0">Приховати</mat-option>
+          <mat-option [value]="1">Однокімнатна</mat-option>
+          <mat-option [value]="2">Двокімнатна</mat-option>
+          <mat-option [value]="3">Трикімнатна</mat-option>
+          <mat-option [value]="4">Чотирьохкімнатна</mat-option>
+          <mat-option [value]="5">Більше чотирьох</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Стан оселі</mat-label>
+        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.repair_status" name="repair_status">
+          <mat-option value="">Приховати</mat-option>
+          <mat-option value="Добрий">Новий</mat-option>
+          <mat-option value="Добрий">Добрий</mat-option>
+          <mat-option value="Задовільний">Задовільний</mat-option>
+          <mat-option value="Поганий">Поганий</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Наявність балкону і його тип</mat-label>
+        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.balcony" name="balcony">
+          <mat-option value="">Приховати</mat-option>
+          <mat-option value="Класичний">Класичний</mat-option>
+          <mat-option value="Французький">Французький</mat-option>
+          <mat-option value="Лоджія">Лоджія</mat-option>
+          <mat-option value="Тераса">Тераса</mat-option>
+          <mat-option value="Веранда">Веранда</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <div class="btn-group">
-        <button class="btn btn-primary mt-3" (click)="saveHouseParam()" (click)="onSubmitSaveHouseParam()"
-          (click)="saveHouseParam()">ЗБЕРЕГТИ</button>
-        <button class="btn btn-primary mt-3" (click)="editHouseParam()">РЕДАГУВАТИ</button>
-        <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetHouseParam()">СКИНУТИ</button>
+        <button class="btn" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+        <button class="btn" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
       </div>
+
     </div>
   </div>
 
@@ -126,4 +151,5 @@
       </div>
     </div>
   </div>
+
 </form>

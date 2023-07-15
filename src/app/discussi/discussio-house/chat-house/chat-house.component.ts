@@ -165,6 +165,8 @@ export class ChatHouseComponent implements OnInit {
               this.getNewMessages(selectedUser);
             } else {
               this.allMessages = [];
+              this.getNewMessages(selectedUser);
+
             }
             return EMPTY;
           }),
@@ -198,6 +200,7 @@ export class ChatHouseComponent implements OnInit {
       this.http.post('http://localhost:3000/chat/get/NewMessageFlat', data)
         .subscribe(
           async (response: any) => {
+            console.log(response)
             if (Array.isArray(response.status)) {
               let c: any = []
               await Promise.all(response.status.map((i: any, index: any) => {

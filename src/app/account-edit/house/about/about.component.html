@@ -1,94 +1,76 @@
-<form [formGroup]="aboutHouse" [@cardAnimation] class="container-card">
+<form class="container-card">
+
   <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
-      <!-- Відстань -->
-      <div class="card-name">
-        <h4>Інфраструктура</h4>
-      </div>
-      <!-- Метро -->
-      <div class="inputbox">
-        <label for="">Метро</label>
 
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-          formControlName="distance_metro">
-          <option selected disabled>Метро</option>
-          <option value=0>Приховати</option>
-          <option value="100">до 100м</option>
-          <option value="300">до 300м</option>
-          <option value="500">до 500м</option>
-          <option value="1000">до 1км</option>
-        </select>
-      </div>
 
-      <!-- Зупинка транспорту -->
-      <div class="inputbox">
-        <label for="">Зупинка транспорту</label>
+      <mat-label class="group-label">Розглядаю як орендарів</mat-label>
+      <div class="group-item-1">
+        <div class="content">
+          <label class="checkBox">
+            <input id="students" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.students" name="students">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Студент<span class="status">S</span>
+          </span>
 
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="distance_stop">
-          <option selected disabled>Зупинка транспорту</option>
-          <option value=0>Приховати</option>
-          <option value="100">до 100м</option>
-          <option value="300">до 300м</option>
-          <option value="500">до 500м</option>
-          <option value="1000">до 1км</option>
-        </select>
-      </div>
-
-      <!-- Продуктові магазини -->
-      <div class="inputbox">
-        <label for="">Продуктові магазини</label>
-
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="distance_shop">
-          <option selected disabled>Продуктові магазини</option>
-          <option value=0>Приховати</option>
-          <option value="100">до 100м</option>
-          <option value="300">до 300м</option>
-          <option value="500">до 500м</option>
-          <option value="1000">до 1км</option>
-        </select>
+          <i></i>
+        </div>
+        <div class="content">
+          <label class="checkBox">
+            <input id="woman" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.woman" name="woman">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Жінка<span class="status">W</span></span>
+          <i></i>
+        </div>
+        <div class="content">
+          <label class="checkBox">
+            <input id="man" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.man" name="man">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Чоловік<span class="status">M</span></span>
+          <i></i>
+        </div>
+        <div class="content">
+          <label class="checkBox">
+            <input id="family" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.family" name="family">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Сім'я<span class="status">F</span></span>
+          <i></i>
+        </div>
       </div>
 
-      <!-- Парки, сквери -->
-      <div class="inputbox">
-        <label for="">Парк, сквер</label>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Наявність укриття</mat-label>
+        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.bunker" name="bunker">
+          <mat-option [value]="''">Приховати</mat-option>
+          <mat-option value="Паркінг">Паркінг</mat-option>
+          <mat-option value="В будинку">В будинку</mat-option>
+          <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-          formControlName="distance_green">
-          <option selected disabled>Парк, сквер</option>
-          <option value=0>Приховати</option>
-          <option value="100">до 100м</option>
-          <option value="300">до 300м</option>
-          <option value="500">до 500м</option>
-          <option value="1000">до 1км</option>
-        </select>
-      </div>
+      <mat-label class="group-label">Дозволи</mat-label>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Дозвіл на тварин</mat-label>
+        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.animals" name="animals">
+          <mat-option [value]="''">Приховати</mat-option>
+          <mat-option value="Невеликі">Невеликі (гризуни)</mat-option>
+          <mat-option value="Котики">Котики</mat-option>
+          <mat-option value="Песики">Песики</mat-option>
+          <mat-option value="Інше">Інше</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <!-- Паркінг -->
-      <div class="inputbox">
-        <label for="">Паркінг</label>
-
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-          formControlName="distance_parking">
-          <option selected disabled>Паркінг</option>
-          <option value=0>Приховати</option>
-          <option value="5">На території</option>
-          <option value="100">до 100м</option>
-          <option value="300">до 300м</option>
-          <option value="500">до 500м</option>
-          <option value="1000">до 1км</option>
-        </select>
-      </div>
-
-      <!-- Тварини -->
-      <div class="inputbox">
-        <label for="">Дозвіл на тварин</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="animals">
-          <option selected disabled>Дозвіл на тварин</option>
-          <option value=0>Приховати</option>
-          <option>Без тварин</option>
-          <option>За домовленістю</option>
-          <option>Дозволяю</option>
-        </select>
+      <div class="form-floating p-1">
+        <textarea #textArea class="form-control scrollable-textarea" placeholder="Leave a comment here"
+          id="floatingTextarea" [disabled]="disabled" [(ngModel)]="flatInfo.about" name="about"
+          (input)="onInput()"></textarea>
+        <label for="floatingTextarea">
+          <p>Опис оселі:</p>
+        </label>
       </div>
 
     </div>
@@ -96,102 +78,110 @@
 
   <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
-      <!-- Ціна та особливості -->
-      <div class="card-name">
-        <h4>Ціна та особливості</h4>
+
+
+      <mat-label class="group-label">Як бажаєте отримувати оплату?</mat-label>
+      <div class="group-item-1">
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.optionPay" name="daily"
+              value="daily">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Подобово</span>
+          <i></i>
+        </div>
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.optionPay" name="monthly"
+              value="monthly">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Щомісяця</span>
+          <i></i>
+        </div>
       </div>
 
-      <!-- Укриття -->
-      <div class="inputbox">
-        <label for="">Наявність укриття</label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" formControlName="bunker">
-          <option selected disabled>Наявність укриття</option>
-          <option>Приховати</option>
-          <option>Немає</option>
-          <option>Паркінг</option>
-          <option>В будинку</option>
-          <option>Поряд з будинком</option>
-        </select>
+      <mat-label class="group-label">Ціна за термін</mat-label>
+      <div class="group-item-1">
+        <mat-form-field class="form-field item-select50 p-1">
+          <mat-label class="mat-form-field-label">ЦІНА ЗА ДЕНЬ</mat-label>
+          <div class="mat-input-container">
+            <input matInput type="text" id="inputPriceD" [disabled]="disabled" [(ngModel)]="flatInfo.price_d"
+              name="price_d" placeholder="0 ₴" pattern="[0-9]*">
+            <span class="mat-input-suffix">₴</span>
+          </div>
+        </mat-form-field>
+
+        <mat-form-field class="form-field item-select50 p-1">
+          <mat-label class="mat-form-field-label">ЦІНА ЗА МІСЯЦЬ</mat-label>
+          <div class="mat-input-container">
+            <input matInput type="text" id="inputPriceM" [disabled]="disabled" [(ngModel)]="flatInfo.price_m"
+              name="price_m" placeholder="0 ₴" pattern="[0-9]*">
+            <span class="mat-input-suffix">₴</span>
+          </div>
+        </mat-form-field>
+
+        <!-- <mat-form-field class="form-field p-1">
+          <mat-label class="mat-form-field-label">ЦІНА ЗА РІК</mat-label>
+          <div class="mat-input-container">
+            <input matInput type="text" id="inputPriceY" [disabled]="disabled" [(ngModel)]="flatInfo.price_y"
+              name="price_y" placeholder="0 ₴" pattern="[0-9]*">
+            <span class="mat-input-suffix">₴</span>
+          </div>
+        </mat-form-field> -->
       </div>
 
-      <!-- Чекбокс 1 -->
-      <div>
-        <p>Розглядаю</p>
-        <div class="container-checkbox">
+      <div class="card-info">
+        <p>Що таке статус оселі</p>
 
-          <div class="content">
-            <label class="checkBox">
-              <input id="students" type="checkbox" formControlName="students" value="1">
-              <div class="transition"></div>
-            </label>
-            <span class="checkBox-span">Студент</span>
-            <i></i>
-          </div>
-
-          <div class="content">
-            <label class="checkBox">
-              <input id="woman" type="checkbox" formControlName="woman" value="1">
-              <div class="transition"></div>
-            </label>
-            <span class="checkBox-span">Жінка</span>
-            <i></i>
-          </div>
-
-          <div class="content">
-            <label class="checkBox">
-              <input id="man" type="checkbox" formControlName="man" value="1">
-              <div class="transition"></div>
-            </label>
-            <span class="checkBox-span">Чоловік</span>
-            <i></i>
-          </div>
-
-          <div class="content">
-            <label class="checkBox">
-              <input id="family" type="checkbox" formControlName="family" value="1">
-              <div class="transition"></div>
-            </label>
-            <span class="checkBox-span">Сім'я</span>
-            <i></i>
+        <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse" data-bs-target="#aboutStatus"
+          aria-expanded="false" aria-controls="collapseExample"><i class="fa-solid fa-info"></i></button>
+        <div class="collapse" id="aboutStatus">
+          <div class="card-body-cast">
+            <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#aboutStatus"
+              aria-expanded="false" aria-controls="collapseExample"></button>
+            <p class="text-info">
+              Статус оселі потрібно для правильного відображення інформації орендаторів та орендодавців.
+              Якщо ви оберете опцію "Здаю", ваша оселя буде відображатись у пошуку та вам
+              будуть надходити пропозиції щодо оренди вашої оселі.
+              Якщо ви оберете опцію "Приватно", ваша оселя не буде відображатись у пошуку, та ніхто
+              окрім Вас не буде мати доступ до оселі.
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- Опис оселі -->
-      <div class="form-floating p-1">
-        <textarea #textArea class="form-control scrollable-textarea" placeholder="Leave a comment here"
-          id="floatingTextarea" formControlName="about" (input)="onInput()"></textarea>
-        <label for="floatingTextarea">
-          <p>Опис оселі:</p>
-        </label>
+
+      <mat-label class="group-label">Статус оселі</mat-label>
+      <div class="group-item-1">
+        <div class="content">
+          <label class="checkBox">
+            <input id="rent" type="checkbox" name="flatInfo.rent" [disabled]="disabled" [(ngModel)]="flatInfo.rent">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Здаю</span>
+          <i></i>
+        </div>
+        <div class="content">
+          <label class="checkBox">
+            <input id="private" type="checkbox" name="flatInfo.private" [disabled]="disabled"
+              [(ngModel)]="flatInfo.private">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Приватно</span>
+          <i></i>
+        </div>
       </div>
 
-      <!-- Ціна за місяць -->
-      <mat-form-field class="form-field p-1">
-        <mat-label class="mat-form-field-label">ЦІНА ЗА МІСЯЦЬ</mat-label>
-        <div class="mat-input-container">
-          <input matInput type="text" id="inputPriceM" formControlName="price_m" placeholder="0 грн" pattern="[0-9]*">
-          <span class="mat-input-suffix">₴</span>
-        </div>
-      </mat-form-field>
-
-      <!-- Ціна за рік -->
-      <mat-form-field class="form-field p-1">
-        <mat-label class="mat-form-field-label">ЦІНА ЗА РІК</mat-label>
-        <div class="mat-input-container">
-          <input matInput type="text" id="inputPriceY" formControlName="price_y" placeholder="0 грн" pattern="[0-9]*">
-          <span class="mat-input-suffix">₴</span>
-        </div>
-      </mat-form-field>
-
-
-      <!-- Кнопки -->
       <div class="btn-group">
-        <button class="btn btn-primary mt-3" (click)="saveAboutHouse()" (click)="onSubmitSaveAboutHouse()"
-          (click)="saveAboutHouse()">ЗБЕРЕГТИ</button>
-        <button class="btn btn-primary mt-3" (click)="editAboutHouse()">РЕДАГУВАТИ</button>
-        <button type="reset" class="btn btn-secondary mt-3 ml-3" (click)="resetAboutHouse()">СКИНУТИ</button>
+        <button class="btn" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+        <button class="btn" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
       </div>
+
     </div>
   </div>
 </form>

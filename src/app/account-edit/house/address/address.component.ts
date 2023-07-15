@@ -6,6 +6,25 @@ import { Subject } from 'rxjs';
 import { HostComponent } from '../host/host.component';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+interface FlatInfo {
+  flat_id: string | undefined;
+  country: string | undefined;
+  region: string | any;
+  city: string | any;
+  street: string | undefined;
+  houseNumber: string | undefined;
+  apartment: number;
+  flat_index: any;
+  private: boolean;
+  rent: boolean;
+  distance_parking: number;
+  distance_metro: number;
+  distance_stop: number;
+  distance_green: number;
+  distance_shop: number;
+}
+
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -25,203 +44,124 @@ import { cities } from '../../../shared/data-city';
 
 export class AddressComponent implements OnInit {
 
-  houses: { id: string, name: string }[] = [];
-  public selectedFlatId: any | null;
-  public locationLink: string = '';
-  location: string | null = null;
-  errorMessage$ = new Subject<string>();
-
-  addressHouse: any = {
-    flat_id: '',
-    country: 'Україна',
-    region: '',
-    city: '',
-    street: '',
-    houseNumber: '',
-    apartment: '',
-    flat_index: '',
-    private: '',
-    rent: '',
-  }
-
-  formErrors: any = {
+  flatInfo: FlatInfo = {
     flat_id: '',
     country: '',
     region: '',
     city: '',
     street: '',
     houseNumber: '',
-    apartment: '',
-    flat_index: '',
-    private: '',
-    rent: '',
+    apartment: 0,
+    flat_index: 0,
+    private: false,
+    rent: false,
+    distance_parking: 0,
+    distance_metro: 0,
+    distance_stop: 0,
+    distance_green: 0,
+    distance_shop: 0,
   };
 
-  validationMessages: any = {
-    flat_id: {
-      required: 'houseId обов`язково',
-      minlength: 'Мінімальна довжина 4 символи',
-      maxlength: 'Максимальна довжина 20 символів',
-    },
-    street: {
-      required: 'Вулиця обов`язкова',
-      minlength: 'Мінімальна довжина 4 символи',
-      maxlength: 'Максимальна довжина 20 символів',
-      pattern: 'Тільки літери та пробіли'
-    },
-    houseNumber: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      maxlength: 'Максимальна довжина 5 символів',
-    },
-    floor: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-    apartment: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-    city: {
-      required: 'Місто обов`язкове',
-      minlength: 'Мінімальна довжина 2 символи',
-      maxlength: 'Максимальна довжина 20 символів',
-      pattern: 'Тільки літери та пробіли'
-    },
-    region: {
-      required: 'Область обов`язкова',
-      minlength: 'Мінімальна довжина 2 символи',
-      maxlength: 'Максимальна довжина 20 символів',
-      pattern: 'Тільки літери та пробіли'
-    },
-    country: {
-      required: 'Область обов`язкова',
-      minlength: 'Мінімальна довжина 2 символи',
-      maxlength: 'Максимальна довжина 20 символів',
-      pattern: 'Тільки літери та пробіли'
-    },
-    flat_index: {
-      required: 'Індекс обов`язковий',
-      minlength: 'Мінімальна довжина 5 символи',
-      maxlength: 'Максимальна довжина 5 символів',
-      pattern: 'Тільки цифри',
-    },
-    private: {
-    },
-    rent: {
-    },
-
-  };
-
-  isDisabled?: boolean;
-  formDisabled?: boolean;
-  selectHouse: any;
-
-  regions = regions;
-  cities = cities;
   filteredRegions: { id: number; name: string; cities: { id: number; name: string; postalCode: string; }[]; }[] | undefined;
+  filteredCities: { id: number; name: string; }[] | undefined;
   selectedRegion: any;
   selectedCity: any;
-  filteredCities: { id: number; name: string; }[] | undefined;
+  regions = regions;
+  cities = cities;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent) {
-    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
-      this.selectedFlatId = selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe((response: any) => {
-            if (response !== null) {
-              this.addressHouse = this.fb.group({
-                flat_id: [response.flat.flat_id],
-                country: [response.flat.country],
-                region: [response.flat.region],
-                city: [response.flat.city],
-                street: [response.flat.street],
-                houseNumber: [response.flat.houseNumber],
-                apartment: [response.flat.apartment],
-                flat_index: [response.flat.flat_index],
-                private: [response.flat.private],
-                rent: [response.flat.rent],
-              });
+  disabled: boolean = true;
+  selectedFlatId!: string | null;
+  public locationLink: string = '';
 
-              const baseUrl = 'https://www.google.com/maps/place/';
-              const region = response.flat.region || '';
-              const city = response.flat.city || '';
-              const street = response.flat.street || '';
-              const houseNumber = response.flat.houseNumber || '';
-              const flatIndex = response.flat.flat_index || '';
+  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
-              const encodedRegion = encodeURIComponent(region);
-              const encodedCity = encodeURIComponent(city);
-              const encodedStreet = encodeURIComponent(street);
-              const encodedHouseNumber = encodeURIComponent(houseNumber);
-              const encodedFlatIndex = encodeURIComponent(flatIndex);
-              this.location = `${baseUrl}${encodedStreet},+${encodedHouseNumber},+${encodedCity},+${encodedRegion},+${encodedFlatIndex}`;
-            }
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        console.log('user not found');
+  ngOnInit(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      console.log(this.selectedFlatId);
+      if (this.selectedFlatId !== null) {
+        this.getInfo();
       }
-      this.initializeForm();
-
     });
   }
 
-  ngOnInit(): void {
-    this.initializeForm();
-    if (this.addressHouse.valid) {
-      this.locationLink = this.generateLocationUrl();
+  async getInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          console.log(response)
+          this.flatInfo = response.flat;
+          console.log(this.flatInfo);
+
+          this.locationLink = this.generateLocationUrl();
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  };
+
+
+  loadCities() {
+    const searchTerm = this.flatInfo.region.toLowerCase();
+    this.filteredRegions = this.regions.filter(region =>
+      region.name.toLowerCase().includes(searchTerm)
+    );
+    const selectedRegionObj = this.filteredRegions.find(region =>
+      region.name === this.flatInfo.region
+    );
+    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
+    this.flatInfo.city = '';
+  }
+
+  loadDistricts() {
+    const searchTerm = this.flatInfo.city.toLowerCase();
+    const selectedRegionObj = this.regions.find(region =>
+      region.name === this.flatInfo.region
+    );
+    this.filteredCities = selectedRegionObj
+      ? selectedRegionObj.cities.filter(city =>
+          city.name.toLowerCase().includes(searchTerm)
+        )
+      : [];
+
+    const selectedCityObj = this.filteredCities.find(city =>
+      city.name === this.flatInfo.city
+    );
+    if (selectedCityObj && 'postalCode' in selectedCityObj) {
+      this.flatInfo.flat_index = selectedCityObj.postalCode;
+    } else {
+      this.flatInfo.flat_index = '';
     }
   }
 
-  loadCities() {
-    this.filteredRegions = this.selectedRegion
-      ? this.regions.filter((region) =>
-          region.name.toLowerCase().includes(this.selectedRegion.toLowerCase())
-        )
-      : this.regions;
-    const selectedRegionObj = this.regions.find(
-      (region) => region.name === this.selectedRegion
-    );
-    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-    this.selectedCity = '';
-  }
-
-
-  loadDistricts() {
-    this.filteredCities = this.selectedCity ? this.cities.filter(city => city.name.toLowerCase().includes(this.selectedCity.toLowerCase())) : this.cities;
-  }
-
   generateLocationUrl() {
+    console.log(this.flatInfo.region)
     const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.addressHouse.region || '';
-    const city = this.addressHouse.city || '';
-    const street = this.addressHouse.street || '';
-    const houseNumber = this.addressHouse.houseNumber || '';
-    const flatIndex = this.addressHouse.flat_index || '';
-
+    const region = this.flatInfo.region || '';
+    const city = this.flatInfo.city || '';
+    const street = this.flatInfo.street || '';
+    const houseNumber = this.flatInfo.houseNumber || '';
+    const flatIndex = this.flatInfo.flat_index || '';
     const encodedRegion = encodeURIComponent(region);
     const encodedCity = encodeURIComponent(city);
     const encodedStreet = encodeURIComponent(street);
     const encodedHouseNumber = encodeURIComponent(houseNumber);
     const encodedFlatIndex = encodeURIComponent(flatIndex);
-
     const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
     this.locationLink = locationUrl;
 
     return locationUrl;
   }
 
-  onSubmitSaveAddressHouse(): void {
-    console.log(this.addressHouse.value)
+  saveInfo(): void {
+    this.disabled = true;
     const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: this.addressHouse.value, flat_id: this.selectedFlatId })
+    if (userJson && this.selectedFlatId !== undefined) {
+      const data = this.flatInfo;
+      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -232,102 +172,27 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  saveAddressHouse(): void {
-    this.addressHouse.disable();
-    this.isDisabled = true;
-    this.formDisabled = true;
-    this.isDisabled = false;
-    this.formDisabled = false;
+  editInfo(): void {
+    this.disabled = false;
   }
 
-  editAddressHouse(): void {
-    this.addressHouse.enable();
-    this.isDisabled = false;
-    this.formDisabled = false;
-  }
-
-  resetAddressHouse() {
-    this.addressHouse.reset();
-  }
-
-  initializeForm(): void {
-    this.addressHouse = this.fb.group({
-      flat_id: [null, [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(20),
-      ]],
-      street: [null, [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
-      ]],
-      houseNumber: [null, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(5),
-      ]],
-      floor: [null, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(100),
-        Validators.pattern(/^[0-9]+$/),
-      ]],
-      apartment: [null, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.pattern(/^[0-9]+$/),
-      ]],
-      city: [null, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
-      ]],
-      region: [null, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
-      ]],
-      country: [null, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20),
-        Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/),
-      ]],
-      flat_index: [null, [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(5),
-        Validators.pattern(/^[0-9]+$/),
-      ]],
-      private: [null, [Validators.required]],
-      rent: [null, [Validators.required]],
-    });
-
-    this.addressHouse.valueChanges?.subscribe(() => this.onValueChanged());
-  }
-
-  onValueChanged() {
-    const addressHouse = this.addressHouse;
-    if (!addressHouse) {
-      return;
-    }
-
-    Object.keys(this.formErrors).forEach(field => {
-      this.formErrors[field] = '';
-    });
-
-    Object.keys(addressHouse.controls).forEach(field => {
-      const control = addressHouse.get(field);
-      if (control && control.dirty && control.invalid) {
-        const messages = this.validationMessages[field];
-        Object.keys(control.errors as ValidationErrors).forEach(key => {
-          this.formErrors[field] += messages[key] + ' ';
-        });
-      }
-    });
+  clearInfo(): void {
+    this.flatInfo = {
+      flat_id: '',
+      country: '',
+      region: '',
+      city: '',
+      street: '',
+      houseNumber: '',
+      apartment: 0,
+      flat_index: 0,
+      private: false,
+      rent: false,
+      distance_parking: 0,
+      distance_metro: 0,
+      distance_stop: 0,
+      distance_green: 0,
+      distance_shop: 0,
+    };
   }
 }

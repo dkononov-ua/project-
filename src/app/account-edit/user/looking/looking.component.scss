@@ -173,11 +173,6 @@ mat-label {
   justify-content: center;
 }
 
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
 
 .price-box {
   display: flex;
@@ -262,6 +257,12 @@ mat-label {
   z-index: 100;
 }
 
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
 .checkBox input[type="checkbox"]:checked + div {
   left: -10px;
   top: -10px;
@@ -273,12 +274,29 @@ mat-label {
   visibility: hidden;
 }
 
+.checkBox input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+.checkBox input[type="radio"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+.checkBox input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
 .transition {
   transition: 300ms ease;
 }
 
 .content {
-  width: 100px;
+  width: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;

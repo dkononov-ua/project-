@@ -265,7 +265,8 @@ export const regions = [
       { id: 31, name: 'Узин', postalCode: '9163' },
       { id: 32, name: 'Українка', postalCode: '8721' },
       { id: 33, name: 'Фастів', postalCode: '8509' },
-      { id: 34, name: 'Яготин', postalCode: '7700' }
+      { id: 34, name: 'Яготин', postalCode: '7700' },
+      { id: 35, name: 'Київ', postalCode: '01001' },
     ]
   },
   {

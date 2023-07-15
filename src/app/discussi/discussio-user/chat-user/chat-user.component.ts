@@ -96,6 +96,7 @@ export class ChatUserComponent implements OnInit {
               this.getNewMessages(selectedFlat);
             } else {
               this.allMessages = [];
+              this.getNewMessages(selectedFlat);
             }
             return EMPTY;
           }),

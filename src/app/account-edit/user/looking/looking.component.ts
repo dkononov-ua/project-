@@ -10,24 +10,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
 interface SearchParams {
   [key: string]: any;
 }
-
-interface SearchParams {
-  country: string;
-  region: string;
-  city: string;
-  rooms_of: number | string;
-  rooms_to: number | string;
-  repair_status: string;
-  area?: number | string;
-  selectedBalcony: number | string;
-  selectedBunker: number | string;
-  animals: number | string;
-  distance_metro: string;
-  distance_stop: string;
-  distance_green: string;
-  distance_shop: string;
-  distance_parking: string;
-}
 @Component({
   selector: 'app-looking',
   templateUrl: './looking.component.html',
@@ -74,25 +56,33 @@ export class LookingComponent implements OnInit {
   woman: boolean = false;
   man: boolean = false;
   family: boolean = false;
-  search: boolean = false;
-  selectedCity!: string;
-  rooms_of!: number | any;
-  rooms_to!: number | any;
-  area_of!: number;
-  area_to!: number;
-  selectedRegion!: string;
-  selectedAnimals!: string;
-  selectedDistance_metro!: string;
-  selectedDistance_stop!: string;
-  selectedDistance_green!: string;
-  selectedDistance_shop!: string;
-  selectedDistance_parking!: string;
-  selectedBunker!: number;
-  selectedBalcony!: number;
-  selectedRepair_status: any;
+  region: string | undefined;
+  city: string | undefined;
+  rooms_of: number | undefined;
+  rooms_to: number | undefined;
+  area_of: number | undefined;
+  area_to: number | undefined;
+  repair_status: string | undefined;
+  bunker: string | undefined;
+  balcony: string | undefined;
+  animals: string | undefined;
+  distance_metro: string | undefined;
+  distance_stop: string | undefined;
+  distance_green: string | undefined;
+  distance_shop: string | undefined;
+  distance_parking: string | undefined;
+  optionPay: any;
+  option: any;
+  looking_woman: boolean = false;
+  looking_man: boolean = false;
+  lease_term: string | undefined;
+  purpose_rent: string | undefined;
+  agree_search: boolean = false;
 
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
+  selectedRegion!: string;
+  selectedCity!: string;
   regions = regions;
   cities = cities;
   endpoint = 'http://localhost:3000/search/flat';
@@ -100,8 +90,6 @@ export class LookingComponent implements OnInit {
   maxValue: number = 100000;
   disabled: boolean = true;
   loading: boolean | undefined;
-
-
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
@@ -129,21 +117,27 @@ export class LookingComponent implements OnInit {
       rooms_to: this.rooms_to || '',
       area_of: this.area_of || '',
       area_to: this.area_to || '',
-      repair_status: this.selectedRepair_status || '',
-      animals: this.selectedAnimals || '',
-      distance_metro: this.selectedDistance_metro || '',
-      distance_stop: this.selectedDistance_stop || '',
-      distance_green: this.selectedDistance_green || '',
-      distance_shop: this.selectedDistance_shop || '',
-      distance_parking: this.selectedDistance_parking || '',
+      repair_status: this.repair_status || '',
+      animals: this.animals || '',
+      distance_metro: this.distance_metro || '',
+      distance_stop: this.distance_stop || '',
+      distance_green: this.distance_green || '',
+      distance_shop: this.distance_shop || '',
+      distance_parking: this.distance_parking || '',
       country: '',
       students: this.students ? 1 : '',
       woman: this.woman ? 1 : '',
       man: this.man ? 1 : '',
       family: this.family ? 1 : '',
-      search: this.search ? 1 : '',
-      selectedBalcony: this.selectedBalcony || '',
-      selectedBunker: this.selectedBunker || '',
+      agree_search: this.agree_search ? 1 : '',
+      balcony: this.balcony || '',
+      bunker: this.bunker || '',
+      optionPay: this.optionPay || '',
+      option: this.option || '',
+      looking_woman: this.looking_woman ? 1 : '',
+      looking_man: this.looking_man ? 1 : '',
+      lease_term: this.lease_term || '',
+      purpose_rent: this.purpose_rent || '',
     };
     console.log(params)
   }
@@ -153,30 +147,34 @@ export class LookingComponent implements OnInit {
   }
 
   clearForm(): void {
-    this.selectedAnimals = '';
+    this.animals = '';
     this.price_of = 0;
     this.price_to = 0;
     this.students = false;
     this.woman = false;
     this.man = false;
     this.family = false;
-    this.search = false;
+    this.agree_search = false;
     this.selectedCity = '';
     this.rooms_of = 0;
     this.rooms_to = 0;
     this.area_of = 0;
     this.area_to = 0;
-    this.selectedRegion = '';
-    this.selectedAnimals = '';
-    this.selectedDistance_metro = '';
-    this.selectedDistance_stop = '';
-    this.selectedDistance_green = '';
-    this.selectedDistance_shop = '';
-    this.selectedDistance_parking = '';
-    this.selectedBunker = 0;
-    this.selectedBalcony = 0;
-    this.selectedRepair_status = '';
+    this.region = '';
+    this.animals = '';
+    this.distance_metro = '';
+    this.distance_stop = '';
+    this.distance_green = '';
+    this.distance_shop = '';
+    this.distance_parking = '';
+    this.bunker = '';
+    this.balcony = '';
+    this.repair_status = '';
+    this.looking_woman = false;
+    this.looking_man = false;
+    this.lease_term = '';
+    this.purpose_rent = '';
+    this.option = false;
+    this.optionPay = false;
   }
-
-
 }

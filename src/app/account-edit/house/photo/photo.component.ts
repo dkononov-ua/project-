@@ -1,10 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { HostComponent } from '../host/host.component';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
   selector: 'app-photo',
@@ -24,55 +21,38 @@ import { HostComponent } from '../host/host.component';
 })
 
 export class PhotoComponent implements OnInit {
-
   loading = false;
-
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 2000);
-  }
-
-  public selectedFlatId: any;
   filename: string | undefined;
-
   selectedFile: any;
-  addressHouse: any;
   flatImg: any = [{ img: "housing_default.svg" }];
+  selectedFlatId: any;
   images: string[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService, private hostComponent: HostComponent) {
-    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId: any) => {
-      this.selectedFlatId = selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe((response: any) => {
-            if (response !== null) {
-              this.addressHouse = this.fb.group({
-                flat_id: [response.flat.flat_id, []],
-              });
-              if (response.imgs === 'Картинок нема') {
-              } else {
-                this.flatImg = response.imgs;
-                for (const img of this.flatImg) {
-                  this.images.push('http://localhost:3000/img/flat/' + img.img);
-                }
-              }
+  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) {  }
 
-            }
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        console.log('user not found');
+  ngOnInit(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      console.log(this.selectedFlatId);
+      if (this.selectedFlatId !== null) {
+        this.getInfo();
       }
     });
   }
 
-  ngOnInit(): void {
-  }
+  async getInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          this.flatImg = response.imgs;
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  };
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -80,12 +60,8 @@ export class PhotoComponent implements OnInit {
 
   onUpload(): void {
     this.loading = true;
-
     const userJson = localStorage.getItem('user');
     const formData: FormData = new FormData();
-
-    console.log(this.selectedFile)
-
     formData.append('file', this.selectedFile, this.selectedFile.name);
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
     formData.append('flat_id', this.selectedFlatId);
@@ -102,6 +78,6 @@ export class PhotoComponent implements OnInit {
     );
     setTimeout(() => {
       location.reload();
-    }, 1000); // Затримка в 1 секунду
+    }, 1000);
   }
 }

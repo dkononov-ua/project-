@@ -1,13 +1,12 @@
 <ng-template #content>
-
   <div class="container">
     <div class="container-card">
-      <div [@cardAnimation4] class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation4] class="card-box col-lg-3 col-md-4 col-sm-4 col-12">
         <app-account-selection></app-account-selection>
         <app-chat-room></app-chat-room>
       </div>
 
-      <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation2] class="card-box col-lg-6 col-md-8 col-sm-8 col-12">
         <div class="chat">
           <app-chat-user></app-chat-user>
         </div>
@@ -43,8 +42,7 @@
       </div>
     </div>
   </div>
-  
-</ng-template>
+  </ng-template>
 
 <ng-container *ngIf="loading; else content">
   <div class="loader-overlay">

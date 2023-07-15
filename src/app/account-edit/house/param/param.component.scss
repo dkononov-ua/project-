@@ -13,8 +13,8 @@
 .card {
   width: 100%;
   display: flex;
-  background-color: rgba(18, 17, 17, 0.792);
-  color: white;
+  background-color: $color-white;
+  color: $color-dark;
   padding: 10px;
   border-radius: 10px;
   justify-content: flex-start;
@@ -73,7 +73,7 @@
 
 .text-info {
   font-size: 0.9em;
-  color: $color-white !important;
+  color: $color-dark !important;
 }
 
 .form-select {
@@ -180,4 +180,53 @@ select {
   &:focus-visible {
     border: 2px groove $color-accent;
   }
+}
+
+.item-group {
+  display: flex;
+}
+
+.group-item-1 {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.group-label {
+  font-weight: 600;
+  color: $color-accent;
+}
+
+.checkBox input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+.checkBox input[type="radio"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+.checkBox input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+mat-form-field {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.item-select {
+  width: 100%;
+}
+
+.item-width-50 {
+  width: 47%;
 }

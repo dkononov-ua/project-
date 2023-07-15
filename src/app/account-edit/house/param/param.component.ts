@@ -1,15 +1,22 @@
 import { Component, Injectable, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Subject } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { HostComponent } from '../host/host.component';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
+interface FlatInfo {
+  rooms: number;
+  repair_status: string | undefined;
+  area: number;
+  kitchen_area: number;
+  balcony: string | undefined;
+  floor: number;
+  option: undefined,
+}
 @Component({
   selector: 'app-param',
   templateUrl: './param.component.html',
   styleUrls: ['./param.component.scss'],
-  template: '{{ selectedFlatId }}',
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -25,91 +32,60 @@ import { HostComponent } from '../host/host.component';
 })
 export class ParamComponent {
 
-  public selectedFlatId: any | null;
-
-  formErrors: any = {
-    rooms: '',
+  flatInfo: FlatInfo = {
+    rooms: 0,
     repair_status: '',
-    area: '',
-    kitchen_area: '',
+    area: 0,
+    kitchen_area: 0,
     balcony: '',
-    floor: '',
+    floor: 0,
+    option: undefined,
   };
 
-  validationMessages: any = {
-    rooms: {
-      required: 'Обов`язково',
-    },
-    repair_status: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-    area: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-    kitchen_area: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-    balcony: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-    floor: {
-      required: 'Обов`язково',
-      minlength: 'Мінімальна довжина 1 символ',
-      pattern: 'Не коректно',
-    },
-  };
+  disabled: boolean = true;
+  selectedFlatId!: string | null;
+  minValue: number = 0;
+  maxValue: number = 1000;
+  minValueKitchen: number = 0;
+  maxValueKitchen: number = 100;
+  minValueFloor: number = -3;
+  maxValueFloor: number = 47;
 
-  houseParam!: FormGroup | any;
-  isDisabled: boolean | undefined;
-  formDisabled: boolean | undefined;
+  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
-    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
-      this.selectedFlatId = selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe((response: any) => {
-            console.log(response);
-            if (response !== null) {
-              this.houseParam = this.fb.group({
-                rooms: [response.param.rooms],
-                repair_status: [response.param.repair_status],
-                area: [response.param.area],
-                kitchen_area: [response.param.kitchen_area],
-                balcony: [response.param.balcony],
-                floor: [response.param.floor],
-              });
-            }
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        console.log('user not found');
+  ngOnInit(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      console.log(this.selectedFlatId);
+      if (this.selectedFlatId !== null) {
+        this.getInfo();
       }
-
-      this.initializeForm();
-
     });
   }
 
-  ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  onSubmitSaveHouseParam(): void {
-    console.log(this.houseParam.value)
+  async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: this.houseParam.value, flat_id: this.selectedFlatId })
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          console.log(response)
+          this.flatInfo = response.param;
+          console.log(this.flatInfo);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  };
+
+  saveInfo(): void {
+    this.disabled = true;
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId !== undefined) {
+      const data = this.flatInfo;
+      console.log(data)
+      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -120,67 +96,19 @@ export class ParamComponent {
     }
   }
 
-  saveHouseParam(): void {
-    this.houseParam.disable();
-    this.isDisabled = true;
-    this.formDisabled = true;
-    // відправляємо дані на сервер і зберігаємо їх
-
-    // після успішного збереження змінюємо стан на редагування
-    this.isDisabled = false;
-    this.formDisabled = false;
+  editInfo(): void {
+    this.disabled = false;
   }
 
-  editHouseParam(): void {
-    this.houseParam.enable();
-    this.isDisabled = false;
-    this.formDisabled = false;
-  }
-
-  resetHouseParam() {
-    this.houseParam.reset();
-  }
-
-  private initializeForm(): void {
-    this.houseParam = this.fb.group({
-      rooms: [null, [
-        Validators.required,
-      ]],
-      repair_status: [null, [
-        Validators.required,
-      ]],
-      area: [null, [
-        Validators.required,
-      ]],
-      kitchen_area: [null, [
-        Validators.required,
-      ]],
-      balcony: [null, [
-        Validators.required,
-      ]],
-      floor: [null, [
-        Validators.required,
-      ]],
-    });
-
-    this.houseParam.valueChanges?.subscribe(() => this.onValueChanged());
-  }
-
-  private onValueChanged() {
-    this.formErrors = {};
-
-    const houseParam = this.houseParam;
-    for (const field in houseParam.controls) {
-      const control = houseParam.get(field);
-      this.formErrors[field] = '';
-
-      if (control && control.dirty && control.invalid) {
-        const messages = this.validationMessages[field];
-
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
-        }
-      }
-    }
+  clearInfo(): void {
+    this.flatInfo = {
+      rooms: 0,
+      repair_status: '',
+      area: 0,
+      kitchen_area: 0,
+      balcony: '',
+      floor: 0,
+      option: undefined,
+    };
   }
 }

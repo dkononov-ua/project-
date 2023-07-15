@@ -1,8 +1,29 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HostComponent } from '../host/host.component';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+
+interface FlatInfo {
+  students: boolean;
+  woman: boolean;
+  man: boolean;
+  family: boolean;
+  bunker: string | undefined;
+  animals: string | undefined;
+  distance_parking: number;
+  distance_metro: number;
+  distance_stop: number;
+  distance_green: number;
+  distance_shop: number;
+  optionPay: any;
+  price_d: number;
+  price_m: number;
+  price_y: number;
+  about: string | undefined;
+  private: boolean;
+  rent: boolean;
+}
 
 @Component({
   selector: 'app-about',
@@ -21,133 +42,75 @@ import { HostComponent } from '../host/host.component';
   ]
 })
 export class AboutComponent implements OnInit {
-  form: FormGroup;
-
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
 
-  houseAbout = {
-    distance_metro: new FormControl({ value: null, disabled: true }),
-    distance_stops: new FormControl({ value: null, disabled: true }),
-    distance_shop: new FormControl({ value: null, disabled: true }),
-    distance_green: new FormControl({ value: null, disabled: true }),
-    distance_parking: new FormControl({ value: null, disabled: true }),
-    woman: new FormControl({ value: null, disabled: true }),
-    man: new FormControl({ value: null, disabled: true }),
-    family: new FormControl({ value: null, disabled: true }),
-    students: new FormControl({ value: null, disabled: true }),
-    animals: new FormControl({ value: null, disabled: true }),
-    price_m: new FormControl({ value: null, disabled: true }),
-    price_y: new FormControl({ value: null, disabled: true }),
-    about: new FormControl({ value: null, disabled: true }),
-    bunker: new FormControl({ value: null, disabled: true }),
+  flatInfo: FlatInfo = {
+    students: false,
+    woman: false,
+    man: false,
+    family: false,
+    bunker: undefined,
+    animals: undefined,
+    distance_parking: 0,
+    distance_metro: 0,
+    distance_stop: 0,
+    distance_green: 0,
+    distance_shop: 0,
+    optionPay: undefined,
+    price_d: 0,
+    price_m: 0,
+    price_y: 0,
+    about: undefined,
+    private: false,
+    rent: false,
   };
 
-  public selectedFlatId: any | null;
+  disabled: boolean = true;
+  selectedFlatId!: string | null;
 
-  formErrors: any = {
-    distance_metro: '',
-    distance_stop: '',
-    distance_shop: '',
-    distance_green: '',
-    distance_parking: '',
-    woman: '',
-    man: '',
-    family: '',
-    students: '',
-    animals: '',
-    price_m: '',
-    price_y: '',
-    about: '',
-    bunker: '',
-  };
+  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
-  validationMessages: any = {
-    distance_metro: {
-      required: 'Обов`язково',
-    },
-    distance_stop: {
-      required: 'Обов`язково',
-    },
-    distance_shop: {
-      required: 'Обов`язково',
-    },
-    distance_green: {
-      required: 'Обов`язково',
-    },
-    distance_parking: {
-      required: 'Обов`язково',
-    },
-    woman: {
-      required: 'Обов`язково',
-    },
-    man: {
-      required: 'Обов`язково',
-    },
-    family: {
-      required: 'Обов`язково',
-    },
-    students: {
-      required: 'Обов`язково',
-    },
-    animals: {
-      required: 'Обов`язково',
-    },
-    price_m: {
-      required: 'Обов`язково',
-    },
-    price_y: {
-      required: 'Обов`язково',
-    },
-    about: {
-      required: 'Обов`язково',
-    },
-    bunker: {
-      required: 'Обов`язково',
-    },
-  };
-
-  isDisabled: boolean | undefined;
-  formDisabled: boolean | undefined;
-  aboutHouse!: FormGroup<{ distance_metro: FormControl<any>; distance_stop: FormControl<any>; distance_shop: FormControl<any>; distance_green: FormControl<any>; distance_parking: FormControl<any>; woman: FormControl<any>; man: FormControl<any>; family: FormControl<any>; students: FormControl<any>; animals: FormControl<any>; price_m: FormControl<any>; price_y: FormControl<any>; about: FormControl<any>; bunker: FormControl<any>; }>;
-
-  constructor(private fb: FormBuilder, private http: HttpClient, private hostComponent: HostComponent,) {
-    this.form = this.fb.group({
-      about: ['']
-    });
-
-    this.hostComponent.selectedFlatId$.subscribe((selectedFlatId) => {
-      this.selectedFlatId = selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe((response: any) => {
-            if (response !== null) {
-              this.aboutHouse = this.fb.group({
-                distance_metro: [response.about.distance_metro],
-                distance_stop: [response.about.distance_stop],
-                distance_shop: [response.about.distance_shop],
-                distance_green: [response.about.distance_green],
-                distance_parking: [response.about.distance_parking],
-                woman: [response.about.woman],
-                man: [response.about.man],
-                family: [response.about.family],
-                students: [response.about.students],
-                animals: [response.about.animals],
-                price_m: [response.about.price_m],
-                price_y: [response.about.price_y],
-                about: [response.about.about],
-                bunker: [response.about.bunker],
-              });
-            }
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        console.log('user not found');
+  ngOnInit(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      console.log(this.selectedFlatId);
+      if (this.selectedFlatId !== null) {
+        this.getInfo();
       }
-      this.initializeForm();
     });
+  }
+
+  async getInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          this.flatInfo = response.about;
+          console.log(this.flatInfo);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  };
+
+  saveInfo(): void {
+    this.disabled = true;
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId !== undefined) {
+      const data = this.flatInfo;
+      console.log(data)
+      this.http.post('http://localhost:3000/flatinfo/add/about', { auth: JSON.parse(userJson), flat: data, flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
   }
 
   ngAfterViewInit() {
@@ -161,107 +124,30 @@ export class AboutComponent implements OnInit {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
-  ngOnInit(): void {
-    this.initializeForm();
+  editInfo(): void {
+    this.disabled = false;
   }
 
-  onSubmitSaveAboutHouse(): void {
-    console.log(this.aboutHouse.value)
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/add/about', { auth: JSON.parse(userJson), flat: this.aboutHouse.value, flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          console.log(response);
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('user not found');
-    }
-  }
-
-  saveAboutHouse(): void {
-    this.aboutHouse.disable();
-    this.isDisabled = true;
-    this.formDisabled = true;
-    this.isDisabled = false;
-    this.formDisabled = false;
-  }
-
-  editAboutHouse(): void {
-    this.aboutHouse.enable();
-    this.isDisabled = false;
-    this.formDisabled = false;
-  }
-
-  resetAboutHouse() {
-    this.aboutHouse.reset();
-  }
-
-  private initializeForm(): void {
-    this.aboutHouse = this.fb.group({
-      distance_metro: [null, [
-        Validators.required,
-      ]],
-      distance_stop: [null, [
-        Validators.required,
-      ]],
-      distance_shop: [null, [
-        Validators.required,
-      ]],
-      distance_green: [null, [
-        Validators.required,
-      ]],
-      distance_parking: [null, [
-        Validators.required,
-      ]],
-      woman: [null, [
-        Validators.required,
-      ]],
-      man: [null, [
-        Validators.required,
-      ]],
-      family: [null, [
-        Validators.required,
-      ]],
-      students: [null, [
-        Validators.required,
-      ]],
-      animals: [null, [
-        Validators.required,
-      ]],
-      price_m: [null, [
-        Validators.required,
-      ]],
-      price_y: [null, [
-        Validators.required,
-      ]],
-      about: [null, [
-        Validators.required,
-      ]],
-      bunker: [null, [
-        Validators.required,
-      ]],
-    });
-
-    this.aboutHouse.valueChanges?.subscribe(() => this.onValueChanged());
-  }
-
-  private onValueChanged() {
-    this.formErrors = {};
-
-    const aboutHouse = this.aboutHouse;
-    for (const field in aboutHouse.controls) {
-      const control = aboutHouse.get(field);
-      this.formErrors[field] = '';
-
-      if (control && control.dirty && control.invalid) {
-        const messages = this.validationMessages[field];
-
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
-        }
-      }
-    }
+  clearInfo(): void {
+    this.flatInfo = {
+      students: false,
+      woman: false,
+      man: false,
+      family: false,
+      bunker: '',
+      animals: '',
+      distance_parking: 0,
+      distance_metro: 0,
+      distance_stop: 0,
+      distance_green: 0,
+      distance_shop: 0,
+      optionPay: null,
+      price_d: 0,
+      price_m: 0,
+      price_y: 0,
+      about: '',
+      private: false,
+      rent: false,
+    };
   }
 }

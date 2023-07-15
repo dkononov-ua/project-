@@ -197,6 +197,7 @@ export class HouseDiscussioComponent implements OnInit {
 
   createChat(subscriber: any): void {
     this.isChatOpen = true;
+    
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson && subscriber) {

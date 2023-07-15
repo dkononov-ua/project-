@@ -231,7 +231,6 @@ export class AgreementComponent implements OnInit {
     this.agreementDate = selectedDate;
   }
 
-
   sendFormAgreement(subscriber: Subscribers): void {
     this.formSubmitted = true;
     if (!this.isFormEmpty()) {
