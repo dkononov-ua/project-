@@ -97,20 +97,22 @@
         <div class="group">
           <mat-label class="group-label">Місцерозташування</mat-label>
           <div class="group-item">
-            <mat-form-field class="item-select m-1" appearance="outline" cdkScrollable>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Область</mat-label>
-              <input name="selectedRegion" matInput [(ngModel)]="selectedRegion" placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
+              <input name="flatInfo.region" matInput [(ngModel)]="selectedRegion"
+                placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" (ngModelChange)="onSubmit()" [matAutocomplete]="autoRegion">
               <mat-autocomplete #autoRegion="matAutocomplete">
-                <mat-option *ngFor="let region of regions" [value]="region.name">
+                <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
                   {{ region.name }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
 
-
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Місто</mat-label>
-              <input name="selectedCity" matInput [(ngModel)]="selectedCity" placeholder="Виберіть або введіть місто" (ngModelChange)="onSubmit()" [matAutocomplete]="autoCity">
+              <input name="flatInfo.city" matInput [(ngModel)]="selectedCity"
+                placeholder="Виберіть або введіть місто" (ngModelChange)="loadDistricts()" (ngModelChange)="onSubmit()" [matAutocomplete]="autoCity">
               <mat-autocomplete #autoCity="matAutocomplete">
                 <mat-option *ngFor="let city of filteredCities" [value]="city.name">
                   {{ city.name }}

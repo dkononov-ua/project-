@@ -39,6 +39,7 @@
 .btn-group {
   display: flex;
 }
+
 .btn {
   width: 100%;
   margin: 5px 0 5px 0;
@@ -191,7 +192,7 @@ select {
   padding: 10px 0;
   display: flex;
   border-radius: 10px;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 

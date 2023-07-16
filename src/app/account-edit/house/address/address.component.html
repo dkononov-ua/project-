@@ -1,11 +1,9 @@
-<div [@cardAnimation] class="container-card">
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+<div  class="container-card">
+  <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
 
     <div class="card m-2">
-
-
       <mat-label class="group-label">Місцерозташування</mat-label>
-      <mat-form-field class="item-select m-1" appearance="outline">
+      <mat-form-field class="item-select m-1 mt-3" appearance="outline">
         <mat-label>Область</mat-label>
         <input name="flatInfo.region" matInput [disabled]="disabled" [(ngModel)]="flatInfo.region"
           placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
@@ -49,7 +47,7 @@
         </mat-form-field>
 
         <div class="inputbox" *ngIf="locationLink">
-          <a class="location" href="{{ locationLink }}" target="_blank">
+          <a class="location" matTooltip="ЛОКАЦІЯ" href="{{ locationLink }}" target="_blank">
             <i class="fa-solid fa-map-location"></i>
           </a>
         </div>
@@ -60,11 +58,12 @@
 
   </div>
 
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+  <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+
     <div class="card m-2">
 
       <mat-label class="group-label">Паркінг / транспорт / метро</mat-label>
-      <mat-form-field class="item-select m-1" appearance="outline">
+      <mat-form-field class="item-select m-1 mt-3" appearance="outline">
         <mat-label>Відстань до парковки</mat-label>
         <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.distance_parking" name="distance_parking">
           <mat-option [value]="0">Приховати</mat-option>
@@ -123,12 +122,11 @@
       </mat-form-field>
 
       <div class="btn-group">
-        <button class="btn" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
-        <button class="btn" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
-        <button class="btn" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+        <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
       </div>
     </div>
+
   </div>
-
-
 </div>

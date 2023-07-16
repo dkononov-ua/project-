@@ -1,6 +1,6 @@
 <form class="container-card">
 
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+  <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
 
 
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <mat-form-field class="item-select m-1" appearance="outline">
+      <mat-form-field class="item-select m-1 mt-2" appearance="outline">
         <mat-label>Наявність укриття</mat-label>
         <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.bunker" name="bunker">
           <mat-option [value]="''">Приховати</mat-option>
@@ -52,7 +52,6 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-label class="group-label">Дозволи</mat-label>
       <mat-form-field class="item-select m-1" appearance="outline">
         <mat-label>Дозвіл на тварин</mat-label>
         <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.animals" name="animals">
@@ -65,9 +64,8 @@
       </mat-form-field>
 
       <div class="form-floating p-1">
-        <textarea #textArea class="form-control scrollable-textarea" placeholder="Leave a comment here"
-          id="floatingTextarea" [disabled]="disabled" [(ngModel)]="flatInfo.about" name="about"
-          (input)="onInput()"></textarea>
+        <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="disabled"
+          [(ngModel)]="flatInfo.about" name="about" (input)="onInput()"></textarea>
         <label for="floatingTextarea">
           <p>Опис оселі:</p>
         </label>
@@ -76,7 +74,7 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+  <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
 
 
@@ -177,9 +175,9 @@
       </div>
 
       <div class="btn-group">
-        <button class="btn" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
-        <button class="btn" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
-        <button class="btn" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+        <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
       </div>
 
     </div>

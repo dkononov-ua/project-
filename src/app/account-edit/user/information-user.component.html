@@ -17,9 +17,17 @@
           <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')">
         </div>
 
+        <div class="card-1 mb-2">
+          <label class="label-1">Завантажити фото профіля</label>
+          <div class="input-div" >
+            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+            <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+          </div>
+        </div>
+
         <div class="card">
 
-          <mat-label class="label-1">Персональні дані</mat-label>
+          <mat-label class="label">Персональні дані</mat-label>
           <mat-form-field class="item-select m-1" appearance="outline">
             <mat-label>Ім'я</mat-label>
             <input name="userInfo.firstName" matInput [disabled]="disabledUser" [(ngModel)]="userInfo.firstName">
@@ -56,49 +64,10 @@
       </div>
     </div>
 
-    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12" [@cardAnimation2]>
-
-      <div class="m-2">
-        <div class="card mb-2">
-          <mat-label class="label-1">Завантажити фото профіля</mat-label>
-          <div class="photo-box">
-            <div class="item-select">
-              <input type="file" class="item-select" (change)="onFileSelected($event)" id="upload"
-                aria-describedby="upload" aria-label="Upload">
-            </div>
-            <button matTooltip="Завантажити нове фото" class="btn-create m-2" id="upload" (click)="onUpload()"
-              type="button"><i class="fa-solid fa-circle-check"></i></button>
-          </div>
-        </div>
-
-        <div class="card mb-2">
-          <mat-label class="label-1">Управління аккаунтом</mat-label>
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Змінити пошту</mat-label>
-            <input name="change_password" matInput>
-          </mat-form-field>
-          <button class="btn btn-primary"><span class="btn-text">ЗМІНИТИ ПОШТУ</span></button>
-
-          <mat-label>Змінити пароль</mat-label>
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Змінити пароль</mat-label>
-            <input name="change_password" matInput>
-          </mat-form-field>
-          <button class="btn btn-primary"><span class="btn-text">ЗМІНИТИ ПАРОЛЬ</span></button>
-
-          <button class="btn btn-primary"><span class="btn-text">ВИДАЛИТИ АККАУНТ</span></button>
-        </div>
-        <div class="card">
-          <button class="btn btn-exit"><span class="btn-text" (click)="logout()">ВИЙТИ З АККАУНТУ</span></button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12" [@cardAnimation2]>
+    <div [@cardAnimation1] class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <div class="card m-2">
 
-        <mat-label class="label-1">Контактні дані</mat-label>
+        <mat-label class="label">Контактні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Телефон</mat-label>
           <input type="tel" name="userCont.tell" matInput [disabled]="disabled" [(ngModel)]="userCont.tell">
@@ -146,11 +115,45 @@
       </div>
     </div>
 
+    <div [@cardAnimation2] class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
 
+      <div class="card-transparent m-2">
+
+
+        <div class="card mb-2">
+          <mat-label class="label">Управління аккаунтом</mat-label>
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Змінити пошту</mat-label>
+            <input name="change_password" matInput>
+          </mat-form-field>
+          <button class="btn btn-primary"><span class="btn-text">ЗМІНИТИ ПОШТУ</span></button>
+
+          <mat-label>Змінити пароль</mat-label>
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Змінити пароль</mat-label>
+            <input name="change_password" matInput>
+          </mat-form-field>
+          <button class="btn btn-primary"><span class="btn-text">ЗМІНИТИ ПАРОЛЬ</span></button>
+
+          <button class="btn btn-primary"><span class="btn-text">ВИДАЛИТИ АККАУНТ</span></button>
+        </div>
+
+        <div class="card-1">
+          <label class="label-1" for="exit">ВИЙТИ З АККАУНТУ</label>
+          <button class="input-div" (click)="logout()">
+            <i class="icon-up fa-solid fa-door-open"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 </div>
 
 <div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
 </div>

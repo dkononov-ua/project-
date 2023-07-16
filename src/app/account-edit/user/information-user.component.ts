@@ -66,33 +66,15 @@ interface UserCont {
     trigger('cardAnimation1', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
     trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ])
   ],
 })
 
@@ -139,7 +121,6 @@ export class InformationUserComponent implements OnInit {
 
   constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe) { }
 
-
   ngOnInit(): void {
     this.getInfo();
   }
@@ -162,9 +143,8 @@ export class InformationUserComponent implements OnInit {
   }
 
   saveInfoUser(): void {
-    this.disabledUser = true;
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && this.disabledUser === false) {
       const data = { ...this.userInfo };
 
       if (this.userInfo.dob) {
@@ -179,14 +159,15 @@ export class InformationUserComponent implements OnInit {
         }, (error: any) => {
           console.error(error);
         });
+      this.disabledUser = true;
+
     } else {
-      console.log('user not found');
+      console.log('user not found, the form is blocked');
     }
   }
   saveInfoCont(): void {
-    this.disabled = true;
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && this.disabled === false) {
       const data = this.userCont;
       console.log(data)
       this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: data })
@@ -195,8 +176,9 @@ export class InformationUserComponent implements OnInit {
         }, (error: any) => {
           console.error(error);
         });
+      this.disabled = true;
     } else {
-      console.log('user not found');
+      console.log('user not found, the form is blocked');
     }
   }
 
@@ -209,6 +191,7 @@ export class InformationUserComponent implements OnInit {
   }
 
   clearInfoUser(): void {
+    if (this.disabledUser === false)
     this.userInfo = {
       firstName: '',
       lastName: '',
@@ -220,16 +203,17 @@ export class InformationUserComponent implements OnInit {
   }
 
   clearInfoCont(): void {
-    this.userCont = {
-      facebook: '',
-      instagram: '',
-      mail: '',
-      phone_alt: 0,
-      telegram: '',
-      tell: 0,
-      user_id: '',
-      viber: '',
-    };
+    if (this.disabled === false)
+      this.userCont = {
+        facebook: '',
+        instagram: '',
+        mail: '',
+        phone_alt: 0,
+        telegram: '',
+        tell: 0,
+        user_id: '',
+        viber: '',
+      };
   }
 
   togglePasswordVisibility() {
@@ -245,10 +229,19 @@ export class InformationUserComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+    setTimeout(() => {
+      this.onUpload();
+      this.reloadPageWithLoader();
+    },);
   }
 
   onUpload(): void {
     const userJson = localStorage.getItem('user');
+
+    if (!this.selectedFile) {
+      console.log('Файл не обраний. Завантаження не відбудеться.');
+      return;
+    }
 
     const formData: FormData = new FormData();
     formData.append('file', this.selectedFile, this.selectedFile.name);
@@ -257,7 +250,7 @@ export class InformationUserComponent implements OnInit {
     const headers = { 'Accept': 'application/json' };
     this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
       (data: any) => {
-        this.userImg = data.imgUrl; // Припустимо, що сервер повертає URL завантаженого фото
+        this.userImg = data.imgUrl;
         setTimeout(() => {
           this.reloadPageWithLoader();
         },);
@@ -265,4 +258,5 @@ export class InformationUserComponent implements OnInit {
       error => console.log(error)
     );
   }
+
 };

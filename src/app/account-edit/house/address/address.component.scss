@@ -178,6 +178,7 @@
 .btn-group {
   display: flex;
 }
+
 .btn {
   width: 100%;
   margin: 5px 0 5px 0;
@@ -192,13 +193,17 @@
 
 .inputbox-group {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: baseline;
 }
 
 .fa-map-location {
   color: $color-dark;
   font-size: 30px;
+  transition: 1s;
+  &:hover {
+    color: $color-accent;
+  }
 }
 
 .info {

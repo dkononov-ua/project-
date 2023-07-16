@@ -1,11 +1,9 @@
-<form [@cardAnimation] class="container-card">
+<div class="container-card">
 
-  <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+  <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
 
       <mat-label class="group-label">Параметри оселі</mat-label>
-
-
       <div class="group-item-1">
         <div class="content">
           <label class="checkBox">
@@ -93,15 +91,15 @@
       </mat-form-field>
 
       <div class="btn-group">
-        <button class="btn" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
-        <button class="btn" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
-        <button class="btn" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+        <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
       </div>
 
     </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+  <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
       <div class="card-info">
         <p>Стан ремонту квартири</p>
@@ -152,4 +150,4 @@
     </div>
   </div>
 
-</form>
+</div>

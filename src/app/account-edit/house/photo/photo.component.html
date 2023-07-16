@@ -1,6 +1,6 @@
-<form [@cardAnimation] class="container-card">
+<div class="container-card">
 
-  <div class="card-box-photo col-lg-6 col-md-5 col-sm-6 col-12">
+  <div [@cardAnimation1] class="card-box-photo col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="m-2">
       <div id="carouselExampleControls" class="shadow carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -28,22 +28,17 @@
         </button>
       </div>
 
-      <div class="card">
-        <p>Додати фото оселі</p>
-        <div class="photo-box">
-          <div class="input-group">
-            <input type="file" class="form-control" (change)="onFileSelected($event)" id="upload"
-              aria-describedby="upload" aria-label="Upload">
-          </div>
-          <button matTooltip="Завантажити нове фото" class="btn-create" id="upload" (click)="onUpload()"
-            type="button"><i class="fa-solid fa-circle-check"></i></button>
+      <div class="card-1">
+        <label class="label-1">Завантажити фото оселі</label>
+        <div class="input-div" >
+          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
         </div>
-
       </div>
     </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+  <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
     <div class="card m-2">
       <mat-label>Які фото можна завантажувати</mat-label>
       <div class="card-body-cast">
@@ -67,9 +62,10 @@
     </div>
   </div>
 
-</form>
-
+</div>
 
 <div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
 </div>

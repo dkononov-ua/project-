@@ -8,16 +8,19 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
   templateUrl: './photo.component.html',
   styleUrls: ['./photo.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation1', [
       transition('void => *', [
-        style({ transform: 'translateX(165%)' }),
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ])
-    ])
-  ]
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],
 })
 
 export class PhotoComponent implements OnInit {
@@ -27,6 +30,13 @@ export class PhotoComponent implements OnInit {
   flatImg: any = [{ img: "housing_default.svg" }];
   selectedFlatId: any;
   images: string[] = [];
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
 
   constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) {  }
 
@@ -56,6 +66,10 @@ export class PhotoComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+    setTimeout(() => {
+      this.onUpload();
+      this.reloadPageWithLoader();
+    },);
   }
 
   onUpload(): void {
@@ -76,8 +90,5 @@ export class PhotoComponent implements OnInit {
         console.log(error);
       }
     );
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
   }
 }

@@ -7,8 +7,35 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 
-interface SearchParams {
-  [key: string]: any;
+interface UserInfo {
+  price_of: number | undefined;
+  price_to: number | undefined;
+  region: '',
+  city: '',
+  rooms_of: number | undefined;
+  rooms_to: number | undefined;
+  area_of: number | undefined;
+  area_to: number | undefined;
+  repair_status: '',
+  bunker: '',
+  balcony: '',
+  animals: '',
+  distance_metro: '',
+  distance_stop: '',
+  distance_green: '',
+  distance_shop: '',
+  distance_parking: '',
+  optionPay: any;
+  option: any;
+  lease_term: '',
+  purpose_rent: '',
+  looking_woman: false,
+  looking_man: false,
+  agree_search: false,
+  students: false,
+  woman: false,
+  man: false,
+  family: false,
 }
 @Component({
   selector: 'app-looking',
@@ -18,66 +45,50 @@ interface SearchParams {
     trigger('cardAnimation1', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
     trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ])
   ],
 })
 
 export class LookingComponent implements OnInit {
 
-  price_of: number | undefined;
-  price_to: number | undefined;
-  students: boolean = false;
-  woman: boolean = false;
-  man: boolean = false;
-  family: boolean = false;
-  region: string | undefined;
-  city: string | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  area_of: number | undefined;
-  area_to: number | undefined;
-  repair_status: string | undefined;
-  bunker: string | undefined;
-  balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: string | undefined;
-  distance_stop: string | undefined;
-  distance_green: string | undefined;
-  distance_shop: string | undefined;
-  distance_parking: string | undefined;
-  optionPay: any;
-  option: any;
-  looking_woman: boolean = false;
-  looking_man: boolean = false;
-  lease_term: string | undefined;
-  purpose_rent: string | undefined;
-  agree_search: boolean = false;
+  userInfo: UserInfo = {
+    price_of: 0,
+    price_to: 0,
+    region: '',
+    city: '',
+    rooms_of: 0,
+    rooms_to: 0,
+    area_of: 0,
+    area_to: 0,
+    repair_status: '',
+    bunker: '',
+    balcony: '',
+    animals: '',
+    distance_metro: '',
+    distance_stop: '',
+    distance_green: '',
+    distance_shop: '',
+    distance_parking: '',
+    optionPay: '',
+    option: '',
+    lease_term: '',
+    purpose_rent: '',
+    looking_woman: false,
+    looking_man: false,
+    agree_search: false,
+    students: false,
+    woman: false,
+    man: false,
+    family: false,
+  };
 
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
@@ -85,7 +96,6 @@ export class LookingComponent implements OnInit {
   selectedCity!: string;
   regions = regions;
   cities = cities;
-  endpoint = 'http://localhost:3000/search/flat';
   minValue: number = 0;
   maxValue: number = 100000;
   disabled: boolean = true;
@@ -93,88 +103,106 @@ export class LookingComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
-  ngOnInit() {
-    this.onSubmit();
+  ngOnInit(): void {
+    this.getInfo();
   }
 
-  loadCities() {
-    this.filteredRegions = this.selectedRegion ? this.regions.filter(region => region.name.toLowerCase().includes(this.selectedRegion.toLowerCase())) : this.regions;
-    const selectedRegionObj = this.regions.find(region => region.name === this.selectedRegion);
-    this.cities = selectedRegionObj ? selectedRegionObj.cities : [];
-    this.selectedCity = '';
-    this.filteredCities = this.selectedCity ? this.cities.filter(city => city.name.toLowerCase().includes(this.selectedCity.toLowerCase())) : this.cities;
+  async getInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
+      this.http.post('http://localhost:3000/', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          console.log(response)
+          this.userInfo = response;
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
   }
 
-  onSubmit() {
-    this.disabled = true;
+  saveInfo(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.disabled === false) {
+      const data = { ...this.userInfo };
+      console.log(data);
+      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+      this.disabled = true;
 
-    const params: SearchParams = {
-      price_of: this.price_of || '',
-      price_to: this.price_to || '',
-      region: this.selectedRegion || '',
-      city: this.selectedCity || '',
-      rooms_of: this.rooms_of || '',
-      rooms_to: this.rooms_to || '',
-      area_of: this.area_of || '',
-      area_to: this.area_to || '',
-      repair_status: this.repair_status || '',
-      animals: this.animals || '',
-      distance_metro: this.distance_metro || '',
-      distance_stop: this.distance_stop || '',
-      distance_green: this.distance_green || '',
-      distance_shop: this.distance_shop || '',
-      distance_parking: this.distance_parking || '',
-      country: '',
-      students: this.students ? 1 : '',
-      woman: this.woman ? 1 : '',
-      man: this.man ? 1 : '',
-      family: this.family ? 1 : '',
-      agree_search: this.agree_search ? 1 : '',
-      balcony: this.balcony || '',
-      bunker: this.bunker || '',
-      optionPay: this.optionPay || '',
-      option: this.option || '',
-      looking_woman: this.looking_woman ? 1 : '',
-      looking_man: this.looking_man ? 1 : '',
-      lease_term: this.lease_term || '',
-      purpose_rent: this.purpose_rent || '',
-    };
-    console.log(params)
+    } else {
+      console.log('user not found, the form is blocked');
+    }
   }
 
-  editSearch(): void {
+  editInfo(): void {
     this.disabled = false;
   }
 
-  clearForm(): void {
-    this.animals = '';
-    this.price_of = 0;
-    this.price_to = 0;
-    this.students = false;
-    this.woman = false;
-    this.man = false;
-    this.family = false;
-    this.agree_search = false;
-    this.selectedCity = '';
-    this.rooms_of = 0;
-    this.rooms_to = 0;
-    this.area_of = 0;
-    this.area_to = 0;
-    this.region = '';
-    this.animals = '';
-    this.distance_metro = '';
-    this.distance_stop = '';
-    this.distance_green = '';
-    this.distance_shop = '';
-    this.distance_parking = '';
-    this.bunker = '';
-    this.balcony = '';
-    this.repair_status = '';
-    this.looking_woman = false;
-    this.looking_man = false;
-    this.lease_term = '';
-    this.purpose_rent = '';
-    this.option = false;
-    this.optionPay = false;
+  clearInfo(): void {
+    if (this.disabled === false)
+      this.userInfo = {
+        price_of: 0,
+        price_to: 0,
+        region: '',
+        city: '',
+        rooms_of: 0,
+        rooms_to: 0,
+        area_of: 0,
+        area_to: 0,
+        repair_status: '',
+        bunker: '',
+        balcony: '',
+        animals: '',
+        distance_metro: '',
+        distance_stop: '',
+        distance_green: '',
+        distance_shop: '',
+        distance_parking: '',
+        optionPay: '',
+        option: '',
+        lease_term: '',
+        purpose_rent: '',
+        looking_woman: false,
+        looking_man: false,
+        agree_search: false,
+        students: false,
+        woman: false,
+        man: false,
+        family: false,
+      };
+  }
+
+  loadCities() {
+    const searchTerm = this.userInfo.region.toLowerCase();
+    this.filteredRegions = this.regions.filter(region =>
+      region.name.toLowerCase().includes(searchTerm)
+    );
+    const selectedRegionObj = this.filteredRegions.find(region =>
+      region.name === this.userInfo.region
+    );
+    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
+    this.userInfo.city = '';
+  }
+
+  loadDistricts() {
+    const searchTerm = this.userInfo.city.toLowerCase();
+    const selectedRegionObj = this.regions.find(region =>
+      region.name === this.userInfo.region
+    );
+    this.filteredCities = selectedRegionObj
+      ? selectedRegionObj.cities.filter(city =>
+        city.name.toLowerCase().includes(searchTerm)
+      )
+      : [];
+
+    const selectedCityObj = this.filteredCities.find(city =>
+      city.name === this.userInfo.city
+    );
   }
 }

@@ -18,15 +18,18 @@ interface FlatInfo {
   templateUrl: './param.component.html',
   styleUrls: ['./param.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation1', [
       transition('void => *', [
-        style({ transform: 'translateX(165%)' }),
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(130%)' }))
-      ])
-    ])
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
   ],
 
 })
@@ -71,6 +74,9 @@ export class ParamComponent {
           console.log(response)
           this.flatInfo = response.param;
           console.log(this.flatInfo);
+          if (response == undefined && null)
+          this.disabled = false;
+
         }, (error: any) => {
           console.error(error);
         });
@@ -80,19 +86,19 @@ export class ParamComponent {
   };
 
   saveInfo(): void {
-    this.disabled = true;
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined) {
+    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       const data = this.flatInfo;
       console.log(data)
       this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
+          this.disabled = true;
         }, (error: any) => {
           console.error(error);
         });
     } else {
-      console.log('user not found');
+      console.log('user not found, the form is blocked');
     }
   }
 
@@ -101,6 +107,7 @@ export class ParamComponent {
   }
 
   clearInfo(): void {
+    if (this.disabled === false)
     this.flatInfo = {
       rooms: 0,
       repair_status: '',

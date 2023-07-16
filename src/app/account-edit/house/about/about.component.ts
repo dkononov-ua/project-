@@ -30,16 +30,19 @@ interface FlatInfo {
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation1', [
       transition('void => *', [
-        style({ transform: 'translateX(165%)' }),
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ])
-    ])
-  ]
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],
 })
 export class AboutComponent implements OnInit {
   @ViewChild('textArea', { static: false })
@@ -87,7 +90,8 @@ export class AboutComponent implements OnInit {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           this.flatInfo = response.about;
-          console.log(this.flatInfo);
+          if (response == undefined && null)
+          this.disabled = false;
         }, (error: any) => {
           console.error(error);
         });
@@ -97,19 +101,19 @@ export class AboutComponent implements OnInit {
   };
 
   saveInfo(): void {
-    this.disabled = true;
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined) {
+    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       const data = this.flatInfo;
       console.log(data)
       this.http.post('http://localhost:3000/flatinfo/add/about', { auth: JSON.parse(userJson), flat: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
+          this.disabled = true;
         }, (error: any) => {
           console.error(error);
         });
     } else {
-      console.log('user not found');
+      console.log('user not found, the form is blocked');
     }
   }
 
@@ -129,6 +133,7 @@ export class AboutComponent implements OnInit {
   }
 
   clearInfo(): void {
+    if (this.disabled === false)
     this.flatInfo = {
       students: false,
       woman: false,

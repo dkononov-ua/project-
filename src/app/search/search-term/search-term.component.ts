@@ -91,11 +91,31 @@ export class SearchTermComponent implements OnInit {
   }
 
   loadCities() {
-    this.filteredRegions = this.selectedRegion ? this.regions.filter(region => region.name.toLowerCase().includes(this.selectedRegion.toLowerCase())) : this.regions;
-    const selectedRegionObj = this.regions.find(region => region.name === this.selectedRegion);
-    this.cities = selectedRegionObj ? selectedRegionObj.cities : [];
+    const searchTerm = this.selectedRegion.toLowerCase();
+    this.filteredRegions = this.regions.filter(region =>
+      region.name.toLowerCase().includes(searchTerm)
+    );
+    const selectedRegionObj = this.filteredRegions.find(region =>
+      region.name === this.selectedRegion
+    );
+    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
     this.selectedCity = '';
-    this.onSubmit();
+  }
+
+  loadDistricts() {
+    const searchTerm = this.selectedCity.toLowerCase();
+    const selectedRegionObj = this.regions.find(region =>
+      region.name === this.selectedRegion
+    );
+    this.filteredCities = selectedRegionObj
+      ? selectedRegionObj.cities.filter(city =>
+          city.name.toLowerCase().includes(searchTerm)
+        )
+      : [];
+
+    const selectedCityObj = this.filteredCities.find(city =>
+      city.name === this.selectedCity
+    );
   }
 
   fetchFlatData(url: string) {

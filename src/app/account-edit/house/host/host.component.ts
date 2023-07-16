@@ -5,6 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../../components/delete-dialog/delete-dialog.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @NgModule({
   imports: [
@@ -33,7 +34,6 @@ export class AppComponent implements OnInit {
   selector: 'app-host',
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.scss'],
-  template: '<app-address></app-address>',
 })
 
 export class HostComponent implements OnInit {

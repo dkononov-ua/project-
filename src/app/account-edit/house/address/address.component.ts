@@ -30,15 +30,18 @@ interface FlatInfo {
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation1', [
       transition('void => *', [
-        style({ transform: 'translateX(165%)' }),
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        animate('1000ms ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ])
-    ])
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
   ],
 })
 
@@ -92,9 +95,10 @@ export class AddressComponent implements OnInit {
         .subscribe((response: any) => {
           console.log(response)
           this.flatInfo = response.flat;
-          console.log(this.flatInfo);
-
           this.locationLink = this.generateLocationUrl();
+          console.log(this.flatInfo);
+          if (response == undefined && null)
+          this.disabled = false;
         }, (error: any) => {
           console.error(error);
         });
@@ -157,18 +161,18 @@ export class AddressComponent implements OnInit {
   }
 
   saveInfo(): void {
-    this.disabled = true;
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined) {
+    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       const data = this.flatInfo;
       this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response);
+          this.disabled = true;
         }, (error: any) => {
           console.error(error);
         });
     } else {
-      console.log('user not found');
+      console.log('user not found, the form is blocked');
     }
   }
 
@@ -177,6 +181,7 @@ export class AddressComponent implements OnInit {
   }
 
   clearInfo(): void {
+    if (this.disabled === false)
     this.flatInfo = {
       flat_id: '',
       country: '',
