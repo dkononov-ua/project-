@@ -44,6 +44,7 @@ import { HousingServicesModule } from './housing-services/housing-services.modul
 import { RouterModule } from '@angular/router';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -89,8 +90,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     RouterModule,
     MatAutocompleteModule,
-    
-
+    MatTooltipModule,
 
     HousingServicesModule,
     HousingServicesRoutingModule,

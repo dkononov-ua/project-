@@ -20,118 +20,23 @@
 }
 
 .card {
-  display: flex;
   width: 100%;
-  background-color: rgba(18, 17, 17, 0.792);
-  color: white;
+  display: flex;
+  background-color: $color-white;
+  color: $color-dark;
   padding: 10px;
-  align-items: center;
-  align-content: center;
+  border-radius: 10px;
   justify-content: space-between;
+  align-items: stretch;
 }
 
-.checkBox-span {
-  margin-top: 5px;
-  font-size: 1em;
+.item-select {
+  width: 100%;
+  height: 60px !important;
 }
 
 .container-box {
   display: flex;
-}
-
-.clear {
-  clear: both;
-}
-
-.form-box {
-  width: 100%;
-}
-
-.checkBox {
-  display: block;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0px 0px 0px 2px #fff;
-}
-
-.checkBox div {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  top: -52px;
-  left: -52px;
-  position: absolute;
-  transform: rotateZ(45deg);
-  z-index: 100;
-}
-
-.checkBox input[type="checkbox"]:checked + div {
-  left: -10px;
-  top: -10px;
-}
-
-.checkBox input[type="checkbox"] {
-  position: absolute;
-  left: 50px;
-  visibility: hidden;
-}
-
-.transition {
-  transition: 300ms ease;
-}
-
-.container-checkbox {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-a {
-  padding: 0.5em 1em;
-}
-
-.card-name {
-  margin-bottom: 20px;
-}
-
-.link {
-  transition: 1s;
-  background-color: $color-primary;
-
-  &:hover {
-    color: $color-accent;
-    background-color: $color-dark;
-    transition: 1s;
-
-    span {
-      transition: transform 1s;
-      transform: translate(50px) scale(1.2);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-accent;
-      transform: translate(-190px) scale(1.2);
-      transition: transform 1s;
-    }
-  }
-}
-
-.watch-box {
-  display: flex;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  margin: 1.2rem 5px 1.5rem 5px;
-  border-radius: 10px;
-  flex-direction: column;
-  align-items: center;
 }
 
 .inputbox {
@@ -150,67 +55,15 @@ a {
   outline: none;
   box-shadow: none;
   border: none;
-  color: white;
+  color: $color-dark;
   font-size: 1em;
   letter-spacing: 0.05em;
   transition: 0.5s;
   z-index: 10;
 }
 
-.inputbox span {
-  position: absolute;
-  right: 0;
-  padding: 10px 10px 10px;
-  font-size: 1em;
-  color: #8f8f8f87;
-  letter-spacing: 00.05em;
-  transition: 0.6s;
-  pointer-events: none;
-}
-
-.inputbox input:valid ~ span,
-.inputbox input:focus ~ span {
-  color: white;
-  transform: translateX(-10px) translateY(-2.2rem);
-  font-size: 0, 75em;
-}
-
-.inputbox .orange {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 6px;
-  background: $color-accent;
-  border-radius: 4px;
-  transition: 0.5s;
-  pointer-events: none;
-  z-index: 9;
-}
-
-.inputbox input:valid ~ .orange,
-.inputbox input:focus ~ .orange {
-  height: 2.5rem;
-}
-
-.alert-danger {
-  position: absolute;
-  bottom: -2rem;
-  background: none;
-  color: rgb(242, 132, 132);
-  border: none;
-  height: 40px;
-  display: flex;
-  width: 100%;
-  padding: 5px;
-  margin: 0;
-  z-index: 30;
-  font-size: 13px;
-  align-items: center;
-}
-
 p {
-  color: $color-light;
+  color: $color-dark;
 }
 
 .btn-group {
@@ -221,9 +74,14 @@ p {
 .btn {
   width: 100%;
   margin: 5px 0 5px 0;
-  color: $color-light;
+  color: $color-dark;
   height: 45px;
-  font-size: 12px;
+  font-size: 16px;
+}
+
+.btn-exit {
+  font-size: 20px;
+  background-color: $color-accent;
 }
 
 .btn:disabled {
@@ -245,39 +103,15 @@ p {
   align-content: center;
 }
 
-.form-box {
-  height: 100%;
-  display: flex;
-  align-content: space-around;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-around;
-}
-
-.see {
-  z-index: 10;
-  position: absolute;
-  right: 4rem;
-  top: 4px;
-  background: none;
-  border: none;
-  width: 40px;
-}
-
 .icon {
   background: none !important;
   position: relative !important;
   font-size: 18px;
-  color: #d2d0d06b;
+  color: $color-dark;
 }
 
 .span {
   display: flex;
-}
-
-.card-box {
-  display: flex;
-  align-items: stretch;
 }
 
 .btn-create {
@@ -303,25 +137,18 @@ p {
   }
 }
 
-.test {
+.card-box {
   display: flex;
-  background: none;
-  border: none;
+  align-items: stretch;
 }
 
 .input-group {
+  width: 100%;
   position: relative;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: stretch;
-}
-
-.form-control {
-  width: 100%;
-  background: none;
-  border: 2px solid $color-accent;
-  color: $color-white;
 }
 
 .photo-box {
@@ -333,7 +160,7 @@ p {
 
 .img-fluid {
   display: flex;
-  height: 300px;
+  height: 250px;
   width: 100%;
   overflow: hidden;
   margin-bottom: 10px;
@@ -354,42 +181,14 @@ img {
   }
 }
 
-
-.loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* затемнення фону */
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+mat-label {
+  font-size: 13px;
+  color: $color-dark;
 }
 
-.loader {
-  width: 100px;
-  height: 100px;
-  border: solid 4px rgba(231, 231, 231, 0);
-  border-top: solid 5px rgb(241, 68, 68);
-  border-radius: 50%;
-  transition: all 0.5s;
-  animation: rotation_51512 2s infinite cubic-bezier(0.785, 0.135, 0.15, 0.86);
-  animation-duration: 2s;
+.label-1 {
+  font-size: 15px;
+  color: $color-accent;
+  font-weight: 600;
 }
 
-@keyframes rotation_51512 {
-  70% {
-    box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.526);
-  }
-
-  90% {
-    box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.04);
-  }
-
-  100% {
-    opacity: 0.5;
-    transform: rotate(360deg);
-  }
-}

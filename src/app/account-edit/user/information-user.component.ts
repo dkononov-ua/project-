@@ -1,15 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { DataService } from '../../services/data.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
+import { DatePipe } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
+import { FormControl } from '@angular/forms';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'dd/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
+registerLocaleData(localeUk);
+interface UserInfo {
+  firstName: string | undefined;
+  lastName: string | undefined;
+  email: string | undefined;
+  surName: string | undefined;
+  dob: string | any;
+  password: string | undefined;
+}
+interface UserCont {
+  facebook: string | undefined;
+  instagram: string | undefined;
+  mail: string | undefined;
+  telegram: string | undefined;
+  user_id: string | undefined;
+  viber: string | undefined;
+  phone_alt: 0,
+  tell: 0,
+}
 @Component({
   selector: 'app-information-user',
   templateUrl: './information-user.component.html',
   styleUrls: ['./information-user.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -43,9 +95,30 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ],
 })
-export class InformationUserComponent implements OnInit {
-  loading = false;
 
+export class InformationUserComponent implements OnInit {
+
+  userInfo: UserInfo = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    surName: '',
+    dob: '',
+    password: '',
+  };
+
+  userCont: UserCont = {
+    facebook: '',
+    instagram: '',
+    mail: '',
+    phone_alt: 0,
+    telegram: '',
+    tell: 0,
+    user_id: '',
+    viber: '',
+  };
+
+  loading = false;
   showPassword = false;
   isPasswordVisible = false;
   passwordType = 'password';
@@ -57,14 +130,118 @@ export class InformationUserComponent implements OnInit {
     }, 1000);
   }
 
-  userForm!: FormGroup;
-  userFormContacts!: FormGroup;
   errorMessage$ = new Subject<string>();
   selectedFile!: File;
   selectedFlatId: any;
   userImg: any;
+  disabled: boolean = true;
+  disabledUser: boolean = true;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe) { }
+
+
+  ngOnInit(): void {
+    this.getInfo();
+  }
+
+  async getInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
+      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          console.log(response)
+          this.userImg = response.img[0].img;
+          this.userInfo = response.inf;
+          this.userCont = response.cont;
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  saveInfoUser(): void {
+    this.disabledUser = true;
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const data = { ...this.userInfo };
+
+      if (this.userInfo.dob) {
+        data.dob = moment(this.userInfo.dob._i).format('YYYY-MM-DD');
+        console.log('Sending dob:', data.dob);
+      }
+
+      console.log(data);
+      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
+  saveInfoCont(): void {
+    this.disabled = true;
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const data = this.userCont;
+      console.log(data)
+      this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: data })
+        .subscribe((response: any) => {
+          console.log(response);
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  editInfoUser(): void {
+    this.disabledUser = false;
+  }
+
+  editInfoCont(): void {
+    this.disabled = false;
+  }
+
+  clearInfoUser(): void {
+    this.userInfo = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      surName: '',
+      dob: '',
+      password: '',
+    };
+  }
+
+  clearInfoCont(): void {
+    this.userCont = {
+      facebook: '',
+      instagram: '',
+      mail: '',
+      phone_alt: 0,
+      telegram: '',
+      tell: 0,
+      user_id: '',
+      viber: '',
+    };
+  }
+
+  togglePasswordVisibility() {
+    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+  };
+
+  logout() {
+    this.authService.logout();
+    setTimeout(() => {
+      this.reloadPageWithLoader();
+    },);
+  }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -88,135 +265,4 @@ export class InformationUserComponent implements OnInit {
       error => console.log(error)
     );
   }
-
-
-  togglePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-  };
-
-  ngOnInit(): void {
-    console.log('Пройшла перевірка користувача')
-    const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          this.userForm = this.fb.group({
-            firstName: [response.inf.firstName],
-            lastName: [response.inf.lastName],
-            email: [response.inf.email],
-            surName: [response.inf.surName],
-            dob: [response.inf.dob],
-            password: [response.inf.password],
-          });
-          this.userForm.disable();
-        }, (error: any) => {
-          console.error(error);
-        });
-
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          console.log(response);
-          this.userImg = response.img[0].img;
-          this.userFormContacts = this.fb.group({
-            tell: [response.cont.tell],
-            phone_alt: [response.cont.phone_alt],
-            viber: [response.cont.viber],
-            telegram: [response.cont.telegram],
-            facebook: [response.cont.facebook],
-            instagram: [response.cont.instagram],
-            mail: [response.cont.mail],
-          });
-
-          // блокуємо форму при оновленні сторінки
-        }, (error: any) => {
-          console.error(error);
-        });
-
-    } else {
-      console.log('user not found');
-    }
-    this.initializeForm();
-  }
-
-  // зберігаємо інфо користувача
-  onSubmitSaveUserData(): void {
-    const userJson = localStorage.getItem('user');
-    console.log(this.userForm.value)
-
-    if (userJson !== null) {
-      this.http.post('http://localhost:3000/add/user',
-        {
-          auth: JSON.parse(userJson),
-          new: this.userForm.value
-        })
-
-        .subscribe((response: any) => {
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('не вийшло зберегти');
-    }
-  }
-
-  // зберігаємо контактні дані
-  onSubmitSaveUserFormContacts(): void {
-    console.log(this.userFormContacts.value)
-    const userJson = localStorage.getItem('user');
-
-    if (userJson !== null) {
-      this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: this.userFormContacts.value })
-        .subscribe((response: any) => {
-          console.log(response);
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('Error retrieving data');
-    }
-  }
-
-  saveUserData(): void {
-    this.userForm.disable();
-  }
-
-  editUserData(): void {
-    this.userForm.enable();
-  }
-
-  resetUserForm() {
-    this.userForm.reset();
-  }
-
-  resetUserFormContacts() {
-    this.userFormContacts.reset();
-  }
-
-  logout() {
-    this.authService.logout();
-    setTimeout(() => {
-      this.reloadPageWithLoader();
-    },);
-  }
-
-  private initializeForm(): void {
-    this.userForm = this.fb.group({
-      firstName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-      lastName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-      surName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-zА-Яа-яЁёЇїІіЄєҐґ\s]+$/)]],
-      password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
-      email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
-      dob: [null],
-    });
-
-    this.userFormContacts = this.fb.group({
-      tell: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-      phone_alt: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-      facebook: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-      telegram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-      instagram: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-      viber: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-      mail: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]+$/)]],
-    });
-  };
 };
