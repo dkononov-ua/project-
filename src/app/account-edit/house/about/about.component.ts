@@ -16,13 +16,14 @@ interface FlatInfo {
   distance_stop: number;
   distance_green: number;
   distance_shop: number;
-  optionPay: any;
+  option_pay: any;
   price_d: number;
   price_m: number;
   price_y: number;
   about: string | undefined;
   private: boolean;
   rent: boolean;
+  room: boolean;
 }
 
 @Component({
@@ -60,13 +61,14 @@ export class AboutComponent implements OnInit {
     distance_stop: 0,
     distance_green: 0,
     distance_shop: 0,
-    optionPay: undefined,
+    option_pay: undefined,
     price_d: 0,
     price_m: 0,
     price_y: 0,
     about: undefined,
     private: false,
     rent: false,
+    room: false,
   };
 
   disabled: boolean = true;
@@ -146,13 +148,14 @@ export class AboutComponent implements OnInit {
       distance_stop: 0,
       distance_green: 0,
       distance_shop: 0,
-      optionPay: null,
+      option_pay: null,
       price_d: 0,
       price_m: 0,
       price_y: 0,
       about: '',
       private: false,
       rent: false,
+      room: false,
     };
   }
 }

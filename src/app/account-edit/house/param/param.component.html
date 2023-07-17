@@ -8,7 +8,7 @@
         <div class="content">
           <label class="checkBox">
             <input id="looking_house" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
-              value="looking_house">
+              [value]=1>
             <div class="transition"></div>
           </label>
           <span class="checkBox-span">Будинок</span>
@@ -18,7 +18,7 @@
         <div class="content">
           <label class="checkBox">
             <input id="looking_flat" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
-              value="looking_flat">
+              [value]=2>
             <div class="transition"></div>
           </label>
           <span class="checkBox-span">Квартира</span>
@@ -28,7 +28,7 @@
         <div class="content">
           <label class="checkBox">
             <input id="looking_room" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
-              value="looking_room">
+              [value]=3>
             <div class="transition"></div>
           </label>
           <span class="checkBox-span">Кімната</span>
@@ -39,7 +39,8 @@
       <div class="item-group">
         <mat-form-field class="item-width-50 m-1" appearance="outline">
           <mat-label>Площа м²</mat-label>
-          <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled" [(ngModel)]="flatInfo.area" name="area">
+          <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled"
+            [(ngModel)]="flatInfo.area" name="area">
         </mat-form-field>
 
         <mat-form-field class="item-width-50 m-1" appearance="outline">
@@ -50,8 +51,8 @@
 
         <mat-form-field class="item-width-50 m-1" appearance="outline">
           <mat-label>Поверх</mat-label>
-          <input matInput type="number" [min]="minValueFloor" [disabled]="disabled" [max]="maxValueFloor" [(ngModel)]="flatInfo.floor"
-            name="floor">
+          <input matInput type="number" [min]="minValueFloor" [disabled]="disabled" [max]="maxValueFloor"
+            [(ngModel)]="flatInfo.floor" name="floor">
         </mat-form-field>
       </div>
 
@@ -91,7 +92,8 @@
       </mat-form-field>
 
       <div class="btn-group">
-        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
+            class="icon fa-regular fa-circle-check"></i></button>
         <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
         <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
       </div>

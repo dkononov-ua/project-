@@ -153,7 +153,7 @@ export class InformationUserComponent implements OnInit {
       }
 
       console.log(data);
-      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data })
+      this.http.post('http://localhost:3000/add/user', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {

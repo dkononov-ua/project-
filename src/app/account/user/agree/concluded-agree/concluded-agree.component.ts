@@ -111,7 +111,7 @@ export class ConcludedAgreeComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.route.params.subscribe(params => {
-      this.selectedFlatAgree = params['selectedFlatAgree'] || null;
+      this.selectedFlatAgree = params['agree.flat.agreement_id'] || null;
     });
 
     await this.getAgree();

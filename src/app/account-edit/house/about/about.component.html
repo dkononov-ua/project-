@@ -83,7 +83,7 @@
 
         <div class="content">
           <label class="checkBox">
-            <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.optionPay" name="daily"
+            <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="daily"
               value="daily">
             <div class="transition"></div>
           </label>
@@ -93,7 +93,7 @@
 
         <div class="content">
           <label class="checkBox">
-            <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.optionPay" name="monthly"
+            <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="monthly"
               value="monthly">
             <div class="transition"></div>
           </label>
@@ -172,7 +172,19 @@
           <span class="checkBox-span">Приватно</span>
           <i></i>
         </div>
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="room" type="checkbox" name="flatInfo.room" [disabled]="disabled"
+              [(ngModel)]="flatInfo.room">
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Кімнату</span>
+          <i></i>
+        </div>
       </div>
+
+
 
       <div class="btn-group">
         <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
