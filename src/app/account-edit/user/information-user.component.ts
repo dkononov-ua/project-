@@ -7,7 +7,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -119,6 +119,8 @@ export class InformationUserComponent implements OnInit {
   disabled: boolean = true;
   disabledUser: boolean = true;
 
+  phonePattern = '^[0-9]{10}$';
+
   constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
@@ -130,7 +132,6 @@ export class InformationUserComponent implements OnInit {
     if (userJson !== null) {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
-          console.log(response)
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
@@ -149,13 +150,10 @@ export class InformationUserComponent implements OnInit {
 
       if (this.userInfo.dob) {
         data.dob = moment(this.userInfo.dob._i).format('YYYY-MM-DD');
-        console.log('Sending dob:', data.dob);
       }
 
-      console.log(data);
       this.http.post('http://localhost:3000/add/user', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });
@@ -169,10 +167,8 @@ export class InformationUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.disabled === false) {
       const data = this.userCont;
-      console.log(data)
       this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });

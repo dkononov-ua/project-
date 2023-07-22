@@ -120,6 +120,7 @@ export class ParametersComponent implements OnInit {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
           if (response.houseData) {
+            console.log(response)
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;
             this.user.surName = response.userData.inf.surName;
@@ -155,11 +156,11 @@ export class ParametersComponent implements OnInit {
             this.param.balcony = response.houseData.param.balcony;
             this.param.floor = response.houseData.param.floor;
 
-            this.about.distance_metro = response.houseData.about.distance_metro;
-            this.about.distance_stop = response.houseData.about.distance_stop;
-            this.about.distance_shop = response.houseData.about.distance_shop;
-            this.about.distance_green = response.houseData.about.distance_green;
-            this.about.distance_parking = response.houseData.about.distance_parking;
+            this.about.distance_metro = response.houseData.flat.distance_metro;
+            this.about.distance_stop = response.houseData.flat.distance_stop;
+            this.about.distance_shop = response.houseData.flat.distance_shop;
+            this.about.distance_green = response.houseData.flat.distance_green;
+            this.about.distance_parking = response.houseData.flat.distance_parking;
             this.about.woman = response.houseData.about.woman;
             this.about.man = response.houseData.about.man;
             this.about.family = response.houseData.about.family;

@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SearchComponent } from './search.component';
-import { HousingSearchComponent } from './housing-search/housing-search.component';
-import { TenantsSearchComponent } from './tenants-search/tenants-search.component';
+import { HousingSearchComponent } from './house/housing-search/housing-search.component';
+import { TenantsSearchComponent } from './tenant/tenants-search/tenants-search.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
-import { SearchTermComponent } from './search-term/search-term.component';
+import { SearchTermComponent } from './house/search-term/search-term.component';
 import { FilterService } from './filter.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,6 +26,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SearchTermTenantComponent } from './tenant/search-term-tenant/search-term-tenant.component';
+import { HostHouseComponent } from './house/host-house/host-house.component';
+import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     HousingSearchComponent,
     TenantsSearchComponent,
     SearchComponent,
+    SearchTermTenantComponent,
+    HostHouseComponent,
+    HostTenantComponent,
   ],
   providers: [FilterService],
   imports: [

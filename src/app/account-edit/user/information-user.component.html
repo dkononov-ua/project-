@@ -19,7 +19,7 @@
 
         <div class="card-1 mb-2">
           <label class="label-1">Завантажити фото профіля</label>
-          <div class="input-div" >
+          <div class="input-div">
             <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
             <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
           </div>
@@ -70,12 +70,12 @@
         <mat-label class="label">Контактні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Телефон</mat-label>
-          <input type="tel" name="userCont.tell" matInput [disabled]="disabled" [(ngModel)]="userCont.tell">
+          <input type="tel" name="userCont.tell" matInput [disabled]="disabled" [(ngModel)]="userCont.tell" [maxlength]="10" [pattern]="phonePattern">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Телефон додатковий</mat-label>
-          <input type="tel" name="userCont.phone_alt" matInput [disabled]="disabled" [(ngModel)]="userCont.phone_alt">
+          <input type="tel" name="userCont.phone_alt" matInput [disabled]="disabled" [(ngModel)]="userCont.phone_alt" [maxlength]="10" [pattern]="phonePattern">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">

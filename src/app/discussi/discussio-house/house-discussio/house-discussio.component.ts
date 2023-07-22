@@ -6,6 +6,7 @@ import { ChoseSubscribersService } from '../../../services/chose-subscribers.ser
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
+import { offset } from '@popperjs/core';
 
 
 interface Subscriber {
@@ -69,7 +70,6 @@ export class HouseDiscussioComponent implements OnInit {
       this.selectedSubscriber = params['selectedSubscriber'] || null;
       if (!this.selectedSubscriber && this.subscribers.length > 0) {
         this.selectedSubscriber = this.subscribers[0];
-        this.getFlatMessages();
       }
     });
 
@@ -77,7 +77,6 @@ export class HouseDiscussioComponent implements OnInit {
       if (selectedFlatId) {
         const offs = 0;
         this.getSubs(selectedFlatId, offs).then(() => {
-          this.updateSelectedSubscriber();
           this.getFlatMessages();
         });
       }
@@ -88,11 +87,9 @@ export class HouseDiscussioComponent implements OnInit {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
-          this.getFlatMessages();
         }
       } else if (!this.selectedSubscriber && this.subscribers.length > 0) {
         this.selectedSubscriber = this.subscribers[0];
-        this.getFlatMessages();
       }
     });
   }
@@ -195,20 +192,21 @@ export class HouseDiscussioComponent implements OnInit {
     }
   }
 
-  createChat(subscriber: any): void {
-    this.isChatOpen = true;
-    
+  createChat(subscriber: Subscriber): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson && subscriber) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
-        user_id: subscriber,
+        user_id: subscriber.user_id,
       };
-      console.log(subscriber)
       this.http.post('http://localhost:3000/chat/add/chatFlat', data)
         .subscribe((response: any) => {
+          this.selectedSubscriber = subscriber;
+          this.updateSelectedSubscriber();
+          this.getFlatMessages();
+
           console.log(response);
         }, (error: any) => {
           console.error(error);
@@ -217,6 +215,7 @@ export class HouseDiscussioComponent implements OnInit {
       console.log('user or subscriber not found');
     }
   }
+
 
   getFlatMessages(): void {
     this.isChatOpen = true;

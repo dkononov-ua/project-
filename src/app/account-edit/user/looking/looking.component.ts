@@ -10,32 +10,38 @@ import { trigger, transition, style, animate } from '@angular/animations';
 interface UserInfo {
   price_of: number | undefined;
   price_to: number | undefined;
-  region: '',
-  city: '',
+  region: string | undefined;
+  city: string | undefined;
   rooms_of: number | undefined;
   rooms_to: number | undefined;
   area_of: number | undefined;
   area_to: number | undefined;
-  repair_status: '',
-  bunker: '',
-  balcony: '',
-  animals: '',
-  distance_metro: '',
-  distance_stop: '',
-  distance_green: '',
-  distance_shop: '',
-  distance_parking: '',
-  optionPay: any;
-  option: any;
-  lease_term: '',
-  purpose_rent: '',
-  looking_woman: false,
-  looking_man: false,
-  agree_search: false,
-  students: false,
-  woman: false,
-  man: false,
-  family: false,
+  repair_status: string | undefined;
+  bunker: string | undefined;
+  balcony: string | undefined;
+  animals: string | undefined;
+  distance_metro: number | undefined;
+  distance_stop: number | undefined;
+  distance_green: number | undefined;
+  distance_shop: number | undefined;
+  distance_parking: number | undefined;
+  optionPay: number | undefined;
+  lease_term: string | undefined;
+  purpose_rent: string | undefined;
+  house: boolean | undefined;
+  flat: boolean | undefined;
+  room: boolean | undefined;
+  looking_woman: boolean | undefined;
+  looking_man: boolean | undefined;
+  agree_search: boolean | undefined;
+  students: boolean | undefined;
+  woman: boolean | undefined;
+  man: boolean | undefined;
+  family: boolean | undefined;
+  days: number | undefined;
+  weeks: number | undefined;
+  months: number | undefined;
+  years: number | undefined;
 }
 @Component({
   selector: 'app-looking',
@@ -72,13 +78,15 @@ export class LookingComponent implements OnInit {
     bunker: '',
     balcony: '',
     animals: '',
-    distance_metro: '',
-    distance_stop: '',
-    distance_green: '',
-    distance_shop: '',
-    distance_parking: '',
-    optionPay: '',
-    option: '',
+    distance_metro: 0,
+    distance_stop: 0,
+    distance_green: 0,
+    distance_shop: 0,
+    distance_parking: 0,
+    optionPay: 0,
+    house: false,
+    flat: false,
+    room: false,
     lease_term: '',
     purpose_rent: '',
     looking_woman: false,
@@ -88,6 +96,10 @@ export class LookingComponent implements OnInit {
     woman: false,
     man: false,
     family: false,
+    days: 0,
+    weeks: 0,
+    months: 0,
+    years: 0,
   };
 
   filteredCities: any[] | undefined;
@@ -98,6 +110,19 @@ export class LookingComponent implements OnInit {
   cities = cities;
   minValue: number = 0;
   maxValue: number = 100000;
+
+  minValueDays: number = 0;
+  maxValueDays: number = 31;
+
+  minValueWeeks: number = 0;
+  maxValueWeeks: number = 4;
+
+  minValueMonths: number = 0;
+  maxValueMonths: number = 11;
+
+  minValueYears: number = 0;
+  maxValueYears: number = 3;
+
   disabled: boolean = true;
   loading: boolean | undefined;
 
@@ -110,10 +135,10 @@ export class LookingComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/', JSON.parse(userJson))
+      this.http.post('http://localhost:3000/features/get', {auth: JSON.parse(userJson)})
         .subscribe((response: any) => {
           console.log(response)
-          this.userInfo = response;
+          this.userInfo = response.inf;
         }, (error: any) => {
           console.error(error);
         });
@@ -127,7 +152,7 @@ export class LookingComponent implements OnInit {
     if (userJson && this.disabled === false) {
       const data = { ...this.userInfo };
       console.log(data);
-      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data })
+      this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
           console.log(response);
         }, (error: any) => {
@@ -159,13 +184,15 @@ export class LookingComponent implements OnInit {
         bunker: '',
         balcony: '',
         animals: '',
-        distance_metro: '',
-        distance_stop: '',
-        distance_green: '',
-        distance_shop: '',
-        distance_parking: '',
-        optionPay: '',
-        option: '',
+        distance_metro: 0,
+        distance_stop: 0,
+        distance_green: 0,
+        distance_shop: 0,
+        distance_parking: 0,
+        optionPay: 0,
+        house: false,
+        flat: false,
+        room: false,
         lease_term: '',
         purpose_rent: '',
         looking_woman: false,
@@ -175,13 +202,16 @@ export class LookingComponent implements OnInit {
         woman: false,
         man: false,
         family: false,
+        days: 0,
+        weeks: 0,
+        months: 0,
+        years: 0,
       };
   }
 
   loadCities() {
-    const searchTerm = this.userInfo.region.toLowerCase();
     this.filteredRegions = this.regions.filter(region =>
-      region.name.toLowerCase().includes(searchTerm)
+      region.name.toLowerCase()
     );
     const selectedRegionObj = this.filteredRegions.find(region =>
       region.name === this.userInfo.region
@@ -191,13 +221,12 @@ export class LookingComponent implements OnInit {
   }
 
   loadDistricts() {
-    const searchTerm = this.userInfo.city.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.userInfo.region
     );
     this.filteredCities = selectedRegionObj
       ? selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase().includes(searchTerm)
+        city.name.toLowerCase()
       )
       : [];
 

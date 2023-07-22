@@ -40,7 +40,7 @@
           </div>
           <div class="card-body">
             <div class="card-links">
-              <button class="card-link" (click)="createChat(selectedSubscriber?.user_id)"><span>Почати
+              <button class="card-link" (click)="createChat(selectedSubscriber!)"><span>Почати
                   Discussiю</span><i class="fa-solid fa-message"></i></button>
               <button class="card-link" [routerLinkActive]="'active'"
                 [routerLink]="['/agreement', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
@@ -52,7 +52,7 @@
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="isChatOpen">
-      <div class="chat-box">
+      <div class="chat-box card m-2">
         <button class="btn-close" (click)="closeChat()"></button>
         <div class="card-chat">
           <app-chat-house></app-chat-house>

@@ -1,8 +1,10 @@
 @use "skin" as *;
+@use "variables" as *;
 
 .container {
   display: grid;
   max-width: 1050px;
+  font-family: $font-main;
 }
 
 .container-fluid {

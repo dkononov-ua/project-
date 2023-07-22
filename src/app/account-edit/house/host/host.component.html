@@ -13,15 +13,7 @@
     <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
       <div class="card-menu m-2">
 
-        <form [formGroup]="selectHouse">
-          <mat-form-field class="list-form m-1" appearance="outline">
-            <mat-label>Вибір оселі за ID</mat-label>
-            <mat-select class="list-select" formControlName="house" (selectionChange)="onSelectionChange()">
-              <mat-option disabled value="">Вибір оселі за ID</mat-option>
-              <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{ house.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
+        <app-housing-selection></app-housing-selection>
 
         <form [formGroup]="houseCreate">
           <nav class="navbar-house">

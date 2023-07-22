@@ -15,7 +15,6 @@ export class HousingParametersComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.getData().subscribe((data: any) => {
-      console.log(data);
     });
   }
 }

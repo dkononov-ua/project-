@@ -7,7 +7,7 @@
       <div class="group-item-1">
         <div class="content">
           <label class="checkBox">
-            <input id="looking_house" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
+            <input id="looking_house" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_flat" name="housing"
               [value]=1>
             <div class="transition"></div>
           </label>
@@ -17,7 +17,7 @@
 
         <div class="content">
           <label class="checkBox">
-            <input id="looking_flat" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
+            <input id="looking_flat" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_flat" name="housing"
               [value]=2>
             <div class="transition"></div>
           </label>
@@ -25,15 +25,6 @@
           <i></i>
         </div>
 
-        <div class="content">
-          <label class="checkBox">
-            <input id="looking_room" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option" name="housing"
-              [value]=3>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Кімната</span>
-          <i></i>
-        </div>
       </div>
 
       <div class="item-group">

@@ -1,8 +1,8 @@
 import { Subscription, debounceTime } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FilterService } from '../filter.service';
-import { regions } from './../../shared/data-city';
-import { cities } from './../../shared/data-city';
+import { FilterService } from '../../filter.service';
+import { regions } from '../../../shared/data-city';
+import { cities } from '../../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -10,24 +10,7 @@ import { Router } from '@angular/router';
 interface SearchParams {
   [key: string]: any;
 }
-interface SearchParams {
-  country: string;
-  region: string;
-  city: string;
-  rooms_of: number | string;
-  rooms_to: number | string;
-  repair_status: string;
-  area?: number | string;
-  kitchen_area: string;
-  selectedBalcony: number | string;
-  selectedBunker: number | string;
-  animals: number | string;
-  distance_metro: string;
-  distance_stop: string;
-  distance_green: string;
-  distance_shop: string;
-  distance_parking: string;
-}
+
 @Component({
   selector: 'app-search-term',
   templateUrl: './search-term.component.html',
@@ -35,54 +18,58 @@ interface SearchParams {
 })
 
 export class SearchTermComponent implements OnInit {
-  filteredCities: any[] | undefined;
-  filteredRegions: any[] | undefined;
-
   public showInput = false;
   public userId: string | undefined;
-  searchQuery: string | undefined;
-  searchParamsString: string = '';
-  price_of: number | undefined;
-  price_to: number | undefined;
-  students: boolean = false;
-  woman: boolean = false;
-  man: boolean = false;
-  family: boolean = false;
-  selectedCity!: string;
-  rooms_of!: number | any;
-  rooms_to!: number | any;
+
+  price_of!: number;
+  price_to!: number;
+  region!: string;
+  city!: string;
+  rooms_of!: number;
+  rooms_to!: number;
   area_of!: number;
   area_to!: number;
-  kitchen_area!: string;
+  repair_status!: string;
+  animals!: string;
+  distance_metro!: number;
+  distance_stop!: number;
+  distance_green!: number;
+  distance_shop!: number;
+  distance_parking!: number;
+  students!: false;
+  woman!: false;
+  man!: false;
+  family!: false;
+  balcony!: string;
+  bunker!: string;
+  options_flat!: number;
+  room!: number;
+  optionPay!: number;
+  kitchen_area!: number;
+
+  filteredCities: any[] | undefined;
+  filteredRegions: any[] | undefined;
   selectedRegion!: string;
-  selectedAnimals!: string;
-  selectedDistance_metro!: string;
-  selectedDistance_stop!: string;
-  selectedDistance_green!: string;
-  selectedDistance_shop!: string;
-  selectedDistance_parking!: string;
+  selectedCity!: string;
+  regions = regions;
+  cities = cities;
 
-  selectedBunker!: number;
-  selectedBalcony!: number;
-
-
+  isSearchTermCollapsed: boolean = false;
   flats: any[] | undefined;
   flatInfo: any[] | undefined;
   selectedRepair_status: any;
   searchParamsArr: string[] = [];
   searchSuggestions: string[] = [];
-  regions = regions;
-  cities = cities;
   endpoint = 'http://localhost:3000/search/flat';
   filteredFlats?: any;
   flatImages: any[] | undefined;
   filteredImages: any[] | any;
   minValue: number = 0;
   maxValue: number = 100000;
-
   form: FormGroup | undefined;
   timer: any;
   private subscription: Subscription | undefined;
+  searchQuery: any;
 
   constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
@@ -109,8 +96,8 @@ export class SearchTermComponent implements OnInit {
     );
     this.filteredCities = selectedRegionObj
       ? selectedRegionObj.cities.filter(city =>
-          city.name.toLowerCase().includes(searchTerm)
-        )
+        city.name.toLowerCase().includes(searchTerm)
+      )
       : [];
 
     const selectedCityObj = this.filteredCities.find(city =>
@@ -147,41 +134,50 @@ export class SearchTermComponent implements OnInit {
       return;
     }
 
-    const params: SearchParams = {
-      price_of: this.price_of || '',
-      price_to: this.price_to || '',
-      region: this.selectedRegion || '',
-      city: this.selectedCity || '',
-      rooms_of: this.rooms_of || '',
-      rooms_to: this.rooms_to || '',
-      area_of: this.area_of || '',
-      area_to: this.area_to || '',
-      repair_status: this.selectedRepair_status || '',
-      kitchen_area: this.kitchen_area || '',
-      animals: this.selectedAnimals || '',
-      distance_metro: this.selectedDistance_metro || '',
-      distance_stop: this.selectedDistance_stop || '',
-      distance_green: this.selectedDistance_green || '',
-      distance_shop: this.selectedDistance_shop || '',
-      distance_parking: this.selectedDistance_parking || '',
-      country: '',
-      students: this.students ? 1 : '',
-      woman: this.woman ? 1 : '',
-      man: this.man ? 1 : '',
-      family: this.family ? 1 : '',
-      selectedBalcony: this.selectedBalcony || '',
-      selectedBunker: this.selectedBunker || '',
-    };
-
-    console.log(params)
-
-    const url = this.buildSearchURL(params);
-
     setTimeout(() => {
+      const params: SearchParams = {
+        price_of: this.price_of || '',
+        price_to: this.price_to || '',
+        region: this.selectedRegion || '',
+        city: this.selectedCity || '',
+        rooms_of: this.rooms_of || '',
+        rooms_to: this.rooms_to || '',
+        area_of: this.area_of || '',
+        area_to: this.area_to || '',
+        repair_status: this.repair_status || '',
+        kitchen_area: this.kitchen_area || '',
+        animals: this.animals || '',
+        distance_metro: this.distance_metro || '',
+        distance_stop: this.distance_stop || '',
+        distance_green: this.distance_green || '',
+        distance_shop: this.distance_shop || '',
+        distance_parking: this.distance_parking || '',
+        country: '',
+        students: this.students || '',
+        woman: this.woman || '',
+        man: this.man || '',
+        family: this.family || '',
+        selectedBalcony: this.balcony || '',
+        balcony: this.balcony || '',
+
+        bunker: this.bunker || '',
+        options_flat: this.options_flat || '',
+        room: this.room || '',
+        optionPay: this.optionPay || '',
+      };
+
+      const url = this.buildSearchURL(params);
+
       this.fetchFlatData(url);
       this.applyFilter(this.filteredFlats, this.filteredImages);
     }, 2000);
   }
+
+
+
+
+
+
 
   startTimer() {
     clearTimeout(this.timer);
@@ -194,14 +190,20 @@ export class SearchTermComponent implements OnInit {
 
   buildSearchURL(params: any): string {
     const endpoint = 'http://localhost:3000/search/flat';
+    console.log(params)
     const paramsString = Object.keys(params)
       .filter(key => params[key] !== '')
       .map(key => key + '=' + params[key])
       .join('&');
+      console.log(`${endpoint}?${paramsString}`)
     return `${endpoint}?${paramsString}`;
   }
 
   applyFilter(filteredFlats: any, filteredImages: any) {
     this.filterService.updateFilter(filteredFlats, filteredImages);
+  }
+
+  toggleSearchTerm() {
+    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
   }
 }

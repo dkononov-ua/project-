@@ -38,12 +38,11 @@ export class PhotoComponent implements OnInit {
     }, 1000);
   }
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) {  }
+  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      console.log(this.selectedFlatId);
       if (this.selectedFlatId !== null) {
         this.getInfo();
       }
@@ -52,13 +51,20 @@ export class PhotoComponent implements OnInit {
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && this.selectedFlatId !== null) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          this.flatImg = response.imgs;
-        }, (error: any) => {
-          console.error(error);
-        });
+        .subscribe(
+          (response: any) => {
+            if (Array.isArray(response.imgs) && response.imgs.length > 0) {
+              this.flatImg = response.imgs;
+            } else {
+              this.flatImg = [{ img: "housing_default.svg" }];
+            }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
     } else {
       console.log('user not found');
     }

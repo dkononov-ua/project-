@@ -1,0 +1,256 @@
+@use "../../../style/presets/" as *;
+
+mat-form-field {
+  width: 120px;
+  height: 50px !important;
+}
+
+mat-label {
+  display: flex;
+  font-size: 15px;
+  color: tomato;
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-magnifying-glass {
+  font-size: 20px;
+  margin-right: 10px;
+  color: $color-dark;
+}
+
+h3 {
+  margin-left: 10px;
+}
+
+.heightSet {
+  height: 60px;
+  margin-right: 10px;
+}
+
+.box-1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $color-light;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.box-2 {
+  position: relative;
+  margin: 0px 5px;
+}
+
+.box {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.card-box {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.group-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.group {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+
+.group-transparent {
+  width: 100%;
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px !important;
+}
+
+.label-mat {
+  position: absolute;
+  top: -3px;
+  left: 50;
+  font-size: 12px;
+  font-weight: 600;
+  color: $color-accent;
+  background-color: $color-primary;
+  padding: 0 8px;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+
+.noBg {
+  background-color: transparent;
+}
+
+.border-horizontal {
+  border-top: 1px solid $color-gray;
+}
+
+.content {
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.status {
+  padding: 5px 10px;
+  background-color: $color-accent;
+  margin: 0 3px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.25), 2px 2px 10px rgba(0, 0, 0, 0.22);
+}
+
+.item-select {
+  width: 100%;
+}
+
+.search-id {
+  width: 100%;
+}
+
+.item-width-25 {
+  width: 25%;
+}
+
+.item-width-50 {
+  width: 50%;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.group-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.search-change {
+  display: flex;
+  height: 60px;
+  width: 60px;
+  border: 2px solid $color-primary;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transition: 0.4s;
+    color: $color-accent;
+    transform: scale(1.2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+  &:active {
+    color: $color-accent;
+    transform: scale(0.8);
+    box-shadow: 0px 0px 10px $color-accent;
+  }
+
+  &.active {
+    color: $color-accent;
+    box-shadow: 0px 0px 10px $color-accent;
+    border-color: $color-accent;
+  }
+}
+
+.container-search {
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+  max-height: 1000px;
+}
+
+.container-search.collapsed {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  transition: max-height 0.3s ease;
+}
+
+.container-btn {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.btn {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: $color-white;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.105), 5px 5px 20px rgba(0, 0, 0, 0.162);
+
+
+  &:hover {
+    color: $color-accent;
+    box-shadow: 5px 5px 20px rgba(244, 79, 2, 0.991), 5px 5px 20px rgba(0, 0, 0, 0.162);
+  }
+
+  &:active {
+    transform: scale(0.8);
+    letter-spacing: 0px;
+    box-shadow: 5px 5px 20px rgba(244, 79, 2, 0.991), 5px 5px 20px rgba(0, 0, 0, 0.162);
+  }
+
+  &.active {
+    letter-spacing: 5px;
+    font-weight: bold;
+    color: $color-accent;
+    box-shadow: 5px 5px 20px rgba(244, 79, 2, 0.991), 5px 5px 20px rgba(0, 0, 0, 0.162);
+  }
+}
+
+.animate {
+  transition: transform 1.5s;
+  transform-origin: center;
+}
+
+.animate.rotate-up {
+  transform: rotate(180deg);
+}
+
+.animate.rotate-down {
+  transform: rotate(-180deg);
+}
+
+.container-search {
+  overflow: hidden;
+  transition: max-height 1s;
+  max-height: 100vh;
+}
+
+.container-search.collapsed {
+  overflow: hidden;
+  transition: max-height 1s;
+  max-height: 0;
+}
+
+.fa-solid {
+  color: $color-dark;
+}
+
+

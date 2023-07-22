@@ -1,5 +1,12 @@
 @use "../../style/presets/" as *;
 
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
 .fa-regular,
 .fa-solid {
   font-size: 35px;
@@ -47,7 +54,7 @@
   background-color: none;
   font-size: $font-size;
   font-family: $font-main;
-  font-weight: bold
+  font-weight: bold;
 }
 
 .btn-group {
@@ -55,7 +62,7 @@
   justify-content: space-evenly;
 }
 
-.link-btn{
+.link-btn {
   display: flex;
   height: 60px;
   width: 60px;
@@ -84,7 +91,7 @@
   }
 }
 
-.rent{
+.rent {
   display: flex;
   height: 60px;
   width: 60px;
@@ -130,12 +137,3 @@
   height: 100%;
   object-fit: cover;
 }
-
-
-
-
-
-
-
-
-

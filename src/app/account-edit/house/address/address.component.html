@@ -46,11 +46,12 @@
           <input name="flatInfo.apartment" matInput [disabled]="disabled" [(ngModel)]="flatInfo.apartment">
         </mat-form-field>
 
-        <div class="inputbox" *ngIf="locationLink">
+        <div class="inputbox" *ngIf="flatInfo.region !== undefined && flatInfo.city !== null && flatInfo.flat_index !== null && flatInfo.street !== null && flatInfo.houseNumber !== null">
           <a class="location" matTooltip="ЛОКАЦІЯ" href="{{ locationLink }}" target="_blank">
             <i class="fa-solid fa-map-location"></i>
           </a>
         </div>
+
       </div>
 
 

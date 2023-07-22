@@ -36,7 +36,7 @@
         <button class="ghost-black" [disabled]="!registrationForm.valid">Зареєструватись</button>
       </form>
       <div class="checkbox-box">
-        <input class="checkbox-item" type="checkbox" name="checkbox" id="checkbox">
+        <input class="checkbox-item" type="checkbox" name="agreementAccepted" id="agreementAccepted" [(ngModel)]="agreementAccepted">
         <label>Погоджуюсь з угодою користувача</label>
       </div>
       <div class="nav-item mid">

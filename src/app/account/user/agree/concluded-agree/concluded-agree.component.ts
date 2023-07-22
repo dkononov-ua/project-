@@ -146,6 +146,7 @@ export class ConcludedAgreeComponent implements OnInit {
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
       this.agree = response;
+      console.log(this.agree.length)
     } catch (error) {
       console.error(error);
     }

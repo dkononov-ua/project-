@@ -127,8 +127,6 @@ export class AgreementComponent implements OnInit {
   agreementCreated: boolean | undefined;
   statusMessage: string | undefined;
 
-
-
   openContainer() {
     this.isContainerVisible = true;
   }
@@ -316,7 +314,7 @@ export class AgreementComponent implements OnInit {
   }
 
   isFormEmpty(): boolean {
-    return !this.months || !this.years || !this.rentDueDate || isNaN(Number(this.months));
+    return  !this.rentDueDate || isNaN(Number(this.months));
   }
 
   showMessage(msg: string): void {

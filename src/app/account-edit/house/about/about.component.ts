@@ -16,7 +16,7 @@ interface FlatInfo {
   distance_stop: number;
   distance_green: number;
   distance_shop: number;
-  option_pay: any;
+  option_pay: number;
   price_d: number;
   price_m: number;
   price_y: number;
@@ -48,6 +48,8 @@ interface FlatInfo {
 export class AboutComponent implements OnInit {
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
+  minValue: number = 0;
+  maxValue: number = 1000000;
 
   flatInfo: FlatInfo = {
     students: false,
@@ -61,7 +63,7 @@ export class AboutComponent implements OnInit {
     distance_stop: 0,
     distance_green: 0,
     distance_shop: 0,
-    option_pay: undefined,
+    option_pay: 0,
     price_d: 0,
     price_m: 0,
     price_y: 0,
@@ -73,6 +75,14 @@ export class AboutComponent implements OnInit {
 
   disabled: boolean = true;
   selectedFlatId!: string | null;
+
+  descriptionVisibility: { [key: string]: boolean } = {};
+  isDescriptionVisible(key: string): boolean {
+    return this.descriptionVisibility[key] || false;
+  }
+  toggleDescription(key: string): void {
+    this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
+  }
 
   constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
@@ -91,8 +101,9 @@ export class AboutComponent implements OnInit {
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           this.flatInfo = response.about;
-          if (response == undefined && null)
+          if (response.about.option_pay !== 0)
           this.disabled = false;
         }, (error: any) => {
           console.error(error);
@@ -148,7 +159,7 @@ export class AboutComponent implements OnInit {
       distance_stop: 0,
       distance_green: 0,
       distance_shop: 0,
-      option_pay: null,
+      option_pay: 0,
       price_d: 0,
       price_m: 0,
       price_y: 0,

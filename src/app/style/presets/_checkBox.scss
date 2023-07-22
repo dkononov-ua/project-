@@ -18,9 +18,9 @@
 
   cursor: pointer;
 
-  border: 3px solid rgba(255, 255, 255, 0);
+  border: 1px solid $color-gray;
+  box-shadow: 0px 0px 0px 0px #000000;
   border-radius: 10px;
-  box-shadow: 0 0 0 2px $color-accent;
 }
 
 .checkBox div {
@@ -59,4 +59,21 @@
   flex-direction: column;
 
   margin-top: 10px;
+}
+
+input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+input[type="radio"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
 }

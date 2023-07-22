@@ -35,6 +35,7 @@ export class AppRoutingModule { }
 export class RegistrationComponent implements OnInit {
 
   passwordType = 'password';
+  agreementAccepted: boolean = false;
 
   togglePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
@@ -121,21 +122,18 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmitRegistrationForm(formType: string): void {
-    console.log('Form submitted');
-    console.log(this.registrationForm.value);
+    if (this.registrationForm.valid && this.agreementAccepted) {
 
-    if (this.registrationForm.valid) {
       let route = '/user-interaction';
       if (formType === 'information') {
         route = '/information-user';
       }
 
       this.http.post('http://localhost:3000/registration', this.registrationForm.value).subscribe((response: any) => {
-        console.log(response);
         if (response.status) {
           localStorage.setItem('user', JSON.stringify(response))
         } else { }
-        this.router.navigate([route]); // редірект на відповідну сторінку
+        this.router.navigate([route]);
       }, (error: any) => {
         console.error(error);
       });

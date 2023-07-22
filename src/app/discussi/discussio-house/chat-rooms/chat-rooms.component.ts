@@ -146,13 +146,13 @@ export class ChatRoomsComponent implements OnInit {
             }))
             this.chats = chat;
           } else {
-            console.error('Invalid response format');
+            console.log('chat not found');
           }
         }, (error: any) => {
           console.error(error);
         });
     } else {
-      console.log('user or subscriber not found');
+      console.log('chat not found');
     }
   }
 

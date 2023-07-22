@@ -64,6 +64,7 @@ export class ApprovedComponent implements OnInit, OnDestroy {
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
       const newSubscriptions: ApprovedSubscription[] = response.map((flat: any) => {
+        console.log(response)
         return {
           flat_id: flat.flat.flat_id,
           flatImg: flat.img,

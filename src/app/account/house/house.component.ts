@@ -124,7 +124,7 @@ export class HouseComponent implements OnInit {
     students: Number(''),
     animals: Number(''),
     price_m: Number(''),
-    price_y: '',
+    price_d: Number(''),
     about: '',
     bunker: Number(''),
   };
@@ -216,7 +216,7 @@ export class HouseComponent implements OnInit {
             this.about.students = response.houseData.about.students;
             this.about.animals = response.houseData.about.animals;
             this.about.price_m = response.houseData.about.price_m;
-            this.about.price_y = response.houseData.about.price_y;
+            this.about.price_d = response.houseData.about.price_d;
             this.about.about = response.houseData.about.about;
             this.about.bunker = response.houseData.about.bunker;
 

@@ -88,7 +88,6 @@ export class AccountNavComponent implements OnInit {
     }
   }
 
-
   loadHouses(): void {
     this.loadOwnedHouses();
     this.loadRentedHouses();
@@ -102,6 +101,7 @@ export class AccountNavComponent implements OnInit {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
+            console.log(response)
             this.houses = response.ids.map((item: { flat_id: any }, index: number) => ({
               id: index + 1,
               name: item.flat_id,
@@ -173,10 +173,10 @@ export class AccountNavComponent implements OnInit {
               if (response !== null) {
                 if (this.addressHouse === undefined) {
                   this.addressHouse = this.fb.group({
-                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                    flat_id: [response.flat_id],
                   });
                 } else {
-                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                  this.addressHouse.patchValue({ flat_id: response.flat_id });
                 }
               }
             },
@@ -208,10 +208,10 @@ export class AccountNavComponent implements OnInit {
               if (response !== null) {
                 if (this.addressHouse === undefined) {
                   this.addressHouse = this.fb.group({
-                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                    flat_id: [response.flat_id],
                   });
                 } else {
-                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                  this.addressHouse.patchValue({ flat_id: response.flat_id });
                 }
               }
             },
@@ -241,10 +241,10 @@ export class AccountNavComponent implements OnInit {
               if (response !== null) {
                 if (this.addressHouse === undefined) {
                   this.addressHouse = this.fb.group({
-                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                    flat_id: [response.flat_id],
                   });
                 } else {
-                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                  this.addressHouse.patchValue({ flat_id: response.flat_id });
                 }
               }
             },

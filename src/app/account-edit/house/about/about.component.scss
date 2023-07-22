@@ -214,6 +214,7 @@ mat-form-field {
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  font-size: 12px;
 }
 
 textarea {
@@ -225,8 +226,50 @@ textarea {
   height: 70px !important;
 }
 
+
+
 .form-field {
   height: 80px !important;
+}
+
+.form-control {
+  height: auto;
+  overflow-y: hidden;
+  font-size: 13px;
+
+}
+
+.form-field::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.form-control::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+textarea {
+  height: auto;
+  min-height: 200px;
+}
+
+.scrollable-textarea {
+  height: auto;
+  overflow: auto;
+}
+
+.form-floating {
+  margin-bottom: 15px;
+
+}
+
+
+
+.mat-input-container {
+  display: flex;
+  color: $color-text;
+  font-size: 25px;
 }
 
 .item-select50 {
@@ -436,3 +479,62 @@ textarea {
   background-color: $color-white !important;
 }
 
+.content-info {
+  position: relative;
+  width: 100%;
+  display: flex;
+  border: 1px solid rgba(1, 19, 12, 0.2);
+  border-radius: 10px;
+  margin: 5px;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.content-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.descr {
+  color: $color-white;
+  font-size: 16px;
+}
+
+.bold {
+  color: $color-accent;
+  font-weight: 600;
+}
+.btn-info {
+  background-color: rgba(255, 255, 255, 0);
+  width: 30px;
+  height: 30px;
+}
+
+.description-container {
+  display: flex;
+  position: absolute;
+  z-index: 9999;
+  background-color: rgb(44, 44, 44);
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.description {
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.close-button {
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}

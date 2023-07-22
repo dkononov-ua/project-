@@ -1,0 +1,83 @@
+@use "../../../style/presets/" as *;
+
+.container-card {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.container-search {
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+  max-height: 1000px;
+}
+
+.container-search.collapsed {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  transition: max-height 0.3s ease;
+}
+
+.container-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: $color-white;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105), 10px 20px 40px rgba(0, 0, 0, 0.162);
+
+
+  &:hover {
+    color: $color-accent;
+    box-shadow: 10px 10px 40px rgba(244, 79, 2, 0.991), 10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+
+  &:active {
+    transform: scale(0.8);
+    letter-spacing: 0px;
+    box-shadow: 10px 10px 40px rgba(244, 79, 2, 0.991), 10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+
+  &.active {
+    letter-spacing: 5px;
+    font-weight: bold;
+    color: $color-accent;
+    box-shadow: 10px 10px 40px rgba(244, 79, 2, 0.991), 10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+}
+
+.animate {
+  transition: transform 1.5s;
+  transform-origin: center;
+}
+
+.animate.rotate-up {
+  transform: rotate(180deg);
+}
+
+.animate.rotate-down {
+  transform: rotate(-180deg);
+}
+
+.container-search {
+  overflow: hidden;
+  transition: max-height 1s;
+  max-height: 100vh;
+}
+
+.container-search.collapsed {
+  overflow: hidden;
+  transition: max-height 1s;
+  max-height: 0;
+}
+
+

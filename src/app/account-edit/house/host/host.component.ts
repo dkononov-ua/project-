@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
   }
   onSubmit(email: string, password: string) {
     this.userService.getUserInfo(email, password).subscribe((response) => {
-      console.log(response);
     });
   }
 }
@@ -91,15 +90,10 @@ export class HostComponent implements OnInit {
       if (result) {
         const selectedFlatId = this.selectHouse.get('house')?.value;
         const houseJson = localStorage.getItem('house');
-        if (houseJson) {
-          console.log(JSON.parse(houseJson))
-        }
-
         const userJson = localStorage.getItem('user');
         if (userJson) {
           this.http.post('http://localhost:3000/flatinfo/deleteflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
             .subscribe((response: any) => {
-              console.log(response);
             }, (error: any) => {
               console.error(error);
             });
@@ -119,7 +113,6 @@ export class HostComponent implements OnInit {
       house: new FormControl(defaultHouse)
     });
 
-    console.log('Пройшла перевірка оселі');
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
@@ -147,14 +140,10 @@ export class HostComponent implements OnInit {
     this.loading = true;
 
     const selectedFlatId = this.selectHouse.get('house')?.value;
-    console.log('Ви вибрали оселю з ID:', selectedFlatId);
 
     localStorage.removeItem('house');
     localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }))
     const houseJson = localStorage.getItem('house');
-    if (houseJson) {
-      console.log(JSON.parse(houseJson))
-    }
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
@@ -171,14 +160,9 @@ export class HostComponent implements OnInit {
 
   onSubmitSelectHouse(): void {
     const selectedFlatId = this.selectHouse.get('house')?.value;
-    console.log('Ви вибрали оселю з ID:', selectedFlatId);
-
     localStorage.removeItem('house');
     localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }))
     const houseJson = localStorage.getItem('house');
-    if (houseJson) {
-      console.log(JSON.parse(houseJson))
-    }
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
@@ -196,7 +180,6 @@ export class HostComponent implements OnInit {
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/add/flat_id', { auth: JSON.parse(userJson), new: this.houseCreate.value })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });
@@ -209,15 +192,10 @@ export class HostComponent implements OnInit {
   onSubmitDeleteHouse(): void {
     const selectedFlatId = this.selectHouse.get('house')?.value;
     const houseJson = localStorage.getItem('house');
-    if (houseJson) {
-      console.log(JSON.parse(houseJson))
-    }
-
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/deleteflat', { auth: JSON.parse(userJson), flat_id: selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });

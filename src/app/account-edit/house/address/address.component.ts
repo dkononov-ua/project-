@@ -55,7 +55,7 @@ export class AddressComponent implements OnInit {
     street: '',
     houseNumber: '',
     apartment: 0,
-    flat_index: 0,
+    flat_index: '',
     private: false,
     rent: false,
     distance_parking: 0,
@@ -76,12 +76,13 @@ export class AddressComponent implements OnInit {
   selectedFlatId!: string | null;
   public locationLink: string = '';
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
+  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) {
+    this.filteredRegions = [];
+  }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      console.log(this.selectedFlatId);
       if (this.selectedFlatId !== null) {
         this.getInfo();
       }
@@ -90,26 +91,24 @@ export class AddressComponent implements OnInit {
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && this.selectedFlatId) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           this.flatInfo = response.flat;
           this.locationLink = this.generateLocationUrl();
-          console.log(this.flatInfo);
           if (response == undefined && null)
-          this.disabled = false;
+            this.disabled = false;
         }, (error: any) => {
           console.error(error);
         });
     } else {
-      console.log('user not found');
+      console.log('house not found');
     }
   };
 
-
   loadCities() {
-    const searchTerm = this.flatInfo.region.toLowerCase();
+    if (!this.flatInfo) return;
+    const searchTerm = this.flatInfo.region?.toLowerCase() || '';
     this.filteredRegions = this.regions.filter(region =>
       region.name.toLowerCase().includes(searchTerm)
     );
@@ -121,14 +120,15 @@ export class AddressComponent implements OnInit {
   }
 
   loadDistricts() {
+    if (!this.flatInfo) return;
     const searchTerm = this.flatInfo.city.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.flatInfo.region
     );
     this.filteredCities = selectedRegionObj
       ? selectedRegionObj.cities.filter(city =>
-          city.name.toLowerCase().includes(searchTerm)
-        )
+        city.name.toLowerCase().includes(searchTerm)
+      )
       : [];
 
     const selectedCityObj = this.filteredCities.find(city =>
@@ -142,7 +142,6 @@ export class AddressComponent implements OnInit {
   }
 
   generateLocationUrl() {
-    console.log(this.flatInfo.region)
     const baseUrl = 'https://www.google.com/maps/place/';
     const region = this.flatInfo.region || '';
     const city = this.flatInfo.city || '';
@@ -157,7 +156,7 @@ export class AddressComponent implements OnInit {
     const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
     this.locationLink = locationUrl;
 
-    return locationUrl;
+    return this.locationLink;
   }
 
   saveInfo(): void {
@@ -166,7 +165,6 @@ export class AddressComponent implements OnInit {
       const data = this.flatInfo;
       this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response);
           this.disabled = true;
         }, (error: any) => {
           console.error(error);
@@ -182,22 +180,22 @@ export class AddressComponent implements OnInit {
 
   clearInfo(): void {
     if (this.disabled === false)
-    this.flatInfo = {
-      flat_id: '',
-      country: '',
-      region: '',
-      city: '',
-      street: '',
-      houseNumber: '',
-      apartment: 0,
-      flat_index: 0,
-      private: false,
-      rent: false,
-      distance_parking: 0,
-      distance_metro: 0,
-      distance_stop: 0,
-      distance_green: 0,
-      distance_shop: 0,
-    };
+      this.flatInfo = {
+        flat_id: '',
+        country: '',
+        region: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        apartment: 0,
+        flat_index: '',
+        private: false,
+        rent: false,
+        distance_parking: 0,
+        distance_metro: 0,
+        distance_stop: 0,
+        distance_green: 0,
+        distance_shop: 0,
+      };
   }
 }

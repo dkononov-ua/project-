@@ -125,7 +125,7 @@
             <mat-form-field appearance="outline" class="input-mat-3"
               [ngClass]="{ 'required-field': yearsInput?.invalid && yearsInput?.touched }">
               <mat-label for="years">Роки:</mat-label>
-              <input matInput type="number" name="years" placeholder="Роки" min="1" max="10" step="1"
+              <input matInput type="number" name="years" placeholder="Роки" min="0" max="10" step="1"
                 [(ngModel)]="years" #yearsInput="ngModel" required>
               <mat-error *ngIf="yearsInput?.invalid && yearsInput?.touched">Це обов'язково</mat-error>
             </mat-form-field>
@@ -133,7 +133,7 @@
             <mat-form-field appearance="outline" class="input-mat-3"
               [ngClass]="{ 'required-field': (monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) }">
               <mat-label for="months">Місяці:</mat-label>
-              <input matInput type="number" name="months" placeholder="Місяці" min="1" max="11" [(ngModel)]="months"
+              <input matInput type="number" name="months" placeholder="Місяці" min="0" max="11" [(ngModel)]="months"
                 #monthsInput="ngModel" required>
               <mat-error
                 *ngIf="(monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) || !months">Це

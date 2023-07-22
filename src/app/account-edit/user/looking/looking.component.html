@@ -32,23 +32,37 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field class="item-select m-1" appearance="outline">
-              <mat-label>Термін оренди</mat-label>
-              <mat-select [disabled]="disabled" [(ngModel)]="userInfo.lease_term" name="lease_term">
-                <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="1">1-2 дні</mat-option>
-                <mat-option value="2">3-7 днів</mat-option>
-                <mat-option value="3">1 Тиждень</mat-option>
-                <mat-option value="4">2 Тижні</mat-option>
-                <mat-option value="5">3 Тижні</mat-option>
-                <mat-option value="6">1 Місяць</mat-option>
-                <mat-option value="7">2 Місяці</mat-option>
-                <mat-option value="8">3 Місяці</mat-option>
-                <mat-option value="9">6 Місяців</mat-option>
-                <mat-option value="10">1 Рік</mat-option>
-                <mat-option value="11">Більше року</mat-option>
-              </mat-select>
+          </div>
+        </div>
+
+        <div class="group">
+          <mat-label class="group-label">Термін оренди</mat-label>
+          <div class="group-item">
+
+            <mat-form-field class="item-select25 m-1" appearance="outline">
+              <mat-label>Дні</mat-label>
+              <input type="number" name="userInfo.days" [(ngModel)]="userInfo.days" [min]="minValueDays"
+                [max]="maxValueDays" matInput [disabled]="disabled">
             </mat-form-field>
+
+            <mat-form-field class="item-select25 m-1" appearance="outline">
+              <mat-label>Тиж.</mat-label>
+              <input type="number" name="userInfo.weeks" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks"
+                [max]="maxValueWeeks" matInput [disabled]="disabled">
+            </mat-form-field>
+
+            <mat-form-field class="item-select25 m-1" appearance="outline">
+              <mat-label>Міс.</mat-label>
+              <input type="number" name="userInfo.months" [(ngModel)]="userInfo.months" [min]="minValueMonths"
+                [max]="maxValueMonths" matInput [disabled]="disabled">
+            </mat-form-field>
+
+            <mat-form-field class="item-select25 m-1" appearance="outline">
+              <mat-label>Роки.</mat-label>
+              <input type="number" name="userInfo.years" [(ngModel)]="userInfo.years" [min]="minValueYears"
+                [max]="maxValueYears" matInput [disabled]="disabled">
+            </mat-form-field>
+
           </div>
         </div>
 
@@ -58,7 +72,8 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="students" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.students" name="students">
+                <input id="students" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.students"
+                  name="students">
                 <div class="transition"></div>
               </label>
               <span class="checkBox-span">Студент<span class="status">S</span>
@@ -104,8 +119,8 @@
 
               <div class="content-1">
                 <label class="checkBox">
-                  <input id="looking_house" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.option" name="housing"
-                    value="looking_house">
+                  <input id="looking_house" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.house"
+                    name="housing">
                   <div class="transition"></div>
                 </label>
                 <span class="checkBox-span">Будинок</span>
@@ -114,8 +129,8 @@
 
               <div class="content-1">
                 <label class="checkBox">
-                  <input id="looking_flat" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.option" name="housing"
-                    value="looking_flat">
+                  <input id="looking_flat" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.flat"
+                    name="housing">
                   <div class="transition"></div>
                 </label>
                 <span class="checkBox-span">Квартира</span>
@@ -124,8 +139,8 @@
 
               <div class="content-1">
                 <label class="checkBox">
-                  <input id="looking_room" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.option" name="housing"
-                    value="looking_room">
+                  <input id="looking_room" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.room"
+                    name="housing">
                   <div class="transition"></div>
                 </label>
                 <span class="checkBox-span">Кімната</span>
@@ -136,7 +151,7 @@
 
           </div>
 
-          <div class="group" *ngIf="userInfo.option === 'looking_room'">
+          <div class="group" *ngIf="userInfo.room === true">
             <mat-label class="group-label">Сусід по квартирі?</mat-label>
             <div class="group-item-1">
               <div class="content">
@@ -151,7 +166,8 @@
 
               <div class="content">
                 <label class="checkBox">
-                  <input id="looking_man" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.looking_man" name="man">
+                  <input id="looking_man" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.looking_man"
+                    name="man">
                   <div class="transition"></div>
                 </label>
                 <span class="checkBox-span">Чоловік<span class="status">M</span></span>
@@ -169,7 +185,8 @@
             <mat-form-field class="item-select m-1 mt-3" appearance="outline">
               <mat-label>Область</mat-label>
               <input name="flatInfo.region" matInput [disabled]="disabled" [(ngModel)]="userInfo.region"
-                placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
+                placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()"
+                [matAutocomplete]="autoRegion">
               <mat-autocomplete #autoRegion="matAutocomplete">
                 <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
                   {{ region.name }}
@@ -329,125 +346,126 @@
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
-        <div class="card m-2">
-          <div class="group">
-            <mat-label class="group-label">Паркінг / транспорт / метро</mat-label>
-            <div class="group-item">
+      <div class="card m-2">
+        <div class="group">
+          <mat-label class="group-label">Паркінг / транспорт / метро</mat-label>
+          <div class="group-item">
 
-              <mat-form-field class="item-select m-1" appearance="outline">
-                <mat-label>Паркінг</mat-label>
-                <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_parking" name="distance_parking">
-                  <mat-option [value]="''">Неважливо</mat-option>
-                  <mat-option value="1">на території</mat-option>
-                  <mat-option value="100">до 100м</mat-option>
-                  <mat-option value="300">до 300м</mat-option>
-                  <mat-option value="500">до 500м</mat-option>
-                  <mat-option value="1000">до 1км</mat-option>
-                </mat-select>
-              </mat-form-field>
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label>Паркінг</mat-label>
+              <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_parking" name="distance_parking">
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]="1">на території</mat-option>
+                <mat-option [value]="100">до 100м</mat-option>
+                <mat-option [value]="300">до 300м</mat-option>
+                <mat-option [value]="500">до 500м</mat-option>
+                <mat-option [value]="1000">до 1км</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <mat-form-field class="item-select m-1" appearance="outline">
-                <mat-label>Зупинки</mat-label>
-                <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_stop" name="distance_stop">
-                  <mat-option [value]="''">Неважливо</mat-option>
-                  <mat-option value="100">до 100м</mat-option>
-                  <mat-option value="300">до 300м</mat-option>
-                  <mat-option value="500">до 500м</mat-option>
-                  <mat-option value="1000">до 1км</mat-option>
-                </mat-select>
-              </mat-form-field>
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label>Зупинки</mat-label>
+              <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_stop" name="distance_stop">
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]="100">до 100м</mat-option>
+                <mat-option [value]="300">до 300м</mat-option>
+                <mat-option [value]="500">до 500м</mat-option>
+                <mat-option [value]="1000">до 1км</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <mat-form-field class="item-select m-1" appearance="outline">
-                <mat-label>Метро</mat-label>
-                <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
-                  <mat-option [value]="''">Неважливо</mat-option>
-                  <mat-option value="100">до 100м</mat-option>
-                  <mat-option value="300">до 300м</mat-option>
-                  <mat-option value="500">до 500м</mat-option>
-                  <mat-option value="1000">до 1км</mat-option>
-                  <mat-option value="2000">до 2км</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label>Метро</mat-label>
+              <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]="100">до 100м</mat-option>
+                <mat-option [value]="300">до 300м</mat-option>
+                <mat-option [value]="500">до 500м</mat-option>
+                <mat-option [value]="1000">до 1км</mat-option>
+                <mat-option [value]="2000">до 2км</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+        </div>
 
-          <div class="group">
-            <mat-label class="group-label">Будете не одні?</mat-label>
-            <div class="group-item">
+        <div class="group">
+          <mat-label class="group-label">Будете не одні?</mat-label>
+          <div class="group-item">
 
-              <mat-form-field class="item-select m-1" appearance="outline">
-                <mat-label>Тварини</mat-label>
-                <mat-select [disabled]="disabled" [(ngModel)]="userInfo.animals" name="animals">
-                  <mat-option [value]="''">Неважливо</mat-option>
-                  <mat-option value="1">Невеликі (гризуни)</mat-option>
-                  <mat-option value="2">Котики</mat-option>
-                  <mat-option value="3">Песики</mat-option>
-                  <mat-option value="4">Інше</mat-option>
-                </mat-select>
-              </mat-form-field>
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label>Тварини</mat-label>
+              <mat-select [disabled]="disabled" [(ngModel)]="userInfo.animals" name="animals">
+                <mat-option [value]="''">Неважливо</mat-option>
+                <mat-option value="1">Невеликі (гризуни)</mat-option>
+                <mat-option value="2">Котики</mat-option>
+                <mat-option value="3">Песики</mat-option>
+                <mat-option value="4">Інше</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <div class="group">
-                <mat-label class="group-label">Як хочете платити?</mat-label>
-                <div class="group-item-1">
+            <div class="group">
+              <mat-label class="group-label">Як хочете платити?</mat-label>
+              <div class="group-item-1">
 
-                  <div class="content">
-                    <label class="checkBox">
-                      <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.optionPay" name="daily"
-                        value="daily">
-                      <div class="transition"></div>
-                    </label>
-                    <span class="checkBox-span">Подобово</span>
-                    <i></i>
-                  </div>
+                <div class="content">
+                  <label class="checkBox">
+                    <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.optionPay" name="daily"
+                      [value]=1>
+                    <div class="transition"></div>
+                  </label>
+                  <span class="checkBox-span">Подобово</span>
+                  <i></i>
+                </div>
 
-                  <div class="content">
-                    <label class="checkBox">
-                      <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.optionPay" name="monthly"
-                        value="monthly">
-                      <div class="transition"></div>
-                    </label>
-                    <span class="checkBox-span">Щомісяця</span>
-                    <i></i>
-                  </div>
-
+                <div class="content">
+                  <label class="checkBox">
+                    <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.optionPay" [value]=0>
+                    <div class="transition"></div>
+                  </label>
+                  <span class="checkBox-span">Щомісяця</span>
+                  <i></i>
                 </div>
 
               </div>
 
-              <mat-label class="group-label">На яку ціну орієнтуєтесь?</mat-label>
-              <mat-form-field class="item-select50 m-1" appearance="outline">
-                <mat-label>Ціна (від)</mat-label>
-                <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled"
-                  [(ngModel)]="userInfo.price_of" name="price_of">
-              </mat-form-field>
-
-              <mat-form-field class="item-select50 m-1" appearance="outline">
-                <mat-label>Ціна (до)</mat-label>
-                <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled"
-                  [(ngModel)]="userInfo.price_to" name="price_to">
-              </mat-form-field>
-
-              <div class="content-2">
-                <label class="checkBox">
-                  <input id="agree_search" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.agree_search"
-                    name="agree_search">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span">Розмістити на сайті.</span>
-
-                <i></i>
-              </div>
-
-
             </div>
-          </div>
 
-          <div class="btn-group">
-            <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
-            <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
-            <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+            <mat-label class="group-label">На яку ціну орієнтуєтесь?</mat-label>
+            <mat-form-field class="item-select50 m-1" appearance="outline">
+              <mat-label>Ціна (від)</mat-label>
+              <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled"
+                [(ngModel)]="userInfo.price_of" name="price_of">
+            </mat-form-field>
+
+            <mat-form-field class="item-select50 m-1" appearance="outline">
+              <mat-label>Ціна (до)</mat-label>
+              <input matInput type="number" [min]="minValue" [max]="maxValue" [disabled]="disabled"
+                [(ngModel)]="userInfo.price_to" name="price_to">
+            </mat-form-field>
+
+            <div class="content-2">
+              <label class="checkBox">
+                <input id="agree_search" type="checkbox" [disabled]="disabled" [(ngModel)]="userInfo.agree_search"
+                  name="agree_search">
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Розмістити на сайті.</span>
+
+              <i></i>
+            </div>
+
+
           </div>
         </div>
+
+        <div class="btn-group">
+          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
+              class="icon fa-regular fa-circle-check"></i></button>
+          <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
+              class="icon fa-solid fa-eraser"></i></button>
+        </div>
+      </div>
     </div>
 
 

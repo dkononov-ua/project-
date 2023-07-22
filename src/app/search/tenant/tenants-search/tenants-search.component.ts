@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../filter.service';
 import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -46,9 +46,9 @@ interface FlatInfo {
   woman: string;
 }
 @Component({
-  selector: 'app-housing-search',
-  templateUrl: './housing-search.component.html',
-  styleUrls: ['./housing-search.component.scss'],
+  selector: 'app-tenants-search',
+  templateUrl: './tenants-search.component.html',
+  styleUrls: ['./tenants-search.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -65,7 +65,7 @@ interface FlatInfo {
   ]
 })
 
-export class HousingSearchComponent implements OnInit {
+export class TenantsSearchComponent implements OnInit {
   isSubscribed: boolean = false;
 
   showSubscriptionMessage: boolean = false;

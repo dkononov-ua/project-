@@ -11,7 +11,7 @@ interface FlatInfo {
   kitchen_area: number;
   balcony: string | undefined;
   floor: number;
-  option: undefined,
+  option_flat: undefined;
 }
 @Component({
   selector: 'app-param',
@@ -42,7 +42,7 @@ export class ParamComponent {
     kitchen_area: 0,
     balcony: '',
     floor: 0,
-    option: undefined,
+    option_flat: undefined,
   };
 
   disabled: boolean = true;
@@ -59,24 +59,26 @@ export class ParamComponent {
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      console.log(this.selectedFlatId);
       if (this.selectedFlatId !== null) {
         this.getInfo();
       }
     });
   }
 
-  async getInfo(): Promise<any> {
+  async getInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
-          this.flatInfo = response.param;
-          console.log(this.flatInfo);
-          if (response == undefined && null)
-          this.disabled = false;
-
+          console.log('Response:', response);
+          if (response && response.param.area) {
+            this.flatInfo = response.param;
+            console.log('Flat Info:', this.flatInfo);
+            this.disabled = true;
+          } else {
+            console.log('Param not found in response.');
+            this.disabled = false;
+          }
         }, (error: any) => {
           console.error(error);
         });
@@ -85,14 +87,15 @@ export class ParamComponent {
     }
   };
 
+
+
+
   saveInfo(): void {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       const data = this.flatInfo;
-      console.log(data)
       this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response);
           this.disabled = true;
         }, (error: any) => {
           console.error(error);
@@ -108,14 +111,14 @@ export class ParamComponent {
 
   clearInfo(): void {
     if (this.disabled === false)
-    this.flatInfo = {
-      rooms: 0,
-      repair_status: '',
-      area: 0,
-      kitchen_area: 0,
-      balcony: '',
-      floor: 0,
-      option: undefined,
-    };
+      this.flatInfo = {
+        rooms: 0,
+        repair_status: '',
+        area: 0,
+        kitchen_area: 0,
+        balcony: '',
+        floor: 0,
+        option_flat: undefined,
+      };
   }
 }

@@ -117,13 +117,13 @@ export class ChatHouseComponent implements OnInit {
           this.users = selectedUser;
           this.selectedFlatId = selectedFlatId;
         } else {
-          console.error('Invalid response format');
+          console.log('user not found');
         }
       } catch (error) {
         console.error(error);
       }
     } else {
-      console.log('user or subscriber not found');
+      console.log('user not found');
     }
   }
 

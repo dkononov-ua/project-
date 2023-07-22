@@ -45,6 +45,7 @@ import { RouterModule } from '@angular/router';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     DeleteComunalComponent,
     DeleteDialogComponent,
     LookingComponent,
+    SearchPageComponent,
   ],
   providers: [
     SelectedFlatService,
