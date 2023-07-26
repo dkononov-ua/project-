@@ -36,15 +36,15 @@ export class SearchTermComponent implements OnInit {
   distance_green!: number;
   distance_shop!: number;
   distance_parking!: number;
-  students!: false;
-  woman!: false;
-  man!: false;
-  family!: false;
+  students: number = 0;
+  woman: number = 0;
+  man: number = 0;
+  family: number = 0;
   balcony!: string;
   bunker!: string;
-  options_flat!: number;
-  room!: number;
-  optionPay!: number;
+  option_flat: number = 2;
+  room: number = 0;
+  option_pay: number = 0;
   kitchen_area!: number;
 
   filteredCities: any[] | undefined;
@@ -70,11 +70,23 @@ export class SearchTermComponent implements OnInit {
   timer: any;
   private subscription: Subscription | undefined;
   searchQuery: any;
+  searchTimer: any;
+
 
   constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.onSubmit();
+  }
+
+  onSubmitWithDelay() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+
+    this.searchTimer = setTimeout(() => {
+      this.onSubmit();
+    }, 2000);
   }
 
   loadCities() {
@@ -153,17 +165,15 @@ export class SearchTermComponent implements OnInit {
         distance_shop: this.distance_shop || '',
         distance_parking: this.distance_parking || '',
         country: '',
-        students: this.students || '',
-        woman: this.woman || '',
-        man: this.man || '',
-        family: this.family || '',
-        selectedBalcony: this.balcony || '',
+        students: this.students ? 1 : '',
+        woman: this.woman ? 1 : '',
+        man: this.man ? 1 : '',
+        family: this.family ? 1 : '',
         balcony: this.balcony || '',
-
         bunker: this.bunker || '',
-        options_flat: this.options_flat || '',
-        room: this.room || '',
-        optionPay: this.optionPay || '',
+        option_flat: this.option_flat || '1',
+        room: this.room ? '1' : '0',
+        option_pay: this.option_pay ? '1' : '0',
       };
 
       const url = this.buildSearchURL(params);
@@ -172,12 +182,6 @@ export class SearchTermComponent implements OnInit {
       this.applyFilter(this.filteredFlats, this.filteredImages);
     }, 2000);
   }
-
-
-
-
-
-
 
   startTimer() {
     clearTimeout(this.timer);

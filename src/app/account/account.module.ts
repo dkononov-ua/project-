@@ -35,6 +35,8 @@ import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-
 import { DealsComponent } from './user/agree/deals/deals.component';
 import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
 import { DownloadAgreeComponent } from './user/agree/download-agree/download-agree.component';
+import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
+import { HousingSubscriptionsComponent } from './house/housing-subscriptions/housing-subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { DownloadAgreeComponent } from './user/agree/download-agree/download-agr
     DealsComponent,
     ConcludedComponent,
     DownloadAgreeComponent,
+    SubscribeToMeComponent,
+    HousingSubscriptionsComponent,
   ],
   providers: [
     DatePipe

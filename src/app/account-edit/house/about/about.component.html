@@ -56,10 +56,9 @@
         <mat-label>Дозвіл на тварин</mat-label>
         <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.animals" name="animals">
           <mat-option [value]="''">Приховати</mat-option>
-          <mat-option value="Невеликі">Невеликі (гризуни)</mat-option>
-          <mat-option value="Котики">Котики</mat-option>
-          <mat-option value="Песики">Песики</mat-option>
-          <mat-option value="Інше">Інше</mat-option>
+          <mat-option value="1">Без тварин</mat-option>
+          <mat-option value="2">За домовленістю</mat-option>
+          <mat-option value="3">Можна з тваринами</mat-option>
         </mat-select>
       </mat-form-field>
 

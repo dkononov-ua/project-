@@ -192,10 +192,8 @@ export class HousingSearchComponent implements OnInit {
     }, 100);
   }
 
-
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
-    console.log(filterValue)
     this.filteredFlats = filterValue;
     this.updateSelectedFlatPhotos();
   }

@@ -109,8 +109,8 @@
             <div class="price">
               <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || '?' }} <span
                   class="title-selected">ціна ₴/міс</span></div>
-              <div *ngIf="selectedFlat?.price_y !== null">
-                <div class="price_y">{{ selectedFlat?.price_y || '?' }} <span>₴ ціна за рік</span></div>
+              <div *ngIf="selectedFlat?.price_d !== null">
+                <div class="price_y">{{ selectedFlat?.price_d || '?' }} <span>₴ ціна за добу</span></div>
               </div>
             </div>
 
@@ -167,6 +167,12 @@
             <div class="characteristics-label">Параметри оселі:</div>
 
             <div class="characteristics-group">
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.rooms !== 'Приховати' && selectedFlat?.rooms !== null">Кількість
+                кімнат:<span class="item">{{ selectedFlat?.rooms }}</span> </div>
+              <div class="item-characteristics"
+                *ngIf="selectedFlat?.kitchen_area !== 'Приховати' && selectedFlat?.kitchen_area !== null">Площа
+                кухні:<span class="item">{{ selectedFlat?.kitchen_area }}м²</span> </div>
               <div class="item-characteristics"
                 *ngIf="selectedFlat?.repair_status !== 'Приховати' && selectedFlat?.repair_status !== null">Стан
                 оселі:<span class="item">{{ selectedFlat?.repair_status }}</span> </div>

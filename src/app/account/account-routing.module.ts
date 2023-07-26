@@ -21,6 +21,9 @@ import { DealsComponent } from './user/agree/deals/deals.component';
 import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-agree.component';
 import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
 import { DownloadAgreeComponent } from './user/agree/download-agree/download-agree.component';
+import { subscribe } from 'diagnostics_channel';
+import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
+import { HousingSubscriptionsComponent } from './house/housing-subscriptions/housing-subscriptions.component';
 
 const routes: Routes = [
   {
@@ -29,6 +32,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'user', pathMatch: 'full' },
       { path: 'subscribers', component: SubscribersComponent, canActivate: [CanActivateGuard] },
+      { path: 'subscriptions', component: HousingSubscriptionsComponent, canActivate: [CanActivateGuard] },
       { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
       { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
       { path: 'agreements-h', component: AgreementsHComponent, canActivate: [CanActivateGuard] },
@@ -55,6 +59,7 @@ const routes: Routes = [
           { path: 'agreements', component: AgreementsComponent, canActivate: [CanActivateGuard] },
           { path: 'deals', component: DealsComponent, canActivate: [CanActivateGuard] },
           { path: 'concluded-agree', component: ConcludedAgreeComponent, canActivate: [CanActivateGuard] },
+          { path: 'subscribe', component: SubscribeToMeComponent, canActivate: [CanActivateGuard] },
         ],
       },
     ],

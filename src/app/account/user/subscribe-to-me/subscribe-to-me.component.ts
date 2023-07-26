@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 interface subscription {
   flat_id: string;
   flatImg: any;
@@ -34,11 +35,11 @@ interface subscription {
 }
 
 @Component({
-  selector: 'app-subscriptions',
-  templateUrl: './subscriptions.component.html',
-  styleUrls: ['./subscriptions.component.scss']
+  selector: 'app-subscribe-to-me',
+  templateUrl: './subscribe-to-me.component.html',
+  styleUrls: ['./subscribe-to-me.component.scss']
 })
-export class SubscriptionsComponent implements OnInit {
+export class SubscribeToMeComponent implements OnInit {
   subscriptions: subscription[] = [];
   userId: string | any;
   flatId: any;
@@ -65,7 +66,7 @@ export class SubscriptionsComponent implements OnInit {
   async getSubscribedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/subs/get/ysubs';
+    const url = 'http://localhost:3000/usersubs/get/subs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -112,11 +113,38 @@ export class SubscriptionsComponent implements OnInit {
     }
   }
 
+
+  approveSubscriber(flatId: string): void {
+    this.selectedFlatId = flatId;
+    const userJson = localStorage.getItem('user');
+    const user_id = JSON.parse(userJson!).email;
+
+    if (userJson) {
+      const data = {
+        auth: JSON.parse(userJson!),
+        user_id: user_id,
+        flat_id: flatId,
+      };
+
+      this.http.post('http://localhost:3000/usersubs/accept', data)
+        .subscribe(
+          (response: any) => {
+            this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
   async removeSubscriber(flatId: string): Promise<void> {
     this.selectedFlatId = flatId;
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/subs/delete/ysubs';
+    const url = 'http://localhost:3000/usersubs/delete/subs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -135,3 +163,4 @@ export class SubscriptionsComponent implements OnInit {
     }
   }
 }
+

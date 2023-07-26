@@ -3,48 +3,52 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { FilterService } from '../../filter.service';
 import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { FilterUserService } from '../../filter-user.service';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
-interface FlatInfo {
-  region: string;
-  city: string;
-  rooms: string;
-  area: string;
-  repair_status: string;
-  selectedKitchen_area: string;
-  balcony: string;
-  bunker: string;
-  animals: string;
-  distance_metro: string;
-  distance_stop: string;
-  distance_green: string;
-  distance_shop: string;
-  distance_parking: string;
-  limit: string;
-  country: string;
-  price: any;
-  price_m: any;
-  id: number;
-  name: string;
-  photos: string[];
-  img: string;
-  about: string;
-  apartment: string;
-  family: string;
-  flat_id: string;
-  flat_index: string;
-  floor: string;
-  houseNumber: string;
-  kitchen_area: string;
-  man: string;
-  metro: string;
-  price_y: string;
-  street: string;
-  students: string;
-  woman: string;
+interface UserInfo {
+  animals: string | undefined;
+  area_of: number | undefined;
+  area_to: number | undefined;
+  balcony: string | undefined;
+  bunker: string | undefined;
+  city: string | undefined;
+  country: string | undefined;
+  day_counts: number | undefined;
+  days: number | undefined;
+  distance_green: number | undefined;
+  distance_metro: number | undefined;
+  distance_parking: number | undefined;
+  distance_shop: number | undefined;
+  distance_stop: number | undefined;
+  family: boolean | undefined;
+  firstName: string | undefined;
+  flat: string | undefined;
+  house: string | undefined;
+  img: string | undefined;
+  lastName: string | undefined;
+  looking_man: boolean | undefined;
+  looking_woman: boolean | undefined;
+  man: boolean | undefined;
+  mounths: number | undefined;
+  option_pay: number | undefined;
+  price_of: number | undefined;
+  price_to: number | undefined;
+  purpose_rent: number | undefined;
+  region: string | undefined;
+  repair_status: string | undefined;
+  room: boolean | undefined;
+  rooms_of: number | undefined;
+  rooms_to: number | undefined;
+  students: boolean | undefined;
+  user_id: string | undefined;
+  weeks: number | undefined;
+  woman: boolean | undefined;
+  years: number | undefined;
 }
+
 @Component({
   selector: 'app-tenants-search',
   templateUrl: './tenants-search.component.html',
@@ -66,39 +70,37 @@ interface FlatInfo {
 })
 
 export class TenantsSearchComponent implements OnInit {
-  isSubscribed: boolean = false;
 
+  isSubscribed: boolean = false;
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
   subscriptionMessageTimeout: Subject<void> = new Subject<void>();
-
   private filterSubscription: Subscription | undefined;
-  flatInfo: FlatInfo[] = [];
-  filteredFlats: FlatInfo[] | undefined;
-  selectedFlat: FlatInfo | any;
+  userInfo: UserInfo[] = [];
+  filteredUsers: UserInfo[] | undefined;
+  selectedUser: UserInfo | any;
   filterForm: FormGroup;
-  flatImages: any[] = [];
-  selectedFlatPhotos: string[] = [];
-  currentFlatPhotos: string[] = [];
-  currentPhotoIndex: number = 0;
-  isCarouselAnimating!: boolean;
   limit: number = 0;
   additionalLoadLimit: number = 5;
   offset: number = 0;
   localStorageKey!: string;
   showFullScreenImage = false;
   fullScreenImageUrl = '';
-  photoChangeData: any;
   currentCardIndex: number = 0;
-  cards: FlatInfo[] = [];
-  public locationLink: string = '';
-  location: string | null = null;
+  cards: UserInfo[] = [];
+  statusSubscriptionMessage: boolean | undefined;
+  statusMessage: any;
+  selectedFlatId!: string | null;
 
-  selectedFlatRegion: string = '';
-  selectedFlatCity: string = '';
-  selectedFlatStreet: string = '';
-  selectedFlatHouseNumber: string = '';
-  selectedFlatFlatIndex: string = '';
+
+  purpose: { [key: number]: string } = {
+    0: 'Переїзд',
+    1: 'Відряджання',
+    2: 'Подорож',
+    3: 'Пожити в іншому місті',
+    4: 'Навчання',
+    5: 'Особисті причини',
+  }
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
@@ -108,49 +110,49 @@ export class TenantsSearchComponent implements OnInit {
     500: '500м',
     1000: '1км',
   }
-  statusSubscriptionMessage: boolean | undefined;
-  statusMessage: any;
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
+  }
+
+  animals: { [key: number]: string } = {
+    0: 'Без тварин',
+    1: 'З котячими',
+    2: 'З собачими',
+    3: 'З собачими/котячими',
+    4: 'Є багато різного',
+    5: 'Щось цікавіше',
+  }
 
   constructor(
-    private filterService: FilterService,
+    private filterService: FilterUserService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
+    private selectedFlatService: SelectedFlatService
   ) {
     this.filterForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
-    this.subscriptionMessageTimeout.subscribe(() => {
-      setTimeout(() => {
-        this.subscriptionMessage = undefined;
-      }, 2000);
-    });
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (this.selectedFlatId !== null) {
+        this.subscriptionMessageTimeout.subscribe(() => {
+          setTimeout(() => {
+            this.subscriptionMessage = undefined;
+          }, 2000);
+        });
 
-    this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
-      const filterValue = this.filterService.getFilterValue();
-      if (filterValue) {
-        this.updateFilteredData(filterValue);
+        this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
+          const filterValue = this.filterService.getFilterValue();
+          if (filterValue) {
+            this.updateFilteredData(filterValue);
+          }
+        });
       }
     });
-
-    this.filterService.photoChange$.subscribe((data: any[]) => {
-      this.photoChangeData = data;
-      this.updateCardPhotos();
-    });
-
-    this.locationLink = this.generateLocationUrl();
-  }
-
-  private updateCardPhotos(): void {
-    if (this.photoChangeData && this.photoChangeData.flat_img) {
-      const filteredCards = this.filteredFlats;
-      this.flatImages = [];
-      this.photoChangeData.flat_img.forEach((i: any) => {
-        this.flatImages.push(i);
-      });
-      this.flatInfo = this.photoChangeData.flat_inf;
-    }
   }
 
   getDefaultImage(photo: string | undefined | null): string {
@@ -161,58 +163,18 @@ export class TenantsSearchComponent implements OnInit {
     }
   }
 
-  updateSelectedFlatPhotos() {
-
-    const selectedFlatId = this.selectedFlat?.flat_id;
-    const selectedFlatImages = this.flatImages.find(flatImage => flatImage.flat_id === selectedFlatId)?.img || [];
-    this.selectedFlatPhotos = selectedFlatImages;
-  }
-
-  updateCurrentPhotoIndex(index: number) {
-    this.currentPhotoIndex = index;
-  }
-
-  selectFlat(flat: FlatInfo) {
-    this.selectedFlat = this.filteredFlats![0];
-    this.selectedFlat = flat;
+  selectUser(user: UserInfo) {
+    this.selectedUser = this.filteredUsers![0];
+    this.selectedUser = user;
 
     setTimeout(() => {
-      this.updateSelectedFlatPhotos();
-      this.updateCurrentPhotoIndex(0);
-
-      this.currentFlatPhotos = [...this.selectedFlatPhotos];
-      this.selectedFlatRegion = flat.region || '';
-      this.selectedFlatCity = flat.city || '';
-      this.selectedFlatStreet = flat.street || '';
-      this.selectedFlatHouseNumber = flat.houseNumber || '';
-      this.selectedFlatFlatIndex = flat.flat_index || '';
-      this.locationLink = this.generateLocationUrl();
-
       this.checkSubscribe();
     }, 100);
   }
 
-
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
-    console.log(filterValue)
-    this.filteredFlats = filterValue;
-    this.updateSelectedFlatPhotos();
-  }
-
-  getFlatImageUrl(flat: FlatInfo): any {
-    let imageUrl = '';
-
-    const flatImage = this.flatImages.find(flatImage => flatImage.flat_id === flat.flat_id);
-    if (flatImage) {
-      if (!flatImage.img[0] === undefined === null) {
-        imageUrl = 'http://localhost:3000/housing_default.svg';
-      } else {
-        imageUrl = this.getImageUrl(flatImage.img[0]);
-      }
-    }
-
-    return imageUrl;
+    this.filteredUsers = filterValue;
   }
 
   getImageUrl(fileName: string | string[]): string {
@@ -224,125 +186,54 @@ export class TenantsSearchComponent implements OnInit {
     return 'http://localhost:3000/img/flat/housing_default.svg';
   }
 
-  private updateSelectedFlat() {
-    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    this.updateSelectedFlatPhotos();
-    this.currentFlatPhotos = [...this.selectedFlatPhotos];
-    this.updateCurrentPhotoIndex(0);
+  private updateSelectedUser() {
+    this.selectedUser = this.filteredUsers![this.currentCardIndex];
   }
 
   onPrevCard() {
-    if (!this.isCarouselAnimating) {
-      this.isCarouselAnimating = true;
-      this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
-
-      setTimeout(() => {
-        this.updateSelectedFlat();
-        this.updateCurrentPhotoIndex(0);
-        this.checkSubscribe();
-        this.currentFlatPhotos = [...this.selectedFlatPhotos];
-        this.isCarouselAnimating = false;
-      }, 100);
-    }
+    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
+    this.checkSubscribe();
+    this.updateSelectedUser();
   }
 
   onNextCard() {
-    if (!this.isCarouselAnimating) {
-      this.isCarouselAnimating = true;
-      this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
-
-      setTimeout(() => {
-        this.updateSelectedFlat();
-        this.updateCurrentPhotoIndex(0);
-        this.checkSubscribe();
-        this.currentFlatPhotos = [...this.selectedFlatPhotos];
-        this.isCarouselAnimating = false;
-      }, 100);
-    }
+    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
+    this.checkSubscribe();
+    this.updateSelectedUser();
   }
 
+
   private calculateCardIndex(index: number): number {
-    const length = this.filteredFlats?.length || 0;
+    const length = this.filteredUsers?.length || 0;
     return (index + length) % length;
   }
 
   loadMore(): void {
     this.limit += 5
-    const url = `http://localhost:3000/search/flat?limit=${this.limit}`;
-    this.http.get<{ flat_inf: FlatInfo[], flat_img: any[] }>(url).subscribe((data) => {
-      console.log(data)
-      const { flat_inf, flat_img } = data;
-      if (flat_inf && flat_img) {
-        flat_img.forEach((i) => {
-          this.flatImages.push(i)
-        })
-        this.flatInfo = flat_inf;
-        const additionalFlats = flat_inf;
-        this.filteredFlats = [...this.filteredFlats!, ...additionalFlats];
+    const url = `http://localhost:3000/search/user?limit=${this.limit}`;
+    this.http.get<{ user_inf: UserInfo[] }>(url).subscribe((data) => {
+      const { user_inf } = data;
+      if (user_inf) {
+        this.userInfo = user_inf;
+        const additionalUsers = user_inf;
+        this.filteredUsers = [...this.filteredUsers!, ...additionalUsers];
       }
     });
   }
 
-  openFullScreenImage(imageUrl: string): void {
-    this.showFullScreenImage = true;
-    this.fullScreenImageUrl = imageUrl;
-  }
-
-  closeFullScreenImage(): void {
-    this.showFullScreenImage = false;
-    this.fullScreenImageUrl = '';
-  }
-
-  generateLocationUrl() {
-    const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.selectedFlatRegion || '';
-    const city = this.selectedFlatCity || '';
-    const street = this.selectedFlatStreet || '';
-    const houseNumber = this.selectedFlatHouseNumber || '';
-    const flatIndex = this.selectedFlatFlatIndex || '';
-    const encodedRegion = encodeURIComponent(region);
-    const encodedCity = encodeURIComponent(city);
-    const encodedStreet = encodeURIComponent(street);
-    const encodedHouseNumber = encodeURIComponent(houseNumber);
-    const encodedFlatIndex = encodeURIComponent(flatIndex);
-
-    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-    this.locationLink = locationUrl;
-
-    return locationUrl;
-  }
-
-  handleContainerClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const carouselElement = document.getElementById('carouselExampleIndicators');
-
-    if (!carouselElement?.contains(target)) {
-      this.resetCarousel();
-    }
-  }
-
-  resetCarousel() {
-    const firstSlideIndicator = document.querySelector('#carouselExampleIndicators .carousel-indicators button');
-    if (firstSlideIndicator) {
-      (firstSlideIndicator as HTMLButtonElement).click();
-    }
-  }
-
   onSubmitSbs(): void {
-    const selectedFlat = this.selectedFlat.flat_id;
+    const selectedFlatID = this.selectedFlatId;
+    const selectedUserID = this.selectedUser.user_id;
     const userJson = localStorage.getItem('user');
 
     if (userJson) {
-      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post('http://localhost:3000/subs/subscribe', payload)
+      const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
+      this.http.post('http://localhost:3000/usersubs/subscribe', data)
         .subscribe((response: any) => {
           console.log(response);
           this.subscriptionMessage = response.status;
           this.isSubscribed = true;
           this.checkSubscribe();
-          setTimeout(() => {
-            this.showSubscriptionMessage = false;
-          }, 2000);
         }, (error: any) => {
           console.error(error);
         });
@@ -352,14 +243,18 @@ export class TenantsSearchComponent implements OnInit {
   }
 
   checkSubscribe(): void {
-    const selectedFlat = this.selectedFlat.flat_id;
+    const selectedFlatID = this.selectedFlatId;
+    const selectedUserID = this.selectedUser.user_id;
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post('http://localhost:3000/subs/checkSubscribe', payload)
+      const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
+      this.http.post('http://localhost:3000/usersubs/checkSubscribe', data)
         .subscribe((response: any) => {
+          console.log(response.status)
+
           this.statusMessage = response.status;
           this.statusSubscriptionMessage = true;
+          console.log(this.statusMessage)
 
           if (response.status === 'Ви успішно відписались') {
             this.isSubscribed = true;
@@ -373,7 +268,5 @@ export class TenantsSearchComponent implements OnInit {
       console.log('user not found');
     }
   }
-
-
 
 }

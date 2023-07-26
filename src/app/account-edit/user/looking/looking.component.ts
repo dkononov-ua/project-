@@ -14,8 +14,8 @@ interface UserInfo {
   city: string | undefined;
   rooms_of: number | undefined;
   rooms_to: number | undefined;
-  area_of: number | undefined;
-  area_to: number | undefined;
+  area_of: string | undefined;
+  area_to: string | undefined;
   repair_status: string | undefined;
   bunker: string | undefined;
   balcony: string | undefined;
@@ -25,7 +25,7 @@ interface UserInfo {
   distance_green: number | undefined;
   distance_shop: number | undefined;
   distance_parking: number | undefined;
-  optionPay: number | undefined;
+  option_pay: number | undefined;
   lease_term: string | undefined;
   purpose_rent: string | undefined;
   house: boolean | undefined;
@@ -40,7 +40,7 @@ interface UserInfo {
   family: boolean | undefined;
   days: number | undefined;
   weeks: number | undefined;
-  months: number | undefined;
+  mounths: number | undefined;
   years: number | undefined;
 }
 @Component({
@@ -72,8 +72,8 @@ export class LookingComponent implements OnInit {
     city: '',
     rooms_of: 0,
     rooms_to: 0,
-    area_of: 0,
-    area_to: 0,
+    area_of: '0',
+    area_to: '0',
     repair_status: '',
     bunker: '',
     balcony: '',
@@ -83,7 +83,7 @@ export class LookingComponent implements OnInit {
     distance_green: 0,
     distance_shop: 0,
     distance_parking: 0,
-    optionPay: 0,
+    option_pay: 0,
     house: false,
     flat: false,
     room: false,
@@ -98,7 +98,7 @@ export class LookingComponent implements OnInit {
     family: false,
     days: 0,
     weeks: 0,
-    months: 0,
+    mounths: 0,
     years: 0,
   };
 
@@ -135,9 +135,8 @@ export class LookingComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/features/get', {auth: JSON.parse(userJson)})
+      this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
-          console.log(response)
           this.userInfo = response.inf;
         }, (error: any) => {
           console.error(error);
@@ -151,10 +150,8 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.disabled === false) {
       const data = { ...this.userInfo };
-      console.log(data);
       this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });
@@ -178,8 +175,8 @@ export class LookingComponent implements OnInit {
         city: '',
         rooms_of: 0,
         rooms_to: 0,
-        area_of: 0,
-        area_to: 0,
+        area_of: '0',
+        area_to: '0',
         repair_status: '',
         bunker: '',
         balcony: '',
@@ -189,7 +186,7 @@ export class LookingComponent implements OnInit {
         distance_green: 0,
         distance_shop: 0,
         distance_parking: 0,
-        optionPay: 0,
+        option_pay: 0,
         house: false,
         flat: false,
         room: false,
@@ -204,14 +201,16 @@ export class LookingComponent implements OnInit {
         family: false,
         days: 0,
         weeks: 0,
-        months: 0,
+        mounths: 0,
         years: 0,
       };
   }
 
   loadCities() {
+    if (!this.userInfo) return;
+    const searchTerm = this.userInfo.region?.toLowerCase() || '';
     this.filteredRegions = this.regions.filter(region =>
-      region.name.toLowerCase()
+      region.name.toLowerCase().includes(searchTerm)
     );
     const selectedRegionObj = this.filteredRegions.find(region =>
       region.name === this.userInfo.region
@@ -221,12 +220,14 @@ export class LookingComponent implements OnInit {
   }
 
   loadDistricts() {
+    if (!this.userInfo) return;
+    const searchTerm = this.userInfo.city!.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.userInfo.region
     );
     this.filteredCities = selectedRegionObj
       ? selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase()
+        city.name.toLowerCase().includes(searchTerm)
       )
       : [];
 

@@ -23,7 +23,7 @@
               <mat-label>Мета оренди</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.purpose_rent" name="purpose_rent">
                 <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="1">Переїзд</mat-option>
+                <mat-option value="0">Переїзд</mat-option>
                 <mat-option value="1">Відряджання</mat-option>
                 <mat-option value="2">Подорож</mat-option>
                 <mat-option value="3">Пожити в іншому місті</mat-option>
@@ -53,7 +53,7 @@
 
             <mat-form-field class="item-select25 m-1" appearance="outline">
               <mat-label>Міс.</mat-label>
-              <input type="number" name="userInfo.months" [(ngModel)]="userInfo.months" [min]="minValueMonths"
+              <input type="number" name="userInfo.months" [(ngModel)]="userInfo.mounths" [min]="minValueMonths"
                 [max]="maxValueMonths" matInput [disabled]="disabled">
             </mat-form-field>
 
@@ -220,10 +220,10 @@
             <mat-label>Стан</mat-label>
             <mat-select [disabled]="disabled" [(ngModel)]="userInfo.repair_status" name="repair_status">
               <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="1">Новий</mat-option>
-              <mat-option value="2">Добрий</mat-option>
-              <mat-option value="3">Задовільний</mat-option>
-              <mat-option value="3">Поганий</mat-option>
+              <mat-option value="Новий">Новий</mat-option>
+              <mat-option value="Добрий">Добрий</mat-option>
+              <mat-option value="Задовільний">Задовільний</mat-option>
+              <mat-option value="Поганий">Поганий</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -234,34 +234,34 @@
             <mat-form-field class="item-select50 m-1" appearance="outline">
               <mat-label>від</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.area_of" name="area_of">
-                <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="10">10м²</mat-option>
-                <mat-option value="20">20м²</mat-option>
-                <mat-option value="30">30м²</mat-option>
-                <mat-option value="40">40м²</mat-option>
-                <mat-option value="50">50м²</mat-option>
-                <mat-option value="60">60м²</mat-option>
-                <mat-option value="70">70м²</mat-option>
-                <mat-option value="80">80м²</mat-option>
-                <mat-option value="90">90м²</mat-option>
-                <mat-option value="100">100м²</mat-option>
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option value="10.00">10м²</mat-option>
+                <mat-option value="20.00">20м²</mat-option>
+                <mat-option value="30.00">30м²</mat-option>
+                <mat-option value="40.00">40м²</mat-option>
+                <mat-option value="50.00">50м²</mat-option>
+                <mat-option value="60.00">60м²</mat-option>
+                <mat-option value="70.00">70м²</mat-option>
+                <mat-option value="80.00">80м²</mat-option>
+                <mat-option value="90.00">90м²</mat-option>
+                <mat-option value="100.00">100м²</mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field class="item-select50 m-1" appearance="outline">
               <mat-label>до</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.area_to" name="area_to">
-                <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="10">10м²</mat-option>
-                <mat-option value="20">20м²</mat-option>
-                <mat-option value="30">30м²</mat-option>
-                <mat-option value="40">40м²</mat-option>
-                <mat-option value="50">50м²</mat-option>
-                <mat-option value="60">60м²</mat-option>
-                <mat-option value="70">70м²</mat-option>
-                <mat-option value="80">80м²</mat-option>
-                <mat-option value="90">90м²</mat-option>
-                <mat-option value="100">100м²</mat-option>
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option value="10.00">10м²</mat-option>
+                <mat-option value="20.00">20м²</mat-option>
+                <mat-option value="30.00">30м²</mat-option>
+                <mat-option value="40.00">40м²</mat-option>
+                <mat-option value="50.00">50м²</mat-option>
+                <mat-option value="60.00">60м²</mat-option>
+                <mat-option value="70.00">70м²</mat-option>
+                <mat-option value="80.00">80м²</mat-option>
+                <mat-option value="90.00">90м²</mat-option>
+                <mat-option value="100.00">100м²</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -273,22 +273,24 @@
             <mat-form-field class="item-select50 m-1" appearance="outline">
               <mat-label>від</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.rooms_of" name="rooms_of">
-                <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-                <mat-option value="4">4+</mat-option>
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]="1">1</mat-option>
+                <mat-option [value]="2">2</mat-option>
+                <mat-option [value]="3">3</mat-option>
+                <mat-option [value]="4">4</mat-option>
+                <mat-option [value]="5">5+</mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field class="item-select50 m-1" appearance="outline">
               <mat-label>до</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.rooms_to" name="rooms_to">
-                <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-                <mat-option value="4">4+</mat-option>
+                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]="1">1</mat-option>
+                <mat-option [value]="2">2</mat-option>
+                <mat-option [value]="3">3</mat-option>
+                <mat-option [value]="4">4</mat-option>
+                <mat-option [value]="5">5+</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -301,8 +303,8 @@
             <mat-label>Балкон</mat-label>
             <mat-select [disabled]="disabled" [(ngModel)]="userInfo.balcony" name="balcony">
               <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="Класичний балкон">Класичний балкон</mat-option>
-              <mat-option value="Французький балкон">Французький балкон</mat-option>
+              <mat-option value="Класичний">Класичний</mat-option>
+              <mat-option value="Французький">Французький</mat-option>
               <mat-option value="Лоджія">Лоджія</mat-option>
               <mat-option value="Тераса">Тераса</mat-option>
               <mat-option value="Веранда">Веранда</mat-option>
@@ -313,22 +315,22 @@
           <mat-form-field class="item-select m-1" appearance="outline">
             <mat-label>Парк</mat-label>
             <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_green" name="distance_green">
-              <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="100">до 100м</mat-option>
-              <mat-option value="300">до 300м</mat-option>
-              <mat-option value="500">до 500м</mat-option>
-              <mat-option value="1000">до 1км</mat-option>
+              <mat-option [value]="0">Неважливо</mat-option>
+              <mat-option [value]="100">до 100м</mat-option>
+              <mat-option [value]="300">до 300м</mat-option>
+              <mat-option [value]="500">до 500м</mat-option>
+              <mat-option [value]="1000">до 1км</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field class="item-select m-1" appearance="outline">
             <mat-label>Маркет</mat-label>
             <mat-select [disabled]="disabled" [(ngModel)]="userInfo.distance_shop" name="distance_shop">
-              <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="100">до 100м</mat-option>
-              <mat-option value="300">до 300м</mat-option>
-              <mat-option value="500">до 500м</mat-option>
-              <mat-option value="1000">до 1км</mat-option>
+              <mat-option [value]="0">Неважливо</mat-option>
+              <mat-option [value]="100">до 100м</mat-option>
+              <mat-option [value]="300">до 300м</mat-option>
+              <mat-option [value]="500">до 500м</mat-option>
+              <mat-option [value]="1000">до 1км</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -393,13 +395,15 @@
           <div class="group-item">
 
             <mat-form-field class="item-select m-1" appearance="outline">
-              <mat-label>Тварини</mat-label>
+              <mat-label>Домашні улюбленці</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.animals" name="animals">
-                <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="1">Невеликі (гризуни)</mat-option>
-                <mat-option value="2">Котики</mat-option>
-                <mat-option value="3">Песики</mat-option>
-                <mat-option value="4">Інше</mat-option>
+                <mat-option [value]="''">Приховати</mat-option>
+                <mat-option value="0">Без тварин</mat-option>
+                <mat-option value="1">З котячими</mat-option>
+                <mat-option value="2">З собачими</mat-option>
+                <mat-option value="3">З собачими/котячими</mat-option>
+                <mat-option value="4">Є багато різного</mat-option>
+                <mat-option value="5">Щось цікавіше</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -409,7 +413,7 @@
 
                 <div class="content">
                   <label class="checkBox">
-                    <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.optionPay" name="daily"
+                    <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.option_pay" name="daily"
                       [value]=1>
                     <div class="transition"></div>
                   </label>
@@ -419,7 +423,7 @@
 
                 <div class="content">
                   <label class="checkBox">
-                    <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.optionPay" [value]=0>
+                    <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="userInfo.option_pay" [value]=0>
                     <div class="transition"></div>
                   </label>
                   <span class="checkBox-span">Щомісяця</span>
