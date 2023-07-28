@@ -127,6 +127,7 @@ export class HouseComponent implements OnInit {
     price_d: Number(''),
     about: '',
     bunker: Number(''),
+    option_pay: Number(''),
   };
 
   copyFlatId() {
@@ -169,6 +170,7 @@ export class HouseComponent implements OnInit {
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
+          console.log(response)
           if (response.houseData) {
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;
@@ -193,7 +195,7 @@ export class HouseComponent implements OnInit {
             this.house.apartment = response.houseData.flat.apartment;
             this.house.flat_index = response.houseData.flat.flat_index;
             this.house.private = response.houseData.flat.private;
-            this.house.rent = response.houseData.flat.rent;
+            this.house.rent = response.houseData.about.rent;
             this.house.live = response.houseData.flat.live;
             this.house.who_live = response.houseData.flat.who_live;
             this.house.subscribers = response.houseData.flat.subscribers;
@@ -214,6 +216,9 @@ export class HouseComponent implements OnInit {
             this.about.man = response.houseData.about.man;
             this.about.family = response.houseData.about.family;
             this.about.students = response.houseData.about.students;
+            this.about.option_pay = response.houseData.about.option_pay;
+
+
             this.about.animals = response.houseData.about.animals;
             this.about.price_m = response.houseData.about.price_m;
             this.about.price_d = response.houseData.about.price_d;

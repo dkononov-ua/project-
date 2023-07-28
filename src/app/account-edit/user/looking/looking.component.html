@@ -41,25 +41,25 @@
 
             <mat-form-field class="item-select25 m-1" appearance="outline">
               <mat-label>Дні</mat-label>
-              <input type="number" name="userInfo.days" [(ngModel)]="userInfo.days" [min]="minValueDays"
+              <input type="number" name="userInfo.days" (click)="onDayCountsChange()" [(ngModel)]="userInfo.days" [min]="minValueDays"
                 [max]="maxValueDays" matInput [disabled]="disabled">
             </mat-form-field>
 
             <mat-form-field class="item-select25 m-1" appearance="outline">
               <mat-label>Тиж.</mat-label>
-              <input type="number" name="userInfo.weeks" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks"
+              <input type="number" name="userInfo.weeks" (click)="onDayCountsChange()" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks"
                 [max]="maxValueWeeks" matInput [disabled]="disabled">
             </mat-form-field>
 
             <mat-form-field class="item-select25 m-1" appearance="outline">
               <mat-label>Міс.</mat-label>
-              <input type="number" name="userInfo.months" [(ngModel)]="userInfo.mounths" [min]="minValueMonths"
-                [max]="maxValueMonths" matInput [disabled]="disabled">
+              <input type="number" name="userInfo.months" (click)="onDayCountsChange()" [(ngModel)]="userInfo.mounths" [min]="minValueMounths"
+                [max]="maxValueMounths" matInput [disabled]="disabled">
             </mat-form-field>
 
             <mat-form-field class="item-select25 m-1" appearance="outline">
               <mat-label>Роки.</mat-label>
-              <input type="number" name="userInfo.years" [(ngModel)]="userInfo.years" [min]="minValueYears"
+              <input type="number" name="userInfo.years" (click)="onDayCountsChange()" [(ngModel)]="userInfo.years" [min]="minValueYears"
                 [max]="maxValueYears" matInput [disabled]="disabled">
             </mat-form-field>
 

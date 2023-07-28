@@ -1,12 +1,16 @@
 @use "../../../style/presets/" as *;
 
 .chat {
+  min-height: 70vh;
   max-height: 70vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
   border-radius: 10px;
   padding: 30px 5px 20px 5px;
+  background-color: $color-light;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
 }
 
 .chat::-webkit-scrollbar {
@@ -121,5 +125,13 @@
     box-shadow: 0px 0px 10px $color-accent;
     border-color: $color-accent;
   }
+}
+
+h4, h5, p {
+  text-align: center;
+}
+
+h4, h5 {
+  font-weight: 600;
 }
 

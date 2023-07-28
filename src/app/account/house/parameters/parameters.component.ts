@@ -45,11 +45,8 @@ export class ParametersComponent implements OnInit {
     houseNumber: '',
     apartment: '',
     flat_index: '',
-    private: Number(''),
-    rent: Number(''),
-    live: Number(''),
-    who_live: Number(''),
-    subscribers: '',
+    agent_id: '',
+    owner_id: '',
   };
 
   param = {
@@ -60,6 +57,7 @@ export class ParametersComponent implements OnInit {
     repair_status: '',
     floor: Number(''),
     balcony: '',
+    option_flat: Number(''),
   };
 
   options: { [key: number]: string } = {
@@ -90,6 +88,18 @@ export class ParametersComponent implements OnInit {
     2: 'Ні',
   }
 
+  animals: { [key: number]: string } = {
+    0: 'Приховати',
+    1: 'Без тварин',
+    2: 'За домовленістю',
+    3: 'Можна з тваринами',
+  }
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
+  }
+
   about = {
     distance_metro: Number(''),
     distance_stop: Number(''),
@@ -100,11 +110,16 @@ export class ParametersComponent implements OnInit {
     man: Number(''),
     family: Number(''),
     students: Number(''),
-    animals: '',
+    animals: Number(''),
     price_m: Number(''),
-    price_y: '',
+    price_y: Number(''),
     about: '',
     bunker: '',
+    option_pay: Number(''),
+    price_d: '',
+    private: '',
+    rent: '',
+    room: Number(''),
   };
 
   addressHouse: any;
@@ -135,19 +150,21 @@ export class ParametersComponent implements OnInit {
             this.user.mail = response.userData.cont.mail;
             this.user.viber = response.userData.cont.viber;
 
-            this.house.region = response.houseData.flat.region;
-            this.house.flat_id = response.houseData.flat.flat_id;
-            this.house.country = response.houseData.flat.country;
-            this.house.city = response.houseData.flat.city;
-            this.house.street = response.houseData.flat.street;
-            this.house.houseNumber = response.houseData.flat.houseNumber;
+            this.house.agent_id = response.houseData.flat.agent_id;
             this.house.apartment = response.houseData.flat.apartment;
+            this.house.city = response.houseData.flat.city;
+            this.house.country = response.houseData.flat.country;
+            this.about.distance_green = response.houseData.flat.distance_green;
+            this.about.distance_metro = response.houseData.flat.distance_metro;
+            this.about.distance_parking = response.houseData.flat.distance_parking;
+            this.about.distance_shop = response.houseData.flat.distance_shop;
+            this.about.distance_stop = response.houseData.flat.distance_stop;
+            this.house.flat_id = response.houseData.flat.flat_id;
             this.house.flat_index = response.houseData.flat.flat_index;
-            this.house.private = response.houseData.flat.private;
-            this.house.rent = response.houseData.flat.rent;
-            this.house.live = response.houseData.flat.live;
-            this.house.who_live = response.houseData.flat.who_live;
-            this.house.subscribers = response.houseData.flat.subscribers;
+            this.house.houseNumber = response.houseData.flat.houseNumber;
+            this.house.owner_id = response.houseData.flat.owner_id;
+            this.house.region = response.houseData.flat.region;
+            this.house.street = response.houseData.flat.street;
 
             this.param.rooms = response.houseData.param.rooms;
             this.param.repair_status = response.houseData.param.repair_status;
@@ -155,21 +172,21 @@ export class ParametersComponent implements OnInit {
             this.param.kitchen_area = response.houseData.param.kitchen_area;
             this.param.balcony = response.houseData.param.balcony;
             this.param.floor = response.houseData.param.floor;
+            this.param.option_flat = response.houseData.param.option_flat;
 
-            this.about.distance_metro = response.houseData.flat.distance_metro;
-            this.about.distance_stop = response.houseData.flat.distance_stop;
-            this.about.distance_shop = response.houseData.flat.distance_shop;
-            this.about.distance_green = response.houseData.flat.distance_green;
-            this.about.distance_parking = response.houseData.flat.distance_parking;
-            this.about.woman = response.houseData.about.woman;
-            this.about.man = response.houseData.about.man;
-            this.about.family = response.houseData.about.family;
-            this.about.students = response.houseData.about.students;
-            this.about.animals = response.houseData.about.animals;
-            this.about.price_m = response.houseData.about.price_m;
-            this.about.price_y = response.houseData.about.price_y;
             this.about.about = response.houseData.about.about;
+            this.about.animals = response.houseData.about.animals;
             this.about.bunker = response.houseData.about.bunker;
+            this.about.family = response.houseData.about.family;
+            this.about.man = response.houseData.about.man;
+            this.about.option_pay = response.houseData.about.option_pay;
+            this.about.price_d = response.houseData.about.price_d;
+            this.about.price_m = response.houseData.about.price_m;
+            this.about.private = response.houseData.about.private;
+            this.about.rent = response.houseData.about.rent;
+            this.about.room = response.houseData.about.room;
+            this.about.students = response.houseData.about.students;
+            this.about.woman = response.houseData.about.woman;
 
             if (response.houseData.imgs !== 'Картинок нема') {
               this.flatImg = response.houseData.imgs;

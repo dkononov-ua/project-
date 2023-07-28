@@ -71,12 +71,14 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
 
   &:hover {
     transition: 0.4s;
     color: $color-accent;
     transform: scale(1.4);
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px 0px 10px $color-accent);
   }
   &:active {
     color: $color-accent;

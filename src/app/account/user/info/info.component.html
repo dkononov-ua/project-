@@ -1,15 +1,16 @@
 <div class="container-box">
-  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
+  <div class="card-box col-lg-5 col-md-6 col-sm-12 col-12">
     <div class="card m-2">
 
       <div class="img-fluid">
-        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image">
+        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image"
+          (error)="useDefaultImage($event)">
       </div>
 
       <div class="item-wrapper p-3">
-        <h2>{{ user.surName }}</h2>
-        <h2>{{ user.firstName }}</h2>
         <h2>{{ user.lastName }}</h2>
+        <h2>{{ user.firstName }}</h2>
+        <h2>{{ user.surName }}</h2>
         <p>User ID: <span class="accent">{{ user.user_id }}</span></p>
         <p>Телефон: <span class="accent">{{ user.tell }}</span></p>
         <div class="card-social-link">
@@ -23,41 +24,147 @@
     </div>
   </div>
 
-  <div [@cardAnimation] class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
-    <div class="card m-2 p-3">
-      <h3>Так виглядає Ваша картка користувача в Discussio</h3>
-      <div class="img-fluid">
-        <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
+  <div [@cardAnimation] class="card-box col-lg-5 col-md-6 col-sm-12 col-12">
+    <div class="card m-2 p-2" *ngIf="userInfo.agree_search !== 0">
+
+      <div class="container-sticker">
+        <div class="status-container">
+          <div class="status rent-yes" *ngIf="userInfo.agree_search === 1">Пошук увімкнено</div>
+          <div class="status rent-yes" *ngIf="userInfo.woman === 1">W</div>
+          <div class="status rent-yes" *ngIf="userInfo.man === 1">M</div>
+          <div class="status rent-yes" *ngIf="userInfo.students === 1">S</div>
+          <div class="status rent-yes" *ngIf="userInfo.family === 1">F</div>
+        </div>
       </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Шукаю оселю в :</div>
+
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="userInfo?.region !== null">Область :<span class="item">{{
+              userInfo.region || '?' }}</span> </div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.city !== null">Місто :<span class="item">{{
+              userInfo.city || '?' }}</span> </div>
+
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Параметри оселі:</div>
+
+        <div class="characteristics-group">
+
+          <div class="item-characteristics">
+            Площа:
+            <span class="item" *ngIf="userInfo?.area_of !== 'Приховати' && userInfo?.area_of !== null">від {{
+              userInfo.area_of || '?' }}м²</span>
+            <span class="item" *ngIf="userInfo?.area_to !== 'Приховати' && userInfo?.area_to !== null">до {{
+              userInfo.area_to || '?' }}м²</span>
+          </div>
+
+          <div class="item-characteristics"
+            *ngIf="userInfo?.repair_status !== 'Приховати' && userInfo?.repair_status !== null">Стан
+            оселі:<span class="item">{{ userInfo.repair_status }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.balcony !== 'Приховати' && userInfo?.balcony !== null">Тип
+            балкону:<span class="item">{{ userInfo.balcony }}</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Інфраструктура:</div>
+
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo?.distance_metro !== 0 && userInfo?.distance_metro !== null">
+            Метро
+            до:<span class="item">{{ aboutDistance[userInfo.distance_metro] }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.distance_stop !== 0 && userInfo?.distance_stop !== null">
+            Зупинка
+            до:<span class="item">{{ aboutDistance[userInfo.distance_stop] }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.distance_shop !== 0 && userInfo?.distance_shop !== null">
+            Маркет
+            до:<span class="item">{{ aboutDistance[userInfo.distance_shop] }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.distance_green !== 0 && userInfo?.distance_green !== null">
+            Парк
+            до:<span class="item">{{ aboutDistance[userInfo.distance_green] }}</span> </div>
+          <div class="item-characteristics"
+            *ngIf="userInfo?.distance_parking !== 0 && userInfo?.distance_parking !== null">
+            Паркінг:<span class="item">{{ aboutDistance[userInfo.distance_parking] }}</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Особливості:</div>
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="userInfo?.bunker !== 'Приховати' && userInfo?.bunker !== null">
+            Наявність
+            укриття:<span class="item">{{ userInfo.bunker }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.animals !== 0 && userInfo?.animals !== null">
+            Домашні улюбленці: <span class="item">{{ animals[userInfo.animals] }} </span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Розглядаю тип оселі:</div>
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo?.flat && userInfo?.flat !== null"><span
+              class="item">Квартира</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.house && userInfo?.house !== null"><span
+              class="item">Будинок</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.room && userInfo?.room !== null"><span
+              class="item">Кімната</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="userInfo?.room && userInfo?.room !== null">
+        <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo?.looking_man && userInfo?.looking_man !== null">
+            <span class="item">Чоловік</span>
+          </div>
+          <div class="item-characteristics" *ngIf="userInfo?.looking_woman && userInfo?.looking_woman !== null"><span
+              class="item">Жінка</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Орієнтовний термін оренди:</div>
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="userInfo?.years && userInfo?.years !== null"><span class="item">{{
+              userInfo.years }}</span>Роки</div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.mounths && userInfo?.mounths !== null">Місяці
+            <span class="item">{{ userInfo.mounths }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.weeks && userInfo?.weeks !== null"><span class="item">{{
+              userInfo.weeks }}</span>Тижні</div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.days && userInfo?.days !== null"><span class="item">{{
+              userInfo.days }}</span>Дні</div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card m-2 p-2" *ngIf="userInfo.agree_search === 0">
+
+      <h4 class="mt-3">Тут будуть Ваші параметри пасивного пошуку оселі як їх бачуть коричтувачі в Discussio.</h4>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
+        <div class="box">
+          <div class="logo-fluid">
+            <img class="logo rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
+          </div>
+          <p class="accent">"Пасивний пошук оселі"</p>
+        </div>
+      </a>
+      <p>Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли.</p>
+
 
     </div>
   </div>
-
-  <!-- <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
-    <div class="m-2">
-      <div class="card-info p-2">
-        <h4>Підписки на оселю:</h4>
-        <div class="title p-2">
-          <p>Тут Ви зможете бачити оселі на які підписані.</p>
-        </div>
-        <div class="title-group">
-          <div class="title">
-            <p>Що робить кнопка ДИСКУСІЯ?</p>
-          </div>
-          <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse"
-            data-bs-target="#discussionButton" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa-solid fa-info"></i>
-          </button>
-        </div>
-
-        <div class="collapse" id="discussionButton">
-          <div class="card-body-cast">
-            <p class="text-info">Вона дозволяє ухвалити користувача для подальшого діалогу між вами в меню ДИСКУСІЯ. В
-              меню дискусія більше інформації про її можливості.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>

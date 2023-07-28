@@ -166,6 +166,7 @@ export class TenantsSearchComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
+    console.log(this.selectedUser)
 
     setTimeout(() => {
       this.checkSubscribe();
@@ -175,6 +176,7 @@ export class TenantsSearchComponent implements OnInit {
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
     this.filteredUsers = filterValue;
+
   }
 
   getImageUrl(fileName: string | string[]): string {
@@ -251,13 +253,10 @@ export class TenantsSearchComponent implements OnInit {
       this.http.post('http://localhost:3000/usersubs/checkSubscribe', data)
         .subscribe((response: any) => {
           console.log(response.status)
-
           this.statusMessage = response.status;
-          this.statusSubscriptionMessage = true;
-          console.log(this.statusMessage)
-
-          if (response.status === 'Ви успішно відписались') {
-            this.isSubscribed = true;
+          this.isSubscribed = true;
+          if (this.statusMessage === 'Ви успішно відписались') {
+            this.isSubscribed = false;
           } else {
             this.isSubscribed = false;
           }

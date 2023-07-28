@@ -99,6 +99,7 @@ export class ChatRoomComponent implements OnInit {
       };
       this.http.post(url, data)
         .subscribe(async (response: any) => {
+          console.log(response)
           if (Array.isArray(response.status) && response.status) {
             let chat = await Promise.all(response.status.map(async (value: any) => {
               let infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];

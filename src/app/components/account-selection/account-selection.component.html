@@ -2,7 +2,7 @@
   <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
     <div class="img-fluid">
       <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image"
-        class="img-fluid rounded">
+        (error)="useDefaultImage($event)">
     </div>
   </a>
   <ng-container *ngIf="(houses.length > 0)">

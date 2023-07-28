@@ -116,8 +116,15 @@
             </div>
 
             <div class="title-group">
-              <div class="title-selected">По батькові : </div>
-              <div class="title-selected-accent">{{ selectedUser?.surName || '?' }}</div>
+              <div class="title-selected">Кіл. кімнат:</div>
+              <div class="title-selected-accent">
+                <span class="title-selected-accent" *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
+                  від {{ selectedUser?.rooms_of}}
+                </span>
+                <span class="title-selected-accent" *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">
+                  до {{ selectedUser?.rooms_to}}
+                </span>
+              </div>
             </div>
 
             <div class="title-group">
@@ -130,7 +137,6 @@
               <div class="title-selected-accent">{{ selectedUser?.price_of | number }}₴ - {{ selectedUser?.price_to |
                 number }}₴</div>
             </div>
-
 
             <div class="title-group" *ngIf="selectedUser?.purpose_rent !== null">
               <div class="title-selected">Мета оренди : </div>
@@ -182,17 +188,7 @@
                   від {{ selectedUser?.area_of || '?' }}м²
                 </span>
                 <span class="item" *ngIf="selectedUser?.area_to !== 'Приховати' && selectedUser?.area_to !== null">
-                   до {{ selectedUser?.area_to || '?' }}м²
-                </span>
-              </div>
-
-              <div class="item-characteristics">
-                Кіл. кімнат:
-                <span class="item" *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
-                  від {{ selectedUser?.rooms_of}}
-                </span>
-                <span class="item" *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">
-                   до {{ selectedUser?.rooms_to}}
+                  до {{ selectedUser?.area_to || '?' }}м²
                 </span>
               </div>
 
@@ -271,7 +267,8 @@
                   class="item">{{ selectedUser?.years }}</span>Роки</div>
 
               <div class="item-characteristics" *ngIf="selectedUser?.mounths && selectedUser?.mounths !== null">
-                <span class="item">{{ selectedUser?.mounths }}</span>Місяці</div>
+                <span class="item">{{ selectedUser?.mounths }}</span>Місяці
+              </div>
 
               <div class="item-characteristics" *ngIf="selectedUser?.weeks && selectedUser?.weeks !== null"><span
                   class="item">{{ selectedUser?.weeks }}</span>Тижні</div>

@@ -14,18 +14,18 @@ interface UserInfo {
   region: string | undefined;
   city: string | undefined;
   rooms: number | undefined;
-  area: string;
-  repair_status: '',
-  bunker: '',
-  balcony: '',
-  animals: '',
-  distance_metro: '',
-  distance_stop: '',
-  distance_green: '',
-  distance_shop: '',
-  distance_parking: '',
+  area: string | undefined;
+  repair_status: string | undefined;
+  bunker: string | undefined;
+  balcony: string | undefined;
+  animals: string | undefined;
+  distance_metro: string | undefined;
+  distance_stop: string | undefined;
+  distance_green: string | undefined;
+  distance_shop: string | undefined;
+  distance_parking: string | undefined;
   option_pay: any;
-  purpose_rent: '',
+  purpose_rent: string | undefined;
   looking_woman: boolean | undefined;
   looking_man: boolean | undefined;
   students: boolean | undefined;
@@ -36,10 +36,10 @@ interface UserInfo {
   weeks: number | undefined;
   months: number | undefined;
   years: number | undefined;
-
-  option_flat: number | undefined;
+  day_counts: string | undefined;
   room: boolean | undefined;
-
+  house: number | undefined;
+  flat: number | undefined;
 }
 
 interface SearchParams {
@@ -68,7 +68,6 @@ interface SearchParams {
 export class SearchTermTenantComponent implements OnInit {
 
   userInfo: UserInfo = {
-    option_flat: 2,
     room: undefined,
     price: 0,
     region: '',
@@ -96,6 +95,9 @@ export class SearchTermTenantComponent implements OnInit {
     weeks: 0,
     months: 0,
     years: 0,
+    day_counts: '',
+    house: 0,
+    flat: 0,
   };
 
   filteredCities: any[] | undefined;
@@ -139,6 +141,23 @@ export class SearchTermTenantComponent implements OnInit {
   endpoint = 'http://localhost:3000/search/user';
   selectedFlatId!: string | null;
 
+  calculateTotalDays(): number {
+    const days = this.userInfo.days || 0;
+    const weeks = this.userInfo.weeks || 0;
+    const months = this.userInfo.months || 0;
+    const years = this.userInfo.years || 0;
+    const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    return totalDays;
+  }
+
+  saveDayCounts(): void {
+    const totalDays = this.calculateTotalDays();
+    this.userInfo.day_counts = totalDays > 0 ? totalDays.toString() : '';
+  }
+
+  onDayCountsChange(): void {
+    this.saveDayCounts();
+  }
 
   constructor(
     private filterUserService: FilterUserService,
@@ -159,6 +178,7 @@ export class SearchTermTenantComponent implements OnInit {
   onSubmit(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
+      console.log(this.userInfo)
       this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           this.filteredUsers = response.user_inf;
@@ -183,6 +203,11 @@ export class SearchTermTenantComponent implements OnInit {
       if (userJson && this.searchQuery && this.searchQuery.length >= 5) {
         this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
+            console.log(response)
+            this.filteredUsers = response.user_inf;
+            this.filterUserService.updateFilter(this.filteredUsers);
+
+            console.log(this.filteredUsers)
           }, (error: any) => {
             console.error(error);
           });

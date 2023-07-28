@@ -26,7 +26,7 @@ interface UserInfo {
   distance_shop: number | undefined;
   distance_parking: number | undefined;
   option_pay: number | undefined;
-  lease_term: string | undefined;
+  day_counts: number | undefined;
   purpose_rent: string | undefined;
   house: boolean | undefined;
   flat: boolean | undefined;
@@ -87,7 +87,7 @@ export class LookingComponent implements OnInit {
     house: false,
     flat: false,
     room: false,
-    lease_term: '',
+    day_counts: 0,
     purpose_rent: '',
     looking_woman: false,
     looking_man: false,
@@ -117,14 +117,32 @@ export class LookingComponent implements OnInit {
   minValueWeeks: number = 0;
   maxValueWeeks: number = 4;
 
-  minValueMonths: number = 0;
-  maxValueMonths: number = 11;
+  minValueMounths: number = 0;
+  maxValueMounths: number = 11;
 
   minValueYears: number = 0;
   maxValueYears: number = 3;
 
   disabled: boolean = true;
   loading: boolean | undefined;
+
+  calculateTotalDays(): number {
+    const days = this.userInfo.days || 0;
+    const weeks = this.userInfo.weeks || 0;
+    const mounths = this.userInfo.mounths || 0;
+    const years = this.userInfo.years || 0;
+    const totalDays = days + weeks * 7 + mounths * 30 + years * 365;
+    return totalDays;
+  }
+
+  saveDayCounts(): void {
+    const totalDays = this.calculateTotalDays();
+    this.userInfo.day_counts = totalDays > 0 ? totalDays : 0;
+  }
+
+  onDayCountsChange(): void {
+    this.saveDayCounts();
+  }
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
@@ -150,8 +168,10 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.disabled === false) {
       const data = { ...this.userInfo };
+      console.log(data)
       this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
+          console.log(response)
         }, (error: any) => {
           console.error(error);
         });
@@ -190,7 +210,7 @@ export class LookingComponent implements OnInit {
         house: false,
         flat: false,
         room: false,
-        lease_term: '',
+        day_counts: 0,
         purpose_rent: '',
         looking_woman: false,
         looking_man: false,

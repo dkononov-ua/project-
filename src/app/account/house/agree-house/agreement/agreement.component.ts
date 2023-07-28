@@ -190,6 +190,9 @@ export class AgreementComponent implements OnInit {
         const response = await this.http.post(url, data).toPromise() as any[];
         console.log(response);
         this.userData = response;
+        if (!this.userData.cont.mail) {
+          this.userData.cont.mail = 'Не вказано';
+        }
       } catch (error) {
         console.error(error);
       }

@@ -21,7 +21,7 @@
 
   <div class="card-box" *ngIf="chats.length !== 0">
     <div class="card-container p-2">
-      <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
+      <div class="card-wrapper card mb-3" *ngFor="let chat of chats" (click)="selectChat(chat)"
         [ngClass]="{'selected': chat.isSelected}">
         <div class="container-sticker">
           <div class="status-container">
@@ -37,6 +37,5 @@
           <h2 class="card-title"> {{ chat.flat_id }} </h2>
         </div>
       </div>
-
     </div>
   </div>

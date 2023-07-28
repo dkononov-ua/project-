@@ -23,7 +23,7 @@
         <div class="heightSet">
           <mat-form-field class="search-id" appearance="outline">
             <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по UserID</mat-label>
-            <input matInput type="text" (ngModelChange)="searchUserID()" [(ngModel)]="searchQuery"/>
+            <input matInput type="text" (ngModelChange)="searchUserID()" [(ngModel)]="searchQuery" />
           </mat-form-field>
         </div>
       </div>
@@ -71,7 +71,8 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="students" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.students" name="students">
+                <input id="students" type="checkbox" (ngModelChange)="onSubmitWithDelay()"
+                  [(ngModel)]="userInfo.students" name="students">
                 <div class="transition"></div>
               </label>
               <span class="text">Студент<span class="status">S</span>
@@ -82,7 +83,8 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="woman" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.woman" name="woman">
+                <input id="woman" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.woman"
+                  name="woman">
                 <div class="transition"></div>
               </label>
               <span class="text">Жінка<span class="status">W</span></span>
@@ -91,7 +93,8 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="man" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.man" name="man">
+                <input id="man" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.man"
+                  name="man">
                 <div class="transition"></div>
               </label>
               <span class="text">Чоловік<span class="status">M</span></span>
@@ -100,7 +103,8 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="family" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.family" name="family">
+                <input id="family" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.family"
+                  name="family">
                 <div class="transition"></div>
               </label>
               <span class="text">Сім'я<span class="status">F</span></span>
@@ -118,25 +122,28 @@
 
                 <div class="content">
                   <label class="checkBox">
-                    <input id="looking_house" type="radio" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.option_flat" name="housing" [value]=1>
+                    <input id="looking_house" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.house"
+                      name="looking_house">
                     <div class="transition"></div>
                   </label>
-                  <span class="text">Будинок</span>
+                  <span class="checkBox-span">Будинок</span>
                   <i></i>
                 </div>
 
                 <div class="content">
                   <label class="checkBox">
-                    <input id="looking_flat" type="radio" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.option_flat" name="housing" [value]=2>
+                    <input id="looking_flat" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.flat"
+                      name="looking_flat">
                     <div class="transition"></div>
                   </label>
-                  <span class="text">Квартиру</span>
+                  <span class="checkBox-span">Квартира</span>
                   <i></i>
                 </div>
 
                 <div class="content">
                   <label class="checkBox">
-                    <input id="looking_room" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.room" name="looking_room">
+                    <input id="looking_room" type="checkbox" (ngModelChange)="onSubmitWithDelay()"
+                      [(ngModel)]="userInfo.room" name="looking_room">
                     <div class="transition"></div>
                   </label>
                   <span class="text">Кімнату</span>
@@ -150,7 +157,8 @@
               <div class="group-transparent m-1 m-1 border-horizontal">
                 <div class="content">
                   <label class="checkBox">
-                    <input id="looking_woman" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.looking_woman" name="woman">
+                    <input id="looking_woman" type="checkbox" (ngModelChange)="onSubmitWithDelay()"
+                      [(ngModel)]="userInfo.looking_woman" name="woman">
                     <div class="transition"></div>
                   </label>
                   <span class="text">Жінка</span>
@@ -159,7 +167,8 @@
 
                 <div class="content">
                   <label class="checkBox">
-                    <input id="looking_man" type="checkbox" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.looking_man" name="man">
+                    <input id="looking_man" type="checkbox" (ngModelChange)="onSubmitWithDelay()"
+                      [(ngModel)]="userInfo.looking_man" name="man">
                     <div class="transition"></div>
                   </label>
                   <span class="text">Чоловік</span>
@@ -177,26 +186,26 @@
 
             <mat-form-field class="item-width-25 m-1" appearance="outline">
               <mat-label>Дні</mat-label>
-              <input type="number" name="days" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.days" [min]="minValueDays"
-                [max]="maxValueDays" matInput>
+              <input type="number" name="days" (ngModelChange)="onSubmitWithDelay()" (click)="onDayCountsChange()"
+                [(ngModel)]="userInfo.days" [min]="minValueDays" [max]="maxValueDays" matInput>
             </mat-form-field>
 
             <mat-form-field class="item-width-25 m-1" appearance="outline">
               <mat-label>Тиж.</mat-label>
-              <input type="number" name="weeks" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks"
-                [max]="maxValueWeeks" matInput>
+              <input type="number" name="weeks" (ngModelChange)="onSubmitWithDelay()" (click)="onDayCountsChange()"
+                [(ngModel)]="userInfo.weeks" [min]="minValueWeeks" [max]="maxValueWeeks" matInput>
             </mat-form-field>
 
             <mat-form-field class="item-width-25 m-1" appearance="outline">
               <mat-label>Міс.</mat-label>
-              <input type="number" name="months" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.months" [min]="minValueMonths"
-                [max]="maxValueMonths" matInput>
+              <input type="number" name="months" (ngModelChange)="onSubmitWithDelay()" (click)="onDayCountsChange()"
+                [(ngModel)]="userInfo.months" [min]="minValueMonths" [max]="maxValueMonths" matInput>
             </mat-form-field>
 
             <mat-form-field class="item-width-25 m-1" appearance="outline">
               <mat-label>Роки.</mat-label>
-              <input type="number" name="years" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.years" [min]="minValueYears"
-                [max]="maxValueYears" matInput>
+              <input type="number" name="years" (ngModelChange)="onSubmitWithDelay()" (click)="onDayCountsChange()"
+                [(ngModel)]="userInfo.years" [min]="minValueYears" [max]="maxValueYears" matInput>
             </mat-form-field>
 
           </div>
@@ -207,12 +216,15 @@
 
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Стан оселі</mat-label>
-              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.repair_status" name="repair_status">
+              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.repair_status"
+                name="repair_status">
+
+
                 <mat-option [value]="''">Неважливо</mat-option>
-                <mat-option value="1">Новий</mat-option>
-                <mat-option value="2">Добрий</mat-option>
-                <mat-option value="3">Задовільний</mat-option>
-                <mat-option value="3">Поганий</mat-option>
+                <mat-option value="Новий">Новий</mat-option>
+                <mat-option value="Добрий">Добрий</mat-option>
+                <mat-option value="Задовільний">Задовільний</mat-option>
+                <mat-option value="Поганий">Поганий</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -241,7 +253,8 @@
 
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label>Площа м²</mat-label>
-              <input matInput type="text" [min]="minValue" [max]="maxValue" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.area" name="area">
+              <input matInput type="text" [min]="minValue" [max]="maxValue" (ngModelChange)="onSubmitWithDelay()"
+                [(ngModel)]="userInfo.area" name="area">
             </mat-form-field>
 
             <mat-form-field class="item-select m-1" appearance="outline">
@@ -266,13 +279,14 @@
 
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label>Ціна</mat-label>
-              <input matInput type="number" [min]="minValue" [max]="maxValue" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.price"
-                name="price">
+              <input matInput type="number" [min]="minValue" [max]="maxValue" (ngModelChange)="onSubmitWithDelay()"
+                [(ngModel)]="userInfo.price" name="price">
             </mat-form-field>
 
             <div class="content">
               <label class="checkBox">
-                <input id="daily" type="radio" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.option_pay" name="daily" [value]=1>
+                <input id="daily" type="radio" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.option_pay"
+                  name="daily" [value]=1>
                 <div class="transition"></div>
               </label>
               <span class="text">Доба</span>
@@ -281,7 +295,8 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="monthly" type="radio" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.option_pay" name="monthly" [value]=0>
+                <input id="monthly" type="radio" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.option_pay"
+                  name="monthly" [value]=0>
                 <div class="transition"></div>
               </label>
               <span class="text">Місяць</span>
@@ -295,7 +310,8 @@
           <div class="group-transparent m-1">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Парк</mat-label>
-              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_green" name="distance_green">
+              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_green"
+                name="distance_green">
                 <mat-option [value]="''">Неважливо</mat-option>
                 <mat-option value="100">до 100м</mat-option>
                 <mat-option value="300">до 300м</mat-option>
@@ -306,7 +322,8 @@
 
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Маркет</mat-label>
-              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_shop" name="distance_shop">
+              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_shop"
+                name="distance_shop">
                 <mat-option [value]="''">Неважливо</mat-option>
                 <mat-option value="100">до 100м</mat-option>
                 <mat-option value="300">до 300м</mat-option>
@@ -363,7 +380,8 @@
 
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Паркінг</mat-label>
-              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_parking" name="distance_parking">
+              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_parking"
+                name="distance_parking">
                 <mat-option [value]="''">Неважливо</mat-option>
                 <mat-option value="1">на території</mat-option>
                 <mat-option value="100">до 100м</mat-option>
@@ -375,7 +393,8 @@
 
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Зупинки</mat-label>
-              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_stop" name="distance_stop">
+              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_stop"
+                name="distance_stop">
                 <mat-option [value]="''">Неважливо</mat-option>
                 <mat-option value="100">до 100м</mat-option>
                 <mat-option value="300">до 300м</mat-option>
@@ -386,7 +405,8 @@
 
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Метро</mat-label>
-              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
+              <mat-select (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_metro"
+                name="distance_metro">
                 <mat-option [value]="''">Неважливо</mat-option>
                 <mat-option value="100">до 100м</mat-option>
                 <mat-option value="300">до 300м</mat-option>

@@ -57,7 +57,7 @@
         <p class="item-price"><span class="item-characteristics-price">Ціна:</span> {{ about.price_m | number: '1.0-0'
           }}<sup>₴/міс</sup></p>
         <p class="item-price-year" *ngIf="about.price_d !== 0 && about.price_d !== null"><span
-            class="item-characteristics-price">Ціна за день:</span> {{ about.price_d | number: '1.0-0' }}<sup>₴/рік</sup>
+            class="item-characteristics-price">Ціна за день:</span> {{ about.price_d | number: '1.0-0' }}<sup>₴/день</sup>
         </p>
       </div>
 

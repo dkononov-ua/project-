@@ -135,6 +135,9 @@ export class InformationUserComponent implements OnInit {
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
+          if (!this.userCont.mail && this.userInfo.email) {
+            this.userCont.mail = this.userInfo.email;
+          }
         }, (error: any) => {
           console.error(error);
         });

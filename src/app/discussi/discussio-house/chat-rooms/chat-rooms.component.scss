@@ -30,8 +30,9 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width: 95%;
-  height: 90px;
+  height: 100px;
   transition: all 0.3s ease;
+  border-radius: 10px;
 
   &:hover,
   :focus {
@@ -86,6 +87,7 @@
   height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
+  border-radius: 10px;
   &:hover,
   :focus {
     width: 70%;
