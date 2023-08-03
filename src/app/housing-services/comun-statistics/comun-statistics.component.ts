@@ -1,267 +1,243 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HostComunComponent } from '../host-comun/host-comun.component';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
+interface FlatStat {
+  totalPaid: number | undefined;
+  totalConsumption: number;
+  monthAveragePaid: any;
+  monthAverageConsumption: any;
+}
+interface FlatInfo {
+  comunal_company: string | undefined;
+  comunal_name: string | undefined;
+  comunal_address: string | undefined;
+  comunal_site: string | undefined;
+  comunal_phone: string | undefined;
+  iban: string | undefined;
+  edrpo: string | undefined;
+  personalAccount: string | undefined;
+  comunal_before: number | undefined;
+  comunal_now: number;
+  howmuch_pay: number;
+  about_pay: string | undefined;
+  tariff: number;
+  consumed: number;
+  calc_howmuch_pay: number;
+  calc_tariff_square: number;
+}
 @Component({
   selector: 'app-comun-statistics',
   templateUrl: './comun-statistics.component.html',
   styleUrls: ['./comun-statistics.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation1', [
       transition('void => *', [
-        style({ transform: 'translateX(200%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-    ])
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
   ],
-  template: '{{ selectedFlatId }}'
-
 })
-export class ComunStatisticsComponent {
+export class ComunStatisticsComponent implements OnInit {
+
+  flatStat: FlatStat = {
+    totalPaid: 0,
+    monthAveragePaid: 0,
+    totalConsumption: 0,
+    monthAverageConsumption: 0,
+  };
+
+  winter: FlatStat | undefined;
+  spring: FlatStat | undefined;
+  summer: FlatStat | undefined;
+  autumn: FlatStat | undefined;
+  totalYearStats: FlatStat | undefined;
+
+  flatInfo: FlatInfo = {
+    comunal_company: '',
+    comunal_name: '',
+    comunal_address: '',
+    comunal_site: '',
+    comunal_phone: '',
+    iban: '',
+    edrpo: '',
+    personalAccount: '',
+    comunal_before: 0,
+    comunal_now: 0,
+    howmuch_pay: 0,
+    about_pay: '',
+    tariff: 0,
+    consumed: 0,
+    calc_howmuch_pay: 0,
+    calc_tariff_square: 0,
+  };
+
   @ViewChild('textArea', { static: false })
-  textArea!: ElementRef;
-
-  loading = false;
-  howmuch_pay: any;
-  tariff: any;
-  tariffValue: any;
-  unit: string | undefined;
-  consumed: any;
-  calc_howmuch_pay: any;
-
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 500);
-  }
-
-  houses: { id: number, name: string }[] = [];
-  selectedMonth: string | undefined;
-  selectedYear: number | undefined;
-  comunStatisticsMonth!: FormGroup;
-  comunStatisticsYear!: FormGroup;
-  errorMessage$ = new Subject<string>();
-  isDisabled?: boolean;
-  formDisabled?: boolean;
-  selectHouse: any;
-  comunal_name: any;
-  public selectedFlatId: any;
+  disabled: boolean = true;
+  disabledNot: boolean = true;
+  area: any;
+  selectedOption: any;
+  tariff_square: any;
+  selectSeason: FlatStat | undefined;
+  selectedMonth: any;
+  selectedYear!: number;
   public selectedComunal: any | null;
+  selectedFlatId!: string | null;
+  loading: boolean = true;
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private http: HttpClient, private hostComunComponent: HostComunComponent) {
-  }
+  constructor(
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private dataService: DataService,
+    private http: HttpClient,
+    private hostComunComponent: HostComunComponent,
+    private selectedFlatService: SelectedFlatService,
+  ) { }
 
-  ngOnInit(): any {
-    this.comunStatisticsYear = this.fb.group({});
-    this.comunStatisticsMonth = this.fb.group({
-      personalAccount: ['', Validators.required],
-      comunal_before: ['', Validators.required],
-      comunal_now: ['', Validators.required],
-      consumed: ['', Validators.required],
-      tariff: ['', Validators.required],
-      calc_howmuch_pay: ['', Validators.required],
-      howmuch_pay: ['', Validators.required],
-      about_pay: ['', Validators.required],
-    });
-
-    const userJson = localStorage.getItem('user');
-    this.selectedFlatId = localStorage.getItem('house');
-    const selectedYear = localStorage.getItem('selectedYear');
-    const selectedMonth = localStorage.getItem('selectedMonth');
-    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-
-    if (selectedYear) {
-      if (userJson) {
-        this.http.post('http://localhost:3000/comunal/get/comunal', {
-          auth: JSON.parse(userJson),
-          flat_id: JSON.parse(this.selectedFlatId).flat_id,
-          comunal_name: comunalName,
-          when_pay_y: JSON.parse(selectedYear)
-        })
-          .subscribe((response: any) => {
-            localStorage.setItem('comunal_inf', JSON.stringify(response));
-            console.log(response);
-          }, (error: any) => {
-            console.error(error);
+  ngOnInit(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (this.selectedFlatId !== null) {
+        this.getInfoComun()
+          .then(() => {
+            this.getInfoFlat();
+            this.loading = false;
+          })
+          .catch((error) => {
+            console.error('Error', error);
+            this.loading = false;
           });
       } else {
-        console.log('user not found');
-      }
-
-      this.selectedYear = JSON.parse(selectedYear);
-    }
-    if (selectedMonth) {
-      this.selectedMonth = JSON.parse(selectedMonth);
-    }
-
-    let totalConsumed = 0;
-    const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
-    com_inf.comunal.forEach((value: any) => {
-      if (value.when_pay_y === String(this.selectedYear)) {
-        if (value.comunal_name === comunalName) {
-          totalConsumed += value.consumed;
-        }
+        this.loading = false;
       }
     });
-
-    console.log(totalConsumed);
-
-    if (userJson) {
-      com_inf.comunal.forEach((value: any) => {
-        console.log(value.when_pay_m);
-        if (value.when_pay_y === String(this.selectedYear)) {
-          if (value.when_pay_m === this.selectedMonth) {
-            if (value.comunal_name === comunalName) {
-              console.log(value);
-              this.comunStatisticsMonth.setValue({
-                personalAccount: value.personalAccount,
-                comunal_before: value.comunal_before,
-                comunal_now: value.comunal_now,
-                consumed: '',
-                tariff: '',
-                calc_howmuch_pay: '',
-                howmuch_pay: '',
-                about_pay: value.about_pay,
-              });
-              this.calculateConsumed();
-            }
-          }
-        }
-      });
-    }
-    else {
-      console.log('user not found');
-    }
   }
 
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-  ngOnChanges() {
-    switch (this.comunal_name) {
-      case 'Холодна вода':
-        this.unit = 'м³';
-        break;
-      case 'Газ':
-        this.unit = 'м³';
-        break;
-      case 'Електроенергія':
-        this.unit = 'кВтг';
-        break;
-      case 'Heating':
-        this.unit = 'Гкал';
-        break;
-      default:
-        this.unit = '';
-        break;
-    }
-    this.comunStatisticsMonth.patchValue({ unit: this.unit });
-  }
-
-  calculateConsumed(): void {
-    const comunal_before = this.comunStatisticsMonth.get('comunal_before')?.value;
-    const comunal_now = this.comunStatisticsMonth.get('comunal_now')?.value;
-
-    let tariff;
-    const consumed = comunal_now - comunal_before;
-    if (consumed <= 250) {
-      tariff = 1.44;
-    } else {
-      tariff = 1.68;
-    }
-    const calc_howmuch_pay = tariff * consumed;
-
-    this.comunStatisticsMonth.patchValue({
-      consumed: consumed,
-      calc_howmuch_pay: calc_howmuch_pay,
-      tariff: tariff,
-      howmuch_pay: calc_howmuch_pay,
+  getInfoFlat() {
+    this.dataService.getData().subscribe((data: any) => {
+      this.area = data.houseData.param.area;
+      this.selectedOption = data.houseData.param.option_flat;
     });
-    console.log(tariff)
   }
 
-  calculateConsumedYear(): void {
-    const comunal_before = this.comunStatisticsMonth.get('comunal_before')?.value;
-    const comunal_now = this.comunStatisticsMonth.get('comunal_now')?.value;
-
-    let tariff;
-    const consumed = comunal_now - comunal_before;
-    if (consumed <= 250) {
-      tariff = 1.44;
-    } else {
-      tariff = 1.68;
-    }
-    const calc_howmuch_pay = tariff * consumed;
-
-    this.comunStatisticsMonth.patchValue({
-      consumed: consumed,
-      calc_howmuch_pay: calc_howmuch_pay,
-      tariff: tariff,
-      howmuch_pay: calc_howmuch_pay,
-    });
-    console.log(tariff)
-  }
-
-  onSubmitSaveComunStatisticsMonth() {
-    this.loading = true;
-
-    const comunal_name = localStorage.getItem('comunal_name');
+  async getInfoComun(): Promise<any> {
     const userJson = localStorage.getItem('user');
+    const selectedYear = localStorage.getItem('selectedYear');
+    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
 
-    console.log(JSON.parse(localStorage.getItem('selectedMonth')!));
-    if (userJson) {
-      if (this.comunStatisticsMonth) {
-        const comunalData = {
-          personalAccount: this.comunStatisticsMonth.get('personalAccount')?.value,
-          comunal_before: this.comunStatisticsMonth.get('comunal_before')?.value,
-          comunal_now: this.comunStatisticsMonth.get('comunal_now')?.value,
-          consumed: this.comunStatisticsMonth.get('consumed')?.value,
-          tariff: this.comunStatisticsMonth.get('tariff')?.value,
-          calc_howmuch_pay: this.comunStatisticsMonth.get('calc_howmuch_pay')?.value,
-          howmuch_pay: this.comunStatisticsMonth.get('howmuch_pay')?.value,
-          about_pay: this.comunStatisticsMonth.get('about_pay')?.value,
-        };
-        this.http
-          .post('http://localhost:3000/comunal/add/comunal', {
-            auth: JSON.parse(userJson),
-            flat_id: JSON.parse(this.selectedFlatId).flat_id,
-            comunal_name: JSON.parse(comunal_name!).comunal,
-            when_pay_y: JSON.parse(localStorage.getItem('selectedYear')!),
-            when_pay_m: JSON.parse(localStorage.getItem('selectedMonth')!),
-            comunal: comunalData,
-          })
-          .subscribe(
-            (response: any) => {
-              localStorage.removeItem('selectedMonth');
-              location.reload()
-            },
-          );
+    if (selectedYear && userJson) {
+      const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        comunal_name: comunalName,
+        when_pay_y: JSON.parse(selectedYear)
+      }).toPromise() as any;
+
+      if (response) {
+        localStorage.setItem('comunal_inf', JSON.stringify(response));
+        this.selectedYear = selectedYear ? JSON.parse(selectedYear) : null;
+        const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
+
+        if (userJson && com_inf) {
+          const winterStats = this.getSeasonStatistics(this.selectedYear, com_inf, "winter");
+          this.winter = winterStats;
+
+          const springStats = this.getSeasonStatistics(this.selectedYear, com_inf, "spring");
+          this.spring = springStats;
+
+          const summerStats = this.getSeasonStatistics(this.selectedYear, com_inf, "summer");
+          this.summer = summerStats;
+
+          const autumnStats = this.getSeasonStatistics(this.selectedYear, com_inf, "autumn");
+          this.autumn = autumnStats;
+
+          this.totalYearStats = this.allSeasonStats([winterStats, springStats, summerStats, autumnStats]);
+        }
       } else {
-        console.log('comunCreate is not defined');
+        console.error(false);
       }
     } else {
       console.log('user not found');
     }
   }
 
-  saveComunStatistics(): void {
-    this.comunStatisticsMonth.disable();
-    this.isDisabled = true;
-    this.formDisabled = true;
-    this.isDisabled = false;
-    this.formDisabled = false;
+  allSeasonStats(seasonStats: FlatStat[]): FlatStat {
+    let totalPaid = 0;
+    let totalMonthAveragePaid = 0;
+    let totalConsumption = 0;
+    let totalMonthAverageConsumption = 0;
+
+    for (const seasonStat of seasonStats) {
+      totalPaid += seasonStat.totalPaid!;
+      totalMonthAveragePaid += seasonStat.monthAveragePaid * seasonStat.totalPaid!;
+      totalConsumption += seasonStat.totalConsumption;
+      totalMonthAverageConsumption += seasonStat.monthAverageConsumption * seasonStat.totalConsumption;
+    }
+
+    const monthAveragePaid = (totalMonthAveragePaid / totalPaid).toFixed(2);
+    const monthAverageConsumption = (totalMonthAverageConsumption / totalConsumption).toFixed(2);
+
+    return {
+      totalPaid,
+      monthAveragePaid: Number(monthAveragePaid),
+      totalConsumption,
+      monthAverageConsumption: Number(monthAverageConsumption),
+    };
   }
 
-  resetComunStatistics() {
-    this.comunStatisticsMonth.reset();
+  getSeasonStatistics(selectedYear: number, com_inf: any, season: string): FlatStat {
+    const seasonMonths: { [key: string]: string[] } = {
+      'winter': ['Грудень', 'Січень', 'Лютий'],
+      'spring': ['Березень', 'Квітень', 'Травень'],
+      'summer': ['Червень', 'Липень', 'Серпень'],
+      'autumn': ['Вересень', 'Жовтень', 'Листопад'],
+    };
+
+    const allMonth = com_inf.comunal.filter((data: any) => {
+      return data.when_pay_y === String(selectedYear);
+    });
+
+    const filteredMonth = com_inf.comunal.filter((data: any) => {
+      return data.when_pay_y === String(selectedYear) && seasonMonths[season].includes(data.when_pay_m);
+    });
+
+    const totalPaid = filteredMonth.reduce((total: number, data: any) => total + Number(data.howmuch_pay), 0);
+    const totalConsumption = filteredMonth.reduce((total: number, data: any) => total + Number(data.consumed), 0);
+
+    // підрахунок середнє оплата по місяцю
+    const nonZeroPaid = allMonth.filter((data: any) => Number(data.howmuch_pay) !== 0);
+    const totalPaidMonth = nonZeroPaid.reduce((total: number, data: any) => {
+      return total + Number(data.howmuch_pay);
+    }, 0);
+    const monthAveragePaid = totalPaidMonth / nonZeroPaid.length;
+
+    // підрахунок середнє споживання по місяцю
+    const nonZeroConsumed = allMonth.filter((data: any) => Number(data.consumed) !== 0);
+    const totalConsumedMonth = nonZeroConsumed.reduce((total: number, data: any) => {
+      return total + Number(data.consumed);
+    }, 0);
+    const monthAverageConsumption = totalConsumedMonth / nonZeroConsumed.length;
+
+    const seasonStats: FlatStat = {
+      totalPaid,
+      totalConsumption,
+      monthAveragePaid: monthAveragePaid.toFixed(2),
+      monthAverageConsumption: monthAverageConsumption.toFixed(2),
+    };
+    return seasonStats;
   }
 
 }

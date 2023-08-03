@@ -151,7 +151,6 @@ export class HostComunComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response !== null) {
-
               this.addressHouse = this.fb.group({
                 flat_id: [response.flat.flat_id],
               });
@@ -180,6 +179,7 @@ export class HostComunComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response !== null) {
+              console.log(response)
               this.selectedComunal.setValue(response.comunal);
             }
           },
@@ -214,7 +214,6 @@ export class HostComunComponent implements OnInit {
     this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
       .subscribe(
         (response: any) => {
-          console.log(response);
           this.comunal_name = response.comunal;
         },
         (error: any) => {

@@ -4,8 +4,7 @@
     <div class="card-box p-4 col-lg-4 col-md-4 col-sm-12 col-12">
       <div class="card-menu m-2">
         <!-- Мої оселі -->
-
-        <app-account-nav></app-account-nav>
+          <app-account-nav></app-account-nav>
 
         <div class="inputbox pos">
           <mat-form-field appearance="outline">
@@ -18,7 +17,8 @@
             </mat-select>
           </mat-form-field>
           <div class="btn-box">
-            <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i class="fa-regular fa-circle-xmark"></i></button>
+            <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
+                class="fa-regular fa-circle-xmark"></i></button>
             <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
               <i class="fa-solid fa-circle-plus"></i>
             </button>

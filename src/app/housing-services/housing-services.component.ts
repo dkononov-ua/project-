@@ -17,7 +17,6 @@ export class HousingServicesComponent {
 
   ngOnInit(): void {
     this.dataService.getData().subscribe((data: any) => {
-      console.log(data);
     });
   }
 }

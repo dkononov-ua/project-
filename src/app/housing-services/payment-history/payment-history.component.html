@@ -1,136 +1,159 @@
 <app-comun-date></app-comun-date>
 
-<div class="container-box">
-  <div class="card-box">
-    <form class="form-box" [formGroup]="comunStatisticsMonth">
+<div class="container-card">
 
-      <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
+  <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+    <div class="card m-2">
 
-        <div class="card m-2 p-2">
-          <div class="card-name">
-            <h4>Реквізити компанії:</h4>
-          </div>
+      <mat-label class="group-label">Реквізити компанії:</mat-label>
 
-          <div class="inputbox">
-            <input required="required" type="text" id="comunal_company" name="comunal_company"
-              formControlName="comunal_company">
-            <span>Назва компанії:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="text" id="comunal_address" name="comunal_address"
-              formControlName="comunal_address">
-            <span>Адреса компанії:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="text" id="comunal_site" name="comunal_site" formControlName="comunal_site">
-            <span>Сайт компанії:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="number" id="comunal_phone" name="comunal_phone"
-              formControlName="comunal_phone">
-            <span>Телефон компанії:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="text" id="iban" name="iban" formControlName="iban">
-            <span>IBAN:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="number" id="edrpo" name="edrpo" formControlName="edrpo">
-            <span>ЄДРПОУ:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="btn-group">
-            <button mat-raised-button class="btn btn-secondary mt-3 ml-3" (click)="onSubmit()" matTooltip="Копіювати">
-              <i class="fa-regular fa-copy"></i>
-            </button>
-            <button mat-raised-button class="btn btn-secondary mt-3 ml-3" (click)="fillPreviousData()"
-              matTooltip="Вставити">
-              <i class="fa-solid fa-paste"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Назва компанії:</mat-label>
+        <input name="comunal_company" matInput [disabled]="disabled" [(ngModel)]="flatInfo.comunal_company">
+      </mat-form-field>
 
-      <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
-        <div class="card m-2 p-2">
-          <div class="card-name">
-            <h4>Статистика</h4>
-          </div>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Особистий рахунок:</mat-label>
+        <input name="personalAccount" matInput [disabled]="disabled" [(ngModel)]="flatInfo.personalAccount">
+      </mat-form-field>
 
-          <div class="inputbox">
-            <input required="required" type="number" id="personalAccount" name="personalAccount"
-              formControlName="personalAccount">
-            <span>Особистий рахунок:</span>
-            <i class="orange"></i>
-          </div>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>IBAN:</mat-label>
+        <input name="iban" matInput [disabled]="disabled" [(ngModel)]="flatInfo.iban" [maxlength]="29"
+          pattern="^[A-Za-z0-9]{29}$">
+        <mat-error>IBAN повинен містити 29 символів.</mat-error>
 
-          <div class="box-item">
-            <div class="inputbox">
-              <input required="required" type="number" id="comunal_before" name="comunal_before"
-                formControlName="comunal_before">
-              <span>Попередні:</span>
-              <i class="orange"></i>
-            </div>
-            <div class="inputbox">
-              <input required="required" type="number" id="comunal_now" name="comunal_now"
-                formControlName="comunal_now">
-              <span>Поточні:</span>
-              <i class="orange"></i>
-            </div>
-          </div>
+      </mat-form-field>
 
-          <div class="box-item">
-            <div class="inputbox">
-              <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
-              <span>Спожито: {{ consumed }}</span>
-              <i class="orange"></i>
-            </div>
-            <div class="inputbox">
-              <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
-              <span>Тариф &#8372;: {{ tariff }}</span>
-              <i class="orange"></i>
-            </div>
-          </div>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>ЄДРПОУ:</mat-label>
+        <input name="edrpo" matInput [disabled]="disabled" [(ngModel)]="flatInfo.edrpo" [maxlength]="8"
+          pattern="^[0-9]{8}$">
+        <mat-error>ЄДРПОУ повинен містити 8 цифр.</mat-error>
+      </mat-form-field>
 
-          <div class="inputbox">
-            <input type="number" id="calc_howmuch_pay" name="calc_howmuch_pay" formControlName="calc_howmuch_pay">
-            <span>До сплати &#8372;: {{ howmuch_pay }}</span>
-            <i class="orange"></i>
-          </div>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Адреса компанії:</mat-label>
+        <input name="comunal_address" matInput [disabled]="disabled" [(ngModel)]="flatInfo.comunal_address">
+      </mat-form-field>
 
-          <div class="inputbox">
-            <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
-            <span>Сплатив &#8372;: </span><span></span>
-            <i class="orange"></i>
-          </div>
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Сайт компанії:</mat-label>
+        <input name="comunal_site" matInput [disabled]="disabled" [(ngModel)]="flatInfo.comunal_site">
+      </mat-form-field>
 
+      <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-label>Телефон</mat-label>
+        <input type="tel" name="comunal_phone" matInput [disabled]="disabled" [(ngModel)]="flatInfo.comunal_phone"
+          [maxlength]="10" pattern="^[0-9]{10}$">
+        <mat-error>Телефон повинен містити 10 цифр.</mat-error>
+      </mat-form-field>
 
-          <div class="form-floating">
-            <textarea #textArea class="form-control scrollable-textarea" placeholder="Коментар про запис:"
-              id="floatingTextarea" formControlName="about_pay" (input)="onInput()"></textarea>
-            <label for="floatingTextarea">
-              <p>Коментар про запис:</p>
-            </label>
-          </div>
-          <div class="btn-group">
-            <button mat-raised-button type="reset" class="btn btn-secondary col-1 mt-3 ml-3"
-              (click)="resetComunStatistics()">СКИНУТИ</button>
-            <button mat-raised-button class="btn btn-save mt-3" (click)="onSubmitSaveComunStatisticsMonth()"
-              (click)="openSnackBar('Дані збережено')">ЗБЕРЕГТИ</button>
-          </div>
-        </div>
-      </div>
-
-    </form>
-
+    </div>
   </div>
 
+  <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+    <div class="card m-2">
+
+      <div class="border-group mb-2">
+        <mat-label class="group-label">Підрахунок за площею оселі:</mat-label>
+
+        <div class="item-group mt-2">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label class="disabledNot">Площа оселі м²</mat-label>
+            <input class="disabledNot" name="area" matInput [disabled]="disabledNot" [(ngModel)]="area">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label class="disabledNot">Тип оселі</mat-label>
+            <mat-select class="disabledNot" name="area" [(ngModel)]="selectedOption" [disabled]="disabledNot">
+              <mat-option [value]="1">Будинок</mat-option>
+              <mat-option [value]="2">Квартира</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="item-group">
+          <mat-form-field class="item-width-50 m-1 disabledNot" appearance="outline">
+            <mat-label class="disabledNot">До сплати &#8372;:</mat-label>
+            <input class="disabledNot" matInput type="number" [disabled]="disabledNot"
+              [(ngModel)]="flatInfo.calc_tariff_square" name="calc_tariff_square">
+          </mat-form-field>
+
+          <mat-form-field class="item-width-50 m-1" appearance="outline">
+            <mat-label>Тариф &#8372;:</mat-label>
+            <input matInput type="number" [disabled]="disabled" [(ngModel)]="tariff_square" name="tariff_square"
+              (ngModelChange)="calculatePaySquare()">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="border-group">
+        <mat-label class="group-label">Підрахунок по лічильнику: </mat-label>
+
+        <div class="item-group mt-2">
+          <mat-form-field class="item-width-50 m-1" appearance="outline">
+            <mat-label class="disabledNot">Попередні:</mat-label>
+            <input class="disabledNot" matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.comunal_before"
+              name="comunal_before" (ngModelChange)="calculateConsumed()">
+          </mat-form-field>
 
 
+          <mat-form-field class="item-width-50 m-1" appearance="outline">
+            <mat-label>Поточні:</mat-label>
+            <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.comunal_now" name="comunal_now"
+              (ngModelChange)="calculateConsumed()">
+          </mat-form-field>
+        </div>
+
+        <div class="item-group">
+          <mat-form-field class="item-width-50 m-1" appearance="outline">
+            <mat-label class="disabledNot">Спожито:</mat-label>
+            <input class="disabledNot" matInput type="number" [disabled]="disabledNot" [(ngModel)]="flatInfo.consumed"
+              name="consumed" (ngModelChange)="calculatePay()">
+          </mat-form-field>
+
+          <mat-form-field class="item-width-50 m-1" appearance="outline">
+            <mat-label>Тариф &#8372;:</mat-label>
+            <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.tariff" name="tariff"
+              (ngModelChange)="calculatePay()">
+          </mat-form-field>
+        </div>
+
+        <div class="item-group">
+          <mat-form-field class="item-width-50 m-1 disabledNot" appearance="outline">
+            <mat-label class="disabledNot">До сплати &#8372;:</mat-label>
+            <input class="disabledNot" matInput type="number" [disabled]="disabledNot"
+              [(ngModel)]="flatInfo.calc_howmuch_pay" name="calc_howmuch_pay">
+          </mat-form-field>
+
+          <mat-form-field class="item-width-50 m-1" appearance="outline">
+            <mat-label>Сплатив &#8372;:</mat-label>
+            <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+      <div class="form-floating p-1">
+        <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="disabled"
+          [(ngModel)]="flatInfo.about_pay" name="about_pay" (input)="onInput()"></textarea>
+        <label for="floatingTextarea">
+          <p>Коментар про запис:</p>
+        </label>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
+            class="icon fa-regular fa-circle-check"></i></button>
+        <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+        <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+        <button class="btn" matTooltip="Копіювати" (click)="copy()"><i class="fa-regular fa-copy"></i></button>
+        <button class="btn" matTooltip="Вставити" (click)="paste()"><i class="fa-solid fa-paste"></i></button>
+      </div>
+
+    </div>
+  </div>
 
 </div>

@@ -1,116 +1,127 @@
-<app-comun-date></app-comun-date>
-
-<div class="card-box">
-  <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
-
-    <div class="card m-2 p-2">
-      <div class="card-name">
-        <h4>Статистика</h4>
-      </div>
-
-      <form class="form-box" [formGroup]="comunStatisticsYear">
-        <div class="inputbox">
-          <input required="required" type="number" id="totalPaid" name="totalPaid">
-          <span>Оплачено загалом/рік:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthAveragePaid" name="monthAveragePaid">
-          <span>δ/міс оплата:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthPredictedPaid" name="monthPredictedPaid">
-          <span>δ/міс оплата прогнозоване:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="totalConsumption" name="totalConsumption">
-          <span>Спожито загалом/рік:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthAverageConsumption" name="monthAverageConsumption">
-          <span>δ/міс спожито:</span>
-          <i class="orange"></i>
-        </div>
-        <div class="inputbox">
-          <input required="required" type="number" id="monthPredictedConsumption" name="monthPredictedConsumption">
-          <span>δ/міс спож. прогнозоване:</span>
-          <i class="orange"></i>
-        </div>
-      </form>
+<ng-container *ngIf="loading; else content">
+  <div *ngIf="loading" class="loader-overlay">
+    <div class="loader">
+      <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
     </div>
   </div>
+</ng-container>
 
-  <div [@cardAnimation] class="container-card col-lg-6 col-md-6 col-sm-12 col-12">
-    <div class="card m-2 p-2">
-      <div class="card-name">
-        <h4>Статистика</h4>
+<ng-template #content>
+  <app-comun-date></app-comun-date>
+
+  <div class="container-card col-12">
+
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card m-2">
+
+        <mat-label class="group-label">Статистика:</mat-label>
+
+        <div class="border-group">
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Опл. загалом:</mat-label>
+              <input class="disabledNot" name="totalYearStats" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="totalYearStats!.totalPaid">
+            </mat-form-field>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Сер/міс:</mat-label>
+              <input class="disabledNot" name="monthAveragePaid" matInput class="disabledNot" [disabled]="disabledNot"
+                [value]="totalYearStats!.monthAveragePaid">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Зима:</mat-label>
+              <input class="disabledNot" name="totalPaidWinter" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="winter!.totalPaid">
+            </mat-form-field>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Весна:</mat-label>
+              <input class="disabledNot" name="totalPaidSpring" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="spring!.totalPaid">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Літо:</mat-label>
+              <input class="disabledNot" name="totalPaidSummer" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="summer!.totalPaid">
+            </mat-form-field>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Осінь:</mat-label>
+              <input class="disabledNot" name="totalPaidAutumn" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="autumn!.totalPaid">
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="border-group">
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Спожито загалом/рік:</mat-label>
+              <input class="disabledNot" name="totalYearStats" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="totalYearStats!.totalConsumption">
+            </mat-form-field>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Сер/міс спожито:</mat-label>
+              <input class="disabledNot" name="monthAverageConsumption" matInput class="disabledNot"
+                [disabled]="disabledNot" [(ngModel)]="totalYearStats!.monthAverageConsumption">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Спожито Зима:</mat-label>
+              <input class="disabledNot" name="totalPaidWinter" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="winter!.totalConsumption">
+            </mat-form-field>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Спожито Весна:</mat-label>
+              <input class="disabledNot" name="totalPaidSpring" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="spring!.totalConsumption">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Спожито Літо:</mat-label>
+              <input class="disabledNot" name="totalPaidSummer" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="summer!.totalConsumption">
+            </mat-form-field>
+
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Спожито Осінь:</mat-label>
+              <input class="disabledNot" name="totalPaidAutumn" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="autumn!.totalConsumption">
+            </mat-form-field>
+          </div>
+
+        </div>
+
       </div>
-
-      <form class="form-box" [formGroup]="comunStatisticsMonth">
-
-        <div class="inputbox">
-          <input required="required" type="number" id="personalAccount" name="personalAccount"
-            formControlName="personalAccount">
-          <span>Особистий рахунок:</span>
-          <i class="orange"></i>
-        </div>
-
-        <div class="box-item">
-          <div class="inputbox">
-            <input required="required" type="number" id="comunal_before" name="comunal_before"
-              formControlName="comunal_before">
-            <span>Попередні:</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input required="required" type="number" id="comunal_now" name="comunal_now" formControlName="comunal_now">
-            <span>Поточні:</span>
-            <i class="orange"></i>
-          </div>
-        </div>
-
-        <div class="box-item">
-          <div class="inputbox">
-            <input required="required" type="number" id="consumed" name="consumed" formControlName="consumed">
-            <span>Спожито: {{ consumed }}</span>
-            <i class="orange"></i>
-          </div>
-          <div class="inputbox">
-            <input type="number" id="tariff" name="tariff" formControlName="tariff" required="required">
-            <span>Тариф: {{ tariff }}</span>
-            <i class="orange"></i>
-          </div>
-        </div>
-
-        <div class="inputbox">
-          <input type="number" id="calc_howmuch_pay" name="calc_howmuch_pay" formControlName="calc_howmuch_pay">
-          <span>До сплати: {{ howmuch_pay }} грн</span>
-          <i class="orange"></i>
-        </div>
-
-        <div class="inputbox">
-          <input required="required" type="number" id="howmuch_pay" name="howmuch_pay" formControlName="howmuch_pay">
-          <span>Сплатив:</span>
-          <i class="orange"></i>
-        </div>
-
-        <div class="form-floating">
-          <textarea #textArea class="form-control scrollable-textarea" placeholder="Коментар про запис:"
-            id="floatingTextarea" formControlName="about_pay" (input)="onInput()"></textarea>
-          <label for="floatingTextarea">
-            <p>Коментар про запис:</p>
-          </label>
-        </div>
-      </form>
-
-      <div class="btn-group">
-        <button mat-raised-button class="btn btn-primary mt-3">ЗБЕРЕГТИ</button>
-        <button mat-raised-button type="reset" class="btn btn-secondary mt-3 ml-3">СКИНУТИ</button>
-      </div>
-
     </div>
+
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card m-2">
+
+        <div class="border-group mb-2">
+          <mat-label class="group-label">Підрахунок за площею оселі:</mat-label>
+
+        </div>
+
+      </div>
+    </div>
+
   </div>
-</div>
+
+</ng-template>
