@@ -7,16 +7,34 @@
 </ng-container>
 
 <ng-template #content>
-  <app-comun-date></app-comun-date>
+
+  <div class="group col-12">
+    <div class="box_center">
+      <mat-label class="stat-label">Статистика за рік</mat-label>
+      <app-select-year></app-select-year>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn" [class.active]="option_stat === 2" (click)="option_stat = 2">
+        <span class="checkBox-span">Нарахування</span>
+      </button>
+      <button class="btn" [class.active]="option_stat === 3" (click)="option_stat = 3">
+        <span class="checkBox-span">Споживання</span>
+      </button>
+      <button class="btn" [class.active]="option_stat === 1" (click)="option_stat = 1">
+        <span class="checkBox-span">Сплачено</span>
+      </button>
+    </div>
+
+  </div>
 
   <div class="container-card col-12">
 
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="card m-2">
+        <mat-label class="group-label">Статистика за {{ selectedYear }} рік:</mat-label>
 
-        <mat-label class="group-label">Статистика:</mat-label>
-
-        <div class="border-group">
+        <div class="p-1" *ngIf="option_stat === 1">
 
           <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
@@ -24,7 +42,9 @@
               <input class="disabledNot" name="totalYearStats" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="totalYearStats!.totalPaid">
             </mat-form-field>
+          </div>
 
+          <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label class="disabledNot1">Сер/міс:</mat-label>
               <input class="disabledNot" name="monthAveragePaid" matInput class="disabledNot" [disabled]="disabledNot"
@@ -38,7 +58,9 @@
               <input class="disabledNot" name="totalPaidWinter" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="winter!.totalPaid">
             </mat-form-field>
+          </div>
 
+          <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label class="disabledNot1">Весна:</mat-label>
               <input class="disabledNot" name="totalPaidSpring" matInput class="disabledNot" [disabled]="disabledNot"
@@ -52,8 +74,10 @@
               <input class="disabledNot" name="totalPaidSummer" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="summer!.totalPaid">
             </mat-form-field>
+          </div>
 
-            <mat-form-field class="item-select m-1" appearance="outline">
+          <div class="item-group mt-2">
+             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label class="disabledNot1">Осінь:</mat-label>
               <input class="disabledNot" name="totalPaidAutumn" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="autumn!.totalPaid">
@@ -62,7 +86,59 @@
 
         </div>
 
-        <div class="border-group">
+        <div class="p-1" *ngIf="option_stat === 2">
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Нараховано загалом грн:</mat-label>
+              <input class="disabledNot" name="totalYearStats" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="totalYearStats!.totalNeedPay">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Середнє значення по місяцю грн:</mat-label>
+              <input class="disabledNot" name="monthAveragePaid" matInput class="disabledNot" [disabled]="disabledNot"
+                [value]="totalYearStats!.monthAverageNeedPay">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Нараховано грн Зима:</mat-label>
+              <input class="disabledNot" name="totalWinter" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="winter!.totalNeedPay">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Нараховано грн Весна:</mat-label>
+              <input class="disabledNot" name="totalSpring" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="spring!.totalNeedPay">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Нараховано грн Літо:</mat-label>
+              <input class="disabledNot" name="totalSummer" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="summer!.totalNeedPay">
+            </mat-form-field>
+          </div>
+
+          <div class="item-group mt-2">
+            <mat-form-field class="item-select m-1" appearance="outline">
+              <mat-label class="disabledNot1">Нараховано грн Осінь:</mat-label>
+              <input class="disabledNot" name="totalAutumn" matInput class="disabledNot" [disabled]="disabledNot"
+                [(ngModel)]="autumn!.totalNeedPay">
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="p-1" *ngIf="option_stat === 3">
 
           <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
@@ -70,7 +146,9 @@
               <input class="disabledNot" name="totalYearStats" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="totalYearStats!.totalConsumption">
             </mat-form-field>
+          </div>
 
+          <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label class="disabledNot1">Сер/міс спожито:</mat-label>
               <input class="disabledNot" name="monthAverageConsumption" matInput class="disabledNot"
@@ -84,7 +162,9 @@
               <input class="disabledNot" name="totalPaidWinter" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="winter!.totalConsumption">
             </mat-form-field>
+          </div>
 
+          <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label class="disabledNot1">Спожито Весна:</mat-label>
               <input class="disabledNot" name="totalPaidSpring" matInput class="disabledNot" [disabled]="disabledNot"
@@ -98,7 +178,9 @@
               <input class="disabledNot" name="totalPaidSummer" matInput class="disabledNot" [disabled]="disabledNot"
                 [(ngModel)]="summer!.totalConsumption">
             </mat-form-field>
+          </div>
 
+          <div class="item-group mt-2">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label class="disabledNot1">Спожито Осінь:</mat-label>
               <input class="disabledNot" name="totalPaidAutumn" matInput class="disabledNot" [disabled]="disabledNot"
@@ -113,10 +195,45 @@
 
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="card m-2">
+        <mat-label class="group-label">Графік по сезонах за {{ selectedYear }} рік:</mat-label>
 
-        <div class="border-group mb-2">
-          <mat-label class="group-label">Підрахунок за площею оселі:</mat-label>
+        <div class="p-1" *ngIf="option_stat === 1">
+          <div class="progress-container">
+            <div *ngFor="let season of seasonPayments" class="progress" role="progressbar"
+                 [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
+              <div class="progress-bar" [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
+                {{ season.payment }}
+              </div>
+              <div class="month-label">{{ season.season }}</div>
+            </div>
+          </div>
+          <mat-label class="group-label">Сплачено грн:</mat-label>
+        </div>
 
+        <div class="p-1" *ngIf="option_stat === 2">
+          <div class="progress-container">
+            <div *ngFor="let season of seasonNeedPay" class="progress" role="progressbar"
+                 [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
+              <div class="progress-bar" [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
+                {{ season.needPay }}
+              </div>
+              <div class="month-label">{{ season.season }}</div>
+            </div>
+          </div>
+          <mat-label class="group-label">Нараховано грн:</mat-label>
+        </div>
+
+        <div class="p-1" *ngIf="option_stat === 3">
+          <div class="progress-container">
+            <div *ngFor="let season of seasonConsumptions" class="progress" role="progressbar"
+                 [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
+              <div class="progress-bar" [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
+                {{ season.consumptions }}
+              </div>
+              <div class="month-label">{{ season.season }}</div>
+            </div>
+          </div>
+          <mat-label class="group-label">Споживання грн:</mat-label>
         </div>
 
       </div>

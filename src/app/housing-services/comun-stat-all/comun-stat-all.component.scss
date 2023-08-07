@@ -8,6 +8,7 @@
   align-items: stretch;
   flex-wrap: wrap;
 }
+
 .card {
   width: 100%;
   display: flex;
@@ -17,6 +18,14 @@
   border-radius: 10px;
   justify-content: space-between;
   align-items: stretch;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 40vh;
+  justify-content: space-between;
 }
 
 .box_center {
@@ -32,10 +41,41 @@
   pointer-events: none;
 }
 
+th {
+  width: 100px;
+  margin: 5px 10px;
+}
+
+td {
+  width: 100vmax;
+  margin: 5px 10px;
+}
+
 .disabledNot1 {
   color: $color-dark !important;
   opacity: 1 !important;
   pointer-events: none;
+  font-weight: 600;
+}
+
+.container-box {
+  display: flex;
+  width: 100%;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px $color-dark solid;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.box-item {
+  font-size: 25px;
   font-weight: 600;
 }
 
@@ -129,13 +169,10 @@ mat-form-field {
 
 .progress-container {
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
-  height: 50vh;
 }
 
 .progress {
-  max-height: 90%;
   min-height: 40px;
   width: 60px;
   display: flex;

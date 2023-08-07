@@ -23,7 +23,8 @@ export class HostComunComponent implements OnInit {
     "Охорона будинку",
     "Ремонт під'їзду",
     "Ліфт",
-    "Інтернет та телебачення"
+    "Інтернет та телебачення",
+    "Домофон",
   ];
 
   public selectedComunal: any | null;
@@ -58,7 +59,7 @@ export class HostComunComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DeleteComunalComponent);
-
+    'Ви точно хочете видалити щось'
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const selectedTemplateId = this.selectHouse.get('house')?.value;

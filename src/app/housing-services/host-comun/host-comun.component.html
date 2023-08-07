@@ -1,33 +1,50 @@
 <div class="container">
   <div class="container-card">
 
-    <div class="card-box p-4 col-lg-4 col-md-4 col-sm-12 col-12">
+    <div class="card-box col-lg-3 col-md-4 col-sm-12 col-12">
       <div class="card-menu m-2">
-        <!-- Мої оселі -->
-          <app-account-nav></app-account-nav>
 
-        <div class="inputbox pos">
-          <mat-form-field appearance="outline">
-            <mat-label>ПОСЛУГА</mat-label>
-            <mat-select class="list-select" [(value)]="selectedComunal"
-              (selectionChange)="onSelectionChangeComunalInfo()">
-              <mat-option disabled value="">виберіть послугу</mat-option>
-              <mat-option *ngFor="let name of comunal_name"
-                [value]="name.comunal_name">{{name.comunal_name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <div class="btn-box">
-            <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
-                class="fa-regular fa-circle-xmark"></i></button>
-            <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
-              <i class="fa-solid fa-circle-plus"></i>
-            </button>
+        <app-account-nav></app-account-nav>
 
+        <mat-form-field class="inputbox mt-2" appearance="outline">
+          <mat-label>ПОСЛУГА</mat-label>
+          <mat-select class="list-select" [(value)]="selectedComunal"
+            (selectionChange)="onSelectionChangeComunalInfo()">
+            <mat-option disabled value="">виберіть послугу</mat-option>
+            <mat-option *ngFor="let name of comunal_name" [value]="name.comunal_name">{{name.comunal_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="menu mt-2">
+          <div class="nav">
+            <a class="link-menu" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-services/host-comun/comun-company'"><span class="link-text">Інформація</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-services/host-comun/payment-history'"><span class="link-text">Показники</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-services/host-comun/comun-statistics'"><span class="link-text">Стат. за
+                рік</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-services/host-comun/comun-statistics-all'"><span class="link-text">Стат.
+                за міс.</span>
+            </a>
           </div>
         </div>
 
-        <div class="inputbox" *ngIf="showInput">
-          <mat-form-field appearance="outline">
+        <div class="btn-box mt-3" *ngIf="!showInput">
+          <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
+              class="fa-regular fa-circle-xmark"></i></button>
+          <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
+            <i class="fa-solid fa-circle-plus"></i>
+          </button>
+        </div>
+
+        <div class="box mt-3" *ngIf="showInput">
+
+          <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Виберіть популярну послугу або введіть свою</mat-label>
             <input matInput [(ngModel)]="selectedComunal" placeholder="Виберіть або введіть послугу"
               [matAutocomplete]="auto">
@@ -37,6 +54,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+
           <div class="btn-group">
             <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="onSubmitComunCreate()">
               <i class="fa-solid fa-circle-check"></i>
@@ -45,14 +63,6 @@
               <i class="fa-solid fa-circle-xmark"></i>
             </button>
           </div>
-        </div>
-
-        <div class="menu">
-          <nav class="navbar-house">
-            <app-navbar-comun></app-navbar-comun>
-          </nav>
-
-
 
         </div>
 
@@ -67,5 +77,7 @@
 </div>
 
 <div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
 </div>

@@ -1,103 +1,13 @@
 @use "../../style/presets/" as *;
 
 .container-card {
+  width: 100%;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
   flex-wrap: wrap;
 }
-
-.card-name {
-  margin-bottom: 20px;
-}
-
-.inputbox {
-  position: relative;
-  display: flex;
-  margin: 1.2rem 5px 1.5rem 5px;
-  border-radius: 10px;
-}
-
-.inputbox input {
-  position: relative;
-  width: 100%;
-  padding: 5px 5px 5px 5px;
-  margin: 0.2em 0.2em 0.2em 0.2em;
-  background: transparent;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  color: white;
-  font-size: 1em;
-  letter-spacing: 0.05em;
-  transition: 0.5s;
-  z-index: 10;
-}
-
-.inputbox span {
-  position: absolute;
-  right: 0;
-  padding: 10px 10px 10px;
-  font-size: 1em;
-  color: #36343487;
-  letter-spacing: 00.05em;
-  transition: 0.6s;
-  pointer-events: none;
-}
-
-.inputbox input:valid ~ span,
-.inputbox input:focus ~ span {
-  color: rgb(0, 0, 0);
-  transform: translateX(-10px) translateY(-2.2rem);
-  font-size: 0, 75em;
-}
-
-.inputbox .orange {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: $color-accent;
-  border-radius: 4px;
-  transition: 0.5s;
-  pointer-events: none;
-  z-index: 9;
-}
-
-.inputbox input:valid ~ .orange,
-.inputbox input:focus ~ .orange {
-  height: 2.5rem;
-}
-
-.alert-danger {
-  position: absolute;
-  bottom: -2rem;
-  background: none;
-  color: rgb(242, 132, 132);
-  border: none;
-  height: 40px;
-  display: flex;
-  width: 100%;
-  padding: 5px;
-  margin: 0;
-  z-index: 30;
-  font-size: 13px;
-  align-items: center;
-}
-
-p {
-  color: $color-text;
-  font-size: 16px;
-}
-
-.card-title-group {
-  display: flex;
-}
-
-.span {
-  display: flex;
-  color: $color-primary;
-}
-
 
 .img-fluid {
   display: flex;
@@ -117,3 +27,140 @@ img {
     transform: scale(1.4);
   }
 }
+
+.container-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.8117647059);
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.disabledNot {
+  color: $color-accent !important;
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+.item-select {
+  width: 100%;
+  height: 60px !important;
+}
+
+.item-group {
+  display: flex;
+  height: 70px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.group-item {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.group-item-1 {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-box {
+  display: flex;
+}
+
+.card-name {
+  display: flex;
+}
+
+.card-body {
+  width: 100%;
+  margin: 0;
+  padding: 0 5px;
+}
+
+.btn-group {
+  width: 100%;
+  display: flex;
+}
+
+.btn {
+  width: 100%;
+  margin: 5px 0 5px 0;
+  color: $color-light;
+  height: 45px;
+  font-size: 12px;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.group-label {
+  font-weight: 600;
+  text-align: center;
+}
+
+.checkBox input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+.checkBox input[type="radio"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+.checkBox input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+mat-form-field {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.item-select {
+  width: 100%;
+}
+
+.item-width-50 {
+  width: 47%;
+}
+
