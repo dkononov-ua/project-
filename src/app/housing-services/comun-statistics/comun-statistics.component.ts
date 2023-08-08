@@ -6,6 +6,7 @@ import { HostComunComponent } from '../host-comun/host-comun.component';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { ChangeYearService } from '../change-year.service';
 
 interface FlatStat {
   totalNeedPay: number;
@@ -107,7 +108,7 @@ export class ComunStatisticsComponent implements OnInit {
   tariff_square: any;
   selectSeason: FlatStat | undefined;
   selectedMonth!: any;
-  selectedYear!: number;
+  selectedYear!: any;
   public selectedComunal: any | null;
   selectedFlatId!: string | null;
   loading: boolean = true;
@@ -121,15 +122,13 @@ export class ComunStatisticsComponent implements OnInit {
     private http: HttpClient,
     private hostComunComponent: HostComunComponent,
     private selectedFlatService: SelectedFlatService,
+    private changeYearService: ChangeYearService,
   ) { }
 
   ngOnInit(): void {
-
-
-
-
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
+      this.getSelectParam()
       if (this.selectedFlatId !== null) {
         this.getInfoComun()
           .then(() => {
@@ -150,6 +149,12 @@ export class ComunStatisticsComponent implements OnInit {
     });
   }
 
+  getSelectParam() {
+    this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
+      this.selectedYear = selectedYear || this.selectedYear;
+      this.getInfoComun();
+    });
+  }
 
   updateMaxPaymentsValue(): void {
     if (this.seasonPayments.length > 0) {
@@ -178,15 +183,13 @@ export class ComunStatisticsComponent implements OnInit {
 
   async getInfoComunAll(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const selectedYear = localStorage.getItem('selectedYear');
-    const selectedMonth = localStorage.getItem('selectedMonth');
 
-    if (selectedMonth && selectedYear && userJson) {
+    if (this.selectedYear && userJson) {
       const response = await this.http.post('http://localhost:3000/comunal/get/comunalAll', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
-        when_pay_y: JSON.parse(selectedYear),
-        when_pay_m: JSON.parse(selectedMonth)
+        when_pay_y: this.selectedYear,
+        when_pay_m: null,
       }).toPromise() as any;
 
       if (response) {
@@ -200,20 +203,19 @@ export class ComunStatisticsComponent implements OnInit {
 
   async getInfoComun(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const selectedYear = localStorage.getItem('selectedYear');
     const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
 
-    if (selectedYear && userJson) {
+    if (this.selectedYear && userJson) {
       const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         comunal_name: comunalName,
-        when_pay_y: JSON.parse(selectedYear)
+        when_pay_y: this.selectedYear
       }).toPromise() as any;
 
       if (response) {
         localStorage.setItem('comunal_inf', JSON.stringify(response));
-        this.selectedYear = selectedYear ? JSON.parse(selectedYear) : null;
+        this.selectedYear ? this.selectedYear : null;
         const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
 
         if (userJson && com_inf) {

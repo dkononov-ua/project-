@@ -1,38 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ChangeYearService } from '../change-year.service';
 
 @Component({
   selector: 'app-select-year',
   templateUrl: './select-year.component.html',
   styleUrls: ['./select-year.component.scss']
 })
-export class SelectYearComponent {
+export class SelectYearComponent implements OnInit {
 
   loading = false;
   years = [2023, 2022, 2021, 2020];
   selectedMonth: any;
-  selectedYear: any;
+  selectedYear!: number;
 
-  constructor() {
+  constructor(private changeYearService: ChangeYearService) {
   }
 
   ngOnInit(): void {
-    const selectedYear = localStorage.getItem('selectedYear');
-    const selectedMonth = localStorage.getItem('selectedMonth');
-    if (selectedYear) {
-      this.selectedYear = JSON.parse(selectedYear);
-    }
-    if (selectedMonth) {
-      this.selectedMonth = JSON.parse(selectedMonth);
-    }
+    this.changeYearService.selectedYear$.subscribe(year => {
+      if (year !== null && year !== undefined) {
+        this.selectedYear = year;
+      } else {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        this.selectedYear = currentYear;
+      }
+    });
   }
 
   onSelectionChangeYear(): void {
-    this.loading = true;
-    localStorage.setItem('selectedYear', JSON.stringify(this.selectedYear));
-    localStorage.removeItem('comunal_inf')
-    localStorage.removeItem('selectedMonth')
-    this.selectedMonth = null;
-    location.reload();
+    localStorage.removeItem('comunal_inf');
+    this.changeYearService.setSelectedYear(this.selectedYear);
   }
 }
-

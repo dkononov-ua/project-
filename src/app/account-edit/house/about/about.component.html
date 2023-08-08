@@ -3,7 +3,6 @@
   <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
     <div class="card m-2">
 
-
       <mat-label class="group-label">Розглядаю як орендарів</mat-label>
       <div class="group-item-1">
         <div class="content">
@@ -129,7 +128,7 @@
           <div class="content-group">
             <label class="checkBox">
               <input id="looking_room" type="checkbox" name="flatInfo.room" [disabled]="disabled"
-                [(ngModel)]="flatInfo.room">
+                [(ngModel)]="flatInfo.room" [value]="1">
               <div class="transition"></div>
             </label>
             <span class="checkBox-span" (click)="toggleDescription('looking_room')">Здаю кімнату</span>

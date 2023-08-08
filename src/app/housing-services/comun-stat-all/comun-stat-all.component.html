@@ -25,8 +25,10 @@
       <div class=" m-2">
         <div>
           <h2>Загальна статистика за місяць</h2>
-          <div class="table-container">
-            <table>
+
+          <div class="table-container" *ngIf="!showNoDataMessage">
+
+            <table >
               <thead>
                 <tr>
                   <th>№</th>
@@ -63,6 +65,27 @@
 
               <div class="box">Не сплачено
                 <div class="box-item">{{ difference }}₴ </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-container" *ngIf="showNoDataMessage">
+            <div class="message-box" *ngIf="showNoDataMessage">
+              <h4>Статистики за цей місяць немає...</h4>
+            </div>
+
+            <div class="container-box">
+
+              <div class="box">Загалом нараховано
+                <div class="box-item">0₴</div>
+              </div>
+
+              <div class="box">Загалом сплачено
+                <div class="box-item">0₴ </div>
+              </div>
+
+              <div class="box">Не сплачено
+                <div class="box-item">0₴ </div>
               </div>
             </div>
           </div>

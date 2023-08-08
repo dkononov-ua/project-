@@ -82,13 +82,13 @@ export class ComunCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = false;
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
         this.selectedMonth = localStorage.getItem('selectedMonth');
         this.getDefaultData();
         this.getComunalInfo();
-        this.loading = false;
       }
     });
   }
@@ -132,7 +132,6 @@ export class ComunCompanyComponent implements OnInit {
       when_pay_m: JSON.parse(localStorage.getItem('selectedMonth')!),
       comunal: this.comunInfo,
     }
-
 
     console.log(data)
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {

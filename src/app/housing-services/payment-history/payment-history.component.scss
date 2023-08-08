@@ -80,11 +80,19 @@
   height: 60vh;
 }
 
-.box {
+.box-1 {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+
+.box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
 
 .card-name {
   display: flex;

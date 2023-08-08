@@ -3,6 +3,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { ChangeMonthService } from '../change-month.service';
 interface FlatInfo {
   comunal_before: any;
   comunal_now: any;
@@ -49,21 +50,19 @@ export class PaymentHistoryComponent implements OnInit {
   ];
 
   months = [
-    { id: 0, name: 'Не обрано' },
-    { id: 1, name: 'Січень' },
-    { id: 2, name: 'Лютий' },
-    { id: 3, name: 'Березень' },
-    { id: 4, name: 'Квітень' },
-    { id: 5, name: 'Травень' },
-    { id: 6, name: 'Червень' },
-    { id: 7, name: 'Липень' },
-    { id: 8, name: 'Серпень' },
-    { id: 9, name: 'Вересень' },
-    { id: 10, name: 'Жовтень' },
-    { id: 11, name: 'Листопад' },
-    { id: 12, name: 'Грудень' }
+    { id: 0, name: 'Січень' },
+    { id: 1, name: 'Лютий' },
+    { id: 2, name: 'Березень' },
+    { id: 3, name: 'Квітень' },
+    { id: 4, name: 'Травень' },
+    { id: 5, name: 'Червень' },
+    { id: 6, name: 'Липень' },
+    { id: 7, name: 'Серпень' },
+    { id: 8, name: 'Вересень' },
+    { id: 9, name: 'Жовтень' },
+    { id: 10, name: 'Листопад' },
+    { id: 11, name: 'Грудень' }
   ];
-
 
   flatInfo: FlatInfo = {
     comunal_before: 0,
@@ -86,7 +85,7 @@ export class PaymentHistoryComponent implements OnInit {
   tariff_square: any;
   houses: { id: number, name: string }[] = [];
   selectedMonth: any;
-  selectedYear: number | undefined;
+  selectedYear: any;
   public selectedComunal: any | null;
   selectedFlatId!: string | null;
   comunalName: string = '';
@@ -98,20 +97,46 @@ export class PaymentHistoryComponent implements OnInit {
     private dataService: DataService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
+    private changeMonthService: ChangeMonthService
   ) { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
+      this.selectedYear = localStorage.getItem('selectedYear');
+
       if (this.selectedFlatId !== null) {
-        this.selectedMonth = localStorage.getItem('selectedMonth');
-        this.getInfoComun(this.selectedMonth);
-        this.getDefaultData();
-        this.getInfoFlat();
-        this.calculateConsumed();
-        this.calculatePay();
+        this.loading = false;
+        this.changeMonthService.selectedMonth$.subscribe((selectedMonth) => {
+          if (selectedMonth !== null) {
+            this.selectedMonth = selectedMonth;
+            this.clearDataAndLoadInfo();
+            this.loading = false;
+          }
+        });
+
+        this.changeMonthService.setSelectedMonth(this.selectedMonth);
       }
     });
+  }
+
+  clearDataAndLoadInfo() {
+    localStorage.removeItem('comunal_inf');
+    this.flatInfo = {
+      comunal_before: 0,
+      comunal_now: 0,
+      howmuch_pay: 0,
+      about_pay: '',
+      tariff: 0,
+      consumed: 0,
+      calc_howmuch_pay: 0,
+      option_sendData: 1,
+    };
+    this.getInfoComun();
+    this.getDefaultData();
+    this.getInfoFlat();
+    this.calculateConsumed();
+    this.calculatePay();
   }
 
   getDefaultData() {
@@ -127,7 +152,7 @@ export class PaymentHistoryComponent implements OnInit {
     });
   }
 
-  async getInfoComun(selectedMonth: string): Promise<void> {
+  async getInfoComun(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const selectedYear = localStorage.getItem('selectedYear');
     const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
@@ -148,7 +173,6 @@ export class PaymentHistoryComponent implements OnInit {
       if (response) {
         localStorage.setItem('comunal_inf', JSON.stringify(response));
         this.selectedYear = JSON.parse(selectedYear);
-        this.selectedMonth = selectedMonth ? JSON.parse(selectedMonth) : null;
         const comInf = JSON.parse(localStorage.getItem('comunal_inf')!);
 
         if (userJson && comInf) {
@@ -173,6 +197,9 @@ export class PaymentHistoryComponent implements OnInit {
   saveInfo(): void {
     const comunal_name = localStorage.getItem('comunal_name');
     const userJson = localStorage.getItem('user');
+    console.log(this.selectedMonth);
+    console.log(JSON.parse(localStorage.getItem('selectedYear')!));
+    console.log(this.flatInfo);
 
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       this.http.post('http://localhost:3000/comunal/add/comunal', {
@@ -180,7 +207,7 @@ export class PaymentHistoryComponent implements OnInit {
         flat_id: this.selectedFlatId,
         comunal_name: JSON.parse(comunal_name!).comunal,
         when_pay_y: JSON.parse(localStorage.getItem('selectedYear')!),
-        when_pay_m: JSON.parse(localStorage.getItem('selectedMonth')!),
+        when_pay_m: this.selectedMonth,
         comunal: this.flatInfo,
       })
         .subscribe((response: any) => {

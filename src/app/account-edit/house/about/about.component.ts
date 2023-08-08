@@ -23,7 +23,7 @@ interface FlatInfo {
   about: string | undefined;
   private: boolean;
   rent: boolean;
-  room: boolean;
+  room: number;
 }
 
 @Component({
@@ -70,7 +70,7 @@ export class AboutComponent implements OnInit {
     about: undefined,
     private: false,
     rent: false,
-    room: false,
+    room: 0,
   };
 
   disabled: boolean = true;
@@ -166,7 +166,7 @@ export class AboutComponent implements OnInit {
       about: '',
       private: false,
       rent: false,
-      room: false,
+      room: 0,
     };
   }
 }
