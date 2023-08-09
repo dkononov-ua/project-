@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteComunalComponent } from 'src/app/components/delete-comunal/delete-comunal.component';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 @Component({
-  selector: 'app-host-comun',
-  templateUrl: './host-comun.component.html',
-  styleUrls: ['./host-comun.component.scss'],
+  selector: 'app-comun-nav',
+  templateUrl: './comun-nav.component.html',
+  styleUrls: ['./comun-nav.component.scss'],
   template: '{{ selectedFlatId }}'
 })
-export class HostComunComponent implements OnInit {
+export class ComunNavComponent implements OnInit {
 
   popular_comunal_names = [
     "Опалення",
@@ -27,7 +27,19 @@ export class HostComunComponent implements OnInit {
     "Домофон",
   ];
 
+
+
+  houses: { id: number, name: string }[] = [];
+  addressHouse: FormGroup | undefined;
+
+  selectHouse = new FormGroup({
+    house: new FormControl('виберіть оселю')
+  });
+
+  formGroup: FormGroup | undefined;
+
   loading = false;
+
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
@@ -122,9 +134,15 @@ export class HostComunComponent implements OnInit {
     'Ви точно хочете видалити щось'
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        const selectedTemplateId = this.selectHouse.get('house')?.value;
+        const houseJson = localStorage.getItem('house');
+        if (houseJson) {
+          console.log(JSON.parse(houseJson))
+        }
+
         const userJson = localStorage.getItem('user');
         if (userJson) {
-          this.http.post('http://localhost:3000/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
+          this.http.post('http://localhost:3000/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: selectedTemplateId, comunal_name: this.selectedComun })
             .subscribe((response: any) => {
               console.log(response);
             }, (error: any) => {
@@ -137,4 +155,7 @@ export class HostComunComponent implements OnInit {
       }
     });
   }
+
+
 }
+

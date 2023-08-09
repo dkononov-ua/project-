@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-acc">
   <div class="btn-group">
     <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
       <div class="img-fluid">
@@ -16,10 +16,11 @@
     </ng-container>
   </div>
 
+  <div class="form-container mb-2">
   <ng-container
     *ngIf="(houses.length > 0 || (houses !== null && houses !== undefined)) || (rentedHouses && rentedHouses.length > 0)">
-    <mat-form-field class="list-form mb-3" appearance="outline">
-      <mat-label>ОСЕЛЯ</mat-label>
+    <mat-form-field class="list-form" appearance="outline">
+      <mat-label class="list-label">Оселя</mat-label>
       <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
         <mat-option disabled value="">виберіть оселю</mat-option>
         <mat-optgroup *ngIf="(houses.length > 0 || houses === null || houses === undefined)" label="Власні оселі">
@@ -32,8 +33,8 @@
       </mat-select>
     </mat-form-field>
   </ng-container>
+  </div>
 </div>
-
 
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader">

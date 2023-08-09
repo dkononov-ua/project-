@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteComunalComponent } from 'src/app/components/delete-comunal/delete-comunal.component';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+
 @Component({
-  selector: 'app-host-comun',
-  templateUrl: './host-comun.component.html',
-  styleUrls: ['./host-comun.component.scss'],
+  selector: 'app-select-comun',
+  templateUrl: './select-comun.component.html',
+  styleUrls: ['./select-comun.component.scss'],
   template: '{{ selectedFlatId }}'
 })
-export class HostComunComponent implements OnInit {
+export class SelectComunComponent implements OnInit {
 
   popular_comunal_names = [
     "Опалення",
@@ -28,19 +29,12 @@ export class HostComunComponent implements OnInit {
   ];
 
   loading = false;
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 500);
-  }
+  showInput = false;
 
   comunCreate!: FormGroup;
-  showInput = false;
   selectedComun: any;
   selectedFlatId!: string | null;
   comunal_name!: string | any;
-
   customComunal: string = '';
 
   constructor(private fb: FormBuilder,
@@ -137,4 +131,7 @@ export class HostComunComponent implements OnInit {
       }
     });
   }
+
+
 }
+

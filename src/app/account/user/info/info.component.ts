@@ -153,7 +153,6 @@ export class InfoComponent implements OnInit {
         .subscribe((response: any) => {
           if (response) {
             this.user.user_id = response.inf?.user_id || '';
-
             this.user.firstName = response.inf?.firstName || '';
             this.user.lastName = response.inf?.lastName || '';
             this.user.surName = response.inf?.surName || '';
@@ -166,7 +165,6 @@ export class InfoComponent implements OnInit {
             this.user.instagram = response.cont?.instagram || '';
             this.user.mail = response.cont?.mail || '';
             this.user.viber = response.cont?.viber || '';
-
             if (response.img && response.img.length > 0) {
               this.userImg = response.img[0].img;
             }
@@ -182,7 +180,6 @@ export class InfoComponent implements OnInit {
       this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
           this.userInfo = response.inf;
-          console.log(this.userInfo)
         }, (error: any) => {
           console.error(error);
         });

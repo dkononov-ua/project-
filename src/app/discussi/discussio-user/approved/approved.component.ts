@@ -63,7 +63,6 @@ export class ApprovedComponent implements OnInit, OnDestroy {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       const newSubscriptions: ApprovedSubscription[] = response.map((flat: any) => {
         if(flat.flat_id){
           return {
@@ -78,14 +77,6 @@ export class ApprovedComponent implements OnInit, OnDestroy {
             price_m: flat.flat.price_m,
           }
         }
-        // console.log(response)
-        // console.log(flat)
-        // console.log(flat.img)
-        // return {
-        //   flat_id: flat.flat.flat_id,
-        //   flatImg: flat.img,
-        //   price_m: flat.flat.price_m,
-        // };
       });
 
       this.subscriptions = newSubscriptions;

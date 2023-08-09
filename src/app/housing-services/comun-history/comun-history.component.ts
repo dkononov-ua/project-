@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
+import { ChangeYearService } from '../change-year.service';
+import { ChangeComunService } from '../change-comun.service';
 interface FlatInfo {
   comunal_before: any;
   comunal_now: any;
@@ -15,9 +17,9 @@ interface FlatInfo {
   option_sendData: number;
 }
 @Component({
-  selector: 'app-payment-history',
-  templateUrl: './payment-history.component.html',
-  styleUrls: ['./payment-history.component.scss'],
+  selector: 'app-comun-history',
+  templateUrl: './comun-history.component.html',
+  styleUrls: ['./comun-history.component.scss'],
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -33,20 +35,20 @@ interface FlatInfo {
     ]),
   ],
 })
-export class PaymentHistoryComponent implements OnInit {
+export class ComunHistoryComponent implements OnInit {
 
   comunalServices = [
-    { name: "Опалення", unit: "Гкал", imageUrl: "../../assets/comun/teplo.jpg" },
-    { name: "Водопостачання", unit: "м3", imageUrl: "../../assets/comun/water.jfif" },
-    { name: "Вивіз сміття", unit: "Тариф/внесок", imageUrl: "../../assets/comun/cleaning.jpg" },
-    { name: "Електроенергія", unit: "кВт", imageUrl: "../../assets/comun/energy.jpg" },
-    { name: "Газопостачання", unit: "м3", imageUrl: "../../assets/comun/gas.jpg" },
-    { name: "Управління будинком", unit: "Тариф/внесок", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Охорона будинку", unit: "Тариф/внесок", imageUrl: "../../assets/comun/ohorona.jpg" },
-    { name: "Ремонт під'їзду", unit: "Тариф/внесок", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Ліфт", unit: "Тариф/внесок", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Інтернет та телебачення", unit: "Тариф/внесок", imageUrl: "../../assets/comun/internet.jpg" },
-    { name: "Домофон", unit: "Тариф/внесок", imageUrl: "../../assets/comun/default_services.svg" },
+    { name: "Опалення", unit: "Гкал" },
+    { name: "Водопостачання", unit: "м3" },
+    { name: "Вивіз сміття", unit: "Тариф/внесок" },
+    { name: "Електроенергія", unit: "кВт" },
+    { name: "Газопостачання", unit: "м3" },
+    { name: "Управління будинком", unit: "Тариф/внесок" },
+    { name: "Охорона будинку", unit: "Тариф/внесок" },
+    { name: "Ремонт під'їзду", unit: "Тариф/внесок" },
+    { name: "Ліфт", unit: "Тариф/внесок" },
+    { name: "Інтернет та телебачення", unit: "Тариф/внесок" },
+    { name: "Домофон", unit: "Тариф/внесок" },
   ];
 
   months = [
@@ -84,64 +86,119 @@ export class PaymentHistoryComponent implements OnInit {
   selectedOption: any;
   tariff_square: any;
   houses: { id: number, name: string }[] = [];
-  selectedMonth: any;
-  selectedYear: any;
-  public selectedComunal: any | null;
-  selectedFlatId!: string | null;
-  comunalName: string = '';
   defaultUnit: string = "Тариф/внесок";
-  selectedImageUrl: string | null | undefined;
   selectedUnit: string | null | undefined;
+  noInformationMessage: boolean = false;
+
+  selectedFlatId!: string | null;
+  selectedComun: any;
+  selectedYear: any;
+  selectedMonth: any;
 
   constructor(
     private dataService: DataService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
-    private changeMonthService: ChangeMonthService
+    private changeComunService: ChangeComunService,
+    private changeMonthService: ChangeMonthService,
+    private changeYearService: ChangeYearService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.getSelectParam();
+    this.loading = false;
+    if (this.selectedFlatId !== null && this.selectedYear !== null && this.selectedMonth !== null) {
+      await this.getComunalYearInfo();
+      await this.selectMonthInfo();
+      this.getDefaultData();
+      this.getInfoFlat();
+    }
+  }
+
+  getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      this.selectedYear = localStorage.getItem('selectedYear');
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
 
-      if (this.selectedFlatId !== null) {
-        this.loading = false;
-        this.changeMonthService.selectedMonth$.subscribe((selectedMonth) => {
-          if (selectedMonth !== null) {
-            this.selectedMonth = selectedMonth;
-            this.clearDataAndLoadInfo();
-            this.loading = false;
-          }
-        });
+    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+      this.selectedComun = selectedComun || this.selectedComun;
+      this.getComunalYearInfo();
+      this.selectMonthInfo();
+      this.getDefaultData();
+      this.getInfoFlat();
+      this.calculateConsumed();
+      this.calculatePay();
+    });
 
-        this.changeMonthService.setSelectedMonth(this.selectedMonth);
-      }
+    this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
+      this.selectedYear = selectedYear || this.selectedYear;
+      this.getComunalYearInfo();
+    });
+
+    this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
+      this.selectedMonth = selectedMonth || this.selectedMonth;
+      this.selectMonthInfo();
+      this.getDefaultData();
+      this.getInfoFlat();
+      this.calculateConsumed();
+      this.calculatePay();
     });
   }
 
-  clearDataAndLoadInfo() {
-    localStorage.removeItem('comunal_inf');
-    this.flatInfo = {
-      comunal_before: 0,
-      comunal_now: 0,
-      howmuch_pay: 0,
-      about_pay: '',
-      tariff: 0,
-      consumed: 0,
-      calc_howmuch_pay: 0,
-      option_sendData: 1,
-    };
-    this.getInfoComun();
-    this.getDefaultData();
-    this.getInfoFlat();
-    this.calculateConsumed();
-    this.calculatePay();
+  async getComunalYearInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+
+    if (!this.selectedYear || !userJson) {
+      console.log('User not found or selected year is missing.');
+      return null;
+    }
+
+    try {
+      const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        comunal_name: this.selectedComun,
+        when_pay_y: this.selectedYear
+      }).toPromise() as any;
+
+      if (response) {
+        console.log(response)
+        localStorage.setItem('comunal_inf', JSON.stringify(response.comunal));
+      } else {
+        console.error('Response is empty.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return null;
+    }
+  }
+
+  async selectMonthInfo(): Promise<void> {
+    const comInf = JSON.parse(localStorage.getItem('comunal_inf')!);
+
+    if (comInf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null) {
+      const selectedInfo = comInf.find((selectMonth: any) => {
+        return selectMonth.when_pay_y === this.selectedYear.toString() &&
+          selectMonth.when_pay_m === this.selectedMonth &&
+          selectMonth.comunal_name === this.selectedComun;
+      });
+      if (selectedInfo) {
+        this.noInformationMessage = false;
+        this.flatInfo = selectedInfo;
+      } else {
+        this.noInformationMessage = true;
+        console.log('No data found for selected month.');
+      }
+    }
+
+    if (!comInf) {
+      console.log('No data found in local storage.');
+    }
   }
 
   getDefaultData() {
-    this.comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-    const selectedService = this.comunalServices.find(service => service.name === this.comunalName);
+    const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
     this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
   }
 
@@ -152,61 +209,18 @@ export class PaymentHistoryComponent implements OnInit {
     });
   }
 
-  async getInfoComun(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const selectedYear = localStorage.getItem('selectedYear');
-    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-
-    if (!selectedYear || !userJson) {
-      console.log('User not found or selected year is missing.');
-      return;
-    }
-
-    try {
-      const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        comunal_name: comunalName,
-        when_pay_y: JSON.parse(selectedYear)
-      }).toPromise() as any;
-
-      if (response) {
-        localStorage.setItem('comunal_inf', JSON.stringify(response));
-        this.selectedYear = JSON.parse(selectedYear);
-        const comInf = JSON.parse(localStorage.getItem('comunal_inf')!);
-
-        if (userJson && comInf) {
-          const selectMonth = comInf.comunal.find((selectMonth: any) => {
-            return selectMonth.when_pay_y === String(this.selectedYear) &&
-              selectMonth.when_pay_m === this.selectedMonth &&
-              selectMonth.comunal_name === comunalName;
-          });
-
-          if (selectMonth) {
-            this.flatInfo = selectMonth;
-          }
-        }
-      } else {
-        console.error('Response is empty.');
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
-
   saveInfo(): void {
-    const comunal_name = localStorage.getItem('comunal_name');
     const userJson = localStorage.getItem('user');
     console.log(this.selectedMonth);
-    console.log(JSON.parse(localStorage.getItem('selectedYear')!));
+    console.log(this.selectedYear);
     console.log(this.flatInfo);
 
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       this.http.post('http://localhost:3000/comunal/add/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
-        comunal_name: JSON.parse(comunal_name!).comunal,
-        when_pay_y: JSON.parse(localStorage.getItem('selectedYear')!),
+        comunal_name: this.selectedComun,
+        when_pay_y: this.selectedYear,
         when_pay_m: this.selectedMonth,
         comunal: this.flatInfo,
       })
@@ -219,7 +233,13 @@ export class PaymentHistoryComponent implements OnInit {
       const comunal_before = this.flatInfo.comunal_now;
       const selectedMonthIndex = this.months.findIndex((month) => month.name === this.selectedMonth);
       const nextMonthIndex = (selectedMonthIndex + 1) % this.months.length;
-      const nextMonth = this.months[nextMonthIndex].name;
+      let nextYear = this.selectedYear;
+      let nextMonth = this.months[nextMonthIndex].name;
+
+      if (nextMonthIndex === 0) {
+        nextYear++;
+      }
+
       const comunalNextMonthData = {
         tariff: this.flatInfo.tariff,
         comunal_before: comunal_before,
@@ -236,19 +256,29 @@ export class PaymentHistoryComponent implements OnInit {
         this.http.post('http://localhost:3000/comunal/add/comunal', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
-          comunal_name: JSON.parse(comunal_name!).comunal,
-          when_pay_y: JSON.parse(localStorage.getItem('selectedYear')!),
+          comunal_name: this.selectedComun,
+          when_pay_y: nextYear,
           when_pay_m: nextMonth,
           comunal: comunalNextMonthData,
         }).subscribe((response: any) => {
+          localStorage.removeItem('comunal_inf');
           this.disabled = true;
+          this.loading = true;
+          this.reloadPageWithLoader();
         }, (error: any) => {
           console.error(error);
         });
-      }, 500);
+      }, 100);
     } else {
       console.log('user not found, the form is blocked');
     }
+  }
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -342,3 +372,4 @@ export class PaymentHistoryComponent implements OnInit {
       };
   }
 }
+

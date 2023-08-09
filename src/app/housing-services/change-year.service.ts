@@ -18,6 +18,5 @@ export class ChangeYearService {
 
   setSelectedYear(selectedYear: number): void {
     this.selectedYearSubject.next(selectedYear);
-    localStorage.setItem('selectedYear', selectedYear.toString());
   }
 }

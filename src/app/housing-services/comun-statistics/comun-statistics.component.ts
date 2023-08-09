@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { HostComunComponent } from '../host-comun/host-comun.component';
 import { DataService } from 'src/app/services/data.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
+import { ChangeComunService } from '../change-comun.service';
 
 interface FlatStat {
   totalNeedPay: number;
@@ -46,15 +44,29 @@ interface FlatInfo {
         animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
-    trigger('cardAnimation2', [
+    trigger('columnAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateY(50%)', opacity: 0 }),
+        animate('800ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
       ]),
     ]),
   ],
 })
 export class ComunStatisticsComponent implements OnInit {
+
+  comunalServices = [
+    { name: "Опалення", unit: "Гкал" },
+    { name: "Водопостачання", unit: "м3" },
+    { name: "Вивіз сміття", unit: "Тариф/внесок" },
+    { name: "Електроенергія", unit: "кВт" },
+    { name: "Газопостачання", unit: "м3" },
+    { name: "Управління будинком", unit: "Тариф/внесок" },
+    { name: "Охорона будинку", unit: "Тариф/внесок" },
+    { name: "Ремонт під'їзду", unit: "Тариф/внесок" },
+    { name: "Ліфт", unit: "Тариф/внесок" },
+    { name: "Інтернет та телебачення", unit: "Тариф/внесок" },
+    { name: "Домофон", unit: "Тариф/внесок" },
+  ];
 
   seasonPayments: { season: string; payment: number }[] = [];
   seasonNeedPay: { season: string; needPay: number }[] = [];
@@ -107,36 +119,37 @@ export class ComunStatisticsComponent implements OnInit {
   selectedOption: any;
   tariff_square: any;
   selectSeason: FlatStat | undefined;
-  selectedMonth!: any;
-  selectedYear!: any;
+
   public selectedComunal: any | null;
-  selectedFlatId!: string | null;
   loading: boolean = true;
   myChart: any;
 
+  selectedFlatId!: string | null;
+  selectedComun!: string | null;
+  selectedYear!: any;
+  selectedMonth!: any;
+
+  defaultUnit: string = "Тариф/внесок";
+  selectedUnit: string | null | undefined;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private fb: FormBuilder,
     private dataService: DataService,
     private http: HttpClient,
-    private hostComunComponent: HostComunComponent,
     private selectedFlatService: SelectedFlatService,
+    private changeComunService: ChangeComunService,
     private changeYearService: ChangeYearService,
   ) { }
 
   ngOnInit(): void {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
+    if (this.selectedFlatId !== null) {
       this.getSelectParam()
-      if (this.selectedFlatId !== null) {
+      if (this.selectedComun !== null && this.selectedYear !== null) {
         this.getInfoComun()
           .then(() => {
+            this.getDefaultData();
             this.updateMaxPaymentsValue();
             this.updateMaxNeedPayValue();
             this.updateMaxConsumptionsValue();
-            this.getInfoComunAll();
-            this.getInfoFlat();
             this.loading = false;
           })
           .catch((error) => {
@@ -144,15 +157,34 @@ export class ComunStatisticsComponent implements OnInit {
             this.loading = false;
           });
       } else {
+        console.log('Не обрані комунальні або рік')
         this.loading = false;
       }
-    });
+    } else {
+      this.loading = false;
+    }
+  }
+
+  getDefaultData() {
+    const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
+    this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
   }
 
   getSelectParam() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+
+    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+      this.selectedComun = selectedComun || this.selectedComun;
+      this.getInfoComun();
+      this.getDefaultData();
+    });
+
     this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
       this.getInfoComun();
+      this.getDefaultData();
     });
   }
 
@@ -181,39 +213,19 @@ export class ComunStatisticsComponent implements OnInit {
     });
   }
 
-  async getInfoComunAll(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-
-    if (this.selectedYear && userJson) {
-      const response = await this.http.post('http://localhost:3000/comunal/get/comunalAll', {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        when_pay_y: this.selectedYear,
-        when_pay_m: null,
-      }).toPromise() as any;
-
-      if (response) {
-      } else {
-        console.error(false);
-      }
-    } else {
-      console.log('user not found');
-    }
-  }
-
   async getInfoComun(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
 
-    if (this.selectedYear && userJson) {
+    if (this.selectedYear && this.selectedComun && userJson) {
       const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
-        comunal_name: comunalName,
+        comunal_name: this.selectedComun,
         when_pay_y: this.selectedYear
       }).toPromise() as any;
 
       if (response) {
+        console.log(response)
         localStorage.setItem('comunal_inf', JSON.stringify(response));
         this.selectedYear ? this.selectedYear : null;
         const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);

@@ -1,99 +1,110 @@
-<ng-container *ngIf="loading; else content">
-  <div *ngIf="loading" class="loader-overlay">
-    <div class="loader">
-      <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
-    </div>
-  </div>
-</ng-container>
+<div class="container-card col-12">
 
-<ng-template #content>
-
-  <div class="container-card col-12">
-
-    <div class="group col-12">
-      <div class="box_center">
-        <mat-label class="stat-label">Статистика за</mat-label>
-        <div>
-          <app-select-year></app-select-year>
-          <app-select-month></app-select-month>
-        </div>
-      </div>
-    </div>
-
-    <div [@cardAnimation1] class="card-box">
-
-      <div class=" m-2">
-        <div>
-          <h2>Загальна статистика за місяць</h2>
-
-          <div class="table-container" *ngIf="!showNoDataMessage">
-
-            <table >
-              <thead>
-                <tr>
-                  <th>№</th>
-                  <th>Назва</th>
-                  <th>Спожито</th>
-                  <th>Тариф</th>
-                  <th>Нараховано</th>
-                  <th>Сплатив</th>
-                  <th>Різниця</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let utility of flatInfo">
-                  <td>{{ utility.id }}</td>
-                  <td>{{ utility.name }}</td>
-                  <td>{{ utility.consumed }}</td>
-                  <td>{{ utility.tariff }}</td>
-                  <td>{{ utility.needPay }}₴</td>
-                  <td>{{ utility.paid }}₴</td>
-                  <td>{{ utility.difference }}₴</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div class="container-box">
-
-              <div class="box">Загалом нараховано
-                <div class="box-item">{{ totalNeedPay }}₴</div>
-              </div>
-
-              <div class="box">Загалом сплачено
-                <div class="box-item">{{ totalPaid }}₴ </div>
-              </div>
-
-              <div class="box">Не сплачено
-                <div class="box-item">{{ difference }}₴ </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="table-container" *ngIf="showNoDataMessage">
-            <div class="message-box" *ngIf="showNoDataMessage">
-              <h4>Статистики за цей місяць немає...</h4>
-            </div>
-
-            <div class="container-box">
-
-              <div class="box">Загалом нараховано
-                <div class="box-item">0₴</div>
-              </div>
-
-              <div class="box">Загалом сплачено
-                <div class="box-item">0₴ </div>
-              </div>
-
-              <div class="box">Не сплачено
-                <div class="box-item">0₴ </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
+  <div class="comunal-info m-2 p-2">
+    <h3 class="text">Загальна статистика по місяцю <span class="accent"> {{selectedMonth}}, </span> оселі <span
+        class="accent"> {{selectedFlatId}} </span>
+      за <span class="accent">{{selectedYear}}</span>рік</h3>
   </div>
 
-</ng-template>
+  <div class="table-container" *ngIf="!noInformationMessage">
+    <table class="table-box">
+      <thead>
+        <tr class="table-row">
+          <th>
+            <div class="table-cell-30"> № </div>
+          </th>
+          <th>
+            <div class="table-cell-200"> Назва </div>
+          </th>
+          <th>
+            <div class="table-cell-100"> Спожито </div>
+          </th>
+          <th>
+            <div class="table-cell-50"> Тариф </div>
+          </th>
+          <th>
+            <div class="table-cell-100"> Нараховано </div>
+          </th>
+          <th>
+            <div class="table-cell-100"> Сплатив </div>
+          </th>
+          <th>
+            <div class="table-cell-100"> Різниця </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="table-row" [@columnAnimation] *ngFor="let utility of flatInfo">
+          <td>
+            <div class="table-cell-30">
+              {{ utility.id }}
+            </div>
+          </td>
+          <td>
+            <div class="table-cell-200">
+              {{ utility.name }}
+            </div>
+          </td>
+          <td>
+            <div class="table-cell-100">
+              {{ utility.consumed }}
+            </div>
+          </td>
+          <td>
+            <div class="table-cell-50">
+              {{ utility.tariff }}
+            </div>
+          </td>
+          <td>
+            <div class="table-cell-100">
+              {{ utility.needPay }}₴
+            </div>
+          </td>
+          <td>
+            <div class="table-cell-100">
+              {{ utility.paid }}₴
+            </div>
+          </td>
+          <td>
+            <div class="table-cell-100">
+              {{ utility.difference }}₴
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div [@columnAnimation1] class="container-box">
+      <div class="box">Загалом нараховано
+        <div class="box-item">{{ totalNeedPay }}₴</div>
+      </div>
+      <div class="box">Загалом сплачено
+        <div class="box-item">{{ totalPaid }}₴ </div>
+      </div>
+      <div class="box">Не сплачено
+        <div class="box-item">{{ difference }}₴ </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="noInformationMessage">
+    <div class="message-box" *ngIf="noInformationMessage">
+      <h4>Статистики за цей місяць немає...</h4>
+    </div>
+
+    <div class="container-box">
+
+      <div class="box">Загалом нараховано
+        <div class="box-item">0₴</div>
+      </div>
+
+      <div class="box">Загалом сплачено
+        <div class="box-item">0₴ </div>
+      </div>
+
+      <div class="box">Не сплачено
+        <div class="box-item">0₴ </div>
+      </div>
+    </div>
+  </div>
+</div>

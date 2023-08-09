@@ -164,13 +164,11 @@ export class HouseComponent implements OnInit {
       }
     });
 
-
     const userJson = localStorage.getItem('user');
     const houseJson = localStorage.getItem('house');
     if (userJson !== null) {
       if (houseJson !== null) {
         this.dataService.getData().subscribe((response: any) => {
-          console.log(response)
           if (response.houseData) {
             this.user.firstName = response.userData.inf.firstName;
             this.user.lastName = response.userData.inf.lastName;

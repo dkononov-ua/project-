@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
-import { filter, of, switchMap } from 'rxjs';
-
+import { ChangeComunService } from '../change-comun.service';
 @Component({
   selector: 'app-comun-stat-all',
   templateUrl: './comun-stat-all.component.html',
@@ -17,10 +16,16 @@ import { filter, of, switchMap } from 'rxjs';
         animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
-    trigger('cardAnimation2', [
+    trigger('columnAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateY(80%)', opacity: 0 }),
+        animate('800ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
+      ]),
+    ]),
+    trigger('columnAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateY(100%)', opacity: 0 }),
+        animate('2000ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
       ]),
     ]),
   ],
@@ -42,21 +47,30 @@ export class ComunStatAllComponent implements OnInit {
     { id: 11, name: 'Грудень' }
   ];
 
+  displayedColumns: string[] = ['id', 'name', 'consumed', 'tariff', 'needPay', 'paid', 'difference'];
+
+
   flatInfo: any;
-  selectedMonth!: any;
-  selectedYear!: any;
-  selectedFlatId!: string | null;
   loading: boolean = true;
   statsAll: any;
   totalNeedPay: number | undefined;
   totalPaid: number | undefined;
   difference: number | undefined;
   selectedMonthStats: any;
-  showNoDataMessage: boolean = false;
+  noInformationMessage: boolean = false;
+
+  defaultUnit: string = "Тариф/внесок";
+  selectedUnit: string | null | undefined;
+
+  selectedFlatId!: string | null;
+  selectedComun!: string | null;
+  selectedYear!: number | null;
+  selectedMonth!: string | null;
 
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
+    private changeComunService: ChangeComunService,
     private changeMonthService: ChangeMonthService,
     private changeYearService: ChangeYearService
   ) { this.flatInfo = []; }
@@ -75,6 +89,11 @@ export class ComunStatAllComponent implements OnInit {
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+
+    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+      this.selectedComun = selectedComun || this.selectedComun;
+      this.getInfoComun();
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
@@ -100,7 +119,7 @@ export class ComunStatAllComponent implements OnInit {
       }).toPromise() as any;
 
       if (response) {
-        this.showNoDataMessage = false;
+        this.noInformationMessage = false;
         const selectedMonthStats = response.comunal.find((item: any) => item.when_pay_m === this.selectedMonth);
         if (selectedMonthStats) {
           this.statsAll = response.comunal
@@ -117,7 +136,7 @@ export class ComunStatAllComponent implements OnInit {
           this.flatInfo = this.statsAll;
           this.calculateTotals();
         } else {
-          this.showNoDataMessage = true;
+          this.noInformationMessage = true;
           console.log('No data found for selected month.');
         }
       } else {
@@ -148,4 +167,3 @@ export class ComunStatAllComponent implements OnInit {
     this.difference = this.totalNeedPay - this.totalPaid;
   }
 }
-

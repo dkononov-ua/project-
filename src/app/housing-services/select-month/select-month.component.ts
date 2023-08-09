@@ -41,7 +41,6 @@ export class SelectMonthComponent implements OnInit {
   }
 
   onSelectionChangeMonth(): void {
-    localStorage.removeItem('comunal_inf');
     this.changeMonthService.setSelectedMonth(this.selectedMonth);
   }
 

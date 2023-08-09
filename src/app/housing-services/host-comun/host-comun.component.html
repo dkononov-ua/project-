@@ -5,34 +5,10 @@
       <div class="card-menu m-2">
 
         <app-account-nav></app-account-nav>
-
-        <mat-form-field class="inputbox mt-2" appearance="outline">
-          <mat-label>ПОСЛУГА</mat-label>
-          <mat-select class="list-select" [(value)]="selectedComunal"
-            (selectionChange)="onSelectionChangeComunalInfo()">
-            <mat-option disabled value="">виберіть послугу</mat-option>
-            <mat-option *ngFor="let name of comunal_name" [value]="name.comunal_name">{{name.comunal_name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <div class="menu mt-2">
-          <div class="nav">
-            <a class="link-menu" [routerLinkActive]="'active'"
-              [routerLink]="'/housing-services/host-comun/comun-company'"><span class="link-text">Інформація</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'"
-              [routerLink]="'/housing-services/host-comun/payment-history'"><span class="link-text">Показники</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'"
-              [routerLink]="'/housing-services/host-comun/comun-statistics'"><span class="link-text">Стат. за
-                рік</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'"
-              [routerLink]="'/housing-services/host-comun/comun-statistics-all'"><span class="link-text">Стат.
-                за міс.</span>
-            </a>
-          </div>
-        </div>
+        <app-select-comun></app-select-comun>
+        <app-select-month></app-select-month>
+        <app-select-year></app-select-year>
+        <app-comun-nav></app-comun-nav>
 
         <div class="btn-box mt-3" *ngIf="!showInput">
           <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
@@ -45,8 +21,8 @@
         <div class="box mt-3" *ngIf="showInput">
 
           <mat-form-field class="inputbox" appearance="outline">
-            <mat-label>Виберіть популярну послугу або введіть свою</mat-label>
-            <input matInput [(ngModel)]="selectedComunal" placeholder="Виберіть або введіть послугу"
+            <mat-label>Оберіть або створіть нову</mat-label>
+            <input matInput [(ngModel)]="selectedComun" placeholder="Виберіть або введіть послугу"
               [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
@@ -56,7 +32,7 @@
           </mat-form-field>
 
           <div class="btn-group">
-            <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="onSubmitComunCreate()">
+            <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
               <i class="fa-solid fa-circle-check"></i>
             </button>
             <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА" (click)="showInput = false">

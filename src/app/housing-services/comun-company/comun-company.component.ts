@@ -5,6 +5,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HostComunComponent } from '../host-comun/host-comun.component';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { ChangeComunService } from '../change-comun.service';
+import { ChangeMonthService } from '../change-month.service';
+import { ChangeYearService } from '../change-year.service';
 interface ComunInfo {
   comunal_company: string | undefined;
   comunal_name: string | undefined;
@@ -69,6 +72,7 @@ export class ComunCompanyComponent implements OnInit {
   comunalName: string = '';
   selectedImageUrl: string | null | undefined;
   selectedFlatId: string | null | undefined;
+  selectedComun: any;
   selectedYear: any;
   selectedMonth: any;
   disabled: boolean = true;
@@ -78,36 +82,60 @@ export class ComunCompanyComponent implements OnInit {
     private dataService: DataService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
+    private changeComunService: ChangeComunService,
+    private changeMonthService: ChangeMonthService,
+    private changeYearService: ChangeYearService,
   ) {
   }
 
   ngOnInit(): void {
+    this.getSelectParam();
     this.loading = false;
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.selectedMonth = localStorage.getItem('selectedMonth');
+      if (this.selectedFlatId !== null && this.selectedComun !== null && this.selectedComun !== null) {
         this.getDefaultData();
-        this.getComunalInfo();
       }
+    };
+
+  getSelectParam() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+
+    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+      this.selectedComun = selectedComun || this.selectedComun;
+      this.getComunalInfo();
+      this.getComunalImg();
+    });
+
+    this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
+      this.selectedYear = selectedYear || this.selectedYear;
+    });
+
+    this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
+      this.selectedMonth = selectedMonth || this.selectedMonth;
     });
   }
 
   getDefaultData() {
-    this.comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
-    const selectedService = this.comunalServices.find(service => service.name === this.comunalName);
+    const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
     this.selectedImageUrl = selectedService?.imageUrl ?? this.defaultImageUrl;
+  }
+
+  getComunalImg(): void {
+    const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
+    this.selectedImageUrl = selectedService?.imageUrl || this.defaultImageUrl;
   }
 
   getComunalInfo(): void {
     const userJson = localStorage.getItem('user');
-    const comunalName = JSON.parse(localStorage.getItem('comunal_name')!).comunal;
 
     if (userJson) {
-      this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: comunalName })
+      this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
         .subscribe(
           (response: any) => {
-            const filteredData = response.comunal.filter((item: any) => item.comunal_name === comunalName);
+            console.log(response)
+            console.log(this.selectedComun)
+            const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
             if (filteredData.length > 0) {
               this.comunInfo = filteredData[0];
             } else {
@@ -122,14 +150,13 @@ export class ComunCompanyComponent implements OnInit {
   }
 
   saveInfo(): void {
-    const comunal_name = localStorage.getItem('comunal_name');
     const userJson = localStorage.getItem('user');
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
-      comunal_name: JSON.parse(comunal_name!).comunal,
-      when_pay_y: JSON.parse(localStorage.getItem('selectedYear')!),
-      when_pay_m: JSON.parse(localStorage.getItem('selectedMonth')!),
+      comunal_name: this.selectedComun,
+      when_pay_y: this.selectedYear,
+      when_pay_m: this.selectedMonth,
       comunal: this.comunInfo,
     }
 

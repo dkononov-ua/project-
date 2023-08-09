@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HostComunComponent } from './host-comun/host-comun.component';
 import { HousingServicesComponent } from './housing-services.component';
 import { CanActivateGuard } from './../services/auth.guard';
-import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
 import { ComunStatisticsComponent } from './comun-statistics/comun-statistics.component';
 import { ComunStatAllComponent } from './comun-stat-all/comun-stat-all.component';
+import { ComunHistoryComponent } from './comun-history/comun-history.component';
 
 const routes: Routes = [
   {
@@ -19,15 +19,10 @@ const routes: Routes = [
 
         children: [
           { path: '', redirectTo: 'comun-company', pathMatch: 'full' },
-          { path: 'payment-history', component: PaymentHistoryComponent, data: { animation: 'payment-history' }, canActivate: [CanActivateGuard] },
-          { path: 'comun-statistics', component: ComunStatisticsComponent, data: { animation: 'comun-statistics' }, canActivate: [CanActivateGuard] },
-          { path: 'comun-statistics-all', component: ComunStatAllComponent, data: { animation: 'comun-statistics-all' }, canActivate: [CanActivateGuard] },
-          {
-            path: 'comun-company', component: ComunCompanyComponent, canActivate: [CanActivateGuard],
-            children: [
-              { path: '', redirectTo: 'eng-cabinet', pathMatch: 'full' },
-            ]
-          },
+          { path: 'comun-history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-statistics', component: ComunStatisticsComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-statistics-all', component: ComunStatAllComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-company', component: ComunCompanyComponent, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host-comun', pathMatch: 'full' },

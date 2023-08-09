@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
 import { HostComunComponent } from './host-comun/host-comun.component';
 import { SharedModule } from '../shared/shared.module';
-import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ComunStatisticsComponent } from './comun-statistics/comun-statistics.component';
@@ -21,17 +20,23 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SelectYearComponent } from './select-year/select-year.component';
 import { SelectMonthComponent } from './select-month/select-month.component';
 import { ComunStatAllComponent } from './comun-stat-all/comun-stat-all.component';
+import { SelectComunComponent } from './select-comun/select-comun.component';
+import { ComunNavComponent } from './comun-nav/comun-nav.component';
+import { ComunHistoryComponent } from './comun-history/comun-history.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     HousingServicesComponent,
     HostComunComponent,
-    PaymentHistoryComponent,
     ComunCompanyComponent,
     ComunStatisticsComponent,
     SelectYearComponent,
     SelectMonthComponent,
     ComunStatAllComponent,
+    SelectComunComponent,
+    ComunNavComponent,
+    ComunHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,7 @@ import { ComunStatAllComponent } from './comun-stat-all/comun-stat-all.component
     MatSnackBarModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    MatTableModule,
   ],
 })
 export class HousingServicesModule { }

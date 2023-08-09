@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { HttpClient } from '@angular/common/http';
+import { SelectedFlatService } from '../services/selected-flat.service';
+import { ChangeMonthService } from './change-month.service';
+import { ChangeYearService } from './change-year.service';
 
 @Component({
   selector: 'app-housing-services',
@@ -9,14 +13,21 @@ import { DataService } from '../services/data.service';
 })
 export class HousingServicesComponent {
 
-  constructor(private router: Router, private dataService: DataService) { }
+  selectedMonth: any;
+  selectedYear: any;
+  selectedComunal: any | null;
+  selectedFlatId!: string | null;
+
+  constructor(
+    private router: Router,
+    private dataService: DataService,
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService,
+    private changeMonthService: ChangeMonthService,
+    private changeYearService: ChangeYearService,
+  ) { }
 
   goToHostComun() {
     this.router.navigate(['/housing-services/host-comun']);
-  }
-
-  ngOnInit(): void {
-    this.dataService.getData().subscribe((data: any) => {
-    });
   }
 }

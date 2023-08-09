@@ -19,6 +19,7 @@
   justify-content: space-between;
   align-items: stretch;
   min-height: 50vh;
+  position: relative;
 }
 
 .disabledNot {
@@ -80,10 +81,10 @@
   height: 60vh;
 }
 
-.box-1 {
+.boxSelect {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .box {
@@ -149,6 +150,10 @@ mat-form-field {
 
 .item-width-50 {
   width: 47%;
+}
+
+.text {
+  text-align: center;
 }
 
 .formula {
