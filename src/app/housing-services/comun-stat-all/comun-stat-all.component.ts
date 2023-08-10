@@ -49,22 +49,18 @@ export class ComunStatAllComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'consumed', 'tariff', 'needPay', 'paid', 'difference'];
 
-
   flatInfo: any;
   loading: boolean = true;
   statsAll: any;
   totalNeedPay: number | undefined;
   totalPaid: number | undefined;
-  difference: number | undefined;
+  difference: any;
   selectedMonthStats: any;
   noInformationMessage: boolean = false;
 
-  defaultUnit: string = "Тариф/внесок";
-  selectedUnit: string | null | undefined;
-
   selectedFlatId!: string | null;
   selectedComun!: string | null;
-  selectedYear!: number | null;
+  selectedYear!: string | null;
   selectedMonth!: string | null;
 
   constructor(
@@ -96,7 +92,7 @@ export class ComunStatAllComponent implements OnInit {
       this.getInfoComun();
     });
 
-    this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
+    this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
       this.getInfoComun();
     });
@@ -161,9 +157,9 @@ export class ComunStatAllComponent implements OnInit {
         this.totalPaid += paid;
       }
 
-      utility.difference = needPay - paid;
+      utility.difference = (needPay - paid).toFixed(2);
     }
 
-    this.difference = this.totalNeedPay - this.totalPaid;
+    this.difference = (this.totalNeedPay - this.totalPaid).toFixed(1);
   }
 }

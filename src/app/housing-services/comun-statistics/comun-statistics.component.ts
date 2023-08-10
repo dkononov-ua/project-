@@ -7,7 +7,7 @@ import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 
 interface FlatStat {
-  totalNeedPay: number;
+  totalNeedPay: any;
   totalPaid: number | undefined;
   totalConsumption: number;
   monthAveragePaid: any;
@@ -125,7 +125,7 @@ export class ComunStatisticsComponent implements OnInit {
   myChart: any;
 
   selectedFlatId!: string | null;
-  selectedComun!: string | null;
+  selectedComun!: any;
   selectedYear!: any;
   selectedMonth!: any;
 
@@ -181,7 +181,7 @@ export class ComunStatisticsComponent implements OnInit {
       this.getDefaultData();
     });
 
-    this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
+    this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
       this.getInfoComun();
       this.getDefaultData();
@@ -225,7 +225,6 @@ export class ComunStatisticsComponent implements OnInit {
       }).toPromise() as any;
 
       if (response) {
-        console.log(response)
         localStorage.setItem('comunal_inf', JSON.stringify(response));
         this.selectedYear ? this.selectedYear : null;
         const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
@@ -271,7 +270,7 @@ export class ComunStatisticsComponent implements OnInit {
         console.error(false);
       }
     } else {
-      console.log('user not found');
+      console.log('comun not found');
     }
   }
 
@@ -298,14 +297,13 @@ export class ComunStatisticsComponent implements OnInit {
 
     return {
       totalPaid,
-      totalNeedPay,
-      monthAveragePaid: Number(monthAveragePaid),
+      totalNeedPay: parseFloat(totalNeedPay.toFixed(2)),
+      monthAveragePaid: parseFloat(monthAveragePaid),
       totalConsumption,
-      monthAverageConsumption: Number(monthAverageConsumption),
-      monthAverageNeedPay: Number(monthAverageNeedPay),
+      monthAverageConsumption: parseFloat(monthAverageConsumption),
+      monthAverageNeedPay: parseFloat(monthAverageNeedPay),
     };
   }
-
 
   getSeasonStatistics(selectedYear: number, com_inf: any, season: string): FlatStat {
     const seasonMonths: { [key: string]: string[] } = {

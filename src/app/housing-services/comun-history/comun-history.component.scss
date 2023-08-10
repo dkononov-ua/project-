@@ -78,7 +78,6 @@
 
 .card-box {
   display: flex;
-  height: 60vh;
 }
 
 .boxSelect {
@@ -154,6 +153,15 @@ mat-form-field {
 
 .text {
   text-align: center;
+}
+
+.text-1 {
+  font-size: 12px;
+  text-align: center;
+}
+
+.accent {
+  font-weight: 600;
 }
 
 .formula {

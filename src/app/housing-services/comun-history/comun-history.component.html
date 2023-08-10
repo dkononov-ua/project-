@@ -1,9 +1,9 @@
 <ng-template #content>
 
   <div class="container-card col-12">
-    <div class="comunal-info m-2 p-2">
+    <div class="comunal-info">
       <h3 class="text">Внесення даних оселі: <span class="accent"> {{selectedFlatId}} </span>послуга <span
-        class="accent">{{selectedComun}}</span> за <span class="accent">{{selectedYear}} </span> рік
+          class="accent">{{selectedComun}}</span> за <span class="accent">{{selectedYear}} </span> рік
         місяць<span class="accent"> {{selectedMonth}} </span></h3>
     </div>
 
@@ -12,8 +12,8 @@
 
         <div class="group">
           <mat-label class="group-label">Оберіть спосіб розрахунку</mat-label>
-          <div class="group-item-1">
 
+          <div class="group-item-1">
             <div class="content">
               <label class="checkBox">
                 <input id="send_counter" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_sendData"
@@ -155,6 +155,11 @@
             <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
           </mat-form-field>
 
+        </div>
+
+        <div class="box">
+          <div class="text-1">Останній вносив показники</div>
+          <div class="text-1">користувач з ID <span class="accent"> {{flatInfo.user_id}}</span></div>
         </div>
 
         <div class="form-floating p-1">

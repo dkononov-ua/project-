@@ -1,0 +1,33 @@
+@use "../../style/presets/" as *;
+
+.message-box {
+  display: flex;
+  width: 40vh;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+h3 {
+  text-align: center;
+}
+
+.accent {
+  font-weight: 600;
+}
+
+.btn {
+  width: 100%;
+}
+
+.text {
+  font-size: 14px;
+  text-align: center;
+  color: $color-gray;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+}

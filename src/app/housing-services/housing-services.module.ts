@@ -20,10 +20,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SelectYearComponent } from './select-year/select-year.component';
 import { SelectMonthComponent } from './select-month/select-month.component';
 import { ComunStatAllComponent } from './comun-stat-all/comun-stat-all.component';
-import { SelectComunComponent } from './select-comun/select-comun.component';
 import { ComunNavComponent } from './comun-nav/comun-nav.component';
 import { ComunHistoryComponent } from './comun-history/comun-history.component';
 import { MatTableModule } from '@angular/material/table';
+import { DeleteComunComponent } from './delete-comun/delete-comun.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SelectComunComponent } from './select-comun/select-comun.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
     SelectComunComponent,
     ComunNavComponent,
     ComunHistoryComponent,
+    DeleteComunComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { MatTableModule } from '@angular/material/table';
     MatTooltipModule,
     MatAutocompleteModule,
     MatTableModule,
+    MatDialogModule,
   ],
 })
 export class HousingServicesModule { }

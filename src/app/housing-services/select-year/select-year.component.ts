@@ -9,9 +9,9 @@ import { ChangeYearService } from '../change-year.service';
 export class SelectYearComponent implements OnInit {
 
   loading = false;
-  years = [2024, 2023, 2022, 2021, 2020];
+  years = ['2024', '2023', '2022', '2021', '2020'];
   selectedMonth: any;
-  selectedYear!: number;
+  selectedYear!: string;
 
   constructor(private changeYearService: ChangeYearService) {
   }
@@ -20,10 +20,6 @@ export class SelectYearComponent implements OnInit {
     this.changeYearService.selectedYear$.subscribe(year => {
       if (year !== null && year !== undefined) {
         this.selectedYear = year;
-      } else {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        this.selectedYear = currentYear;
       }
     });
   }
@@ -32,6 +28,6 @@ export class SelectYearComponent implements OnInit {
     localStorage.removeItem('comunal_inf');
     localStorage.removeItem('selectedYear');
     this.changeYearService.setSelectedYear(this.selectedYear);
-    localStorage.setItem('selectedYear', this.selectedYear.toString());
+    localStorage.setItem('selectedYear', this.selectedYear);
   }
 }

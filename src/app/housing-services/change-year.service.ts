@@ -6,17 +6,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 
 export class ChangeYearService {
-  private selectedYearSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public selectedYear$: Observable<number> = this.selectedYearSubject.asObservable();
+  private selectedYearSubject: BehaviorSubject<string> = new BehaviorSubject<string>('0');
+  public selectedYear$: Observable<string> = this.selectedYearSubject.asObservable();
 
   constructor() {
     const storedYear = localStorage.getItem('selectedYear');
     if (storedYear) {
-      this.selectedYearSubject.next(Number(storedYear));
+      this.selectedYearSubject.next(storedYear);
     }
   }
 
-  setSelectedYear(selectedYear: number): void {
+  setSelectedYear(selectedYear: string): void {
     this.selectedYearSubject.next(selectedYear);
   }
 }

@@ -2,14 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteComunalComponent } from 'src/app/components/delete-comunal/delete-comunal.component';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 @Component({
   selector: 'app-host-comun',
   templateUrl: './host-comun.component.html',
   styleUrls: ['./host-comun.component.scss'],
-  template: '{{ selectedFlatId }}'
 })
 export class HostComunComponent implements OnInit {
 
@@ -19,7 +18,7 @@ export class HostComunComponent implements OnInit {
     "Вивіз сміття",
     "Електроенергія",
     "Газопостачання",
-    "Комунальна плата за утримання будинку",
+    "Утримання будинку",
     "Охорона будинку",
     "Ремонт під'їзду",
     "Ліфт",
@@ -28,19 +27,11 @@ export class HostComunComponent implements OnInit {
   ];
 
   loading = false;
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 500);
-  }
-
   comunCreate!: FormGroup;
   showInput = false;
   selectedComun: any;
   selectedFlatId!: string | null;
   comunal_name!: string | any;
-
   customComunal: string = '';
 
   constructor(private fb: FormBuilder,
@@ -51,49 +42,9 @@ export class HostComunComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.changeComunService.selectedComun$.subscribe(Comun => {
-      if (Comun !== null && Comun !== undefined) {
-        this.selectedComun = Comun;
-      } else { }
-    });
-
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
     });
-
-    this.getComunalName()
-
-    const userJson = localStorage.getItem('user');
-    const selectedComun = localStorage.getItem('selectedComun');
-
-    if (userJson && this.selectedComun) {
-      if (selectedComun) {
-        this.selectedComun = selectedComun;
-        this.getComunalName();
-      }
-
-    } else {
-      console.log('user not found');
-    }
-  }
-
-  onSelectionChangeComun(): void {
-    this.changeComunService.setSelectedComun(this.selectedComun);
-  }
-
-  getComunalName(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson)
-      this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: this.selectedComun })
-        .subscribe(
-          (response: any) => {
-            console.log(response)
-            this.comunal_name = response.comunal;
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
   }
 
   createComunName() {
@@ -118,8 +69,7 @@ export class HostComunComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DeleteComunalComponent);
-    'Ви точно хочете видалити щось'
+    const dialogRef = this.dialog.open(DeleteComunComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const userJson = localStorage.getItem('user');

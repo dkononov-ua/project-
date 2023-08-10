@@ -13,12 +13,9 @@ export class ChangeComunService {
     if (storedComun) {
       this.selectedComunSubject.next(storedComun);
     }
-    console.log('ChangeComunService created. Stored comunal:', storedComun);
   }
 
   setSelectedComun(selectedComun: string): void {
     this.selectedComunSubject.next(selectedComun);
-    localStorage.setItem('selectedComun', selectedComun);
-    console.log('Selected comunal updated:', selectedComun);
   }
 }

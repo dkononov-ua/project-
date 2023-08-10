@@ -107,7 +107,7 @@ export class ComunCompanyComponent implements OnInit {
       this.getComunalImg();
     });
 
-    this.changeYearService.selectedYear$.subscribe((selectedYear: number | null) => {
+    this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
     });
 
