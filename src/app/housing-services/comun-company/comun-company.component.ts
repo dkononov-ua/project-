@@ -133,8 +133,6 @@ export class ComunCompanyComponent implements OnInit {
       this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
         .subscribe(
           (response: any) => {
-            console.log(response)
-            console.log(this.selectedComun)
             const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
             if (filteredData.length > 0) {
               this.comunInfo = filteredData[0];
@@ -164,7 +162,6 @@ export class ComunCompanyComponent implements OnInit {
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       this.http.post('http://localhost:3000/comunal/add/comunalCompany', data)
         .subscribe((response: any) => {
-          console.log(response)
           this.disabled = true;
         }, (error: any) => {
           console.error(error);

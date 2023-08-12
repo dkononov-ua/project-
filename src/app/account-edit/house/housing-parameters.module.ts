@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AddObjectsComponent } from './add-objects/add-objects.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ParamComponent,
     PhotoComponent,
     HostComponent,
+    AddObjectsComponent
   ],
   providers: [SelectedFlatService],
   imports: [

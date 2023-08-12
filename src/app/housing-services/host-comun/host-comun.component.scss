@@ -22,7 +22,7 @@
 }
 
 .card-menu {
-  color: rgba(18, 17, 17, 0.8078431373);
+  color: $color-dark;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,6 +74,9 @@
   }
 }
 
+.mr-1 {
+  margin-right: 5px;
+}
 .btn-group {
   display: flex;
   align-items: center;

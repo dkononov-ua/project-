@@ -1,0 +1,287 @@
+@use "../../../style/presets/" as *;
+
+.container-card {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.card-box {
+  display: flex;
+}
+
+.card-box1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+}
+
+.option-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.option-text {
+  flex: 1;
+}
+
+.card-1 {
+  width: 100%;
+  display: flex;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.8117647059);
+  border-radius: 10px;
+  padding: 5px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  flex-direction: column;
+}
+
+.card-filling {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.8117647059);
+  border-radius: 10px;
+  padding: 5px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  flex-direction: column;
+}
+
+.btn-create {
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background-color: tomato;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.label-1 {
+  font-size: 15px;
+  color: $color-accent;
+  font-weight: 600;
+}
+.input-div {
+  cursor: pointer;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid $color-accent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px $color-primary, inset 0px 0px 10px $color-primary,
+    0px 0px 5px rgb(255, 255, 255);
+  transition: 1s;
+
+  &:hover {
+    background-color: $color-dark;
+  }
+}
+
+li {
+  font-size: 14px;
+}
+
+p {
+  font-size: 14px;
+}
+
+.group-label {
+  font-weight: 600;
+  color: $color-accent;
+}
+
+.icon-up {
+  color: $color-accent;
+  font-size: 2rem;
+  cursor: pointer;
+  animation: iconflicker 8s linear infinite;
+}
+
+.input-up {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer !important;
+}
+
+@keyframes flicker {
+  0% {
+    border: 2px solid $color-accent;
+    box-shadow: 0px 0px 10px $color-primary, inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+
+  5% {
+    border: none;
+    box-shadow: none;
+  }
+
+  10% {
+    border: 2px solid $color-accent;
+    box-shadow: 0px 0px 10px $color-primary, inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+
+  25% {
+    border: none;
+    box-shadow: none;
+  }
+
+  30% {
+    border: 2px solid $color-accent;
+    box-shadow: 0px 0px 10px $color-primary, inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+
+  100% {
+    border: 2px solid $color-accent;
+    box-shadow: 0px 0px 10px $color-primary, inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+}
+
+@keyframes iconflicker {
+  0% {
+    opacity: 1;
+  }
+
+  5% {
+    opacity: 0.2;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0.2;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+textarea {
+  min-height: 150px;
+}
+
+.form-control {
+  height: auto;
+  overflow-y: hidden;
+  font-size: 13px;
+}
+
+.form-field::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.form-control::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+textarea {
+  height: auto;
+  min-height: 100px;
+}
+
+.scrollable-textarea {
+  height: auto;
+  overflow: auto;
+}
+
+.form-floating {
+  margin-bottom: 15px;
+}
+
+.group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.group-item {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.item-select {
+  font-size: 16px !important;
+  width: 100%;
+}
+
+.wi-70 {
+  width: 69%;
+}
+
+.wi-50 {
+  width: 47%;
+}
+
+.wi-30 {
+  width: 30%;
+}

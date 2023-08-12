@@ -33,8 +33,8 @@
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr class="table-row" [@columnAnimation] *ngFor="let utility of flatInfo">
+      <tbody [@columnAnimation] >
+        <tr class="table-row" *ngFor="let utility of flatInfo">
           <td>
             <div class="table-cell name-1 wi-30">
               {{ utility.id }}

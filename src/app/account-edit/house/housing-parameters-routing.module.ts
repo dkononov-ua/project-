@@ -7,6 +7,7 @@ import { PhotoComponent } from './photo/photo.component';
 import { CanActivateGuard } from '../../services/auth.guard';
 import { HousingParametersComponent } from './housing-parameters.component';
 import { HostComponent } from './host/host.component';
+import { AddObjectsComponent } from './add-objects/add-objects.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
           { path: 'param', component: ParamComponent, data: { animation: 'param' }, canActivate: [CanActivateGuard] },
           { path: 'photo', component: PhotoComponent, data: { animation: 'photo' }, canActivate: [CanActivateGuard] },
           { path: 'about', component: AboutComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
+          { path: 'add-objects', component: AddObjectsComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host', pathMatch: 'full' },

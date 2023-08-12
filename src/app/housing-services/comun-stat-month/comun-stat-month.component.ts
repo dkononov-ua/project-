@@ -5,10 +5,11 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
+
 @Component({
-  selector: 'app-comun-stat-all',
-  templateUrl: './comun-stat-all.component.html',
-  styleUrls: ['./comun-stat-all.component.scss'],
+  selector: 'app-comun-stat-month',
+  templateUrl: './comun-stat-month.component.html',
+  styleUrls: ['./comun-stat-month.component.scss'],
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -30,7 +31,7 @@ import { ChangeComunService } from '../change-comun.service';
     ]),
   ],
 })
-export class ComunStatAllComponent implements OnInit {
+export class ComunStatMonthComponent implements OnInit {
 
   months = [
     { id: 0, name: 'Січень' },
@@ -163,3 +164,4 @@ export class ComunStatAllComponent implements OnInit {
     this.difference = (this.totalNeedPay - this.totalPaid).toFixed(1);
   }
 }
+

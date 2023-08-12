@@ -167,8 +167,22 @@ export class ComunHistoryComponent implements OnInit {
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
     this.selectMonthInfo();
 
-    if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null) {
+    if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal === undefined) {
       const selectedInfo = com_inf.find((selectMonth: any) => {
+        return selectMonth.comunal_name === this.selectedComun
+          && selectMonth.when_pay_y === this.selectedYear
+          && selectMonth.when_pay_m === this.selectedMonth;
+      });
+      if (selectedInfo) {
+        this.noInformationMessage = false;
+        this.flatInfo = selectedInfo;
+      } else {
+        this.noInformationMessage = true;
+        console.log('No data found for selected month.');
+      }
+
+    } else if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal !== undefined) {
+      const selectedInfo = com_inf.comunal.find((selectMonth: any) => {
         return selectMonth.comunal_name === this.selectedComun
           && selectMonth.when_pay_y === this.selectedYear
           && selectMonth.when_pay_m === this.selectedMonth;
@@ -189,8 +203,25 @@ export class ComunHistoryComponent implements OnInit {
 
   async selectMonthInfo(): Promise<void> {
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
-    if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null) {
+    if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal === undefined) {
       const selectedInfo = com_inf.find((selectMonth: any) => {
+        return selectMonth.when_pay_y === this.selectedYear &&
+          selectMonth.when_pay_m === this.selectedMonth &&
+          selectMonth.comunal_name === this.selectedComun;
+      });
+      if (selectedInfo) {
+        this.noInformationMessage = false;
+        this.flatInfo = selectedInfo;
+        this.getDefaultData();
+        this.getInfoFlat();
+        this.calculateConsumed();
+        this.calculatePay();
+      } else {
+        this.noInformationMessage = true;
+        console.log('No data found for selected month.');
+      }
+    } else if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal !== undefined) {
+      const selectedInfo = com_inf.comunal.find((selectMonth: any) => {
         return selectMonth.when_pay_y === this.selectedYear &&
           selectMonth.when_pay_m === this.selectedMonth &&
           selectMonth.comunal_name === this.selectedComun;
@@ -228,9 +259,6 @@ export class ComunHistoryComponent implements OnInit {
 
   saveInfo(): void {
     const userJson = localStorage.getItem('user');
-    console.log(this.selectedMonth);
-    console.log(this.selectedYear);
-    console.log(this.flatInfo);
 
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       this.http.post('http://localhost:3000/comunal/add/comunal', {

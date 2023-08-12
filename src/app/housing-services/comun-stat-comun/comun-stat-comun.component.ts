@@ -34,9 +34,9 @@ interface FlatInfo {
   calc_tariff_square: number;
 }
 @Component({
-  selector: 'app-comun-statistics',
-  templateUrl: './comun-statistics.component.html',
-  styleUrls: ['./comun-statistics.component.scss'],
+  selector: 'app-comun-stat-comun',
+  templateUrl: './comun-stat-comun.component.html',
+  styleUrls: ['./comun-stat-comun.component.scss'],
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -52,7 +52,7 @@ interface FlatInfo {
     ]),
   ],
 })
-export class ComunStatisticsComponent implements OnInit {
+export class ComunStatComunComponent implements OnInit {
 
   comunalServices = [
     { name: "Опалення", unit: "Гкал" },
@@ -360,3 +360,4 @@ export class ComunStatisticsComponent implements OnInit {
   }
 
 }
+

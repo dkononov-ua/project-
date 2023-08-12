@@ -3,25 +3,45 @@
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
       <span class="link-text">Інфо послуги</span>
-      <i class="fa-solid fa-info"></i>
+      <span class="material-symbols-outlined">
+        dns
+        </span>
     </a>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
       <span class="link-text">Внесення даних</span>
-      <i class="fa-solid fa-paperclip"></i>
+      <span class="material-symbols-outlined">
+        extension
+        </span>
     </a>
 
-    <a class="link-item" [routerLinkActive]="'active'"
-      [routerLink]="'/housing-services/host-comun/comun-statistics'">
+    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
       <span class="link-text">Статистика за сезон</span>
-      <i class="fa-regular fa-calendar"></i>
+      <span class="material-symbols-outlined">
+        bar_chart
+        </span>
     </a>
 
-    <a class="link-item" [routerLinkActive]="'active'"
-      [routerLink]="'/housing-services/host-comun/comun-statistics-all'">
-      <span class="link-text">Підрахунки за місяць</span>
-      <i class="fa-brands fa-think-peaks"></i>
+    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-month'">
+      <span class="link-text">Загальна за місяць</span>
+      <span class="material-symbols-outlined">
+        show_chart
+        </span>
     </a>
-    
+
+    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-year'">
+      <span class="link-text">Загальна за рік</span>
+      <span class="material-symbols-outlined">
+        query_stats
+        </span>
+    </a>
+
+    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-season'">
+      <span class="link-text">Загальний графік</span>
+      <span class="material-symbols-outlined">
+        monitoring
+        </span>
+    </a>
+
   </div>
 </div>

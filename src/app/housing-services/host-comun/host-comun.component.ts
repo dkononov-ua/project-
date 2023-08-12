@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -34,7 +34,7 @@ export class HostComunComponent implements OnInit {
   comunal_name!: string | any;
   customComunal: string = '';
 
-  constructor(private fb: FormBuilder,
+  constructor(
     private http: HttpClient,
     private dialog: MatDialog,
     private changeComunService: ChangeComunService,
@@ -42,8 +42,16 @@ export class HostComunComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getSelectParam()
+  }
+
+  getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+
+    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+      this.selectedComun = selectedComun || this.selectedComun;
     });
   }
 
@@ -55,7 +63,6 @@ export class HostComunComponent implements OnInit {
       if (selectedComun) {
         this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: selectedComun })
           .subscribe((response: any) => {
-            console.log(response);
           }, (error: any) => {
             console.error(error);
           });
@@ -73,17 +80,18 @@ export class HostComunComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const userJson = localStorage.getItem('user');
-        if (userJson) {
+        if (this.selectedFlatId && userJson && this.selectedComun) {
           this.http.post('http://localhost:3000/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
             .subscribe((response: any) => {
-              console.log(response);
             }, (error: any) => {
               console.error(error);
             });
+          setTimeout(() => {
+            location.reload();
+          }, 200);
         } else {
           console.log('house not found');
         }
-        location.reload();
       }
     });
   }

@@ -29,6 +29,9 @@
             <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span
                 class="link-text">Додати фото</span>
             </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"><span
+              class="link-text">Наповнення</span>
+          </a>
           </nav>
 
           <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
@@ -56,7 +59,7 @@
     </div>
 
     <div class="col-lg-8 col-md-5 col-sm-6 col-12">
-      <router-outlet ></router-outlet>
+      <router-outlet></router-outlet>
     </div>
 
   </div>

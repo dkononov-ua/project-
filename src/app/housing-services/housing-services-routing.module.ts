@@ -4,9 +4,11 @@ import { HostComunComponent } from './host-comun/host-comun.component';
 import { HousingServicesComponent } from './housing-services.component';
 import { CanActivateGuard } from './../services/auth.guard';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
-import { ComunStatisticsComponent } from './comun-statistics/comun-statistics.component';
-import { ComunStatAllComponent } from './comun-stat-all/comun-stat-all.component';
 import { ComunHistoryComponent } from './comun-history/comun-history.component';
+import { ComunStatSeasonComponent } from './comun-stat-season/comun-stat-season.component';
+import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
+import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.component';
+import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
 
 const routes: Routes = [
   {
@@ -20,8 +22,10 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'comun-company', pathMatch: 'full' },
           { path: 'comun-history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-statistics', component: ComunStatisticsComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-statistics-all', component: ComunStatAllComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-stat-season', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-stat-comun', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-stat-month', component: ComunStatMonthComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-stat-year', component: ComunStatYearComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-company', component: ComunCompanyComponent, canActivate: [CanActivateGuard] },
         ]
       },
