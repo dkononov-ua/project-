@@ -1,71 +1,71 @@
-<div class="container-card">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <div [@cardAnimation1] class="card-box-photo col-lg-6 col-md-5 col-sm-6 col-12">
-    <div class="m-2">
-      <div id="carouselExampleControls" class="shadow carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
-                class="img-fluid rounded">
+<ng-template #content>
+  <div class="container-card">
+
+    <div [@cardAnimation1] class="card-box-photo col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="m-2">
+        <div id="carouselExampleControls" class="shadow carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+                <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
+                  class="img-fluid rounded">
+              </div>
+            </div>
+            <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
+              <div class="img-wrapper">
+                <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
+              </div>
             </div>
           </div>
-          <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
-            <div class="img-wrapper">
-              <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
-            </div>
-          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
 
-      <div class="card-1">
-        <label class="label-1">Завантажити фото оселі</label>
-        <div class="input-div" >
-          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+        <div class="card-1">
+          <label class="label-1">Завантажити фото оселі</label>
+          <div class="input-div">
+            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+            <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-    <div class="card m-2">
-      <mat-label>Які фото можна завантажувати</mat-label>
-      <div class="card-body-cast">
-        <ul>
-          <li>Формат фото: img, jpg, png, jpeg.</li>
-          <li>Максимальний розмір фото до 5 мб.</li>
-          <li>Максимальна кількість фото 8 шт.</li>
-          <li>Перше завантажене фото буде головним фото вашої оселі.</li>
-          <li>Фото видаляються разом з видаленням оселі.</li>
-          <li>Для
-            підтвердження завантаження фото натисніть на кнопку.</li>
-          <li>Фото можна додавати по одному за раз.</li>
-        </ul>
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card m-2">
+        <mat-label>Які фото можна завантажувати</mat-label>
+        <div class="card-body-cast">
+          <ul>
+            <li>Формат фото: img, jpg, png, jpeg.</li>
+            <li>Максимальний розмір фото до 5 мб.</li>
+            <li>Максимальна кількість фото 8 шт.</li>
+            <li>Перше завантажене фото буде головним фото вашої оселі.</li>
+            <li>Фото видаляються разом з видаленням оселі.</li>
+            <li>Для
+              підтвердження завантаження фото натисніть на кнопку.</li>
+            <li>Фото можна додавати по одному за раз.</li>
+          </ul>
 
-        <p class="text-info">*Така кількість обмежень буде діяти на період запуску додатку для можливості скоротити
-          використання пам'яті на сервері.
-        </p>
+          <p class="text-info">*Така кількість обмежень буде діяти на період запуску додатку для можливості скоротити
+            використання пам'яті на сервері.
+          </p>
+
+        </div>
 
       </div>
-
     </div>
-  </div>
 
-</div>
-
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader">
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
   </div>
-</div>
+</ng-template>

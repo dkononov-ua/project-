@@ -19,6 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserSearchComponent } from '../components/user-search/user-search.component';
 import { FormsModule } from '@angular/forms';
+import { LoaderComponent } from '../components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { FormsModule } from '@angular/forms';
     HousingSelectionComponent,
     AccountSelectionComponent,
     UserSearchComponent,
+    LoaderComponent,
   ],
   exports: [
     NavbarComponent,
@@ -36,6 +38,7 @@ import { FormsModule } from '@angular/forms';
     HousingSelectionComponent,
     AccountSelectionComponent,
     UserSearchComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,

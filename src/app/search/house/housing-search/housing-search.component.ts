@@ -67,7 +67,7 @@ interface FlatInfo {
 
 export class HousingSearchComponent implements OnInit {
   isSubscribed: boolean = false;
-
+  
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
   subscriptionMessageTimeout: Subject<void> = new Subject<void>();

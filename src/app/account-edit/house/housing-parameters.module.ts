@@ -25,6 +25,8 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
+import { AddHouseComponent } from './add-house/add-house.component';
+import { DeleteHouseComponent } from './delete-house/delete-house.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { AddObjectsComponent } from './add-objects/add-objects.component';
     ParamComponent,
     PhotoComponent,
     HostComponent,
-    AddObjectsComponent
+    AddObjectsComponent,
+    AddHouseComponent,
+    DeleteHouseComponent
   ],
   providers: [SelectedFlatService],
   imports: [

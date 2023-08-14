@@ -10,6 +10,14 @@
   flex-wrap: wrap;
 }
 
+.container-card::-webkit-scrollbar {
+  display: none;
+}
+
+.card-box::-webkit-scrollbar {
+  display: none;
+}
+
 .card {
   width: 100%;
   display: flex;

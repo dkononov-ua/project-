@@ -1,9 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HostComponent } from '../host/host.component';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
 interface FlatInfo {
   students: boolean;
   woman: boolean;
@@ -25,7 +23,6 @@ interface FlatInfo {
   rent: boolean;
   room: number;
 }
-
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -45,11 +42,13 @@ interface FlatInfo {
     ]),
   ],
 })
+
 export class AboutComponent implements OnInit {
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   minValue: number = 0;
   maxValue: number = 1000000;
+  loading = false;
 
   flatInfo: FlatInfo = {
     students: false,
@@ -75,7 +74,6 @@ export class AboutComponent implements OnInit {
 
   disabled: boolean = true;
   selectedFlatId!: string | null;
-
   descriptionVisibility: { [key: string]: boolean } = {};
   isDescriptionVisible(key: string): boolean {
     return this.descriptionVisibility[key] || false;
@@ -84,16 +82,15 @@ export class AboutComponent implements OnInit {
     this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
   }
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      console.log(this.selectedFlatId);
-      if (this.selectedFlatId !== null) {
-        this.getInfo();
-      }
     });
+    this.getInfo();
   }
 
   async getInfo(): Promise<any> {
@@ -103,30 +100,50 @@ export class AboutComponent implements OnInit {
         .subscribe((response: any) => {
           console.log(response)
           this.flatInfo = response.about;
+          this.loading = false;
           if (response.about.option_pay !== 0)
-          this.disabled = false;
+            this.disabled = false;
         }, (error: any) => {
           console.error(error);
+          this.loading = false;
         });
     } else {
       console.log('user not found');
+      this.loading = false;
     }
   };
 
-  saveInfo(): void {
+  async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
-      const data = this.flatInfo;
-      console.log(data)
-      this.http.post('http://localhost:3000/flatinfo/add/about', { auth: JSON.parse(userJson), flat: data, flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          console.log(response);
-          this.disabled = true;
-        }, (error: any) => {
-          console.error(error);
-        });
+
+      try {
+        this.loading = true
+        this.disabled = true;
+
+        const response = await this.http.post('http://localhost:3000/flatinfo/add/about', {
+          auth: JSON.parse(userJson),
+          flat: this.flatInfo,
+          flat_id: this.selectedFlatId,
+        }).toPromise();
+
+        this.reloadPageWithLoader()
+
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
     } else {
+      this.loading = false;
       console.log('user not found, the form is blocked');
+    }
+  }
+
+  reloadPageWithLoader() {
+    if (this.loading) {
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
     }
   }
 
@@ -147,26 +164,26 @@ export class AboutComponent implements OnInit {
 
   clearInfo(): void {
     if (this.disabled === false)
-    this.flatInfo = {
-      students: false,
-      woman: false,
-      man: false,
-      family: false,
-      bunker: '',
-      animals: '',
-      distance_parking: 0,
-      distance_metro: 0,
-      distance_stop: 0,
-      distance_green: 0,
-      distance_shop: 0,
-      option_pay: 0,
-      price_d: 0,
-      price_m: 0,
-      price_y: 0,
-      about: '',
-      private: false,
-      rent: false,
-      room: 0,
-    };
+      this.flatInfo = {
+        students: false,
+        woman: false,
+        man: false,
+        family: false,
+        bunker: '',
+        animals: '',
+        distance_parking: 0,
+        distance_metro: 0,
+        distance_stop: 0,
+        distance_green: 0,
+        distance_shop: 0,
+        option_pay: 0,
+        price_d: 0,
+        price_m: 0,
+        price_y: 0,
+        about: '',
+        private: false,
+        rent: false,
+        room: 0,
+      };
   }
 }

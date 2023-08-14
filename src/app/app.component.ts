@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -23,10 +23,23 @@ export class AppComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+
+    window.addEventListener('scroll', () => {
+      const footer = document.querySelector('.footer') as HTMLElement;
+      if (footer !== null) {
+        const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+        if (isAtBottom) {
+          footer.style.visibility = 'visible';
+        } else {
+          footer.style.visibility = 'hidden';
+        }
+      }
+    });
+
+
+
   }
 
   title = 'project';
 }
-
-
-

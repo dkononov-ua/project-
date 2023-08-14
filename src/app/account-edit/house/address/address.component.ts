@@ -47,6 +47,14 @@ interface FlatInfo {
 
 export class AddressComponent implements OnInit {
 
+  loading = false;
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
+
   flatInfo: FlatInfo = {
     flat_id: '',
     country: '',
@@ -83,10 +91,8 @@ export class AddressComponent implements OnInit {
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.getInfo();
-      }
     });
+    this.getInfo();
   }
 
   async getInfo(): Promise<any> {
@@ -94,15 +100,19 @@ export class AddressComponent implements OnInit {
     if (userJson && this.selectedFlatId) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           this.flatInfo = response.flat;
           this.locationLink = this.generateLocationUrl();
           if (response == undefined && null)
             this.disabled = false;
+          this.loading = false;
         }, (error: any) => {
           console.error(error);
+          this.loading = false;
         });
     } else {
       console.log('house not found');
+      this.loading = false;
     }
   };
 
@@ -159,17 +169,28 @@ export class AddressComponent implements OnInit {
     return this.locationLink;
   }
 
-  saveInfo(): void {
+  async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
-      const data = this.flatInfo;
-      this.http.post('http://localhost:3000/flatinfo/add/addres', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          this.disabled = true;
-        }, (error: any) => {
-          console.error(error);
-        });
+
+      try {
+        this.loading = true
+        this.disabled = true;
+
+        const response = await this.http.post('http://localhost:3000/flatinfo/add/addres', {
+          auth: JSON.parse(userJson),
+          new: this.flatInfo,
+          flat_id: this.selectedFlatId,
+        }).toPromise();
+
+        this.reloadPageWithLoader()
+
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
     } else {
+      this.loading = false;
       console.log('user not found, the form is blocked');
     }
   }

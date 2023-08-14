@@ -18,6 +18,14 @@ interface ObjectInfo {
 })
 export class AddObjectsComponent implements OnInit {
 
+  loading = false;
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
+
   objectInfo: ObjectInfo = {
     name: '',
     about: '',
@@ -35,7 +43,6 @@ export class AddObjectsComponent implements OnInit {
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
-  loading = false;
   objects = objects;
   filteredObjects: any[] = [];
   selectedType!: string;
@@ -94,88 +101,17 @@ export class AddObjectsComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
-    setTimeout(() => {
-      this.saveObject();
-    },);
   }
 
-  // saveObject(): void {
-  //   const userJson = localStorage.getItem('user');
-
-  //   const data = {
-  //     type_filling: this.selectedType,
-  //     name_filling: this.selectedObject,
-  //     number_filling: this.objectInfo.number,
-  //     condition_filling: this.objectInfo.condition,
-  //     about_filling: this.objectInfo.description,
-  //   };
-
-  //   if (!this.selectedFile) {
-  //     console.log('Файл не обраний. Завантаження не відбудеться.');
-  //     return;
-  //   }
-
-  //   const formData: FormData = new FormData();
-  //   formData.append('file', this.selectedFile, this.selectedFile.name);
-  //   formData.append('obj', data);
-  //   formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-
-  //   const headers = { 'Accept': 'application/json' };
-  //   this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
-  //     (data: any) => {
-  //       setTimeout(() => {
-  //         this.reloadPageWithLoader();
-  //       },);
-  //     },
-  //     error => console.log(error)
-  //   );
-  // }
-
-  // saveObject(): void {
-  //   const userJson = localStorage.getItem('user');
-
-  //   if (
-  //     this.selectedType === undefined ||
-  //     this.selectedObject === undefined ||
-  //     this.objectInfo.number === undefined ||
-  //     this.objectInfo.condition === undefined ||
-  //     this.objectInfo.description === undefined ||
-  //     this.selectedFile === undefined
-  //   ) {
-  //     console.log('Поля не можуть бути undefined.');
-  //     return;
-  //   }
-
-  //   const formData: FormData = new FormData();
-  //   formData.append('file', this.selectedFile, this.selectedFile.name);
-  //   formData.append('type_filling', this.selectedType);
-  //   formData.append('name_filling', this.selectedObject);
-  //   formData.append('number_filling', this.objectInfo.number.toString());
-  //   formData.append('condition_filling', this.objectInfo.condition);
-  //   formData.append('about_filling', this.objectInfo.description);
-  //   formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-
-  //   const headers = { 'Accept': 'application/json' };
-  //   this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
-  //     (data: any) => {
-  //       setTimeout(() => {
-  //         this.reloadPageWithLoader();
-  //       });
-  //     },
-  //     error => console.log(error)
-  //   );
-  // }
-
-
-  saveObject(): void {
+    saveObject(): void {
     const userJson = localStorage.getItem('user');
-
     const data = {
       type_filling: this.selectedType,
       name_filling: this.selectedObject,
       number_filling: this.objectInfo.number,
       condition_filling: this.objectInfo.condition,
       about_filling: this.objectInfo.about,
+      flat_id: this.selectedFlatId,
     };
 
     if (!this.selectedFile) {
@@ -185,35 +121,19 @@ export class AddObjectsComponent implements OnInit {
 
     const formData: FormData = new FormData();
     formData.append('file', this.selectedFile, this.selectedFile.name);
-    formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
+    formData.append("inf", JSON.stringify(data));
+    formData.append('auth', userJson!);
+    console.log(formData)
 
     const headers = { 'Accept': 'application/json' };
-    this.http.post('http://localhost:3000/img/object', formData, { headers }).subscribe(
+    this.http.post('http://localhost:3000/img/uploadFilling', formData, { headers }).subscribe(
       (uploadResponse: any) => {
-        console.log(data)
-        this.http.post('http://localhost:3000/flatinfo/add/object', data).subscribe(
-          (addObjectResponse: any) => {
-            setTimeout(() => {
-              // this.reloadPageWithLoader();
-              this.option = 1;
-            });
-          },
-          (addError: any) => {
-            console.log(addError);
-          }
-        );
+        this.reloadPageWithLoader()
       },
       (uploadError: any) => {
         console.log(uploadError);
       }
     );
-  }
-
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
   }
 
 }

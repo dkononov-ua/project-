@@ -4,12 +4,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
 import { SharedModule } from '../shared/shared.module';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
 import { ParametersComponent } from './house/parameters/parameters.component';
-import { SubscribersComponent } from './house/subscribers/subscribers.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { FurnitureComponent } from './house/furniture/furniture.component';
 import { MatCardModule } from '@angular/material/card';
@@ -36,7 +35,7 @@ import { DealsComponent } from './user/agree/deals/deals.component';
 import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
 import { DownloadAgreeComponent } from './user/agree/download-agree/download-agree.component';
 import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
-import { HousingSubscriptionsComponent } from './house/housing-subscriptions/housing-subscriptions.component';
+import { DeleteAgreeComponent } from './user/agree/delete-agree/delete-agree.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,6 @@ import { HousingSubscriptionsComponent } from './house/housing-subscriptions/hou
     HouseComponent,
     UserComponent,
     ParametersComponent,
-    SubscribersComponent,
     OrderServicesComponent,
     FurnitureComponent,
     FilesComponent,
@@ -62,7 +60,7 @@ import { HousingSubscriptionsComponent } from './house/housing-subscriptions/hou
     ConcludedComponent,
     DownloadAgreeComponent,
     SubscribeToMeComponent,
-    HousingSubscriptionsComponent,
+    DeleteAgreeComponent,
   ],
   providers: [
     DatePipe

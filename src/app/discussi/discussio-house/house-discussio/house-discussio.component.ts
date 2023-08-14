@@ -94,6 +94,14 @@ export class HouseDiscussioComponent implements OnInit {
     });
   }
 
+  startDiscussion(): void {
+    if (this.selectedSubscriber) {
+      this.createChat(this.selectedSubscriber);
+      this.isChatOpen = true;
+      this.selectedSubscriber = this.selectedSubscriber;
+    }
+  }
+
   async loadData(): Promise<void> {
     this.dataService.getData().subscribe((response: any) => {
       this.houseData = response.houseData;
@@ -216,9 +224,7 @@ export class HouseDiscussioComponent implements OnInit {
     }
   }
 
-
   getFlatMessages(): void {
-    this.isChatOpen = true;
   }
 
   closeChat(): void {

@@ -1,6 +1,5 @@
-import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
@@ -31,9 +30,17 @@ interface FlatInfo {
       ]),
     ]),
   ],
-
 })
+
 export class ParamComponent {
+
+  loading = false;
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
 
   flatInfo: FlatInfo = {
     rooms: 0,
@@ -54,15 +61,16 @@ export class ParamComponent {
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService)
+    { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.getInfo();
-      }
     });
+    this.getInfo();
   }
 
   async getInfo(): Promise<void> {
@@ -70,10 +78,9 @@ export class ParamComponent {
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log('Response:', response);
+          console.log(response);
           if (response && response.param.area) {
             this.flatInfo = response.param;
-            console.log('Flat Info:', this.flatInfo);
             this.disabled = true;
           } else {
             console.log('Param not found in response.');
@@ -87,20 +94,28 @@ export class ParamComponent {
     }
   };
 
-
-
-
-  saveInfo(): void {
+  async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
-      const data = this.flatInfo;
-      this.http.post('http://localhost:3000/flatinfo/add/parametrs', { auth: JSON.parse(userJson), new: data, flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          this.disabled = true;
-        }, (error: any) => {
-          console.error(error);
-        });
+
+      try {
+        this.loading = true
+        this.disabled = true;
+
+        const response = await this.http.post('http://localhost:3000/flatinfo/add/parametrs', {
+          auth: JSON.parse(userJson),
+          new: this.flatInfo,
+          flat_id: this.selectedFlatId,
+        }).toPromise();
+
+        this.reloadPageWithLoader()
+
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
     } else {
+      this.loading = false;
       console.log('user not found, the form is blocked');
     }
   }

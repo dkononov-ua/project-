@@ -3,12 +3,8 @@ import { AppRoutingModule, RegistrationComponent } from './pages/registration/re
 import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
-import { SliderComponent } from './components/slider/slider.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
-import { KrutilkaComponent } from './components/krutilka/krutilka.component';
-import { DeleteComunalComponent } from './components/delete-comunal/delete-comunal.component';
-import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { AccountModule } from './account/account.module';
 import { AccountRoutingModule } from './account/account-routing.module';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
@@ -21,7 +17,6 @@ import { DiscussioModule } from './discussi/discussio-user/discussio.module';
 import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
 import { DiscussioHouseModule } from './discussi/discussio-house/discussio-house.module';
 import { SelectedFlatService } from './services/selected-flat.service';
-import { ChoseSubscribersService } from './services/chose-subscribers.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -54,12 +49,8 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     RegistrationComponent,
     UserPaymentComponent,
     InformationUserComponent,
-    SliderComponent,
     UserLicenceComponent,
     ComunPageComponent,
-    KrutilkaComponent,
-    DeleteComunalComponent,
-    DeleteDialogComponent,
     LookingComponent,
     SearchPageComponent,
   ],

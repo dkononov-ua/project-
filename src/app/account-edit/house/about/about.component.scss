@@ -1,18 +1,6 @@
 @use "../../../style/presets/" as *;
 
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.container-navbar {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .container-card {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
@@ -24,7 +12,6 @@
 }
 
 .card {
-  width: 100%;
   display: flex;
   background-color: $color-white;
   color: $color-dark;
@@ -36,24 +23,6 @@
 
 .form-label {
   align-self: center;
-}
-
-.range {
-  flex-direction: column;
-}
-
-.search {
-  width: 100%;
-}
-
-.search-input {
-  width: 100%;
-}
-
-.chek-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .form-select {
@@ -263,8 +232,6 @@ textarea {
   margin-bottom: 15px;
 
 }
-
-
 
 .mat-input-container {
   display: flex;
@@ -538,3 +505,4 @@ textarea {
   border-radius: 5px;
   margin-top: 10px;
 }
+

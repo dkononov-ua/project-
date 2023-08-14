@@ -1,176 +1,181 @@
-<form class="container-card">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-    <div class="card m-2">
+<ng-template #content>
+  <div class="container-card">
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
 
-      <mat-label class="group-label">Розглядаю як орендарів</mat-label>
-      <div class="group-item-1">
-        <div class="content">
-          <label class="checkBox">
-            <input id="students" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.students" name="students">
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Студент<span class="status">S</span>
-          </span>
-
-          <i></i>
-        </div>
-        <div class="content">
-          <label class="checkBox">
-            <input id="woman" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.woman" name="woman">
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Жінка<span class="status">W</span></span>
-          <i></i>
-        </div>
-        <div class="content">
-          <label class="checkBox">
-            <input id="man" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.man" name="man">
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Чоловік<span class="status">M</span></span>
-          <i></i>
-        </div>
-        <div class="content">
-          <label class="checkBox">
-            <input id="family" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.family" name="family">
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Сім'я<span class="status">F</span></span>
-          <i></i>
-        </div>
-      </div>
-
-      <mat-form-field class="item-select m-1 mt-2" appearance="outline">
-        <mat-label>Наявність укриття</mat-label>
-        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.bunker" name="bunker">
-          <mat-option [value]="''">Приховати</mat-option>
-          <mat-option value="Паркінг">Паркінг</mat-option>
-          <mat-option value="В будинку">В будинку</mat-option>
-          <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Дозвіл на тварин</mat-label>
-        <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.animals" name="animals">
-          <mat-option [value]="''">Приховати</mat-option>
-          <mat-option value="1">Без тварин</mat-option>
-          <mat-option value="2">За домовленістю</mat-option>
-          <mat-option value="3">Можна з тваринами</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div class="form-floating p-1">
-        <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="disabled"
-          [(ngModel)]="flatInfo.about" name="about" (input)="onInput()"></textarea>
-        <label for="floatingTextarea">
-          <p>Опис оселі:</p>
-        </label>
-      </div>
-
-    </div>
-  </div>
-
-  <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-    <div class="card m-2">
-
-
-      <mat-label class="group-label">Як бажаєте отримувати оплату?</mat-label>
-      <div class="group-item-1">
-
-        <div class="content">
-          <label class="checkBox">
-            <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="daily"
-              [value]=1>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Подобово</span>
-          <i></i>
-        </div>
-
-        <div class="content">
-          <label class="checkBox">
-            <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="monthly"
-              [value]=0>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Щомісяця</span>
-          <i></i>
-        </div>
-      </div>
-
-      <mat-label class="group-label">Ціна за термін в грн.</mat-label>
-      <div class="group-item-1">
-        <mat-form-field class="form-field item-select p-1" appearance="outline">
-          <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
-          <div class="mat-input-container">
-            <input matInput type="number" id="inputPriceD" [disabled]="disabled" [(ngModel)]="flatInfo.price_d"
-              name="price_d" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
-            <span class="mat-input-suffix">₴</span>
-          </div>
-        </mat-form-field>
-
-        <mat-form-field class="form-field item-select p-1" appearance="outline">
-          <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
-          <div class="mat-input-container">
-            <input matInput type="number" id="inputPriceM" [disabled]="disabled" [(ngModel)]="flatInfo.price_m"
-              name="price_m" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
-            <span class="mat-input-suffix">₴</span>
-          </div>
-        </mat-form-field>
-      </div>
-
-      <mat-label class="group-label">Статус оселі</mat-label>
-      <div class="group-item-1">
-
-        <div class="content-info">
-          <div class="content-group">
+        <mat-label class="group-label">Розглядаю як орендарів</mat-label>
+        <div class="group-item-1">
+          <div class="content">
             <label class="checkBox">
-              <input id="looking_room" type="checkbox" name="flatInfo.room" [disabled]="disabled"
-                [(ngModel)]="flatInfo.room" [value]="1">
+              <input id="students" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.students" name="students">
               <div class="transition"></div>
             </label>
-            <span class="checkBox-span" (click)="toggleDescription('looking_room')">Здаю кімнату</span>
-            <button class="btn-info" (click)="toggleDescription('looking_room')"><i
-                class="fa-solid fa-info"></i></button>
-          </div>
-          <div class="description-container">
-            <div *ngIf="isDescriptionVisible('looking_room')" class="description">
-              <p class="descr"><span class="bold">Здаю кімнату</span> - це потрібно для того якщо Ви хочете здати
-                покімнатно оселю, або шукаєте собі сусіда по оселі.</p>
-              <button class="close-button" (click)="toggleDescription('looking_room')">Закрити</button>
-            </div>
-          </div>
-        </div>
+            <span class="checkBox-span">Студент<span class="status">S</span>
+            </span>
 
-        <div class="content-info">
-          <div class="content-group">
+            <i></i>
+          </div>
+          <div class="content">
             <label class="checkBox">
-              <input id="rent" type="checkbox" name="flatInfo.rent" [disabled]="disabled" [(ngModel)]="flatInfo.rent">
+              <input id="woman" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.woman" name="woman">
               <div class="transition"></div>
             </label>
-            <span class="checkBox-span" (click)="toggleDescription('rent')">Розмістити оголошення</span>
-            <button class="btn-info" (click)="toggleDescription('rent')"><i class="fa-solid fa-info"></i></button>
+            <span class="checkBox-span">Жінка<span class="status">W</span></span>
+            <i></i>
           </div>
-          <div class="description-container">
-            <div *ngIf="isDescriptionVisible('rent')" class="description">
-              <p class="descr"><span class="bold">Розмістити оголошення</span> - цим Ви підтверджуєте що готові
-                виставити свою оселю на сайті, і готові вести дискусію.</p>
-              <button class="close-button" (click)="toggleDescription('rent')">Закрити</button>
-            </div>
+          <div class="content">
+            <label class="checkBox">
+              <input id="man" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.man" name="man">
+              <div class="transition"></div>
+            </label>
+            <span class="checkBox-span">Чоловік<span class="status">M</span></span>
+            <i></i>
+          </div>
+          <div class="content">
+            <label class="checkBox">
+              <input id="family" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.family" name="family">
+              <div class="transition"></div>
+            </label>
+            <span class="checkBox-span">Сім'я<span class="status">F</span></span>
+            <i></i>
           </div>
         </div>
 
-      </div>
+        <mat-form-field class="item-select m-1 mt-2" appearance="outline">
+          <mat-label>Наявність укриття</mat-label>
+          <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.bunker" name="bunker">
+            <mat-option [value]="''">Приховати</mat-option>
+            <mat-option value="Паркінг">Паркінг</mat-option>
+            <mat-option value="В будинку">В будинку</mat-option>
+            <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <div class="btn-group">
-        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-            class="icon fa-regular fa-circle-check"></i></button>
-        <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
-        <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
-      </div>
+        <mat-form-field class="item-select m-1" appearance="outline">
+          <mat-label>Дозвіл на тварин</mat-label>
+          <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.animals" name="animals">
+            <mat-option [value]="''">Приховати</mat-option>
+            <mat-option value="1">Без тварин</mat-option>
+            <mat-option value="2">За домовленістю</mat-option>
+            <mat-option value="3">Можна з тваринами</mat-option>
+          </mat-select>
+        </mat-form-field>
 
+        <div class="form-floating p-1">
+          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="disabled"
+            [(ngModel)]="flatInfo.about" name="about" (input)="onInput()"></textarea>
+          <label for="floatingTextarea">
+            <p>Опис оселі:</p>
+          </label>
+        </div>
+
+      </div>
     </div>
-  </div>
-</form>
+
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="card m-2">
+
+
+        <mat-label class="group-label">Як бажаєте отримувати оплату?</mat-label>
+        <div class="group-item-1">
+
+          <div class="content">
+            <label class="checkBox">
+              <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="daily"
+                [value]=1>
+              <div class="transition"></div>
+            </label>
+            <span class="checkBox-span">Подобово</span>
+            <i></i>
+          </div>
+
+          <div class="content">
+            <label class="checkBox">
+              <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="monthly"
+                [value]=0>
+              <div class="transition"></div>
+            </label>
+            <span class="checkBox-span">Щомісяця</span>
+            <i></i>
+          </div>
+        </div>
+
+        <mat-label class="group-label">Ціна за термін в грн.</mat-label>
+        <div class="group-item-1">
+          <mat-form-field class="form-field item-select p-1" appearance="outline">
+            <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
+            <div class="mat-input-container">
+              <input matInput type="number" id="inputPriceD" [disabled]="disabled" [(ngModel)]="flatInfo.price_d"
+                name="price_d" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
+              <span class="mat-input-suffix">₴</span>
+            </div>
+          </mat-form-field>
+
+          <mat-form-field class="form-field item-select p-1" appearance="outline">
+            <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
+            <div class="mat-input-container">
+              <input matInput type="number" id="inputPriceM" [disabled]="disabled" [(ngModel)]="flatInfo.price_m"
+                name="price_m" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
+              <span class="mat-input-suffix">₴</span>
+            </div>
+          </mat-form-field>
+        </div>
+
+        <mat-label class="group-label">Статус оселі</mat-label>
+        <div class="group-item-1">
+
+          <div class="content-info">
+            <div class="content-group">
+              <label class="checkBox">
+                <input id="looking_room" type="checkbox" name="flatInfo.room" [disabled]="disabled"
+                  [(ngModel)]="flatInfo.room" [value]="1">
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span" (click)="toggleDescription('looking_room')">Здаю кімнату</span>
+              <button class="btn-info" (click)="toggleDescription('looking_room')"><i
+                  class="fa-solid fa-info"></i></button>
+            </div>
+            <div class="description-container">
+              <div *ngIf="isDescriptionVisible('looking_room')" class="description">
+                <p class="descr"><span class="bold">Здаю кімнату</span> - це потрібно для того якщо Ви хочете здати
+                  покімнатно оселю, або шукаєте собі сусіда по оселі.</p>
+                <button class="close-button" (click)="toggleDescription('looking_room')">Закрити</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-info">
+            <div class="content-group">
+              <label class="checkBox">
+                <input id="rent" type="checkbox" name="flatInfo.rent" [disabled]="disabled" [(ngModel)]="flatInfo.rent">
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span" (click)="toggleDescription('rent')">Розмістити оголошення</span>
+              <button class="btn-info" (click)="toggleDescription('rent')"><i class="fa-solid fa-info"></i></button>
+            </div>
+            <div class="description-container">
+              <div *ngIf="isDescriptionVisible('rent')" class="description">
+                <p class="descr"><span class="bold">Розмістити оголошення</span> - цим Ви підтверджуєте що готові
+                  виставити свою оселю на сайті, і готові вести дискусію.</p>
+                <button class="close-button" (click)="toggleDescription('rent')">Закрити</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="btn-group">
+          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
+              class="icon fa-regular fa-circle-check"></i></button>
+          <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
+          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+        </div>
+
+      </div>
+    </div>
+  </div >
+</ng-template>

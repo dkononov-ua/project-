@@ -23,4 +23,10 @@ export class SelectedFlatService {
     localStorage.setItem('selectedFlatId', flatId);
     this.selectedFlatIdSubject.next(flatId);
   }
+
+  clearSelectedFlatId(): void {
+    localStorage.removeItem('selectedFlatId');
+    this.selectedFlatIdSubject.next(null);
+  }
+
 }

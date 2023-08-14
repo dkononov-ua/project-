@@ -7,21 +7,25 @@ import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { AgreementComponent } from 'src/app/account/house/agree-house/agreement/agreement.component';
 import { ChatHouseComponent } from './chat-house/chat-house.component';
 import { ChatComponent } from './chat/chat.component';
+import { HostHouseSubComponent } from './host-house-sub/host-house-sub.component';
+import { SubscribersHouseComponent } from './subscribers-house/subscribers-house.component';
+import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
 
 const routes: Routes = [
-  {
-    path: 'host-discussio-h',
-    component: HostDiscussioHComponent, canActivate: [CanActivateGuard],
-    children: [
-      { path: '', redirectTo: 'house-discussio', pathMatch: 'full' },
-      { path: 'house-discussio', component: HouseDiscussioComponent, canActivate: [CanActivateGuard] },
-      { path: 'approved-h', component: ApprovedHComponent, canActivate: [CanActivateGuard] },
-    ],
-  },
+
   { path: 'agreement/:selectedSubscriber?.user_id', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'chat-house', component: ChatHouseComponent, canActivate: [CanActivateGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [CanActivateGuard] },
+  {
+    path: 'host-house-sub', component: HostHouseSubComponent, canActivate: [CanActivateGuard],
+    children: [
+      { path: '', redirectTo: 'subscribers-house', pathMatch: 'full' },
+      { path: 'subscribers-house', component: SubscribersHouseComponent, canActivate: [CanActivateGuard] },
+      { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard]},
+      { path: 'house-discussio', component: HouseDiscussioComponent, canActivate: [CanActivateGuard] },
+    ],
+  },
 ];
 
 @NgModule({

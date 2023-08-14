@@ -30,7 +30,6 @@
     images: any;
     selectedRentedFlatId: any;
 
-
     constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private selectedFlatService: SelectedFlatService) { }
 
     ngOnInit(): void {
@@ -172,10 +171,10 @@
                 if (response !== null) {
                   if (this.addressHouse === undefined) {
                     this.addressHouse = this.fb.group({
-                      flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                      flat_id: [response.flat_id],
                     });
                   } else {
-                    this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                    this.addressHouse.patchValue({ flat_id: response.flat_id });
                   }
                 }
               },
@@ -207,10 +206,10 @@
                 if (response !== null) {
                   if (this.addressHouse === undefined) {
                     this.addressHouse = this.fb.group({
-                      flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                      flat_id: [response.flat_id],
                     });
                   } else {
-                    this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                    this.addressHouse.patchValue({ flat_id: response.flat_id });
                   }
                 }
               },
@@ -226,7 +225,7 @@
 
         setTimeout(() => {
           location.reload();
-        }, 1300);
+        }, 500);
       } else if (this.selectedRentedFlatId) {
         console.log('Ви вибрали орендовану оселю з ID:', this.selectedRentedFlatId);
         localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedRentedFlatId }));
@@ -240,10 +239,10 @@
                 if (response !== null) {
                   if (this.addressHouse === undefined) {
                     this.addressHouse = this.fb.group({
-                      flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
+                      flat_id: [response.flat_id],
                     });
                   } else {
-                    this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
+                    this.addressHouse.patchValue({ flat_id: response.flat_id });
                   }
                 }
               },
@@ -259,8 +258,9 @@
 
         setTimeout(() => {
           location.reload();
-        }, 1300);
+        }, 500);
       } else {
+        this.loading = false;
         console.log('Нічого не вибрано');
       }
     }

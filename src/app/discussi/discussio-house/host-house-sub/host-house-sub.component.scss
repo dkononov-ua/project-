@@ -2,7 +2,8 @@
 
 .container-navbar {
   display: flex;
-  justify-content: flex-end;
+  align-items: baseline;
+  justify-content: space-around;
 }
 
 .container-card {

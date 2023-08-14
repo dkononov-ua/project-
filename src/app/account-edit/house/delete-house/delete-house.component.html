@@ -1,0 +1,13 @@
+<div class="message-box">
+  <mat-dialog-content>
+    <h3>Ви дійсно хочете видалити оселю {{ selectedFlatId }}?</h3>
+    <p class="text">Всі внесені в цю оселю дані будуть втрачені</p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="box" align="end">
+    <button class="btn m-2" mat-button mat-dialog-close>Ні</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true">Так</button>
+  </mat-dialog-actions>
+</div>
+
+
+

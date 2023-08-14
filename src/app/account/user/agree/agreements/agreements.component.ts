@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteAgreeComponent } from '../delete-agree/delete-agree.component';
 
 interface subscription {
   flat: {
@@ -59,7 +59,7 @@ export class AgreementsComponent implements OnInit {
   }
 
   openDialog(subscriber: any): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
+    const dialogRef = this.dialog.open(DeleteAgreeComponent);
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {

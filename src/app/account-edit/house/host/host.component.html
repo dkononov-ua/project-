@@ -1,4 +1,3 @@
-<div class="container">
   <div class="container-navbar">
     <nav class="navbar">
       <a [routerLinkActive]="'active'" [routerLink]="'/user'"><i class="fa-solid fa-chevron-left"></i></a>
@@ -10,51 +9,31 @@
 
   <div class="container-card">
 
-    <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
       <div class="card-menu m-2">
 
         <app-housing-selection></app-housing-selection>
 
-        <form [formGroup]="houseCreate">
-          <nav class="navbar-house">
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span
-                class="link-text">Місцезнаходження</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"><span
-                class="link-text">Характеристики</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"><span
-                class="link-text">Особливості</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span
-                class="link-text">Додати фото</span>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"><span
+        <nav class="navbar-house">
+          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span
+              class="link-text">Місцезнаходження</span>
+          </a>
+          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"><span
+              class="link-text">Характеристики</span>
+          </a>
+          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"><span
+              class="link-text">Особливості</span>
+          </a>
+          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span
+              class="link-text">Додати фото</span>
+          </a>
+          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"><span
               class="link-text">Наповнення</span>
           </a>
-          </nav>
+        </nav>
 
-          <button class="btn-create" (click)="showInput = true" *ngIf="!showInput"><i
-              class="fa-solid fa-circle-plus"></i></button>
-          <p>ДОДАТИ НОВУ ОСЕЛЮ</p>
-          <div class="inputbox" *ngIf="showInput">
-            <input class="input-cast" type="text" id="flat_id" placeholder="Створіть свій ID Оселі" name="flat_id"
-              formControlName="flat_id" required>
-            <i class="orange"></i>
+        <app-add-house></app-add-house>
 
-            <div *ngIf="formErrors.flat_id" class="alert alert-danger">{{formErrors.flat_id}}</div>
-          </div>
-
-          <button class="btn-create" (click)="onSubmitSaveHouseCreate()" *ngIf="showInput"><i
-              class="fa-solid fa-circle-check"></i></button>
-          <p>СТВОРИТИ</p>
-
-          <button class="btn-create btn-deleted" mat-icon-button color="warn" (click)="openDialog()"><i
-              class="fa-solid fa-circle-minus"></i>
-          </button>
-          <p>ВИДАЛИТИ ОСЕЛЮ</p>
-
-        </form>
       </div>
     </div>
 
@@ -63,8 +42,3 @@
     </div>
 
   </div>
-</div>
-
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
-</div>

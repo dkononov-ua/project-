@@ -1,105 +1,110 @@
-<div class="container-card">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <div class="box">
+<ng-template #content>
+  <div class="container-card">
+    <div class="box">
 
-    <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 1">
-      <div class="card m-2 p-2">
-        <mat-label class="group-label mb-2">Внесіть характеристики предмету</mat-label>
+      <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 1">
+        <div class="card m-2 p-2">
+          <mat-label class="group-label mb-2">Внесіть характеристики предмету</mat-label>
 
-        <mat-form-field class="item-select" appearance="outline">
-          <mat-label>Тип предмету</mat-label>
-          <mat-select [(ngModel)]="selectedType" (ngModelChange)="loadObjects()" placeholder="Виберіть тип">
-            <mat-option *ngFor="let type of objects" [value]="type.type">{{ type.type }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field class="item-select" appearance="outline">
+            <mat-label>Тип предмету</mat-label>
+            <mat-select [(ngModel)]="selectedType" (ngModelChange)="loadObjects()" placeholder="Виберіть тип">
+              <mat-option *ngFor="let type of objects" [value]="type.type">{{ type.type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field class="item-select" appearance="outline">
-          <mat-label>Назва предмету </mat-label>
-          <input matInput [(ngModel)]="selectedObject" placeholder="Виберіть або введіть послугу"
-            [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let obj of filteredObjects" [value]="obj.name">
-              <img class="option-icon" [src]="obj.iconUrl" alt="{{ obj.name }} icon" />
-              <span class="option-text">{{ obj.name }}</span>
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+          <mat-form-field class="item-select" appearance="outline">
+            <mat-label>Назва предмету </mat-label>
+            <input matInput [(ngModel)]="selectedObject" placeholder="Виберіть або введіть послугу"
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let obj of filteredObjects" [value]="obj.name">
+                <img class="option-icon" [src]="obj.iconUrl" alt="{{ obj.name }} icon" />
+                <span class="option-text">{{ obj.name }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-        <div class="group">
-          <div class="group-item">
-            <mat-form-field class="item-select w-25 p-1" appearance="outline">
-              <mat-label>Кіл.</mat-label>
-              <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="objectInfo.number" name="number">
-            </mat-form-field>
-
-            <mat-form-field class="item-select w-75 p-1" appearance="outline">
-              <mat-label>Стан</mat-label>
-              <mat-select [(ngModel)]="objectInfo.condition" name="condition">
-                <mat-option *ngFor="let condition of selectCondition | keyvalue" [value]="condition.key">
-                  {{ condition.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="form-floating">
-          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-            [(ngModel)]="objectInfo.about" name="about" (input)="onInput()"></textarea>
-          <label for="floatingTextarea">
-            <p>Опис предмету:</p>
-          </label>
-        </div>
-
-        <div class="card-1">
           <div class="group">
-            <label class="label-1" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
-            <label class="label-1" *ngIf="!selectedFile">Завантажити фото</label>
-            <div class="input-div">
-              <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-              <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+            <div class="group-item">
+              <mat-form-field class="item-select w-25 p-1" appearance="outline">
+                <mat-label>Кіл.</mat-label>
+                <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="objectInfo.number"
+                  name="number">
+              </mat-form-field>
+
+              <mat-form-field class="item-select w-75 p-1" appearance="outline">
+                <mat-label>Стан</mat-label>
+                <mat-select [(ngModel)]="objectInfo.condition" name="condition">
+                  <mat-option *ngFor="let condition of selectCondition | keyvalue" [value]="condition.key">
+                    {{ condition.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
+
+          <div class="form-floating">
+            <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
+              [(ngModel)]="objectInfo.about" name="about" (input)="onInput()"></textarea>
+            <label for="floatingTextarea">
+              <p>Опис предмету:</p>
+            </label>
+          </div>
+
+          <div class="card-1">
+            <div class="group">
+              <label class="label-1" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
+              <label class="label-1" *ngIf="!selectedFile">Завантажити фото</label>
+              <div class="input-div">
+                <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+                <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn mt-2" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"><i
+                class="icon fa-regular fa-circle-check"></i></button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 1">
+        <div class="card m-2 p-2">
+          <h3><strong>Меню наповнення</strong></h3>
+          <p>Це меню створено для того щоб власник оселі міг описати предмети та техніку яка знаходиться в оселі. яку
+            передає у користування орендару</p>
+          <p><strong>Функції</strong></p>
+          <ul>
+            <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
+              техніки і т.д</li>
+            <li>Цю інформацію також можна буде показувати людям з якими у
+              вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
+            <li>Сформований список буде додаватись до шаблону угоди.</li>
+            <li>Сформований список буде можна корегувати додаючи чи видаляючи предмети</li>
+            <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 2">
+
+        <div class="card-box1 col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 2">
+          <button class="btn-create" (click)="option = 1"><i class="fa-solid fa-plus"></i></button>
+          <p>Додати</p>
         </div>
 
-        <div class="btn-group">
-          <button class="btn mt-2" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"><i
-              class="icon fa-regular fa-circle-check"></i></button>
+        <div class="card-filling">
+          <p>Доданий предмет предмет</p>
         </div>
 
       </div>
-    </div>
-
-    <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 1">
-      <div class="card m-2 p-2">
-        <h3><strong>Меню наповнення</strong></h3>
-        <p>Це меню створено для того щоб власник оселі міг описати предмети та техніку яка знаходиться в оселі. яку
-          передає у користування орендару</p>
-        <p><strong>Функції</strong></p>
-        <ul>
-          <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-            техніки і т.д</li>
-          <li>Цю інформацію також можна буде показувати людям з якими у
-            вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-          <li>Сформований список буде додаватись до шаблону угоди.</li>
-          <li>Сформований список буде можна корегувати додаючи чи видаляючи предмети</li>
-          <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 2">
-
-      <div class="card-box1 col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="option === 2">
-        <button class="btn-create" (click)="option = 1"><i class="fa-solid fa-plus"></i></button>
-        <p>Додати</p>
-      </div>
-
-      <div class="card-filling">
-        <p>Доданий предмет предмет</p>
-      </div>
-
     </div>
   </div>
-
-</div>
+</ng-template>

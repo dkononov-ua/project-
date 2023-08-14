@@ -30,6 +30,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ChatHouseComponent } from './chat-house/chat-house.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
+import { SubscribersHouseComponent } from './subscribers-house/subscribers-house.component';
+import { HostHouseSubComponent } from './host-house-sub/host-house-sub.component';
+import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -41,6 +45,9 @@ import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
     ChatHouseComponent,
     ChatComponent,
     ChatRoomsComponent,
+    SubscribersHouseComponent,
+    HostHouseSubComponent,
+    SubscriptionsHouseComponent,
   ],
   providers: [
     SelectedFlatService,
@@ -71,6 +78,7 @@ import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
     MatSnackBarModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatPaginatorModule
   ]
 })
 export class DiscussioHouseModule { }
