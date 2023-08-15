@@ -1,9 +1,9 @@
-@use "../../style/presets/" as *;
+@use "../../../style/presets/" as *;
 
 .container-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .card {
@@ -25,7 +25,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: stretch;
-  flex-direction: column;
 }
 
 .link {

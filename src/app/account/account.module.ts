@@ -10,7 +10,6 @@ import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
 import { ParametersComponent } from './house/parameters/parameters.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
-import { FurnitureComponent } from './house/furniture/furniture.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -36,6 +35,8 @@ import { ConcludedComponent } from './house/agree-house/concluded/concluded.comp
 import { DownloadAgreeComponent } from './user/agree/download-agree/download-agree.component';
 import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
 import { DeleteAgreeComponent } from './user/agree/delete-agree/delete-agree.component';
+import { FillingComponent } from './house/filling/filling.component';
+import { HouseInfoComponent } from './house/house-info/house-info.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,6 @@ import { DeleteAgreeComponent } from './user/agree/delete-agree/delete-agree.com
     UserComponent,
     ParametersComponent,
     OrderServicesComponent,
-    FurnitureComponent,
     FilesComponent,
     SubscriptionsComponent,
     ResidentsComponent,
@@ -61,6 +61,8 @@ import { DeleteAgreeComponent } from './user/agree/delete-agree/delete-agree.com
     DownloadAgreeComponent,
     SubscribeToMeComponent,
     DeleteAgreeComponent,
+    FillingComponent,
+    HouseInfoComponent,
   ],
   providers: [
     DatePipe

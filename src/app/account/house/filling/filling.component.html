@@ -1,0 +1,46 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="container-card">
+    <div class="box">
+
+      <div class="card-group p-2 col-lg-12 col-md-12 col-sm-12 col-12">
+
+        <div [@cardAnimation1] class="box-filling p-2">
+
+          <div class="card-box  col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="m-2 p-2">
+              <h3><strong>Меню наповнення</strong></h3>
+              <p>Це меню створено для того щоб власник оселі міг описати предмети та техніку яка знаходиться в оселі.
+                яку
+                передає у користування орендару</p>
+              <p><strong>Функції</strong></p>
+            </div>
+          </div>
+
+          <div *ngFor="let flat of flat_objects" class="card-filling m-2"
+            [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
+            <div class="box-img" [class.selected]="flat.filling_id === selectedCard">
+              <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
+              <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
+                alt="{{ flat.name_filling }} icon" />
+            </div>
+            <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
+              <div class="card-title">Тип: {{ flat.type_filling }}</div>
+              <div class="card-title">Назва: {{ flat.name_filling }} </div>
+              <div class="card-title">Стан: {{ selectCondition[flat.condition_filling] }}</div>
+              <div class="card-title">Кількість: {{ flat.number_filling }}</div>
+            </div>
+            <div class="card-body" *ngIf="flat.filling_id === selectedCard">
+              <div class="card-title">Опис: {{ flat.about_filling }}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

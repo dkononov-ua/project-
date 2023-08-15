@@ -5,7 +5,6 @@ import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
 import { ParametersComponent } from './house/parameters/parameters.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
-import { FurnitureComponent } from './house/furniture/furniture.component';
 import { FilesComponent } from './user/files/files.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
 import { ResidentsComponent } from './house/residents/residents.component';
@@ -21,6 +20,8 @@ import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-
 import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
 import { DownloadAgreeComponent } from './user/agree/download-agree/download-agree.component';
 import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
+import { FillingComponent } from './house/filling/filling.component';
+import { HouseInfoComponent } from './house/house-info/house-info.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'agree-u/:selectedFlatAgree', component: AgreeUComponent, canActivate: [CanActivateGuard] },
       { path: 'concluded', component: ConcludedComponent, canActivate: [CanActivateGuard] },
       { path: 'download/:selectedFlatAgree', component: DownloadAgreeComponent, canActivate: [CanActivateGuard] },
+
       {
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [
@@ -41,7 +43,8 @@ const routes: Routes = [
           { path: 'parameters', component: ParametersComponent, canActivate: [CanActivateGuard] },
           { path: 'agree-house', component: AgreeHouseComponent, canActivate: [CanActivateGuard] },
           { path: 'order-services', component: OrderServicesComponent, canActivate: [CanActivateGuard] },
-          { path: 'furniture', component: FurnitureComponent, canActivate: [CanActivateGuard] },
+          { path: 'house-info', component: HouseInfoComponent, canActivate: [CanActivateGuard] },
+          { path: 'filling', component: FillingComponent, canActivate: [CanActivateGuard] },
         ],
       },
       {

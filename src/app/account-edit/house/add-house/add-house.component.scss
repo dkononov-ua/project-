@@ -3,9 +3,9 @@
 .btn-box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .btn-create {
@@ -27,7 +27,6 @@
     background-color: $color-white;
     filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
 
-
     .fa-solid,
     .fa-regular {
       color: rgb(59, 247, 2);
@@ -37,7 +36,11 @@
   }
 }
 
-.btn-deleted{
+.fa-solid {
+  color: $color-white;
+}
+
+.btn-deleted {
   background-color: tomato;
   &:hover {
     transition: 0.4s;
@@ -51,7 +54,3 @@
     }
   }
 }
-
-
-
-

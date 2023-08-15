@@ -1,0 +1,100 @@
+<div class="container-box" (click)="resetOnlineStatus()">
+
+  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
+    <div class="card m-2">
+
+      <div class="container-sticker">
+        <div class="status-container">
+          <div class="status online" *ngIf="isOnline">Online</div>
+          <div class="status offline" *ngIf="isOffline">Offline</div>
+          <div class="status rent-yes" *ngIf="house.rent === 1">Rent</div>
+          <div class="status rent-no" *ngIf="house.rent === 0">Not Rent</div>
+          <div class="status private-yes" *ngIf="house.private === 1">Private</div>
+        </div>
+      </div>
+
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
+                class="img-fluid rounded">
+            </div>
+          </div>
+          <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
+            <div class="img-wrapper">
+              <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="characteristics-group">
+        <div class="item-characteristics">ID оселі: <span class="item">{{ house.flat_id }}</span>
+        </div>
+        <button class="copy" (click)="copyFlatId()"><i class="fa-regular fa-copy"></i></button>
+        <div *ngIf="isCopied" class="message">ID оселі було скопійовано!</div>
+      </div>
+
+      <div class="price-box">
+        <p class="item-price"><span class="item-characteristics-price">Ціна:</span> {{ about.price_m | number: '1.0-0'
+          }}<sup>₴/міс</sup></p>
+        <p class="item-price-year" *ngIf="about.price_d !== 0 && about.price_d !== null"><span
+            class="item-characteristics-price">Ціна за день:</span> {{ about.price_d | number: '1.0-0' }}<sup>₴/день</sup>
+        </p>
+      </div>
+
+
+      <div class="card-text p-1">
+
+        <!-- <div class="title-group">
+          <div class="title-selected">Країна : </div>
+          <div class="title-selected-accent">{{ house.country }}</div>
+        </div> -->
+
+        <div class="title-group">
+          <div class="title-selected">Область : </div>
+          <div class="title-selected-accent">{{ house.region }}</div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Місто : </div>
+          <div class="title-selected-accent">{{ house.city }}</div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Вулиця : </div>
+          <div class="title-selected-accent">{{ house.street }}</div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Будинок : </div>
+          <div class="title-selected-accent">{{ house.houseNumber }}</div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Квартира : </div>
+          <div class="title-selected-accent">{{ house.apartment }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12" [@cardAnimation]>
+    <div class="card m-2 p-2">
+      <app-parameters></app-parameters>
+    </div>
+  </div>
+
+</div>

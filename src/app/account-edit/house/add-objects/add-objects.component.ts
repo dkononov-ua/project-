@@ -1,7 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { objects } from '../objects-data';
+import { objects } from '../../../shared/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { trigger, transition, style, animate } from '@angular/animations';
+
+interface FlatInfo {
+  about_filling: string;
+  condition_filling: string;
+  filling_id: string;
+  flat_id: string;
+  img: string;
+  name_filling: string;
+  number_filling: number;
+  type_filling: string;
+}
 
 interface ObjectInfo {
   name: string | undefined;
@@ -14,8 +26,27 @@ interface ObjectInfo {
 @Component({
   selector: 'app-add-objects',
   templateUrl: './add-objects.component.html',
-  styleUrls: ['./add-objects.component.scss']
+  styleUrls: ['./add-objects.component.scss'],
+  animations: [
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation5', [
+      transition('void => *', [
+        style({ transform: 'translateY(100%)' }),
+        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(0)' }),
+        animate('400ms 0ms ease-in-out', style({ transform: 'translateY(100%)' }))
+      ])
+    ])
+  ],
 })
+
 export class AddObjectsComponent implements OnInit {
 
   loading = false;
@@ -34,16 +65,17 @@ export class AddObjectsComponent implements OnInit {
     photo: undefined,
   };
 
-  selectCondition = {
+  selectCondition: { [key: number]: string } = {
     0: 'Новий',
     1: 'Задовільний',
     2: 'Пошкоджений',
     3: 'Несправний',
-  };
+  }
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   objects = objects;
+  flat_objects!: any;
   filteredObjects: any[] = [];
   selectedType!: string;
   selectedObject: any;
@@ -52,9 +84,12 @@ export class AddObjectsComponent implements OnInit {
   userImg: any;
   fillingImg: any;
   option: number = 2;
+  selectedIconUrl: string = '';
+  selectedCard: boolean = false;
 
   minValue: number = 0;
   maxValue: number = 99;
+  defaultIcon = '../../../assets/icon-objects/add_circle.png';
 
   constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
@@ -63,7 +98,7 @@ export class AddObjectsComponent implements OnInit {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
         this.loadObjects();
-        // this.getInfo();
+        this.getInfo();
       }
     });
   }
@@ -72,15 +107,45 @@ export class AddObjectsComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post('http://localhost:3000/comunal/img/object', {
+      const response = await this.http.post('http://localhost:3000/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
-
       if (response) {
+        console.log(response.status)
+        this.flat_objects = response.status;
       }
     }
   }
+
+  getImageSource(flat: any): string {
+    if (flat.img) {
+      return 'http://localhost:3000/img/filling/' + flat.img;
+    } else {
+      return 'assets/icon-objects/default.filling.png';
+    }
+  }
+
+  selectCard(flat: any): void {
+    if (this.selectedCard === flat.filling_id) {
+      this.selectedCard = false;
+    } else {
+      this.selectedCard = flat.filling_id;
+      console.log(this.selectedCard)
+    }
+  }
+
+  getIconUrl(type: string, name: string): string {
+    const selectedTypeObj = this.objects.find(obj => obj.type === type);
+
+    if (selectedTypeObj) {
+      const selectedObj = selectedTypeObj.object.find(obj => obj.name === name);
+      return selectedObj ? selectedObj.iconUrl : this.defaultIcon;
+    } else {
+      return this.defaultIcon;
+    }
+  }
+
 
   loadObjects() {
     if (this.selectedType) {
@@ -103,7 +168,7 @@ export class AddObjectsComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-    saveObject(): void {
+  saveObject(): void {
     const userJson = localStorage.getItem('user');
     const data = {
       type_filling: this.selectedType,
@@ -114,13 +179,12 @@ export class AddObjectsComponent implements OnInit {
       flat_id: this.selectedFlatId,
     };
 
-    if (!this.selectedFile) {
-      console.log('Файл не обраний. Завантаження не відбудеться.');
-      return;
-    }
-
     const formData: FormData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+    } else {
+      formData.append('file', 'no_photo');
+    }
     formData.append("inf", JSON.stringify(data));
     formData.append('auth', userJson!);
     console.log(formData)
@@ -135,5 +199,34 @@ export class AddObjectsComponent implements OnInit {
       }
     );
   }
+
+  deleteObject(flat: any): void {
+    const userJson = localStorage.getItem('user');
+    const selectedFlat = this.selectedFlatId;
+
+    if (userJson && flat && selectedFlat) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        filling_id: flat.filling_id
+      };
+
+      console.log(data)
+
+      this.http.post('http://localhost:3000/flatinfo/deletefilling', data)
+        .subscribe(
+          (response: any) => {
+            this.flat_objects = this.flat_objects.filter((item: { filling_id: any; }) => item.filling_id !== flat.filling_id);
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+
 
 }
