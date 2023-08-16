@@ -3,7 +3,9 @@
 .container-fluid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
 }
 
 .container-navbar {

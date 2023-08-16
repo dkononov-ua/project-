@@ -1,12 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../../filter.service';
-import { Observable, Subject } from 'rxjs';
-import { Router } from '@angular/router';
-
+import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 interface FlatInfo {
   region: string;
   city: string;
@@ -67,7 +67,6 @@ interface FlatInfo {
 
 export class HousingSearchComponent implements OnInit {
   isSubscribed: boolean = false;
-  
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
   subscriptionMessageTimeout: Subject<void> = new Subject<void>();
@@ -76,24 +75,18 @@ export class HousingSearchComponent implements OnInit {
   flatInfo: FlatInfo[] = [];
   filteredFlats: FlatInfo[] | undefined;
   selectedFlat: FlatInfo | any;
-  filterForm: FormGroup;
   flatImages: any[] = [];
   selectedFlatPhotos: string[] = [];
-  currentFlatPhotos: string[] = [];
   currentPhotoIndex: number = 0;
   isCarouselAnimating!: boolean;
   limit: number = 0;
   additionalLoadLimit: number = 5;
-  offset: number = 0;
   localStorageKey!: string;
   showFullScreenImage = false;
   fullScreenImageUrl = '';
-  photoChangeData: any;
   currentCardIndex: number = 0;
-  cards: FlatInfo[] = [];
-  public locationLink: string = '';
+  locationLink: any = '';
   location: string | null = null;
-
   selectedFlatRegion: string = '';
   selectedFlatCity: string = '';
   selectedFlatStreet: string = '';
@@ -108,16 +101,17 @@ export class HousingSearchComponent implements OnInit {
     500: '500м',
     1000: '1км',
   }
+
   statusSubscriptionMessage: boolean | undefined;
   statusMessage: any;
 
   constructor(
     private filterService: FilterService,
-    private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router,
+    private dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {
-    this.filterForm = this.formBuilder.group({});
+
   }
 
   ngOnInit(): void {
@@ -130,136 +124,54 @@ export class HousingSearchComponent implements OnInit {
     this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
       const filterValue = this.filterService.getFilterValue();
       if (filterValue) {
-        this.updateFilteredData(filterValue);
+        this.getFilteredData(filterValue);
       }
     });
 
-    this.filterService.photoChange$.subscribe((data: any[]) => {
-      this.photoChangeData = data;
-      this.updateCardPhotos();
-    });
-
-    this.locationLink = this.generateLocationUrl();
-  }
-
-  private updateCardPhotos(): void {
-    if (this.photoChangeData && this.photoChangeData.flat_img) {
-      const filteredCards = this.filteredFlats;
-      this.flatImages = [];
-      this.photoChangeData.flat_img.forEach((i: any) => {
-        this.flatImages.push(i);
-      });
-      this.flatInfo = this.photoChangeData.flat_inf;
+    if (this.filteredFlats && this.filteredFlats.length > 0) {
+      this.selectedFlat = this.filteredFlats[this.currentCardIndex];
+      this.locationLink = this.generateLocationUrl();
     }
   }
 
-  getDefaultImage(photo: string | undefined | null): string {
-    if (!photo) {
-      return 'http://localhost:3000/img/flat/housing_default.svg';
-    } else {
-      return this.getImageUrl(photo);
-    }
-  }
-
-  updateSelectedFlatPhotos() {
-
-    const selectedFlatId = this.selectedFlat?.flat_id;
-    const selectedFlatImages = this.flatImages.find(flatImage => flatImage.flat_id === selectedFlatId)?.img || [];
-    this.selectedFlatPhotos = selectedFlatImages;
-  }
-
-  updateCurrentPhotoIndex(index: number) {
-    this.currentPhotoIndex = index;
+  getFilteredData(filterValue: any) {
+    this.filteredFlats = filterValue;
+    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
   }
 
   selectFlat(flat: FlatInfo) {
-    this.selectedFlat = this.filteredFlats![0];
     this.selectedFlat = flat;
-
-    setTimeout(() => {
-      this.updateSelectedFlatPhotos();
-      this.updateCurrentPhotoIndex(0);
-
-      this.currentFlatPhotos = [...this.selectedFlatPhotos];
-      this.selectedFlatRegion = flat.region || '';
-      this.selectedFlatCity = flat.city || '';
-      this.selectedFlatStreet = flat.street || '';
-      this.selectedFlatHouseNumber = flat.houseNumber || '';
-      this.selectedFlatFlatIndex = flat.flat_index || '';
-      this.locationLink = this.generateLocationUrl();
-
-      this.checkSubscribe();
-    }, 100);
-  }
-
-  updateFilteredData(filterValue: any) {
-    this.filterForm.patchValue(filterValue);
-    this.filteredFlats = filterValue;
-    this.updateSelectedFlatPhotos();
-  }
-
-  getFlatImageUrl(flat: FlatInfo): any {
-    let imageUrl = '';
-
-    const flatImage = this.flatImages.find(flatImage => flatImage.flat_id === flat.flat_id);
-    if (flatImage) {
-      if (!flatImage.img[0] === undefined === null) {
-        imageUrl = 'http://localhost:3000/housing_default.svg';
-      } else {
-        imageUrl = this.getImageUrl(flatImage.img[0]);
-      }
-    }
-
-    return imageUrl;
-  }
-
-  getImageUrl(fileName: string | string[]): string {
-    if (typeof fileName === 'string') {
-      return 'http://localhost:3000/img/flat/' + fileName;
-    } else if (Array.isArray(fileName) && fileName.length > 0) {
-      return 'http://localhost:3000/img/flat/' + fileName[0];
-    }
-    return 'http://localhost:3000/img/flat/housing_default.svg';
-  }
-
-  private updateSelectedFlat() {
-    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    this.updateSelectedFlatPhotos();
-    this.currentFlatPhotos = [...this.selectedFlatPhotos];
-    this.updateCurrentPhotoIndex(0);
+    this.currentPhotoIndex = 0;
+    this.currentCardIndex = this.filteredFlats!.indexOf(flat);
+    this.checkSubscribe();
+    this.generateLocationUrl();
   }
 
   onPrevCard() {
-    if (!this.isCarouselAnimating) {
-      this.isCarouselAnimating = true;
-      this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
-
-      setTimeout(() => {
-        this.updateSelectedFlat();
-        this.updateCurrentPhotoIndex(0);
-        this.checkSubscribe();
-        this.currentFlatPhotos = [...this.selectedFlatPhotos];
-        this.isCarouselAnimating = false;
-      }, 100);
-    }
+    this.currentPhotoIndex = 0;
+    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
+    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.checkSubscribe();
+    this.generateLocationUrl();
   }
 
   onNextCard() {
-    if (!this.isCarouselAnimating) {
-      this.isCarouselAnimating = true;
-      this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
-
-      setTimeout(() => {
-        this.updateSelectedFlat();
-        this.updateCurrentPhotoIndex(0);
-        this.checkSubscribe();
-        this.currentFlatPhotos = [...this.selectedFlatPhotos];
-        this.isCarouselAnimating = false;
-      }, 100);
-    }
+    this.currentPhotoIndex = 0;
+    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
+    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.checkSubscribe();
+    this.generateLocationUrl();
   }
 
-  private calculateCardIndex(index: number): number {
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
+  }
+
+  calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
     return (index + length) % length;
   }
@@ -281,9 +193,18 @@ export class HousingSearchComponent implements OnInit {
     });
   }
 
-  openFullScreenImage(imageUrl: string): void {
-    this.showFullScreenImage = true;
-    this.fullScreenImageUrl = imageUrl;
+  openFullScreenImage(photos: string[]): void {
+    const sanitizedPhotos: SafeUrl[] = photos.map(photo =>
+      this.sanitizer.bypassSecurityTrustUrl('http://localhost:3000/img/flat/' + photo)
+    );
+
+    const dialogRef = this.dialog.open(PhotoGalleryComponent, {
+      data: {
+        photos: sanitizedPhotos,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   closeFullScreenImage(): void {
@@ -291,39 +212,27 @@ export class HousingSearchComponent implements OnInit {
     this.fullScreenImageUrl = '';
   }
 
-  generateLocationUrl() {
-    const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.selectedFlatRegion || '';
-    const city = this.selectedFlatCity || '';
-    const street = this.selectedFlatStreet || '';
-    const houseNumber = this.selectedFlatHouseNumber || '';
-    const flatIndex = this.selectedFlatFlatIndex || '';
-    const encodedRegion = encodeURIComponent(region);
-    const encodedCity = encodeURIComponent(city);
-    const encodedStreet = encodeURIComponent(street);
-    const encodedHouseNumber = encodeURIComponent(houseNumber);
-    const encodedFlatIndex = encodeURIComponent(flatIndex);
+  async generateLocationUrl() {
 
-    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    let locationUrl = '';
+
+    if (this.selectedFlat) {
+      const baseUrl = 'https://www.google.com/maps/place/';
+      const region = this.selectedFlat.region || '';
+      const city = this.selectedFlat.city || '';
+      const street = this.selectedFlat.street || '';
+      const houseNumber = this.selectedFlat.houseNumber || '';
+      const flatIndex = this.selectedFlat.flatIndex || '';
+      const encodedRegion = encodeURIComponent(region);
+      const encodedCity = encodeURIComponent(city);
+      const encodedStreet = encodeURIComponent(street);
+      const encodedHouseNumber = encodeURIComponent(houseNumber);
+      const encodedFlatIndex = encodeURIComponent(flatIndex);
+      locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    }
+
     this.locationLink = locationUrl;
-
     return locationUrl;
-  }
-
-  handleContainerClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const carouselElement = document.getElementById('carouselExampleIndicators');
-
-    if (!carouselElement?.contains(target)) {
-      this.resetCarousel();
-    }
-  }
-
-  resetCarousel() {
-    const firstSlideIndicator = document.querySelector('#carouselExampleIndicators .carousel-indicators button');
-    if (firstSlideIndicator) {
-      (firstSlideIndicator as HTMLButtonElement).click();
-    }
   }
 
   onSubmitSbs(): void {
@@ -371,7 +280,5 @@ export class HousingSearchComponent implements OnInit {
       console.log('user not found');
     }
   }
-
-
 
 }

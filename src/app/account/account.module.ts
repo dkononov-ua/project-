@@ -37,6 +37,8 @@ import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.c
 import { DeleteAgreeComponent } from './user/agree/delete-agree/delete-agree.component';
 import { FillingComponent } from './house/filling/filling.component';
 import { HouseInfoComponent } from './house/house-info/house-info.component';
+import { HouseShareComponent } from './house/house-share/house-share.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { HouseInfoComponent } from './house/house-info/house-info.component';
     DeleteAgreeComponent,
     FillingComponent,
     HouseInfoComponent,
+    HouseShareComponent,
   ],
   providers: [
     DatePipe
@@ -82,7 +85,8 @@ import { HouseInfoComponent } from './house/house-info/house-info.component';
     MatInputModule,
     MatIconModule,
     MatDatepickerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule,
   ]
 })
 export class AccountModule { }

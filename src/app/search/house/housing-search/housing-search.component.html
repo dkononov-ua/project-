@@ -2,17 +2,16 @@
   <p class="count">Знайдено {{ filteredFlats.length }}</p>
 </div>
 
-<div class="container-house" (click)="handleContainerClick($event)">
+<div class="container-house">
   <div class="section col-lg-4 col-md-9 col-sm-12 col-12">
     <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredFlats">
       <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
         [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
         [style.animation-delay.ms]="i * 100">
-
         <a class="card m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
 
           <div class="card-img-container">
-            <img class="card-img-top" [src]="getFlatImageUrl(flat)" alt="Flat Image">
+            <img [src]="'http://localhost:3000/img/flat/' + flat.img[0]" alt="Flat Image" class="card-img-top">
           </div>
           <div class="card-title">
             <div class="accent">{{ flat.price_m }} грн/міс</div>
@@ -32,7 +31,9 @@
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
       <div [@cardAnimation] class="card-house p-1">
 
-        <div class="card card-selected" id="carouselContainer">
+        <div class="card card-selected">
+
+
           <div class="message-container" *ngIf="showSubscriptionMessage">
             <div class="message">{{ subscriptionMessage }}</div>
           </div>
@@ -46,38 +47,30 @@
             </div>
           </div>
 
-
-          <div class="carousel slide" id="carouselExampleIndicators" data-bs-interval="false">
-            <div class="carousel-indicators">
-              <button type="button" *ngFor="let photo of currentFlatPhotos; let i = index"
-                data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i"
-                [ngClass]="{ 'active': i === currentPhotoIndex }" [attr.aria-label]="'Slide ' + (i + 1)"></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="img-wrapper">
-                  <img [src]="getDefaultImage(currentFlatPhotos[0])" alt="Flat Image" class="img-fluid rounded"
-                    (click)="openFullScreenImage(getDefaultImage(currentFlatPhotos[0]))">
-
-                </div>
-              </div>
-              <div class="carousel-item" *ngFor="let photo of currentFlatPhotos?.slice(1)">
-                <div class="img-wrapper">
-                  <img [src]="getImageUrl(photo)" alt="Flat Image" class="img-fluid rounded"
-                    (click)="openFullScreenImage(getImageUrl(photo))">
-                </div>
+          <div *ngIf="!selectedFlat">
+            <div class="img-container">
+              <div class="img-wrapper">
+                <img class="img-fluid" [src]="'http://localhost:3000/img/flat/housing_default.svg'" alt="Flat Image">
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+          </div>
+
+          <div *ngIf="selectedFlat">
+            <div class="img-container">
+              <div class="img-wrapper">
+                <img class="img-fluid" [src]="'http://localhost:3000/img/flat/' + selectedFlat?.img[currentPhotoIndex]" alt="Flat Image"
+                  (click)="openFullScreenImage(selectedFlat?.img)">
+              </div>
+
+              <div *ngIf="selectedFlat?.img.length > 1">
+
+                <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                    class="fa-solid fa-chevron-left"></i></button>
+
+                <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
+                  (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
+              </div>
+            </div>
           </div>
 
           <div class="card-btn-container">
@@ -246,7 +239,6 @@
 
   </div>
 </div>
-
 
 <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
   <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">

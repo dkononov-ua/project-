@@ -1,0 +1,54 @@
+@use "../../../style/presets/" as *;
+
+.img-container {
+  height: 50vh;
+  width: 80vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.img-wrapper {
+  display: flex;
+  overflow: hidden;
+}
+
+.prev-img,
+.next-img,
+.close-button {
+  position: absolute;
+  top: 0;
+  z-index: 99;
+  border: red;
+  background-color: transparent;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.277);
+    .fa-solid {
+      color: $color-accent;
+      transform: scale(1.8);
+    }
+  }
+}
+
+.prev-img {
+  left: 0;
+  height: 100%;
+  width: 100px;
+}
+
+.next-img {
+  right: 0;
+  height: 100%;
+  width: 100px;
+}
+
+.close-button {
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}

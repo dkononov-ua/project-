@@ -73,7 +73,10 @@ export class SearchTermComponent implements OnInit {
   searchTimer: any;
 
 
-  constructor(private filterService: FilterService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(
+    private filterService: FilterService,
+    private http: HttpClient,
+    ) { }
 
   ngOnInit() {
     this.onSubmit();
@@ -86,7 +89,7 @@ export class SearchTermComponent implements OnInit {
 
     this.searchTimer = setTimeout(() => {
       this.onSubmit();
-    }, 2000);
+    }, 1000);
   }
 
   loadCities() {
@@ -117,23 +120,17 @@ export class SearchTermComponent implements OnInit {
     );
   }
 
-  fetchFlatData(url: string) {
-    this.subscription = this.http.get<{ flat_inf: any[], flat_img: any[] }>(url).subscribe((data) => {
-      console.log(data)
-      const { flat_inf, flat_img } = data;
-      if (flat_inf && flat_img) {
-        this.flatInfo = flat_inf;
-      }
-      this.filteredFlats = data.flat_inf;
-      this.applyFilter(this.filteredFlats, data);
-    });
+  async fetchFlatData(url: string) {
+    const response = await this.http.get(url).toPromise();
+    this.filteredFlats = response
+    this.applyFilter(response)
   }
 
   onInputChange() {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.onSubmit();
-    }, 2000);
+    }, 1000);
   }
 
   onSubmit() {
@@ -141,12 +138,14 @@ export class SearchTermComponent implements OnInit {
 
     if (this.searchQuery) {
       const flatId = this.searchQuery;
+      console.log(this.searchQuery)
       const url = `${this.endpoint}/?flat_id=${flatId}`;
+      console.log(url)
       this.fetchFlatData(url);
       return;
     }
 
-    setTimeout(() => {
+    setTimeout(async () => {
       const params: SearchParams = {
         price_of: this.price_of || '',
         price_to: this.price_to || '',
@@ -178,9 +177,10 @@ export class SearchTermComponent implements OnInit {
 
       const url = this.buildSearchURL(params);
 
-      this.fetchFlatData(url);
-      this.applyFilter(this.filteredFlats, this.filteredImages);
-    }, 2000);
+      await this.fetchFlatData(url);
+      console.log(11)
+      this.applyFilter(this.filteredFlats);
+    }, 1000);
   }
 
   startTimer() {
@@ -189,7 +189,7 @@ export class SearchTermComponent implements OnInit {
       if (this.searchQuery && this.searchQuery.length >= 3) {
         this.onSubmit();
       }
-    }, 2000);
+    }, 1000);
   }
 
   buildSearchURL(params: any): string {
@@ -199,12 +199,12 @@ export class SearchTermComponent implements OnInit {
       .filter(key => params[key] !== '')
       .map(key => key + '=' + params[key])
       .join('&');
-      console.log(`${endpoint}?${paramsString}`)
+    console.log(`${endpoint}?${paramsString}`)
     return `${endpoint}?${paramsString}`;
   }
 
-  applyFilter(filteredFlats: any, filteredImages: any) {
-    this.filterService.updateFilter(filteredFlats, filteredImages);
+  applyFilter(filteredFlats: any) {
+    this.filterService.updateFilter(filteredFlats);
   }
 
   toggleSearchTerm() {

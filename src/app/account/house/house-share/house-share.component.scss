@@ -1,0 +1,53 @@
+@use "../../../style/presets/" as *;
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.inputbox-group {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.item-select {
+  height: 70px !important;
+}
+
+.group-label {
+  text-align: center;
+  font-weight: 600;
+  color: $color-accent;
+}
+
+.form-field {
+  height: 80px !important;
+}
+
+.form-control {
+  height: auto;
+  overflow-y: hidden;
+  font-size: 13px;
+}
+
+.form-field::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.form-control::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+textarea {
+  height: auto;
+  min-height: 200px;
+}
+
+.scrollable-textarea {
+  height: auto;
+  overflow: auto;
+}

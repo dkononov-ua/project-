@@ -188,14 +188,25 @@
           <h5 class="title-name">Обов'язки сторін</h5>
 
           <div class="input-group">
-            <p>Не пізніше цього дня місяця вносити плату за оренду</p>
+            <p>За згодою сторін договором встановлюється число місяця та сума плата за оренду квартири</p>
 
-            <mat-form-field appearance="outline" class="input-mat-4">
-              <mat-label>Дата оплати</mat-label>
-              <input matInput type="text" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="число"
-                required [(ngModel)]="rentDueDate" #rentDueDateInput="ngModel">
-              <mat-error *ngIf="rentDueDateInput.invalid">Це поле обов'язкове</mat-error>
-            </mat-form-field>
+            <div class="box-content">
+              <mat-form-field appearance="outline" class="input-mat-4 w-25">
+                <mat-label>Дата</mat-label>
+                <input matInput type="text" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="дата"
+                  required [(ngModel)]="rentDueDate" #rentDueDateInput="ngModel">
+                <mat-error *ngIf="rentDueDateInput.invalid">Обов'язково</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat-4 w-75">
+                <mat-label>Сума плати/місяць</mat-label>
+                <input matInput type="text" id="rent-price" name="apartment-address"
+                  [ngModel]="houseData.about.price_m ? houseData.about.price_m : ''"
+                  placeholder="сума орендної плати на місяць" [disabled]="isRentPriceDisabled">
+              </mat-form-field>
+            </div>
+
+
 
 
             <div class="content">
@@ -207,7 +218,8 @@
               <p>Треба штрафні санкції?</p>
             </div>
 
-            <p>За несвоєчасне внесення платежів оплачувати пеню з розрахунку відсоток пені за прострочення <br> <span
+            <div *ngIf="isCheckboxPenalty">
+              <p>За несвоєчасне внесення платежів оплачувати пеню з розрахунку відсоток пені за прострочення <br> <span
                 class="accent">"% пені"</span> але не
               більше максимального відсотку пені <br> <span class="accent">"Max % пені"</span> суми заборгованості.
             </p>
@@ -225,16 +237,29 @@
                 value="0">
             </mat-form-field>
 
-          </div>
 
-          <p>За згодою сторін договором встановлюється плата за оренду квартири в розмірі</p>
-          <div class="input-group">
-            <mat-form-field appearance="outline" class="input-mat-4">
-              <mat-label>Сума орендної плати на місяць</mat-label>
-              <input matInput type="text" id="rent-price" name="apartment-address"
-                [ngModel]="houseData.about.price_m ? houseData.about.price_m : ''"
-                placeholder="сума орендної плати на місяць" [disabled]="isRentPriceDisabled">
-            </mat-form-field>
+            </div>
+
+            <div class="box-content">
+              <div class="content">
+                <label class="checkBox">
+                  <input type="checkbox" [(ngModel)]="additional_conditions">
+                  <div class="transition"></div>
+                </label>
+                <i></i>
+                <p>Треба додаткові умови?</p>
+              </div>
+
+              <div *ngIf="additional_conditions" class="form-floating p-1">
+                <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="!additional_conditions"
+                  [(ngModel)]="conditions" name="conditions" (input)="onInput()"></textarea>
+                <label for="floatingTextarea">
+                  <p>Опис оселі:</p>
+                </label>
+              </div>
+            </div>
+
+
           </div>
 
           <div class="content">

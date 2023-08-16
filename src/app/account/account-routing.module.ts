@@ -3,7 +3,6 @@ import { AccountComponent } from './account.component';
 import { CanActivateGuard } from '../services/auth.guard';
 import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
-import { ParametersComponent } from './house/parameters/parameters.component';
 import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { FilesComponent } from './user/files/files.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
@@ -40,7 +39,6 @@ const routes: Routes = [
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [
           { path: '', redirectTo: 'parameters', pathMatch: 'full' },
-          { path: 'parameters', component: ParametersComponent, canActivate: [CanActivateGuard] },
           { path: 'agree-house', component: AgreeHouseComponent, canActivate: [CanActivateGuard] },
           { path: 'order-services', component: OrderServicesComponent, canActivate: [CanActivateGuard] },
           { path: 'house-info', component: HouseInfoComponent, canActivate: [CanActivateGuard] },

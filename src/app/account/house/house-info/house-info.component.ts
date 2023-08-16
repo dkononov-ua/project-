@@ -21,16 +21,25 @@ import { animate, style, transition, trigger } from '@angular/animations';
         style({ height: '0', overflow: 'hidden' }),
         animate('1200ms 200ms ease-in-out', style({ height: '*' }))
       ]),
-    ])
+    ]),
+    trigger('fadeInAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1000ms', style({ opacity: 1 })),
+      ]),
+    ]),
   ],
 })
 export class HouseInfoComponent implements OnInit {
+
+
 
   isOpen = true;
   isOnline = true;
   isOffline = false;
   idleTimeout: any;
   isCopied = false;
+  switch: boolean = false;
 
   user = {
     firstName: '',
@@ -147,6 +156,15 @@ export class HouseInfoComponent implements OnInit {
         this.isCopied = false;
       });
   }
+
+
+  isFeatureEnabled: boolean = false;
+  toggleMode(): void {
+    this.isFeatureEnabled = !this.isFeatureEnabled;
+  }
+
+
+
 
   addressHouse: any;
   images: string[] = [];

@@ -1,5 +1,3 @@
-<ng-template #content>
-
   <div class="container">
     <div class="container-card">
       <div [@cardAnimation4] class="card-box col-lg-3 col-md-4 col-sm-4 col-12">
@@ -44,13 +42,3 @@
       </div>
     </div>
   </div>
-
-</ng-template>
-
-<ng-container *ngIf="loading; else content">
-  <div class="loader-overlay">
-    <div class="loader">
-      <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
-    </div>
-  </div>
-</ng-container>

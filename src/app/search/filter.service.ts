@@ -11,10 +11,10 @@ export class FilterService {
 
   constructor() { }
 
-  updateFilter(filterValue: any, photoValue: any) {
+  updateFilter(filterValue: any) {
+    console.log(filterValue)
     this.filterValue = filterValue;
     this.filterChange$.next(filterValue);
-    this.photoChange$.next(photoValue);
   }
 
   getFilterValue() {

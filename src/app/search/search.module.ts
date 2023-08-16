@@ -29,6 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SearchTermTenantComponent } from './tenant/search-term-tenant/search-term-tenant.component';
 import { HostHouseComponent } from './house/host-house/host-house.component';
 import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component';
+import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component'
     SearchTermTenantComponent,
     HostHouseComponent,
     HostTenantComponent,
+    PhotoGalleryComponent,
   ],
   providers: [FilterService],
   imports: [

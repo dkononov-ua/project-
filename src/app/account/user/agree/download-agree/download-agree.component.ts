@@ -293,6 +293,12 @@ export class DownloadAgreeComponent implements OnInit {
           .item-description-agree {
           }
 
+          .about {
+            width: 100%;
+            min-height: 200px;
+            border: 1px solid gray;
+          }
+
           </style>
 
         </head>

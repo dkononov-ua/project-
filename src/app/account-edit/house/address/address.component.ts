@@ -1,9 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { HostComponent } from '../host/host.component';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';

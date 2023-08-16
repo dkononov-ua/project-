@@ -270,10 +270,18 @@ input {
   height: 40px;
 }
 
+
 .input-group {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
+  flex-direction: column;
+}
+
+.box-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .btn-group {
@@ -445,6 +453,43 @@ input {
     opacity: 1;
   }
 }
+
+.form-field {
+  height: 80px !important;
+}
+
+.form-control {
+  height: auto;
+  overflow-y: hidden;
+  font-size: 13px;
+
+}
+
+.form-field::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.form-control::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+textarea {
+  height: auto;
+  min-height: 200px;
+}
+
+.scrollable-textarea {
+  height: auto;
+  overflow: auto;
+}
+
+.form-floating {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
 
 
 

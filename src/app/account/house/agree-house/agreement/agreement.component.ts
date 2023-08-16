@@ -109,6 +109,7 @@ export class AgreementComponent implements OnInit {
   years: number | undefined;
   rentDueDate: number | undefined;
   penalty?: number = 0;
+  conditions: string = '';
   maxPenalty?: number = 0;
 
   isCityDisabled: boolean = true;
@@ -122,10 +123,14 @@ export class AgreementComponent implements OnInit {
   isContainerVisible = false;
   isCheckboxChecked = false;
   isCheckboxPenalty = false;
+  additional_conditions = false;
   agreementDate: any = moment();
   formSubmitted: boolean = false;
   agreementCreated: boolean | undefined;
   statusMessage: string | undefined;
+
+  @ViewChild('textArea', { static: false })
+  textArea!: ElementRef;
 
   openContainer() {
     this.isContainerVisible = true;
@@ -163,6 +168,13 @@ export class AgreementComponent implements OnInit {
       this.foundSubscriber();
     });
   }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
 
   async loadData(): Promise<void> {
     this.dataService.getData().subscribe((response: any) => {
@@ -281,6 +293,7 @@ export class AgreementComponent implements OnInit {
             penalty: this.penalty,
             max_penalty: this.maxPenalty,
             agree: this.isCheckboxChecked,
+            conditions: this.conditions,
           }
         };
 

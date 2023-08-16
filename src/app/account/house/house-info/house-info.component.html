@@ -91,9 +91,21 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12" [@cardAnimation]>
-    <div class="card m-2 p-2">
+  <div class="card-box col-lg-6 col-md-5 col-sm-6 col-12" >
+
+    <div [@fadeInAnimation] class="card m-2 p-2" *ngIf="!isFeatureEnabled">
       <app-parameters></app-parameters>
+    </div>
+
+    <div [@fadeInAnimation] class="card m-2 p-2" *ngIf="isFeatureEnabled">
+      <app-house-share></app-house-share>
+    </div>
+
+    <div class="switch-box">
+      <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
+        <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
+      </button>
+      <h3 class="switch-box-name">{{ isFeatureEnabled ? 'Параметри' : 'Інформація' }}</h3>
     </div>
   </div>
 
