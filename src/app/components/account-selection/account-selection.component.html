@@ -5,7 +5,7 @@
         (error)="useDefaultImage($event)">
     </div>
   </a>
-  <ng-container *ngIf="(houses.length > 0)">
+  <ng-container *ngIf="(houses.length > 0) || (rentedHouses.length > 0)">
     <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
       <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
         <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">

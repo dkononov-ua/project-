@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Inject, NgModule, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DataService } from 'src/app/services/data.service';
@@ -8,10 +8,9 @@ import { DataService } from 'src/app/services/data.service';
 import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -106,11 +105,35 @@ export class AgreementComponent implements OnInit {
   userData: any;
   isLoading: boolean = true;
   months: number | undefined;
+  days: number = 0;
   years: number | undefined;
   rentDueDate: number | undefined;
   penalty?: number = 0;
   conditions: string = '';
   maxPenalty?: number = 0;
+
+  agreement_type: number = 0;
+
+  subscriber_tell: any = '';
+  subscriber_mail: string = '';
+  owner_tell: any = '';
+  owner_mail: string = '';
+  phonePattern = '^[0-9]{10}$';
+
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+  isLinear = false;
+
+  currentStep: number = 1;
+
+  changeStep(step: number): void {
+    this.currentStep = step;
+  }
+
 
   isCityDisabled: boolean = true;
   isStreetDisabled: boolean = true;
@@ -135,6 +158,7 @@ export class AgreementComponent implements OnInit {
   openContainer() {
     this.isContainerVisible = true;
   }
+
   closeContainer() {
     this.isContainerVisible = false;
   }
@@ -147,82 +171,64 @@ export class AgreementComponent implements OnInit {
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
+    private _formBuilder: FormBuilder
   ) { }
 
-  async ngOnInit(): Promise<any> {
-
-    await this.loadData();
-    await this.getAgent();
-
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      if (selectedFlatId) {
-        const offs = 0;
-        await this.getSubs(selectedFlatId, offs);
-        this.foundSubscriber();
-      }
-    });
-
-    this.route.params.subscribe(params => {
-      this.selectedSubscriber = params['selectedSubscriber?.user_id'] || null;
-      console.log(this.selectedSubscriber);
-      this.foundSubscriber();
-    });
-  }
-
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-
-  async loadData(): Promise<void> {
-    this.dataService.getData().subscribe((response: any) => {
-      this.houseData = response.houseData;
-      this.loading = false;
-      console.log(this.houseData)
-    }, (error) => {
-      console.error(error);
-      this.loading = false;
-    });
-  }
-
-  async getAgent(): Promise<any> {
+  async ngOnInit(): Promise<void> {
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
-      console.log(selectedFlatId);
-      const userJson = localStorage.getItem('user');
-      const url = 'http://localhost:3000/userinfo/agent';
-      const data = {
-        auth: JSON.parse(userJson!),
-        flat_id: selectedFlatId,
-      };
-      console.log(selectedFlatId);
-      try {
-        const response = await this.http.post(url, data).toPromise() as any[];
-        console.log(response);
-        this.userData = response;
-        if (!this.userData.cont.mail) {
-          this.userData.cont.mail = 'Не вказано';
+      if (this.selectedFlatId) {
+        try {
+          await this.getAgent();
+          await this.getHouse();
+          await this.getSubs();
+          this.route.params.subscribe(params => {
+            this.selectedSubscriber = params['selectedSubscriber?.user_id'] || null;
+            this.foundSubscriber();
+          });
+          this.loading = false;
+        } catch (error) {
+          console.error(error);
+          this.loading = false;
         }
-      } catch (error) {
-        console.error(error);
       }
     });
   }
 
+  async getHouse(): Promise<void> {
+    try {
+      const response: any = await this.dataService.getData().toPromise();
+      this.houseData = response.houseData;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  async getSubs(selectedSubscriberId: string | any, offs: number): Promise<any> {
+  async getAgent(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const url = 'http://localhost:3000/userinfo/agent';
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: this.selectedFlatId,
+    };
+    try {
+      const response = await this.http.post(url, data).toPromise() as any[];
+      this.userData = response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getSubs(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = 'http://localhost:3000/acceptsubs/get/subs';
     const data = {
       auth: JSON.parse(userJson!),
-      flat_id: selectedSubscriberId,
-      offs: offs,
+      flat_id: this.selectedFlatId,
+      offs: 0,
     };
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -235,9 +241,13 @@ export class AgreementComponent implements OnInit {
       if (foundSubscriber) {
         this.selectedSubscriber = foundSubscriber;
       }
-    } else {
-      console.log('Nothing selected');
-    }
+    } else { }
+  }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   onDateChange(selectedDate: Moment): void {
@@ -251,12 +261,12 @@ export class AgreementComponent implements OnInit {
       const userJson = localStorage.getItem('user');
       this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
       if (userJson && selectedFlatId && subscriber) {
+        console.log(this.owner_tell)
         const data = {
           auth: JSON.parse(userJson),
           flat_id: selectedFlatId,
           owner: {
-            user_id: this.userData?.cont
-              ?.user_id,
+            user_id: this.userData?.cont?.user_id,
             firstName: this.userData?.inf?.firstName,
             lastName: this.userData?.inf?.lastName,
             surName: this.userData?.inf?.surName,
@@ -288,40 +298,55 @@ export class AgreementComponent implements OnInit {
           terms: {
             agreementDate: this.agreementDate,
             month: this.months,
+            days: this.days,
             year: this.years,
             rent_due_data: this.rentDueDate,
             penalty: this.penalty,
             max_penalty: this.maxPenalty,
             agree: this.isCheckboxChecked,
-            conditions: this.conditions,
+            about: this.conditions,
+            agreement_type: this.agreement_type,
           }
         };
 
-        console.log(data);
+
+
         this.loading = true;
+        console.log(data)
 
         this.http.post('http://localhost:3000/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {
-              console.log(response)
-              setTimeout(() => {
-                this.loading = false;
+              if (response.status === 'Данні введено не правильно') {
+                console.error(response.status);
+                setTimeout(() => {
+                  this.statusMessage = 'Помилка формування угоди.';
+                  setTimeout(() => {
+                    location.reload();
+                  }, 2000);
+                }, 2000);
+              } else {
+                console.log(response);
                 setTimeout(() => {
                   this.statusMessage = 'Угода надіслана на розгляд орендарю!';
                   setTimeout(() => {
                     this.router.navigate(['/agreements-h']);
-                  }, 4000);
-                }, 100);
-              }, 3000);
+                  }, 3000);
+                }, 2000);
+              }
             },
             (error: any) => {
               console.error(error);
               setTimeout(() => {
-                this.loading = false;
                 this.statusMessage = 'Помилка формування угоди.';
-              }, 3000);
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }, 2000);
             }
           );
+        this.loading = false;
+
       } else {
         console.log('User, flat, or subscriber not found');
         this.loading = false;
@@ -329,8 +354,9 @@ export class AgreementComponent implements OnInit {
     }
   }
 
+
   isFormEmpty(): boolean {
-    return  !this.rentDueDate || isNaN(Number(this.months));
+    return !this.rentDueDate || isNaN(Number(this.months));
   }
 
   showMessage(msg: string): void {

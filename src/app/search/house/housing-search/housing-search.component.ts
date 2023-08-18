@@ -44,6 +44,7 @@ interface FlatInfo {
   street: string;
   students: string;
   woman: string;
+  option_pay: number;
 }
 @Component({
   selector: 'app-housing-search',
@@ -137,6 +138,7 @@ export class HousingSearchComponent implements OnInit {
   getFilteredData(filterValue: any) {
     this.filteredFlats = filterValue;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    console.log(this.selectedFlat)
   }
 
   selectFlat(flat: FlatInfo) {

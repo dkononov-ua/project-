@@ -1,6 +1,6 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, Injectable, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { SelectedFlatService } from '../services/selected-flat.service';
 
@@ -16,6 +16,7 @@ export class AccountComponent implements OnInit {
     formErrors: any = {
       house: '',
     };
+  private _formBuilder: any;
 
     reloadPageWithLoader() {
       this.loading = true;
@@ -32,7 +33,13 @@ export class AccountComponent implements OnInit {
       house: new FormControl('виберіть оселю')
     });
 
-    constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private selectedFlatService: SelectedFlatService) { }
+    constructor(
+      private fb: FormBuilder,
+      private http: HttpClient,
+      private dataService: DataService,
+      private selectedFlatService: SelectedFlatService
+      ) { }
+
 
     ngOnInit(): void {
       this.dataService.getData().subscribe((data: any) => {

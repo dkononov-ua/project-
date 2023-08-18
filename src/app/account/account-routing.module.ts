@@ -21,6 +21,7 @@ import { DownloadAgreeComponent } from './user/agree/download-agree/download-agr
 import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
 import { FillingComponent } from './house/filling/filling.component';
 import { HouseInfoComponent } from './house/house-info/house-info.component';
+import { AgreementComponent } from './house/agreement/agreement.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,7 @@ const routes: Routes = [
           { path: 'order-services', component: OrderServicesComponent, canActivate: [CanActivateGuard] },
           { path: 'house-info', component: HouseInfoComponent, canActivate: [CanActivateGuard] },
           { path: 'filling', component: FillingComponent, canActivate: [CanActivateGuard] },
+          { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
         ],
       },
       {

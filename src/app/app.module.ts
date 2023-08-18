@@ -41,6 +41,7 @@ import { LookingComponent } from './account-edit/user/looking/looking.component'
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     RouterModule,
     MatAutocompleteModule,
     MatTooltipModule,
-
+    MatStepperModule,
     HousingServicesModule,
     HousingServicesRoutingModule,
 

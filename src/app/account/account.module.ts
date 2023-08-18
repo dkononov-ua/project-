@@ -39,6 +39,7 @@ import { FillingComponent } from './house/filling/filling.component';
 import { HouseInfoComponent } from './house/house-info/house-info.component';
 import { HouseShareComponent } from './house/house-share/house-share.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatDatepickerModule,
     MatDialogModule,
     MatAutocompleteModule,
+    MatStepperModule,
   ]
 })
 export class AccountModule { }

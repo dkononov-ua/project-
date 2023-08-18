@@ -4,7 +4,7 @@ import { ApprovedHComponent } from './approved-h/approved-h.component';
 import { HostDiscussioHComponent } from './host-discussio-h/host-discussio-h.component';
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { AgreementComponent } from 'src/app/account/house/agree-house/agreement/agreement.component';
+import { AgreementComponent } from 'src/app/account/house/agreement/agreement.component';
 import { ChatHouseComponent } from './chat-house/chat-house.component';
 import { ChatComponent } from './chat/chat.component';
 import { HostHouseSubComponent } from './host-house-sub/host-house-sub.component';
@@ -22,7 +22,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'subscribers-house', pathMatch: 'full' },
       { path: 'subscribers-house', component: SubscribersHouseComponent, canActivate: [CanActivateGuard] },
-      { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard]},
+      { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard] },
       { path: 'house-discussio', component: HouseDiscussioComponent, canActivate: [CanActivateGuard] },
     ],
   },

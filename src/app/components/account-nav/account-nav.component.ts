@@ -101,6 +101,7 @@ export class AccountNavComponent implements OnInit {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
+            console.log(response)
             this.houses = response.ids.map((item: { flat_id: any }, index: number) => ({
               id: index + 1,
               name: item.flat_id,

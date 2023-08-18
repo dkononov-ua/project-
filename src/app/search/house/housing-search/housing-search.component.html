@@ -58,8 +58,8 @@
           <div *ngIf="selectedFlat">
             <div class="img-container">
               <div class="img-wrapper">
-                <img class="img-fluid" [src]="'http://localhost:3000/img/flat/' + selectedFlat?.img[currentPhotoIndex]" alt="Flat Image"
-                  (click)="openFullScreenImage(selectedFlat?.img)">
+                <img class="img-fluid" [src]="'http://localhost:3000/img/flat/' + selectedFlat?.img[currentPhotoIndex]"
+                  alt="Flat Image" (click)="openFullScreenImage(selectedFlat?.img)">
               </div>
 
               <div *ngIf="selectedFlat?.img.length > 1">
@@ -100,10 +100,14 @@
 
           <div class="card-text p-2">
             <div class="price">
-              <div class="price_m title-selected-accent">{{ selectedFlat?.price_m || '?' }} <span
-                  class="title-selected">ціна ₴/міс</span></div>
-              <div *ngIf="selectedFlat?.price_d !== null">
-                <div class="price_y">{{ selectedFlat?.price_d || '?' }} <span>₴ ціна за добу</span></div>
+              <div *ngIf="selectedFlat?.option_pay === 0" class="price_m title-selected-accent">{{ selectedFlat?.price_m
+                || '?' }}
+                <span class="title-selected">ціна ₴/міс</span>
+              </div>
+
+              <div *ngIf="selectedFlat?.option_pay !== 0" class="price_m title-selected-accent">{{ selectedFlat?.price_d
+                || '?' }}
+                <span class="title-selected">ціна ₴/добу</span>
               </div>
             </div>
 

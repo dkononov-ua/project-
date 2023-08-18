@@ -11,7 +11,7 @@
     <div class="card-container">
       <div class="scrollable-container p-3">
 
-        <p *ngIf="!subscribers || subscribers.length === 0">Угод не надіслано</p>
+                <p *ngIf="!subscribers || subscribers.length === 0">Угод не надіслано</p>
         <ng-container *ngIf="subscribers && subscribers.length > 0">
           <div class="mb-2">
             <p>Кількість запропонованих угод: {{ subscribers.length }}</p>
