@@ -214,15 +214,9 @@ export class UserDiscussioComponent implements OnInit {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
 
       if (selectedFlat) {
+        console.log(selectedFlat)
         this.selectedFlat = selectedFlat;
         this.getOwnerInfo();
-        this.images = [];
-
-        if (selectedFlat.img) {
-          for (const img of selectedFlat.img) {
-            this.images.push('http://localhost:3000/img/flat/' + img);
-          }
-        }
       }
     });
   }

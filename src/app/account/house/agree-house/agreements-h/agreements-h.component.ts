@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
-interface Subscriber {
+import { DeleteAgreeHComponent } from '../delete-agree-h/delete-agree-h.component';
+import { MatDialog } from '@angular/material/dialog';
+import { promises } from 'dns';
+interface Agree {
   flat: {
     agreementDate: string;
     agreement_id: string;
@@ -35,84 +38,84 @@ interface Subscriber {
   };
   img: string[];
 }
-
 @Component({
   selector: 'app-agreements-h',
   templateUrl: './agreements-h.component.html',
   styleUrls: ['./agreements-h.component.scss'],
 })
 
-
 export class AgreementsHComponent implements OnInit {
-  subscribers: Subscriber[] = [];
-  selectedFlatId: string | any;
+  agree: Agree[] = [];
+  loading: boolean = true;
+  selectedFlatId: any;
+  deletingFlatId: string | null = null;
 
-  constructor(private selectedFlatIdService: SelectedFlatService, private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private selectedFlatIdService: SelectedFlatService,
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<any> {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
       const offs = 0;
-      this.getSubs(selectedFlatId, offs);
+      this.getAgree(offs);
+    });
+
+    this.route.params.subscribe(params => {
+      this.agree = params['selectedFlatAgree'] || null;
     });
   }
 
-  toggleSelectFlat(flatId: string): void {
-    if (this.selectedFlatId === flatId) {
-      this.selectedFlatId = null;
-    } else {
-      this.selectedFlatId = flatId;
-    }
-  }
-
-  async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
+  async getAgree(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = 'http://localhost:3000/agreement/get/agreements';
     const data = {
       auth: JSON.parse(userJson!),
-      flat_id: selectedFlatId,
+      flat_id: this.selectedFlatId,
       offs: offs,
     };
 
     try {
-      const response = await this.http.post(url, data).toPromise() as any;
+      const response = (await this.http.post(url, data).toPromise()) as Agree[];
       console.log(response)
-      this.subscribers = response;
+      this.agree = response;
+      this.loading = false;
     } catch (error) {
+      console.error(error);
+      this.loading = false;
     }
+
   }
 
-  removeSubscriber(subscriber: Subscriber): void {
-
+  async openDialog(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const selectedFlat = this.selectedFlatId;
-    console.log(this.selectedFlatId)
-    if (userJson && subscriber) {
-      console.log({
-        auth: JSON.parse(userJson),
-        flat_id: subscriber.flat.flat_id,
-        user_id: subscriber.flat.subscriber_id,
-        agreement_id: subscriber.flat.agreement_id,
-      })
-      const data = {
+    const url = 'http://localhost:3000/agreement/delete/agreement';
 
-        auth: JSON.parse(userJson),
-        flat_id: subscriber.flat.flat_id,
-        user_id: subscriber.flat.subscriber_id,
-        agreement_id: subscriber.flat.agreement_id,
-      };
+    const dialogRef = this.dialog.open(DeleteAgreeHComponent);
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result && this.selectedFlatId && userJson) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: agree.flat.flat_id,
+          user_id: agree.flat.subscriber_id,
+          agreement_id: agree.flat.agreement_id,
+        };
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.deletingFlatId = agree.flat.flat_id;
+          setTimeout(() => {
+            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
+            this.deletingFlatId = null;
+            console.log(response)
+          }, 0);
+        } catch (error) {
+          console.error(error);
+        }
 
-      this.http.post('http://localhost:3000/agreement/delete/agreement', data)
-        .subscribe(
-          (response: any) => {
-            console.log(response);
-            this.subscribers = this.subscribers.filter(item => item.flat.subscriber_id !== item.flat.subscriber_id);
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('user or subscriber not found');
-    }
+      }
+    });
   }
 }

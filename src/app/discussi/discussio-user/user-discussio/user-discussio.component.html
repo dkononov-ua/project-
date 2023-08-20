@@ -63,8 +63,10 @@
           <div class="carousel-inner">
             <div class="carousel-item" *ngFor="let image of images; let i = index" [class.active]="i === 0">
               <div class="img-wrapper">
-                <img [src]="image" alt="Flat Image" class="img-fluid rounded">
+                <img [src]="image ? image : 'http://localhost:3000/img/flat/housing_default.svg'" alt="Flat Image"
+                  class="img-fluid rounded">
               </div>
+
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"

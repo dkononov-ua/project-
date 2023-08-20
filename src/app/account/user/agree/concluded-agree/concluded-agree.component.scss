@@ -3,149 +3,45 @@
 .container-card {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: space-evenly;
   align-content: flex-start;
   flex-wrap: wrap;
-}
-.box {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.row {
-  height: 70vh;
-
-  overflow: hidden;
-  display: flex;
-  width: 100%;
-  overflow: auto;
-}
-
-.row::-webkit-scrollbar {
-  display: none;
-}
-.card {
-  height: 300px;
-  padding: 0;
-  max-height: max-content;
-  overflow: hidden;
-  transition: 1s;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  flex-wrap: wrap;
-
-  &:hover {
-    color: $color-white;
-    background-color: $color-dark;
-    transform: scale(1.04);
-  }
-}
-.card-box {
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
 }
 
 .img-fluid {
   display: flex;
-  flex-direction: column;
-  width: 200px;
-  height: 100%;
-  border-radius: 0%;
-}
-.ticket-card {
-  position: relative;
-  padding: 5px;
-  overflow: hidden;
-}
-.list-item {
-  border: 1px solid $color-primary;
-  border-radius: 10px;
-  padding: 1px;
-  font-size: 14px;
-}
-.btn {
-  background-color: $color-white;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 30px;
-}
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: space-evenly;
+  padding: 0px 5px;
 }
-.container-box {
+
+img {
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  transition: transform 1s;
+  object-fit: cover;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
+}
+
+.item-wrapper {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.agree {
-  position: fixed;
-  z-index: 5;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  overflow: auto;
-
-  margin: 1% 20%;
-  padding: 20px 40px;
-
-  background-color: $color-white;
-}
-.close-box {
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  margin: 10px;
-}
-
-.title-group {
-  display: flex;
-}
-.logo {
-  width: 250px;
-  height: 250px;
-}
-.container-agree {
-  display: flex;
-  flex-direction: column;
-}
-.wrapper-group {
-  display: flex;
-}
-.agree-wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.item-description-agree {
-  color: $color-text;
-}
-.item-agree {
-  width: 100%;
-  color: $color-accent;
-  border: 1px solid $color-primary;
+  background-color: rgba(0, 0, 0, 0.131);
   border-radius: 10px;
-  padding: 10px;
-  margin: 5px 10px;
+  padding: 5px 10px;
+  flex-direction: column;
 }
-.input-mat-4 {
-  width: 100%;
-  margin-top: 10px;
 
-  font-size: 20px;
+.label {
+  text-align: center;
 }
+
+h2 {
+  text-align: center;
+}
+
+

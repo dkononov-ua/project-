@@ -4,42 +4,62 @@
 
 <ng-template #content>
   <div *ngIf="!isContainerVisible" class="container-fluid">
-
     <div class="container-box col-12">
 
-      <div class="container-left col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
         <h2>Сформуй угоду за три кроки</h2>
-        <div class="btn-box">
-          <button class="btn-create" (click)="changeStep(1)" matTooltip="ПЕРШИЙ КРОК"><i
-              class="fa-solid fa-1"></i></button>
-          <button class="btn-create" (click)="changeStep(2)" matTooltip="ПЕРШИЙ КРОК"><i
-              class="fa-solid fa-2"></i></button>
-          <button class="btn-create" (click)="changeStep(3)" matTooltip="ПЕРШИЙ КРОК"><i
-              class="fa-solid fa-3"></i></button>
-          <button class="btn-create" (click)="changeStep(4)" matTooltip="Перегляд"><i
-              class="fa-regular fa-circle-check"></i></button>
 
+        <div class="indicator-box mt-5">
+          <div [ngClass]="{'active-step': currentStep === 1}" class="indicator"><i class="fa-solid fa-1"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 2}" class="indicator"><i class="fa-solid fa-2"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 3}" class="indicator"><i class="fa-solid fa-3"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 4}" class="indicator"><span class="material-symbols-outlined">
+              all_match
+            </span></div>
         </div>
 
-        <h2 *ngIf="currentStep === 1">Перший крок. Оберіть оселю перевірте правильність даних</h2>
-        <h2 *ngIf="currentStep === 2">Другий крок. Оберіть орендара</h2>
-        <h2 *ngIf="currentStep === 3">Третій крок. Заповніть форму</h2>
-        <h2 *ngIf="currentStep === 4">Третій крок. Заповніть форму</h2>
+        <div class="mt-5">
+          <div class="description" *ngIf="currentStep === 1"><span class="bold">Перший крок</span> - оберіть оселю в
+            якій є дискусія з
+            орендарем, перевірте правильність
+            даних та суму оплати.</div>
+          <div class="description" *ngIf="currentStep === 2"><span class="bold">Другий крок</span> - оберіть орендара із
+            списку та
+            перевірте або заповніть номер телефону та контактну пошту.</div>
+          <div class="description" *ngIf="currentStep === 3"><span class="bold">Третій крок</span> - заповніть форму.
+            Встановіть дату, термін
+            оренди місяці/роки, вкажіть число оплати. Штрафні санкції та додаткові умови за потребою.</div>
+          <div class="description" *ngIf="currentStep === 4"><span class="bold">Перегляд угоди</span> - завершіть угоду.
+            Перевірте деталі
+            угоди, якщо треба щось відкорегувати поверніться назад. Надіславши угоду орендару Ви надсилаєте шаблон
+            погодження, після цього очікуйте підтвердження після того як орендар ознайомиться з умовами угоди, надалі
+            цей шаблон можна надрукувати та підписати на місці.
+            Шаблон угоди зберігається у Вас в аккаунті оселі.</div>
+        </div>
+
+        <div class="btn-group mt-5">
+          <a class="btn-next" [routerLinkActive]="'active'" [routerLink]="'/house/agree-house'">МЕНЮ</a>
+          <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
+            [disabled]="currentStep === 1">НАЗАД</button>
+          <button *ngIf="currentStep < 4" class="btn-next" (click)="changeStep(currentStep + 1)"
+            [disabled]="currentStep === 4">ДАЛІ</button>
+        </div>
+
       </div>
 
-
-
-      <div class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 1">
+      <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 1">
         <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
           <div class="card">
 
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <div class="img-fluid-house" *ngIf="houseData.imgs?.length > 0">
-                    <img [src]="'http://localhost:3000/img/flat/' + houseData.imgs[0].img" alt="Flat Image"
-                      class="img-house rounded">
+                  <div class="img-fluid-house">
+                    <img
+                      [src]="houseData.imgs[0].img ? 'http://localhost:3000/img/flat/' + houseData.imgs[0].img : 'http://localhost:3000/img/flat/housing_default.svg'"
+                      alt="Flat Image" class="img-house rounded">
                   </div>
+
                 </div>
                 <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
                   <div class="img-fluid-house">
@@ -64,7 +84,7 @@
             <div class="input-mat mt-2 p-2">
               <app-housing-selection></app-housing-selection>
             </div>
-              <!-- <div class="content">
+            <!-- <div class="content">
                 <label class="checkBox">
                   <input id="daily" type="radio" [(ngModel)]="agreement_type" name="month" [value]=0>
                   <div class="transition"></div>
@@ -81,7 +101,7 @@
                 <span class="checkBox-span">Щомісяця</span>
                 <i></i>
               </div> -->
-            <div class="item-characteristics p-2">ID оселі: <span class="item-name">{{ houseData.about.flat_id }}</span>
+            <div class="p-2">ID оселі: <span class="item-name">{{ houseData.about.flat_id }}</span>
             </div>
 
             <div class="characteristics-group p-2">
@@ -100,107 +120,98 @@
                   [disabled]="isStreetDisabled">
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="input-mat w-30">
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
                 <mat-label class="label-auto" for="house-number">Будинок:</mat-label>
                 <input matInput type="text" id="house-number" name="apartment-address"
                   [ngModel]="houseData.flat.houseNumber ? houseData.flat.houseNumber : ''" placeholder="Номер будинку"
                   [disabled]="isHouseNumberDisabled">
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="input-mat w-30">
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
                 <mat-label class="label-auto" for="apartment-number">Квартира:</mat-label>
                 <input matInput type="text" id="apartment-number" name="apartment-address"
                   [ngModel]="houseData.flat.apartment ? houseData.flat.apartment : ''" placeholder="Номер квартири"
                   [disabled]="isApartmentNumberDisabled">
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="input-mat w-30">
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
                 <mat-label class="label-auto" for="apartment-size">Площа м²:</mat-label>
                 <input matInput type="text" id="apartment-size" name="apartment-address"
                   [ngModel]="houseData.param.area ? houseData.param.area : ''" placeholder="м²"
                   [disabled]="isApartmentSizeDisabled">
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="input-mat w-70 p-1">
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
                 <mat-label class="label-auto">Сума плати/місяць грн</mat-label>
                 <input matInput type="text" id="rent-price" name="apartment-address"
                   [ngModel]="houseData.about.price_m ? houseData.about.price_m : ''"
-                  placeholder="сума орендної плати на місяць" [disabled]="isRentPriceDisabled">
+                  placeholder="сума орендної плати на місяць">
               </mat-form-field>
-
             </div>
-
-
-
           </div>
         </div>
       </div>
 
-      <div class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 2">
+      <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 2">
         <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
 
           <div class="card">
-            <mat-label>Сторона орендодавця</mat-label>
-            <div class="img-fluid">
-              <img class="" [src]="'http://localhost:3000/img/users/' +
-              (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="User Image">
-              <div class="item-box w-50">
+            <div class="img-fluid  mt-2">
+              <div class="w-30">
+                <img [src]="'http://localhost:3000/img/users/' +
+                (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="User Image">
+              </div>
+              <div class="item-box p-1 w-70">
                 <div class="item-name">{{ userData.inf.lastName }}</div>
                 <div class="item-name">{{ userData.inf.firstName }}</div>
                 <div class="item-name">{{ userData.inf.surName }}</div>
+                <p class="item-name"><span class="item-description">іменований надалі "Орендодавець"</span></p>
               </div>
             </div>
-
-            <div class="item-wrapper mt-1 p-3">
-              <p class="item-name"><span class="item-description">іменований надалі "Орендодавець"</span></p>
+            <div class="item-wrapper mt-1">
               <p class="item-name"><span class="item-description">User ID:</span> {{ userData.cont.user_id }}</p>
-
               <mat-form-field class="input-mat p-1" appearance="outline">
                 <mat-label class="label-accent">Телефон</mat-label>
                 <input type="tel" name="owner_tell" matInput [(ngModel)]="userData.cont.tell" [maxlength]="10"
                   [pattern]="phonePattern">
               </mat-form-field>
-
               <mat-form-field class="input-mat p-1" appearance="outline">
                 <mat-label class="label-accent">Email:</mat-label>
                 <input type="tel" name="owner_mail" matInput [(ngModel)]="userData.cont.mail">
               </mat-form-field>
-
             </div>
           </div>
         </div>
 
-        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+        <div [@cardAnimation1] class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
           <div class="card">
-            <div class="input-mat mt-2" *ngIf="subscribers.length > 0">
-              <mat-form-field class="list-form p-2" appearance="outline">
-                <mat-label class="accent">Орендар</mat-label>
-                <mat-select class="list-select" [(value)]="selectedSubscriber">
-                  <mat-option disabled value="">Виберіть підписника</mat-option>
-                  <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
-                    {{ subscriber.firstName }} {{ subscriber.lastName }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+            <mat-form-field class="mat-form p-2" appearance="outline">
+              <mat-label class="accent">Орендар</mat-label>
+              <mat-select class="list-select" [(value)]="selectedSubscriber">
+                <mat-option disabled value="">Виберіть підписника</mat-option>
+                <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
+                  {{ subscriber.firstName }} {{ subscriber.lastName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
             <div *ngIf="selectedSubscriber">
-              <mat-label>Сторона орендара</mat-label>
               <div class="img-fluid">
-                <img class="" [src]="'http://localhost:3000/img/users/' +
-                (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="User Image">
-                <div class="item-box w-50">
+                <div class="w-30">
+                  <img [src]="'http://localhost:3000/img/users/' +
+                  (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="User Image">
+                </div>
+                <div class="item-box p-1 w-70">
                   <div class="item-name">{{ selectedSubscriber?.lastName }}</div>
                   <div class="item-name">{{ selectedSubscriber?.firstName }}</div>
                   <div class="item-name">{{ selectedSubscriber?.surName }}</div>
+                  <p class="item-name"><span class="item-description">іменований надалі "Орендар"</span></p>
                 </div>
               </div>
 
-              <div class="item-wrapper mt-1 p-3">
-                <p class="item-name"><span class="item-description">іменований надалі "Орендар"</span></p>
+              <div class="item-wrapper mt-1">
                 <p class="item-name"><span class="item-description">User ID:</span> {{ selectedSubscriber?.user_id }}
                 </p>
-
                 <mat-form-field class="input-mat p-1" appearance="outline">
                   <mat-label class="label-accent">Телефон</mat-label>
                   <input type="tel" name="subscriber_tell" matInput [(ngModel)]="selectedSubscriber.tell"
@@ -211,15 +222,12 @@
                   <input type="tel" name="subscriber_mail" matInput [(ngModel)]="selectedSubscriber.mail">
                 </mat-form-field>
               </div>
-
             </div>
-
-
           </div>
         </div>
       </div>
 
-      <div class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 3">
+      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 3">
         <div class="btn-container">
           <button class="btn-info" id="infoButton">Допомога</button>
           <div class="info-menu">
@@ -230,141 +238,110 @@
           </div>
         </div>
         <div class="card m-2 p-2">
+          <mat-label>Дата укладання угоди</mat-label>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="agreementDate" (ngModelChange)="onDateChange($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
           <div class="characteristics-group">
-            <mat-label>Дата укладання угоди</mat-label>
-            <div class="input-mat p-1">
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="agreementDate"
-                  (ngModelChange)="onDateChange($event)">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </div>
-
             <mat-label>Термін оренди / число оплати</mat-label>
             <div class="group-select">
-
-              <mat-form-field appearance="outline" class="input-mat w-30 p-1"
-                [ngClass]="{ 'required-field': yearsInput?.invalid && yearsInput?.touched }">
-                <mat-label class="label-accent" for="years">Роки:</mat-label>
-                <input matInput type="number" name="years" placeholder="Роки" min="0" max="10" step="1"
-                  [(ngModel)]="years" #yearsInput="ngModel" required>
-                <mat-error *ngIf="yearsInput?.invalid && yearsInput?.touched">Це обов'язково</mat-error>
-              </mat-form-field>
-
               <mat-form-field appearance="outline" class="input-mat w-30 p-1"
                 [ngClass]="{ 'required-field': (monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) }">
                 <mat-label class="label-accent" for="months">Місяці:</mat-label>
                 <input matInput type="number" name="months" placeholder="Місяці" min="0" max="11" [(ngModel)]="months"
                   #monthsInput="ngModel" required>
                 <mat-error
-                  *ngIf="(monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) || !months">Це
-                  обов'язково</mat-error>
+                  *ngIf="(monthsInput.invalid && monthsInput.touched) || (formSubmitted && monthsInput.invalid) || !months">Обов'язково</mat-error>
               </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-30 p-1">
-                <mat-label class="label-accent" for="days">Дні:</mat-label>
-                <input matInput type="number" name="days" placeholder="Дні" min="0" max="11" [(ngModel)]="days"
-                  #monthsInput="ngModel" required>
+              <mat-form-field appearance="outline" class="input-mat w-30 p-1"
+                [ngClass]="{ 'required-field': yearsInput?.invalid && yearsInput?.touched }">
+                <mat-label class="label-accent" for="years">Роки:</mat-label>
+                <input matInput type="number" name="years" placeholder="Роки" min="0" max="10" step="1"
+                  [(ngModel)]="years" #yearsInput="ngModel" required>
+                <mat-error *ngIf="yearsInput?.invalid && yearsInput?.touched">Обов'язково</mat-error>
               </mat-form-field>
-
               <mat-form-field appearance="outline" class="input-mat w-30 p-1">
-                <mat-label class="label-accent">Число</mat-label>
-                <input matInput type="text" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="дата"
+                <mat-label class="label-accent">Число оплати</mat-label>
+                <input matInput type="text" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="Число"
                   required [(ngModel)]="rentDueDate" #rentDueDateInput="ngModel">
-                <mat-error *ngIf="rentDueDateInput.invalid">Число</mat-error>
+                <mat-error *ngIf="rentDueDateInput.invalid">Обов'язково</mat-error>
               </mat-form-field>
             </div>
           </div>
-
-          <div class="characteristics-group">
-            <div class="input-group">
-
-              <div class="content">
-                <mat-label class="mr-2">Штрафні санкції</mat-label>
-
-                <label class="checkBox">
-                  <input type="checkbox" [(ngModel)]="isCheckboxPenalty">
-                  <div class="transition"></div>
-                </label>
-                <i></i>
-              </div>
-
-              <div>
-                <div class="info-text">За несвоєчасне внесення платежів оплачувати пеню
-                  з розрахунку відсоток пені за прострочення
-                  <span class="accent">"% пені"</span> але не більше максимального відсотку пені
-                  <span class="accent">"Max % пені"</span> суми заборгованості.
-                </div>
-
-                <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                  <mat-label>% пені</mat-label>
-                  <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required
-                    [(ngModel)]="penalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
-                    (ngModelChange)="penalty = $event || 0" placeholder=0 value="0">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                  <mat-label>Max % пені</mat-label>
-                  <input matInput type="number" id="max_penalty" name="max_penalty" min="0" max="100" required
-                    [(ngModel)]="maxPenalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
-                    value="0">
-                </mat-form-field>
-              </div>
-
-              <div class="content">
-                <mat-label class="mr-2">Додаткові умови</mat-label>
-
-                <label class="checkBox">
-                  <input type="checkbox" [(ngModel)]="additional_conditions">
-                  <div class="transition"></div>
-                </label>
-                <i></i>
-              </div>
-
-              <div class="form-floating p-1">
-                <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-                  [disabled]="!additional_conditions" [(ngModel)]="conditions" name="conditions" (input)="onInput()"
-                  [disabled]="!additional_conditions"></textarea>
-                <label for="floatingTextarea">
-                  <p>Додаткові умови:</p>
-                </label>
-              </div>
-
-
-            </div>
-
-
-          </div>
-
-
-
-
-        </div>
-      </div>
-
-      <div class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 4">
-        <div class="card p-2">
-          <div class="content">
-            <mat-label class="mr-2">Сформувати угоду</mat-label>
+          <div class="content mt-2">
+            <mat-label class="mr-2">Штрафні санкції</mat-label>
             <label class="checkBox">
-              <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+              <input type="checkbox" [(ngModel)]="isCheckboxPenalty">
               <div class="transition"></div>
             </label>
             <i></i>
           </div>
-
-          <button class="btn btn-agree mt-2 mb-2" type="submit" (click)="openContainer()">Переглянути деталі
-            угоди</button>
-          <button class="btn btn-agree" type="submit"
-            (click)="isFormEmpty() ? showMessage('А термін угоди, дата оплати?') : sendFormAgreement(subscribers[0])"
-            [disabled]="!isCheckboxChecked">Надіслати орендару</button>
-          <div *ngIf="message" class="error-message">{{ message }}</div>
+          <div class="info-text">За несвоєчасне внесення платежів оплачувати пеню
+            з розрахунку відсоток пені за прострочення
+            <span class="accent">"% пені"</span> але не більше максимального відсотку пені
+            <span class="accent">"Max % пені"</span> суми заборгованості.
+          </div>
+          <div class="characteristics-group mt-2">
+            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+              <mat-label>% пені</mat-label>
+              <input matInput type="number" id="penalty" name="penalty" min="0" max="100" required [(ngModel)]="penalty"
+                [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
+                (ngModelChange)="penalty = $event || 0" placeholder=0 value="0">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+              <mat-label>Max % пені</mat-label>
+              <input matInput type="number" id="max_penalty" name="max_penalty" min="0" max="100" required
+                [(ngModel)]="maxPenalty" [ngModelOptions]="{standalone: true}" [disabled]="!isCheckboxPenalty"
+                value="0">
+            </mat-form-field>
+          </div>
+          <div class="content">
+            <mat-label class="mr-2">Додаткові умови</mat-label>
+            <label class="checkBox">
+              <input type="checkbox" [(ngModel)]="additional_conditions">
+              <div class="transition"></div>
+            </label>
+            <i></i>
+          </div>
+          <mat-form-field class="example-full-width mt-2">
+            <mat-label>Додаткові умови</mat-label>
+            <textarea #textArea id="floatingTextarea" [disabled]="!additional_conditions" [(ngModel)]="conditions"
+              matInput placeholder="Введіть Ваші умови як додадуться до стандартного шаблону угоди."></textarea>
+          </mat-form-field>
         </div>
       </div>
 
+      <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 4">
+        <div class="card">
+          <div class="img-fluid-house">
+            <div class="blur"></div>
+            <img class="img-house rounded" src="../../../assets/form_agree.jpg" alt="...">
+            <div class="logo-wrapper">
+              <img class="logo-a" src="../../../../assets/logo/Discussio (7).svg" alt="">
+              <div class="logo-name">Discussio угода</div>
+            </div>
+          </div>
+          <div class="p-2 mt-2">
+            <div class="content">
+              <mat-label class="mr-2">Угода сформована вірно</mat-label>
+              <label class="checkBox">
+                <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+                <div class="transition"></div>
+              </label>
+              <i></i>
+            </div>
 
-
+            <button class="btn btn-agree mt-2 mb-2" type="submit" (click)="openContainer()">Переглянути деталі
+              угоди</button>
+            <button class="btn btn-agree" type="submit"
+              (click)="isFormEmpty() ? showMessage('А термін угоди, дата оплати?') : sendFormAgreement(subscribers[0])"
+              [disabled]="!isCheckboxChecked">Надіслати угоду орендару</button>
+            <div *ngIf="message" class="error-message">{{ message }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -420,10 +397,8 @@
       <div class="container-fluid">
         <ul>1. Предмет договору
           <li>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на <span
-              class="accent"> {{ years }} <div *ngIf="years! > 1">роки</div>
-              <div *ngIf="years! < 1">рік</div>
-            </span> та
-            <span class="accent"> {{ months }} місяці </span>
+              class="accent"> {{ years }} (рік/роки)</span> та
+            <span class="accent"> {{ months }} (місяць/місяці)</span>
             квартиру загальною площею: <span class="accent">{{houseData.param.area}} м² </span>
             за адресою: вулиця <span class="accent">{{ houseData.flat.street }}, будинок {{ houseData.flat.houseNumber
               }},
@@ -562,7 +537,7 @@
       </div>
 
       <div class="container-fluid">
-        <div class="field-box col-lg-6 col-md-6 col-sm-6 col-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="m-2">
             <div class="field-title">Орендодавець:</div>
             <div class="field">
@@ -602,7 +577,7 @@
           </div>
         </div>
 
-        <div class="field-box col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
           <div class="m-2">
             <div class="field-title">Орендар:</div>
             <div class="field">
@@ -648,8 +623,5 @@
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">
-  <div>
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo">
-  </div>
-  {{ statusMessage }}
+  <div><img src="../../../../assets/logo/Discussio (7).svg" alt="Logo"></div>{{ statusMessage }}
 </div>

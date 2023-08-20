@@ -1,36 +1,7 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from 'src/app/services/data.service';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
-
-import { DatePipe } from '@angular/common';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
-import { FormControl } from '@angular/forms';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
-import * as _moment from 'moment';
-import { default as _rollupMoment, Moment } from 'moment';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
-const moment = _rollupMoment || _moment;
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'dd/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD.MM.YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
-registerLocaleData(localeUk);
-
 interface Agree {
   flat: {
     agreementDate: string;
@@ -63,46 +34,23 @@ interface Agree {
   };
   img: string[];
 }
-
 @Component({
   selector: 'app-concluded',
   templateUrl: './concluded.component.html',
   styleUrls: ['./concluded.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
-    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
-
 })
+
 export class ConcludedComponent implements OnInit {
   agree: Agree[] = [];
-  houseData: any;
-  userData: any;
   loading: boolean = true;
-  isMonthDisabled = true;
-  isYearDisabled = true;
-  isRentDataDisabled = true;
-  isCityDisabled = true;
-  isStreetDisabled = true;
-  isApartmentNumberDisabled = true;
-  isContainerVisible = false;
-
-  selectedAgreement: any;
-  flatId: string | null | undefined;
-  selectedFlatAgree: any;
   selectedFlatId: any;
 
   constructor(
     private http: HttpClient,
-    private dataService: DataService,
     private route: ActivatedRoute,
-    private datePipe: DatePipe,
     private selectedFlatIdService: SelectedFlatService,
   ) { }
 
@@ -113,29 +61,12 @@ export class ConcludedComponent implements OnInit {
     });
 
     this.route.params.subscribe(params => {
-      this.selectedFlatAgree = params['selectedFlatAgree'] || null;
+      this.agree = params['selectedFlatAgree'] || null;
     });
-
-    this.loadData();
-  }
-
-  loadData(): void {
-    this.dataService.getData().subscribe(
-      (response: any) => {
-        this.houseData = response.houseData;
-        this.userData = response.userData;
-        this.loading = false;
-      },
-      (error) => {
-        console.error(error);
-        this.loading = false;
-      }
-    );
   }
 
   async getAgree(selectedFlatId: string | null, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
@@ -146,31 +77,12 @@ export class ConcludedComponent implements OnInit {
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
       this.agree = response;
+      this.loading = false;
     } catch (error) {
       console.error(error);
+      this.loading = false;
     }
     this.selectedFlatId = selectedFlatId;
-
-  }
-
-  onSelectionChange(selectedFlatId: string): void {
-    if (selectedFlatId) {
-      console.log('You selected a dwelling with ID:', selectedFlatId);
-      this.selectedFlatId = selectedFlatId;
-      this.selectedAgreement = this.agree.find((agreement) => agreement.flat.flat_id === selectedFlatId);
-      if (this.selectedAgreement) {
-      }
-    } else {
-      console.log('Nothing selected');
-    }
-  }
-
-  openContainer(): void {
-    this.isContainerVisible = true;
-  }
-
-  closeContainer(): void {
-    this.isContainerVisible = false;
   }
 }
 

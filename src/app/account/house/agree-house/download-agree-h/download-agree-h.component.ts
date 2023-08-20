@@ -1,116 +1,58 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from 'src/app/services/data.service';
-import { ActivatedRoute, Params } from '@angular/router';
-import { DatePipe } from '@angular/common';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
-import * as _moment from 'moment';
-import { default as _rollupMoment, Moment } from 'moment';
-
-const moment = _rollupMoment || _moment;
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'dd/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD.MM.YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
-registerLocaleData(localeUk);
+import { ActivatedRoute } from '@angular/router';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
-  selector: 'app-download-agree',
-  templateUrl: './download-agree.component.html',
-  styleUrls: ['./download-agree.component.scss'],
+  selector: 'app-download-agree-h',
+  templateUrl: './download-agree-h.component.html',
+  styleUrls: ['./download-agree-h.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
-    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 
-export class DownloadAgreeComponent implements OnInit {
-  houseData: any;
-  userData: any;
+export class DownloadAgreeHComponent implements OnInit {
 
-  isMonthDisabled = true;
-  isYearDisabled = true;
-  isRentDataDisabled = true;
-  isCityDisabled = true;
-  isStreetDisabled = true;
-  isApartmentNumberDisabled = true;
-  isHouseNumberDisabled = true;
-  isApartmentSizeDisabled = true;
-  isCheckboxPenalty = true;
-  isRentPriceDisabled = true;
-  isCheckboxChecked = false;
   selectedFlatAgree: any;
   selectedAgreement: any;
+  selectedFlatId: any;
 
   constructor(
     private http: HttpClient,
-    private dataService: DataService,
     private route: ActivatedRoute,
-    private datePipe: DatePipe,
+    private selectedFlatIdService: SelectedFlatService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
+    });
+
     this.route.params.subscribe(async params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
-      this.selectedAgreement = await this.getAgree(this.selectedFlatAgree);
+      this.selectedAgreement = await this.getAgree();
     });
-    this.loadData();
-    this.displayCurrentDate();
   }
 
-  loadData(): void {
-    this.dataService.getData().subscribe(
-      (response: any) => {
-        this.houseData = response.houseData;
-        this.userData = response.userData;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  async getAgree(selectedFlatAgree: string): Promise<any> {
+  async getAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/saveyagreements';
+    const url = 'http://localhost:3000/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
-      user_id: user_id,
+      flat_id: this.selectedFlatId,
       offs: 0
     };
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as any[];
-      const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === selectedFlatAgree);
+      const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedFlatAgree);
+
       return selectedAgreement || null;
     } catch (error) {
       console.error(error);
       return null;
     }
-  }
-
-  displayCurrentDate(): void {
-    const currentDate = moment().format('YYYY-MM-DD');
   }
 
   printContainer(): void {
@@ -327,4 +269,5 @@ export class DownloadAgreeComponent implements OnInit {
   }
 
 }
+
 

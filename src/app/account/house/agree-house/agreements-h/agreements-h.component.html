@@ -1,106 +1,52 @@
-<div class="container-card">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
-    <div class="m-2">
-      <app-account-nav></app-account-nav>
-      <app-house-nav></app-house-nav>
-    </div>
-  </div>
+<ng-template #content>
+  <div class="container-card col-lg-12 col-md-12 col-sm-12 col-12">
 
-  <div class="card-box col-lg-5 col-md-5 col-sm-6 col-12">
-    <div class="card-container">
-      <div class="scrollable-container p-3">
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="label">Надіслані угоди <span class="accent"> {{ agree.length }} шт</span></div>
+      <div class="card m-2" *ngFor="let agreement of agree">
+        <div class="img-fluid  mt-2">
 
-                <p *ngIf="!subscribers || subscribers.length === 0">Угод не надіслано</p>
-        <ng-container *ngIf="subscribers && subscribers.length > 0">
-          <div class="mb-2">
-            <p>Кількість запропонованих угод: {{ subscribers.length }}</p>
+          <div class="w-30">
+            <img [src]="'http://localhost:3000/img/users/' + agreement.flat.subscriber_img" alt="Flat Image">
           </div>
 
-          <div class="card-wrapper card mb-4" *ngFor="let subscriber of subscribers"
-            [class.selected]="selectedFlatId === subscriber.flat.flat_id">
-            <div class="card-img-container">
-              <img class="card-img-top"
-                [src]="'http://localhost:3000/img/users/' + (subscriber.flat.subscriber_img ? subscriber.flat.subscriber_img : 'user_default.svg')"
-                alt="User Image">
-            </div>
-            <div class="card-body">
-              <h2 class="card-title">{{ subscriber.flat.subscriber_lastName }} {{ subscriber.flat.subscriber_firstName
-                }}
-                <br> {{ subscriber.flat.subscriber_surName }}
-              </h2>
-
-              <div class="item">{{ subscriber.flat.price }} грн/міс</div>
-              <div class="btn-group">
-                <button class="btn-1 m-1" (click)="toggleSelectFlat(subscriber.flat.flat_id)">
-                  <i class="fa-solid fa-chevron-down" *ngIf="selectedFlatId !== subscriber.flat.flat_id"></i>
-                  <i class="fa-solid fa-chevron-up" *ngIf="selectedFlatId === subscriber.flat.flat_id"></i>
-                </button>
-                <button class="btn-1 m-1" (click)="removeSubscriber(subscriber)">
-                  <i class="fa-solid fa-user-xmark"></i>
-                </button>
-              </div>
-
-              <div class="expanded-info" *ngIf="selectedFlatId === subscriber.flat.flat_id">
-                <div class="characteristics">
-                  <div class="characteristics-group">
-                    <!-- <div class="item-characteristics" *ngIf="subscriber.flat.agreement_id">
-                      ID угоди: <span class="item">{{ subscriber.flat.agreement_id }}</span>
-                    </div> -->
-
-                    <div class="item-characteristics" *ngIf="subscriber.flat.agreementDate">
-                      Дата угоди: <span class="item">{{ subscriber.flat.agreementDate }}</span>
-                    </div>
-                    <div class="item-characteristics" *ngIf="subscriber.flat.street">
-                      Вулиця: <span class="item">{{ subscriber.flat.street }} {{ subscriber.flat.houseNumber }}</span>
-                    </div>
-                    <div class="item-characteristics" *ngIf="subscriber.flat.city">
-                      Місто: <span class="item">{{ subscriber.flat.city }}</span>
-                    </div>
-                    <div class="item-characteristics" *ngIf="subscriber.flat.area">
-                      Площа: <span class="item">{{ subscriber.flat.area }} м²</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+          <div class="item-box p-1 w-70">
+            <div class="item-name">{{ agreement.flat.subscriber_lastName}} </div>
+            <div class="item-name">{{ agreement.flat.subscriber_firstName}} </div>
+            <div class="item-name">{{ agreement.flat.subscriber_surName}} </div>
           </div>
-
-          <button class="link-btn btn m-1">Завантажити більше угод</button>
-        </ng-container>
-
-
-      </div>
-    </div>
-  </div>
-
-  <div class="card-box col-lg-4 col-md-12 col-sm-12 col-12">
-    <div class="m-2">
-      <div class="card-info p-2">
-        <h4>Запропоновані угоди:</h4>
-        <div class="title p-2">
-          <p>Тут Ви зможете бачити користувачів які підписані на вашу оселю, Ви можете або ухвалити користувача для
-            подальшого спілкування або відмовити.</p>
         </div>
-        <div class="title-group">
-          <div class="title">
-            <p>Що робить кнопка ДИСКУСІЯ?</p>
-          </div>
-          <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse"
-            data-bs-target="#discussionButton" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa-solid fa-info"></i>
+
+        <div class="item-wrapper mt-1">
+          <div class="item-name">ID Оселі: {{ agreement.flat.flat_id}} </div>
+          <div class="item-name">Строком на: роки {{ agreement.flat.year}} місяці {{agreement.flat.month}}</div>
+          <div class="item-name">Сума оплати: {{ agreement.flat.price}}грн</div>
+          <button class="btn" [routerLink]="['/agree-h', agreement.flat.agreement_id]">Переглянути
+            угоду</button>
+          <button class="btn-1 m-1" (click)="openDialog(agreement)">
+            <i class="fa-solid fa-user-xmark"></i>
           </button>
         </div>
 
-        <div class="collapse" id="discussionButton">
-          <div class="card-body-cast">
-            <p class="text-info">Вона дозволяє ухвалити користувача для подальшого діалогу між вами в меню ДИСКУСІЯ. В
-              меню дискусія більше інформації про її можливості.
-            </p>
-          </div>
+      </div>
+
+    </div>
+
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card-info">
+        <h2>Надіслані угоди</h2>
+        <div class="title p-2">
+          Тут Ви зможете бачити угоди які Ви заключили.
+        </div>
+        <div class="title p-2">
+          Ви можете переглянути деталі угоди, а також надрукувати її.
         </div>
       </div>
     </div>
+
   </div>
-</div>
+</ng-template>

@@ -57,6 +57,7 @@ interface Agree {
     subscriber_tell: string;
     year: number;
     area: number;
+    about: string;
   };
   img: string[];
 }

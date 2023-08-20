@@ -4,7 +4,6 @@ import { Component, ElementRef, OnInit, ViewChild, LOCALE_ID } from '@angular/co
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DataService } from 'src/app/services/data.service';
-
 import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
@@ -14,7 +13,6 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
-
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -30,7 +28,6 @@ export const MY_FORMATS = {
 };
 
 registerLocaleData(localeUk);
-
 interface Subscribers {
   user_id: any;
   firstName: string;
@@ -44,7 +41,6 @@ interface Subscribers {
   tell: number;
   mail: string;
 }
-
 @Component({
   selector: 'app-agreement',
   templateUrl: './agreement.component.html',
@@ -66,32 +62,7 @@ interface Subscribers {
         animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ])
   ],
-
 })
 export class AgreementComponent implements OnInit {
   @ViewChild('agreeContainer') agreeContainer: ElementRef | undefined;
@@ -111,15 +82,12 @@ export class AgreementComponent implements OnInit {
   penalty?: number = 0;
   conditions: string = '';
   maxPenalty?: number = 0;
-
   agreement_type: number = 0;
-
   subscriber_tell: any = '';
   subscriber_mail: string = '';
   owner_tell: any = '';
   owner_mail: string = '';
   phonePattern = '^[0-9]{10}$';
-
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
@@ -127,14 +95,10 @@ export class AgreementComponent implements OnInit {
     secondCtrl: ['', Validators.required],
   });
   isLinear = false;
-
   currentStep: number = 1;
-
   changeStep(step: number): void {
     this.currentStep = step;
   }
-
-
   isCityDisabled: boolean = true;
   isStreetDisabled: boolean = true;
   isHouseNumberDisabled: boolean = true;
@@ -142,7 +106,6 @@ export class AgreementComponent implements OnInit {
   isApartmentSizeDisabled: boolean = true;
   isRentPriceDisabled: boolean = true;
   loading: boolean = true;
-
   isContainerVisible = false;
   isCheckboxChecked = false;
   isCheckboxPenalty = false;
@@ -199,6 +162,9 @@ export class AgreementComponent implements OnInit {
     try {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
+      if (this.houseData.imgs === 'Картинок нема') {
+        this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
+      }
     } catch (error) {
       console.error(error);
     }
@@ -261,7 +227,6 @@ export class AgreementComponent implements OnInit {
       const userJson = localStorage.getItem('user');
       this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
       if (userJson && selectedFlatId && subscriber) {
-        console.log(this.owner_tell)
         const data = {
           auth: JSON.parse(userJson),
           flat_id: selectedFlatId,
@@ -297,9 +262,9 @@ export class AgreementComponent implements OnInit {
 
           terms: {
             agreementDate: this.agreementDate,
-            month: this.months,
-            days: this.days,
-            year: this.years,
+            month: this.months || 0,
+            days: this.days || 0,
+            year: this.years || 0,
             rent_due_data: this.rentDueDate,
             penalty: this.penalty,
             max_penalty: this.maxPenalty,
@@ -308,15 +273,10 @@ export class AgreementComponent implements OnInit {
             agreement_type: this.agreement_type,
           }
         };
-
-
-
-        this.loading = true;
-        console.log(data)
-
         this.http.post('http://localhost:3000/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {
+              this.loading = true;
               if (response.status === 'Данні введено не правильно') {
                 console.error(response.status);
                 setTimeout(() => {
@@ -326,11 +286,10 @@ export class AgreementComponent implements OnInit {
                   }, 2000);
                 }, 2000);
               } else {
-                console.log(response);
                 setTimeout(() => {
                   this.statusMessage = 'Угода надіслана на розгляд орендарю!';
                   setTimeout(() => {
-                    this.router.navigate(['/agreements-h']);
+                    this.router.navigate(['/house/agreements-h']);
                   }, 3000);
                 }, 2000);
               }
@@ -346,7 +305,6 @@ export class AgreementComponent implements OnInit {
             }
           );
         this.loading = false;
-
       } else {
         console.log('User, flat, or subscriber not found');
         this.loading = false;

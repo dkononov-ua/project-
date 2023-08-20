@@ -40,6 +40,9 @@ import { HouseInfoComponent } from './house/house-info/house-info.component';
 import { HouseShareComponent } from './house/house-share/house-share.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
+import { DownloadAgreeHComponent } from './house/agree-house/download-agree-h/download-agree-h.component';
+import { AgreeHComponent } from './house/agree-house/agree-h/agree-h.component';
+import { DeleteAgreeHComponent } from './house/agree-house/delete-agree-h/delete-agree-h.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     FillingComponent,
     HouseInfoComponent,
     HouseShareComponent,
+    DownloadAgreeHComponent,
+    AgreeHComponent,
+    DeleteAgreeHComponent,
   ],
   providers: [
     DatePipe

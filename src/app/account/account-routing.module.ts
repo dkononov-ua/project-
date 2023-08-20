@@ -22,6 +22,9 @@ import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.c
 import { FillingComponent } from './house/filling/filling.component';
 import { HouseInfoComponent } from './house/house-info/house-info.component';
 import { AgreementComponent } from './house/agreement/agreement.component';
+import { DownloadAgreeHComponent } from './house/agree-house/download-agree-h/download-agree-h.component';
+import { AgreeHComponent } from './house/agree-house/agree-h/agree-h.component';
+import { DeleteAgreeHComponent } from './house/agree-house/delete-agree-h/delete-agree-h.component';
 
 const routes: Routes = [
   {
@@ -31,11 +34,11 @@ const routes: Routes = [
       { path: '', redirectTo: 'user', pathMatch: 'full' },
       { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
       { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
-      { path: 'agreements-h', component: AgreementsHComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-u/:selectedFlatAgree', component: AgreeUComponent, canActivate: [CanActivateGuard] },
-      { path: 'concluded', component: ConcludedComponent, canActivate: [CanActivateGuard] },
+      { path: 'agree-h/:selectedFlatAgree', component: AgreeHComponent, canActivate: [CanActivateGuard] },
       { path: 'download/:selectedFlatAgree', component: DownloadAgreeComponent, canActivate: [CanActivateGuard] },
-
+      { path: 'download-h/:selectedFlatAgree', component: DownloadAgreeHComponent, canActivate: [CanActivateGuard] },
+      { path: 'delete-h/:selectedFlatAgree', component: DeleteAgreeHComponent, canActivate: [CanActivateGuard] },
       {
         path: 'house', component: HouseComponent, canActivate: [CanActivateGuard],
         children: [
@@ -45,6 +48,8 @@ const routes: Routes = [
           { path: 'house-info', component: HouseInfoComponent, canActivate: [CanActivateGuard] },
           { path: 'filling', component: FillingComponent, canActivate: [CanActivateGuard] },
           { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
+          { path: 'concluded', component: ConcludedComponent, canActivate: [CanActivateGuard] },
+          { path: 'agreements-h', component: AgreementsHComponent, canActivate: [CanActivateGuard] },
         ],
       },
       {

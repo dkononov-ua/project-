@@ -1,94 +1,47 @@
-<div class="container-card" *ngIf="agree.length === undefined">
-  <div class="box col-lg-7 col-md-12 col-sm-12 col-12">
-    <h3>Тут будуть Ваші заключені угоди</h3>
-    <p>Заключених угод немає</p>
-    <div class="row p-4">
-      <div class="card col-12 mb-3">
-        <div class="card-box">
-          <div class="img-wrapper">
-            <img [src]="'http://localhost:3000/img/flat/' + 'housing_default.svg'" alt="House Image"
-              class="img-fluid rounded">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="container-card">
+
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="label">Заключені угоди <span class="accent"> {{ agree.length }} шт</span></div>
+      <div class="card m-2" *ngFor="let agreement of agree">
+        <div class="img-fluid  mt-2">
+
+          <div class="w-30" *ngIf="agreement.img && agreement.img.length > 0">
+            <img [src]="'http://localhost:3000/img/flat/' + agreement.img[0]" alt="Flat Image">
           </div>
 
-          <div class="ticket-card">
-            <mat-card-title>ID Оселі: </mat-card-title>
-            <mat-card-content>
-              <div class="list-item">ID Угоди:</div>
-              <div class="list-item">Адреса: <span class="accent"> місто , вул. , кв ,м2</span>
-              </div>
-              <div class="list-item">Угода заключена: <span class="accent"></span></div>
-              <div class="list-item">Строком на: <span class="accent">р / міс</span>
-              </div>
-              <div class="list-item">Дата оплати: <span class="accent"> число</span></div>
-              <div class="list-item">Сума оплати: <span class="accent">грн</span></div>
-            </mat-card-content>
+          <div class="item-box p-1 w-70">
+            <div class="item-name">ID Оселі: {{ agreement.flat.flat_id}} </div>
+            <div class="item-name">Строком на: роки {{ agreement.flat.year}} місяці {{agreement.flat.month}}</div>
+            <div class="item-name">Сума оплати: {{ agreement.flat.price}}грн</div>
           </div>
+
         </div>
-        <button class="btn">Переглянути угоду</button>
-      </div>
-    </div>
-  </div>
-  <div class="box col-lg-5 col-md-12 col-sm-12 col-12">
-    <div class="card-info">
-      <h2>Ваші заключені угоди</h2>
-      <div class="title p-2">
-        <p>Тут Ви зможете бачити угоди які Ви заключили.</p>
-      </div>
-      <div class="title p-2">
-        <p>Коли Ви натисните підтвердити угоду яку Вам запропонує власник тут з'явиться ваша угода.
-          Ви зможете переглядати деталі Вашої угоди, та зберігати їх.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="container-card" *ngIf="agree.length !== undefined">
-  <div class="box col-lg-7 col-md-12 col-sm-12 col-12">
-    <h5>Заключені угоди <span class="accent">{{ agree.length }} шт</span></h5>
-    <div class="row p-4">
-      <div class="card col-12 mb-3" *ngFor="let agreement of agree">
-        <div class="card-box">
-          <div class="img-wrapper" *ngIf="agreement.img && agreement.img.length > 0">
-            <img [src]="'http://localhost:3000/img/flat/' + agreement.img[0]" alt="Flat Image"
-              class="img-fluid rounded">
-          </div>
-
-          <div class="ticket-card">
-            <mat-card-title>ID Оселі: {{ agreement.flat.flat_id}} </mat-card-title>
-            <mat-card-content>
-              <div class="list-item">ID Угоди: <span class="accent">{{ agreement.flat.agreement_id}}</span></div>
-              <div class="list-item">Адреса: <span class="accent"> місто {{ agreement.flat.city}}, вул. {{ agreement.flat.street}}, {{
-                  agreement.flat.houseNumber}}, кв {{ agreement.flat.apartment}}, {{ agreement.flat.area}}м2</span>
-              </div>
-              <div class="list-item">Угода заключена: <span class="accent">{{ agreement.flat.agreementDate }}</span></div>
-              <div class="list-item">Строком на: <span class="accent">{{ agreement.flat.year}}р / {{ agreement.flat.month}}міс</span>
-              </div>
-              <div class="list-item">Дата оплати: <span class="accent">{{ agreement.flat.rent_due_data}} число</span></div>
-              <div class="list-item">Сума оплати: <span class="accent">{{ agreement.flat.price}}грн</span></div>
-            </mat-card-content>
-          </div>
+        <div class="item-wrapper mt-1">
+          <div class="item-name">ID Угоди: {{ agreement.flat.agreement_id}}</div>
+          <button class="btn" [routerLink]="['/download', agreement.flat.agreement_id]">Переглянути
+            угоду</button>
         </div>
-        <button class="btn" [routerLink]="['/download', agreement.flat.agreement_id]">Переглянути
-          угоду</button>
-      </div>
-    </div>
-  </div>
-  <div class="box col-lg-5 col-md-12 col-sm-12 col-12">
-    <div class="card-info">
-      <h2>Ваші заключені угоди</h2>
-      <div class="title p-2">
-        <p>Тут Ви зможете бачити угоди які Ви заключили.</p>
-      </div>
-      <div class="title p-2">
-        <p>Коли Ви натисните підтвердити угоду яку Вам запропонує власник тут з'явиться ваша угода.
-          Ви зможете переглядати деталі Вашої угоди, та зберігати їх.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
-</div>
+      </div>
+
+    </div>
+
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card-info">
+        <h2>Заключені угоди</h2>
+        <div class="title p-2">
+          Тут Ви зможете бачити угоди які Ви заключили.
+        </div>
+        <div class="title p-2">
+          Ви можете переглянути деталі угоди, а також надрукувати її.
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

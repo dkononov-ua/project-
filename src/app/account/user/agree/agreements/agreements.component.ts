@@ -26,8 +26,24 @@ interface subscription {
     region: string;
     area: string;
     floor: string;
+    year: number;
+    month: number;
+    about: string;
+    agreement_type: number;
+    apartment: number;
+    days: number;
+    houseNumber: number;
+    max_penalty: number;
+    owner_email: string;
+    owner_firstName: string;
+    owner_id: string;
+    owner_img: string;
+    owner_surName: string;
+    owner_tell: number;
+    penalty: number;
+    rent_due_data: number;
   }
-  img: Array<string>
+  img: [any];
 }
 
 @Component({
@@ -42,6 +58,7 @@ export class AgreementsComponent implements OnInit {
   deletingFlatId: string | null = null;
   selectedFlatId: any;
   selectedFlatAgree: any;
+  loading: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -89,7 +106,9 @@ export class AgreementsComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       this.subscriptions = response;
+      this.loading = false;
     } catch (error) {
       console.error(error);
     }
