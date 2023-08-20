@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
 import { SharedModule } from '../shared/shared.module';
@@ -9,7 +8,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
 import { ParametersComponent } from './house/parameters/parameters.component';
-import { OrderServicesComponent } from './house/order-services/order-services.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -23,26 +21,26 @@ import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
 import { HouseNavComponent } from './house/house-nav/house-nav.component';
 import { HouseResidentsComponent } from './house/house-residents/house-residents.component';
-import { AgreementsComponent } from './user/agree/agreements/agreements.component';
-import { AgreementsHComponent } from './house/agree-house/agreements-h/agreements-h.component';
-import { AgreeUComponent } from './user/agree/agree-u/agree-u.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { AgreeHouseComponent } from './house/agree-house/agree-house.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ConcludedAgreeComponent } from './user/agree/concluded-agree/concluded-agree.component';
-import { DealsComponent } from './user/agree/deals/deals.component';
-import { ConcludedComponent } from './house/agree-house/concluded/concluded.component';
-import { DownloadAgreeComponent } from './user/agree/download-agree/download-agree.component';
 import { SubscribeToMeComponent } from './user/subscribe-to-me/subscribe-to-me.component';
-import { DeleteAgreeComponent } from './user/agree/delete-agree/delete-agree.component';
 import { FillingComponent } from './house/filling/filling.component';
 import { HouseInfoComponent } from './house/house-info/house-info.component';
 import { HouseShareComponent } from './house/house-share/house-share.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
-import { DownloadAgreeHComponent } from './house/agree-house/download-agree-h/download-agree-h.component';
-import { AgreeHComponent } from './house/agree-house/agree-h/agree-h.component';
-import { DeleteAgreeHComponent } from './house/agree-house/delete-agree-h/delete-agree-h.component';
+import { AgreeReviewComponent } from './house/agree-h/agree-review/agree-review.component';
+import { AgreeConcludedComponent } from './house/agree-h/agree-concluded/agree-concluded.component';
+import { AgreeDownloadComponent } from './house/agree-h/agree-download/agree-download.component';
+import { AgreeDeleteComponent } from './house/agree-h/agree-delete/agree-delete.component';
+import { AgreeMenuComponent } from './house/agree-h/agree-menu/agree-menu.component';
+import { AgreeDetailsComponent } from './house/agree-h/agree-details/agree-details.component';
+import { UagreeConcludedComponent } from './user/agree-u/uagree-concluded/uagree-concluded.component';
+import { UagreeDeleteComponent } from './user/agree-u/uagree-delete/uagree-delete.component';
+import { UagreeDetailsComponent } from './user/agree-u/uagree-details/uagree-details.component';
+import { UagreeDownloadComponent } from './user/agree-u/uagree-download/uagree-download.component';
+import { UagreeMenuComponent } from './user/agree-u/uagree-menu/uagree-menu.component';
+import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-review.component';
 
 @NgModule({
   declarations: [
@@ -50,29 +48,28 @@ import { DeleteAgreeHComponent } from './house/agree-house/delete-agree-h/delete
     HouseComponent,
     UserComponent,
     ParametersComponent,
-    OrderServicesComponent,
     FilesComponent,
     SubscriptionsComponent,
     ResidentsComponent,
     InfoComponent,
     HouseNavComponent,
     HouseResidentsComponent,
-    AgreementsComponent,
-    AgreementsHComponent,
-    AgreeUComponent,
-    AgreeHouseComponent,
-    ConcludedAgreeComponent,
-    DealsComponent,
-    ConcludedComponent,
-    DownloadAgreeComponent,
     SubscribeToMeComponent,
-    DeleteAgreeComponent,
     FillingComponent,
     HouseInfoComponent,
     HouseShareComponent,
-    DownloadAgreeHComponent,
-    AgreeHComponent,
-    DeleteAgreeHComponent,
+    AgreeReviewComponent,
+    AgreeConcludedComponent,
+    AgreeDownloadComponent,
+    AgreeDeleteComponent,
+    AgreeMenuComponent,
+    AgreeDetailsComponent,
+    UagreeConcludedComponent,
+    UagreeDeleteComponent,
+    UagreeDetailsComponent,
+    UagreeDownloadComponent,
+    UagreeMenuComponent,
+    UagreeReviewComponent,
   ],
   providers: [
     DatePipe

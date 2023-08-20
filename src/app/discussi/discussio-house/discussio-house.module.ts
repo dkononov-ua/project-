@@ -24,7 +24,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ApprovedHComponent } from './approved-h/approved-h.component';
 import { HostDiscussioHComponent } from './host-discussio-h/host-discussio-h.component';
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
-import { AgreementComponent } from 'src/app/account/house/agreement/agreement.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ChatHouseComponent } from './chat-house/chat-house.component';
@@ -35,6 +34,7 @@ import { HostHouseSubComponent } from './host-house-sub/host-house-sub.component
 import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatStepperModule } from '@angular/material/stepper';
+import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     ApprovedHComponent,
     HostDiscussioHComponent,
     HouseDiscussioComponent,
-    AgreementComponent,
+    AgreeCreateComponent,
     ChatHouseComponent,
     ChatComponent,
     ChatRoomsComponent,

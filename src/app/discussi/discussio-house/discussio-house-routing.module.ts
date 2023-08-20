@@ -4,17 +4,16 @@ import { ApprovedHComponent } from './approved-h/approved-h.component';
 import { HostDiscussioHComponent } from './host-discussio-h/host-discussio-h.component';
 import { HouseDiscussioComponent } from './house-discussio/house-discussio.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { AgreementComponent } from 'src/app/account/house/agreement/agreement.component';
 import { ChatHouseComponent } from './chat-house/chat-house.component';
 import { ChatComponent } from './chat/chat.component';
 import { HostHouseSubComponent } from './host-house-sub/host-house-sub.component';
 import { SubscribersHouseComponent } from './subscribers-house/subscribers-house.component';
 import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
+import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
 
 const routes: Routes = [
-
-  { path: 'agreement/:selectedSubscriber?.user_id', component: AgreementComponent, canActivate: [CanActivateGuard] },
-  { path: 'agreement', component: AgreementComponent, canActivate: [CanActivateGuard] },
+  { path: 'agree-create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
+  { path: 'agree-create/:selectedSubscriber?.user_id', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
   { path: 'chat-house', component: ChatHouseComponent, canActivate: [CanActivateGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [CanActivateGuard] },
   {

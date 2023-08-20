@@ -38,7 +38,7 @@
             <div class="card-links">
               <button class="card-link" (click)="startDiscussion()"><span>Почати Discussiю</span><i class="fa-solid fa-message"></i></button>
               <button class="card-link" [routerLinkActive]="'active'"
-                [routerLink]="['/agreement', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
+                [routerLink]="['/agree-create', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
                   class="fa-solid fa-file-contract"></i></button>
             </div>
           </div>

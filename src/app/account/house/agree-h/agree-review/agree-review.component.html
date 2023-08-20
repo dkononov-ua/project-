@@ -1,0 +1,52 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="container-card col-lg-12 col-md-12 col-sm-12 col-12">
+
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="label">Надіслані угоди <span class="accent"> {{ agree.length }} шт</span></div>
+      <div class="card m-2" *ngFor="let agreement of agree">
+        <div class="img-fluid  mt-2">
+
+          <div class="w-30">
+            <img [src]="'http://localhost:3000/img/users/' + agreement.flat.subscriber_img" alt="Flat Image">
+          </div>
+
+          <div class="item-box p-1 w-70">
+            <div class="item-name">{{ agreement.flat.subscriber_lastName}} </div>
+            <div class="item-name">{{ agreement.flat.subscriber_firstName}} </div>
+            <div class="item-name">{{ agreement.flat.subscriber_surName}} </div>
+          </div>
+        </div>
+
+        <div class="item-wrapper mt-1">
+          <div class="item-name">ID Оселі: {{ agreement.flat.flat_id}} </div>
+          <div class="item-name">Строком на: роки {{ agreement.flat.year}} місяці {{agreement.flat.month}}</div>
+          <div class="item-name">Сума оплати: {{ agreement.flat.price}}грн</div>
+          <button class="btn" [routerLink]="['/agree-details', agreement.flat.agreement_id]">Переглянути
+            угоду</button>
+          <button class="btn-1 m-1" (click)="openDialog(agreement)">
+            <i class="fa-solid fa-user-xmark"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card-info">
+        <h2>Надіслані угоди</h2>
+        <div class="title p-2">
+          Тут Ви зможете бачити угоди які Ви заключили.
+        </div>
+        <div class="title p-2">
+          Ви можете переглянути деталі угоди, а також надрукувати її.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
