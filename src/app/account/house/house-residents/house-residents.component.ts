@@ -48,12 +48,10 @@ export class HouseResidentsComponent implements OnInit {
       }
     });
 
-    // Select the first subscriber by default if the array is not empty
     if (this.subscribers.length > 0) {
       this.setSelectedSubscriber(this.subscribers[0]);
     }
   }
-
 
   onSubscriberSelect(subscriber: Subscriber): void {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);

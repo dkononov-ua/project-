@@ -1,11 +1,9 @@
-import { Subject, Subscription, debounceTime } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { FilterService } from '../../search/filter.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { auth } from 'firebaseui';
 
 interface Subscriber {
   user_id: string;
@@ -33,10 +31,7 @@ export class UserSearchComponent implements OnInit {
   selectedFlatId: any;
 
   constructor(
-    private filterService: FilterService,
-    private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router,
     private selectedFlatIdService: SelectedFlatService,
   ) { }
 
@@ -63,11 +58,8 @@ export class UserSearchComponent implements OnInit {
           user_id: this.searchQuery,
         };
 
-        console.log(data);
-
         try {
           const response = await this.http.post<Subscriber[]>(url, data).toPromise();
-          console.log(response);
           this.subscribers = response;
         } catch (error) {
           console.error(error);

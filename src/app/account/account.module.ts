@@ -15,11 +15,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { FilesComponent } from './user/files/files.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
 import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
-import { HouseNavComponent } from './house/house-nav/house-nav.component';
 import { HouseResidentsComponent } from './house/house-residents/house-residents.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -41,6 +39,7 @@ import { UagreeDetailsComponent } from './user/agree-u/uagree-details/uagree-det
 import { UagreeDownloadComponent } from './user/agree-u/uagree-download/uagree-download.component';
 import { UagreeMenuComponent } from './user/agree-u/uagree-menu/uagree-menu.component';
 import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-review.component';
+import { DownloadFillingComponent } from './house/filling/download-filling/download-filling.component';
 
 @NgModule({
   declarations: [
@@ -48,11 +47,9 @@ import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-revie
     HouseComponent,
     UserComponent,
     ParametersComponent,
-    FilesComponent,
     SubscriptionsComponent,
     ResidentsComponent,
     InfoComponent,
-    HouseNavComponent,
     HouseResidentsComponent,
     SubscribeToMeComponent,
     FillingComponent,
@@ -70,6 +67,7 @@ import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-revie
     UagreeDownloadComponent,
     UagreeMenuComponent,
     UagreeReviewComponent,
+    DownloadFillingComponent,
   ],
   providers: [
     DatePipe

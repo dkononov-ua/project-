@@ -1,14 +1,6 @@
-@use "../../../style/presets/" as *;
+@use "../../style/presets/" as *;
 
-.card-box {
-  width: 100%;
-  display: flex;
-  align-content: flex-start;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.navbar-house {
+.navbar {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -44,10 +36,7 @@
   font-family: $font-main;
 }
 
-.fa-solid,
-.fa-regular {
-  color: $color-accent;
-  transform: translate(10px) scale(1.1);
-  transition: 0.4s;
+.fa-solid {
+  color: $color-primary;
+  font-size: 25px;
 }
-

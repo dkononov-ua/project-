@@ -42,7 +42,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MatStepperModule } from '@angular/material/stepper';
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -27,6 +27,7 @@ import { AccountRoutingModule } from 'src/app/account/account-routing.module';
 import { ChatUserComponent } from './chat-user/chat-user.component';
 import { ChatHostComponent } from './chat-host/chat-host.component';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -61,6 +62,8 @@ import { ChatRoomComponent } from './chat-room/chat-room.component';
     RouterModule,
     MatInputModule,
     MatSnackBarModule,
+    MatDialogModule,
+
   ]
 })
 export class DiscussioModule { }

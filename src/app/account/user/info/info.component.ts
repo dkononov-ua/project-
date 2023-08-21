@@ -93,6 +93,7 @@ export class InfoComponent implements OnInit {
   };
 
   userImg: any;
+  loading: boolean = true;
 
   public selectedFlatId: any | null;
 
@@ -180,6 +181,7 @@ export class InfoComponent implements OnInit {
       this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
           this.userInfo = response.inf;
+          this.loading = false;
         }, (error: any) => {
           console.error(error);
         });

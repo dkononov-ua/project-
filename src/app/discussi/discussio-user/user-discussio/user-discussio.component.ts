@@ -7,7 +7,7 @@ import { Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
 interface SelectedFlat {
   flat: any;
   owner: any;
-  img: []
+  img: any;
 }
 @Component({
   selector: 'app-user-discussio',
@@ -113,6 +113,8 @@ export class UserDiscussioComponent implements OnInit {
   private selectedFlatIdSubscription: Subscription | undefined;
   images: string[] = ['http://localhost:3000/img/flat/housing_default.svg'];
   userImg: any;
+  currentPhotoIndex: number = 0;
+
 
   constructor(
     private dataService: DataService,
@@ -154,6 +156,14 @@ export class UserDiscussioComponent implements OnInit {
       console.error(error);
       this.loading = false;
     });
+  }
+
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
   }
 
   getOwnerInfo(): void {

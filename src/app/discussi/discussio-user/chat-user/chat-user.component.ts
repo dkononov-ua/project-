@@ -2,13 +2,20 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, interval, switchMap, takeUntil } from 'rxjs';
-
+import { SMILEYS } from '../../../shared/data-smile'
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-chat-user',
   templateUrl: './chat-user.component.html',
   styleUrls: ['./chat-user.component.scss']
 })
 export class ChatUserComponent implements OnInit {
+
+  @ViewChild('textArea', { static: false })
+  textArea!: ElementRef;
+
+  isSmileyPanelOpen = false;
+  smileys: string[] = SMILEYS;
   allMessages: any[] = [];
   allMessagesNotRead: any[] = [];
   currentSubscription: Subject<unknown> | undefined;
@@ -34,6 +41,20 @@ export class ChatUserComponent implements OnInit {
         this.getUserChats(this.selectedFlat, offs);
       }
     });
+  }
+
+  addSmiley(smiley: string) {
+    this.messageText += smiley;
+  }
+
+  toggleSmileyPanel() {
+    this.isSmileyPanelOpen = !this.isSmileyPanelOpen;
+  }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   async getUserChats(selectedFlat: string, offs: number): Promise<any> {

@@ -59,28 +59,21 @@
           </div>
         </div>
 
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item" *ngFor="let image of images; let i = index" [class.active]="i === 0">
-              <div class="img-wrapper">
-                <img [src]="image ? image : 'http://localhost:3000/img/flat/housing_default.svg'" alt="Flat Image"
-                  class="img-fluid rounded">
-              </div>
-
+        <div *ngIf="selectedFlat">
+          <div class="img-container">
+            <div class="img-wrapper">
+              <img class="img-fluid"
+                [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex] ? 'http://localhost:3000/img/flat/' + selectedFlat.img[currentPhotoIndex] : 'http://localhost:3000/img/flat/housing_default.svg'"
+                alt="Flat Image">
+            </div>
+            <div *ngIf="selectedFlat?.img.length > 1">
+              <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                  class="fa-solid fa-chevron-left"></i></button>
+              <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
+                (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
-
 
         <div class="item-copy">
           <div class="item-characteristics">ID оселі: <span class="item">{{ selectedFlat?.flat.flat_id }}</span>

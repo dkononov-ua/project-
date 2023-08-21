@@ -20,6 +20,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UserSearchComponent } from '../components/user-search/user-search.component';
 import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
+import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
+import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { LoaderComponent } from '../components/loader/loader.component';
     AccountSelectionComponent,
     UserSearchComponent,
     LoaderComponent,
+    NavbarUserComponent,
+    NavbarHouseComponent,
   ],
   exports: [
     NavbarComponent,
@@ -39,6 +43,8 @@ import { LoaderComponent } from '../components/loader/loader.component';
     AccountSelectionComponent,
     UserSearchComponent,
     LoaderComponent,
+    NavbarUserComponent,
+    NavbarHouseComponent,
   ],
   imports: [
     CommonModule,

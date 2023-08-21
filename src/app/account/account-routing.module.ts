@@ -3,7 +3,6 @@ import { AccountComponent } from './account.component';
 import { CanActivateGuard } from '../services/auth.guard';
 import { HouseComponent } from './house/house.component';
 import { UserComponent } from './user/user.component';
-import { FilesComponent } from './user/files/files.component';
 import { SubscriptionsComponent } from './user/subscriptions/subscriptions.component';
 import { ResidentsComponent } from './house/residents/residents.component';
 import { InfoComponent } from './user/info/info.component';
@@ -24,6 +23,7 @@ import { UagreeMenuComponent } from './user/agree-u/uagree-menu/uagree-menu.comp
 import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-review.component';
 import { UagreeDownloadComponent } from './user/agree-u/uagree-download/uagree-download.component';
 import { UagreeDetailsComponent } from './user/agree-u/uagree-details/uagree-details.component';
+import { DownloadFillingComponent } from './house/filling/download-filling/download-filling.component';
 
 const routes: Routes = [
   {
@@ -33,6 +33,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'user', pathMatch: 'full' },
       { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
       { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
+      { path: 'download-filling', component: DownloadFillingComponent, canActivate: [CanActivateGuard] },
 
       { path: 'agree-download/:selectedFlatAgree', component: AgreeDownloadComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-details/:selectedFlatAgree', component: AgreeDetailsComponent, canActivate: [CanActivateGuard] },
@@ -55,7 +56,6 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'info', pathMatch: 'full' },
           { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
-          { path: 'files', component: FilesComponent, canActivate: [CanActivateGuard] },
           { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [CanActivateGuard] },
           { path: 'subscribe', component: SubscribeToMeComponent, canActivate: [CanActivateGuard] },
 

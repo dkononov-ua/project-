@@ -40,14 +40,17 @@ export class FillingComponent implements OnInit {
   selectedCard: boolean = false;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService
+    ) { }
 
-  ngOnInit(): void {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+  async ngOnInit(): Promise<void> {
+    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
-        this.loadObjects();
         this.getInfo();
+        this.loadObjects();
       }
     });
   }
@@ -71,7 +74,7 @@ export class FillingComponent implements OnInit {
     if (flat.img) {
       return 'http://localhost:3000/img/filling/' + flat.img;
     } else {
-      return 'assets/icon-objects/default.filling.png';
+      return '../../../../assets/icon-objects/default.filling.png';
     }
   }
 

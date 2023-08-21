@@ -1,4 +1,4 @@
-<div class="container-chat-messages" *ngIf="!selectedFlat">
+<div class="container-chat-messages p-2" *ngIf="!selectedFlat">
   <div class="img-wrapper">
     <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
   </div>
@@ -10,7 +10,7 @@
   <div class="group-text p-4">
     <div class="text">
       <h2 class="text-1">© Discussio.</h2>
-      <p class="text-1">  Simplify property management with Discussio.</p>
+      <p class="text-1"> Simplify property management with Discussio.</p>
     </div>
   </div>
 </div>
@@ -107,16 +107,39 @@
         </div>
 
       </div>
+
     </div>
+
   </div>
 
   <div class="group">
-    <div class="chat-input col-10">
-      <input type="text" placeholder="Напишіть повідомлення" [(ngModel)]="messageText"
-        (keydown.enter)="sendMessage(selectedFlat)">
+    <div class="group-input">
+
+      <button class="btn-more" (click)="toggleSmileyPanel()">
+        <span class="material-symbols-outlined">
+          add_reaction
+        </span>
+      </button>
+
+      <div class="smiley-panel" [class.open]="isSmileyPanelOpen">
+        <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
+      </div>
+
     </div>
-    <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedFlat)">
-      <i class="fa-solid fa-paper-plane fa-2xl"></i>
-    </button>
+    <div class="input-box">
+      <div class="chat-input col-10">
+        <textarea class="input-field" (input)="onInput()" #textArea id="floatingTextarea" matInput
+          [(ngModel)]="messageText" (keydown.enter)="sendMessage(selectedFlat)"
+          placeholder="Напишіть повідомлення"></textarea>
+      </div>
+
+      <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedFlat)">
+        <i class="fa-solid fa-paper-plane fa-2xl"></i>
+      </button>
+    </div>
+
+
   </div>
+
+
 </div>
