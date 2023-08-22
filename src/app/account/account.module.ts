@@ -40,7 +40,6 @@ import { UagreeDownloadComponent } from './user/agree-u/uagree-download/uagree-d
 import { UagreeMenuComponent } from './user/agree-u/uagree-menu/uagree-menu.component';
 import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-review.component';
 import { DownloadFillingComponent } from './house/filling/download-filling/download-filling.component';
-
 @NgModule({
   declarations: [
     AccountComponent,

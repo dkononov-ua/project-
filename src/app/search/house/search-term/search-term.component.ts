@@ -121,9 +121,11 @@ export class SearchTermComponent implements OnInit {
   }
 
   async fetchFlatData(url: string) {
-    const response = await this.http.get(url).toPromise();
-    this.filteredFlats = response
-    this.applyFilter(response)
+    const response : any = await this.http.get(url).toPromise();
+    console.log(response.img)
+    console.log(response.count)
+    this.filteredFlats = response.img
+    this.applyFilter(response.img)
   }
 
   onInputChange() {
@@ -178,7 +180,6 @@ export class SearchTermComponent implements OnInit {
       const url = this.buildSearchURL(params);
 
       await this.fetchFlatData(url);
-      console.log(11)
       this.applyFilter(this.filteredFlats);
     }, 1000);
   }

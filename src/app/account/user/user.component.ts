@@ -76,5 +76,22 @@ export class UserComponent implements OnInit {
             }});
         }
       }
+
+      this.getMessageAll();
     }
+
+    async getMessageAll(): Promise<any> {
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.http.post('http://localhost:3000/chat/get/DontReadMessageUser', { auth: JSON.parse(userJson) })
+          .subscribe((response: any) => {
+            console.log(response)
+          }, (error: any) => {
+              console.error(error);
+            });
+      } else {
+        console.log('user not found');
+      }
+    };
+
   }

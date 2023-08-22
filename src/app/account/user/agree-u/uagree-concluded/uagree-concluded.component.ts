@@ -1,7 +1,6 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-
 interface Agree {
   flat: {
     agreementDate: string;
@@ -74,6 +73,7 @@ export class UagreeConcludedComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
+      console.log(response)
       this.agree = response;
       this.loading = false;
     } catch (error) {

@@ -45,3 +45,9 @@ span{
     text-shadow: 0 0 40px $color-accent;
   }
 }
+
+@media print {
+  .footer-box {
+    display: none;
+  }
+}

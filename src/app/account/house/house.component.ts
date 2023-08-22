@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
   selector: 'app-house',
@@ -151,10 +152,26 @@ export class HouseComponent implements OnInit {
   addressHouse: any;
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
+  selectedFlatId!: string | null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService,
+    private dataService: DataService,
+    private selectedFlatService: SelectedFlatService
+  ) { }
 
   ngOnInit(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (this.selectedFlatId) {
+        this.getMessageAll();
+      }
+    });
+
+    this.getMessageAll();
+
 
     this.startIdleTimer();
     document.addEventListener('click', () => {
@@ -254,6 +271,22 @@ export class HouseComponent implements OnInit {
       this.isOffline = true;
     }, 5 * 60 * 1000); // 5 хвилин * 60 секунд * 1000 мілісекунд
   }
+
+  async getMessageAll(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/chat/get/DontReadMessageFlat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          console.log(response)
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found');
+    }
+  };
+
+
 
 
 }

@@ -2,7 +2,9 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-agree-download',
   templateUrl: './agree-download.component.html',
@@ -13,15 +15,16 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 })
 
 export class AgreeDownloadComponent implements OnInit {
-
   selectedFlatAgree: any;
   selectedAgreement: any;
   selectedFlatId: any;
+  printableContent: SafeHtml | undefined;
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private selectedFlatIdService: SelectedFlatService,
+    private sanitizer: DomSanitizer
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -55,218 +58,37 @@ export class AgreeDownloadComponent implements OnInit {
     }
   }
 
-  printContainer(): void {
-    const printContainer = document.querySelector('.print-container');
-    if (!printContainer) return;
+  print(): void {
+    const printContainer = document.querySelector('.print-only');
+    if (printContainer) {
+      this.printableContent = this.sanitizer.bypassSecurityTrustHtml(printContainer.innerHTML);
+      const filename = 'your_filename.pdf';
 
-    const iframe = document.createElement('iframe');
-    iframe.style.position = 'fixed';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '0';
-    iframe.style.height = '0';
-    iframe.style.visibility = 'hidden';
-    document.body.appendChild(iframe);
-
-    const doc = iframe.contentWindow?.document;
-    if (doc) {
-      doc.open();
-      const headContent = `
-        <head>
-          <meta charset="UTF-8">
-          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-          <title>Discussio Agree</title>
-          <style>
-          input {
-            border: none;
-            border-radius: 0;
-            width: 70%;
-            height: 10px;
-          }
-
-          p {
-            font-size: 12px;
-            font-family: 'Montserrat', sans-serif;
-          }
-
-          ul {
-            font-weight: 600;
-            font-size: 12px;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-          }
-
-          li {
-            font-size: 12px;
-            font-weight: 400;
-            font-family: 'Montserrat', sans-serif;
-          }
-
-          h5 {
-            font-size: 14px;
-          }
-
-          mat-label {
-            font-size: 12px;
-          }
-
-          .print-container {
-            font-family: 'Montserrat', sans-serif;
-            width: 90%;
-            margin: 0;
-            padding: 10px 20px;
-          }
-
-          .print-container {
-            display: block;
-          }
-
-          .agree {
-            width: 100%;
-            padding: 10px 20px;
-          }
-
-          .box {
-            display: flex;
-            align-items: flex-start;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .title-group {
-            display: flex;
-          }
-          .logo {
-            width: 6rem;
-            height: 6rem;
-          }
-
-          .title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 1.2em;
-          }
-          .accent {
-            font-weight: 600;
-          }
-          .container-agree {
-            display: flex;
-            flex-direction: column;
-          }
-          .wrapper-group {
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-          }
-          .agree-wrapper {
-            width: 49%;
-            display: flex;
-            align-items: baseline;
-            flex-direction: column;
-            justify-content: flex-start;
-          }
-
-          .item-agree {
-            width: 100%;
-            font-weight: 600;
-            border-radius: 10px;
-            padding: 2px;
-            margin: 2px 5px;
-          }
-
-          .container-fluid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-          }
-
-          .field-box {
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            margin-top: 20px;
-          }
-
-          .input-box {
-            display: flex;
-            width: 100%;
-            height: 20px !important;
-            align-items: center;
-            border-bottom: 1px solid black;
-            padding: 0px 10px;
-            position: relative;
-          }
-
-          .signature-box {
-            display: flex;
-            flex-wrap: wrap;
-          }
-
-          .input-box-signature {
-            display: flex;
-            width: 100%;
-            height: 40px !important;
-            align-items: center;
-            padding: 0px 10px;
-            position: relative;
-          }
-
-          .signature {
-            color: rgb(54, 54, 54);
-            width: 30%;
-            height: 30px;
-            padding: 0px 10px;
-            font-size: 8px;
-            margin-left: 5px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-          }
-
-          .mb-2 {
-            margin-bottom: 20px;
-          }
-
-          .text {
-            font-size: 14px;
-          }
-
-          .item-description-agree {
-          }
-
-          .about {
-            width: 100%;
-            min-height: 200px;
-            border-top: 1px solid gray;
-            border-bottom: 1px solid gray;
-          }
-
-          </style>
-
-        </head>
-      `;
-      const bodyContent = `
-        <body>
-          ${printContainer.outerHTML}
-        </body>
-      `;
-      doc.write(`<html>${headContent}${bodyContent}</html>`);
-      doc.close();
-
-      iframe.onload = () => {
-        iframe.contentWindow?.print();
-        document.body.removeChild(iframe);
-      };
+      setTimeout(() => {
+        window.print();
+      });
     }
   }
 
-  printPage(): void {
-    this.printContainer();
+  autoPrintAndDownloadPDF() {
+    const printContainer = document.querySelector('.print-only') as HTMLElement;
+    if (printContainer) {
+      const filename = 'your_filename.pdf';
+      html2canvas(printContainer).then(canvas => {
+        const pdf = new jsPDF.default();
+        const imgData = canvas.toDataURL('image/png');
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(filename);
+      });
+    }
   }
+
+
 
 }
 
