@@ -3,14 +3,14 @@
     <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
   </div>
   <div class="group-text p-4">
-    <div class="text">
-      <h2 class="text-1">Оберіть з ким будете спілкуватись!</h2>
+    <div>
+      <div class="text">Оберіть з ким будете спілкуватись!</div>
     </div>
   </div>
   <div class="group-text p-4">
     <div class="text">
-      <h2 class="text-1">© Discussio.</h2>
-      <p class="text-1"> Simplify property management with Discussio.</p>
+      <div class="text-1">© Discussio.</div>
+      <div class="text-1"> Simplify property management with Discussio.</div>
     </div>
   </div>
 </div>
@@ -111,34 +111,32 @@
     </div>
 
   </div>
+</div>
 
-  <div class="group">
-    <div class="group-input">
+<div class="group">
+  <div class="group-input">
 
-      <button class="btn-more" (click)="toggleSmileyPanel()">
-        <span class="material-symbols-outlined">
-          add_reaction
-        </span>
-      </button>
+    <button class="btn-more" (click)="toggleSmileyPanel()">
+      <span class="material-symbols-outlined">
+        add_reaction
+      </span>
+    </button>
 
-      <div class="smiley-panel" [class.open]="isSmileyPanelOpen">
-        <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
-      </div>
-
-    </div>
-    <div class="input-box">
-      <div class="chat-input col-10">
-        <textarea class="input-field" (input)="onInput()" #textArea id="floatingTextarea" matInput
-          [(ngModel)]="messageText" (keydown.enter)="sendMessage(selectedFlat)"
-          placeholder="Напишіть повідомлення"></textarea>
-      </div>
-
-      <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedFlat)">
-        <i class="fa-solid fa-paper-plane fa-2xl"></i>
-      </button>
+    <div class="smiley-panel" [class.open]="isSmileyPanelOpen">
+      <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
     </div>
 
+  </div>
+  <div class="input-box">
+    <div class="chat-input col-10">
+      <textarea class="input-field" (input)="onInput()" #textArea id="floatingTextarea" matInput
+        [(ngModel)]="messageText" (keydown.enter)="sendMessage(selectedFlat)"
+        placeholder="Напишіть повідомлення"></textarea>
+    </div>
 
+    <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedFlat)">
+      <i class="fa-solid fa-paper-plane fa-2xl"></i>
+    </button>
   </div>
 
 

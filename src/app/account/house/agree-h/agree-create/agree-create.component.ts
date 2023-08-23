@@ -7,13 +7,16 @@ import { DataService } from 'src/app/services/data.service';
 import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 const moment = _rollupMoment || _moment;
+const today = new Date();
+const month = today.getMonth();
+const year = today.getFullYear();
 
 export const MY_FORMATS = {
   parse: {
@@ -65,58 +68,72 @@ interface Subscribers {
   ],
 })
 export class AgreeCreateComponent implements OnInit {
+  @ViewChild('textArea', { static: false })
+  textArea!: ElementRef;
   @ViewChild('agreeContainer') agreeContainer: ElementRef | undefined;
   message: string = '';
-  subscribers: Subscribers[] = [];
-  selectedFlatId: string | any;
-  isOnline = true;
-  isOffline = false;
-  selectedSubscriber: any;
+  phonePattern = '^[0-9]{10}$';
+
   houseData: any;
   userData: any;
-  isLoading: boolean = true;
-  months: number | undefined;
-  days: number = 0;
-  years: number | undefined;
-  rentDueDate: number | undefined;
-  penalty?: number = 0;
-  conditions: string = '';
-  maxPenalty?: number = 0;
-  agreement_type: number = 0;
-  subscriber_tell: any = '';
-  subscriber_mail: string = '';
-  owner_tell: any = '';
-  owner_mail: string = '';
-  phonePattern = '^[0-9]{10}$';
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  isLinear = false;
-  currentStep: number = 1;
-  changeStep(step: number): void {
-    this.currentStep = step;
-  }
+  subscribers: Subscribers[] = [];
+  selectedFlatId: string | any;
+  selectedSubscriber: any;
+
   isCityDisabled: boolean = true;
   isStreetDisabled: boolean = true;
   isHouseNumberDisabled: boolean = true;
   isApartmentNumberDisabled: boolean = true;
   isApartmentSizeDisabled: boolean = true;
-  isRentPriceDisabled: boolean = true;
+  isCheckboxChecked: boolean = false;
+  isCheckboxPenalty: boolean = false;
   loading: boolean = true;
-  isContainerVisible = false;
-  isCheckboxChecked = false;
-  isCheckboxPenalty = false;
-  additional_conditions = false;
-  agreementDate: any = moment();
+  isContainerVisible: boolean = false;
+  additional_conditions: boolean = false;
   formSubmitted: boolean = false;
-  agreementCreated: boolean | undefined;
+  agreementCreated: boolean = false;
+
+  currentStep: number = 1;
   statusMessage: string | undefined;
 
-  @ViewChild('textArea', { static: false })
-  textArea!: ElementRef;
+  // термін оренди старий залишим на потім
+  months: number | undefined;
+  days: number | undefined;
+  years: number | undefined;
+  // дата створення угоди
+  agreementDate: any = moment();
+  // термін початку - закінчення угоди
+  dateAgreeStart: string = '';
+  dateAgreeEnd: string = '';
+  // число оплати квартплати
+  rentDueDate: number | undefined;
+  // документ на правовласності
+  ownership: string = '';
+  // в який термін передаємо оселю орендару
+  transferHouse: number | undefined;
+  // хто оплачує комуналку
+  whoPayComun: number = 0;
+  // заставна сума
+  depositPayment: number | undefined;
+  //  повідомленням про Дострокове розірвання даного Договору, а також зміна його умов, не менше ніж за днів
+  dateAgreeBreakUp: string = '';
+  // дозвіл на кількість відвідувань оселі власником на місяць
+  numberVisits: number | undefined;
+  // особи які будуть проживати
+  personsReside: string = '';
+  // після закінчення/розірвання угоди звільнити оселю через кількість днів
+  vacateHouse: number | undefined;
+  // штрафні санкції не використовую залишу на потім
+  penalty?: number = 0;
+  maxPenalty?: number = 0;
+  // додаткові умови від власника
+  conditions: string = '';
+  // тип угоди місяць/день треба для угоди подобово поки не використовуємо
+  agreement_type: number = 0;
+
+  changeStep(step: number): void {
+    this.currentStep = step;
+  }
 
   openContainer() {
     this.isContainerVisible = true;
@@ -126,6 +143,11 @@ export class AgreeCreateComponent implements OnInit {
     this.isContainerVisible = false;
   }
 
+  campaignOne = new FormGroup({
+    start: new FormControl(new Date(year, month, 13)),
+    end: new FormControl(new Date(year, month, 16)),
+  });
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -134,10 +156,15 @@ export class AgreeCreateComponent implements OnInit {
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
-    private _formBuilder: FormBuilder
+    private formBuilder: FormBuilder
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.campaignOne = new FormGroup({
+      start: new FormControl(new Date(year, month)),
+      end: new FormControl(new Date(year, month))
+    });
+
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
@@ -162,6 +189,7 @@ export class AgreeCreateComponent implements OnInit {
     try {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
+      console.log(this.houseData)
       if (this.houseData.imgs === 'Картинок нема') {
         this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
       }
@@ -222,14 +250,23 @@ export class AgreeCreateComponent implements OnInit {
 
   sendFormAgreement(subscriber: Subscribers): void {
     this.formSubmitted = true;
-    if (!this.isFormEmpty()) {
-      const selectedFlatId = this.selectedFlatIdService.getSelectedFlatId();
-      const userJson = localStorage.getItem('user');
-      this.agreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
-      if (userJson && selectedFlatId && subscriber) {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      const formattedAgreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
+      const formattedAgreementDateStart = this.datePipe.transform(this.campaignOne.get('end')?.value, 'yyyy-MM-dd');
+      const formattedAgreementDateEnd = this.datePipe.transform(this.campaignOne.get('end')?.value, 'yyyy-MM-dd');
+      if (!this.selectedSubscriber) {
+        this.showMessage('Будь ласка, оберіть орендара');
+        return;
+      }
+      if (!this.selectedFlatId) {
+        this.showMessage('Будь ласка, оберіть оселю');
+        return;
+      }
+      if (this.selectedSubscriber && this.selectedFlatId) {
         const data = {
           auth: JSON.parse(userJson),
-          flat_id: selectedFlatId,
+          flat_id: this.selectedFlatId,
           owner: {
             user_id: this.userData?.cont?.user_id,
             firstName: this.userData?.inf?.firstName,
@@ -258,10 +295,11 @@ export class AgreeCreateComponent implements OnInit {
             area: this.houseData?.param.area,
             price: this.houseData?.about.price_m,
             street: this.houseData?.flat.street,
+            ownership: this.ownership,
           },
 
           terms: {
-            agreementDate: this.agreementDate,
+            agreementDate: formattedAgreementDate,
             month: this.months || 0,
             days: this.days || 0,
             year: this.years || 0,
@@ -271,39 +309,51 @@ export class AgreeCreateComponent implements OnInit {
             agree: this.isCheckboxChecked,
             about: this.conditions,
             agreement_type: this.agreement_type,
+
+            agreementDateStart: formattedAgreementDateStart,
+            agreementDateEnd: formattedAgreementDateEnd,
+            transferHouse: this.transferHouse,
+            whoPayComun: this.whoPayComun,
+            depositPayment: this.depositPayment,
+            dateAgreeBreakUp: this.dateAgreeBreakUp,
+            numberVisits: this.numberVisits,
+            personsReside: this.personsReside,
+            vacateHouse: this.vacateHouse,
           }
         };
-        this.http.post('http://localhost:3000/agreement/add/agreement', data)
-          .subscribe(
-            (response: any) => {
-              this.loading = true;
-              if (response.status === 'Данні введено не правильно') {
-                console.error(response.status);
-                setTimeout(() => {
-                  this.statusMessage = 'Помилка формування угоди.';
-                  setTimeout(() => {
-                    location.reload();
-                  }, 2000);
-                }, 2000);
-              } else {
-                setTimeout(() => {
-                  this.statusMessage = 'Угода надіслана на розгляд орендарю!';
-                  setTimeout(() => {
-                    this.router.navigate(['/house/agree-review']);
-                  }, 3000);
-                }, 2000);
-              }
-            },
-            (error: any) => {
-              console.error(error);
-              setTimeout(() => {
-                this.statusMessage = 'Помилка формування угоди.';
-                setTimeout(() => {
-                  location.reload();
-                }, 2000);
-              }, 2000);
-            }
-          );
+
+        console.log(data)
+        // this.http.post('http://localhost:3000/agreement/add/agreement', data)
+        //   .subscribe(
+        //     (response: any) => {
+        //       this.loading = true;
+        //       if (response.status === 'Данні введено не правильно') {
+        //         console.error(response.status);
+        //         setTimeout(() => {
+        //           this.statusMessage = 'Помилка формування угоди.';
+        //           setTimeout(() => {
+        //             location.reload();
+        //           }, 2000);
+        //         }, 2000);
+        //       } else {
+        //         setTimeout(() => {
+        //           this.statusMessage = 'Угода надіслана на розгляд орендарю!';
+        //           setTimeout(() => {
+        //             this.router.navigate(['/house/agree-review']);
+        //           }, 3000);
+        //         }, 2000);
+        //       }
+        //     },
+        //     (error: any) => {
+        //       console.error(error);
+        //       setTimeout(() => {
+        //         this.statusMessage = 'Помилка формування угоди.';
+        //         setTimeout(() => {
+        //           location.reload();
+        //         }, 2000);
+        //       }, 2000);
+        //     }
+        //   );
         this.loading = false;
       } else {
         console.log('User, flat, or subscriber not found');
@@ -312,16 +362,11 @@ export class AgreeCreateComponent implements OnInit {
     }
   }
 
-
-  isFormEmpty(): boolean {
-    return !this.rentDueDate || isNaN(Number(this.months));
-  }
-
   showMessage(msg: string): void {
     this.message = msg;
-    setTimeout(() => {
-      this.clearMessage();
-    }, 3000);
+      setTimeout(() => {
+        this.clearMessage();
+      }, 3000);
   }
 
   clearMessage(): void {

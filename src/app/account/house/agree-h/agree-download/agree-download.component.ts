@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-agree-download',
   templateUrl: './agree-download.component.html',
@@ -62,34 +60,12 @@ export class AgreeDownloadComponent implements OnInit {
     const printContainer = document.querySelector('.print-only');
     if (printContainer) {
       this.printableContent = this.sanitizer.bypassSecurityTrustHtml(printContainer.innerHTML);
-      const filename = 'your_filename.pdf';
-
+      const filename = 'ugoda';
       setTimeout(() => {
         window.print();
       });
     }
   }
-
-  autoPrintAndDownloadPDF() {
-    const printContainer = document.querySelector('.print-only') as HTMLElement;
-    if (printContainer) {
-      const filename = 'your_filename.pdf';
-      html2canvas(printContainer).then(canvas => {
-        const pdf = new jsPDF.default();
-        const imgData = canvas.toDataURL('image/png');
-
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(filename);
-      });
-    }
-  }
-
-
-
 }
 
 

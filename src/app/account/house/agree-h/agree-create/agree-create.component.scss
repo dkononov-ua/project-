@@ -108,6 +108,19 @@
 .card {
   width: 100%;
   justify-content: flex-start;
+  min-height: 65vh;
+}
+
+.card-user {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: $color-white;
+  border-radius: 10px;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 img {
@@ -161,26 +174,29 @@ img {
 .characteristics-group {
   display: flex;
   align-content: center;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  border-bottom: 1px solid $color-primary;
 }
 
 .label-auto {
   color: $color-dark;
   font-size: 16px;
 }
+
 .img-fluid {
   display: flex;
   justify-content: space-evenly;
-  padding: 0px 5px;
+  height: 110px;
 }
 
 .item-box {
   display: flex;
-  width: 100%;
   flex-direction: column;
   align-items: stretch;
+  justify-content: flex-end;
+  padding-bottom: 10px;
 }
 
 .item-description {
@@ -276,9 +292,9 @@ img {
 .content {
   margin: 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
 }
 
 .info-text {
@@ -331,12 +347,33 @@ textarea {
   height: 100px;
 }
 
+.btn-agree.active {
+  width: 100%;
+  height: 100px;
+  background-color: $color-accent;
+  transition: 1s;
+  &:hover {
+    color: $color-white;
+    font-size: 20px;
+    background-color: $color-dark;
+  }
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .agree {
   position: relative;
   width: 100%;
   background-color: $color-white;
   padding: 10px 40px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .close-box {
   position: absolute;
@@ -426,6 +463,7 @@ textarea {
   border-bottom: 1px solid black;
   padding: 0px 10px;
   position: relative;
+  justify-content: space-between;
 }
 
 .signature {
