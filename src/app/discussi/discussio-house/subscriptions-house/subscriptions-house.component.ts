@@ -81,6 +81,14 @@ export class SubscriptionsHouseComponent implements OnInit {
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
   statusMessage: any;
+  cardNext: number = 0;
+
+  selectedCard: boolean = false;
+
+  isFeatureEnabled: boolean = false;
+  toggleMode(): void {
+    this.isFeatureEnabled = !this.isFeatureEnabled;
+  }
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',

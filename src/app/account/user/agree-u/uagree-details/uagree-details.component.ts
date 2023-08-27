@@ -86,6 +86,7 @@ export class UagreeDetailsComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
+      console.log(response)
       this.agree = response;
     } catch (error) {
       console.error(error);
@@ -119,12 +120,11 @@ export class UagreeDetailsComponent implements OnInit {
 
       this.http.post('http://localhost:3000/agreement/accept/agreement', data)
         .subscribe(
-
           (response: any) => {
             setTimeout(() => {
               this.loading = true;
               setTimeout(() => {
-                this.statusMessage = 'Угода підписана!';
+                this.statusMessage = 'Умови угоди ухвалені!';
                 setTimeout(() => {
                   this.router.navigate(['/user/uagree-concluded']);
                 }, 4000);
@@ -135,7 +135,7 @@ export class UagreeDetailsComponent implements OnInit {
             console.error(error);
             setTimeout(() => {
               this.loading = false;
-              this.statusMessage = 'Помилка підписання угоди.';
+              this.statusMessage = 'Помилка ухвалення умов угоди угоди.';
             }, 3000);
           }
         );
@@ -168,7 +168,6 @@ export class UagreeDetailsComponent implements OnInit {
     };
 
     try {
-      console.log(data)
       const response = await this.http.post(url, data).toPromise();
       this.deletingFlatId = agreement.flat.flat_id;
       setTimeout(() => {

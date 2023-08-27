@@ -1,41 +1,69 @@
 <div class="container-card">
-
-  <div class="card-box col-lg-7 col-md-5 col-sm-6 col-12">
+  <div class="card-box col-lg-7 col-md-12 col-sm-12 col-12">
     <div class="card-container">
       <div class="scrollable-container p-4">
 
         <a [routerLinkActive]="'active'" [routerLink]="'/agree-create'">
-          <div class="card-wrapper card mb-4">
+          <div class="card-wrapper card mb-3">
             <div class="card-img-container">
               <img class="card-img-top" src="../../../../../assets/agree3.jpg" alt="Flat Image">
             </div>
             <div class="name">
-              <h4>Сформувати</h4>
+              <h4>Формувати</h4>
               <h4>угоду</h4>
             </div>
           </div>
         </a>
 
+        <a [routerLinkActive]="'active'" [routerLink]="'/act-create'">
+          <div class="card-wrapper card mb-3">
+            <div class="card-img-container">
+              <img class="card-img-top" src="../../../../../assets/agree2.jpg" alt="Flat Image">
+            </div>
+            <div class="name">
+              <h4>Формувати</h4>
+              <h4>Акт</h4>
+              <h5>прийому</h5>
+              <h5>передачі</h5>
+            </div>
+          </div>
+        </a>
+
+        <a [routerLinkActive]="'active'" [routerLink]="'/act-view'">
+          <div class="card-wrapper card mb-3">
+            <div class="card-img-container">
+              <img class="card-img-top" src="../../../../../assets/agree2.jpg" alt="Flat Image">
+            </div>
+            <div class="name">
+              <h4>Перегляд</h4>
+              <h4>Акт</h4>
+              <h5>прийому</h5>
+              <h5>передачі</h5>
+            </div>
+          </div>
+        </a>
+
         <a [routerLinkActive]="'active'" [routerLink]="'/house/agree-review'">
-          <div class="card-wrapper card mb-4">
+          <div class="card-wrapper card mb-3">
             <div class="card-img-container">
               <img class="card-img-top" src="../../../../../assets/agree1.jpg" alt="Flat Image">
             </div>
             <div class="name">
-              <h4>Надіслані</h4>
-              <h4>угоди</h4>
+              <h4>Очікую</h4>
+              <h5>погодження</h5>
             </div>
           </div>
         </a>
 
         <a [routerLinkActive]="'active'" [routerLink]="'/house/agree-concluded'">
-          <div class="card-wrapper card mb-4">
+          <div class="card-wrapper card mb-3">
             <div class="card-img-container">
               <img class="card-img-top" src="../../../../../assets/agree.jpg" alt="Flat Image">
             </div>
             <div class="name">
-              <h4>Заключені</h4>
-              <h4>угоди</h4>
+              <h4>Ухвалені</h4>
+              <h5>до</h5>
+              <h5>підписання</h5>
             </div>
           </div>
         </a>

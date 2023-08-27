@@ -4,7 +4,7 @@
 
 <ng-template #content>
   <div class="container-box">
-    <div class="card-box col-lg-5 col-md-6 col-sm-12 col-12">
+    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card m-2">
 
         <div class="img-fluid">
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div [@cardAnimation] class="card-box col-lg-5 col-md-6 col-sm-12 col-12">
+    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation] >
       <div class="card m-2 p-2" *ngIf="userInfo.agree_search !== 0">
 
         <div class="container-sticker">

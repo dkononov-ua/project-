@@ -1,0 +1,373 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div *ngIf="!isContainerVisible" class="container-box">
+    <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
+      <h2>Формування</h2>
+      <h2>Акту прийому-передачі житлового приміщення</h2>
+      <div class="mt-5">
+
+        <mat-form-field class="mb-2 w-100" appearance="outline">
+          <mat-label class="list-label">Оберіть угоду</mat-label>
+          <mat-select class="list-select" [(ngModel)]="selectedAgreement">
+            <mat-option [value]="null" disabled selected>Оберіть угоду</mat-option>
+            <mat-option *ngFor="let agreement of agree" [value]="agreement">
+              {{ agreement.flat.agreement_id }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div class="description"><span class="bold">Для створення</span> акту прийому-передачі житлового приміщення,
+          треба лише обрати сформовану підтверджену угоду, записати показання лічильників на момент передачі. Якщо щось
+          забули додати до оселі Ви завжди можете повернутись до меню наповнення додати необхідні предмети та
+          повернутись сюди.</div>
+
+
+        <div class="menu">
+          <div class="box-btn">
+            <a class="link-item m-1" [routerLinkActive]="'active'"
+              [routerLink]="'/housing-parameters/host/add-objects'">
+              <span class="link-text">Додати наповнення</span>
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </a>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+    <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+
+      <!-- <div [@cardAnimation1] class="card-user m-2 p-2">
+        <div class="img-fluid p-1">
+          <div class="w-30">
+            <img [src]="'http://localhost:3000/img/users/' +
+              (selectedAgreement?.flat?.owner_img
+              ? selectedAgreement?.flat?.owner_img : 'user_default.svg')" alt="User Image">
+          </div>
+          <div class="item-box w-70">
+            <div class="item-name">Орендодавець</div>
+
+            <div class="item-name">{{ selectedAgreement?.flat?.owner_lastName }} </div>
+            <div class="item-name"> {{ selectedAgreement?.flat?.owner_firstName }}
+              {{ selectedAgreement?.flat?.owner_surName }}</div>
+            <div class="text">User ID: {{ selectedAgreement?.flat?.owner_id }}</div>
+          </div>
+        </div>
+      </div> -->
+
+      <div [@cardAnimation2] class="card-user m-2 p-2">
+        <div class="img-fluid p-1">
+          <div class="w-30">
+            <img [src]="'http://localhost:3000/img/users/' +
+              (selectedAgreement?.flat?.subscriber_img
+              ? selectedAgreement?.flat?.subscriber_img : 'user_default.svg')" alt="User Image">
+          </div>
+          <div class="item-box w-70">
+            <div class="item-name">Орендар</div>
+
+            <div class="item-name">{{ selectedAgreement?.flat?.subscriber_lastName }}</div>
+            <div class="item-name">{{ selectedAgreement?.flat?.subscriber_firstName }} {{
+              selectedAgreement?.flat?.subscriber_surName }}</div>
+            <div class="text">User ID: {{ selectedAgreement?.flat?.subscriber_id }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div [@cardAnimation3] class="card-user m-2 p-2">
+        <div class="img-fluid p-1">
+          <div class="w-30">
+            <img [src]="selectedAgreement?.img[0] ? 'http://localhost:3000/img/flat/' + selectedAgreement?.img[0] :
+          'http://localhost:3000/img/flat/housing_default.svg'" alt="Flat Image">
+          </div>
+          <div class="item-box w-70">
+            <div class="item-name">Оселя</div>
+
+            <div class="box-2">
+              <div class="item-name" *ngIf="selectedAgreement?.flat?.city">{{ selectedAgreement?.flat?.city }}</div>
+              <div class="item-name" *ngIf="selectedAgreement?.flat?.street">
+                | вул. {{ selectedAgreement?.flat?.street }}</div>
+              <div class="item-name" *ngIf="selectedAgreement?.flat?.houseNumber">
+                | буд. {{ selectedAgreement?.flat?.houseNumber}} </div>
+              <div class="item-name" *ngIf="selectedAgreement?.flat?.apartment">
+                | кв. {{selectedAgreement?.flat?.apartment }}</div>
+            </div>
+
+            <div class="text">ID: {{ selectedAgreement?.flat?.flat_id }}</div>
+
+          </div>
+        </div>
+
+        <div class="item-wrapper mt-1">
+          <mat-form-field class="input-mat w-50 p-1" appearance="outline">
+            <mat-label class="label-accent">Газ</mat-label>
+            <input type="number" name="gas" matInput [(ngModel)]="gas">
+          </mat-form-field>
+          <mat-form-field class="input-mat w-50 p-1" appearance="outline">
+            <mat-label class="label-accent">Вода холодна</mat-label>
+            <input type="number" name="cold_water" matInput [(ngModel)]="cold_water">
+          </mat-form-field>
+          <mat-form-field class="input-mat w-50 p-1" appearance="outline">
+            <mat-label class="label-accent">Вода гаряча</mat-label>
+            <input type="number" name="hot_water" matInput [(ngModel)]="hot_water">
+          </mat-form-field>
+          <mat-form-field class="input-mat w-50 p-1" appearance="outline">
+            <mat-label class="label-accent">Електроенергія</mat-label>
+            <input type="number" name="electro" matInput [(ngModel)]="electro">
+          </mat-form-field>
+        </div>
+
+        <div class="p-2 ">
+          <div class="characteristics-group mb-2">
+            <div class="info-text w-75">З деталями ознайомлений. Акт сформовано вірно.</div>
+            <div class="content w-25">
+              <label class="checkBox">
+                <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+                <div class="transition"></div>
+              </label>
+              <i></i>
+            </div>
+          </div>
+          <button class="btn btn-agree mb-2" type="submit" [disabled]="!selectedAgreement" (click)="openContainer()">Переглянути деталі
+            угоди</button>
+          <button class="btn btn-agree" type="submit" (click)="sendFormAgreement()"
+            [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!selectedAgreement || !isCheckboxChecked">Надіслати угоду
+            орендару</button>
+          <div *ngIf="message" class="error-message">{{ message }}</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="agreement-container" *ngIf="isContainerVisible" id="agreement-container">
+    <div class="btn-group-abs">
+      <button class="btn m-1" type="submit" (click)="closeContainer()">НАЗАД</button>
+      <button class="btn m-1" type="submit" (click)="print()">ДРУКУВАТИ <span class="material-symbols-outlined">
+          print
+        </span>
+      </button>
+    </div>
+
+    <div class="agree print-only">
+
+      <div class="page">
+        <div class="title-box m-2">
+          <div class="title-group w-70">
+            <div class="title-text">Додаток № 1 до Договору оренди {{selectedAgreement?.flat?.agreement_id}} нерухомого
+              майна вiд {{selectedAgreement?.flat?.agreementDate | date}}</div>
+            <div class="title">АКТ прийому-передачі житлового приміщення</div>
+            <div class="title-text">Дата: <span class="accent"> {{selectedAgreement?.flat?.dateAgreeStart | date}}
+              </span>
+              <div class="title-text">Цей Акт складено до виконання Угоди оренди нерухомого майна укладеного між</div>
+            </div>
+          </div>
+
+          <div class="title-group w-30">
+            <div class="box">
+              <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
+              <div class="text">© Discussio. Угода</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-column border-top mb-2">
+          <div class="wrapper-group border-bottom pb-1 mb-1">
+            <div class="agree-wrapper ">
+              <div class="text">Сторона орендодавця</div>
+              <div class="text ">П.І.Б:<span class="accent">
+                  {{ selectedAgreement?.flat?.owner_lastName }}{{ selectedAgreement?.flat?.owner_firstName }}
+                  {{ selectedAgreement?.flat?.owner_surName }}</span>
+              </div>
+              <div class="text">User ID: <span class="text accent">{{ selectedAgreement?.flat?.owner_id }}</span>
+              </div>
+              <div class="text">Телефон:<span class="text accent">{{ selectedAgreement?.flat?.owner_tell }}</span>
+              </div>
+              <div class="text">Email:<span class="text accent">{{ selectedAgreement?.flat?.owner_email }}</span>
+              </div>
+            </div>
+            <div class="agree-wrapper">
+              <div class="text">Сторона орендара</div>
+              <div class="text ">П.І.Б:<span class="accent">
+                  {{selectedAgreement?.flat?.subscriber_lastName }}{{selectedAgreement?.flat?.subscriber_firstName }}
+                  {{selectedAgreement?.flat?.subscriber_surName}}</span>
+              </div>
+              <div class="text">User ID: <span class="text accent">{{ selectedAgreement?.flat?.subscriber_id }}</span>
+              </div>
+              <div class="text">Телефон:<span class="text accent">{{ selectedAgreement?.flat?.subscriber_tell }}</span>
+              </div>
+              <div class="text">Email:<span class="text accent">{{ selectedAgreement?.flat?.subscriber_email }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="text"> Ми, що нижче підписалися, Орендодавець, з одного боку, і Орендар, з
+            іншого боку, склали цей Акт про те, що
+            відповідно до зазначеного вище Договору Орендодавець передав, а Орендар прийняв у тимчасове оплатне
+            користування (оренду)
+          </div>
+          <div class="text">
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.option_flat == 1 && selectedAgreement?.flat?.room == 0">будинок</span>
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.option_flat == 2 && selectedAgreement?.flat?.room == 0">квартиру</span>
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.room == 1 && selectedAgreement?.flat?.option_flat == 1">кімнату в
+              будинку</span>
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.room == 1 && selectedAgreement?.flat?.option_flat == 2">кімнату в
+              квартирі</span>
+            <span *ngIf="!selectedAgreement?.flat?.option_flat">___________________________</span>
+            <span class="accent">ID оселі: {{ selectedAgreement?.flat?.flat_id }}</span>, площею:
+            <span class="accent">{{selectedAgreement?.flat?.area}} м²</span>, об'єкт знаходиться за адресою:
+            <span class="accent"> вулиця {{ selectedAgreement?.flat?.street }},
+              будинок {{ selectedAgreement?.flat?.houseNumber }}, квартира
+              {{ selectedAgreement?.flat?.apartment }}</span>
+            Орендодавець передав Об'єкт нерухомості в користування в придатному для використання за призначенням стані.
+            Орендар зобов'язується забезпечити збереження та повернути Орендодавцеві Об'єкт нерухомості в належному
+            стані, з
+            урахуванням нормального фізичного зносу.
+            Момент передачі в користування Об'єкту нерухомості зафіксований вірно: <br>
+
+            Показання лічильника електроенергії:
+            <span class="accent" *ngIf="electro">{{electro}} </span>
+            <span *ngIf="!electro">___________________________________.</span>кВт.<br>
+
+            Показання лічильника холодної води:
+            <span class="accent" *ngIf="cold_water">{{cold_water}}</span>
+            <span *ngIf="!cold_water">___________________________________.</span>м³.<br>
+
+            Показання лічильника гарячої води:
+            <span class="accent" *ngIf="hot_water">{{hot_water}}</span>
+            <span *ngIf="!hot_water">___________________________________.</span>м³.<br>
+
+            Показанння лічильника газу:
+            <span class="accent" *ngIf="gas">{{gas}}</span>
+            <span *ngIf="!gas">___________________________________.</span>м³.
+          </div>
+        </div>
+
+        <div class="container-box">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+            <div class="m-2">
+              <div class="text bold">Орендодавець:</div>
+              <div class="input-box">
+                <div class="text w-75"> {{selectedAgreement?.flat?.owner_lastName}}
+                  {{selectedAgreement?.flat?.owner_firstName}} {{selectedAgreement?.flat?.owner_surName}}</div>
+                <div class="signature w-25">підпис</div>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
+            <div class="m-2">
+              <div class="text bold">Орендар:</div>
+
+              <div class="input-box">
+                <div class="text w-75"> {{selectedAgreement?.flat?.subscriber_lastName}}
+                  {{selectedAgreement?.flat?.subscriber_firstName}} {{selectedAgreement?.flat?.subscriber_surName}}
+                </div>
+                <div class="signature w-25">підпис</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="page-number">Сторінка 1/2</div>
+      </div>
+
+      <div class="page page2">
+        <div class="flex-column">
+
+          <div class="title-group">
+            <div class="title-text">Доповнення* до Додаток № 1 до Договору оренди
+              {{selectedAgreement?.flat?.agreement_id}} нерухомого
+              майна вiд {{selectedAgreement?.flat?.agreementDate | date}}</div>
+            <div class="title-text">Список наповнення оселі, меблі/предмети/техніка.</div>
+          </div>
+
+          <div *ngIf="!this.flat_objects">
+            <ul>
+              <li>1.</li>
+              <li>2.</li>
+              <li>3.</li>
+              <li>4.</li>
+              <li>5.</li>
+              <li>6.</li>
+              <li>7.</li>
+              <li>8.</li>
+              <li>9.</li>
+              <li>11.</li>
+              <li>12.</li>
+              <li>13.</li>
+              <li>14.</li>
+              <li>15.</li>
+              <li>16.</li>
+              <li>17.</li>
+              <li>18.</li>
+              <li>19.</li>
+              <li>20.</li>
+            </ul>
+
+          </div>
+
+          <div *ngIf="this.flat_objects" class="box-filling mt-3">
+            <div *ngFor="let flat of flat_objects" class="card-filling m-2 p-1">
+              <div class="card-name">{{ flat.name_filling }} {{ flat.number_filling }}шт.</div>
+              <div class="card-body">
+                <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)" alt="icon">
+                <div class="text-about">
+                  Тип: <span class="accent">{{ flat.type_filling }}</span>
+                  Стан: <span class="accent">{{ selectCondition[flat.condition_filling] }}</span>
+                  <span *ngIf="flat.about_filling"> Опис: {{ flat.about_filling }}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="container-box">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+            <div class="m-2">
+              <div class="text bold">Орендодавець:</div>
+              <div class="input-box">
+                <div class="text w-75"> {{selectedAgreement?.flat?.owner_lastName}}
+                  {{selectedAgreement?.flat?.owner_firstName}} {{selectedAgreement?.flat?.owner_surName}}</div>
+                <div class="signature w-25">підпис</div>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
+            <div class="m-2">
+              <div class="text bold">Орендар:</div>
+
+              <div class="input-box">
+                <div class="text w-75"> {{selectedAgreement?.flat?.subscriber_lastName}}
+                  {{selectedAgreement?.flat?.subscriber_firstName}} {{selectedAgreement?.flat?.subscriber_surName}}
+                </div>
+                <div class="signature w-25">підпис</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="page-number">Сторінка 2/2</div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+
+
+

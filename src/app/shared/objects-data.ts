@@ -5,18 +5,18 @@ const noIcon = 'add_circle.png';
 export const objects = [
   {
     id: 1,
-    type: 'Велика побутова техніка',
+    type: 'Вел. побутова техніка',
     object: [
       { id: 0, name: 'Холодильник', iconUrl: defaultUrl + "kitchen.png" },
       { id: 1, name: 'Пилосос', iconUrl: defaultUrl + noIcon },
       { id: 2, name: 'Пральна машина', iconUrl: defaultUrl + "dishwasher_gen.png"},
       { id: 3, name: 'Посудомийна машина', iconUrl: defaultUrl + "dishwasher_gen.png"},
       { id: 4, name: 'Мікрохвильовка', iconUrl: defaultUrl + "microwave.png"},
-      { id: 5, name: 'Електрична варильна поверхня', iconUrl: defaultUrl + "cooking.png"},
+      { id: 5, name: 'Ел. варильна поверхня', iconUrl: defaultUrl + "cooking.png"},
       { id: 6, name: 'Газова варильна поверхня', iconUrl: defaultUrl + "oven_gen.png"},
       { id: 7, name: 'Духовка', iconUrl: defaultUrl + "microwave_gen.png"},
       { id: 8, name: 'Витяжка', iconUrl: defaultUrl + "range_hood.png"},
-      { id: 9, name: 'Комбінована варильна поверхня', iconUrl: defaultUrl + "cooking.png"},
+      { id: 9, name: 'Комб. варильна поверхня', iconUrl: defaultUrl + "cooking.png"},
       { id: 10, name: 'Телевізор', iconUrl: defaultUrl + "tv_gen.png"},
       { id: 11, name: 'Смарт тв', iconUrl: defaultUrl + "tv_with_assistant.png"},
     ]
@@ -24,7 +24,7 @@ export const objects = [
 
   {
     id: 2,
-    type: 'Мала побутова техніка',
+    type: 'Мал. побутова техніка',
     object: [
       { id: 0, name: 'Блендер', iconUrl: defaultUrl + "blender.png" },
       { id: 1, name: 'Кавомашина', iconUrl: defaultUrl + "coffee_maker.png" },
@@ -44,7 +44,7 @@ export const objects = [
       { id: 4, name: 'Зволожувач повітря', iconUrl: defaultUrl + "air_freshener.png"},
       { id: 5, name: 'Осушувач повітря', iconUrl: defaultUrl + "air_freshener.png"},
       { id: 6, name: 'Конвектор', iconUrl: defaultUrl + "air_purifier.png"},
-      { id: 7, name: 'Інфрачервоний обігрівач', iconUrl: defaultUrl + noIcon},
+      { id: 7, name: 'Інфр. обігрівач', iconUrl: defaultUrl + noIcon},
       { id: 8, name: 'Оливні радіатори', iconUrl: defaultUrl + noIcon},
       { id: 9, name: 'Тепловентилятори', iconUrl: defaultUrl + noIcon},
     ]
@@ -55,7 +55,7 @@ export const objects = [
     type: 'Меблі',
     object: [
       { id: 0, name: 'Крісло', iconUrl: defaultUrl + "chair.png"},
-      { id: 1, name: "Комп'ютерний стіл", iconUrl: defaultUrl + "desk.png"},
+      { id: 1, name: "Комп. стіл", iconUrl: defaultUrl + "desk.png"},
       { id: 2, name: 'Стілець', iconUrl: defaultUrl + "chair_alt.png"},
       { id: 3, name: 'Табурет', iconUrl: defaultUrl + noIcon},
       { id: 4, name: 'Безкаркасні меблі', iconUrl: defaultUrl + noIcon},
@@ -89,9 +89,10 @@ export const objects = [
     type: 'Лічильники',
     object: [
       { id: 0, name: 'Електрика', iconUrl: defaultUrl + "electric_meter.png"},
-      { id: 1, name: "Вода", iconUrl: defaultUrl + "humidity_high.png"},
+      { id: 1, name: "Холодна вода", iconUrl: defaultUrl + "humidity_high.png"},
       { id: 2, name: 'Водовідведення', iconUrl: defaultUrl + "valve.png"},
       { id: 3, name: 'Газ', iconUrl: defaultUrl + "gas_meter.png"},
+      { id: 3, name: 'Гаряча вода', iconUrl: defaultUrl + "gas_meter.png"},
     ]
   },
 ]

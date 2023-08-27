@@ -96,10 +96,6 @@ export class AgreeCreateComponent implements OnInit {
   currentStep: number = 1;
   statusMessage: string | undefined;
 
-  // термін оренди старий залишим на потім
-  months: number | undefined;
-  days: number | undefined;
-  years: number | undefined;
   // дата створення угоди
   agreementDate: any = moment();
   // термін початку - закінчення угоди
@@ -110,19 +106,19 @@ export class AgreeCreateComponent implements OnInit {
   // документ на правовласності
   ownership: string = '';
   // в який термін передаємо оселю орендару
-  transferHouse: number | undefined;
+  transferHouse?: number | 0;
   // хто оплачує комуналку
   whoPayComun: number = 0;
   // заставна сума
-  depositPayment: number | undefined;
+  depositPayment?: number | 0;
   //  повідомленням про Дострокове розірвання даного Договору, а також зміна його умов, не менше ніж за днів
-  dateAgreeBreakUp: string = '';
+  dateAgreeBreakUp?: number | 0;
   // дозвіл на кількість відвідувань оселі власником на місяць
-  numberVisits: number | undefined;
+  numberVisits?: number | 0;
   // особи які будуть проживати
   personsReside: string = '';
   // після закінчення/розірвання угоди звільнити оселю через кількість днів
-  vacateHouse: number | undefined;
+  vacateHouse?: number | 0;
   // штрафні санкції не використовую залишу на потім
   penalty?: number = 0;
   maxPenalty?: number = 0;
@@ -295,14 +291,15 @@ export class AgreeCreateComponent implements OnInit {
             area: this.houseData?.param.area,
             price: this.houseData?.about.price_m,
             street: this.houseData?.flat.street,
+
+            floor: this.houseData?.param.floor,
             ownership: this.ownership,
+            room: this.houseData?.about.room,
+            option_flat: this.houseData?.param.option_flat,
           },
 
           terms: {
             agreementDate: formattedAgreementDate,
-            month: this.months || 0,
-            days: this.days || 0,
-            year: this.years || 0,
             rent_due_data: this.rentDueDate,
             penalty: this.penalty,
             max_penalty: this.maxPenalty,
@@ -310,50 +307,50 @@ export class AgreeCreateComponent implements OnInit {
             about: this.conditions,
             agreement_type: this.agreement_type,
 
-            agreementDateStart: formattedAgreementDateStart,
-            agreementDateEnd: formattedAgreementDateEnd,
-            transferHouse: this.transferHouse,
+            dateAgreeStart: formattedAgreementDateStart,
+            dateAgreeEnd: formattedAgreementDateEnd,
+            transferHouse: this.transferHouse || 0,
             whoPayComun: this.whoPayComun,
-            depositPayment: this.depositPayment,
-            dateAgreeBreakUp: this.dateAgreeBreakUp,
-            numberVisits: this.numberVisits,
+            depositPayment: this.depositPayment || 0,
+            dateAgreeBreakUp: this.dateAgreeBreakUp || 0,
+            numberVisits: this.numberVisits || 0,
             personsReside: this.personsReside,
-            vacateHouse: this.vacateHouse,
+            vacateHouse: this.vacateHouse || 0,
           }
         };
 
         console.log(data)
-        // this.http.post('http://localhost:3000/agreement/add/agreement', data)
-        //   .subscribe(
-        //     (response: any) => {
-        //       this.loading = true;
-        //       if (response.status === 'Данні введено не правильно') {
-        //         console.error(response.status);
-        //         setTimeout(() => {
-        //           this.statusMessage = 'Помилка формування угоди.';
-        //           setTimeout(() => {
-        //             location.reload();
-        //           }, 2000);
-        //         }, 2000);
-        //       } else {
-        //         setTimeout(() => {
-        //           this.statusMessage = 'Угода надіслана на розгляд орендарю!';
-        //           setTimeout(() => {
-        //             this.router.navigate(['/house/agree-review']);
-        //           }, 3000);
-        //         }, 2000);
-        //       }
-        //     },
-        //     (error: any) => {
-        //       console.error(error);
-        //       setTimeout(() => {
-        //         this.statusMessage = 'Помилка формування угоди.';
-        //         setTimeout(() => {
-        //           location.reload();
-        //         }, 2000);
-        //       }, 2000);
-        //     }
-        //   );
+        this.http.post('http://localhost:3000/agreement/add/agreement', data)
+          .subscribe(
+            (response: any) => {
+              this.loading = true;
+              if (response.status === 'Данні введено не правильно') {
+                console.error(response.status);
+                setTimeout(() => {
+                  this.statusMessage = 'Помилка формування угоди.';
+                  setTimeout(() => {
+                    location.reload();
+                  }, 2000);
+                }, 2000);
+              } else {
+                setTimeout(() => {
+                  this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
+                  setTimeout(() => {
+                    this.router.navigate(['/house/agree-review']);
+                  }, 3000);
+                }, 2000);
+              }
+            },
+            (error: any) => {
+              console.error(error);
+              setTimeout(() => {
+                this.statusMessage = 'Помилка формування угоди.';
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }, 2000);
+            }
+          );
         this.loading = false;
       } else {
         console.log('User, flat, or subscriber not found');

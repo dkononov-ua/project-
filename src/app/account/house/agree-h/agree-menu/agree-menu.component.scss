@@ -1,5 +1,10 @@
 @use "../../../../style/presets/" as *;
 
+a {
+  padding: 0;
+  margin: 0;
+}
+
 .container-card {
   width: 100%;
   min-height: 65vh;
@@ -23,7 +28,7 @@
 .scrollable-container {
   width: 100%;
   align-items: center;
-  max-height: 60vh;
+  max-height: 70vh;
   overflow-y: auto;
 }
 
@@ -40,7 +45,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width: 95%;
-  height: 150px;
+  height: 130px;
   overflow: hidden;
   transition: all 0.3s ease;
   position: relative;
@@ -65,13 +70,13 @@
 }
 .card-img-container {
   position: relative;
-  width: 50%;
+  width: 60%;
   height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
   &:hover,
   :focus {
-    width: 70%;
+    width: 50%;
   }
 }
 .card-img-top {
@@ -91,8 +96,12 @@
 }
 .name {
   position: absolute;
+  display: flex;
   right: 0;
   padding-right: 20px;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
 }
 .card-info {
   width: 100%;

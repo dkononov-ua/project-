@@ -41,6 +41,8 @@ import { UagreeMenuComponent } from './user/agree-u/uagree-menu/uagree-menu.comp
 import { UagreeReviewComponent } from './user/agree-u/uagree-review/uagree-review.component';
 import { DownloadFillingComponent } from './house/filling/download-filling/download-filling.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ActReceptionTransmissionComponent } from './house/agree-h/act-reception-transmission/act-reception-transmission.component';
+import { ActViewComponent } from './house/agree-h/act-view/act-view.component';
 @NgModule({
   declarations: [
     AccountComponent,
@@ -68,6 +70,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     UagreeMenuComponent,
     UagreeReviewComponent,
     DownloadFillingComponent,
+    ActReceptionTransmissionComponent,
+    ActViewComponent,
   ],
   providers: [
     DatePipe

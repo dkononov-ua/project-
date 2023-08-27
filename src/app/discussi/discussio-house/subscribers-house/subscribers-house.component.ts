@@ -72,6 +72,10 @@ export class SubscribersHouseComponent implements OnInit {
   pageEvent: PageEvent | undefined;
   selectedUser: UserInfo | any;
 
+  isFeatureEnabled: boolean = false;
+  toggleMode(): void {
+    this.isFeatureEnabled = !this.isFeatureEnabled;
+  }
 
   onPageChange(event: PageEvent) {
     this.pageEvent = event;

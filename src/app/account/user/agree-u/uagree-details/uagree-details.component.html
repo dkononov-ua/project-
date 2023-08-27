@@ -1,310 +1,335 @@
-<div class="container-box agree" id="agreement-container">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <div class="close-box">
-    <a class="btn-close" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-review'"></a>
-  </div>
+<ng-template #content>
 
-  <div class="box m-2">
-    <div class="title-group">
-      <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
-      <div class="title">Discussio угода. <br> Укладання угоди оренди житлового приміщення.</div>
-    </div>
-    <h5>Місце укладання та дата: <span class="accent">{{ selectedAgreement?.flat?.city }}, {{
-        selectedAgreement?.flat?.agreementDate | date
-        }}</span>
-    </h5>
-  </div>
-  <div class="container-agree">
-
-    <div class="wrapper-group">
-      <div class="agree-wrapper p-2 col-lg-6 col-md-6 col-sm-6 col-12">
-        <p class="item-description-agree">Сторона орендодавця</p>
-        <p class="item-agree"><span class="item-description-agree">П.І.Б: </span>{{
-          selectedAgreement?.flat?.owner_lastName }} {{
-          selectedAgreement?.flat?.owner_firstName }} {{ selectedAgreement?.flat?.owner_surName }}
-        </p>
-        <p class="item-agree"><span class="item-description-agree">User ID: </span> {{
-          selectedAgreement?.flat?.owner_id }}</p>
-        <p class="item-agree"><span class="item-description-agree">Телефон: </span> {{
-          selectedAgreement?.flat?.owner_tell }}</p>
-        <p class="item-agree"><span class="item-description-agree">Email: </span> {{
-          selectedAgreement?.flat?.owner_email }}</p>
+  <div id="agreement-container">
+    <div class="agree">
+      <div class="close-box">
+        <a class="btn-close" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-review'"></a>
       </div>
-
-      <div class="agree-wrapper p-2 col-lg-6 col-md-6 col-sm-6 col-12">
-        <p class="item-description-agree">Сторона орендара</p>
-        <p class="item-agree"><span class="item-description-agree">П.І.Б:</span>{{
-          selectedAgreement?.flat?.subscriber_lastName }}
-          {{
-          selectedAgreement?.flat?.subscriber_firstName }} {{selectedAgreement?.flat?.subscriber_surName }}
-        </p>
-        <p class="item-agree"><span class="item-description-agree">User ID:</span> {{
-          selectedAgreement?.flat?.subscriber_id }}
-        </p>
-        <p class="item-agree"><span class="item-description-agree">Телефон:</span> {{
-          selectedAgreement?.flat?.subscriber_tell }}
-        </p>
-        <p class="item-agree"><span class="item-description-agree">Email:</span> {{
-          selectedAgreement?.flat?.subscriber_email }}
-        </p>
-        <p></p>
+      <div class="title-box m-2">
+        <div class="title-group w-70">
+          <div class="title">Угода оренди нерухомого майна</div>
+          <div>Місце укладання угоди:<span class="accent">{{ selectedAgreement?.flat?.city }}</span></div>
+          <div>Дата:<span class="accent">{{selectedAgreement?.flat?.agreementDate | date}}</span></div>
+        </div>
+        <div class="title-group w-30">
+          <div class="box">
+            <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
+            <div class="item-description">© Discussio. Угода</div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div>
-      <p class="item-description-agree">Сторона орендодавця іменований надалі "Орендодавець", з одного боку,
-        і Сторона орендара іменований надалі "Орендар", з іншого боку, уклали даний договір про наступне:</p>
-    </div>
-
-  </div>
-  <div class="container-fluid">
-    <ul>1. Предмет договору
-      <li>1.1. Орендодавець представляє Орендареві й членам його родини в користування строком на <span class="accent">
-          {{ selectedAgreement?.flat?.year }} (рік/років)</span>
-        <span class="accent"> {{ selectedAgreement?.flat?.month }} (місяць/місяців) </span>
-        квартиру загальною площею: <span class="accent">{{selectedAgreement?.flat?.area}} м² </span>
-        за адресою: вулиця <span class="accent">{{ selectedAgreement?.flat?.street }}, будинок {{
-          selectedAgreement?.flat?.houseNumber
-          }},
-          квартира {{ selectedAgreement?.flat?.apartment }}</span>,
-        характеристика якої наведена в акті здачі квартири.
-      </li>
-      <li>1.2. За згодою сторін договором встановлюється плата за оренду квартири в розмірі
-        <span class="accent">{{selectedAgreement?.flat?.price}}</span> гривень на місяць, до складу якої включені
-        пропорційно
-        орендованої площі платежі на повне відновлення будинку, витрати на обслуговування й
-        ремонт будинку й квартири, витрати по оплаті комунальних і інших послуг.
-      </li>
-    </ul>
-
-    <ul>2. Обов'язку сторін
-      <li>
-        2.1. Орендодавець зобов'язується:
-      </li>
-      <li>
-        2.1.1. Надати в оренду належне йому на праві власності житло в придатному для
-        проживання стані.
-      </li>
-      <li>
-        2.1.2. Здійснювати утримання будинку й технічних обладнань квартири відповідно до
-        вимог користування житловими приміщеннями, утримання житлового будинку і
-        прибудинкової території в Україні.
-      </li>
-      <li>
-        2.1.3. Забезпечувати надання комунальних і інших послуг.
-      </li>
-      <li>
-        2.2. Орендар зобов'язується:
-      </li>
-      <li>
-        2.2.1. Використати здану йому за договором оренди квартиру за призначенням.
-      </li>
-      <li>
-        2.2.2. Дотримуватись вимог до користування житловими приміщеннями, утриманням
-        житлового будинку й прибудинкової території в Україні.
-      </li>
-      <li>
-        2.2.3. Вчасно повідомляти Орендодавцеві про виявлені несправності елементів квартири
-        й будинку.
-      </li>
-      <li>
-        2.2.4. Не пізніше <span class="accent">{{ selectedAgreement?.flat?.rent_due_data }} дня місяця</span>
-        вносити плату за
-        оренду.
-        За несвоєчасне внесення платежів оплачувати пеню з розрахунку <span class="accent">відсоток пені за
-          прострочення: {{ selectedAgreement?.flat?.penalty }}%</span> від
-        несплаченої суми за кожний день прострочення, але не більше <span class="accent">максимальний відсоток пені:
-          {{ selectedAgreement?.flat?.max_penalty }}%</span> суми заборгованості.
-      </li>
-      <li> 2.2.5. Допускати в денний час, а при аваріях і в нічний час, в орендовану квартиру
-        працівників Орендодавця або самого Орендодавця, а також представників підприємств по
-        обслуговуванню й ремонту житла для проведення огляду й ремонту конструкцій і
-        технічних обладнань квартири.
-      </li>
-      <li> 2.2.6. Звільнити орендоване житлове приміщення після закінчення обумовленого в
-        даному договорі строку оренди.
-      </li>
-    </ul>
-
-    <ul> 3. Права сторін
-
-      <li> 3.1. Орендодавець має право:
-      </li>
-      <li> 3.1.1. Вимагати від Орендаря дотримання вимог користування житловими приміщеннями,
-        утримання житлового будинку й прибудинкової території.
-      </li>
-      <li> 3.1.2. Вимагати від Орендаря своєчасного внесення плати за оренду.
-      </li>
-      <li> 3.1.3. Вимагати від Орендаря звільнення житлового приміщення після закінчення строку
-        договору оренди.
-      </li>
-      <li> 3.1.4. Продати Орендареві займану ним квартиру.
-      </li>
-      <li> 3.2. Орендар має право:
-      </li>
-      <li> 3.2.1. Вселити в орендоване житлове приміщення незалежно від згоди Орендодавця своїх
-        неповнолітніх дітей, дружину (чоловіка) і непрацездатних батьків.
-      </li>
-      <li> 3.2.2. Вимагати від Орендодавця своєчасного і якісного виконання комплексу робіт із
-        утримання житлового будинку, квартири й прибудинкової території, а також надання
-        комунальних і інших послуг, передбачених договором оренди.
-      </li>
-      <li> 3.2.3. Викупити в Орендодавця з його згоди орендоване приміщення, уклавши договір
-        купівлі-продажу.
-      </li>
-      <li> 3.2.4. Вимагати обґрунтування збільшення плати за оренду після укладання договору
-        оренди.
-      </li>
-      <li> 3.2.5. Вимагати перерахунку плати за оренду при невиконанні Орендодавцем обов'язків,
-        передбачених у п. п. 2.1.2.
-      </li>
-    </ul>
-
-    <ul> 4. Відповідальність сторін
-      <li> 4.1. Відповідальність Орендодавця:
-      </li>
-      <li> 4.1.1. Орендодавець відшкодовує Орендареві матеріальний збиток, заподіяний у
-        результаті невиконання обов'язків, передбачених у п. п. 2.1.2 даного договору, у
-        встановленому законом порядку.
-      </li>
-      <li> 4.2. Відповідальність Орендаря:
-      </li>
-      <li> 4.2.1. Орендар відшкодовує Орендодавцеві матеріальний збиток, заподіяний у результаті
-        невиконання обов'язків, передбачених у п. п. 2.2.1 і п. п. 2.2.2 даного договору, у
-        встановленому законом порядку.
-      </li>
-    </ul>
-
-    <ul> 5. Заключні умови
-
-      <li> 5.1. Даний договір може бути розірваний із ініціативи кожної зі сторони при наявності
-        умов і в порядку, передбаченому житловим законодавством.
-      </li>
-      <li> 5.2. Виниклі при виконанні даного договору спори між сторонами вирішуються у
-        встановленому законом порядку.
-      </li>
-      <li> 5.3. Даний договір складений в 2-х екземплярах, один із яких перебуває в Орендодавця,
-        іншої - в Орендаря.
-      </li>
-      <li> 5.4. Невід'ємною частиною даного договору є акт здачі квартири Орендареві.
-      </li>
-      <li> 5.5. Договір набуває чинності з моменту його підписання.
-      </li>
-    </ul>
-
-    <ul>6. Додаткові умови від власника.
-    </ul>
-    <div class="container-fluid">
-      <span class="accent about">{{ selectedAgreement?.flat?.about }}</span>
-    </div>
-
-  </div>
-  <div class="container-fluid">
-    <fieldset class="col-lg-6 col-md-6 col-sm-6 col-12">
-      <div class="m-2">
-        <div class="field-title">Орендодавець:</div>
-        <div class="field">
-          <div class="input-box">
-            <p>Паспорт №</p>
+      <div class="flex-column">
+        <div class="wrapper-group border-top">
+          <div class="agree-wrapper">
+            <div class="item-description">Сторона орендодавця</div>
+            <div class="item-description accent"><span class="item-description">П.І.Б: </span>
+              {{ selectedAgreement?.flat?.owner_lastName }}{{ selectedAgreement?.flat?.owner_firstName }}
+              {{ selectedAgreement?.flat?.owner_surName }}</div>
+            <div class="item-description accent"><span class="item-description">User ID: </span>
+              {{ selectedAgreement?.flat?.owner_id }}</div>
+            <div class="item-description accent"><span class="item-description">Телефон:</span>
+              {{ selectedAgreement?.flat?.owner_tell }}</div>
+            <div class="item-description accent"><span class="item-description">Email:</span>
+              {{ selectedAgreement?.flat?.owner_email }}</div>
+          </div>
+          <div class="agree-wrapper">
+            <div class="item-description">Сторона орендара</div>
+            <div class="item-description accent"><span class="item-description">П.І.Б:</span>
+              {{selectedAgreement?.flat?.subscriber_lastName }}{{selectedAgreement?.flat?.subscriber_firstName }}
+              {{selectedAgreement?.flat?.subscriber_surName}}</div>
+            <div class="item-description accent"><span class="item-description">User ID:</span>
+              {{selectedAgreement?.flat?.subscriber_id }}</div>
+            <div class="item-description accent"><span class="item-description">Телефон:</span>
+              {{selectedAgreement?.flat?.subscriber_tell }}</div>
+            <div class="item-description accent"><span class="item-description">Email:</span>
+              {{selectedAgreement?.flat?.subscriber_email }} </div>
           </div>
         </div>
 
-        <div class="field">
-          <div class="input-box">
-            <p>Серія</p>
-          </div>
-        </div>
+        <div class="item-description border-bottom pb-1 mb-1">Сторона орендодавця іменований надалі "Орендодавець", з
+          одного боку,
+          і cторона орендара іменований надалі "Орендар", з іншого боку, а разом «Сторони», уклали Угоду (далі
+          Угода) про наступне:</div>
+      </div>
+      <div class="container-box">
+        <ul>1. Предмет угоди
+          <li>1.1. Предметом цієї угоди є тимчасова здача в найм (оренду) на оплатній основі, Орендарю житлового
+            приміщення (на правах власності/знаходиться в розпорядженні) У вигляді
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.option_flat == 1 && selectedAgreement?.flat?.room == 0">будинку</span>
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.option_flat == 2 && selectedAgreement?.flat?.room == 0">квартири</span>
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.room == 1 && selectedAgreement?.flat?.option_flat == 1">кімнати в
+              будинку</span>
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.room == 1 && selectedAgreement?.flat?.option_flat == 2">кімнати в
+              квартирі</span>
+            <span *ngIf="!selectedAgreement?.flat?.option_flat">___________________________</span>
+            площею:
+            <span class="accent">{{selectedAgreement?.flat?.area}} м²</span>,
+            <span *ngIf="!selectedAgreement?.flat?.area">________________,</span>
+            поверх:
+            <span class="accent">{{selectedAgreement?.flat?.floor}}</span> <br>
+            знаходиться за адресою:
+            <span class="accent"> вулиця {{ selectedAgreement?.flat?.street }},
+              будинок {{ selectedAgreement?.flat?.houseNumber }}, квартира {{ selectedAgreement?.flat?.apartment
+              }}</span>.
+          <li>1.2. Право власності (розпорядження) Орендодавця на вказаний Об'єкт нерухомості підтверджується:
+            <span class="accent" *ngIf="selectedAgreement?.flat?.ownership">{{ selectedAgreement?.flat?.ownership
+              }}</span>
+            <span *ngIf="!selectedAgreement?.flat?.ownership">_______________________________________</span>
+          </li>
+          <li>1.3. Орендодавець підтверджує, що даний Об'єкт нерухомості нікому раніше не проданий, не подарований, не
+            закладений, в спорі і під арештом не перебуває, і претензій з боку третіх осіб до нього не має. За надання
+            для підписання даного угоди неповних і недостовірних даних, що стосуються Об'єкту нерухомості,
+            Орендодавець несе відповідальність перед Орендарем відповідно до чинного законодавства України.</li>
+        </ul>
+        <ul>2. Права та обов’язки Сторін
+          <li>2.1. Права та обов'язки Орендодавця відповідно до умов цього угоди:</li>
+          <li>2.1.1. Передати Орендарю Об'єкт нерухомості протягом
+            <span class="accent" *ngIf="selectedAgreement?.flat?.transferHouse! >1"> {{
+              selectedAgreement?.flat?.transferHouse }} днів</span>
+            <span class="accent" *ngIf="selectedAgreement?.flat?.transferHouse === 1"> {{
+              selectedAgreement?.flat?.transferHouse }} дня</span>
+            <span *ngIf="!selectedAgreement?.flat?.transferHouse">________________днів </span> з моменту підписання
+            цього
+            угоди відповідно до Акту прийому-передачі житлового приміщення (Додаток №1 до угоди).
+          </li>
+          <li>2.1.2. Надати Орендарю Об'єкт нерухомості, який є предметом цього угоди в придатному для використання
+            за призначенням стані.</li>
+          <li>2.2. Права та обов'язки Орендаря відповідно до умов цього угоди:</li>
+          <li>2.2.1. Прийняти Об'єкт нерухомості в терміни і на умовах, визначених угодою, і використовувати Об'єкт
+            нерухомості лише для проживання в ньому.
+          </li>
+          <li>2.2.2. Забезпечувати збереження та утримання в належному стані Об'єкту нерухомості на умовах, визначених
+            цією угодою, не допускаючи його псування або приведення в непридатність.
+          </li>
+          <li>2.2.3. Перевірити в присутності Орендодавця справність майна і зробити відповідні позначки в Додатку №1 до
+            угоди.
+          </li>
+          <li>2.2.4. Дотримуватися умов цього угоди щодо своєчасності та повноти внесення орендної плати та інших
+            платежів.
+          </li>
+          <li>2.2.5. Своєчасно повідомляти Орендодавця про несправності технічних пристроїв Об'єкту нерухомості.
+          </li>
+          <li>2.2.6. Звільнити і здати Орендодавцю Об'єкт нерухомості в належному стані з урахуванням нормального
+            фізичного зносу протягом
+            <span class="accent" *ngIf="selectedAgreement?.flat?.vacateHouse == 1"> {{
+              selectedAgreement?.flat?.vacateHouse }} дня</span>
+            <span class="accent" *ngIf="selectedAgreement?.flat?.vacateHouse > 1"> {{
+              selectedAgreement?.flat?.vacateHouse }} днів</span>
+            <span *ngIf="!selectedAgreement?.flat?.vacateHouse">________________ днів </span>
+            з моменту закінчення терміну дії (розірвання) цього угоди
+            згідно з Актом здачі житлового приміщення.
+          </li>
+        </ul>
+        <ul>3.Орендна плата
+          <li> 3.1. Орендна плата за використання квартири та майна становить:
+            <span class="accent" *ngIf="selectedAgreement?.flat?.option_pay == 0">{{selectedAgreement?.flat?.price_m}}
+              на
+              місяць.</span>
+            <span class="accent" *ngIf="selectedAgreement?.flat?.option_pay == 1">{{selectedAgreement?.flat?.price_d}}
+              за
+              добу.</span>
+          </li>
+          <li>3.2. Орендна плата вноситься не пізніше
+            <span class="accent" *ngIf="selectedAgreement?.flat?.rent_due_data">
+              {{ selectedAgreement?.flat?.rent_due_data }} числа</span>
+            <span *ngIf="!selectedAgreement?.flat?.rent_due_data"> _______ числа</span> кожного місяця
+          </li>
+          <li>3.3. Оплату за комунальні послуги: за електроенергію, газ, холодну, гарячу воду (за лічильниками),
+            інтернет кабель, тв, телефон, опалення здійснює
+            <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun === 0"> Орендодавець </span>
+            <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun === 1"> Орендар </span>
+          </li>
+          <li>3.4. Оплата заставної суми
+            <span class="accent" *ngIf="selectedAgreement?.flat?.depositPayment"> {{
+              selectedAgreement?.flat?.depositPayment }} грн </span>
+            <span *ngIf="!selectedAgreement?.flat?.depositPayment">______________________________________________</span>
+            яка вертається Орендодавцем після закінчення цього угоди
+          </li>
+        </ul>
 
-        <div class="field">
-          <div class="input-box">
-            <p>Виданий</p>
-          </div>
-        </div>
+        <ul>4. Термін дії, порядок продовження і розірвання угоди
+          <li> 4.1. Термін дії цього угоди встановлений
+            <span class="accent"
+              *ngIf="selectedAgreement?.flat?.dateAgreeStart && selectedAgreement?.flat?.dateAgreeEnd">
+              з
+              {{ selectedAgreement?.flat?.dateAgreeStart | date}} по
+              {{ selectedAgreement?.flat?.dateAgreeEnd | date}}</span>
+            <span *ngIf="!selectedAgreement?.flat?.dateAgreeStart">з «____»____________________20____р.</span>
+            <span *ngIf="!selectedAgreement?.flat?.dateAgreeEnd">по «____»____________________20____р.</span>
+          </li>
+          <li> 4.2. Моментом фактичного використання Об'єкту нерухомості за угодою є підписання Сторонами Акту
+            прийому-передачі житлового приміщення (Додаток №1 до угоди).
+          </li>
+          <li> 4.3. У разі несплати ОРЕНДАРЕМ Орендної плати або комунальних та інших платежів, передбачених
+            угодою протягом 7-ми календарних днів з моменту, визначеного угодою, ОРЕНДОДАВЕЦЬ має право
+            достроково розірвати Угоду в односторонньому порядку.
+          </li>
+          <li> 4.4. Порушенням угоди є його невиконання або неналежне виконання, тобто виконання з порушенням умов,
+            визначених змістом цього угоди.
+          </li>
+          <li> 4.5. Дострокове розірвання даного угоди, а також зміна його умов, можливі за ініціативою однієї зі
+            Сторін, з повідомленням про це іншої Сторони не менше ніж за
+            <span class="accent" *ngIf="selectedAgreement?.flat?.dateAgreeBreakUp == 1"> {{
+              selectedAgreement?.flat?.dateAgreeBreakUp }} день.</span>
+            <span class="accent" *ngIf="selectedAgreement?.flat?.dateAgreeBreakUp > 1"> {{
+              selectedAgreement?.flat?.dateAgreeBreakUp }} днів.</span>
+            <span *ngIf="!selectedAgreement?.flat?.dateAgreeBreakUp">
+              ___________________________________________________(прописом – днів / міс.)
+            </span>
+          </li>
+          <li> 4.6. Інші умови та порядок продовження, розірвання даного угоди передбачені чинним законодавством
+            України.
+          </li>
+        </ul>
 
-        <div class="field">
-          <div class="input-box">
-            <p>Адреса:</p>
-          </div>
-        </div>
+        <ul> 5. Відповідальність Сторін
+          <li> 5.1. Відповідальність за справний технічний стан Об'єкта нерухомості на термін дії угоди несе
+            Орендодавець.
+          </li>
+          <li> 5.2. Орендар несе відповідальність за правильне і безпечне використання Об'єкту нерухомості та майна
+            Орендодавця, що передано Орендарю у користування разом з Об'єктом нерухомості.
+          </li>
+          <li> 5.3. Збиток, заподіяний Орендодавцю або третім особам внаслідок порушення Орендарем умов угоди,
+            відшкодовується Орендарем самостійно і в повному обсязі.
+          </li>
+          <li> 5.4. Після закінчення терміну оренди нерухомості орендар зобов'язується здати її в чистому вигляді, або
+            залишити кошти на клінінг.
+          </li>
+          <li> 5.5. Спірні питання за угодою вирішуються в порядку, встановленому чинним законодавством України.
+          </li>
+        </ul>
 
-        <div class="field">
-          <div class="input-box-signature">
-            <div class="signature-box">
-              <div class="text"> {{selectedAgreement?.flat?.owner_lastName}}
+        <ul> 6. Інші умови
+          <li> 6.1. Даним угодою встановлюється, що Орендодавець має право відвідувати Об'єкт нерухомості з метою
+            технічного огляду, профілактики та обслуговування об'єкта нерухомості тільки в присутності Орендаря і не
+            частіше
+            <span class="accent" *ngIf="selectedAgreement?.flat?.numberVisits == 1">
+              {{ selectedAgreement?.flat?.numberVisits}} разу на місяць.</span>
+            <span class="accent" *ngIf="selectedAgreement?.flat?.numberVisits  > 1">
+              {{ selectedAgreement?.flat?.numberVisits}} разів на місяць.</span>
+            <span *ngIf="!selectedAgreement?.flat?.numberVisits"> _____________________________раз на місяць.</span>
+          </li>
+          <li>6.2. Зазначені в п. 6.1 відвідування повинні проводитися з попередженням про це Орендаря, в узгоджений між
+            Сторонами час.
+          </li>
+          <li>6.3. Орендар не має права проводити перевлаштування та реконструкцію Об'єкту нерухомості, змінювати стан
+            майна без письмової згоди Орендодавця,а також міняти замки.
+          </li>
+          <li>6.4. Орендар не має права передавати квартиру, як в цілому, так і частково в суборенду або користування
+            третім особам, без письмової згоди Орендодавця.
+          </li>
+          <li>6.5. Майно, що передається Орендарю для оренди буде використовуватися ним у якості житлового приміщення
+            для проживання перелічених осіб:
+            <span class="accent" *ngIf="selectedAgreement?.flat?.personsReside"> {{
+              selectedAgreement?.flat?.personsReside
+              }} </span>
+            <span *ngIf="!selectedAgreement?.flat?.personsReside">
+              ______________________________________________________________________________________________________________________________</span>
+          </li>
+          <li> 6.6. Ця Угода складена в двох примірниках, які мають однакову юридичну силу з відповідною кількістю
+            Додатків і Додаткових угод, які є невід'ємною частиною даного угоди.
+          </li>
+          <li> 6.7. Зміни умов угоди здійснюється в письмовому вигляді по взаємній згоді Сторін;
+          </li>
+          <li> 6.8. Взаємовідносини Сторін, які не врегульовані угодою, регламентуються чинним законодавством
+            України.
+          </li>
+        </ul>
+      </div>
+      <div class="container-box" *ngIf="selectedAgreement?.flat?.about_agree">
+        <ul>7. Додаткові умови від власника.
+        </ul>
+      </div>
+      <div class="container-box" *ngIf="selectedAgreement?.flat?.about_agree">
+        <span class="accent about">{{ selectedAgreement?.flat?.about_agree }}</span>
+      </div>
+      <div class="container-box">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+          <div class="m-2">
+            <div class="item-description bold">Орендодавець:</div>
+            <div class="input-box">
+              <p class="item-description">Паспорт №</p>
+            </div>
+            <div class="input-box">
+              <p class="item-description">Серія</p>
+            </div>
+            <div class="input-box">
+              <p class="item-description">Виданий</p>
+            </div>
+            <div class="input-box">
+              <p class="item-description">Проживає за адресою:</p>
+            </div>
+            <div class="input-box">
+              <div class="item-description w-75"> {{selectedAgreement?.flat?.owner_lastName}}
                 {{selectedAgreement?.flat?.owner_firstName}} {{selectedAgreement?.flat?.owner_surName}}</div>
+              <div class="signature w-25">підпис</div>
             </div>
-            <div class="signature">підпис</div>
+
           </div>
         </div>
 
-      </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
+          <div class="m-2">
+            <div class="item-description bold">Орендар:</div>
 
-    </fieldset>
-
-    <fieldset class="col-lg-6 col-md-6 col-sm-6 col-12">
-      <div class="m-2">
-        <div class="field-title">Орендар:</div>
-
-        <div class="field">
-          <div class="input-box">
-            <p>Паспорт №</p>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="input-box">
-            <p>Серія</p>
-          </div>
-
-          <div class="field">
             <div class="input-box">
-              <p>Виданий</p>
+              <p class="item-description">Паспорт №</p>
             </div>
-          </div>
 
-          <div class="field">
             <div class="input-box">
-              <p>Адреса:</p>
+              <p class="item-description">Серія</p>
             </div>
-          </div>
 
-        </div>
+            <div class="input-box">
+              <p class="item-description">Виданий</p>
+            </div>
 
-        <div class="field">
-          <div class="input-box-signature">
-            <div class="signature-box">
-              <div class="text"> {{selectedAgreement?.flat?.subscriber_lastName}}
+            <div class="input-box">
+              <p class="item-description">Проживає за адресою:</p>
+            </div>
+
+            <div class="input-box">
+              <div class="item-description w-75"> {{selectedAgreement?.flat?.subscriber_lastName}}
                 {{selectedAgreement?.flat?.subscriber_firstName}} {{selectedAgreement?.flat?.subscriber_surName}}
               </div>
+              <div class="signature w-25">підпис</div>
             </div>
-            <div class="signature">підпис</div>
+
           </div>
         </div>
 
       </div>
 
-    </fieldset>
+      <div class="agree-field m-3 p-3">
+        <div class="content">
+          <div class="mr-3">Із вимогами угоди оренди ознайомлений.</div>
+          <label class="checkBox">
+            <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+            <div class="transition"></div>
+          </label>
+          <i></i>
+        </div>
+
+        <div class="btn-group mt-2">
+          <button class="btn m-2" type="submit" [disabled]="!isCheckboxChecked"
+            (click)="agreeAgreement(selectedAgreement)">Так, з умовами погоджуюсь</button>
+          <button class="btn m-2" matTooltip="Видалити угоду" (click)="openDialog(this.selectedAgreement)">Ні, відхилити
+            угоду.
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="agree-field m-3 p-3">
-    <div class="content">
-      <div class="mr-3">Із вимогами угоди оренди ознайомлений.</div>
-      <label class="checkBox">
-        <input type="checkbox" [(ngModel)]="isCheckboxChecked">
-        <div class="transition"></div>
-      </label>
-      <i></i>
-    </div>
-
-    <div class="btn-group mt-2">
-      <button class="btn m-2" type="submit" [disabled]="!isCheckboxChecked"
-        (click)="agreeAgreement(selectedAgreement)">Підтвердити угоду</button>
-      <button class="btn m-2" matTooltip="Видалити угоду" (click)="openDialog(this.selectedAgreement)">Відхилити угоду
-      </button>
-    </div>
-  </div>
-
-</div>
+</ng-template>
 
 <div *ngIf="statusMessage" class="status-message">
   <div>

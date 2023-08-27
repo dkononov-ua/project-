@@ -1,7 +1,7 @@
 @use "../../../style/presets/" as *;
 
 .container-card {
-  min-height: 65vh;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: stretch;
@@ -52,7 +52,7 @@
 
 .card {
   height: 140px;
-  width: 45%;
+  width: 100%;
   display: flex;
   justify-content: center;
 }

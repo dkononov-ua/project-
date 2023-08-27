@@ -37,7 +37,8 @@ export class DownloadFillingComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
-    private dataService: DataService,) { }
+    private dataService: DataService,
+    ) { }
 
   async ngOnInit(): Promise<void> {
     this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {

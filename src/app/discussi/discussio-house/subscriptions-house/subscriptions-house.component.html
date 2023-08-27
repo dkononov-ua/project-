@@ -1,11 +1,19 @@
 <div class="container-card">
-  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
-    <div class="card-container">
+
+  <div class="switch-box" *ngIf="selectedUser">
+    <div class="switch-box-name">{{ isFeatureEnabled ? 'Параметри' : 'Профіль' }}</div>
+    <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
+      <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
+    </button>
+  </div>
+
+  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card-container p-2">
       <div class="scrollable-container p-3">
-        <div class="card-wrapper card card-mini mb-4" *ngFor="let subscriber of subscribers"
-          (click)="selectUser(subscriber)">
+        <div class="card-mini mb-4" *ngFor="let subscriber of subscribers" (click)="selectUser(subscriber)"
+          [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-img-container">
-            <img class="card-img-top"
+            <img class="card-img"
               [src]="'http://localhost:3000/img/users/' + (subscriber.img ? subscriber.img : 'user_default.svg')"
               alt="User Image">
           </div>
@@ -16,14 +24,11 @@
             <a *ngIf="subscriber.facebook" [href]="subscriber.facebook"><i class="fab fa-brands fa-facebook"></i></a>
           </div>
           <div class="card-body">
-            <h2 class="card-title">{{ subscriber.lastName }} {{ subscriber.firstName }} <br> {{ subscriber.surName }}
-            </h2>
-
-
-            <div class="btn-group">
-              <button class="btn-1 m-1" (click)="removeSubscriber(subscriber)"><i
-                  class="fa-solid fa-user-xmark"></i></button>
+            <div class="card-title">{{ subscriber.lastName }} {{ subscriber.firstName }}
+              <br> {{ subscriber.surName }}
             </div>
+            <button class="btn-1 m-1" (click)="removeSubscriber(subscriber)"><i
+                class="fa-solid fa-user-xmark"></i></button>
           </div>
         </div>
       </div>
@@ -32,225 +37,199 @@
         [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
         aria-label="Select page">
       </mat-paginator>
-
     </div>
   </div>
 
-  <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-12 p-2 ">
 
-    <div class="section-2 p-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div class="card card-selected">
+    <div class="card col-12" *ngIf="selectedUser && !isFeatureEnabled">
+      <div class="img-wrapper">
+        <img class="img-fluid rounded"
+          [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+      </div>
 
-        <div class="message-container" *ngIf="showSubscriptionMessage">
-          <div class="message">{{ subscriptionMessage }}</div>
+      <div class="p-2">
+        <div class="title-group">
+          <div class="title-selected">Прізвище : </div>
+          <div class="title-selected-accent">{{ selectedUser?.lastName || '?' }}</div>
         </div>
+
+        <div class="title-group">
+          <div class="title-selected">Ім'я : </div>
+          <div class="title-selected-accent">{{ selectedUser?.firstName || '?' }}</div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Кіл. кімнат:</div>
+          <div class="title-selected-accent">
+            <span class="title-selected-accent" *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
+              від {{ selectedUser?.rooms_of}}
+            </span>
+            <span class="title-selected-accent" *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">
+              до {{ selectedUser?.rooms_to}}
+            </span>
+          </div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Оплата : </div>
+          <div class="title-selected-accent">{{option_pay[selectedUser?.option_pay] || '?' }}</div>
+        </div>
+
+        <div class="title-group">
+          <div class="title-selected">Бюджет : </div>
+          <div class="title-selected-accent">{{ selectedUser?.price_of | number }}₴ - {{ selectedUser?.price_to |
+            number }}₴</div>
+        </div>
+
+        <div class="title-group" *ngIf="selectedUser?.purpose_rent !== null">
+          <div class="title-selected">Мета оренди : </div>
+          <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card col-12" *ngIf="selectedUser && isFeatureEnabled">
+      <div class="card p-2">
 
         <div class="container-sticker">
           <div class="status-container">
-            <div class="status rent-yes" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
-            <div class="status rent-yes" *ngIf="statusMessage === 'Ви в дискусії'">Дискусія</div>
+            <div class="status" *ngIf="selectedUser?.woman === 1">W</div>
+            <div class="status" *ngIf="selectedUser?.man === 1">M</div>
+            <div class="status" *ngIf="selectedUser?.students === 1">S</div>
+            <div class="status" *ngIf="selectedUser?.family === 1">F</div>
           </div>
         </div>
 
-        <div class="img-wrapper">
-          <img class="img-fluid rounded"
-            [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+        <div class="characteristics">
+          <div class="characteristics-label">Шукаю оселю в :</div>
+
+          <div class="characteristics-group">
+
+            <div class="item-characteristics" *ngIf="selectedUser?.region !== null">Область :<span class="item">{{
+                selectedUser?.region || '?' }}</span> </div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.city !== null">Місто :<span class="item">{{
+                selectedUser?.city || '?' }}</span> </div>
+
+          </div>
         </div>
 
-        <div class="card-text p-2">
+        <div class="characteristics">
+          <div class="characteristics-label">Параметри оселі:</div>
 
-          <div class="title-group">
-            <div class="title-selected">Прізвище : </div>
-            <div class="title-selected-accent">{{ selectedUser?.lastName || '?' }}</div>
-          </div>
+          <div class="characteristics-group">
 
-          <div class="title-group">
-            <div class="title-selected">Ім'я : </div>
-            <div class="title-selected-accent">{{ selectedUser?.firstName || '?' }}</div>
-          </div>
-
-          <div class="title-group">
-            <div class="title-selected">Кіл. кімнат:</div>
-            <div class="title-selected-accent">
-              <span class="title-selected-accent"
-                *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
-                від {{ selectedUser?.rooms_of}}
+            <div class="item-characteristics">
+              Площа оселі:
+              <span class="item" *ngIf="selectedUser?.area_of !== 'Приховати' && selectedUser?.area_of !== null">
+                від {{ selectedUser?.area_of || '?' }}м²
               </span>
-              <span class="title-selected-accent"
-                *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">
-                до {{ selectedUser?.rooms_to}}
+              <span class="item" *ngIf="selectedUser?.area_to !== 'Приховати' && selectedUser?.area_to !== null">
+                до {{ selectedUser?.area_to || '?' }}м²
               </span>
             </div>
-          </div>
 
-          <div class="title-group">
-            <div class="title-selected">Оплата : </div>
-            <div class="title-selected-accent">{{option_pay[selectedUser?.option_pay] || '?' }}</div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.repair_status !== 'Приховати' && selectedUser?.repair_status !== null">Стан
+              оселі:<span class="item">{{ selectedUser?.repair_status }}</span> </div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.balcony !== 'Приховати' && selectedUser?.balcony !== null">Тип
+              балкону:<span class="item">{{ selectedUser?.balcony }}</span> </div>
           </div>
+        </div>
 
-          <div class="title-group">
-            <div class="title-selected">Бюджет : </div>
-            <div class="title-selected-accent">{{ selectedUser?.price_of | number }}₴ - {{ selectedUser?.price_to |
-              number }}₴</div>
+        <div class="characteristics">
+          <div class="characteristics-label">Інфраструктура:</div>
+
+          <div class="characteristics-group">
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.distance_metro !== 0 && selectedUser?.distance_metro !== null">Метро
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_metro] }}</span> </div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.distance_stop !== 0 && selectedUser?.distance_stop !== null">Зупинка
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_stop] }}</span> </div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.distance_shop !== 0 && selectedUser?.distance_shop !== null">Маркет
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_shop] }}</span> </div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.distance_green !== 0 && selectedUser?.distance_green !== null">Парк
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_green] }}</span> </div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.distance_parking !== 0 && selectedUser?.distance_parking !== null">
+              Паркінг:<span class="item">{{ aboutDistance[selectedUser?.distance_parking] }}</span> </div>
           </div>
+        </div>
 
-          <div class="title-group" *ngIf="selectedUser?.purpose_rent !== null">
-            <div class="title-selected">Мета оренди : </div>
-            <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
+        <div class="characteristics">
+          <div class="characteristics-label">Особливості:</div>
+          <div class="characteristics-group">
+
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.bunker !== 'Приховати' && selectedUser?.bunker !== null">Наявність
+              укриття:<span class="item">{{ selectedUser?.bunker }}</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.animals !== '' && selectedUser?.animals !== null">
+              Домашні улюбленці: <span class="item">{{ animals[selectedUser?.animals] }} </span> </div>
           </div>
+        </div>
 
+        <div class="characteristics">
+          <div class="characteristics-label">Розглядаю тип оселі:</div>
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.flat && selectedUser?.flat !== null"><span
+                class="item">Квартира</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.house && selectedUser?.house !== null"><span
+                class="item">Будинок</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.room && selectedUser?.room !== null"><span
+                class="item">Кімната</span> </div>
+          </div>
+        </div>
+
+        <div class="characteristics" *ngIf="selectedUser?.room && selectedUser?.room !== null">
+          <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.looking_man && selectedUser?.looking_man !== null">
+              <span class="item">Чоловік</span>
+            </div>
+            <div class="item-characteristics"
+              *ngIf="selectedUser?.looking_woman && selectedUser?.looking_woman !== null"><span
+                class="item">Жінка</span> </div>
+          </div>
+        </div>
+
+        <div class="characteristics">
+          <div class="characteristics-label">Орієнтовний термін оренди:</div>
+          <div class="characteristics-group">
+
+            <div class="item-characteristics" *ngIf="selectedUser?.years && selectedUser?.years !== null"><span
+                class="item">{{ selectedUser?.years }}</span>Роки</div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.mounths && selectedUser?.mounths !== null">
+              <span class="item">{{ selectedUser?.mounths }}</span>Місяці
+            </div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.weeks && selectedUser?.weeks !== null"><span
+                class="item">{{ selectedUser?.weeks }}</span>Тижні</div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.days && selectedUser?.days !== null"><span
+                class="item">{{ selectedUser?.days }}</span>Дні</div>
+
+          </div>
         </div>
 
       </div>
     </div>
 
-    <div class="section-2 p-2 col-lg-6 col-md-9 col-sm-12 col-12" *ngIf="selectedUser">
-      <div class="card-container-house">
-        <div class="card card-selected p-2">
-
-          <div class="container-sticker">
-            <div class="status-container">
-              <div class="status rent-yes" *ngIf="selectedUser?.woman === 1">W</div>
-              <div class="status rent-yes" *ngIf="selectedUser?.man === 1">M</div>
-              <div class="status rent-yes" *ngIf="selectedUser?.students === 1">S</div>
-              <div class="status rent-yes" *ngIf="selectedUser?.family === 1">F</div>
-            </div>
-          </div>
-
-          <div class="characteristics">
-            <div class="characteristics-label">Шукаю оселю в :</div>
-
-            <div class="characteristics-group">
-
-              <div class="item-characteristics" *ngIf="selectedUser?.region !== null">Область :<span class="item">{{
-                  selectedUser?.region || '?' }}</span> </div>
-
-              <div class="item-characteristics" *ngIf="selectedUser?.city !== null">Місто :<span class="item">{{
-                  selectedUser?.city || '?' }}</span> </div>
-
-            </div>
-          </div>
-
-          <div class="characteristics">
-            <div class="characteristics-label">Параметри оселі:</div>
-
-            <div class="characteristics-group">
-
-              <div class="item-characteristics">
-                Площа оселі:
-                <span class="item" *ngIf="selectedUser?.area_of !== 'Приховати' && selectedUser?.area_of !== null">
-                  від {{ selectedUser?.area_of || '?' }}м²
-                </span>
-                <span class="item" *ngIf="selectedUser?.area_to !== 'Приховати' && selectedUser?.area_to !== null">
-                  до {{ selectedUser?.area_to || '?' }}м²
-                </span>
-              </div>
-
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.repair_status !== 'Приховати' && selectedUser?.repair_status !== null">Стан
-                оселі:<span class="item">{{ selectedUser?.repair_status }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.balcony !== 'Приховати' && selectedUser?.balcony !== null">Тип
-                балкону:<span class="item">{{ selectedUser?.balcony }}</span> </div>
-            </div>
-          </div>
-
-          <div class="characteristics">
-            <div class="characteristics-label">Інфраструктура:</div>
-
-            <div class="characteristics-group">
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.distance_metro !== 0 && selectedUser?.distance_metro !== null">Метро
-                до:<span class="item">{{ aboutDistance[selectedUser?.distance_metro] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.distance_stop !== 0 && selectedUser?.distance_stop !== null">Зупинка
-                до:<span class="item">{{ aboutDistance[selectedUser?.distance_stop] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.distance_shop !== 0 && selectedUser?.distance_shop !== null">Маркет
-                до:<span class="item">{{ aboutDistance[selectedUser?.distance_shop] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.distance_green !== 0 && selectedUser?.distance_green !== null">Парк
-                до:<span class="item">{{ aboutDistance[selectedUser?.distance_green] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.distance_parking !== 0 && selectedUser?.distance_parking !== null">
-                Паркінг:<span class="item">{{ aboutDistance[selectedUser?.distance_parking] }}</span> </div>
-            </div>
-          </div>
-
-          <div class="characteristics">
-            <div class="characteristics-label">Особливості:</div>
-            <div class="characteristics-group">
-
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.bunker !== 'Приховати' && selectedUser?.bunker !== null">Наявність
-                укриття:<span class="item">{{ selectedUser?.bunker }}</span> </div>
-              <div class="item-characteristics" *ngIf="selectedUser?.animals !== '' && selectedUser?.animals !== null">
-                Домашні улюбленці: <span class="item">{{ animals[selectedUser?.animals] }} </span> </div>
-            </div>
-          </div>
-
-          <div class="characteristics">
-            <div class="characteristics-label">Розглядаю тип оселі:</div>
-            <div class="characteristics-group">
-              <div class="item-characteristics" *ngIf="selectedUser?.flat && selectedUser?.flat !== null"><span
-                  class="item">Квартира</span> </div>
-              <div class="item-characteristics" *ngIf="selectedUser?.house && selectedUser?.house !== null"><span
-                  class="item">Будинок</span> </div>
-              <div class="item-characteristics" *ngIf="selectedUser?.room && selectedUser?.room !== null"><span
-                  class="item">Кімната</span> </div>
-            </div>
-          </div>
-
-          <div class="characteristics" *ngIf="selectedUser?.room && selectedUser?.room !== null">
-            <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
-            <div class="characteristics-group">
-              <div class="item-characteristics" *ngIf="selectedUser?.looking_man && selectedUser?.looking_man !== null">
-                <span class="item">Чоловік</span>
-              </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser?.looking_woman && selectedUser?.looking_woman !== null"><span
-                  class="item">Жінка</span> </div>
-            </div>
-          </div>
-
-          <div class="characteristics">
-            <div class="characteristics-label">Орієнтовний термін оренди:</div>
-            <div class="characteristics-group">
-
-              <div class="item-characteristics" *ngIf="selectedUser?.years && selectedUser?.years !== null"><span
-                  class="item">{{ selectedUser?.years }}</span>Роки</div>
-
-              <div class="item-characteristics" *ngIf="selectedUser?.mounths && selectedUser?.mounths !== null">
-                <span class="item">{{ selectedUser?.mounths }}</span>Місяці
-              </div>
-
-              <div class="item-characteristics" *ngIf="selectedUser?.weeks && selectedUser?.weeks !== null"><span
-                  class="item">{{ selectedUser?.weeks }}</span>Тижні</div>
-
-              <div class="item-characteristics" *ngIf="selectedUser?.days && selectedUser?.days !== null"><span
-                  class="item">{{ selectedUser?.days }}</span>Дні</div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="!selectedUser">
-      <div class="m-2">
-        <div class="card-info p-2">
-
-          <h4 class="mb-2"><strong>Підписки на орендарів:</strong></h4>
-          <div class="title p-2">
-            <p class="text mb-2">Тут Ви зможете бачити користувачів на яких Ви підписались.</p>
-            <p class="text">Детальна інформацію про людину на яку Ви
-              підписались буде доступна коли вона вас ухвалить до Дискусії, там Ви вже зможете почати спілкування та
-              познайомитись, переглянути соціальні мережі, та перейти до обговорення оренди.</p>
-          </div>
-        </div>
-      </div>
+    <div class="card-info col-12" *ngIf="!selectedUser">
+      <div class="text"><strong>Підписки на орендарів </strong> - тут Ви зможете бачити користувачів на яких Ви
+        підписались.</div>
+      <div class="text">Детальна інформацію про людину на яку Ви
+        підписались буде доступна коли вона вас ухвалить до Дискусії, там Ви вже зможете почати спілкування та
+        познайомитись, переглянути соціальні мережі, та перейти до обговорення оренди.</div>
     </div>
 
   </div>
+
 </div>
