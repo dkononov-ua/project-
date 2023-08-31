@@ -129,14 +129,33 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="group">
-    <div class="chat-input col-10">
-      <input type="text" placeholder="Напишіть повідомлення" [(ngModel)]="messageText"
-        (keydown.enter)="sendMessage(selectedUser)">
+<div class="group">
+  <div class="group-input">
+
+    <button class="btn-more" (click)="toggleSmileyPanel()">
+      <span class="material-symbols-outlined">
+        add_reaction
+      </span>
+    </button>
+
+    <div class="smiley-panel" [class.open]="isSmileyPanelOpen">
+      <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
     </div>
-    <div class="btn-group col-2"> <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedUser)"><i
-          class="fa-solid fa-paper-plane fa-2xl"></i></button>
-    </div>
+
   </div>
+  <div class="input-box">
+    <div class="chat-input col-10">
+      <textarea class="input-field" (input)="onInput()" #textArea id="floatingTextarea" matInput
+        [(ngModel)]="messageText" (keydown.enter)="sendMessage(selectedUser)"
+        placeholder="Напишіть повідомлення"></textarea>
+    </div>
+
+    <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedUser)">
+      <i class="fa-solid fa-paper-plane fa-2xl"></i>
+    </button>
+  </div>
+
+
 </div>

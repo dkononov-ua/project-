@@ -168,10 +168,8 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.disabled === false) {
       const data = { ...this.userInfo };
-      console.log(data)
       this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
-          console.log(response)
         }, (error: any) => {
           console.error(error);
         });

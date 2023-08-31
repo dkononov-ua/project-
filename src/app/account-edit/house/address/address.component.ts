@@ -97,7 +97,6 @@ export class AddressComponent implements OnInit {
     if (userJson && this.selectedFlatId) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           this.flatInfo = response.flat;
           this.locationLink = this.generateLocationUrl();
           if (response == undefined && null)

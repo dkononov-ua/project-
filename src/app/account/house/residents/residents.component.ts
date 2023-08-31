@@ -216,7 +216,6 @@ export class ResidentsComponent implements OnInit {
           acces_flat_features: user_id.acces_flat_features,
           acces_flat_chats: user_id.acces_flat_chats,
         }));
-        console.log(response)
 
       this.subscribers = newSubscribers;
 
@@ -274,7 +273,6 @@ export class ResidentsComponent implements OnInit {
         acces_flat_features: acces_flat_features,
         acces_flat_chats: acces_flat_chats,
       };
-      console.log(data);
 
       this.http.post('http://localhost:3000/citizen/add/access', data).subscribe(
         (response: any) => {

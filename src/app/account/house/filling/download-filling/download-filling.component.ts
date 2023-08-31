@@ -60,7 +60,6 @@ export class DownloadFillingComponent implements OnInit {
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
       if (response) {
-        console.log(response.status)
         this.flat_objects = response.status;
       }
     }

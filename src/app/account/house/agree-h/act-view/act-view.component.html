@@ -5,7 +5,7 @@
 <ng-template #content>
   <div class="agreement-container" id="agreement-container" *ngIf="selectedAgreement">
     <div class="btn-group-abs">
-      <a class="btn m-1" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">
+      <a class="btn m-1" (click)="goBack()">
         <span class="link-text">НАЗАД</span>
       </a>
       <button class="btn m-1" type="submit" (click)="print()">ДРУКУВАТИ <span class="material-symbols-outlined">
@@ -94,7 +94,7 @@
             Момент передачі в користування Об'єкту нерухомості зафіксований вірно: <br>
 
             Показання лічильника електроенергії:
-            <span class="accent" *ngIf="selectedAct?.electro">{{selectedAct?.agreement_id}} </span>
+            <span class="accent" *ngIf="selectedAct?.electro">{{selectedAct?.electro}} </span>
             <span *ngIf="!selectedAct?.electro">___________________________________.</span>кВт.<br>
 
             Показання лічильника холодної води:

@@ -1,0 +1,28 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="container">
+    <div class="container-card">
+
+      <div class="card-box col-lg-3 col-md-4 col-sm-4 col-12">
+        <app-account-selection></app-account-selection>
+        <app-housing-selection></app-housing-selection>
+        <app-navbar-house></app-navbar-house>
+      </div>
+
+      <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12">
+        <div class="chat m-2">
+          <app-chat-house></app-chat-house>
+        </div>
+      </div>
+
+      <div [@cardAnimation2] class="card-box chat-rooms col-lg-4 col-md-4 col-sm-4 col-12">
+        <app-chat-rooms></app-chat-rooms>
+      </div>
+
+    </div>
+  </div>
+</ng-template>
+

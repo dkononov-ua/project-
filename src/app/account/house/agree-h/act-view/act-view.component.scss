@@ -364,7 +364,6 @@ img {
     page-break-inside: avoid;
     overflow: visible;
     box-sizing: border-box;
-    background-color: $color-white;
     height: 94vh;
   }
 
@@ -378,9 +377,7 @@ img {
 
   .agree {
     box-shadow: none !important;
-    color: $color-text;
     width: 100%;
-    background-color: $color-white;
     padding: 20px 50px;
   }
 
@@ -410,6 +407,10 @@ img {
 
   .title-text {
     font-size: 10px;
+  }
+
+  .card-name {
+    font-size: 9px;
   }
 
   .btn,

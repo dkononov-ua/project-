@@ -185,7 +185,6 @@ export class AgreeCreateComponent implements OnInit {
     try {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
-      console.log(this.houseData)
       if (this.houseData.imgs === 'Картинок нема') {
         this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
       }
@@ -319,7 +318,6 @@ export class AgreeCreateComponent implements OnInit {
           }
         };
 
-        console.log(data)
         this.http.post('http://localhost:3000/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {

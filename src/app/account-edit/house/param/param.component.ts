@@ -10,7 +10,7 @@ interface FlatInfo {
   kitchen_area: number;
   balcony: string | undefined;
   floor: number;
-  option_flat: undefined;
+  option_flat: number;
 }
 @Component({
   selector: 'app-param',
@@ -49,7 +49,7 @@ export class ParamComponent {
     kitchen_area: 0,
     balcony: '',
     floor: 0,
-    option_flat: undefined,
+    option_flat: 2,
   };
 
   disabled: boolean = true;
@@ -78,7 +78,6 @@ export class ParamComponent {
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response);
           if (response && response.param.area) {
             this.flatInfo = response.param;
             this.disabled = true;
@@ -133,7 +132,7 @@ export class ParamComponent {
         kitchen_area: 0,
         balcony: '',
         floor: 0,
-        option_flat: undefined,
+        option_flat: 2,
       };
   }
 }

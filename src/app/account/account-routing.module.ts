@@ -26,6 +26,7 @@ import { UagreeDetailsComponent } from './user/agree-u/uagree-details/uagree-det
 import { DownloadFillingComponent } from './house/filling/download-filling/download-filling.component';
 import { ActReceptionTransmissionComponent } from './house/agree-h/act-reception-transmission/act-reception-transmission.component';
 import { ActViewComponent } from './house/agree-h/act-view/act-view.component';
+import { UactViewComponent } from './user/agree-u/uact-view/uact-view.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
       { path: 'act-view/:selectedFlatAgree', component: ActViewComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-download/:selectedFlatAgree', component: AgreeDownloadComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-details/:selectedFlatAgree', component: AgreeDetailsComponent, canActivate: [CanActivateGuard] },
+      { path: 'uact-view/:selectedFlatAgree', component: UactViewComponent, canActivate: [CanActivateGuard] },
       { path: 'uagree-download/:selectedFlatAgree', component: UagreeDownloadComponent, canActivate: [CanActivateGuard] },
       { path: 'uagree-details/:selectedFlatAgree', component: UagreeDetailsComponent, canActivate: [CanActivateGuard] },
       {
@@ -61,7 +63,6 @@ const routes: Routes = [
           { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
           { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [CanActivateGuard] },
           { path: 'subscribe', component: SubscribeToMeComponent, canActivate: [CanActivateGuard] },
-
           { path: 'uagree-concluded', component: UagreeConcludedComponent, canActivate: [CanActivateGuard] },
           { path: 'uagree-delete', component: UagreeDeleteComponent, canActivate: [CanActivateGuard] },
           { path: 'uagree-menu', component: UagreeMenuComponent, canActivate: [CanActivateGuard] },

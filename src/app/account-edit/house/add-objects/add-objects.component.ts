@@ -112,7 +112,6 @@ export class AddObjectsComponent implements OnInit {
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
       if (response) {
-        console.log(response.status)
         this.flat_objects = response.status;
       }
     }
@@ -131,7 +130,6 @@ export class AddObjectsComponent implements OnInit {
       this.selectedCard = false;
     } else {
       this.selectedCard = flat.filling_id;
-      console.log(this.selectedCard)
     }
   }
 
@@ -187,7 +185,6 @@ export class AddObjectsComponent implements OnInit {
     }
     formData.append("inf", JSON.stringify(data));
     formData.append('auth', userJson!);
-    console.log(formData)
 
     const headers = { 'Accept': 'application/json' };
     this.http.post('http://localhost:3000/img/uploadFilling', formData, { headers }).subscribe(
@@ -210,8 +207,6 @@ export class AddObjectsComponent implements OnInit {
         flat_id: selectedFlat,
         filling_id: flat.filling_id
       };
-
-      console.log(data)
 
       this.http.post('http://localhost:3000/flatinfo/deletefilling', data)
         .subscribe(

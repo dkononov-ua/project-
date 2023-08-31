@@ -3,6 +3,9 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { CustomPaginatorIntl } from '../custom-paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 
 interface UserInfo {
   animals: string | undefined;
@@ -85,18 +88,24 @@ export class SubscribersHouseComponent implements OnInit {
 
   selectedFlatId: string | any;
   subscribers: Subscriber[] = [];
+  selectedSubscriberId: string | null = null;
 
-  constructor(private selectedFlatIdService: SelectedFlatService, private http: HttpClient) { }
+
+  constructor(
+    private selectedFlatIdService: SelectedFlatService,
+    private http: HttpClient,
+    private dialog: MatDialog,
+    private choseSubscribersService: ChoseSubscribersService,
+    ) { }
 
   ngOnInit(): void {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      const offs = 0;
-      this.getSubs(selectedFlatId, offs);
+      this.selectedFlatId = selectedFlatId;
+      this.getSubs(this.selectedFlatId, this.offs);
     });
   }
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
-
     const userJson = localStorage.getItem('user');
     const url = 'http://localhost:3000/subs/get/subs';
     const data = {
@@ -107,8 +116,6 @@ export class SubscribersHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
-
       const newSubscribers: Subscriber[] = response
         .filter(item => item !== null)
         .map((item: any) => ({
@@ -131,12 +138,6 @@ export class SubscribersHouseComponent implements OnInit {
     this.selectedFlatId = selectedFlatId;
   }
 
-  selectUser(selectedUser: UserInfo) {
-    this.selectedUser = selectedUser;
-    console.log(this.selectedUser);
-  }
-
-
   approveSubscriber(subscriber: Subscriber): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
@@ -151,7 +152,6 @@ export class SubscribersHouseComponent implements OnInit {
       this.http.post('http://localhost:3000/subs/accept', data)
         .subscribe(
           (response: any) => {
-            console.log(response)
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
           (error: any) => {
@@ -163,30 +163,32 @@ export class SubscribersHouseComponent implements OnInit {
     }
   }
 
+  onSubscriberSelect(subscriber: Subscriber): void {
+    this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
+    this.selectedUser = subscriber;
+    this.selectedSubscriberId = subscriber.user_id;
+  }
 
-  removeSubscriber(subscriber: Subscriber): void {
+  async openDialog(subscriberId: string): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const selectedFlat = this.selectedFlatId;
+    const url = 'http://localhost:3000/subs/delete/subs';
 
-    if (userJson && subscriber && selectedFlat) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        user_id: subscriber.user_id
-      };
-
-      this.http.post('http://localhost:3000/subs/delete/subs', data)
-        .subscribe(
-          (response: any) => {
-            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('user or subscriber not found');
-    }
+    const dialogRef = this.dialog.open(DeleteSubComponent);
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result === true && userJson && subscriberId && this.selectedFlatId) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: this.selectedFlatId,
+          user_id: subscriberId
+        };
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriberId);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
   }
 
 

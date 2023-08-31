@@ -1,8 +1,12 @@
 <nav class="navbar-house">
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
     <span class="link-text">Мій аккаунт</span></a>
+
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
-    <span class="link-text">Повідомлення</span></a>
+    <span class="link-text">Повідомлення</span>
+    <div class="status" *ngIf="unreadMessage !== false">{{unreadMessage}}</div>
+  </a>
+
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/subscriptions'">
     <span class="link-text">Підписки</span></a>
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/subscribe'">

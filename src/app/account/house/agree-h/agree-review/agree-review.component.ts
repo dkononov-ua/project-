@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,9 +33,12 @@ interface Agree {
     subscriber_lastName: string;
     subscriber_surName: string;
     subscriber_tell: string;
-    subscriber_img: string;
     year: number;
     area: number;
+    subscriber_img: string;
+    dateAgreeEnd: string;
+    dateAgreeStart: string;
+
   };
   img: string[];
 }
@@ -43,6 +46,9 @@ interface Agree {
   selector: 'app-agree-review',
   templateUrl: './agree-review.component.html',
   styleUrls: ['./agree-review.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
 })
 
 export class AgreeReviewComponent implements OnInit {
@@ -50,6 +56,7 @@ export class AgreeReviewComponent implements OnInit {
   loading: boolean = true;
   selectedFlatId: any;
   deletingFlatId: string | null = null;
+  offer: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -81,7 +88,6 @@ export class AgreeReviewComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      console.log(response)
       this.agree = response;
       this.loading = false;
     } catch (error) {
@@ -94,8 +100,15 @@ export class AgreeReviewComponent implements OnInit {
   async openDialog(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = 'http://localhost:3000/agreement/delete/agreement';
+    const dialogRef = this.dialog.open(AgreeDeleteComponent, {
+      data: {
+        flatId: agree.flat.flat_id,
+        subscriberId: agree.flat.subscriber_id,
+        agreementId: agree.flat.agreement_id,
+        offer: true,
+      }
+    });
 
-    const dialogRef = this.dialog.open(AgreeDeleteComponent);
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result && this.selectedFlatId && userJson) {
         const data = {
@@ -110,7 +123,6 @@ export class AgreeReviewComponent implements OnInit {
           setTimeout(() => {
             this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
             this.deletingFlatId = null;
-            console.log(response)
           }, 0);
         } catch (error) {
           console.error(error);

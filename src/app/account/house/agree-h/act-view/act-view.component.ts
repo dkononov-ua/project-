@@ -6,6 +6,7 @@ import { objects } from '../../../../shared/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Location } from '@angular/common';
 
 interface Agree {
   flat: {
@@ -115,6 +116,10 @@ export class ActViewComponent implements OnInit {
     this.isContainerVisible = false;
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -122,11 +127,12 @@ export class ActViewComponent implements OnInit {
     private dataService: DataService,
     private sanitizer: DomSanitizer,
     private router: Router,
+    private location: Location
   ) { }
 
   async ngOnInit(): Promise<void> {
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       this.selectedAgree = params['selectedFlatAgree'] || null;
     });
 
@@ -150,7 +156,8 @@ export class ActViewComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      this.selectedAgreement = response[0];
+      const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedAgree);
+      this.selectedAgreement = selectedAgreement;
       this.loading = false;
     } catch (error) {
       console.error(error);
@@ -169,13 +176,10 @@ export class ActViewComponent implements OnInit {
       offs: 0
     };
 
-    console.log(data)
     try {
       const response = (await this.http.post(url, data).toPromise()) as any[];
-      console.log(response)
       const selectedAct = response[0];
       this.flat_objects = response[1];
-      console.log(this.flat_objects)
       return selectedAct || null;
     } catch (error) {
       console.error(error);

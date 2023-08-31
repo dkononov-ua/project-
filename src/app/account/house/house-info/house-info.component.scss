@@ -13,6 +13,7 @@
   justify-content: flex-start;
   align-items: stretch;
   width: 100%;
+  height: 100%;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
@@ -316,6 +317,13 @@ img {
 }
 
 .switch-box {
-  bottom: 10px;
+  z-index: 50;
+  top: -30px;
   left: 20px;
+}
+
+.card-animation {
+  position: absolute;
+  width: 95%;
+  height: 97%;
 }

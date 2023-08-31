@@ -23,9 +23,11 @@
         </div>
 
         <div class="item-wrapper mt-1">
-          <div class="item-name">ID Угоди: {{ agreement.flat.agreement_id}}</div>
-          <button class="btn" [routerLink]="['/uagree-download', agreement.flat.agreement_id]">Переглянути
-            угоду</button>
+          <div class="item-name-id">ID Угоди: {{ agreement.flat.agreement_id}}</div>
+          <div class="btn-group">
+            <button class="btn w-75 m-1" [routerLink]="['/uagree-download', agreement.flat.agreement_id]">Угода</button>
+            <button class="btn w-25 m-1" [routerLink]="['/uact-view', agreement.flat.agreement_id]">Акт</button>
+          </div>
         </div>
 
       </div>

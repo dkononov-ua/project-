@@ -9,6 +9,7 @@
 }
 
 .link-menu {
+  position: relative;
   transition: 0.4s;
 
   &:hover {
@@ -40,3 +41,20 @@
   color: $color-primary;
   font-size: 25px;
 }
+
+.status {
+  display: flex;
+  position: absolute;
+  left: -18px;
+  top: 0px;
+  width: 30px;
+  height: 30px;
+  background-color: tomato;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+

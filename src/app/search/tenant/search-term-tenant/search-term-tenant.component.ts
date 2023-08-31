@@ -87,10 +87,10 @@ export class SearchTermTenantComponent implements OnInit {
     purpose_rent: '',
     looking_woman: undefined,
     looking_man: undefined,
-    students: false,
-    woman: false,
-    man: false,
-    family: false,
+    students: true,
+    woman: true,
+    man: true,
+    family: true,
     days: 0,
     weeks: 0,
     months: 0,
@@ -178,7 +178,6 @@ export class SearchTermTenantComponent implements OnInit {
   onSubmit(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      console.log(this.userInfo)
       this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           this.filteredUsers = response.user_inf;
@@ -203,11 +202,9 @@ export class SearchTermTenantComponent implements OnInit {
       if (userJson && this.searchQuery && this.searchQuery.length >= 5) {
         this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
-            console.log(response)
             this.filteredUsers = response.user_inf;
             this.filterUserService.updateFilter(this.filteredUsers);
 
-            console.log(this.filteredUsers)
           }, (error: any) => {
             console.error(error);
           });

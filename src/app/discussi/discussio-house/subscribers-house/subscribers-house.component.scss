@@ -1,5 +1,17 @@
 @use "../../../style/presets/" as *;
 
+p {
+  text-align: center;
+  line-height: 1.5em;
+  word-spacing: 0.2em;
+  letter-spacing: 0.05em;
+  text-align: start;
+}
+
+a {
+  padding: 0;
+}
+
 .container-card {
   height: 100%;
   display: flex;
@@ -8,8 +20,10 @@
   flex-wrap: wrap;
 }
 
-.card-container::-webkit-scrollbar {
-  display: none;
+.card-box {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .scrollable-container::-webkit-scrollbar {
@@ -19,35 +33,12 @@
 .scrollable-container {
   display: flex;
   width: 100%;
-  height: 100%;
-  max-height: 60vh;
+  min-height: 60vh;
+  max-height: 70vh;
   overflow-y: auto;
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: flex-start;
-}
-
-.card-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
-}
-
-.card-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 95%;
-  height: 100%;
-  overflow: hidden;
-  transition: all 0.3s ease;
-
-  &:hover,
-  :focus {
-    transform: scale(1.05);
-  }
 }
 
 .card {
@@ -55,176 +46,83 @@
   width: 100%;
   display: flex;
   justify-content: center;
-}
-
-.card-title {
-  font-size: 15px;
-  margin: 0;
-  padding: 0;
-}
-
-.card-body {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-}
-
-.card-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-box {
-  display: flex;
-  align-items: stretch;
-}
-
-.card-name {
-  display: flex;
+  flex-wrap: wrap;
 }
 
 .card-img-container {
   position: relative;
-  width: 40%;
   height: 100%;
   overflow: hidden;
-  transition: all 0.3s ease;
-  &:hover,
-  :focus {
-    width: 60%;
-  }
 }
 
-.card-img-top {
+.card-img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   position: absolute;
   top: 0;
   left: 0;
-  transition: all 0.3s ease;
-  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-  background-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  transition: all 1s ease;
 }
 
 .card-social-link {
   font-size: 20px;
   display: flex;
-  width: 30px;
+  height: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-a {
-  margin: 5px 15px;
-  padding: 0;
-}
-
 .fab {
-  font-size: 20px;
   transition: 0.4s;
+  font-size: 20px;
 
   &:hover {
-    color: $color-accent;
     transition: 0.4s;
     transform: scale(2);
+    color: $color-accent;
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
   }
 }
 
-.title-group {
+.card-body {
   display: flex;
-  border: 1px solid $color-primary;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.info {
-  margin: 0;
-  padding: 0;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: $color-text;
-  text-decoration: none;
-  border-radius: 50%;
-  background-color: $color-primary;
-  border: none;
-
-  &.active {
-    background-color: $color-accent;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $color-accent;
-  }
-}
-
-.text-info {
-  padding: 10px;
-  font-size: 0.8em;
-  color: $color-accent !important;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 5px;
+  width: 100%;
 }
 
 .btn-group {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  align-content: center;
-  justify-content: center;
 }
 
-.link-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-
-  &:hover {
-    transition: 0.4s;
-    transform: scale(1.1);
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  }
-  &:active {
-    color: $color-white;
-    transform: scale(0.8);
-    box-shadow: 0px 0px 10px $color-accent;
-  }
-
-  &.active {
-    color: $color-white;
-    box-shadow: 0px 0px 10px $color-accent;
-    border-color: $color-accent;
-  }
-}
-
-p {
-  text-align: center;
-}
-
-.paginator {
+mat-paginator {
   background-color: transparent;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
 }
 
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
 
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.title-min {
+  font-size: 12px;
+}

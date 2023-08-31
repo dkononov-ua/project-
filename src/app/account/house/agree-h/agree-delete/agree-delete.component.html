@@ -1,13 +1,16 @@
-<div class="message-box">
+<div class="message-box" >
   <mat-dialog-content>
-    <h3>Ви дійсно хочете видалити угоду?</h3>
-    <p class="text">Угода буде видалена також і у орендара</p>
+    <h3 *ngIf="data.offer === false">Ви дійсно хочете видалити угоду укладену з {{data.subscriberId}}? </h3>
+    <h3 *ngIf="data.offer === true">Ви дійсно хочете скасувати надіслану угоду орендару {{data.subscriberId}}? </h3>
+    <p class="text"><span class="agree-name">ID угоди - {{data.agreementId}}</span></p>
+    <p class="text">Угода та акт буде видалена також і у орендара без можливості відновлення</p>
   </mat-dialog-content>
   <mat-dialog-actions class="box" align="end">
     <button class="btn m-2" mat-button mat-dialog-close>Ні</button>
     <button class="btn m-2" mat-button [mat-dialog-close]="true">Так</button>
   </mat-dialog-actions>
 </div>
+
 
 
 

@@ -53,12 +53,7 @@ export class ChatRoomComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
-        const offs = 0;
-        this.getFlatChats(selectedFlatId, offs);
-      }
-    });
+    this.getFlatChats();
   }
 
   selectChat(chat: Chat): void {
@@ -86,16 +81,14 @@ export class ChatRoomComponent implements OnInit {
     chat.isSelected = true;
   }
 
-  async getFlatChats(selectedFlatId: string, offs: number): Promise<any> {
-    const selectedFlat = selectedFlatId;
+  async getFlatChats(): Promise<any> {
     const url = 'http://localhost:3000/chat/get/userchats';
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        offs: offs
+        offs: 0
       };
       this.http.post(url, data)
         .subscribe(async (response: any) => {

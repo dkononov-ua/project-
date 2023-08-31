@@ -166,7 +166,6 @@ export class TenantsSearchComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
-    console.log(this.selectedUser)
 
     setTimeout(() => {
       this.checkSubscribe();
@@ -232,7 +231,6 @@ export class TenantsSearchComponent implements OnInit {
       const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
       this.http.post('http://localhost:3000/usersubs/subscribe', data)
         .subscribe((response: any) => {
-          console.log(response);
           this.subscriptionMessage = response.status;
           this.isSubscribed = true;
           this.checkSubscribe();
@@ -252,7 +250,6 @@ export class TenantsSearchComponent implements OnInit {
       const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
       this.http.post('http://localhost:3000/usersubs/checkSubscribe', data)
         .subscribe((response: any) => {
-          console.log(response.status)
           this.statusMessage = response.status;
           this.isSubscribed = true;
           if (this.statusMessage === 'Ви успішно відписались') {

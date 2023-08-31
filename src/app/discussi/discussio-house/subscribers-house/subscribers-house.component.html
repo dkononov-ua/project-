@@ -1,74 +1,55 @@
 <div class="container-card">
 
-
-
-  <div class="card-box col-lg-8 col-md-5 col-sm-6 col-12">
-    <div class="card-container">
-      <div class="scrollable-container p-3">
-
-        <div class="card-wrapper card m-2" *ngFor="let subscriber of subscribers" (click)="selectUser(selectedUser)">
-          <div class="card-img-container">
-            <img class="card-img-top"
-              [src]="'http://localhost:3000/img/users/' + (subscriber.photo ? subscriber.photo : 'user_default.svg')"
-              alt="User Image">
-          </div>
-          <div class="card-social-link">
-            <a *ngIf="subscriber.instagram" [href]="subscriber.instagram"><i class="fab fa-brands fa-instagram"></i></a>
-            <a *ngIf="subscriber.telegram" [href]="subscriber.telegram"><i class="fab fa-brands fa-telegram"></i></a>
-            <a *ngIf="subscriber.viber" [href]="subscriber.viber"><i class="fab fa-brands fa-viber"></i></a>
-            <a *ngIf="subscriber.facebook" [href]="subscriber.facebook"><i class="fab fa-brands fa-facebook"></i></a>
-          </div>
-          <div class="card-body">
-            <h2 class="card-title">{{ subscriber.lastName }} {{ subscriber.firstName }} <br> {{ subscriber.surName }}
-            </h2>
-
-
-            <div class="btn-group">
-              <button class="btn-1 m-1" (click)="approveSubscriber(subscriber)">ДИСКУСІЯ</button>
-              <button class="btn-1 m-1" (click)="removeSubscriber(subscriber)"><i
-                  class="fa-solid fa-user-xmark"></i></button>
-            </div>
-          </div>
-
+  <div class="card-box col-lg-7 col-md-6 col-sm-12 col-12">
+    <div class="scrollable-container">
+      <div class="card m-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)">
+        <div class="card-img-container w-35">
+          <img class="card-img" alt="User Image"
+            [src]="'http://localhost:3000/img/users/' + (subscriber.photo ? subscriber.photo : 'user_default.svg')">
         </div>
-
+        <div class="card-social-link w-15">
+          <a target="_blank" *ngIf="subscriber.instagram" [href]="subscriber.instagram"><i
+              class="fab fa-brands fa-instagram"></i></a>
+          <a target="_blank" *ngIf="subscriber.telegram" [href]="subscriber.telegram"><i
+              class="fab fa-brands fa-telegram"></i></a>
+          <a target="_blank" *ngIf="subscriber.viber" [href]="subscriber.viber"><i
+              class="fab fa-brands fa-viber"></i></a>
+          <a target="_blank" *ngIf="subscriber.facebook" [href]="subscriber.facebook"><i
+              class="fab fa-brands fa-facebook"></i></a>
+        </div>
+        <div class="card-body w-50">
+          <div class="title-group p-1">
+            <div class="title">{{ subscriber.lastName }}</div>
+            <div class="title">{{ subscriber.firstName }}</div>
+            <div class="title">{{ subscriber.surName }}</div>
+            <div class="title-min">ID: {{ subscriber.user_id }}</div>
+          </div>
+          <div class="btn-group p-1">
+            <button class="btn w-70 m-1" (click)="approveSubscriber(subscriber)">ДИСКУСІЯ</button>
+            <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
+                class="fa-solid fa-user-xmark"></i></button>
+          </div>
+        </div>
       </div>
-      <mat-paginator class="paginator mb-1" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
-        [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
-        aria-label="Select page">
-      </mat-paginator>
     </div>
+
+    <mat-paginator class="mb-1"
+    [pageIndex]="pageEvent?.pageIndex"
+    [length]="subscribers.length"
+    [pageSize]="pageEvent?.pageSize"
+    [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
+    aria-label="Select page">
+    </mat-paginator>
   </div>
 
-  <div class="card-box col-lg-4 col-md-12 col-sm-12 col-12">
-    <div class="m-2">
-      <div class="card-info p-2">
-
-        <h4 class="mb-2"><strong>Підписники оселі:</strong></h4>
-
-        <div class="title-group">
-          <div class="title">
-            <p>Тут Ви зможете бачити користувачів які підписались на Вашу оселю. Переглянути соціальні мережі, якщо Ви
-              розглядаєте підписника як
-              потенційного орендара то тут Ви можете ухвали його до Дискусії,
-              також він отримає доступ до детальної інформації про оселю.</p>
-          </div>
-        </div>
-
-        <div class="title-group">
-          <div class="title">
-            <p>Що робить кнопка ДИСКУСІЯ?</p>
-          </div>
-        </div>
-
-        <div class="title-group">
-          <div class="title">
-            <p>Вона дозволяє ухвалити користувача для подальшого діалогу між вами в меню ДИСКУСІЯ.
-            </p>
-          </div>
-        </div>
-
-      </div>
+  <div class="card-box col-lg-5 col-md-6 col-sm-12 col-12">
+    <div class="card-info p-2">
+      <p class="mb-4"><strong>Підписники оселі</strong> - Тут Ви зможете бачити користувачів які підписались на Вашу
+      оселю. Переглянути соціальні мережі, якщо Ви розглядаєте підписника як
+      потенційного орендара то тут Ви можете ухвали його до Дискусії,
+      також він отримає доступ до детальної інформації про оселю.</p>
+      <p><strong>ДИСКУСІЯ</strong> - дозволяє ухвалити користувача для подальшого діалогу між вами в
+      меню ДИСКУСІЯ.</p>
     </div>
   </div>
 </div>

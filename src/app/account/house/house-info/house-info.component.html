@@ -5,11 +5,11 @@
 
       <div class="container-sticker">
         <div class="status-container">
-          <div class="status online" *ngIf="isOnline">Online</div>
-          <div class="status offline" *ngIf="isOffline">Offline</div>
-          <div class="status rent-yes" *ngIf="house.rent === 1">Rent</div>
-          <div class="status rent-no" *ngIf="house.rent === 0">Not Rent</div>
-          <div class="status private-yes" *ngIf="house.private === 1">Private</div>
+          <!-- <div class="status online" *ngIf="isOnline">Online</div>
+          <div class="status offline" *ngIf="isOffline">Offline</div> -->
+          <div class="status rent-yes" *ngIf="house.rent === 1">Опублікована</div>
+          <div class="status rent-no" *ngIf="house.rent === 0">Не опублікована</div>
+          <div class="status private-yes" *ngIf="house.private === 1">Приватно</div>
         </div>
       </div>
 
@@ -97,20 +97,25 @@
 
   <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
 
-    <div [@fadeInAnimation] class="card m-2 p-2" *ngIf="!isFeatureEnabled">
-      <app-parameters></app-parameters>
-    </div>
-
-    <div [@fadeInAnimation] class="card m-2 p-2" *ngIf="isFeatureEnabled">
-      <app-house-share></app-house-share>
-    </div>
-
     <div class="switch-box">
       <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
         <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
       </button>
       <h3 class="switch-box-name">{{ isFeatureEnabled ? 'Параметри' : 'Інформація' }}</h3>
     </div>
+
+    <div [@cardAnimation2]  class="card-animation" *ngIf="!isFeatureEnabled">
+      <div class="card m-2 p-2">
+        <app-parameters></app-parameters>
+      </div>
+    </div>
+
+    <div [@cardAnimation2]  class="card-animation" *ngIf="isFeatureEnabled">
+      <div class="card m-2 p-2">
+        <app-house-share></app-house-share>
+      </div>
+    </div>
+
   </div>
 
 </div>

@@ -1,39 +1,28 @@
 <div class="container-card">
 
-  <div class="switch-box" *ngIf="selectedUser">
-    <div class="switch-box-name">{{ isFeatureEnabled ? 'Параметри' : 'Профіль' }}</div>
-    <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
-      <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
-    </button>
-  </div>
-
   <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
-    <div class="card-container p-2">
+    <div class="card-container">
       <div class="scrollable-container p-3">
-        <div class="card-mini mb-4" *ngFor="let subscriber of subscribers" (click)="selectUser(subscriber)"
+        <div class="card-mini mb-4" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
           [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-img-container">
             <img class="card-img"
               [src]="'http://localhost:3000/img/users/' + (subscriber.img ? subscriber.img : 'user_default.svg')"
               alt="User Image">
           </div>
-          <div class="card-social-link">
-            <a *ngIf="subscriber.instagram" [href]="subscriber.instagram"><i class="fab fa-brands fa-instagram"></i></a>
-            <a *ngIf="subscriber.telegram" [href]="subscriber.telegram"><i class="fab fa-brands fa-telegram"></i></a>
-            <a *ngIf="subscriber.viber" [href]="subscriber.viber"><i class="fab fa-brands fa-viber"></i></a>
-            <a *ngIf="subscriber.facebook" [href]="subscriber.facebook"><i class="fab fa-brands fa-facebook"></i></a>
-          </div>
           <div class="card-body">
-            <div class="card-title">{{ subscriber.lastName }} {{ subscriber.firstName }}
-              <br> {{ subscriber.surName }}
+            <div class="title-group p-1">
+              <div class="title">{{ subscriber.lastName }}</div>
+              <div class="title">{{ subscriber.firstName }}</div>
+              <div class="title">{{ subscriber.surName }}</div>
             </div>
-            <button class="btn-1 m-1" (click)="removeSubscriber(subscriber)"><i
+            <button class="btn-1 m-1" (click)="openDialog(subscriber.user_id)"><i
                 class="fa-solid fa-user-xmark"></i></button>
           </div>
         </div>
       </div>
 
-      <mat-paginator class="paginator mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
+      <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
         [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
         aria-label="Select page">
       </mat-paginator>
@@ -42,6 +31,13 @@
 
   <div class="col-lg-6 col-md-6 col-sm-12 col-12 p-2 ">
 
+    <div class="switch-box" *ngIf="selectedUser">
+      <div class="switch-box-name mr-2">{{ isFeatureEnabled ? 'Параметри пошуку' : 'Профіль' }}</div>
+      <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
+        <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
+      </button>
+    </div>
+
     <div class="card col-12" *ngIf="selectedUser && !isFeatureEnabled">
       <div class="img-wrapper">
         <img class="img-fluid rounded"
@@ -49,17 +45,17 @@
       </div>
 
       <div class="p-2">
-        <div class="title-group">
+        <div class="title-group-card">
           <div class="title-selected">Прізвище : </div>
           <div class="title-selected-accent">{{ selectedUser?.lastName || '?' }}</div>
         </div>
 
-        <div class="title-group">
+        <div class="title-group-card">
           <div class="title-selected">Ім'я : </div>
           <div class="title-selected-accent">{{ selectedUser?.firstName || '?' }}</div>
         </div>
 
-        <div class="title-group">
+        <div class="title-group-card">
           <div class="title-selected">Кіл. кімнат:</div>
           <div class="title-selected-accent">
             <span class="title-selected-accent" *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
@@ -71,18 +67,18 @@
           </div>
         </div>
 
-        <div class="title-group">
+        <div class="title-group-card">
           <div class="title-selected">Оплата : </div>
           <div class="title-selected-accent">{{option_pay[selectedUser?.option_pay] || '?' }}</div>
         </div>
 
-        <div class="title-group">
+        <div class="title-group-card">
           <div class="title-selected">Бюджет : </div>
           <div class="title-selected-accent">{{ selectedUser?.price_of | number }}₴ - {{ selectedUser?.price_to |
             number }}₴</div>
         </div>
 
-        <div class="title-group" *ngIf="selectedUser?.purpose_rent !== null">
+        <div class="title-group-card" *ngIf="selectedUser?.purpose_rent !== null">
           <div class="title-selected">Мета оренди : </div>
           <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
         </div>
@@ -93,15 +89,6 @@
 
     <div class="card col-12" *ngIf="selectedUser && isFeatureEnabled">
       <div class="card p-2">
-
-        <div class="container-sticker">
-          <div class="status-container">
-            <div class="status" *ngIf="selectedUser?.woman === 1">W</div>
-            <div class="status" *ngIf="selectedUser?.man === 1">M</div>
-            <div class="status" *ngIf="selectedUser?.students === 1">S</div>
-            <div class="status" *ngIf="selectedUser?.family === 1">F</div>
-          </div>
-        </div>
 
         <div class="characteristics">
           <div class="characteristics-label">Шукаю оселю в :</div>
@@ -222,12 +209,12 @@
       </div>
     </div>
 
-    <div class="card-info col-12" *ngIf="!selectedUser">
-      <div class="text"><strong>Підписки на орендарів </strong> - тут Ви зможете бачити користувачів на яких Ви
-        підписались.</div>
-      <div class="text">Детальна інформацію про людину на яку Ви
+    <div class="card-info p-2 col-12" *ngIf="!selectedUser">
+      <p class="mb-4"><strong>Підписки на орендарів </strong> - тут Ви зможете бачити користувачів на яких Ви
+        підписались.</p>
+      <p><strong>Детальна інформацію</strong> про людину на яку Ви
         підписались буде доступна коли вона вас ухвалить до Дискусії, там Ви вже зможете почати спілкування та
-        познайомитись, переглянути соціальні мережі, та перейти до обговорення оренди.</div>
+        познайомитись, переглянути соціальні мережі, та перейти до обговорення оренди.</p>
     </div>
 
   </div>

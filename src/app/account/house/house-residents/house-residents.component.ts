@@ -84,8 +84,6 @@ export class HouseResidentsComponent implements OnInit {
           facebook: item.facebook
         }));
 
-        console.log(response)
-
       this.subscribers = newSubscribers;
     } catch (error) {
       console.error(error);
@@ -106,7 +104,6 @@ export class HouseResidentsComponent implements OnInit {
       this.http.post('http://localhost:3000/subs/accept', data)
         .subscribe(
           (response: any) => {
-            console.log(response);
           },
           (error: any) => {
             console.error(error);

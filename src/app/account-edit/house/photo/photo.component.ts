@@ -89,7 +89,6 @@ export class PhotoComponent implements OnInit {
     const headers = { 'Accept': 'application/json' };
     this.http.post('http://localhost:3000/img/uploadflat', formData, { headers }).subscribe(
       (data: any) => {
-        console.log(data);
         this.images.push('http://localhost:3000/img/flat/' + data.filename);
       },
       (error: any) => {

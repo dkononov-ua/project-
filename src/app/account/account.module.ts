@@ -43,6 +43,7 @@ import { DownloadFillingComponent } from './house/filling/download-filling/downl
 import { MatNativeDateModule } from '@angular/material/core';
 import { ActReceptionTransmissionComponent } from './house/agree-h/act-reception-transmission/act-reception-transmission.component';
 import { ActViewComponent } from './house/agree-h/act-view/act-view.component';
+import { UactViewComponent } from './user/agree-u/uact-view/uact-view.component';
 @NgModule({
   declarations: [
     AccountComponent,
@@ -72,6 +73,7 @@ import { ActViewComponent } from './house/agree-h/act-view/act-view.component';
     DownloadFillingComponent,
     ActReceptionTransmissionComponent,
     ActViewComponent,
+    UactViewComponent,
   ],
   providers: [
     DatePipe

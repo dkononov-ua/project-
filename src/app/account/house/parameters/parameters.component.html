@@ -1,8 +1,8 @@
 <div class="container-sticker">
   <div class="status-container">
     <div class="status param" *ngIf="about.room === 1">Кімната</div>
-    <div class="status param" *ngIf="param.option_flat === 1">Б</div>
-    <div class="status param" *ngIf="param.option_flat === 2">К</div>
+    <div class="status param" *ngIf="param.option_flat === 1">Будинок</div>
+    <div class="status param" *ngIf="param.option_flat === 2">Квартира</div>
 
 
     <div class="status rent-yes" *ngIf="about.woman === 1">W</div>
@@ -29,7 +29,7 @@
     <div class="item-characteristics" *ngIf="param.floor !== 0 && param.floor !== null">Поверх:<span class="item">{{
         param.floor }}</span> </div>
 
-    <div class="item-characteristics" *ngIf="param.balcony !== 'Приховати' && param.balcony !== null">Тип
+    <div class="item-characteristics" *ngIf="param.balcony">Тип
       балкону:<span class="item">{{ param.balcony }}</span> </div>
 
     <div class="item-characteristics" *ngIf="param.kitchen_area !== 'Приховати' && param.kitchen_area !== null">Площа
@@ -38,7 +38,8 @@
   </div>
 </div>
 
-<div class="characteristics">
+<div class="characteristics"
+  *ngIf="about.distance_metro || about.distance_stop || about.distance_shop || about.distance_green || about.distance_parking">
   <div class="characteristics-label">Інфраструктура:</div>
 
   <div class="characteristics-group">
@@ -68,7 +69,7 @@
         class="item">{{ animals[about.animals] }} </span> </div>
   </div>
 </div>
-<div class="characteristics">
+<div class="characteristics" *ngIf="about.about">
   <div class="characteristics-label">Про оселю:</div>
 
   <div class="characteristics-group">

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
@@ -12,8 +13,10 @@ export class AgreeDeleteComponent implements OnInit {
   selectedFlatId!: string | null;
   selectedFlatAgree: any;
   selectedAgreement: any;
+  offer!: boolean;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private selectedFlatService: SelectedFlatService,
     private route: ActivatedRoute,
   ) { }
@@ -25,11 +28,6 @@ export class AgreeDeleteComponent implements OnInit {
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
-    });
-
-    this.route.params.subscribe(async params => {
-      this.selectedFlatAgree = params['selectedFlatAgree'] || null;
-      console.log(this.selectedFlatAgree)
     });
   }
 }

@@ -140,7 +140,6 @@ export class ActReceptionTransmissionComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.agree = params['selectedFlatAgree'] || null;
-      console.log(this.agree)
     });
   }
 
@@ -156,7 +155,6 @@ export class ActReceptionTransmissionComponent implements OnInit {
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
       this.agree = response;
-      console.log(response)
       this.loading = false;
     } catch (error) {
       console.error(error);
@@ -194,7 +192,6 @@ export class ActReceptionTransmissionComponent implements OnInit {
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
       if (response) {
-        console.log(response.status)
         this.flat_objects = response.status;
       }
     }
@@ -271,9 +268,9 @@ export class ActReceptionTransmissionComponent implements OnInit {
                 setTimeout(() => {
                   this.statusMessage = 'Акт сформовано успішно!';
                   setTimeout(() => {
-                    this.router.navigate(['/house/agree-review']);
-                  }, 3000);
-                }, 2000);
+                    this.router.navigate(['/house/agree-concluded']);
+                  }, 2000);
+                }, 1000);
               }
             },
             (error: any) => {

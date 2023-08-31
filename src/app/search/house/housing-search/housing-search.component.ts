@@ -138,7 +138,6 @@ export class HousingSearchComponent implements OnInit {
   getFilteredData(filterValue: any) {
     this.filteredFlats = filterValue;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    console.log(this.selectedFlat)
   }
 
   selectFlat(flat: FlatInfo) {
@@ -182,7 +181,6 @@ export class HousingSearchComponent implements OnInit {
     this.limit += 5
     const url = `http://localhost:3000/search/flat?limit=${this.limit}`;
     this.http.get<{ flat_inf: FlatInfo[], flat_img: any[] }>(url).subscribe((data) => {
-      console.log(data)
       const { flat_inf, flat_img } = data;
       if (flat_inf && flat_img) {
         flat_img.forEach((i) => {
@@ -245,7 +243,6 @@ export class HousingSearchComponent implements OnInit {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
       this.http.post('http://localhost:3000/subs/subscribe', payload)
         .subscribe((response: any) => {
-          console.log(response);
           this.subscriptionMessage = response.status;
           this.isSubscribed = true;
           this.checkSubscribe();

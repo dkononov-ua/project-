@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-agree-download',
   templateUrl: './agree-download.component.html',
@@ -18,11 +19,16 @@ export class AgreeDownloadComponent implements OnInit {
   selectedFlatId: any;
   printableContent: SafeHtml | undefined;
 
+  goBack(): void {
+    this.location.back();
+  }
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private selectedFlatIdService: SelectedFlatService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private location: Location
   ) { }
 
   async ngOnInit(): Promise<void> {

@@ -86,7 +86,6 @@ export class UagreeDetailsComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      console.log(response)
       this.agree = response;
     } catch (error) {
       console.error(error);
@@ -155,7 +154,6 @@ export class UagreeDetailsComponent implements OnInit {
   }
 
   async removeAgreement(agreement: any): Promise<void> {
-    console.log(agreement)
     this.selectedFlatId = agreement.flat.flat_id;
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;

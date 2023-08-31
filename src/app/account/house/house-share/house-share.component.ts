@@ -63,7 +63,6 @@ export class HouseShareComponent implements OnInit {
     if (userJson && this.selectedFlatId) {
       this.http.post('http://localhost:3000/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           if (response)
           this.flatInfo = response[0];
           this.loading = false;
@@ -90,7 +89,6 @@ export class HouseShareComponent implements OnInit {
           new: this.flatInfo,
           flat_id: this.selectedFlatId,
         }).toPromise();
-        console.log(response)
 
         this.reloadPageWithLoader()
 

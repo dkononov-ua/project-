@@ -17,6 +17,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('house');
+    localStorage.removeItem('selectedFlatId');
     setTimeout(() => {
       this.router.navigate(['/registration']);
     }, 500);

@@ -2,6 +2,8 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -31,6 +33,10 @@ interface Agree {
     subscriber_tell: string;
     year: number;
     area: number;
+    subscriber_img: string;
+    dateAgreeEnd: string;
+    dateAgreeStart: string;
+
   };
   img: string[];
 }
@@ -47,11 +53,15 @@ export class AgreeConcludedComponent implements OnInit {
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatId: any;
+  deletingFlatId: string | null = null;
+
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private selectedFlatIdService: SelectedFlatService,
+    private dialog: MatDialog,
+
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -83,6 +93,77 @@ export class AgreeConcludedComponent implements OnInit {
       this.loading = false;
     }
     this.selectedFlatId = selectedFlatId;
+  }
+
+  async openDialog(agree: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const url = 'http://localhost:3000/agreement/delete/act';
+    const dialogRef = this.dialog.open(AgreeDeleteComponent, {
+      data: {
+        flatId: agree.flat.flat_id,
+        subscriberId: agree.flat.subscriber_id,
+        agreementId: agree.flat.agreement_id,
+        offer: false,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result && this.selectedFlatId && userJson) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: agree.flat.flat_id,
+          user_id: agree.flat.subscriber_id,
+          agreement_id: agree.flat.agreement_id,
+        };
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.deletingFlatId = agree.flat.flat_id;
+          setTimeout(() => {
+            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
+            this.deletingFlatId = null;
+          }, 0);
+        } catch (error) {
+          console.error(error);
+        }
+
+      }
+    });
+  }
+
+  async openDialog1(agree: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const url = 'http://localhost:3000/agreement/delete/agreement';
+    const dialogRef = this.dialog.open(AgreeDeleteComponent, {
+      data: {
+        flatId: agree.flat.flat_id,
+        subscriberId: agree.flat.subscriber_id,
+        agreementId: agree.flat.agreement_id,
+        offer: false,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result && this.selectedFlatId && userJson) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: agree.flat.flat_id,
+          user_id: agree.flat.subscriber_id,
+          agreement_id: agree.flat.agreement_id,
+        };
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.deletingFlatId = agree.flat.flat_id;
+          setTimeout(() => {
+            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
+            this.deletingFlatId = null;
+            location.reload;
+          }, 100);
+        } catch (error) {
+          console.error(error);
+        }
+
+      }
+    });
   }
 }
 

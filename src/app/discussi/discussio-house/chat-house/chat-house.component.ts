@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { EMPTY, Subject, interval, switchMap, takeUntil } from 'rxjs';
+import { SMILEYS } from '../../../shared/data-smile'
+
 interface User {
   user_id: string;
   chat_id: string;
@@ -22,6 +24,13 @@ interface User {
 })
 
 export class ChatHouseComponent implements OnInit {
+
+  @ViewChild('textArea', { static: false })
+  textArea!: ElementRef;
+
+  isSmileyPanelOpen = false;
+  smileys: string[] = SMILEYS;
+
   users: User[] = [];
   allMessagesNotRead: any[] = [];
   selectedFlatId: string | any;
@@ -79,6 +88,21 @@ export class ChatHouseComponent implements OnInit {
       console.error(error);
       this.loading = false;
     });
+  }
+
+
+  addSmiley(smiley: string) {
+    this.messageText += smiley;
+  }
+
+  toggleSmileyPanel() {
+    this.isSmileyPanelOpen = !this.isSmileyPanelOpen;
+  }
+
+  onInput() {
+    const textarea = this.textArea.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   async getChats(selectedFlatId: string, offs: number): Promise<any> {
@@ -200,7 +224,6 @@ export class ChatHouseComponent implements OnInit {
       this.http.post('http://localhost:3000/chat/get/NewMessageFlat', data)
         .subscribe(
           async (response: any) => {
-            console.log(response)
             if (Array.isArray(response.status)) {
               let c: any = []
               await Promise.all(response.status.map((i: any, index: any) => {

@@ -122,8 +122,6 @@ export class SearchTermComponent implements OnInit {
 
   async fetchFlatData(url: string) {
     const response : any = await this.http.get(url).toPromise();
-    console.log(response.img)
-    console.log(response.count)
     this.filteredFlats = response.img
     this.applyFilter(response.img)
   }
@@ -140,9 +138,7 @@ export class SearchTermComponent implements OnInit {
 
     if (this.searchQuery) {
       const flatId = this.searchQuery;
-      console.log(this.searchQuery)
       const url = `${this.endpoint}/?flat_id=${flatId}`;
-      console.log(url)
       this.fetchFlatData(url);
       return;
     }
@@ -195,12 +191,10 @@ export class SearchTermComponent implements OnInit {
 
   buildSearchURL(params: any): string {
     const endpoint = 'http://localhost:3000/search/flat';
-    console.log(params)
     const paramsString = Object.keys(params)
       .filter(key => params[key] !== '')
       .map(key => key + '=' + params[key])
       .join('&');
-    console.log(`${endpoint}?${paramsString}`)
     return `${endpoint}?${paramsString}`;
   }
 

@@ -137,10 +137,9 @@
             </div>
           </div>
           <button class="btn btn-agree mb-2" type="submit" [disabled]="!selectedAgreement" (click)="openContainer()">Переглянути деталі
-            угоди</button>
+            Акту</button>
           <button class="btn btn-agree" type="submit" (click)="sendFormAgreement()"
-            [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!selectedAgreement || !isCheckboxChecked">Надіслати угоду
-            орендару</button>
+            [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!selectedAgreement || !isCheckboxChecked">Формувати Акт</button>
           <div *ngIf="message" class="error-message">{{ message }}</div>
         </div>
 

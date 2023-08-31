@@ -64,7 +64,6 @@ export class FillingComponent implements OnInit {
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
       if (response) {
-        console.log(response.status)
         this.flat_objects = response.status;
       }
     }
@@ -83,7 +82,6 @@ export class FillingComponent implements OnInit {
       this.selectedCard = false;
     } else {
       this.selectedCard = flat.filling_id;
-      console.log(this.selectedCard)
     }
   }
 
