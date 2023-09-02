@@ -30,7 +30,7 @@
           <div class="item-name-id">ID Угоди: {{ agreement.flat.agreement_id}}</div>
           <div class="btn-group">
             <button class="btn w-70 m-1" matTooltip="Переглянути угоду"
-            [routerLink]="['/agree-details', agreement.flat.agreement_id]">Переглянути угоду</button>
+            [routerLink]="['/house/agree-details', agreement.flat.agreement_id]">Переглянути угоду</button>
             <button class="btn w-30 m-1" matTooltip="Видалити угоду" (click)="openDialog(agreement)">
               <i class="fa-solid fa-user-xmark"></i>
             </button>

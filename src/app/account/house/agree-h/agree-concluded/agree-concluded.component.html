@@ -30,9 +30,9 @@
         <div class="item-wrapper mt-1">
           <div class="item-name-id">ID Угоди: {{ agreement.flat.agreement_id}}</div>
           <div class="btn-group">
-            <button class="btn w-75 m-1" [routerLink]="['/agree-download', agreement.flat.agreement_id]">Угода</button>
+            <button class="btn w-75 m-1" [routerLink]="['/house/agree-download', agreement.flat.agreement_id]">Угода</button>
             <button class="btn w-25 m-1" matTooltip="Видалити Угоду" (click)="openDialog1(agreement)"><i class="fa-solid fa-trash"></i></button>
-            <button class="btn w-25 m-1" [routerLink]="['/act-view', agreement.flat.agreement_id]">Акт</button>
+            <button class="btn w-25 m-1" [routerLink]="['/house/act-view', agreement.flat.agreement_id]">Акт</button>
             <button class="btn w-25 m-1" matTooltip="Видалити Акт" (click)="openDialog(agreement)"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>

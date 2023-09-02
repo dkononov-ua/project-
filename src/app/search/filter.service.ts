@@ -12,7 +12,6 @@ export class FilterService {
   constructor() { }
 
   updateFilter(filterValue: any) {
-    console.log(filterValue)
     this.filterValue = filterValue;
     this.filterChange$.next(filterValue);
   }

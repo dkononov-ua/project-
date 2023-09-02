@@ -54,7 +54,7 @@ export class SearchTermComponent implements OnInit {
   regions = regions;
   cities = cities;
 
-  isSearchTermCollapsed: boolean = false;
+  isSearchTermCollapsed: boolean = true;
   flats: any[] | undefined;
   flatInfo: any[] | undefined;
   selectedRepair_status: any;

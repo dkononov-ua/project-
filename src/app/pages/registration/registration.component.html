@@ -1,135 +1,124 @@
-<div class="container" id="container">
-  <!-- Реєстрація -->
-  <div class="form-container register-container col-lg-6 col-md-12">
-    <div class="form-group">
-      <h1>Зареєструватись</h1>
-      <form (ngSubmit)="onSubmitRegistrationForm('information')" [formGroup]="registrationForm">
-        <!-- Ім'я користувача -->
-        <div class="inputbox">
-          <input class="form-control" id="username" type="text" name="username" formControlName="userName"
-            placeholder="Ім'я користувача" required>
-          <div *ngIf="formErrors.username" class="alert alert-danger">{{formErrors.userName}}</div>
+<div class="container-reg">
+
+  <div class="container">
+
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="box w-75">
+        <div class="logo-box">
+          <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
+          <h1 class="title-name">Discussio</h1>
+          <h3 class="title-text">Зручна та ефективна система управління Вашою оселею</h3>
+        </div>
+        <div class="logo-box hide-mobile" >
+          <div class="text"> © Discussio. Simplify property management with Discussio.
+            Developed by Discussio team 2023.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+
+      <div class="card m-2 p-2" *ngIf="!isFeatureEnabled" [@cardAnimation2]>
+
+        <div class="text-box border-bottom">
+          <h2>Зареєструватись</h2>
         </div>
 
-        <!-- Електронна пошта -->
-        <div class="inputbox">
-          <input class="form-control" id="regEmail" type="text" name="regEmail" formControlName="regEmail"
-            placeholder="Email" required>
-          <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
+        <div class="text-box">
+          <p>Зареєструйтесь для входу </p>
+          <button (click)="toggleMode()" class="btn-none">або увійдіть в аккаунт.</button>
         </div>
 
-        <!-- Пароль -->
-        <div class="inputbox">
-          <div class="password-box">
-            <input class="form-control" id="regPassword" [type]="passwordType" name="regPassword"
-              formControlName="regPassword" placeholder="Пароль" required>
+        <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
+
+          <mat-form-field class="inputbox w-75 mt-2" appearance="outline">
+            <mat-label>Ім'я користувача</mat-label>
+            <input matInput class="input-field" id="userName" type="text" formControlName="userName"
+              placeholder="Ім'я користувача" required maxlength="15" minlength="3">
+            <div *ngIf="formErrors.userName" class="alert alert-danger">{{formErrors.userName}}</div>
+          </mat-form-field>
+
+          <mat-form-field class="inputbox w-75" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput class="input-field" id="email" type="text" formControlName="email" placeholder="email"
+              required>
+            <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+          </mat-form-field>
+
+          <mat-form-field class="inputbox w-75" appearance="outline">
+            <mat-label>Пароль</mat-label>
+            <input matInput class="input-field" id="password" [type]="passwordType" name="password"
+              formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
             <button type="button" (click)="togglePasswordVisibility()" class="see">
               <i class="icon"
                 [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
             </button>
-          </div>
+            <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+          </mat-form-field>
 
-          <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
+          <button class="btn w-75" [disabled]="!registrationForm.valid || !agreementAccepted">Зареєструватись</button>
+        </form>
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="students" type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+            <div class="transition"></div>
+          </label>
+          <p>Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
+              [routerLink]="'/user-licence'">угодою користувача</a></p>
         </div>
 
-        <!-- Кнопка -->
-        <button class="ghost-black" [disabled]="!registrationForm.valid">Зареєструватись</button>
-      </form>
-      <div class="checkbox-box">
-        <input class="checkbox-item" type="checkbox" name="agreementAccepted" id="agreementAccepted" [(ngModel)]="agreementAccepted">
-        <label>Погоджуюсь з угодою користувача</label>
-      </div>
-      <div class="nav-item mid">
-        <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user-licence'">Угода користувача</a>
       </div>
 
-      <span>або скористатися своїм обліковим записом</span>
-      <div class="social-container">
-        <a href="#"><i class="fab fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-google"></i></a>
-      </div>
+      <div class="card m-2 p-2" *ngIf="isFeatureEnabled" [@cardAnimation2]>
 
-    </div>
-  </div>
-  <!-- Вхід -->
-  <div class="form-container login-container col-lg-6 col-md-12">
-    <div class="form-group">
-      <h1>Увійти</h1>
-      <form [formGroup]="loginForm">
-
-        <!-- Електронна пошта -->
-        <div class="inputbox">
-          <input class="form-control" id="email" type="text" formControlName="email" placeholder="Email" required>
-          <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+        <div class="text-box border-bottom">
+          <h2>Увійти</h2>
         </div>
 
-        <!-- Пароль -->
-        <div class="inputbox">
-          <div class="password-box">
-            <input class="form-control" id="password" [type]="passwordType" name="password" formControlName="password"
-              placeholder="Пароль" required>
+        <div class="text-box">
+          <p>Якщо у вас є обліковий запис, увійдіть тут</p>
+          <button (click)="toggleMode()" class="btn-none">або зареєструйтесь.</button>
+        </div>
+
+        <form class="form" [formGroup]="loginForm">
+          <mat-form-field class="inputbox w-75" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput class="input-field" id="email" type="text" formControlName="email" placeholder="email"
+              required>
+            <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+          </mat-form-field>
+
+          <mat-form-field class="inputbox w-75" appearance="outline">
+            <mat-label>Пароль</mat-label>
+            <input matInput class="input-field" id="password" [type]="passwordType" name="password"
+              formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
             <button type="button" (click)="togglePasswordVisibility()" class="see">
               <i class="icon"
                 [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
             </button>
-          </div>
+            <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+          </mat-form-field>
 
-          <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
-        </div>
-
-
-        <button class="ghost-black" [disabled]="!loginForm.valid" (click)="onSubmit('login')">
-          Увійти
-        </button>
-
-      </form>
-
-      <div class="content">
-        <div class="checkbox">
-          <input type="checkbox" name="checkbox" id="checkbox">
-          <label>Запам'ятати мене</label>
-        </div>
-        <div class="pass-link">
-          <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
-        </div>
-      </div>
+          <button class="btn w-75" [disabled]="!loginForm.valid" (click)="onSubmit()">
+            Увійти
+          </button>
+        </form>
 
 
-      <span>або скористатися своїм обліковим записом</span>
-      <div class="social-container">
-        <a href="#"><i class="fab fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-google"></i></a>
-      </div>
-    </div>
-  </div>
-  <!-- Панель -->
-  <div class="overlay-container">
-    <div class="overlay">
 
-      <div class="overlay-panel overlay-left">
-        <div>
-          <img class="logo" src="../../assets/logo/logo4.svg" alt="">
-        </div>
+        <p>Забули пароль?</p>
 
-        <p>якщо у вас є обліковий запис, увійдіть тут</p>
-        <button class="ghost" id="login">Увійти</button>
 
       </div>
-      <div class="overlay-panel overlay-right">
-        <div>
-
-          <img class="logo" src="../../assets/logo/logo4.svg" alt="">
-        </div>
-
-        <p>Зареєструйтесь та створіть свій конект</p>
-        <button class="ghost" id="register">Зареєструватись</button>
-        <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/our-team'">Забули пароль?</a>
-
-      </div>
-
 
     </div>
+
   </div>
+</div>
+
+
+<div *ngIf="statusMessage" class="status-message">
+  <div><img class="img-statusMessage" src="../../../../assets/logo/Discussio (7).svg" alt="Logo"></div>{{ statusMessage
+  }}
 </div>

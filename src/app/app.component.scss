@@ -1,3 +1,12 @@
+@use "style/mixins/" as *;
+@use "style/presets/" as *;
+
+.body-container {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .footer {
   margin-top: auto;
   visibility: hidden;
@@ -9,3 +18,8 @@
   min-height: 100vh;
 }
 
+@media print {
+  .body-container {
+    overflow-x: visible;
+  }
+}

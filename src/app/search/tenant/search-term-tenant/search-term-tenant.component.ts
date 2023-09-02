@@ -126,7 +126,7 @@ export class SearchTermTenantComponent implements OnInit {
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
 
-  isSearchTermCollapsed: boolean = false;
+  isSearchTermCollapsed: boolean = true;
   private subscription: Subscription | undefined;
   filteredUsers!: [any];
   userInfo2: any;

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { SharedRoutingModule } from './shared-routing.module';
-import { AccountNavComponent } from '../components/account-nav/account-nav.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,8 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { HousingSelectionComponent } from '../components/housing-selection/housing-selection.component';
-import { AccountSelectionComponent } from '../components/account-selection/account-selection.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserSearchComponent } from '../components/user-search/user-search.component';
@@ -22,29 +19,29 @@ import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
 import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.component';
+import { SelectionAccountComponent } from '../components/selection-account/selection-account.component';
+import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     FooterComponent,
-    AccountNavComponent,
-    HousingSelectionComponent,
-    AccountSelectionComponent,
     UserSearchComponent,
     LoaderComponent,
     NavbarUserComponent,
     NavbarHouseComponent,
+    SelectionAccountComponent,
+    SelectionHousingComponent,
   ],
   exports: [
     NavbarComponent,
     FooterComponent,
-    AccountNavComponent,
-    HousingSelectionComponent,
-    AccountSelectionComponent,
     UserSearchComponent,
     LoaderComponent,
     NavbarUserComponent,
     NavbarHouseComponent,
+    SelectionAccountComponent,
+    SelectionHousingComponent,
   ],
   imports: [
     CommonModule,

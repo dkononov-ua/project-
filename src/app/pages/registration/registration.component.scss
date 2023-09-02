@@ -1,346 +1,231 @@
-@use "../../style/mixins/" as *;
+@use "../../style/presets/" as *;
+
+.container-reg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: $color-white;
+  overflow: hidden;
+}
 
 .container {
+  height: 100%;
+  width: 100% !important;
   display: flex;
-  flex-direction: column-reverse;
+  position: relative;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.form-container {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  transition: all 1s ease-in-out;
+.card-box {
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: white;
-}
-
-.checkbox-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.checkbox-item {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   align-content: center;
-  justify-content: center;
-}
-
-.register-container {
-  left: 0;
-  width: 50%;
-  opacity: 0;
-  z-index: 1;
-}
-
-.login-container {
-  left: 0;
-  width: 50%;
-  z-index: 2;
-}
-
-.overlay-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 50%;
-  height: 100%;
+  align-items: center;
+  flex-direction: column;
   overflow: hidden;
-  transition: transform 1s ease-in-out;
-  z-index: 100;
-  background: linear-gradient(to right, #08cecb, #2098de, #a87ad0);
-  background-size: 600% 100%;
-  -webkit-animation: gradient 20s ease infinite;
-  -moz-animation: gradient 20s ease infinite;
-  animation: gradient 20s ease infinite;
 }
 
-.overlay-panel {
-  position: absolute;
+
+
+.box {
   display: flex;
-  padding: 0 40px;
-  text-align: center;
-  top: 0;
-  height: 100%;
-  width: 50%;
-  /* transform: translateX(0); */
-  transition: transform 1s ease-in-out;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.overlay {
-  color: #fff;
-  position: relative;
-  left: -100%;
-  height: 100%;
-  width: 200%;
-  transform: translateX(0);
-  transition: transform 1s ease-in;
-}
-
-.content {
-  display: flex;
-  width: 100%;
-  height: 50px;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.content .checkbox {
-  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.content input {
-  accent-color: #333;
-  width: 12px;
-  height: 12px;
-}
-
-.content label {
-  font-size: 14px;
-  user-select: none;
-  padding-left: 5px;
-}
-
-button {
-  position: relative;
-  border-radius: 20px;
-  border: 1px solid #4bb6b7;
-  background-color: #4bb5b7a6;
-  color: black;
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 20px;
-  padding: 10px 20px;
-  width: 250px;
-  letter-spacing: 1px;
-  text-transform: capitalize;
-  transition: 0.3s ease-in-out;
-}
-
-button:hover {
-  letter-spacing: 3px;
-}
-
-button:active {
-  transform: scale(0.95);
-}
-
-button:focus {
-  outline: none;
-}
-
-button.ghost {
-  background-color: rgba(225, 225, 225, 0.2);
-  border: 2px solid #fff;
-  color: #fff;
-}
-
-button.ghost i {
-  position: absolute;
-  opacity: 0;
-  transition: 0.3s ease-in-out;
-}
-
-button.ghost i.register {
-  right: 9.114%;
-}
-
-button.ghost i.login {
-  left: 9.114%;
-}
-
-button.ghost:hover i.register {
-  right: 5.228%;
-  opacity: 1;
-}
-
-button.ghost:hover i.login {
-  right: 5.228%;
-  opacity: 1;
-}
-
-form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0 50px;
-  height: 100%;
+h3 {
   text-align: center;
 }
 
-input {
-  background-color: #eee;
-  border-radius: 10px;
-  border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
-  width: 250px;
+.switch-box {
+  position: relative;
 }
 
-.container.right-panel-active .login-container {
-  transform: translateX(100%);
+.text {
+  font-size: 12px;
+  text-align: center;
 }
 
-.container.right-panel-active .register-container {
-  transform: translateX(100%);
-  opacity: 1;
-  z-index: 5;
-  animation: show 1s;
-}
-
-@keyframes show {
-  0%,
-  49.99% {
-    opacity: 0;
-    z-index: 1;
-  }
-
-  50%,
-  100% {
-    opacity: 1;
-    z-index: 5;
-  }
-}
-
-.container.right-panel-active .overlay-container {
-  transform: translateX(-100%);
-}
-
-@-webkit-keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-@-moz-keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.overlay::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
-.container.right-panel-active .overlay {
-  transform: translateX(50%);
-}
-
-.overlay-left {
-  transform: translateX(-20%);
-}
-
-.container.right-panel-active .overlay-left {
-  transform: translateX(0);
-}
-
-.overlay-right {
-  right: 0;
-  transform: translateX(0);
-}
-
-.container.right-panel-active .overlay-right {
-  transform: translateX(20%);
-}
-
-.social-container {
-  margin: 20px 0;
-}
-
-.social-container a {
-  border: 1px solid;
-  border-radius: 50%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 5px;
-  height: 40px;
-  width: 40px;
-  transition: transform 0.3s ease-in-out;
-}
-
-img {
-  width: 100%;
-  height: 40vh;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 1s;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.2);
-    border-radius: 10px;
-  }
-}
-
-.logo {
-  width: 100%;
-  height: 60vh;
-
+a {
+  padding: 0;
+  margin: 0;
+  text-transform: lowercase;
+  color: $color-accent;
+  display: inline;
 }
 
 .alert-danger {
+  position: absolute;
+  bottom: -22px;
+  color: $color-accent;
+  font-size: 12px;
+  left: 0;
   background: none;
   border: none;
   margin: 0;
   padding: 0;
 }
 
-.password-box {
+.logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  position: absolute;
+  display: flex;
+  height: 65vh;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 400px;
+  overflow: hidden;
+}
+
+.logo {
+  height: 150px;
+  width: 100%;
+}
+
+p {
+  text-align: center;
+  font-size: 12px;
+}
+
+.inputbox {
   position: relative;
   display: flex;
+  width: 100%;
+}
+
+.btn {
+  height: 50px;
+  font-size: 18px;
+  color: $color-white;
+  background-color: $color-gray;
+  border-radius: 5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.text-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+.btn-none {
+  border: none;
+  background-color: transparent;
+  font-weight: 600;
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
 }
 
 .see {
+  right: 10px;
+  top: 0;
+  bottom: 0;
   z-index: 10;
   position: absolute;
-  right: 0rem;
-  top: -0.5rem;
   background: none;
   border: none;
-  width: 40px;
+}
+
+h1 {
+  font-weight: 600;
+}
+
+.img-statusMessage {
+  height: 200px;
+  width: 200px;
+}
+
+.status-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.932);
+  color: white;
+  font-size: 24px;
+  z-index: 9999;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  animation: typing 1s linear forwards;
+  opacity: 0;
+}
+
+@keyframes typing {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .logo {
+    height: 130px;
+    width: 100%;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    bottom: 0;
+    width: 100%;
+    height: 65%;
+  }
+
+  .card-box {
+    height: 350px;
+  }
 }

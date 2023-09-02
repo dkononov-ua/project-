@@ -1,14 +1,9 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
-
-<ng-template #content>
   <div class="container">
     <div class="container-card">
 
       <div class="card-box col-lg-3 col-md-4 col-sm-4 col-12">
-        <app-account-selection></app-account-selection>
-        <app-housing-selection></app-housing-selection>
+        <app-selection-account></app-selection-account>
+        <app-selection-housing></app-selection-housing>
         <app-navbar-house></app-navbar-house>
       </div>
 
@@ -24,5 +19,3 @@
 
     </div>
   </div>
-</ng-template>
-

@@ -18,7 +18,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AccountRoutingModule } from 'src/app/account/account-routing.module';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -34,6 +33,8 @@ import { DeleteSubComponent } from './delete-sub/delete-sub.component';
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
 import { SubscribersMenuComponent } from './subscribers-menu/subscribers-menu.component';
 import { ChatMenuComponent } from './chat-menu/chat-menu.component';
+import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
+import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
 
 
 @NgModule({
@@ -61,7 +62,6 @@ import { ChatMenuComponent } from './chat-menu/chat-menu.component';
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
-    AccountRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     MatListModule,
@@ -79,6 +79,9 @@ import { ChatMenuComponent } from './chat-menu/chat-menu.component';
     MatDialogModule,
     MatPaginatorModule,
     MatStepperModule,
+
+    HouseRoutingModule,
+    UserRoutingModule,
   ]
 })
 export class DiscussioHouseModule { }

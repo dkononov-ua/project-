@@ -36,8 +36,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 })
 export class HouseInfoComponent implements OnInit {
 
-
-
   isOpen = true;
   isOnline = true;
   isOffline = false;

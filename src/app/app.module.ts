@@ -1,24 +1,20 @@
 import { AppComponent } from './app.component';
-import { AppRoutingModule, RegistrationComponent } from './pages/registration/registration.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
-import { AccountModule } from './account/account.module';
-import { AccountRoutingModule } from './account/account-routing.module';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 import { SharedModule } from "./shared/shared.module";
 import { SearchRoutingModule } from './search/search-routing.module';
 import { SearchModule } from './search/search.module';
 import { DiscussioRoutingModule } from './discussi/discussio-user/discussio-routing.module';
-import { DiscussioModule } from './discussi/discussio-user/discussio.module';
 import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
-import { DiscussioHouseModule } from './discussi/discussio-house/discussio-house.module';
 import { SelectedFlatService } from './services/selected-flat.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -56,14 +52,13 @@ import { MatStepperModule } from '@angular/material/stepper';
   ],
   providers: [
     SelectedFlatService,
+    DatePipe,
   ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
@@ -71,10 +66,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatCardModule,
     DragDropModule,
     HttpClientModule,
-    ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule,
     CommonModule,
     MatSelectModule,
     MatDialogModule,
@@ -87,9 +80,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatStepperModule,
     HousingServicesModule,
     HousingServicesRoutingModule,
-
-    AccountModule,
-    AccountRoutingModule,
+    ReactiveFormsModule,
 
     HousingParametersModule,
     HousingParametersRoutingModule,
@@ -97,10 +88,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     SearchModule,
     SearchRoutingModule,
 
-    DiscussioModule,
     DiscussioRoutingModule,
-
-    DiscussioHouseModule,
     DiscussioHouseRoutingModule,
   ]
 })

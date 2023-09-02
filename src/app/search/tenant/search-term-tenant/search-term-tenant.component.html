@@ -13,13 +13,20 @@
         </div>
       </div>
 
+      <div class="container-btn">
+        <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+          <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed" [class.rotate-down]="!isSearchTermCollapsed"
+            [class.fa-chevron-up]="isSearchTermCollapsed" [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
+        </button>
+      </div>
+
       <div class="col-lg-3 col-md-6 col-sm-12 col-12">
         <div class="group heightSet">
-          <app-housing-selection></app-housing-selection>
+          <app-selection-housing></app-selection-housing>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+      <div class="col-lg-3 col-md-6 col-sm-12 col-12">
         <div class="heightSet">
           <mat-form-field class="search-id" appearance="outline">
             <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по UserID</mat-label>
@@ -422,12 +429,7 @@
     </div>
   </div>
 
-  <div class="container-btn">
-    <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
-      <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed" [class.rotate-down]="!isSearchTermCollapsed"
-        [class.fa-chevron-up]="isSearchTermCollapsed" [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
-    </button>
-  </div>
+
 
 
 </div>

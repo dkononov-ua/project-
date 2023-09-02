@@ -24,15 +24,17 @@ const routes: Routes = [
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
   { path: 'search-page', component: SearchPageComponent, canActivate: [CanActivateGuard] },
-  { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule), canActivate: [CanActivateGuard] },
   { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
   { path: 'search', component: SearchComponent, canActivate: [CanActivateGuard] },
   { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
+  { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
+  { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

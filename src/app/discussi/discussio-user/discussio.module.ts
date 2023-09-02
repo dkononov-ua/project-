@@ -23,11 +23,12 @@ import { HostDiscussioComponent } from './host-discussio/host-discussio.componen
 import { UserDiscussioComponent } from './user-discussio/user-discussio.component';
 import { ApprovedComponent } from './approved/approved.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AccountRoutingModule } from 'src/app/account/account-routing.module';
 import { ChatUserComponent } from './chat-user/chat-user.component';
 import { ChatHostComponent } from './chat-host/chat-host.component';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
+import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
 
 
 @NgModule({
@@ -48,7 +49,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
-    AccountRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     MatListModule,
@@ -63,6 +63,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatSnackBarModule,
     MatDialogModule,
+
+    HouseRoutingModule,
+    UserRoutingModule,
 
   ]
 })

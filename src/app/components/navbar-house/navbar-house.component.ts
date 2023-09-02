@@ -34,7 +34,6 @@ export class NavbarHouseComponent {
     if (userJson) {
       this.http.post(url, data).subscribe((response: any) => {
         this.unreadMessage = response.status;
-        console.log(this.unreadMessage)
       }, (error: any) => {
         console.error(error);
       });

@@ -1,7 +1,7 @@
-<div class="container-box" (click)="resetOnlineStatus()">
+<div class="container-box p-4" (click)="resetOnlineStatus()">
 
-  <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
-    <div class="card m-2">
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="card">
 
       <div class="container-sticker">
         <div class="status-container">
@@ -95,7 +95,7 @@
     </div>
   </div>
 
-  <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
 
     <div class="switch-box">
       <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
@@ -104,16 +104,12 @@
       <h3 class="switch-box-name">{{ isFeatureEnabled ? 'Параметри' : 'Інформація' }}</h3>
     </div>
 
-    <div [@cardAnimation2]  class="card-animation" *ngIf="!isFeatureEnabled">
-      <div class="card m-2 p-2">
-        <app-parameters></app-parameters>
-      </div>
+    <div [@cardAnimation2] class="card card-animation p-2" *ngIf="!isFeatureEnabled">
+      <app-parameters></app-parameters>
     </div>
 
-    <div [@cardAnimation2]  class="card-animation" *ngIf="isFeatureEnabled">
-      <div class="card m-2 p-2">
-        <app-house-share></app-house-share>
-      </div>
+    <div [@cardAnimation2] class="card card-animation p-2" *ngIf="isFeatureEnabled">
+      <app-house-share></app-house-share>
     </div>
 
   </div>
