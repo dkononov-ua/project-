@@ -161,6 +161,9 @@ export class AgreeCreateComponent implements OnInit {
       end: new FormControl(new Date(year, month))
     });
 
+    const currentDate = new Date();
+    this.rentDueDate = currentDate.getDate();
+
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {

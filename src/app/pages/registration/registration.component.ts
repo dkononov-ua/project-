@@ -80,8 +80,8 @@ export class RegistrationComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(response));
             setTimeout(() => {
               this.router.navigate(['/user']);
-            }, 1000);
-          }, 500);
+            }, 1500);
+          }, 1000);
         } else {
           setTimeout(() => {
             this.errorMessage$.next('Неправильний логін або пароль');
@@ -89,7 +89,7 @@ export class RegistrationComponent implements OnInit {
             setTimeout(() => {
               location.reload();
             }, 1000);
-          }, 500);
+          }, 1000);
         }
       }, (error: any) => {
         console.error(error);

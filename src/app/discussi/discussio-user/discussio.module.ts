@@ -19,9 +19,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { HostDiscussioComponent } from './host-discussio/host-discussio.component';
-import { UserDiscussioComponent } from './user-discussio/user-discussio.component';
-import { ApprovedComponent } from './approved/approved.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ChatUserComponent } from './chat-user/chat-user.component';
 import { ChatHostComponent } from './chat-host/chat-host.component';
@@ -29,16 +26,24 @@ import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
 import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
+import { SubscribersUserComponent } from './subscribers-user/subscribers-user.component';
+import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
+import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
+import { DeleteSubsComponent } from './delete-subs/delete-subs.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SubscriberMenuComponent } from './subscriber-menu/subscriber-menu.component';
 
 
 @NgModule({
   declarations: [
-    HostDiscussioComponent,
-    UserDiscussioComponent,
-    ApprovedComponent,
     ChatUserComponent,
     ChatHostComponent,
     ChatRoomComponent,
+    SubscribersUserComponent,
+    SubscribersDiscusComponent,
+    SubscriptionsUserComponent,
+    DeleteSubsComponent,
+    SubscriberMenuComponent,
   ],
   providers: [ChoseSubscribeService],
   imports: [
@@ -63,9 +68,11 @@ import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
     MatInputModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatPaginatorModule,
 
     HouseRoutingModule,
     UserRoutingModule,
+
 
   ]
 })

@@ -7,8 +7,6 @@ import { UagreeDeleteComponent } from './agree-u/uagree-delete/uagree-delete.com
 import { UagreeMenuComponent } from './agree-u/uagree-menu/uagree-menu.component';
 import { UagreeReviewComponent } from './agree-u/uagree-review/uagree-review.component';
 import { InfoComponent } from './info/info.component';
-import { SubscribeToMeComponent } from './subscribe-to-me/subscribe-to-me.component';
-import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,8 +33,6 @@ import { RouterModule } from '@angular/router';
   declarations: [
     UserComponent,
     InfoComponent,
-    SubscriptionsComponent,
-    SubscribeToMeComponent,
     UagreeConcludedComponent,
     UagreeDeleteComponent,
     UagreeMenuComponent,

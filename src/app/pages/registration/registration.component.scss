@@ -181,9 +181,10 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.932);
-  color: white;
-  font-size: 24px;
+  background-color: $color-white;
+  color: $color-text;
+  font-size: 28px;
+  font-weight: 600;
   z-index: 9999;
   transition: opacity 0.3s ease-in-out;
   pointer-events: none;

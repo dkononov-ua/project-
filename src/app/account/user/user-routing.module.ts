@@ -7,8 +7,6 @@ import { UagreeDeleteComponent } from './agree-u/uagree-delete/uagree-delete.com
 import { UagreeMenuComponent } from './agree-u/uagree-menu/uagree-menu.component';
 import { UagreeReviewComponent } from './agree-u/uagree-review/uagree-review.component';
 import { InfoComponent } from './info/info.component';
-import { SubscribeToMeComponent } from './subscribe-to-me/subscribe-to-me.component';
-import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 import { UactViewComponent } from './agree-u/uact-view/uact-view.component';
 import { UagreeDetailsComponent } from './agree-u/uagree-details/uagree-details.component';
 import { UagreeDownloadComponent } from './agree-u/uagree-download/uagree-download.component';
@@ -20,8 +18,6 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
-      { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [CanActivateGuard] },
-      { path: 'subscribe', component: SubscribeToMeComponent, canActivate: [CanActivateGuard] },
       { path: 'uagree-concluded', component: UagreeConcludedComponent, canActivate: [CanActivateGuard] },
       { path: 'uagree-delete', component: UagreeDeleteComponent, canActivate: [CanActivateGuard] },
       { path: 'uagree-menu', component: UagreeMenuComponent, canActivate: [CanActivateGuard] },

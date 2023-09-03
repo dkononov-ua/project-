@@ -4,15 +4,25 @@ import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
+import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
+import { MatDialog } from '@angular/material/dialog';
+
 interface SelectedFlat {
   flat: any;
   owner: any;
   img: any;
 }
+
+interface ApprovedSubscription {
+  flat_id: string;
+  flatImg: any;
+  price_m: number;
+}
+
 @Component({
-  selector: 'app-user-discussio',
-  templateUrl: './user-discussio.component.html',
-  styleUrls: ['./user-discussio.component.scss'],
+  selector: 'app-subscribers-discus',
+  templateUrl: './subscribers-discus.component.html',
+  styleUrls: ['./subscribers-discus.component.scss'],
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -23,13 +33,17 @@ interface SelectedFlat {
     trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1600ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-    ])
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
+      ])
+    ]),
   ],
 })
 
-export class UserDiscussioComponent implements OnInit {
+export class SubscribersDiscusComponent implements OnInit {
   currentIndex: number = 0;
   firstName: string | undefined;
   lastName: string | undefined;
@@ -52,6 +66,8 @@ export class UserDiscussioComponent implements OnInit {
   distance_shop!: number;
   distance_green!: number;
   distance_parking!: number;
+  tell!: number;
+  mail!: number;
   woman!: number;
   man!: number;
   family!: number;
@@ -72,6 +88,8 @@ export class UserDiscussioComponent implements OnInit {
   loading: boolean | undefined;
   userData: any;
   currentSubscription: Subject<unknown> | undefined;
+
+  indexPage: number = 1;
 
   toggleMode(): void {
     this.currentIndex = (this.currentIndex === 0) ? 2 : 0;
@@ -115,14 +133,29 @@ export class UserDiscussioComponent implements OnInit {
   userImg: any;
   currentPhotoIndex: number = 0;
 
+  deletingFlatId: any;
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
+  }
+
+  subscriptions: ApprovedSubscription[] = [];
+
 
   constructor(
     private dataService: DataService,
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
+    private dialog: MatDialog,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.getSubscribedFlats();
+    this.subscribeToSelectedFlatIdChanges();
+    this.restoreSelectedFlatId();
     await this.loadData();
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(
       flatId => {
@@ -205,6 +238,8 @@ export class UserDiscussioComponent implements OnInit {
       this.street = this.selectedFlat.flat.street;
       this.students = Number(this.selectedFlat.flat.students);
       this.woman = Number(this.selectedFlat.flat.woman);
+      this.tell = this.selectedFlat.owner.tell;
+      this.mail = this.selectedFlat.owner.mail;
     };
   }
 
@@ -291,4 +326,113 @@ export class UserDiscussioComponent implements OnInit {
       console.log('user or subscriber not found');
     }
   }
+
+  async getSubscribedFlats(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const user_id = JSON.parse(userJson!).email;
+    const url = 'http://localhost:3000/acceptsubs/get/ysubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: user_id,
+      offs: 0,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any[];
+      const newSubscriptions: ApprovedSubscription[] = response.map((flat: any) => {
+        if(flat.flat_id){
+          return {
+            flat_id: flat.flat.flat_id,
+            flatImg: flat.img,
+            price_m: flat.flat.price_m,
+          };
+        }else{
+          return {
+            flat_id: flat.flat.flat_id,
+            flatImg: flat.img,
+            price_m: flat.flat.price_m,
+          }
+        }
+      });
+
+      this.subscriptions = newSubscriptions;
+      if (newSubscriptions.length > 0) {
+        this.selectFlatId(newSubscriptions[0].flat_id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  selectFlatId(flatId: string) {
+    this.choseSubscribeService.chosenFlatId = flatId;
+    this.selectedFlatId = flatId;
+  }
+
+  private restoreSelectedFlatId() {
+    const selectedFlatId = this.choseSubscribeService.chosenFlatId;
+    if (selectedFlatId) {
+      this.selectFlatId(selectedFlatId);
+    }
+  }
+
+  private subscribeToSelectedFlatIdChanges() {
+    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(
+      flatId => {
+        this.selectedFlatId = flatId;
+      }
+    );
+  }
+
+  removeSubscriber(flatId: string): void {
+    this.loading = true;
+    const userJson = localStorage.getItem('user');
+    const user_id = JSON.parse(userJson!).email;
+    const url = 'http://localhost:3000/acceptsubs/delete/ysubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: user_id,
+      flat_id: flatId,
+    };
+
+    this.http.post(url, data).subscribe(
+      () => {
+        this.loading = false;
+        this.deletingFlatId = flatId;
+        setTimeout(() => {
+          this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);
+          this.deletingFlatId = null;
+        }, 100);
+      },
+      error => {
+        console.error(error);
+        this.loading = false;
+      }
+    );
+  }
+
+  async openDialog(flatId: string): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const user_id = JSON.parse(userJson!).email;
+    const url = 'http://localhost:3000/acceptsubs/delete/ysubs';
+
+    const dialogRef = this.dialog.open(DeleteSubsComponent);
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result === true && userJson && flatId) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: flatId,
+          user_id: user_id,
+        };
+        console.log(data)
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
+  }
 }
+

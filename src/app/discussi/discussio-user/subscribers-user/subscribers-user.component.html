@@ -1,0 +1,45 @@
+<div class="container-card">
+
+  <div class="card-box col-lg-7 col-md-5 col-sm-6 col-12" *ngIf="subscriptions.length !== 0">
+    <div class="scrollable-container p-4">
+      <div class="card m-3" *ngFor="let subscriber of subscriptions">
+        <div class="card-img-container w-35">
+          <img class="card-img" alt="User Image"
+            [src]="'http://localhost:3000/img/flat/' + (subscriber.flatImg[0] ? subscriber.flatImg[0] : 'house_default.svg')">
+        </div>
+        <div class="card-body w-50">
+          <div class="title-group p-1">
+            <div class="title">Обл.{{ subscriber.region }}</div>
+            <div class="title">{{ subscriber.city }}</div>
+            <div class="title">Ціна: {{ subscriber.price_m }} ₴</div>
+            <div class="title-min">ID: {{ subscriber.flat_id }}</div>
+
+          </div>
+          <div class="btn-group p-1">
+            <button class="btn w-70 m-1" (click)="approveSubscriber(subscriber.flat_id)">ДИСКУСІЯ</button>
+            <button class="btn w-30 m-1" (click)="openDialog(subscriber.flat_id)"><i
+                class="fa-solid fa-user-xmark"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-paginator class="mb-1" [pageIndex]="pageEvent?.pageIndex" [length]="subscriptions.length"
+      [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <div class="card-box col-lg-5 col-md-12 col-sm-12 col-12">
+    <div class="card-info">
+      <h2>Ваші підписники</h2>
+      <div class="title p-2">
+        <p>Тут Ви зможете бачити оселі які підписані на Вас.</p>
+      </div>
+      <div class="title p-2">
+        <p>Ви можете або ухвалити їх або видалити з підписників</p>
+      </div>
+    </div>
+  </div>
+
+</div>

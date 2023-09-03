@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
+
 interface subscription {
   flat_id: string;
   flatImg: any;
@@ -34,35 +37,74 @@ interface subscription {
 }
 
 @Component({
-  selector: 'app-subscriptions',
-  templateUrl: './subscriptions.component.html',
-  styleUrls: ['./subscriptions.component.scss']
+  selector: 'app-subscriptions-user',
+  templateUrl: './subscriptions-user.component.html',
+  styleUrls: ['./subscriptions-user.component.scss']
 })
-export class SubscriptionsComponent implements OnInit {
+export class SubscriptionsUserComponent implements OnInit {
+
+  purpose: { [key: number]: string } = {
+    0: 'Переїзд',
+    1: 'Відряджання',
+    2: 'Подорож',
+    3: 'Пожити в іншому місті',
+    4: 'Навчання',
+    5: 'Особисті причини',
+  }
+
+  aboutDistance: { [key: number]: string } = {
+    0: 'Немає',
+    5: 'На території будинку',
+    100: '100м',
+    300: '300м',
+    500: '500м',
+    1000: '1км',
+  }
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
+  }
+
+  animals: { [key: number]: string } = {
+    0: 'Без тварин',
+    1: 'З котячими',
+    2: 'З собачими',
+    3: 'З собачими/котячими',
+    4: 'Є багато різного',
+    5: 'Щось цікавіше',
+  }
+
+  isFeatureEnabled: boolean = false;
+  toggleMode(): void {
+    this.isFeatureEnabled = !this.isFeatureEnabled;
+  }
+
+  offs: number = 0;
+  pageEvent: PageEvent | undefined;
+  selectedFlat: subscription | any;
   subscriptions: subscription[] = [];
   userId: string | any;
   flatId: any;
   deletingFlatId: string | null = null;
   selectedFlatId: any;
+  currentPhotoIndex: number = 0;
 
   constructor(
     private http: HttpClient,
-    private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.getSubscribedFlats();
+    this.getSubscribedFlats(this.offs);
   }
 
-  toggleSelectFlat(flatId: string): void {
-    if (this.selectedFlatId === flatId) {
-      this.selectedFlatId = null;
-    } else {
-      this.selectedFlatId = flatId;
-    }
+  onSubscriberSelect(subscriber: any): void {
+    this.selectedFlat = subscriber;
+    this.selectedFlatId = subscriber.flat_id;
   }
 
-  async getSubscribedFlats(): Promise<void> {
+  async getSubscribedFlats(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/subs/get/ysubs';
@@ -106,32 +148,46 @@ export class SubscriptionsComponent implements OnInit {
           about: flat.flat.about,
           bunker: flat.flat.bunker,
         };
-      }); this.subscriptions = [...this.subscriptions, ...newsubscriptions];
+      }); this.subscriptions = newsubscriptions;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async removeSubscriber(flatId: string): Promise<void> {
-    this.selectedFlatId = flatId;
+  onPageChange(event: PageEvent) {
+    this.pageEvent = event;
+    this.offs = event.pageIndex * event.pageSize;
+    this.getSubscribedFlats(this.offs);
+  }
+
+  async openDialog(flatId: string): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/subs/delete/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      flat_id: flatId,
-    };
+    const dialogRef = this.dialog.open(DeleteSubsComponent);
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result === true && userJson && flatId) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: flatId,
+          user_id: user_id,
+        };
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
+  }
 
-    try {
-      const response = await this.http.post(url, data).toPromise();
-      this.deletingFlatId = flatId;
-      setTimeout(() => {
-        this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);
-        this.deletingFlatId = null;
-      }, 0);
-    } catch (error) {
-      console.error(error);
-    }
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
   }
 }
+

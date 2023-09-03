@@ -261,14 +261,14 @@
           </mat-form-field>
 
           <div class="characteristics-group mt-1">
-            <div class="info-text w-50">Заставна сума яка повертається Орендодавцем після закінчення цієї угоди:
-            </div>
+            <div class="info-text w-50">Заставна сума яка повертається Орендодавцем після закінчення цієї угоди:</div>
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-accent">Сума застава</mat-label>
               <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
-                required [(ngModel)]="depositPayment" #depositPaymentInput="ngModel">
+                required [(ngModel)]="depositPayment ? depositPayment : houseData.about.price_m" #depositPaymentInput="ngModel">
             </mat-form-field>
           </div>
+
 
           <div class="characteristics-group mt-1" *ngIf="houseData.about.option_pay == 0">
             <div class="info-text w-50">Орендна плата за використання квартири та майна за місяць становить:</div>

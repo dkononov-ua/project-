@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { CustomPaginatorIntl } from '../custom-paginator';
+import { CustomPaginatorIntl } from '../../../shared/custom-paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';

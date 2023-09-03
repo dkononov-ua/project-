@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { forkJoin } from 'rxjs';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -94,7 +95,6 @@ export class InfoComponent implements OnInit {
 
   userImg: any;
   loading: boolean = true;
-
   public selectedFlatId: any | null;
 
   user = {
@@ -148,6 +148,17 @@ export class InfoComponent implements OnInit {
   constructor(private dataService: DataService, private http: HttpClient) { }
 
   ngOnInit(): void {
+    // Об'єднуємо обидва Observable, і вони будуть виконані паралельно
+    forkJoin([
+      this.getInfo(),
+      this.getInfoUser()
+    ]).subscribe(() => {
+      // Ця функція виконується, коли обидва Observable завершили свою роботу
+      this.loading = false;
+    });
+  }
+
+  async getInfoUser(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
@@ -171,7 +182,6 @@ export class InfoComponent implements OnInit {
             }
           }
         });
-        this.getInfo();
     }
   }
 
@@ -181,7 +191,6 @@ export class InfoComponent implements OnInit {
       this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
           this.userInfo = response.inf;
-          this.loading = false;
         }, (error: any) => {
           console.error(error);
         });

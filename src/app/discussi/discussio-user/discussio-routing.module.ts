@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ApprovedComponent } from './approved/approved.component';
-import { HostDiscussioComponent } from './host-discussio/host-discussio.component';
-import { UserDiscussioComponent } from './user-discussio/user-discussio.component';
-import { ChatUserComponent } from './chat-user/chat-user.component';
 import { ChatHostComponent } from './chat-host/chat-host.component';
+import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
+import { SubscribersUserComponent } from './subscribers-user/subscribers-user.component';
+import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
+import { CanActivateGuard } from 'src/app/services/auth.guard';
+import { SubscriberMenuComponent } from './subscriber-menu/subscriber-menu.component';
 
 const routes: Routes = [
+  { path: 'chat-host', component: ChatHostComponent, canActivate: [CanActivateGuard]  },
   {
-    path: 'host-discussio',
-    component: HostDiscussioComponent,
+    path: 'subscribers-menu-user',
+    component: SubscriberMenuComponent, canActivate: [CanActivateGuard],
     children: [
-      { path: '', redirectTo: 'user-discussio', pathMatch: 'full' },
-      { path: 'user-discussio', component: UserDiscussioComponent },
-      { path: 'approved', component: ApprovedComponent },
+      { path: '', redirectTo: 'subscribers-user', pathMatch: 'full' },
+      { path: 'subscribers-user', component: SubscribersUserComponent, canActivate: [CanActivateGuard] },
+      { path: 'subscribers-discuss', component: SubscribersDiscusComponent, canActivate: [CanActivateGuard] },
+      { path: 'subscriptions-user', component: SubscriptionsUserComponent, canActivate: [CanActivateGuard] },
     ],
   },
-  { path: 'chat-host', component: ChatHostComponent },
+
 ];
 
 @NgModule({

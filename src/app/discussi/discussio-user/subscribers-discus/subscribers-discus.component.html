@@ -1,63 +1,46 @@
 <div class="container-dis">
 
   <div class="switch-box">
-    <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
-      <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
-    </button>
-    <h3 class="switch-box-name">Discussio {{ isFeatureEnabled ? 'з представником оселі' : 'Інформація про оселю' }}</h3>
-
+    <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">Оселя</button>
+    <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">Чат</button>
+    <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">Представник</button>
+    <button class="btn" [ngClass]="{ 'active': indexPage == 4}" (click)="indexPage = 4">Характеристики</button>
   </div>
 
   <div class="container-box">
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
-      *ngIf="currentIndex === 2 || currentIndex === 3">
-      <div class="card m-2">
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscriptions.length !== 0">
 
-        <div class="container-sticker">
-          <div class="status-container">
-            <div class="status online" *ngIf="isOnline">Online</div>
-            <div class="status offline" *ngIf="isOffline">Offline</div>
+      <div class="card-container mb-2">
+        <h3>Тут будуть Discusiї</h3>
+        <p>Ухалено: <span class="accent">{{ subscriptions.length }} Discussio</span></p>
+      </div>
+
+      <div class="card-container p-2">
+        <button class="card-wrapper card-mini mb-4" (click)="selectFlatId(subscriber.flat_id)"
+        [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }"
+          *ngFor="let subscriber of subscriptions">
+          <div class="card-img-container">
+            <img class="card-img"
+              [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+              alt="Flat Image">
           </div>
-        </div>
 
-        <div class="img-fluid">
-          <img [src]="'http://localhost:3000/img/users/' + (ownerImg ? ownerImg : 'user_default.svg')" alt="User Image">
-        </div>
-
-        <div class="item-wrapper p-3">
-          <p>Власник:</p>
-          <div class="user-name">{{ lastName }} {{ firstName }} {{ surName }}</div>
-          <p>Email для листування: {{ user_id }}</p>
-          <div class="card-social-link">
-            <a *ngIf="instagram" href="{{ instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-            <a *ngIf="telegram" href="{{ telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
-            <a *ngIf="viber" href="{{ viber }}"><i class="fab fa-brands fa-viber"></i></a>
-            <a *ngIf="facebook" href="{{ facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
+          <div class="card-body">
+            <div class="card-title">{{ subscriber.flat_id }} <br> {{ subscriber.price_m }} ₴/міс</div>
+            <div class="btn-group">
+              <button class="btn m-1" (click)="openDialog(subscriber.flat_id)">
+                <i class="fa-solid fa-user-xmark" matTooltip="Видалити Дискусію"></i>
+              </button>
+            </div>
           </div>
-          <button class="card-link" (click)="createChat(selectedFlat?.flat.flat_id)"><span>Почати дискусію</span><i
-              class="fa-solid fa-message"></i></button>
-        </div>
+        </button>
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12"
-      *ngIf="currentIndex === 2 || currentIndex === 3">
-      <div class="card-chat card m-2">
-        <app-chat-user></app-chat-user>
-      </div>
-    </div>
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" >
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
-      *ngIf="currentIndex === 0 || currentIndex === 1">
-      <div class="card m-2">
-
-        <div class="container-sticker">
-          <div class="status-container">
-            <div class="status online" *ngIf="isOnline">Online</div>
-            <div class="status offline" *ngIf="isOffline">Offline</div>
-          </div>
-        </div>
+      <div [@cardAnimation2] class="card card-animation m-2" *ngIf="indexPage === 1">
 
         <div *ngIf="selectedFlat">
           <div class="img-container">
@@ -82,23 +65,11 @@
           <div *ngIf="isCopied" class="message">ID оселі було скопійовано!</div>
         </div>
 
-        <div class="price-box">
-          <p class="item-price"><span class="item-characteristics-price">Ціна:</span> {{ selectedFlat?.flat.price_m |
-            number: '1.0-0'
-            }}<sup>₴/міс</sup></p>
-          <p class="item-price-year"
-            *ngIf="selectedFlat?.flat.price_y !== '0.00' && selectedFlat?.flat.price_y !== null"><span
-              class="item-characteristics-price">Ціна за рік:</span> {{ selectedFlat?.flat.price_y | number: '1.0-0'
-            }}<sup>₴/рік</sup>
-          </p>
-        </div>
-
-
         <div class="card-text p-1">
 
           <div class="title-group">
-            <div class="title-selected">Країна : </div>
-            <div class="title-selected-accent">{{ selectedFlat?.flat.country }}</div>
+            <div class="title-selected">Ціна: </div>
+            <div class="title-selected-accent">{{ selectedFlat?.flat.price_m }}<sup>₴/міс</sup></div>
           </div>
 
           <div class="title-group">
@@ -128,11 +99,65 @@
         </div>
 
       </div>
-    </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12"
-      *ngIf="currentIndex === 0 || currentIndex === 1">
-      <div class="card m-2 p-2">
+      <div [@cardAnimation2] class="card card-animation m-2 card-chat" *ngIf="indexPage === 2">
+        <app-chat-user></app-chat-user>
+      </div>
+
+      <div [@cardAnimation2] class="card card-animation m-2" *ngIf="indexPage === 3">
+
+        <div class="container-sticker">
+          <div class="status-container">
+            <div class="status online" *ngIf="isOnline">Online</div>
+            <div class="status offline" *ngIf="isOffline">Offline</div>
+          </div>
+        </div>
+
+        <div class="img-fluid">
+          <img [src]="'http://localhost:3000/img/users/' + (ownerImg ? ownerImg : 'user_default.svg')" alt="User Image">
+        </div>
+
+        <div class="card-social-link">
+          <a *ngIf="instagram" href="{{ instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+          <a *ngIf="telegram" href="{{ telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+          <a *ngIf="viber" href="{{ viber }}"><i class="fab fa-brands fa-viber"></i></a>
+          <a *ngIf="facebook" href="{{ facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
+        </div>
+
+        <div class="card-text p-1">
+          <p>Інформація про представника:</p>
+          <p>User ID : {{ user_id }}</p>
+          <div class="title-group">
+            <div class="title-selected">Прізвище : </div>
+            <div class="title-selected-accent">{{ lastName }}</div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">Ім'я : </div>
+            <div class="title-selected-accent">{{ firstName }}</div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">По батькові : </div>
+            <div class="title-selected-accent">{{ surName }}</div>
+          </div>
+
+          <div class="title-group" *ngIf="tell">
+            <div class="title-selected">Телефон : </div>
+            <div class="title-selected-accent">{{ tell }}</div>
+          </div>
+
+          <div class="title-group" *ngIf="mail">
+            <div class="title-selected">Пошта : </div>
+            <div class="title-selected-accent">{{ mail }}</div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div [@cardAnimation2] class="card card-animation m-2 p-2" *ngIf="indexPage === 4">
         <div class="container-sticker">
           <div class="status-container">
             <span class="text"
@@ -193,7 +218,7 @@
                 class="item">{{ selectedFlat?.flat.animals }}</span> </div>
           </div>
         </div>
-        <div class="characteristics">
+        <div class="characteristics" *ngIf="selectedFlat?.flat.about">
           <div class="characteristics-label">Про оселю:</div>
 
           <div class="characteristics-group">
@@ -201,8 +226,8 @@
           </div>
         </div>
       </div>
+      
     </div>
-
   </div>
 
 </div>
