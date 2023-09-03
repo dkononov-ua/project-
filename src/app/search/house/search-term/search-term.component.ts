@@ -71,7 +71,7 @@ export class SearchTermComponent implements OnInit {
   private subscription: Subscription | undefined;
   searchQuery: any;
   searchTimer: any;
-
+  optionsFound: number = 0
 
   constructor(
     private filterService: FilterService,
@@ -120,17 +120,19 @@ export class SearchTermComponent implements OnInit {
     );
   }
 
-  async fetchFlatData(url: string) {
-    const response : any = await this.http.get(url).toPromise();
-    this.filteredFlats = response.img
-    this.applyFilter(response.img)
-  }
-
   onInputChange() {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.onSubmit();
     }, 1000);
+  }
+
+  async fetchFlatData(url: string) {
+    const response : any = await this.http.get(url).toPromise();
+    console.log(response)
+    this.optionsFound = response.count;
+    this.filteredFlats = response.img;
+    this.applyFilter(this.filteredFlats, this.optionsFound);
   }
 
   onSubmit() {
@@ -176,7 +178,7 @@ export class SearchTermComponent implements OnInit {
       const url = this.buildSearchURL(params);
 
       await this.fetchFlatData(url);
-      this.applyFilter(this.filteredFlats);
+      this.applyFilter(this.filteredFlats, this.optionsFound);
     }, 1000);
   }
 
@@ -198,8 +200,8 @@ export class SearchTermComponent implements OnInit {
     return `${endpoint}?${paramsString}`;
   }
 
-  applyFilter(filteredFlats: any) {
-    this.filterService.updateFilter(filteredFlats);
+  applyFilter(filteredFlats: any, optionsFound: number) {
+    this.filterService.updateFilter(filteredFlats, optionsFound);
   }
 
   toggleSearchTerm() {

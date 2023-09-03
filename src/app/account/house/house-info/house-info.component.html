@@ -5,8 +5,6 @@
 
       <div class="container-sticker">
         <div class="status-container">
-          <!-- <div class="status online" *ngIf="isOnline">Online</div>
-          <div class="status offline" *ngIf="isOffline">Offline</div> -->
           <div class="status rent-yes" *ngIf="house.rent === 1">Опублікована</div>
           <div class="status rent-no" *ngIf="house.rent === 0">Не опублікована</div>
           <div class="status private-yes" *ngIf="house.private === 1">Приватно</div>
@@ -46,25 +44,17 @@
         <div *ngIf="isCopied" class="message">ID оселі було скопійовано!</div>
       </div>
 
-      <div class="price-box">
-        <p class="item-price" *ngIf="about.option_pay === 0">
-          <span class="item-characteristics-price">Ціна:</span>
-          {{ about.price_m | number: '1.0-0'}}<sup>₴/міс</sup>
-        </p>
-
-        <p class="item-price" *ngIf="about.option_pay !== 0">
-          <span class="item-characteristics-price">Ціна:</span>
-          {{ about.price_d | number: '1.0-0'}}<sup>₴/доба</sup>
-        </p>
-      </div>
-
-
       <div class="card-text p-1">
 
-        <!-- <div class="title-group">
-          <div class="title-selected">Країна : </div>
-          <div class="title-selected-accent">{{ house.country }}</div>
-        </div> -->
+        <div class="title-group" *ngIf="about.option_pay !== 0">
+          <div class="title-selected">Ціна : </div>
+          <div class="title-selected-accent price">{{ about.price_d | number: '1.0-0'}}<sup>₴/доба</sup></div>
+        </div>
+
+        <div class="title-group" *ngIf="about.option_pay === 0">
+          <div class="title-selected">Ціна : </div>
+          <div class="title-selected-accent price">{{ about.price_m | number: '1.0-0'}}<sup>₴/міс</sup></div>
+        </div>
 
         <div class="title-group">
           <div class="title-selected">Область : </div>
@@ -92,23 +82,21 @@
         </div>
       </div>
 
+      <div class="btn-group p-1">
+        <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">Параметри</button>
+        <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">Інформація</button>
+      </div>
+
     </div>
   </div>
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
 
-    <div class="switch-box">
-      <button class="toggle-button" (click)="toggleMode()" matTooltip="Змінити">
-        <div class="toggle-switch" [class.enabled]="isFeatureEnabled"></div>
-      </button>
-      <h3 class="switch-box-name">{{ isFeatureEnabled ? 'Параметри' : 'Інформація' }}</h3>
-    </div>
-
-    <div [@cardAnimation2] class="card card-animation p-2" *ngIf="!isFeatureEnabled">
+    <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 1">
       <app-parameters></app-parameters>
     </div>
 
-    <div [@cardAnimation2] class="card card-animation p-2" *ngIf="isFeatureEnabled">
+    <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 2">
       <app-house-share></app-house-share>
     </div>
 

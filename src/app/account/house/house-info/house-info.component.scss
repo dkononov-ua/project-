@@ -265,7 +265,7 @@ img {
 }
 
 .title-selected-accent {
-  font-size: 20px;
+  font-size: 18px;
   color: $color-accent;
   font-weight: 600;
 }
@@ -279,9 +279,11 @@ img {
 }
 
 .title-selected {
-  font-size: 18px;
+  font-size: 16px;
   color: $color-text;
 }
+
+
 
 .title-group {
   display: flex;
@@ -298,22 +300,7 @@ img {
   font-size: 10px;
 }
 
-
-.price-box {
-  width: 100%;
-  display: flex;
-  position: relative;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 10px;
-}
-
-.item-price {
-  font-size: 35px;
-}
-
-.item-price-year {
+.price {
   font-size: 20px;
 }
 

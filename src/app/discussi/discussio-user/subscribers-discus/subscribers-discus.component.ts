@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -88,19 +88,7 @@ export class SubscribersDiscusComponent implements OnInit {
   loading: boolean | undefined;
   userData: any;
   currentSubscription: Subject<unknown> | undefined;
-
   indexPage: number = 1;
-
-  toggleMode(): void {
-    this.currentIndex = (this.currentIndex === 0) ? 2 : 0;
-
-    this.isFeatureEnabled = !this.isFeatureEnabled;
-    if (this.isFeatureEnabled) {
-      console.log('Представник');
-    } else {
-      console.log('Оселя');
-    }
-  }
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
@@ -111,10 +99,18 @@ export class SubscribersDiscusComponent implements OnInit {
     1000: '1км',
   }
 
-  checkBox: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Так',
-    2: 'Ні',
+  purpose: { [key: number]: string } = {
+    0: 'Переїзд',
+    1: 'Відряджання',
+    2: 'Подорож',
+    3: 'Пожити в іншому місті',
+    4: 'Навчання',
+    5: 'Особисті причини',
+  }
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
   }
 
   selectedFlat: SelectedFlat | null = null;
@@ -132,7 +128,6 @@ export class SubscribersDiscusComponent implements OnInit {
   images: string[] = ['http://localhost:3000/img/flat/housing_default.svg'];
   userImg: any;
   currentPhotoIndex: number = 0;
-
   deletingFlatId: any;
 
   reloadPageWithLoader() {
@@ -143,7 +138,6 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   subscriptions: ApprovedSubscription[] = [];
-
 
   constructor(
     private dataService: DataService,
@@ -259,7 +253,6 @@ export class SubscribersDiscusComponent implements OnInit {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
 
       if (selectedFlat) {
-        console.log(selectedFlat)
         this.selectedFlat = selectedFlat;
         this.getOwnerInfo();
       }
@@ -318,7 +311,6 @@ export class SubscribersDiscusComponent implements OnInit {
       };
       this.http.post('http://localhost:3000/chat/add/chatUser', data)
         .subscribe((response: any) => {
-          console.log(response);
         }, (error: any) => {
           console.error(error);
         });
@@ -380,33 +372,6 @@ export class SubscribersDiscusComponent implements OnInit {
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(
       flatId => {
         this.selectedFlatId = flatId;
-      }
-    );
-  }
-
-  removeSubscriber(flatId: string): void {
-    this.loading = true;
-    const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/acceptsubs/delete/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      flat_id: flatId,
-    };
-
-    this.http.post(url, data).subscribe(
-      () => {
-        this.loading = false;
-        this.deletingFlatId = flatId;
-        setTimeout(() => {
-          this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);
-          this.deletingFlatId = null;
-        }, 100);
-      },
-      error => {
-        console.error(error);
-        this.loading = false;
       }
     );
   }

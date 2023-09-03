@@ -15,6 +15,17 @@
         </div>
       </div>
 
+      <div class="container-btn">
+        <button class="btn mr-2" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+          <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed" [class.rotate-down]="!isSearchTermCollapsed"
+            [class.fa-chevron-up]="isSearchTermCollapsed" [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
+        </button>
+        <div class="ml-2">
+          <div class="count" *ngIf="optionsFound"><span class="accent mr-2">{{optionsFound}} </span> ЗНАЙДЕНО</div>
+          <div class="count" *ngIf="!optionsFound">НІЧОГО НЕ ЗНАЙДЕНО</div>
+        </div>
+      </div>
+
       <div class="col-lg-4 col-md-6 col-sm-12 col-12">
         <div class="heightSet">
           <mat-form-field class="search-id" appearance="outline">
@@ -384,11 +395,6 @@
     </div>
   </div>
 
-  <div class="container-btn">
-    <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
-      <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed" [class.rotate-down]="!isSearchTermCollapsed"
-        [class.fa-chevron-up]="isSearchTermCollapsed" [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
-    </button>
-  </div>
+
 
 </div>

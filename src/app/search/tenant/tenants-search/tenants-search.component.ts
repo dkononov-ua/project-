@@ -175,7 +175,8 @@ export class TenantsSearchComponent implements OnInit {
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
     this.filteredUsers = filterValue;
-
+    this.updateSelectedUser;
+    this.selectedUser = this.filteredUsers![this.currentCardIndex];
   }
 
   getImageUrl(fileName: string | string[]): string {

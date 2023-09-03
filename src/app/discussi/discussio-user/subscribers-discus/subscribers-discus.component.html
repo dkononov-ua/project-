@@ -18,8 +18,7 @@
 
       <div class="card-container p-2">
         <button class="card-wrapper card-mini mb-4" (click)="selectFlatId(subscriber.flat_id)"
-        [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }"
-          *ngFor="let subscriber of subscriptions">
+          [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }" *ngFor="let subscriber of subscriptions">
           <div class="card-img-container">
             <img class="card-img"
               [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
@@ -38,7 +37,7 @@
       </div>
     </div>
 
-    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" >
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
 
       <div [@cardAnimation2] class="card card-animation m-2" *ngIf="indexPage === 1">
 
@@ -97,7 +96,6 @@
             <div class="title-selected-accent">{{ selectedFlat?.flat.apartment }}</div>
           </div>
         </div>
-
       </div>
 
       <div [@cardAnimation2] class="card card-animation m-2 card-chat" *ngIf="indexPage === 2">
@@ -151,6 +149,13 @@
             <div class="title-selected">Пошта : </div>
             <div class="title-selected-accent">{{ mail }}</div>
           </div>
+
+          <div class="btn-group">
+            <button class="btn" (click)="indexPage = 2"><span>Написати</span></button>
+            <button class="btn" (click)="createChat(selectedFlat)"><span>Створити чат</span></button>
+          </div>
+
+
 
         </div>
 
@@ -226,7 +231,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </div>
 

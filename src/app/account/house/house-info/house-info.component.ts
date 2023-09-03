@@ -42,6 +42,7 @@ export class HouseInfoComponent implements OnInit {
   idleTimeout: any;
   isCopied = false;
   switch: boolean = false;
+  indexCard: number = 1;
 
   user = {
     firstName: '',

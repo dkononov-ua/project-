@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { PageEvent } from '@angular/material/paginator';
 interface FlatInfo {
   region: string;
   city: string;
@@ -67,6 +68,14 @@ interface FlatInfo {
 })
 
 export class HousingSearchComponent implements OnInit {
+  offs: number = 0;
+  pageEvent: PageEvent = {
+    length: 0,
+    pageSize: 5,
+    pageIndex: 0
+  };
+
+
   isSubscribed: boolean = false;
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
@@ -93,6 +102,7 @@ export class HousingSearchComponent implements OnInit {
   selectedFlatStreet: string = '';
   selectedFlatHouseNumber: string = '';
   selectedFlatFlatIndex: string = '';
+  optionsFound: number = 0;
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
@@ -124,8 +134,9 @@ export class HousingSearchComponent implements OnInit {
 
     this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
       const filterValue = this.filterService.getFilterValue();
-      if (filterValue) {
-        this.getFilteredData(filterValue);
+      const optionsFound = this.filterService.getOptionsFound();
+      if (filterValue && optionsFound) {
+        this.getFilteredData(filterValue, optionsFound);
       }
     });
 
@@ -135,8 +146,9 @@ export class HousingSearchComponent implements OnInit {
     }
   }
 
-  getFilteredData(filterValue: any) {
+  getFilteredData(filterValue: any, optionsFound: number) {
     this.filteredFlats = filterValue;
+    this.optionsFound = optionsFound;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
   }
 
@@ -175,22 +187,6 @@ export class HousingSearchComponent implements OnInit {
   calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
     return (index + length) % length;
-  }
-
-  loadMore(): void {
-    this.limit += 5
-    const url = `http://localhost:3000/search/flat?limit=${this.limit}`;
-    this.http.get<{ flat_inf: FlatInfo[], flat_img: any[] }>(url).subscribe((data) => {
-      const { flat_inf, flat_img } = data;
-      if (flat_inf && flat_img) {
-        flat_img.forEach((i) => {
-          this.flatImages.push(i)
-        })
-        this.flatInfo = flat_inf;
-        const additionalFlats = flat_inf;
-        this.filteredFlats = [...this.filteredFlats!, ...additionalFlats];
-      }
-    });
   }
 
   openFullScreenImage(photos: string[]): void {
@@ -278,6 +274,40 @@ export class HousingSearchComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+  }
+
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize;
+      this.loadMore(offs);
+    }
+  }
+
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize;
+      this.loadMore(offs);
+    }
+  }
+
+  loadMore(offs: number): void {
+    this.flatImages = [];
+    this.filteredFlats = [];
+    console.log(offs)
+    const url = `http://localhost:3000/search/flat?limit=${offs}`;
+    this.http.get<{ img: FlatInfo[] }>(url).subscribe((data) => {
+      const { img } = data;
+      console.log(data)
+      if (img) {
+        this.flatInfo = img;
+        console.log(this.flatInfo)
+        this.filteredFlats = [...img];
+      } else {
+        this.filteredFlats = [];
+      }
+    });
   }
 
 }

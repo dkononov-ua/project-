@@ -80,7 +80,6 @@ export class SubscribersUserComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       const newsubscriptions = response.map((flat: any) => {
         return {
           flat_id: flat.flat.flat_id,
@@ -157,7 +156,6 @@ export class SubscribersUserComponent implements OnInit {
           flat_id: flatId,
           user_id: user_id,
         };
-        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);

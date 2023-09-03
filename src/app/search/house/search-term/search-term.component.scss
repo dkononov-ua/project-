@@ -23,6 +23,19 @@ h3 {
   margin-left: 10px;
 }
 
+.count {
+  display: flex;
+  font-size: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.accent {
+  font-weight: 600;
+  font-size: 26px;
+}
+
 .heightSet {
   height: 60px;
   margin-right: 10px;
@@ -184,15 +197,9 @@ h3 {
 }
 
 .container-btn {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  right: 50%;
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
   align-items: center;
-  flex-direction: column;
 }
 
 .btn {

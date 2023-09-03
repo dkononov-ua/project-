@@ -30,6 +30,8 @@ import { SearchTermTenantComponent } from './tenant/search-term-tenant/search-te
 import { HostHouseComponent } from './house/host-house/host-house.component';
 import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component';
 import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.component';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { CustomPaginatorIntl } from '../shared/custom-paginator';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.compo
     HostTenantComponent,
     PhotoGalleryComponent,
   ],
-  providers: [FilterService],
+  providers: [
+    FilterService,
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -69,6 +73,8 @@ import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.compo
     FormsModule,
     MatAutocompleteModule,
     NgbTypeaheadModule,
+    MatPaginatorModule,
+
   ],
   exports: [
   ]
