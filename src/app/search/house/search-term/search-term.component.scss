@@ -256,4 +256,26 @@ h3 {
   color: $color-dark;
 }
 
+.custom-paginator {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.paginator-count {
+  display: flex;
+}
+
+.paginator-info {
+  display: flex;
+  font-size: 14px;
+}
+
+.paginator-button {
+  border: none;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+}
+
 

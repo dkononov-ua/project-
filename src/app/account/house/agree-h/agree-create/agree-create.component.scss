@@ -228,6 +228,8 @@ img {
   font-size: $font-size;
   font-weight: bold;
 }
+
+
 .btn-container {
   position: relative;
   margin: 0 20px;
@@ -235,9 +237,6 @@ img {
   right: 0;
   top: -20px;
   background-color: $color-accent;
-}
-.btn-container:hover .info-menu {
-  display: block;
 }
 
 .btn-info {
@@ -251,6 +250,10 @@ img {
   height: 30px;
   width: 100px;
   font-size: 14px;
+}
+
+.btn-container:hover .info-menu {
+  display: block;
 }
 
 .info-menu {

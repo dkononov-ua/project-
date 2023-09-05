@@ -10,13 +10,38 @@
 }
 
 .switch-box {
-  top: -30px;
-  right: 10px;
+  position: relative;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 40px;
+  justify-content: flex-start;
+}
+
+.btn-1:disabled {
+  background-color: rgba(128, 128, 128, 0.132);
+}
+
+.btn-1 {
+  display: flex;
+  height: 40px;
+  width: 120px;
+  margin: 5px;
+  padding: 10px;
+  color: rgba(18, 17, 17, 0.8078431373);
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    color: $color-white;
+    background-color: $color-accent;
+  }
 }
 
 .card-box {
   display: flex;
   align-items: stretch;
+  position: relative;
 }
 
 .card-container {
@@ -37,31 +62,46 @@
   justify-content: flex-start;
 }
 
+.scrollable-container::-webkit-scrollbar {
+  display: none;
+}
 .card-mini {
   cursor: pointer;
-  width: 100%;
+  width: 90%;
   height: 140px;
   display: flex;
   justify-content: center;
   flex-direction: row;
   background-color: $color-white;
   border-radius: 10px;
+  transition: 1s;
   box-shadow:
     0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
+.card-mini.selectedUser {
+  background-color: $color-dark;
+  width: 95%;
+}
+
 .card-img-container {
   position: relative;
-  width: 40%;
+  width: 50%;
   height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
   &:hover,
   :focus {
-    width: 60%;
+    width: 65%;
   }
 }
+
+.card-animation {
+  width: 95%;
+  position: absolute;
+}
+
 .card-img {
   height: 100%;
   width: 100%;
@@ -94,7 +134,7 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   color: $color-text;
 }
@@ -137,6 +177,7 @@ mat-paginator {
   border-radius: 10px;
   padding: 5px;
   margin: 5px 0px;
+  justify-content: space-between;
 }
 
 .title-group {
@@ -150,6 +191,9 @@ mat-paginator {
   width: 100%;
   font-weight: 600;
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title-selected {
@@ -160,10 +204,6 @@ mat-paginator {
   font-size: 18px;
   color: $color-accent;
   font-weight: 600;
-}
-
-.selectedUser {
-  background-color: $color-dark;
 }
 
 .selectedUser .title {
@@ -180,6 +220,7 @@ mat-paginator {
 }
 
 .characteristics-label {
+  text-align: center;
   font-size: 16px;
 }
 
@@ -210,5 +251,89 @@ mat-paginator {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
+
+.title-1 {
+  font-size: 28px;
+}
+
+.img-dog {
+  height: 250px;
+  overflow: hidden;
+}
+
+.card-box-img {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-sticker {
+  position: absolute;
+  z-index: 9999;
+  top: -26px;
+  right: 10px;
+
+  width: 100%;
+  height: 20px;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.status {
+  margin: 0 3px;
+  padding: 5px 10px;
+
+  color: white;
+  border-radius: 4px;
+  background-color: $color-accent;
+  box-shadow:
+    2px 3px 10px rgba(0, 0, 0, 0.25),
+    2px 2px 10px rgba(0, 0, 0, 0.22);
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.btn-container {
+  position: relative;
+  margin: 0 5px;
+  position: absolute;
+  right: 0;
+  top: -20px;
+  z-index: 10;
+}
+
+.btn-container:hover .info-menu {
+  display: block;
+}
+
+.info-menu {
+  width: 300px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: none;
+  background-color: $color-dark;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.info-menu-text {
+  color: $color-white;
+}
+
+.info-menu p {
+  margin: 4px 0;
+}
+
+

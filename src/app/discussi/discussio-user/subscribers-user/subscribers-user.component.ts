@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CustomPaginatorIntl } from '../../../shared/custom-paginator';
-import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 
 interface subscription {
   flat_id: string;
@@ -40,18 +39,58 @@ interface subscription {
 @Component({
   selector: 'app-subscribers-user',
   templateUrl: './subscribers-user.component.html',
-  styleUrls: ['./subscribers-user.component.scss'],
-  providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-  ]
+  styleUrls: ['./subscribers-user.component.scss']
 })
-
 export class SubscribersUserComponent implements OnInit {
+
+  purpose: { [key: number]: string } = {
+    0: 'Переїзд',
+    1: 'Відряджання',
+    2: 'Подорож',
+    3: 'Пожити в іншому місті',
+    4: 'Навчання',
+    5: 'Особисті причини',
+  }
+
+  aboutDistance: { [key: number]: string } = {
+    0: 'Немає',
+    5: 'На території будинку',
+    100: '100м',
+    300: '300м',
+    500: '500м',
+    1000: '1км',
+  }
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
+  }
+
+  animals: { [key: number]: string } = {
+    0: 'Без тварин',
+    1: 'З котячими',
+    2: 'З собачими',
+    3: 'З собачими/котячими',
+    4: 'Є багато різного',
+    5: 'Щось цікавіше',
+  }
+
+  isFeatureEnabled: boolean = false;
+  toggleMode(): void {
+    this.isFeatureEnabled = !this.isFeatureEnabled;
+  }
 
   offs: number = 0;
   pageEvent: PageEvent | undefined;
+  selectedFlat: subscription | any;
   subscriptions: subscription[] = [];
   userId: string | any;
+  flatId: any;
+  deletingFlatId: string | null = null;
+  selectedFlatId: any;
+  currentPhotoIndex: number = 0;
+  indexPage: number = 1;
+
 
   constructor(
     private http: HttpClient,
@@ -62,10 +101,9 @@ export class SubscribersUserComponent implements OnInit {
     this.getSubscribedFlats(this.offs);
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageEvent = event;
-    this.offs = event.pageIndex * event.pageSize;
-    this.getSubscribedFlats(this.offs);
+  onSubscriberSelect(subscriber: any): void {
+    this.selectedFlat = subscriber;
+    this.selectedFlatId = subscriber.flat_id;
   }
 
   async getSubscribedFlats(offs: number): Promise<void> {
@@ -75,7 +113,7 @@ export class SubscribersUserComponent implements OnInit {
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
-      offs: offs,
+      offs: 0,
     };
 
     try {
@@ -95,7 +133,7 @@ export class SubscribersUserComponent implements OnInit {
           rooms: flat.flat.rooms,
           repair_status: flat.flat.repair_status,
           area: flat.flat.area,
-          kitchen_area :flat.flat.kitchen_area,
+          kitchen_area: flat.flat.kitchen_area,
           balcony: flat.flat.balcony,
           floor: flat.flat.floor,
           distance_metro: flat.flat.distance_metro,
@@ -111,11 +149,17 @@ export class SubscribersUserComponent implements OnInit {
           price_y: flat.flat.price_y,
           about: flat.flat.about,
           bunker: flat.flat.bunker,
-        };});
-        this.subscriptions = newsubscriptions;
+        };
+      }); this.subscriptions = newsubscriptions;
     } catch (error) {
       console.error(error);
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageEvent = event;
+    this.offs = event.pageIndex * event.pageSize;
+    this.getSubscribedFlats(this.offs);
   }
 
   approveSubscriber(flatId: string): void {
@@ -147,7 +191,6 @@ export class SubscribersUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/usersubs/delete/subs';
-
     const dialogRef = this.dialog.open(DeleteSubsComponent);
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && flatId) {
@@ -156,6 +199,7 @@ export class SubscribersUserComponent implements OnInit {
           flat_id: flatId,
           user_id: user_id,
         };
+        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);
@@ -165,6 +209,12 @@ export class SubscribersUserComponent implements OnInit {
       }
     });
   }
+
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
+  }
 }
-
-

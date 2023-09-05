@@ -21,7 +21,7 @@
       <div class="chat-messages-read" #chatContainer>
         <div class="chat" *ngFor="let message of allMessages">
 
-          <ng-container *ngIf="message.user_id === selectedUser?.user_id && message.is_read === 1">
+          <ng-container *ngIf="message.user_id === selectedSubscriberID && message.is_read === 1">
             <div class="chat-container-user">
               <div class="user-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                 <div class="avatar-wrapper-user">

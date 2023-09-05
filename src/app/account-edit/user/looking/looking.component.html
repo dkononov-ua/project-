@@ -232,7 +232,7 @@
             <mat-form-field class="item-select50 m-1" appearance="outline">
               <mat-label>від</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.area_of" name="area_of">
-                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]=''>Неважливо</mat-option>
                 <mat-option value="10.00">10м²</mat-option>
                 <mat-option value="20.00">20м²</mat-option>
                 <mat-option value="30.00">30м²</mat-option>
@@ -249,7 +249,7 @@
             <mat-form-field class="item-select50 m-1" appearance="outline">
               <mat-label>до</mat-label>
               <mat-select [disabled]="disabled" [(ngModel)]="userInfo.area_to" name="area_to">
-                <mat-option [value]="0">Неважливо</mat-option>
+                <mat-option [value]=''>Неважливо</mat-option>
                 <mat-option value="10.00">10м²</mat-option>
                 <mat-option value="20.00">20м²</mat-option>
                 <mat-option value="30.00">30м²</mat-option>

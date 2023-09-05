@@ -175,6 +175,7 @@ export class TenantsSearchComponent implements OnInit {
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
     this.filteredUsers = filterValue;
+    console.log(this.filteredUsers)
     this.updateSelectedUser;
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
   }

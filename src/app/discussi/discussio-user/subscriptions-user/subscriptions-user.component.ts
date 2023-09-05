@@ -89,6 +89,8 @@ export class SubscriptionsUserComponent implements OnInit {
   deletingFlatId: string | null = null;
   selectedFlatId: any;
   currentPhotoIndex: number = 0;
+  indexPage: number = 1;
+
 
   constructor(
     private http: HttpClient,

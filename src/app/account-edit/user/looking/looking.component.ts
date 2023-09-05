@@ -34,10 +34,10 @@ interface UserInfo {
   looking_woman: boolean | undefined;
   looking_man: boolean | undefined;
   agree_search: boolean | undefined;
-  students: boolean | undefined;
-  woman: boolean | undefined;
-  man: boolean | undefined;
-  family: boolean | undefined;
+  students: boolean | false;
+  woman: boolean | false;
+  man: boolean | false;
+  family: boolean | false;
   days: number | undefined;
   weeks: number | undefined;
   mounths: number | undefined;
@@ -72,8 +72,8 @@ export class LookingComponent implements OnInit {
     city: '',
     rooms_of: 0,
     rooms_to: 0,
-    area_of: '0',
-    area_to: '0',
+    area_of: '',
+    area_to: '',
     repair_status: '',
     bunker: '',
     balcony: '',
@@ -168,6 +168,7 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.disabled === false) {
       const data = { ...this.userInfo };
+      console.log(data)
       this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
         }, (error: any) => {
@@ -193,8 +194,8 @@ export class LookingComponent implements OnInit {
         city: '',
         rooms_of: 0,
         rooms_to: 0,
-        area_of: '0',
-        area_to: '0',
+        area_of: '',
+        area_to: '',
         repair_status: '',
         bunker: '',
         balcony: '',

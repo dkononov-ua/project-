@@ -1,55 +1,255 @@
+<div class="switch-box mb-1">
+  <button class="btn-1" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">Опис меню</button>
+  <button [disabled]="!selectedUser" class="btn-1" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">Підписник</button>
+  <!-- <button class="btn-1" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">Інформація</button> -->
+</div>
+
 <div class="container-card">
 
-  <div class="card-box col-lg-7 col-md-6 col-sm-12 col-12">
-    <div class="scrollable-container">
-      <div class="card m-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)">
-        <div class="card-img-container w-35">
-          <img class="card-img" alt="User Image"
-            [src]="'http://localhost:3000/img/users/' + (subscriber.photo ? subscriber.photo : 'user_default.svg')">
-        </div>
-        <div class="card-social-link w-15">
-          <a target="_blank" *ngIf="subscriber.instagram" [href]="subscriber.instagram"><i
-              class="fab fa-brands fa-instagram"></i></a>
-          <a target="_blank" *ngIf="subscriber.telegram" [href]="subscriber.telegram"><i
-              class="fab fa-brands fa-telegram"></i></a>
-          <a target="_blank" *ngIf="subscriber.viber" [href]="subscriber.viber"><i
-              class="fab fa-brands fa-viber"></i></a>
-          <a target="_blank" *ngIf="subscriber.facebook" [href]="subscriber.facebook"><i
-              class="fab fa-brands fa-facebook"></i></a>
-        </div>
-        <div class="card-body w-50">
-          <div class="title-group p-1">
-            <div class="title">{{ subscriber.lastName }}</div>
-            <div class="title">{{ subscriber.firstName }}</div>
-            <div class="title">{{ subscriber.surName }}</div>
-            <div class="title-min">ID: {{ subscriber.user_id }}</div>
+  <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
+
+    <div class="card-container" *ngIf="subscribers.length !== 0">
+      <div class="scrollable-container p-3">
+        <div class="card-mini mb-4" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+          [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
+          <div class="card-img-container">
+            <img class="card-img"
+              [src]="'http://localhost:3000/img/users/' + (subscriber.img ? subscriber.img : 'user_default.svg')"
+              alt="User Image">
           </div>
-          <div class="btn-group p-1">
-            <button class="btn w-70 m-1" (click)="approveSubscriber(subscriber)">ДИСКУСІЯ</button>
-            <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
-                class="fa-solid fa-user-xmark"></i></button>
+          <div class="card-body">
+            <div class="title-group p-1">
+              <div class="title">{{ subscriber.lastName }}</div>
+              <div class="title">{{ subscriber.firstName }}</div>
+              <div class="title">{{ subscriber.surName }}</div>
+            </div>
+            <div class="btn-group p-1">
+              <button class="btn w-70 m-1" (click)="approveSubscriber(subscriber)">ДИСКУСІЯ</button>
+              <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
+                  class="fa-solid fa-user-xmark"></i></button>
+            </div>
           </div>
         </div>
       </div>
+
+      <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
+        [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
+        aria-label="Select page">
+      </mat-paginator>
     </div>
 
-    <mat-paginator class="mb-1"
-    [pageIndex]="pageEvent?.pageIndex"
-    [length]="subscribers.length"
-    [pageSize]="pageEvent?.pageSize"
-    [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
-    aria-label="Select page">
-    </mat-paginator>
+    <div class="card-box-img col-lg-7 col-md-6 col-sm-12 col-12" *ngIf="subscribers.length === 0">
+      <div class="title-1">Підписок ще немає...</div>
+      <img class="img-dog" src="../../../../assets/noSub12.png" alt="">
+    </div>
+
   </div>
 
-  <div class="card-box col-lg-5 col-md-6 col-sm-12 col-12">
-    <div class="card-info p-2">
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12 p-2 ">
+
+    <div [@cardAnimation2] class="card col-12 card-animation" *ngIf="selectedUser && indexPage == 1">
+      <div class="img-wrapper">
+        <img class="img-fluid rounded"
+          [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+      </div>
+
+      <div class="card-social-link">
+        <a target="_blank" *ngIf="selectedUser?.instagram" href="{{ selectedUser.instagram }}"><i
+            class="fab fa-brands fa-instagram"></i></a>
+        <a target="_blank" *ngIf="selectedUser?.telegram" href="{{ selectedUser.telegram }}"><i
+            class="fab fa-brands fa-telegram"></i></a>
+        <a target="_blank" *ngIf="selectedUser?.facebook" href="{{ selectedUser.facebook }}"><i
+            class="fab fa-brands fa-facebook"></i></a>
+      </div>
+
+      <div class="p-2">
+
+        <div class="title-group-card">
+          <div class="title-selected">User ID: </div>
+          <div class="title-selected-accent">{{ selectedUser?.user_id || '?' }}</div>
+        </div>
+
+        <div class="title-group-card">
+          <div class="title-selected">Прізвище : </div>
+          <div class="title-selected-accent">{{ selectedUser?.lastName || '?' }}</div>
+        </div>
+
+        <div class="title-group-card">
+          <div class="title-selected">Ім'я : </div>
+          <div class="title-selected-accent">{{ selectedUser?.firstName || '?' }}</div>
+        </div>
+
+        <div class="title-group-card" *ngIf="selectedUser?.surName">
+          <div class="title-selected">По батькові : </div>
+          <div class="title-selected-accent">{{ selectedUser?.surName || '?' }}</div>
+        </div>
+
+        <div class="title-group-card" *ngIf="selectedUser?.option_pay">
+          <div class="title-selected">Оплата : </div>
+          <div class="title-selected-accent">{{option_pay[selectedUser?.option_pay] || '?' }}</div>
+        </div>
+
+        <div class="title-group-card" *ngIf="selectedUser?.price_of || selectedUser?.price_to">
+          <div class="title-selected">Бюджет : </div>
+          <div class="title-selected-accent">{{ selectedUser?.price_of | number }}₴ - {{ selectedUser?.price_to |
+            number }}₴</div>
+        </div>
+
+        <div class="title-group-card" *ngIf="selectedUser?.purpose_rent">
+          <div class="title-selected">Мета оренди : </div>
+          <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div [@cardAnimation2] class="card col-12 card-animation" *ngIf="selectedUser && indexPage == 2">
+
+      <div class="btn-container">
+        <div class="status-container">
+          <div class="status selectedFlat" *ngIf="selectedUser.option_flat === 1">Будинок</div>
+          <div class="status selectedFlat" *ngIf="selectedUser.option_flat === 2">Квартира</div>
+
+          <div class="status rent-yes" *ngIf="selectedUser.woman === 1">W</div>
+          <div class="status rent-yes" *ngIf="selectedUser.man === 1">M</div>
+          <div class="status rent-yes" *ngIf="selectedUser.students === 1">S</div>
+          <div class="status rent-yes" *ngIf="selectedUser.family === 1">F</div>
+        </div>
+        <div class="info-menu">
+          <div class="accent bold">Допомога</div>
+          <div class="info-menu-text">
+            <ul>Орендар шукає оселю для:
+              <li *ngIf="selectedUser.woman === 1">W - Жінка</li>
+              <li *ngIf="selectedUser.man === 1">M - Чоловік</li>
+              <li *ngIf="selectedUser.students === 1">S - Студент</li>
+              <li *ngIf="selectedUser.family === 1">F - Сім'я</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card p-2">
+
+        <div class="characteristics-label accent">{{ selectedUser?.firstName }} - параметри пошуку:</div>
+
+        <div class="characteristics" *ngIf="selectedUser?.region || selectedUser?.city">
+          <div class="characteristics-label">Шукаю оселю в :</div>
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.region">
+              Область :<span class="item">{{ selectedUser?.region}}</span>
+            </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.city">
+              Місто :<span class="item">{{ selectedUser?.city}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="characteristics-group"
+          *ngIf="selectedUser?.area_of || selectedUser?.area_to || selectedUser?.repair_status || selectedUser?.balcony">
+
+          <div class="item-characteristics">
+            Площа оселі:
+            <span class="item" *ngIf="selectedUser?.area_of"> від {{ selectedUser?.area_of }}м²</span>
+            <span class="item" *ngIf="selectedUser?.area_to"> до {{ selectedUser?.area_to }}м²</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedUser?.repair_status">
+            Стан оселі:<span class="item">{{ selectedUser?.repair_status }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedUser?.balcony">
+            Тип балкону:<span class="item">{{ selectedUser?.balcony }}</span>
+          </div>
+
+        </div>
+
+        <div class="characteristics"
+          *ngIf="selectedUser?.distance_metro || selectedUser?.distance_stop || selectedUser?.distance_shop || selectedUser?.distance_green || selectedUser?.distance_parking">
+          <div class="characteristics-label">Інфраструктура:</div>
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.distance_metro">Метро
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_metro || '?'] }}</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.distance_stop">Зупинка
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_stop || '?'] }}</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.distance_shop">Маркет
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_shop || '?'] }}</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.distance_green">Парк
+              до:<span class="item">{{ aboutDistance[selectedUser?.distance_green || '?'] }}</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.distance_parking">
+              Паркінг:<span class="item">{{ aboutDistance[selectedUser?.distance_parking || '?'] }}</span> </div>
+          </div>
+        </div>
+
+        <div class="characteristics" *ngIf="selectedUser?.bunker || selectedUser?.animals">
+          <div class="characteristics-label">Особливості:</div>
+
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.bunker">
+              Наявність укриття:<span class="item">{{ selectedUser?.bunker }}</span>
+            </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.animals">
+              Домашні улюбленці: <span class="item">{{ animals[selectedUser?.animals] }} </span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="characteristics" *ngIf="selectedUser?.flat || selectedUser?.house || selectedUser?.room">
+          <div class="characteristics-label">Розглядаю тип оселі:</div>
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.flat"><span class="item">Квартира</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.house"><span class="item">Будинок</span> </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.room"><span class="item">Кімната</span> </div>
+          </div>
+        </div>
+
+        <div class="characteristics" *ngIf="selectedUser?.looking_man === 1 || selectedUser?.looking_woman === 1">
+          <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
+          <div class="characteristics-group">
+            <div class="item-characteristics" *ngIf="selectedUser?.looking_man === 1">
+              <span class="item">Чоловік</span>
+            </div>
+            <div class="item-characteristics" *ngIf="selectedUser?.looking_woman === 1"><span class="item">Жінка</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="characteristics"
+          *ngIf="selectedUser?.years || selectedUser?.mounths || selectedUser?.weeks || selectedUser?.days">
+          <div class="characteristics-label">Орієнтовний термін оренди:</div>
+          <div class="characteristics-group">
+
+            <div class="item-characteristics" *ngIf="selectedUser?.years && selectedUser?.years !== 0"><span
+                class="item">{{ selectedUser?.years }}</span>Роки</div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.mounths && selectedUser?.mounths !== 0">
+              <span class="item">{{ selectedUser?.mounths }}</span>Місяці
+            </div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.weeks && selectedUser?.weeks !== 0"><span
+                class="item">{{ selectedUser?.weeks }}</span>Тижні
+            </div>
+
+            <div class="item-characteristics" *ngIf="selectedUser?.days && selectedUser?.days !== 0"><span
+                class="item">{{ selectedUser?.days }}</span>Дні
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div [@cardAnimation2] class="card-info p-2 col-12" *ngIf="indexPage == 0">
       <p class="mb-4"><strong>Підписники оселі</strong> - Тут Ви зможете бачити користувачів які підписались на Вашу
-      оселю. Переглянути соціальні мережі, якщо Ви розглядаєте підписника як
-      потенційного орендара то тут Ви можете ухвали його до Дискусії,
-      також він отримає доступ до детальної інформації про оселю.</p>
+        оселю. Переглянути соціальні мережі, якщо Ви розглядаєте підписника як
+        потенційного орендара то тут Ви можете ухвали його до Дискусії,
+        також він отримає доступ до детальної інформації про оселю.</p>
       <p><strong>ДИСКУСІЯ</strong> - дозволяє ухвалити користувача для подальшого діалогу між вами в
-      меню ДИСКУСІЯ.</p>
+        меню ДИСКУСІЯ.</p>
     </div>
+
   </div>
+
 </div>

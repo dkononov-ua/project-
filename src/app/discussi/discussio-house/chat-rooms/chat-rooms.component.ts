@@ -107,7 +107,6 @@ export class ChatRoomsComponent implements OnInit {
 
   onSubscriberSelect(chat: Chat): void {
     const url = 'http://localhost:3000/chat/readMessageFlat';
-
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
@@ -142,7 +141,7 @@ export class ChatRoomsComponent implements OnInit {
             let chat = await Promise.all(response.status.map(async (value: any) => {
               let infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
               let infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat,  unread: value.unread  }
+              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread }
             }))
             this.chats = chat;
           } else {

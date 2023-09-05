@@ -43,6 +43,10 @@ export class ChatHouseComponent implements OnInit {
   currentSubscription: Subject<unknown> | undefined;
   interval: any;
   infoPublic: any[] | undefined;
+  offs = 0;
+
+  selectedSubscribersId: any;
+  selectedSubscriberID: any;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -54,27 +58,29 @@ export class ChatHouseComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.loadData();
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
-        this.selectedFlatId = selectedFlatId
-        const offs = 0;
-        this.getChats(selectedFlatId, offs).then(() => {
-          this.getMessages(this.selectedUser);
-          // this.autoSelectedUser();
-        });
-      }
-    });
+    this.getSelectedFlatId();
+    this.getSelectedSubscribersId();
+  }
 
-    this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
+  getSelectedFlatId() {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
+    });
+  }
+
+  getSelectedSubscribersId() {
+    this.selectedSubscribersId = this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
       if (subscriberId) {
         const selectedUser = this.users.find(subscriber => subscriber.user_id === subscriberId);
         if (subscriberId) {
+          this.selectedSubscriberID = subscriberId;
+          this.getChats(this.selectedSubscriberID);
           this.selectedUser = selectedUser;
-          this.getMessages(this.selectedUser);
+          this.getMessages(this.selectedSubscriberID);
         }
       } else if (!this.selectedUser && this.users.length > 0) {
         this.selectedUser = this.users[0];
-        this.getMessages(this.selectedUser);
+        this.getMessages(this.selectedSubscriberID);
       }
     });
   }
@@ -105,15 +111,14 @@ export class ChatHouseComponent implements OnInit {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
-  async getChats(selectedFlatId: string, offs: number): Promise<any> {
-    const selectedFlat = selectedFlatId;
+  async getChats(selectedSubscriberID: any): Promise<any> {
     const url = 'http://localhost:3000/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        offs: offs
+        flat_id: this.selectedFlatId,
+        offs: this.offs
       };
       try {
         const response = await this.http.post(url, data).toPromise() as any;
@@ -139,7 +144,7 @@ export class ChatHouseComponent implements OnInit {
             }));
 
           this.users = selectedUser;
-          this.selectedFlatId = selectedFlatId;
+          this.selectedFlatId = this.selectedFlatId;
         } else {
           console.log('user not found');
         }
@@ -151,30 +156,19 @@ export class ChatHouseComponent implements OnInit {
     }
   }
 
-  //Автовибір чату
-
-  // autoSelectedUser(): void {
-  //   if (!this.selectedUser && this.users.length > 0) {
-  //     this.selectedUser = this.users[0];
-  //   }
-  // }
-
-  async getMessages(selectedUser: any): Promise<any> {
+  async getMessages(selectedSubscriberID: any): Promise<any> {
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
     this.allMessages = [];
     if (this.currentSubscription) { this.currentSubscription.next(undefined); }
     const userJson = localStorage.getItem('user');
-    const selectedFlat = this.selectedFlatId;
-
-    if (userJson && selectedUser && selectedUser.user_id) {
+    if (userJson && selectedSubscriberID) {
       const info = {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
-        user_id: selectedUser.user_id,
+        user_id: selectedSubscriberID,
         offs: 0,
       };
-
       const destroy$ = new Subject();
 
       this.http.post('http://localhost:3000/chat/get/flatmessage', info)
@@ -186,18 +180,17 @@ export class ChatHouseComponent implements OnInit {
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
               });
-              this.getNewMessages(selectedUser);
+              this.getNewMessages(selectedSubscriberID);
             } else {
               this.allMessages = [];
-              this.getNewMessages(selectedUser);
-
+              this.getNewMessages(selectedSubscriberID);
             }
             return EMPTY;
           }),
           takeUntil(destroy$)
         )
-        .subscribe(() => {
-          this.getNewMessages(selectedUser);
+        .subscribe(async () => {
+          await this.getNewMessages(selectedSubscriberID);
         });
 
       this.currentSubscription = destroy$;
@@ -205,22 +198,23 @@ export class ChatHouseComponent implements OnInit {
       destroy$.subscribe(() => {
       });
     } else {
-      // console.log('Оберіть чат');
+      console.log('Оберіть чат');
     }
   }
 
-  async getNewMessages(selectedUser: any): Promise<void> {
+  async getNewMessages(selectedSubscriberID: any): Promise<void> {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
 
-    if (userJson && selectedUser) {
+    if (userJson && selectedSubscriberID) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
-        user_id: selectedUser.user_id,
+        user_id: selectedSubscriberID,
         offs: 0,
         data: this.allMessages[0]?.data,
       };
+
       this.http.post('http://localhost:3000/chat/get/NewMessageFlat', data)
         .subscribe(
           async (response: any) => {
@@ -248,7 +242,7 @@ export class ChatHouseComponent implements OnInit {
                 this.messagesHaveBeenRead(this.selectedUser);
               }
             }
-            this.interval = setTimeout(() => { this.getNewMessages(selectedUser) }, 5000);
+            this.interval = setTimeout(() => { this.getNewMessages(selectedSubscriberID) }, 5000);
           },
           (error: any) => {
             console.error(error);
@@ -264,20 +258,20 @@ export class ChatHouseComponent implements OnInit {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
-        user_id: selectedUser.user_id,
+        user_id: this.selectedSubscriberID,
       };
       this.http.post('http://localhost:3000/chat/readMessageFlat', data).subscribe();
     }
   }
 
-  sendMessage(selectedUser: any): void {
+  sendMessage(selectedSubscriberID: any): void {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
-    if (userJson && selectedUser) {
+    if (userJson && this.selectedSubscriberID) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
-        user_id: selectedUser.user_id,
+        user_id: this.selectedSubscriberID,
         message: this.messageText,
       };
 
@@ -285,8 +279,8 @@ export class ChatHouseComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.status) {
             this.messageText = '';
-            if (selectedUser === this.selectedUser) {
-              this.getMessages(selectedUser);
+            if (this.selectedSubscriberID === this.selectedUser) {
+              this.getMessages(this.selectedSubscriberID);
             }
           } else {
             console.log("Ваше повідомлення не надіслано");

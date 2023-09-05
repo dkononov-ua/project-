@@ -6,6 +6,7 @@ import { CustomPaginatorIntl } from '../../../shared/custom-paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 interface Subscriber {
   animals: string | undefined;
@@ -59,7 +60,20 @@ interface Subscriber {
   styleUrls: ['./subscriptions-house.component.scss'],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-  ]
+  ],
+  animations: [
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
+      ])
+    ]),
+  ],
+
 })
 export class SubscriptionsHouseComponent implements OnInit {
   subscribers: Subscriber[] = [];
@@ -88,7 +102,7 @@ export class SubscriptionsHouseComponent implements OnInit {
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
-    5: 'На території будинку',
+    1: 'На території',
     100: '100м',
     300: '300м',
     500: '500м',
@@ -115,6 +129,8 @@ export class SubscriptionsHouseComponent implements OnInit {
     this.getSubs(this.selectedFlatId, this.offs);
   }
   selectedSubscriberId: string | null = null;
+  indexPage: number = 0;
+
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -141,6 +157,7 @@ export class SubscriptionsHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -148,6 +165,7 @@ export class SubscriptionsHouseComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: Subscriber): void {
+    this.indexPage = 1;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.selectedSubscriberId = subscriber.user_id;

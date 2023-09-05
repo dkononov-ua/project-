@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { CustomPaginatorIntl } from '../../../shared/custom-paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
+import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
-interface UserInfo {
+interface Subscriber {
   animals: string | undefined;
   area_of: number | undefined;
   area_to: number | undefined;
@@ -42,18 +43,11 @@ interface UserInfo {
   rooms_of: number | undefined;
   rooms_to: number | undefined;
   students: boolean | undefined;
-  user_id: string | undefined;
+  user_id: string;
   weeks: number | undefined;
   woman: boolean | undefined;
   years: number | undefined;
-}
-
-interface Subscriber {
-  user_id: string;
-  firstName: string;
-  lastName: string;
   surName: string;
-  photo: string;
   instagram: string;
   telegram: string;
   viber: string;
@@ -66,18 +60,67 @@ interface Subscriber {
   styleUrls: ['./subscribers-house.component.scss'],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-  ]
+  ],
+  animations: [
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
+      ])
+    ]),
+  ],
 })
 
 export class SubscribersHouseComponent implements OnInit {
-
+  subscribers: Subscriber[] = [];
+  selectedFlatId: string | any;
   offs: number = 0;
   pageEvent: PageEvent | undefined;
-  selectedUser: UserInfo | any;
-
+  selectedUser: Subscriber | any;
+  showSubscriptionMessage: boolean = false;
+  subscriptionMessage: string | undefined;
+  statusMessage: any;
+  cardNext: number = 0;
+  selectedCard: boolean = false;
   isFeatureEnabled: boolean = false;
   toggleMode(): void {
     this.isFeatureEnabled = !this.isFeatureEnabled;
+  }
+
+  purpose: { [key: number]: string } = {
+    0: 'Переїзд',
+    1: 'Відряджання',
+    2: 'Подорож',
+    3: 'Пожити в іншому місті',
+    4: 'Навчання',
+    5: 'Особисті причини',
+  }
+
+  aboutDistance: { [key: number]: string } = {
+    0: 'Немає',
+    1: 'На території',
+    100: '100м',
+    300: '300м',
+    500: '500м',
+    1000: '1км',
+  }
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
+  }
+
+  animals: { [key: number]: string } = {
+    0: 'Без тварин',
+    1: 'З котячими',
+    2: 'З собачими',
+    3: 'З собачими/котячими',
+    4: 'Є багато різного',
+    5: 'Щось цікавіше',
   }
 
   onPageChange(event: PageEvent) {
@@ -85,10 +128,8 @@ export class SubscribersHouseComponent implements OnInit {
     this.offs = event.pageIndex * event.pageSize;
     this.getSubs(this.selectedFlatId, this.offs);
   }
-
-  selectedFlatId: string | any;
-  subscribers: Subscriber[] = [];
   selectedSubscriberId: string | null = null;
+  indexPage: number = 0;
 
 
   constructor(
@@ -96,7 +137,7 @@ export class SubscribersHouseComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
@@ -116,54 +157,14 @@ export class SubscribersHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      const newSubscribers: Subscriber[] = response
-        .filter(item => item !== null)
-        .map((item: any) => ({
-          user_id: item.user_id,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          surName: item.surName,
-          photo: item.img,
-          instagram: item.instagram,
-          telegram: item.telegram,
-          viber: item.viber,
-          facebook: item.facebook
-        }));
-
-      this.subscribers = newSubscribers;
+      this.subscribers = response;
     } catch (error) {
       console.error(error);
-    }
-
-    this.selectedFlatId = selectedFlatId;
-  }
-
-  approveSubscriber(subscriber: Subscriber): void {
-    const selectedFlat = this.selectedFlatId;
-    const userJson = localStorage.getItem('user');
-
-    if (userJson && subscriber) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        user_id: subscriber.user_id,
-      };
-
-      this.http.post('http://localhost:3000/subs/accept', data)
-        .subscribe(
-          (response: any) => {
-            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('user or subscriber not found');
     }
   }
 
   onSubscriberSelect(subscriber: Subscriber): void {
+    this.indexPage = 1;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
@@ -191,6 +192,30 @@ export class SubscribersHouseComponent implements OnInit {
     });
   }
 
+  approveSubscriber(subscriber: Subscriber): void {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+
+    if (userJson && subscriber) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: subscriber.user_id,
+      };
+
+      this.http.post('http://localhost:3000/subs/accept', data)
+        .subscribe(
+          (response: any) => {
+            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
 
 }
 

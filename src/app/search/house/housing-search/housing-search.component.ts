@@ -68,6 +68,8 @@ interface FlatInfo {
 })
 
 export class HousingSearchComponent implements OnInit {
+
+
   offs: number = 0;
   pageEvent: PageEvent = {
     length: 0,
@@ -275,39 +277,4 @@ export class HousingSearchComponent implements OnInit {
       console.log('user not found');
     }
   }
-
-  incrementOffset() {
-    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
-      this.pageEvent.pageIndex++;
-      const offs = (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize;
-      this.loadMore(offs);
-    }
-  }
-
-  decrementOffset() {
-    if (this.pageEvent.pageIndex > 0) {
-      this.pageEvent.pageIndex--;
-      const offs = (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize;
-      this.loadMore(offs);
-    }
-  }
-
-  loadMore(offs: number): void {
-    this.flatImages = [];
-    this.filteredFlats = [];
-    console.log(offs)
-    const url = `http://localhost:3000/search/flat?limit=${offs}`;
-    this.http.get<{ img: FlatInfo[] }>(url).subscribe((data) => {
-      const { img } = data;
-      console.log(data)
-      if (img) {
-        this.flatInfo = img;
-        console.log(this.flatInfo)
-        this.filteredFlats = [...img];
-      } else {
-        this.filteredFlats = [];
-      }
-    });
-  }
-
 }

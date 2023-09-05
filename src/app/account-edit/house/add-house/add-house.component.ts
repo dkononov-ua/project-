@@ -80,8 +80,9 @@ export class AddHouseComponent implements OnInit {
             })
             .subscribe(
               (response: any) => {
-                localStorage.removeItem('selectedFlatId');
                 this.selectedFlatService.clearSelectedFlatId();
+                localStorage.removeItem('house');
+                localStorage.removeItem('selectedFlatId');
               },
               (error: any) => {
                 console.error(error);

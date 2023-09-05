@@ -6,6 +6,7 @@ import { cities } from '../../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 
 interface SearchParams {
   [key: string]: any;
@@ -18,6 +19,14 @@ interface SearchParams {
 })
 
 export class SearchTermComponent implements OnInit {
+
+  offs: number = 0;
+  pageEvent: PageEvent = {
+    length: 0,
+    pageSize: 5,
+    pageIndex: 0
+  };
+
   public showInput = false;
   public userId: string | undefined;
 
@@ -59,6 +68,7 @@ export class SearchTermComponent implements OnInit {
   flatInfo: any[] | undefined;
   selectedRepair_status: any;
   searchParamsArr: string[] = [];
+
   searchSuggestions: string[] = [];
   endpoint = 'http://localhost:3000/search/flat';
   filteredFlats?: any;
@@ -127,13 +137,7 @@ export class SearchTermComponent implements OnInit {
     }, 1000);
   }
 
-  async fetchFlatData(url: string) {
-    const response : any = await this.http.get(url).toPromise();
-    console.log(response)
-    this.optionsFound = response.count;
-    this.filteredFlats = response.img;
-    this.applyFilter(this.filteredFlats, this.optionsFound);
-  }
+
 
   onSubmit() {
     this.filteredCities = this.selectedCity ? this.cities.filter(city => city.name.toLowerCase().includes(this.selectedCity.toLowerCase())) : this.cities;
@@ -200,11 +204,59 @@ export class SearchTermComponent implements OnInit {
     return `${endpoint}?${paramsString}`;
   }
 
+
+
+  toggleSearchTerm() {
+    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  }
+
+
+  // передача даних пошуку до сервісу а потім виведення карток на сторінку
   applyFilter(filteredFlats: any, optionsFound: number) {
     this.filterService.updateFilter(filteredFlats, optionsFound);
   }
 
-  toggleSearchTerm() {
-    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  async fetchFlatData(url: string) {
+    const response : any = await this.http.get(url).toPromise();
+    console.log(response)
+    this.optionsFound = response.count;
+    this.filteredFlats = response.img;
+    this.applyFilter(this.filteredFlats, this.optionsFound);
+  }
+
+
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.loadMore(offs);
+    }
+  }
+
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.loadMore(offs);
+    }
+  }
+
+  loadMore(offs: number): void {
+    this.flatImages = [];
+    this.filteredFlats = [];
+    console.log(offs)
+    const url = `http://localhost:3000/search/flat?limit=${offs}`;
+    this.http.get<{ img: [] }>(url).subscribe((data) => {
+      const { img } = data;
+      console.log(data)
+      if (img) {
+        this.flatInfo = img;
+        console.log(this.flatInfo)
+        this.filteredFlats = [...img];
+        this.fetchFlatData(url);
+      } else {
+        this.filteredFlats = [];
+      }
+    });
   }
 }

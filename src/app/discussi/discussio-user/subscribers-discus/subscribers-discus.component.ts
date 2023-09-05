@@ -251,7 +251,7 @@ export class SubscribersDiscusComponent implements OnInit {
 
     this.http.post(url, data).subscribe((response: any) => {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-
+      console.log(selectedFlat)
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
         this.getOwnerInfo();
@@ -332,13 +332,13 @@ export class SubscribersDiscusComponent implements OnInit {
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
       const newSubscriptions: ApprovedSubscription[] = response.map((flat: any) => {
-        if(flat.flat_id){
+        if (flat.flat_id) {
           return {
             flat_id: flat.flat.flat_id,
             flatImg: flat.img,
             price_m: flat.flat.price_m,
           };
-        }else{
+        } else {
           return {
             flat_id: flat.flat.flat_id,
             flatImg: flat.img,

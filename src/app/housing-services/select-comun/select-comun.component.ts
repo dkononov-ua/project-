@@ -62,6 +62,13 @@ export class SelectComunComponent implements OnInit {
       this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe(
           (response: any) => {
+            console.log(response.comunal[0].iban)
+            if(response.comunal[0].iban === undefined){
+              console.log(false)
+            }else{
+              console.log(true)
+            }
+
             this.comunal_name = response.comunal;
           },
           (error: any) => {

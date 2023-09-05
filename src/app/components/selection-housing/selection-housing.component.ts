@@ -139,6 +139,7 @@ export class SelectionHousingComponent implements OnInit {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
+            console.log(response)
             this.rentedHouses = response.citizen_ids
               .map((item: { flat_id: any }, index: number) => ({
                 id: index + 1,
