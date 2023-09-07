@@ -3,6 +3,7 @@
 a {
   padding: 0;
   margin: 0;
+  text-transform: none;
 }
 
 img {
@@ -18,6 +19,7 @@ img {
 }
 
 .card-mini.selected {
+  width: 95%;
   transition: 1s;
   color: white;
   background-color: $color-dark;
@@ -99,16 +101,28 @@ img {
   font-size: 16px;
   font-weight: 600;
 }
+
 .card-wrapper {
+  max-height: 60vh;
+  overflow: auto;
+  padding: 0 0 0 15px;
+}
+
+.card-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.card-mini {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 95%;
-  height: 150px;
+  width: 90%;
+  height: 130px;
   overflow: hidden;
   transition: all 0.3s ease;
   border-radius: 10px;
   border: none;
+  justify-content: space-between;
+  align-items: center;
   box-shadow:
     0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
@@ -118,14 +132,15 @@ img {
     transform: scale(1.05);
   }
 }
-.card-mini {
-  width: 90%;
-  height: 130px;
+
+.card-mini-body {
+  position: absolute;
+  right: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+  flex-direction: column;
+  align-items: flex-end;
 }
+
 .card-img-container {
   position: relative;
   width: 40%;
@@ -152,11 +167,18 @@ img {
 .card {
   justify-content: flex-start;
 }
+
 .card-animation {
   position: absolute;
   width: 100%;
   height: 100%;
+  overflow: auto;
 }
+
+.card-animation::-webkit-scrollbar {
+  display: none;
+}
+
 .img-container {
   border-radius: 10px;
   height: 300px;
@@ -190,16 +212,21 @@ img {
   margin: 0 15px;
 }
 .item-characteristics {
+  display: flex;
+  height: 30px;
   margin: 2px;
   padding: 2px 5px;
-
   border-radius: 10px;
-  background-color: $color-primary;
-
+  background-color: #cbcdcd;
   font-size: 12px;
   font-weight: 400;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
+
 .item {
+  display: flex;
   margin: 2px;
   padding: 5px;
 
@@ -218,14 +245,14 @@ img {
 
 .title-group {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-
-  margin: 2px;
-  padding: 2px 10px;
-
-  border: 1px solid rgba(1, 19, 12, 0.2);
+  border: 1px solid $color-primary;
   border-radius: 10px;
+  padding: 5px;
+  margin: 5px 0px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  color: $color-text;
   box-shadow:
     5px 2px 2px rgba(0, 0, 0, 0.25),
     2px 1px 2px rgba(0, 0, 0, 0.22);
@@ -287,7 +314,7 @@ img {
   margin: 0 5px;
   position: absolute;
   right: 0;
-  top: -20px;
+  top: 0px;
 }
 
 .btn-container:hover .info-menu {
@@ -367,7 +394,6 @@ img {
   align-items: center;
 }
 
-
 .title-1 {
   font-size: 28px;
 }
@@ -382,5 +408,104 @@ img {
   min-height: 65vh;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+}
+
+.user-group {
+  min-width: 40%;
+  display: flex;
+  height: 100%;
+  z-index: 10;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+  align-items: flex-end;
+}
+
+.user-group-name {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.user-sup-name {
+  font-size: 12px;
+}
+
+.user-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.card-btn {
+  display: flex;
+  border: 1px solid $color-primary;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px 0px;
+  justify-content: space-between;
+  font-size: 18px;
+  color: $color-text;
+  box-shadow:
+    5px 2px 2px rgba(0, 0, 0, 0.25),
+    2px 1px 2px rgba(0, 0, 0, 0.22);
+
+  &:hover {
+    background-color: $color-accent;
+    transition: 0.4s;
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+    span {
+      padding: 0 10px;
+      transition: 0.4s;
+    }
+
+    .fa-solid,
+    .fa-regular {
+      transition: 0.4s;
+    }
+  }
+}
+
+.fab {
+  font-size: 20px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.accent-bg {
+  background-color: $color-accent;
+}
+
+.img-container {
+  display: flex;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.img-wrapper {
+  position: absolute;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
   overflow: hidden;
 }

@@ -89,12 +89,18 @@ export class ComunCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSelectParam();
-    this.loading = false;
+    if (this.selectedFlatId) {
+      this.getSelectParam();
+      this.loading = false;
       if (this.selectedFlatId !== null && this.selectedComun !== null && this.selectedComun !== null) {
         this.getDefaultData();
       }
-    };
+    }
+    else (!this.selectedFlatId); {
+      this.loading = false;
+      console.log('Оберіть оселю')
+    }
+  };
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {

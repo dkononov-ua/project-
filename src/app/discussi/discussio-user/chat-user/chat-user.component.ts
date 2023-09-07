@@ -77,10 +77,10 @@ export class ChatUserComponent implements OnInit {
         this.infoPublic = this.infoPublic.filter((item) => item.flat_id === selectedFlat);
         return this.infoPublic;
       } else {
-        console.error('Invalid response format');
+        console.log('чат не знайдено');
       }
     } else {
-      console.log('user or subscriber not found');
+      console.log('відсутня інформація користувача');
     }
   }
 
@@ -114,6 +114,7 @@ export class ChatUserComponent implements OnInit {
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
               });
+              console.log(this.allMessages)
               this.getNewMessages(selectedFlat);
             } else {
               this.allMessages = [];

@@ -47,7 +47,6 @@ export class SelectComunComponent implements OnInit {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
     });
-
     this.getComunalName()
   }
 
@@ -58,24 +57,34 @@ export class SelectComunComponent implements OnInit {
   getComunalName(): void {
     const userJson = localStorage.getItem('user');
 
-    if (userJson) {
-      this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe(
-          (response: any) => {
-            console.log(response.comunal[0].iban)
-            if(response.comunal[0].iban === undefined){
-              console.log(false)
-            }else{
-              console.log(true)
-            }
-
-            this.comunal_name = response.comunal;
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
+    if (!userJson) {
+      console.error('LocalStorage не містить дані користувача');
+      return;
     }
+    const requestData = {
+      auth: JSON.parse(userJson),
+      flat_id: this.selectedFlatId,
+    };
+    this.http.post('http://localhost:3000/comunal/get/button', requestData)
+      .subscribe(
+        (response: any) => {
+          if (response.comunal === false) {
+            console.log('Немає послуг');
+            return;
+          }
+          const firstComunal = response.comunal[0];
+          if (firstComunal && firstComunal.iban !== undefined) {
+            console.log(true);
+            this.comunal_name = response.comunal;
+          } else {
+            console.log(false);
+          }
+        },
+        (error: any) => {
+          console.error('Помилка при отриманні даних: ', error);
+        }
+      );
   }
+
 }
 

@@ -24,7 +24,7 @@ interface UserInfo {
   distance_parking: number;
   option_pay: number | undefined;
   day_counts: string | undefined;
-  purpose_rent: string | undefined;
+  purpose_rent: any;
   house: boolean | undefined;
   flat: boolean | undefined;
   room: boolean | undefined;
@@ -117,9 +117,8 @@ export class InfoComponent implements OnInit {
     0: 'Переїзд',
     1: 'Відряджання',
     2: 'Подорож',
-    3: 'Пожити в іншому місті',
-    4: 'Навчання',
-    5: 'Особисті причини',
+    3: 'Навчання',
+    4: 'Особисті причини',
   }
 
   aboutDistance: { [key: number]: string } = {
@@ -190,6 +189,8 @@ export class InfoComponent implements OnInit {
     if (userJson !== null) {
       this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
+          console.log(this.userInfo)
+
           this.userInfo = response.inf;
         }, (error: any) => {
           console.error(error);

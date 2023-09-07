@@ -13,12 +13,6 @@ interface SelectedFlat {
   img: any;
 }
 
-interface ApprovedSubscription {
-  flat_id: string;
-  flatImg: any;
-  price_m: number;
-}
-
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -92,7 +86,7 @@ export class SubscribersDiscusComponent implements OnInit {
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
-    5: 'На території будинку',
+    1: 'На території будинку',
     100: '100м',
     300: '300м',
     500: '500м',
@@ -106,6 +100,13 @@ export class SubscribersDiscusComponent implements OnInit {
     3: 'Пожити в іншому місті',
     4: 'Навчання',
     5: 'Особисті причини',
+  }
+
+  animalsKey: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'Без тварин',
+    2: 'За попередньою домовленістю',
+    3: 'Можна з тваринами',
   }
 
   option_pay: { [key: number]: string } = {
@@ -130,6 +131,13 @@ export class SubscribersDiscusComponent implements OnInit {
   currentPhotoIndex: number = 0;
   deletingFlatId: any;
 
+  chatExists = false;
+  statusMessageChat: any;
+
+  public locationLink: string = '';
+
+
+
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
@@ -137,7 +145,7 @@ export class SubscribersDiscusComponent implements OnInit {
     }, 500);
   }
 
-  subscriptions: ApprovedSubscription[] = [];
+  subscriptions: any[] = [];
 
   constructor(
     private dataService: DataService,
@@ -168,7 +176,6 @@ export class SubscribersDiscusComponent implements OnInit {
       if (storedFlatId) {
         this.selectedFlatId = storedFlatId;
         this.getFlatDetails(this.selectedFlatId);
-
       }
     }
     this.getOwnerInfo();
@@ -254,17 +261,10 @@ export class SubscribersDiscusComponent implements OnInit {
       console.log(selectedFlat)
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
+        this.generateLocationUrl();
         this.getOwnerInfo();
       }
     });
-  }
-
-  getSelectedFlatInfo(): string {
-    if (this.selectedSubscription && this.selectedSubscription.flat) {
-      return `Оселя: ${this.selectedSubscription.flat.flat_id}, Країна: ${this.selectedSubscription.flat.country}, Місто: ${this.selectedSubscription.flat.city}`;
-    } else {
-      return 'Інформація про обрану оселю відсутня.';
-    }
   }
 
   copyFlatId() {
@@ -273,15 +273,29 @@ export class SubscribersDiscusComponent implements OnInit {
     if (flatId) {
       navigator.clipboard.writeText(flatId)
         .then(() => {
-          console.log('ID оселі скопійовано!');
           this.isCopied = true;
-
           setTimeout(() => {
             this.isCopied = false;
           }, 2000);
         })
         .catch((error) => {
-          console.log('Помилка при копіюванні ID оселі.');
+          this.isCopied = false;
+        });
+    }
+  }
+
+  copyTell() {
+    const tell = this.selectedFlat?.owner.tell;
+
+    if (tell) {
+      navigator.clipboard.writeText(tell)
+        .then(() => {
+          this.isCopied = true;
+          setTimeout(() => {
+            this.isCopied = false;
+          }, 2000);
+        })
+        .catch((error) => {
           this.isCopied = false;
         });
     }
@@ -319,6 +333,33 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
+  async checkChatExistence (): Promise<any> {
+    const url = 'http://localhost:3000/chat/get/userchats';
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        offs: 0
+      };
+      try {
+        const response = await this.http.post(url, data).toPromise() as any;
+        if (this.selectedFlatId && Array.isArray(response.status)) {
+          const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === this.selectedFlatId);
+          this.chatExists = chatExists;
+          console.log(this.chatExists)
+        }
+        else {
+          console.log('чат не існує');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log('user not found');
+    }
+  }
+
   async getSubscribedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
@@ -331,23 +372,29 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      const newSubscriptions: ApprovedSubscription[] = response.map((flat: any) => {
+      console.log(response)
+      const newSubscriptions: any[] = response.map((flat: any) => {
         if (flat.flat_id) {
           return {
             flat_id: flat.flat.flat_id,
             flatImg: flat.img,
             price_m: flat.flat.price_m,
+            region: flat.flat.region,
+            city: flat.flat.city,
           };
         } else {
           return {
             flat_id: flat.flat.flat_id,
             flatImg: flat.img,
             price_m: flat.flat.price_m,
+            region: flat.flat.region,
+            city: flat.flat.city,
           }
         }
       });
 
       this.subscriptions = newSubscriptions;
+      console.log(this.subscriptions)
       if (newSubscriptions.length > 0) {
         this.selectFlatId(newSubscriptions[0].flat_id);
       }
@@ -359,6 +406,7 @@ export class SubscribersDiscusComponent implements OnInit {
   selectFlatId(flatId: string) {
     this.choseSubscribeService.chosenFlatId = flatId;
     this.selectedFlatId = flatId;
+    this.checkChatExistence();
   }
 
   private restoreSelectedFlatId() {
@@ -398,6 +446,23 @@ export class SubscribersDiscusComponent implements OnInit {
         }
       }
     });
+  }
+
+  generateLocationUrl() {
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.selectedFlat?.flat.region || '';
+    const city = this.selectedFlat?.flat.city || '';
+    const street = this.selectedFlat?.flat.street || '';
+    const houseNumber = this.selectedFlat?.flat.houseNumber || '';
+    const flatIndex = this.selectedFlat?.flat.flat_index || '';
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+    return this.locationLink;
   }
 }
 

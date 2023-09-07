@@ -1,6 +1,7 @@
 <div class="switch-box mb-1">
   <button class="btn-1" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">Опис меню</button>
-  <button [disabled]="!selectedUser" class="btn-1" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">Підписник</button>
+  <button [disabled]="!selectedUser" class="btn-1" [ngClass]="{ 'active': indexPage == 1}"
+    (click)="indexPage = 1">Підписник</button>
   <!-- <button class="btn-1" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">Інформація</button> -->
 </div>
 
@@ -48,40 +49,50 @@
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12 p-2 ">
 
     <div [@cardAnimation2] class="card col-12 card-animation" *ngIf="selectedUser && indexPage == 1">
-      <div class="img-wrapper">
-        <img class="img-fluid rounded"
-          [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+
+      <div class="img-container">
+        <div class="img-wrapper">
+          <img class="img-fluid rounded"
+            [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+        </div>
+
+        <div class="user-group p-1">
+
+          <div class="social-link-box">
+            <a target="_blank" *ngIf="selectedUser?.instagram" href="{{ selectedUser.instagram }}"><i
+                class="fab fa-brands fa-instagram"></i></a>
+            <a target="_blank" *ngIf="selectedUser?.telegram" href="{{ selectedUser.telegram }}"><i
+                class="fab fa-brands fa-telegram"></i></a>
+            <a target="_blank" *ngIf="selectedUser?.facebook" href="{{ selectedUser.facebook }}"><i
+                class="fab fa-brands fa-facebook"></i></a>
+          </div>
+
+          <div class="user-group-name">
+            <div class="user-sup-name">Прізвище : </div>
+            <div class="user-name">{{ selectedUser?.lastName || '?' }}</div>
+          </div>
+
+          <div class="user-group-name">
+            <div class="user-sup-name">Ім'я : </div>
+            <div class="user-name">{{ selectedUser?.firstName || '?' }}</div>
+          </div>
+
+          <div class="user-group-name">
+            <div class="user-sup-name">По батькові : </div>
+            <div class="user-name">{{ selectedUser?.surName || '?' }}</div>
+          </div>
+
+        </div>
       </div>
 
-      <div class="card-social-link">
-        <a target="_blank" *ngIf="selectedUser?.instagram" href="{{ selectedUser.instagram }}"><i
-            class="fab fa-brands fa-instagram"></i></a>
-        <a target="_blank" *ngIf="selectedUser?.telegram" href="{{ selectedUser.telegram }}"><i
-            class="fab fa-brands fa-telegram"></i></a>
-        <a target="_blank" *ngIf="selectedUser?.facebook" href="{{ selectedUser.facebook }}"><i
-            class="fab fa-brands fa-facebook"></i></a>
-      </div>
+      <div class="card-body p-2">
 
-      <div class="p-2">
+        <p>ДИСКУСІЯ - дозволяє ухвалити користувача для подальшого діалогу між вами в меню ДИСКУСІЯ. Він отримає доступ
+          до детальної інформації про оселю.</p>
 
         <div class="title-group-card">
           <div class="title-selected">User ID: </div>
           <div class="title-selected-accent">{{ selectedUser?.user_id || '?' }}</div>
-        </div>
-
-        <div class="title-group-card">
-          <div class="title-selected">Прізвище : </div>
-          <div class="title-selected-accent">{{ selectedUser?.lastName || '?' }}</div>
-        </div>
-
-        <div class="title-group-card">
-          <div class="title-selected">Ім'я : </div>
-          <div class="title-selected-accent">{{ selectedUser?.firstName || '?' }}</div>
-        </div>
-
-        <div class="title-group-card" *ngIf="selectedUser?.surName">
-          <div class="title-selected">По батькові : </div>
-          <div class="title-selected-accent">{{ selectedUser?.surName || '?' }}</div>
         </div>
 
         <div class="title-group-card" *ngIf="selectedUser?.option_pay">
@@ -99,6 +110,18 @@
           <div class="title-selected">Мета оренди : </div>
           <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
         </div>
+
+        <button class="card-btn" (click)="approveSubscriber(selectedUser)"><span>Дискусія</span>
+          <i class="fa-regular fa-comments"></i>
+        </button>
+
+        <button class="card-btn" (click)="openDialog(selectedUser?.user_id)"><span>Видалити</span>
+          <i class="fa-solid fa-user-xmark"></i>
+        </button>
+
+
+
+
 
       </div>
     </div>

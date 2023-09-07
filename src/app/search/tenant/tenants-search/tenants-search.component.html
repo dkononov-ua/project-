@@ -57,8 +57,9 @@
   </div>
 
   <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
+
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-house p-1">
+      <div [@cardAnimation] class="card-house m-2">
 
         <div class="card card-selected">
 
@@ -118,10 +119,12 @@
             <div class="title-group">
               <div class="title-selected">Кіл. кімнат:</div>
               <div class="title-selected-accent">
-                <span class="title-selected-accent" *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
+                <span class="title-selected-accent"
+                  *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">
                   від {{ selectedUser?.rooms_of}}
                 </span>
-                <span class="title-selected-accent" *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">
+                <span class="title-selected-accent"
+                  *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">
                   до {{ selectedUser?.rooms_to}}
                 </span>
               </div>
@@ -151,8 +154,8 @@
     </div>
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-container-house p-1">
-        <div class="card card-selected p-2" *ngIf="selectedUser">
+      <div [@cardAnimation] class="card-house m-2" *ngIf="selectedUser">
+        <div class="card card-selected p-2">
 
           <div class="container-sticker">
             <div class="status-container">
@@ -281,7 +284,7 @@
 
         </div>
 
-        <div class="card card-selected card-logo p-2" *ngIf="!selectedUser">
+        <div class="card card-logo m-2" *ngIf="!selectedUser">
           <div class="img-wrapper">
             <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
           </div>
@@ -294,7 +297,6 @@
           </div>
 
         </div>
-
       </div>
     </div>
 

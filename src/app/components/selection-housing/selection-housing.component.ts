@@ -17,7 +17,7 @@ export class SelectionHousingComponent implements OnInit {
   };
 
   public selectedFlatId: any | null;
-  houses: { id: number, name: string }[] = [];
+  houses: { id: number, name: string, flat_name: string }[] = [];
   rentedHouses: { id: number; name: string; }[] = [];
 
   addressHouse: FormGroup | undefined;
@@ -100,8 +100,10 @@ export class SelectionHousingComponent implements OnInit {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
-            this.houses = response.ids.map((item: { flat_id: any }, index: number) => ({
+            console.log(response)
+            this.houses = response.ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
               id: index + 1,
+              flat_name: item.flat_name,
               name: item.flat_id,
             }));
 

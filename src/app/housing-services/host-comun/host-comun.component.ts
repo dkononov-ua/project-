@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-host-comun',
   templateUrl: './host-comun.component.html',
@@ -31,6 +32,7 @@ export class HostComunComponent implements OnInit {
   showInput = false;
   selectedComun: any;
   selectedFlatId!: string | null;
+  selectedFlat!: string | null;
   comunal_name!: string | any;
   customComunal: string = '';
 
@@ -39,9 +41,16 @@ export class HostComunComponent implements OnInit {
     private dialog: MatDialog,
     private changeComunService: ChangeComunService,
     private selectedFlatService: SelectedFlatService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    console.log(11111111111)
+    this.route.params.subscribe(async params => {
+      this.selectedFlat = params['selectedFlatAgree'] || null;
+      console.log(this.selectedFlat)
+    });
+
     this.getSelectParam()
   }
 

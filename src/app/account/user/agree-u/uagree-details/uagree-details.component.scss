@@ -161,6 +161,16 @@ li {
   opacity: 0;
 }
 
+img {
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  transition: transform 1s;
+  object-fit: cover;
+  transition: transform 1s;
+}
+
 @keyframes typing {
   0% {
     opacity: 0;

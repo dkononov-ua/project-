@@ -12,8 +12,8 @@
       <div class="title-box m-2">
         <div class="title-group w-70">
           <div class="title">Угода оренди нерухомого майна</div>
-          <div>Місце укладання угоди:<span class="accent">{{ selectedAgreement?.flat?.city }}</span></div>
-          <div>Дата:<span class="accent">{{selectedAgreement?.flat?.agreementDate | date}}</span></div>
+          <div>Місце укладання угоди:<span class="accent">{{ agreeInfo?.flat?.city }}</span></div>
+          <div>Дата:<span class="accent">{{agreeInfo?.flat?.agreementDate | date}}</span></div>
         </div>
         <div class="title-group w-30">
           <div class="box">
@@ -27,26 +27,26 @@
           <div class="agree-wrapper">
             <div class="item-description">Сторона орендодавця</div>
             <div class="item-description accent"><span class="item-description">П.І.Б: </span>
-              {{ selectedAgreement?.flat?.owner_lastName }}{{ selectedAgreement?.flat?.owner_firstName }}
-              {{ selectedAgreement?.flat?.owner_surName }}</div>
+              {{ agreeInfo?.flat?.owner_lastName }}{{ agreeInfo?.flat?.owner_firstName }}
+              {{ agreeInfo?.flat?.owner_surName }}</div>
             <div class="item-description accent"><span class="item-description">User ID: </span>
-              {{ selectedAgreement?.flat?.owner_id }}</div>
+              {{ agreeInfo?.flat?.owner_id }}</div>
             <div class="item-description accent"><span class="item-description">Телефон:</span>
-              {{ selectedAgreement?.flat?.owner_tell }}</div>
+              {{ agreeInfo?.flat?.owner_tell }}</div>
             <div class="item-description accent"><span class="item-description">Email:</span>
-              {{ selectedAgreement?.flat?.owner_email }}</div>
+              {{ agreeInfo?.flat?.owner_email }}</div>
           </div>
           <div class="agree-wrapper">
             <div class="item-description">Сторона орендара</div>
             <div class="item-description accent"><span class="item-description">П.І.Б:</span>
-              {{selectedAgreement?.flat?.subscriber_lastName }}{{selectedAgreement?.flat?.subscriber_firstName }}
-              {{selectedAgreement?.flat?.subscriber_surName}}</div>
+              {{agreeInfo?.flat?.subscriber_lastName }}{{agreeInfo?.flat?.subscriber_firstName }}
+              {{agreeInfo?.flat?.subscriber_surName}}</div>
             <div class="item-description accent"><span class="item-description">User ID:</span>
-              {{selectedAgreement?.flat?.subscriber_id }}</div>
+              {{agreeInfo?.flat?.subscriber_id }}</div>
             <div class="item-description accent"><span class="item-description">Телефон:</span>
-              {{selectedAgreement?.flat?.subscriber_tell }}</div>
+              {{agreeInfo?.flat?.subscriber_tell }}</div>
             <div class="item-description accent"><span class="item-description">Email:</span>
-              {{selectedAgreement?.flat?.subscriber_email }} </div>
+              {{agreeInfo?.flat?.subscriber_email }} </div>
           </div>
         </div>
 
@@ -60,29 +60,29 @@
           <li>1.1. Предметом цієї угоди є тимчасова здача в найм (оренду) на оплатній основі, Орендарю житлового
             приміщення (на правах власності/знаходиться в розпорядженні) У вигляді
             <span class="accent"
-              *ngIf="selectedAgreement?.flat?.option_flat == 1 && selectedAgreement?.flat?.room == 0">будинку</span>
+              *ngIf="agreeInfo?.flat?.option_flat == 1 && agreeInfo?.flat?.room == 0">будинку</span>
             <span class="accent"
-              *ngIf="selectedAgreement?.flat?.option_flat == 2 && selectedAgreement?.flat?.room == 0">квартири</span>
+              *ngIf="agreeInfo?.flat?.option_flat == 2 && agreeInfo?.flat?.room == 0">квартири</span>
             <span class="accent"
-              *ngIf="selectedAgreement?.flat?.room == 1 && selectedAgreement?.flat?.option_flat == 1">кімнати в
+              *ngIf="agreeInfo?.flat?.room == 1 && agreeInfo?.flat?.option_flat == 1">кімнати в
               будинку</span>
             <span class="accent"
-              *ngIf="selectedAgreement?.flat?.room == 1 && selectedAgreement?.flat?.option_flat == 2">кімнати в
+              *ngIf="agreeInfo?.flat?.room == 1 && agreeInfo?.flat?.option_flat == 2">кімнати в
               квартирі</span>
-            <span *ngIf="!selectedAgreement?.flat?.option_flat">___________________________</span>
+            <span *ngIf="!agreeInfo?.flat?.option_flat">___________________________</span>
             площею:
-            <span class="accent">{{selectedAgreement?.flat?.area}} м²</span>,
-            <span *ngIf="!selectedAgreement?.flat?.area">________________,</span>
+            <span class="accent">{{agreeInfo?.flat?.area}} м²</span>,
+            <span *ngIf="!agreeInfo?.flat?.area">________________,</span>
             поверх:
-            <span class="accent">{{selectedAgreement?.flat?.floor}}</span> <br>
+            <span class="accent">{{agreeInfo?.flat?.floor}}</span> <br>
             знаходиться за адресою:
-            <span class="accent"> вулиця {{ selectedAgreement?.flat?.street }},
-              будинок {{ selectedAgreement?.flat?.houseNumber }}, квартира {{ selectedAgreement?.flat?.apartment
+            <span class="accent"> вулиця {{ agreeInfo?.flat?.street }},
+              будинок {{ agreeInfo?.flat?.houseNumber }}, квартира {{ agreeInfo?.flat?.apartment
               }}</span>.
           <li>1.2. Право власності (розпорядження) Орендодавця на вказаний Об'єкт нерухомості підтверджується:
-            <span class="accent" *ngIf="selectedAgreement?.flat?.ownership">{{ selectedAgreement?.flat?.ownership
+            <span class="accent" *ngIf="agreeInfo?.flat?.ownership">{{ agreeInfo?.flat?.ownership
               }}</span>
-            <span *ngIf="!selectedAgreement?.flat?.ownership">_______________________________________</span>
+            <span *ngIf="!agreeInfo?.flat?.ownership">_______________________________________</span>
           </li>
           <li>1.3. Орендодавець підтверджує, що даний Об'єкт нерухомості нікому раніше не проданий, не подарований, не
             закладений, в спорі і під арештом не перебуває, і претензій з боку третіх осіб до нього не має. За надання
@@ -92,11 +92,11 @@
         <ul>2. Права та обов’язки Сторін
           <li>2.1. Права та обов'язки Орендодавця відповідно до умов цього угоди:</li>
           <li>2.1.1. Передати Орендарю Об'єкт нерухомості протягом
-            <span class="accent" *ngIf="selectedAgreement?.flat?.transferHouse! >1"> {{
-              selectedAgreement?.flat?.transferHouse }} днів</span>
-            <span class="accent" *ngIf="selectedAgreement?.flat?.transferHouse === 1"> {{
-              selectedAgreement?.flat?.transferHouse }} дня</span>
-            <span *ngIf="!selectedAgreement?.flat?.transferHouse">________________днів </span> з моменту підписання
+            <span class="accent" *ngIf="agreeInfo?.flat?.transferHouse! >1"> {{
+              agreeInfo?.flat?.transferHouse }} днів</span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.transferHouse === 1"> {{
+              agreeInfo?.flat?.transferHouse }} дня</span>
+            <span *ngIf="!agreeInfo?.flat?.transferHouse">________________днів </span> з моменту підписання
             цього
             угоди відповідно до Акту прийому-передачі житлового приміщення (Додаток №1 до угоди).
           </li>
@@ -119,38 +119,38 @@
           </li>
           <li>2.2.6. Звільнити і здати Орендодавцю Об'єкт нерухомості в належному стані з урахуванням нормального
             фізичного зносу протягом
-            <span class="accent" *ngIf="selectedAgreement?.flat?.vacateHouse == 1"> {{
-              selectedAgreement?.flat?.vacateHouse }} дня</span>
-            <span class="accent" *ngIf="selectedAgreement?.flat?.vacateHouse > 1"> {{
-              selectedAgreement?.flat?.vacateHouse }} днів</span>
-            <span *ngIf="!selectedAgreement?.flat?.vacateHouse">________________ днів </span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.vacateHouse == 1"> {{
+              agreeInfo?.flat?.vacateHouse }} дня</span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.vacateHouse > 1"> {{
+              agreeInfo?.flat?.vacateHouse }} днів</span>
+            <span *ngIf="!agreeInfo?.flat?.vacateHouse">________________ днів </span>
             з моменту закінчення терміну дії (розірвання) цього угоди
             згідно з Актом здачі житлового приміщення.
           </li>
         </ul>
         <ul>3.Орендна плата
           <li> 3.1. Орендна плата за використання квартири та майна становить:
-            <span class="accent" *ngIf="selectedAgreement?.flat?.option_pay == 0">{{selectedAgreement?.flat?.price_m}}
+            <span class="accent" *ngIf="agreeInfo?.flat?.option_pay == 0">{{agreeInfo?.flat?.price_m}}
               на
               місяць.</span>
-            <span class="accent" *ngIf="selectedAgreement?.flat?.option_pay == 1">{{selectedAgreement?.flat?.price_d}}
+            <span class="accent" *ngIf="agreeInfo?.flat?.option_pay == 1">{{agreeInfo?.flat?.price_d}}
               за
               добу.</span>
           </li>
           <li>3.2. Орендна плата вноситься не пізніше
-            <span class="accent" *ngIf="selectedAgreement?.flat?.rent_due_data">
-              {{ selectedAgreement?.flat?.rent_due_data }} числа</span>
-            <span *ngIf="!selectedAgreement?.flat?.rent_due_data"> _______ числа</span> кожного місяця
+            <span class="accent" *ngIf="agreeInfo?.flat?.rent_due_data">
+              {{ agreeInfo?.flat?.rent_due_data }} числа</span>
+            <span *ngIf="!agreeInfo?.flat?.rent_due_data"> _______ числа</span> кожного місяця
           </li>
           <li>3.3. Оплату за комунальні послуги: за електроенергію, газ, холодну, гарячу воду (за лічильниками),
             інтернет кабель, тв, телефон, опалення здійснює
-            <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun === 0"> Орендодавець </span>
-            <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun === 1"> Орендар </span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.whoPayComun === 0"> Орендодавець </span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.whoPayComun === 1"> Орендар </span>
           </li>
           <li>3.4. Оплата заставної суми
-            <span class="accent" *ngIf="selectedAgreement?.flat?.depositPayment"> {{
-              selectedAgreement?.flat?.depositPayment }} грн </span>
-            <span *ngIf="!selectedAgreement?.flat?.depositPayment">______________________________________________</span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.depositPayment"> {{
+              agreeInfo?.flat?.depositPayment }} грн </span>
+            <span *ngIf="!agreeInfo?.flat?.depositPayment">______________________________________________</span>
             яка вертається Орендодавцем після закінчення цього угоди
           </li>
         </ul>
@@ -158,12 +158,12 @@
         <ul>4. Термін дії, порядок продовження і розірвання угоди
           <li> 4.1. Термін дії цього угоди встановлений
             <span class="accent"
-              *ngIf="selectedAgreement?.flat?.dateAgreeStart && selectedAgreement?.flat?.dateAgreeEnd">
+              *ngIf="agreeInfo?.flat?.dateAgreeStart && agreeInfo?.flat?.dateAgreeEnd">
               з
-              {{ selectedAgreement?.flat?.dateAgreeStart | date}} по
-              {{ selectedAgreement?.flat?.dateAgreeEnd | date}}</span>
-            <span *ngIf="!selectedAgreement?.flat?.dateAgreeStart">з «____»____________________20____р.</span>
-            <span *ngIf="!selectedAgreement?.flat?.dateAgreeEnd">по «____»____________________20____р.</span>
+              {{ agreeInfo?.flat?.dateAgreeStart | date}} по
+              {{ agreeInfo?.flat?.dateAgreeEnd | date}}</span>
+            <span *ngIf="!agreeInfo?.flat?.dateAgreeStart">з «____»____________________20____р.</span>
+            <span *ngIf="!agreeInfo?.flat?.dateAgreeEnd">по «____»____________________20____р.</span>
           </li>
           <li> 4.2. Моментом фактичного використання Об'єкту нерухомості за угодою є підписання Сторонами Акту
             прийому-передачі житлового приміщення (Додаток №1 до угоди).
@@ -177,11 +177,11 @@
           </li>
           <li> 4.5. Дострокове розірвання даного угоди, а також зміна його умов, можливі за ініціативою однієї зі
             Сторін, з повідомленням про це іншої Сторони не менше ніж за
-            <span class="accent" *ngIf="selectedAgreement?.flat?.dateAgreeBreakUp == 1"> {{
-              selectedAgreement?.flat?.dateAgreeBreakUp }} день.</span>
-            <span class="accent" *ngIf="selectedAgreement?.flat?.dateAgreeBreakUp > 1"> {{
-              selectedAgreement?.flat?.dateAgreeBreakUp }} днів.</span>
-            <span *ngIf="!selectedAgreement?.flat?.dateAgreeBreakUp">
+            <span class="accent" *ngIf="agreeInfo?.flat?.dateAgreeBreakUp == 1"> {{
+              agreeInfo?.flat?.dateAgreeBreakUp }} день.</span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.dateAgreeBreakUp > 1"> {{
+              agreeInfo?.flat?.dateAgreeBreakUp }} днів.</span>
+            <span *ngIf="!agreeInfo?.flat?.dateAgreeBreakUp">
               ___________________________________________________(прописом – днів / міс.)
             </span>
           </li>
@@ -211,11 +211,11 @@
           <li> 6.1. Даним угодою встановлюється, що Орендодавець має право відвідувати Об'єкт нерухомості з метою
             технічного огляду, профілактики та обслуговування об'єкта нерухомості тільки в присутності Орендаря і не
             частіше
-            <span class="accent" *ngIf="selectedAgreement?.flat?.numberVisits == 1">
-              {{ selectedAgreement?.flat?.numberVisits}} разу на місяць.</span>
-            <span class="accent" *ngIf="selectedAgreement?.flat?.numberVisits  > 1">
-              {{ selectedAgreement?.flat?.numberVisits}} разів на місяць.</span>
-            <span *ngIf="!selectedAgreement?.flat?.numberVisits"> _____________________________раз на місяць.</span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.numberVisits == 1">
+              {{ agreeInfo?.flat?.numberVisits}} разу на місяць.</span>
+            <span class="accent" *ngIf="agreeInfo?.flat?.numberVisits  > 1">
+              {{ agreeInfo?.flat?.numberVisits}} разів на місяць.</span>
+            <span *ngIf="!agreeInfo?.flat?.numberVisits"> _____________________________раз на місяць.</span>
           </li>
           <li>6.2. Зазначені в п. 6.1 відвідування повинні проводитися з попередженням про це Орендаря, в узгоджений між
             Сторонами час.
@@ -228,10 +228,10 @@
           </li>
           <li>6.5. Майно, що передається Орендарю для оренди буде використовуватися ним у якості житлового приміщення
             для проживання перелічених осіб:
-            <span class="accent" *ngIf="selectedAgreement?.flat?.personsReside"> {{
-              selectedAgreement?.flat?.personsReside
+            <span class="accent" *ngIf="agreeInfo?.flat?.personsReside"> {{
+              agreeInfo?.flat?.personsReside
               }} </span>
-            <span *ngIf="!selectedAgreement?.flat?.personsReside">
+            <span *ngIf="!agreeInfo?.flat?.personsReside">
               ______________________________________________________________________________________________________________________________</span>
           </li>
           <li> 6.6. Ця Угода складена в двох примірниках, які мають однакову юридичну силу з відповідною кількістю
@@ -244,12 +244,12 @@
           </li>
         </ul>
       </div>
-      <div class="container-box" *ngIf="selectedAgreement?.flat?.about_agree">
+      <div class="container-box" *ngIf="agreeInfo?.flat?.about_agree">
         <ul>7. Додаткові умови від власника.
         </ul>
       </div>
-      <div class="container-box" *ngIf="selectedAgreement?.flat?.about_agree">
-        <span class="accent about">{{ selectedAgreement?.flat?.about_agree }}</span>
+      <div class="container-box" *ngIf="agreeInfo?.flat?.about_agree">
+        <span class="accent about">{{ agreeInfo?.flat?.about_agree }}</span>
       </div>
       <div class="container-box">
         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
@@ -268,8 +268,8 @@
               <p class="item-description">Проживає за адресою:</p>
             </div>
             <div class="input-box">
-              <div class="item-description w-75"> {{selectedAgreement?.flat?.owner_lastName}}
-                {{selectedAgreement?.flat?.owner_firstName}} {{selectedAgreement?.flat?.owner_surName}}</div>
+              <div class="item-description w-75"> {{agreeInfo?.flat?.owner_lastName}}
+                {{agreeInfo?.flat?.owner_firstName}} {{agreeInfo?.flat?.owner_surName}}</div>
               <div class="signature w-25">підпис</div>
             </div>
 
@@ -297,8 +297,8 @@
             </div>
 
             <div class="input-box">
-              <div class="item-description w-75"> {{selectedAgreement?.flat?.subscriber_lastName}}
-                {{selectedAgreement?.flat?.subscriber_firstName}} {{selectedAgreement?.flat?.subscriber_surName}}
+              <div class="item-description w-75"> {{agreeInfo?.flat?.subscriber_lastName}}
+                {{agreeInfo?.flat?.subscriber_firstName}} {{agreeInfo?.flat?.subscriber_surName}}
               </div>
               <div class="signature w-25">підпис</div>
             </div>
@@ -320,8 +320,8 @@
 
         <div class="btn-group mt-2">
           <button class="btn m-2" type="submit" [disabled]="!isCheckboxChecked"
-            (click)="agreeAgreement(selectedAgreement)">Так, з умовами погоджуюсь</button>
-          <button class="btn m-2" matTooltip="Видалити угоду" (click)="openDialog(this.selectedAgreement)">Ні, відхилити
+            (click)="agreeAgreement()">Так, з умовами погоджуюсь</button>
+          <button class="btn m-2" matTooltip="Видалити угоду" (click)="openDialog()">Ні, відхилити
             угоду.
           </button>
         </div>

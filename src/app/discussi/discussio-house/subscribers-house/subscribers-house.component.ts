@@ -95,9 +95,8 @@ export class SubscribersHouseComponent implements OnInit {
     0: 'Переїзд',
     1: 'Відряджання',
     2: 'Подорож',
-    3: 'Пожити в іншому місті',
-    4: 'Навчання',
-    5: 'Особисті причини',
+    3: 'Навчання',
+    4: 'Особисті причини',
   }
 
   aboutDistance: { [key: number]: string } = {
@@ -157,6 +156,7 @@ export class SubscribersHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);

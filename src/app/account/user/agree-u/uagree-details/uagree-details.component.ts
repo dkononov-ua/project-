@@ -56,7 +56,7 @@ export class UagreeDetailsComponent implements OnInit {
   selectedFlatAgree: any;
   statusMessage: string | undefined;
   deletingFlatId: string | null = null;
-  agreement: Agree[] = [];
+  agreeInfo: any ;
 
   constructor(
     private http: HttpClient,
@@ -71,7 +71,6 @@ export class UagreeDetailsComponent implements OnInit {
     });
 
     await this.getAgree();
-    this.onChange()
   }
 
   async getAgree(): Promise<void> {
@@ -85,37 +84,25 @@ export class UagreeDetailsComponent implements OnInit {
     };
 
     try {
-      const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      this.agree = response;
+      const response = (await this.http.post(url, data).toPromise()) as any;
+      this.agreeInfo = response[0];
     } catch (error) {
       console.error(error);
     }
   }
 
-  onChange(): void {
-    if (this.selectedFlatAgree) {
-      this.selectedAgreement = this.agree.find((agreement) => agreement.flat.flat_id === this.selectedFlatAgree);
-      this.selectedFlatId = this.selectedFlatAgree
-      if (this.selectedAgreement) {
-      }
-    } else {
-      console.log('Nothing selected');
-    }
-  }
-
-  agreeAgreement(a: any): void {
+  agreeAgreement(): void {
     this.loading = true;
-
-    const selectedFlatId = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
-    if (userJson && selectedFlatId) {
+    if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
-        agreement_id: this.selectedAgreement.flat.agreement_id,
-        flat_id: selectedFlatId,
-        user_id: this.selectedAgreement.flat.subscriber_id,
+        agreement_id: this.agreeInfo.flat.agreement_id,
+        flat_id: this.agreeInfo.flat.flat_id,
+        user_id: this.agreeInfo.flat.subscriber_id,
         i_agree: true,
       };
+      console.log(data)
 
       this.http.post('http://localhost:3000/agreement/accept/agreement', data)
         .subscribe(
@@ -144,37 +131,34 @@ export class UagreeDetailsComponent implements OnInit {
     }
   }
 
-  openDialog(agreement: any): void {
+  openDialog(): void {
     const dialogRef = this.dialog.open(UagreeDeleteComponent);
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        await this.removeAgreement(agreement);
+        await this.removeAgreement();
       }
     });
   }
 
-  async removeAgreement(agreement: any): Promise<void> {
-    this.selectedFlatId = agreement.flat.flat_id;
+  async removeAgreement(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/agreement/delete/yagreement';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
-      flat_id: agreement.flat.flat_id,
-      agreement_id: agreement.flat.agreement_id
+      flat_id: this.agreeInfo.flat.flat_id,
+      agreement_id: this.agreeInfo.flat.agreement_id
     };
 
     try {
       const response = await this.http.post(url, data).toPromise();
-      this.deletingFlatId = agreement.flat.flat_id;
+      this.deletingFlatId = this.agreeInfo.flat.flat_id;
       setTimeout(() => {
-        this.agreement = this.agreement.filter(item => item.flat.flat_id !== agreement.flat.flat_id);
         this.deletingFlatId = null;
         setTimeout(() => {
           this.router.navigate(['/user/uagree-review']);
         }, 400);
-
       }, 100);
     } catch (error) {
       console.error(error);

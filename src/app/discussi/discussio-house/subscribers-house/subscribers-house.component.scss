@@ -334,3 +334,107 @@ mat-paginator {
   flex-wrap: wrap;
   flex-direction: row;
 }
+
+
+.img-container {
+  display: flex;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.img-wrapper {
+  position: absolute;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.social-link-box {
+  height: 50%;
+  z-index: 10;
+}
+
+.user-group {
+  min-width: 40%;
+  display: flex;
+  height: 100%;
+  z-index: 10;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+  align-items: flex-end;
+}
+
+.user-group-name {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.user-sup-name {
+  font-size: 12px;
+}
+
+.user-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.card-btn {
+  display: flex;
+  border: 1px solid $color-primary;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px 0px;
+  justify-content: space-between;
+  font-size: 18px;
+  color: $color-text;
+  box-shadow:
+  5px 2px 2px rgba(0, 0, 0, 0.25),
+  2px 1px 2px rgba(0, 0, 0, 0.22);
+
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(1.1);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+    span {
+      transition: 0.4s;
+      transform: scale(1.1);
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transform: scale(1.1);
+      transition: 0.4s;
+    }
+  }
+}
+
+.fab {
+  font-size: 20px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}

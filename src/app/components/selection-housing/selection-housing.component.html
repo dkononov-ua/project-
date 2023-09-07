@@ -5,7 +5,7 @@
     <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange()">
       <mat-option disabled value="">виберіть оселю</mat-option>
       <mat-optgroup *ngIf="(houses.length > 0 || houses === null || houses === undefined)" label="Власні оселі">
-        <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
+        <mat-option class="list-option" *ngFor="let house of houses" [value]="house.name">{{house.flat_name}}</mat-option>
       </mat-optgroup>
       <mat-optgroup *ngIf="rentedHouses && rentedHouses.length > 0" label="Орендовані оселі">
         <mat-option class="list-option" *ngFor="let rentedHouse of rentedHouses"

@@ -54,7 +54,7 @@
         </div>
 
         <div class="characteristics">
-          <div class="characteristics-label">Параметри оселі:</div>
+          <div class="characteristics-label">Мої пошукові параметри оселі:</div>
 
           <div class="characteristics-group">
 
@@ -101,6 +101,10 @@
         <div class="characteristics" *ngIf="userInfo.bunker || userInfo.animals">
           <div class="characteristics-label">Особливості:</div>
           <div class="characteristics-group">
+
+            <div class="item-characteristics" *ngIf="userInfo.purpose_rent">
+              Мета оренди:<span class="item">{{ purpose[userInfo.purpose_rent] }}</span> </div>
+
 
             <div class="item-characteristics" *ngIf="userInfo.bunker">
               Наявність укриття:<span class="item">{{ userInfo.bunker }}</span> </div>

@@ -1,5 +1,11 @@
 @use "../../../style/presets/" as *;
 
+.container-chat {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .chat-box {
   display: flex;
   flex-direction: column-reverse;
@@ -197,13 +203,13 @@ img {
 
 .chat-container-user {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-bottom: 10px;
 }
 
 .chat-container-owner {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin-bottom: 10px;
 }
 
@@ -289,7 +295,7 @@ img {
   display: flex;
   min-width: 100px;
   background-color: rgba(93, 90, 90, 0.856);
-  border-radius: 10px 0px 10px 10px;
+  border-radius: 0px 10px 10px 10px;
 }
 
 .owner-message {
@@ -297,7 +303,7 @@ img {
   display: flex;
   min-width: 100px;
   background-color: $color-dark;
-  border-radius: 0px 10px 10px 10px;
+  border-radius: 10px 0px 10px 10px;
 }
 
 .message-text-user,
@@ -326,7 +332,6 @@ img {
   border-radius: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.362);
   border: 1px solid rgba(1, 19, 12, 0.2);
-  margin-top: 10px;
   padding: 10px;
   justify-content: space-between;
   flex-direction: column;
@@ -338,7 +343,7 @@ img {
   border: 1px solid $color-gray;
   border-radius: 10px;
   min-height: 50px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .input-box {
@@ -418,14 +423,14 @@ textarea::-webkit-scrollbar {
 }
 
 .name-owner {
-  left: 40px;
+  justify-content: flex-end;
+  right: 40px;
   top: 0;
 }
 
 .name-user {
-  justify-content: flex-end;
   top: 0;
-  right: 40px;
+  left: 40px;
 }
 
 .accent-name {
@@ -455,14 +460,14 @@ textarea::-webkit-scrollbar {
 }
 
 .avatar-owner {
-  left: 0;
+  right: -10px;
   top: 0;
   border: 2px solid $color-dark;
 }
 
 .avatar-user {
   top: 0;
-  right: -10px;
+  left: 0;
   border: 2px solid rgba(93, 90, 90, 0.856);
 }
 
@@ -478,12 +483,12 @@ textarea::-webkit-scrollbar {
 }
 
 .avatar-wrapper-user {
-  right: 0;
+  left: 0;
   flex-direction: row-reverse;
 }
 
 .avatar-wrapper-owner {
-  left: 0;
+  right: 0;
 }
 
 .message-content-owner,
@@ -493,7 +498,7 @@ textarea::-webkit-scrollbar {
   padding: 12px 0 0 0;
 }
 
-.message-content-user {
+.message-content-owner {
   justify-content: flex-end;
 }
 
@@ -559,4 +564,40 @@ input {
 .unread {
   background-color: $color-accent;
   transform: 1s;
+}
+
+.group1 {
+  width: 100%;
+  position: sticky;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  z-index: 99;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.362);
+  border: 1px solid rgba(1, 19, 12, 0.2);
+  padding: 10px;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.avatar-user1 {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  border: 2px solid rgba(93, 90, 90, 0.856);
+}
+
+.name-user1 {
+  width: 100%;
+  display: flex;
+  font-size: 20px;
+  justify-content: flex-end;
 }

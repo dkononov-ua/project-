@@ -97,9 +97,8 @@ export class TenantsSearchComponent implements OnInit {
     0: 'Переїзд',
     1: 'Відряджання',
     2: 'Подорож',
-    3: 'Пожити в іншому місті',
-    4: 'Навчання',
-    5: 'Особисті причини',
+    3: 'Навчання',
+    4: 'Особисті причини',
   }
 
   aboutDistance: { [key: number]: string } = {

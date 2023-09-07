@@ -141,9 +141,9 @@ export class ComunStatComunComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.selectedFlatId !== null) {
+    if (this.selectedFlatId) {
       this.getSelectParam()
-      if (this.selectedComun !== null && this.selectedYear !== null) {
+      if (this.selectedComun && this.selectedYear) {
         this.getInfoComun()
           .then(() => {
             this.getDefaultData();
@@ -161,6 +161,7 @@ export class ComunStatComunComponent implements OnInit {
         this.loading = false;
       }
     } else {
+      console.log('Оберіть оселю')
       this.loading = false;
     }
   }
@@ -216,7 +217,7 @@ export class ComunStatComunComponent implements OnInit {
   async getInfoComun(): Promise<any> {
     const userJson = localStorage.getItem('user');
 
-    if (this.selectedYear && this.selectedComun && userJson) {
+    if (userJson && this.selectedYear && this.selectedComun) {
       const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
@@ -267,7 +268,7 @@ export class ComunStatComunComponent implements OnInit {
           this.totalYearStats = this.allSeasonStats([winterStats, springStats, summerStats, autumnStats]);
         }
       } else {
-        console.error(false);
+        console.log('немає обраної комуналки');
       }
     } else {
       console.log('comun not found');

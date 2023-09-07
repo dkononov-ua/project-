@@ -27,9 +27,12 @@ const routes: Routes = [
           { path: 'comun-stat-month', component: ComunStatMonthComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-stat-year', component: ComunStatYearComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-company', component: ComunCompanyComponent, canActivate: [CanActivateGuard] },
+          { path: 'comun-stat-season', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host-comun', pathMatch: 'full' },
+      { path: 'host-comun/:selectedFlat.flat.flat_id', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
+
     ]
   }
 ];
