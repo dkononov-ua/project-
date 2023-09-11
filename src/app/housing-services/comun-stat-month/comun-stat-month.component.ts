@@ -5,6 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 
 @Component({
   selector: 'app-comun-stat-month',
@@ -64,33 +65,58 @@ export class ComunStatMonthComponent implements OnInit {
   selectedYear!: string | null;
   selectedMonth!: string | null;
 
+  selectedView: any;
+  selectedName: string | null | undefined;
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeMonthService: ChangeMonthService,
-    private changeYearService: ChangeYearService
+    private changeYearService: ChangeYearService,
+    private selectedViewComun: ViewComunService,
+
   ) { this.flatInfo = []; }
 
   ngOnInit(): void {
     this.getSelectParam();
-    this.loading = false;
-
-    if (this.selectedFlatId !== null && this.selectedYear !== null && this.selectedMonth !== null) {
-      this.getInfoComun();
+    if (this.selectedFlatId && this.selectedComun) {
+      this.loading = false;
+      if (this.selectedFlatId && this.selectedYear && this.selectedMonth) {
+        this.getInfoComun();
+      } else {
+        console.error('Some are missing.');
+      }
     } else {
-      console.error('Some are missing.');
+      console.log('Оберіть оселю і комуналку')
     }
   }
 
   getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
+
+    this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
+      this.selectedView = selectedView;
+      if (this.selectedView) {
+        this.selectedFlatId = this.selectedView;
+        this.getInfoComun();
+      } else {
+        this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+          console.log(this.selectedFlatId)
+          this.selectedFlatId = flatId;
+          if (flatId) {
+            this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+              this.selectedComun = selectedComun || this.selectedComun;
+              this.getInfoComun();
+            });
+          } else {
+            this.selectedComun = null;
+          }
+        });
+      }
     });
 
-    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
-      this.selectedComun = selectedComun || this.selectedComun;
-      this.getInfoComun();
+    this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
+      this.selectedName = selectedName;
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {

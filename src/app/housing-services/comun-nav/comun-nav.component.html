@@ -1,19 +1,25 @@
 <div class="menu">
   <div class="box">
 
-    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
-      <span class="link-text">Інфо послуги</span>
-      <span class="material-symbols-outlined">
-        dns
-        </span>
-    </a>
+    <div *ngIf="!selectedName">
 
-    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
-      <span class="link-text">Внесення даних</span>
-      <span class="material-symbols-outlined">
-        extension
-        </span>
-    </a>
+      <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
+        <span class="link-text">Інфо послуги</span>
+        <span class="material-symbols-outlined">
+          dns
+          </span>
+      </a>
+
+    </div>
+
+    <div *ngIf="!selectedName">
+      <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
+        <span class="link-text">Внесення даних</span>
+        <span class="material-symbols-outlined">
+          extension
+          </span>
+      </a>
+    </div>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
       <span class="link-text">Статистика за сезон</span>

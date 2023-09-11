@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
   selector: 'app-delete-house',
@@ -7,24 +6,15 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
   styleUrls: ['./delete-house.component.scss']
 })
 export class DeleteHouseComponent implements OnInit {
+  selectedFlatName: any;
 
-  selectedFlatId!: string | null;
-  selectedComun!: string | null;
-  selectedYear!: string | null;
-  selectedMonth!: string | null;
-
-  constructor(
-    private selectedFlatService: SelectedFlatService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getSelectParam()
-  }
-
-  getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-    });
+    const houseJson = localStorage.getItem('house');
+    if (houseJson) {
+      this.selectedFlatName = JSON.parse(houseJson).flat_name;
+      console.log(this.selectedFlatName);
+    }
   }
 }
-

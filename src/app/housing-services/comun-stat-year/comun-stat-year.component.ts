@@ -6,6 +6,7 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject, Subject, map } from 'rxjs';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 
 @Component({
   selector: 'app-comun-stat-year',
@@ -66,12 +67,17 @@ export class ComunStatYearComponent implements OnInit {
   sortedMonthlySumData$: BehaviorSubject<{ [key: string]: any }[]> = new BehaviorSubject<{ [key: string]: any }[]>([]);
   selectedSortOption: any;
 
+  selectedView: any;
+  selectedName: string | null | undefined;
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeMonthService: ChangeMonthService,
-    private changeYearService: ChangeYearService
+    private changeYearService: ChangeYearService,
+    private selectedViewComun: ViewComunService,
+
   ) {
     this.flatInfo = [];
   }
@@ -90,11 +96,30 @@ export class ComunStatYearComponent implements OnInit {
   }
 
   async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
+
+    this.selectedViewComun.selectedView$.subscribe(async (selectedView: string | null) => {
+      this.selectedView = selectedView;
       await this.getInfoComunYear();
-      this.sortedMonthlySumData$.next(Object.values(this.monthlySumData$.value));
-      this.sortData();
+      if (this.selectedView) {
+        this.selectedFlatId = this.selectedView;
+        await this.getInfoComunYear();
+        this.sortedMonthlySumData$.next(Object.values(this.monthlySumData$.value));
+        this.sortData();
+      } else {
+        this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+          this.selectedFlatId = flatId;
+          if (flatId) {
+            await this.getInfoComunYear();
+            this.sortedMonthlySumData$.next(Object.values(this.monthlySumData$.value));
+            this.sortData();
+          }
+        });
+      }
+    });
+
+    this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
+      this.selectedName = selectedName;
+      console.log(this.selectedName)
     });
 
     this.changeYearService.selectedYear$.subscribe(async (selectedYear: string | null) => {

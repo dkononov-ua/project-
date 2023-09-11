@@ -20,13 +20,15 @@ export class SelectedFlatService {
   }
 
   setSelectedFlatId(flatId: string): void {
-    localStorage.setItem('selectedFlatId', flatId);
-    this.selectedFlatIdSubject.next(flatId);
+    if (this.selectedFlatIdSubject.value !== flatId) {
+      localStorage.setItem('selectedFlatId', flatId);
+      this.selectedFlatIdSubject.next(flatId);
+    }
   }
 
+  // при видаленні оселі очищаємо selectedFlatId
   clearSelectedFlatId(): void {
     localStorage.removeItem('selectedFlatId');
     this.selectedFlatIdSubject.next(null);
   }
-
 }

@@ -81,13 +81,11 @@
             <div *ngIf="isCopied" class="title-selected-accent message"> ID оселі скопійовано!</div>
           </button>
 
-          <a target="_blank" class="card-btn" [routerLinkActive]="'active'"
-            [routerLink]="['/housing-services/host-comun', selectedFlat.flat.flat_id]">
-            <span>Статистика комунальні</span>
-            <span class="material-symbols-outlined">
+          <button class="card-btn" (click)="goToComun()">
+            <span>Статистика комунальні</span> <span class="material-symbols-outlined">
               bar_chart
             </span>
-          </a>
+          </button>
 
           <button class="card-btn" *ngIf="chatExists" (click)="indexPage = 2">
             <span>Написати</span><i class="fa-solid fa-message"></i>

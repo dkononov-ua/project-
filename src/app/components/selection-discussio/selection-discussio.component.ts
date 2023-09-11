@@ -4,16 +4,15 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
-import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
-  selector: 'app-selection-housing',
-  templateUrl: './selection-housing.component.html',
-  styleUrls: ['./selection-housing.component.scss']
+  selector: 'app-selection-discussio',
+  templateUrl: './selection-discussio.component.html',
+  styleUrls: ['./selection-discussio.component.scss']
 })
 
-export class SelectionHousingComponent implements OnInit {
+export class SelectionDiscussioComponent implements OnInit {
 
   loading = false;
   selectedFlatId: any | null;
@@ -21,13 +20,11 @@ export class SelectionHousingComponent implements OnInit {
   ownFlats: { id: number, flat_id: string, flat_name: string }[] = [];
   rentedFlats: { id: number; flat_id: string, flat_name: string; }[] = [];
   discussioFlats: any;
-  discussio_view: boolean = false;
 
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
-    private discussioViewService: DiscussioViewService,
   ) { }
 
   ngOnInit(): void {
@@ -41,18 +38,12 @@ export class SelectionHousingComponent implements OnInit {
       const selectedFlatId = JSON.parse(houseJson).flat_id;
       this.selectedFlatService.setSelectedFlatId(selectedFlatId);
     }
-    this.loadOwnFlats();
-    this.loadRentedFlats();
     this.loadDiscussioFlat();
   }
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
-    });
-
-    this.discussioViewService.discussioView$.subscribe((discussio_view: boolean) => {
-      this.discussio_view = discussio_view;
     });
   }
 
@@ -86,50 +77,6 @@ export class SelectionHousingComponent implements OnInit {
     }
   }
 
-  async loadOwnFlats(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe(
-          (response: any) => {
-            this.ownFlats = response.ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
-              id: index + 1,
-              flat_id: item.flat_id,
-              flat_name: item.flat_name,
-            }));
-
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('User not found');
-    }
-  }
-
-  async loadRentedFlats(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe(
-          (response: any) => {
-            this.rentedFlats = response.citizen_ids
-              .map((item: { flat_id: any, flat_name: any }, index: number) => ({
-                id: index + 1,
-                flat_id: item.flat_id,
-                flat_name: item.flat_name,
-              }));
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('User not found');
-    }
-  }
-
   onSelectionChange(event: MatSelectChange) {
     this.loading = true;
     this.changeComunService.clearSelectedComun();
@@ -152,3 +99,4 @@ export class SelectionHousingComponent implements OnInit {
   }
 
 }
+

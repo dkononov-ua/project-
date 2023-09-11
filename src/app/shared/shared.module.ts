@@ -6,11 +6,9 @@ import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -20,8 +18,10 @@ import { LoaderComponent } from '../components/loader/loader.component';
 import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
 import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.component';
 import { SelectionAccountComponent } from '../components/selection-account/selection-account.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
-
+import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -32,6 +32,7 @@ import { SelectionHousingComponent } from '../components/selection-housing/selec
     NavbarHouseComponent,
     SelectionAccountComponent,
     SelectionHousingComponent,
+    SelectionDiscussioComponent,
   ],
   exports: [
     NavbarComponent,
@@ -42,12 +43,11 @@ import { SelectionHousingComponent } from '../components/selection-housing/selec
     NavbarHouseComponent,
     SelectionAccountComponent,
     SelectionHousingComponent,
+    SelectionDiscussioComponent,
   ],
   imports: [
     CommonModule,
     SharedRoutingModule,
-    MatSelectModule,
-    MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
     MatListModule,
@@ -57,6 +57,9 @@ import { SelectionHousingComponent } from '../components/selection-housing/selec
     MatDatepickerModule,
     MatDialogModule,
     FormsModule,
+
+    MatFormFieldModule,
+    MatSelectModule,
   ]
 })
 export class SharedModule { }

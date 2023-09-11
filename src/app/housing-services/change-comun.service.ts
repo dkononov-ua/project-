@@ -5,8 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChangeComunService {
-  private selectedComunSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  public selectedComun$: Observable<string> = this.selectedComunSubject.asObservable();
+  private selectedComunSubject = new BehaviorSubject<string | null>(null);
+  public selectedComun$ = this.selectedComunSubject.asObservable();
 
   constructor() {
     const storedComun = localStorage.getItem('selectedComun');
@@ -15,7 +15,18 @@ export class ChangeComunService {
     }
   }
 
-  setSelectedComun(selectedComun: string): void {
-    this.selectedComunSubject.next(selectedComun);
+  getSelectedComun(): string | null {
+    return this.selectedComunSubject.value;
+  }
+
+  setSelectedComun(comun: string): void {
+    console.log(comun)
+    localStorage.setItem('selectedComun', comun);
+    this.selectedComunSubject.next(comun);
+  }
+
+  clearSelectedComun(): void {
+    localStorage.removeItem('selectedComun');
+    this.selectedComunSubject.next(null);
   }
 }

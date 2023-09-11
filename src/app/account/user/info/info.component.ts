@@ -189,8 +189,6 @@ export class InfoComponent implements OnInit {
     if (userJson !== null) {
       this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
-          console.log(this.userInfo)
-
           this.userInfo = response.inf;
         }, (error: any) => {
           console.error(error);

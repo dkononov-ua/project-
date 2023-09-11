@@ -9,7 +9,7 @@
 <ng-template #content>
   <div class="container-card col-12">
     <div class="comunal-info m-2 p-2">
-      <h3 class="text">Статистика оселі <span class="accent"> {{selectedFlatId}} </span> по сезонах, послуга <span
+      <h3 class="text">Статистика оселі <span class="accent"> {{selectedName}} ID: {{selectedFlatId}} </span> по сезонах, послуга <span
         class="accent">{{selectedComun}}</span> за <span class="accent">{{selectedYear}} </span> рік</h3>
     </div>
     <div class="group col-12">
@@ -35,32 +35,32 @@
           <div class="statContainer p-1" *ngIf="option_stat === 1">
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats!.totalPaid}}<span class="unit"> ₴ </span></div>
+              <div class="statNum accent">{{totalYearStats?.totalPaid}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Сплачено загалом:</mat-label>
             </div>
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats!.monthAveragePaid}}<span class="unit"> ₴ </span></div>
+              <div class="statNum accent">{{totalYearStats?.monthAveragePaid}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Середнє по місяцю:</mat-label>
             </div>
 
             <div class="statBox winter">
-              <div class="statNum ">{{winter!.totalPaid}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{winter?.totalPaid}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Сплачено Зима:</mat-label>
             </div>
 
             <div class="statBox spring">
-              <div class="statNum ">{{spring!.totalPaid}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{spring?.totalPaid}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Сплачено Весна:</mat-label>
             </div>
 
             <div class="statBox summer">
-              <div class="statNum ">{{summer!.totalPaid}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{summer?.totalPaid}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Сплачено Літо:</mat-label>
             </div>
 
             <div class="statBox autumn">
-              <div class="statNum ">{{autumn!.totalPaid}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{autumn?.totalPaid}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Сплачено Осінь:</mat-label>
             </div>
 
@@ -69,32 +69,32 @@
           <div class="statContainer p-1" *ngIf="option_stat === 2">
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats!.totalNeedPay}}<span class="unit"> ₴ </span></div>
+              <div class="statNum accent">{{totalYearStats?.totalNeedPay}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Нараховано загалом:</mat-label>
             </div>
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats!.monthAverageNeedPay}}<span class="unit"> ₴ </span></div>
+              <div class="statNum accent">{{totalYearStats?.monthAverageNeedPay}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Середнє по місяцю:</mat-label>
             </div>
 
             <div class="statBox winter">
-              <div class="statNum ">{{winter!.totalNeedPay}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{winter?.totalNeedPay}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Нараховано Зима:</mat-label>
             </div>
 
             <div class="statBox spring">
-              <div class="statNum ">{{spring!.totalNeedPay}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{spring?.totalNeedPay}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Нараховано Весна:</mat-label>
             </div>
 
             <div class="statBox summer">
-              <div class="statNum ">{{summer!.totalNeedPay}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{summer?.totalNeedPay}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Нараховано Літо:</mat-label>
             </div>
 
             <div class="statBox autumn">
-              <div class="statNum ">{{autumn!.totalNeedPay}}<span class="unit"> ₴ </span></div>
+              <div class="statNum ">{{autumn?.totalNeedPay}}<span class="unit"> ₴ </span></div>
               <mat-label class="statNumName">Нараховано Осінь:</mat-label>
             </div>
 
@@ -103,32 +103,32 @@
           <div class="statContainer p-1" *ngIf="option_stat === 3">
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats!.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum accent">{{totalYearStats?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
               <mat-label class="statNumName">Спожито загалом/рік:</mat-label>
             </div>
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats!.monthAverageConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum accent">{{totalYearStats?.monthAverageConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
               <mat-label class="statNumName">Середнє по місяцю:</mat-label>
             </div>
 
             <div class="statBox winter">
-              <div class="statNum ">{{winter!.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum ">{{winter?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
               <mat-label class="statNumName">Спожито Зима:</mat-label>
             </div>
 
             <div class="statBox spring">
-              <div class="statNum ">{{spring!.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum ">{{spring?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
               <mat-label class="statNumName">Спожито Весна:</mat-label>
             </div>
 
             <div class="statBox summer">
-              <div class="statNum ">{{summer!.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum ">{{summer?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
               <mat-label class="statNumName">Спожито Літо:</mat-label>
             </div>
 
             <div class="statBox autumn">
-              <div class="statNum ">{{autumn!.totalConsumption}} <span class="unit"><span class="unit">{{ selectedUnit }}</span></span></div>
+              <div class="statNum ">{{autumn?.totalConsumption}} <span class="unit"><span class="unit">{{ selectedUnit }}</span></span></div>
               <mat-label class="statNumName">Спожито Осінь:</mat-label>
             </div>
 

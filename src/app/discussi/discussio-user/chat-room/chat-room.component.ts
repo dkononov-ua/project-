@@ -7,6 +7,7 @@ interface Chat {
   user_id: string;
   chat_id: string;
   flat_id: string;
+  flat_name: string;
   isSelected?: boolean;
   unread: number;
 
@@ -96,9 +97,10 @@ export class ChatRoomComponent implements OnInit {
             let chat = await Promise.all(response.status.map(async (value: any) => {
               let infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
               let infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread }
+              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread }
             }))
             this.chats = chat;
+            console.log(this.chats)
           } else {
             console.log('there are no chats');
           }

@@ -6,6 +6,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 interface FlatInfo {
   comunal_before: any;
   comunal_now: any;
@@ -109,7 +110,7 @@ export class ComunHistoryComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.getSelectParam();
     this.loading = false;
-    if (this.selectedFlatId !== null && this.selectedYear !== null && this.selectedMonth !== null) {
+    if (this.selectedFlatId && this.selectedYear && this.selectedMonth && this.selectedComun !== 'undefined' && this.selectedComun) {
       await this.getComunalYearInfo();
       await this.selectMonthInfo();
       this.getDefaultData();
@@ -134,11 +135,13 @@ export class ComunHistoryComponent implements OnInit {
 
     this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
       this.selectedMonth = selectedMonth || this.selectedMonth;
-      this.selectMonthInfo();
-      this.getDefaultData();
-      this.getInfoFlat();
-      this.calculateConsumed();
-      this.calculatePay();
+      if (this.selectedFlatId && this.selectedYear && this.selectedMonth && this.selectedComun !== 'undefined' && this.selectedComun) {
+        this.selectMonthInfo();
+        this.getDefaultData();
+        this.getInfoFlat();
+        this.calculateConsumed();
+        this.calculatePay();
+      }
     });
   }
 
@@ -154,6 +157,11 @@ export class ComunHistoryComponent implements OnInit {
         comunal_name: this.selectedComun,
         when_pay_y: this.selectedYear
       }).toPromise() as any;
+      console.log(response)
+      if (response.status === false) {
+        console.log('Немає послуг');
+        return;
+      }
 
       if (response) {
         localStorage.setItem('comunal_inf', JSON.stringify(response.comunal));
@@ -167,7 +175,7 @@ export class ComunHistoryComponent implements OnInit {
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
     this.selectMonthInfo();
 
-    if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal === undefined) {
+    if (com_inf && this.selectedComun && this.selectedComun !== 'undefined' && this.selectedYear && this.selectedMonth && com_inf.comunal === undefined) {
       const selectedInfo = com_inf.find((selectMonth: any) => {
         return selectMonth.comunal_name === this.selectedComun
           && selectMonth.when_pay_y === this.selectedYear
@@ -203,7 +211,7 @@ export class ComunHistoryComponent implements OnInit {
 
   async selectMonthInfo(): Promise<void> {
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
-    if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal === undefined) {
+    if (com_inf && this.selectedComun && this.selectedComun !== 'undefined' &&  this.selectedYear && this.selectedMonth && com_inf.comunal === undefined) {
       const selectedInfo = com_inf.find((selectMonth: any) => {
         return selectMonth.when_pay_y === this.selectedYear &&
           selectMonth.when_pay_m === this.selectedMonth &&

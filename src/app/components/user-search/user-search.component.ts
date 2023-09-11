@@ -75,6 +75,6 @@ export class UserSearchComponent implements OnInit {
   }
 
   isValidSearchQuery(): any {
-    return this.searchQuery && this.searchQuery.length >= 3;
+    return this.searchQuery && this.searchQuery.length >= 1;
   }
 }

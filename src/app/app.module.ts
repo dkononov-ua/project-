@@ -22,9 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { BrowserModule } from '@angular/platform-browser';
@@ -38,6 +36,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,8 +60,6 @@ import { MatStepperModule } from '@angular/material/stepper';
     BrowserAnimationsModule,
     FormsModule,
     NgbModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatIconModule,
     MatCardModule,
     DragDropModule,
@@ -81,6 +79,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     HousingServicesModule,
     HousingServicesRoutingModule,
     ReactiveFormsModule,
+
+    MatInputModule,
+    MatFormFieldModule,
 
     HousingParametersModule,
     HousingParametersRoutingModule,

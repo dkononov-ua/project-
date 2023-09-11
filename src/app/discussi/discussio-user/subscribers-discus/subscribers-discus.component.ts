@@ -6,6 +6,8 @@ import { ChoseSubscribeService } from '../../../services/chose-subscribe.service
 import { Subject, Subscription } from 'rxjs';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ViewComunService } from 'src/app/services/view-comun.service';
+import { Router } from '@angular/router';
 
 interface SelectedFlat {
   flat: any;
@@ -135,8 +137,8 @@ export class SubscribersDiscusComponent implements OnInit {
   statusMessageChat: any;
 
   public locationLink: string = '';
-
-
+  selectedView!: any;
+  selectedViewName!: string;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -152,6 +154,8 @@ export class SubscribersDiscusComponent implements OnInit {
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
     private dialog: MatDialog,
+    private selectedViewComun: ViewComunService,
+    private router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -258,7 +262,6 @@ export class SubscribersDiscusComponent implements OnInit {
 
     this.http.post(url, data).subscribe((response: any) => {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-      console.log(selectedFlat)
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
         this.generateLocationUrl();
@@ -347,7 +350,6 @@ export class SubscribersDiscusComponent implements OnInit {
         if (this.selectedFlatId && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === this.selectedFlatId);
           this.chatExists = chatExists;
-          console.log(this.chatExists)
         }
         else {
           console.log('чат не існує');
@@ -372,7 +374,6 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       const newSubscriptions: any[] = response.map((flat: any) => {
         if (flat.flat_id) {
           return {
@@ -394,7 +395,6 @@ export class SubscribersDiscusComponent implements OnInit {
       });
 
       this.subscriptions = newSubscriptions;
-      console.log(this.subscriptions)
       if (newSubscriptions.length > 0) {
         this.selectFlatId(newSubscriptions[0].flat_id);
       }
@@ -407,6 +407,20 @@ export class SubscribersDiscusComponent implements OnInit {
     this.choseSubscribeService.chosenFlatId = flatId;
     this.selectedFlatId = flatId;
     this.checkChatExistence();
+  }
+
+  goToComun() {
+    localStorage.removeItem('selectedName');
+    localStorage.removeItem('house');
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    this.selectedView = this.selectedFlat?.flat.flat_id;
+    this.selectedViewName = this.selectedFlat?.flat.flat_name;
+    this.selectedViewComun.setSelectedView(this.selectedView);
+    this.selectedViewComun.setSelectedName(this.selectedViewName);
+    if (this.selectedView) {
+      this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
+    }
   }
 
   private restoreSelectedFlatId() {
@@ -437,7 +451,6 @@ export class SubscribersDiscusComponent implements OnInit {
           flat_id: flatId,
           user_id: user_id,
         };
-        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);

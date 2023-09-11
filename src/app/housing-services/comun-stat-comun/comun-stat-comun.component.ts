@@ -5,6 +5,8 @@ import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
+import { ActivatedRoute } from '@angular/router';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 
 interface FlatStat {
   totalNeedPay: any;
@@ -132,36 +134,40 @@ export class ComunStatComunComponent implements OnInit {
   defaultUnit: string = "Тариф/внесок";
   selectedUnit: string | null | undefined;
 
+  selectedView: any;
+  selectedName: string | null | undefined;
+
+
   constructor(
     private dataService: DataService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeYearService: ChangeYearService,
+    private route: ActivatedRoute,
+    private selectedViewComun: ViewComunService,
+
+
   ) { }
 
   ngOnInit(): void {
-    if (this.selectedFlatId) {
-      this.getSelectParam()
-      if (this.selectedComun && this.selectedYear) {
-        this.getInfoComun()
-          .then(() => {
-            this.getDefaultData();
-            this.updateMaxPaymentsValue();
-            this.updateMaxNeedPayValue();
-            this.updateMaxConsumptionsValue();
-            this.loading = false;
-          })
-          .catch((error) => {
-            console.error('Error', error);
-            this.loading = false;
-          });
-      } else {
-        console.log('Не обрані комунальні або рік')
-        this.loading = false;
-      }
+    this.getSelectParam()
+    console.log(this.selectedComun)
+    if (this.selectedFlatId && this.selectedComun && this.selectedYear && this.selectedComun !== 'undefined') {
+      this.getInfoComun()
+        .then(() => {
+          this.getDefaultData();
+          this.updateMaxPaymentsValue();
+          this.updateMaxNeedPayValue();
+          this.updateMaxConsumptionsValue();
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.error('Error', error);
+          this.loading = false;
+        });
     } else {
-      console.log('Оберіть оселю')
+      console.log('Не обрані комунальні або рік')
       this.loading = false;
     }
   }
@@ -172,21 +178,47 @@ export class ComunStatComunComponent implements OnInit {
   }
 
   getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
+
+    this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
+      this.selectedView = selectedView;
+      if (this.selectedView) {
+        this.selectedFlatId = this.selectedView;
+        this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+          this.selectedComun = selectedComun || this.selectedComun;
+          this.getInfoComun();
+          this.getDefaultData();
+        })
+      } else {
+        this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+          console.log(this.selectedFlatId)
+          this.selectedFlatId = flatId;
+          if (flatId) {
+            this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+              this.selectedComun = selectedComun || this.selectedComun;
+              if (this.selectedFlatId && this.selectedComun) {
+                this.getInfoComun();
+                this.getDefaultData();
+              }
+            });
+          } else {
+            this.selectedComun = null;
+          }
+        });
+      }
     });
 
-    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
-      this.selectedComun = selectedComun || this.selectedComun;
-      this.getInfoComun();
-      this.getDefaultData();
+    this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
+      this.selectedName = selectedName;
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
-      this.getInfoComun();
-      this.getDefaultData();
+      if (this.selectedFlatId && this.selectedComun && this.selectedYear) {
+        this.getInfoComun();
+        this.getDefaultData();
+      }
     });
+
   }
 
   updateMaxPaymentsValue(): void {
@@ -216,8 +248,7 @@ export class ComunStatComunComponent implements OnInit {
 
   async getInfoComun(): Promise<any> {
     const userJson = localStorage.getItem('user');
-
-    if (userJson && this.selectedYear && this.selectedComun) {
+    if (userJson && this.selectedComun && this.selectedYear && this.selectedComun !== 'undefined') {
       const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,

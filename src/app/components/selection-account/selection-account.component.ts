@@ -31,20 +31,28 @@ export class SelectionAccountComponent implements OnInit {
   selectedRentedFlatId: any;
 
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private selectedFlatService: SelectedFlatService) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private dataService: DataService,
+    private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
+    this.getSelectParam();
     this.loadImages();
     this.loadHouses();
-    this.setupSelectHouseListener();
     this.loadUserImage();
+  }
+
+  getSelectParam() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
   }
 
   loadImages(): void {
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
-
-    if (userJson !== null && houseJson !== null) {
+    if (userJson) {
       this.dataService.getData().subscribe((response: any) => {
         if (response.houseData) {
           if (response.houseData.imgs !== 'Картинок нема') {
@@ -62,14 +70,7 @@ export class SelectionAccountComponent implements OnInit {
             this.images = ['http://localhost:3000/housing_default.svg'];
           }
         } else {
-          console.error('houseData field is missing from server response');
-        }
-
-        if (this.images.length > 0) {
-          const selectedFlatId = JSON.parse(houseJson).flat_id;
-          this.selectHouse.setValue({ house: selectedFlatId });
-          this.selectedFlatId = selectedFlatId;
-          this.selectedFlatService.setSelectedFlatId(selectedFlatId);
+          console.log('Немає оселі')
         }
       });
     }
@@ -77,7 +78,6 @@ export class SelectionAccountComponent implements OnInit {
 
   loadUserImage(): void {
     const userJson = localStorage.getItem('user');
-
     if (userJson) {
       this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
@@ -88,7 +88,6 @@ export class SelectionAccountComponent implements OnInit {
     }
   }
 
-
   loadHouses(): void {
     this.loadOwnedHouses();
     this.loadRentedHouses();
@@ -96,7 +95,6 @@ export class SelectionAccountComponent implements OnInit {
 
   loadOwnedHouses(): void {
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
 
     if (userJson !== null) {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
@@ -110,14 +108,12 @@ export class SelectionAccountComponent implements OnInit {
             this.houses.forEach((house: { id: any, name: any }) => {
             });
 
-            if (houseJson) {
-              const selectedFlatId = JSON.parse(houseJson).flat_id;
-              const selectedHouseExists = this.houses.some((house: { name: any }) => house.name === selectedFlatId);
-
+            if (this.selectedFlatId) {
+              const selectedHouseExists = this.houses.some((house: { name: any }) => house.name === this.selectedFlatId);
               if (selectedHouseExists) {
-                this.selectHouse.setValue({ house: selectedFlatId });
+                this.selectHouse.setValue({ house: this.selectedFlatId });
               } else {
-                console.log('Selected house does not exist in the list of houses');
+                console.log('Немає оселей');
               }
             } else if (this.houses.length > 0) {
               const firstHouse = this.houses[0].name;
@@ -136,7 +132,6 @@ export class SelectionAccountComponent implements OnInit {
 
   loadRentedHouses(): void {
     const userJson = localStorage.getItem('user');
-
     if (userJson !== null) {
       this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
@@ -156,113 +151,6 @@ export class SelectionAccountComponent implements OnInit {
         );
     } else {
       console.log('User not found');
-    }
-  }
-
-  setupSelectHouseListener(): void {
-    const userJson = localStorage.getItem('user');
-
-    this.selectHouse.get('house')?.valueChanges.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
-        localStorage.removeItem('house');
-        localStorage.setItem('house', JSON.stringify({ flat_id: selectedFlatId }));
-
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson!), flat_id: selectedFlatId })
-          .subscribe(
-            (response: any) => {
-              if (response !== null) {
-                if (this.addressHouse === undefined) {
-                  this.addressHouse = this.fb.group({
-                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
-                  });
-                } else {
-                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
-                }
-              }
-            },
-            (error: any) => {
-              console.error(error);
-            }
-          );
-        this.selectedFlatId = selectedFlatId;
-        this.selectedFlatService.setSelectedFlatId(selectedFlatId);
-      } else {
-        console.log('Нічого не вибрано');
-      }
-    });
-  }
-
-  onSelectionChange() {
-    this.loading = true;
-
-    if (this.selectedFlatId) {
-      console.log('Ви вибрали оселю з ID:', this.selectedFlatId);
-      localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId }));
-
-      this.selectedFlatId = this.selectedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-          .subscribe(
-            (response: any) => {
-              if (response !== null) {
-                if (this.addressHouse === undefined) {
-                  this.addressHouse = this.fb.group({
-                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
-                  });
-                } else {
-                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
-                }
-              }
-            },
-            (error: any) => {
-              console.error(error);
-            }
-          );
-      } else {
-        console.log('user not found');
-      }
-
-      this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
-
-      setTimeout(() => {
-        location.reload();
-      }, 1300);
-    } else if (this.selectedRentedFlatId) {
-      console.log('Ви вибрали орендовану оселю з ID:', this.selectedRentedFlatId);
-      localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedRentedFlatId }));
-
-      this.selectedFlatId = this.selectedRentedFlatId;
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedRentedFlatId })
-          .subscribe(
-            (response: any) => {
-              if (response !== null) {
-                if (this.addressHouse === undefined) {
-                  this.addressHouse = this.fb.group({
-                    flat_id: [response.flat_id], // Fix: Use response.flat_id instead of response.flat.flat_id
-                  });
-                } else {
-                  this.addressHouse.patchValue({ flat_id: response.flat_id }); // Fix: Use response.flat_id instead of response.flat.flat_id
-                }
-              }
-            },
-            (error: any) => {
-              console.error(error);
-            }
-          );
-      } else {
-        console.log('user not found');
-      }
-
-      this.selectedFlatService.setSelectedFlatId(this.selectedRentedFlatId);
-
-      setTimeout(() => {
-        location.reload();
-      }, 1300);
-    } else {
-      console.log('Нічого не вибрано');
     }
   }
 

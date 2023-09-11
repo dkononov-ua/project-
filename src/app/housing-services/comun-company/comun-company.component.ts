@@ -8,6 +8,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 interface ComunInfo {
   comunal_company: string | undefined;
   comunal_name: string | undefined;
@@ -89,12 +90,10 @@ export class ComunCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedFlatId) {
-      this.getSelectParam();
-      this.loading = false;
-      if (this.selectedFlatId !== null && this.selectedComun !== null && this.selectedComun !== null) {
-        this.getDefaultData();
-      }
+    this.getSelectParam();
+    this.loading = false;
+    if (this.selectedFlatId !== null && this.selectedComun !== null && this.selectedComun !== null) {
+      this.getDefaultData();
     }
     else (!this.selectedFlatId); {
       this.loading = false;
@@ -109,8 +108,10 @@ export class ComunCompanyComponent implements OnInit {
 
     this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
       this.selectedComun = selectedComun || this.selectedComun;
-      this.getComunalInfo();
-      this.getComunalImg();
+      if (this.selectedFlatId && this.selectedComun && this.selectedComun !== 'undefined' && this.selectedComun) {
+        this.getComunalInfo();
+        this.getComunalImg();
+      }
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
@@ -134,11 +135,14 @@ export class ComunCompanyComponent implements OnInit {
 
   getComunalInfo(): void {
     const userJson = localStorage.getItem('user');
-
-    if (userJson) {
+    if (userJson && this.selectedComun && this.selectedComun !== undefined && this.selectedComun !== null) {
       this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
         .subscribe(
           (response: any) => {
+            if (response.status === false) {
+              console.log('Немає послуг');
+              return;
+            }
             const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
             if (filteredData.length > 0) {
               this.comunInfo = filteredData[0];
@@ -164,7 +168,6 @@ export class ComunCompanyComponent implements OnInit {
       comunal: this.comunInfo,
     }
 
-    console.log(data)
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
       this.http.post('http://localhost:3000/comunal/add/comunalCompany', data)
         .subscribe((response: any) => {

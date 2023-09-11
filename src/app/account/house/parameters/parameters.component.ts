@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -125,14 +122,18 @@ export class ParametersComponent implements OnInit {
   addressHouse: any;
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
+  selectedFlatId: any;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService, private selectedFlatIdService: SelectedFlatService) { }
+  constructor(
+    private dataService: DataService,
+    private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
+    this.getSelectParam();
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
+    console.log(this.selectedFlatId)
     if (userJson !== null) {
-      if (houseJson !== null) {
+      if (this.selectedFlatId) {
         this.dataService.getData().subscribe((response: any) => {
           if (response.houseData) {
             this.user.firstName = response.userData.inf.firstName;
@@ -205,6 +206,12 @@ export class ParametersComponent implements OnInit {
         });
       }
     }
+  }
+
+  getSelectParam() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
   }
 
 }

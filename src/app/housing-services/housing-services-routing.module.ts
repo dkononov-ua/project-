@@ -31,11 +31,10 @@ const routes: Routes = [
         ]
       },
       { path: '', redirectTo: 'host-comun', pathMatch: 'full' },
-      { path: 'host-comun/:selectedFlat.flat.flat_id', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
-
     ]
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

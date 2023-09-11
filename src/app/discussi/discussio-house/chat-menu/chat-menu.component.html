@@ -10,7 +10,7 @@
     <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12">
       <div class="chat m-2">
 
-        <div class="container-chat-messages" *ngIf="chats === false">
+        <!-- <div class="container-chat-messages" *ngIf="chats && chats.length < 1">
           <div class="img-wrapper">
             <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
           </div>
@@ -21,9 +21,9 @@
             <h2 class="text-1">© Discussio.</h2>
             <p class="text-1"> Simplify property management with Discussio.</p>
           </div>
-        </div>
+        </div> -->
 
-        <div *ngIf="chats">
+        <div>
           <app-chat-house></app-chat-house>
         </div>
 

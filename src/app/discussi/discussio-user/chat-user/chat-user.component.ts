@@ -68,13 +68,15 @@ export class ChatUserComponent implements OnInit {
         offs: offs
       };
       const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response)
       if (Array.isArray(response.status)) {
         this.infoPublic = await Promise.all(response.status.map(async (value: any) => {
           const infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
           const infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-          return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread };
+          return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread };
         }));
         this.infoPublic = this.infoPublic.filter((item) => item.flat_id === selectedFlat);
+        console.log(this.infoPublic)
         return this.infoPublic;
       } else {
         console.log('чат не знайдено');

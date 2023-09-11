@@ -6,6 +6,8 @@ import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute } from '@angular/router';
+import { DiscussioViewService } from 'src/app/services/discussio-view.service';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 @Component({
   selector: 'app-host-comun',
   templateUrl: './host-comun.component.html',
@@ -35,6 +37,10 @@ export class HostComunComponent implements OnInit {
   selectedFlat!: string | null;
   comunal_name!: string | any;
   customComunal: string = '';
+  discussioFlat: any;
+  discussio_view: boolean = false;
+  selectedView: string | null | undefined;
+  selectedName: string | null | undefined;
 
   constructor(
     private http: HttpClient,
@@ -42,21 +48,31 @@ export class HostComunComponent implements OnInit {
     private changeComunService: ChangeComunService,
     private selectedFlatService: SelectedFlatService,
     private route: ActivatedRoute,
+    private discussioViewService: DiscussioViewService,
+    private selectedViewComun: ViewComunService,
   ) { }
 
   ngOnInit(): void {
-    console.log(11111111111)
-    this.route.params.subscribe(async params => {
-      this.selectedFlat = params['selectedFlatAgree'] || null;
-      console.log(this.selectedFlat)
-    });
-
-    this.getSelectParam()
+    this.getSelectParam();
   }
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+
+    this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
+      this.selectedView = selectedView;
+      console.log(this.selectedView)
+    });
+
+    this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
+      this.selectedName = selectedName;
+      console.log(this.selectedName)
+    });
+
+    this.discussioViewService.discussioView$.subscribe((discussio_view: boolean) => {
+      this.discussio_view = discussio_view;
     });
 
     this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {

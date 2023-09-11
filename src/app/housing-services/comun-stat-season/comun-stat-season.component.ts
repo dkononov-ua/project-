@@ -6,6 +6,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject } from 'rxjs';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 
 interface FlatStat {
   totalNeedPay: any;
@@ -156,12 +157,17 @@ export class ComunStatSeasonComponent implements OnInit {
   monthlySumData$: BehaviorSubject<{ [key: string]: any }> = new BehaviorSubject<{ [key: string]: any }>({});
   dataForGraph: any[] = [];
 
+  selectedView: any;
+  selectedName: string | null | undefined;
+
   constructor(
     private dataService: DataService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeYearService: ChangeYearService,
+    private selectedViewComun: ViewComunService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -192,13 +198,28 @@ export class ComunStatSeasonComponent implements OnInit {
   }
 
   getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
+
+    this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
+      this.selectedView = selectedView;
+      if (this.selectedView) {
+        this.selectedFlatId = this.selectedView;
+        this.getDefaultData();
+      } else {
+        this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+          console.log(this.selectedFlatId)
+          this.selectedFlatId = flatId;
+          if (flatId) {
+              this.getDefaultData();
+          } else {
+            this.selectedFlatId = null;
+          }
+        });
+      }
     });
 
-    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
-      this.selectedComun = selectedComun || this.selectedComun;
-      this.getDefaultData();
+    this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
+      this.selectedName = selectedName;
+      console.log(this.selectedName)
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {

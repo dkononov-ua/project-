@@ -173,7 +173,11 @@ export class HouseInfoComponent implements OnInit {
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private dataService: DataService) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService,
+    private dataService: DataService) { }
 
   ngOnInit(): void {
 
