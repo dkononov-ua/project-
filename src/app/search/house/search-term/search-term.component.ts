@@ -1,17 +1,12 @@
-import { Subscription, debounceTime } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilterService } from '../../filter.service';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
-
 interface SearchParams {
   [key: string]: any;
 }
-
 @Component({
   selector: 'app-search-term',
   templateUrl: './search-term.component.html',
@@ -20,15 +15,13 @@ interface SearchParams {
 
 export class SearchTermComponent implements OnInit {
 
+  limit: number = 0;
   offs: number = 0;
   pageEvent: PageEvent = {
     length: 0,
     pageSize: 5,
     pageIndex: 0
   };
-
-  public showInput = false;
-  public userId: string | undefined;
 
   price_of!: number;
   price_to!: number;
@@ -55,7 +48,7 @@ export class SearchTermComponent implements OnInit {
   room: number = 0;
   option_pay: number = 0;
   kitchen_area!: number;
-
+  filterData: number = 0;
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
   selectedRegion!: string;
@@ -64,44 +57,28 @@ export class SearchTermComponent implements OnInit {
   cities = cities;
 
   isSearchTermCollapsed: boolean = true;
-  flats: any[] | undefined;
-  flatInfo: any[] | undefined;
-  selectedRepair_status: any;
-  searchParamsArr: string[] = [];
-
-  searchSuggestions: string[] = [];
-  endpoint = 'http://localhost:3000/search/flat';
   filteredFlats?: any;
-  flatImages: any[] | undefined;
-  filteredImages: any[] | any;
   minValue: number = 0;
   maxValue: number = 100000;
-  form: FormGroup | undefined;
-  timer: any;
-  private subscription: Subscription | undefined;
   searchQuery: any;
   searchTimer: any;
+  // загальна кількість знайдених осель
   optionsFound: number = 0
+
+  toggleSearchTerm() {
+    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  }
 
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
-    ) { }
+  ) { }
 
   ngOnInit() {
-    this.onSubmit();
+    this.searchFilter();
   }
 
-  onSubmitWithDelay() {
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer);
-    }
-
-    this.searchTimer = setTimeout(() => {
-      this.onSubmit();
-    }, 1000);
-  }
-
+  // завантаження бази міст
   loadCities() {
     const searchTerm = this.selectedRegion.toLowerCase();
     this.filteredRegions = this.regions.filter(region =>
@@ -114,7 +91,8 @@ export class SearchTermComponent implements OnInit {
     this.selectedCity = '';
   }
 
-  loadDistricts() {
+  // завантаження бази областей
+  loadRegion() {
     const searchTerm = this.selectedCity.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.selectedRegion
@@ -130,133 +108,104 @@ export class SearchTermComponent implements OnInit {
     );
   }
 
-  onInputChange() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.onSubmit();
+  // додавання затримки на відправку запиту
+  onSubmitWithDelay() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+    this.searchTimer = setTimeout(() => {
+      this.searchFilter();
     }, 1000);
   }
 
-
-
-  onSubmit() {
-    this.filteredCities = this.selectedCity ? this.cities.filter(city => city.name.toLowerCase().includes(this.selectedCity.toLowerCase())) : this.cities;
-
+  // пошук оселі по ID
+  searchByID() {
     if (this.searchQuery) {
+      const endpoint = 'http://localhost:3000/search/flat';
       const flatId = this.searchQuery;
-      const url = `${this.endpoint}/?flat_id=${flatId}`;
-      this.fetchFlatData(url);
+      const url = `${endpoint}/?flat_id=${flatId}`;
+      this.getSearchData(url);
       return;
     }
-
-    setTimeout(async () => {
-      const params: SearchParams = {
-        price_of: this.price_of || '',
-        price_to: this.price_to || '',
-        region: this.selectedRegion || '',
-        city: this.selectedCity || '',
-        rooms_of: this.rooms_of || '',
-        rooms_to: this.rooms_to || '',
-        area_of: this.area_of || '',
-        area_to: this.area_to || '',
-        repair_status: this.repair_status || '',
-        kitchen_area: this.kitchen_area || '',
-        animals: this.animals || '',
-        distance_metro: this.distance_metro || '',
-        distance_stop: this.distance_stop || '',
-        distance_green: this.distance_green || '',
-        distance_shop: this.distance_shop || '',
-        distance_parking: this.distance_parking || '',
-        country: '',
-        students: this.students ? 1 : '',
-        woman: this.woman ? 1 : '',
-        man: this.man ? 1 : '',
-        family: this.family ? 1 : '',
-        balcony: this.balcony || '',
-        bunker: this.bunker || '',
-        option_flat: this.option_flat || '1',
-        room: this.room ? '1' : '0',
-        option_pay: this.option_pay ? '1' : '0',
-      };
-
-      const url = this.buildSearchURL(params);
-
-      await this.fetchFlatData(url);
-      this.applyFilter(this.filteredFlats, this.optionsFound);
-    }, 1000);
+    if (!this.searchQuery) {
+      this.searchFilter();
+      return;
+    }
   }
 
-  startTimer() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      if (this.searchQuery && this.searchQuery.length >= 3) {
-        this.onSubmit();
-      }
-    }, 1000);
+  // збір пошукових параметрів
+  async searchFilter() {
+    const params: SearchParams = {
+      price_of: this.price_of || '',
+      price_to: this.price_to || '',
+      region: this.selectedRegion || '',
+      city: this.selectedCity || '',
+      rooms_of: this.rooms_of || '',
+      rooms_to: this.rooms_to || '',
+      area_of: this.area_of || '',
+      area_to: this.area_to || '',
+      repair_status: this.repair_status || '',
+      kitchen_area: this.kitchen_area || '',
+      animals: this.animals || '',
+      distance_metro: this.distance_metro || '',
+      distance_stop: this.distance_stop || '',
+      distance_green: this.distance_green || '',
+      distance_shop: this.distance_shop || '',
+      distance_parking: this.distance_parking || '',
+      country: '',
+      students: this.students ? 1 : '',
+      woman: this.woman ? 1 : '',
+      man: this.man ? 1 : '',
+      family: this.family ? 1 : '',
+      balcony: this.balcony || '',
+      bunker: this.bunker || '',
+      option_flat: this.option_flat || '1',
+      room: this.room ? '1' : '0',
+      option_pay: this.option_pay ? '1' : '0',
+      limit: this.limit,
+      filterData: this.filterData || 0,
+    };
+    const url = this.buildSearchURL(params);
+    await this.getSearchData(url);
   }
 
+  // побудова URL пошукового запиту
   buildSearchURL(params: any): string {
     const endpoint = 'http://localhost:3000/search/flat';
-    const paramsString = Object.keys(params)
-      .filter(key => params[key] !== '')
-      .map(key => key + '=' + params[key])
-      .join('&');
+    const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
     return `${endpoint}?${paramsString}`;
   }
 
-
-
-  toggleSearchTerm() {
-    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  // передача пошукових фільтрів та отримання результатів пошуку
+  async getSearchData(url: string) {
+    const response: any = await this.http.get(url).toPromise();
+    this.optionsFound = response.count;
+    this.filteredFlats = response.img;
+    this.passInformationToService(this.filteredFlats, this.optionsFound);
   }
 
-
-  // передача даних пошуку до сервісу а потім виведення карток на сторінку
-  applyFilter(filteredFlats: any, optionsFound: number) {
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passInformationToService(filteredFlats: any, optionsFound: number) {
     this.filterService.updateFilter(filteredFlats, optionsFound);
   }
 
-  async fetchFlatData(url: string) {
-    const response : any = await this.http.get(url).toPromise();
-    console.log(response)
-    this.optionsFound = response.count;
-    this.filteredFlats = response.img;
-    this.applyFilter(this.filteredFlats, this.optionsFound);
-  }
-
-
+  // наступна сторінка
   incrementOffset() {
     if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.loadMore(offs);
+      this.limit = offs;
     }
+    this.searchFilter();
   }
 
+  // попередня сторінка
   decrementOffset() {
     if (this.pageEvent.pageIndex > 0) {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.loadMore(offs);
+      this.limit = offs;
     }
-  }
-
-  loadMore(offs: number): void {
-    this.flatImages = [];
-    this.filteredFlats = [];
-    console.log(offs)
-    const url = `http://localhost:3000/search/flat?limit=${offs}`;
-    this.http.get<{ img: [] }>(url).subscribe((data) => {
-      const { img } = data;
-      console.log(data)
-      if (img) {
-        this.flatInfo = img;
-        console.log(this.flatInfo)
-        this.filteredFlats = [...img];
-        this.fetchFlatData(url);
-      } else {
-        this.filteredFlats = [];
-      }
-    });
+    this.searchFilter();
   }
 }

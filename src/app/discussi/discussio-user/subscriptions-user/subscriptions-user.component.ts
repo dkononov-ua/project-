@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 
 interface subscription {
   flat_id: string;
@@ -91,10 +92,15 @@ export class SubscriptionsUserComponent implements OnInit {
   currentPhotoIndex: number = 0;
   indexPage: number = 1;
 
+  selectedView!: any;
+  selectedViewName!: string;
+
 
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
+    private selectedViewComun: ViewComunService,
+
   ) { }
 
   ngOnInit(): void {
@@ -103,7 +109,13 @@ export class SubscriptionsUserComponent implements OnInit {
 
   onSubscriberSelect(subscriber: any): void {
     this.selectedFlat = subscriber;
+    console.log(this.selectedFlat)
     this.selectedFlatId = subscriber.flat_id;
+    this.selectedView = this.selectedFlat.flat_id;
+    console.log(this.selectedView)
+    this.selectedViewName = this.selectedFlat?.city;
+    console.log(this.selectedViewName)
+
   }
 
   async getSubscribedFlats(offs: number): Promise<void> {
@@ -121,6 +133,7 @@ export class SubscriptionsUserComponent implements OnInit {
       const newsubscriptions = response.map((flat: any) => {
         return {
           flat_id: flat.flat.flat_id,
+          flat_name: flat.flat.flat_name,
           flatImg: flat.img,
           price_m: flat.flat.price_m,
           country: flat.flat.country,
@@ -162,21 +175,29 @@ export class SubscriptionsUserComponent implements OnInit {
     this.getSubscribedFlats(this.offs);
   }
 
-  async openDialog(flatId: string): Promise<void> {
+  async openDialog(flat: any): Promise<void> {
+    console.log(flat)
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/subs/delete/ysubs';
-    const dialogRef = this.dialog.open(DeleteSubsComponent);
+    const dialogRef = this.dialog.open(DeleteSubsComponent, {
+      data: {
+        flatId: flat.flat_id,
+        flatName: flat.flat_name,
+        flatCity: flat.city,
+        flatSub: 'subscriptions',
+      }
+    });
+
     dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && flatId) {
+      if (result === true && userJson && flat) {
         const data = {
           auth: JSON.parse(userJson),
-          flat_id: flatId,
-          user_id: user_id,
+          flat_id: flat.flat_id,
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);
+          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat_id);
         } catch (error) {
           console.error(error);
         }

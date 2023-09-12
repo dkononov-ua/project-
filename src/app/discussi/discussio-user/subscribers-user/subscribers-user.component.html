@@ -1,7 +1,4 @@
 <div class="container-card">
-
-
-
   <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="subscriptions.length !== 0">
     <div class="card-container">
       <div class="scrollable-container p-3">
@@ -20,7 +17,7 @@
             </div>
             <div class="btn-group">
               <button class="btn w-70 m-1" (click)="approveSubscriber(subscriber.flat_id)">ДИСКУСІЯ</button>
-              <button class="btn w-30 m-1" (click)="openDialog(subscriber.flat_id)"><i
+              <button class="btn w-30 m-1" (click)="openDialog(subscriber)"><i
                   class="fa-solid fa-user-xmark"></i></button>
             </div>
           </div>

@@ -328,6 +328,10 @@ export class SubscribersDiscusComponent implements OnInit {
       };
       this.http.post('http://localhost:3000/chat/add/chatUser', data)
         .subscribe((response: any) => {
+          if (response) {
+            console.log(response)
+            this.indexPage = 2;
+          }
         }, (error: any) => {
           console.error(error);
         });
@@ -438,22 +442,28 @@ export class SubscribersDiscusComponent implements OnInit {
     );
   }
 
-  async openDialog(flatId: string): Promise<void> {
+  async openDialog(flat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = 'http://localhost:3000/acceptsubs/delete/ysubs';
+    const dialogRef = this.dialog.open(DeleteSubsComponent, {
+      data: {
+        flatId: flat.flat.flat_id,
+        flatName: flat.flat.flat_name,
+        flatCity: flat.flat.city,
+        flatSub: 'discussio',
+      }
+    });
 
-    const dialogRef = this.dialog.open(DeleteSubsComponent);
     dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && flatId) {
+      if (result === true && userJson && flat) {
         const data = {
           auth: JSON.parse(userJson),
-          flat_id: flatId,
-          user_id: user_id,
+          flat_id: flat.flat.flat_id,
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);
+          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat.flat_id);
         } catch (error) {
           console.error(error);
         }

@@ -212,7 +212,9 @@ export class SubscribersDiscusComponent implements OnInit {
 
       this.http.post('http://localhost:3000/chat/add/chatFlat', data)
         .subscribe((response: any) => {
-          if (response.status === false) {
+          if (response) {
+            this.indexPage = 3;
+          } else if (response.status === false) {
             this.statusMessageChat = true;
             console.log('чат вже створено')
           }

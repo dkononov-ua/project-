@@ -64,6 +64,12 @@
               <span class="item" *ngIf="userInfo.area_to">до {{ userInfo.area_to || '?' }}м²</span>
             </div>
 
+            <div class="item-characteristics" *ngIf="userInfo.area_of || userInfo.area_to">
+              Кіл. кімнат:
+              <span class="item" *ngIf="userInfo.rooms_of !== 0 && userInfo.rooms_of !== null">від {{ userInfo.rooms_of}}</span>
+              <span class="item" *ngIf="userInfo.rooms_to !== 0 && userInfo.rooms_to !== null">до {{ userInfo.rooms_to}}</span>
+            </div>
+
             <div class="item-characteristics"
               *ngIf="userInfo?.repair_status">Стан оселі:
               <span class="item">{{ userInfo.repair_status }}</span> </div>

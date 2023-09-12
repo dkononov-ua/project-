@@ -1,10 +1,9 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Observable, Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
@@ -48,11 +47,13 @@ interface UserInfo {
   woman: boolean | undefined;
   years: number | undefined;
 }
-
 @Component({
   selector: 'app-tenants-search',
   templateUrl: './tenants-search.component.html',
   styleUrls: ['./tenants-search.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -92,7 +93,6 @@ export class TenantsSearchComponent implements OnInit {
   statusMessage: any;
   selectedFlatId!: string | null;
 
-
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
     1: 'Відряджання',
@@ -128,68 +128,56 @@ export class TenantsSearchComponent implements OnInit {
     private filterService: FilterUserService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router,
     private selectedFlatService: SelectedFlatService
   ) {
     this.filterForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
+    this.getSelectedFlat();
+  }
+
+  getSelectedFlat() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
-        this.subscriptionMessageTimeout.subscribe(() => {
-          setTimeout(() => {
-            this.subscriptionMessage = undefined;
-          }, 2000);
-        });
-
-        this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
-          const filterValue = this.filterService.getFilterValue();
-          if (filterValue) {
-            this.updateFilteredData(filterValue);
-          }
-        });
+        this.getSearchInfo();
+      } else {
+        console.log('Немає обраної оселі')
       }
     });
   }
 
-  getDefaultImage(photo: string | undefined | null): string {
-    if (!photo) {
-      return 'http://localhost:3000/img/flat/housing_default.svg';
-    } else {
-      return this.getImageUrl(photo);
-    }
+  getSearchInfo() {
+    this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
+      const filterValue = this.filterService.getFilterValue();
+      if (filterValue) {
+        this.selectedUser = null;
+        this.updateFilteredData(filterValue);
+        this.selectedUser = this.filteredUsers![0];
+        this.checkSubscribe();
+      }
+    });
   }
 
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
-
     setTimeout(() => {
       this.checkSubscribe();
-    }, 100);
+    }, 50);
   }
 
   updateFilteredData(filterValue: any) {
     this.filterForm.patchValue(filterValue);
     this.filteredUsers = filterValue;
-    console.log(this.filteredUsers)
-    this.updateSelectedUser;
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
-  }
-
-  getImageUrl(fileName: string | string[]): string {
-    if (typeof fileName === 'string') {
-      return 'http://localhost:3000/img/flat/' + fileName;
-    } else if (Array.isArray(fileName) && fileName.length > 0) {
-      return 'http://localhost:3000/img/flat/' + fileName[0];
-    }
-    return 'http://localhost:3000/img/flat/housing_default.svg';
+    this.updateSelectedUser;
   }
 
   private updateSelectedUser() {
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
+    this.checkSubscribe();
   }
 
   onPrevCard() {
@@ -204,23 +192,9 @@ export class TenantsSearchComponent implements OnInit {
     this.updateSelectedUser();
   }
 
-
   private calculateCardIndex(index: number): number {
     const length = this.filteredUsers?.length || 0;
     return (index + length) % length;
-  }
-
-  loadMore(): void {
-    this.limit += 5
-    const url = `http://localhost:3000/search/user?limit=${this.limit}`;
-    this.http.get<{ user_inf: UserInfo[] }>(url).subscribe((data) => {
-      const { user_inf } = data;
-      if (user_inf) {
-        this.userInfo = user_inf;
-        const additionalUsers = user_inf;
-        this.filteredUsers = [...this.filteredUsers!, ...additionalUsers];
-      }
-    });
   }
 
   onSubmitSbs(): void {
@@ -265,5 +239,4 @@ export class TenantsSearchComponent implements OnInit {
       console.log('user not found');
     }
   }
-
 }

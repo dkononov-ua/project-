@@ -180,12 +180,21 @@ export class InfoComponent implements OnInit {
               this.userImg = response.img[0].img;
             }
           }
+
+          if (userJson !== null) {
+            const user = JSON.parse(userJson);
+            user.user_id = this.user.user_id.toString();
+            const updatedUserJson = JSON.stringify(user);
+            localStorage.setItem('user', updatedUserJson);
+          }
+
         });
     }
   }
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
+    console.log(userJson)
     if (userJson !== null) {
       this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {

@@ -91,11 +91,11 @@
             <span>Написати</span><i class="fa-solid fa-message"></i>
           </button>
 
-          <button class="card-btn" *ngIf="!chatExists" (click)="createChat(selectedFlat)" (click)="indexPage = 2">
+          <button class="card-btn" *ngIf="!chatExists" (click)="createChat(selectedFlat)">
             <span>Створити чат</span><i class="fa-solid fa-message"></i>
           </button>
 
-          <button class="card-btn" matTooltip="Видалити Дискусію" (click)="openDialog(selectedFlat.flat.flat_id)">
+          <button class="card-btn" matTooltip="Видалити Дискусію" (click)="openDialog(selectedFlat)">
             <span>Відписатись</span><i class="fa-solid fa-user-xmark"></i>
           </button>
 

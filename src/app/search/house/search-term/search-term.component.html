@@ -10,41 +10,49 @@
               matTooltip="Пошук оселі"><i class="fa-solid fa-building"></i></a>
             <a class="search-change" [routerLinkActive]="'active'" [routerLink]="'/search/host-tenant/tenantsSearch'"
               matTooltip="Пошук орендаря"><i class="fa-solid fa-users"></i></a>
-            <h3>Шукаємо оселю</h3>
+            <div class="searchName">
+              <div class="title-page">Шукаємо оселю</div>
+              <div class="custom-paginator">
+                <button class="paginator-button" (click)="decrementOffset()"><i
+                    class="fa-solid fa-chevron-left"></i></button>
+                <div class="paginator-info">показано
+                  {{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} -
+                  {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
+                    pageEvent.pageSize) : optionsFound }} з {{ optionsFound }} знайдених </div>
+                    <button class="paginator-button" (click)="incrementOffset()"><i
+                        class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-      </div>
-      <div class="container-btn">
 
-        <button class="btn mr-2" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
-          <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
-            [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
-            [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
-        </button>
-      </div>
+        <div class="container-btn">
+          <button class="btn mr-2" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+            <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
+              [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
+              [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
+          </button>
+        </div>
 
-      <div class="container-btn">
-        <div class="custom-paginator">
-          <button class="paginator-button" (click)="decrementOffset()"><i class="fa-solid fa-chevron-left"></i></button>
-          <div class="paginator-info">
-            {{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} -
-            {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
-              pageEvent.pageSize) : optionsFound }} з {{ optionsFound }} знайдених </div>
-              <button class="paginator-button" (click)="incrementOffset()"><i
-                  class="fa-solid fa-chevron-right"></i></button>
-          </div>
-
-          <div class="ml-2">
-            <div class="count" *ngIf="optionsFound"><span class="accent mr-2">{{optionsFound}} </span> ЗНАЙДЕНО</div>
-            <div class="count" *ngIf="!optionsFound">НІЧОГО НЕ ЗНАЙДЕНО</div>
-          </div>
+        <div class="col-lg-2 col-md-6 col-sm-12 col-12">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Сортування</mat-label>
+            <mat-select [(ngModel)]="filterData" name="bunker">
+              <mat-option [value]="''">Неважливо</mat-option>
+              <mat-option [value]="1">Дешевші</mat-option>
+              <mat-option [value]="2">Дорожчі</mat-option>
+              <mat-option [value]="3">Новіші</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="col-lg-4 col-md-6 col-sm-12 col-12">
           <div class="heightSet">
             <mat-form-field class="search-id" appearance="outline">
-              <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти оселю по HouseID</mat-label>
-              <input matInput type="text" [(ngModel)]="searchQuery" (input)="startTimer()" />
+              <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти оселю по ID</mat-label>
+              <input matInput type="text" [(ngModel)]="searchQuery" (input)="searchByID()" />
 
             </mat-form-field>
           </div>
@@ -59,18 +67,17 @@
         <div class="group-card col-md-6 col-sm-12 col-12">
 
           <div class="group">
-            <mat-label class="label-mat noBg">Цінова категорія</mat-label>
             <div class="group-transparent m-1">
               <mat-form-field class="item-select m-1" appearance="outline">
                 <mat-label>Ціна (від)</mat-label>
                 <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="price_of" name="price_of"
-                  (ngModelChange)="onInputChange()">
+                  (ngModelChange)="onSubmitWithDelay()">
               </mat-form-field>
 
               <mat-form-field class="item-select m-1" appearance="outline">
                 <mat-label>Ціна (до)</mat-label>
                 <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="price_to" name="price_to"
-                  (ngModelChange)="onInputChange()">
+                  (ngModelChange)="onSubmitWithDelay()">
               </mat-form-field>
 
               <mat-form-field class="item-select m-1" appearance="outline">
@@ -95,7 +102,7 @@
                     (ngModelChange)="onSubmitWithDelay()" [value]="students">
                   <div class="transition"></div>
                 </label>
-                <span class="checkBox-span">Студент<span class="status">S</span>
+                <span class="text">Студент<span class="status">S</span>
                 </span>
 
                 <i></i>
@@ -107,7 +114,7 @@
                     (ngModelChange)="onSubmitWithDelay()" [value]="woman">
                   <div class="transition"></div>
                 </label>
-                <span class="checkBox-span">Жінка<span class="status">W</span></span>
+                <span class="text">Жінка<span class="status">W</span></span>
                 <i></i>
               </div>
 
@@ -117,7 +124,7 @@
                     [value]="man">
                   <div class="transition"></div>
                 </label>
-                <span class="checkBox-span">Чоловік<span class="status">M</span></span>
+                <span class="text">Чоловік<span class="status">M</span></span>
                 <i></i>
               </div>
 
@@ -127,7 +134,7 @@
                     (ngModelChange)="onSubmitWithDelay()" [value]="family">
                   <div class="transition"></div>
                 </label>
-                <span class="checkBox-span">Сім'я<span class="status">F</span></span>
+                <span class="text">Сім'я<span class="status">F</span></span>
                 <i></i>
               </div>
             </div>
@@ -152,8 +159,7 @@
               <mat-form-field class="item-select m-1" appearance="outline">
                 <mat-label>Місто</mat-label>
                 <input name="flatInfo.city" (ngModelChange)="onSubmitWithDelay()" matInput [(ngModel)]="selectedCity"
-                  placeholder="Виберіть або введіть місто" (ngModelChange)="loadDistricts()"
-                  [matAutocomplete]="autoCity">
+                  placeholder="Виберіть або введіть місто" (ngModelChange)="loadRegion()" [matAutocomplete]="autoCity">
                 <mat-autocomplete #autoCity="matAutocomplete">
                   <mat-option *ngFor="let city of filteredCities" [value]="city.name">
                     {{ city.name }}
@@ -227,27 +233,26 @@
         <div class="group-card col-md-6 col-sm-12 col-12">
 
           <div class="group">
-            <mat-label class="label-mat noBg">Кількість кімнат / тип балкону</mat-label>
             <div class="group-transparent m-1">
               <mat-form-field class="item-select m-1" appearance="outline">
-                <mat-label>від</mat-label>
+                <mat-label>кім. від</mat-label>
                 <mat-select [(ngModel)]="rooms_of" name="rooms_of" (ngModelChange)="onSubmitWithDelay()">
                   <mat-option [value]="null">Неважливо</mat-option>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                  <mat-option value="4">4+</mat-option>
+                  <mat-option value="1">Однокімнатна</mat-option>
+                  <mat-option value="2">Двокімнатна</mat-option>
+                  <mat-option value="3">Трикімнатна</mat-option>
+                  <mat-option value="4">Чотири і більше</mat-option>
                 </mat-select>
               </mat-form-field>
 
               <mat-form-field class="item-select m-1" appearance="outline">
-                <mat-label>до</mat-label>
+                <mat-label>кім. від</mat-label>
                 <mat-select [(ngModel)]="rooms_to" name="rooms_to" (ngModelChange)="onSubmitWithDelay()">
                   <mat-option [value]="null">Неважливо</mat-option>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                  <mat-option value="4">4+</mat-option>
+                  <mat-option value="1">Однокімнатна</mat-option>
+                  <mat-option value="2">Двокімнатна</mat-option>
+                  <mat-option value="3">Трикімнатна</mat-option>
+                  <mat-option value="4">Чотири і більше</mat-option>
                 </mat-select>
               </mat-form-field>
 

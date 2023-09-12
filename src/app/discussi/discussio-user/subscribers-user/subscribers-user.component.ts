@@ -91,7 +91,6 @@ export class SubscribersUserComponent implements OnInit {
   currentPhotoIndex: number = 0;
   indexPage: number = 1;
 
-
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
@@ -103,6 +102,7 @@ export class SubscribersUserComponent implements OnInit {
 
   onSubscriberSelect(subscriber: any): void {
     this.selectedFlat = subscriber;
+    console.log()
     this.selectedFlatId = subscriber.flat_id;
   }
 
@@ -118,9 +118,11 @@ export class SubscribersUserComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       const newsubscriptions = response.map((flat: any) => {
         return {
           flat_id: flat.flat.flat_id,
+          flat_name: flat.flat.flat_name,
           flatImg: flat.img,
           price_m: flat.flat.price_m,
           country: flat.flat.country,
@@ -187,25 +189,34 @@ export class SubscribersUserComponent implements OnInit {
     }
   }
 
-  async openDialog(flatId: string): Promise<void> {
+  async openDialog(flat: any): Promise<void> {
+    console.log(flat)
     const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/usersubs/delete/subs';
-    const dialogRef = this.dialog.open(DeleteSubsComponent);
+    console.log(userJson)
+    const user_id = JSON.parse(userJson!).user_id;
+    const url = 'http://localhost:3000/usersubs/delete/ysubs';
+    const dialogRef = this.dialog.open(DeleteSubsComponent, {
+      data: {
+        flatId: flat.flat_id,
+        flatName: flat.flat_name,
+        flatCity: flat.city,
+        flatSub: 'subscribers',
+      }
+    });
+
     dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && flatId) {
+      if (result === true && userJson && flat) {
         const data = {
           auth: JSON.parse(userJson),
-          flat_id: flatId,
-          user_id: user_id,
+          flat_id: flat.flat_id,
         };
-        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flatId);
+          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat_id);
         } catch (error) {
           console.error(error);
         }
+
       }
     });
   }

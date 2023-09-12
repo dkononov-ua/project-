@@ -198,7 +198,6 @@ export class ComunStatSeasonComponent implements OnInit {
   }
 
   getSelectParam() {
-
     this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
       this.selectedView = selectedView;
       if (this.selectedView) {

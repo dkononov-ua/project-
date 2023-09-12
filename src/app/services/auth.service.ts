@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs'; // Оновлено імпорт throwError
+import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({

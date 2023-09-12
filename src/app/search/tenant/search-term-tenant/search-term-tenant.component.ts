@@ -1,14 +1,11 @@
-import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
+import { PageEvent } from '@angular/material/paginator';
 interface UserInfo {
   price: number | undefined;
   region: string | undefined;
@@ -40,10 +37,7 @@ interface UserInfo {
   room: boolean | undefined;
   house: number | undefined;
   flat: number | undefined;
-}
-
-interface SearchParams {
-  [key: string]: any;
+  limit: number;
 }
 @Component({
   selector: 'app-search-term-tenant',
@@ -66,6 +60,17 @@ interface SearchParams {
 })
 
 export class SearchTermTenantComponent implements OnInit {
+
+  limit: number = 0;
+  offs: number = 0;
+  // загальна кількість знайдених осель
+  optionsFound: number = 0
+
+  pageEvent: PageEvent = {
+    length: 0,
+    pageSize: 5,
+    pageIndex: 0
+  };
 
   userInfo: UserInfo = {
     room: undefined,
@@ -98,6 +103,7 @@ export class SearchTermTenantComponent implements OnInit {
     day_counts: '',
     house: 0,
     flat: 0,
+    limit: 0,
   };
 
   filteredCities: any[] | undefined;
@@ -108,9 +114,8 @@ export class SearchTermTenantComponent implements OnInit {
   cities = cities;
   minValue: number = 0;
   maxValue: number = 100000;
-  disabled: boolean = true;
-  loading: boolean | undefined;
 
+  loading: boolean | undefined;
   timer: any;
   searchQuery: string | undefined;
   minValueDays: number = 0;
@@ -125,20 +130,12 @@ export class SearchTermTenantComponent implements OnInit {
   maxValueKitchen: number = 100;
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
-
   isSearchTermCollapsed: boolean = true;
-  private subscription: Subscription | undefined;
   filteredUsers!: [any];
-  userInfo2: any;
-  private searchSubject = new Subject<void>();
-  private searchSubscription: Subscription | undefined;
   searchTimer: any;
-
   flats: any[] | undefined;
   flatInfo: any[] | undefined;
   filteredFlats?: any;
-
-  endpoint = 'http://localhost:3000/search/user';
   selectedFlatId!: string | null;
 
   calculateTotalDays(): number {
@@ -159,77 +156,86 @@ export class SearchTermTenantComponent implements OnInit {
     this.saveDayCounts();
   }
 
+  toggleSearchTerm() {
+    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  }
+
   constructor(
     private filterUserService: FilterUserService,
-    private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router,
     private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
+    this.getSelectedFlatId();
+  }
+
+  getSelectedFlatId() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
-        this.onSubmit();
+        this.searchFilter();
       }
     });
   }
 
-  onSubmit(): void {
+  // пошук
+  searchFilter(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           this.filteredUsers = response.user_inf;
-          this.filterUserService.updateFilter(this.filteredUsers);
+          this.optionsFound = response.search_count;
+          this.passInformationToService(this.filteredUsers)
         }, (error: any) => {
           console.error(error);
         });
-      this.disabled = true;
-
     } else {
+      this.passInformationToService(this.filteredUsers)
       console.log('user not found');
     }
   }
 
-  searchUserID(): void {
+  // пошук юзера по ID
+  searchByUserID(): void {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-
       const userJson = localStorage.getItem('user');
       const userId = this.searchQuery;
 
-      if (userJson && this.searchQuery && this.searchQuery.length >= 5) {
+      if (userJson && this.searchQuery) {
         this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
+            console.log(response)
             this.filteredUsers = response.user_inf;
             this.filterUserService.updateFilter(this.filteredUsers);
-
           }, (error: any) => {
             console.error(error);
           });
-        this.disabled = true;
-
       } else {
+        this.searchFilter();
         console.log('user not found');
       }
-    }, 2000);
+    }, 1000);
   }
 
+  // додавання затримки на відправку запиту
   onSubmitWithDelay() {
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
     }
-
     this.searchTimer = setTimeout(() => {
-      this.onSubmit();
+      this.searchFilter();
     }, 2000);
   }
 
-  applyFilter(filteredUsers: any) {
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passInformationToService(filteredUsers: any) {
     this.filterUserService.updateFilter(filteredUsers);
   }
 
+  // завантаження бази міст
   loadCities() {
     const searchTerm = this.userInfo.region!.toLowerCase();
     this.filteredRegions = this.regions.filter(region =>
@@ -242,7 +248,8 @@ export class SearchTermTenantComponent implements OnInit {
     this.userInfo.city = '';
   }
 
-  loadDistricts() {
+  // завантаження бази областей
+  loadRegions() {
     const searchTerm = this.userInfo.city!.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.userInfo.region
@@ -258,7 +265,23 @@ export class SearchTermTenantComponent implements OnInit {
     );
   }
 
-  toggleSearchTerm() {
-    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  // наступна сторінка
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.userInfo.limit = offs;
+    }
+    this.searchFilter();
+  }
+
+  // попередня сторінка
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.userInfo.limit = offs;
+    }
+    this.searchFilter();
   }
 }

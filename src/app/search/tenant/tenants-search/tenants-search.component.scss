@@ -1,6 +1,7 @@
 @use "../../../style/presets/" as *;
 
 .container-house {
+  max-height: 75vh;
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -16,8 +17,55 @@
   display: none;
 }
 
+.img-container {
+  border-radius: 10px;
+  height: 300px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-wrapper {
+  display: flex;
+  overflow: hidden;
+}
+
+.prev-img,
+.next-img {
+  position: absolute;
+  width: 50px;
+  top: 0;
+  height: 100%;
+  z-index: 99;
+  border: none;
+  background-color: transparent;
+  transition: 0.5s;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.277);
+    .fa-solid {
+      color: $color-accent;
+      transform: scale(1.8);
+      padding: 5px;
+    }
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.541);
+  }
+}
+
+.prev-img {
+  left: 0;
+}
+
+.next-img {
+  right: 0;
+}
+
 .section {
-  max-height: 70vh;
+  max-height: 75vh;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -47,16 +95,7 @@
 .card-container {
   width: 100%;
   overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 1;
 }
-
 
 .card-house {
   width: 100%;
@@ -75,13 +114,16 @@
   transition: all 0.3s ease;
   align-items: center;
   width: 100%;
-  height: 160px;
+  height: 150px;
   justify-content: flex-start;
 }
 
-.card {
+.card-mini {
+  position: relative;
+  background-color: $color-white;
+  margin: 0;
   padding: 0;
-  width: 70%;
+  width: 80%;
   height: 90%;
   box-shadow: 10px 2px 15px rgba(0, 0, 0, 0.25),
     10px 3px 10px rgba(0, 0, 0, 0.22);
@@ -97,26 +139,6 @@
   overflow: hidden;
   transition: all 0.3s ease;
   border-radius: 10px;
-}
-
-.img-wrapper {
-  border-radius: 10px;
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-}
-
-.item-deskr {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 12px;
-}
-
-.deskr-box {
-  position: absolute;
-  top: -10px;
-  right: 0;
-  display: flex;
 }
 
 .card-img-container:hover,
@@ -166,7 +188,6 @@ h2 {
 }
 
 .fa-heart {
-  z-index: 10;
   font-size: 30px;
   color: $color-primary;
 }
@@ -174,11 +195,6 @@ h2 {
 $subscribed-color-1: rgb(255, 255, 255);
 $subscribed-color-2: rgb(240, 80, 52);
 $subscribed-color-3: rgb(240, 80, 52);
-
-.unSubscribed {
-  background-color: $color-dark;
-  color: white;
-}
 
 .subscribed,
 .discussion {
@@ -227,6 +243,7 @@ $subscribed-color-3: rgb(240, 80, 52);
 }
 
 .img-fluid {
+  z-index: 1;
   width: 100%;
   height: 300px;
   object-fit: cover;
@@ -287,28 +304,14 @@ p {
   justify-content: space-evenly;
 }
 
-.location {
-  width: 100%;
-  padding: 10px;
-  margin: 0;
-  text-align: center;
-  display: flex;
-  margin-bottom: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-}
-
 .link,
 .location {
   color: $color-text;
-  text-transform: uppercase;
   transition: all 0.4s ease;
   letter-spacing: 1px;
 
   &:hover {
-    color: $color-accent;
+    background-color: $color-gray;
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105),
       10px 20px 40px rgba(0, 0, 0, 0.162);
   }
@@ -327,6 +330,14 @@ p {
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105),
       10px 20px 40px rgba(0, 0, 0, 0.162);
   }
+}
+
+.orange {
+  color: $color-accent;
+}
+
+.white {
+  color: $color-white;
 }
 
 @keyframes slideUp {
@@ -358,10 +369,9 @@ p {
   max-height: 100vh;
 }
 
-.total-card {
+mat-paginator {
   display: flex;
-  justify-content: flex-start;
-  margin-left: 8%;
+  background-color: transparent;
 }
 
 .btn-create {
@@ -399,12 +409,12 @@ p {
 }
 
 .title-selected-accent {
-  font-size: 18px;
+  font-size: 16px;
   color: $color-accent;
   font-weight: 600;
 }
 
-.card.selected {
+.card-mini.selected {
   color: white;
   background-color: $color-dark;
   transition: 1s;
@@ -413,7 +423,7 @@ p {
 }
 
 .title-selected {
-  font-size: 18px;
+  font-size: 16px;
   color: $color-text;
 }
 
@@ -422,7 +432,7 @@ p {
   border: 1px solid rgba(1, 19, 12, 0.2);
   border-radius: 10px;
   padding: 5px;
-  margin: 2px;
+  margin-bottom: 5px;
   justify-content: space-between;
   align-items: baseline;
   box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.25), 2px 1px 2px rgba(0, 0, 0, 0.22);
@@ -430,14 +440,16 @@ p {
 
 .card-title {
   position: absolute;
-  top: 20px;
+  height: 100%;
+  bottom: 0;
   right: 0;
-  padding: 2px;
+  padding: 5px;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   align-content: flex-start;
   align-items: flex-end;
+  justify-content: center;
 }
 
 .title {
@@ -458,18 +470,18 @@ p {
 }
 
 .price {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
-}
-
-.price_m {
-  font-size: 30px;
-}
-
-.price_y {
-  font-size: 16px;
+  background: linear-gradient(to top, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  justify-content: flex-end;
 }
 
 .map {
@@ -524,17 +536,6 @@ p {
   background-color: $color-primary;
 }
 
-.item-characteristics-1 {
-  font-size: 10px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 2px 5px;
-  background-color: $color-white;
-  color: $color-dark;
-
-}
-
 .item-characteristics-price {
   font-size: 14px;
   font-weight: 400;
@@ -553,27 +554,11 @@ p {
 
 .container-sticker {
   position: absolute;
-  z-index: 1;
+  z-index: 20;
   width: 100%;
   height: 20px;
-  top: -26px;
+  top: -15px;
   right: 10px;
-}
-
-.status-container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.status {
-  padding: 5px 10px;
-  background-color: $color-accent;
-  margin: 0 3px;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 4px;
-  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.25), 2px 2px 10px rgba(0, 0, 0, 0.22);
 }
 
 .card-logo {
@@ -581,3 +566,135 @@ p {
   justify-content: space-around;
   color: rgba(39, 39, 39, 0.656);
 }
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.status {
+  margin: 0 3px;
+  padding: 5px 10px;
+
+  color: white;
+  border-radius: 4px;
+  background-color: $color-accent;
+  box-shadow:
+    2px 3px 10px rgba(0, 0, 0, 0.25),
+    2px 2px 10px rgba(0, 0, 0, 0.22);
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.container-sticker:hover .info-menu {
+  display: block;
+}
+
+.info-menu {
+  width: 300px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: none;
+  background-color: $color-dark;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+}
+
+.info-menu-text {
+  color: $color-white;
+}
+
+.info-menu p {
+  margin: 4px 0;
+}
+
+a {
+  text-transform: capitalize;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+
+.item-characteristics-1 {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 2px;
+  border-radius: 10px;
+  padding: 2px 5px;
+  background-color: $color-white;
+  color: $color-dark;
+}
+
+.item-deskr {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+}
+
+.deskr-box {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.img-container {
+  display: flex;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.img-wrapper {
+  position: absolute;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.user-group {
+  min-width: 40%;
+  display: flex;
+  height: 100%;
+  z-index: 10;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 2;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+  align-items: flex-end;
+}
+
+.user-group-name {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.user-sup-name {
+  font-size: 12px;
+  text-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.user-name {
+  font-size: 20px;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgb(255, 255, 255);
+}
+

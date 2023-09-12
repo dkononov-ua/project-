@@ -1,9 +1,5 @@
 @use "../../../style/presets/" as *;
 
-.container-box {
-  position: relative;
-}
-
 mat-form-field {
   width: 120px;
   height: 50px !important;
@@ -23,8 +19,28 @@ mat-label {
   color: $color-dark;
 }
 
-h3 {
-  margin-left: 10px;
+.count {
+  display: flex;
+  font-size: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.searchName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-page {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.accent {
+  font-weight: 600;
+  font-size: 26px;
 }
 
 .heightSet {
@@ -36,19 +52,21 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  border-radius: 5px 5px 0 0;
+  // box-shadow: 0 14px 28px rgba(0, 0, 0, 0.068), 0 10px 10px rgba(0, 0, 0, 0.085);
+  // border: 1px solid $color-gray;
 }
 
 .box {
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
-  position: relative;
 }
 .card-box {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  position: relative;
 }
 
 .group-card {
@@ -73,7 +91,7 @@ h3 {
   width: 100%;
   padding: 5px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   height: 70px !important;
 }
@@ -188,9 +206,7 @@ h3 {
 .container-btn {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
   align-items: center;
-  flex-direction: column;
 }
 
 .btn {
@@ -245,6 +261,28 @@ h3 {
 
 .fa-solid {
   color: $color-dark;
+}
+
+.custom-paginator {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.paginator-count {
+  display: flex;
+}
+
+.paginator-info {
+  display: flex;
+  font-size: 13px;
+}
+
+.paginator-button {
+  border: none;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
 }
 
 

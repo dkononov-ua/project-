@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../../filter.service';
 import { Subject } from 'rxjs';
@@ -51,6 +51,9 @@ interface FlatInfo {
   selector: 'app-housing-search',
   templateUrl: './housing-search.component.html',
   styleUrls: ['./housing-search.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -106,6 +109,19 @@ export class HousingSearchComponent implements OnInit {
   selectedFlatFlatIndex: string = '';
   optionsFound: number = 0;
 
+  options: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'Новий',
+    2: 'Добрий',
+    3: 'Задовільний',
+    4: 'Поганий',
+    5: 'Класичний балкон',
+    6: 'Французький балкон',
+    7: 'Лоджія',
+    8: 'Тераса',
+    9: 'Веранда',
+  }
+
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
     5: 'На території будинку',
@@ -113,6 +129,24 @@ export class HousingSearchComponent implements OnInit {
     300: '300м',
     500: '500м',
     1000: '1км',
+  }
+
+  checkBox: { [key: number]: string } = {
+    0: 'Вибір не зроблено',
+    1: 'Так',
+    2: 'Ні',
+  }
+
+  animals: { [key: number]: string } = {
+    0: 'Приховати',
+    1: 'Без тварин',
+    2: 'За домовленістю',
+    3: 'Можна з тваринами',
+  }
+
+  option_pay: { [key: number]: string } = {
+    0: 'Щомісяця',
+    1: 'Подобово',
   }
 
   statusSubscriptionMessage: boolean | undefined;
@@ -152,6 +186,7 @@ export class HousingSearchComponent implements OnInit {
     this.filteredFlats = filterValue;
     this.optionsFound = optionsFound;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    console.log(this.selectedFlat)
   }
 
   selectFlat(flat: FlatInfo) {
