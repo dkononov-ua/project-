@@ -37,11 +37,13 @@ interface UserInfo {
   surName: string | undefined;
   dob: string | any;
   password: string | undefined;
+  agreeAdd: boolean | false;
 }
 interface UserCont {
   facebook: string | undefined;
   instagram: string | undefined;
   mail: string | undefined;
+  email: string | undefined;
   telegram: string | undefined;
   user_id: string | undefined;
   viber: string | undefined;
@@ -81,6 +83,7 @@ interface UserCont {
 export class InformationUserComponent implements OnInit {
 
   userInfo: UserInfo = {
+    agreeAdd: false,
     firstName: '',
     lastName: '',
     email: '',
@@ -92,6 +95,7 @@ export class InformationUserComponent implements OnInit {
   userCont: UserCont = {
     facebook: '',
     instagram: '',
+    email: '',
     mail: '',
     phone_alt: 0,
     telegram: '',
@@ -119,6 +123,41 @@ export class InformationUserComponent implements OnInit {
   disabled: boolean = true;
   disabledUser: boolean = true;
 
+
+  passwordChange: boolean = true;
+  passwordCheck: any;
+
+
+  disabledEmail: boolean = true;
+  emailCheck: number = 0;
+  checkCode: any;
+
+  sendCodeEmail() {
+    this.emailCheck = 1;
+    // відправити код для підтвердження
+  }
+
+  confirmCodeEmail() {
+    this.emailCheck = 2;
+    this.userInfo.email = '';
+    // перевірити та підтвердити код, правильний далі, ні відміна
+  }
+
+  sendCodeNewEmail() {
+    this.emailCheck = 3;
+    // перевірити та підтвердити код, переписуємо пошту
+  }
+
+  confirmCodeNewEmail() {
+    this.emailCheck = 0;
+    this.getInfo();
+    // перевірити та підтвердити код, правильний далі, ні відміна
+  }
+
+  passwordSaveChange() {
+    this.passwordChange = true;
+  }
+
   phonePattern = '^[0-9]{10}$';
 
   constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe) { }
@@ -136,9 +175,8 @@ export class InformationUserComponent implements OnInit {
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
-          if (!this.userCont.mail && this.userInfo.email) {
-            this.userCont.mail = this.userInfo.email;
-          }
+          console.log(this.userCont)
+          console.log(this.userInfo)
         }, (error: any) => {
           console.error(error);
         });
@@ -192,14 +230,24 @@ export class InformationUserComponent implements OnInit {
 
   clearInfoUser(): void {
     if (this.disabledUser === false)
-    this.userInfo = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      surName: '',
-      dob: '',
-      password: '',
-    };
+      this.userInfo = {
+        agreeAdd: false,
+        firstName: '',
+        lastName: '',
+        email: '',
+        surName: '',
+        dob: '',
+        password: '',
+      };
+  }
+
+
+  descriptionVisibility: { [key: string]: boolean } = {};
+  isDescriptionVisible(key: string): boolean {
+    return this.descriptionVisibility[key] || false;
+  }
+  toggleDescription(key: string): void {
+    this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
   }
 
   clearInfoCont(): void {
@@ -207,6 +255,7 @@ export class InformationUserComponent implements OnInit {
       this.userCont = {
         facebook: '',
         instagram: '',
+        email: '',
         mail: '',
         phone_alt: 0,
         telegram: '',

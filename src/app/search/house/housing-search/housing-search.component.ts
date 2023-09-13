@@ -58,7 +58,13 @@ interface FlatInfo {
     trigger('cardAnimation', [
       transition('void => *', [
         style({ transform: 'translateX(300%)' }),
-        animate('1500ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(300%)' }),
+        animate('1400ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
     trigger('slideAnimation', [
@@ -72,14 +78,12 @@ interface FlatInfo {
 
 export class HousingSearchComponent implements OnInit {
 
-
   offs: number = 0;
   pageEvent: PageEvent = {
     length: 0,
     pageSize: 5,
     pageIndex: 0
   };
-
 
   isSubscribed: boolean = false;
   showSubscriptionMessage: boolean = false;
@@ -186,7 +190,7 @@ export class HousingSearchComponent implements OnInit {
     this.filteredFlats = filterValue;
     this.optionsFound = optionsFound;
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    console.log(this.selectedFlat)
+    this.checkSubscribe();
   }
 
   selectFlat(flat: FlatInfo) {

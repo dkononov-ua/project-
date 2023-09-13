@@ -29,7 +29,7 @@
   padding: 10px;
   border-radius: 10px;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
 }
 
 .card-transparent {
@@ -144,9 +144,17 @@ p {
   display: flex;
 }
 
+.flex-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .card-box {
   display: flex;
   align-items: stretch;
+  flex-direction: column;
 }
 
 .input-group {
@@ -304,3 +312,105 @@ mat-label {
     opacity: 1;
   }
 }
+
+
+.container-checkbox {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  border: 1px solid rgba(1, 19, 12, 0.2);
+  border-radius: 10px;
+  margin: 5px;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.content-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.descr {
+  color: $color-white;
+  font-size: 16px;
+}
+
+.content {
+  position: relative;
+}
+
+.checkBox {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px $color-primary;
+}
+
+.checkBox-span {
+  cursor: pointer;
+  transition: 0.5s;
+  &:hover {
+    color: $color-accent;
+    font-weight: 600;
+    transform: scale(1.1);
+  }
+}
+
+.bold {
+  color: $color-accent;
+  font-weight: 600;
+}
+.btn-info {
+  background-color: rgba(255, 255, 255, 0);
+  width: 30px;
+  height: 30px;
+}
+
+.description-container {
+  display: flex;
+  position: absolute;
+  z-index: 9999;
+  background-color: rgb(44, 44, 44);
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.description {
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.close-button {
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.btn-change {
+  border: none;
+  background-color: $color-primary;
+  border-radius: 50%;
+  width: 60px;
+  height: 50px;
+}
+

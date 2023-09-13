@@ -184,7 +184,6 @@ export class SearchTermTenantComponent implements OnInit {
     if (userJson) {
       this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           this.filteredUsers = response.user_inf;
           this.optionsFound = response.search_count;
           this.passInformationToService(this.filteredUsers)
@@ -207,7 +206,6 @@ export class SearchTermTenantComponent implements OnInit {
       if (userJson && this.searchQuery) {
         this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
-            console.log(response)
             this.filteredUsers = response.user_inf;
             this.filterUserService.updateFilter(this.filteredUsers);
           }, (error: any) => {

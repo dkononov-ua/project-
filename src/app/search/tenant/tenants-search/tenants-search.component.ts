@@ -61,6 +61,12 @@ interface UserInfo {
         animate('1500ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(300%)' }),
+        animate('1400ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
     trigger('slideAnimation', [
       transition(':enter', [
         style({ transform: 'translateY(100%)', opacity: 0 }),
