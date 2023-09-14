@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
+import { SubscriberMenuComponent } from '../discussi/discussio-user/subscriber-menu/subscriber-menu.component';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -33,6 +34,7 @@ import { SelectionDiscussioComponent } from '../components/selection-discussio/s
     SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
+    SubscriberMenuComponent,
   ],
   exports: [
     NavbarComponent,
@@ -44,6 +46,7 @@ import { SelectionDiscussioComponent } from '../components/selection-discussio/s
     SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
+    SubscriberMenuComponent,
   ],
   imports: [
     CommonModule,

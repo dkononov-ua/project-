@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
-  selector: 'app-subscriber-menu',
-  templateUrl: './subscriber-menu.component.html',
-  styleUrls: ['./subscriber-menu.component.scss']
+  selector: 'app-subscriber-host',
+  templateUrl: './subscriber-host.component.html',
+  styleUrls: ['./subscriber-host.component.scss']
 })
-export class SubscriberMenuComponent implements OnInit {
+export class SubscriberHostComponent implements OnInit {
 
   selectedFlatId!: string | null;
   counterSubs: any;
@@ -28,6 +28,7 @@ export class SubscriberMenuComponent implements OnInit {
 
     this.loading = false;
   }
+
 
   getFlatId() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
@@ -86,5 +87,6 @@ export class SubscriberMenuComponent implements OnInit {
     }
   }
 }
+
 
 

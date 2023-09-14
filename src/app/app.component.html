@@ -1,9 +1,11 @@
 <div class="body-container">
   <div class="container">
-    <app-navbar></app-navbar>
-    <!-- <app-navbar-host></app-navbar-host> -->
-    <router-outlet></router-outlet>
-    <app-footer class="footer"></app-footer>
+    <app-navbar class="hide-mobile"></app-navbar>
+    <div class="mobile">
+      <router-outlet></router-outlet>
+    </div>
+    <app-selection-account class="hide-pc"></app-selection-account>
+    <app-footer class="hide-mobile"></app-footer>
   </div>
 </div>
 

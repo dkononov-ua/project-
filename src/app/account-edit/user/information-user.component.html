@@ -11,35 +11,113 @@
 
   <div class="container-card">
 
-    <div class="card-box-photo col-lg-4 col-md-5 col-sm-6 col-12">
-      <div class="m-2">
-        <div class="img-fluid">
-          <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')">
-        </div>
+    <div class="card-box-photo p-2 col-lg-4 col-md-5 col-sm-6 col-12">
+      <div class="img-fluid">
+        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')">
+      </div>
 
-        <div class="card-1 mb-2">
-          <label class="label-1">Завантажити фото профіля</label>
-          <div class="input-div">
-            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-            <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
-          </div>
+      <div class="card-1 mb-2">
+        <div class="flex-column w-70">
+          <label class="label-1">ЗАВАНТАЖИТИ ФОТО</label>
+          <div class="description">Додайте або оновіть фото вашого аккаунту</div>
         </div>
+        <div class="input-div w-30">
+          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+        </div>
+      </div>
 
-        <div class="card-1">
-          <label class="label-1" for="exit">ВИЙТИ З АККАУНТУ</label>
-          <button class="input-div" (click)="logout()">
-            <i class="icon-up fa-solid fa-door-open"></i>
+      <div class="card-1 mb-2">
+        <div class="flex-column w-70">
+          <label class="label-1">ВИЙТИ З АККАУНТУ</label>
+          <div class="description">Створіть новий або увійдіть в інший аккаунт</div>
+        </div>
+        <button class="input-div w-30" (click)="logout()">
+          <i class="icon-up fa-solid fa-door-open"></i>
+        </button>
+      </div>
+
+      <div class="card">
+
+        <mat-label class="label">Змінити пошту</mat-label>
+        <div class="flex-row" *ngIf="emailCheck === 0">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Ваша пошта</mat-label>
+            <input name="userInfo.email" matInput [disabled]="disabledEmail" [(ngModel)]="userInfo.email">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ЗМІНИТИ ПОШТУ" (click)="sendCodeEmail()">
+            <i class="icon fa-solid fa-pen"></i>
           </button>
         </div>
 
+        <div class="flex-row" *ngIf="emailCheck === 1">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Код підтвердження для зміни</mat-label>
+            <input name="emailCode" matInput [(ngModel)]="checkCode">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="confirmCodeEmail()">
+            <i class="fa-regular fa-circle-check"></i>
+          </button>
+        </div>
 
+        <div class="flex-row" *ngIf="emailCheck === 2">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Введіть нову пошту</mat-label>
+            <input name="userInfo.email" matInput [(ngModel)]="userInfo.email">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="sendCodeNewEmail()">
+            <i class="fa-regular fa-circle-check"></i>
+          </button>
+        </div>
+
+        <div class="flex-row" *ngIf="emailCheck === 3">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Код підтвердження нової пошти</mat-label>
+            <input name="emailCheck" matInput [(ngModel)]="checkCode">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="confirmCodeNewEmail()">
+            <i class="fa-regular fa-circle-check"></i>
+          </button>
+        </div>
+
+        <mat-label class="label">Змінити пароль</mat-label>
+        <div class="flex-row" *ngIf="passwordCheck === 0">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Ваш пароль</mat-label>
+            <input name="password" type="password" matInput [disabled]="disabledPassword"
+              [(ngModel)]="userInfo.password">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ЗМІНИТИ ПАРОЛЬ" (click)="sendCodePassword()">
+            <i class="icon fa-solid fa-pen"></i>
+          </button>
+        </div>
+
+        <div class="flex-row" *ngIf="passwordCheck === 1">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Код підтвердження для зміни</mat-label>
+            <input name="checkCode" matInput [(ngModel)]="checkCode">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="confirmCodePassword()">
+            <i class="fa-regular fa-circle-check"></i>
+          </button>
+        </div>
+
+        <div class="flex-row" *ngIf="passwordCheck === 2">
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Введіть новий пароль</mat-label>
+            <input name="password" matInput [(ngModel)]="userInfo.password">
+          </mat-form-field>
+          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="sendCodeNewPassword()">
+            <i class="fa-regular fa-circle-check"></i>
+          </button>
+        </div>
 
       </div>
     </div>
 
-    <div [@cardAnimation1] class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
+    <div [@cardAnimation1] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
 
-      <div class="card m-2">
+      <div class="card ">
 
         <mat-label class="label">Персональні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
@@ -84,83 +162,6 @@
           </div>
         </div>
 
-        <mat-label class="label">Змінити пошту</mat-label>
-
-
-        <div class="flex-row" *ngIf="emailCheck === 0">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Ваша пошта</mat-label>
-            <input name="userInfo.email" matInput [disabled]="disabledEmail" [(ngModel)]="userInfo.email">
-          </mat-form-field>
-          <button class="btn-change" (click)="sendCodeEmail()">
-            <i class="icon fa-solid fa-pen"></i>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="emailCheck === 1">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Код підтвердження для зміни</mat-label>
-            <input name="emailCode" matInput [(ngModel)]="checkCode">
-          </mat-form-field>
-          <button class="btn-change" (click)="confirmCodeEmail()">
-            <span class="material-symbols-outlined">
-              check_circle
-              </span>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="emailCheck === 2">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Введіть нову пошту</mat-label>
-            <input name="userInfo.email" matInput [(ngModel)]="userInfo.email">
-          </mat-form-field>
-          <button class="btn-change" (click)="sendCodeNewEmail()">
-            <span class="material-symbols-outlined">
-              check_circle
-              </span>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="emailCheck === 3">
-          <mat-form-field class="item-select m-1" appearance="outline" >
-            <mat-label>Код підтвердження нової пошти</mat-label>
-            <input name="emailCheck" matInput [(ngModel)]="checkCode">
-          </mat-form-field>
-          <button class="btn-change" (click)="confirmCodeNewEmail()">
-            <span class="material-symbols-outlined">
-              check_circle
-              </span>
-          </button>
-        </div>
-
-
-
-
-
-
-
-        <mat-label class="label">Змінити пароль</mat-label>
-
-        <mat-form-field class="item-select m-1" appearance="outline" *ngIf="passwordChange === true">
-          <mat-label>Ваш пароль</mat-label>
-          <input type="password" name="password" matInput [disabled]="passwordChange" [(ngModel)]="userInfo.password">
-        </mat-form-field>
-
-        <mat-form-field class="item-select m-1" appearance="outline" *ngIf="passwordChange === false">
-          <mat-label>Новий пароль</mat-label>
-          <input name="userInfo.email" matInput [disabled]="passwordChange" [(ngModel)]="userInfo.password">
-        </mat-form-field>
-
-        <mat-form-field class="item-select m-1" appearance="outline" *ngIf="passwordChange === false">
-          <mat-label>Код підтвердження</mat-label>
-          <input name="userInfo.email" matInput [disabled]="passwordChange" [(ngModel)]="passwordCheck">
-        </mat-form-field>
-
-        <button class="btn btn-primary" *ngIf="passwordChange === true" (click)="passwordChange = false"><span
-            class="btn-text">ЗМІНИТИ ПАРОЛЬ</span></button>
-        <button class="btn btn-primary" *ngIf="passwordChange === false" (click)="passwordSaveChange()"><span
-            class="btn-text">ПІДТВЕРДИТИ</span></button>
-
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoUser()"><i
               class="icon fa-regular fa-circle-check"></i></button>
@@ -172,12 +173,11 @@
 
       </div>
 
-
-
     </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
-      <div class="card m-2">
+    <div [@cardAnimation2] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
+
+      <div class="card">
 
         <mat-label class="label">Контактні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
@@ -211,6 +211,7 @@
         </div>
 
       </div>
+
     </div>
 
   </div>

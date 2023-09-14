@@ -181,7 +181,7 @@
               </mat-form-field>
               <mat-form-field class="input-mat p-1" appearance="outline">
                 <mat-label class="label-accent">Email:</mat-label>
-                <input type="tel" name="owner_mail" matInput [(ngModel)]="userData.cont.mail">
+                <input type="email" name="owner_mail" matInput [(ngModel)]="userData.cont.email">
               </mat-form-field>
             </div>
           </div>
@@ -222,7 +222,7 @@
                 </mat-form-field>
                 <mat-form-field class="input-mat p-1" appearance="outline">
                   <mat-label class="label-accent">Email:</mat-label>
-                  <input type="tel" name="subscriber_mail" matInput [(ngModel)]="selectedSubscriber.mail">
+                  <input type="email" name="subscriber_mail" matInput [(ngModel)]="selectedSubscriber.email">
                 </mat-form-field>
               </div>
             </div>
@@ -463,7 +463,7 @@
             <div class="item-description accent"><span class="item-description">Телефон:</span>
               {{ userData.cont.tell }}</div>
             <div class="item-description accent"><span class="item-description">Email:</span>
-              {{ userData.cont.mail }}</div>
+              {{ userData.cont.email }}</div>
           </div>
           <div class="agree-wrapper">
             <div class="item-description">Сторона орендара</div>
@@ -474,7 +474,7 @@
             <div class="item-description accent"><span class="item-description">Телефон:</span>
               {{selectedSubscriber?.tell }}</div>
             <div class="item-description accent"><span class="item-description">Email:</span>
-              {{ selectedSubscriber?.mail }} </div>
+              {{ selectedSubscriber?.email }} </div>
           </div>
         </div>
 

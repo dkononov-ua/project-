@@ -1,3 +1,4 @@
+@use "../../../style/mixins/" as *;
 @use "../../../style/presets/" as *;
 
 .container-chat {
@@ -5,6 +6,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @include s1-s3 {
+    min-height: 100vh;
+  }
 }
 
 .chat-box {
@@ -226,7 +230,7 @@ img {
   width: 100%;
   position: sticky;
   background-color: white;
-  z-index: 999;
+  z-index: 50;
   top: 0;
   display: flex;
   align-items: center;
@@ -254,11 +258,15 @@ img {
   flex-direction: column;
   justify-content: center;
   height: 70vh;
+  @include s1-s3 {
+    height: 100vh;
+  }
 }
 
 .chat {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 }
 
 .chat-messages-read,
@@ -338,7 +346,7 @@ img {
   width: 100%;
   position: sticky;
   background-color: rgb(255, 255, 255);
-  z-index: 99;
+  z-index: 10;
   right: 0;
   bottom: 0;
   display: flex;
@@ -454,7 +462,7 @@ textarea::-webkit-scrollbar {
 
 .container-avatar {
   position: absolute;
-  z-index: 999;
+  z-index: 50;
 }
 
 .avatar-owner,
@@ -585,7 +593,7 @@ input {
   position: sticky;
   height: 150px;
   background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
-  z-index: 99;
+  z-index: 50;
   right: 0;
   top: 0;
   display: flex;
@@ -594,6 +602,13 @@ input {
   padding: 10px;
   justify-content: space-between;
   flex-direction: column;
+  @include s1-s3 {
+    padding-top: 20px;
+    position: sticky;
+    height: 10vh;
+    top: 0;
+    left: -100%;
+  }
 }
 
 .avatar-user1 {

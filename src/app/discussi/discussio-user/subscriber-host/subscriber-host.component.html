@@ -1,0 +1,34 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="container-box">
+    <div class="container-card col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+      <div class="m-2">
+        <app-selection-account class="hide-mobile"></app-selection-account>
+        <a [routerLinkActive]="'active'" [routerLink]="'/user/info'">Назад</a>
+
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-user'">
+          <span class="link-text">Підписники</span>
+          <div class="status" *ngIf="counterSubs.status !== 0">{{counterSubs.status}}</div>
+        </a>
+
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
+          <span class="link-text">Підписки</span>
+          <div class="status" *ngIf="counterSubscriptions.status !== 0">{{counterSubscriptions.status}}</div>
+        </a>
+
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
+          <span class="link-text">Дискусії</span>
+          <div class="status" *ngIf="counterAcceptSubs.status !== 0">{{counterAcceptSubs.status}}</div>
+        </a>
+
+      </div>
+    </div>
+
+    <div class="container-card col-lg-9 col-md-9 col-sm-12 col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-template>

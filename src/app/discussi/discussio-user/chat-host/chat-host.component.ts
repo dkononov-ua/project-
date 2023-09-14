@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-chat-host',
@@ -9,7 +9,26 @@ import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 export class ChatHostComponent implements AfterViewInit {
   loading: boolean = true;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  isMenuOpen = false;
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.closeMenu();
+    }
+  }
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private el: ElementRef) { }
 
   ngAfterViewInit(): void {
     setTimeout(() => {

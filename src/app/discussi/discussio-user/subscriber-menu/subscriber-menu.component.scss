@@ -1,16 +1,9 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
 .container-box {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: stretch;
-  align-items: stretch;
-  min-height: 70vh;
-}
-
-.container-card {
-  display: flex;
+  justify-content: flex-start;
   flex-direction: column;
 }
 
@@ -41,8 +34,8 @@
 .status {
   display: flex;
   position: absolute;
-  left: -18px;
-  top: 0px;
+  top: 0;
+  right: -20px;
   width: 30px;
   height: 30px;
   background-color: tomato;
@@ -53,6 +46,24 @@
   justify-content: center;
   border-radius: 50%;
 }
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s1-s3 {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
 
 
 

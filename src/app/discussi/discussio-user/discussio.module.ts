@@ -31,9 +31,7 @@ import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-dis
 import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
 import { DeleteSubsComponent } from './delete-subs/delete-subs.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SubscriberMenuComponent } from './subscriber-menu/subscriber-menu.component';
-
-
+import { SubscriberHostComponent } from './subscriber-host/subscriber-host.component';
 @NgModule({
   declarations: [
     ChatUserComponent,
@@ -43,7 +41,7 @@ import { SubscriberMenuComponent } from './subscriber-menu/subscriber-menu.compo
     SubscribersDiscusComponent,
     SubscriptionsUserComponent,
     DeleteSubsComponent,
-    SubscriberMenuComponent,
+    SubscriberHostComponent,
   ],
   providers: [ChoseSubscribeService],
   imports: [

@@ -86,6 +86,17 @@ export class SubscribersDiscusComponent implements OnInit {
   currentSubscription: Subject<unknown> | undefined;
   indexPage: number = 1;
 
+  mobile: boolean = true;
+  isMenuOpen = true;
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
+
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
     1: 'На території будинку',
@@ -411,6 +422,7 @@ export class SubscribersDiscusComponent implements OnInit {
     this.choseSubscribeService.chosenFlatId = flatId;
     this.selectedFlatId = flatId;
     this.checkChatExistence();
+    this.isMenuOpen = false;
   }
 
   goToComun() {

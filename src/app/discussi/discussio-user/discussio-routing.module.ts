@@ -6,12 +6,13 @@ import { SubscribersUserComponent } from './subscribers-user/subscribers-user.co
 import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { SubscriberMenuComponent } from './subscriber-menu/subscriber-menu.component';
+import { SubscriberHostComponent } from './subscriber-host/subscriber-host.component';
 
 const routes: Routes = [
   { path: 'chat-host', component: ChatHostComponent, canActivate: [CanActivateGuard]  },
   {
-    path: 'subscribers-menu-user',
-    component: SubscriberMenuComponent, canActivate: [CanActivateGuard],
+    path: 'subscribers-host-user',
+    component: SubscriberHostComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'subscribers-user', pathMatch: 'full' },
       { path: 'subscribers-user', component: SubscribersUserComponent, canActivate: [CanActivateGuard] },
@@ -19,7 +20,7 @@ const routes: Routes = [
       { path: 'subscriptions-user', component: SubscriptionsUserComponent, canActivate: [CanActivateGuard] },
     ],
   },
-
+  { path: 'subscribers-menu-user', component: SubscriberMenuComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

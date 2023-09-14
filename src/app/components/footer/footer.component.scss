@@ -1,4 +1,14 @@
 @use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+
+.container-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: stretch;
+  align-items: stretch;
+  min-height: 70vh;
+}
 
 .footer-box {
   display: flex;
@@ -8,6 +18,9 @@
   flex-direction: column;
   padding: 20px;
   margin-bottom: 10px;
+  @include s1-s3 {
+    display: none;
+  }
 }
 
 .icon-box {

@@ -1,4 +1,5 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
 a {
   padding: 0;
@@ -51,33 +52,64 @@ img {
   }
 }
 
-.container-dis {
-  display: flex;
-  align-content: center;
-  align-items: stretch;
-  flex-direction: column;
-  position: relative;
-}
 .switch-box {
   position: relative;
-  margin-bottom: 20px;
+  width: 100%;
   display: flex;
-  align-content: center;
-  align-items: baseline;
-  justify-content: flex-start;
-  height: 40px;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 60px;
+  @include s1-s3 {
+    position: sticky;
+    top: 0;
+    margin-top: 10px;
+  }
 }
-.btn {
-  margin: 5px;
-  padding: 10px 20px;
 
+.btn-menu {
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 10px 20px;
+  z-index: 99;
   color: $color-text;
   background-color: $color-white;
-  &:hover {
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  &.active {
     color: $color-white;
     background-color: $color-accent;
   }
+  &:hover {
+    color: $color-white;
+    background-color: $color-dark;
+  }
+
+  @include s1-s3 {
+    box-shadow: none;
+  }
 }
+
 .container-box {
   display: flex;
   flex-wrap: wrap;
@@ -85,14 +117,35 @@ img {
   position: relative;
   width: 100%;
   min-height: 65vh;
-  max-height: 70vh;
+
+  @include s1-s3 {
+    min-height: 0vh;
+  }
 }
-.card-box {
+
+.card-box2 {
   display: flex;
   position: relative;
   align-items: stretch;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+.card-box {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+
+  @include s1-s3 {
+    width: 100%;
+    height: 40vh;
+    top: 0;
+  }
+}
+
+.card-box.open {
+  display: none;
 }
 
 .accent {
@@ -106,6 +159,24 @@ img {
   max-height: 60vh;
   overflow: auto;
   padding: 0 0 0 15px;
+
+  @include s1-s3 {
+    width: 100%;
+    overflow: auto;
+    max-height: 90vh;
+    // background-color: $color-white;
+    z-index: 50;
+    padding-top: 20px;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    transition: left 1s ease;
+    background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 70%, rgba(255, 255, 255, 0) 100%);
+  }
+}
+
+.card-wrapper.open {
+  left: 0;
 }
 
 .card-wrapper::-webkit-scrollbar {
@@ -164,15 +235,22 @@ img {
   background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.card {
-  justify-content: flex-start;
-}
-
 .card-animation {
+  background-color: $color-white;
+  border-radius: 10px;
   position: absolute;
   width: 100%;
-  height: 100%;
-  overflow: auto;
+  margin: 10px;
+  min-height: 60vh;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  @include s1-s3 {
+    width: 95%;
+    height: 80vh;
+    // box-shadow: none;
+  }
 }
 
 .card-animation::-webkit-scrollbar {
@@ -274,6 +352,9 @@ img {
   display: flex;
   flex-direction: column-reverse;
   border-radius: 10px;
+  @include s1-s3 {
+    min-height: 80vh;
+  }
 }
 
 .card-chat::-webkit-scrollbar {
@@ -333,6 +414,10 @@ img {
   padding: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 10;
+}
+
+.text-btn {
+  font-size: 10px;
 }
 
 .info-menu-text {
@@ -510,13 +595,47 @@ img {
   overflow: hidden;
 }
 
+.hide-pc {
+  @include s1-s3 {
+    display: block;
+  }
 
+  @include s3-s6-max {
+    display: none;
+  }
+}
 
+.btn-hide-pc {
+  display: flex;
+  height: 60px;
+  width: 60px;
+  border: 2px solid $color-primary;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
 
+  &:hover {
+    transition: 0.4s;
+    color: $color-accent;
+    transform: scale(1.4);
+  }
+}
 
+.btn-hide-pc {
+  position: absolute;
+  left: 10px;
+  bottom: 15px;
+  z-index: 1000;
+}
 
+.hide-pc {
+  @include s1-s3 {
+    display: flex;
+    justify-content: space-evenly;
+  }
 
-
-
-
-
+  @include s3-s6-max {
+    display: none;
+  }
+}

@@ -1,4 +1,4 @@
-<div class="btn-group">
+<div class="btn-group hide-mobile">
   <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
     <div class="img-fluid">
       <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image"
@@ -6,12 +6,53 @@
     </div>
   </a>
   <ng-container *ngIf="(houses.length > 0) || (rentedHouses.length > 0)">
-    <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
+    <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ"
+      [routerLink]="'/house/house-info'">
       <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
         <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
       </ng-container>
     </a>
   </ng-container>
+</div>
+
+<div class="navbar-toggle" [ngClass]="{'open': isMenuOpen}">
+  <button class="link-btn with-image" [ngClass]="{'active': openUserMenu}" matTooltip="МІЙ ПРОФІЛЬ"
+    (click)="toggleMenuUser()">
+    <div class="img-fluid">
+      <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image"
+        (error)="useDefaultImage($event)">
+    </div>
+  </button>
+  <ng-container *ngIf="(houses.length > 0) || (rentedHouses.length > 0)">
+    <button class="link-btn with-image" [ngClass]="{'active': openFlatMenu}" matTooltip="МОЇ ОСЕЛІ"
+      (click)="toggleMenuFlat()">
+      <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
+        <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+      </ng-container>
+    </button>
+  </ng-container>
+</div>
+
+<div class="hide-pc navbar" *ngIf="openUserMenu" [ngClass]="{'open': isMenuOpen}">
+  <div class="nav-item">
+    <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/our-team'">
+      <!-- <div class="text1">Discussio</div> -->
+      <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="" (click)="closeMenuUser()">
+      <div class="text">Discussio. Beta</div>
+    </a>
+  </div>
+  <app-navbar-user (click)="closeMenuUser()"></app-navbar-user>
+</div>
+
+<div class="hide-pc navbar" *ngIf="openFlatMenu" [ngClass]="{'open': isMenuOpen}">
+  <div class="nav-item">
+    <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/our-team'">
+      <!-- <div class="text1">Discussio</div> -->
+      <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="" (click)="closeMenuFlat()">
+      <div class="text">Discussio. Beta</div>
+    </a>
+  </div>
+  <app-navbar-house (click)="closeMenuFlat()"></app-navbar-house>
 </div>
 
 <div *ngIf="loading" class="loader-overlay">

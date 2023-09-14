@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -23,19 +23,60 @@ export class SelectionAccountComponent implements OnInit {
   addressHouse: FormGroup | undefined;
   flatImg: any = [{ img: "housing_default.svg" }];
   userImg: any;
-
+  openUserMenu: boolean = true;
+  openFlatMenu: boolean = false;
   selectHouse = new FormGroup({
     house: new FormControl('виберіть оселю')
   });
   images: any;
   selectedRentedFlatId: any;
 
+  ifOpenUserMenu() {
+    this.openFlatMenu = false;
+    this.openUserMenu = true;
+  }
+
+  ifOpenFlatMenu() {
+    this.openUserMenu = false;
+    this.openFlatMenu = true;
+  }
+
+  isMenuOpen = false;
+
+  toggleMenuUser(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    this.ifOpenUserMenu()
+    console.log(this.isMenuOpen)
+  }
+
+  toggleMenuFlat(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    this.ifOpenFlatMenu()
+    console.log(this.isMenuOpen)
+  }
+
+  closeMenuFlat(): void {
+    this.isMenuOpen = false;
+  }
+
+  closeMenuUser(): void {
+    this.isMenuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.closeMenuUser();
+      this.closeMenuFlat();
+    }
+  }
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private dataService: DataService,
-    private selectedFlatService: SelectedFlatService) { }
+    private selectedFlatService: SelectedFlatService,
+    private el: ElementRef) { }
 
   ngOnInit(): void {
     this.getSelectParam();

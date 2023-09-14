@@ -31,6 +31,13 @@
 
         <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
 
+          <mat-form-field class="inputbox w-75 mt-2">
+            <mat-label>Дата народження</mat-label>
+            <input matInput [matDatepicker]="picker" id="dob" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
           <mat-form-field class="inputbox w-75 mt-2" appearance="outline">
             <mat-label>Ім'я користувача</mat-label>
             <input matInput class="input-field" id="userName" type="text" formControlName="userName"

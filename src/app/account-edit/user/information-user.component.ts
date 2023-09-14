@@ -124,12 +124,10 @@ export class InformationUserComponent implements OnInit {
   disabledUser: boolean = true;
 
 
-  passwordChange: boolean = true;
-  passwordCheck: any;
-
-
+  disabledPassword: boolean = true;
   disabledEmail: boolean = true;
   emailCheck: number = 0;
+  passwordCheck: number = 0;
   checkCode: any;
 
   sendCodeEmail() {
@@ -154,12 +152,24 @@ export class InformationUserComponent implements OnInit {
     // перевірити та підтвердити код, правильний далі, ні відміна
   }
 
-  passwordSaveChange() {
-    this.passwordChange = true;
+  sendCodePassword() {
+    this.passwordCheck = 1;
+    // відправити код для підтвердження
   }
 
-  phonePattern = '^[0-9]{10}$';
+  confirmCodePassword() {
+    this.passwordCheck = 2;
+    this.userInfo.password = '';
+    // перевірити та підтвердити код, правильний далі, ні відміна
+  }
 
+  sendCodeNewPassword() {
+    this.passwordCheck = 0;
+    this.getInfo();
+  }
+
+
+  phonePattern = '^[0-9]{10}$';
   constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {

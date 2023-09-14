@@ -29,6 +29,12 @@ $diff: 0.2px;
 }
 
 // Міксин для медіа-запита, який включає стилі при розширенні екрану від 768 до 1340 пікселів.
+@mixin s3-s6-max {
+  @media (min-width: $s3) {
+    @content;
+  }
+}
+
 @mixin s3-s6 {
   @media (max-width: ($s6 - $diff)) and (min-width: $s3) {
     @content;
@@ -92,7 +98,19 @@ $diff: 0.2px;
   }
 }
 
+@mixin s1-s3plus {
+  @media (max-width: ($s4 - $diff)) and (min-width: $s1) {
+    @content;
+  }
+}
+
 @mixin s1-s3 {
+  @media (max-width: ($s3 - $diff)) and (min-width: $s1) {
+    @content;
+  }
+}
+
+@mixin s1-s2plus {
   @media (max-width: ($s3 - $diff)) and (min-width: $s1) {
     @content;
   }

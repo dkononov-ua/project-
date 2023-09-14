@@ -1,331 +1,354 @@
-<div class="container-dis">
+<div class="container-box">
 
-  <div class="switch-box" *ngIf="selectedFlat">
-    <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">Опис меню</button>
-    <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">Оселя</button>
-    <button class="btn" [ngClass]="{ 'active': indexPage == 4}" (click)="indexPage = 4">Параметри</button>
-    <button [disabled]="chatExists === false" class="btn" [ngClass]="{ 'active': indexPage == 2}"
-      (click)="indexPage = 2">Чат</button>
-    <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">Представник</button>
+
+
+  <div class="card-box2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscriptions.length !== 0">
+
+
+
+    <div class="switch-box">
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Меню">
+          <span class="material-symbols-outlined"> menu </span></button>
+      </div>
+
+      <div class="btn-menu">
+        <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1"
+          matTooltip="Оселя">
+          <span class="material-symbols-outlined"> attach_money </span></button>
+      </div>
+
+      <div class="btn-menu">
+        <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 4}" (click)="indexPage = 4"
+          matTooltip="Параметри">
+          <span class="material-symbols-outlined">
+            checklist </span></button>
+      </div>
+
+      <div class="btn-menu">
+        <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2"
+          matTooltip="Чат">
+          <span class="material-symbols-outlined">forum</span></button>
+      </div>
+
+      <div class="btn-menu">
+        <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3"
+          matTooltip="Представник">
+          <span class="material-symbols-outlined">support_agent</span></button>
+      </div>
+
+    </div>
+
+    <div class="card-container mb-2" *ngIf="subscriptions.length === 0">
+      <h3>Тут будуть Discusiї</h3>
+      <p>Ухалено: <span class="accent">{{ subscriptions.length }} Discussio</span></p>
+    </div>
+
+    <div class="card-wrapper" [ngClass]="{'open': isMenuOpen}">
+      <h4 class="hide-pc mb-2">Ваші дискусії</h4>
+      <button class="card-mini mb-4" (click)="selectFlatId(subscriber.flat_id)" (click)="indexPage = 1"
+        [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }" *ngFor="let subscriber of subscriptions">
+
+        <div class="card-img-container">
+          <img class="card-img"
+            [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+            alt="Flat Image">
+        </div>
+
+        <div class="card-mini-body p-2">
+          <div class="card-title">ID: {{ subscriber.flat_id }}</div>
+          <div class="card-title">Обл.: {{ subscriber.region}}</div>
+          <div class="card-title">м.: {{ subscriber.city}}</div>
+          <div class="card-title">Ціна: {{ subscriber.price_m }} ₴/міс</div>
+        </div>
+      </button>
+    </div>
+
   </div>
 
-  <div class="container-box">
+  <div class="card-box-img col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="subscriptions.length === 0">
+    <div class="title-1">Дискусій ще немає...</div>
+    <img class="img-dog" src="../../../../assets/noSub12.png" alt="">
+  </div>
 
-    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscriptions.length !== 0">
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlat" [ngClass]="{'open': isMenuOpen}">
 
-      <div class="card-container mb-2" *ngIf="subscriptions.length !== 0">
-        <h3>Ваші Discusiї</h3>
-        <p>Ухалено: <span class="accent">{{ subscriptions.length }} Discussio</span></p>
-      </div>
+    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 1">
 
-      <div class="card-container mb-2" *ngIf="subscriptions.length === 0">
-        <h3>Тут будуть Discusiї</h3>
-        <p>Ухалено: <span class="accent">{{ subscriptions.length }} Discussio</span></p>
-      </div>
-
-      <div class="card-container card-wrapper">
-        <button class="card-mini mb-4" (click)="selectFlatId(subscriber.flat_id)" (click)="indexPage = 1"
-          [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }" *ngFor="let subscriber of subscriptions">
-
-          <div class="card-img-container">
-            <img class="card-img"
-              [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
-              alt="Flat Image">
-          </div>
-
-          <div class="card-mini-body p-2">
-            <div class="card-title">ID: {{ subscriber.flat_id }}</div>
-            <div class="card-title">Обл.: {{ subscriber.region}}</div>
-            <div class="card-title">м.: {{ subscriber.city}}</div>
-            <div class="card-title">Ціна: {{ subscriber.price_m }} ₴/міс</div>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <div class="card-box-img col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="subscriptions.length === 0">
-      <div class="title-1">Дискусій ще немає...</div>
-      <img class="img-dog" src="../../../../assets/noSub12.png" alt="">
-    </div>
-
-    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlat">
-
-      <div [@cardAnimation2] class="card card-animation m-2" *ngIf="indexPage === 1">
-
-        <div *ngIf="selectedFlat">
-          <div class="img-container">
-            <div class="img-wrapper">
-              <img class="img-fluid"
-                [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex] ? 'http://localhost:3000/img/flat/' + selectedFlat.img[currentPhotoIndex] : 'http://localhost:3000/img/flat/housing_default.svg'"
-                alt="Flat Image">
-            </div>
-            <div *ngIf="selectedFlat?.img.length > 1">
-              <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
-                  class="fa-solid fa-chevron-left"></i></button>
-              <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
-                (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-body p-2">
-
-          <div class="title-group">
-            <div class="title-selected">Ціна: </div>
-            <div class="title-selected-accent">{{ selectedFlat.flat.price_m }}<sup>₴/міс</sup></div>
-          </div>
-
-          <button class="title-group" matTooltip="Копіювати" (click)="copyFlatId()">
-            <div class="title-selected">ID оселі: </div>
-            <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedFlat.flat.flat_id }}</div>
-            <div *ngIf="isCopied" class="title-selected-accent message"> ID оселі скопійовано!</div>
-          </button>
-
-          <button class="card-btn" (click)="goToComun()">
-            <span>Статистика комунальні</span> <span class="material-symbols-outlined">
-              bar_chart
-            </span>
-          </button>
-
-          <button class="card-btn" *ngIf="chatExists" (click)="indexPage = 2">
-            <span>Написати</span><i class="fa-solid fa-message"></i>
-          </button>
-
-          <button class="card-btn" *ngIf="!chatExists" (click)="createChat(selectedFlat)">
-            <span>Створити чат</span><i class="fa-solid fa-message"></i>
-          </button>
-
-          <button class="card-btn" matTooltip="Видалити Дискусію" (click)="openDialog(selectedFlat)">
-            <span>Відписатись</span><i class="fa-solid fa-user-xmark"></i>
-          </button>
-
-        </div>
-      </div>
-
-      <div [@cardAnimation2] class="card card-animation m-2 card-chat" *ngIf="indexPage === 2">
-        <app-chat-user></app-chat-user>
-      </div>
-
-      <div [@cardAnimation2] class="card col-12 card-animation" *ngIf="indexPage === 3">
-
+      <div *ngIf="selectedFlat">
         <div class="img-container">
           <div class="img-wrapper">
-            <div class="img-fluid">
-              <img [src]="'http://localhost:3000/img/users/' + (ownerImg ? ownerImg : 'user_default.svg')"
-                alt="User Image">
-            </div>
+            <img class="img-fluid"
+              [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex] ? 'http://localhost:3000/img/flat/' + selectedFlat.img[currentPhotoIndex] : 'http://localhost:3000/img/flat/housing_default.svg'"
+              alt="Flat Image">
           </div>
+          <div *ngIf="selectedFlat?.img.length > 1">
+            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img" (click)="nextPhoto()"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
 
-          <div class="user-group p-1">
+      <div class="card-body p-2">
 
-            <div class="social-link-box">
-              <a target="_blank" *ngIf="instagram" href="{{ instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-              <a target="_blank" *ngIf="telegram" href="{{ telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
-              <a target="_blank" *ngIf="facebook" href="{{ facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
-            </div>
+        <div class="title-group">
+          <div class="title-selected">Ціна: </div>
+          <div class="title-selected-accent">{{ selectedFlat.flat.price_m }}<sup>₴/міс</sup></div>
+        </div>
 
-            <div class="user-group-name">
-              <div class="user-sup-name">Прізвище : </div>
-              <div class="user-name">{{ lastName || '?' }}</div>
-            </div>
+        <button class="title-group" matTooltip="Копіювати" (click)="copyFlatId()">
+          <div class="title-selected">ID оселі: </div>
+          <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedFlat.flat.flat_id }}</div>
+          <div *ngIf="isCopied" class="title-selected-accent message"> ID оселі скопійовано!</div>
+        </button>
 
-            <div class="user-group-name">
-              <div class="user-sup-name">Ім'я : </div>
-              <div class="user-name">{{ firstName || '?' }}</div>
-            </div>
+        <button class="card-btn" (click)="goToComun()">
+          <span>Статистика комунальні</span> <span class="material-symbols-outlined">
+            bar_chart
+          </span>
+        </button>
 
-            <div class="user-group-name">
-              <div class="user-sup-name">По батькові : </div>
-              <div class="user-name">{{ surName || '?' }}</div>
-            </div>
+        <button class="card-btn" *ngIf="chatExists" (click)="indexPage = 2">
+          <span>Написати</span><i class="fa-solid fa-message"></i>
+        </button>
 
+        <button class="card-btn" *ngIf="!chatExists" (click)="createChat(selectedFlat)">
+          <span>Створити чат</span><i class="fa-solid fa-message"></i>
+        </button>
+
+        <button class="card-btn" matTooltip="Видалити Дискусію" (click)="openDialog(selectedFlat)">
+          <span>Відписатись</span><i class="fa-solid fa-user-xmark"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <div [@cardAnimation2] class="card-animation card-chat" *ngIf="indexPage === 2">
+      <app-chat-user></app-chat-user>
+    </div>
+
+    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 3">
+
+      <div class="img-container">
+        <div class="img-wrapper">
+          <div class="img-fluid">
+            <img [src]="'http://localhost:3000/img/users/' + (ownerImg ? ownerImg : 'user_default.svg')"
+              alt="User Image">
           </div>
         </div>
 
-        <div class="card-body p-2">
+        <div class="user-group p-1">
 
-          <p>Представник оселі {{ selectedFlat.flat.flat_name }}, ID оселі: {{ selectedFlat.flat.flat_id }}
-          </p>
-
-          <p>В майбутньому планується введення системи оцінювання, відгуків та рейтингу для орендодавців та орендарів.
-          </p>
-
-          <div class="title-group">
-            <div class="title-selected">User ID: </div>
-            <div class="title-selected-accent">{{ selectedFlat.owner.user_id }}</div>
+          <div class="social-link-box">
+            <a target="_blank" *ngIf="instagram" href="{{ instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+            <a target="_blank" *ngIf="telegram" href="{{ telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+            <a target="_blank" *ngIf="facebook" href="{{ facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
           </div>
 
-          <button class="title-group" matTooltip="Копіювати" (click)="copyTell()">
-            <div class="title-selected">Телефон: </div>
-            <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedFlat.owner.tell }}</div>
-            <div *ngIf="isCopied" class="title-selected-accent message"> телефон скопійовано!</div>
-          </button>
+          <div class="user-group-name">
+            <div class="user-sup-name">Прізвище : </div>
+            <div class="user-name">{{ lastName || '?' }}</div>
+          </div>
 
-          <div class="title-group">
-            <div class="title-selected">Пошта: </div>
-            <div class="title-selected-accent">{{ selectedFlat.owner.mail }}</div>
+          <div class="user-group-name">
+            <div class="user-sup-name">Ім'я : </div>
+            <div class="user-name">{{ firstName || '?' }}</div>
+          </div>
+
+          <div class="user-group-name">
+            <div class="user-sup-name">По батькові : </div>
+            <div class="user-name">{{ surName || '?' }}</div>
           </div>
 
         </div>
       </div>
 
-      <div [@cardAnimation2] class="card card-animation m-2 p-2" *ngIf="indexPage === 4">
+      <div class="card-body p-2">
 
-        <div class="btn-container">
-          <div class="status-container">
-            <div class="status selectedFlat" *ngIf="selectedFlat.flat.option_flat === 1">Будинок</div>
-            <div class="status selectedFlat" *ngIf="selectedFlat.flat.option_flat === 2">Квартира</div>
+        <p>Представник оселі {{ selectedFlat.flat.flat_name }}, ID оселі: {{ selectedFlat.flat.flat_id }}
+        </p>
 
-            <div class="status rent-yes" *ngIf="selectedFlat.flat.woman === 1">W</div>
-            <div class="status rent-yes" *ngIf="selectedFlat.flat.man === 1">M</div>
-            <div class="status rent-yes" *ngIf="selectedFlat.flat.students === 1">S</div>
-            <div class="status rent-yes" *ngIf="selectedFlat.flat.family === 1">F</div>
-          </div>
-          <div class="info-menu">
-            <div class="accent bold">Допомога</div>
-            <div class="info-menu-text">
-              <ul>Власник оселі обрав пріорітетну категорію для поселення.
-                <li *ngIf="selectedFlat.flat.woman === 1">W - Жінки</li>
-                <li *ngIf="selectedFlat.flat.man === 1">M - Чоловіки</li>
-                <li *ngIf="selectedFlat.flat.students === 1">S - Студенти</li>
-                <li *ngIf="selectedFlat.flat.family === 1">F - Сім'ї</li>
-              </ul>
-            </div>
-          </div>
+        <p>В майбутньому планується введення системи оцінювання, відгуків та рейтингу для орендодавців та орендарів.
+        </p>
 
+        <div class="title-group">
+          <div class="title-selected">User ID: </div>
+          <div class="title-selected-accent">{{ selectedFlat.owner.user_id }}</div>
         </div>
 
-        <div class="characteristics">
-          <div class="characteristics-label">Локація: </div>
+        <button class="title-group" matTooltip="Копіювати" (click)="copyTell()">
+          <div class="title-selected">Телефон: </div>
+          <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedFlat.owner.tell }}</div>
+          <div *ngIf="isCopied" class="title-selected-accent message"> телефон скопійовано!</div>
+        </button>
 
-
-
-          <div class="characteristics-group">
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.region">Область :
-              <span class="item">{{ selectedFlat.flat.region }}</span>
-            </div>
-
-            <div class="item-characteristics accent-bg">
-              <a class="item" target="_blank" href="{{locationLink}}" matTooltip="Переглянути на мапі">
-                <span class="material-symbols-outlined">
-                  home_pin
-                </span></a>
-            </div>
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.city">Місто :
-              <span class="item">{{ selectedFlat.flat.city }}</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.street">Вулиця :
-              <span class="item">{{ selectedFlat.flat.street }}</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.houseNumber">Будинок :
-              <span class="item">{{selectedFlat.flat.houseNumber }}</span>
-            </div>
-
-          </div>
+        <div class="title-group">
+          <div class="title-selected">Пошта: </div>
+          <div class="title-selected-accent">{{ selectedFlat.owner.mail }}</div>
         </div>
 
-        <div class="characteristics">
-          <div class="characteristics-label">Параметри оселі:</div>
+      </div>
+    </div>
 
-          <div class="characteristics-group">
+    <div [@cardAnimation2] class="card-animation p-2" *ngIf="indexPage === 4">
 
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.area !== 'Приховати' && selectedFlat?.flat.area !== null">
-              Площа:<span class="item">{{ selectedFlat.flat.area }}м²</span> </div>
+      <div class="btn-container">
+        <div class="status-container">
+          <div class="status selectedFlat" *ngIf="selectedFlat.flat.option_flat === 1">Будинок</div>
+          <div class="status selectedFlat" *ngIf="selectedFlat.flat.option_flat === 2">Квартира</div>
 
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.repair_status !== 'Приховати' && selectedFlat?.flat.repair_status !== null">Стан
-              оселі:<span class="item">{{ selectedFlat.flat.repair_status }}</span> </div>
-
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.rooms !== 'Приховати' && selectedFlat?.flat.rooms !== null">
-              Кімнат:<span class="item">{{ selectedFlat.flat.rooms }}</span> </div>
-
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.floor !== 0 && selectedFlat?.flat.floor !== null">Поверх:<span class="item">{{
-                selectedFlat.flat.floor }}</span> </div>
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.balcony">Тип
-              балкону:<span class="item">{{ selectedFlat.flat.balcony }}</span> </div>
-
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.kitchen_area !== 'Приховати' && selectedFlat?.flat.kitchen_area !== null">Площа
-              кухні:<span class="item">{{ selectedFlat.flat.kitchen_area }}м²</span> </div>
-
-          </div>
+          <div class="status rent-yes" *ngIf="selectedFlat.flat.woman === 1">W</div>
+          <div class="status rent-yes" *ngIf="selectedFlat.flat.man === 1">M</div>
+          <div class="status rent-yes" *ngIf="selectedFlat.flat.students === 1">S</div>
+          <div class="status rent-yes" *ngIf="selectedFlat.flat.family === 1">F</div>
         </div>
-
-        <div class="characteristics"
-          *ngIf="selectedFlat?.flat.distance_metro || selectedFlat?.flat.distance_stop || selectedFlat?.flat.distance_shop || selectedFlat?.flat.distance_green || selectedFlat?.flat.distance_parking">
-          <div class="characteristics-label">Інфраструктура:</div>
-          <div class="characteristics-group">
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.distance_metro !== 0 && selectedFlat?.flat.distance_metro !== null">Метро
-              до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_metro] }}</span> </div>
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.distance_stop !== 0 && selectedFlat?.flat.distance_stop !== null">Зупинка
-              до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_stop] }}</span> </div>
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.distance_shop !== 0 && selectedFlat?.flat.distance_shop !== null">Маркет
-              до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_shop] }}</span> </div>
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.distance_green !== 0 && selectedFlat?.flat.distance_green !== null">Парк
-              до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_green] }}</span> </div>
-            <div class="item-characteristics"
-              *ngIf="selectedFlat?.flat.distance_parking !== 0 && selectedFlat?.flat.distance_parking !== null">
-              Паркінг:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_parking] }}</span> </div>
+        <div class="info-menu">
+          <div class="accent bold">Допомога</div>
+          <div class="info-menu-text">
+            <ul>Власник оселі обрав пріорітетну категорію для поселення.
+              <li *ngIf="selectedFlat.flat.woman === 1">W - Жінки</li>
+              <li *ngIf="selectedFlat.flat.man === 1">M - Чоловіки</li>
+              <li *ngIf="selectedFlat.flat.students === 1">S - Студенти</li>
+              <li *ngIf="selectedFlat.flat.family === 1">F - Сім'ї</li>
+            </ul>
           </div>
-        </div>
-
-        <div class="characteristics">
-          <div class="characteristics-label">Особливості:</div>
-          <div class="characteristics-group">
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.option_pay">Оплата:
-              <span class="item">{{option_pay[selectedFlat.flat.option_pay] }}</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.bunker">Наявність укриття:
-              <span class="item">{{ selectedFlat.flat.bunker }}</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="selectedFlat?.flat.animals">Дозвіл на тварин:
-              <span class="item">{{ animalsKey[selectedFlat.flat.animals] }} </span>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="characteristics" *ngIf="selectedFlat?.flat.about">
-          <div class="characteristics-label">Про оселю:</div>
-          <div class="about">{{ selectedFlat.flat.about }}</div>
         </div>
 
       </div>
 
-      <div [@cardAnimation2] class="card card-animation m-2 p-2" *ngIf="indexPage === 0">
-        <div class="card-info">
-          <h2>Меню Дискусії</h2>
-          <div class="title p-2">
-            <p>Тут Ви зможете бачити оселі з якими Ви в дискусії.</p>
-          </div>
-          <div class="title p-2">
-            <p>Ви можете переглядати інформацію про параметри оселі, бачити представника та його інформацію, створити
-              чат
-              з представником, відправляти повідомлення, перейти до перегляду статистики комунальних послуг.</p>
-          </div>
-        </div>
+      <div class="characteristics">
+        <div class="characteristics-label">Локація: </div>
 
+
+
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.region">Область :
+            <span class="item">{{ selectedFlat.flat.region }}</span>
+          </div>
+
+          <div class="item-characteristics accent-bg">
+            <a class="item" target="_blank" href="{{locationLink}}" matTooltip="Переглянути на мапі">
+              <span class="material-symbols-outlined">
+                home_pin
+              </span></a>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.city">Місто :
+            <span class="item">{{ selectedFlat.flat.city }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.street">Вулиця :
+            <span class="item">{{ selectedFlat.flat.street }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.houseNumber">Будинок :
+            <span class="item">{{selectedFlat.flat.houseNumber }}</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Параметри оселі:</div>
+
+        <div class="characteristics-group">
+
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.area !== 'Приховати' && selectedFlat?.flat.area !== null">
+            Площа:<span class="item">{{ selectedFlat.flat.area }}м²</span> </div>
+
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.repair_status !== 'Приховати' && selectedFlat?.flat.repair_status !== null">Стан
+            оселі:<span class="item">{{ selectedFlat.flat.repair_status }}</span> </div>
+
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.rooms !== 'Приховати' && selectedFlat?.flat.rooms !== null">
+            Кімнат:<span class="item">{{ selectedFlat.flat.rooms }}</span> </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.floor !== 0 && selectedFlat?.flat.floor !== null">
+            Поверх:<span class="item">{{
+              selectedFlat.flat.floor }}</span> </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.balcony">Тип
+            балкону:<span class="item">{{ selectedFlat.flat.balcony }}</span> </div>
+
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.kitchen_area !== 'Приховати' && selectedFlat?.flat.kitchen_area !== null">Площа
+            кухні:<span class="item">{{ selectedFlat.flat.kitchen_area }}м²</span> </div>
+
+        </div>
+      </div>
+
+      <div class="characteristics"
+        *ngIf="selectedFlat?.flat.distance_metro || selectedFlat?.flat.distance_stop || selectedFlat?.flat.distance_shop || selectedFlat?.flat.distance_green || selectedFlat?.flat.distance_parking">
+        <div class="characteristics-label">Інфраструктура:</div>
+        <div class="characteristics-group">
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.distance_metro !== 0 && selectedFlat?.flat.distance_metro !== null">Метро
+            до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_metro] }}</span> </div>
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.distance_stop !== 0 && selectedFlat?.flat.distance_stop !== null">Зупинка
+            до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_stop] }}</span> </div>
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.distance_shop !== 0 && selectedFlat?.flat.distance_shop !== null">Маркет
+            до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_shop] }}</span> </div>
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.distance_green !== 0 && selectedFlat?.flat.distance_green !== null">Парк
+            до:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_green] }}</span> </div>
+          <div class="item-characteristics"
+            *ngIf="selectedFlat?.flat.distance_parking !== 0 && selectedFlat?.flat.distance_parking !== null">
+            Паркінг:<span class="item">{{ aboutDistance[selectedFlat.flat.distance_parking] }}</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Особливості:</div>
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.option_pay">Оплата:
+            <span class="item">{{option_pay[selectedFlat.flat.option_pay] }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.bunker">Наявність укриття:
+            <span class="item">{{ selectedFlat.flat.bunker }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="selectedFlat?.flat.animals">Дозвіл на тварин:
+            <span class="item">{{ animalsKey[selectedFlat.flat.animals] }} </span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="selectedFlat?.flat.about">
+        <div class="characteristics-label">Про оселю:</div>
+        <div class="about">{{ selectedFlat.flat.about }}</div>
       </div>
 
     </div>
 
+    <div [@cardAnimation2] class="card-animation p-2" *ngIf="indexPage === 0">
+      <div class="card-info">
+        <h2>Меню Дискусії</h2>
+        <div class="title p-2">
+          <p>Тут Ви зможете бачити оселі з якими Ви в дискусії.</p>
+        </div>
+        <div class="title p-2">
+          <p>Ви можете переглядати інформацію про параметри оселі, бачити представника та його інформацію, створити
+            чат
+            з представником, відправляти повідомлення, перейти до перегляду статистики комунальних послуг.</p>
+        </div>
+      </div>
 
+    </div>
 
   </div>
 
 </div>
+
+<button class="btn-hide-pc hide-pc" (click)="toggleMenu()">
+  <span class="material-symbols-outlined">clear_all </span>
+</button>
