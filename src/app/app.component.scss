@@ -8,7 +8,7 @@
   @include s1-s3 {
     width: 100%;
     height: 100vh;
-    }
+  }
 }
 
 .container {
@@ -18,6 +18,12 @@
   @include s1-s3 {
     padding: 0;
     margin: 0;
+  }
+}
+
+.container.open {
+  @include s1-s3 {
+    flex-direction: column-reverse;
   }
 }
 
@@ -31,6 +37,16 @@
   }
 }
 
+.mobile.open {
+  @include s1-s3 {
+    background-color: $color-white;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+  }
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;
@@ -39,6 +55,7 @@
 
 .hide-pc {
   @include s1-s3 {
+    background-color: $color-white;
     height: 10vh;
     display: flex;
     justify-content: space-evenly;
@@ -49,8 +66,23 @@
   }
 }
 
+.hide-pc.open {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
 @media print {
   .body-container {
     overflow-x: visible;
+    height: auto;
+  }
+
+  .mobile.open {
+    height: auto;
+  }
+
+  .mobile {
+    height: auto;
   }
 }

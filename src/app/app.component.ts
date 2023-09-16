@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { IsChatOpenService } from './services/is-chat-open.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,20 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
 
   loginForm: any;
+  isChatOpenStatus: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private isChatOpenService: IsChatOpenService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.getUserInfo();
+    await this.getChatIsOpen();
+  }
+
+  async getUserInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post('http://localhost:3000/auth', JSON.parse(userJson))
@@ -23,21 +34,12 @@ export class AppComponent implements OnInit {
     } else {
       console.log('user not found');
     }
-
-    window.addEventListener('scroll', () => {
-      const footer = document.querySelector('.footer') as HTMLElement;
-      if (footer !== null) {
-        const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
-
-        if (isAtBottom) {
-          footer.style.visibility = 'visible';
-        } else {
-          footer.style.visibility = 'hidden';
-        }
-      }
-    });
-
   }
 
-  title = 'project';
+  async getChatIsOpen() {
+    this.isChatOpenService.isChatOpen$.subscribe(async isChatOpen => {
+      this.isChatOpenStatus = isChatOpen;
+      this.cdr.detectChanges();
+    });
+  }
 }

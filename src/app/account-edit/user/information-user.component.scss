@@ -1,4 +1,5 @@
 @use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .container-fluid {
   display: flex;
@@ -11,6 +12,17 @@
 .container-navbar {
   display: flex;
   justify-content: flex-end;
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-evenly;
+  @include s1-s3 {
+    width: 100%;
+  }
 }
 
 .container-card {
@@ -417,6 +429,53 @@ mat-label {
   &:hover {
     background-color: $color-accent;
     transform: scale(1.2);
+  }
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
+
+.btn-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 10px 20px;
+  z-index: 99;
+  color: $color-text;
+  background-color: $color-white;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  &.active {
+    color: $color-white;
+    background-color: $color-accent;
+  }
+  &:hover {
+    color: $color-white;
+    background-color: $color-dark;
+  }
+
+  @include s1-s3 {
+    box-shadow: none;
+  }
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
   }
 }
 

@@ -59,7 +59,7 @@
   display: flex;
   flex-direction: column;
   @include s1-s3 {
-    height: 90vh;
+    height: 100vh;
     justify-content: flex-end;
   }
 }
@@ -176,7 +176,7 @@ h5 {
   }
 }
 
-.btn-hide-pc {
+.btn-hide {
   display: flex;
   height: 60px;
   width: 60px;
@@ -189,14 +189,14 @@ h5 {
   &:hover {
     transition: 0.4s;
     color: $color-accent;
-    transform: scale(1.4);
+    transform: scale(1.1);
   }
 }
 
 .btn-hide-pc {
   position: absolute;
-  left: 10px;
-  bottom: 15px;
+  right: 20px;
+  top: 15px;
   z-index: 1000;
 }
 
@@ -204,6 +204,7 @@ h5 {
   @include s1-s3 {
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
   }
 
   @include s3-s6-max {

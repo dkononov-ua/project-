@@ -163,7 +163,7 @@ export class SearchTermComponent implements OnInit {
       room: this.room ? '1' : '0',
       option_pay: this.option_pay ? '1' : '0',
       limit: this.limit,
-      filterData: this.filterData || 0,
+      filterData: this.filterData || '',
     };
     const url = this.buildSearchURL(params);
     await this.getSearchData(url);
@@ -173,6 +173,7 @@ export class SearchTermComponent implements OnInit {
   buildSearchURL(params: any): string {
     const endpoint = 'http://localhost:3000/search/flat';
     const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
+    console.log(paramsString)
     return `${endpoint}?${paramsString}`;
   }
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 interface subscription {
   flat_id: string;
@@ -39,7 +40,19 @@ interface subscription {
 @Component({
   selector: 'app-subscribers-user',
   templateUrl: './subscribers-user.component.html',
-  styleUrls: ['./subscribers-user.component.scss']
+  styleUrls: ['./subscribers-user.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+  ],
 })
 export class SubscribersUserComponent implements OnInit {
 
@@ -89,7 +102,7 @@ export class SubscribersUserComponent implements OnInit {
   deletingFlatId: string | null = null;
   selectedFlatId: any;
   currentPhotoIndex: number = 0;
-  indexPage: number = 1;
+  indexPage: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -101,8 +114,8 @@ export class SubscribersUserComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: any): void {
+    this.indexPage = 1;
     this.selectedFlat = subscriber;
-    console.log()
     this.selectedFlatId = subscriber.flat_id;
   }
 

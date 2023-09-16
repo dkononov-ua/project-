@@ -1,4 +1,5 @@
 @use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .container-box {
   display: flex;
@@ -11,4 +12,25 @@
   justify-content: flex-start;
   align-items: stretch;
   flex-direction: column;
+  @include s1-s3 {
+    margin-top: 10px;
+  }
+}
+
+.mobile {
+  @include s1-s3 {
+    height: 60px;
+  }
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
 }

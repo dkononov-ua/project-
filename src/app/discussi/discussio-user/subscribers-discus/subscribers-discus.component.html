@@ -1,10 +1,6 @@
 <div class="container-box">
 
-
-
   <div class="card-box2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscriptions.length !== 0">
-
-
 
     <div class="switch-box">
       <div class="btn-menu">
@@ -44,8 +40,7 @@
       <p>Ухалено: <span class="accent">{{ subscriptions.length }} Discussio</span></p>
     </div>
 
-    <div class="card-wrapper" [ngClass]="{'open': isMenuOpen}">
-      <h4 class="hide-pc mb-2">Ваші дискусії</h4>
+    <div class="card-wrapper hide-mobile">
       <button class="card-mini mb-4" (click)="selectFlatId(subscriber.flat_id)" (click)="indexPage = 1"
         [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }" *ngFor="let subscriber of subscriptions">
 
@@ -71,9 +66,9 @@
     <img class="img-dog" src="../../../../assets/noSub12.png" alt="">
   </div>
 
-  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlat" [ngClass]="{'open': isMenuOpen}">
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlat">
 
-    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 1">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage === 1">
 
       <div *ngIf="selectedFlat">
         <div class="img-container">
@@ -125,11 +120,12 @@
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-animation card-chat" *ngIf="indexPage === 2">
+    <div [@cardAnimation] class="card-animation card-chat" [ngClass]="{'open': isChatOpenStatus}"
+      *ngIf="indexPage === 2">
       <app-chat-user></app-chat-user>
     </div>
 
-    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 3">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage === 3">
 
       <div class="img-container">
         <div class="img-wrapper">
@@ -192,7 +188,7 @@
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-animation p-2" *ngIf="indexPage === 4">
+    <div [@cardAnimation] class="card-animation p-2" *ngIf="indexPage === 4">
 
       <div class="btn-container">
         <div class="status-container">
@@ -330,7 +326,7 @@
 
     </div>
 
-    <div [@cardAnimation2] class="card-animation p-2" *ngIf="indexPage === 0">
+    <div [@cardAnimation] class="card-animation p-2 hide-mobile" *ngIf="indexPage === 0">
       <div class="card-info">
         <h2>Меню Дискусії</h2>
         <div class="title p-2">
@@ -345,10 +341,38 @@
 
     </div>
 
+    <div [@cardAnimation] class="card-wrapper p-2 hide-pc" *ngIf="indexPage === 0">
+      <h2>Меню Дискусії</h2>
+      <div class="title p-2">
+        <p>Тут Ви зможете бачити оселі з якими Ви в дискусії.</p>
+      </div>
+      <div class="title p-2">
+        <p>Ви можете переглядати інформацію про параметри оселі, бачити представника та його інформацію, створити
+          чат
+          з представником, відправляти повідомлення, перейти до перегляду статистики комунальних послуг.</p>
+      </div>
+
+      <h4 class="hide-pc mb-2">Оберіть Дискусію</h4>
+      <button class="card-mini mb-4" (click)="selectFlatId(subscriber.flat_id)" (click)="indexPage = 1"
+        [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }" *ngFor="let subscriber of subscriptions">
+
+        <div class="card-img-container">
+          <img class="card-img"
+            [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+            alt="Flat Image">
+        </div>
+
+        <div class="card-mini-body p-2">
+          <div class="card-title">ID: {{ subscriber.flat_id }}</div>
+          <div class="card-title">Обл.: {{ subscriber.region}}</div>
+          <div class="card-title">м.: {{ subscriber.city}}</div>
+          <div class="card-title">Ціна: {{ subscriber.price_m }} ₴/міс</div>
+        </div>
+      </button>
+    </div>
+
   </div>
 
 </div>
 
-<button class="btn-hide-pc hide-pc" (click)="toggleMenu()">
-  <span class="material-symbols-outlined">clear_all </span>
-</button>
+

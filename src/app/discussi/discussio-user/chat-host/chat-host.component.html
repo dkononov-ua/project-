@@ -10,7 +10,7 @@
       <app-navbar-user></app-navbar-user>
     </div>
 
-    <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12">
+    <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12" (click)="closeMenu()">
       <div class="chat m-2">
         <app-chat-user></app-chat-user>
       </div>
@@ -20,9 +20,16 @@
       <app-chat-room></app-chat-room>
     </div>
 
-    <button class="btn-hide-pc hide-pc" (click)="toggleMenu()">
-      <span class="material-symbols-outlined">clear_all </span>
-    </button>
+    <div class="btn-hide-pc hide-pc">
+      <button class="btn-hide m-1" (click)="goBack()">
+        <span class="material-symbols-outlined"> first_page </span>
+      </button>
+
+      <button class="btn-hide m-1" (click)="toggleMenu()">
+        <span class="material-symbols-outlined">clear_all </span>
+      </button>
+    </div>
+
 
   </div>
 </ng-template>

@@ -12,6 +12,7 @@ import { HousingParametersComponent } from './account-edit/house/housing-paramet
 import { SearchComponent } from './search/search.component';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -30,6 +31,8 @@ const routes: Routes = [
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
+  { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
+
 ];
 
 @NgModule({

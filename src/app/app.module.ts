@@ -38,6 +38,8 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ComunPageComponent,
     LookingComponent,
     SearchPageComponent,
+    FeedbackComponent,
   ],
   providers: [
     SelectedFlatService,
@@ -79,6 +82,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     HousingServicesModule,
     HousingServicesRoutingModule,
     ReactiveFormsModule,
+    MatRadioModule,
 
     MatInputModule,
     MatFormFieldModule,

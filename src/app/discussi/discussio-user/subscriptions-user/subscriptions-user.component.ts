@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 interface subscription {
   flat_id: string;
@@ -40,7 +41,19 @@ interface subscription {
 @Component({
   selector: 'app-subscriptions-user',
   templateUrl: './subscriptions-user.component.html',
-  styleUrls: ['./subscriptions-user.component.scss']
+  styleUrls: ['./subscriptions-user.component.scss'],
+    animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+  ],
 })
 export class SubscriptionsUserComponent implements OnInit {
 
@@ -90,7 +103,7 @@ export class SubscriptionsUserComponent implements OnInit {
   deletingFlatId: string | null = null;
   selectedFlatId: any;
   currentPhotoIndex: number = 0;
-  indexPage: number = 1;
+  indexPage: number = 0;
 
   selectedView!: any;
   selectedViewName!: string;
@@ -108,14 +121,11 @@ export class SubscriptionsUserComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: any): void {
+    this.indexPage = 1;
     this.selectedFlat = subscriber;
-    console.log(this.selectedFlat)
     this.selectedFlatId = subscriber.flat_id;
     this.selectedView = this.selectedFlat.flat_id;
-    console.log(this.selectedView)
     this.selectedViewName = this.selectedFlat?.city;
-    console.log(this.selectedViewName)
-
   }
 
   async getSubscribedFlats(offs: number): Promise<void> {
@@ -198,6 +208,8 @@ export class SubscriptionsUserComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat_id);
+          this.onSubscriberSelect;
+          this.indexPage = 0;
         } catch (error) {
           console.error(error);
         }

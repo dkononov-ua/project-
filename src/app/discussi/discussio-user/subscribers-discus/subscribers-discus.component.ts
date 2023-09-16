@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -8,6 +8,7 @@ import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
+import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
 
 interface SelectedFlat {
   flat: any;
@@ -20,23 +21,18 @@ interface SelectedFlat {
   templateUrl: './subscribers-discus.component.html',
   styleUrls: ['./subscribers-discus.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
+    trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
-      ])
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
     ]),
   ],
+
 })
 
 export class SubscribersDiscusComponent implements OnInit {
@@ -84,18 +80,9 @@ export class SubscribersDiscusComponent implements OnInit {
   loading: boolean | undefined;
   userData: any;
   currentSubscription: Subject<unknown> | undefined;
-  indexPage: number = 1;
+  indexPage: number = 0;
 
   mobile: boolean = true;
-  isMenuOpen = true;
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  closeMenu(): void {
-    this.isMenuOpen = false;
-  }
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
@@ -150,6 +137,7 @@ export class SubscribersDiscusComponent implements OnInit {
   public locationLink: string = '';
   selectedView!: any;
   selectedViewName!: string;
+  isChatOpenStatus: boolean = true;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -166,10 +154,13 @@ export class SubscribersDiscusComponent implements OnInit {
     private choseSubscribeService: ChoseSubscribeService,
     private dialog: MatDialog,
     private selectedViewComun: ViewComunService,
-    private router: Router
+    private router: Router,
+    private isChatOpenService: IsChatOpenService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.getChatIsOpen();
     this.getSubscribedFlats();
     this.subscribeToSelectedFlatIdChanges();
     this.restoreSelectedFlatId();
@@ -194,6 +185,13 @@ export class SubscribersDiscusComponent implements OnInit {
       }
     }
     this.getOwnerInfo();
+  }
+
+  async getChatIsOpen() {
+    this.isChatOpenService.isChatOpen$.subscribe(async isChatOpen => {
+      this.isChatOpenStatus = isChatOpen;
+      this.cdr.detectChanges();
+    });
   }
 
   async loadData(): Promise<void> {
@@ -422,7 +420,6 @@ export class SubscribersDiscusComponent implements OnInit {
     this.choseSubscribeService.chosenFlatId = flatId;
     this.selectedFlatId = flatId;
     this.checkChatExistence();
-    this.isMenuOpen = false;
   }
 
   goToComun() {

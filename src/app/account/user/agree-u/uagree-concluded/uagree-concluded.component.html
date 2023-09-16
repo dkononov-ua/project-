@@ -5,9 +5,8 @@
 <ng-template #content>
   <div class="container-card">
 
-    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="label">Заключені угоди <span class="accent"> {{ agree.length }} шт</span></div>
-      <div class="card m-2" *ngFor="let agreement of agree">
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12 ">
+      <div class="card m-2 p-2 m-2 mt-4" *ngFor="let agreement of agree">
         <div class="img-fluid  mt-2">
 
           <div class="w-30" *ngIf="agreement.img && agreement.img.length > 0">
@@ -25,7 +24,8 @@
         <div class="item-wrapper mt-1">
           <div class="item-name-id">ID Угоди: {{ agreement.flat.agreement_id}}</div>
           <div class="btn-group">
-            <button class="btn w-75 m-1" [routerLink]="['/user/uagree-download', agreement.flat.agreement_id]">Угода</button>
+            <button class="btn w-75 m-1"
+              [routerLink]="['/user/uagree-download', agreement.flat.agreement_id]">Угода</button>
             <button class="btn w-25 m-1" [routerLink]="['/user/uact-view', agreement.flat.agreement_id]">Акт</button>
           </div>
         </div>
@@ -34,17 +34,22 @@
 
     </div>
 
-    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card-info">
-        <h2>Заключені угоди</h2>
-        <div class="title p-2">
-          Тут Ви зможете бачити угоди які Ви заключили.
-        </div>
-        <div class="title p-2">
-          Ви можете переглянути деталі угоди, а також надрукувати її.
-        </div>
+    <div class="box col-lg-6 col-md-12 col-sm-12 col-12 mt-4">
+      <div class="card-info p-2">
+        <h2 *ngIf="responseAgree === false">Немає узгоджених угод...</h2>
+        <h2 *ngIf="responseAgree !== false">Погоджені угоди...</h2>
+        <ul class="mt-4">В цьому меню Ви можете:
+          <li class="mt-2">Переглядати список угод які Ви узгодили.</li>
+          <li>Переглянути деталі угод.</li>
+          <li>Надрукувати угоду.</li>
+          <li>Збереги в pdf угоду.</li>
+        </ul>
+
+        <p class="text p-3">Створені угоди являються попередньою домовленістью між орендарем і орендодавцем вони не будуть дійсні до
+          поки не відбудеться підписання Орендодавцем та Орендарем.</p>
       </div>
     </div>
+
   </div>
 
 </ng-template>

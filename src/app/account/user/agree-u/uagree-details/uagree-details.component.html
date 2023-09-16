@@ -6,7 +6,7 @@
 
   <div id="agreement-container">
     <div class="agree">
-      <div class="close-box">
+      <div class="close-box hide-mobile">
         <a class="btn-close" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-review'"></a>
       </div>
       <div class="title-box m-2">
@@ -231,8 +231,7 @@
             <span class="accent" *ngIf="agreeInfo?.flat?.personsReside"> {{
               agreeInfo?.flat?.personsReside
               }} </span>
-            <span *ngIf="!agreeInfo?.flat?.personsReside">
-              ______________________________________________________________________________________________________________________________</span>
+            <span *ngIf="!agreeInfo?.flat?.personsReside">_____________________________________________</span>
           </li>
           <li> 6.6. Ця Угода складена в двох примірниках, які мають однакову юридичну силу з відповідною кількістю
             Додатків і Додаткових угод, які є невід'ємною частиною даного угоди.

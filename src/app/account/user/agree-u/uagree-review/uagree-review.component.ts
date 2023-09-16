@@ -59,6 +59,7 @@ export class UagreeReviewComponent implements OnInit {
   selectedFlatId: any;
   selectedFlatAgree: any;
   loading: boolean = true;
+  subResponse: any;
 
   constructor(
     private http: HttpClient,
@@ -98,7 +99,9 @@ export class UagreeReviewComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       this.subscriptions = response;
+      this.subResponse = response;
       this.loading = false;
     } catch (error) {
       console.error(error);

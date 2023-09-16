@@ -1,4 +1,5 @@
 @use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
 
 ul {
   color: $color-accent;
@@ -13,21 +14,27 @@ li {
   font-weight: 400;
 }
 
-
 .agree {
   position: relative;
   width: 100%;
   background-color: $color-white;
-  padding: 20px 50px;
+  padding: 10px 30px;
   box-shadow:
     0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
+  @include s1-s3 {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
+
 .close-box {
   position: absolute;
   top: 0;
   right: 0;
-
   margin: 10px;
 }
 
@@ -50,6 +57,9 @@ li {
   justify-content: center;
 
   font-size: 30px;
+  @include s1-s3 {
+    font-size: 20px;
+  }
 }
 .accent {
   font-weight: 600;
@@ -136,6 +146,10 @@ li {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  @include s1-s3 {
+    flex-direction: column;
+  }
 }
 
 .btn-group {
@@ -171,6 +185,12 @@ img {
   transition: transform 1s;
 }
 
+.mr-3 {
+  @include s1-s3 {
+    text-align: center;
+  }
+}
+
 @keyframes typing {
   0% {
     opacity: 0;
@@ -182,3 +202,6 @@ img {
     opacity: 1;
   }
 }
+
+
+

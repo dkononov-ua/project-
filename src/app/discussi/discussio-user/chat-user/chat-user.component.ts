@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { EMPTY, Subject, interval, switchMap, takeUntil } from 'rxjs';
+import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
-import { MatDialog } from '@angular/material/dialog';
+import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
 @Component({
   selector: 'app-chat-user',
   templateUrl: './chat-user.component.html',
@@ -24,14 +24,21 @@ export class ChatUserComponent implements OnInit {
   selectedFlat: any;
   selectedFlatIdSubscription: any;
   infoPublic: any[] | undefined;
-  interval: any
+  interval: any;
+  isChatOpenStatus: boolean = true;
 
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
+    private isChatOpenService: IsChatOpenService,
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.sendChatIsOpen();
+    this.getSelectSubscription();
+  }
+
+  getSelectSubscription() {
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(flatId => {
       this.selectedFlat = flatId;
       if (flatId) {
@@ -41,6 +48,16 @@ export class ChatUserComponent implements OnInit {
         this.getUserChats(this.selectedFlat, offs);
       }
     });
+  }
+
+  sendChatIsOpen() {
+    this.isChatOpenStatus = true;
+    this.isChatOpenService.setIsChatOpen(this.isChatOpenStatus);
+  }
+
+  ngOnDestroy(): void {
+    this.isChatOpenStatus = false;
+    this.isChatOpenService.setIsChatOpen(this.isChatOpenStatus);
   }
 
   addSmiley(smiley: string) {

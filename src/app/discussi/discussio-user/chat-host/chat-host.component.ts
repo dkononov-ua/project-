@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener } from '@angular/core';
-
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-chat-host',
   templateUrl: './chat-host.component.html',
@@ -9,7 +9,8 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener }
 export class ChatHostComponent implements AfterViewInit {
   loading: boolean = true;
 
-  isMenuOpen = false;
+  isMenuOpen = true;
+  isChatOpenStatus: boolean = true;
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -17,6 +18,10 @@ export class ChatHostComponent implements AfterViewInit {
 
   closeMenu(): void {
     this.isMenuOpen = false;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   @HostListener('document:click', ['$event'])
@@ -28,7 +33,9 @@ export class ChatHostComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private el: ElementRef) { }
+    private el: ElementRef,
+    private location: Location
+  ) { }
 
   ngAfterViewInit(): void {
     setTimeout(() => {

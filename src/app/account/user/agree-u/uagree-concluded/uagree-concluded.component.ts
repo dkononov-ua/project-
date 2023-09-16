@@ -48,6 +48,7 @@ export class UagreeConcludedComponent implements OnInit {
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatAgree: any;
+  responseAgree: any;
 
   constructor(
     private http: HttpClient,
@@ -73,7 +74,9 @@ export class UagreeConcludedComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
+      console.log(response)
       this.agree = response;
+      this.responseAgree = response;
       this.loading = false;
     } catch (error) {
       console.error(error);

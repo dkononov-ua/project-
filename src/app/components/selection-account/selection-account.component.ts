@@ -3,6 +3,7 @@ import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-selection-account',
@@ -63,6 +64,10 @@ export class SelectionAccountComponent implements OnInit {
     this.isMenuOpen = false;
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   @HostListener('document:click', ['$event'])
   onClick(event: Event): void {
     if (!this.el.nativeElement.contains(event.target)) {
@@ -76,7 +81,9 @@ export class SelectionAccountComponent implements OnInit {
     private http: HttpClient,
     private dataService: DataService,
     private selectedFlatService: SelectedFlatService,
-    private el: ElementRef) { }
+    private el: ElementRef,
+    private location: Location
+    ) { }
 
   ngOnInit(): void {
     this.getSelectParam();
