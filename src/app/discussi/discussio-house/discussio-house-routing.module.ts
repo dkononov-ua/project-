@@ -8,6 +8,7 @@ import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create
 import { SubscribersMenuComponent } from './subscribers-menu/subscribers-menu.component';
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
 import { ChatMenuComponent } from './chat-menu/chat-menu.component';
+import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
 
 const routes: Routes = [
   { path: 'agree-create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: 'chat-house', component: ChatHouseComponent, canActivate: [CanActivateGuard] },
   { path: 'chat', component: ChatMenuComponent, canActivate: [CanActivateGuard] },
   {
-    path: 'subscribers-menu', component: SubscribersMenuComponent, canActivate: [CanActivateGuard],
+    path: 'subscribers-host', component: SubscribersHostComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'subscribers-house', pathMatch: 'full' },
       { path: 'subscribers-house', component: SubscribersHouseComponent, canActivate: [CanActivateGuard] },
@@ -23,6 +24,8 @@ const routes: Routes = [
       { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard] },
     ],
   },
+  { path: 'subscribers-menu', component: SubscribersMenuComponent, canActivate: [CanActivateGuard] },
+
 ];
 
 @NgModule({

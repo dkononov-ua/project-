@@ -1,194 +1,263 @@
 <div class="container">
 
-  <form (submit)="submitFeedback()" #feedbackForm="ngForm">
+  <div class="card-container">
 
-
-
-    <div class="card-container">
-
-      <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+    <div class="col-lg-5 col-md-5 col-sm-6 col-12 p-2">
+      <form (submit)="saveFeedback()" #feedbackForm="ngForm">
         <div class="card p-3">
           <h4 class="m-2">Картка оцінювання</h4>
 
+          <!-- Назва меню -->
           <mat-form-field class="form-field">
             <mat-label>Назва меню</mat-label>
-            <mat-select [(ngModel)]="menu.optionName" name="menuName">
+            <mat-select [(ngModel)]="menu.menuName" name="menuName" required (selectionChange)="getFeedback()">
               <mat-option *ngFor="let option of optionName" [value]="option">
                 {{ option }}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
-          <div class="group"> <mat-label>Користувались з пристрою?</mat-label>
+          <!-- Користувались з пристрою -->
+          <div class="group">
+            <mat-label>Користувались з пристрою?</mat-label>
             <div class="radio-group">
-
+              <!-- Смартфон -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="optionDevice" name="optionDevice" [value]="0">
+                  <input type="radio" [(ngModel)]="menu.optionDevice" name="optionDevice" [value]="0" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Смартфон</span><i></i>
+                </label>
+                <span class="content-name">Смартфон</span><i></i>
               </div>
-
+              <!-- ПК -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="optionDevice" name="optionDevice" [value]="1">
+                  <input type="radio" [(ngModel)]="menu.optionDevice" name="optionDevice" [value]="1" required>
                   <div class="transition"></div>
-                </label><span class="content-name">ПК</span><i></i>
+                </label>
+                <span class="content-name">ПК</span><i></i>
               </div>
-
+              <!-- Обидва -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="optionDevice" name="optionDevice" [value]="2">
+                  <input type="radio" [(ngModel)]="menu.optionDevice" name="optionDevice" [value]="2" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Обидва</span><i></i>
+                </label>
+                <span class="content-name">Обидва</span><i></i>
               </div>
             </div>
           </div>
 
-          <div class="group"> <mat-label>Наявність функціоналу</mat-label>
+          <!-- Наявність функціоналу -->
+          <div class="group">
+            <mat-label>Наявність функціоналу</mat-label>
             <div class="radio-group">
+              <!-- Мало -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionFunctional" name="optionFunctional" [value]="0">
+                  <input type="radio" [(ngModel)]="menu.optionFunctional" name="optionFunctional" [value]="0" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Мало</span><i></i>
+                </label>
+                <span class="content-name">Мало</span><i></i>
               </div>
-
+              <!-- Достатньо -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionFunctional" name="optionFunctional" [value]="1">
+                  <input type="radio" [(ngModel)]="menu.optionFunctional" name="optionFunctional" [value]="1" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Достатньо</span><i></i>
+                </label>
+                <span class="content-name">Достатньо</span><i></i>
               </div>
-
+              <!-- Багато -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionFunctional" name="optionFunctional" [value]="2">
+                  <input type="radio" [(ngModel)]="menu.optionFunctional" name="optionFunctional" [value]="2" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Багато</span><i></i>
+                </label>
+                <span class="content-name">Багато</span><i></i>
               </div>
             </div>
           </div>
 
-          <div class="group"> <mat-label>Зручність</mat-label>
+          <!-- Зручність -->
+          <div class="group">
+            <mat-label>Зручність</mat-label>
             <div class="radio-group">
-
+              <!-- 1 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=1>
+                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=1 required>
                   <div class="transition"></div>
-                </label><span class="content-name">1</span><i></i>
+                </label>
+                <span class="content-name">1</span><i></i>
               </div>
-
+              <!-- 2 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=2>
+                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=2 required>
                   <div class="transition"></div>
-                </label><span class="content-name">2</span><i></i>
+                </label>
+                <span class="content-name">2</span><i></i>
               </div>
-
+              <!-- 3 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=3>
+                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=3 required>
                   <div class="transition"></div>
-                </label><span class="content-name">3</span><i></i>
+                </label>
+                <span class="content-name">3</span><i></i>
               </div>
-
+              <!-- 4 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=4>
+                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=4 required>
                   <div class="transition"></div>
-                </label><span class="content-name">4</span><i></i>
+                </label>
+                <span class="content-name">4</span><i></i>
               </div>
-
+              <!-- 5 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=5>
+                  <input type="radio" [(ngModel)]="menu.optionComfort" name="optionComfort" [value]=5 required>
                   <div class="transition"></div>
-                </label><span class="content-name">5</span><i></i>
+                </label>
+                <span class="content-name">5</span><i></i>
               </div>
             </div>
           </div>
 
-          <div class="group"> <mat-label>Дизайн</mat-label>
+          <!-- Дизайн -->
+          <div class="group">
+            <mat-label>Дизайн</mat-label>
             <div class="radio-group">
-
+              <!-- 1 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=1>
+                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=1 required>
                   <div class="transition"></div>
-                </label><span class="content-name">1</span><i></i>
+                </label>
+                <span class="content-name">1</span><i></i>
               </div>
-
+              <!-- 2 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=2>
+                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=2 required>
                   <div class="transition"></div>
-                </label><span class="content-name">2</span><i></i>
+                </label>
+                <span class="content-name">2</span><i></i>
               </div>
-
+              <!-- 3 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=3>
+                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=3 required>
                   <div class="transition"></div>
-                </label><span class="content-name">3</span><i></i>
+                </label>
+                <span class="content-name">3</span><i></i>
               </div>
-
+              <!-- 4 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=4>
+                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=4 required>
                   <div class="transition"></div>
-                </label><span class="content-name">4</span><i></i>
+                </label>
+                <span class="content-name">4</span><i></i>
               </div>
-
+              <!-- 5 -->
               <div class="content1">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=5>
+                  <input type="radio" [(ngModel)]="menu.optionDesign" name="optionDesign" [value]=5 required>
                   <div class="transition"></div>
-                </label><span class="content-name">5</span><i></i>
+                </label>
+                <span class="content-name">5</span><i></i>
               </div>
             </div>
           </div>
 
-          <div class="group"> <mat-label>Короткий відгук</mat-label>
+          <!-- Короткий відгук -->
+          <div class="group">
+            <mat-label>Короткий відгук</mat-label>
             <div class="radio-group">
+              <!-- Погано -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionImpression" name="optionImpression" [value]="0">
+                  <input type="radio" [(ngModel)]="menu.optionImpression" name="optionImpression" [value]="0" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Погано</span><i></i>
+                </label>
+                <span class="content-name">Погано</span><i></i>
               </div>
-
+              <!-- Нормально -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionImpression" name="optionImpression" [value]="1">
+                  <input type="radio" [(ngModel)]="menu.optionImpression" name="optionImpression" [value]="1" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Нормально</span><i></i>
+                </label>
+                <span class="content-name">Нормально</span><i></i>
               </div>
-
+              <!-- Круто -->
               <div class="content">
                 <label class="checkBox">
-                  <input type="radio" [(ngModel)]="menu.optionImpression" name="optionImpression" [value]="2">
+                  <input type="radio" [(ngModel)]="menu.optionImpression" name="optionImpression" [value]="2" required>
                   <div class="transition"></div>
-                </label><span class="content-name">Круто</span><i></i>
+                </label>
+                <span class="content-name">Круто</span><i></i>
               </div>
             </div>
           </div>
 
           <mat-form-field class="form-field">
             <mat-label>Розшириний відгук</mat-label>
-            <textarea [(ngModel)]="menu.optionComment" name="menuComment" matInput
+            <textarea [(ngModel)]="menu.menuComment" name="menuComment" matInput
               placeholder="Введіть Ваші побажання, пропозиції."></textarea>
           </mat-form-field>
 
-          <button class="btn" type="submit" (click)="submitFeedback()">Відправити</button>
+          <button class="btn" type="submit" [disabled]="!feedbackForm.valid">Відправити</button>
         </div>
-      </div>
-
+      </form>
     </div>
 
+    <div class="col-lg-5 col-md-5 col-sm-6 col-12 p-2">
+      <div class="card p-3" *ngIf="!menu.menuName">
+        <h4 class="m-2">Нам важливий Ваш відгук!</h4>
+        <ul>Це допоможе зробити:
+          <li><span class="bold">Покращення продукту:</span> Ваші відгуки допомагають розробникам і команді проекту
+            зрозуміти, що
+            працює добре і що потребує покращень. Ви можете вказати на проблеми, які ви зустріли, або запропонувати нові
+            функції, які б ви хотіли бачити. Це сприяє постійному вдосконаленню продукту.</li>
+          <li><span class="bold">Задоволеність користувачів: </span>Завдяки відгукам команда розробників може виправити
+            помилки або недоліки, що
+            робить продукт кращим і задовольняє більше потреб користувачів. Це призводить до більшої задоволеності від
+            користування продуктом або сервісом.</li>
+          <li><span class="bold">Залучення спільноти:</span> Відгуки спільноти користувачів можуть стати цінним ресурсом
+            для розробників. Вони
+            відображають думки та переживання реальних людей і можуть допомогти у вирішенні проблем та вдосконаленні
+            продукту.</li>
+          <li><span class="bold">Підтримка відновлення і допомоги:</span> В разі виникнення проблеми або питання з
+            використання продукту,
+            залишення відгуку може допомогти отримати швидку підтримку та вирішення проблеми.</li>
+        </ul>
+      </div>
 
+      <div class="card p-3" *ngIf="menu.menuName == 'Чат'">
+        <h4 class="m-2">Що можна описати в розширеному відгуку про Чат?</h4>
 
+        <ul>Що можна оцінити:
+          <li>Наскільки зручно створювати чат?.</li>
+          <li>Чи достатньо інформації виводимо на екран для спілкування?.</li>
+          <li><span class="bold">Якість спілкування</span> оцініть якість спілкування через чат,
+            включаючи швидкість доставки повідомлень, стабільність з'єднання та час очікування на відповідь. Це важливо
+            для забезпечення ефективного і зручного спілкування.</li>
+          <li><span class="bold">Функціональність: </span>оцініть функціональність чату, включаючи
+            можливості обміну повідомленнями, чи потрібне додавання медіафайлів (фотографій, відео тощо), можливості
+            створення групових чатів?</li>
+          <li><span class="bold">Дизайн і інтерфейс: </span> Оцінка дизайну і інтерфейсу чату
+            важлива для забезпечення зручності користування. Чи є інтерфейс інтуїтивно зрозумілим? Чи забезпечує дизайн
+            зручну навігацію і використання?</li>
+          <li><span class="bold">Безпека: </span> відзначте
+            будь-які проблеми з безпекою, такі як недоліки в системі шифрування або можливість отримання небажаних
+            повідомлень (спаму).</li>
+        </ul>
 
-  </form>
+      </div>
+    </div>
 
+  </div>

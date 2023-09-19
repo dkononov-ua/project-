@@ -1,15 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-chat-menu',
   templateUrl: './chat-menu.component.html',
   styleUrls: ['./chat-menu.component.scss'],
 })
 
-export class ChatMenuComponent implements OnInit {
+export class ChatMenuComponent implements OnInit, AfterViewInit {
+
+  loading: boolean = true;
+
+  isMenuOpen = true;
+  isChatOpenStatus: boolean = true;
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.closeMenu();
+    }
+  }
 
   selectedFlatId: any;
   infoPublic: any[] | undefined;
@@ -18,11 +41,15 @@ export class ChatMenuComponent implements OnInit {
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private el: ElementRef,
+    private location: Location
   ) { }
 
   async ngOnInit(): Promise<any> {
     this.getSelectedFlatId();
     await this.getChats();
+    this.loading = false;
   }
 
   getSelectedFlatId() {
@@ -52,6 +79,13 @@ export class ChatMenuComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }, 1000);
   }
 
 

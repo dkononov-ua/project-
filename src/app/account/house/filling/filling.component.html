@@ -12,12 +12,10 @@
 
           <div class="card-box  col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="flex-box m-2 p-2">
-              <h3><strong>Меню наповнення</strong></h3>
+              <h3><strong>В оселі знаходяться такі об'єкти</strong></h3>
               <p>Це меню створено для того щоб власник оселі міг описати предмети та техніку яка знаходиться в оселі.
                 яку
                 передає у користування орендару</p>
-              <a class="btn m-2" [routerLinkActive]="'active'" [routerLink]="'/download-filling'">
-                <span class="link-text">Надрукувати</span></a>
             </div>
           </div>
 
@@ -35,7 +33,8 @@
               <div class="card-title">Кількість: {{ flat.number_filling }}</div>
             </div>
             <div class="card-body" *ngIf="flat.filling_id === selectedCard">
-              <div class="card-title">Опис: {{ flat.about_filling }}</div>
+              <div class="card-title">Опис: {{ flat.about_filling }} <span *ngIf="!flat.about_filling">відсутній...</span>
+              </div>
             </div>
           </div>
 
@@ -45,9 +44,3 @@
     </div>
   </div>
 </ng-template>
-
-
-
-
-
-

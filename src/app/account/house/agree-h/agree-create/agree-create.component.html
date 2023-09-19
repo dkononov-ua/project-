@@ -7,9 +7,9 @@
     <div class="container-box col-12">
 
       <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
-        <h2>Формування угоди</h2>
+        <h2 class="hide-mobile">Формування угоди</h2>
 
-        <div class="indicator-box mt-5">
+        <div class="indicator-box">
           <div [ngClass]="{'active-step': currentStep === 1}" class="indicator"><i class="fa-solid fa-1"></i></div>
           <div [ngClass]="{'active-step': currentStep === 2}" class="indicator"><i class="fa-solid fa-2"></i></div>
           <div [ngClass]="{'active-step': currentStep === 3}" class="indicator"><i class="fa-solid fa-3"></i></div>
@@ -19,7 +19,7 @@
             </span></div>
         </div>
 
-        <div class="mt-5">
+        <div class="margin-top hide-mobile">
           <div class="description" *ngIf="currentStep === 1"><span class="bold">Перший крок</span> - для створення угоди
             оберіть оселю, перевірте правильність заповнення даних. По бажанню можете внести документ який засвідчує
             право власність.</div>
@@ -38,8 +38,8 @@
             умовами угоди він може погодитись або відхилити ці уомови.</div>
         </div>
 
-        <div class="btn-group mt-5">
-          <a class="btn-next" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
+        <div class="btn-group">
+          <a class="btn-next hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
           <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
             [disabled]="currentStep === 1">НАЗАД</button>
           <button *ngIf="currentStep < 5" class="btn-next" (click)="changeStep(currentStep + 1)"
@@ -95,9 +95,6 @@
 
             <div class="input-mat mt-2 p-2">
               <app-selection-housing></app-selection-housing>
-            </div>
-
-            <div class="p-2">ID оселі: <span class="item-name">{{ houseData.about.flat_id }}</span>
             </div>
 
             <div class="characteristics-group p-2">

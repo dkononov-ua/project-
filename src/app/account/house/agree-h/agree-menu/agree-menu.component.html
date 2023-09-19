@@ -1,7 +1,7 @@
 <div class="container-card">
   <div class="card-box col-lg-7 col-md-12 col-sm-12 col-12">
     <div class="card-container">
-      <div class="scrollable-container p-4">
+      <div class="scrollable-container">
 
         <a [routerLinkActive]="'active'" [routerLink]="'/agree-create'">
           <div class="card-wrapper card mb-3">
@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-5 col-md-12 col-sm-12 col-12">
+  <div class="card-box hide-mobile col-lg-5 col-md-12 col-sm-12 col-12">
     <div class="card-info">
       <h2>Меню угоди</h2>
       <div class="title p-2">
@@ -71,6 +71,14 @@
       <div class="title p-2">
         <p><strong>Заключені угоди</strong>, тут Ви зможете бачити збережені угоди які Ви заключили та всю історію Ваших
           угод.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-box hide-pc col-lg-5 col-md-12 col-sm-12 col-12">
+    <div class="card-info">
+      <div class="title p-2">
+        <p><strong>Меню угоди</strong> - тут Ви зможете формувати шаблони угод, актів, зберігати та переглядати їх.</p>
       </div>
     </div>
   </div>

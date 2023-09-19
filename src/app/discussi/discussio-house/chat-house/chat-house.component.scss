@@ -1,24 +1,14 @@
+@use "../../../style/mixins/" as *;
 @use "../../../style/presets/" as *;
 
 .container-chat {
   min-height: 70vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
-
-.container-noChat {
-  display: flex;
-  position: relative;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  height: 70vh;
-}
-
-.chat {
-  display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
+  @include s1-s3 {
+    min-height: 100vh;
+  }
 }
 
 .chat-box {
@@ -140,7 +130,6 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .text {
@@ -241,7 +230,7 @@ img {
   width: 100%;
   position: sticky;
   background-color: white;
-  z-index: 999;
+  z-index: 50;
   top: 0;
   display: flex;
   align-items: center;
@@ -255,16 +244,33 @@ img {
 }
 
 .container-chat-messages {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  height: auto;
   align-items: stretch;
+  position: relative;
+  height: auto;
+}
+
+.container-noChat {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 70vh;
+  @include s1-s3 {
+    height: 100vh;
+  }
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .chat-messages-read,
 .chat-messages-unread {
-  overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
   padding: 20px 5px 5px 5px;
@@ -340,7 +346,7 @@ img {
   width: 100%;
   position: sticky;
   background-color: rgb(255, 255, 255);
-  z-index: 99;
+  z-index: 10;
   right: 0;
   bottom: 0;
   display: flex;
@@ -359,7 +365,7 @@ img {
   border: 1px solid $color-gray;
   border-radius: 10px;
   min-height: 50px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .input-box {
@@ -587,7 +593,7 @@ input {
   position: sticky;
   height: 150px;
   background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
-  z-index: 99;
+  z-index: 50;
   right: 0;
   top: 0;
   display: flex;
@@ -596,6 +602,13 @@ input {
   padding: 10px;
   justify-content: space-between;
   flex-direction: column;
+  @include s1-s3 {
+    padding-top: 20px;
+    position: sticky;
+    height: 10vh;
+    top: 0;
+    left: -100%;
+  }
 }
 
 .avatar-user1 {

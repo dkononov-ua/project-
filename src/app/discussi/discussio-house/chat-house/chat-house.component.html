@@ -4,25 +4,29 @@
 
 <ng-template #content>
 
-  <div class="container-noChat" *ngIf="!selectedUser">
+  <div class="container-noChat p-2" *ngIf="!selectedUser">
     <div class="img-wrapper">
       <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
     </div>
     <div class="group-text p-4">
-      <div class="text">Оберіть з ким будете спілкуватись!</div>
+      <div>
+        <div class="text">Оберіть з ким будете спілкуватись!</div>
+      </div>
     </div>
     <div class="group-text p-4">
-      <h2 class="text-1">© Discussio.</h2>
-      <p class="text-1"> Simplify property management with Discussio.</p>
+      <div class="text">
+        <div class="text-1">© Discussio.</div>
+        <div class="text-1"> Simplify property management with Discussio.</div>
+      </div>
     </div>
   </div>
 
   <div class="container-chat" *ngIf="selectedUser">
 
-    <div class="group1">
+    <div class="group1" *ngIf="infoPublic">
       <img class="avatar-user1"
-        [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
-        alt="User Image">
+      [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
+      alt="User Image">
       <div class="name-user1">
         <div>{{ selectedUser.lastName }} {{ selectedUser.firstName }} </div>
         <div class="text-min">{{ selectedUser.surName }}</div>
@@ -34,21 +38,21 @@
       <div class="container-chat-messages">
         <div class="chat-messages-read" #chatContainer>
           <div class="chat" *ngFor="let message of allMessages">
-
             <ng-container *ngIf="message.user_id === selectedSubscriberID && message.is_read === 1">
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-user">
                     <img class="avatar-user"
-                      [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
-                      alt="User Image">
+                    [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
+                    alt="User Image">
                     <div class="name-user">
                       <div class="accent-name">{{ selectedUser.lastName }} {{ selectedUser.firstName }} <span
-                          class="time">{{
-                          message.time }} </span></div>
+                        class="time">{{
+                        message.time }} </span></div>
                     </div>
                   </div>
                   <div class="message-content-user">
+                    <!-- <div class="accent">{{ message.is_read }}</div> -->
                     <div class="message-text-user"><i class="fa-solid fa-check-double"></i>{{ message.message }}</div>
                   </div>
                 </div>
@@ -59,52 +63,40 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-owner">
-                    <!-- <img class="avatar-owner"
-                    [src]="'http://localhost:3000/img/users/' + (userData.img[0].img ? userData.img[0].img : 'user_default.svg')"
-                    alt="User Image"> -->
                     <img class="avatar-owner"
                       [src]="'http://localhost:3000/img/flat/' + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
                       alt="User Image">
-                    <!-- <div class="name-owner">
-                    <div class="accent-name"><span class="time">{{
-                        message.time }}</span> {{ userData.inf.lastName }} {{ userData.inf.firstName }} </div>
-                  </div> -->
                     <div class="name-owner">
                       <div class="accent-name">
                         <span class="time">{{ message.time }}</span> {{ houseData.flat.flat_name }}
                       </div>
-                      <!-- <div class="accent-name"> {{ houseData.flat.street }} {{ houseData.flat.houseNumber}}</div> -->
                     </div>
                   </div>
-
                   <div class="message-content-owner">
-                    <p class="message-text-owner"><i class="fa-solid fa-check-double"></i>{{ message.message }}</p>
+                    <p class="message-text-owner">{{ message.message }}<i class="fa-solid fa-check-double"></i></p>
                   </div>
                 </div>
               </div>
             </ng-container>
-
           </div>
         </div>
-
         <div class="chat-messages-unread" #chatContainer>
           <div class="chat" *ngFor="let messagesNotRead of allMessagesNotRead">
-
             <ng-container *ngIf="messagesNotRead.user_id === selectedUser?.user_id && messagesNotRead.is_read === 0">
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-user">
                     <img class="avatar-user"
-                      [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
-                      alt="User Image">
+                    [src]="'http://localhost:3000/img/users/' + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
+                    alt="User Image">
                     <div class="name-user">
                       <div class="accent-name">{{ selectedUser.lastName }} {{ selectedUser.firstName }} <span
-                          class="time">{{
-                          messagesNotRead.time }} </span></div>
+                        class="time">{{
+                        messagesNotRead.time }} </span></div>
                     </div>
                   </div>
                   <div class="message-content-user">
-                    <div class="message-text-user">{{ messagesNotRead.message }}<i class="fa-solid fa-check"></i>
+                    <div class="message-text-user"><i class="fa-solid fa-check"></i>{{ messagesNotRead.message }}
                     </div>
                   </div>
                 </div>
@@ -113,38 +105,30 @@
 
             <ng-container *ngIf="messagesNotRead.flat_id !== null && messagesNotRead.is_read === 0">
               <div class="chat-container-owner">
-                <div class="owner-message message p-2">
+                <div class="owner-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-owner">
-                    <!-- <img class="avatar-owner"
-                    [src]="'http://localhost:3000/img/users/' + (userData.img[0].img ? userData.img[0].img : 'user_default.svg')"
-                    alt="User Image"> -->
                     <img class="avatar-owner"
-                      [src]="'http://localhost:3000/img/flat/' + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
-                      alt="User Image">
-                    <!-- <div class="name-owner">
-                    <div class="accent-name"><span class="time">{{
-                        message.time }}</span> {{ userData.inf.lastName }} {{ userData.inf.firstName }} </div>
-                  </div> -->
+                    [src]="'http://localhost:3000/img/flat/' + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
+                    alt="User Image">
                     <div class="name-owner">
                       <div class="accent-name"><span class="time">{{ messagesNotRead.time }}</span> {{
                         houseData.flat.flat_name }}</div>
-                      <!-- <div class="accent-name"> {{ houseData.flat.street }} {{ houseData.flat.houseNumber}}</div> -->
                     </div>
                   </div>
-
                   <div class="message-content-owner">
-                    <p class="message-text-owner">{{ messagesNotRead.message }}<i class="fa-solid fa-check"></i></p>
+                    <p class="message-text-owner"><i class="fa-solid fa-check"></i>{{ messagesNotRead.message }}</p>
                   </div>
                 </div>
               </div>
             </ng-container>
-
           </div>
+
         </div>
       </div>
 
       <div class="group">
         <div class="group-input">
+
           <button class="btn-more" (click)="toggleSmileyPanel()">
             <span class="material-symbols-outlined">
               add_reaction
@@ -162,7 +146,6 @@
               [(ngModel)]="messageText" (keydown.enter)="sendMessage()"
               placeholder="Написати повідомлення користувачу {{selectedUser.lastName}} {{selectedUser.firstName}}"></textarea>
           </div>
-
           <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage()">
             <i class="fa-solid fa-paper-plane fa-2xl"></i>
           </button>
@@ -171,5 +154,7 @@
     </div>
 
   </div>
+
+
 
 </ng-template>

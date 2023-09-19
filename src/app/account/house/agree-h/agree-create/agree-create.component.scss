@@ -1,4 +1,5 @@
 @use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
 
 .container-box {
   display: flex;
@@ -23,6 +24,10 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  margin-top: 30px;
+  @include s1-s3 {
+    margin-top: 10px;
+  }
 }
 
 .indicator {
@@ -37,12 +42,34 @@
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
   justify-content: center;
   align-items: center;
+  @include s1-s3 {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+  }
+}
+
+.margin-top {
+  margin-top: 30px;
+  @include s1-s3 {
+    margin-top: 10px;
+  }
 }
 
 .active-step {
   transition: 3s;
-  transform: scale(2);
+  transform: scale(1.6);
   background-color: $color-accent;
+}
+
+.fa-1,
+.fa-2,
+.fa-3,
+.fa-4,
+.material-symbols-outlined {
+  @include s1-s3 {
+    font-size: 14px;
+  }
 }
 
 .fa-solid {
@@ -52,10 +79,16 @@
 .material-symbols-outlined {
   color: $color-white;
   font-size: 35px;
+  @include s1-s3 {
+    font-size: 25px;
+  }
 }
 
 .description {
   font-size: 20px;
+  @include s1-s3 {
+    font-size: 14px;
+  }
 }
 
 .btn-group {
@@ -63,6 +96,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-top: 30px;
+  @include s1-s3 {
+    margin-top: 10px;
+    justify-content: center;
+  }
 }
 .btn-next {
   width: 150px;
@@ -81,6 +119,12 @@
   &:hover {
     background-color: $color-dark;
     color: $color-white;
+  }
+  @include s1-s3 {
+    height: 40px;
+    margin: 5px;
+    font-size: 16px;
+    width: 100px;
   }
 }
 
@@ -229,7 +273,6 @@ img {
   font-weight: bold;
 }
 
-
 .btn-container {
   position: relative;
   margin: 0 20px;
@@ -237,6 +280,10 @@ img {
   right: 0;
   top: -20px;
   background-color: $color-accent;
+  @include s1-s3 {
+    top: -5px;
+    z-index: 999;
+  }
 }
 
 .btn-info {
@@ -363,6 +410,9 @@ textarea {
 }
 
 .agree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   width: 100%;
   background-color: $color-white;
@@ -370,13 +420,27 @@ textarea {
   box-shadow:
     0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
+
+  @include s1-s3 {
+    padding: 10px 15px;
+  }
 }
 .close-box {
   position: absolute;
   top: 0;
   right: 0;
-
   margin: 10px;
+  @include s1-s3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    background-color: $color-white;
+    border-radius: 50%;
+    border: 1px solid $color-accent;
+  }
 }
 
 .box {
@@ -424,6 +488,9 @@ textarea {
   justify-content: center;
 
   font-size: 30px;
+  @include s1-s3 {
+    font-size: 20px;
+  }
 }
 
 .wrapper-group {
@@ -557,6 +624,14 @@ mat-label {
   text-align: center;
 }
 
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
 
-
-
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

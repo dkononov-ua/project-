@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { SubscriberMenuComponent } from '../discussi/discussio-user/subscriber-menu/subscriber-menu.component';
+import { SubscribersMenuComponent } from '../discussi/discussio-house/subscribers-menu/subscribers-menu.component';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -35,6 +36,7 @@ import { SubscriberMenuComponent } from '../discussi/discussio-user/subscriber-m
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     SubscriberMenuComponent,
+    SubscribersMenuComponent,
   ],
   exports: [
     NavbarComponent,
@@ -47,6 +49,7 @@ import { SubscriberMenuComponent } from '../discussi/discussio-user/subscriber-m
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     SubscriberMenuComponent,
+    SubscribersMenuComponent,
   ],
   imports: [
     CommonModule,

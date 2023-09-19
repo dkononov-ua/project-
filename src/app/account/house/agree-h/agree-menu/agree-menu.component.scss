@@ -1,4 +1,5 @@
 @use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
 
 a {
   padding: 0;
@@ -12,7 +13,11 @@ a {
   justify-content: center;
   align-items: stretch;
   flex-wrap: wrap;
+  @include s1-s3 {
+    flex-direction: column-reverse;
+  }
 }
+
 .card-box {
   display: flex;
   align-items: stretch;
@@ -30,6 +35,10 @@ a {
   align-items: center;
   max-height: 70vh;
   overflow-y: auto;
+  padding: 30px;
+  @include s1-s3 {
+    padding: 10px;
+  }
 }
 
 .card-container {
@@ -116,3 +125,16 @@ a {
   align-items: center;
   justify-content: center;
 }
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+

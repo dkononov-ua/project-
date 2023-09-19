@@ -1,4 +1,5 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
 .chat {
   min-height: 70vh;
@@ -9,9 +10,15 @@
   border-radius: 10px;
   padding: 0px;
   background-color: rgba(255, 255, 255, 0.686);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
   align-items: center;
   justify-content: flex-start;
+
+  @include s1-s3 {
+    max-height: 100vh;
+  }
 }
 
 .chat::-webkit-scrollbar {
@@ -51,15 +58,32 @@
 .card-box {
   display: flex;
   flex-direction: column;
+  @include s1-s3 {
+    height: 100vh;
+    justify-content: flex-end;
+  }
 }
 
-.chat-rooms {
+.card-box1 {
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+  @include s1-s3 {
+    padding-top: 20px;
+    position: absolute;
+    background-color: $color-white;
+    height: 100vh;
+    top: 0;
+    left: -100%;
+    transition: left 0.3s ease;
+  }
+}
+
+.card-box1.open {
   overflow: auto;
-  max-height: 65vh;
-}
-
-.chat-rooms::-webkit-scrollbar {
-  display: none;
+  height: 100vh;
+  width: 40%;
+  left: 0;
 }
 
 .title-group {
@@ -146,48 +170,44 @@ h5 {
   }
 }
 
-.container-chat-messages {
-  flex: 1;
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.btn-hide {
   display: flex;
-  flex-direction: column;
-  height: auto;
+  height: 60px;
+  width: 60px;
+  border: 2px solid $color-primary;
+  border-radius: 50%;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+  &:hover {
+    transition: 0.4s;
+    color: $color-accent;
+    transform: scale(1.1);
+  }
 }
 
-.img-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 300px;
+.btn-hide-pc {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  z-index: 1000;
 }
 
-.img-fluid {
-  display: flex;
-  flex-direction: column;
-  width: 250px;
-  height: 250px;
-}
+.hide-pc {
+  @include s1-s3 {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
 
-.group-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.text,
-.text-1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 14px;
-}
-
-.text {
-  font-size: 18px;
-}
-
-.text-1 {
-  font-size: 14px;
+  @include s3-s6-max {
+    display: none;
+  }
 }

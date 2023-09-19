@@ -1,16 +1,32 @@
-<div class="switch-box mb-1">
-  <button class="btn-1" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">Опис меню</button>
-  <button [disabled]="!selectedUser" class="btn-1" [ngClass]="{ 'active': indexPage == 1}"
-    (click)="indexPage = 1">Підписник</button>
-  <button [disabled]="!selectedUser" class="btn-1" [ngClass]="{ 'active': indexPage == 2}"
-    (click)="indexPage = 2">Інформація</button>
-</div>
+
 
 <div class="container-card">
 
+  <div class="switch-box hide-pc">
+
+    <div class="btn-menu">
+      <button class="btn-hide" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0"><span
+          class="material-symbols-outlined"> location_away </span>
+      </button>
+    </div>
+
+    <div class="btn-menu">
+      <button [disabled]="!selectedUser" class="btn-hide" [ngClass]="{ 'active': indexPage === 1}"
+        (click)="indexPage = 1">
+        <span class="material-symbols-outlined"> attach_money </span>
+      </button>
+    </div>
+
+    <div class="btn-menu">
+      <button [disabled]="!selectedUser" class="btn-hide" [ngClass]="{ 'active': indexPage === 2}"
+        (click)="indexPage = 2"> <span class="material-symbols-outlined"> checklist </span></button>
+    </div>
+
+  </div>
+
   <div class="card-box col-lg-6 col-md-6 col-sm-6 col-12">
 
-    <div class="card-container" *ngIf="subscribers.length !== 0">
+    <div class="card-container hide-mobile" *ngIf="subscribers.length !== 0">
       <div class="scrollable-container p-3">
         <div class="card-mini mb-4" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
           [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
@@ -25,8 +41,10 @@
               <div class="title">{{ subscriber.firstName }}</div>
               <div class="title">{{ subscriber.surName }}</div>
             </div>
-            <button class="btn-1 m-1" (click)="openDialog(subscriber.user_id)"><i
-                class="fa-solid fa-user-xmark"></i></button>
+            <div class="btn-group p-1">
+              <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
+                  class="fa-solid fa-user-xmark"></i></button>
+            </div>
           </div>
         </div>
       </div>
@@ -45,6 +63,39 @@
   </div>
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12 p-2 ">
+
+
+
+    <div [@cardAnimation2] class="card-animation col-12 hide-pc" *ngIf="indexPage === 0">
+      <div class="card-container" *ngIf="subscribers.length !== 0">
+        <div class="scrollable-container p-3">
+          <div class="card-mini mb-4" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+            [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
+            <div class="card-img-container">
+              <img class="card-img"
+                [src]="'http://localhost:3000/img/users/' + (subscriber.img ? subscriber.img : 'user_default.svg')"
+                alt="User Image">
+            </div>
+            <div class="card-body">
+              <div class="title-group p-1">
+                <div class="title">{{ subscriber.lastName }}</div>
+                <div class="title">{{ subscriber.firstName }}</div>
+                <div class="title">{{ subscriber.surName }}</div>
+              </div>
+              <div class="btn-group p-1">
+                <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
+                    class="fa-solid fa-user-xmark"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
+          [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
 
     <div [@cardAnimation2] class="card col-12 card-animation" *ngIf="selectedUser && indexPage == 1">
 
@@ -83,11 +134,7 @@
         </div>
       </div>
 
-
       <div class="card-body p-2">
-
-        <p>Посилання на соціальні мережі та чат будуть доступні
-          коли {{ selectedUser?.lastName}} {{ selectedUser?.firstName}} Вас ухвалить до Дискусії.</p>
 
         <div class="title-group-card">
           <div class="title-selected">User ID: </div>
@@ -110,7 +157,7 @@
           <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
         </div>
 
-        <button class="card-btn" (click)="openDialog(selectedUser?.user_id)"><span>Відписатись</span>
+        <button class="card-btn" (click)="openDialog(selectedUser?.user_id)"><span>Видалити</span>
           <i class="fa-solid fa-user-xmark"></i>
         </button>
 
@@ -255,7 +302,7 @@
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-info p-2 col-12" *ngIf="indexPage == 0">
+    <div [@cardAnimation2] class="card-info p-2 col-12 hide-mobile" *ngIf="indexPage == 0">
       <p class="mb-4"><strong>Підписки на орендарів </strong> - тут Ви зможете бачити користувачів на яких Ви
         підписались.</p>
       <p><strong>Детальна інформацію</strong> про людину на яку Ви

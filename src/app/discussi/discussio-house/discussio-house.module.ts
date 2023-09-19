@@ -31,10 +31,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
 import { DeleteSubComponent } from './delete-sub/delete-sub.component';
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
-import { SubscribersMenuComponent } from './subscribers-menu/subscribers-menu.component';
 import { ChatMenuComponent } from './chat-menu/chat-menu.component';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
 import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
+import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
 
 
 @NgModule({
@@ -46,8 +46,8 @@ import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
     SubscriptionsHouseComponent,
     DeleteSubComponent,
     SubscribersDiscusComponent,
-    SubscribersMenuComponent,
     ChatMenuComponent,
+    SubscribersHostComponent,
   ],
   providers: [
     SelectedFlatService,

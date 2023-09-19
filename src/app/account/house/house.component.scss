@@ -23,6 +23,12 @@
   }
 }
 
+.mobile-param {
+  @include s1-s3 {
+    margin-top: 10px;
+  }
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;

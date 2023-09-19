@@ -5,6 +5,7 @@ import { ChoseSubscribersService } from '../../../services/chose-subscribers.ser
 import { DataService } from 'src/app/services/data.service';
 import { EMPTY, Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
+import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
 
 interface User {
   user_id: string;
@@ -44,25 +45,35 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   offs = 0;
   getSelectedUser: any;
   selectedSubscriberID: any;
+  isChatOpenStatus: boolean = true;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
     private dataService: DataService,
+    private isChatOpenService: IsChatOpenService,
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.sendChatIsOpen();
     this.loadData();
     this.getSelectedFlatId();
     this.getSelectedSubscribersId();
     this.loading = false;
   }
 
-  ngOnDestroy() {
+  sendChatIsOpen() {
+    this.isChatOpenStatus = true;
+    this.isChatOpenService.setIsChatOpen(this.isChatOpenStatus);
+  }
+
+  ngOnDestroy(): void {
     if (this.interval) {
       clearInterval(this.interval);
     }
+    this.isChatOpenStatus = false;
+    this.isChatOpenService.setIsChatOpen(this.isChatOpenStatus);
   }
 
   async loadData(): Promise<void> {

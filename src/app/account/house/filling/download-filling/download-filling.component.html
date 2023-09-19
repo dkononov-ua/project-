@@ -47,7 +47,11 @@
                 </div>
 
                 <div class="item-wrapper p-1">
-                  <div class="card-title-about">Опис: {{ flat.about_filling }}</div>
+                  <div class="card-title-about">Опис: {{ flat.about_filling }}
+                    <span *ngIf="!flat.about_filling">Тут Ви
+                      можете описати предмет, його характеристики, стан, правила користування, додати інструкції і
+                      т.д</span>
+                  </div>
                 </div>
 
               </div>

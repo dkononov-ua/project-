@@ -5,8 +5,10 @@
     <span class="link-text">Повідомлення</span>
     <div class="status" *ngIf="unreadMessage !== false">{{unreadMessage}}</div>
   </a>
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-menu'">
+  <a class="link-menu hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host'">
     <span class="link-text">Меню підписок</span></a>
+
+  <app-subscribers-menu class="hide-pc"></app-subscribers-menu>
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">
     <span class="link-text">Меню угод</span></a>
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/filling'">

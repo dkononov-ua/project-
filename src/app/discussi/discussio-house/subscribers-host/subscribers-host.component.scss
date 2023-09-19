@@ -1,12 +1,22 @@
-@use "../../style/presets/" as *;
-@use "../../style/mixins/" as *;
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
-.navbar {
+.container-box {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: stretch;
+  align-items: stretch;
+  min-height: 70vh;
+}
+
+.container-card {
+  display: flex;
   flex-direction: column;
+  @include s1-s3 {
+    height: auto;
+    margin-top: 10px;
+  }
 }
 
 .link-menu {
@@ -33,16 +43,6 @@
   }
 }
 
-.link-text {
-  font-size: $font-size;
-  font-family: $font-main;
-}
-
-.fa-solid {
-  color: $color-primary;
-  font-size: 25px;
-}
-
 .status {
   display: flex;
   position: absolute;
@@ -59,6 +59,14 @@
   border-radius: 50%;
 }
 
+.mobile {
+  @include s1-s3 {
+    width: 100%;
+    margin-top: 10px;
+    height: 60px;
+  }
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;
@@ -66,13 +74,11 @@
 }
 
 .hide-pc {
-  @include s1-s3 {
-    display: flex;
-    justify-content: flex-start;
-  }
-
   @include s3-s6-max {
     display: none;
   }
 }
+
+
+
 

@@ -48,18 +48,16 @@
             </div>
           </div>
 
-          <div class="form-floating">
-            <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-              [(ngModel)]="objectInfo.about" name="about" (input)="onInput()"></textarea>
-            <label for="floatingTextarea">
-              <p>Опис предмету:</p>
-            </label>
-          </div>
+          <mat-form-field class="example-full-width mt-2">
+            <mat-label>Опис предмету:</mat-label>
+            <textarea #textArea id="floatingTextarea" (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
+              placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
+          </mat-form-field>
 
           <div class="card-1">
             <div class="group">
               <label class="label-1" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
-              <label class="label-1" *ngIf="!selectedFile">Завантажити фото</label>
+              <label class="label-1" *ngIf="!selectedFile">Додати фото</label>
               <div class="input-div">
                 <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
                 <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
@@ -141,7 +139,9 @@
                   class="fa-solid fa-trash"></i></button>
             </div>
             <div class="card-body" *ngIf="flat.filling_id === selectedCard">
-              <div class="card-title">Опис: {{ flat.about_filling }}</div>
+              <div class="card-title">Опис: {{ flat.about_filling }}  <span *ngIf="!flat.about_filling">Тут Ви
+                можете описати предмет, його характеристики, стан, правила користування, додати інструкції і
+                т.д</span></div>
             </div>
           </div>
         </div>
