@@ -2,6 +2,7 @@ import { Subscription, debounceTime } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
+import { subway } from '../../../shared/subway';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -33,7 +34,7 @@ interface UserInfo {
   room: boolean | undefined;
   looking_woman: boolean | undefined;
   looking_man: boolean | undefined;
-  agree_search: boolean | undefined;
+  agree_search: number | undefined;
   students: boolean | false;
   woman: boolean | false;
   man: boolean | false;
@@ -42,22 +43,22 @@ interface UserInfo {
   weeks: number | undefined;
   mounths: number | undefined;
   years: number | undefined;
+  about: string | undefined;
+  metro: string | undefined;
 }
 @Component({
   selector: 'app-looking',
   templateUrl: './looking.component.html',
   styleUrls: ['./looking.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
+    trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
     ]),
   ],
@@ -91,7 +92,7 @@ export class LookingComponent implements OnInit {
     purpose_rent: '',
     looking_woman: false,
     looking_man: false,
-    agree_search: false,
+    agree_search: 0,
     students: false,
     woman: false,
     man: false,
@@ -100,14 +101,19 @@ export class LookingComponent implements OnInit {
     weeks: 0,
     mounths: 0,
     years: 0,
+    about: '',
+    metro: '',
   };
 
+  loading: boolean = true;
+  filteredStations: any[] = [];
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
   selectedRegion!: string;
   selectedCity!: string;
   regions = regions;
   cities = cities;
+  subway = subway;
   minValue: number = 0;
   maxValue: number = 100000;
 
@@ -124,7 +130,13 @@ export class LookingComponent implements OnInit {
   maxValueYears: number = 3;
 
   disabled: boolean = true;
-  loading: boolean | undefined;
+
+  currentStep: number = 1;
+  statusMessage: string | undefined;
+
+  changeStep(step: number): void {
+    this.currentStep = step;
+  }
 
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;
@@ -148,6 +160,7 @@ export class LookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInfo();
+    this.loading = false;
   }
 
   async getInfo(): Promise<any> {
@@ -166,20 +179,54 @@ export class LookingComponent implements OnInit {
 
   saveInfo(): void {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.disabled === false) {
+    if (userJson) {
       const data = { ...this.userInfo };
-      console.log(data)
-      this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
-        .subscribe((response: any) => {
-        }, (error: any) => {
-          console.error(error);
-        });
-      this.disabled = true;
+      console.log(data);
+      console.log(this.userInfo.agree_search)
 
+      this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
+        .subscribe(
+          (response: any) => {
+            this.loading = true;
+
+            if (this.userInfo && this.userInfo.agree_search === 0) {
+              setTimeout(() => {
+                this.statusMessage = 'Дані збережено. Огололення НЕ опубліковується!';
+                setTimeout(() => {
+                  this.router.navigate(['/user/info']);
+                }, 2000);
+              }, 2000);
+            } else if (this.userInfo && this.userInfo.agree_search === 1) {
+              setTimeout(() => {
+                this.statusMessage = 'Оголошення опубліковане!';
+                setTimeout(() => {
+                  this.router.navigate(['/user/info']);
+                }, 3000);
+              }, 2000);
+            } else {
+              setTimeout(() => {
+                this.statusMessage = 'Помилка формування оголошення.';
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }, 2000);
+            }
+          },
+          (error: any) => {
+            console.error(error);
+            setTimeout(() => {
+              this.statusMessage = 'Помилка формування угоди.';
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
+            }, 2000);
+          }
+        );
     } else {
       console.log('user not found, the form is blocked');
     }
   }
+
 
   editInfo(): void {
     this.disabled = false;
@@ -213,7 +260,7 @@ export class LookingComponent implements OnInit {
         purpose_rent: '',
         looking_woman: false,
         looking_man: false,
-        agree_search: false,
+        agree_search: 0,
         students: false,
         woman: false,
         man: false,
@@ -222,6 +269,8 @@ export class LookingComponent implements OnInit {
         weeks: 0,
         mounths: 0,
         years: 0,
+        about: '',
+        metro: '',
       };
   }
 
@@ -254,4 +303,15 @@ export class LookingComponent implements OnInit {
       city.name === this.userInfo.city
     );
   }
+
+  loadStations() {
+    if (!this.userInfo) return;
+    const searchTerm = this.userInfo.metro!.toLowerCase();
+    const subwayStations = subway.find(city => city.name === this.userInfo.city)?.lines;
+
+    this.filteredStations = subwayStations
+      ? subwayStations.flatMap(line => line.stations.filter(station => station.name.toLowerCase().includes(searchTerm)))
+      : [];
+  }
+
 }

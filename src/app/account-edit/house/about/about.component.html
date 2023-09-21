@@ -106,7 +106,7 @@
 
         <mat-label class="group-label">Ціна за термін в грн.</mat-label>
         <div class="group-item-1">
-          <mat-form-field class="form-field item-select p-1" appearance="outline">
+          <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
             <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
             <div class="mat-input-container">
               <input matInput type="number" id="inputPriceD" [disabled]="disabled" [(ngModel)]="flatInfo.price_d"
@@ -115,7 +115,7 @@
             </div>
           </mat-form-field>
 
-          <mat-form-field class="form-field item-select p-1" appearance="outline">
+          <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 0">
             <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
             <div class="mat-input-container">
               <input matInput type="number" id="inputPriceM" [disabled]="disabled" [(ngModel)]="flatInfo.price_m"

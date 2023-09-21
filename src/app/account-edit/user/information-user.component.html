@@ -199,6 +199,11 @@
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
+          <mat-label>Ваша контактна пошта</mat-label>
+          <input name="userCont.mail" matInput [disabled]="disabled" [(ngModel)]="userCont.mail">
+        </mat-form-field>
+
+        <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Telegram<i class="fa-brands fa-telegram"></i></mat-label>
           <input name="userCont.telegram" matInput [disabled]="disabled" [(ngModel)]="userCont.telegram">
         </mat-form-field>

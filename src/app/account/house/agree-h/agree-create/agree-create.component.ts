@@ -93,7 +93,7 @@ export class AgreeCreateComponent implements OnInit {
   formSubmitted: boolean = false;
   agreementCreated: boolean = false;
 
-  currentStep: number = 5;
+  currentStep: number = 1;
   statusMessage: string | undefined;
 
   // дата створення угоди

@@ -129,38 +129,38 @@ export class RegistrationComponent implements OnInit {
             dob: dob,
           }
           console.log(data);
-          // this.http.post('http://localhost:3000/registration', data)
-          // .subscribe(
-          //   (response: any) => {
-          //     console.log(response)
-          //     if (response.status === 'Не правильно передані данні') {
-          //       console.error(response.status);
-          //       setTimeout(() => {
-          //         this.statusMessage = 'Помилка реєстрації.';
-          //         setTimeout(() => {
-          //           location.reload();
-          //         }, 1000);
-          //       }, 200);
-          //     } else {
-          //       setTimeout(() => {
-          //         this.statusMessage = 'Вітаємо в Discussio!';
-          //         localStorage.setItem('user', JSON.stringify(response))
-          //         setTimeout(() => {
-          //           this.router.navigate(['/information-user']);
-          //         }, 2000);
-          //       }, 200);
-          //     }
-          //   },
-          //   (error: any) => {
-          //     console.error(error);
-          //     setTimeout(() => {
-          //       this.statusMessage = 'Помилка реєстрації.';
-          //       setTimeout(() => {
-          //         location.reload();
-          //       }, 2000);
-          //     }, 100);
-          //   }
-          // );
+          this.http.post('http://localhost:3000/registration', data)
+          .subscribe(
+            (response: any) => {
+              console.log(response)
+              if (response.status === 'Не правильно передані данні') {
+                console.error(response.status);
+                setTimeout(() => {
+                  this.statusMessage = 'Помилка реєстрації.';
+                  setTimeout(() => {
+                    location.reload();
+                  }, 1000);
+                }, 200);
+              } else {
+                setTimeout(() => {
+                  this.statusMessage = 'Вітаємо в Discussio!';
+                  localStorage.setItem('user', JSON.stringify(response))
+                  setTimeout(() => {
+                    this.router.navigate(['/information-user']);
+                  }, 2000);
+                }, 200);
+              }
+            },
+            (error: any) => {
+              console.error(error);
+              setTimeout(() => {
+                this.statusMessage = 'Помилка реєстрації.';
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }, 100);
+            }
+          );
         }
 
       }

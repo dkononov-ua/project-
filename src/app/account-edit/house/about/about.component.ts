@@ -15,7 +15,7 @@ interface FlatInfo {
   about: string | undefined;
   private: boolean;
   rent: boolean;
-  room: boolean;
+  room: number;
 }
 @Component({
   selector: 'app-about',
@@ -57,7 +57,7 @@ export class AboutComponent implements OnInit {
     about: undefined,
     private: false,
     rent: false,
-    room: false,
+    room: 0,
   };
 
   disabled: boolean = true;
@@ -92,6 +92,7 @@ export class AboutComponent implements OnInit {
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           this.flatInfo = response.about;
           this.loading = false;
           if (response.about.option_pay !== 0)
@@ -110,28 +111,29 @@ export class AboutComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
 
-      // const data = {
-      //   students: this.flatInfo.students || undefined,
-      //   woman: this.flatInfo.woman || undefined,
-      //   man: this.flatInfo.man || undefined,
-      //   family: this.flatInfo.family || undefined,
-      //   bunker: this.flatInfo.bunker || undefined,
-      //   animals: this.flatInfo.animals || undefined,
-      //   option_pay: this.flatInfo.option_pay || 0,
-      //   price_d: this.flatInfo.price_d || undefined,
-      //   price_m: this.flatInfo.price_m || undefined,
-      //   about: this.flatInfo.about || undefined,
-      //   private: this.flatInfo.private || false,
-      //   rent: this.flatInfo.rent || false,
-      //   room: this.flatInfo.room || false,
-      // }
+      const data = {
+        students: this.flatInfo.students || undefined,
+        woman: this.flatInfo.woman || undefined,
+        man: this.flatInfo.man || undefined,
+        family: this.flatInfo.family || undefined,
+        bunker: this.flatInfo.bunker || undefined,
+        animals: this.flatInfo.animals || undefined,
+        option_pay: this.flatInfo.option_pay || 0,
+        price_d: this.flatInfo.price_d || undefined,
+        price_m: this.flatInfo.price_m || undefined,
+        about: this.flatInfo.about || undefined,
+        private: this.flatInfo.private || false,
+        rent: this.flatInfo.rent || false,
+        room: this.flatInfo.room || 0,
+      }
 
+      console.log(data)
       try {
         this.loading = true
         this.disabled = true;
         const response = await this.http.post('http://localhost:3000/flatinfo/add/about', {
           auth: JSON.parse(userJson),
-          flat: this.flatInfo,
+          flat: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
 
@@ -184,7 +186,7 @@ export class AboutComponent implements OnInit {
         about: '',
         private: false,
         rent: false,
-        room: false,
+        room: 0,
       };
   }
 }

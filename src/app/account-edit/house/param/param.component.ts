@@ -78,7 +78,9 @@ export class ParamComponent {
     if (userJson) {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           if (response && response.param.area) {
+
             this.flatInfo = response.param;
             this.disabled = true;
           } else {

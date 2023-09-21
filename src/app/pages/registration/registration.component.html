@@ -47,7 +47,7 @@
 
           <mat-form-field class="inputbox w-75" appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput class="input-field" id="email" type="text" formControlName="email" placeholder="email"
+            <input matInput class="input-field" id="email" type="email" formControlName="email" placeholder="email"
               required>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </mat-form-field>

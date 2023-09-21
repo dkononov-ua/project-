@@ -21,12 +21,14 @@ export class SubscriberMenuComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getFlatId();
-    await this.getSubsCount();
-    await this.getAcceptSubsCount();
-    await this.getSubscriptionsCount();
-
-    this.loading = false;
+    const userJson = localStorage.getItem('user')
+    if (JSON.parse(userJson!)) {
+      await this.getFlatId();
+      await this.getSubsCount();
+      await this.getAcceptSubsCount();
+      await this.getSubscriptionsCount();
+      this.loading = false;
+    }
   }
 
   getFlatId() {

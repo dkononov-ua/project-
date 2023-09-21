@@ -178,7 +178,7 @@
               </mat-form-field>
               <mat-form-field class="input-mat p-1" appearance="outline">
                 <mat-label class="label-accent">Email:</mat-label>
-                <input type="email" name="owner_mail" matInput [(ngModel)]="userData.cont.email">
+                <input type="mail" name="owner_mail" matInput [(ngModel)]="userData.cont.mail">
               </mat-form-field>
             </div>
           </div>
@@ -219,7 +219,7 @@
                 </mat-form-field>
                 <mat-form-field class="input-mat p-1" appearance="outline">
                   <mat-label class="label-accent">Email:</mat-label>
-                  <input type="email" name="subscriber_mail" matInput [(ngModel)]="selectedSubscriber.email">
+                  <input type="mail" name="subscriber_mail" matInput [(ngModel)]="selectedSubscriber.mail">
                 </mat-form-field>
               </div>
             </div>
@@ -433,9 +433,11 @@
 
   <div *ngIf="isContainerVisible" id="agreement-container">
     <div class="agree">
+
       <div class="close-box">
         <button class="btn-close" type="submit" (click)="closeContainer()"></button>
       </div>
+
       <div class="title-box m-2">
         <div class="title-group w-70">
           <div class="title">Угода оренди нерухомого майна</div>
@@ -460,7 +462,7 @@
             <div class="item-description accent"><span class="item-description">Телефон:</span>
               {{ userData.cont.tell }}</div>
             <div class="item-description accent"><span class="item-description">Email:</span>
-              {{ userData.cont.email }}</div>
+              {{ userData.cont.mail }}</div>
           </div>
           <div class="agree-wrapper">
             <div class="item-description">Сторона орендара</div>
@@ -471,7 +473,7 @@
             <div class="item-description accent"><span class="item-description">Телефон:</span>
               {{selectedSubscriber?.tell }}</div>
             <div class="item-description accent"><span class="item-description">Email:</span>
-              {{ selectedSubscriber?.email }} </div>
+              {{ selectedSubscriber?.mail }} </div>
           </div>
         </div>
 
@@ -582,7 +584,7 @@
             Сторін, з повідомленням про це іншої Сторони не менше ніж за
             <span class="accent" *ngIf="dateAgreeBreakUp !== undefined && dateAgreeBreakUp == 1"> {{ dateAgreeBreakUp }} день.</span>
             <span class="accent" *ngIf="dateAgreeBreakUp !== undefined && dateAgreeBreakUp > 1"> {{ dateAgreeBreakUp }} днів.</span>
-            <span *ngIf="!dateAgreeBreakUp"> ___________________________________________________(прописом – днів / міс.)
+            <span *ngIf="!dateAgreeBreakUp"> ____________________________________(прописом – днів / міс.)
             </span>
           </li>
           <li> 4.6. Інші умови та порядок продовження, розірвання даного угоди передбачені чинним законодавством
@@ -627,8 +629,7 @@
           <li>6.5. Майно, що передається Орендарю для оренди буде використовуватися ним у якості житлового приміщення
             для проживання перелічених осіб:
             <span class="accent" *ngIf="personsReside"> {{ personsReside }} </span>
-            <span *ngIf="!personsReside">
-              ______________________________________________________________________________________________________________________________</span>
+            <span *ngIf="!personsReside">____________________________________________________</span>
           </li>
           <li> 6.6. Ця Угода складена в двох примірниках, які мають однакову юридичну силу з відповідною кількістю
             Додатків і Додаткових угод, які є невід'ємною частиною даного угоди.

@@ -410,9 +410,6 @@ textarea {
 }
 
 .agree {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
   width: 100%;
   background-color: $color-white;
@@ -422,25 +419,28 @@ textarea {
     0 10px 10px rgba(0, 0, 0, 0.22);
 
   @include s1-s3 {
-    padding: 10px 15px;
+    padding: 10px 20px;
   }
 }
 .close-box {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 10px;
   @include s1-s3 {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
     position: relative;
-    background-color: $color-white;
-    border-radius: 50%;
-    border: 1px solid $color-accent;
   }
+}
+
+.btn-close {
+  width: 40px;
+  height: 40px;
+  background-color: $color-white;
+  border-radius: 50%;
+  border: 1px solid $color-accent;
 }
 
 .box {
@@ -597,6 +597,7 @@ textarea {
 }
 
 ul {
+  width: 100%;
   color: $color-accent;
   font-weight: 600;
   font-size: 12px;
@@ -635,3 +636,13 @@ mat-label {
     display: none;
   }
 }
+
+
+
+
+
+
+
+
+
+
