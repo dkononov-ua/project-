@@ -1,8 +1,29 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+.container-fluid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+}
 
 .container-navbar {
   display: flex;
   justify-content: flex-end;
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include s1-s3 {
+    width: 100%;
+  }
 }
 
 .container-card {
@@ -11,6 +32,9 @@
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: space-between;
+  @include s1-s3 {
+    height: 90vh;
+  }
 }
 
 .container-card::-webkit-scrollbar {
@@ -21,10 +45,53 @@
   display: none;
 }
 
-.card-box {
+.btn-menu {
+  border: 1px solid $color-primary;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  border-radius: 50%;
+  background-color: $color-white;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 13px;
+  left: 15px;
+  z-index: 999999;
+}
+
+.card-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
+  @include s1-s3 {
+    justify-content: flex-end;
+    flex-direction: column;
+    z-index: 99;
+    position: absolute;
+    bottom: -100%;
+    transition: bottom 1s ease;
+  }
+}
+
+.card-box.open {
+  @include s1-s3 {
+    width: 100%;
+    background-image: linear-gradient(
+      to top,
+      rgb(0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.337) 100%
+    );
+    bottom: 70px;
+    top: 0;
+  }
+}
+
+.card-box.hide {
+  @include s1-s3 {
+    display: none;
+  }
 }
 
 .card-menu {
@@ -33,12 +100,20 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
+  @include s1-s3 {
+    justify-content: flex-end;
+    background-color: $color-white;
+    border: 1px solid $color-primary;
+    border-radius: 10px 10px 0 0;
+    padding: 10px 5px 40px;
+  }
 }
-.navbar-house {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+.mobile {
+  @include s1-s3 {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 
 .link-menu {
@@ -67,4 +142,20 @@
 .link-text {
   font-size: $font-size;
   font-family: $font-main;
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
 }

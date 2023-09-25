@@ -1,10 +1,16 @@
 <div class="container">
   <div class="container-card">
 
-    <div class="card-box col-lg-3 col-md-4 col-sm-12 col-12">
-      <div class="card-menu m-2">
+    <button class="btn-menu hide-pc" (click)="onToggleMenu()">
+      <span class="material-symbols-outlined">
+        menu_open
+      </span>
+    </button>
 
-        <div *ngIf="!selectedName">
+    <div class="card-box col-lg-3 col-md-4 col-sm-12 col-12" [ngClass]="{'open': isMenuOpen, 'hide': hideMenu}">
+      <div class="card-menu">
+
+        <div class="hide-mobile" *ngIf="!selectedName">
           <app-selection-account></app-selection-account>
         </div>
 
@@ -13,7 +19,7 @@
           <div class="text-title">{{selectedName}}</div>
         </div>
 
-        <div *ngIf="!selectedName">
+        <div class="mt-2" *ngIf="!selectedName">
           <app-selection-housing></app-selection-housing>
         </div>
 
@@ -29,15 +35,24 @@
         <app-comun-nav></app-comun-nav>
 
         <div *ngIf="discussio_view === false">
-          <div class="btn-box mt-3" *ngIf="!showInput">
-            <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
-                class="fa-regular fa-circle-xmark"></i></button>
-            <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
-              <i class="fa-solid fa-circle-plus"></i>
-            </button>
+          <div class="btn-box m-2" *ngIf="!showInput">
+
+            <div class="btn-name">
+              <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
+                  class="fa-regular fa-circle-xmark"></i></button>
+              <mat-label>Видалити послугу</mat-label>
+            </div>
+
+            <div class="btn-name">
+              <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
+                <i class="fa-solid fa-circle-plus"></i>
+              </button>
+              <mat-label>Створити послугу</mat-label>
+            </div>
+
           </div>
 
-          <div class="box mt-3" *ngIf="showInput">
+          <div class="box m-2" *ngIf="showInput">
 
             <mat-form-field class="inputbox" appearance="outline">
               <mat-label>Оберіть або створіть нову</mat-label>
@@ -51,12 +66,23 @@
             </mat-form-field>
 
             <div class="btn-group">
-              <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
-                <i class="fa-solid fa-circle-check"></i>
-              </button>
-              <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА" (click)="showInput = false">
-                <i class="fa-solid fa-circle-xmark"></i>
-              </button>
+
+              <div class="btn-name">
+                <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
+                  <i class="fa-solid fa-circle-check"></i>
+                </button>
+                <mat-label>СТВОРИТИ</mat-label>
+              </div>
+
+              <div class="btn-name">
+                <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА" (click)="showInput = false">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+                <mat-label>ВІДМІНА</mat-label>
+              </div>
+
+
+
             </div>
 
           </div>

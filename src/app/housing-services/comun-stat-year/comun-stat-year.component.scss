@@ -1,4 +1,5 @@
 @use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .container-card {
   width: 100%;
@@ -22,6 +23,11 @@
   text-align: center;
 }
 
+.wrapper{
+  width: 100%;
+  overflow-x: auto;
+}
+
 .table-box {
   width: 100%;
   min-height: 40vh;
@@ -31,6 +37,10 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  @include s1-s3 {
+    overflow-x: auto;
+    width: max-content;
+  }
 }
 
 .table-box::-webkit-scrollbar {
@@ -108,7 +118,6 @@
 }
 
 .card-box {
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -121,27 +130,14 @@
   justify-content: space-between;
 }
 
+
+
 .container-box {
   display: flex;
-  width: 100%;
-}
-
-.fixed-table-head {
-  position: sticky;
-  top: 0;
-  background-color: $color-primary;
-  z-index: 1;
-}
-
-.border-1 {
-  width: 100%;
-  display: flex;
-  border: 1px solid $color-dark;
-  border-radius: 10px;
-  padding: 5px;
   align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
+  @include s1-s3 {
+    flex-direction: column;
+  }
 }
 
 .box {
@@ -162,4 +158,12 @@
 
 .message-box {
   width: 100%;
+}
+
+.mat-form-field {
+  display: flex;
+  width: 100%;
+  border: 1px solid #7E7F7F;
+  border-radius: 10px;
+  align-items: center;
 }

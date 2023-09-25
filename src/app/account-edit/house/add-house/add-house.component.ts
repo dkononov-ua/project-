@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-add-house',
@@ -11,6 +12,8 @@ import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 })
 
 export class AddHouseComponent implements OnInit {
+
+  @ViewChild('flatIdInput') flatIdInput: any;
 
   loading = false;
 
@@ -96,6 +99,10 @@ export class AddHouseComponent implements OnInit {
         }
       }
     });
+  }
+
+  openBtn() {
+    this.showInput = !this.showInput;
   }
 
   toggleInput(value: boolean): void {

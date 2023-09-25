@@ -130,6 +130,19 @@ export class TenantsSearchComponent implements OnInit {
     5: 'Щось цікавіше',
   }
 
+  openCard: boolean = false;
+  hideCard: boolean = true;
+  openMenu: boolean = true;
+  hideMenu: boolean = false;
+
+  opensCard () {
+    this.openCard = !this.openCard;
+    this.hideCard = !this.hideCard;
+
+    this.openMenu = !this.openMenu;
+    this.hideMenu = !this.hideMenu;
+  }
+
   constructor(
     private filterService: FilterUserService,
     private formBuilder: FormBuilder,

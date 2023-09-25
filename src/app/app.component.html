@@ -1,10 +1,10 @@
 <div class="body-container">
   <div class="container" >
-    <app-navbar class="hide-mobile"></app-navbar>
+    <app-navbar class="hide-mobile" *ngIf="isAccountOpenStatus === true"></app-navbar>
     <div class="mobile" [ngClass]="{'open': isChatOpenStatus}">
       <router-outlet></router-outlet>
     </div>
-    <app-selection-account class="hide-pc" [ngClass]="{'open': isChatOpenStatus}"></app-selection-account>
+    <app-selection-account class="hide-pc" [ngClass]="{'open': isChatOpenStatus}" *ngIf="isAccountOpenStatus === true"></app-selection-account>
     <app-footer class="hide-mobile"></app-footer>
   </div>
 </div>

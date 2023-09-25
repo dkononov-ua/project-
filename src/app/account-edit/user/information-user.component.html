@@ -8,17 +8,6 @@
       <a [routerLinkActive]="'active'" [routerLink]="'/looking'">Пошук оселі</a>
     </nav>
 
-    <nav class="navbar hide-pc">
-      <a class="btn-nav" [routerLinkActive]="'active'" [routerLink]="'/information-user'"><span class="material-symbols-outlined">
-          account_circle
-        </span></a>
-      <a class="btn-nav" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span class="material-symbols-outlined">
-        other_houses
-        </span></a>
-      <a class="btn-nav" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span class="material-symbols-outlined">
-        person_search
-        </span></a>
-    </nav>
   </div>
 
   <div class="container-card">
@@ -49,7 +38,7 @@
         </button>
       </div>
 
-      <div class="card">
+      <!-- <div class="card">
 
         <mat-label class="label">Змінити пошту</mat-label>
         <div class="flex-row" *ngIf="emailCheck === 0">
@@ -124,7 +113,7 @@
           </button>
         </div>
 
-      </div>
+      </div> -->
     </div>
 
     <div [@cardAnimation1] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
@@ -134,22 +123,22 @@
         <mat-label class="label">Персональні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Ім'я</mat-label>
-          <input name="userInfo.firstName" matInput [disabled]="disabledUser" [(ngModel)]="userInfo.firstName">
+          <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Прізвище</mat-label>
-          <input name="userInfo.lastName" matInput [disabled]="disabledUser" [(ngModel)]="userInfo.lastName">
+          <input name="userInfo.lastName" matInput [(ngModel)]="userInfo.lastName">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>По батькові</mat-label>
-          <input name="userInfo.surName" matInput [disabled]="disabledUser" [(ngModel)]="userInfo.surName">
+          <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
         </mat-form-field>
 
         <mat-form-field class="w-100">
           <mat-label>Дата народження</mat-label>
-          <input matInput [matDatepicker]="picker" [disabled]="disabledUser" [(ngModel)]="userInfo.dob">
+          <input matInput [matDatepicker]="picker" [disabled]="true" [(ngModel)]="userInfo.dob">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -159,7 +148,7 @@
         <div class="content">
           <div class="content-group">
             <label class="checkBox">
-              <input id="acces_subs" type="checkbox" [(ngModel)]="userInfo.agreeAdd">
+              <input id="acces_subs" type="checkbox" [(ngModel)]="userParam.add_in_flat">
               <div class="transition"></div>
             </label>
             <span class="checkBox-span" (click)="toggleDescription('acces_subs')">Додавати в оселю</span>
@@ -177,8 +166,6 @@
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoUser()"><i
               class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfoUser()"><i
-              class="icon fa-solid fa-pen"></i></button>
           <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfoUser()"><i
               class="icon fa-solid fa-eraser"></i></button>
         </div>
@@ -194,35 +181,33 @@
         <mat-label class="label">Контактні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Телефон</mat-label>
-          <input type="tel" name="userCont.tell" matInput [disabled]="disabled" [(ngModel)]="userCont.tell"
+          <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell"
             [maxlength]="10" [pattern]="phonePattern">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Ваша контактна пошта</mat-label>
-          <input name="userCont.mail" matInput [disabled]="disabled" [(ngModel)]="userCont.mail">
+          <input name="userCont.mail" matInput [(ngModel)]="userCont.mail">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Telegram<i class="fa-brands fa-telegram"></i></mat-label>
-          <input name="userCont.telegram" matInput [disabled]="disabled" [(ngModel)]="userCont.telegram">
+          <input name="userCont.telegram" matInput [(ngModel)]="userCont.telegram">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Facebook<i class="fa-brands fa-facebook"></i></mat-label>
-          <input name="userCont.facebook" matInput [disabled]="disabled" [(ngModel)]="userCont.facebook">
+          <input name="userCont.facebook" matInput [(ngModel)]="userCont.facebook">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Instagram<i class="fa-brands fa-instagram"></i></mat-label>
-          <input name="userCont.instagram" matInput [disabled]="disabled" [(ngModel)]="userCont.instagram">
+          <input name="userCont.instagram" matInput [(ngModel)]="userCont.instagram">
         </mat-form-field>
 
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoCont()"><i
               class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfoCont()"><i
-              class="icon fa-solid fa-pen"></i></button>
           <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfoCont()"><i
               class="icon fa-solid fa-eraser"></i></button>
         </div>

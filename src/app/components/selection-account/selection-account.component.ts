@@ -20,49 +20,74 @@ export class SelectionAccountComponent implements OnInit {
   public selectedFlatId: any | null;
   houses: { id: number, name: string }[] = [];
   rentedHouses: { id: number; name: string; }[] = [];
-
   addressHouse: FormGroup | undefined;
   flatImg: any = [{ img: "housing_default.svg" }];
   userImg: any;
-  openUserMenu: boolean = true;
-  openFlatMenu: boolean = false;
-  selectHouse = new FormGroup({
-    house: new FormControl('виберіть оселю')
-  });
+  selectHouse = new FormGroup({ house: new FormControl('виберіть оселю') });
   images: any;
   selectedRentedFlatId: any;
 
-  ifOpenUserMenu() {
-    this.openFlatMenu = false;
-    this.openUserMenu = true;
-  }
 
-  ifOpenFlatMenu() {
-    this.openUserMenu = false;
-    this.openFlatMenu = true;
-  }
+  // user
+  openUserMenu: boolean = false;
+  hideUserMenu: boolean = true;
 
-  isMenuOpen = false;
-
-  toggleMenuUser(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-    this.ifOpenUserMenu()
-    console.log(this.isMenuOpen)
-  }
-
-  toggleMenuFlat(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-    this.ifOpenFlatMenu()
-    console.log(this.isMenuOpen)
-  }
-
-  closeMenuFlat(): void {
-    this.isMenuOpen = false;
+  openMenuUser(): void {
+    if (!this.openUserMenu) {
+      this.hideUserMenu = false;
+      this.openFlatMenu = false;
+      this.hideFlatMenu = true;
+      this.openUserMenu = true;
+    } else if (this.openUserMenu) {
+      this.openUserMenu = false;
+      this.hideUserMenu = true;
+    }
   }
 
   closeMenuUser(): void {
-    this.isMenuOpen = false;
+    this.openUserMenu = false;
+    this.hideUserMenu = true;
   }
+
+  // flat
+  openFlatMenu: boolean = false;
+  hideFlatMenu: boolean = true;
+
+  openMenuFlat(): void {
+    if (!this.openFlatMenu) {
+      this.hideFlatMenu = false;
+      this.openUserMenu = false;
+      this.hideUserMenu = true;
+      this.openFlatMenu = true;
+    } else if (this.openFlatMenu) {
+      this.openFlatMenu = false;
+      this.hideFlatMenu = true;
+    }
+  }
+
+  closeMenuFlat(): void {
+    this.openFlatMenu = false;
+    this.hideFlatMenu = true;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  isMenuOpen = false;
+
+
+
+
+
 
   goBack(): void {
     this.location.back();
@@ -83,7 +108,7 @@ export class SelectionAccountComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private el: ElementRef,
     private location: Location
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getSelectParam();

@@ -156,6 +156,19 @@ export class HousingSearchComponent implements OnInit {
   statusSubscriptionMessage: boolean | undefined;
   statusMessage: any;
 
+  openCard: boolean = false;
+  hideCard: boolean = true;
+  openMenu: boolean = true;
+  hideMenu: boolean = false;
+
+  opensCard () {
+    this.openCard = !this.openCard;
+    this.hideCard = !this.hideCard;
+
+    this.openMenu = !this.openMenu;
+    this.hideMenu = !this.hideMenu;
+  }
+
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
@@ -177,6 +190,8 @@ export class HousingSearchComponent implements OnInit {
       const optionsFound = this.filterService.getOptionsFound();
       if (filterValue && optionsFound) {
         this.getFilteredData(filterValue, optionsFound);
+      } else {
+        this.getFilteredData(0, 0);
       }
     });
 
@@ -187,10 +202,15 @@ export class HousingSearchComponent implements OnInit {
   }
 
   getFilteredData(filterValue: any, optionsFound: number) {
-    this.filteredFlats = filterValue;
-    this.optionsFound = optionsFound;
-    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    this.checkSubscribe();
+    if (!filterValue) {
+      this.optionsFound = 0;
+      this.filteredFlats = undefined;
+    } else {
+      this.filteredFlats = filterValue;
+      this.optionsFound = optionsFound;
+      this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+      this.checkSubscribe();
+    }
   }
 
   selectFlat(flat: FlatInfo) {

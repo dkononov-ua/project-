@@ -1,6 +1,13 @@
 <div class="container-house">
 
-  <div class="section col-lg-4 col-md-9 col-sm-12 col-12">
+  <button class="btn-menu hide-pc" (click)="opensCard()">
+    <span class="material-symbols-outlined">
+      menu_open
+    </span>
+  </button>
+
+  <div class="section col-lg-4 col-md-9 col-sm-12 col-12" [ngClass]="{'open': openMenu, 'hide': hideMenu}"
+  (click)="opensCard()">
     <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredUsers">
       <div class="card-wrapper" *ngFor="let user of filteredUsers; let i = index"
         [ngClass]="{ 'selected': selectedUser === user }" (click)="selectUser(user)"
@@ -49,7 +56,7 @@
     </div>
   </div>
 
-  <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12">
+  <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12" [ngClass]="{'open': openCard, 'hide': hideCard}">
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
       <div [@cardAnimation] class="card-house m-2" *ngIf="selectedUser">

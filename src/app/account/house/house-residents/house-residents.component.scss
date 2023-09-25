@@ -1,4 +1,6 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
 
 .container-card {
   display: flex;
@@ -7,8 +9,8 @@
 }
 
 .card-box {
-  min-height: 50vh;
-  max-height: 60vh;
+  min-height: 40vh;
+  max-height: 50vh;
   overflow: auto;
 }
 
@@ -288,6 +290,18 @@ input {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-right: 10px;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
 }
 
 

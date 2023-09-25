@@ -193,6 +193,9 @@ p {
   margin-bottom: 10px;
   justify-content: center;
   align-items: center;
+  @include s1-s3 {
+    height: 250px;
+  }
 }
 img {
   width: 100%;

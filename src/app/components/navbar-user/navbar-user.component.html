@@ -5,7 +5,7 @@
     <span class="link-text">Повідомлення</span>
     <div class="status" *ngIf="unreadMessage !== false">{{unreadMessage}}</div>
   </a>
-  
+
   <a class="link-menu hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user'">
     <span class="link-text">Меню підписок</span></a>
 
@@ -13,6 +13,15 @@
 
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-menu'">
     <span class="link-text">Угоди оренди</span></a>
+
+  <a class="btn-nav" [routerLinkActive]="'active'" [routerLink]="'/looking'">Пасивний пошук<span
+      class="material-symbols-outlined">
+      person_search
+    </span></a>
+
+    <a class="btn-nav" [routerLinkActive]="'active'" [routerLink]="'/search/host-house/housingSearch'">Пошук оселі</a>
+    <a class="btn-nav" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'">Створити оселю</a>
+
   <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
     <span class="link-text">Редагувати <i class="fa-solid fa-gear"></i></span></a>
 

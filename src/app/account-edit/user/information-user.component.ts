@@ -14,6 +14,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -50,6 +51,10 @@ interface UserCont {
   phone_alt: 0,
   tell: 0,
 }
+interface UserParam {
+  add_in_flat: boolean | false;
+  user_id: '',
+};
 @Component({
   selector: 'app-information-user',
   templateUrl: './information-user.component.html',
@@ -104,6 +109,11 @@ export class InformationUserComponent implements OnInit {
     viber: '',
   };
 
+  userParam: UserParam = {
+    add_in_flat: false,
+    user_id: '',
+  };
+
   loading = false;
   showPassword = false;
   isPasswordVisible = false;
@@ -120,8 +130,6 @@ export class InformationUserComponent implements OnInit {
   selectedFile!: File;
   selectedFlatId: any;
   userImg: any;
-  disabled: boolean = true;
-  disabledUser: boolean = true;
 
 
   disabledPassword: boolean = true;
@@ -168,12 +176,24 @@ export class InformationUserComponent implements OnInit {
     this.getInfo();
   }
 
+  isAccountOpenStatus: boolean = true;
 
   phonePattern = '^[0-9]{10}$';
-  constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private datePipe: DatePipe,
+    private isAccountOpenService: IsAccountOpenService,
+  ) { }
 
   ngOnInit(): void {
+    this.sendAccountIsOpen();
     this.getInfo();
+  }
+
+  sendAccountIsOpen() {
+    this.isAccountOpenStatus = true;
+    this.isAccountOpenService.setIsAccountOpen(this.isAccountOpenStatus);
   }
 
   async getInfo(): Promise<any> {
@@ -185,6 +205,7 @@ export class InformationUserComponent implements OnInit {
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
+          this.userParam = response.parametrs;
           console.log(this.userCont)
           console.log(this.userInfo)
         }, (error: any) => {
@@ -195,29 +216,39 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
+  saveParamsUser(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post('http://localhost:3000/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat })
+        .subscribe((response: any) => {
+          console.log(response)
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user not found, the form is blocked');
+    }
+  }
+
   saveInfoUser(): void {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.disabledUser === false) {
+    this.saveParamsUser();
+
+    if (userJson) {
       const data = { ...this.userInfo };
-
-      if (this.userInfo.dob) {
-        data.dob = moment(this.userInfo.dob._i).format('YYYY-MM-DD');
-      }
-
+      console.log(data)
       this.http.post('http://localhost:3000/add/user', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);
         });
-      this.disabledUser = true;
-
     } else {
       console.log('user not found, the form is blocked');
     }
   }
   saveInfoCont(): void {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.disabled === false) {
+    if (userJson) {
       const data = this.userCont;
       console.log(data)
       this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: data })
@@ -225,22 +256,13 @@ export class InformationUserComponent implements OnInit {
         }, (error: any) => {
           console.error(error);
         });
-      this.disabled = true;
     } else {
       console.log('user not found, the form is blocked');
     }
   }
 
-  editInfoUser(): void {
-    this.disabledUser = false;
-  }
-
-  editInfoCont(): void {
-    this.disabled = false;
-  }
 
   clearInfoUser(): void {
-    if (this.disabledUser === false)
       this.userInfo = {
         agreeAdd: false,
         firstName: '',
@@ -262,7 +284,6 @@ export class InformationUserComponent implements OnInit {
   }
 
   clearInfoCont(): void {
-    if (this.disabled === false)
       this.userCont = {
         facebook: '',
         instagram: '',

@@ -92,6 +92,31 @@ export class ResidentsComponent implements OnInit {
   acces_flat_features: any;
   acces_flat_chats: any;
 
+  isMenuOpen = true;
+  hideMenu = false;
+
+  onToggleMenu() {
+    if (this.isMenuOpen) {
+      this.openMenu();
+      setTimeout(() => {
+        this.hideMenu = !this.hideMenu;
+      }, 500);
+    } else {
+      this.hideMenu = !this.hideMenu;
+      setTimeout(() => {
+        this.openMenu();
+      }, 100);
+    }
+  }
+
+  openMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
   isDescriptionVisible(key: string): boolean {
     return this.descriptionVisibility[key] || false;
   }

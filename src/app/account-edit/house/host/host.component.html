@@ -1,6 +1,14 @@
-  <div class="container-navbar">
+<div class="container-fluid">
+
+  <button class="btn-menu hide-pc" (click)="onToggleMenu()">
+    <span class="material-symbols-outlined">
+      menu_open
+    </span>
+  </button>
+
+  <div class="container-navbar hide-mobile">
     <nav class="navbar">
-      <a [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"><i class="fa-solid fa-chevron-left"></i></a>
+      <a [routerLinkActive]="'active'" [routerLink]="'/user/info'"><i class="fa-solid fa-chevron-left"></i></a>
       <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Профіль оселі</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/looking'">Пошук оселі</a>
@@ -9,31 +17,33 @@
 
   <div class="container-card">
 
-    <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12">
-      <div class="card-menu m-2">
+    <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12" [ngClass]="{'open': isMenuOpen, 'hide': hideMenu}">
+      <div class="card-menu">
 
         <app-selection-housing></app-selection-housing>
 
-        <nav class="navbar-house">
-          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span
-              class="link-text">Місцезнаходження</span>
-          </a>
-          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"><span
-              class="link-text">Характеристики</span>
-          </a>
-          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"><span
-              class="link-text">Особливості</span>
-          </a>
-          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span
-              class="link-text">Додати фото</span>
-          </a>
-          <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"><span
-              class="link-text">Наповнення</span>
-          </a>
-        </nav>
+        <div class="mobile">
+          <nav>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"
+              (click)="onToggleMenu()"><span class="link-text">Місцезнаходження</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"
+              (click)="onToggleMenu()"><span class="link-text">Характеристики</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"
+              (click)="onToggleMenu()"><span class="link-text">Особливості</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
+              (click)="onToggleMenu()"><span class="link-text">Додати фото</span>
+            </a>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"
+              (click)="onToggleMenu()"><span class="link-text">Наповнення</span>
+            </a>
+          </nav>
 
-        <app-add-house></app-add-house>
+          <app-add-house></app-add-house>
 
+        </div>
       </div>
     </div>
 
@@ -42,3 +52,4 @@
     </div>
 
   </div>
+</div>

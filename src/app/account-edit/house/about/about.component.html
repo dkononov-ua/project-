@@ -11,7 +11,7 @@
         <div class="group-item-1">
           <div class="content">
             <label class="checkBox">
-              <input id="students" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.students" name="students">
+              <input id="students" type="checkbox" [(ngModel)]="flatInfo.students" name="students">
               <div class="transition"></div>
             </label>
             <span class="checkBox-span">Студент<span class="status">S</span>
@@ -21,7 +21,7 @@
           </div>
           <div class="content">
             <label class="checkBox">
-              <input id="woman" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.woman" name="woman">
+              <input id="woman" type="checkbox" [(ngModel)]="flatInfo.woman" name="woman">
               <div class="transition"></div>
             </label>
             <span class="checkBox-span">Жінка<span class="status">W</span></span>
@@ -29,7 +29,7 @@
           </div>
           <div class="content">
             <label class="checkBox">
-              <input id="man" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.man" name="man">
+              <input id="man" type="checkbox" [(ngModel)]="flatInfo.man" name="man">
               <div class="transition"></div>
             </label>
             <span class="checkBox-span">Чоловік<span class="status">M</span></span>
@@ -37,7 +37,7 @@
           </div>
           <div class="content">
             <label class="checkBox">
-              <input id="family" type="checkbox" [disabled]="disabled" [(ngModel)]="flatInfo.family" name="family">
+              <input id="family" type="checkbox" [(ngModel)]="flatInfo.family" name="family">
               <div class="transition"></div>
             </label>
             <span class="checkBox-span">Сім'я<span class="status">F</span></span>
@@ -47,7 +47,7 @@
 
         <mat-form-field class="item-select m-1 mt-2" appearance="outline">
           <mat-label>Наявність укриття</mat-label>
-          <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.bunker" name="bunker">
+          <mat-select [(ngModel)]="flatInfo.bunker" name="bunker">
             <mat-option [value]="''">Приховати</mat-option>
             <mat-option value="Паркінг">Паркінг</mat-option>
             <mat-option value="В будинку">В будинку</mat-option>
@@ -57,7 +57,7 @@
 
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Дозвіл на тварин</mat-label>
-          <mat-select [disabled]="disabled" [(ngModel)]="flatInfo.animals" name="animals">
+          <mat-select [(ngModel)]="flatInfo.animals" name="animals">
             <mat-option [value]="''">Приховати</mat-option>
             <mat-option value="1">Без тварин</mat-option>
             <mat-option value="2">За домовленістю</mat-option>
@@ -66,7 +66,7 @@
         </mat-form-field>
 
         <div class="form-floating p-1">
-          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="disabled"
+          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
             [(ngModel)]="flatInfo.about" name="about" (input)="onInput()"></textarea>
           <label for="floatingTextarea">
             <p>Опис оселі:</p>
@@ -85,7 +85,7 @@
 
           <div class="content">
             <label class="checkBox">
-              <input id="daily" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="daily"
+              <input id="daily" type="radio" [(ngModel)]="flatInfo.option_pay" name="daily"
                 [value]=1>
               <div class="transition"></div>
             </label>
@@ -95,7 +95,7 @@
 
           <div class="content">
             <label class="checkBox">
-              <input id="monthly" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_pay" name="monthly"
+              <input id="monthly" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly"
                 [value]=0>
               <div class="transition"></div>
             </label>
@@ -109,7 +109,7 @@
           <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
             <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
             <div class="mat-input-container">
-              <input matInput type="number" id="inputPriceD" [disabled]="disabled" [(ngModel)]="flatInfo.price_d"
+              <input matInput type="number" id="inputPriceD" [(ngModel)]="flatInfo.price_d"
                 name="price_d" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
               <span class="mat-input-suffix">₴</span>
             </div>
@@ -118,7 +118,7 @@
           <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 0">
             <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
             <div class="mat-input-container">
-              <input matInput type="number" id="inputPriceM" [disabled]="disabled" [(ngModel)]="flatInfo.price_m"
+              <input matInput type="number" id="inputPriceM" [(ngModel)]="flatInfo.price_m"
                 name="price_m" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
               <span class="mat-input-suffix">₴</span>
             </div>
@@ -131,7 +131,7 @@
           <div class="content-info">
             <div class="content-group">
               <label class="checkBox">
-                <input id="looking_room" type="checkbox" name="flatInfo.room" [disabled]="disabled"
+                <input id="looking_room" type="checkbox" name="flatInfo.room"
                   [(ngModel)]="flatInfo.room" [value]="1">
                 <div class="transition"></div>
               </label>
@@ -151,7 +151,7 @@
           <div class="content-info">
             <div class="content-group">
               <label class="checkBox">
-                <input id="rent" type="checkbox" name="flatInfo.rent" [disabled]="disabled" [(ngModel)]="flatInfo.rent">
+                <input id="rent" type="checkbox" name="flatInfo.rent" [(ngModel)]="flatInfo.rent">
                 <div class="transition"></div>
               </label>
               <span class="checkBox-span" (click)="toggleDescription('rent')">Розмістити оголошення</span>
@@ -171,7 +171,6 @@
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
               class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
           <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
         </div>
 

@@ -4,7 +4,7 @@
 
 <ng-template #content>
   <div class="container-box">
-    <h4 class="page-name hide-pc mt-2">Мій Discussio аккаунт</h4>
+    <h4 class="page-name hide-pc mt-2">Discussio аккаунт</h4>
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card m-2">
 
@@ -32,7 +32,7 @@
     </div>
 
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
-      <div class="card m-2 p-2" *ngIf="userInfo.agree_search !== 0">
+      <div class="card m-2 p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
 
         <div class="container-sticker">
           <div class="status-container">
@@ -165,7 +165,7 @@
 
       </div>
 
-      <div class="card m-2" *ngIf="userInfo.agree_search === 0">
+      <div class="card m-2" *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
 
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
           <div class="box">

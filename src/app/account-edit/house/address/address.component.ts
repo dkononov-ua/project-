@@ -77,7 +77,6 @@ export class AddressComponent implements OnInit {
   regions = regions;
   cities = cities;
 
-  disabled: boolean = true;
   selectedFlatId!: string | null;
   public locationLink: string = '';
 
@@ -99,8 +98,6 @@ export class AddressComponent implements OnInit {
         .subscribe((response: any) => {
           this.flatInfo = response.flat;
           this.locationLink = this.generateLocationUrl();
-          if (response == undefined && null)
-            this.disabled = false;
           this.loading = false;
         }, (error: any) => {
           console.error(error);
@@ -167,11 +164,10 @@ export class AddressComponent implements OnInit {
 
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
+    if (userJson && this.selectedFlatId !== undefined) {
 
       try {
         this.loading = true
-        this.disabled = true;
 
         const response = await this.http.post('http://localhost:3000/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
@@ -191,12 +187,7 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  editInfo(): void {
-    this.disabled = false;
-  }
-
   clearInfo(): void {
-    if (this.disabled === false)
       this.flatInfo = {
         flat_id: '',
         country: '',

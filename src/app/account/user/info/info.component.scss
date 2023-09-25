@@ -9,6 +9,10 @@
   justify-content: space-evenly;
 }
 
+.page-name {
+  font-weight: 600;
+}
+
 .hide-pc {
   @include s1-s3 {
     display: flex;

@@ -1,31 +1,52 @@
 <ng-template #content>
   <div class="btn-box">
-    <button class="btn-create" (click)="showInput = true" matTooltip="ДОДАТИ НОВУ ОСЕЛЮ" *ngIf="!showInput"><i
-        class="fa-solid fa-circle-plus"></i>
-    </button>
 
     <mat-form-field class="item-select m-1" appearance="outline" *ngIf="showInput">
       <mat-label>Назва оселі</mat-label>
       <input id="flat_id" name="flat_id" placeholder="Створіть свою оселю" matInput [(ngModel)]="flat_id" minlength="4"
         maxlength="20" #flatIdInput="ngModel" required="">
+
       <mat-error *ngIf="flatIdInput?.hasError('required')">
         <mat-error *ngIf="flatIdInput?.touched">Назва обов'язково</mat-error>
       </mat-error>
       <mat-error *ngIf="flatIdInput?.hasError('minlength')">Мінімальна довжина 4 символи</mat-error>
     </mat-form-field>
 
-    <button class="btn-create" (click)="houseCreate()" matTooltip="СТВОРИТИ" *ngIf="showInput"><i
-        class="fa-solid fa-circle-check"></i>
-    </button>
+    <div class="btn-group" *ngIf="showInput">
 
-    <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА" *ngIf="showInput"
-      (click)="showInput = false">
-      <i class="fa-solid fa-circle-xmark"></i>
-    </button>
+      <div class="btn-name" *ngIf="flatIdInput?.valid">
+        <button class="btn-create" (click)="houseCreate()" matTooltip="СТВОРИТИ" ><i
+            class="fa-solid fa-circle-check"></i></button>
+        <mat-label>Створити оселю</mat-label>
+      </div>
 
-    <button class="btn-create btn-deleted" (click)="openDialog()" mat-icon-button color="warn" *ngIf="!showInput"
-      matTooltip="ВИДАЛИТИ ОСЕЛЮ"><i class="fa-solid fa-circle-minus"></i>
-    </button>
+      <div class="btn-name">
+        <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА" (click)="openBtn()">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </button>
+        <mat-label>Відміна</mat-label>
+      </div>
+
+    </div>
+
+    <div class="btn-group" *ngIf="!showInput">
+
+      <div class="btn-name">
+        <button class="btn-create" (click)="openBtn()" matTooltip="ДОДАТИ НОВУ ОСЕЛЮ"><i
+            class="fa-solid fa-circle-plus"></i>
+        </button>
+        <mat-label>Додати оселю</mat-label>
+      </div>
+
+      <div class="btn-name">
+        <button class="btn-create btn-deleted" (click)="openDialog()" mat-icon-button color="warn"
+          matTooltip="ВИДАЛИТИ ОСЕЛЮ"><i class="fa-solid fa-circle-minus"></i>
+        </button>
+        <mat-label>Видалити оселю</mat-label>
+      </div>
+
+    </div>
+
   </div>
 </ng-template>
 

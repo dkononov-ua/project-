@@ -1,4 +1,5 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
 .container-house {
   max-height: 75vh;
@@ -89,6 +90,18 @@
   position: relative;
 }
 
+.section.hide {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.section.open {
+  @include s1-s3 {
+    display: flex;
+  }
+}
+
 .section-1 {
   display: flex;
   align-items: stretch;
@@ -96,7 +109,32 @@
   flex-direction: row;
   justify-content: center;
   align-content: space-around;
+  @include s1-s3 {
+    background-color: $color-white;
+    padding-top: 10px;
+    overflow: auto;
+    height: 90vh;
+  }
 }
+
+.section-1.hide {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.section-1.open {
+  @include s1-s3 {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    align-content: flex-start;
+  }
+}
+
+
 
 .section-2 {
   display: flex;
@@ -586,6 +624,9 @@ mat-paginator {
   height: 20px;
   top: -15px;
   right: 10px;
+  @include s1-s3 {
+    top: -10px;
+  }
 }
 
 .card-logo {
@@ -645,4 +686,35 @@ a {
   text-transform: capitalize;
   margin: 0;
   padding: 0;
+}
+
+.btn-menu {
+  border: 1px solid $color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: $color-white;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 13px;
+  left: 15px;
+  z-index: 999999;
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
 }

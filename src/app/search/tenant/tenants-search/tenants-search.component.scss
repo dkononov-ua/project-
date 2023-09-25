@@ -1,4 +1,5 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
 .container-house {
   max-height: 75vh;
@@ -76,6 +77,18 @@
   position: relative;
 }
 
+.section.hide {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.section.open {
+  @include s1-s3 {
+    display: flex;
+  }
+}
+
 .section-1 {
   display: flex;
   align-items: stretch;
@@ -83,7 +96,31 @@
   flex-direction: row;
   justify-content: center;
   align-content: space-around;
+  @include s1-s3 {
+    background-color: $color-white;
+    padding-top: 10px;
+    overflow: auto;
+    height: 90vh;
+  }
 }
+
+.section-1.hide {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.section-1.open {
+  @include s1-s3 {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    align-content: flex-start;
+  }
+}
+
 
 .section-2 {
   display: flex;
@@ -125,7 +162,8 @@
   padding: 0;
   width: 80%;
   height: 90%;
-  box-shadow: 10px 2px 15px rgba(0, 0, 0, 0.25),
+  box-shadow:
+    10px 2px 15px rgba(0, 0, 0, 0.25),
     10px 3px 10px rgba(0, 0, 0, 0.22);
   border-radius: 10px;
 }
@@ -160,11 +198,7 @@ h2 {
   left: 0;
   transition: all 0.3s ease;
   clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-  background-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .card-wrapper:hover,
@@ -215,8 +249,10 @@ $subscribed-color-3: rgb(240, 80, 52);
     border-top-color: $subscribed-color-1;
     border-right-color: $subscribed-color-2;
     border-bottom-color: $subscribed-color-3;
-    box-shadow: 10px 15px 25px $subscribed-color-1,
-      1px 1px 15px $subscribed-color-2, 1px 1px 15px $subscribed-color-3;
+    box-shadow:
+      10px 15px 25px $subscribed-color-1,
+      1px 1px 15px $subscribed-color-2,
+      1px 1px 15px $subscribed-color-3;
   }
 
   &.subscribed::before {
@@ -312,14 +348,16 @@ p {
 
   &:hover {
     background-color: $color-gray;
-    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105),
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
       10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 
   &:active {
     transform: scale(0.8);
     letter-spacing: 0px;
-    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105),
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
       10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 
@@ -327,7 +365,8 @@ p {
     letter-spacing: 5px;
     font-weight: bold;
     color: $color-accent;
-    box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.105),
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
       10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 }
@@ -435,7 +474,9 @@ mat-paginator {
   margin-bottom: 5px;
   justify-content: space-between;
   align-items: baseline;
-  box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.25), 2px 1px 2px rgba(0, 0, 0, 0.22);
+  box-shadow:
+    5px 2px 2px rgba(0, 0, 0, 0.25),
+    2px 1px 2px rgba(0, 0, 0, 0.22);
 }
 
 .card-title {
@@ -503,7 +544,9 @@ mat-paginator {
   font-size: 40px;
   font-weight: 600;
   padding: 10px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .characteristics {
@@ -620,11 +663,6 @@ a {
   padding: 0;
 }
 
-
-
-
-
-
 .item-characteristics-1 {
   font-size: 16px;
   font-weight: 400;
@@ -698,3 +736,33 @@ a {
   text-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
+.btn-menu {
+  border: 1px solid $color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: $color-white;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 13px;
+  left: 15px;
+  z-index: 999999;
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

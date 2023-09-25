@@ -60,7 +60,6 @@ export class AboutComponent implements OnInit {
     room: 0,
   };
 
-  disabled: boolean = true;
   selectedFlatId!: string | null;
   descriptionVisibility: { [key: string]: boolean } = {};
   isDescriptionVisible(key: string): boolean {
@@ -95,8 +94,6 @@ export class AboutComponent implements OnInit {
           console.log(response)
           this.flatInfo = response.about;
           this.loading = false;
-          if (response.about.option_pay !== 0)
-            this.disabled = false;
         }, (error: any) => {
           console.error(error);
           this.loading = false;
@@ -109,7 +106,7 @@ export class AboutComponent implements OnInit {
 
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
+    if (userJson && this.selectedFlatId !== undefined) {
 
       const data = {
         students: this.flatInfo.students || undefined,
@@ -130,7 +127,6 @@ export class AboutComponent implements OnInit {
       console.log(data)
       try {
         this.loading = true
-        this.disabled = true;
         const response = await this.http.post('http://localhost:3000/flatinfo/add/about', {
           auth: JSON.parse(userJson),
           flat: data,
@@ -167,12 +163,7 @@ export class AboutComponent implements OnInit {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
-  editInfo(): void {
-    this.disabled = false;
-  }
-
   clearInfo(): void {
-    if (this.disabled === false)
       this.flatInfo = {
         students: false,
         woman: false,

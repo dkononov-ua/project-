@@ -146,6 +146,7 @@ export class ComunCompanyComponent implements OnInit {
             const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
             if (filteredData.length > 0) {
               this.comunInfo = filteredData[0];
+              console.log(this.comunInfo)
             } else {
               console.log('No data found for the specified comunal_name.');
             }

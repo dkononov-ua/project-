@@ -53,15 +53,16 @@ interface UserInfo {
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
+        style({ transform: 'translateX(200%)' }),
         animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(200%)', opacity: 0 }))
       ]),
     ]),
   ],
+
 })
 
 export class LookingComponent implements OnInit {

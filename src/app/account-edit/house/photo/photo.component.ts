@@ -30,6 +30,8 @@ export class PhotoComponent implements OnInit {
   flatImg: any = [{ img: "housing_default.svg" }];
   selectedFlatId: any;
   images: string[] = [];
+  currentPhotoIndex: number = 0;
+
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -41,6 +43,10 @@ export class PhotoComponent implements OnInit {
   constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
+    this.getSelectedFlat();
+  }
+
+  getSelectedFlat() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
@@ -96,4 +102,46 @@ export class PhotoComponent implements OnInit {
       }
     );
   }
+
+  prevPhoto() {
+    if (this.currentPhotoIndex > 0) {
+      this.currentPhotoIndex--;
+    }
+  }
+
+  nextPhoto() {
+    if (this.currentPhotoIndex < this.flatImg.length - 1) {
+      this.currentPhotoIndex++;
+    }
+  }
+
+  deleteObject(selectImg: any): void {
+    const userJson = localStorage.getItem('user');
+    const selectedFlat = this.selectedFlatId;
+    console.log(selectImg)
+
+    if (userJson && selectImg && selectedFlat) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        img: selectImg,
+      };
+
+      this.http.post('http://localhost:3000/flatinfo/deleteFlatImg', data)
+        .subscribe(
+          (response: any) => {
+            this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg.img);
+            this.reloadPageWithLoader();
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+
+
 }

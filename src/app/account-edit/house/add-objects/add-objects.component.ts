@@ -91,6 +91,8 @@ export class AddObjectsComponent implements OnInit {
   maxValue: number = 99;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
 
+  statusMessage: string | undefined;
+
   constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
@@ -144,7 +146,6 @@ export class AddObjectsComponent implements OnInit {
     }
   }
 
-
   loadObjects() {
     if (this.selectedType) {
       const selectedTypeObj = this.objects.find(obj => obj.type === this.selectedType);
@@ -189,12 +190,28 @@ export class AddObjectsComponent implements OnInit {
     const headers = { 'Accept': 'application/json' };
     this.http.post('http://localhost:3000/img/uploadFilling', formData, { headers }).subscribe(
       (uploadResponse: any) => {
-        this.reloadPageWithLoader()
+        if (uploadResponse.status === 'Наповнення успішно збережено') {
+          setTimeout(() => {
+            this.statusMessage = 'Додано у оселю';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Дані не збережено';
+            this.reloadPageWithLoader()
+          }, 2000);
+        }
       },
       (uploadError: any) => {
         console.log(uploadError);
       }
     );
+  }
+
+  back() {
+    this.reloadPageWithLoader()
   }
 
   deleteObject(flat: any): void {

@@ -52,7 +52,6 @@ export class ParamComponent {
     option_flat: 2,
   };
 
-  disabled: boolean = true;
   selectedFlatId!: string | null;
   minValue: number = 0;
   maxValue: number = 1000;
@@ -79,13 +78,10 @@ export class ParamComponent {
       this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response)
-          if (response && response.param.area) {
-
+          if (response && response.param) {
             this.flatInfo = response.param;
-            this.disabled = true;
           } else {
             console.log('Param not found in response.');
-            this.disabled = false;
           }
         }, (error: any) => {
           console.error(error);
@@ -97,12 +93,10 @@ export class ParamComponent {
 
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
+    if (userJson && this.selectedFlatId !== undefined) {
 
       try {
         this.loading = true
-        this.disabled = true;
-
         const response = await this.http.post('http://localhost:3000/flatinfo/add/parametrs', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
@@ -121,12 +115,7 @@ export class ParamComponent {
     }
   }
 
-  editInfo(): void {
-    this.disabled = false;
-  }
-
   clearInfo(): void {
-    if (this.disabled === false)
       this.flatInfo = {
         rooms: 0,
         repair_status: '',

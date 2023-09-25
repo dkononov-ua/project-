@@ -1,12 +1,20 @@
 <div class="card-container">
 
-  <div class="card-box col-lg-4 col-md-5 col-sm-6 col-12">
-    <div class="m-2" [@cardAnimation3]>
+  <button class="btn-menu hide-pc" (click)="onToggleMenu()">
+    <span class="material-symbols-outlined">
+      menu_open
+    </span>
+  </button>
+
+  <div class="card-box col-lg-3 col-md-5 col-sm-6 col-12" [ngClass]="{'open': isMenuOpen, 'hide': hideMenu}">
+    <div class="wrapper">
       <app-house-residents></app-house-residents>
     </div>
   </div>
 
-  <div class="card-box col-lg-8" >
+  <div class="card-box2 col-lg-8">
+    <h4 class="page-name hide-pc mt-2">Мешканці оселі</h4>
+
     <div class="card-group">
       <div class="height col-lg-6 col-md-5 col-sm-6 col-12" [@cardAnimation2]>
         <div class="card m-2">
@@ -28,7 +36,8 @@
           <div class="card-body">
             <div class="title-1">{{ selectedSubscriber?.lastName }} {{ selectedSubscriber?.firstName }}</div>
             <div class="title-1">{{ selectedSubscriber?.surName }}</div>
-            <div class="title-2"><span class="text-info">Тел.</span><i class="fa-solid fa-phone"></i> {{ selectedSubscriber?.tell }}</div>
+            <div class="title-2"><span class="text-info">Тел.</span><i class="fa-solid fa-phone"></i> {{
+              selectedSubscriber?.tell }}</div>
             <div class="card-links">
               <a href="#" class="card-link"><span>Переглянути угоду</span><i class="fa-solid fa-file-contract"></i></a>
             </div>
@@ -45,7 +54,7 @@
         </div>
       </div>
       <div class="height col-lg-6 col-md-5 col-sm-6 col-12" [@cardAnimation5]>
-        <div class="card m-2" >
+        <div class="card m-2">
           <div class="container-checkbox p-2">
             <h4>Дозволи</h4>
 
@@ -197,7 +206,8 @@
               </div>
               <div class="description-container">
                 <div *ngIf="isDescriptionVisible('acces_flat_features')" class="description">
-                  <p class="descr"><span class="bold">Редагування оселі</span> - дозволити редагувати інформацію по оселю.</p>
+                  <p class="descr"><span class="bold">Редагування оселі</span> - дозволити редагувати інформацію по
+                    оселю.</p>
                   <button class="close-button" (click)="toggleDescription('acces_flat_features')">Закрити</button>
                 </div>
               </div>
@@ -233,7 +243,8 @@
               </div>
               <div class="description-container">
                 <div *ngIf="isDescriptionVisible('acces_flat_chats')" class="description">
-                  <p class="descr"><span class="bold">Чат оселі</span> - дозвіл на перегляд та користування чатом від імені оселі.</p>
+                  <p class="descr"><span class="bold">Чат оселі</span> - дозвіл на перегляд та користування чатом від
+                    імені оселі.</p>
                   <button class="close-button" (click)="toggleDescription('acces_flat_chats')">Закрити</button>
                 </div>
               </div>

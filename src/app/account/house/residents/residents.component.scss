@@ -1,28 +1,50 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
 .card {
   margin: 0;
   padding: 0;
+  @include s1-s3 {
+  }
 }
 
 .card-container {
   width: 100%;
-  overflow: auto;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   margin: 0;
   padding: 0;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: stretch;
+  min-height: 65vh;
+  max-height: 70vh;
 }
 
 .card-group > .card:not(:last-child) {
   border-radius: 10px;
 }
 
-.card-box {
-  height: 80vh;
-  overflow: auto;
+.container-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card-box2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
+  @include s1-s3 {
+    margin-top: 10px;
+  }
+}
+
+.mobile {
+  @include s1-s3 {
+    height: 60px;
+  }
 }
 
 .card-name {
@@ -80,10 +102,73 @@
   align-content: center;
   align-items: stretch;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .height {
   display: flex;
+}
+
+.wrapper {
+  @include s1-s3 {
+    background-color: $color-white;
+    border-radius: 10px;
+    padding: 10px
+  }
+}
+
+.page-name {
+  font-weight: 600;
+  text-align: center;
+}
+
+.card-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
+  @include s1-s3 {
+    justify-content: flex-end;
+    flex-direction: column;
+    z-index: 99;
+    position: absolute;
+    bottom: -100%;
+    transition: bottom 1s ease;
+  }
+}
+
+.card-box.open {
+  @include s1-s3 {
+    width: 100%;
+    background-image: linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.337) 100%);
+    bottom: 70px;
+    top: 0;
+  }
+}
+
+.card-box.hide {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.btn-menu {
+  border: 1px solid $color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: $color-white;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 13px;
+  left: 15px;
+  z-index: 999999;
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
 }
 
 .two {
@@ -172,7 +257,6 @@
     border-radius: 0 10% 40% 0;
   }
 }
-
 
 .resident-item {
   font-size: 14px;
@@ -464,4 +548,14 @@ mat-form-field {
   margin-top: 10px;
 }
 
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
 
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

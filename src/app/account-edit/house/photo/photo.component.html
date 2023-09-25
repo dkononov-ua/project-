@@ -5,42 +5,38 @@
 <ng-template #content>
   <div class="container-card">
 
-    <div [@cardAnimation1] class="card-box-photo col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="m-2">
-        <div id="carouselExampleControls" class="shadow carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-                <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
-                  class="img-fluid rounded">
-              </div>
-            </div>
-            <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
-              <div class="img-wrapper">
-                <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
-              </div>
-            </div>
+    <div [@cardAnimation1] class="card-box-photo p-2 col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="mb-2" *ngIf="flatImg?.length > 0">
+        <div class="img-container shadow">
+          <div class="img-wrapper">
+            <img class="img-fluid"
+              [src]="flatImg && flatImg[currentPhotoIndex].img ? 'http://localhost:3000/img/flat/' + flatImg[currentPhotoIndex].img : 'http://localhost:3000/img/flat/housing_default.svg'"
+              alt="Flat Image" alt="Flat Image">
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-
-        <div class="card-1">
-          <label class="label-1">Завантажити фото оселі</label>
-          <div class="input-div">
-            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-            <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+          <div *ngIf="flatImg?.length > 1">
+            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button *ngIf="currentPhotoIndex !== flatImg?.length - 1" class="next-img" (click)="nextPhoto()"><i
+                class="fa-solid fa-chevron-right"></i></button>
           </div>
         </div>
       </div>
+
+      <div class="card-1 mb-2">
+        <label class="label-1">Видалити фото оселі</label>
+        <button class="input-div" (click)="deleteObject(flatImg[currentPhotoIndex].img)" matTooltip="Видалити">
+          <i class="fa-solid fa-trash icon-up fa-solid fa-cloud-arrow-up"></i>
+        </button>
+      </div>
+
+      <div class="card-1">
+        <label class="label-1">Завантажити фото оселі</label>
+        <div class="input-div">
+          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+        </div>
+      </div>
+
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">

@@ -273,6 +273,7 @@ export class SubscribersDiscusComponent implements OnInit {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
+        console.log(this.selectedFlat)
         this.generateLocationUrl();
         this.getOwnerInfo();
       }
