@@ -50,10 +50,18 @@ export class HouseShareComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getSelectedFlatId();
+  }
+
+  getSelectedFlatId() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
+      if (this.selectedFlatId) {
+        this.getInfo();
+      } else {
+        console.log('no flat')
+      }
     });
-    this.getInfo();
   }
 
   onInput() {
@@ -68,7 +76,7 @@ export class HouseShareComponent implements OnInit {
       this.http.post(serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           if (response)
-          this.flatInfo = response[0];
+            this.flatInfo = response[0];
           this.loading = false;
         }, (error: any) => {
           console.error(error);

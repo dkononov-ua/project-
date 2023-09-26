@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { serverPath } from 'src/app/shared/server-config';
-
-
+import { MatDialog } from '@angular/material/dialog';
+import { AgreeDeleteComponent } from '../agree-h/agree-delete/agree-delete.component';
+import { Router } from '@angular/router';
 interface Subscriber {
   user_id: string;
   firstName: string;
@@ -16,7 +17,6 @@ interface Subscriber {
   viber: string;
   facebook: string;
 }
-
 @Component({
   selector: 'app-house-residents',
   templateUrl: './house-residents.component.html',
@@ -33,7 +33,6 @@ export class HouseResidentsComponent implements OnInit {
   selectedFlatId: any;
   selectedSubscriberId: string | null = null;
 
-
   setSelectedSubscriber(subscriber: Subscriber): void {
     this.selectedSubscriber = subscriber;
   }
@@ -41,14 +40,21 @@ export class HouseResidentsComponent implements OnInit {
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
+    private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
+    this.getSelectedFlat();
+  }
+
+  getSelectedFlat() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
+      this.selectedFlatId = selectedFlatId;
+      if (this.selectedFlatId) {
         const offs = 0;
-        this.getSubscribers(selectedFlatId, offs);
+        this.getSubscribers(this.selectedFlatId, offs);
       }
     });
 
@@ -94,54 +100,70 @@ export class HouseResidentsComponent implements OnInit {
     }
   }
 
-  approveSubscriber(subscriber: Subscriber): void {
-    const selectedFlatId = this.selectedFlatIdService.getSelectedFlatId();
+  removeSubscriber(subscriber: any): void {
     const userJson = localStorage.getItem('user');
+    if (!userJson) {
+      console.log('User not found');
+      return;
+    }
 
-    if (userJson && selectedFlatId && subscriber) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlatId,
-        user_id: subscriber.user_id
-      };
+    const userObject = JSON.parse(userJson);
+    const userId = userObject.user_id;
+    console.log(userId)
+    console.log(subscriber.user_id)
+    const dialogRef = this.dialog.open(AgreeDeleteComponent, {
+      data: {
+        flatId: this.selectedFlatId,
+        subscriberId: subscriber.user_id,
+        subscriber_firstName: subscriber.firstName,
+        subscriber_lastName: subscriber.lastName,
+        offer: 3,
+      }
+    });
 
-      this.http.post(serverPath + '/subs/accept', data)
-        .subscribe(
-          (response: any) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result && userId != subscriber.user_id) {
+        console.log(1111)
+
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: this.selectedFlatId,
+          user_id: subscriber.user_id
+        };
+
+        this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(
+          () => {
+            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
           (error: any) => {
-            console.error(error);
+            console.error('Error deleting subscriber:', error);
           }
         );
-    } else {
-      console.log('User, flat, or subscriber not found');
-    }
-  }
+      } else if (result && userId == subscriber.user_id) {
+        console.log(2222)
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: this.selectedFlatId,
+          user_id: subscriber.user_id
+        };
 
-  removeSubscriber(subscriberId: string): void {
-    const userJson = localStorage.getItem('user');
-    const selectedFlat = this.selectedFlatIdService.getSelectedFlatId();
-    const selectedSubscriberId = subscriberId;
-
-    if (userJson && subscriberId && selectedFlat && selectedSubscriberId) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        user_id: subscriberId
-      };
-
-      this.http.post(serverPath + '/citizen/delete/citizen', data)
-        .subscribe(
-          (response: any) => {
-            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriberId);
-          },
+        this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(
+          () => { },
           (error: any) => {
-            console.error(error);
+            console.error('Error deleting user:', error);
           }
         );
-    } else {
-      console.log('Користувач, квартира або абонент не знайдені');
-    }
+        setTimeout(() => {
+          localStorage.removeItem('house');
+          localStorage.removeItem('selectedFlatId');
+          location.reload;
+          setTimeout(() => {
+            this.selectedFlatIdService.clearSelectedFlatId();
+            this.router.navigate(['/user/info']);
+          }, 200);
+        }, 200);
+      }
+    });
   }
-
 }
+

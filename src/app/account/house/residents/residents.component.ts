@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { NgZone } from '@angular/core';
@@ -117,6 +117,21 @@ export class ResidentsComponent implements OnInit {
 
   closeMenu() {
     this.isMenuOpen = false;
+    setTimeout(() => {
+      this.hideMenu = true;
+    }, 500);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    const containerElement = this.el.nativeElement.querySelector('.wrapper');
+    const cardBoxElement = this.el.nativeElement.querySelector('.card-box');
+
+    if (containerElement.contains(event.target as Node)) {
+      if (!cardBoxElement.contains(event.target as Node)) {
+        this.closeMenu();
+      }
+    }
   }
 
   isDescriptionVisible(key: string): boolean {
@@ -132,6 +147,7 @@ export class ResidentsComponent implements OnInit {
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
     private zone: NgZone,
+    private el: ElementRef,
   ) { }
 
   ngOnInit(): void {
@@ -308,25 +324,6 @@ export class ResidentsComponent implements OnInit {
       );
     } else {
       console.log('User or subscriber not found');
-    }
-  }
-
-  removeSubscriber(subscriber: Subscriber): void {
-    const selectedFlat = this.selectedFlatId;
-    const userJson = localStorage.getItem('user');
-    if (userJson && subscriber) {
-      const data = { auth: JSON.parse(userJson), flat_id: selectedFlat, user_id: subscriber.user_id };
-      this.http.post(serverPath + '/citizen/delete/citizen', data)
-        .subscribe(
-          (response: any) => {
-            this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('user or subscriber not found');
     }
   }
 }

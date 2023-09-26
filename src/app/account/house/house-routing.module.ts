@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { HouseInfoComponent } from './house-info/house-info.component';
 import { FillingComponent } from './filling/filling.component';
 import { AgreeConcludedComponent } from './agree-h/agree-concluded/agree-concluded.component';
 import { AgreeDeleteComponent } from './agree-h/agree-delete/agree-delete.component';
@@ -14,6 +13,7 @@ import { AgreeDetailsComponent } from './agree-h/agree-details/agree-details.com
 import { AgreeDownloadComponent } from './agree-h/agree-download/agree-download.component';
 import { HouseResidentsComponent } from './house-residents/house-residents.component';
 import { ResidentsComponent } from './residents/residents.component';
+import { HouseInfoComponent } from './house-info/house-info.component';
 
 const routes: Routes = [
   {

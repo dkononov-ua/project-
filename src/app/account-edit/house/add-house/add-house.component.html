@@ -3,7 +3,7 @@
 
     <mat-form-field class="item-select m-1" appearance="outline" *ngIf="showInput">
       <mat-label>Назва оселі</mat-label>
-      <input id="flat_id" name="flat_id" placeholder="Створіть свою оселю" matInput [(ngModel)]="flat_id" minlength="4"
+      <input id="flat_name" name="flat_name" placeholder="Створіть свою оселю" matInput [(ngModel)]="flat_name" minlength="4"
         maxlength="20" #flatIdInput="ngModel" required="">
 
       <mat-error *ngIf="flatIdInput?.hasError('required')">
@@ -14,7 +14,7 @@
 
     <div class="btn-group" *ngIf="showInput">
 
-      <div class="btn-name" *ngIf="flatIdInput?.valid">
+      <div class="btn-name" *ngIf="flat_name && flatIdInput?.valid">
         <button class="btn-create" (click)="houseCreate()" matTooltip="СТВОРИТИ" ><i
             class="fa-solid fa-circle-check"></i></button>
         <mat-label>Створити оселю</mat-label>

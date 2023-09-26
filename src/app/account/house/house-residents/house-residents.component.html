@@ -2,10 +2,10 @@
 <app-selection-housing></app-selection-housing>
 <app-user-search></app-user-search>
 
-<p>Мешканці: <span class="accent">{{ subscribers.length }} </span></p>
 
 <div class="card-box">
   <div class="card-container p-2">
+    <p>Мешканці: <span class="accent">{{ subscribers.length }} </span></p>
 
     <button class="card-wrapper card mb-4" *ngFor="let subscriber of subscribers"
       (click)="onSubscriberSelect(subscriber)" [class.selected]="selectedSubscriber === subscriber">
@@ -18,7 +18,7 @@
       <div class="card-body">
         <div class="title">{{ subscriber.lastName }} <br> {{ subscriber.firstName }} <br> {{ subscriber.surName }}</div>
         <div class="btn-group">
-          <button class="btn m-1" (click)="removeSubscriber(subscriber.user_id)">
+          <button class="btn m-1" (click)="removeSubscriber(subscriber)">
             <i class="fa-solid fa-user-xmark"></i>
           </button>
         </div>

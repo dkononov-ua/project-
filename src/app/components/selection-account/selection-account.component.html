@@ -20,7 +20,7 @@
   <button class="link-btn with-image" [ngClass]="{'active': openUserMenu}" matTooltip="МІЙ ПРОФІЛЬ"
     (click)="openMenuUser()">
     <div class="img-fluid">
-      <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image"
+      <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
         (error)="useDefaultImage($event)">
     </div>
   </button>
@@ -29,7 +29,7 @@
     <button class="link-btn with-image" [ngClass]="{'active': openFlatMenu}" matTooltip="МОЇ ОСЕЛІ"
       (click)="openMenuFlat()">
       <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
-        <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+        <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
       </ng-container>
     </button>
   </ng-container>
@@ -50,7 +50,6 @@
   </div>
 </div>
 
-
 <div class="card-box-flat hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuFlat"
   [ngClass]="{'open': openFlatMenu, 'hide': hideFlatMenu}" (click)="closeMenuFlat()">
   <div class="card-menu">
@@ -64,12 +63,6 @@
     <app-navbar-house (click)="closeMenuFlat()"></app-navbar-house>
   </div>
 </div>
-
-
-
-
-
-
 
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>

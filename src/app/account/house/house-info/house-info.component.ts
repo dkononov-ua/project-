@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+
+interface FlatInfo {
+  osbb_name: string | undefined;
+  osbb_phone: number;
+  pay_card: number;
+  wifi: string | undefined;
+  info_about: string | undefined;
+}
 
 @Component({
   selector: 'app-house-info',
@@ -36,7 +42,10 @@ import { serverPath } from 'src/app/shared/server-config';
   ],
 })
 export class HouseInfoComponent implements OnInit {
+
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   isOpen = true;
   isOnline = true;
@@ -168,121 +177,99 @@ export class HouseInfoComponent implements OnInit {
     this.isFeatureEnabled = !this.isFeatureEnabled;
   }
 
-
-
-
   addressHouse: any;
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
+  selectedFlatId!: string | null;
+  loading: boolean = false;
+  flatInfo: any;
 
   constructor(
-    private fb: FormBuilder,
     private http: HttpClient,
-    private authService: AuthService,
-    private dataService: DataService) { }
+    private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
+    this.getSelectedFlatId();
+  }
 
-    this.startIdleTimer();
-    document.addEventListener('click', () => {
-      if (this.isOnline) {
-        clearTimeout(this.idleTimeout);
-        this.startIdleTimer();
+  getSelectedFlatId() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (this.selectedFlatId) {
+        this.getInfo();
+      } else {
+        console.log('no flat')
       }
     });
+  }
 
+  async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const houseJson = localStorage.getItem('house');
-    if (userJson !== null) {
-      if (houseJson !== null) {
-        this.dataService.getData().subscribe((response: any) => {
-          if (response.houseData) {
-            this.user.firstName = response.userData.inf.firstName;
-            this.user.lastName = response.userData.inf.lastName;
-            this.user.surName = response.userData.inf.surName;
-            this.user.email = response.userData.inf.email;
-            this.user.password = response.userData.inf.password;
-            this.user.dob = response.userData.inf.dob;
+    if (userJson && this.selectedFlatId) {
+      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          if (response)
+            this.house.region = response.flat.region;
+          this.house.flat_id = response.flat.flat_id;
+          this.house.country = response.flat.country;
+          this.house.city = response.flat.city;
+          this.house.street = response.flat.street;
+          this.house.houseNumber = response.flat.houseNumber;
+          this.house.apartment = response.flat.apartment;
+          this.house.flat_index = response.flat.flat_index;
+          this.house.private = response.flat.private;
+          this.house.rent = response.about.rent;
+          this.house.live = response.flat.live;
+          this.house.who_live = response.flat.who_live;
+          this.house.subscribers = response.flat.subscribers;
 
-            this.user.tell = response.userData.cont.tell;
-            this.user.telegram = response.userData.cont.telegram;
-            this.user.facebook = response.userData.cont.facebook;
-            this.user.instagram = response.userData.cont.instagram;
-            this.user.mail = response.userData.cont.mail;
-            this.user.viber = response.userData.cont.viber;
+          this.param.rooms = response.param.rooms;
+          this.param.repair_status = response.param.repair_status;
+          this.param.area = response.param.area;
+          this.param.kitchen_area = response.param.kitchen_area;
+          this.param.balcony = response.param.balcony;
+          this.param.floor = response.param.floor;
 
-            this.house.region = response.houseData.flat.region;
-            this.house.flat_id = response.houseData.flat.flat_id;
-            this.house.country = response.houseData.flat.country;
-            this.house.city = response.houseData.flat.city;
-            this.house.street = response.houseData.flat.street;
-            this.house.houseNumber = response.houseData.flat.houseNumber;
-            this.house.apartment = response.houseData.flat.apartment;
-            this.house.flat_index = response.houseData.flat.flat_index;
-            this.house.private = response.houseData.flat.private;
-            this.house.rent = response.houseData.about.rent;
-            this.house.live = response.houseData.flat.live;
-            this.house.who_live = response.houseData.flat.who_live;
-            this.house.subscribers = response.houseData.flat.subscribers;
+          this.about.distance_metro = response.about.distance_metro;
+          this.about.distance_stop = response.about.distance_stop;
+          this.about.distance_shop = response.about.distance_shop;
+          this.about.distance_green = response.about.distance_green;
+          this.about.distance_parking = response.about.distance_parking;
+          this.about.woman = response.about.woman;
+          this.about.man = response.about.man;
+          this.about.family = response.about.family;
+          this.about.students = response.about.students;
+          this.about.option_pay = response.about.option_pay;
 
-            this.param.rooms = response.houseData.param.rooms;
-            this.param.repair_status = response.houseData.param.repair_status;
-            this.param.area = response.houseData.param.area;
-            this.param.kitchen_area = response.houseData.param.kitchen_area;
-            this.param.balcony = response.houseData.param.balcony;
-            this.param.floor = response.houseData.param.floor;
+          this.about.animals = response.about.animals;
+          this.about.price_m = response.about.price_m;
+          this.about.price_d = response.about.price_d;
+          this.about.about = response.about.about;
+          this.about.bunker = response.about.bunker;
 
-            this.about.distance_metro = response.houseData.about.distance_metro;
-            this.about.distance_stop = response.houseData.about.distance_stop;
-            this.about.distance_shop = response.houseData.about.distance_shop;
-            this.about.distance_green = response.houseData.about.distance_green;
-            this.about.distance_parking = response.houseData.about.distance_parking;
-            this.about.woman = response.houseData.about.woman;
-            this.about.man = response.houseData.about.man;
-            this.about.family = response.houseData.about.family;
-            this.about.students = response.houseData.about.students;
-            this.about.option_pay = response.houseData.about.option_pay;
-
-
-            this.about.animals = response.houseData.about.animals;
-            this.about.price_m = response.houseData.about.price_m;
-            this.about.price_d = response.houseData.about.price_d;
-            this.about.about = response.houseData.about.about;
-            this.about.bunker = response.houseData.about.bunker;
-
-            if (response.houseData.imgs !== 'Картинок нема') {
-              this.flatImg = response.houseData.imgs;
-            }
-
-            if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
-              for (const img of this.flatImg) {
-                this.images.push(serverPath + '/img/flat/' + img.img);
-              }
-            } else {
-              this.images.push(serverPath + '/housing_default.svg');
-            }
-
-          } else {
-            console.error('houseData field is missing from server response');
+          if (response.imgs !== 'Картинок нема') {
+            this.flatImg = response.imgs;
           }
+
+          if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.imgs !== 'Картинок нема') {
+            for (const img of this.flatImg) {
+              this.images.push(serverPath + '/img/flat/' + img.img);
+            }
+          } else {
+            this.images.push(serverPath + '/housing_default.svg');
+          }
+
+          this.flatInfo = response;
+          this.loading = false;
+        }, (error: any) => {
+          console.error(error);
+          this.loading = false;
         });
-      }
+    } else {
+      console.log('house not found');
+      this.loading = false;
     }
-  }
-
-  resetOnlineStatus(): void {
-    clearTimeout(this.idleTimeout);
-    this.startIdleTimer();
-  }
-
-  startIdleTimer(): void {
-    this.idleTimeout = setTimeout(() => {
-      this.isOnline = false;
-      this.isOffline = true;
-    }, 5 * 60 * 1000); // 5 хвилин * 60 секунд * 1000 мілісекунд
-  }
-
-
+  };
 }
 
 

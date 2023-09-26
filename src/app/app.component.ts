@@ -4,6 +4,7 @@ import { IsChatOpenService } from './services/is-chat-open.service';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
 import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

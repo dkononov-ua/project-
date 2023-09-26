@@ -1,4 +1,4 @@
-<div class="container-box" (click)="resetOnlineStatus()">
+<div class="container-box">
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" >
     <div class="card mb-3">
@@ -15,13 +15,13 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-              <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image"
+              <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image"
                 class="img-fluid rounded">
             </div>
           </div>
           <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
             <div class="img-wrapper">
-              <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image" class="img-fluid rounded">
+              <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-fluid rounded">
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" >
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlatId">
       <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 1 && house.rent === 1">
         <app-parameters></app-parameters>
       </div>
@@ -98,8 +98,6 @@
       <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 2 || house.rent === 0">
         <app-house-share></app-house-share>
       </div>
-
-
   </div>
 
 </div>

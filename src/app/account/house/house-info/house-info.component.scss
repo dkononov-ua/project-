@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: space-evenly;
+  padding: 15px;
 
   @include s1-s3 {
     padding: 10px;

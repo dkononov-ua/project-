@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { Location } from '@angular/common';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-selection-account',
@@ -12,6 +12,11 @@ import { serverPath } from 'src/app/shared/server-config';
   styleUrls: ['./selection-account.component.scss']
 })
 export class SelectionAccountComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+
   loading = false;
 
   formErrors: any = {
@@ -99,11 +104,12 @@ export class SelectionAccountComponent implements OnInit {
     this.loadImages();
     this.loadHouses();
     this.loadUserImage();
+    console.log(111)
   }
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
+      this.selectedFlatId = flatId || this.selectedFlatId || null;
     });
   }
 

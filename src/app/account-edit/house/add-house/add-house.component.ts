@@ -26,7 +26,7 @@ export class AddHouseComponent implements OnInit {
     }, 500);
   }
 
-  flat_id: string = '';
+  flat_name: string = '';
   showInput = false;
   showCreate = false;
   selectedFlatId: string | null = null;
@@ -60,7 +60,7 @@ export class AddHouseComponent implements OnInit {
       const response = await this.http
         .post( serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
-          new: { flat_id: this.flat_id },
+          new: { flat_id: this.flat_name },
         })
         .toPromise();
 
@@ -110,7 +110,7 @@ export class AddHouseComponent implements OnInit {
   toggleInput(value: boolean): void {
     this.showInput = value;
     if (!this.showInput) {
-      this.flat_id = '';
+      this.flat_name = '';
     }
   }
 }

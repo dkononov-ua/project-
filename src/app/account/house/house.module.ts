@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { HouseInfoComponent } from './house-info/house-info.component';
 import { FillingComponent } from './filling/filling.component';
 import { AgreeConcludedComponent } from './agree-h/agree-concluded/agree-concluded.component';
 import { AgreeDeleteComponent } from './agree-h/agree-delete/agree-delete.component';
@@ -34,11 +33,11 @@ import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { HouseRoutingModule } from './house-routing.module';
 import { DiscussioHouseRoutingModule } from 'src/app/discussi/discussio-house/discussio-house-routing.module';
+import { HouseInfoComponent } from './house-info/house-info.component';
 
 @NgModule({
   declarations: [
     HouseComponent,
-    HouseInfoComponent,
     FillingComponent,
     AgreeConcludedComponent,
     AgreeDeleteComponent,
@@ -52,6 +51,7 @@ import { DiscussioHouseRoutingModule } from 'src/app/discussi/discussio-house/di
     AgreeDetailsComponent,
     ActReceptionTransmissionComponent,
     ActViewComponent,
+    HouseInfoComponent,
   ],
   providers: [
     DatePipe
