@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface UserInfo {
   animals: string | undefined;
@@ -223,7 +225,7 @@ export class TenantsSearchComponent implements OnInit {
 
     if (userJson) {
       const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
-      this.http.post('http://localhost:3000/usersubs/subscribe', data)
+      this.http.post(serverPath + '/usersubs/subscribe', data)
         .subscribe((response: any) => {
           this.subscriptionMessage = response.status;
           this.isSubscribed = true;
@@ -242,7 +244,7 @@ export class TenantsSearchComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
-      this.http.post('http://localhost:3000/usersubs/checkSubscribe', data)
+      this.http.post(serverPath + '/usersubs/checkSubscribe', data)
         .subscribe((response: any) => {
           this.statusMessage = response.status;
           this.isSubscribed = true;

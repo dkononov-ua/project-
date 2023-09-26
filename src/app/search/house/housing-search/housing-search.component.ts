@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface FlatInfo {
   region: string;
   city: string;
@@ -252,7 +254,7 @@ export class HousingSearchComponent implements OnInit {
 
   openFullScreenImage(photos: string[]): void {
     const sanitizedPhotos: SafeUrl[] = photos.map(photo =>
-      this.sanitizer.bypassSecurityTrustUrl('http://localhost:3000/img/flat/' + photo)
+      this.sanitizer.bypassSecurityTrustUrl( serverPath + '/img/flat/' + photo)
     );
 
     const dialogRef = this.dialog.open(PhotoGalleryComponent, {
@@ -298,7 +300,7 @@ export class HousingSearchComponent implements OnInit {
 
     if (userJson) {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post('http://localhost:3000/subs/subscribe', payload)
+      this.http.post( serverPath + '/subs/subscribe', payload)
         .subscribe((response: any) => {
           this.subscriptionMessage = response.status;
           this.isSubscribed = true;
@@ -319,7 +321,7 @@ export class HousingSearchComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post('http://localhost:3000/subs/checkSubscribe', payload)
+      this.http.post( serverPath + '/subs/checkSubscribe', payload)
         .subscribe((response: any) => {
           this.statusMessage = response.status;
           this.statusSubscriptionMessage = true;

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface Agree {
   flat: {
@@ -48,6 +49,9 @@ interface Agree {
 
 })
 export class UagreeDetailsComponent implements OnInit {
+
+  serverPath = serverPath;
+
   selectedFlatId: string | null = null;
   agree: Agree[] = [];
   loading: boolean = false;
@@ -76,7 +80,7 @@ export class UagreeDetailsComponent implements OnInit {
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/yagreements';
+    const url = serverPath + '/agreement/get/yagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -104,7 +108,7 @@ export class UagreeDetailsComponent implements OnInit {
       };
       console.log(data)
 
-      this.http.post('http://localhost:3000/agreement/accept/agreement', data)
+      this.http.post( serverPath + '/agreement/accept/agreement', data)
         .subscribe(
           (response: any) => {
             setTimeout(() => {
@@ -143,7 +147,7 @@ export class UagreeDetailsComponent implements OnInit {
   async removeAgreement(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/delete/yagreement';
+    const url = serverPath + '/agreement/delete/yagreement';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface Subscriber {
   user_id: string;
@@ -47,7 +48,7 @@ export class UserSearchComponent implements OnInit {
     this.loading = true;
 
     if (this.searchQuery) {
-      const url = `http://localhost:3000/acceptsubs/add/sitizen/`;
+      const url = serverPath + `/acceptsubs/add/sitizen/`;
       const selectedFlat = this.selectedFlatId;
       const userJson = localStorage.getItem('user');
 

@@ -8,6 +8,8 @@ import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface Subscriber {
   animals: string | undefined;
@@ -131,10 +133,7 @@ export class SubscribersDiscusComponent implements OnInit {
   }
   selectedSubscriberId: string | null = null;
   indexPage: number = 0;
-
   chatExists = false;
-
-
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -153,7 +152,7 @@ export class SubscribersDiscusComponent implements OnInit {
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/acceptsubs/get/subs';
+    const url = serverPath + '/acceptsubs/get/subs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -179,7 +178,7 @@ export class SubscribersDiscusComponent implements OnInit {
 
   async openDialog(subscriberId: string): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/acceptsubs/delete/subs';
+    const url = serverPath + '/acceptsubs/delete/subs';
 
     const dialogRef = this.dialog.open(DeleteSubComponent);
     dialogRef.afterClosed().subscribe(async (result: any) => {
@@ -210,7 +209,7 @@ export class SubscribersDiscusComponent implements OnInit {
       };
       this.toggleMode()
 
-      this.http.post('http://localhost:3000/chat/add/chatFlat', data)
+      this.http.post(serverPath + '/chat/add/chatFlat', data)
         .subscribe((response: any) => {
           if (response) {
             this.indexPage = 3;
@@ -228,7 +227,7 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   async getChats(): Promise<any> {
-    const url = 'http://localhost:3000/chat/get/flatchats';
+    const url = serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {

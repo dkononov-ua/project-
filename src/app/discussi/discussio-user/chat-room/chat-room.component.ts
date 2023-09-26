@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface Chat {
   user_id: string;
@@ -58,7 +59,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   selectChat(chat: Chat): void {
-    const url = 'http://localhost:3000/chat/readMessageUser';
+    const url = serverPath + '/chat/readMessageUser';
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -83,7 +84,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   async getFlatChats(): Promise<any> {
-    const url = 'http://localhost:3000/chat/get/userchats';
+    const url = serverPath + '/chat/get/userchats';
 
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -95,8 +96,8 @@ export class ChatRoomComponent implements OnInit {
         .subscribe(async (response: any) => {
           if (Array.isArray(response.status) && response.status) {
             let chat = await Promise.all(response.status.map(async (value: any) => {
-              let infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-              let infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+              let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+              let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
               return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread }
             }))
             this.chats = chat;

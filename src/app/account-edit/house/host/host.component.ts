@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 @Component({
   selector: 'app-host',
   templateUrl: './host.component.html',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 
 export class HostComponent {
-  
+
   isMenuOpen = true;
   hideMenu = false;
 
@@ -30,5 +30,24 @@ export class HostComponent {
 
   closeMenu() {
     this.isMenuOpen = false;
+    setTimeout(() => {
+      this.hideMenu = true;
+    }, 500);
   }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    const containerElement = this.el.nativeElement.querySelector('.container-card');
+    const cardBoxElement = this.el.nativeElement.querySelector('.card-box');
+
+    if (containerElement.contains(event.target as Node)) {
+      if (!cardBoxElement.contains(event.target as Node)) {
+        this.closeMenu();
+      }
+    }
+  }
+
+  constructor(
+    private el: ElementRef,
+  ) { }
 }

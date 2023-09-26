@@ -6,6 +6,7 @@ import { objects } from '../../../../shared/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface Agree {
   flat: {
@@ -39,7 +40,6 @@ interface Agree {
   };
   img: string[];
 }
-
 @Component({
   selector: 'app-uact-view',
   templateUrl: './uact-view.component.html',
@@ -71,6 +71,8 @@ interface Agree {
 })
 
 export class UactViewComponent implements OnInit {
+  serverPath = serverPath;
+
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
   currentStep: number = 1;
@@ -140,7 +142,7 @@ export class UactViewComponent implements OnInit {
   async getAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/saveyagreements';
+    const url = serverPath + '/agreement/get/saveyagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -159,7 +161,7 @@ export class UactViewComponent implements OnInit {
 
   async getAgreeAct(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/yAct';
+    const url = serverPath + '/agreement/get/yAct';
     const data = {
       auth: JSON.parse(userJson!),
       agreement_id: this.selectedFlatAgree,
@@ -179,7 +181,7 @@ export class UactViewComponent implements OnInit {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
+        this.houseData.imgs =  serverPath +['/img/flat/housing_default.svg'];
       }
     } catch (error) {
       console.error(error);
@@ -188,7 +190,7 @@ export class UactViewComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return 'http://localhost:3000/img/filling/' + flat.img;
+      return serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }

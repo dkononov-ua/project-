@@ -5,6 +5,8 @@ import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-select-comun',
   templateUrl: './select-comun.component.html',
@@ -98,7 +100,7 @@ export class SelectComunComponent implements OnInit {
       auth: JSON.parse(userJson),
       flat_id: this.selectedFlatId,
     };
-    this.http.post('http://localhost:3000/comunal/get/button', requestData)
+    this.http.post(serverPath + '/comunal/get/button', requestData)
       .subscribe(
         (response: any) => {
           if (response.status === false) {

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { DataService } from 'src/app/services/data.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface Chat {
   user_id: string;
   chat_id: string;
@@ -69,7 +71,7 @@ export class ChatRoomsComponent implements OnInit {
   }
 
   onSubscriberSelect(chat: Chat): void {
-    const url = 'http://localhost:3000/chat/readMessageFlat';
+    const url = serverPath + '/chat/readMessageFlat';
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
@@ -86,7 +88,7 @@ export class ChatRoomsComponent implements OnInit {
 
   async getFlatChats(): Promise<any> {
     console.log('Отримання чатів')
-    const url = 'http://localhost:3000/chat/get/flatchats';
+    const url = serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     const offs = 0;
 
@@ -102,8 +104,8 @@ export class ChatRoomsComponent implements OnInit {
           .subscribe(async (response: any) => {
             if (Array.isArray(response.status) && response.status) {
               let chat = await Promise.all(response.status.map(async (value: any) => {
-                let infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-                let infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+                let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+                let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
                 return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread }
               }))
               this.chats = chat;

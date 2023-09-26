@@ -6,7 +6,7 @@ import { objects } from '../../../../shared/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
-
+import { serverPath } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -71,6 +71,8 @@ interface Agree {
 })
 
 export class ActReceptionTransmissionComponent implements OnInit {
+  serverPath = serverPath;
+
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
   currentStep: number = 1;
@@ -145,7 +147,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
 
   async getAgree(selectedFlatId: string | null, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/saveagreements';
+    const url = serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -168,7 +170,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
+        this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
       }
     } catch (error) {
       console.error(error);
@@ -177,7 +179,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return 'http://localhost:3000/img/filling/' + flat.img;
+      return serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }
@@ -187,7 +189,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post('http://localhost:3000/flatinfo/get/filling', {
+      const response = await this.http.post(serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
@@ -252,7 +254,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
           filling: this.flat_objects,
         };
 
-        this.http.post('http://localhost:3000/agreement/add/act', data)
+        this.http.post(serverPath + '/agreement/add/act', data)
           .subscribe(
             (response: any) => {
               this.loading = true;

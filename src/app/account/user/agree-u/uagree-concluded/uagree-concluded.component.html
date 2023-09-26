@@ -21,14 +21,31 @@
 
         </div>
 
+
         <div class="item-wrapper mt-1">
           <div class="item-name-id">ID Угоди: {{ agreement.flat.agreement_id}}</div>
           <div class="btn-group">
-            <button class="btn w-75 m-1"
-              [routerLink]="['/user/uagree-download', agreement.flat.agreement_id]">Угода</button>
-            <button class="btn w-25 m-1" [routerLink]="['/user/uact-view', agreement.flat.agreement_id]">Акт</button>
+
+            <div class="btn-name">
+              <button class="btn-create" matTooltip="Переглянути Угоду" [routerLink]="['/user/uagree-download', agreement.flat.agreement_id]"><span
+                  class="material-symbols-outlined">
+                  handshake
+                </span></button>
+              <mat-label>Угода</mat-label>
+            </div>
+
+            <div class="btn-name">
+              <button class="btn-create" matTooltip="Переглянути Акт" [routerLink]="['/user/uact-view', agreement.flat.agreement_id]"><span
+                  class="material-symbols-outlined">
+                  note_add
+                </span></button>
+              <mat-label>Акт</mat-label>
+            </div>
+
           </div>
         </div>
+
+
 
       </div>
 

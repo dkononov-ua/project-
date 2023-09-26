@@ -6,6 +6,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { PageEvent } from '@angular/material/paginator';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface UserInfo {
   price: number | undefined;
   region: string | undefined;
@@ -182,7 +184,7 @@ export class SearchTermTenantComponent implements OnInit {
   searchFilter(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
+      this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           this.filteredUsers = response.user_inf;
           this.optionsFound = response.search_count;
@@ -204,7 +206,7 @@ export class SearchTermTenantComponent implements OnInit {
       const userId = this.searchQuery;
 
       if (userJson && this.searchQuery) {
-        this.http.post('http://localhost:3000/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
+        this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
             this.filterUserService.updateFilter(this.filteredUsers);

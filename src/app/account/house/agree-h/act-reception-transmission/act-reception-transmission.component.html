@@ -19,12 +19,10 @@
           </mat-select>
         </mat-form-field>
 
-
         <div class="description"><span class="bold">Для створення</span> акту прийому-передачі житлового приміщення,
           треба лише обрати сформовану підтверджену угоду, записати показання лічильників на момент передачі. Якщо щось
           забули додати до оселі Ви завжди можете повернутись до меню наповнення додати необхідні предмети та
           повернутись сюди.</div>
-
 
         <div class="menu">
           <div class="box-btn">
@@ -37,34 +35,11 @@
             </a>
           </div>
         </div>
-
-
       </div>
-
-
     </div>
 
-    <div class="col-lg-5 col-md-5 col-sm-6 col-12">
-
-      <!-- <div [@cardAnimation1] class="card-user m-2 p-2">
-        <div class="img-fluid p-1">
-          <div class="w-30">
-            <img [src]="'http://localhost:3000/img/users/' +
-              (selectedAgreement?.flat?.owner_img
-              ? selectedAgreement?.flat?.owner_img : 'user_default.svg')" alt="User Image">
-          </div>
-          <div class="item-box w-70">
-            <div class="item-name">Орендодавець</div>
-
-            <div class="item-name">{{ selectedAgreement?.flat?.owner_lastName }} </div>
-            <div class="item-name"> {{ selectedAgreement?.flat?.owner_firstName }}
-              {{ selectedAgreement?.flat?.owner_surName }}</div>
-            <div class="text">User ID: {{ selectedAgreement?.flat?.owner_id }}</div>
-          </div>
-        </div>
-      </div> -->
-
-      <div [@cardAnimation2] class="card-user m-2 p-2">
+    <div class="container-right col-lg-5 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation2] class="card-user p-2">
         <div class="img-fluid p-1">
           <div class="w-30">
             <img [src]="'http://localhost:3000/img/users/' +
@@ -73,7 +48,6 @@
           </div>
           <div class="item-box w-70">
             <div class="item-name">Орендар</div>
-
             <div class="item-name">{{ selectedAgreement?.flat?.subscriber_lastName }}</div>
             <div class="item-name">{{ selectedAgreement?.flat?.subscriber_firstName }} {{
               selectedAgreement?.flat?.subscriber_surName }}</div>
@@ -82,7 +56,7 @@
         </div>
       </div>
 
-      <div [@cardAnimation3] class="card-user m-2 p-2">
+      <div [@cardAnimation3] class="card-user p-2">
         <div class="img-fluid p-1">
           <div class="w-30">
             <img [src]="selectedAgreement?.img[0] ? 'http://localhost:3000/img/flat/' + selectedAgreement?.img[0] :
@@ -90,7 +64,6 @@
           </div>
           <div class="item-box w-70">
             <div class="item-name">Оселя</div>
-
             <div class="box-2">
               <div class="item-name" *ngIf="selectedAgreement?.flat?.city">{{ selectedAgreement?.flat?.city }}</div>
               <div class="item-name" *ngIf="selectedAgreement?.flat?.street">
@@ -100,9 +73,7 @@
               <div class="item-name" *ngIf="selectedAgreement?.flat?.apartment">
                 | кв. {{selectedAgreement?.flat?.apartment }}</div>
             </div>
-
             <div class="text">ID: {{ selectedAgreement?.flat?.flat_id }}</div>
-
           </div>
         </div>
 
@@ -136,14 +107,17 @@
               <i></i>
             </div>
           </div>
-          <button class="btn btn-agree mb-2" type="submit" [disabled]="!selectedAgreement" (click)="openContainer()">Переглянути деталі
-            Акту</button>
-          <button class="btn btn-agree" type="submit" (click)="sendFormAgreement()"
-            [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!selectedAgreement || !isCheckboxChecked">Формувати Акт</button>
-          <div *ngIf="message" class="error-message">{{ message }}</div>
         </div>
-
       </div>
+
+      <button class="btn btn-agree mb-2" type="submit" [disabled]="!selectedAgreement"
+        (click)="openContainer()">Переглянути деталі
+        Акту</button>
+      <button class="btn btn-agree" type="submit" (click)="sendFormAgreement()"
+        [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!selectedAgreement || !isCheckboxChecked">Формувати
+        Акт</button>
+      <div *ngIf="message" class="error-message">{{ message }}</div>
+
 
     </div>
 
@@ -367,6 +341,3 @@
 
   </div>
 </ng-template>
-
-
-

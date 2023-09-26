@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -167,7 +168,7 @@ export class LookingComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
+      this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
           this.userInfo = response.inf;
         }, (error: any) => {
@@ -185,7 +186,7 @@ export class LookingComponent implements OnInit {
       console.log(data);
       console.log(this.userInfo.agree_search)
 
-      this.http.post('http://localhost:3000/features/add', { auth: JSON.parse(userJson), new: data })
+      this.http.post(serverPath + '/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe(
           (response: any) => {
             this.loading = true;

@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-navbar-user',
@@ -20,7 +22,7 @@ export class NavbarUserComponent implements OnInit {
 
   async getMessageAll(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/chat/get/DontReadMessageUser';
+    const url = serverPath + '/chat/get/DontReadMessageUser';
     const data = { auth: JSON.parse(userJson!) };
 
     if (userJson) {

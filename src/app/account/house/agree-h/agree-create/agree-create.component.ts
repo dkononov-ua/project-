@@ -17,6 +17,8 @@ const moment = _rollupMoment || _moment;
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
+import { serverPath } from 'src/app/shared/server-config';
+
 
 export const MY_FORMATS = {
   parse: {
@@ -68,6 +70,8 @@ interface Subscribers {
   ],
 })
 export class AgreeCreateComponent implements OnInit {
+  serverPath = serverPath;
+
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   @ViewChild('agreeContainer') agreeContainer: ElementRef | undefined;
@@ -173,7 +177,7 @@ export class AgreeCreateComponent implements OnInit {
           await this.getSubs();
           this.route.params.subscribe(params => {
             this.selectedSubscriber = params['selectedSubscriber?.user_id'] || null;
-            this.foundSubscriber();
+            this.foundSubscriber(this.selectedSubscriber);
           });
           this.loading = false;
         } catch (error) {
@@ -189,7 +193,7 @@ export class AgreeCreateComponent implements OnInit {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
+        this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
       }
     } catch (error) {
       console.error(error);
@@ -198,7 +202,7 @@ export class AgreeCreateComponent implements OnInit {
 
   async getAgent(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/userinfo/agent';
+    const url = serverPath + '/userinfo/agent';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -214,7 +218,7 @@ export class AgreeCreateComponent implements OnInit {
 
   async getSubs(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/acceptsubs/get/subs';
+    const url = serverPath + '/acceptsubs/get/subs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -229,11 +233,16 @@ export class AgreeCreateComponent implements OnInit {
     }
   }
 
-  foundSubscriber(): void {
-    if (this.selectedSubscriber) {
-      const foundSubscriber = this.subscribers.find((subscribers) => subscribers.user_id === this.selectedSubscriber);
+  foundSubscriber(selectedSubscriber: string): void {
+    console.log(selectedSubscriber)
+    if (selectedSubscriber) {
+      // Перетворюємо selectedSubscriber в числове значення
+      const selectedSubscriberId = parseInt(selectedSubscriber, 10);
+      const foundSubscriber = this.subscribers.find((subscriber) => subscriber.user_id === selectedSubscriberId);
+
       if (foundSubscriber) {
         this.selectedSubscriber = foundSubscriber;
+        console.log(this.selectedSubscriber)
       }
     } else { }
   }
@@ -323,7 +332,7 @@ export class AgreeCreateComponent implements OnInit {
           }
         };
 
-        this.http.post('http://localhost:3000/agreement/add/agreement', data)
+        this.http.post(serverPath + '/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {
               this.loading = true;

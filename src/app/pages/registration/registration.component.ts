@@ -8,6 +8,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
 import moment from 'moment';
+import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -91,7 +93,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.http.post('http://localhost:3000/login', this.loginForm.value)
+    this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
         if (response.status) {
           setTimeout(() => {
@@ -129,7 +131,7 @@ export class RegistrationComponent implements OnInit {
             dob: dob,
           }
           console.log(data);
-          this.http.post('http://localhost:3000/registration', data)
+          this.http.post(serverPath + '/registration', data)
           .subscribe(
             (response: any) => {
               console.log(response)

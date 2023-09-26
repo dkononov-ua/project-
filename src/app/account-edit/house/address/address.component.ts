@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface FlatInfo {
   flat_id: string | undefined;
   country: string | undefined;
@@ -94,7 +96,7 @@ export class AddressComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
-      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           this.flatInfo = response.flat;
           this.locationLink = this.generateLocationUrl();
@@ -169,7 +171,7 @@ export class AddressComponent implements OnInit {
       try {
         this.loading = true
 
-        const response = await this.http.post('http://localhost:3000/flatinfo/add/addres', {
+        const response = await this.http.post(serverPath + '/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,

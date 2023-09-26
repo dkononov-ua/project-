@@ -7,6 +7,8 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface FlatInfo {
   comunal_before: any;
   comunal_now: any;
@@ -151,7 +153,7 @@ export class ComunHistoryComponent implements OnInit {
     localStorage.setItem('selectedMonth', this.selectedMonth);
     const userJson = localStorage.getItem('user');
     if (this.selectedYear && this.selectedComun && userJson) {
-      const response = await this.http.post('http://localhost:3000/comunal/get/comunal', {
+      const response = await this.http.post(serverPath + '/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         comunal_name: this.selectedComun,
@@ -253,7 +255,6 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-
   getDefaultData() {
     const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
     this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
@@ -270,7 +271,7 @@ export class ComunHistoryComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
-      this.http.post('http://localhost:3000/comunal/add/comunal', {
+      this.http.post(serverPath + '/comunal/add/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         comunal_name: this.selectedComun,
@@ -307,7 +308,7 @@ export class ComunHistoryComponent implements OnInit {
       };
 
       setTimeout(() => {
-        this.http.post('http://localhost:3000/comunal/add/comunal', {
+        this.http.post(serverPath + '/comunal/add/comunal', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
           comunal_name: this.selectedComun,

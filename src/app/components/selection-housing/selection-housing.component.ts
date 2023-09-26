@@ -6,7 +6,7 @@ import { ChangeComunService } from 'src/app/housing-services/change-comun.servic
 import { DataService } from 'src/app/services/data.service';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-
+import { serverPath } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-selection-housing',
   templateUrl: './selection-housing.component.html',
@@ -59,7 +59,7 @@ export class SelectionHousingComponent implements OnInit {
   async loadDiscussioFlat(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/acceptsubs/get/ysubs';
+    const url = serverPath + '/acceptsubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -89,7 +89,7 @@ export class SelectionHousingComponent implements OnInit {
   async loadOwnFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
             this.ownFlats = response.ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
@@ -111,7 +111,7 @@ export class SelectionHousingComponent implements OnInit {
   async loadRentedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
             this.rentedFlats = response.citizen_ids

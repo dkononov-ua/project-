@@ -3,6 +3,8 @@ import { objects } from '../../../shared/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface FlatInfo {
   about_filling: string;
@@ -109,7 +111,7 @@ export class AddObjectsComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post('http://localhost:3000/flatinfo/get/filling', {
+      const response = await this.http.post(serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
@@ -121,7 +123,7 @@ export class AddObjectsComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return 'http://localhost:3000/img/filling/' + flat.img;
+      return serverPath + '/img/filling/' + flat.img;
     } else {
       return 'assets/icon-objects/default.filling.png';
     }
@@ -188,7 +190,7 @@ export class AddObjectsComponent implements OnInit {
     formData.append('auth', userJson!);
 
     const headers = { 'Accept': 'application/json' };
-    this.http.post('http://localhost:3000/img/uploadFilling', formData, { headers }).subscribe(
+    this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
       (uploadResponse: any) => {
         if (uploadResponse.status === 'Наповнення успішно збережено') {
           setTimeout(() => {
@@ -225,7 +227,7 @@ export class AddObjectsComponent implements OnInit {
         filling_id: flat.filling_id
       };
 
-      this.http.post('http://localhost:3000/flatinfo/deletefilling', data)
+      this.http.post(serverPath + '/flatinfo/deletefilling', data)
         .subscribe(
           (response: any) => {
             this.flat_objects = this.flat_objects.filter((item: { filling_id: any; }) => item.filling_id !== flat.filling_id);

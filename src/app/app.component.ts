@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IsChatOpenService } from './services/is-chat-open.service';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
-
+import { serverPath } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   async getUserInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/auth', JSON.parse(userJson))
+      this.http.post( serverPath +'/auth', JSON.parse(userJson))
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);

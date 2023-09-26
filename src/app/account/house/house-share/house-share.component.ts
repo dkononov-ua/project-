@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -17,6 +19,8 @@ interface FlatInfo {
 })
 
 export class HouseShareComponent implements OnInit {
+  serverPath = serverPath;
+
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   loading = false;
@@ -61,7 +65,7 @@ export class HouseShareComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
-      this.http.post('http://localhost:3000/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           if (response)
           this.flatInfo = response[0];
@@ -84,7 +88,7 @@ export class HouseShareComponent implements OnInit {
         this.loading = true
         this.disabled = true;
 
-        const response = await this.http.post('http://localhost:3000/flatinfo/add/flatinf', {
+        const response = await this.http.post(serverPath + '/flatinfo/add/flatinf', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,

@@ -8,6 +8,8 @@
     <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="label">Заключені угоди <span class="accent"> {{ agree.length }} шт</span></div>
       <div class="card m-2" *ngFor="let agreement of agree">
+
+
         <div class="img-fluid  mt-2">
 
           <div class="w-30" *ngIf="agreement.img && agreement.img.length > 0">
@@ -16,12 +18,14 @@
 
           <div class="item-box p-1 w-70">
             <div class="item-name">ID Орендара:
-              <span class="accent">{{ agreement.flat.subscriber_id}}</span></div>
+              <span class="accent">{{ agreement.flat.subscriber_id}}</span>
+            </div>
             <div class="accent" class="item-name">Термін оренди:
               <span class="accent" *ngIf="agreement.flat.dateAgreeStart">
                 від {{agreement.flat.dateAgreeStart | date}}</span>
               <span class="accent" *ngIf="agreement.flat.dateAgreeEnd">
-                до {{ agreement.flat.dateAgreeEnd | date}}</span></div>
+                до {{ agreement.flat.dateAgreeEnd | date}}</span>
+            </div>
             <div class="item-name">Сума оплати: <span class="accent">{{ agreement.flat.price}}грн</span></div>
           </div>
 
@@ -30,10 +34,43 @@
         <div class="item-wrapper mt-1">
           <div class="item-name-id">ID Угоди: {{ agreement.flat.agreement_id}}</div>
           <div class="btn-group">
-            <button class="btn w-75 m-1" [routerLink]="['/house/agree-download', agreement.flat.agreement_id]">Угода</button>
-            <button class="btn w-25 m-1" matTooltip="Видалити Угоду" (click)="openDialog1(agreement)"><i class="fa-solid fa-trash"></i></button>
-            <button class="btn w-25 m-1" [routerLink]="['/house/act-view', agreement.flat.agreement_id]">Акт</button>
-            <button class="btn w-25 m-1" matTooltip="Видалити Акт" (click)="openDialog(agreement)"><i class="fa-solid fa-trash"></i></button>
+
+            <div class="btn-name">
+              <button class="btn-create" matTooltip="Переглянути Угоду" [routerLink]="['/house/agree-download', agreement.flat.agreement_id]"><span
+                  class="material-symbols-outlined">
+                  handshake
+                </span></button>
+              <mat-label>Угода</mat-label>
+              <button class="btn-delete" matTooltip="Видалити Угоду" (click)="openDialog1(agreement)"><span
+                  class="material-symbols-outlined">
+                  delete_forever
+                </span></button>
+            </div>
+
+            <div class="btn-name">
+              <button class="btn-create" matTooltip="Переглянути Акт" [routerLink]="['/house/act-view', agreement.flat.agreement_id]"><span
+                  class="material-symbols-outlined">
+                  note_add
+                </span></button>
+              <mat-label>Акт</mat-label>
+              <button class="btn-delete" matTooltip="Видалити Акт" (click)="openDialog(agreement)"><span
+                  class="material-symbols-outlined">
+                  delete_forever
+                </span></button>
+            </div>
+
+
+
+
+            <div class="btn-name">
+              <button class="btn-create white" (click)="openDialog2(agreement)" matTooltip="Додати в мешканці"><span
+                  class="material-symbols-outlined">
+                  add
+                </span></button>
+              <mat-label>Додати</mat-label>
+            </div>
+
+
           </div>
         </div>
 

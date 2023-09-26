@@ -5,6 +5,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-selection-discussio',
@@ -50,7 +52,7 @@ export class SelectionDiscussioComponent implements OnInit {
   async loadDiscussioFlat(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/acceptsubs/get/ysubs';
+    const url = serverPath + '/acceptsubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

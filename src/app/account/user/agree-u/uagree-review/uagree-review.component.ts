@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface subscription {
   flat: {
@@ -52,6 +54,8 @@ interface subscription {
   styleUrls: ['./uagree-review.component.scss']
 })
 export class UagreeReviewComponent implements OnInit {
+  serverPath = serverPath;
+
   subscriptions: subscription[] = [];
   userId: string | any;
   flatId: any;
@@ -90,7 +94,7 @@ export class UagreeReviewComponent implements OnInit {
   async getSubscribedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/yagreements';
+    const url = serverPath + '/agreement/get/yagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -112,7 +116,7 @@ export class UagreeReviewComponent implements OnInit {
     this.selectedFlatId = subscriber.flat.flat_id;
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/delete/yagreement';
+    const url = serverPath + '/agreement/delete/yagreement';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

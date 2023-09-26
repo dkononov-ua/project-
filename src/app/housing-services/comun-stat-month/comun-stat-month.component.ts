@@ -6,6 +6,8 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-comun-stat-month',
@@ -134,7 +136,7 @@ export class ComunStatMonthComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedMonth && this.selectedYear && userJson) {
-      const response = await this.http.post('http://localhost:3000/comunal/get/comunalAll', {
+      const response = await this.http.post(serverPath + '/comunal/get/comunalAll', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         when_pay_y: this.selectedYear,

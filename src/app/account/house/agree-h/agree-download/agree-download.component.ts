@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Location } from '@angular/common';
+import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-agree-download',
   templateUrl: './agree-download.component.html',
@@ -14,6 +16,8 @@ import { Location } from '@angular/common';
 })
 
 export class AgreeDownloadComponent implements OnInit {
+  serverPath = serverPath;
+
   selectedFlatAgree: any;
   selectedAgreement: any;
   selectedFlatId: any;
@@ -44,7 +48,7 @@ export class AgreeDownloadComponent implements OnInit {
 
   async getAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/saveagreements';
+    const url = serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,

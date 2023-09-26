@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { NgModel } from '@angular/forms';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-add-house',
@@ -56,7 +58,7 @@ export class AddHouseComponent implements OnInit {
 
     try {
       const response = await this.http
-        .post('http://localhost:3000/flatinfo/add/flat_id', {
+        .post( serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
           new: { flat_id: this.flat_id },
         })
@@ -77,7 +79,7 @@ export class AddHouseComponent implements OnInit {
         const userJson = localStorage.getItem('user');
         if (this.selectedFlatId && userJson) {
           this.http
-            .post('http://localhost:3000/flatinfo/deleteflat', {
+            .post( serverPath + '/flatinfo/deleteflat', {
               auth: JSON.parse(userJson),
               flat_id: this.selectedFlatId,
             })

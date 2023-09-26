@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { serverPath } from 'src/app/shared/server-config';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
     if (!currentUser) {
       return throwError('Користувач не знайдений');
     }
-    return this.http.post<any>('http://localhost:3000', user);
+    return this.http.post<any>(serverPath, user);
   }
 
   logout() {

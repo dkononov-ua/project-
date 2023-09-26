@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { serverPath } from 'src/app/shared/server-config';
 export class Feedback {
   constructor(
     public optionDevice: string = '',
@@ -74,7 +75,7 @@ export class FeedbackComponent implements OnInit {
     const formData = this.feedbackForm.value;
     if (userJson && this.feedbackForm.valid) {
       try {
-        const response = await this.http.post('http://localhost:3000/feedback/add', {
+        const response = await this.http.post(serverPath + '/feedback/add', {
           auth: JSON.parse(userJson),
           user_id: JSON.parse(userJson).user_id,
           formData
@@ -102,7 +103,7 @@ export class FeedbackComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const response = await this.http.post('http://localhost:3000/feedback/get/user', {
+        const response = await this.http.post(serverPath + '/feedback/get/user', {
           auth: JSON.parse(userJson),
           menuName: this.menu.menuName,
         }).toPromise();

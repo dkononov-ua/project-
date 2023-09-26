@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { EMPTY, Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface User {
   user_id: string;
@@ -121,7 +122,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   async getChats(): Promise<any> {
-    const url = 'http://localhost:3000/chat/get/flatchats';
+    const url = serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       const data = {
@@ -133,8 +134,8 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         const response = await this.http.post(url, data).toPromise() as any;
         if (Array.isArray(response.status)) {
           const infoPublic = await Promise.all(response.status.map(async (value: any) => {
-            const infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-            const infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+            const infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+            const infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
             return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat };
           }));
 
@@ -178,7 +179,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         user_id: this.selectedSubscriberID,
         offs: 0,
       };
-      this.http.post('http://localhost:3000/chat/get/flatmessage', info)
+      this.http.post(serverPath + '/chat/get/flatmessage', info)
         .pipe(
           switchMap((response: any) => {
             if (Array.isArray(response.status)) {
@@ -217,7 +218,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         data: this.allMessages[0]?.data,
       };
 
-      this.http.post('http://localhost:3000/chat/get/NewMessageFlat', data)
+      this.http.post(serverPath + '/chat/get/NewMessageFlat', data)
         .subscribe(
           async (response: any) => {
             if (Array.isArray(response.status)) {
@@ -262,7 +263,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         flat_id: this.selectedFlatId,
         user_id: this.selectedSubscriberID,
       };
-      this.http.post('http://localhost:3000/chat/readMessageFlat', data).subscribe();
+      this.http.post(serverPath + '/chat/readMessageFlat', data).subscribe();
     }
   }
 
@@ -276,7 +277,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         message: this.messageText,
       };
 
-      this.http.post('http://localhost:3000/chat/sendMessageFlat', data)
+      this.http.post(serverPath + '/chat/sendMessageFlat', data)
         .subscribe((response: any) => {
           if (response.status) {
             this.messageText = '';

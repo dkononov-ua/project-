@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface Subscriber {
   animals: string | undefined;
@@ -151,7 +153,7 @@ export class SubscriptionsHouseComponent implements OnInit {
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/usersubs/get/ysubs';
+    const url = serverPath + '/usersubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -176,7 +178,7 @@ export class SubscriptionsHouseComponent implements OnInit {
 
   async openDialog(subscriberId: string): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/usersubs/delete/subs';
+    const url = serverPath + '/usersubs/delete/subs';
 
     const dialogRef = this.dialog.open(DeleteSubComponent);
     dialogRef.afterClosed().subscribe(async (result: any) => {

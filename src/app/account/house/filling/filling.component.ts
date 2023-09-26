@@ -3,7 +3,7 @@ import { objects } from '../../../shared/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-
+import { serverPath } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-filling',
   templateUrl: './filling.component.html',
@@ -19,6 +19,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 
 export class FillingComponent implements OnInit {
+  serverPath = serverPath;
 
   loading = false;
 
@@ -59,7 +60,7 @@ export class FillingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post('http://localhost:3000/flatinfo/get/filling', {
+      const response = await this.http.post( serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
@@ -71,7 +72,7 @@ export class FillingComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return 'http://localhost:3000/img/filling/' + flat.img;
+      return  serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }

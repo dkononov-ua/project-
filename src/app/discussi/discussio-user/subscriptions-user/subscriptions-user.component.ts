@@ -5,6 +5,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface subscription {
   flat_id: string;
@@ -42,7 +43,7 @@ interface subscription {
   selector: 'app-subscriptions-user',
   templateUrl: './subscriptions-user.component.html',
   styleUrls: ['./subscriptions-user.component.scss'],
-    animations: [
+  animations: [
     trigger('cardAnimation', [
       transition('void => *', [
         style({ transform: 'translateX(100%)' }),
@@ -131,7 +132,7 @@ export class SubscriptionsUserComponent implements OnInit {
   async getSubscribedFlats(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/subs/get/ysubs';
+    const url = serverPath + '/subs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -156,7 +157,7 @@ export class SubscriptionsUserComponent implements OnInit {
           rooms: flat.flat.rooms,
           repair_status: flat.flat.repair_status,
           area: flat.flat.area,
-          kitchen_area :flat.flat.kitchen_area,
+          kitchen_area: flat.flat.kitchen_area,
           balcony: flat.flat.balcony,
           floor: flat.flat.floor,
           distance_metro: flat.flat.distance_metro,
@@ -189,7 +190,7 @@ export class SubscriptionsUserComponent implements OnInit {
     console.log(flat)
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/subs/delete/ysubs';
+    const url = serverPath + '/subs/delete/ysubs';
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
       data: {
         flatId: flat.flat_id,

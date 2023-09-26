@@ -37,7 +37,7 @@
 </div>
 
 <div class="card-box-user hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuUser"
-  [ngClass]="{'open': openUserMenu, 'hide': hideUserMenu}">
+  [ngClass]="{'open': openUserMenu, 'hide': hideUserMenu}" (click)="closeMenuUser()">
   <div class="card-menu">
     <div class="nav-item">
       <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/our-team'">
@@ -52,7 +52,7 @@
 
 
 <div class="card-box-flat hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuFlat"
-  [ngClass]="{'open': openFlatMenu, 'hide': hideFlatMenu}">
+  [ngClass]="{'open': openFlatMenu, 'hide': hideFlatMenu}" (click)="closeMenuFlat()">
   <div class="card-menu">
     <div class="nav-item">
       <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/our-team'">

@@ -7,7 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Location } from '@angular/common';
-
+import { serverPath } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -72,6 +72,8 @@ interface Agree {
 })
 
 export class ActViewComponent implements OnInit {
+  serverPath = serverPath;
+
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
   currentStep: number = 1;
@@ -147,7 +149,7 @@ export class ActViewComponent implements OnInit {
 
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/saveagreements';
+    const url = serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -168,7 +170,7 @@ export class ActViewComponent implements OnInit {
 
   async getAgreeAct(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/act';
+    const url = serverPath + '/agreement/get/act';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -192,7 +194,7 @@ export class ActViewComponent implements OnInit {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = ['http://localhost:3000/img/flat/housing_default.svg'];
+        this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
       }
     } catch (error) {
       console.error(error);
@@ -201,7 +203,7 @@ export class ActViewComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return 'http://localhost:3000/img/filling/' + flat.img;
+      return serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }

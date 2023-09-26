@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-subscribers-menu',
@@ -39,7 +41,7 @@ export class SubscribersMenuComponent implements OnInit {
   // Підписники
   async getSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = 'http://localhost:3000/subs/get/countSubs';
+    const url = serverPath + '/subs/get/countSubs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -57,7 +59,7 @@ export class SubscribersMenuComponent implements OnInit {
   // Підписки
   async getSubscriptionsCount() {
     const userJson = localStorage.getItem('user')
-    const url = 'http://localhost:3000/usersubs/get/CountUserSubs';
+    const url = serverPath + '/usersubs/get/CountUserSubs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -75,7 +77,7 @@ export class SubscribersMenuComponent implements OnInit {
   // Дискусії
   async getAcceptSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = 'http://localhost:3000/acceptsubs/get/CountSubs';
+    const url = serverPath + '/acceptsubs/get/CountSubs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,

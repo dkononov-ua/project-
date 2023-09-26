@@ -4,6 +4,8 @@ import { cities } from '../../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface SearchParams {
   [key: string]: any;
 }
@@ -121,7 +123,7 @@ export class SearchTermComponent implements OnInit {
   // пошук оселі по ID
   searchByID() {
     if (this.searchQuery) {
-      const endpoint = 'http://localhost:3000/search/flat';
+      const endpoint =  serverPath + '/search/flat';
       const flatId = this.searchQuery;
       const url = `${endpoint}/?flat_id=${flatId}`;
       this.getSearchData(url);
@@ -171,7 +173,7 @@ export class SearchTermComponent implements OnInit {
 
   // побудова URL пошукового запиту
   buildSearchURL(params: any): string {
-    const endpoint = 'http://localhost:3000/search/flat';
+    const endpoint =  serverPath + '/search/flat';
     const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
     console.log(paramsString)
     return `${endpoint}?${paramsString}`;

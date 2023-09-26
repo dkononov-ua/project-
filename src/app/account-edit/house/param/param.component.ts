@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface FlatInfo {
   rooms: number;
@@ -75,7 +77,7 @@ export class ParamComponent {
   async getInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response)
           if (response && response.param) {
@@ -97,7 +99,7 @@ export class ParamComponent {
 
       try {
         this.loading = true
-        const response = await this.http.post('http://localhost:3000/flatinfo/add/parametrs', {
+        const response = await this.http.post(serverPath + '/flatinfo/add/parametrs', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,

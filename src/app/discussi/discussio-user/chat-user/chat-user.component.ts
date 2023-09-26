@@ -4,6 +4,8 @@ import { ChoseSubscribeService } from '../../../services/chose-subscribe.service
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-chat-user',
   templateUrl: './chat-user.component.html',
@@ -76,7 +78,7 @@ export class ChatUserComponent implements OnInit {
 
   async getUserChats(selectedFlat: string, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/chat/get/userchats';
+    const url = serverPath + '/chat/get/userchats';
 
     if (userJson) {
       const data = {
@@ -88,8 +90,8 @@ export class ChatUserComponent implements OnInit {
       console.log(response)
       if (Array.isArray(response.status)) {
         this.infoPublic = await Promise.all(response.status.map(async (value: any) => {
-          const infUser = await this.http.post('http://localhost:3000/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-          const infFlat = await this.http.post('http://localhost:3000/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+          const infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+          const infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread };
         }));
         this.infoPublic = this.infoPublic.filter((item) => item.flat_id === selectedFlat);
@@ -124,7 +126,7 @@ export class ChatUserComponent implements OnInit {
 
       const destroy$ = new Subject();
 
-      this.http.post('http://localhost:3000/chat/get/usermessage', info)
+      this.http.post(serverPath + '/chat/get/usermessage', info)
         .pipe(
           switchMap((response: any) => {
             if (Array.isArray(response.status)) {
@@ -160,7 +162,7 @@ export class ChatUserComponent implements OnInit {
   async getNewMessages(selectedFlat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
-      this.http.post('http://localhost:3000/chat/get/NewMessageUser', {
+      this.http.post(serverPath + '/chat/get/NewMessageUser', {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
         offs: 0,
@@ -208,7 +210,7 @@ export class ChatUserComponent implements OnInit {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
       };
-      this.http.post('http://localhost:3000/chat/readMessageUser', data).subscribe();
+      this.http.post(serverPath + '/chat/readMessageUser', data).subscribe();
     }
   }
 
@@ -221,7 +223,7 @@ export class ChatUserComponent implements OnInit {
         message: this.messageText,
       };
 
-      this.http.post('http://localhost:3000/chat/sendMessageUser', data)
+      this.http.post(serverPath + '/chat/sendMessageUser', data)
         .subscribe((response: any) => {
           if (response.status) {
             this.messageText = '';

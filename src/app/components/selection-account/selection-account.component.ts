@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { Location } from '@angular/common';
+import { serverPath } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-selection-account',
@@ -70,24 +71,7 @@ export class SelectionAccountComponent implements OnInit {
     this.hideFlatMenu = true;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   isMenuOpen = false;
-
-
-
-
-
 
   goBack(): void {
     this.location.back();
@@ -134,13 +118,13 @@ export class SelectionAccountComponent implements OnInit {
             if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0) {
               this.images = [];
               for (const img of this.flatImg) {
-                this.images.push('http://localhost:3000/img/flat/' + img.img);
+                this.images.push(serverPath + '/img/flat/' + img.img);
               }
             } else {
-              this.images = ['http://localhost:3000/housing_default.svg'];
+              this.images = [serverPath + '/housing_default.svg'];
             }
           } else {
-            this.images = ['http://localhost:3000/housing_default.svg'];
+            this.images = [serverPath + '/housing_default.svg'];
           }
         } else {
           console.log('Немає оселі')
@@ -152,7 +136,7 @@ export class SelectionAccountComponent implements OnInit {
   loadUserImage(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+      this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           if (response.img && response.img.length > 0) {
             this.userImg = response.img[0].img;
@@ -170,7 +154,7 @@ export class SelectionAccountComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
             this.houses = response.ids.map((item: { flat_id: any }, index: number) => ({
@@ -206,7 +190,7 @@ export class SelectionAccountComponent implements OnInit {
   loadRentedHouses(): void {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflatid', JSON.parse(userJson))
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
             this.rentedHouses = response.citizen_ids

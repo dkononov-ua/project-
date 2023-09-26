@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface Agree {
   flat: {
     agreementDate: string;
@@ -50,6 +52,8 @@ interface Agree {
 })
 
 export class AgreeConcludedComponent implements OnInit {
+  serverPath = serverPath;
+
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatId: any;
@@ -77,7 +81,7 @@ export class AgreeConcludedComponent implements OnInit {
 
   async getAgree(selectedFlatId: string | null, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/saveagreements';
+    const url = serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -97,13 +101,15 @@ export class AgreeConcludedComponent implements OnInit {
 
   async openDialog(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/delete/act';
+    const url = serverPath + '/agreement/delete/act';
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {
       data: {
         flatId: agree.flat.flat_id,
-        subscriberId: agree.flat.subscriber_id,
         agreementId: agree.flat.agreement_id,
-        offer: false,
+        subscriberId: agree.flat.subscriber_id,
+        subscriber_firstName: agree.flat.subscriber_firstName,
+        subscriber_lastName: agree.flat.subscriber_lastName,
+        offer: 0,
       }
     });
 
@@ -132,13 +138,54 @@ export class AgreeConcludedComponent implements OnInit {
 
   async openDialog1(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/delete/agreement';
+    const url = serverPath + '/agreement/delete/agreement';
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {
       data: {
         flatId: agree.flat.flat_id,
-        subscriberId: agree.flat.subscriber_id,
         agreementId: agree.flat.agreement_id,
-        offer: false,
+        subscriberId: agree.flat.subscriber_id,
+        subscriber_firstName: agree.flat.subscriber_firstName,
+        subscriber_lastName: agree.flat.subscriber_lastName,
+        offer: 1,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result && this.selectedFlatId && userJson) {
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: agree.flat.flat_id,
+          user_id: agree.flat.subscriber_id,
+          agreement_id: agree.flat.agreement_id,
+        };
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          this.deletingFlatId = agree.flat.flat_id;
+          setTimeout(() => {
+            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
+            this.deletingFlatId = null;
+            location.reload;
+          }, 100);
+        } catch (error) {
+          console.error(error);
+        }
+
+      }
+    });
+  }
+
+  async openDialog2(agree: any): Promise<void> {
+    console.log(agree)
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/citizen/add/agreeSit';
+    const dialogRef = this.dialog.open(AgreeDeleteComponent, {
+      data: {
+        flatId: agree.flat.flat_id,
+        agreementId: agree.flat.agreement_id,
+        subscriberId: agree.flat.subscriber_id,
+        subscriber_firstName: agree.flat.subscriber_firstName,
+        subscriber_lastName: agree.flat.subscriber_lastName,
+        offer: 2,
       }
     });
 

@@ -2,6 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-photo',
@@ -58,7 +59,7 @@ export class PhotoComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== null) {
-      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe(
           (response: any) => {
             if (Array.isArray(response.imgs) && response.imgs.length > 0) {
@@ -93,9 +94,9 @@ export class PhotoComponent implements OnInit {
     formData.append('flat_id', this.selectedFlatId);
 
     const headers = { 'Accept': 'application/json' };
-    this.http.post('http://localhost:3000/img/uploadflat', formData, { headers }).subscribe(
+    this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
       (data: any) => {
-        this.images.push('http://localhost:3000/img/flat/' + data.filename);
+        this.images.push(serverPath + '/img/flat/' + data.filename);
       },
       (error: any) => {
         console.log(error);
@@ -127,7 +128,7 @@ export class PhotoComponent implements OnInit {
         img: selectImg,
       };
 
-      this.http.post('http://localhost:3000/flatinfo/deleteFlatImg', data)
+      this.http.post(serverPath + '/flatinfo/deleteFlatImg', data)
         .subscribe(
           (response: any) => {
             this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg.img);

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-subscriber-menu',
@@ -40,7 +42,7 @@ export class SubscriberMenuComponent implements OnInit {
   // Підписники
   async getSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = 'http://localhost:3000/usersubs/get/CountYUserSubs';
+    const url = serverPath + '/usersubs/get/CountYUserSubs';
     const data = {
       auth: JSON.parse(userJson!),
     };
@@ -57,7 +59,7 @@ export class SubscriberMenuComponent implements OnInit {
   // Підписки
   async getSubscriptionsCount() {
     const userJson = localStorage.getItem('user')
-    const url = 'http://localhost:3000/subs/get/countYSubs';
+    const url = serverPath + '/subs/get/countYSubs';
     const data = {
       auth: JSON.parse(userJson!),
     };
@@ -74,7 +76,7 @@ export class SubscriberMenuComponent implements OnInit {
   // Дискусії
   async getAcceptSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = 'http://localhost:3000/acceptsubs/get/CountYsubs';
+    const url = serverPath + '/acceptsubs/get/CountYsubs';
     const data = {
       auth: JSON.parse(userJson!),
     };

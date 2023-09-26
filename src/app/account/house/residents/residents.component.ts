@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { NgZone } from '@angular/core';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface Subscriber {
   acces_flat_chats: any;
@@ -30,7 +31,6 @@ interface Subscriber {
   acces_comunal: any;
   acces_added: any;
 }
-
 @Component({
   selector: 'app-residents',
   templateUrl: './residents.component.html',
@@ -69,6 +69,8 @@ interface Subscriber {
   ],
 })
 export class ResidentsComponent implements OnInit {
+  serverPath = serverPath;
+
   selectedSubscriber: Subscriber | undefined;
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
@@ -160,8 +162,6 @@ export class ResidentsComponent implements OnInit {
         }
       }
     });
-
-    // this.loadSelectedSubscriber();
   }
 
   saveSelectedSubscriber(): void {
@@ -169,18 +169,6 @@ export class ResidentsComponent implements OnInit {
       localStorage.setItem('selectedSubscriber', JSON.stringify(this.selectedSubscriber));
     }
   }
-
-  // loadSelectedSubscriber(): void {
-  //   const selectedSubscriberJson = localStorage.getItem('selectedSubscriber');
-  //   if (selectedSubscriberJson) {
-  //     const selectedSubscriber = JSON.parse(selectedSubscriberJson);
-  //     if (selectedSubscriber) {
-  //       this.selectedSubscriber = selectedSubscriber;
-  //       this.setAccessProperties(selectedSubscriber);
-  //     }
-  //   }
-  //   console.log(this.selectedSubscriber)
-  // }
 
   setAccessProperties(subscriber: Subscriber | undefined): void {
     if (subscriber) {
@@ -206,7 +194,7 @@ export class ResidentsComponent implements OnInit {
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/citizen/get/citizen';
+    const url = serverPath + '/citizen/get/citizen';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -299,7 +287,7 @@ export class ResidentsComponent implements OnInit {
         acces_flat_chats: acces_flat_chats,
       };
 
-      this.http.post('http://localhost:3000/citizen/add/access', data).subscribe(
+      this.http.post(serverPath + '/citizen/add/access', data).subscribe(
         (response: any) => {
           setTimeout(() => {
             this.zone.run(() => {
@@ -328,7 +316,7 @@ export class ResidentsComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && subscriber) {
       const data = { auth: JSON.parse(userJson), flat_id: selectedFlat, user_id: subscriber.user_id };
-      this.http.post('http://localhost:3000/citizen/delete/citizen', data)
+      this.http.post(serverPath + '/citizen/delete/citizen', data)
         .subscribe(
           (response: any) => {
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);

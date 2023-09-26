@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 registerLocaleData(localeUk);
 @Component({
@@ -17,6 +19,9 @@ registerLocaleData(localeUk);
 })
 
 export class UagreeDownloadComponent implements OnInit {
+
+  serverPath = serverPath;
+
   houseData: any;
   userData: any;
   selectedFlatAgree: any;
@@ -53,7 +58,7 @@ export class UagreeDownloadComponent implements OnInit {
   async getAgree(selectedFlatAgree: string): Promise<any> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/saveyagreements';
+    const url = serverPath + '/agreement/get/saveyagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

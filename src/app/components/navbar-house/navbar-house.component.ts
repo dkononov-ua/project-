@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-navbar-house',
   templateUrl: './navbar-house.component.html',
@@ -25,7 +27,7 @@ export class NavbarHouseComponent {
 
   async getMessageAll(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/chat/get/DontReadMessageFlat';
+    const url = serverPath + '/chat/get/DontReadMessageFlat';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,

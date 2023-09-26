@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { Location } from '@angular/common';
+import { serverPath } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-chat-menu',
   templateUrl: './chat-menu.component.html',
@@ -59,7 +60,7 @@ export class ChatMenuComponent implements OnInit, AfterViewInit {
   }
 
   async getChats(): Promise<any> {
-    const url = 'http://localhost:3000/chat/get/flatchats';
+    const url = serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       const data = {

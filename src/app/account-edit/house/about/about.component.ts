@@ -2,6 +2,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface FlatInfo {
   students: boolean;
   woman: boolean;
@@ -89,7 +91,7 @@ export class AboutComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           console.log(response)
           this.flatInfo = response.about;
@@ -127,7 +129,7 @@ export class AboutComponent implements OnInit {
       console.log(data)
       try {
         this.loading = true
-        const response = await this.http.post('http://localhost:3000/flatinfo/add/about', {
+        const response = await this.http.post(serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
           flat: data,
           flat_id: this.selectedFlatId,

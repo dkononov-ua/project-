@@ -1,6 +1,7 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { serverPath } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -45,6 +46,7 @@ interface Agree {
 
 export class UagreeConcludedComponent implements OnInit {
 
+  serverPath = serverPath;
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatAgree: any;
@@ -65,7 +67,7 @@ export class UagreeConcludedComponent implements OnInit {
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/agreement/get/saveyagreements';
+    const url = serverPath + '/agreement/get/saveyagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

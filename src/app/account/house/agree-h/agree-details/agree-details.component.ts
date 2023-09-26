@@ -2,6 +2,8 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-agree-details',
@@ -13,6 +15,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 })
 
 export class AgreeDetailsComponent implements OnInit {
+  serverPath = serverPath;
 
   selectedFlatAgree: any;
   selectedAgreement: any;
@@ -37,7 +40,7 @@ export class AgreeDetailsComponent implements OnInit {
 
   async getAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/agreements';
+    const url = serverPath + '/agreement/get/agreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-parameters',
@@ -17,6 +19,8 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
   ]
 })
 export class ParametersComponent implements OnInit {
+  serverPath = serverPath;
+
 
   user = {
     firstName: '',
@@ -194,10 +198,10 @@ export class ParametersComponent implements OnInit {
 
             if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.houseData.imgs !== 'Картинок нема') {
               for (const img of this.flatImg) {
-                this.images.push('http://localhost:3000/img/flat/' + img.img);
+                this.images.push(serverPath + '/img/flat/' + img.img);
               }
             } else {
-              this.images.push('http://localhost:3000/housing_default.svg');
+              this.images.push(serverPath + '/housing_default.svg');
             }
 
           } else {

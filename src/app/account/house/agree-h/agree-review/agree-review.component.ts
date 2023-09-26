@@ -5,6 +5,8 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { promises } from 'dns';
 import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface Agree {
   flat: {
@@ -52,6 +54,8 @@ interface Agree {
 })
 
 export class AgreeReviewComponent implements OnInit {
+  serverPath = serverPath;
+
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatId: any;
@@ -79,7 +83,7 @@ export class AgreeReviewComponent implements OnInit {
 
   async getAgree(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/get/agreements';
+    const url = serverPath + '/agreement/get/agreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -99,7 +103,7 @@ export class AgreeReviewComponent implements OnInit {
 
   async openDialog(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/agreement/delete/agreement';
+    const url = serverPath + '/agreement/delete/agreement';
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {
       data: {
         flatId: agree.flat.flat_id,

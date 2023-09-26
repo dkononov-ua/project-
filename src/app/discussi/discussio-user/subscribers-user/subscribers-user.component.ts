@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { trigger, transition, style, animate } from '@angular/animations';
-
+import { serverPath } from 'src/app/shared/server-config';
 interface subscription {
   flat_id: string;
   flatImg: any;
@@ -122,7 +122,7 @@ export class SubscribersUserComponent implements OnInit {
   async getSubscribedFlats(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/usersubs/get/subs';
+    const url = serverPath + '/usersubs/get/subs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -188,7 +188,7 @@ export class SubscribersUserComponent implements OnInit {
         flat_id: flatId,
       };
 
-      this.http.post('http://localhost:3000/usersubs/accept', data)
+      this.http.post(serverPath + '/usersubs/accept', data)
         .subscribe(
           (response: any) => {
             this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);
@@ -207,7 +207,7 @@ export class SubscribersUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     console.log(userJson)
     const user_id = JSON.parse(userJson!).user_id;
-    const url = 'http://localhost:3000/usersubs/delete/ysubs';
+    const url = serverPath + '/usersubs/delete/ysubs';
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
       data: {
         flatId: flat.flat_id,

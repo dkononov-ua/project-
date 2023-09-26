@@ -15,7 +15,7 @@
   justify-content: space-around;
 }
 
-.card-box {
+.wrapper {
   display: flex;
   justify-content: flex-start;
   align-items: stretch;
@@ -30,7 +30,7 @@
   }
 }
 
-.card-box.open {
+.wrapper.open {
   @include s1-s3 {
     width: 100%;
     background-image: linear-gradient(
@@ -43,7 +43,7 @@
   }
 }
 
-.card-box.hide {
+.wrapper.hide {
   @include s1-s3 {
     display: none;
   }

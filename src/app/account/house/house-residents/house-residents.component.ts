@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface Subscriber {
   user_id: string;
@@ -21,6 +23,8 @@ interface Subscriber {
   styleUrls: ['./house-residents.component.scss']
 })
 export class HouseResidentsComponent implements OnInit {
+  serverPath = serverPath;
+
   isOnline = true;
   isOffline = false;
 
@@ -61,7 +65,7 @@ export class HouseResidentsComponent implements OnInit {
 
   async getSubscribers(selectedFlatId: string, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/citizen/get/citizen';
+    const url = serverPath + '/citizen/get/citizen';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -101,7 +105,7 @@ export class HouseResidentsComponent implements OnInit {
         user_id: subscriber.user_id
       };
 
-      this.http.post('http://localhost:3000/subs/accept', data)
+      this.http.post(serverPath + '/subs/accept', data)
         .subscribe(
           (response: any) => {
           },
@@ -126,7 +130,7 @@ export class HouseResidentsComponent implements OnInit {
         user_id: subscriberId
       };
 
-      this.http.post('http://localhost:3000/citizen/delete/citizen', data)
+      this.http.post(serverPath + '/citizen/delete/citizen', data)
         .subscribe(
           (response: any) => {
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriberId);

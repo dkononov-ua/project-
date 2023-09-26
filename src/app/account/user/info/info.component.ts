@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { forkJoin } from 'rxjs';
+import { serverPath } from 'src/app/shared/server-config';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -55,6 +56,9 @@ interface UserInfo {
   ],
 })
 export class InfoComponent implements OnInit {
+
+  serverPath = serverPath;
+  // serverPath + '/userinfo'
 
   userInfo: UserInfo = {
     price_of: 0,
@@ -160,7 +164,7 @@ export class InfoComponent implements OnInit {
   async getInfoUser(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+      this.http.post( serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           if (response) {
             this.user.user_id = response.inf?.user_id || '';
@@ -196,7 +200,7 @@ export class InfoComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     console.log(userJson)
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/features/get', { auth: JSON.parse(userJson) })
+      this.http.post( serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
           this.userInfo = response.inf;
         }, (error: any) => {

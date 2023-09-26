@@ -10,11 +10,16 @@
         <h2 class="hide-mobile">Формування угоди</h2>
 
         <div class="indicator-box">
-          <div [ngClass]="{'active-step': currentStep === 1}" class="indicator"><i class="fa-solid fa-1"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 2}" class="indicator"><i class="fa-solid fa-2"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 3}" class="indicator"><i class="fa-solid fa-3"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 4}" class="indicator"><i class="fa-solid fa-4"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 5}" class="indicator"><span class="material-symbols-outlined">
+          <div [ngClass]="{'active-step': currentStep === 1}" class="indicator" (click)="changeStep(currentStep = 1)"><i
+              class="fa-solid fa-1"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 2}" class="indicator" (click)="changeStep(currentStep = 2)"><i
+              class="fa-solid fa-2"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 3}" class="indicator" (click)="changeStep(currentStep = 3)"><i
+              class="fa-solid fa-3"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 4}" class="indicator" (click)="changeStep(currentStep = 4)"><i
+              class="fa-solid fa-4"></i></div>
+          <div [ngClass]="{'active-step': currentStep === 5}" class="indicator" (click)="changeStep(currentStep = 5)">
+            <span class="material-symbols-outlined">
               all_match
             </span></div>
         </div>
@@ -139,8 +144,6 @@
                 <input type="text" name="ownership" matInput [(ngModel)]="ownership">
               </mat-form-field>
 
-
-
             </div>
           </div>
         </div>
@@ -262,7 +265,8 @@
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-accent">Сума застава</mat-label>
               <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
-                required [(ngModel)]="depositPayment ? depositPayment : houseData.about.price_m" #depositPaymentInput="ngModel">
+                required [(ngModel)]="depositPayment ? depositPayment : houseData.about.price_m"
+                #depositPaymentInput="ngModel">
             </mat-form-field>
           </div>
 
@@ -536,10 +540,10 @@
           <li>2.2.6. Звільнити і здати Орендодавцю Об'єкт нерухомості в належному стані з урахуванням нормального
             фізичного зносу протягом
             <span class="accent" *ngIf="vacateHouse == 1"> {{ vacateHouse }} дня</span>
-              <span class="accent" *ngIf="vacateHouse !== undefined && vacateHouse > 1"> {{ vacateHouse }} днів</span>
-              <span *ngIf="!vacateHouse">________________днів</span>
-              з моменту закінчення терміну дії (розірвання) цього угоди
-              згідно з Актом здачі житлового приміщення.
+            <span class="accent" *ngIf="vacateHouse !== undefined && vacateHouse > 1"> {{ vacateHouse }} днів</span>
+            <span *ngIf="!vacateHouse">________________днів</span>
+            з моменту закінчення терміну дії (розірвання) цього угоди
+            згідно з Актом здачі житлового приміщення.
           </li>
         </ul>
         <ul>3.Орендна плата
@@ -582,8 +586,10 @@
           </li>
           <li> 4.5. Дострокове розірвання даного угоди, а також зміна його умов, можливі за ініціативою однієї зі
             Сторін, з повідомленням про це іншої Сторони не менше ніж за
-            <span class="accent" *ngIf="dateAgreeBreakUp !== undefined && dateAgreeBreakUp == 1"> {{ dateAgreeBreakUp }} день.</span>
-            <span class="accent" *ngIf="dateAgreeBreakUp !== undefined && dateAgreeBreakUp > 1"> {{ dateAgreeBreakUp }} днів.</span>
+            <span class="accent" *ngIf="dateAgreeBreakUp !== undefined && dateAgreeBreakUp == 1"> {{ dateAgreeBreakUp }}
+              день.</span>
+            <span class="accent" *ngIf="dateAgreeBreakUp !== undefined && dateAgreeBreakUp > 1"> {{ dateAgreeBreakUp }}
+              днів.</span>
             <span *ngIf="!dateAgreeBreakUp"> ____________________________________(прописом – днів / міс.)
             </span>
           </li>
@@ -614,7 +620,8 @@
             технічного огляду, профілактики та обслуговування об'єкта нерухомості тільки в присутності Орендаря і не
             частіше
             <span class="accent" *ngIf="numberVisits == 1"> {{ numberVisits }} разу на місяць.</span>
-            <span class="accent" *ngIf="numberVisits !== undefined && numberVisits > 1"> {{ numberVisits }} разів на місяць.</span>
+            <span class="accent" *ngIf="numberVisits !== undefined && numberVisits > 1"> {{ numberVisits }} разів на
+              місяць.</span>
             <span *ngIf="!numberVisits"> _____________________________раз на місяць.</span>
           </li>
           <li>6.2. Зазначені в п. 6.1 відвідування повинні проводитися з попередженням про це Орендаря, в узгоджений між

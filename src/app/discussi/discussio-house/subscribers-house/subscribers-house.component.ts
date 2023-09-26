@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface Subscriber {
   animals: string | undefined;
@@ -147,7 +149,7 @@ export class SubscribersHouseComponent implements OnInit {
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/subs/get/subs';
+    const url = serverPath + '/subs/get/subs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -172,7 +174,7 @@ export class SubscribersHouseComponent implements OnInit {
 
   async openDialog(subscriberId: string): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = 'http://localhost:3000/subs/delete/subs';
+    const url = serverPath + '/subs/delete/subs';
 
     const dialogRef = this.dialog.open(DeleteSubComponent);
     dialogRef.afterClosed().subscribe(async (result: any) => {
@@ -203,7 +205,7 @@ export class SubscribersHouseComponent implements OnInit {
         user_id: subscriber.user_id,
       };
 
-      this.http.post('http://localhost:3000/subs/accept', data)
+      this.http.post(serverPath + '/subs/accept', data)
         .subscribe(
           (response: any) => {
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);

@@ -12,7 +12,6 @@ import { ActReceptionTransmissionComponent } from './agree-h/act-reception-trans
 import { ActViewComponent } from './agree-h/act-view/act-view.component';
 import { AgreeDetailsComponent } from './agree-h/agree-details/agree-details.component';
 import { AgreeDownloadComponent } from './agree-h/agree-download/agree-download.component';
-import { DownloadFillingComponent } from './filling/download-filling/download-filling.component';
 import { HouseResidentsComponent } from './house-residents/house-residents.component';
 import { ResidentsComponent } from './residents/residents.component';
 
@@ -32,7 +31,6 @@ const routes: Routes = [
   },
   { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
   { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
-  { path: 'download-filling', component: DownloadFillingComponent, canActivate: [CanActivateGuard] },
   { path: 'act-create', component: ActReceptionTransmissionComponent, canActivate: [CanActivateGuard] },
   { path: 'act-view/:selectedFlatAgree', component: ActViewComponent, canActivate: [CanActivateGuard] },
   { path: 'agree-download/:selectedFlatAgree', component: AgreeDownloadComponent, canActivate: [CanActivateGuard] },

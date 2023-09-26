@@ -44,8 +44,9 @@ ul {
   justify-content: center;
 
   @include s1-s3 {
-    z-index: 99;
+    position: relative;
     top: 0px;
+    right: 0;
   }
 }
 

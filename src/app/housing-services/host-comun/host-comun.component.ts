@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeComunService } from '../change-comun.service';
@@ -8,6 +8,8 @@ import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute } from '@angular/router';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-host-comun',
   templateUrl: './host-comun.component.html',
@@ -36,6 +38,7 @@ export class HostComunComponent implements OnInit {
   selectedFlatId!: string | null;
   selectedFlat!: string | null;
   comunal_name!: string | any;
+  newComun: string = '';
   customComunal: string = '';
   discussioFlat: any;
   discussio_view: boolean = false;
@@ -65,6 +68,21 @@ export class HostComunComponent implements OnInit {
 
   closeMenu() {
     this.isMenuOpen = false;
+    setTimeout(() => {
+      this.hideMenu = true;
+    }, 500);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    const containerElement = this.el.nativeElement.querySelector('.wrapper');
+    const cardBoxElement = this.el.nativeElement.querySelector('.card-box');
+
+    if (containerElement.contains(event.target as Node)) {
+      if (!cardBoxElement.contains(event.target as Node)) {
+        this.closeMenu();
+      }
+    }
   }
 
   constructor(
@@ -75,6 +93,7 @@ export class HostComunComponent implements OnInit {
     private route: ActivatedRoute,
     private discussioViewService: DiscussioViewService,
     private selectedViewComun: ViewComunService,
+    private el: ElementRef,
   ) { }
 
   ngOnInit(): void {
@@ -109,9 +128,9 @@ export class HostComunComponent implements OnInit {
     this.loading = true;
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      const selectedComun = this.selectedComun || this.customComunal;
-      if (selectedComun) {
-        this.http.post('http://localhost:3000/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: selectedComun })
+      const newComun = this.newComun || this.customComunal;
+      if (newComun) {
+        this.http.post(serverPath + '/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: newComun })
           .subscribe((response: any) => {
           }, (error: any) => {
             console.error(error);
@@ -131,7 +150,7 @@ export class HostComunComponent implements OnInit {
       if (result) {
         const userJson = localStorage.getItem('user');
         if (this.selectedFlatId && userJson && this.selectedComun) {
-          this.http.post('http://localhost:3000/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
+          this.http.post(serverPath + '/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
             .subscribe((response: any) => {
             }, (error: any) => {
               console.error(error);

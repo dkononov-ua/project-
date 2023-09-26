@@ -1,5 +1,3 @@
-
-
 <div class="container-card">
 
   <div class="switch-box hide-pc">
@@ -23,8 +21,8 @@
     </div>
 
     <div class="btn-menu">
-      <button [disabled]="!selectedUser" class="btn-hide" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3"
-        matTooltip="Чат">
+      <button [disabled]="!selectedUser" class="btn-hide" [ngClass]="{ 'active': indexPage == 3}"
+        (click)="indexPage = 3" matTooltip="Чат">
         <span class="material-symbols-outlined">forum</span></button>
     </div>
 
@@ -160,6 +158,20 @@
           <div class="title-selected">Мета оренди : </div>
           <div class="title-selected-accent">{{ purpose[selectedUser?.purpose_rent] }}</div>
         </div>
+
+        <button class="card-btn" *ngIf="chatExists" (click)="onSubscriberSelect(selectedUser)"
+          (click)="indexPage = 3"><span>Написати</span><i class="fa-solid fa-message"></i></button>
+
+        <button class="card-btn" *ngIf="!chatExists" (click)="createChat(selectedUser)">
+          <span>Створити чат</span><i class="fa-solid fa-message"></i>
+          <div *ngIf="statusMessageChat === true">
+            Чат створено!
+          </div>
+        </button>
+
+        <button class="card-btn" [routerLinkActive]="'active'"
+          [routerLink]="['/agree-create', selectedUser?.user_id]"><span>Сформувати угоду</span><i
+            class="fa-solid fa-file-contract"></i></button>
 
         <button class="card-btn" (click)="openDialog(selectedUser?.user_id)"><span>Видалити</span>
           <i class="fa-solid fa-user-xmark"></i>

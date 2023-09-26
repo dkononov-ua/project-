@@ -7,6 +7,8 @@ import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject, Subject, map } from 'rxjs';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-comun-stat-year',
@@ -142,7 +144,7 @@ export class ComunStatYearComponent implements OnInit {
       let totalСonsumed = 0;
 
       for (const e of this.months) {
-        const response = await this.http.post('http://localhost:3000/comunal/get/comunalAll', {
+        const response = await this.http.post(serverPath + '/comunal/get/comunalAll', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
           when_pay_y: this.selectedYear,

@@ -15,6 +15,7 @@ import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
+import { serverPath } from 'src/app/shared/server-config';
 
 const moment = _rollupMoment || _moment;
 
@@ -199,7 +200,7 @@ export class InformationUserComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post('http://localhost:3000/userinfo', JSON.parse(userJson))
+      this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           console.log(response)
           this.userImg = response.img[0].img;
@@ -219,7 +220,7 @@ export class InformationUserComponent implements OnInit {
   saveParamsUser(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post('http://localhost:3000/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat })
+      this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat })
         .subscribe((response: any) => {
           console.log(response)
         }, (error: any) => {
@@ -237,7 +238,7 @@ export class InformationUserComponent implements OnInit {
     if (userJson) {
       const data = { ...this.userInfo };
       console.log(data)
-      this.http.post('http://localhost:3000/add/user', { auth: JSON.parse(userJson), new: data })
+      this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);
@@ -251,7 +252,7 @@ export class InformationUserComponent implements OnInit {
     if (userJson) {
       const data = this.userCont;
       console.log(data)
-      this.http.post('http://localhost:3000/add/contacts', { auth: JSON.parse(userJson), new: data })
+      this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);
@@ -329,7 +330,7 @@ export class InformationUserComponent implements OnInit {
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
 
     const headers = { 'Accept': 'application/json' };
-    this.http.post('http://localhost:3000/img/uploaduser', formData, { headers }).subscribe(
+    this.http.post(serverPath + '/img/uploaduser', formData, { headers }).subscribe(
       (data: any) => {
         this.userImg = data.imgUrl;
         setTimeout(() => {

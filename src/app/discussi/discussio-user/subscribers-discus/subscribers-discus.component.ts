@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 
 interface SelectedFlat {
   flat: any;
@@ -126,7 +128,7 @@ export class SubscribersDiscusComponent implements OnInit {
   user_id: string | undefined;
   flatImg: any = [{ img: "housing_default.svg" }];
   private selectedFlatIdSubscription: Subscription | undefined;
-  images: string[] = ['http://localhost:3000/img/flat/housing_default.svg'];
+  images: string[] = [serverPath + '/img/flat/housing_default.svg'];
   userImg: any;
   currentPhotoIndex: number = 0;
   deletingFlatId: any;
@@ -261,7 +263,7 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
 
-    const url = 'http://localhost:3000/acceptsubs/get/ysubs';
+    const url = serverPath + '/acceptsubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -336,7 +338,7 @@ export class SubscribersDiscusComponent implements OnInit {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
       };
-      this.http.post('http://localhost:3000/chat/add/chatUser', data)
+      this.http.post(serverPath + '/chat/add/chatUser', data)
         .subscribe((response: any) => {
           if (response) {
             console.log(response)
@@ -351,7 +353,7 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   async checkChatExistence (): Promise<any> {
-    const url = 'http://localhost:3000/chat/get/userchats';
+    const url = serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       const data = {
@@ -379,7 +381,7 @@ export class SubscribersDiscusComponent implements OnInit {
   async getSubscribedFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/acceptsubs/get/ysubs';
+    const url = serverPath + '/acceptsubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -455,7 +457,7 @@ export class SubscribersDiscusComponent implements OnInit {
   async openDialog(flat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = 'http://localhost:3000/acceptsubs/delete/ysubs';
+    const url = serverPath + '/acceptsubs/delete/ysubs';
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
       data: {
         flatId: flat.flat.flat_id,

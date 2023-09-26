@@ -9,6 +9,8 @@ import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
+import { serverPath } from 'src/app/shared/server-config';
+
 interface ComunInfo {
   comunal_company: string | undefined;
   comunal_name: string | undefined;
@@ -136,7 +138,7 @@ export class ComunCompanyComponent implements OnInit {
   getComunalInfo(): void {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedComun && this.selectedComun !== undefined && this.selectedComun !== null) {
-      this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
+      this.http.post(serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
         .subscribe(
           (response: any) => {
             if (response.status === false) {
@@ -170,7 +172,7 @@ export class ComunCompanyComponent implements OnInit {
     }
 
     if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
-      this.http.post('http://localhost:3000/comunal/add/comunalCompany', data)
+      this.http.post(serverPath + '/comunal/add/comunalCompany', data)
         .subscribe((response: any) => {
           this.disabled = true;
         }, (error: any) => {

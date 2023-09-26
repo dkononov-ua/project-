@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { serverPath } from 'src/app/shared/server-config';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class DataService {
     if (userJson !== null) {
       if (houseJson) {
         const n = JSON.parse(houseJson);
-        const flatinfo = 'http://localhost:3000/flatinfo/localflat';
+        const flatinfo = serverPath + '/flatinfo/localflat';
         request = this.http.post(flatinfo, { auth: JSON.parse(userJson), flat_id: n.flat_id });
       } else {
         console.log('house not found');
@@ -30,7 +31,7 @@ export class DataService {
       request = of(null);
     }
 
-    const userinfo = 'http://localhost:3000/userinfo';
+    const userinfo = serverPath + '/userinfo';
     const userRequest = this.http.post(userinfo, JSON.parse(userJson ?? 'null')).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log('Failed to retrieve user info:', error.message);
@@ -53,7 +54,7 @@ export class DataService {
   }
 
   getComunalInfo(userJson: string, selectedFlatId: string, comunal_name: any): Observable<any> {
-    return this.http.post('http://localhost:3000/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
+    return this.http.post(serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.log('Failed to retrieve comunal info:', error.message);
