@@ -183,9 +183,6 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = { ...this.userInfo };
-      console.log(data);
-      console.log(this.userInfo.agree_search)
-
       this.http.post(serverPath + '/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe(
           (response: any) => {
@@ -196,22 +193,22 @@ export class LookingComponent implements OnInit {
                 this.statusMessage = 'Дані збережено. Огололення НЕ опубліковується!';
                 setTimeout(() => {
                   this.router.navigate(['/user/info']);
-                }, 2000);
-              }, 2000);
+                }, 3000);
+              }, 1000);
             } else if (this.userInfo && this.userInfo.agree_search === 1) {
               setTimeout(() => {
                 this.statusMessage = 'Оголошення опубліковане!';
                 setTimeout(() => {
                   this.router.navigate(['/user/info']);
                 }, 3000);
-              }, 2000);
+              }, 1000);
             } else {
               setTimeout(() => {
                 this.statusMessage = 'Помилка формування оголошення.';
                 setTimeout(() => {
                   location.reload();
-                }, 2000);
-              }, 2000);
+                }, 3000);
+              }, 1000);
             }
           },
           (error: any) => {
@@ -220,8 +217,8 @@ export class LookingComponent implements OnInit {
               this.statusMessage = 'Помилка формування угоди.';
               setTimeout(() => {
                 location.reload();
-              }, 2000);
-            }, 2000);
+              }, 3000);
+            }, 1000);
           }
         );
     } else {

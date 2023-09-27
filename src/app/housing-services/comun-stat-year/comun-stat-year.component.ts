@@ -121,7 +121,6 @@ export class ComunStatYearComponent implements OnInit {
 
     this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
       this.selectedName = selectedName;
-      console.log(this.selectedName)
     });
 
     this.changeYearService.selectedYear$.subscribe(async (selectedYear: string | null) => {

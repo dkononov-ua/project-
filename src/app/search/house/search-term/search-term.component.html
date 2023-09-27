@@ -3,63 +3,57 @@
   <div class="box-2">
     <div class="box-1 col-lg-12 col-md-6 col-sm-12 col-12">
 
-      <div class="col-lg-5 col-md-6 col-sm-12 col-12">
-        <div class="group p-1">
-          <div class="group-transparent group-left m-1">
-            <a class="search-change hide-mobile" [routerLinkActive]="'active'"
-              [routerLink]="'/search/host-house/housingSearch'" matTooltip="Пошук оселі"><i
-                class="fa-solid fa-building"></i></a>
-            <a class="search-change hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/search/host-tenant/tenantsSearch'"
-              matTooltip="Пошук орендаря"><i class="fa-solid fa-users"></i></a>
-            <div class="searchName">
-              <div class="title-page">Шукаємо оселю</div>
-              <div class="custom-paginator">
-                <button class="paginator-button" (click)="decrementOffset()"><i
-                    class="fa-solid fa-chevron-left"></i></button>
-                <div class="paginator-info">показано
-                  {{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} -
-                  {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
-                    pageEvent.pageSize) : optionsFound }} з {{ optionsFound }} знайдених </div>
-                    <button class="paginator-button" (click)="incrementOffset()"><i
-                        class="fa-solid fa-chevron-right"></i></button>
-                </div>
-              </div>
-
+      <div class="group-transparent group-left m-1">
+        <a class="search-change hide-mobile" [routerLinkActive]="'active'"
+          [routerLink]="'/search/host-house/housingSearch'" matTooltip="Пошук оселі"><i
+            class="fa-solid fa-building"></i></a>
+        <a class="search-change hide-mobile" [routerLinkActive]="'active'"
+          [routerLink]="'/search/host-tenant/tenantsSearch'" matTooltip="Пошук орендаря"><i
+            class="fa-solid fa-users"></i></a>
+        <div class="searchName">
+          <div class="title-page">Шукаємо оселю</div>
+          <div class="custom-paginator">
+            <button class="paginator-button" (click)="decrementOffset()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <div class="paginator-info">показано
+              {{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} -
+              {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
+                pageEvent.pageSize) : optionsFound }} з {{ optionsFound }} знайдених </div>
+                <button class="paginator-button" (click)="incrementOffset()"><i
+                    class="fa-solid fa-chevron-right"></i></button>
             </div>
           </div>
+
         </div>
-
-        <div class="container-btn">
-          <button class="btn mr-2" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
-            <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
-              [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
-              [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
-          </button>
-        </div>
-
-        <div class="col-lg-2 col-md-6 col-sm-12 col-12">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Сортування</mat-label>
-            <mat-select [(ngModel)]="filterData" name="bunker" (ngModelChange)="onSubmitWithDelay()">
-              <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option [value]="1">Дешевші</mat-option>
-              <mat-option [value]="2">Дорожчі</mat-option>
-              <mat-option [value]="3">Новіші</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-          <div class="heightSet">
-            <mat-form-field class="search-id" appearance="outline">
-              <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти оселю по ID</mat-label>
-              <input matInput type="text" [(ngModel)]="searchQuery" (input)="searchByID()" />
-
-            </mat-form-field>
-          </div>
-        </div>
-
       </div>
+
+      <div class="container-btn">
+        <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+          <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
+            [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
+            [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
+        </button>
+      </div>
+
+      <div class="heightSet">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label>Сортування</mat-label>
+          <mat-select [(ngModel)]="filterData" name="bunker" (ngModelChange)="onSubmitWithDelay()">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option [value]="1">Дешевші</mat-option>
+            <mat-option [value]="2">Дорожчі</mat-option>
+            <mat-option [value]="3">Новіші</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="heightSet">
+        <mat-form-field class="search-id" appearance="outline">
+          <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти оселю по ID</mat-label>
+          <input matInput type="text" [(ngModel)]="searchQuery" (input)="searchByID()" />
+        </mat-form-field>
+      </div>
+
     </div>
 
     <div class="container-search" [class.collapsed]="isSearchTermCollapsed">

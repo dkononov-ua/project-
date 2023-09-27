@@ -207,7 +207,6 @@ export class ComunStatSeasonComponent implements OnInit {
         this.getDefaultData();
       } else {
         this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-          console.log(this.selectedFlatId)
           this.selectedFlatId = flatId;
           if (flatId) {
               this.getDefaultData();
@@ -220,7 +219,6 @@ export class ComunStatSeasonComponent implements OnInit {
 
     this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
       this.selectedName = selectedName;
-      console.log(this.selectedName)
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {

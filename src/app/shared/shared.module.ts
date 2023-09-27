@@ -24,6 +24,7 @@ import { SelectionHousingComponent } from '../components/selection-housing/selec
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { SubscriberMenuComponent } from '../discussi/discussio-user/subscriber-menu/subscriber-menu.component';
 import { SubscribersMenuComponent } from '../discussi/discussio-house/subscribers-menu/subscribers-menu.component';
+import { UpdateComponentService } from '../services/update-component.service';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -50,6 +51,9 @@ import { SubscribersMenuComponent } from '../discussi/discussio-house/subscriber
     SelectionDiscussioComponent,
     SubscriberMenuComponent,
     SubscribersMenuComponent,
+  ],
+  providers: [
+    UpdateComponentService,
   ],
   imports: [
     CommonModule,

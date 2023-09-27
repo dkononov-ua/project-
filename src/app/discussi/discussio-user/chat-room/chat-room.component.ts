@@ -106,7 +106,6 @@ export class ChatRoomComponent implements OnInit {
               return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread }
             }))
             this.chats = chat;
-            console.log(this.chats)
           } else {
             console.log('there are no chats');
           }

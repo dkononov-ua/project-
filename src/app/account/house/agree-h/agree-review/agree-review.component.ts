@@ -99,7 +99,6 @@ export class AgreeReviewComponent implements OnInit {
       console.error(error);
       this.loading = false;
     }
-
   }
 
   async openDialog(agree: any): Promise<void> {
@@ -109,8 +108,10 @@ export class AgreeReviewComponent implements OnInit {
       data: {
         flatId: agree.flat.flat_id,
         subscriberId: agree.flat.subscriber_id,
+        firstName: agree.flat.subscriber_firstName,
+        lastName: agree.flat.subscriber_lastName,
         agreementId: agree.flat.agreement_id,
-        offer: true,
+        offer: 4,
       }
     });
 
@@ -126,8 +127,7 @@ export class AgreeReviewComponent implements OnInit {
           const response = await this.http.post(url, data).toPromise();
           this.deletingFlatId = agree.flat.flat_id;
           setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
-            this.deletingFlatId = null;
+            this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
           }, 0);
         } catch (error) {
           console.error(error);

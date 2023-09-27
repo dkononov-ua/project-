@@ -45,15 +45,37 @@ mat-label {
 }
 
 .heightSet {
+  width: 200px;
   height: 60px;
-  margin-right: 10px;
+  @include s1-s3 {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
 }
 
-.box-1 {
+.box-2 {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   border-radius: 5px 5px 0 0;
-  align-items: baseline;
+  align-items: center;
+  @include s1-s3 {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+.box-1 {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px 5px 0 0;
+  align-items: center;
+  @include s1-s3 {
+    justify-content: flex-end;
+    width: 100%;
+  }
 }
 
 .box {
@@ -212,13 +234,16 @@ mat-label {
 }
 
 .container-btn {
+  width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   @include s1-s3 {
     position: absolute;
+    width: 60px;
     top: 15px;
     left: 15px;
+    z-index: 99;
   }
 }
 
@@ -272,6 +297,9 @@ mat-label {
   overflow: hidden;
   transition: max-height 1s;
   max-height: 100vh;
+  @include s1-s3 {
+    padding: 10px;
+  }
 }
 
 .container-search.collapsed {

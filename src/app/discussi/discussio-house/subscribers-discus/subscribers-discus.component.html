@@ -46,7 +46,7 @@
               <div class="title">{{ subscriber.surName }}</div>
             </div>
             <div class="btn-group p-1">
-              <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
+              <button class="btn w-30 m-1" (click)="openDialog(subscriber)"><i
                   class="fa-solid fa-user-xmark"></i></button>
             </div>
           </div>
@@ -85,7 +85,7 @@
                 <div class="title">{{ subscriber.surName }}</div>
               </div>
               <div class="btn-group p-1">
-                <button class="btn w-30 m-1" (click)="openDialog(subscriber.user_id)"><i
+                <button class="btn w-30 m-1" (click)="openDialog(subscriber)"><i
                     class="fa-solid fa-user-xmark"></i></button>
               </div>
             </div>
@@ -173,7 +173,7 @@
           [routerLink]="['/agree-create', selectedUser?.user_id]"><span>Сформувати угоду</span><i
             class="fa-solid fa-file-contract"></i></button>
 
-        <button class="card-btn" (click)="openDialog(selectedUser?.user_id)"><span>Видалити</span>
+        <button class="card-btn" (click)="openDialog(selectedUser)"><span>Видалити</span>
           <i class="fa-solid fa-user-xmark"></i>
         </button>
 

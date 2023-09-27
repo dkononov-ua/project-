@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { serverPath } from 'src/app/shared/server-config';
-
-
 @Component({
   selector: 'app-subscribers-menu',
   templateUrl: './subscribers-menu.component.html',
@@ -16,21 +15,34 @@ export class SubscribersMenuComponent implements OnInit {
   counterSubscriptions: any;
   counterAcceptSubs: any;
   loading: boolean = true;
+  dataUpdated = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getUpdate();
+    this.loading = false;
+  }
+
+  async getUpdate() {
     await this.getFlatId();
     await this.getSubsCount();
     await this.getAcceptSubsCount();
     await this.getSubscriptionsCount();
-
-    this.loading = false;
+    this.updateComponent.update$.subscribe(() => {
+      this.dataUpdated = true;
+      if (this.dataUpdated === true) {
+        this.getFlatId();
+        this.getSubsCount();
+        this.getAcceptSubsCount();
+        this.getSubscriptionsCount();
+      }
+    });
   }
-
 
   getFlatId() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {

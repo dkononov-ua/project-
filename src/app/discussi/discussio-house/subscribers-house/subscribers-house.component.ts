@@ -8,6 +8,7 @@ import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 
 interface Subscriber {
@@ -82,7 +83,7 @@ export class SubscribersHouseComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  
+
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   offs: number = 0;
@@ -143,6 +144,7 @@ export class SubscribersHouseComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   ngOnInit(): void {
@@ -163,7 +165,6 @@ export class SubscribersHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -177,21 +178,30 @@ export class SubscribersHouseComponent implements OnInit {
     this.selectedSubscriberId = subscriber.user_id;
   }
 
-  async openDialog(subscriberId: string): Promise<void> {
+  async openDialog(subscriber: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/subs/delete/subs';
 
-    const dialogRef = this.dialog.open(DeleteSubComponent);
+    const dialogRef = this.dialog.open(DeleteSubComponent, {
+      data: {
+        user_id: subscriber.user_id,
+        firstName: subscriber.firstName,
+        lastName: subscriber.lastName,
+        component_id: 1,
+      }
+    });
     dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && subscriberId && this.selectedFlatId) {
+      if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
         const data = {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
-          user_id: subscriberId
+          user_id: subscriber.user_id
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriberId);
+          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+          this.selectedUser = undefined;
+          this.updateComponent.triggerUpdate();
         } catch (error) {
           console.error(error);
         }
@@ -214,6 +224,8 @@ export class SubscribersHouseComponent implements OnInit {
         .subscribe(
           (response: any) => {
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+            this.updateComponent.triggerUpdate();
+            this.selectedUser = undefined;
           },
           (error: any) => {
             console.error(error);

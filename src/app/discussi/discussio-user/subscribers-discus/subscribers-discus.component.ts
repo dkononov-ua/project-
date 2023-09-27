@@ -10,6 +10,7 @@ import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 
 interface SelectedFlat {
@@ -41,7 +42,7 @@ export class SubscribersDiscusComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  
+
   currentIndex: number = 0;
   firstName: string | undefined;
   lastName: string | undefined;
@@ -162,7 +163,8 @@ export class SubscribersDiscusComponent implements OnInit {
     private selectedViewComun: ViewComunService,
     private router: Router,
     private isChatOpenService: IsChatOpenService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -279,7 +281,6 @@ export class SubscribersDiscusComponent implements OnInit {
       const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
       if (selectedFlat) {
         this.selectedFlat = selectedFlat;
-        console.log(this.selectedFlat)
         this.generateLocationUrl();
         this.getOwnerInfo();
       }
@@ -345,7 +346,6 @@ export class SubscribersDiscusComponent implements OnInit {
       this.http.post(serverPath + '/chat/add/chatUser', data)
         .subscribe((response: any) => {
           if (response) {
-            console.log(response)
             this.indexPage = 2;
           }
         }, (error: any) => {
@@ -480,6 +480,8 @@ export class SubscribersDiscusComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat.flat_id);
+          this.selectedFlat = null;
+          this.updateComponent.triggerUpdateUser();
         } catch (error) {
           console.error(error);
         }

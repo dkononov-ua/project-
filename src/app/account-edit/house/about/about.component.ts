@@ -93,7 +93,6 @@ export class AboutComponent implements OnInit {
     if (userJson) {
       this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           this.flatInfo = response.about;
           this.loading = false;
         }, (error: any) => {
@@ -125,8 +124,6 @@ export class AboutComponent implements OnInit {
         rent: this.flatInfo.rent || false,
         room: this.flatInfo.room || 0,
       }
-
-      console.log(data)
       try {
         this.loading = true
         const response = await this.http.post(serverPath + '/flatinfo/add/about', {

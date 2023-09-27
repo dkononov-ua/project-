@@ -10,12 +10,10 @@ export class IsChatOpenService {
   isChatOpen: boolean = false;
 
   getIsChatOpen(): boolean {
-    console.log(this.isChatOpenSubject.value)
     return this.isChatOpenSubject.value;
   }
 
   setIsChatOpen(isChatOpen: boolean) {
-    console.log(isChatOpen)
     this.isChatOpenSubject.next(isChatOpen);
   }
 }

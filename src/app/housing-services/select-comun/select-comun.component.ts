@@ -59,7 +59,6 @@ export class SelectComunComponent implements OnInit {
         this.getComunalName()
       } else {
         this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-          console.log(this.selectedFlatId)
           this.selectedFlatId = flatId;
           if (flatId) {
             this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
@@ -76,7 +75,6 @@ export class SelectComunComponent implements OnInit {
 
     this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
       this.selectedName = selectedName;
-      console.log(this.selectedName)
     });
 
     this.discussioViewService.discussioView$.subscribe((discussio_view: boolean) => {
@@ -104,7 +102,6 @@ export class SelectComunComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.status === false) {
-            console.log('Немає послуг');
             return;
           }
           const firstComunal = response.comunal[0];

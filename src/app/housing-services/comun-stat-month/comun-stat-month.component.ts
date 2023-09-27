@@ -103,7 +103,6 @@ export class ComunStatMonthComponent implements OnInit {
         this.getInfoComun();
       } else {
         this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-          console.log(this.selectedFlatId)
           this.selectedFlatId = flatId;
           if (flatId) {
             this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
@@ -144,7 +143,6 @@ export class ComunStatMonthComponent implements OnInit {
       }).toPromise() as any;
 
       if (response) {
-        console.log(response)
         this.noInformationMessage = false;
         const selectedMonthStats = response.comunal.find((item: any) => item.when_pay_m === this.selectedMonth);
         if (selectedMonthStats) {

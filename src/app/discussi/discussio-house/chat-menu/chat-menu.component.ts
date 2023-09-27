@@ -71,9 +71,7 @@ export class ChatMenuComponent implements OnInit, AfterViewInit {
 
       try {
         const response = await this.http.post(url, data).toPromise() as any;
-        console.log(response)
         this.chats = response.status;
-        console.log(this.chats)
       } catch (error) {
         console.error(error);
       }

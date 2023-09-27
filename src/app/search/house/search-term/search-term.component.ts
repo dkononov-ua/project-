@@ -175,7 +175,6 @@ export class SearchTermComponent implements OnInit {
   buildSearchURL(params: any): string {
     const endpoint =  serverPath + '/search/flat';
     const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
-    console.log(paramsString)
     return `${endpoint}?${paramsString}`;
   }
 

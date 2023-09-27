@@ -23,6 +23,13 @@
       <p class="text"><span class="agree-name">{{data.subscriber_firstName}} {{data.subscriber_lastName}}?</span></p>
     </div>
 
+    <div *ngIf="data.offer === 4">
+      <div class="text1">Скасувати пропозицію</div>
+      <p class="text">ID угоди - <span class="agree-name">{{data.agreementId}}</span></p>
+      <p class="text">Користувачеві</p>
+      <p class="text"><span class="agree-name">{{data.firstName}} {{data.lastName}}?</span></p>
+    </div>
+
   </mat-dialog-content>
   <mat-dialog-actions class="box" align="end">
     <button class="btn m-2" mat-button mat-dialog-close>Ні</button>

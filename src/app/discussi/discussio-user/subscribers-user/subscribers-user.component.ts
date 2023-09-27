@@ -5,6 +5,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 interface subscription {
   flat_id: string;
   flatImg: any;
@@ -111,6 +112,7 @@ export class SubscribersUserComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   ngOnInit(): void {
@@ -135,7 +137,6 @@ export class SubscribersUserComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       const newsubscriptions = response.map((flat: any) => {
         return {
           flat_id: flat.flat.flat_id,
@@ -196,6 +197,8 @@ export class SubscribersUserComponent implements OnInit {
         .subscribe(
           (response: any) => {
             this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== flatId);
+            this.selectedFlat = null;
+            this.updateComponent.triggerUpdateUser();
           },
           (error: any) => {
             console.error(error);
@@ -207,9 +210,7 @@ export class SubscribersUserComponent implements OnInit {
   }
 
   async openDialog(flat: any): Promise<void> {
-    console.log(flat)
     const userJson = localStorage.getItem('user');
-    console.log(userJson)
     const user_id = JSON.parse(userJson!).user_id;
     const url = serverPath + '/usersubs/delete/ysubs';
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
@@ -230,6 +231,8 @@ export class SubscribersUserComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat_id);
+          this.selectedFlat = null;
+          this.updateComponent.triggerUpdateUser();
         } catch (error) {
           console.error(error);
         }

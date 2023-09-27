@@ -79,7 +79,6 @@ export class ParamComponent {
     if (userJson) {
       this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           if (response && response.param) {
             this.flatInfo = response.param;
           } else {

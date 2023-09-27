@@ -10,12 +10,10 @@ export class IsAccountOpenService {
   isAccountOpen: boolean = false;
 
   getIsAccountOpen(): boolean {
-    console.log(this.isAccountOpenSubject.value)
     return this.isAccountOpenSubject.value;
   }
 
   setIsAccountOpen(isAccountOpen: boolean) {
-    console.log(isAccountOpen)
     this.isAccountOpenSubject.next(isAccountOpen);
   }
 }

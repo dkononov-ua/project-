@@ -107,12 +107,10 @@ export class HostComunComponent implements OnInit {
 
     this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
       this.selectedView = selectedView;
-      console.log(this.selectedView)
     });
 
     this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
       this.selectedName = selectedName;
-      console.log(this.selectedName)
     });
 
     this.discussioViewService.discussioView$.subscribe((discussio_view: boolean) => {

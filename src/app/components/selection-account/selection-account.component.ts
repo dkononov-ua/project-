@@ -5,6 +5,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { Location } from '@angular/common';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 @Component({
   selector: 'app-selection-account',
@@ -39,6 +40,7 @@ export class SelectionAccountComponent implements OnInit {
   hideUserMenu: boolean = true;
 
   openMenuUser(): void {
+    this.updateComponent.triggerUpdateUser();
     if (!this.openUserMenu) {
       this.hideUserMenu = false;
       this.openFlatMenu = false;
@@ -60,6 +62,7 @@ export class SelectionAccountComponent implements OnInit {
   hideFlatMenu: boolean = true;
 
   openMenuFlat(): void {
+    this.updateComponent.triggerUpdate();
     if (!this.openFlatMenu) {
       this.hideFlatMenu = false;
       this.openUserMenu = false;
@@ -96,7 +99,8 @@ export class SelectionAccountComponent implements OnInit {
     private dataService: DataService,
     private selectedFlatService: SelectedFlatService,
     private el: ElementRef,
-    private location: Location
+    private location: Location,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   ngOnInit(): void {
@@ -104,7 +108,6 @@ export class SelectionAccountComponent implements OnInit {
     this.loadImages();
     this.loadHouses();
     this.loadUserImage();
-    console.log(111)
   }
 
   getSelectParam() {

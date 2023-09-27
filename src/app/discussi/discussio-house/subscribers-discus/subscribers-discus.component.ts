@@ -9,6 +9,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 interface Subscriber {
   animals: string | undefined;
@@ -82,7 +83,7 @@ export class SubscribersDiscusComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  
+
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   offs: number = 0;
@@ -145,6 +146,7 @@ export class SubscribersDiscusComponent implements OnInit {
     private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
     private route: ActivatedRoute,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   ngOnInit(): void {
@@ -165,7 +167,6 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -180,21 +181,30 @@ export class SubscribersDiscusComponent implements OnInit {
     this.getChats();
   }
 
-  async openDialog(subscriberId: string): Promise<void> {
+  async openDialog(subscriber: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/acceptsubs/delete/subs';
 
-    const dialogRef = this.dialog.open(DeleteSubComponent);
+    const dialogRef = this.dialog.open(DeleteSubComponent, {
+      data: {
+        user_id: subscriber.user_id,
+        firstName: subscriber.firstName,
+        lastName: subscriber.lastName,
+        component_id: 3,
+      }
+    });
     dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && subscriberId && this.selectedFlatId) {
+      if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
         const data = {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
-          user_id: subscriberId
+          user_id: subscriber.user_id,
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriberId);
+          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+          this.selectedUser = undefined;
+          this.updateComponent.triggerUpdate();
         } catch (error) {
           console.error(error);
         }

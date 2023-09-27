@@ -154,7 +154,6 @@ export class ComunStatComunComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectParam()
-    console.log(this.selectedComun)
     if (this.selectedFlatId && this.selectedComun && this.selectedYear && this.selectedComun !== 'undefined') {
       this.getInfoComun()
         .then(() => {
@@ -192,7 +191,6 @@ export class ComunStatComunComponent implements OnInit {
         })
       } else {
         this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-          console.log(this.selectedFlatId)
           this.selectedFlatId = flatId;
           if (flatId) {
             this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
@@ -304,7 +302,6 @@ export class ComunStatComunComponent implements OnInit {
         console.log('немає обраної комуналки');
       }
     } else {
-      console.log('comun not found');
     }
   }
 

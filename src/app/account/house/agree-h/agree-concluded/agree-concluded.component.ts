@@ -162,10 +162,8 @@ export class AgreeConcludedComponent implements OnInit {
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.deletingFlatId = agree.flat.flat_id;
           setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
-            this.deletingFlatId = null;
+            this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
             location.reload;
           }, 100);
         } catch (error) {
@@ -201,10 +199,8 @@ export class AgreeConcludedComponent implements OnInit {
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.deletingFlatId = agree.flat.flat_id;
           setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
-            this.deletingFlatId = null;
+            this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
             location.reload;
           }, 100);
         } catch (error) {

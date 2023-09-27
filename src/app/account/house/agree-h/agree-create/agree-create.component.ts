@@ -210,7 +210,6 @@ export class AgreeCreateComponent implements OnInit {
     };
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.userData = response;
     } catch (error) {
       console.error(error);
@@ -227,7 +226,6 @@ export class AgreeCreateComponent implements OnInit {
     };
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -235,7 +233,6 @@ export class AgreeCreateComponent implements OnInit {
   }
 
   foundSubscriber(selectedSubscriber: string): void {
-    console.log(selectedSubscriber)
     if (selectedSubscriber) {
       // Перетворюємо selectedSubscriber в числове значення
       const selectedSubscriberId = parseInt(selectedSubscriber, 10);
@@ -243,7 +240,6 @@ export class AgreeCreateComponent implements OnInit {
 
       if (foundSubscriber) {
         this.selectedSubscriber = foundSubscriber;
-        console.log(this.selectedSubscriber)
       }
     } else { }
   }
@@ -343,15 +339,15 @@ export class AgreeCreateComponent implements OnInit {
                   this.statusMessage = 'Помилка формування угоди.';
                   setTimeout(() => {
                     location.reload();
-                  }, 2000);
-                }, 2000);
+                  }, 3000);
+                }, 1000);
               } else {
                 setTimeout(() => {
                   this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
                   setTimeout(() => {
                     this.router.navigate(['/house/agree-review']);
                   }, 3000);
-                }, 2000);
+                }, 1000);
               }
             },
             (error: any) => {
@@ -360,8 +356,8 @@ export class AgreeCreateComponent implements OnInit {
                 this.statusMessage = 'Помилка формування угоди.';
                 setTimeout(() => {
                   location.reload();
-                }, 2000);
-              }, 2000);
+                }, 3000);
+              }, 1000);
             }
           );
         this.loading = false;
@@ -376,7 +372,7 @@ export class AgreeCreateComponent implements OnInit {
     this.message = msg;
       setTimeout(() => {
         this.clearMessage();
-      }, 3000);
+      }, 2000);
   }
 
   clearMessage(): void {

@@ -206,13 +206,10 @@ export class InformationUserComponent implements OnInit {
     if (userJson !== null) {
       this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
-          console.log(response)
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
           this.userParam = response.parametrs;
-          console.log(this.userCont)
-          console.log(this.userInfo)
         }, (error: any) => {
           console.error(error);
         });
@@ -226,7 +223,6 @@ export class InformationUserComponent implements OnInit {
     if (userJson) {
       this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat })
         .subscribe((response: any) => {
-          console.log(response)
         }, (error: any) => {
           console.error(error);
         });
@@ -241,7 +237,6 @@ export class InformationUserComponent implements OnInit {
 
     if (userJson) {
       const data = { ...this.userInfo };
-      console.log(data)
       this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
         }, (error: any) => {
@@ -255,7 +250,6 @@ export class InformationUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = this.userCont;
-      console.log(data)
       this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
         }, (error: any) => {

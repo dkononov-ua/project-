@@ -159,7 +159,6 @@ export class ComunHistoryComponent implements OnInit {
         comunal_name: this.selectedComun,
         when_pay_y: this.selectedYear
       }).toPromise() as any;
-      console.log(response)
       if (response.status === false) {
         console.log('Немає послуг');
         return;
@@ -186,7 +185,6 @@ export class ComunHistoryComponent implements OnInit {
       if (selectedInfo) {
         this.noInformationMessage = false;
         this.flatInfo = selectedInfo;
-        console.log(this.flatInfo)
       } else {
         this.noInformationMessage = true;
         console.log('No data found for selected month.');

@@ -4,10 +4,11 @@
 .container-card {
   height: 100%;
   display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
+  justify-content: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   position: relative;
+  align-content: flex-start;
   @include s1-s3 {
     height: 90vh;
     margin: 0;
@@ -343,7 +344,11 @@ mat-paginator {
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  justify-content: center;
+  @include s1-s3 {
+    justify-content: center;
+    width: 95%;
+    height: 80vh;
+  }
 }
 
 .container-sticker {

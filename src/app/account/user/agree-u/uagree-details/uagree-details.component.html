@@ -331,8 +331,7 @@
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">
-  <div>
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo">
-  </div>
-  {{ statusMessage }}
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="../../../../assets/logo/Discussio (7).svg" alt="Logo">
+  <div class="status-message-name">Discussio</div>
 </div>

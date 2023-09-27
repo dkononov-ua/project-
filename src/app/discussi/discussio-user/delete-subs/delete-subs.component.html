@@ -2,17 +2,20 @@
   <mat-dialog-content>
 
     <div *ngIf="data.flatSub === 'subscriptions'">
-      <h3 >Ви дійсно хочете відписатись від оселі {{data.flatName}} ID: {{data.flatId}}? </h3>
+      <p class="text1">Відписатись від оселі?</p>
+      <p class="accent">{{data.flatName}} ID: {{data.flatId}}</p>
       <p class="text"><span class="description">На оселю можна буде підписатись повторно</span></p>
     </div>
 
     <div *ngIf="data.flatSub === 'subscribers'">
-      <h3 >Ви дійсно хочете видалити підписника, оселя {{data.flatName}} ID оселі: {{data.flatId}}?</h3>
+      <p class="text1">Видалити підписника?</p>
+      <p class="accent">{{data.flatName}} ID: {{data.flatId}}</p>
       <p class="text"><span class="description">Оселя яка на Вас підписалсь отримає відмову</span></p>
     </div>
 
     <div *ngIf="data.flatSub === 'discussio'">
-      <h3 >Ви дійсно хочете видалити Дискусію з оселею {{data.flatName}} ID: {{data.flatId}}?</h3>
+      <p class="text1">Видалити Дискусію з оселею?</p>
+      <p class="accent">{{data.flatName}} ID: {{data.flatId}}</p>
       <p class="text"><span class="description">Якщо видалити Дискусію для її повернення треба буде знову погодження оселі.</span></p>
     </div>
 

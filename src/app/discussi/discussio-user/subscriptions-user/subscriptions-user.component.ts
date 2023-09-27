@@ -6,6 +6,7 @@ import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 interface subscription {
   flat_id: string;
@@ -118,7 +119,7 @@ export class SubscriptionsUserComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private selectedViewComun: ViewComunService,
-
+    private updateComponent: UpdateComponentService,
   ) { }
 
   ngOnInit(): void {
@@ -213,6 +214,8 @@ export class SubscriptionsUserComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat_id);
+          this.selectedFlat = null;
+          this.updateComponent.triggerUpdateUser();
           this.onSubscriberSelect;
           this.indexPage = 0;
         } catch (error) {
