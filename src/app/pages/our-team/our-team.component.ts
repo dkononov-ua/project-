@@ -1,11 +1,31 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-our-team',
   templateUrl: './our-team.component.html',
-  styleUrls: ['./our-team.component.scss']
+  styleUrls: ['./our-team.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(200%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(200%)', opacity: 0 }))
+      ]),
+    ]),
+  ],
 })
 export class OurTeamComponent {
+
+  currentStep: number = 4;
+  statusMessage: string | undefined;
+
+  changeStep(step: number): void {
+    this.currentStep = step;
+  }
 
   teamMembers = [
     {
