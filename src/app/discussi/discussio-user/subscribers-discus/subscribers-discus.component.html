@@ -46,7 +46,7 @@
 
         <div class="card-img-container">
           <img class="card-img"
-            [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+            [src]="subscriber.flatImg && subscriber.flatImg[0] ? serverPathPhotoFlat + subscriber.flatImg[0] : serverPathPhotoFlat + 'housing_default.svg'"
             alt="Flat Image">
         </div>
 
@@ -74,7 +74,7 @@
         <div class="img-container">
           <div class="img-wrapper">
             <img class="img-fluid"
-              [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex] ? 'http://localhost:3000/img/flat/' + selectedFlat.img[currentPhotoIndex] : 'http://localhost:3000/img/flat/housing_default.svg'"
+              [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex] ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image">
           </div>
           <div *ngIf="selectedFlat?.img.length > 1">
@@ -130,7 +130,7 @@
       <div class="img-container">
         <div class="img-wrapper">
           <div class="img-fluid">
-            <img [src]="'http://localhost:3000/img/users/' + (ownerImg ? ownerImg : 'user_default.svg')"
+            <img [src]="serverPathPhotoUser + (ownerImg ? ownerImg : 'user_default.svg')"
               alt="User Image">
           </div>
         </div>
@@ -358,7 +358,7 @@
 
         <div class="card-img-container">
           <img class="card-img"
-            [src]="subscriber.flatImg && subscriber.flatImg[0] ? 'http://localhost:3000/img/flat/' + subscriber.flatImg[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+            [src]="subscriber.flatImg && subscriber.flatImg[0] ? serverPathPhotoFlat + subscriber.flatImg[0] : serverPathPhotoFlat + 'housing_default.svg'"
             alt="Flat Image">
         </div>
 

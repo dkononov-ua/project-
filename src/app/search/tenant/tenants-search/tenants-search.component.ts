@@ -6,9 +6,7 @@ import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
-
-
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 interface UserInfo {
   animals: string | undefined;
   area_of: number | undefined;
@@ -79,6 +77,10 @@ interface UserInfo {
 })
 
 export class TenantsSearchComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   isSubscribed: boolean = false;
   showSubscriptionMessage: boolean = false;

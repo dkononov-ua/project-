@@ -73,14 +73,14 @@
                 <div class="carousel-item active">
                   <div class="img-fluid-house">
                     <img
-                      [src]="houseData.imgs[0].img ? 'http://localhost:3000/img/flat/' + houseData.imgs[0].img : 'http://localhost:3000/img/flat/housing_default.svg'"
+                      [src]="houseData.imgs[0].img ? serverPathPhotoFlat + houseData.imgs[0].img : serverPathPhotoFlat + 'housing_default.svg'"
                       alt="Flat Image" class="img-house rounded">
                   </div>
 
                 </div>
                 <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
                   <div class="img-fluid-house">
-                    <img [src]="'http://localhost:3000/img/flat/' + image.img" alt="Flat Image"
+                    <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image"
                       class="img-house rounded">
                   </div>
                 </div>
@@ -163,7 +163,7 @@
           <div class="card-user">
             <div class="img-fluid p-1">
               <div class="w-30">
-                <img [src]="'http://localhost:3000/img/users/' +
+                <img [src]="serverPathPhotoUser +
                 (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="User Image">
               </div>
               <div class="item-box w-70">
@@ -202,7 +202,7 @@
             <div *ngIf="selectedSubscriber">
               <div class="img-fluid p-1">
                 <div class="w-30">
-                  <img [src]="'http://localhost:3000/img/users/' +
+                  <img [src]="serverPathPhotoUser +
                   (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="User Image">
                 </div>
 

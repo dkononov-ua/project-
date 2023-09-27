@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface FlatInfo {
   region: string;
@@ -79,6 +79,10 @@ interface FlatInfo {
 })
 
 export class HousingSearchComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   offs: number = 0;
   pageEvent: PageEvent = {

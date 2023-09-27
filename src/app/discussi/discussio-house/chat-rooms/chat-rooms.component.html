@@ -22,7 +22,7 @@
           </div>
           <div class="card-img-container">
             <img class="card-img-top"
-              [src]="'http://localhost:3000/img/users/' + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"
+              [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"
               alt="User Image">
           </div>
           <div class="card-title"> {{ chat.infUser.inf.firstName }} </div>

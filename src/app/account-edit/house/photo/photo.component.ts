@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-photo',
@@ -25,6 +25,10 @@ import { serverPath } from 'src/app/shared/server-config';
 })
 
 export class PhotoComponent implements OnInit {
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   loading = false;
   filename: string | undefined;
   selectedFile: any;

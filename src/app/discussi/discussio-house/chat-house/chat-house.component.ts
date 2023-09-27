@@ -6,7 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { EMPTY, Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface User {
   user_id: string;
@@ -25,6 +25,10 @@ interface User {
 })
 
 export class ChatHouseComponent implements OnInit, OnDestroy {
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   private httpSubscription: Subscription | undefined;
 
   @ViewChild('textArea', { static: false })

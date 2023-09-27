@@ -4,7 +4,7 @@ import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { NgZone } from '@angular/core';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface Subscriber {
   acces_flat_chats: any;
@@ -70,6 +70,8 @@ interface Subscriber {
 })
 export class ResidentsComponent implements OnInit {
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   selectedSubscriber: Subscriber | undefined;
   subscribers: Subscriber[] = [];

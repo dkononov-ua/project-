@@ -11,7 +11,7 @@
 
           <div class="w-30">
             <img
-              [src]="agreement.img && agreement.img.length > 0 ? 'http://localhost:3000/img/flat/' + agreement.img[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+              [src]="agreement.img && agreement.img.length > 0 ? serverPathPhotoFlat + agreement.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image">
           </div>
 

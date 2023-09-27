@@ -8,7 +8,7 @@
 
       <div class="card-wrapper card m-3">
         <div class="card-img-container">
-          <img class="card-img-top" [src]="'http://localhost:3000/img/flat/' + 'housing_default.svg'" alt="House Image">
+          <img class="card-img-top" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="House Image">
         </div>
         <div class="card-body">
           <h2 class="card-title"> Чат ID оселі </h2>
@@ -27,7 +27,7 @@
       </div>
       <div class="card-img-container">
         <img class="card-img-top"
-          [src]="'http://localhost:3000/img/flat/' + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')"
+          [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')"
           alt="User Image">
       </div>
       <div class="card-title">{{ chat.flat_name }}</div>

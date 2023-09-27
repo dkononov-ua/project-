@@ -6,7 +6,7 @@ import { objects } from '../../../../shared/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -72,6 +72,8 @@ interface Agree {
 
 export class ActReceptionTransmissionComponent implements OnInit {
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;

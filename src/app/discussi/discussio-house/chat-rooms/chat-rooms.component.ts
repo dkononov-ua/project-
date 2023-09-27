@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { DataService } from 'src/app/services/data.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface Chat {
   user_id: string;
@@ -34,6 +34,10 @@ interface Chat {
 })
 
 export class ChatRoomsComponent implements OnInit {
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   selectedFlatId: any;
   chats: Chat[] = [];
   selectedChat: Chat | undefined;

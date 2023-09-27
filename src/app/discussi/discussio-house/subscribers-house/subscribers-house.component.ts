@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 
 interface Subscriber {
@@ -78,6 +78,11 @@ interface Subscriber {
 })
 
 export class SubscribersHouseComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   offs: number = 0;

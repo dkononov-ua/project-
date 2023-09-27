@@ -1,7 +1,7 @@
 <div class="btn-group hide-mobile mb-3">
   <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
     <div class="img-fluid">
-      <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')" alt="User Image"
+      <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
         (error)="useDefaultImage($event)">
     </div>
   </a>
@@ -9,7 +9,7 @@
     <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ"
       [routerLink]="'/house/house-info'">
       <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
-        <img [src]="'http://localhost:3000/img/flat/' + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+        <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
       </ng-container>
     </a>
   </ng-container>

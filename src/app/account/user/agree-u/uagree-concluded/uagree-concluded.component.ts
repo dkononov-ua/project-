@@ -1,7 +1,7 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -47,6 +47,9 @@ interface Agree {
 export class UagreeConcludedComponent implements OnInit {
 
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatAgree: any;

@@ -15,7 +15,7 @@ import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 const moment = _rollupMoment || _moment;
 
@@ -87,6 +87,10 @@ interface UserParam {
 })
 
 export class InformationUserComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   userInfo: UserInfo = {
     agreeAdd: false,

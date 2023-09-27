@@ -3,9 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
-import { serverPath } from 'src/app/shared/server-config';
-
-
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 interface subscription {
   flat: {
     flat_id: string;
@@ -55,6 +53,8 @@ interface subscription {
 })
 export class UagreeReviewComponent implements OnInit {
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   subscriptions: subscription[] = [];
   userId: string | any;

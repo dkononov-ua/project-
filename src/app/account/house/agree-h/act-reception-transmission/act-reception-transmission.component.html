@@ -42,7 +42,7 @@
       <div [@cardAnimation2] class="card-user p-2">
         <div class="img-fluid p-1">
           <div class="w-30">
-            <img [src]="'http://localhost:3000/img/users/' +
+            <img [src]="serverPathPhotoUser +
               (selectedAgreement?.flat?.subscriber_img
               ? selectedAgreement?.flat?.subscriber_img : 'user_default.svg')" alt="User Image">
           </div>
@@ -59,8 +59,8 @@
       <div [@cardAnimation3] class="card-user p-2">
         <div class="img-fluid p-1">
           <div class="w-30">
-            <img [src]="selectedAgreement?.img[0] ? 'http://localhost:3000/img/flat/' + selectedAgreement?.img[0] :
-          'http://localhost:3000/img/flat/housing_default.svg'" alt="Flat Image">
+            <img [src]="selectedAgreement?.img[0] ? serverPathPhotoFlat + selectedAgreement?.img[0] :
+            serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
           </div>
           <div class="item-box w-70">
             <div class="item-name">Оселя</div>

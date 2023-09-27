@@ -8,8 +8,7 @@ import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface Subscriber {
   animals: string | undefined;
@@ -79,6 +78,11 @@ interface Subscriber {
 
 })
 export class SubscribersDiscusComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   offs: number = 0;

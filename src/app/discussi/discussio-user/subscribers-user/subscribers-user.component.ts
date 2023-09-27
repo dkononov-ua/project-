@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 interface subscription {
   flat_id: string;
   flatImg: any;
@@ -55,6 +55,10 @@ interface subscription {
   ],
 })
 export class SubscribersUserComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',

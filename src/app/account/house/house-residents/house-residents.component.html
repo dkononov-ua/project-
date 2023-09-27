@@ -11,7 +11,7 @@
       (click)="onSubscriberSelect(subscriber)" [class.selected]="selectedSubscriber === subscriber">
       <div class="card-img-container">
         <img class="card-img-top"
-          [src]="'http://localhost:3000/img/users/' + (subscriber.photo ? subscriber.photo : 'user_default.svg')"
+          [src]="serverPathPhotoUser + (subscriber.photo ? subscriber.photo : 'user_default.svg')"
           alt="User Image">
       </div>
 

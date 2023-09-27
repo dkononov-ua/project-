@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 
 interface SelectedFlat {
@@ -38,6 +38,10 @@ interface SelectedFlat {
 })
 
 export class SubscribersDiscusComponent implements OnInit {
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  
   currentIndex: number = 0;
   firstName: string | undefined;
   lastName: string | undefined;

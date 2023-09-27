@@ -14,7 +14,7 @@
 
     <div class="card-box-photo p-2 col-lg-4 col-md-5 col-sm-6 col-12">
       <div class="img-fluid">
-        <img [src]="'http://localhost:3000/img/users/' + (userImg ? userImg : 'user_default.svg')">
+        <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')">
       </div>
 
       <div class="card-1 mb-2">

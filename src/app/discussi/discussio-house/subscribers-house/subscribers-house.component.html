@@ -27,7 +27,7 @@
           [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-img-container">
             <img class="card-img"
-              [src]="'http://localhost:3000/img/users/' + (subscriber.img ? subscriber.img : 'user_default.svg')"
+              [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
               alt="User Image">
           </div>
           <div class="card-body">
@@ -69,7 +69,7 @@
             [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
             <div class="card-img-container">
               <img class="card-img"
-                [src]="'http://localhost:3000/img/users/' + (subscriber.img ? subscriber.img : 'user_default.svg')"
+                [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
                 alt="User Image">
             </div>
             <div class="card-body">
@@ -99,7 +99,7 @@
       <div class="img-container">
         <div class="img-wrapper">
           <img class="img-fluid rounded"
-            [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+            [src]="serverPathPhotoUser + (selectedUser?.img || 'user_default.svg')" alt="User Image">
         </div>
 
         <div class="user-group p-1">

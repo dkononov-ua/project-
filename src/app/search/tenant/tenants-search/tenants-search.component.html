@@ -16,7 +16,7 @@
 
           <div class="card-img-container">
             <img class="card-img-top"
-              [src]="'http://localhost:3000/img/users/' + (user.img ? user.img : 'user_default.svg')" alt="User Image">
+              [src]="serverPathPhotoUser + (user.img ? user.img : 'user_default.svg')" alt="User Image">
           </div>
           <div class="card-title">
             <div class="accent">{{ user.lastName }}</div>
@@ -82,7 +82,7 @@
           <div class="img-container">
             <div class="img-wrapper">
               <img class="img-fluid"
-                [src]="'http://localhost:3000/img/users/' + (selectedUser?.img || 'user_default.svg')" alt="User Image">
+                [src]="serverPathPhotoUser + (selectedUser?.img || 'user_default.svg')" alt="User Image">
             </div>
 
             <div class="price">

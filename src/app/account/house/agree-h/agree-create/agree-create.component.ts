@@ -17,8 +17,7 @@ const moment = _rollupMoment || _moment;
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 export const MY_FORMATS = {
   parse: {
@@ -71,6 +70,8 @@ interface Subscribers {
 })
 export class AgreeCreateComponent implements OnInit {
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;

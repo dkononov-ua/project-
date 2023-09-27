@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
-import { serverPath } from 'src/app/shared/server-config';
 import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../agree-h/agree-delete/agree-delete.component';
 import { Router } from '@angular/router';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+
 interface Subscriber {
   user_id: string;
   firstName: string;
@@ -24,6 +25,8 @@ interface Subscriber {
 })
 export class HouseResidentsComponent implements OnInit {
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   isOnline = true;
   isOffline = false;

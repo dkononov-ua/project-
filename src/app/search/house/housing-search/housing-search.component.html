@@ -16,7 +16,7 @@
 
           <div class="card-img-container">
             <img
-              [src]="flat.img && flat.img[0] ? 'http://localhost:3000/img/flat/' + flat.img[0] : 'http://localhost:3000/img/flat/housing_default.svg'"
+              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image" class="card-img-top">
           </div>
           <div class="card-title">
@@ -62,7 +62,7 @@
           <div *ngIf="!selectedFlat">
             <div class="img-container">
               <div class="img-wrapper">
-                <img class="img-fluid" [src]="'http://localhost:3000/img/flat/housing_default.svg'" alt="Flat Image">
+                <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
               </div>
             </div>
           </div>
@@ -71,7 +71,7 @@
             <div class="img-container">
               <div class="img-wrapper">
                 <img class="img-fluid"
-                  [src]="selectedFlat?.img && selectedFlat?.img[currentPhotoIndex] ? 'http://localhost:3000/img/flat/' + selectedFlat.img[currentPhotoIndex] : 'http://localhost:3000/img/flat/housing_default.svg'"
+                  [src]="selectedFlat?.img && selectedFlat?.img[currentPhotoIndex] ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] : serverPathPhotoFlat + 'housing_default.svg'"
                   alt="Flat Image" (click)="openFullScreenImage(selectedFlat?.img)">
               </div>
               <div *ngIf="selectedFlat?.img.length > 1">

@@ -10,7 +10,7 @@
         <div class="img-container shadow">
           <div class="img-wrapper">
             <img class="img-fluid"
-              [src]="flatImg && flatImg[currentPhotoIndex].img ? 'http://localhost:3000/img/flat/' + flatImg[currentPhotoIndex].img : 'http://localhost:3000/img/flat/housing_default.svg'"
+              [src]="flatImg && flatImg[currentPhotoIndex].img ? serverPathPhotoFlat + flatImg[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image" alt="Flat Image">
           </div>
           <div *ngIf="flatImg?.length > 1">

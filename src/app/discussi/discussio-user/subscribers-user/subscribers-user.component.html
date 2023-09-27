@@ -28,7 +28,7 @@
           [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }">
           <div class="card-img-container">
             <img class="card-img" alt="User Image"
-              [src]="'http://localhost:3000/img/flat/' + (subscriber.flatImg[0] ? subscriber.flatImg[0] : 'house_default.svg')">
+              [src]="serverPathPhotoFlat + (subscriber.flatImg[0] ? subscriber.flatImg[0] : 'house_default.svg')">
           </div>
           <div class="card-body">
             <div class="title-group" [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }">
@@ -93,7 +93,7 @@
             [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }">
             <div class="card-img-container">
               <img class="card-img" alt="User Image"
-                [src]="'http://localhost:3000/img/flat/' + (subscriber.flatImg[0] ? subscriber.flatImg[0] : 'house_default.svg')">
+                [src]="serverPathPhotoFlat + (subscriber.flatImg[0] ? subscriber.flatImg[0] : 'house_default.svg')">
             </div>
             <div class="card-body">
               <div class="title-group" [ngClass]="{ 'selected': selectedFlatId == subscriber.flat_id }">
@@ -134,7 +134,7 @@
         <div class="img-container">
           <div class="img-wrapper">
             <img class="img-fluid"
-              [src]="selectedFlat.flatImg && selectedFlat.flatImg[currentPhotoIndex] ? 'http://localhost:3000/img/flat/' + selectedFlat.flatImg[currentPhotoIndex] : 'http://localhost:3000/img/flat/housing_default.svg'"
+              [src]="selectedFlat.flatImg && selectedFlat.flatImg[currentPhotoIndex] ? serverPathPhotoFlat + selectedFlat.flatImg[currentPhotoIndex] : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image">
           </div>
           <div *ngIf="selectedFlat?.flatImg.length > 1">

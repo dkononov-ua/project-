@@ -5,8 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { promises } from 'dns';
 import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface Agree {
   flat: {
@@ -55,6 +54,8 @@ interface Agree {
 
 export class AgreeReviewComponent implements OnInit {
   serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   agree: Agree[] = [];
   loading: boolean = true;
