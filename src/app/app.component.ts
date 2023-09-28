@@ -4,6 +4,7 @@ import { IsChatOpenService } from './services/is-chat-open.service';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
 import { serverPath } from 'src/app/shared/server-config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
     private isChatOpenService: IsChatOpenService,
     private cdr: ChangeDetectorRef,
     private isAccountOpenService: IsAccountOpenService,
-    private location: Location
+    private location: Location,
+    private router: Router,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -41,6 +43,7 @@ export class AppComponent implements OnInit {
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);
+          this.router.navigate(['/registration']);
         });
     } else {
       console.log('user not found');

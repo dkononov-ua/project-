@@ -13,12 +13,14 @@ import { SearchComponent } from './search/search.component';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
+import { AboutProjectComponent } from './pages/about-project/about-project.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'our-team', component: OurTeamComponent, canActivate: [CanActivateGuard] },
+  { path: 'about-project', component: AboutProjectComponent, canActivate: [CanActivateGuard] },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
   { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },

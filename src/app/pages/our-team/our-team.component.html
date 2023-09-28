@@ -1,198 +1,24 @@
-<div class="container-main">
-
-  <div class="container-card">
-
-    <div class="card-box">
-
-      <div [@cardAnimation] *ngIf="currentStep === 0" class="card-box-abs">
-        <div class="img-box">
-          <img class="logoImg" src="../../../assets/logo/Discussio (7).svg" alt="">
-        </div>
-        <h2>Вітаємо Вас в <br> <span class="bold">Discussio Beta!</span></h2>
-        <h2 class="text">Тут ми розповімо про проєкт та наші плани.</h2>
-        <p class="text">Ми сподіваємось що реалізація нашої ідеї зможе допомогти облегшити питання пов'язані з
-          організацією пошуку оселі, комунікацієї між орендодавцем та орендарем та питаннями які стосуються
-          керування оселею. Наш проєкт явля'ється добровільною ініціативою і розрахований на допомогу людям, і наразі є
-          цілком безкоштовний.</p>
-      </div>
-
-      <div [@cardAnimation] *ngIf="currentStep === 1" class="card-box-abs1">
-
-        <div>
-
-          <div class="gif-box">
-            <img class="gif-logo" src="../../assets/LogoGif1.gif" alt="">
+<section class="our-team">
+  <div class="container-card mt-2">
+    <h3>Команда яка займається розробкою платформи<span class="bold accent"> Discussio</span></h3>
+    <div class="row row-mid">
+      <div class="col-md-4" *ngFor="let member of teamMembers">
+        <div class="team-member">
+          <div class="team-member-image">
+            <img src="{{ member.image }}" alt="{{ member.name }}">
           </div>
-
-          <div class="title p-3">
-            <h2>Discussio - це не лише<span class="bold accent"> пошук житла та орендарів</span></h2>
-          </div>
-
-          <div class="title hide-pc p-3">
-            <p class="text-1">Ми забезпечимо не лише новий підхід до<span class="bold accent"> пошуку житла та
-                орендарів</span>, але й інструменти для легкого
-              <span class="bold accent">управління оселею</span>. Одним
-              кліком ви можете створювати <span class="bold accent">автоматичні угоди</span>, ділитися <span
-                class="bold accent">комунальними статистичними даними</span> та шукати ідеальних
-              орендаторів, орендарів та сусідів. З нами, ви контролюєте свій життєвий простір та насолоджуєтеся
-              спільнотою
-              яку обрали ви.
-            </p>
-          </div>
-
-        </div>
-
-        <div class="title hide-mobile">
-          <p class="text-1">Ми забезпечимо не лише новий підхід до<span class="bold accent"> пошуку житла та
-              орендарів</span>, але й інструменти для легкого
-            <span class="bold accent">управління оселею</span>. Одним
-            кліком ви можете створювати <span class="bold accent">автоматичні угоди</span>, ділитися <span
-              class="bold accent">комунальними статистичними даними</span> та шукати ідеальних
-            орендаторів, орендарів та сусідів. З нами, ви контролюєте свій життєвий простір та насолоджуєтеся
-            спільнотою
-            яку обрали ви.
-          </p>
-        </div>
-
-      </div>
-
-      <div [@cardAnimation] *ngIf="currentStep === 2" class="card-box-abs1">
-
-        <div>
-
-          <div class="gif-box">
-            <img class="gif-logo" src="../../assets/LogoGif2.gif" alt="">
-          </div>
-
-          <div class="title">
-            <h2>Discussio - це <span class="bold accent"> соціальна платформа</span></h2>
-          </div>
-
-          <div class="title hide-pc">
-            <p class="text-1"><span class="bold accent ">Соціальна платформа для нерухомості</span> - це поєднання
-              формату звичної для всіх соціальної мережі та ділова платформа одночасно, вона об'єднує в
-              собі низку потужних інструментів для пошуку оселі, знаходження орендарів та оптимізації управління
-              нерухомістю.
-              За допомогою цієї платформи, користувачі можуть створювати особисті облікові записи для своєї нерухомості,
-              отримувати доступ до детальних статистичних даних про комунальні витрати, легко укладати автоматичні угоди
-              та акти, а також спілкуватися з іншими користувачами через вбудований чат.
-
-              <span class="bold">Ця платформа допомагає створити спільноту власників нерухомості та орендарів,
-                спрощує процеси ведення нерухомості та співпраці
-                , інтегруючи функціональність соціальної мережі та інструменти для оптимізації
-                управління нерухомістю.</span> У майбутньому, в планах додавати до цієї платформи різноманітні сервіси
-              та
-              послуги, розширювати її функціональність, забезпечивши ще більше можливостей для користувачів у сфері
-              нерухомості.
-            </p>
-          </div>
-
-        </div>
-
-        <div class="title hide-mobile">
-          <p class="text-1"><span class="bold accent">Соціальна платформа для нерухомості</span> - це поєднання
-            формату звичної для всіх соціальної мережі та ділова платформа одночасно, вона об'єднує в
-            собі низку потужних інструментів для пошуку оселі, знаходження орендарів та оптимізації управління
-            нерухомістю.
-            За допомогою цієї платформи, користувачі можуть створювати особисті облікові записи для своєї нерухомості,
-            отримувати доступ до детальних статистичних даних про комунальні витрати, легко укладати автоматичні угоди
-            та акти, а також спілкуватися з іншими користувачами через вбудований чат.
-
-            <span class="bold">Ця платформа допомагає створити спільноту власників нерухомості та орендарів,
-              спрощує процеси ведення нерухомості та співпраці
-              , інтегруючи функціональність соціальної мережі та інструменти для оптимізації
-              управління нерухомістю.</span> У майбутньому, в планах додавати до цієї платформи різноманітні сервіси та
-            послуги, розширювати її функціональність, забезпечивши ще більше можливостей для користувачів у сфері
-            нерухомості.
-          </p>
-
-        </div>
-
-      </div>
-
-      <div [@cardAnimation] *ngIf="currentStep === 3" class="card-box-abs1">
-        <div id="carouselExampleFade" class="carousel slide carousel-fade col-lg-6 col-md-12" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="3000">
-              <img src="../../assets/about/1.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-              <img src="../../assets/about/2.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-              <img src="../../assets/about/3.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-              <img src="../../assets/about/4.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-              <img src="../../assets/about/5.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-              <img src="../../assets/about/6.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-              <img src="../../assets/about/7.png" class="d-block w-100" alt="...">
+          <div class="team-member-info">
+            <h3 class="team-member-name">{{ member.name }}</h3>
+            <p class="team-member-position">{{ member.position }}</p>
+            <p class="team-member-description">{{ member.description }}</p>
+            <div class="team-member-social">
+              <a href="{{ member.social.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+              <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
+              <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-        <div class="container-title col-lg-5 col-md-12">
-          <h2>Проєкт має на меті</h2>
-          <p>створити зручну та ефективну систему управління оселею, яка дозволить власникам та
-            орендаторам легко та швидко знаходити необхідну інформацію, здійснювати платежі. За допомогою цього проєкту,
-            власники зможуть більш ефективно управляти своїми житловими приміщеннями,
-            контролювати витрати та підтримувати високий рівень комфорту для мешканців.</p>
         </div>
       </div>
-
-      <div [@cardAnimation] *ngIf="currentStep === 4" class="card-box-abs2">
-        <section class="our-team">
-          <div class="container-card mt-2">
-            <h2>Команда яка займається розробкою платформи<span class="bold accent"> Discussio</span></h2>
-            <div class="row row-mid">
-              <div class="col-md-4" *ngFor="let member of teamMembers">
-                <div class="team-member">
-                  <div class="team-member-image">
-                    <img src="{{ member.image }}" alt="{{ member.name }}">
-                  </div>
-                  <div class="team-member-info">
-                    <h3 class="team-member-name">{{ member.name }}</h3>
-                    <p class="team-member-position">{{ member.position }}</p>
-                    <p class="team-member-description">{{ member.description }}</p>
-                    <div class="team-member-social">
-                      <a href="{{ member.social.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-                      <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
-                      <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
     </div>
-
-
-
   </div>
-
-  <div class="btn-group">
-    <button *ngIf="currentStep > 0" class="btn-next" (click)="changeStep(currentStep - 1)"
-      [disabled]="currentStep === 0">НАЗАД</button>
-    <button *ngIf="currentStep < 4" class="btn-next" (click)="changeStep(currentStep + 1)"
-      [disabled]="currentStep === 4">ДАЛІ</button>
-  </div>
-
-</div>
+</section>

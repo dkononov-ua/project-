@@ -120,54 +120,58 @@ export class RegistrationComponent implements OnInit {
 
   registration(): void {
     if (this.registrationForm.valid && this.agreementAccepted) {
+      if (this.registrationForm.get('dob')?.value) {
+        const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
+        const data = {
+          userName: this.registrationForm.get('userName')?.value,
+          regEmail: this.registrationForm.get('email')?.value,
+          regPassword: this.registrationForm.get('password')?.value,
+          dob: dob,
+        };
 
-      if (this.registrationForm) {
-        if (this.registrationForm.get('dob')?.value) {
-          const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
-          const data = {
-            userName: this.registrationForm.get('userName')?.value,
-            regEmail: this.registrationForm.get('email')?.value,
-            regPassword: this.registrationForm.get('password')?.value,
-            dob: dob,
-          }
-          console.log(data);
-          this.http.post(serverPath + '/registration', data)
-          .subscribe(
-            (response: any) => {
-              console.log(response)
-              if (response.status === 'Не правильно передані данні') {
-                console.error(response.status);
-                setTimeout(() => {
-                  this.statusMessage = 'Помилка реєстрації.';
-                  setTimeout(() => {
-                    location.reload();
-                  }, 1000);
-                }, 200);
-              } else {
-                setTimeout(() => {
-                  this.statusMessage = 'Вітаємо в Discussio!';
-                  localStorage.setItem('user', JSON.stringify(response))
-                  setTimeout(() => {
-                    this.router.navigate(['/information-user']);
-                  }, 2000);
-                }, 200);
-              }
-            },
-            (error: any) => {
-              console.error(error);
+        console.log(data);
+
+        this.http.post(serverPath + '/registration', data).subscribe(
+          (response: any) => {
+            console.log(response);
+            if (response.status === 'Не правильно передані данні') {
+              console.error(response.status);
+              localStorage.removeItem('user');
+              localStorage.removeItem('house');
+              localStorage.removeItem('selectedFlatId');
+              this.statusMessage = 'Помилка реєстрації.';
               setTimeout(() => {
-                this.statusMessage = 'Помилка реєстрації.';
-                setTimeout(() => {
-                  location.reload();
-                }, 2000);
-              }, 100);
+                location.reload();
+              }, 1000);
+            } else if (response.status === 'Не правильний ключ-пошта') {
+              console.error(response.status);
+              localStorage.removeItem('user');
+              localStorage.removeItem('house');
+              localStorage.removeItem('selectedFlatId');
+              this.statusMessage = 'Помилка реєстрації.';
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+            } else {
+              this.statusMessage = 'Вітаємо в Discussio!';
+              localStorage.setItem('user', JSON.stringify(response));
+              setTimeout(() => {
+                this.router.navigate(['/about-project']);
+              }, 2000);
             }
-          );
-        }
-
+          },
+          (error: any) => {
+            console.error(error);
+            this.statusMessage = 'Помилка реєстрації.';
+            setTimeout(() => {
+              location.reload();
+            }, 2000);
+          }
+        );
       }
     }
   }
+
 
   private initializeForm(): void {
     this.loginForm = this.fb.group({

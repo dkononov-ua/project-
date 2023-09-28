@@ -40,6 +40,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { AboutProjectComponent } from './pages/about-project/about-project.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +53,7 @@ import { MatRadioModule } from '@angular/material/radio';
     LookingComponent,
     SearchPageComponent,
     FeedbackComponent,
+    AboutProjectComponent,
   ],
   providers: [
     SelectedFlatService,

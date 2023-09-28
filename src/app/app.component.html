@@ -5,7 +5,7 @@
       <router-outlet></router-outlet>
     </div>
     <app-selection-account class="hide-pc" [ngClass]="{'open': isChatOpenStatus}" *ngIf="isAccountOpenStatus === true"></app-selection-account>
-    <app-footer class="hide-mobile"></app-footer>
+    <app-footer class="hide-mobile" *ngIf="isAccountOpenStatus === true"></app-footer>
   </div>
 </div>
 
