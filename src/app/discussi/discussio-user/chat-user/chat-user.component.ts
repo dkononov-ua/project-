@@ -4,7 +4,7 @@ import { ChoseSubscribeService } from '../../../services/chose-subscribe.service
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
 import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-chat-user',
@@ -16,6 +16,7 @@ export class ChatUserComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
 
 
   @ViewChild('textArea', { static: false })

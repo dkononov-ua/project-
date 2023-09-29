@@ -1,3 +1,4 @@
+<ng-template #content>
 <div class="container">
   <div class="container-card">
 
@@ -99,9 +100,8 @@
 
   </div>
 </div>
+</ng-template>
 
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader">
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
-  </div>
-</div>
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>

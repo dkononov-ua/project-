@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -67,7 +67,7 @@ interface UserInfo {
 })
 
 export class LookingComponent implements OnInit {
-
+  path_logo = path_logo;
   userInfo: UserInfo = {
     price_of: 0,
     price_to: 0,

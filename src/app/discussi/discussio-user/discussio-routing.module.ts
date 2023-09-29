@@ -5,7 +5,6 @@ import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-dis
 import { SubscribersUserComponent } from './subscribers-user/subscribers-user.component';
 import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { SubscriberMenuComponent } from './subscriber-menu/subscriber-menu.component';
 import { SubscriberHostComponent } from './subscriber-host/subscriber-host.component';
 
 const routes: Routes = [
@@ -20,7 +19,6 @@ const routes: Routes = [
       { path: 'subscriptions-user', component: SubscriptionsUserComponent, canActivate: [CanActivateGuard] },
     ],
   },
-  { path: 'subscribers-menu-user', component: SubscriberMenuComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

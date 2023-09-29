@@ -1,11 +1,5 @@
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader">
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+    <img src="{{path_logo}}" alt="logo" class="loader-logo">
   </div>
 </div>
-
-<!-- <ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
-
-<ng-template #content></ng-template> -->

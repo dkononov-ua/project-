@@ -8,7 +8,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
 import moment from 'moment';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-registration',
@@ -38,6 +38,7 @@ import { serverPath } from 'src/app/shared/server-config';
   ],
 })
 export class RegistrationComponent implements OnInit {
+  path_logo = path_logo;
 
   isFeatureEnabled: boolean = true;
   passwordType = 'password';

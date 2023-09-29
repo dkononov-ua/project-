@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { forkJoin } from 'rxjs';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -60,6 +60,7 @@ export class InfoComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
 
   userInfo: UserInfo = {
     price_of: 0,

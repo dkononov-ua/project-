@@ -1,4 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { path_logo } from 'src/app/shared/server-config';
+
 
 @Component({
   selector: 'app-navbar',
@@ -6,6 +8,8 @@ import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+  path_logo = path_logo;
   isMenuOpen = false;
 
   constructor(private el: ElementRef) { }

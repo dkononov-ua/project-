@@ -55,19 +55,19 @@ export class ComunCompanyComponent implements OnInit {
     about_comun: '',
   };
 
-  defaultImageUrl: string = "../../assets/comun/default_services.svg";
+  defaultImageUrl: string = "../../../assets/example-comun/default_services.svg";
 
   comunalServices = [
-    { name: "Опалення", imageUrl: "../../../assets/comun_teplo.jpg" },
-    { name: "Водопостачання", imageUrl: "../../assets/comun/water.jfif" },
-    { name: "Вивіз сміття", imageUrl: "../../assets/comun/cleaning.jpg" },
-    { name: "Електроенергія", imageUrl: "../../../assets/comun_electro.jpg" },
-    { name: "Газопостачання", imageUrl: "../../../assets/comun_gas.jpg" },
-    { name: "Комунальна плата за утримання будинку", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Охорона будинку", imageUrl: "../../assets/comun/ohorona.jpg" },
-    { name: "Ремонт під'їзду", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Ліфт", imageUrl: "../../assets/comun/default_services.svg" },
-    { name: "Інтернет та телебачення", imageUrl: "../../assets/comun/internet.jpg" },
+    { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_teplo.jpg" },
+    { name: "Водопостачання", imageUrl: "../../../assets/example-comun/water.jfif" },
+    { name: "Вивіз сміття", imageUrl: "../../../assets/example-comun/cleaning.jpg" },
+    { name: "Електроенергія", imageUrl: "../../../assets/example-comun/comun_electro.jpg" },
+    { name: "Газопостачання", imageUrl: "../../../assets/example-comun/comun_gas.jpg" },
+    { name: "Комунальна плата за утримання будинку", imageUrl: "../../../assets/example-comun/default_services.svg" },
+    { name: "Охорона будинку", imageUrl: "../../../assets/example-comun/ohorona.jpg" },
+    { name: "Ремонт під'їзду", imageUrl: "../../../assets/example-comun/default_services.svg" },
+    { name: "Ліфт", imageUrl: "../../../assets/example-comun/default_services.svg" },
+    { name: "Інтернет та телебачення", imageUrl: "../../../assets/example-comun/internet.jpg" },
   ];
 
   @ViewChild('textArea', { static: false })

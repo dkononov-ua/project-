@@ -22,8 +22,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
-import { SubscriberMenuComponent } from '../discussi/discussio-user/subscriber-menu/subscriber-menu.component';
-import { SubscribersMenuComponent } from '../discussi/discussio-house/subscribers-menu/subscribers-menu.component';
 import { UpdateComponentService } from '../services/update-component.service';
 @NgModule({
   declarations: [
@@ -36,8 +34,6 @@ import { UpdateComponentService } from '../services/update-component.service';
     SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
-    SubscriberMenuComponent,
-    SubscribersMenuComponent,
   ],
   exports: [
     NavbarComponent,
@@ -49,8 +45,6 @@ import { UpdateComponentService } from '../services/update-component.service';
     SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
-    SubscriberMenuComponent,
-    SubscribersMenuComponent,
   ],
   providers: [
     UpdateComponentService,

@@ -6,22 +6,25 @@
   <div class="container-box">
     <div class="container-card col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
       <div class="m-2">
-        <app-selection-account ></app-selection-account>
-        <a [routerLinkActive]="'active'" [routerLink]="'/user/info'">Назад</a>
+        <app-selection-account></app-selection-account>
+        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Назад</a>
 
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-user'">
-          <span class="link-text">Підписники</span>
-          <div class="status" *ngIf="counterSubs.status !== 0">{{counterSubs.status}}</div>
+          <div class="link-text">Підписники<span class="count"
+              *ngIf="counterSubs?.status && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
+          </div>
         </a>
 
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
-          <span class="link-text">Підписки</span>
-          <div class="status" *ngIf="counterSubscriptions.status !== 0">{{counterSubscriptions.status}}</div>
+          <div class="link-text">Підписки<span class="count"
+              *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
+          </div>
         </a>
 
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
-          <span class="link-text">Дискусії</span>
-          <div class="status" *ngIf="counterAcceptSubs.status !== 0">{{counterAcceptSubs.status}}</div>
+          <div class="link-text">Дискусії <span class="count"
+              *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
+          </div>
         </a>
 
       </div>

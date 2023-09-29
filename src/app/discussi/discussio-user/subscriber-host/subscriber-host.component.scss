@@ -58,6 +58,10 @@
   border-radius: 50%;
 }
 
+.count {
+  font-weight: 600;
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;

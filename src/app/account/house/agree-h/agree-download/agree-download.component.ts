@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Location } from '@angular/common';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-agree-download',
   templateUrl: './agree-download.component.html',
@@ -17,6 +16,7 @@ import { serverPath } from 'src/app/shared/server-config';
 
 export class AgreeDownloadComponent implements OnInit {
   serverPath = serverPath;
+  path_logo = path_logo;
 
   selectedFlatAgree: any;
   selectedAgreement: any;

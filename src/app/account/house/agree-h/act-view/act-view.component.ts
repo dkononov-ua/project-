@@ -7,7 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Location } from '@angular/common';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -73,6 +73,7 @@ interface Agree {
 
 export class ActViewComponent implements OnInit {
   serverPath = serverPath;
+  path_logo = path_logo;
 
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;

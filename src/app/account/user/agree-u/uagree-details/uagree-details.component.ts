@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 interface Agree {
   flat: {
     agreementDate: string;
@@ -51,6 +50,7 @@ interface Agree {
 export class UagreeDetailsComponent implements OnInit {
 
   serverPath = serverPath;
+  path_logo = path_logo;
 
   selectedFlatId: string | null = null;
   agree: Agree[] = [];

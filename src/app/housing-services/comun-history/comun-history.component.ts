@@ -118,6 +118,8 @@ export class ComunHistoryComponent implements OnInit {
       this.getDefaultData();
       this.getInfoFlat();
     }
+    console.log(this.selectedComun)
+
   }
 
   getSelectParam() {

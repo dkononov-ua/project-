@@ -5,11 +5,14 @@
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="box w-75">
         <div class="logo-box">
-          <img class="logo" src="../../../assets/logo/Discussio (7).svg" alt="">
-          <h1 class="title-name">Discussio</h1>
+          <img class="logo" src="{{path_logo}}" alt="logo">
+          <div class="name">
+            <h1 class="title-name">Discussio</h1>
+            <p class="bold beta">Beta</p>
+          </div>
           <h3 class="title-text">Зручна та ефективна система управління Вашою оселею</h3>
         </div>
-        <div class="logo-box hide-mobile" >
+        <div class="logo-box hide-mobile">
           <div class="text"> © Discussio. Simplify property management with Discussio.
             Developed by Discussio team 2023.</div>
         </div>
@@ -126,6 +129,5 @@
 
 
 <div *ngIf="statusMessage" class="status-message">
-  <div><img class="img-statusMessage" src="../../../../assets/logo/Discussio (7).svg" alt="Logo"></div>{{ statusMessage
-  }}
+  <div><img class="img-statusMessage" src="{{path_logo}}" alt="logo"></div>{{ statusMessage }}
 </div>

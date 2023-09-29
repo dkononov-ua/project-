@@ -6,7 +6,7 @@ import { objects } from '../../../../shared/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface Agree {
   flat: {
@@ -72,7 +72,7 @@ interface Agree {
 
 export class UactViewComponent implements OnInit {
   serverPath = serverPath;
-
+  path_logo = path_logo;
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
   currentStep: number = 1;

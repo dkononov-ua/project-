@@ -1,25 +1,53 @@
-<nav class="navbar">
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-    <span class="link-text">Моя оселя</span></a>
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat'">
-    <span class="link-text">Повідомлення</span>
-    <div class="status" *ngIf="unreadMessage !== false">{{unreadMessage}}</div>
-  </a>
-  <a class="link-menu hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host'">
-    <span class="link-text">Меню підписок</span></a>
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <app-subscribers-menu class="hide-pc"></app-subscribers-menu>
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">
-    <span class="link-text">Меню угод</span></a>
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/filling'">
-    <span class="link-text">Наповнення</span></a>
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/residents'">
-    <span class="link-text">Мешканці оселі</span></a>
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'">
-    <span class="link-text">Комунальні оселі</span></a>
+<ng-template #content>
+  <nav class="navbar">
 
-  <a class="btn-nav hide-pc" [routerLinkActive]="'active'" [routerLink]="'/search/host-tenant/tenantsSearch'">Пошук орендара</a>
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+      <span class="link-text">Моя оселя</span></a>
 
-  <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">
-    <span class="link-text">Редагувати <i class="fa-solid fa-gear fa-spin"></i></span></a>
-</nav>
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat'">
+      <span class="link-text">Повідомлення</span>
+      <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-house'">
+      <div class="link-text">Підписники<span class="count"
+          *ngIf="counterSubs?.status && counterSubs?.status !== false && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
+      </div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscriptions-house'">
+      <div class="link-text">Підписки<span class="count"
+          *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== false && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
+      </div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-discus'">
+      <div class="link-text">Дискусії<span class="count"
+          *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== false && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
+      </div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">
+      <span class="link-text">Меню угод</span></a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/filling'">
+      <span class="link-text">Наповнення</span></a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/residents'">
+      <span class="link-text">Мешканці</span></a>
+
+    <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'">
+      <span class="link-text">Комунальні</span></a>
+
+    <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/search/host-tenant/tenantsSearch'">
+      <span class="link-text">Пошук</span></a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">
+      <span class="link-text">Редагувати</span></a>
+
+  </nav>
+</ng-template>

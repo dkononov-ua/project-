@@ -11,23 +11,34 @@ export class SelectYearComponent implements OnInit {
   loading = false;
   years = ['2023', '2022', '2021', '2020'];
   selectedMonth: any;
-  selectedYear!: string;
+  selectedYear!: any;
+  serviceYear: any;
 
-  constructor(private changeYearService: ChangeYearService) {
-  }
+  constructor(private changeYearService: ChangeYearService) {  }
 
   ngOnInit(): void {
+    this.getYearService();
+    if (!this.selectedYear) {
+      this.getYearCurrent();
+      this.changeYearService.setSelectedYear(this.selectedYear);
+    }
+  }
+
+  getYearService() {
     this.changeYearService.selectedYear$.subscribe(year => {
-      if (year !== null && year !== undefined) {
-        this.selectedYear = year;
-      }
+      this.serviceYear = year;
+      this.selectedYear = this.years.find(item => item === this.serviceYear);
     });
+  }
+
+  getYearCurrent() {
+    const currentDate = new Date();
+    this.selectedYear = currentDate.getFullYear();
   }
 
   onSelectionChangeYear(): void {
     localStorage.removeItem('comunal_inf');
-    localStorage.removeItem('selectedYear');
     this.changeYearService.setSelectedYear(this.selectedYear);
-    localStorage.setItem('selectedYear', this.selectedYear);
   }
 }
+

@@ -18,6 +18,7 @@ export class ChangeMonthService {
 
   setSelectedMonth(selectedMonth: string): void {
     this.selectedMonthSubject.next(selectedMonth);
+    console.log(selectedMonth)
     localStorage.setItem('selectedMonth', selectedMonth);
   }
 }

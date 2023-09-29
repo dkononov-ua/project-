@@ -14,10 +14,10 @@
         </div>
 
         <div class="card-social-link">
-          <a href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-          <a href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
-          <a href="{{ user.viber }}"><i class="fab fa-brands fa-viber"></i></a>
-          <a href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
+          <a target="_blank" href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+          <a target="_blank" href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+          <a target="_blank" href="{{ user.viber }}"><i class="fab fa-brands fa-viber"></i></a>
+          <a target="_blank" href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
         </div>
 
         <div class="item-wrapper p-3">
@@ -170,7 +170,7 @@
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
           <div class="box">
             <div class="logo-fluid">
-              <img class="logo rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
+              <img class="logo rounded"  src="{{path_logo}}" alt="logo">
             </div>
             <p class="accent">"Пасивний пошук оселі"</p>
           </div>

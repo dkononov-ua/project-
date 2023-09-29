@@ -2,8 +2,8 @@
 
   <div class="container-card col-12">
     <div class="comunal-info">
-      <h3 class="text">Внесення даних оселі: <span class="accent"> {{selectedFlatId}} </span>послуга <span
-          class="accent">{{selectedComun}}</span> за <span class="accent">{{selectedYear}} </span> рік
+      <h3 class="text">Внесення даних послуга <span class="accent">{{selectedComun}}</span> за <span
+          class="accent">{{selectedYear}} </span> рік
         місяць<span class="accent"> {{selectedMonth}} </span></h3>
     </div>
 
@@ -282,9 +282,5 @@
 </ng-template>
 
 <ng-container *ngIf="loading; else content">
-  <div *ngIf="loading" class="loader-overlay">
-    <div class="loader">
-      <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
-    </div>
-  </div>
+  <app-loader></app-loader>
 </ng-container>

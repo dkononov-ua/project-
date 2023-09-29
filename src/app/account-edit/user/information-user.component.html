@@ -181,8 +181,8 @@
         <mat-label class="label">Контактні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Телефон</mat-label>
-          <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell"
-            [maxlength]="10" [pattern]="phonePattern">
+          <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell" [maxlength]="10"
+            [pattern]="phonePattern">
         </mat-form-field>
 
         <mat-form-field class="item-select m-1" appearance="outline">
@@ -220,7 +220,5 @@
 </div>
 
 <div *ngIf="loading" class="loader-overlay">
-  <div class="loader">
-    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
-  </div>
+  <app-loader></app-loader>
 </div>

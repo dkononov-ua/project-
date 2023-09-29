@@ -5,8 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 registerLocaleData(localeUk);
 @Component({
@@ -21,6 +20,7 @@ registerLocaleData(localeUk);
 export class UagreeDownloadComponent implements OnInit {
 
   serverPath = serverPath;
+  path_logo = path_logo;
 
   houseData: any;
   userData: any;

@@ -5,7 +5,6 @@ import { ChatHouseComponent } from './chat-house/chat-house.component';
 import { SubscribersHouseComponent } from './subscribers-house/subscribers-house.component';
 import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
 import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
-import { SubscribersMenuComponent } from './subscribers-menu/subscribers-menu.component';
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
 import { ChatMenuComponent } from './chat-menu/chat-menu.component';
 import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
@@ -24,8 +23,6 @@ const routes: Routes = [
       { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard] },
     ],
   },
-  { path: 'subscribers-menu', component: SubscribersMenuComponent, canActivate: [CanActivateGuard] },
-
 ];
 
 @NgModule({

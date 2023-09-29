@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component } from '@angular/core';
-
+import { path_logo } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-about-project',
   templateUrl: './about-project.component.html',
@@ -30,7 +30,7 @@ import { Component } from '@angular/core';
   ],
 })
 export class AboutProjectComponent {
-
+  path_logo = path_logo;
   currentStep: number = 0;
   currentScenario: number = 1;
   statusMessage: string | undefined;

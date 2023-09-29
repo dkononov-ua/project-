@@ -2,8 +2,7 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-agree-details',
@@ -16,6 +15,7 @@ import { serverPath } from 'src/app/shared/server-config';
 
 export class AgreeDetailsComponent implements OnInit {
   serverPath = serverPath;
+  path_logo = path_logo;
 
   selectedFlatAgree: any;
   selectedAgreement: any;

@@ -185,7 +185,6 @@ export class SubscribersUserComponent implements OnInit {
   approveSubscriber(flatId: string): void {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-
     if (userJson) {
       const data = {
         auth: JSON.parse(userJson!),

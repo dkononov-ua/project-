@@ -1,6 +1,7 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { path_logo } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-search-page',
@@ -35,6 +36,8 @@ import { Router } from '@angular/router';
   ],
 })
 export class SearchPageComponent {
+  path_logo = path_logo;
+
   constructor(private router: Router) { }
 
   goToSearchHouse() {
