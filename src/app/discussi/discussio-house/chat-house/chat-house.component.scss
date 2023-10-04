@@ -5,9 +5,9 @@
   min-height: 70vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   @include s1-s3 {
-    min-height: 100vh;
+    min-height: 90vh;
   }
 }
 
@@ -258,9 +258,6 @@ img {
   flex-direction: column;
   justify-content: center;
   height: 70vh;
-  @include s1-s3 {
-    height: 100vh;
-  }
 }
 
 .chat {
@@ -317,7 +314,7 @@ img {
   display: flex;
   min-width: 100px;
   background-color: rgba(93, 90, 90, 0.856);
-  border-radius: 0px 10px 10px 10px;
+  border-radius: 10px 10px 10px 0px;
 }
 
 .owner-message {
@@ -325,7 +322,7 @@ img {
   display: flex;
   min-width: 100px;
   background-color: $color-dark;
-  border-radius: 10px 0px 10px 10px;
+  border-radius: 10px 10px 0px 10px;
 }
 
 .message-text-user,
@@ -446,13 +443,13 @@ textarea::-webkit-scrollbar {
 
 .name-owner {
   justify-content: flex-end;
-  right: 40px;
+  right: 0px;
   top: 0;
 }
 
 .name-user {
   top: 0;
-  left: 40px;
+  left: 0px;
 }
 
 .accent-name {
@@ -498,7 +495,6 @@ textarea::-webkit-scrollbar {
   position: absolute;
   top: -20px;
   float: left;
-  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -574,6 +570,21 @@ input {
   }
 }
 
+.btn-menu {
+  border: 1px solid $color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: $color-white;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 10px;
+  right: 15px;
+  z-index: 99;
+}
+
 .btn-close {
   background-color: $color-accent;
   position: absolute;
@@ -592,7 +603,7 @@ input {
   width: 100%;
   position: sticky;
   height: 150px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+  background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 30%, rgb(255, 255, 255) 100%);
   z-index: 50;
   right: 0;
   top: 0;
@@ -634,4 +645,10 @@ input {
 
 .text-min {
   font-size: 12px;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
 }

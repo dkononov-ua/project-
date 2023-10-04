@@ -23,10 +23,15 @@ h5 {
   margin-top: 2rem;
 }
 
+.container {
+  justify-content: center;
+}
+
 .container-main {
   display: flex;
   flex-direction: column;
   height: 75vh;
+  justify-content: center;
   @include s1-s3 {
     height: 90vh;
   }
@@ -56,7 +61,7 @@ h5 {
   align-items: center;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
   @include s1-s3 {
     height: 80vh;
   }
@@ -206,10 +211,9 @@ img {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  height: 65vh;
+  min-height: 70vh;
   overflow: auto;
   @include s1-s3 {
-    height: 90vh;
     padding: 0px;
   }
 }
@@ -286,7 +290,6 @@ img {
   justify-content: center;
   @include s1-s3 {
     margin-top: 10px;
-    background-color: $color-white;
   }
 }
 

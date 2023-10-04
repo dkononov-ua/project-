@@ -14,12 +14,10 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   @ViewChild('locationElement') locationElement!: ElementRef;
   loginForm: any;
-  isChatOpenStatus: boolean = false;
   isAccountOpenStatus: boolean = true;
 
   constructor(
     private http: HttpClient,
-    private isChatOpenService: IsChatOpenService,
     private cdr: ChangeDetectorRef,
     private isAccountOpenService: IsAccountOpenService,
     private location: Location,
@@ -33,7 +31,6 @@ export class AppComponent implements OnInit {
       this.compareLocationWithCondition(currentLocation);
     }
     await this.getUserInfo();
-    await this.getChatIsOpen();
   }
 
   async getUserInfo() {
@@ -57,13 +54,6 @@ export class AppComponent implements OnInit {
     } else {
       this.isAccountOpenStatus = true;
     }
-  }
-
-  async getChatIsOpen() {
-    this.isChatOpenService.isChatOpen$.subscribe(async isChatOpen => {
-      this.isChatOpenStatus = isChatOpen;
-      this.cdr.detectChanges();
-    });
   }
 
   async getAccountIsOpen() {

@@ -142,6 +142,7 @@ export class SelectionHousingComponent implements OnInit {
         this.selectedFlatName = selectedFlat.flat_name;
         localStorage.setItem('house', JSON.stringify({ flat_id: this.selectedFlatId, flat_name: this.selectedFlatName }));
         this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
+        this.selectedFlatService.setSelectedFlatName(this.selectedFlatName);
         setTimeout(() => {
           location.reload();
         }, 500);

@@ -86,11 +86,23 @@ export class SelectionAccountComponent implements OnInit {
     this.location.back();
   }
 
+  // @HostListener('document:click', ['$event'])
+  // onClick(event: Event): void {
+  //   if (!this.el.nativeElement.contains(event.target)) {
+  //     this.closeMenuUser();
+  //     this.closeMenuFlat();
+  //   }
+  // }
+
   @HostListener('document:click', ['$event'])
   onClick(event: Event): void {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.closeMenuUser();
-      this.closeMenuFlat();
+    const containerElement = this.el.nativeElement.querySelector('.card-box-flat');
+    const cardBoxElement = this.el.nativeElement.querySelector('.noClose');
+
+    if (containerElement.contains(event.target as Node)) {
+      if (!cardBoxElement.contains(event.target as Node)) {
+        this.closeMenuFlat();
+      }
     }
   }
 

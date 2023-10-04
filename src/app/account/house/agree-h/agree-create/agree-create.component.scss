@@ -283,7 +283,7 @@ img {
   background-color: $color-accent;
   @include s1-s3 {
     top: -5px;
-    z-index: 99;
+    z-index: 50;
   }
 }
 

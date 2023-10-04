@@ -1,22 +1,21 @@
 <div class="container-reg">
-
   <div class="container">
 
-    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="box w-75">
+    <div class="card-box-logo col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="logo-box">
           <img class="logo" src="{{path_logo}}" alt="logo">
           <div class="name">
             <h1 class="title-name">Discussio</h1>
-            <p class="bold beta">Beta</p>
+            <div class="text-abs hide-pc">Зручна та ефективна система управління Вашою оселею</div>
+            <p class="beta">Beta</p>
           </div>
-          <h3 class="title-text">Зручна та ефективна система управління Вашою оселею</h3>
+          <h3 class="title-text hide-mobile">Зручна та ефективна система управління Вашою оселею</h3>
         </div>
+
         <div class="logo-box hide-mobile">
           <div class="text"> © Discussio. Simplify property management with Discussio.
             Developed by Discussio team 2023.</div>
         </div>
-      </div>
     </div>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
@@ -34,28 +33,28 @@
 
         <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
 
-          <mat-form-field class="inputbox w-75 mt-2">
+          <mat-form-field class="inputbox">
             <mat-label>Дата народження</mat-label>
             <input matInput [matDatepicker]="picker" id="dob" formControlName="dob">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field class="inputbox w-75 mt-2" appearance="outline">
+          <mat-form-field class="inputbox mt-2" appearance="outline">
             <mat-label>Ім'я користувача</mat-label>
             <input matInput class="input-field" id="userName" type="text" formControlName="userName"
               placeholder="Ім'я користувача" required maxlength="15" minlength="3">
             <div *ngIf="formErrors.userName" class="alert alert-danger">{{formErrors.userName}}</div>
           </mat-form-field>
 
-          <mat-form-field class="inputbox w-75" appearance="outline">
+          <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput class="input-field" id="email" type="email" formControlName="email" placeholder="email"
               required>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </mat-form-field>
 
-          <mat-form-field class="inputbox w-75" appearance="outline">
+          <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Пароль</mat-label>
             <input matInput class="input-field" id="password" [type]="passwordType" name="password"
               formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
@@ -66,7 +65,7 @@
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </mat-form-field>
 
-          <button class="btn w-75" [disabled]="!registrationForm.valid || !agreementAccepted">Зареєструватись</button>
+          <button class="btn" [disabled]="!registrationForm.valid || !agreementAccepted">Зареєструватись</button>
         </form>
 
         <div class="content">
@@ -92,14 +91,14 @@
         </div>
 
         <form class="form" [formGroup]="loginForm">
-          <mat-form-field class="inputbox w-75" appearance="outline">
+          <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput class="input-field" id="email" type="text" formControlName="email" placeholder="email"
               required>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </mat-form-field>
 
-          <mat-form-field class="inputbox w-75" appearance="outline">
+          <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Пароль</mat-label>
             <input matInput class="input-field" id="password" [type]="passwordType" name="password"
               formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
@@ -110,7 +109,7 @@
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </mat-form-field>
 
-          <button class="btn w-75" [disabled]="!loginForm.valid" (click)="onSubmit()">
+          <button class="btn" [disabled]="!loginForm.valid" (click)="onSubmit()">
             Увійти
           </button>
         </form>
@@ -125,8 +124,9 @@
     </div>
 
   </div>
-</div>
 
+
+</div>
 
 <div *ngIf="statusMessage" class="status-message">
   <div><img class="img-statusMessage" src="{{path_logo}}" alt="logo"></div>{{ statusMessage }}

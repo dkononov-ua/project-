@@ -2,7 +2,6 @@
   <nav class="navbar" [ngClass]="{'open': isMenuOpen}">
     <div class="nav-item">
       <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-        <!-- <div class="text1">Discussio</div> -->
         <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenu()">
         <div class="text">Discussio. Beta</div>
       </a>
@@ -29,11 +28,6 @@
       <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/feedback'" (click)="closeMenu()">Відгук</a>
     </div>
 
-
-
   </nav>
 
-  <!-- <button class="navbar-toggle" (click)="toggleMenu()">
-    <i class="fa fa-bars"></i>
-  </button> -->
 </div>

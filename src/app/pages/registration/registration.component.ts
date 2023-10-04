@@ -57,22 +57,22 @@ export class RegistrationComponent implements OnInit {
 
   validationMessages: any = {
     userName: {
-      required: 'Ім`я обов`язково',
+      required: "Ім'я обов'язково",
       minlength: 'Мінімальна довжина 3 символи',
       maxlength: 'Максимальна довжина 15 символів'
     },
     password: {
-      required: 'Пароль обов`язково',
+      required: "Пароль обов'язково",
       minlength: 'Мінімальна довжина 7 символів',
       maxlength: 'Максимальна довжина 25 символів'
     },
     email: {
-      required: 'Пошта обов`язкова',
-      pattern: 'Невірно вказаний пошта',
+      required: "Пошта обов'язкова",
+      pattern: 'Невірно вказана пошта',
     },
     dob: {
-      required: 'Пошта обов`язкова',
-      pattern: 'Невірно вказаний пошта',
+      required: "Дата народження обов'язково",
+      pattern: 'Невірно вказана дата народження',
     },
   };
 

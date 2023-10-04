@@ -1,20 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-house',
   templateUrl: './delete-house.component.html',
   styleUrls: ['./delete-house.component.scss']
 })
-export class DeleteHouseComponent implements OnInit {
-  selectedFlatName: any;
-
-  constructor() { }
-
-  ngOnInit(): void {
-    const houseJson = localStorage.getItem('house');
-    if (houseJson) {
-      this.selectedFlatName = JSON.parse(houseJson).flat_name;
-      console.log(this.selectedFlatName);
-    }
-  }
+export class DeleteHouseComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 }

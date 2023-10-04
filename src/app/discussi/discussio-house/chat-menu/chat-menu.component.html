@@ -21,15 +21,11 @@
       <app-chat-rooms></app-chat-rooms>
     </div>
 
-    <div class="btn-hide-pc hide-pc">
-      <button class="btn-hide m-1" (click)="goBack()">
-        <span class="material-symbols-outlined"> first_page </span>
-      </button>
-
-      <button class="btn-hide m-1" (click)="toggleMenu()">
-        <span class="material-symbols-outlined">clear_all </span>
-      </button>
-    </div>
+    <button class="btn-menu hide-pc" (click)="toggleMenu()">
+      <span class="material-symbols-outlined">
+        menu_open
+      </span>
+    </button>
 
 
   </div>

@@ -23,10 +23,10 @@
 
   <div class="container-chat" *ngIf="selectedUser">
 
-    <div class="group1" *ngIf="infoPublic">
+    <div class="group1">
       <img class="avatar-user1"
-      [src]="serverPathPhotoUser + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
-      alt="User Image">
+        [src]="serverPathPhotoUser + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
+        alt="User Image">
       <div class="name-user1">
         <div>{{ selectedUser.lastName }} {{ selectedUser.firstName }} </div>
         <div class="text-min">{{ selectedUser.surName }}</div>
@@ -37,18 +37,18 @@
     <div class="chat">
       <div class="container-chat-messages">
         <div class="chat-messages-read" #chatContainer>
-          <div class="chat" *ngFor="let message of allMessages">
+          <div *ngFor="let message of allMessages">
             <ng-container *ngIf="message.user_id === selectedSubscriberID && message.is_read === 1">
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-user">
-                    <img class="avatar-user"
+                    <!-- <img class="avatar-user"
                     [src]="serverPathPhotoUser + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
-                    alt="User Image">
+                    alt="User Image"> -->
                     <div class="name-user">
                       <div class="accent-name">{{ selectedUser.lastName }} {{ selectedUser.firstName }} <span
-                        class="time">{{
-                        message.time }} </span></div>
+                          class="time">{{
+                          message.time }} </span></div>
                     </div>
                   </div>
                   <div class="message-content-user">
@@ -63,9 +63,9 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-owner">
-                    <img class="avatar-owner"
+                    <!-- <img class="avatar-owner"
                       [src]="serverPathPhotoFlat + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
-                      alt="User Image">
+                      alt="User Image"> -->
                     <div class="name-owner">
                       <div class="accent-name">
                         <span class="time">{{ message.time }}</span> {{ houseData.flat.flat_name }}
@@ -86,13 +86,13 @@
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-user">
-                    <img class="avatar-user"
-                    [src]="serverPathPhotoUser + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
-                    alt="User Image">
+                    <!-- <img class="avatar-user"
+                      [src]="serverPathPhotoUser + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
+                      alt="User Image"> -->
                     <div class="name-user">
                       <div class="accent-name">{{ selectedUser.lastName }} {{ selectedUser.firstName }} <span
-                        class="time">{{
-                        messagesNotRead.time }} </span></div>
+                          class="time">{{
+                          messagesNotRead.time }} </span></div>
                     </div>
                   </div>
                   <div class="message-content-user">
@@ -107,9 +107,9 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-owner">
-                    <img class="avatar-owner"
-                    [src]="serverPathPhotoFlat + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
-                    alt="User Image">
+                    <!-- <img class="avatar-owner"
+                      [src]="serverPathPhotoFlat + (houseData.imgs[0].img ? houseData.imgs[0].img : 'user_default.svg')"
+                      alt="User Image"> -->
                     <div class="name-owner">
                       <div class="accent-name"><span class="time">{{ messagesNotRead.time }}</span> {{
                         houseData.flat.flat_name }}</div>

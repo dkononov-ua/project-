@@ -2,20 +2,33 @@
 @use "style/presets/" as *;
 
 .body-container {
+  display: flex;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
   @include s1-s3 {
     width: 100%;
-    height: 100vh;
+    height: 93vh;
+    background-color: $color-white;
   }
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 93vh;
+  position: relative;
   @include s1-s3 {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.container2 {
+  justify-content: center;
+  @include s1-s3 {
+    display: flex;
+    justify-content: flex-start;
     padding: 0;
     margin: 0;
   }
@@ -30,20 +43,16 @@
 .mobile {
   @include s1-s3 {
     background-color: $color-white;
-    overflow-x: hidden;
     width: 100%;
-    height: 90vh;
+    height: 83vh;
     overflow: auto;
+    overflow-x: hidden;
   }
 }
 
 .mobile.open {
   @include s1-s3 {
-    background-color: $color-white;
-    overflow-x: hidden;
-    width: 100%;
-    height: 100vh;
-    overflow: auto;
+    height: 93vh;
   }
 }
 
@@ -54,21 +63,14 @@
 }
 
 .hide-pc {
-  @include s1-s3 {
-    background-color: $color-white;
-    height: 10vh;
-    display: flex;
-    justify-content: space-evenly;
-  }
-
   @include s3-s6-max {
     display: none;
   }
 }
 
-.hide-pc.open {
+.account {
   @include s1-s3 {
-    display: none;
+    height: 10vh;
   }
 }
 

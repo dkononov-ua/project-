@@ -25,25 +25,29 @@
             </div>
           </div>
         </div>
+        <div class="container-btn">
+          <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+            <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
+              [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
+              [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="container-btn">
-        <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
-          <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
-            [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
-            [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
-        </button>
-      </div>
 
-      <div class="heightSet">
-        <app-selection-housing></app-selection-housing>
-      </div>
+      <div class="mobile-group">
 
-      <div class="heightSet">
-        <mat-form-field class="search-id" appearance="outline">
-          <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по UserID</mat-label>
-          <input matInput type="text" (ngModelChange)="searchByUserID()" [(ngModel)]="searchQuery" />
-        </mat-form-field>
+        <div class="heightSet hide-mobile">
+          <app-selection-housing></app-selection-housing>
+        </div>
+
+        <div class="heightSet hide-mobile">
+          <mat-form-field class="search-id " appearance="outline">
+            <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по ID</mat-label>
+            <input matInput type="text" (ngModelChange)="searchByUserID()" [(ngModel)]="searchQuery" />
+          </mat-form-field>
+        </div>
+
       </div>
 
     </div>
@@ -52,6 +56,16 @@
       <div class="box">
 
         <div class="group-card col-lg-6 col-md-6 col-sm-12 col-12">
+
+          <div class="group">
+            <div class="group-transparent">
+              <app-selection-housing class="w-50 p-1"></app-selection-housing>
+              <mat-form-field class="search-id w-50 p-1" appearance="outline">
+                <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по ID</mat-label>
+                <input matInput type="text" (ngModelChange)="searchByUserID()" [(ngModel)]="searchQuery" />
+              </mat-form-field>
+            </div>
+          </div>
 
           <div class="group">
             <div class="group-transparent m-1">

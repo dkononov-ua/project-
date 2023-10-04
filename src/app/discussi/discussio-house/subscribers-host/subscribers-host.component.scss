@@ -15,7 +15,6 @@
   flex-direction: column;
   @include s1-s3 {
     height: auto;
-    margin-top: 10px;
   }
 }
 
@@ -59,14 +58,6 @@
   border-radius: 50%;
 }
 
-.mobile {
-  @include s1-s3 {
-    width: 100%;
-    margin-top: 10px;
-    height: 60px;
-  }
-}
-
 .count {
   font-weight: 600;
 }
@@ -78,6 +69,11 @@
 }
 
 .hide-pc {
+  @include s1-s3 {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
   @include s3-s6-max {
     display: none;
   }

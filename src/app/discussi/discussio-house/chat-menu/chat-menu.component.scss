@@ -2,8 +2,7 @@
 @use "../../../style/mixins/" as *;
 
 .chat {
-  min-height: 70vh;
-  max-height: 70vh;
+  height: 70vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
@@ -17,7 +16,7 @@
   justify-content: flex-start;
 
   @include s1-s3 {
-    max-height: 100vh;
+    height: 83vh;
   }
 }
 
@@ -58,7 +57,7 @@
   display: flex;
   flex-direction: column;
   @include s1-s3 {
-    height: 100vh;
+    height: 83vh;
     justify-content: flex-end;
   }
 }
@@ -68,21 +67,25 @@
   flex-direction: column;
   z-index: 60;
   @include s1-s3 {
-    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
     position: absolute;
-    background-color: $color-white;
-    height: 100vh;
-    top: 0;
+    align-items: center;
+    height: 80vh;
     left: -100%;
-    transition: left 0.3s ease;
+    transition: left 1s ease;
+    border-radius: 10px;
   }
 }
 
 .card-box1.open {
   overflow: auto;
-  height: 100vh;
+  height: 80vh;
   width: 40%;
-  left: 0;
+  left: 10px;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
 }
 
 .title-group {
@@ -190,6 +193,21 @@ h5 {
     color: $color-accent;
     transform: scale(1.1);
   }
+}
+
+.btn-menu {
+  border: 1px solid $color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: $color-white;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 10px;
+  right: 15px;
+  z-index: 99;
 }
 
 .btn-hide-pc {

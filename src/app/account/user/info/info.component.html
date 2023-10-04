@@ -3,10 +3,16 @@
 </ng-container>
 
 <ng-template #content>
+
+  <div class="page-name-container hide-pc">
+    <div class="page-name page-name0">Сторінка</div>
+    <div class="page-name page-name1">Вашого</div>
+    <div class="page-name page-name2">аккаунту</div>
+  </div>
+
   <div class="container-box">
-    <h4 class="page-name hide-pc mt-2">Discussio аккаунт</h4>
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card m-2">
+      <div class="card">
 
         <div class="img-fluid">
           <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
@@ -32,7 +38,7 @@
     </div>
 
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
-      <div class="card m-2 p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
+      <div class="card p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
 
         <div class="container-sticker">
           <div class="status-container">
@@ -48,9 +54,11 @@
           <div class="characteristics-label">Шукаю оселю в :</div>
           <div class="characteristics-group">
             <div class="item-characteristics" *ngIf="userInfo.region">Область :
-              <span class="item">{{ userInfo.region }}</span> </div>
+              <span class="item">{{ userInfo.region }}</span>
+            </div>
             <div class="item-characteristics" *ngIf="userInfo.city">Місто :
-              <span class="item">{{ userInfo.city }}</span> </div>
+              <span class="item">{{ userInfo.city }}</span>
+            </div>
           </div>
         </div>
 
@@ -67,13 +75,15 @@
 
             <div class="item-characteristics" *ngIf="userInfo.area_of || userInfo.area_to">
               Кіл. кімнат:
-              <span class="item" *ngIf="userInfo.rooms_of !== 0 && userInfo.rooms_of !== null">від {{ userInfo.rooms_of}}</span>
-              <span class="item" *ngIf="userInfo.rooms_to !== 0 && userInfo.rooms_to !== null">до {{ userInfo.rooms_to}}</span>
+              <span class="item" *ngIf="userInfo.rooms_of !== 0 && userInfo.rooms_of !== null">від {{
+                userInfo.rooms_of}}</span>
+              <span class="item" *ngIf="userInfo.rooms_to !== 0 && userInfo.rooms_to !== null">до {{
+                userInfo.rooms_to}}</span>
             </div>
 
-            <div class="item-characteristics"
-              *ngIf="userInfo?.repair_status">Стан оселі:
-              <span class="item">{{ userInfo.repair_status }}</span> </div>
+            <div class="item-characteristics" *ngIf="userInfo?.repair_status">Стан оселі:
+              <span class="item">{{ userInfo.repair_status }}</span>
+            </div>
             <div class="item-characteristics" *ngIf="userInfo.balcony">
               Тип
               балкону:<span class="item">{{ userInfo.balcony }}</span> </div>
@@ -165,12 +175,13 @@
 
       </div>
 
-      <div class="card m-2" *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
+      <div class="card m-2"
+        *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
 
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
           <div class="box">
             <div class="logo-fluid">
-              <img class="logo rounded"  src="{{path_logo}}" alt="logo">
+              <img class="logo rounded" src="{{path_logo}}" alt="logo">
             </div>
             <p class="accent">"Пасивний пошук оселі"</p>
           </div>

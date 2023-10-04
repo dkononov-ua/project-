@@ -9,6 +9,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
+
 interface Subscriber {
   animals: string | undefined;
   area_of: number | undefined;
@@ -54,6 +55,7 @@ interface Subscriber {
   viber: string;
   facebook: string;
 }
+
 @Component({
   selector: 'app-subscriptions-house',
   templateUrl: './subscriptions-house.component.html',
@@ -76,6 +78,7 @@ interface Subscriber {
 
 })
 export class SubscriptionsHouseComponent implements OnInit {
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -88,6 +91,7 @@ export class SubscriptionsHouseComponent implements OnInit {
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
   statusMessage: any;
+  statusMessageChat: any;
   cardNext: number = 0;
   selectedCard: boolean = false;
   isFeatureEnabled: boolean = false;
@@ -133,6 +137,7 @@ export class SubscriptionsHouseComponent implements OnInit {
   }
   selectedSubscriberId: string | null = null;
   indexPage: number = 0;
+  chatExists = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -143,13 +148,9 @@ export class SubscriptionsHouseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getSelectedFlatId ();
-    this.getSubs(this.selectedFlatId, this.offs);
-  }
-
-  getSelectedFlatId () {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
+      this.getSubs(this.selectedFlatId, this.offs);
     });
   }
 
@@ -171,7 +172,7 @@ export class SubscriptionsHouseComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: Subscriber): void {
-    this.indexPage = 1;
+    this.indexPage = 2;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
@@ -194,11 +195,12 @@ export class SubscriptionsHouseComponent implements OnInit {
         const data = {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
-          user_id: subscriber.user_id
+          user_id: subscriber.user_id,
         };
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+          this.indexPage = 1;
           this.selectedUser = undefined;
           this.updateComponent.triggerUpdate();
         } catch (error) {
@@ -207,6 +209,7 @@ export class SubscriptionsHouseComponent implements OnInit {
       }
     });
   }
+
 
 }
 

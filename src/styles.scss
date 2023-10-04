@@ -1,7 +1,6 @@
 @use "app/style/presets/" as *;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,10 +9,10 @@
 
 html,
 body {
-  height: 100%;
   font-family: $font-main;
   scroll-behavior: smooth;
 }
+
 
 body {
   background-color: $color-primary;
@@ -63,4 +62,6 @@ a {
     background-color: transparent;
   }
 }
+
+
 

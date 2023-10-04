@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
-import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
 @Component({
@@ -33,16 +32,13 @@ export class ChatUserComponent implements OnInit {
   selectedFlatIdSubscription: any;
   infoPublic: any[] | undefined;
   interval: any;
-  isChatOpenStatus: boolean = true;
 
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
-    private isChatOpenService: IsChatOpenService,
   ) { }
 
   async ngOnInit(): Promise<any> {
-    this.sendChatIsOpen();
     this.getSelectSubscription();
   }
 
@@ -56,16 +52,6 @@ export class ChatUserComponent implements OnInit {
         this.getUserChats(this.selectedFlat, offs);
       }
     });
-  }
-
-  sendChatIsOpen() {
-    this.isChatOpenStatus = true;
-    this.isChatOpenService.setIsChatOpen(this.isChatOpenStatus);
-  }
-
-  ngOnDestroy(): void {
-    this.isChatOpenStatus = false;
-    this.isChatOpenService.setIsChatOpen(this.isChatOpenStatus);
   }
 
   addSmiley(smiley: string) {
@@ -93,7 +79,6 @@ export class ChatUserComponent implements OnInit {
         offs: offs
       };
       const response = await this.http.post(url, data).toPromise() as any;
-      console.log(response)
       if (Array.isArray(response.status)) {
         this.infoPublic = await Promise.all(response.status.map(async (value: any) => {
           const infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
@@ -101,7 +86,6 @@ export class ChatUserComponent implements OnInit {
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread };
         }));
         this.infoPublic = this.infoPublic.filter((item) => item.flat_id === selectedFlat);
-        console.log(this.infoPublic)
         return this.infoPublic;
       } else {
         console.log('чат не знайдено');
@@ -141,7 +125,6 @@ export class ChatUserComponent implements OnInit {
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
               });
-              console.log(this.allMessages)
               this.getNewMessages(selectedFlat);
             } else {
               this.allMessages = [];

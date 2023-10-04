@@ -21,24 +21,20 @@
   align-items: stretch;
   flex-direction: column;
   @include s1-s3 {
-    justify-content: flex-end;
+    width: 100%;
     flex-direction: column;
     z-index: 99;
     position: absolute;
-    bottom: -100%;
-    transition: bottom 1s ease;
+    top: -100%;
+    transition: top 1s ease;
   }
 }
 
 .wrapper.open {
   @include s1-s3 {
     width: 100%;
-    background-image: linear-gradient(
-      to top,
-      rgb(0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.337) 100%
-    );
-    bottom: 70px;
+    height: 100vh;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 100%);
     top: 0;
   }
 }
@@ -61,16 +57,17 @@ mat-label {
 }
 
 .card-menu {
-  color: $color-dark;
+  color: $color-text;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: stretch;
+  justify-content: center;
   @include s1-s3 {
+    justify-content: flex-end;
     background-color: $color-white;
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
+    border: 1px solid $color-primary;
+    border-radius: 0 0 10px 10px;
+    padding: 20px 10px;
   }
 }
 
@@ -196,9 +193,9 @@ mat-label {
   position: absolute;
   width: 60px;
   height: 60px;
-  bottom: 13px;
-  left: 15px;
-  z-index: 999999;
+  top: 10px;
+  right: 15px;
+  z-index: 50;
 }
 
 .material-symbols-outlined {

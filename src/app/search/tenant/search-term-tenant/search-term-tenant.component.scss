@@ -35,7 +35,7 @@ mat-label {
 }
 
 .title-page {
-  font-size: 20px;
+  font-size: 18px;
   text-transform: uppercase;
 }
 
@@ -48,9 +48,7 @@ mat-label {
   width: 200px;
   height: 60px;
   @include s1-s3 {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
+    width: 50%;
   }
 }
 
@@ -67,7 +65,7 @@ mat-label {
 }
 
 .box-1 {
-  width: 400px;
+  width: 500px;
   display: flex;
   justify-content: space-between;
   border-radius: 5px 5px 0 0;
@@ -113,7 +111,7 @@ mat-label {
   padding: 5px 0;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: baseline;
   height: 70px !important;
 }
 
@@ -128,6 +126,9 @@ mat-label {
   padding: 0 8px;
   margin-left: 5px;
   border-radius: 5px;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
 }
 
 .noBg {
@@ -220,31 +221,23 @@ mat-label {
   }
 }
 
-.container-search {
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-  max-height: 1000px;
-}
-
-.container-search.collapsed {
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-  transition: max-height 0.3s ease;
-}
-
 .container-btn {
   width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   @include s1-s3 {
-    position: absolute;
-    width: 60px;
+    width: 150px;
     top: 15px;
-    left: 15px;
-    z-index: 99;
+    right: 15px;
+    z-index: 50;
   }
+}
+
+.mobile-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .btn {
@@ -296,9 +289,10 @@ mat-label {
 .container-search {
   overflow: hidden;
   transition: max-height 1s;
-  max-height: 100vh;
+  max-height: 120vh;
   @include s1-s3 {
-    padding: 10px;
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -306,6 +300,8 @@ mat-label {
   overflow: hidden;
   transition: max-height 1s;
   max-height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .fa-solid {

@@ -1,10 +1,10 @@
-<div class="container-house mt-2">
+<button class="btn-menu hide-pc" (click)="opensCard()">
+  <span class="material-symbols-outlined">
+    menu_open
+  </span>
+</button>
 
-  <button class="btn-menu hide-pc" (click)="opensCard()">
-    <span class="material-symbols-outlined">
-      menu_open
-    </span>
-  </button>
+<div class="container-house">
 
   <div class="section col-lg-4 col-md-9 col-sm-12 col-12" [ngClass]="{'open': openMenu, 'hide': hideMenu}"
     (click)="opensCard()">
@@ -36,7 +36,7 @@
 
   <div class="section-1 col-lg-8 col-md-9 col-sm-12 col-12" [ngClass]="{'open': openCard, 'hide': hideCard}">
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-house p-1">
+      <div [@cardAnimation] class="card-house">
 
         <div class="card card-selected">
 
@@ -157,7 +157,7 @@
     </div>
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation2] class="card-house p-1">
+      <div [@cardAnimation2] class="card-house">
         <div class="card card-selected p-2" *ngIf="selectedFlat">
 
           <div class="container-sticker">

@@ -41,9 +41,9 @@
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-user">
-                    <img class="avatar-user"
+                    <!-- <img class="avatar-user"
                       [src]="serverPathPhotoUser + (infoPublic[0].infUser.img[0].img ? infoPublic[0].infUser.img[0].img : 'user_default.svg')"
-                      alt="Flat Image">
+                      alt="Flat Image"> -->
                     <div class="name-user">
                       <div class="accent-name"><span class="time">{{ message.time }} </span> {{
                         infoPublic[0].infUser.inf.firstName }} {{ infoPublic[0].infUser.inf.lastName }}</div>
@@ -61,9 +61,9 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-owner">
-                    <img class="avatar-owner"
+                    <!-- <img class="avatar-owner"
                       [src]="serverPathPhotoFlat + (infoPublic[0].infFlat.imgs[0].img ? infoPublic[0].infFlat.imgs[0].img : 'housing_default.svg')"
-                      alt="User Image">
+                      alt="User Image"> -->
                     <div class="name-owner">
                       <div class="accent-name">{{ infoPublic[0].flat_name }}<span class="time">{{ message.time
                           }}</span>
@@ -84,9 +84,9 @@
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-user">
-                    <img class="avatar-user"
+                    <!-- <img class="avatar-user"
                       [src]="serverPathPhotoUser + (infoPublic[0].infUser.img[0].img ? infoPublic[0].infUser.img[0].img : 'user_default.svg')"
-                      alt="User Image">
+                      alt="User Image"> -->
                     <div class="name-user">
                       <div class="accent-name"><span class="time">{{ messagesNotRead.time }} </span> {{
                         infoPublic[0].infUser.inf.firstName }} {{ infoPublic[0].infUser.inf.lastName }}</div>
@@ -104,9 +104,9 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-owner">
-                    <img class="avatar-owner"
+                    <!-- <img class="avatar-owner"
                       [src]="serverPathPhotoUser + (infoPublic[0].infFlat.imgs[0].img ? infoPublic[0].infFlat.imgs[0].img : 'housing_default.svg')"
-                      alt="User Image">
+                      alt="User Image"> -->
                     <div class="name-owner">
                       <div class="accent-name">{{ infoPublic[0].infFlat.flat }}<span class="time">{{
                           messagesNotRead.time
@@ -126,6 +126,7 @@
       </div>
 
       <div class="group">
+
         <div class="group-input">
 
           <button class="btn-more" (click)="toggleSmileyPanel()">
@@ -139,6 +140,7 @@
           </div>
 
         </div>
+
         <div class="input-box">
           <div class="chat-input col-10">
             <textarea class="input-field" (input)="onInput()" #textArea id="floatingTextarea" matInput
@@ -150,6 +152,8 @@
             <i class="fa-solid fa-paper-plane fa-2xl"></i>
           </button>
         </div>
+
+
       </div>
     </div>
 

@@ -1,96 +1,107 @@
-<div class="container-box">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" >
-    <div class="card mb-3">
+<ng-template #content>
 
-      <div class="container-sticker">
-        <div class="status-container">
-          <div class="status rent-yes" *ngIf="house.rent === 1">Опублікована</div>
-          <div class="status rent-no" *ngIf="house.rent === 0">Не опублікована</div>
-          <div class="status private-yes" *ngIf="house.private === 1">Приватно</div>
-        </div>
-      </div>
-
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-              <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image"
-                class="img-fluid rounded">
-            </div>
-          </div>
-          <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
-            <div class="img-wrapper">
-              <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-fluid rounded">
-            </div>
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-
-      <div class="characteristics-group">
-        <div class="item-characteristics">ID оселі: <span class="item">{{ house.flat_id }}</span>
-        </div>
-        <button class="copy" (click)="copyFlatId()"><i class="fa-regular fa-copy"></i></button>
-        <div *ngIf="isCopied" class="message">ID оселі було скопійовано!</div>
-      </div>
-
-      <div class="card-text p-1">
-
-        <div class="title-group" *ngIf="about.option_pay !== 0">
-          <div class="title-selected">Ціна : </div>
-          <div class="title-selected-accent price">{{ about.price_d | number: '1.0-0'}}<sup>₴/доба</sup></div>
-        </div>
-
-        <div class="title-group" *ngIf="about.option_pay === 0">
-          <div class="title-selected">Ціна : </div>
-          <div class="title-selected-accent price">{{ about.price_m | number: '1.0-0'}}<sup>₴/міс</sup></div>
-        </div>
-
-        <div class="title-group">
-          <div class="title-selected">Область : </div>
-          <div class="title-selected-accent">{{ house.region }}</div>
-        </div>
-
-        <div class="title-group">
-          <div class="title-selected">Місто : </div>
-          <div class="title-selected-accent">{{ house.city }}</div>
-        </div>
-
-        <div class="title-group">
-          <div class="title-selected">Вулиця : </div>
-          <div class="title-selected-accent">{{ house.street }}</div>
-        </div>
-
-        <div class="title-group">
-          <div class="title-selected">Будинок : </div>
-          <div class="title-selected-accent">{{ house.houseNumber }}</div>
-        </div>
-
-        <div class="title-group">
-          <div class="title-selected">Квартира : </div>
-          <div class="title-selected-accent">{{ house.apartment }}</div>
-        </div>
-      </div>
-
-      <div class="btn-group p-1">
-        <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">Параметри</button>
-        <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">Інформація</button>
-      </div>
-
-    </div>
+  <div class="page-name-container hide-pc">
+    <div class="page-name page-name0">Сторінка</div>
+    <div class="page-name page-name1">Вашої</div>
+    <div class="page-name page-name2">оселі</div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlatId">
+  <div class="container-box">
+
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card mb-3">
+
+        <div class="container-sticker">
+          <div class="status-container">
+            <div class="status rent-yes" *ngIf="house.rent === 1">Опублікована</div>
+            <div class="status rent-no" *ngIf="house.rent === 0">Не опублікована</div>
+            <div class="status private-yes" *ngIf="house.private === 1">Приватно</div>
+          </div>
+        </div>
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+                <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
+              </div>
+            </div>
+            <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
+              <div class="img-wrapper">
+                <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-fluid rounded">
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <div class="characteristics-group">
+          <div class="item-characteristics">ID оселі: <span class="item">{{ house.flat_id }}</span>
+          </div>
+          <button class="copy" (click)="copyFlatId()"><i class="fa-regular fa-copy"></i></button>
+          <div *ngIf="isCopied" class="message">ID оселі було скопійовано!</div>
+        </div>
+
+        <div class="card-text p-1">
+
+          <div class="title-group" *ngIf="about.option_pay !== 0">
+            <div class="title-selected">Ціна : </div>
+            <div class="title-selected-accent price">{{ about.price_d | number: '1.0-0'}}<sup>₴/доба</sup></div>
+          </div>
+
+          <div class="title-group" *ngIf="about.option_pay === 0">
+            <div class="title-selected">Ціна : </div>
+            <div class="title-selected-accent price">{{ about.price_m | number: '1.0-0'}}<sup>₴/міс</sup></div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">Область : </div>
+            <div class="title-selected-accent">{{ house.region }}</div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">Місто : </div>
+            <div class="title-selected-accent">{{ house.city }}</div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">Вулиця : </div>
+            <div class="title-selected-accent">{{ house.street }}</div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">Будинок : </div>
+            <div class="title-selected-accent">{{ house.houseNumber }}</div>
+          </div>
+
+          <div class="title-group">
+            <div class="title-selected">Квартира : </div>
+            <div class="title-selected-accent">{{ house.apartment }}</div>
+          </div>
+        </div>
+
+        <div class="btn-group p-1">
+          <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">Параметри</button>
+          <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">Інформація</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlatId">
       <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 1 && house.rent === 1">
         <app-parameters></app-parameters>
       </div>
@@ -98,6 +109,8 @@
       <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 2 || house.rent === 0">
         <app-house-share></app-house-share>
       </div>
+    </div>
+
   </div>
 
-</div>
+</ng-template>

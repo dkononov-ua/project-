@@ -1,16 +1,60 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
-.container-card {
-  height: 100%;
+.container-box {
   display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
   flex-wrap: wrap;
+  justify-content: center;
   position: relative;
-  align-content: flex-start;
+  width: 100%;
+  height: 65vh;
+
   @include s1-s3 {
-    height: 70vh;
+    min-height: 0vh;
+    height: 83vh;
+    align-content: flex-start;
+  }
+}
+
+.card-box2 {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: center;
+  @include s1-s3 {
+    height: 7vh;
+  }
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 10px 20px;
+  z-index: 99;
+  color: $color-text;
+  background-color: $color-white;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  &.active {
+    color: $color-white;
+    background-color: $color-accent;
+  }
+  &:hover {
+    color: $color-white;
+    background-color: $color-accent;
+  }
+
+  @include s1-s3 {
+    box-shadow: none;
   }
 }
 
@@ -36,8 +80,37 @@
 
 .card-box {
   display: flex;
-  align-items: stretch;
   position: relative;
+  flex-direction: column;
+  align-items: center;
+
+  @include s1-s3 {
+    width: 100%;
+    height: 75vh;
+    top: 0;
+  }
+}
+
+.card-box.open {
+  display: none;
+}
+
+.card-wrapper {
+  height: 60vh;
+  overflow: auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  @include s1-s3 {
+    margin: 0;
+  }
+}
+
+.card-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .card-container {
@@ -45,40 +118,55 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+  height: 65vh;
+  position: relative;
+
+  @include s1-s3 {
+    height: 76vh;
+  }
 }
 
-.scrollable-container {
-  display: flex;
-  width: 100%;
-  min-height: 60vh;
-  max-height: 70vh;
-  overflow-y: auto;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: flex-start;
-}
-
-.scrollable-container::-webkit-scrollbar {
-  display: none;
-}
 .card-mini {
   cursor: pointer;
-  width: 90%;
-  height: 140px;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
   background-color: $color-white;
+  position: relative;
+  display: flex;
+  width: 90%;
+  height: 130px;
+  overflow: hidden;
+  transition: all 0.3s ease;
   border-radius: 10px;
-  transition: 1s;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
   box-shadow:
     0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
+
+  &:hover,
+  :focus {
+    transform: scale(1.05);
+  }
+
+  @include s1-s3 {
+    width: 96%;
+  }
+}
+
+.card-mini-body {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .card-mini.selectedUser {
+  width: 96%;
+  transition: 1s;
+  color: white;
   background-color: $color-dark;
-  width: 95%;
 }
 
 .card-img-container {
@@ -94,8 +182,26 @@
 }
 
 .card-animation {
-  width: 95%;
+  background-color: $color-white;
+  border-radius: 10px;
   position: absolute;
+  width: 100%;
+  margin: 10px;
+  height: 65vh;
+  overflow: auto;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  @include s1-s3 {
+    margin: 0px;
+    width: 95%;
+    height: 75vh;
+  }
+}
+
+.card-animation::-webkit-scrollbar {
+  display: none;
 }
 
 .card-img {
@@ -234,12 +340,6 @@ mat-paginator {
   border-radius: 10px;
   padding: 5px;
 }
-.card-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
 
 .title-1 {
   font-size: 28px;
@@ -270,7 +370,7 @@ mat-paginator {
 .status-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .status {
@@ -292,9 +392,8 @@ mat-paginator {
   position: relative;
   margin: 0 5px;
   position: absolute;
-  right: 0;
-  top: -20px;
-  z-index: 10;
+  left: 0;
+  top: 0px;
 }
 
 .btn-container:hover .info-menu {
@@ -305,7 +404,7 @@ mat-paginator {
   width: 300px;
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 0;
   display: none;
   background-color: $color-dark;
   border: 1px solid #ccc;
@@ -439,24 +538,6 @@ mat-paginator {
   }
 }
 
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}
-
-.switch-box {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 60px;
-  @include s1-s3 {
-    justify-content: space-around;
-  }
-}
-
 .btn-menu {
   display: flex;
   flex-direction: column;
@@ -464,6 +545,7 @@ mat-paginator {
   align-items: center;
   justify-content: center;
 }
+
 .btn-hide[disabled] {
   background-color: #ccc;
   color: #666;
@@ -503,4 +585,38 @@ mat-paginator {
 }
 .material-symbols-outlined {
   font-size: 30px;
+}
+
+.card-chat {
+  height: 65vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  border-radius: 10px;
+  @include s1-s3 {
+    height: 75vh;
+  }
+}
+
+.card-chat::-webkit-scrollbar {
+  display: none;
+}
+
+.switch-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 60px;
+  @include s1-s3 {
+    position: sticky;
+    top: 0;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
 }

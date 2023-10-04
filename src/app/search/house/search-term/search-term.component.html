@@ -3,7 +3,7 @@
   <div class="box-2">
     <div class="box-1 col-lg-12 col-md-6 col-sm-12 col-12">
 
-      <div class="group-transparent group-left m-1">
+      <div class="group-transparent group-left">
         <a class="search-change hide-mobile" [routerLinkActive]="'active'"
           [routerLink]="'/search/host-house/housingSearch'" matTooltip="Пошук оселі"><i
             class="fa-solid fa-building"></i></a>
@@ -25,34 +25,38 @@
           </div>
 
         </div>
+
+        <div class="container-btn">
+          <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+            <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
+              [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
+              [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="container-btn">
-        <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
-          <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
-            [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
-            [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
-        </button>
+      <div class="mobile-group">
+        <div class="heightSet">
+          <mat-form-field class="item-select" appearance="outline">
+            <mat-label>Сортування</mat-label>
+            <mat-select [(ngModel)]="filterData" name="bunker" (ngModelChange)="onSubmitWithDelay()">
+              <mat-option [value]="''">Неважливо</mat-option>
+              <mat-option [value]="1">Дешевші</mat-option>
+              <mat-option [value]="2">Дорожчі</mat-option>
+              <mat-option [value]="3">Новіші</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="heightSet">
+          <mat-form-field class="search-id" appearance="outline">
+            <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по ID</mat-label>
+            <input matInput type="text" [(ngModel)]="searchQuery" (input)="searchByID()" />
+          </mat-form-field>
+        </div>
+
       </div>
 
-      <div class="heightSet">
-        <mat-form-field class="item-select" appearance="outline">
-          <mat-label>Сортування</mat-label>
-          <mat-select [(ngModel)]="filterData" name="bunker" (ngModelChange)="onSubmitWithDelay()">
-            <mat-option [value]="''">Неважливо</mat-option>
-            <mat-option [value]="1">Дешевші</mat-option>
-            <mat-option [value]="2">Дорожчі</mat-option>
-            <mat-option [value]="3">Новіші</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="heightSet">
-        <mat-form-field class="search-id" appearance="outline">
-          <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти оселю по ID</mat-label>
-          <input matInput type="text" [(ngModel)]="searchQuery" (input)="searchByID()" />
-        </mat-form-field>
-      </div>
 
     </div>
 

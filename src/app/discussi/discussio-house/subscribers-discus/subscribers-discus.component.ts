@@ -174,7 +174,7 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: Subscriber): void {
-    this.indexPage = 1;
+    this.indexPage = 2;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
@@ -203,6 +203,7 @@ export class SubscribersDiscusComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+          this.indexPage = 1;
           this.selectedUser = undefined;
           this.updateComponent.triggerUpdate();
         } catch (error) {

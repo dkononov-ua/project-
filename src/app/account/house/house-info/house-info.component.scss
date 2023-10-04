@@ -339,3 +339,9 @@ img {
     margin-top: 15px;
   }
 }
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

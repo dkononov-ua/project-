@@ -11,20 +11,19 @@
       <a [routerLinkActive]="'active'" [routerLink]="'/user/info'"><i class="fa-solid fa-chevron-left"></i></a>
       <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Профіль оселі</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/looking'">Пошук оселі</a>
     </nav>
   </div>
 
   <div class="container-card">
 
     <div class="wrapper col-lg-3 col-md-5 col-sm-6 col-12" [ngClass]="{'open': isMenuOpen, 'hide': hideMenu}">
-    <div class="card-box">
+      <div class="card-box">
         <div class="card-menu">
 
           <app-selection-housing></app-selection-housing>
 
           <div class="mobile">
-            <nav>
+            <nav *ngIf="selectedFlatId && selectedFlatId !== null">
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"
                 (click)="onToggleMenu()"><span class="link-text">Місцезнаходження</span>
               </a>
@@ -34,12 +33,15 @@
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"
                 (click)="onToggleMenu()"><span class="link-text">Особливості</span>
               </a>
-              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
-                (click)="onToggleMenu()"><span class="link-text">Додати фото</span>
-              </a>
+
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"
                 (click)="onToggleMenu()"><span class="link-text">Наповнення</span>
               </a>
+
+              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
+                (click)="onToggleMenu()"><span class="link-text">Розмістити оголошення</span>
+              </a>
+
             </nav>
 
             <app-add-house></app-add-house>
@@ -49,7 +51,19 @@
       </div>
     </div>
 
-    <div class="col-lg-8 col-md-5 col-sm-6 col-12">
+    <div class="card-box1 col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
+
+      <div class="col-lg-6 col-sm-12 p-3">
+        <h1>Створіть нову оселю.</h1>
+        <h3>Тут ви зможете створювати нові оселі, або видаляти їх.</h3>
+        <p>Для створення оселі натисніть кнопку <span class="bold">"додати оселю"</span> та введіть її назву. Кількість
+          оселей які можна
+          створювати наразі необмежено.</p>
+      </div>
+
+    </div>
+
+    <div class="col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
       <router-outlet></router-outlet>
     </div>
 

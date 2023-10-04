@@ -6,7 +6,6 @@ import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { NgModel } from '@angular/forms';
 import { serverPath } from 'src/app/shared/server-config';
 
-
 @Component({
   selector: 'app-add-house',
   templateUrl: './add-house.component.html',
@@ -18,6 +17,8 @@ export class AddHouseComponent implements OnInit {
   @ViewChild('flatIdInput') flatIdInput: any;
 
   loading = false;
+  setSelectedFlatId: any;
+  setSelectedFlatName: any;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -41,9 +42,12 @@ export class AddHouseComponent implements OnInit {
     this.getSelectParam();
   }
 
-  getSelectParam(): void {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+  async getSelectParam(): Promise<void> {
+    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
       this.selectedFlatId = flatId;
+      if (!this.selectedFlatId) {
+        await this.loadOwnFlats();
+      }
     });
   }
 
@@ -58,44 +62,79 @@ export class AddHouseComponent implements OnInit {
 
     try {
       const response = await this.http
-        .post( serverPath + '/flatinfo/add/flat_id', {
+        .post(serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
           new: { flat_id: this.flat_name },
         })
         .toPromise();
-
+      console.log(response)
       this.reloadPageWithLoader()
-
     } catch (error) {
       this.loading = false;
       console.error(error);
     }
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DeleteHouseComponent);
-    dialogRef.afterClosed().subscribe((result) => {
+  async loadOwnFlats(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson !== null) {
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
+        .subscribe(
+          (response: any) => {
+            if (response.ids[0] && response.ids[0].flat_id && !this.selectedFlatId) {
+              console.log(111111)
+              this.setSelectedFlatId = response.ids[0].flat_id;
+              this.setSelectedFlatName = response.ids[0].flat_name;
+              if (this.setSelectedFlatId) {
+                this.selectedFlatService.setSelectedFlatId(this.setSelectedFlatId);
+                this.selectedFlatService.setSelectedFlatName(this.setSelectedFlatName);
+              }
+            }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('User not found');
+    }
+  }
+
+  async openDialog(): Promise<void> {
+
+    const selectedFlatName = localStorage.getItem('selectedFlatName');
+    if (selectedFlatName !== null) {
+      console.log('Назва вибраної оселі:', selectedFlatName);
+    } else {
+      console.log('Назва вибраної оселі не знайдена в сховищі');
+    }
+
+    const dialogRef = this.dialog.open(DeleteHouseComponent, {
+      data: {
+        flat_name: selectedFlatName,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result) {
         const userJson = localStorage.getItem('user');
         if (this.selectedFlatId && userJson) {
           this.http
-            .post( serverPath + '/flatinfo/deleteflat', {
+            .post(serverPath + '/flatinfo/deleteflat', {
               auth: JSON.parse(userJson),
               flat_id: this.selectedFlatId,
             })
             .subscribe(
               (response: any) => {
                 this.selectedFlatService.clearSelectedFlatId();
+                this.selectedFlatService.clearSelectedFlatName();
                 localStorage.removeItem('house');
-                localStorage.removeItem('selectedFlatId');
               },
               (error: any) => {
                 console.error(error);
               }
             );
-          setTimeout(() => {
-            location.reload();
-          }, 200);
+          this.reloadPageWithLoader()
         } else {
           console.log('house not found');
         }

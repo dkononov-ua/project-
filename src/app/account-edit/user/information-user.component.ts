@@ -71,16 +71,14 @@ interface UserParam {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
-    trigger('cardAnimation1', [
+    trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
     ]),
   ],
@@ -142,6 +140,9 @@ export class InformationUserComponent implements OnInit {
   emailCheck: number = 0;
   passwordCheck: number = 0;
   checkCode: any;
+
+  indexPage: number = 0;
+
 
   sendCodeEmail() {
     this.emailCheck = 1;
@@ -261,17 +262,17 @@ export class InformationUserComponent implements OnInit {
   }
 
 
-  clearInfoUser(): void {
-      this.userInfo = {
-        agreeAdd: false,
-        firstName: '',
-        lastName: '',
-        email: '',
-        surName: '',
-        dob: '',
-        password: '',
-      };
-  }
+  // clearInfoUser(): void {
+  //     this.userInfo = {
+  //       agreeAdd: false,
+  //       firstName: '',
+  //       lastName: '',
+  //       email: '',
+  //       surName: '',
+  //       dob: this.userInfo.dob,
+  //       password: '',
+  //     };
+  // }
 
 
   descriptionVisibility: { [key: string]: boolean } = {};

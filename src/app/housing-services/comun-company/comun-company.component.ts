@@ -183,10 +183,6 @@ export class ComunCompanyComponent implements OnInit {
     }
   }
 
-  editInfo(): void {
-    this.disabled = false;
-  }
-
   onInput() {
     const textarea = this.textArea.nativeElement;
     textarea.style.height = 'auto';

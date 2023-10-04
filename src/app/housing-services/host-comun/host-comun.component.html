@@ -30,7 +30,7 @@
             <app-select-year class="w-50 mr-1"></app-select-year>
             <app-select-month class="w-50"></app-select-month>
           </div>
-          <app-comun-nav></app-comun-nav>
+          <app-comun-nav (click)="onToggleMenu()"></app-comun-nav>
 
           <div *ngIf="discussio_view === false">
             <div class="btn-box m-2" *ngIf="!showInput">

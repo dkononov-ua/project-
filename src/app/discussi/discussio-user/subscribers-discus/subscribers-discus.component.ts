@@ -8,7 +8,6 @@ import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
-import { IsChatOpenService } from 'src/app/services/is-chat-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 
@@ -162,13 +161,11 @@ export class SubscribersDiscusComponent implements OnInit {
     private dialog: MatDialog,
     private selectedViewComun: ViewComunService,
     private router: Router,
-    private isChatOpenService: IsChatOpenService,
     private cdr: ChangeDetectorRef,
     private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getChatIsOpen();
     this.getSubscribedFlats();
     this.subscribeToSelectedFlatIdChanges();
     this.restoreSelectedFlatId();
@@ -193,13 +190,6 @@ export class SubscribersDiscusComponent implements OnInit {
       }
     }
     this.getOwnerInfo();
-  }
-
-  async getChatIsOpen() {
-    this.isChatOpenService.isChatOpen$.subscribe(async isChatOpen => {
-      this.isChatOpenStatus = isChatOpen;
-      this.cdr.detectChanges();
-    });
   }
 
   async loadData(): Promise<void> {
@@ -346,7 +336,7 @@ export class SubscribersDiscusComponent implements OnInit {
       this.http.post(serverPath + '/chat/add/chatUser', data)
         .subscribe((response: any) => {
           if (response) {
-            this.indexPage = 2;
+            this.indexPage = 3;
           }
         }, (error: any) => {
           console.error(error);
@@ -480,6 +470,7 @@ export class SubscribersDiscusComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat.flat_id);
+          this.indexPage = 1;
           this.selectedFlat = null;
           this.updateComponent.triggerUpdateUser();
         } catch (error) {

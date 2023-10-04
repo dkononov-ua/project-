@@ -270,7 +270,7 @@ export class ComunHistoryComponent implements OnInit {
   saveInfo(): void {
     const userJson = localStorage.getItem('user');
 
-    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
+    if (userJson && this.selectedFlatId !== undefined) {
       this.http.post(serverPath + '/comunal/add/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
@@ -407,10 +407,6 @@ export class ComunHistoryComponent implements OnInit {
     const textarea = this.textArea.nativeElement;
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-  editInfo(): void {
-    this.disabled = false;
   }
 
   clearInfo(): void {

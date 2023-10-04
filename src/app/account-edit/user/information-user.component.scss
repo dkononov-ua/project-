@@ -7,6 +7,10 @@
   justify-content: flex-end;
   margin: 0;
   padding: 0;
+  @include s1-s3 {
+    align-content: flex-start;
+    height: 83vh;
+  }
 }
 
 .container-navbar {
@@ -31,6 +35,9 @@
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: center;
+  @include s1-s3 {
+    height: 75vh;
+  }
 }
 
 .card {
@@ -114,6 +121,14 @@ p {
 }
 
 .btn {
+  width: 100%;
+  margin: 5px 0 5px 0;
+  color: $color-dark;
+  height: 45px;
+  font-size: 16px;
+}
+
+.btn-1 {
   width: 100%;
   margin: 5px 0 5px 0;
   color: $color-dark;
@@ -397,9 +412,9 @@ mat-label {
 .description-container {
   display: flex;
   position: absolute;
-  z-index: 9999;
+  z-index: 99;
   background-color: rgb(44, 44, 44);
-  top: 0;
+  top: -50px;
   left: 0;
   right: 0;
   align-items: center;
@@ -469,6 +484,90 @@ mat-label {
     box-shadow: none;
   }
 }
+
+.card-animation {
+  background-color: $color-white;
+  border-radius: 10px;
+  position: absolute;
+  width: 100%;
+  margin: 10px;
+  height: 65vh;
+  overflow: auto;
+
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  @include s1-s3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0px;
+    width: 95%;
+    height: 74vh;
+  }
+}
+
+.card-animation::-webkit-scrollbar {
+  display: none;
+}
+
+.switch-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 60px;
+  @include s1-s3 {
+    height: 8vh;
+    top: 0;
+  }
+}
+
+.btn-menu {
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+}
+
+.material-symbols-outlined {
+  font-size: 30px;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 10px 20px;
+  z-index: 99;
+  color: $color-text;
+  background-color: $color-white;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+
+  &.active {
+    color: $color-white;
+    background-color: $color-accent;
+  }
+  &:hover {
+    color: $color-white;
+    background-color: $color-accent;
+  }
+
+  @include s1-s3 {
+    box-shadow: none;
+  }
+}
+
 
 .hide-mobile {
   @include s1-s3 {

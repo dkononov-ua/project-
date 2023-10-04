@@ -64,8 +64,8 @@ export class ParamComponent {
 
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService)
-    { }
+    private selectedFlatService: SelectedFlatService
+    ) { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {

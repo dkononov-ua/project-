@@ -1,14 +1,24 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+
 @Component({
   selector: 'app-host',
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.scss'],
 })
 
-export class HostComponent {
+export class HostComponent implements OnInit {
+
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
+
 
   isMenuOpen = true;
   hideMenu = false;
+  selectedFlatId!: string | null;
 
   onToggleMenu() {
     if (this.isMenuOpen) {
@@ -49,5 +59,18 @@ export class HostComponent {
 
   constructor(
     private el: ElementRef,
+    private selectedFlatService: SelectedFlatService
+
   ) { }
+
+  ngOnInit(): void {
+    this.getSelectParam();
+    console.log(this.selectedFlatId)
+  }
+
+  getSelectParam(): void {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+    });
+  }
 }

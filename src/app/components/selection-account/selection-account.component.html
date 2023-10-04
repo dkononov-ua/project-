@@ -38,20 +38,22 @@
 
 <div class="card-box-user hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuUser"
   [ngClass]="{'open': openUserMenu, 'hide': hideUserMenu}" (click)="closeMenuUser()">
-  <div class="card-menu">
-    <div class="nav-item">
-      <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-        <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenuUser()">
-        <div class="text">Discussio. Beta</div>
-      </a>
-      <h3>Меню аккаунту</h3>
+  <div class="card-box">
+    <div class="card-menu">
+      <div class="nav-item">
+        <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
+          <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenuUser()">
+          <div class="text">Discussio. Beta</div>
+        </a>
+        <h3>Меню аккаунту</h3>
+      </div>
+      <app-navbar-user (click)="closeMenuUser()"></app-navbar-user>
     </div>
-    <app-navbar-user (click)="closeMenuUser()"></app-navbar-user>
   </div>
 </div>
 
 <div class="card-box-flat hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuFlat"
-  [ngClass]="{'open': openFlatMenu, 'hide': hideFlatMenu}" (click)="closeMenuFlat()">
+  [ngClass]="{'open': openFlatMenu, 'hide': hideFlatMenu}">
   <div class="card-menu">
     <div class="nav-item">
       <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
@@ -60,7 +62,10 @@
       </a>
       <h3>Меню оселі</h3>
     </div>
-    <app-navbar-house (click)="closeMenuFlat()"></app-navbar-house>
+    <div class="noClose p-2">
+      <app-selection-housing></app-selection-housing>
+    </div>
+    <app-navbar-house></app-navbar-house>
   </div>
 </div>
 

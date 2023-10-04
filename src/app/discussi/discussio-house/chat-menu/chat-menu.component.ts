@@ -13,7 +13,7 @@ export class ChatMenuComponent implements OnInit, AfterViewInit {
 
   loading: boolean = true;
 
-  isMenuOpen = true;
+  isMenuOpen = false;
   isChatOpenStatus: boolean = true;
 
   toggleMenu(): void {

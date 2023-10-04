@@ -16,7 +16,7 @@
           <div class="group-item-1">
             <div class="content">
               <label class="checkBox">
-                <input id="send_counter" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_sendData"
+                <input id="send_counter" type="radio" [(ngModel)]="flatInfo.option_sendData"
                   name="send_counter" [value]=1>
                 <div class="transition"></div>
               </label>
@@ -26,7 +26,7 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="send_area" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_sendData"
+                <input id="send_area" type="radio" [(ngModel)]="flatInfo.option_sendData"
                   name="send_area" [value]=2>
                 <div class="transition"></div>
               </label>
@@ -36,7 +36,7 @@
 
             <div class="content">
               <label class="checkBox">
-                <input id="send_price" type="radio" [disabled]="disabled" [(ngModel)]="flatInfo.option_sendData"
+                <input id="send_price" type="radio" [(ngModel)]="flatInfo.option_sendData"
                   name="send_price" [value]=3>
                 <div class="transition"></div>
               </label>
@@ -54,14 +54,14 @@
           <div class="item-group mt-2">
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label class="disabledNot">Попередні:</mat-label>
-              <input class="disabledNot" matInput type="number" [disabled]="disabled"
+              <input class="disabledNot" matInput type="number"
                 [(ngModel)]="flatInfo.comunal_before" name="comunal_before" (ngModelChange)="calculateConsumed()">
             </mat-form-field>
 
 
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label>Поточні:</mat-label>
-              <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.comunal_now" name="comunal_now"
+              <input matInput type="number" [(ngModel)]="flatInfo.comunal_now" name="comunal_now"
                 (ngModelChange)="calculatePay()" (ngModelChange)="calculateConsumed()">
             </mat-form-field>
           </div>
@@ -75,7 +75,7 @@
 
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
-              <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.tariff" name="tariff"
+              <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
                 (ngModelChange)="calculatePay()">
             </mat-form-field>
           </div>
@@ -89,7 +89,7 @@
 
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label>Сплатив &#8372;:</mat-label>
-              <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+              <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
             </mat-form-field>
           </div>
         </div>
@@ -121,7 +121,7 @@
 
             <mat-form-field class="item-width-50 m-1" appearance="outline">
               <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
-              <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.tariff" name="tariff"
+              <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
                 (ngModelChange)="calculatePay()">
             </mat-form-field>
           </div>
@@ -129,7 +129,7 @@
           <div class="item-group">
             <mat-form-field class="item-select m-1" appearance="outline">
               <mat-label>Сплатив &#8372;:</mat-label>
-              <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+              <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
             </mat-form-field>
           </div>
 
@@ -140,7 +140,7 @@
 
           <mat-form-field class="item-select m-1" appearance="outline">
             <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
-            <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.tariff" name="tariff"
+            <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
               (ngModelChange)="calculatePay()">
           </mat-form-field>
 
@@ -152,7 +152,7 @@
 
           <mat-form-field class="item-select m-1" appearance="outline">
             <mat-label>Сплатив &#8372;:</mat-label>
-            <input matInput type="number" [disabled]="disabled" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+            <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
           </mat-form-field>
 
         </div>
@@ -163,7 +163,7 @@
         </div>
 
         <div class="form-floating p-1">
-          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [disabled]="disabled"
+          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
             [(ngModel)]="flatInfo.about_pay" name="about_pay" (input)="onInput()"></textarea>
           <label for="floatingTextarea">
             <p>Коментар про запис:</p>
@@ -173,7 +173,6 @@
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
               class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="РЕДАГУВАТИ" (click)="editInfo()"><i class="icon fa-solid fa-pen"></i></button>
           <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
               class="icon fa-solid fa-eraser"></i></button>
           <button class="btn" matTooltip="Копіювати" (click)="copy()"><i class="fa-regular fa-copy"></i></button>

@@ -1,14 +1,19 @@
 <div class="body-container">
-  <div class="container" >
-    <app-navbar class="hide-mobile" *ngIf="isAccountOpenStatus === true"></app-navbar>
-    <div class="mobile" [ngClass]="{'open': isChatOpenStatus}">
+
+  <div class="container" *ngIf="isAccountOpenStatus === true">
+    <app-navbar class="hide-mobile"></app-navbar>
+
+    <app-selection-account class="account hide-pc"></app-selection-account>
+    <div class="mobile">
       <router-outlet></router-outlet>
     </div>
-    <app-selection-account class="hide-pc" [ngClass]="{'open': isChatOpenStatus}" *ngIf="isAccountOpenStatus === true"></app-selection-account>
-    <app-footer class="hide-mobile" *ngIf="isAccountOpenStatus === true"></app-footer>
+
+
+    <app-footer class="hide-mobile"></app-footer>
   </div>
+
+  <div class="container container2 p-2" *ngIf="isAccountOpenStatus === false">
+    <router-outlet></router-outlet>
+  </div>
+
 </div>
-
-
-
-

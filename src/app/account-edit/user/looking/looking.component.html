@@ -3,11 +3,16 @@
 </ng-container>
 
 <ng-template #content>
+
+  <div class="page-name-container hide-pc">
+    <div class="page-name page-name0">Сторінка</div>
+    <div class="page-name page-name1">Пасивний</div>
+    <div class="page-name page-name2">пошук</div>
+  </div>
+
   <div class="container-fluid">
 
     <div class="container-navbar">
-      <h4 class="page-name hide-pc mt-2">Налаштування пасивного пошуку</h4>
-
       <nav class="navbar hide-mobile">
         <a [routerLinkActive]="'active'" [routerLink]="'/user/info'"><i class="icon fa-solid fa-chevron-left"></i></a>
         <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
@@ -19,7 +24,7 @@
     <div class="container-card">
 
 
-      <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
+      <div class="container-left col-lg-6 col-md-5 col-sm-6 col-12">
         <h2 class="hide-mobile">Формування пошукових параметрів</h2>
 
         <div class="indicator-box">
@@ -73,18 +78,6 @@
             </div>
           </div>
 
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Мета оренди</mat-label>
-            <mat-select [(ngModel)]="userInfo.purpose_rent" name="purpose_rent">
-              <mat-option [value]="''">Неважливо</mat-option>
-              <mat-option value="0">Переїзд</mat-option>
-              <mat-option value="1">Відряджання</mat-option>
-              <mat-option value="2">Подорож</mat-option>
-              <mat-option value="3">Навчання</mat-option>
-              <mat-option value="4">Особисті причини</mat-option>
-            </mat-select>
-          </mat-form-field>
-
           <mat-label class="group-label">Формат житла</mat-label>
           <div class="group-item">
 
@@ -116,6 +109,18 @@
             </div>
 
           </div>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Мета оренди</mat-label>
+            <mat-select [(ngModel)]="userInfo.purpose_rent" name="purpose_rent">
+              <mat-option [value]="''">Неважливо</mat-option>
+              <mat-option value="0">Переїзд</mat-option>
+              <mat-option value="1">Відряджання</mat-option>
+              <mat-option value="2">Подорож</mat-option>
+              <mat-option value="3">Навчання</mat-option>
+              <mat-option value="4">Особисті причини</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <mat-label class="group-label">Термін оренди</mat-label>
           <div class="group-item">
@@ -358,7 +363,7 @@
             </div>
           </div>
 
-          <mat-label class="group-label">Стан та параметри оселі</mat-label>
+          <mat-label class="group-label">Параметри оселі</mat-label>
           <mat-form-field class="item-select m-1" appearance="outline">
             <mat-label>Стан</mat-label>
             <mat-select [(ngModel)]="userInfo.repair_status" name="repair_status">

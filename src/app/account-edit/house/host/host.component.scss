@@ -7,6 +7,8 @@
   justify-content: flex-end;
   margin: 0;
   padding: 0;
+  height: 75vh;
+  align-content: flex-start;
 }
 
 .container-navbar {
@@ -55,9 +57,9 @@
   position: absolute;
   width: 60px;
   height: 60px;
-  bottom: 13px;
-  left: 15px;
-  z-index: 999999;
+  top: 10px;
+  right: 15px;
+  z-index: 50;
 }
 
 .wrapper {
@@ -67,20 +69,19 @@
   flex-direction: column;
   @include s1-s3 {
     width: 100%;
-    justify-content: flex-end;
     flex-direction: column;
     z-index: 99;
     position: absolute;
-    bottom: -100%;
-    transition: bottom 1s ease;
+    top: -100%;
+    transition: top 1s ease;
   }
 }
 
 .wrapper.open {
   @include s1-s3 {
     width: 100%;
-    background-image: linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.337) 100%);
-    bottom: 70px;
+    height: 100vh;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 100%);
     top: 0;
   }
 }
@@ -101,6 +102,41 @@
   }
 }
 
+.card-box1 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.logo-fluid {
+  height: 200px;
+  height: 200px;
+  border-radius: 50%;
+  transition: transform 1s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.card {
+  height: 60vh;
+}
+
+.logo {
+  height: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: auto;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.2);
+  }
+}
+
 .card-menu {
   color: $color-text;
   display: flex;
@@ -111,8 +147,8 @@
     justify-content: flex-end;
     background-color: $color-white;
     border: 1px solid $color-primary;
-    border-radius: 10px 10px 0 0;
-    padding: 10px 5px 40px;
+    border-radius: 0 0 10px 10px;
+    padding: 20px 10px;
   }
 }
 

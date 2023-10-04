@@ -48,8 +48,7 @@ mat-label {
   width: 200px;
   height: 60px;
   @include s1-s3 {
-    width: 100%;
-    margin-bottom: 10px;
+    width: 50%;
     padding: 10px;
   }
 }
@@ -68,7 +67,7 @@ mat-label {
 }
 
 .box-1 {
-  width: 400px;
+  width: 500px;
   display: flex;
   justify-content: space-between;
   border-radius: 5px 5px 0 0;
@@ -129,6 +128,9 @@ mat-label {
   padding: 0 8px;
   margin-left: 5px;
   border-radius: 5px;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
 }
 
 .noBg {
@@ -240,12 +242,17 @@ mat-label {
   justify-content: center;
   align-items: center;
   @include s1-s3 {
-    position: fixed;
-    width: 60px;
+    width: 150px;
     top: 15px;
-    left: 15px;
-    z-index: 99;
+    right: 15px;
+    z-index: 50;
   }
+}
+
+.mobile-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .btn {
@@ -295,13 +302,11 @@ mat-label {
 }
 
 .container-search {
-  overflow: hidden;
+  transition: max-height 0.6s ease;
   transition: max-height 1s;
-  max-height: 100vh;
 }
 
 .container-search.collapsed {
-  overflow: hidden;
   transition: max-height 1s;
   max-height: 0;
 }
