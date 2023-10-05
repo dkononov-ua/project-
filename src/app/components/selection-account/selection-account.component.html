@@ -34,40 +34,25 @@
     </button>
   </ng-container>
 
+  <div><p class="bold">Discussio Beta</p></div>
+
 </div>
 
-<div class="card-box-user hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuUser"
-  [ngClass]="{'open': openUserMenu, 'hide': hideUserMenu}" (click)="closeMenuUser()">
+<div class="card-box-user hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
   <div class="card-box">
-    <div class="card-menu">
-      <div class="nav-item">
-        <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-          <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenuUser()">
-          <div class="text">Discussio. Beta</div>
-        </a>
-        <h3>Меню аккаунту</h3>
-      </div>
-      <app-navbar-user (click)="closeMenuUser()"></app-navbar-user>
+
+    <div class="card-menu" *ngIf="openUserMenu" (click)="sendMenuClose()">
+      <app-navbar-user></app-navbar-user>
     </div>
+
+    <div class="card-menu" *ngIf="openFlatMenu" (click)="sendMenuClose()">
+      <app-navbar-house></app-navbar-house>
+    </div>
+
   </div>
 </div>
 
-<div class="card-box-flat hide-pc col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="openMenuFlat"
-  [ngClass]="{'open': openFlatMenu, 'hide': hideFlatMenu}">
-  <div class="card-menu">
-    <div class="nav-item">
-      <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-        <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenuFlat()">
-        <div class="text">Discussio. Beta</div>
-      </a>
-      <h3>Меню оселі</h3>
-    </div>
-    <div class="noClose p-2">
-      <app-selection-housing></app-selection-housing>
-    </div>
-    <app-navbar-house></app-navbar-house>
-  </div>
-</div>
+
 
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>

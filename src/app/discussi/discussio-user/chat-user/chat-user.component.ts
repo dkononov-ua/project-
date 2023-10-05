@@ -4,6 +4,7 @@ import { ChoseSubscribeService } from '../../../services/chose-subscribe.service
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { SMILEYS } from '../../../shared/data-smile'
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat-user',
@@ -33,9 +34,14 @@ export class ChatUserComponent implements OnInit {
   infoPublic: any[] | undefined;
   interval: any;
 
+  goBack(): void {
+    this.location.back();
+  }
+
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
+    private location: Location
   ) { }
 
   async ngOnInit(): Promise<any> {

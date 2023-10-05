@@ -80,8 +80,21 @@ interface UserParam {
         style({ transform: 'translateX(0)' }),
         animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
+
     ]),
-  ],
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ]
 })
 
 export class InformationUserComponent implements OnInit {
@@ -284,17 +297,17 @@ export class InformationUserComponent implements OnInit {
   }
 
   clearInfoCont(): void {
-      this.userCont = {
-        facebook: '',
-        instagram: '',
-        email: '',
-        mail: '',
-        phone_alt: 0,
-        telegram: '',
-        tell: 0,
-        user_id: '',
-        viber: '',
-      };
+    this.userCont = {
+      facebook: '',
+      instagram: '',
+      email: '',
+      mail: '',
+      phone_alt: 0,
+      telegram: '',
+      tell: 0,
+      user_id: '',
+      viber: '',
+    };
   }
 
   togglePasswordVisibility() {

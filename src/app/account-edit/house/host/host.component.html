@@ -1,10 +1,52 @@
 <div class="container-fluid">
 
-  <button class="btn-menu hide-pc" (click)="onToggleMenu()">
-    <span class="material-symbols-outlined">
-      menu_open
-    </span>
-  </button>
+  <div class="switch-box p-2 hide-pc">
+
+    <div class="btn-menu">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/address'"><span class="link-text"><i
+            class="fa-solid fa-location-dot"></i></span>
+      </a>
+    </div>
+
+    <div class="btn-menu">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/param'" (click)="onToggleMenu()"><span class="link-text"><i
+            class="fa-solid fa-trowel-bricks"></i></span>
+      </a>
+    </div>
+
+    <div class="btn-menu">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/about'" (click)="onToggleMenu()"><span class="link-text"><i
+            class="fa-solid fa-users-gear"></i></span>
+      </a>
+    </div>
+
+    <div class="btn-menu">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/add-objects'" (click)="onToggleMenu()"><span class="link-text"><i
+            class="fa-solid fa-dolly"></i></span>
+      </a>
+    </div>
+
+    <div class="btn-menu">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/photo'" (click)="onToggleMenu()"><span class="link-text"><i
+            class="fa-solid fa-images"></i></span>
+      </a>
+    </div>
+
+
+
+
+
+
+
+
+
+
+  </div>
 
   <div class="container-navbar hide-mobile">
     <nav class="navbar">
@@ -16,11 +58,11 @@
 
   <div class="container-card">
 
-    <div class="wrapper col-lg-3 col-md-5 col-sm-6 col-12" [ngClass]="{'open': isMenuOpen, 'hide': hideMenu}">
+    <div class="wrapper hide-mobile col-lg-3 col-md-5 col-sm-6 col-12">
       <div class="card-box">
         <div class="card-menu">
-
           <app-selection-housing></app-selection-housing>
+
 
           <div class="mobile">
             <nav *ngIf="selectedFlatId && selectedFlatId !== null">
@@ -44,6 +86,41 @@
 
             </nav>
 
+
+            <app-add-house></app-add-house>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrapper hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
+      <div class="card-box">
+        <div class="card-menu">
+          <div class="mobile">
+            <nav *ngIf="selectedFlatId && selectedFlatId !== null">
+              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"
+                (click)="onToggleMenu()"><span class="link-text">Місцезнаходження</span>
+              </a>
+              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"
+                (click)="onToggleMenu()"><span class="link-text">Характеристики</span>
+              </a>
+              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"
+                (click)="onToggleMenu()"><span class="link-text">Особливості</span>
+              </a>
+
+              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"
+                (click)="onToggleMenu()"><span class="link-text">Наповнення</span>
+              </a>
+
+              <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
+                (click)="onToggleMenu()"><span class="link-text">Розмістити оголошення</span>
+              </a>
+
+            </nav>
+
+            <app-selection-housing></app-selection-housing>
+
             <app-add-house></app-add-house>
 
           </div>
@@ -63,9 +140,29 @@
 
     </div>
 
-    <div class="col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
+    <div class="hide-mobile col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
       <router-outlet></router-outlet>
     </div>
+
+    <div class="hide-pc p-2 col-lg-8 col-md-5 col-sm-6 col-12">
+      <div class="box"> <app-selection-housing class="w-75"></app-selection-housing>
+        <button class="btn-add" (click)="onAddHouse()">
+          <ng-container *ngIf="addHouse; else removeHouse">
+            <i class="fa-solid fa-xmark"></i>
+          </ng-container>
+          <ng-template #removeHouse>
+            <i class="fa-solid fa-plus"></i>
+          </ng-template>
+        </button>
+      </div>
+      <app-add-house *ngIf="addHouse"></app-add-house>
+    </div>
+
+    <div class="hide-pc col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId && indexPage === 1">
+      <router-outlet></router-outlet>
+    </div>
+
+
 
   </div>
 </div>

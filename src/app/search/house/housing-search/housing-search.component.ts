@@ -168,6 +168,9 @@ export class HousingSearchComponent implements OnInit {
   openMenu: boolean = true;
   hideMenu: boolean = false;
 
+  indexPage: number = 0;
+
+
   opensCard () {
     this.openCard = !this.openCard;
     this.hideCard = !this.hideCard;

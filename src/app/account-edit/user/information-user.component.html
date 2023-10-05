@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-  <div class="switch-box hide-pc">
+  <div class="switch-box p-2 hide-pc">
     <div class="btn-menu">
       <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Фото"
         (click)="indexPage = 0">
@@ -231,7 +231,7 @@
 
   </div>
 
-  <div class="container-card hide-pc">
+  <div class="container-card mt-2 hide-pc">
 
     <div [@cardAnimation] class="p-2 col-12" *ngIf="indexPage === 0">
       <div class="img-fluid">

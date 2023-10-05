@@ -181,6 +181,9 @@ mat-label {
 
 .text {
   font-size: 14px;
+  @include s1-s3 {
+    font-size: 12px;
+  }
 }
 
 .group-left {
@@ -336,6 +339,26 @@ mat-label {
 
 .custom-select {
   background-color: transparent;
+}
+
+mat-select {
+  @include s1-s3 {
+    font-size: 12px;
+  }
+}
+
+.numFind {
+  font-size: 30px;
+  font-weight: 600;
+  color: tomato;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.numFind-text {
+  font-size: 12px;
 }
 
 .hide-mobile {

@@ -8,7 +8,7 @@
   overflow-x: hidden;
   @include s1-s3 {
     width: 100%;
-    height: 93vh;
+    height: 100vh;
     background-color: $color-white;
   }
 }
@@ -16,7 +16,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 93vh;
+  height: 100vh;
   position: relative;
   @include s1-s3 {
     padding: 0;
@@ -44,15 +44,32 @@
   @include s1-s3 {
     background-color: $color-white;
     width: 100%;
-    height: 83vh;
+    height: 100vh;
+    padding-bottom: 30px;
     overflow: auto;
     overflow-x: hidden;
   }
 }
 
-.mobile.open {
-  @include s1-s3 {
-    height: 93vh;
+.btn-menu {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-white;
+  position: absolute;
+  border-radius: 10px 0 0 10px;
+  width: 40px;
+  height: 80px;
+  padding: 5px;
+  top: 80%;
+  right: 0;
+  z-index: 200;
+  font-size: 14px;
+  transition: 1s;
+  box-shadow: 0 0 50px 20px rgba(0, 0, 0, 0.25);
+  .fa-solid {
+    color: $color-accent;
   }
 }
 
@@ -69,8 +86,33 @@
 }
 
 .account {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
   @include s1-s3 {
+    width: 100%;
+    flex-direction: column;
+    z-index: 150;
+    position: absolute;
+    top: -100%;
+    transition: top 1s ease;
+  }
+}
+
+.account.open {
+  @include s1-s3 {
+    width: 100%;
     height: 10vh;
+    background-color: $color-white;
+    top: 0;
+    align-items: flex-start;
+  }
+}
+
+.account.hide {
+  @include s1-s3 {
+    display: none;
   }
 }
 

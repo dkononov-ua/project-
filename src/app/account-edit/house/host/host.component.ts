@@ -15,10 +15,15 @@ export class HostComponent implements OnInit {
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
 
-
+  addHouse: boolean = false;
   isMenuOpen = true;
   hideMenu = false;
   selectedFlatId!: string | null;
+  indexPage: number = 1;
+
+  onAddHouse () {
+    this.addHouse = !this.addHouse;
+  }
 
   onToggleMenu() {
     if (this.isMenuOpen) {

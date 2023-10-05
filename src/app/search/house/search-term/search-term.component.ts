@@ -58,7 +58,7 @@ export class SearchTermComponent implements OnInit {
   regions = regions;
   cities = cities;
 
-  isSearchTermCollapsed: boolean = true;
+  isSearchTermCollapsed: boolean = false;
   filteredFlats?: any;
   minValue: number = 0;
   maxValue: number = 100000;

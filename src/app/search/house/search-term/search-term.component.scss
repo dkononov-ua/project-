@@ -12,6 +12,9 @@ mat-label {
   color: tomato;
   align-items: center;
   justify-content: center;
+  @include s1-s3 {
+    font-size: 12px;
+  }
 }
 
 .fa-magnifying-glass {
@@ -148,7 +151,7 @@ mat-label {
   align-items: center;
   margin: 0;
   @include s1-s3 {
-    width: 76px;
+    width: 70px;
   }
 }
 
@@ -182,7 +185,10 @@ mat-label {
 }
 
 .text {
-  font-size: 14px;
+  font-size: 15px;
+  @include s1-s3 {
+    font-size: 12px;
+  }
 }
 
 .group-left {
@@ -306,6 +312,20 @@ mat-label {
   transition: max-height 1s;
 }
 
+.numFind {
+  font-size: 30px;
+  font-weight: 600;
+  color: tomato;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.numFind-text {
+  font-size: 12px;
+}
+
 .container-search.collapsed {
   transition: max-height 1s;
   max-height: 0;
@@ -328,6 +348,7 @@ mat-label {
 .paginator-info {
   display: flex;
   font-size: 13px;
+  text-align: center;
 }
 
 .paginator-button {

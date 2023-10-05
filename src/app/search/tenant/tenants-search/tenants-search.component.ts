@@ -138,6 +138,7 @@ export class TenantsSearchComponent implements OnInit {
   hideCard: boolean = true;
   openMenu: boolean = true;
   hideMenu: boolean = false;
+  indexPage: number = 0;
 
   opensCard () {
     this.openCard = !this.openCard;

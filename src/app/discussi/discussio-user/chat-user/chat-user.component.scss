@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
   @include s1-s3 {
-    min-height: 80vh;
+    min-height: 95vh;
   }
 }
 
@@ -257,7 +257,7 @@ img {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  height: 70vh;
+  height: 90vh;
 }
 
 .chat {

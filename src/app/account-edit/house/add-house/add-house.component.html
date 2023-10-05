@@ -1,7 +1,7 @@
 <ng-template #content>
   <div class="btn-box">
 
-    <mat-form-field class="item-select" appearance="outline" *ngIf="showInput">
+    <mat-form-field class="item-select mt-2 p-2" appearance="outline" *ngIf="showInput">
       <mat-label>Назва оселі</mat-label>
       <input id="flat_name" name="flat_name" placeholder="Створіть свою оселю" matInput [(ngModel)]="flat_name" minlength="4"
         maxlength="20" #flatIdInput="ngModel" required="">

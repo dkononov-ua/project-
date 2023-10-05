@@ -518,9 +518,11 @@ mat-label {
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
-  height: 60px;
+  height: 80px;
+  z-index: 50;
   @include s1-s3 {
-    height: 8vh;
+    background-color: $color-white;
+    padding-top: 20px;
     top: 0;
   }
 }
@@ -531,6 +533,7 @@ mat-label {
   z-index: 10;
   align-items: center;
   justify-content: center;
+  flex: 1;
 }
 
 .material-symbols-outlined {
@@ -542,31 +545,34 @@ mat-label {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 5px;
-  border-radius: 50%;
-  width: 50px;
+  width: 100%;
   height: 50px;
-  padding: 10px 20px;
   z-index: 99;
   color: $color-text;
-  background-color: $color-white;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-
   &.active {
+    background-color: $color-white;
     color: $color-white;
-    background-color: $color-accent;
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+    }
   }
   &:hover {
     color: $color-white;
-    background-color: $color-accent;
   }
 
   @include s1-s3 {
     box-shadow: none;
+    background-color: transparent;
+  }
+
+  .fa-solid,
+  .fa-regular {
+    color: $color-text;
+    font-size: 30px;
   }
 }
+
 
 
 .hide-mobile {

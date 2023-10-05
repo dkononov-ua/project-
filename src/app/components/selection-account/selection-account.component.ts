@@ -6,6 +6,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { Location } from '@angular/common';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
+import { CloseMenuService } from 'src/app/services/close-menu.service';
 
 @Component({
   selector: 'app-selection-account',
@@ -37,20 +38,17 @@ export class SelectionAccountComponent implements OnInit {
 
 
   // user
-  openUserMenu: boolean = false;
-  hideUserMenu: boolean = true;
+  openUserMenu: boolean = true;
+  hideUserMenu: boolean = false;
 
   openMenuUser(): void {
-    this.updateComponent.triggerUpdateUser();
-    if (!this.openUserMenu) {
-      this.hideUserMenu = false;
-      this.openFlatMenu = false;
-      this.hideFlatMenu = true;
-      this.openUserMenu = true;
-    } else if (this.openUserMenu) {
-      this.openUserMenu = false;
-      this.hideUserMenu = true;
-    }
+    this.openUserMenu = true;
+    this.openFlatMenu = false;
+  }
+
+  openMenuFlat(): void {
+    this.openUserMenu = false;
+    this.openFlatMenu = true;
   }
 
   closeMenuUser(): void {
@@ -62,18 +60,7 @@ export class SelectionAccountComponent implements OnInit {
   openFlatMenu: boolean = false;
   hideFlatMenu: boolean = true;
 
-  openMenuFlat(): void {
-    this.updateComponent.triggerUpdate();
-    if (!this.openFlatMenu) {
-      this.hideFlatMenu = false;
-      this.openUserMenu = false;
-      this.hideUserMenu = true;
-      this.openFlatMenu = true;
-    } else if (this.openFlatMenu) {
-      this.openFlatMenu = false;
-      this.hideFlatMenu = true;
-    }
-  }
+
 
   closeMenuFlat(): void {
     this.openFlatMenu = false;
@@ -86,25 +73,19 @@ export class SelectionAccountComponent implements OnInit {
     this.location.back();
   }
 
+  sendCloseMenu = false;
+
   // @HostListener('document:click', ['$event'])
   // onClick(event: Event): void {
-  //   if (!this.el.nativeElement.contains(event.target)) {
-  //     this.closeMenuUser();
-  //     this.closeMenuFlat();
+  //   const containerElement = this.el.nativeElement.querySelector('.card-box-flat');
+  //   const cardBoxElement = this.el.nativeElement.querySelector('.noClose');
+
+  //   if (containerElement.contains(event.target as Node)) {
+  //     if (!cardBoxElement.contains(event.target as Node)) {
+  //       this.closeMenuFlat();
+  //     }
   //   }
   // }
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    const containerElement = this.el.nativeElement.querySelector('.card-box-flat');
-    const cardBoxElement = this.el.nativeElement.querySelector('.noClose');
-
-    if (containerElement.contains(event.target as Node)) {
-      if (!cardBoxElement.contains(event.target as Node)) {
-        this.closeMenuFlat();
-      }
-    }
-  }
 
   constructor(
     private fb: FormBuilder,
@@ -114,6 +95,7 @@ export class SelectionAccountComponent implements OnInit {
     private el: ElementRef,
     private location: Location,
     private updateComponent: UpdateComponentService,
+    private isCloseMenu: CloseMenuService,
   ) { }
 
   ngOnInit(): void {
@@ -121,6 +103,11 @@ export class SelectionAccountComponent implements OnInit {
     this.loadImages();
     this.loadHouses();
     this.loadUserImage();
+  }
+
+  sendMenuClose() {
+    this.sendCloseMenu = false;
+    this.isCloseMenu.setCloseMenu(this.isMenuOpen);
   }
 
   getSelectParam() {

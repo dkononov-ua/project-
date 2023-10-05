@@ -10,21 +10,39 @@
       <app-navbar-user></app-navbar-user>
     </div>
 
-    <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12" (click)="closeMenu()">
+    <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12 hide-mobile">
       <div class="chat m-2">
         <app-chat-user></app-chat-user>
       </div>
     </div>
 
-    <div class="card-box1 col-lg-4 col-md-4 col-sm-4" [ngClass]="{'open': isMenuOpen}" (click)="closeMenu()">
+    <div class="card-box1 col-lg-4 col-md-4 col-sm-4 hide-mobile">
       <app-chat-room></app-chat-room>
     </div>
 
-    <button class="btn-menu hide-pc" (click)="toggleMenu()">
-      <span class="material-symbols-outlined">
-        menu_open
-      </span>
-    </button>
+    <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12 hide-pc" *ngIf="chatOpen">
+      <div class="chat m-2">
+        <app-chat-user></app-chat-user>
+      </div>
+      <button class="btn-chats hide-pc" (click)="openMenuChat()">
+        <span class="material-symbols-outlined">
+          menu_open
+        </span>
+      </button>
+    </div>
+
+    <div class="card-box1 col-lg-4 col-md-4 col-sm-4 hide-pc" *ngIf="chatMenuOpen">
+      <app-chat-room (click)="openChat()"></app-chat-room>
+    </div>
+
+
+
+
+
+
+
+
+
 
   </div>
 </ng-template>

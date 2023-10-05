@@ -26,11 +26,13 @@
           </div>
         </div>
         <div class="container-btn">
-          <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+          <button class="btn hide-mobile" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
             <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
               [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
               [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
           </button>
+          <div class="numFind hide-pc bold"> {{optionsFound}} <span class="numFind-text">Знайдено</span></div>
+
         </div>
       </div>
 
@@ -57,14 +59,11 @@
 
         <div class="group-card col-lg-6 col-md-6 col-sm-12 col-12">
 
-          <div class="group">
-            <div class="group-transparent">
-              <app-selection-housing class="w-50 p-1"></app-selection-housing>
-              <mat-form-field class="search-id w-50 p-1" appearance="outline">
-                <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по ID</mat-label>
-                <input matInput type="text" (ngModelChange)="searchByUserID()" [(ngModel)]="searchQuery" />
-              </mat-form-field>
-            </div>
+          <div class="group hide-pc">
+            <mat-form-field class="search-id p-1" appearance="outline">
+              <mat-label><i class="fa-solid fa-magnifying-glass"></i>Знайти по ID</mat-label>
+              <input matInput type="text" (ngModelChange)="searchByUserID()" [(ngModel)]="searchQuery" />
+            </mat-form-field>
           </div>
 
           <div class="group">
@@ -184,7 +183,7 @@
               </div>
 
               <div class="group">
-                <mat-label class="label-mat">Чи є сусід по кімнаті?</mat-label>
+                <mat-label class="label-mat">Сусід по кімнаті?</mat-label>
                 <div class="group-transparent m-1 m-1 border-horizontal">
                   <div class="content">
                     <label class="checkBox">

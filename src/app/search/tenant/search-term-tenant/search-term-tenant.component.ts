@@ -132,7 +132,7 @@ export class SearchTermTenantComponent implements OnInit {
   maxValueKitchen: number = 100;
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
-  isSearchTermCollapsed: boolean = true;
+  isSearchTermCollapsed: boolean = false;
   filteredUsers!: [any];
   searchTimer: any;
   flats: any[] | undefined;

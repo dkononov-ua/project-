@@ -86,7 +86,7 @@ export class SubscribersDiscusComponent implements OnInit {
   loading: boolean | undefined;
   userData: any;
   currentSubscription: Subject<unknown> | undefined;
-  indexPage: number = 0;
+  indexPage: number = 1;
 
   mobile: boolean = true;
 

@@ -27,11 +27,12 @@
         </div>
 
         <div class="container-btn">
-          <button class="btn" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
+          <button class="btn hide-mobile" (click)="toggleSearchTerm()" matTooltip="Пошуковий фільтр">
             <i class="fa-solid animate" [class.rotate-up]="isSearchTermCollapsed"
               [class.rotate-down]="!isSearchTermCollapsed" [class.fa-chevron-up]="isSearchTermCollapsed"
               [class.fa-chevron-down]="!isSearchTermCollapsed"></i>
           </button>
+          <div class="numFind hide-pc bold"> {{optionsFound}} <span class="numFind-text">Знайдено</span></div>
         </div>
       </div>
 

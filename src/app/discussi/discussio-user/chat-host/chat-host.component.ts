@@ -9,26 +9,17 @@ import { Location } from '@angular/common';
 export class ChatHostComponent implements AfterViewInit {
   loading: boolean = true;
 
-  isMenuOpen = false;
-  isChatOpenStatus: boolean = true;
+  chatOpen: boolean = false;
+  chatMenuOpen: boolean = true;
 
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
+  openChat(): void {
+    this.chatOpen = true;
+    this.chatMenuOpen = false;
   }
 
-  closeMenu(): void {
-    this.isMenuOpen = false;
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.closeMenu();
-    }
+  openMenuChat(): void {
+    this.chatMenuOpen = true;
+    this.chatOpen = false;
   }
 
   constructor(
