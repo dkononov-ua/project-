@@ -140,10 +140,6 @@
 
     </div>
 
-    <div class="hide-mobile col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
-      <router-outlet></router-outlet>
-    </div>
-
     <div class="hide-pc p-2 col-lg-8 col-md-5 col-sm-6 col-12">
       <div class="box"> <app-selection-housing class="w-75"></app-selection-housing>
         <button class="btn-add" (click)="onAddHouse()">
@@ -158,10 +154,9 @@
       <app-add-house *ngIf="addHouse"></app-add-house>
     </div>
 
-    <div class="hide-pc col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId && indexPage === 1">
-      <router-outlet></router-outlet>
+    <div class="col-lg-8 col-md-5 col-sm-6 col-12" >
+      <router-outlet *ngIf="selectedFlatId"></router-outlet>
     </div>
-
 
 
   </div>

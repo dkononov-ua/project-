@@ -187,6 +187,7 @@ export class TenantsSearchComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
+    this.indexPage = 2;
     setTimeout(() => {
       this.checkSubscribe();
     }, 50);

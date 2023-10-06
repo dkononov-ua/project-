@@ -2,58 +2,49 @@
   <div class="container">
 
     <div class="card-box-logo col-lg-6 col-md-6 col-sm-12 col-12">
-        <div class="logo-box">
-          <img class="logo" src="{{path_logo}}" alt="logo">
-          <div class="name">
-            <h1 class="title-name">Discussio</h1>
-            <div class="text-abs hide-pc">Зручна та ефективна система управління Вашою оселею</div>
-            <p class="beta">Beta</p>
-          </div>
-          <h3 class="title-text hide-mobile">Зручна та ефективна система управління Вашою оселею</h3>
+      <div class="logo-box">
+        <img class="logo" src="{{path_logo}}" alt="logo">
+        <div class="name">
+          <h1 class="title-name">Discussio</h1>
+          <div class="text-abs hide-pc">Зручна та ефективна система управління Вашою оселею</div>
+          <p class="beta">Beta</p>
         </div>
-
-        <div class="logo-box hide-mobile">
-          <div class="text"> © Discussio. Simplify property management with Discussio.
-            Developed by Discussio team 2023.</div>
-        </div>
+        <h3 class="title-text hide-mobile">Зручна та ефективна система управління Вашою оселею</h3>
+      </div>
+      <div class="logo-box hide-mobile">
+        <div class="text"> © Discussio. Simplify property management with Discussio.
+          Developed by Discussio team 2023.</div>
+      </div>
     </div>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
-
       <div class="card m-2 p-2" *ngIf="isFeatureEnabled" [@cardAnimation2]>
-
         <div class="text-box border-bottom">
           <h2>Зареєструватись</h2>
         </div>
-
         <div class="text-box">
           <p>Зареєструйтесь для входу </p>
           <button (click)="toggleMode()" class="btn-none">або увійдіть в аккаунт.</button>
         </div>
-
         <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
-
           <mat-form-field class="inputbox">
             <mat-label>Дата народження</mat-label>
             <input matInput [matDatepicker]="picker" id="dob" formControlName="dob">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-
           <mat-form-field class="inputbox mt-2" appearance="outline">
             <mat-label>Ім'я користувача</mat-label>
             <input matInput class="input-field" id="userName" type="text" formControlName="userName"
               placeholder="Ім'я користувача" required maxlength="15" minlength="3">
             <div *ngIf="formErrors.userName" class="alert alert-danger">{{formErrors.userName}}</div>
           </mat-form-field>
-
           <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput class="input-field" id="email" type="email" formControlName="email" placeholder="email"
               required>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </mat-form-field>
-
           <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Пароль</mat-label>
             <input matInput class="input-field" id="password" [type]="passwordType" name="password"
@@ -64,32 +55,26 @@
             </button>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </mat-form-field>
-
+          <div class="box-agree p-2">
+            <label class="checkBox">
+              <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+              <div class="transition"></div>
+            </label>
+            <p class="w-75 p-2">Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
+                [routerLink]="'/user-licence'">угодою користувача</a></p>
+          </div>
           <button class="btn" [disabled]="!registrationForm.valid || !agreementAccepted">Зареєструватись</button>
         </form>
-
-        <div class="content">
-          <label class="checkBox">
-            <input id="students" type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
-            <div class="transition"></div>
-          </label>
-          <p>Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
-              [routerLink]="'/user-licence'">угодою користувача</a></p>
-        </div>
-
       </div>
 
       <div class="card m-2 p-2" *ngIf="!isFeatureEnabled" [@cardAnimation2]>
-
         <div class="text-box border-bottom">
           <h2>Увійти</h2>
         </div>
-
         <div class="text-box">
           <p>Якщо у вас є обліковий запис, увійдіть тут</p>
           <button (click)="toggleMode()" class="btn-none">або зареєструйтесь.</button>
         </div>
-
         <form class="form" [formGroup]="loginForm">
           <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Email</mat-label>
@@ -97,7 +82,6 @@
               required>
             <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
           </mat-form-field>
-
           <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Пароль</mat-label>
             <input matInput class="input-field" id="password" [type]="passwordType" name="password"
@@ -108,26 +92,19 @@
             </button>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </mat-form-field>
-
-          <button class="btn" [disabled]="!loginForm.valid" (click)="onSubmit()">
-            Увійти
-          </button>
+          <button class="btn" [disabled]="!loginForm.valid" (click)="onSubmit()">Увійти</button>
         </form>
-
-
-
         <p>Забули пароль?</p>
-
-
       </div>
-
     </div>
 
   </div>
-
-
 </div>
 
 <div *ngIf="statusMessage" class="status-message">
-  <div><img class="img-statusMessage" src="{{path_logo}}" alt="logo"></div>{{ statusMessage }}
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
 </div>
+
+

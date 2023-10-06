@@ -300,7 +300,7 @@
   </div>
 
   <div class="section hide-pc col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 1">
-    <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredFlats">
+    <div class="card-container" cdkScrollable *ngIf="filteredFlats">
       <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
         [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
         [style.animation-delay.ms]="i * 100">
@@ -321,14 +321,14 @@
       </div>
     </div>
 
-    <div [@cardAnimation] class="card-container" *ngIf="filteredFlats == null">
+    <div class="card-container" *ngIf="filteredFlats == null">
       <h2>Нічого не знайдено...</h2>
     </div>
   </div>
 
   <div class="section-1 hide-pc col-lg-8 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 2">
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-house">
+      <div class="card-house">
 
         <div class="card card-selected">
 
@@ -449,7 +449,7 @@
     </div>
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation2] class="card-house">
+      <div class="card-house">
         <div class="card card-selected p-2" *ngIf="selectedFlat">
 
           <div class="container-sticker">

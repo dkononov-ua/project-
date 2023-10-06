@@ -1,105 +1,108 @@
 <ng-template #content>
-<div class="container">
-  <div class="container-card">
 
-    <button class="btn-menu hide-pc" (click)="onToggleMenu()">
-      <span class="material-symbols-outlined">
-        menu_open
-      </span>
-    </button>
 
-    <div class="wrapper col-lg-3 col-md-4 col-sm-12 col-12" [ngClass]="{'open': isMenuOpen, 'hide': hideMenu}">
-      <div class="card-box">
-        <div class="card-menu">
 
-          <div class="hide-mobile" *ngIf="!selectedName">
-            <app-selection-account></app-selection-account>
-          </div>
+  <div class="container">
+    <div class="container-card">
 
-          <div *ngIf="selectedName" class="flex-column">
-            <div class="text-min">Вам надано доступ на перегляд статистики по оселі:</div>
-            <div class="text-title">{{selectedName}}</div>
-          </div>
+      <div class="wrapper hide-mobile col-lg-3 col-md-4 col-sm-12 col-12">
+        <div class="card-box">
+          <div class="card-menu">
 
-          <div class="mt-2" *ngIf="!selectedName">
-            <app-selection-housing></app-selection-housing>
-          </div>
+            <div class="hide-mobile" *ngIf="!selectedName">
+              <app-selection-account></app-selection-account>
+            </div>
 
-          <app-select-comun></app-select-comun>
-          <div class="box flex-row">
-            <app-select-year class="w-50 mr-1"></app-select-year>
-            <app-select-month class="w-50"></app-select-month>
-          </div>
-          <app-comun-nav (click)="onToggleMenu()"></app-comun-nav>
+            <div *ngIf="selectedName" class="flex-column">
+              <div class="text-min">Вам надано доступ на перегляд статистики по оселі:</div>
+              <div class="text-title">{{selectedName}}</div>
+            </div>
 
-          <div *ngIf="discussio_view === false">
-            <div class="btn-box m-2" *ngIf="!showInput">
+            <div class="mt-2" *ngIf="!selectedName">
+              <app-selection-housing></app-selection-housing>
+            </div>
 
-              <div class="btn-name">
-                <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
-                    class="fa-regular fa-circle-xmark"></i></button>
-                <mat-label>Видалити послугу</mat-label>
+            <app-select-comun></app-select-comun>
+            <div class="box flex-row">
+              <app-select-year class="w-50 mr-1"></app-select-year>
+              <app-select-month class="w-50"></app-select-month>
+            </div>
+            <app-comun-nav (click)="onToggleMenu()"></app-comun-nav>
+
+            <div *ngIf="discussio_view === false">
+              <div class="btn-box m-2" *ngIf="!showInput">
+
+                <div class="btn-name">
+                  <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
+                      class="fa-regular fa-circle-xmark"></i></button>
+                  <mat-label>Видалити послугу</mat-label>
+                </div>
+
+                <div class="btn-name">
+                  <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
+                    <i class="fa-solid fa-circle-plus"></i>
+                  </button>
+                  <mat-label>Створити послугу</mat-label>
+                </div>
+
               </div>
 
-              <div class="btn-name">
-                <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
-                  <i class="fa-solid fa-circle-plus"></i>
-                </button>
-                <mat-label>Створити послугу</mat-label>
+              <div class="box m-2" *ngIf="showInput">
+
+                <mat-form-field class="inputbox" appearance="outline">
+                  <mat-label>Оберіть або створіть нову</mat-label>
+                  <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу"
+                    [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
+                      {{ name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <div class="btn-group">
+
+                  <div class="btn-name">
+                    <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
+                      <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                    <mat-label>СТВОРИТИ</mat-label>
+                  </div>
+
+                  <div class="btn-name">
+                    <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА"
+                      (click)="showInput = false">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                    <mat-label>ВІДМІНА</mat-label>
+                  </div>
+
+
+
+                </div>
+
               </div>
 
             </div>
 
-            <div class="box m-2" *ngIf="showInput">
 
-              <mat-form-field class="inputbox" appearance="outline">
-                <mat-label>Оберіть або створіть нову</mat-label>
-                <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу"
-                  [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
-                    {{ name }}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-
-              <div class="btn-group">
-
-                <div class="btn-name">
-                  <button mat-icon-button class="btn-create" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
-                    <i class="fa-solid fa-circle-check"></i>
-                  </button>
-                  <mat-label>СТВОРИТИ</mat-label>
-                </div>
-
-                <div class="btn-name">
-                  <button mat-icon-button class="btn-create btn-deleted" matTooltip="ВІДМІНА"
-                    (click)="showInput = false">
-                    <i class="fa-solid fa-circle-xmark"></i>
-                  </button>
-                  <mat-label>ВІДМІНА</mat-label>
-                </div>
-
-
-
-              </div>
-
-            </div>
 
           </div>
-
-
-
         </div>
       </div>
-    </div>
 
-    <div class="container-box col-lg-8 col-md-8 col-sm-12 col-12">
-      <router-outlet></router-outlet>
-    </div>
+      <div class="switch-box p-2 hide-pc">
+        <app-comun-nav></app-comun-nav>
+      </div>
 
+      <div class="container-box col-lg-8 col-md-8 col-sm-12 col-12">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
   </div>
-</div>
+
+
 </ng-template>
 
 <ng-container *ngIf="loading; else content">

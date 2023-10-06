@@ -22,15 +22,15 @@
       </div>
 
       <div class="btn-menu">
-        <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3"
-          matTooltip="Чат">
-          <i class="fa-regular fa-message"></i></button>
-      </div>
-
-      <div class="btn-menu">
         <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 4}" (click)="indexPage = 4"
           matTooltip="Представник">
           <i class="fa-solid fa-building-user"></i></button>
+      </div>
+
+      <div class="btn-menu">
+        <button [disabled]="!selectedFlat || !chatExists" class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3"
+          matTooltip="Чат">
+          <i class="fa-regular fa-message"></i></button>
       </div>
 
     </div>

@@ -5,7 +5,8 @@
   min-height: 70vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  position: relative;
   @include s1-s3 {
     min-height: 95vh;
   }
@@ -245,10 +246,15 @@ img {
 
 .container-chat-messages {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: stretch;
   position: relative;
-  height: auto;
+  height: 50vh;
+  overflow: auto;
+
+  @include s1-s3 {
+    height: auto;
+  }
 }
 
 .container-noChat {
@@ -257,7 +263,7 @@ img {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  height: 90vh;
+  height: auto;
 }
 
 .chat {
@@ -587,9 +593,9 @@ input {
 
 .group1 {
   width: 100%;
-  position: sticky;
+  position: absolute;
   height: 150px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 30%, rgb(255, 255, 255) 100%);
+  background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 70%);
   z-index: 50;
   right: 0;
   top: 0;

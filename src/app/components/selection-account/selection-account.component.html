@@ -15,7 +15,7 @@
   </ng-container>
 </div>
 
-<div class="navbar-toggle" [ngClass]="{'open': isMenuOpen}">
+<div class="navbar-toggle hide-pc" [ngClass]="{'open': isMenuOpen}">
 
   <button class="link-btn with-image" [ngClass]="{'active': openUserMenu}" matTooltip="МІЙ ПРОФІЛЬ"
     (click)="openMenuUser()">
@@ -34,25 +34,21 @@
     </button>
   </ng-container>
 
-  <div><p class="bold">Discussio Beta</p></div>
+  <div>
+    <p class="bold">Discussio Beta</p>
+  </div>
 
 </div>
 
-<div class="card-box-user hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
-  <div class="card-box">
+<div class="card-box hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
+  <div class="card-menu" *ngIf="openUserMenu" (click)="sendMenuClose()">
+    <app-navbar-user></app-navbar-user>
+  </div>
 
-    <div class="card-menu" *ngIf="openUserMenu" (click)="sendMenuClose()">
-      <app-navbar-user></app-navbar-user>
-    </div>
-
-    <div class="card-menu" *ngIf="openFlatMenu" (click)="sendMenuClose()">
-      <app-navbar-house></app-navbar-house>
-    </div>
-
+  <div class="card-menu" *ngIf="openFlatMenu" (click)="sendMenuClose()">
+    <app-navbar-house></app-navbar-house>
   </div>
 </div>
-
-
 
 <div *ngIf="loading" class="loader-overlay">
   <div class="loader"></div>

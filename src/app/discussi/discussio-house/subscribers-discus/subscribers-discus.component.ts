@@ -137,7 +137,7 @@ export class SubscribersDiscusComponent implements OnInit {
     this.getSubs(this.selectedFlatId, this.offs);
   }
   selectedSubscriberId: string | null = null;
-  indexPage: number = 0;
+  indexPage: number = 1;
   chatExists = false;
 
   constructor(

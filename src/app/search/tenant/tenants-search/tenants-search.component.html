@@ -19,8 +19,8 @@
 
   <app-selection-housing class="w-50"></app-selection-housing>
 
-
 </div>
+
 <app-search-term-tenant class="p-2" *ngIf="indexPage === 0"></app-search-term-tenant>
 
 <div class="container-house">
@@ -368,11 +368,11 @@
   </div>
 
   <div class="section hide-pc col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 1">
-    <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredUsers">
+    <div class="card-container" cdkScrollable *ngIf="filteredUsers">
       <div class="card-wrapper" *ngFor="let user of filteredUsers; let i = index"
-        [ngClass]="{ 'selected': selectedUser === user }" (click)="selectUser(user)"
+        [ngClass]="{ 'selected': selectedUser === user }"
         [style.animation-delay.ms]="i * 100">
-        <a class="card-mini m-2" [class.selected]="selectedUser === user" [@slideAnimation]>
+        <a class="card-mini m-2" [class.selected]="selectedUser === user" [@slideAnimation] (click)="selectUser(user)">
 
           <div class="card-img-container">
             <img class="card-img-top" [src]="serverPathPhotoUser + (user.img ? user.img : 'user_default.svg')"
@@ -419,7 +419,7 @@
   <div class="section-1 hide-pc col-lg-8 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 2">
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-house m-2" *ngIf="selectedUser">
+      <div class="card-house m-2" *ngIf="selectedUser">
 
         <div class="card card-selected">
 
@@ -533,7 +533,7 @@
     </div>
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation2] class="card-house m-2" *ngIf="selectedUser">
+      <div class="card-house m-2" *ngIf="selectedUser">
         <div class="card card-selected p-2">
 
           <div class="container-sticker">

@@ -47,6 +47,8 @@ export class HostComunComponent implements OnInit {
 
   isMenuOpen = true;
   hideMenu = false;
+  indexPage: number = 1;
+
 
   onToggleMenu() {
     if (this.isMenuOpen) {

@@ -28,11 +28,11 @@ import { serverPath, path_logo } from 'src/app/shared/server-config';
     trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)', opacity: 1.0 }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
+        animate('1400ms 200ms ease-in-out', style({ transform: 'translateX(230%)', opacity: 0.0 }))
       ])
     ]),
   ],

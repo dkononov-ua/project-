@@ -1,8 +1,8 @@
 
 
 // path to the server
-// export const serverPath = 'http://localhost:3000'
-export const serverPath = 'https://sky.syrykh.com:8000'
+export const serverPath = 'http://localhost:3000'
+// export const serverPath = 'https://sky.syrykh.com:8000'
 
 
 
