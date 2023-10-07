@@ -4,10 +4,8 @@
     <div *ngIf="!selectedName">
 
       <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
-        <span class="link-text">Інфо послуги</span>
-        <span class="material-symbols-outlined">
-          dns
-          </span>
+        <span class="link-text">Реквізити</span>
+        <i class="fa-solid fa-building-columns"></i>
       </a>
 
     </div>
@@ -15,38 +13,28 @@
     <div *ngIf="!selectedName">
       <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
         <span class="link-text">Внесення даних</span>
-        <span class="material-symbols-outlined">
-          extension
-          </span>
+        <i class="fa-solid fa-pen"></i>
       </a>
     </div>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
-      <span class="link-text">Статистика за сезон</span>
-      <span class="material-symbols-outlined">
-        bar_chart
-        </span>
+      <span class="link-text">Послуга за сезон</span>
+      <i class="fa-solid fa-chart-column"></i>
     </a>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-month'">
-      <span class="link-text">Загальна за місяць</span>
-      <span class="material-symbols-outlined">
-        show_chart
-        </span>
+      <span class="link-text">Вся за місяць</span>
+      <i class="fa-solid fa-building-columns"></i>
     </a>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-year'">
-      <span class="link-text">Загальна за рік</span>
-      <span class="material-symbols-outlined">
-        query_stats
-        </span>
+      <span class="link-text">Вся за рік</span>
+      <i class="fa-solid fa-chart-pie"></i>
     </a>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-season'">
       <span class="link-text">Загальний графік</span>
-      <span class="material-symbols-outlined">
-        monitoring
-        </span>
+      <i class="fa-solid fa-chart-bar"></i>
     </a>
 
   </div>

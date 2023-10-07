@@ -7,7 +7,6 @@
   pointer-events: none;
 }
 
-
 .img-fluid {
   display: flex;
   flex-direction: column;
@@ -92,7 +91,8 @@ img {
 .border-group {
   border-radius: 10px;
   padding: 5px;
-  box-shadow: 1px 10px 10px rgba(0, 0, 0, 0.05),
+  box-shadow:
+    1px 10px 10px rgba(0, 0, 0, 0.05),
     1px 10px 10px rgba(0, 0, 0, 0.056);
 }
 
@@ -128,7 +128,6 @@ img {
 }
 
 .btn {
-  width: 100%;
   margin: 5px 0 5px 0;
   color: $color-light;
   height: 45px;
@@ -149,6 +148,7 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .checkBox input[type="radio"] {
@@ -189,6 +189,13 @@ mat-form-field {
 
 .text {
   text-align: center;
+}
+
+.text-1 {
+  font-size: 16px;
+  @include s1-s3 {
+    font-size: 12px;
+  }
 }
 
 .month-label {
@@ -293,7 +300,9 @@ mat-form-field {
   border-radius: 10px;
   margin: 5px;
   padding: 0 10px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.107), 0 5px 10px rgba(0, 0, 0, 0.101);
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.107),
+    0 5px 10px rgba(0, 0, 0, 0.101);
 }
 
 .statNum {
@@ -322,6 +331,41 @@ mat-form-field {
 
 .progress-bar {
   animation: slideFromBottom 800ms ease-in-out;
+}
+
+.form-container {
+  display: flex;
+  width: 100%;
+  height: 65px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.list-form {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.list-label {
+  color: $color-accent;
+  border: none;
+  padding: 0;
+}
+
+.list-select {
+  border: none;
+  font-size: 20px;
+}
+
+.list-option {
+  border: none;
+  border-radius: 10px;
 }
 
 .hide-mobile {

@@ -1,10 +1,5 @@
 <div class="container-card col-12">
-
-  <div class="comunal-info m-2 p-2">
-    <h3 class="text">Загальна статистика по місяцю <span class="accent"> {{selectedMonth}}, </span> оселі <span
-        class="accent"> {{selectedName}} ID: {{selectedFlatId}} </span>
-      за <span class="accent">{{selectedYear}}</span>рік</h3>
-  </div>
+  <h3 class="text"><span class="accent">{{selectedMonth}}, {{selectedYear}}рік</span></h3>
 
   <div class="table-container" *ngIf="!noInformationMessage">
     <div class="wrapper">
@@ -95,6 +90,8 @@
     <div class="message-box" *ngIf="noInformationMessage">
       <h4>Статистики за цей місяць немає...</h4>
     </div>
+
+
 
     <div class="container-box">
 

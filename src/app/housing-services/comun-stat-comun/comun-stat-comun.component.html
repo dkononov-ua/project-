@@ -4,20 +4,20 @@
 
 <ng-template #content>
   <div class="container-card col-12">
-    <div class="comunal-info m-2 p-2">
-      <h3 class="text">Статистика оселі <span class="accent"> {{selectedName}} ID: {{selectedFlatId}} </span> по сезонах, послуга <span
-        class="accent">{{selectedComun}}</span> за <span class="accent">{{selectedYear}} </span> рік</h3>
+    <div class="comunal-info">
+      <h3 class="text"><span class="accent">{{selectedComun}}</span><span class="accent"> {{selectedYear}} рік</span>
+      </h3>
     </div>
     <div class="group col-12">
       <div class="btn-group">
-        <button class="btn" [class.active]="option_stat === 2" (click)="option_stat = 2">
-          <span class="checkBox-span">Нарахування</span>
+        <button class="btn w-30" [class.active]="option_stat === 2" (click)="option_stat = 2">
+          <span class="text-1">Нарахування</span>
         </button>
-        <button class="btn" [class.active]="option_stat === 3" (click)="option_stat = 3">
-          <span class="checkBox-span">Споживання</span>
+        <button class="btn w-30" [class.active]="option_stat === 3" (click)="option_stat = 3">
+          <span class="text-1">Споживання</span>
         </button>
-        <button class="btn" [class.active]="option_stat === 1" (click)="option_stat = 1">
-          <span class="checkBox-span">Сплачено</span>
+        <button class="btn w-30" [class.active]="option_stat === 1" (click)="option_stat = 1">
+          <span class="text-1">Сплачено</span>
         </button>
       </div>
     </div>
@@ -99,12 +99,14 @@
           <div class="statContainer p-1" *ngIf="option_stat === 3">
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum accent">{{totalYearStats?.totalConsumption}} <span class="unit">{{ selectedUnit
+                  }}</span></div>
               <mat-label class="statNumName">Спожито загалом/рік:</mat-label>
             </div>
 
             <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.monthAverageConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+              <div class="statNum accent">{{totalYearStats?.monthAverageConsumption}} <span class="unit">{{ selectedUnit
+                  }}</span></div>
               <mat-label class="statNumName">Середнє по місяцю:</mat-label>
             </div>
 
@@ -124,7 +126,8 @@
             </div>
 
             <div class="statBox autumn">
-              <div class="statNum ">{{autumn?.totalConsumption}} <span class="unit"><span class="unit">{{ selectedUnit }}</span></span></div>
+              <div class="statNum ">{{autumn?.totalConsumption}} <span class="unit"><span class="unit">{{ selectedUnit
+                    }}</span></span></div>
               <mat-label class="statNumName">Спожито Осінь:</mat-label>
             </div>
 
@@ -141,8 +144,7 @@
             <div class="progress-container">
               <div [@columnAnimation] *ngFor="let season of seasonPayments" class="progress" role="progressbar"
                 [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
-                <div  class="progress-bar"
-                  [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
+                <div class="progress-bar" [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
                   {{ season.payment }}
                 </div>
                 <div class="month-label">{{ season.season }}</div>
@@ -155,8 +157,7 @@
             <div class="progress-container">
               <div [@columnAnimation] *ngFor="let season of seasonNeedPay" class="progress" role="progressbar"
                 [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
-                <div  class="progress-bar"
-                  [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
+                <div class="progress-bar" [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
                   {{ season.needPay }}
                 </div>
                 <div class="month-label">{{ season.season }}</div>
@@ -169,7 +170,7 @@
             <div class="progress-container">
               <div [@columnAnimation] *ngFor="let season of seasonConsumptions" class="progress" role="progressbar"
                 [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
-                <div  class="progress-bar"
+                <div class="progress-bar"
                   [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
                   {{ season.consumptions }}
                 </div>

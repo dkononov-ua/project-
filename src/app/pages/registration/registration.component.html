@@ -55,16 +55,20 @@
             </button>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </mat-form-field>
-          <div class="box-agree p-2">
-            <label class="checkBox">
-              <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
-              <div class="transition"></div>
-            </label>
-            <p class="w-75 p-2">Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
-                [routerLink]="'/user-licence'">угодою користувача</a></p>
-          </div>
-          <button class="btn" [disabled]="!registrationForm.valid || !agreementAccepted">Зареєструватись</button>
+
+          <button class="btn" [disabled]="!registrationForm.valid || !agreementAccepted"
+            [ngClass]="{'disabled-button': !registrationForm.valid || !agreementAccepted}">
+            Зареєструватись
+          </button>
         </form>
+        <div class="box-agree p-2">
+          <label class="checkBox">
+            <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+            <div class="transition"></div>
+          </label>
+          <p class="w-75 p-2">Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
+              [routerLink]="'/user-licence'">угодою користувача</a></p>
+        </div>
       </div>
 
       <div class="card m-2 p-2" *ngIf="!isFeatureEnabled" [@cardAnimation2]>
@@ -92,7 +96,8 @@
             </button>
             <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
           </mat-form-field>
-          <button class="btn" [disabled]="!loginForm.valid" (click)="onSubmit()">Увійти</button>
+          <button class="btn" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
+            (click)="onSubmit()">Увійти</button>
         </form>
         <p>Забули пароль?</p>
       </div>
@@ -106,5 +111,3 @@
   <img class="status-message-logo" src="{{path_logo}}" alt="logo">
   <div class="status-message-name">Discussio</div>
 </div>
-
-

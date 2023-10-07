@@ -190,10 +190,17 @@ p {
   font-weight: 600;
   letter-spacing: 0.2em;
   width: 90%;
+  background-color: $color-accent;
 
   @include s1-s3 {
     width: 90%;
   }
+}
+
+.disabled-button {
+  background-color: gray;
+  color: white;
+  cursor: not-allowed;
 }
 
 .text-box {

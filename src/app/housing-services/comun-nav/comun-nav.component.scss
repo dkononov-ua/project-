@@ -10,12 +10,9 @@
 
 .box {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  @include s1-s3 {
-    flex-wrap: nowrap;
-  }
+  flex-wrap: nowrap;
 }
 
 a {
@@ -27,7 +24,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 110px;
+  width: 90px;
   height: 70px;
   display: flex;
   transition: 0.4s;
@@ -35,6 +32,8 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  background-color: transparent;
+  margin-right: 5px;
 
   &:active {
     color: $color-accent;
@@ -86,3 +85,16 @@ a {
   text-align: center;
   font-size: 10px;
 }
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+

@@ -12,6 +12,8 @@ export class ComunNavComponent {
   selectedView: any;
   selectedName: string | null | undefined;
 
+  indexPage: number = 0;
+
   constructor (
     private discussioViewService: DiscussioViewService,
     private selectedViewComun: ViewComunService,

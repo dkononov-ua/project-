@@ -1,11 +1,5 @@
 <div class="container-card col-12">
 
-  <div class="comunal-info m-2 p-2">
-    <h3 class="text">Загальна статистика за <span class="accent">{{selectedYear}}</span>рік, оселі <span class="accent">
-        {{selectedName}} ID: {{selectedFlatId}} </span>
-    </h3>
-  </div>
-
   <div class="mat-form-field mb-2">
     <label class="label p-1" for="sortSelect">Сортування:</label>
     <mat-select id="sortSelect" [(ngModel)]="selectedSortOption" (selectionChange)="sortData()">

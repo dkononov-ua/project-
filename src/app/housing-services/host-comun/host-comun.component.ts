@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeComunService } from '../change-comun.service';
@@ -44,48 +44,7 @@ export class HostComunComponent implements OnInit {
   discussio_view: boolean = false;
   selectedView: string | null | undefined;
   selectedName: string | null | undefined;
-
-  isMenuOpen = true;
-  hideMenu = false;
-  indexPage: number = 1;
-
-
-  onToggleMenu() {
-    if (this.isMenuOpen) {
-      this.openMenu();
-      setTimeout(() => {
-        this.hideMenu = !this.hideMenu;
-      }, 500);
-    } else {
-      this.hideMenu = !this.hideMenu;
-      setTimeout(() => {
-        this.openMenu();
-      }, 100);
-    }
-  }
-
-  openMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  closeMenu() {
-    this.isMenuOpen = false;
-    setTimeout(() => {
-      this.hideMenu = true;
-    }, 500);
-  }
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    const containerElement = this.el.nativeElement.querySelector('.wrapper');
-    const cardBoxElement = this.el.nativeElement.querySelector('.card-box');
-
-    if (containerElement.contains(event.target as Node)) {
-      if (!cardBoxElement.contains(event.target as Node)) {
-        this.closeMenu();
-      }
-    }
-  }
+  indexPage: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -95,7 +54,6 @@ export class HostComunComponent implements OnInit {
     private route: ActivatedRoute,
     private discussioViewService: DiscussioViewService,
     private selectedViewComun: ViewComunService,
-    private el: ElementRef,
   ) { }
 
   ngOnInit(): void {
