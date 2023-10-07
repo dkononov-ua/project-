@@ -49,16 +49,20 @@ export class ChatUserComponent implements OnInit {
   }
 
   getSelectSubscription() {
-    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(flatId => {
+    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(async flatId => {
+      console.log(flatId)
       this.selectedFlat = flatId;
       if (flatId) {
         const offs = 0;
         this.selectedFlat = flatId;
-        this.getMessages(this.selectedFlat);
-        this.getUserChats(this.selectedFlat, offs);
+        await this.getUserChats(this.selectedFlat, offs);
+        await this.getMessages(this.selectedFlat);
+      } else {
+        this.selectedFlat = undefined;
       }
     });
   }
+
 
   addSmiley(smiley: string) {
     this.messageText += smiley;
@@ -75,16 +79,18 @@ export class ChatUserComponent implements OnInit {
   }
 
   async getUserChats(selectedFlat: string, offs: number): Promise<any> {
+    console.log(11111)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/chat/get/userchats';
 
-    if (userJson) {
+    if (userJson && selectedFlat) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
         offs: offs
       };
       const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response)
       if (Array.isArray(response.status)) {
         this.infoPublic = await Promise.all(response.status.map(async (value: any) => {
           const infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
@@ -153,8 +159,8 @@ export class ChatUserComponent implements OnInit {
     }
   }
 
-
   async getNewMessages(selectedFlat: any): Promise<void> {
+    console.log(selectedFlat)
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
       this.http.post(serverPath + '/chat/get/NewMessageUser', {

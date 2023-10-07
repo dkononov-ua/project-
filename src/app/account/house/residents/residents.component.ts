@@ -98,6 +98,10 @@ export class ResidentsComponent implements OnInit {
 
   isMenuOpen = true;
   hideMenu = false;
+  statusMessageChat: any;
+  isCopied = false;
+
+  indexPage: number = 0;
 
   onToggleMenu() {
     if (this.isMenuOpen) {
@@ -123,6 +127,8 @@ export class ResidentsComponent implements OnInit {
       this.hideMenu = true;
     }, 500);
   }
+
+
 
   @HostListener('document:click', ['$event'])
   onClick(event: Event): void {
@@ -263,6 +269,49 @@ export class ResidentsComponent implements OnInit {
     }
 
     this.selectedFlatId = selectedFlatId;
+  }
+
+  createChat(selectedSubscriber: any): void {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson && selectedSubscriber) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: selectedSubscriber.user_id,
+      };
+      this.http.post(serverPath + '/chat/add/chatFlat', data)
+        .subscribe((response: any) => {
+          if (response) {
+            this.indexPage = 3;
+          } else if (response.status === false) {
+            this.statusMessageChat = true;
+            console.log('чат вже створено')
+          }
+          this.selectedSubscriber = selectedSubscriber;
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+  copyTell() {
+    const tell = this.selectedSubscriber?.tell.toString();
+
+    if (tell) {
+      navigator.clipboard.writeText(tell)
+        .then(() => {
+          this.isCopied = true;
+          setTimeout(() => {
+            this.isCopied = false;
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopied = false;
+        });
+    }
   }
 
   addAccess(

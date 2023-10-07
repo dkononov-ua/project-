@@ -2,11 +2,17 @@
 
   <div class="container-card col-12">
 
+    <app-select-month class="hide-pc w-100 p-2"></app-select-month>
+
     <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="card">
 
         <div class="group">
-          <mat-label class="group-label">Оберіть спосіб розрахунку</mat-label>
+          <mat-label class="group-label">Спосіб розрахунку
+            <span class="accent" *ngIf="flatInfo.option_sendData === 1">Лічильник</span>
+            <span class="accent" *ngIf="flatInfo.option_sendData === 2">Площа</span>
+            <span class="accent" *ngIf="flatInfo.option_sendData === 3">Вартість</span>
+          </mat-label>
 
           <div class="group-item-1">
             <div class="content">
@@ -42,15 +48,12 @@
         </div>
 
         <div class="input-group" *ngIf="flatInfo.option_sendData === 1">
-          <mat-label class="group-label m-2">Підрахунок по лічильнику:</mat-label>
-
           <div class="item-group mt-2">
             <mat-form-field class="item-width-50" appearance="outline">
               <mat-label class="disabledNot">Попередні:</mat-label>
               <input class="disabledNot" matInput type="number" [(ngModel)]="flatInfo.comunal_before"
                 name="comunal_before" (ngModelChange)="calculateConsumed()">
             </mat-form-field>
-
 
             <mat-form-field class="item-width-50" appearance="outline">
               <mat-label>Поточні:</mat-label>
@@ -88,8 +91,6 @@
         </div>
 
         <div class="input-group" *ngIf="flatInfo.option_sendData === 2">
-          <mat-label class="group-label m-2">Підрахунок за площею оселі:</mat-label>
-
           <div class="item-group mt-2">
             <mat-form-field class="item-width-50" appearance="outline">
               <mat-label class="disabledNot">Площа оселі м²</mat-label>
@@ -129,8 +130,6 @@
         </div>
 
         <div class="input-group" *ngIf="flatInfo.option_sendData === 3">
-          <mat-label class="group-label m-2">Підрахунок по вартості послуги:</mat-label>
-
           <mat-form-field class="item-select mb-2" appearance="outline">
             <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
             <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff" (ngModelChange)="calculatePay()">

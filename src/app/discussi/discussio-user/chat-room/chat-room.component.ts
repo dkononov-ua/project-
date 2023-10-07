@@ -59,8 +59,8 @@ export class ChatRoomComponent implements OnInit {
     private choseSubscribeService: ChoseSubscribeService,
   ) { }
 
-  ngOnInit(): void {
-    this.getFlatChats();
+  async ngOnInit(): Promise<void> {
+    await this.getFlatChats();
   }
 
   selectChat(chat: Chat): void {
