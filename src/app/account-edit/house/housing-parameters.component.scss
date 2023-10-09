@@ -259,9 +259,12 @@ textarea {
 }
 
 .status {
-  padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
   background-color: $color-accent;
-  margin: 0 3px;
   color: white;
   font-size: 12px;
   font-weight: bold;
@@ -327,7 +330,8 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  padding: 3px;
 }
 
 .descr {

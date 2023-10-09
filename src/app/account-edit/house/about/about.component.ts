@@ -16,7 +16,7 @@ interface FlatInfo {
   price_m: number;
   about: string | undefined;
   private: boolean;
-  rent: boolean;
+  rent: number;
   room: number;
 }
 @Component({
@@ -58,7 +58,7 @@ export class AboutComponent implements OnInit {
     price_m: 0,
     about: undefined,
     private: false,
-    rent: false,
+    rent: 0,
     room: 0,
   };
 
@@ -71,10 +71,22 @@ export class AboutComponent implements OnInit {
     this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
   }
 
+  helpRent: boolean = false;
   helpRoom: boolean = false;
-  openHelpRoom () {
+  helpPriority: boolean = false;
+  openHelpRent() {
+    this.helpRent = !this.helpRent;
+  }
+
+  openHelpRoom() {
     this.helpRoom = !this.helpRoom;
   }
+
+  openHelpPriority() {
+    this.helpPriority = !this.helpPriority;
+  }
+
+
 
   constructor(
     private http: HttpClient,
@@ -126,7 +138,7 @@ export class AboutComponent implements OnInit {
         price_m: this.flatInfo.price_m || undefined,
         about: this.flatInfo.about || undefined,
         private: this.flatInfo.private || false,
-        rent: this.flatInfo.rent || false,
+        rent: this.flatInfo.rent || 0,
         room: this.flatInfo.room || 0,
       }
       try {
@@ -168,20 +180,20 @@ export class AboutComponent implements OnInit {
   }
 
   clearInfo(): void {
-      this.flatInfo = {
-        students: false,
-        woman: false,
-        man: false,
-        family: false,
-        bunker: '',
-        animals: '',
-        option_pay: 0,
-        price_d: 0,
-        price_m: 0,
-        about: '',
-        private: false,
-        rent: false,
-        room: 0,
-      };
+    this.flatInfo = {
+      students: false,
+      woman: false,
+      man: false,
+      family: false,
+      bunker: '',
+      animals: '',
+      option_pay: 0,
+      price_d: 0,
+      price_m: 0,
+      about: '',
+      private: false,
+      rent: 0,
+      room: 0,
+    };
   }
 }

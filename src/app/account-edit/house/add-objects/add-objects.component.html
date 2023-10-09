@@ -6,7 +6,7 @@
   <div class="container-card">
     <div class="box">
 
-      <div class="card-box col-lg-7 col-md-12 col-sm-12 col-12" *ngIf="option === 1">
+      <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
         <div class="card m-2 p-2">
 
           <div class="info-container">
@@ -14,7 +14,8 @@
             <div class="info-help-box" *ngIf="helpInfo">
               <div class="info-help-name">Меню наповнення</div>
               <div class="info-help-text">
-                <p class="info-help-text bold">Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
+                <p class="info-help-text bold">Це меню створено для того щоб власник оселі міг описати об'єкти та
+                  техніку яка знаходиться в оселі.
                   яку
                   передає у користування орендару</p>
                 <p><strong>Функції</strong></p>
@@ -73,99 +74,70 @@
             </div>
           </div>
 
-          <mat-form-field class="example-full-width mt-2">
+          <mat-form-field class="mt-2">
             <mat-label>Опис об'єкту:</mat-label>
             <textarea #textArea id="floatingTextarea" (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
               placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
           </mat-form-field>
 
-          <div class="card-1">
-            <div class="group">
-              <label class="label-1" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
-              <label class="label-1" *ngIf="!selectedFile">Додати фото</label>
-              <div class="input-div">
-                <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-                <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
-              </div>
+          <div class="group">
+            <label class="label-1" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
+            <label class="label-1" *ngIf="!selectedFile">Додати фото</label>
+            <div class="input-div">
+              <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+              <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
             </div>
           </div>
 
           <div class="btn-group mt-2">
-            <button class="btn btn-add" (click)="back()" matTooltip="НАЗАД ДО СПИСКУ">ДО СПИСКУ</button>
             <button class="btn btn-add" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()">ЗБЕРЕГТИ</button>
           </div>
 
         </div>
       </div>
 
-      <div class="card-box hide-mobile col-lg-5 col-md-12 col-sm-12 col-12" *ngIf="option === 1">
-        <div class="card-info m-2 p-2">
-          <h3><strong>Меню наповнення</strong></h3>
-          <p>Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі. яку
-            передає у користування орендару</p>
-          <p><strong>Функції</strong></p>
-          <ul>
-            <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-              техніки і т.д</li>
-            <li>Цю інформацію також можна буде показувати людям з якими у
-              вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-            <li>Сформований список буде додаватись до шаблону угоди.</li>
-            <li>Сформований список буде можна корегувати додаючи чи видаляючи об'єкти</li>
-            <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді</li>
-          </ul>
+      <div class="box-filling  p-2 col-lg-6 col-md-12 col-sm-12 col-12">
+
+        <div class="card-box" *ngIf="flat_objects?.length === 0">
+          <div class="w-100 p-2">
+            <h3><strong>Меню наповнення</strong></h3>
+            <p>Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
+              яку
+              передає у користування орендару</p>
+            <p><strong>Функції</strong></p>
+            <ul>
+              <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
+                техніки і т.д</li>
+              <li>Цю інформацію також можна буде показувати людям з якими у
+                вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
+              <li>Сформований список буде додаватись до шаблону угоди.</li>
+              <li>Сформований список буде можна корегувати додаючи чи видаляючи об'єкти</li>
+              <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div class="card-group p-2 col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="option === 2">
+        <div *ngFor="let flat of flat_objects" class="card-filling m-2"
+          [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
+          <div class="box-img" [class.selected]="flat.filling_id === selectedCard">
+            <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
+            <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
+              alt="{{ flat.name_filling }} icon" />
+            <button class="btn-delete" (click)="deleteObject(flat)" matTooltip="Видалити"><i
+                class="fa-solid fa-trash"></i></button>
 
-        <div [@cardAnimation1] class="box-filling p-2">
-
-          <div class="card-add m-2">
-            <button class="btn-create" (click)="option = 1" matTooltip="Додати"><i
-                class="fa-solid fa-plus"></i></button>
           </div>
-
-          <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="flat_objects?.length === 0">
-            <div class="m-2 p-2">
-              <h3><strong>Меню наповнення</strong></h3>
-              <p>Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
-                яку
-                передає у користування орендару</p>
-              <p><strong>Функції</strong></p>
-              <ul>
-                <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-                  техніки і т.д</li>
-                <li>Цю інформацію також можна буде показувати людям з якими у
-                  вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-                <li>Сформований список буде додаватись до шаблону угоди.</li>
-                <li>Сформований список буде можна корегувати додаючи чи видаляючи об'єкти</li>
-                <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
-                </li>
-              </ul>
-            </div>
+          <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
+            <div class="card-title">Тип: {{ flat.type_filling }}</div>
+            <div class="card-title">Назва: {{ flat.name_filling }} </div>
+            <div class="card-title">Стан: {{ selectCondition[flat.condition_filling] }}</div>
+            <div class="card-title">Кількість: {{ flat.number_filling }}</div>
           </div>
-
-          <div *ngFor="let flat of flat_objects" class="card-filling m-2"
-            [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
-            <div class="box-img" [class.selected]="flat.filling_id === selectedCard">
-              <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
-              <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
-                alt="{{ flat.name_filling }} icon" />
-              <button class="btn-delete" (click)="deleteObject(flat)" matTooltip="Видалити"><i
-                  class="fa-solid fa-trash"></i></button>
-
-            </div>
-            <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
-              <div class="card-title">Тип: {{ flat.type_filling }}</div>
-              <div class="card-title">Назва: {{ flat.name_filling }} </div>
-              <div class="card-title">Стан: {{ selectCondition[flat.condition_filling] }}</div>
-              <div class="card-title">Кількість: {{ flat.number_filling }}</div>
-            </div>
-            <div class="card-body" *ngIf="flat.filling_id === selectedCard">
-              <div class="card-title">Опис: {{ flat.about_filling }} <span *ngIf="!flat.about_filling">Тут Ви
-                  можете описати предмет, його характеристики, стан, правила користування, додати інструкції і
-                  т.д</span></div>
-            </div>
+          <div class="card-body" *ngIf="flat.filling_id === selectedCard">
+            <div class="card-title">Опис: {{ flat.about_filling }} <span *ngIf="!flat.about_filling">Тут Ви
+                можете описати предмет, його характеристики, стан, правила користування, додати інструкції і
+                т.д</span></div>
           </div>
         </div>
       </div>
@@ -180,4 +152,3 @@
   <img class="status-message-logo" src="{{path_logo}}" alt="logo">
   <div class="status-message-name">Discussio</div>
 </div>
-

@@ -71,8 +71,8 @@
 
         <div class="group-label">Паркінг / транспорт / метро</div>
         <mat-form-field class="item-select mt-3" appearance="outline">
-          <mat-label for="parking">Відстань до парковки</mat-label>
-          <mat-select name="distance_parking" id="parking" [(ngModel)]="flatInfo.distance_parking">
+          <mat-label >Відстань до парковки</mat-label>
+          <mat-select name="distance_parking"  [(ngModel)]="flatInfo.distance_parking">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="1">на території</mat-option>
             <mat-option [value]="100">до 100м</mat-option>

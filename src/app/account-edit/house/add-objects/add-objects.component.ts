@@ -5,17 +5,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
 
-interface FlatInfo {
-  about_filling: string;
-  condition_filling: string;
-  filling_id: string;
-  flat_id: string;
-  img: string;
-  name_filling: string;
-  number_filling: number;
-  type_filling: string;
-}
-
 interface ObjectInfo {
   name: string | undefined;
   about: string | undefined;
@@ -23,7 +12,6 @@ interface ObjectInfo {
   condition: string | undefined;
   photo: File | undefined;
 }
-
 @Component({
   selector: 'app-add-objects',
   templateUrl: './add-objects.component.html',
@@ -84,18 +72,16 @@ export class AddObjectsComponent implements OnInit {
   selectedFile: any;
   userImg: any;
   fillingImg: any;
-  option: number = 1;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
 
   minValue: number = 0;
   maxValue: number = 99;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
-
   statusMessage: string | undefined;
 
   helpInfo: boolean = false;
-  openHelp () {
+  openHelp() {
     this.helpInfo = !this.helpInfo;
   }
 
@@ -183,9 +169,6 @@ export class AddObjectsComponent implements OnInit {
       about_filling: this.objectInfo.about,
       flat_id: this.selectedFlatId,
     };
-
-    console.log(data)
-
     const formData: FormData = new FormData();
     if (this.selectedFile) {
       formData.append('file', this.selectedFile, this.selectedFile.name);
@@ -196,7 +179,6 @@ export class AddObjectsComponent implements OnInit {
     formData.append('auth', userJson!);
 
     const headers = { 'Accept': 'application/json' };
-    console.log(123)
     this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
       (uploadResponse: any) => {
         console.log(2222)
@@ -206,6 +188,7 @@ export class AddObjectsComponent implements OnInit {
             this.statusMessage = "Об'єкт додано до списку";
             setTimeout(() => {
               this.statusMessage = '';
+              this.getInfo()
             }, 1500);
           }, 1000);
         } else {
@@ -219,11 +202,6 @@ export class AddObjectsComponent implements OnInit {
         console.log(uploadError);
       }
     );
-    console.log(99999)
-  }
-
-  back() {
-    this.reloadPageWithLoader()
   }
 
   deleteObject(flat: any): void {

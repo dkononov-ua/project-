@@ -106,11 +106,21 @@ export class ParamComponent {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
 
+      const data = {
+        rooms: this.flatInfo.rooms || null,
+        repair_status: this.flatInfo.repair_status || '',
+        area: this.flatInfo.area || null,
+        kitchen_area: this.flatInfo.kitchen_area || null,
+        balcony: this.flatInfo.balcony || '',
+        floor: this.flatInfo.floor || null,
+        option_flat: this.flatInfo.option_flat || 2,
+      }
+
       try {
         this.loading = true
         const response = await this.http.post(serverPath + '/flatinfo/add/parametrs', {
           auth: JSON.parse(userJson),
-          new: this.flatInfo,
+          new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
 

@@ -31,7 +31,6 @@
   position: relative;
   flex-direction: column;
   @include s1-s3 {
-    height: 80vh;
     justify-content: flex-start;
   }
 }
@@ -43,12 +42,14 @@
 .box-filling {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  max-height: 60vh;
+  justify-content: flex-start;
+  height: 60vh;
   overflow: auto;
+  align-items: flex-start;
+  align-content: flex-start;
   @include s1-s3 {
-    max-height: 80vh;
-    justify-content: flex-start;
+    height: auto;
+    overflow: visible;
   }
 }
 .card-box {
