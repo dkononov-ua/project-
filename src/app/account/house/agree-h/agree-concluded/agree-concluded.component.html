@@ -36,34 +36,26 @@
           <div class="btn-group">
 
             <div class="btn-name">
-              <button class="btn-create" matTooltip="Переглянути Угоду" [routerLink]="['/house/agree-download', agreement.flat.agreement_id]"><span
-                  class="material-symbols-outlined">
-                  handshake
-                </span></button>
+              <button class="btn-create" matTooltip="Переглянути Угоду"
+                [routerLink]="['/house/agree-download', agreement.flat.agreement_id]">
+                <i class="fa-solid fa-handshake-angle"></i></button>
               <mat-label>Угода</mat-label>
-              <button class="btn-delete" matTooltip="Видалити Угоду" (click)="openDialog1(agreement)"><span
-                  class="material-symbols-outlined">
-                  delete_forever
-                </span></button>
+              <button class="btn-delete" matTooltip="Видалити Угоду" (click)="openDialog1(agreement)">
+                <i class="fa-solid fa-circle-minus"></i></button>
             </div>
 
             <div class="btn-name">
-              <button class="btn-create" matTooltip="Переглянути Акт" [routerLink]="['/house/act-view', agreement.flat.agreement_id]"><span
-                  class="material-symbols-outlined">
-                  note_add
-                </span></button>
+              <button class="btn-create" matTooltip="Переглянути Акт"
+                [routerLink]="['/house/act-view', agreement.flat.agreement_id]">
+                <i class="fa-solid fa-people-carry-box"></i></button>
               <mat-label>Акт</mat-label>
-              <button class="btn-delete" matTooltip="Видалити Акт" (click)="openDialog(agreement)"><span
-                  class="material-symbols-outlined">
-                  delete_forever
-                </span></button>
+              <button class="btn-delete" matTooltip="Видалити Акт" (click)="openDialog(agreement)">
+                <i class="fa-solid fa-circle-minus"></i></button>
             </div>
 
             <div class="btn-name">
-              <button class="btn-create white" (click)="openDialog2(agreement)" matTooltip="Додати в мешканці"><span
-                  class="material-symbols-outlined">
-                  add
-                </span></button>
+              <button class="btn-create white" (click)="openDialog2(agreement)" matTooltip="Додати в мешканці">
+                <i class="fa-solid fa-user-plus"></i></button>
               <mat-label>Додати</mat-label>
             </div>
 

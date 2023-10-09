@@ -5,10 +5,10 @@
 <ng-template #content>
   <div class="container-card">
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card m-2">
+      <div class="card">
 
         <mat-label class="group-label">Розглядаю як орендарів</mat-label>
-        <div class="group-item-1">
+        <div class="inputbox-group">
           <div class="content">
             <label class="checkBox">
               <input id="students" type="checkbox" [(ngModel)]="flatInfo.students" name="students">
@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <mat-form-field class="item-select m-1 mt-2" appearance="outline">
+        <mat-form-field class="item-select mt-2" appearance="outline">
           <mat-label>Наявність укриття</mat-label>
           <mat-select [(ngModel)]="flatInfo.bunker" name="bunker">
             <mat-option [value]="''">Приховати</mat-option>
@@ -55,7 +55,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
+        <mat-form-field class="item-select" appearance="outline">
           <mat-label>Дозвіл на тварин</mat-label>
           <mat-select [(ngModel)]="flatInfo.animals" name="animals">
             <mat-option [value]="''">Приховати</mat-option>
@@ -77,62 +77,102 @@
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card m-2">
+      <div class="card">
 
+        <div class="inputbox-group">
+          <mat-label class="group-label">Як бажаєте отримувати оплату?</mat-label>
+          <div class="group-description">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
 
-        <mat-label class="group-label">Як бажаєте отримувати оплату?</mat-label>
-        <div class="group-item-1">
+          <div class="inputbox-group">
 
-          <div class="content">
-            <label class="checkBox">
-              <input id="daily" type="radio" [(ngModel)]="flatInfo.option_pay" name="daily"
-                [value]=1>
-              <div class="transition"></div>
-            </label>
-            <span class="checkBox-span">Подобово</span>
-            <i></i>
+            <div class="content">
+              <label class="checkBox">
+                <input id="daily" type="radio" [(ngModel)]="flatInfo.option_pay" name="daily" [value]=1>
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Подобово</span>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <label class="checkBox">
+                <input id="monthly" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=0>
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Щомісяця</span>
+              <i></i>
+            </div>
           </div>
 
-          <div class="content">
-            <label class="checkBox">
-              <input id="monthly" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly"
-                [value]=0>
-              <div class="transition"></div>
-            </label>
-            <span class="checkBox-span">Щомісяця</span>
-            <i></i>
+        </div>
+
+        <div class="inputbox-group">
+          <mat-label class="group-label">Ціна за термін в грн.</mat-label>
+          <div class="inputbox-group">
+            <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
+              <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
+              <div class="mat-input-container">
+                <input matInput type="number" id="inputPriceD" [(ngModel)]="flatInfo.price_d" name="price_d"
+                  pattern="[0-9]*" [min]="minValue" [max]="maxValue">
+                <span class="mat-input-suffix">₴</span>
+              </div>
+            </mat-form-field>
+
+            <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 0">
+              <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
+              <div class="mat-input-container">
+                <input matInput type="number" id="inputPriceM" [(ngModel)]="flatInfo.price_m" name="price_m"
+                  pattern="[0-9]*" [min]="minValue" [max]="maxValue">
+                <span class="mat-input-suffix">₴</span>
+              </div>
+            </mat-form-field>
           </div>
         </div>
 
-        <mat-label class="group-label">Ціна за термін в грн.</mat-label>
-        <div class="group-item-1">
-          <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
-            <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
-            <div class="mat-input-container">
-              <input matInput type="number" id="inputPriceD" [(ngModel)]="flatInfo.price_d"
-                name="price_d" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
-              <span class="mat-input-suffix">₴</span>
-            </div>
-          </mat-form-field>
+        <div class="inputbox-group">
+          <div class="info-container">
+            <button class="info-btn" id="info-btn" (click)="openHelpRoom()">Здаю кімнату</button>
+            <div class="info-help-box" *ngIf="helpRoom">
+              <div class="info-help-name">Типи балконів</div>
+              <div class="info-help-text">
+                <ul>Існує кілька типів балконів, серед яких можна виділити наступні:
+                  <li> Класичний балкон: це традиційний тип балкона, що виступає з будівлі. Він може мати різну форму та
+                    розмір, зазвичай огороджений металевою або скляною перегородкою.</li>
+                  <li> Французький балкон: це маленький балкон без платформи, зазвичай з відкриваючимися дверима або
+                    вікном.
+                    Французький балкон може бути виконаний з металу або скла.</li>
+                  <li>Лоджія: це балкон засклений або закритий з трьох сторін, який можна використовувати як простір для
+                    відпочинку або для зберігання речей. Лоджія може мати різні форми та розміри.</li>
+                  <li> Тераса: це відкритий простір, зазвичай розташований на даху будівлі або на відкритій площадці,
+                    який
+                    можна використовувати як простір для відпочинку або для вирощування рослин.</li>
+                  <li>Веранда: це відкритий простір, який прилягає до будівлі та зазвичай огороджений з трьох сторін.
+                    Веранда
+                    може мати різні форми та розміри.</li>
+                </ul>
 
-          <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 0">
-            <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
-            <div class="mat-input-container">
-              <input matInput type="number" id="inputPriceM" [(ngModel)]="flatInfo.price_m"
-                name="price_m" pattern="[0-9]*" [min]="minValue" [max]="maxValue">
-              <span class="mat-input-suffix">₴</span>
+              </div>
+              <button class="btn" (click)="openHelpRoom()">Зрозуміло</button>
             </div>
-          </mat-form-field>
+          </div>
+
+          <div class="content-group">
+            <label class="checkBox">
+              <input id="looking_room" type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
+              <div class="transition"></div>
+            </label>
+            <div>Здаю кімнату</div>
+          </div>
         </div>
 
         <mat-label class="group-label">Статус оселі</mat-label>
-        <div class="group-item-1">
+        <div class="inputbox-group">
 
           <div class="content-info">
+
             <div class="content-group">
               <label class="checkBox">
-                <input id="looking_room" type="checkbox" name="flatInfo.room"
-                  [(ngModel)]="flatInfo.room" [value]="1">
+                <input id="looking_room" type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
                 <div class="transition"></div>
               </label>
               <span class="checkBox-span" (click)="toggleDescription('looking_room')">Здаю кімнату</span>
@@ -171,10 +211,11 @@
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
               class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
+              class="icon fa-solid fa-eraser"></i></button>
         </div>
 
       </div>
     </div>
-  </div >
+  </div>
 </ng-template>

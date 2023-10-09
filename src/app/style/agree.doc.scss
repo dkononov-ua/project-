@@ -1,0 +1,298 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+ul {
+  color: $color-accent;
+  font-weight: 600;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+li {
+  color: $color-dark;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.agree {
+  position: relative;
+  width: 100%;
+  background-color: $color-white;
+  padding: 10px 30px;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  @include s1-s3 {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+ul {
+  width: 100%;
+}
+
+.control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-group {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  width: 200px;
+  display: flex;
+  height: 40px;
+  font-size: 14px;
+  background-color: white;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.title-box {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 30px;
+  @include s1-s3 {
+    font-size: 20px;
+  }
+}
+.accent {
+  font-weight: 600;
+  color: $color-accent;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.box-1 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.logo {
+  width: 150px;
+}
+
+.item-description {
+  color: $color-text;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.wrapper-group {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.agree-wrapper {
+  width: 50%;
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.container-box {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.about {
+  width: 100%;
+  min-height: 200px;
+  border-top: 1px solid $color-gray;
+  border-bottom: 1px solid $color-gray;
+  font-size: 12px;
+}
+
+.input-box {
+  display: flex;
+  width: 100%;
+  height: 45px !important;
+  align-items: flex-end;
+  border-bottom: 1px solid $color-gray;
+  padding: 0px 10px;
+  position: relative;
+}
+
+.signature {
+  color: rgb(54, 54, 54);
+  width: 30%;
+  height: 30px;
+  padding: 0px 10px;
+  font-size: 8px;
+  margin-left: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.agree-field {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.text {
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.page-number {
+  display: none;
+}
+
+.first-page,
+.second-page {
+  position: relative;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
+@media print {
+  .agree {
+    position: relative;
+    width: 100%;
+    background-color: $color-white;
+    padding: 10px 30px;
+    box-shadow: none !important;
+    color: $color-text;
+    padding: 0px;
+    margin: 0;
+    min-width: 800px;
+    @include s1-s3 {
+      position: relative;
+      width: 100%;
+      background-color: $color-white;
+      padding: 10px 30px;
+      box-shadow: none !important;
+      color: $color-text;
+      padding: 0px;
+      margin: 0;
+      min-width: 800px;
+    }
+  }
+
+  .agree {
+    box-shadow: none !important;
+    color: $color-text;
+
+  }
+
+  .logo {
+    width: 120px;
+    height: 100px;
+  }
+
+  ul,
+  li {
+    font-size: 10px;
+  }
+
+  .item-description {
+    color: $color-text;
+    font-size: 10px;
+    margin-top: 5px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .btn,
+  .btn-close {
+    display: none !important;
+  }
+
+  .first-page {
+    position: relative;
+    height: 95vh;
+  }
+
+  .btn-group {
+    display: none;
+  }
+
+  .second-page {
+    position: relative;
+    page-break-before: always !important;
+    margin-top: 1cm;
+    height: 95vh;
+  }
+
+  .page-number {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 12px;
+  }
+
+  .control {
+    display: none;
+  }
+}
+

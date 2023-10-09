@@ -21,6 +21,7 @@ export class UagreeDownloadComponent implements OnInit {
 
   serverPath = serverPath;
   path_logo = path_logo;
+  loading: boolean = false;
 
   houseData: any;
   userData: any;
@@ -41,6 +42,8 @@ export class UagreeDownloadComponent implements OnInit {
       this.selectedAgreement = await this.getAgree(this.selectedFlatAgree);
     });
     this.loadData();
+    this.loading = false;
+
   }
 
   loadData(): void {

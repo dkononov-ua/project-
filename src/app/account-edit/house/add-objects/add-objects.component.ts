@@ -3,8 +3,7 @@ import { objects } from '../../../shared/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
-
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface FlatInfo {
   about_filling: string;
@@ -50,7 +49,7 @@ interface ObjectInfo {
 })
 
 export class AddObjectsComponent implements OnInit {
-
+  path_logo = path_logo;
   loading = false;
   reloadPageWithLoader() {
     this.loading = true;
@@ -85,7 +84,7 @@ export class AddObjectsComponent implements OnInit {
   selectedFile: any;
   userImg: any;
   fillingImg: any;
-  option: number = 2;
+  option: number = 1;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
 
@@ -94,6 +93,11 @@ export class AddObjectsComponent implements OnInit {
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
 
   statusMessage: string | undefined;
+
+  helpInfo: boolean = false;
+  openHelp () {
+    this.helpInfo = !this.helpInfo;
+  }
 
   constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
 
@@ -180,6 +184,8 @@ export class AddObjectsComponent implements OnInit {
       flat_id: this.selectedFlatId,
     };
 
+    console.log(data)
+
     const formData: FormData = new FormData();
     if (this.selectedFile) {
       formData.append('file', this.selectedFile, this.selectedFile.name);
@@ -190,11 +196,14 @@ export class AddObjectsComponent implements OnInit {
     formData.append('auth', userJson!);
 
     const headers = { 'Accept': 'application/json' };
+    console.log(123)
     this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
       (uploadResponse: any) => {
+        console.log(2222)
+        console.log(uploadResponse)
         if (uploadResponse.status === 'Наповнення успішно збережено') {
           setTimeout(() => {
-            this.statusMessage = 'Додано у оселю';
+            this.statusMessage = "Об'єкт додано до списку";
             setTimeout(() => {
               this.statusMessage = '';
             }, 1500);
@@ -210,6 +219,7 @@ export class AddObjectsComponent implements OnInit {
         console.log(uploadError);
       }
     );
+    console.log(99999)
   }
 
   back() {

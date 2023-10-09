@@ -62,6 +62,16 @@ export class ParamComponent {
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
 
+  helpRepair: boolean = false;
+  helpBalcony: boolean = false;
+  openHelpBalcony () {
+    this.helpBalcony = !this.helpBalcony;
+  }
+
+  openHelpRepair () {
+    this.helpRepair = !this.helpRepair;
+  }
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService

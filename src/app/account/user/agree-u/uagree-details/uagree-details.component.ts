@@ -60,7 +60,6 @@ export class UagreeDetailsComponent implements OnInit {
   selectedFlatAgree: any;
   statusMessage: string | undefined;
   deletingFlatId: string | null = null;
-  agreeInfo: any ;
 
   constructor(
     private http: HttpClient,
@@ -75,6 +74,8 @@ export class UagreeDetailsComponent implements OnInit {
     });
 
     await this.getAgree();
+    this.loading = false;
+
   }
 
   async getAgree(): Promise<void> {
@@ -89,7 +90,8 @@ export class UagreeDetailsComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as any;
-      this.agreeInfo = response[0];
+      this.selectedAgreement = response[0];
+      console.log(this.selectedAgreement)
     } catch (error) {
       console.error(error);
     }
@@ -101,9 +103,9 @@ export class UagreeDetailsComponent implements OnInit {
     if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
-        agreement_id: this.agreeInfo.flat.agreement_id,
-        flat_id: this.agreeInfo.flat.flat_id,
-        user_id: this.agreeInfo.flat.subscriber_id,
+        agreement_id: this.selectedAgreement.flat.agreement_id,
+        flat_id: this.selectedAgreement.flat.flat_id,
+        user_id: this.selectedAgreement.flat.subscriber_id,
         i_agree: true,
       };
       console.log(data)
@@ -151,13 +153,13 @@ export class UagreeDetailsComponent implements OnInit {
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
-      flat_id: this.agreeInfo.flat.flat_id,
-      agreement_id: this.agreeInfo.flat.agreement_id
+      flat_id: this.selectedAgreement.flat.flat_id,
+      agreement_id: this.selectedAgreement.flat.agreement_id
     };
 
     try {
       const response = await this.http.post(url, data).toPromise();
-      this.deletingFlatId = this.agreeInfo.flat.flat_id;
+      this.deletingFlatId = this.selectedAgreement.flat.flat_id;
       setTimeout(() => {
         this.deletingFlatId = null;
         setTimeout(() => {

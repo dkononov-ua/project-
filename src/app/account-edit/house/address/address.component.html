@@ -3,14 +3,14 @@
 </ng-container>
 
 <ng-template #content>
-  <div  class="container-card">
+  <div class="container-card">
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
 
-      <div class="card m-2">
-        <mat-label class="group-label">Місцерозташування</mat-label>
-        <mat-form-field class="item-select m-1 mt-3" appearance="outline">
-          <mat-label>Область</mat-label>
-          <input name="flatInfo.region" matInput [(ngModel)]="flatInfo.region"
+      <div class="card">
+        <div class="group-label">Місцерозташування</div>
+        <mat-form-field class="item-select mt-3" appearance="outline">
+          <mat-label for="region">Область</mat-label>
+          <input name="flatInfo.region" id="region" matInput [(ngModel)]="flatInfo.region"
             placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
           <mat-autocomplete #autoRegion="matAutocomplete">
             <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
@@ -19,9 +19,9 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Місто</mat-label>
-          <input name="flatInfo.city" matInput [(ngModel)]="flatInfo.city"
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="city">Місто</mat-label>
+          <input name="flatInfo.city" id="city" matInput [(ngModel)]="flatInfo.city"
             placeholder="Виберіть або введіть місто" (ngModelChange)="loadDistricts()" [matAutocomplete]="autoCity">
           <mat-autocomplete #autoCity="matAutocomplete">
             <mat-option *ngFor="let city of filteredCities" [value]="city.name">
@@ -30,28 +30,29 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Індекс</mat-label>
-          <input name="flatInfo.flat_index" matInput [(ngModel)]="flatInfo.flat_index">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="flat_index">Індекс</mat-label>
+          <input name="flatInfo.flat_index" id="flat_index" matInput [(ngModel)]="flatInfo.flat_index">
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Вулиця</mat-label>
-          <input name="flatInfo.street" matInput [(ngModel)]="flatInfo.street">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="street">Вулиця</mat-label>
+          <input name="flatInfo.street" id="street" matInput [(ngModel)]="flatInfo.street">
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Номер будинку</mat-label>
-          <input name="flatInfo.houseNumber" matInput [(ngModel)]="flatInfo.houseNumber">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="houseNumber">Номер будинку</mat-label>
+          <input name="flatInfo.houseNumber" id="houseNumber" matInput [(ngModel)]="flatInfo.houseNumber">
         </mat-form-field>
 
         <div class="inputbox-group">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Номер квартири</mat-label>
-            <input name="flatInfo.apartment" matInput [(ngModel)]="flatInfo.apartment">
+          <mat-form-field class="item-select" appearance="outline">
+            <mat-label for="apartment">Номер квартири</mat-label>
+            <input name="flatInfo.apartment" id="apartment" matInput [(ngModel)]="flatInfo.apartment">
           </mat-form-field>
 
-          <div class="inputbox" *ngIf="flatInfo.region !== undefined && flatInfo.city !== null && flatInfo.flat_index !== null && flatInfo.street !== null && flatInfo.houseNumber !== null">
+          <div class="inputbox"
+            *ngIf="flatInfo.region !== undefined && flatInfo.city !== null && flatInfo.flat_index !== null && flatInfo.street !== null && flatInfo.houseNumber !== null">
             <a class="location" matTooltip="ЛОКАЦІЯ" href="{{ locationLink }}" target="_blank">
               <i class="fa-solid fa-map-location"></i>
             </a>
@@ -66,12 +67,12 @@
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
 
-      <div class="card m-2">
+      <div class="card">
 
-        <mat-label class="group-label">Паркінг / транспорт / метро</mat-label>
-        <mat-form-field class="item-select m-1 mt-3" appearance="outline">
-          <mat-label>Відстань до парковки</mat-label>
-          <mat-select [(ngModel)]="flatInfo.distance_parking" name="distance_parking">
+        <div class="group-label">Паркінг / транспорт / метро</div>
+        <mat-form-field class="item-select mt-3" appearance="outline">
+          <mat-label for="parking">Відстань до парковки</mat-label>
+          <mat-select name="distance_parking" id="parking" [(ngModel)]="flatInfo.distance_parking">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="1">на території</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
@@ -81,9 +82,9 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Відстань до зупинки транспорту</mat-label>
-          <mat-select [(ngModel)]="flatInfo.distance_stop" name="distance_stop">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="distance_stop">Відстань до зупинки транспорту</mat-label>
+          <mat-select name="distance_stop" id="distance_stop" [(ngModel)]="flatInfo.distance_stop">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -92,9 +93,9 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Відстань до метро</mat-label>
-          <mat-select [(ngModel)]="flatInfo.distance_metro" name="distance_metro">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="distance_metro">Відстань до метро</mat-label>
+          <mat-select name="distance_metro" id="distance_metro" [(ngModel)]="flatInfo.distance_metro">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -104,10 +105,10 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-label class="group-label">Інфраструктура</mat-label>
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Відстань до парку</mat-label>
-          <mat-select [(ngModel)]="flatInfo.distance_green" name="distance_green">
+        <div class="group-label">Інфраструктура</div>
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="distance_green">Відстань до парку</mat-label>
+          <mat-select name="distance_green" id="distance_green" [(ngModel)]="flatInfo.distance_green">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -116,9 +117,9 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Відстань до маркетів</mat-label>
-          <mat-select [(ngModel)]="flatInfo.distance_shop" name="distance_shop">
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-label for="distance_shop">Відстань до маркетів</mat-label>
+          <mat-select name="distance_shop" id="distance_shop" [(ngModel)]="flatInfo.distance_shop">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -128,14 +129,13 @@
         </mat-form-field>
 
         <div class="btn-group">
-          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
+              class="icon fa-regular fa-circle-check"></i></button>
+          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
+              class="icon fa-solid fa-eraser"></i></button>
         </div>
       </div>
 
     </div>
   </div>
 </ng-template>
-
-
-

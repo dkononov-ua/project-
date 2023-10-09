@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IsChatOpenService } from './services/is-chat-open.service';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
 import { serverPath } from 'src/app/shared/server-config';
@@ -12,10 +11,11 @@ import { CloseMenuService } from './services/close-menu.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements OnInit {
   @ViewChild('locationElement') locationElement!: ElementRef;
   loginForm: any;
-  isAccountOpenStatus: boolean = true;
+  loggedInAccount: boolean = true;
   closeMenuStatus: boolean = true;
   isMenuOpen = true;
   hideMenu = false;
@@ -34,6 +34,9 @@ export class AppComponent implements OnInit {
     }
   }
 
+  loading: boolean = true;
+
+
   openMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -48,7 +51,7 @@ export class AppComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onClick(event: Event): void {
     const containerElement = this.el.nativeElement.querySelector('.body-container');
-    const cardBoxElement = this.el.nativeElement.querySelector('.noHide');
+    const cardBoxElement = this.el.nativeElement.querySelector('.onClick_notHide');
 
     if (containerElement.contains(event.target as Node)) {
       if (!cardBoxElement.contains(event.target as Node)) {
@@ -69,12 +72,16 @@ export class AppComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const currentLocation = this.location.path();
-    this.getMenuIsOpen();
-    this.getAccountIsOpen()
-    if (this.isAccountOpenStatus === false) {
-      this.compareLocationWithCondition(currentLocation);
+    await this.compareLocationWithCondition(currentLocation);
+    if (this.loggedInAccount === false) {
+      await this.getAccountIsOpen()
+      this.loading = false;
+    } else {
+      this.loggedInAccount = true;
+      await this.getMenuIsOpen();
+      await this.getUserInfo();
+      this.loading = false;
     }
-    await this.getUserInfo();
   }
 
   async getUserInfo() {
@@ -91,18 +98,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  compareLocationWithCondition(desiredLocation: string): void {
+  async compareLocationWithCondition(currentLocation: string): Promise<void> {
     const location = '/registration';
-    if (location === desiredLocation) {
-      this.isAccountOpenStatus = false;
+    if (location === currentLocation) {
+      this.loggedInAccount = false;
     } else {
-      this.isAccountOpenStatus = true;
+      this.loggedInAccount = true;
     }
   }
 
   async getAccountIsOpen() {
     this.isAccountOpenService.isAccountOpen$.subscribe(async isAccountOpen => {
-      this.isAccountOpenStatus = isAccountOpen;
+      this.loggedInAccount = isAccountOpen;
       this.cdr.detectChanges();
     });
   }

@@ -7,6 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { Location } from '@angular/common';
 
 interface Agree {
   flat: {
@@ -104,6 +105,9 @@ export class UactViewComponent implements OnInit {
   selectedAgree: any;
   selectedAct!: any;
 
+  goBack(): void {
+    this.location.back();
+  }
 
   changeStep(step: number): void {
     this.currentStep = step;
@@ -123,6 +127,7 @@ export class UactViewComponent implements OnInit {
     private selectedFlatIdService: SelectedFlatService,
     private dataService: DataService,
     private sanitizer: DomSanitizer,
+    private location: Location
   ) { }
 
   async ngOnInit(): Promise<void> {

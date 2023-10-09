@@ -71,6 +71,11 @@ export class AboutComponent implements OnInit {
     this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
   }
 
+  helpRoom: boolean = false;
+  openHelpRoom () {
+    this.helpRoom = !this.helpRoom;
+  }
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService) { }

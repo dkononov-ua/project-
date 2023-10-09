@@ -1,5 +1,6 @@
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
+@use "../../../../style/agree.doc.scss";
 
 .container-box {
   display: flex;
@@ -16,7 +17,7 @@
 .container-left {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 }
 
@@ -92,17 +93,6 @@
   }
 }
 
-.btn-group {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: 30px;
-  @include s1-s3 {
-    margin-top: 10px;
-    justify-content: center;
-  }
-}
 .btn-next {
   width: 150px;
   height: 60px;
@@ -343,6 +333,7 @@ img {
 .info-text {
   font-size: 12px;
 }
+
 .form-floating {
   margin-bottom: 15px;
   width: 100%;
@@ -408,191 +399,6 @@ textarea {
   color: red;
   font-size: 14px;
   font-weight: 600;
-}
-
-.agree {
-  position: relative;
-  width: 100%;
-  background-color: $color-white;
-  padding: 20px 50px;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-
-  @include s1-s3 {
-    padding: 10px 20px;
-  }
-}
-.close-box {
-  position: absolute;
-  top: 0;
-  right: 0;
-  @include s1-s3 {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-}
-
-.btn-close {
-  width: 40px;
-  height: 40px;
-  background-color: $color-white;
-  border-radius: 50%;
-  border: 1px solid $color-accent;
-}
-
-.box {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.title-1 {
-  font-size: 20px;
-}
-
-.title-box {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-}
-
-.title-group {
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  justify-content: center;
-}
-
-.logo-group {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.logo {
-  width: 150px;
-}
-
-.logo-name {
-  font-size: 16px;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 30px;
-  @include s1-s3 {
-    font-size: 20px;
-  }
-}
-
-.wrapper-group {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.agree-wrapper {
-  width: 50%;
-  display: flex;
-  align-items: baseline;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.item-agree {
-  width: 100%;
-  color: $color-accent;
-  font-weight: 600;
-  border-radius: 10px;
-  padding: 2px;
-  margin: 2px 5px;
-}
-
-.about {
-  width: 100%;
-  min-height: 200px;
-  border-top: 1px solid $color-gray;
-  border-bottom: 1px solid $color-gray;
-  font-size: 12px;
-}
-
-.input-box {
-  display: flex;
-  width: 100%;
-  height: 40px !important;
-  align-items: flex-end;
-  border-bottom: 1px solid $color-gray;
-  padding: 0px 10px;
-  position: relative;
-}
-
-.signature-box {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.input-box-signature {
-  display: flex;
-  width: 100%;
-  height: 40px !important;
-  align-items: center;
-  border-bottom: 1px solid black;
-  padding: 0px 10px;
-  position: relative;
-  justify-content: space-between;
-}
-
-.signature {
-  color: rgb(54, 54, 54);
-  width: 30%;
-  height: 30px;
-  padding: 0px 10px;
-  font-size: 8px;
-  margin-left: 5px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.mat-form {
-  height: 70px !important;
-}
-
-ul {
-  width: 100%;
-  color: $color-accent;
-  font-weight: 600;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-li {
-  color: $color-dark;
-  font-size: 12px;
-  font-weight: 400;
-}
-
-h5 {
-  font-size: 14px;
-}
-
-input[disabled] {
-  font-weight: 600;
-  color: $color-text;
-  font-size: 16px;
-  width: 100%;
-}
-
-mat-label {
-  text-align: center;
 }
 
 .hide-mobile {

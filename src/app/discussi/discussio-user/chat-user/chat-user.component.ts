@@ -79,7 +79,6 @@ export class ChatUserComponent implements OnInit {
   }
 
   async getUserChats(selectedFlat: string, offs: number): Promise<any> {
-    console.log(11111)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/chat/get/userchats';
 
@@ -90,14 +89,18 @@ export class ChatUserComponent implements OnInit {
         offs: offs
       };
       const response = await this.http.post(url, data).toPromise() as any;
-      console.log(response)
       if (Array.isArray(response.status)) {
-        this.infoPublic = await Promise.all(response.status.map(async (value: any) => {
+        let asd = await Promise.all(response.status.map(async (value: any) => {
           const infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
           const infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread };
         }));
-        this.infoPublic = this.infoPublic.filter((item) => item.flat_id === selectedFlat);
+        let zxc = asd.filter((item) => item.flat_id === selectedFlat);
+        if(zxc[0]){
+          this.infoPublic = zxc
+        }else{
+          this.infoPublic = undefined
+        }
         return this.infoPublic;
       } else {
         console.log('чат не знайдено');

@@ -1,26 +1,13 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
-.container-card {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
+.card {
+  height: 65vh;
+  overflow: auto;
   @include s1-s3 {
-    align-content: flex-start;
-    height: 90vh;
+    height: auto;
   }
 }
-
-.box {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: flex-start;
-}
-
 
 img {
   overflow: hidden;
@@ -32,41 +19,28 @@ img {
   transition: transform 1s;
 }
 
-.status-message {
-  position: fixed;
-  top: 0;
-  left: 0;
+.fa-solid {
+  color: $color-white;
+}
+
+.container-card {
   width: 100%;
-  height: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.932);
-  color: white;
-  font-size: 24px;
-  z-index: 9999;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: none;
-  animation: typing 1s linear forwards;
-  opacity: 0;
-}
-
-@keyframes typing {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
+  justify-content: space-evenly;
+  @include s1-s3 {
+    align-content: flex-start;
+    height: 90vh;
   }
 }
-
-h3 {
-  text-align: center;
+.box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
 }
-
 .card-box {
   display: flex;
   @include s1-s3 {
@@ -74,19 +48,50 @@ h3 {
   }
 }
 
-.option-content {
-  display: flex;
-  align-items: center;
+.group-label {
+  font-weight: 600;
+  color: $color-accent;
 }
 
+.item-select {
+  font-size: 16px !important;
+  width: 100%;
+}
 .option-icon {
   width: 24px;
   height: 24px;
   margin-right: 8px;
 }
-
 .option-text {
   flex: 1;
+}
+.group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.group-item {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-1 {
+  display: flex;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.8117647059);
+  border-radius: 10px;
+  padding: 5px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  flex-direction: column;
 }
 
 .label-1 {
@@ -117,177 +122,44 @@ h3 {
   }
 }
 
-li {
-  font-size: 14px;
-}
-
-p {
-  font-size: 14px;
-}
-
-.group-label {
-  font-weight: 600;
-  color: $color-accent;
-}
-
-.icon-up {
-  color: $color-accent;
-  font-size: 2rem;
-  cursor: pointer;
-  animation: iconflicker 8s linear infinite;
-}
-
-.input-up {
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer !important;
-}
-
-@keyframes flicker {
-  0% {
-    border: 2px solid $color-accent;
-    box-shadow:
-      0px 0px 10px $color-primary,
-      inset 0px 0px 10px $color-primary,
-      0px 0px 5px rgb(255, 255, 255);
-  }
-
-  5% {
-    border: none;
-    box-shadow: none;
-  }
-
-  10% {
-    border: 2px solid $color-accent;
-    box-shadow:
-      0px 0px 10px $color-primary,
-      inset 0px 0px 10px $color-primary,
-      0px 0px 5px rgb(255, 255, 255);
-  }
-
-  25% {
-    border: none;
-    box-shadow: none;
-  }
-
-  30% {
-    border: 2px solid $color-accent;
-    box-shadow:
-      0px 0px 10px $color-primary,
-      inset 0px 0px 10px $color-primary,
-      0px 0px 5px rgb(255, 255, 255);
-  }
-
-  100% {
-    border: 2px solid $color-accent;
-    box-shadow:
-      0px 0px 10px $color-primary,
-      inset 0px 0px 10px $color-primary,
-      0px 0px 5px rgb(255, 255, 255);
-  }
-}
-
-@keyframes iconflicker {
-  0% {
-    opacity: 1;
-  }
-
-  5% {
-    opacity: 0.2;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  25% {
-    opacity: 0.2;
-  }
-
-  30% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-mat-form-field {
-  width: 100%;
+.btn-group {
   position: relative;
-  box-sizing: border-box;
-  font-size: 12px;
-}
-
-textarea {
-  min-height: 150px;
-}
-
-.form-control {
-  height: auto;
-  overflow-y: hidden;
-  font-size: 13px;
-}
-
-.form-field::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-.form-control::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-textarea {
-  height: auto;
-  min-height: 100px;
-}
-
-.scrollable-textarea {
-  height: auto;
-  overflow: auto;
-}
-
-.form-floating {
-  margin-bottom: 15px;
-}
-
-.group {
-  width: 100%;
-  display: flex;
+  display: inline-flex;
+  vertical-align: middle;
   align-items: center;
-  justify-content: space-evenly;
-}
-
-.group-item {
-  width: 100%;
-  display: flex;
-  border-radius: 10px;
   justify-content: center;
-  flex-wrap: wrap;
 }
-
-.item-select {
-  font-size: 16px !important;
+.btn-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 50px;
 }
 
-.wi-70 {
-  width: 69%;
+.btn-delete {
+  z-index: 20;
+  position: absolute;
+  left: -10px;
+  bottom: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 5px;
+  transition: 1s;
+  border: none;
+  background-color: $color-accent;
+
+  &:hover {
+    background-color: $color-dark;
+    transform: scale(1.4);
+    border: 1px solid $color-dark;
+  }
 }
 
-.wi-50 {
-  width: 47%;
+.card-info {
+  position: relative;
 }
-
-.wi-30 {
-  width: 30%;
-}
-
 .card-group {
   display: flex;
   flex-flow: row wrap;
@@ -295,10 +167,6 @@ textarea {
   justify-content: space-around;
   position: relative;
   flex-direction: column;
-}
-
-.card-info {
-  position: relative;
 }
 
 .box-filling::-webkit-scrollbar {
@@ -346,44 +214,25 @@ textarea {
   }
 }
 
-.selectedCard {
-  background-color: $color-dark;
-  color: $color-white;
-  transition: 2s;
-  z-index: 99;
-  overflow: auto;
-}
-
-.selectedCard::-webkit-scrollbar {
-  display: none;
-}
-
-.selected {
-  display: none;
-  transition: opacity 0.5s ease;
+.card-add {
+  width: 47%;
+  min-width: 200px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box-img {
   width: 50%;
   position: relative;
 }
-
 .card-img {
   border-radius: 10px;
 
   width: 100%;
   height: 100%;
 }
-
-.card-body {
-  display: flex;
-  padding: 5px 10px 5px 5px;
-  width: 60%;
-  flex-direction: column;
-  align-items: stretch;
-  position: relative;
-}
-
 .icon {
   position: absolute;
   background-color: $color-white;
@@ -397,181 +246,16 @@ textarea {
   z-index: 20;
 }
 
-.btn-add {
+.card-body {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-}
-
-.btn-delete {
-  z-index: 20;
-  position: absolute;
-  left: -10px;
-  bottom: -10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  padding: 5px;
-  transition: 1s;
-  border: none;
-  background-color: $color-accent;
-
-  &:hover {
-    background-color: $color-dark;
-    transform: scale(1.4);
-    border: 1px solid $color-dark;
-  }
-}
-
-.btn-back {
-  z-index: 99;
-  position: absolute;
-  right: -20px;
-  top: -10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  padding: 5px;
-  transition: 1s;
-  border: none;
-  background-color: $color-accent;
-
-  &:hover {
-    background-color: $color-white;
-    transform: scale(1.4);
-    border: 1px solid $color-dark;
-  }
-
-  @include s1-s3 {
-    bottom: 0;
-    left: 40px;
-  }
-}
-
-.btn-group {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-title {
-  font-size: 14px;
-}
-
-.card-add {
-  width: 47%;
-  min-width: 200px;
-  height: 130px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-1 {
-  display: flex;
-  background-color: white;
-  color: rgba(0, 0, 0, 0.8117647059);
-  border-radius: 10px;
-  padding: 5px;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-  flex-direction: column;
-}
-
-.fa-solid {
-  color: $color-white;
-}
-
-.btn-create {
-  display: flex;
-  border-radius: 50%;
-  border: none;
-  background-color: tomato;
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  border-radius: 50%;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  justify-content: space-around;
+  padding: 5px 10px 5px 5px;
+  width: 60%;
   flex-direction: column;
   align-items: stretch;
-
-  &:hover {
-    transition: 0.4s;
-    background-color: $color-white;
-    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
-
-    .fa-solid,
-    .fa-regular {
-      color: rgb(59, 247, 2);
-      transform: scale(2.5);
-      transition: transform 0.5s;
-    }
-  }
-}
-
-.btn-container {
   position: relative;
-  margin: 0 20px;
-  position: absolute;
-  right: 0;
-  top: -20px;
-  background-color: $color-accent;
-  @include s1-s3 {
-    top: -30px;
-    right: -15px;
-    z-index: 999;
-  }
 }
-
-.btn-info {
-  display: block;
-  background-color: $color-accent;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  height: 30px;
-  width: 100px;
+.card-title {
   font-size: 14px;
-}
-
-.btn-container:hover .info-menu {
-  display: block;
-}
-.info-menu {
-  width: 300px;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  display: none;
-  background-color: $color-dark;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
-.info-menu-text {
-  color: $color-white;
-}
-
-.info-menu p {
-  margin: 4px 0;
-}
-
-.accent {
-  font-weight: 600;
-  color: $color-accent;
 }
 
 .hide-mobile {

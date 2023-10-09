@@ -3,7 +3,7 @@
 </ng-container>
 
 <ng-template #content>
-
+  <app-navbar></app-navbar>
   <div class="container-fluid">
 
     <div class="container-navbar">
@@ -29,9 +29,7 @@
           <button [ngClass]="{'active-step': currentStep === 3}" class="indicator"
             (click)="changeStep(currentStep = 3)"><i class="fa-solid fa-3"></i></button>
           <button [ngClass]="{'active-step': currentStep === 4}" class="indicator"
-            (click)="changeStep(currentStep = 4)"><span class="material-symbols-outlined">
-              all_match
-            </span></button>
+            (click)="changeStep(currentStep = 4)"><i class="fa-solid fa-feather-pointed"></i></button>
         </div>
 
         <div class="margin-top hide-mobile">
@@ -565,6 +563,7 @@
 
     </div>
   </div>
+  <app-footer></app-footer>
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

@@ -3,6 +3,7 @@
 </ng-container>
 
 <ng-template #content>
+  <app-navbar></app-navbar>
   <div *ngIf="!isContainerVisible" class="container-box">
     <div class="container-box col-12">
 
@@ -19,9 +20,8 @@
           <div [ngClass]="{'active-step': currentStep === 4}" class="indicator" (click)="changeStep(currentStep = 4)"><i
               class="fa-solid fa-4"></i></div>
           <div [ngClass]="{'active-step': currentStep === 5}" class="indicator" (click)="changeStep(currentStep = 5)">
-            <span class="material-symbols-outlined">
-              all_match
-            </span></div>
+            <i class="fa-solid fa-feather-pointed"></i>
+          </div>
         </div>
 
         <div class="margin-top hide-mobile">
@@ -80,8 +80,7 @@
                 </div>
                 <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
                   <div class="img-fluid-house">
-                    <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image"
-                      class="img-house rounded">
+                    <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-house rounded">
                   </div>
                 </div>
               </div>
@@ -438,15 +437,11 @@
   <div *ngIf="isContainerVisible" id="agreement-container">
     <div class="agree">
 
-      <div class="close-box">
-        <button class="btn-close" type="submit" (click)="closeContainer()"></button>
-      </div>
-
       <div class="title-box m-2">
         <div class="title-group w-70">
           <div class="title">Угода оренди нерухомого майна</div>
           <div>Місце укладання угоди:<span class="accent">{{ houseData.flat.city }}</span></div>
-          <div>Дата:<span class="accent">{{ agreementDate | date }}</span></div>
+          <div>Дата:<span class="accent"> {{agreementDate | date}}</span></div>
         </div>
         <div class="title-group w-30">
           <div class="box">
@@ -455,6 +450,7 @@
           </div>
         </div>
       </div>
+
       <div class="flex-column">
         <div class="wrapper-group border-top">
           <div class="agree-wrapper">
@@ -712,7 +708,16 @@
 
       </div>
     </div>
+
+    <div class="control mt-2">
+      <div class="btn-group">
+        <button class="btn" type="submit" (click)="closeContainer()">Назад</button>
+      </div>
+    </div>
+
   </div>
+  <app-footer></app-footer>
+
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

@@ -6,14 +6,14 @@
   <div class="container-card">
 
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card m-2">
+      <div class="card">
 
-        <mat-label class="group-label">Параметри оселі</mat-label>
+        <mat-label class="group-label">Оберіть тип оселі</mat-label>
+        <div class="group-description">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
         <div class="group-item-1">
           <div class="content">
             <label class="checkBox">
-              <input id="looking_house" type="radio" [(ngModel)]="flatInfo.option_flat"
-                name="housing" [value]=1>
+              <input id="looking_house" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=1>
               <div class="transition"></div>
             </label>
             <span class="checkBox-span">Будинок</span>
@@ -22,37 +22,42 @@
 
           <div class="content">
             <label class="checkBox">
-              <input id="looking_flat" type="radio" [(ngModel)]="flatInfo.option_flat"
-                name="housing" [value]=2>
+              <input id="looking_flat" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=2>
               <div class="transition"></div>
             </label>
             <span class="checkBox-span">Квартира</span>
             <i></i>
           </div>
-
         </div>
 
+        <mat-label class="group-label">Опишіть оселю детальніше.</mat-label>
         <div class="item-group">
-          <mat-form-field class="item-width-50 m-1" appearance="outline">
+          <mat-form-field class="item-select" appearance="outline">
             <mat-label>Площа м²</mat-label>
-            <input matInput type="number" [min]="minValue" [max]="maxValue"
-              [(ngModel)]="flatInfo.area" name="area">
+            <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="flatInfo.area" name="area">
           </mat-form-field>
 
-          <mat-form-field class="item-width-50 m-1" appearance="outline">
+          <mat-form-field class="item-select" appearance="outline">
             <mat-label>Кухня м²</mat-label>
             <input matInput type="number" [min]="minValueKitchen" [max]="maxValueKitchen"
               [(ngModel)]="flatInfo.kitchen_area" name="kitchen_area">
           </mat-form-field>
 
-          <mat-form-field class="item-width-50 m-1" appearance="outline">
+          <mat-form-field class="item-select" appearance="outline">
             <mat-label>Поверх</mat-label>
-            <input matInput type="number" [min]="minValueFloor" [max]="maxValueFloor"
-              [(ngModel)]="flatInfo.floor" name="floor">
+            <input matInput type="number" [min]="minValueFloor" [max]="maxValueFloor" [(ngModel)]="flatInfo.floor"
+              name="floor">
           </mat-form-field>
         </div>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
+
+      </div>
+    </div>
+
+    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card">
+
+        <mat-form-field class="item-select" appearance="outline">
           <mat-label>Кількість кімнат</mat-label>
           <mat-select [(ngModel)]="flatInfo.rooms" name="rooms">
             <mat-option [value]="0">Приховати</mat-option>
@@ -64,28 +69,77 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Стан оселі</mat-label>
-          <mat-select [(ngModel)]="flatInfo.repair_status" name="repair_status">
-            <mat-option value="">Приховати</mat-option>
-            <mat-option value="Добрий">Новий</mat-option>
-            <mat-option value="Добрий">Добрий</mat-option>
-            <mat-option value="Задовільний">Задовільний</mat-option>
-            <mat-option value="Поганий">Поганий</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="item-box">
+          <mat-form-field class="item-select" appearance="outline">
+            <mat-label>Стан оселі</mat-label>
+            <mat-select [(ngModel)]="flatInfo.repair_status" name="repair_status">
+              <mat-option value="">Приховати</mat-option>
+              <mat-option value="Добрий">Новий</mat-option>
+              <mat-option value="Добрий">Добрий</mat-option>
+              <mat-option value="Задовільний">Задовільний</mat-option>
+              <mat-option value="Поганий">Поганий</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="info-container">
+            <button class="info-btn" id="info-btn" (click)="openHelpRepair()">Допомога</button>
+            <div class="info-help-box" *ngIf="helpRepair">
+              <div class="info-help-name">Типи ремонту</div>
+              <div class="info-help-text">
+                <ul>Стан ремонту квартири може бути описаний як:
+                  <li>Новий: коли ремонт був зроблений недавно і квартира знаходиться в ідеальному стані.</li>
+                  <li>Добрий: коли ремонт був зроблений декілька років тому, але квартира все ще в гарному стані і не
+                    потребує серйозних ремонтних робіт.</li>
+                  <li>Задовільний: коли квартира потребує деяких ремонтних робіт, але загалом її стан прийнятний для
+                    проживання.</li>
+                  <li>Поганий: коли квартира потребує серйозного ремонту та оновлення і не може бути здачена в оренду
+                    без
+                    попередніх ремонтних робіт.</li>
+                </ul>
+              </div>
+              <button class="btn" (click)="openHelpRepair()">Зрозуміло</button>
+            </div>
+          </div>
+        </div>
 
-        <mat-form-field class="item-select m-1" appearance="outline">
-          <mat-label>Наявність балкону і його тип</mat-label>
-          <mat-select [(ngModel)]="flatInfo.balcony" name="balcony">
-            <mat-option value="">Приховати</mat-option>
-            <mat-option value="Класичний">Класичний</mat-option>
-            <mat-option value="Французький">Французький</mat-option>
-            <mat-option value="Лоджія">Лоджія</mat-option>
-            <mat-option value="Тераса">Тераса</mat-option>
-            <mat-option value="Веранда">Веранда</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="item-box">
+          <mat-form-field class="item-select" appearance="outline">
+            <mat-label>Наявність балкону і його тип</mat-label>
+            <mat-select [(ngModel)]="flatInfo.balcony" name="balcony">
+              <mat-option value="">Приховати</mat-option>
+              <mat-option value="Класичний">Класичний</mat-option>
+              <mat-option value="Французький">Французький</mat-option>
+              <mat-option value="Лоджія">Лоджія</mat-option>
+              <mat-option value="Тераса">Тераса</mat-option>
+              <mat-option value="Веранда">Веранда</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="info-container">
+            <button class="info-btn" id="info-btn" (click)="openHelpBalcony()">Допомога</button>
+            <div class="info-help-box" *ngIf="helpBalcony">
+              <div class="info-help-name">Типи балконів</div>
+              <div class="info-help-text">
+                <ul>Існує кілька типів балконів, серед яких можна виділити наступні:
+                  <li> Класичний балкон: це традиційний тип балкона, що виступає з будівлі. Він може мати різну форму та
+                    розмір, зазвичай огороджений металевою або скляною перегородкою.</li>
+                  <li> Французький балкон: це маленький балкон без платформи, зазвичай з відкриваючимися дверима або
+                    вікном.
+                    Французький балкон може бути виконаний з металу або скла.</li>
+                  <li>Лоджія: це балкон засклений або закритий з трьох сторін, який можна використовувати як простір для
+                    відпочинку або для зберігання речей. Лоджія може мати різні форми та розміри.</li>
+                  <li> Тераса: це відкритий простір, зазвичай розташований на даху будівлі або на відкритій площадці,
+                    який
+                    можна використовувати як простір для відпочинку або для вирощування рослин.</li>
+                  <li>Веранда: це відкритий простір, який прилягає до будівлі та зазвичай огороджений з трьох сторін.
+                    Веранда
+                    може мати різні форми та розміри.</li>
+                </ul>
+
+              </div>
+              <button class="btn" (click)="openHelpBalcony()">Зрозуміло</button>
+            </div>
+          </div>
+        </div>
+
 
         <div class="btn-group">
           <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
@@ -95,57 +149,7 @@
         </div>
 
       </div>
-    </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card m-2">
-        <div class="card-info">
-          <p>Стан ремонту квартири</p>
-          <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse"
-            data-bs-target="#repair_status" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa-solid fa-info"></i>
-          </button>
-          <div class="collapse" id="repair_status">
-            <div class="card card-body-cast">
-              <p class="text-info">Стан ремонту квартири може бути описаний як:
-                Новий: коли ремонт був зроблений недавно і квартира знаходиться в ідеальному стані.
-                Добрий: коли ремонт був зроблений декілька років тому, але квартира все ще в гарному стані і не
-                потребує
-                серйозних ремонтних робіт.
-                Задовільний: коли квартира потребує деяких ремонтних робіт, але загалом її стан прийнятний для
-                проживання.
-                Поганий: коли квартира потребує серйозного ремонту та оновлення і не може бути здачена в оренду без
-                попередніх ремонтних робіт.
-              </p>
-            </div>
-          </div>
-
-
-        </div>
-        <div class="card-info">
-          <p>Типи балконів</p>
-          <button class="btn-info col-2 m-3 info" type="button" data-bs-toggle="collapse" data-bs-target="#balcony"
-            aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa-solid fa-info"></i>
-          </button>
-          <div class="collapse" id="balcony">
-            <div class="card card-body-cast">
-              <p class="text-info">Існує кілька типів балконів, серед яких можна виділити наступні:
-                Класичний балкон: це традиційний тип балкона, що виступає з будівлі. Він може мати різну форму та
-                розмір, зазвичай огороджений металевою або скляною перегородкою.
-                Французький балкон: це маленький балкон без платформи, зазвичай з відкриваючимися дверима або вікном.
-                Французький балкон може бути виконаний з металу або скла.
-                Лоджія: це балкон засклений або закритий з трьох сторін, який можна використовувати як простір для
-                відпочинку або для зберігання речей. Лоджія може мати різні форми та розміри.
-                Тераса: це відкритий простір, зазвичай розташований на даху будівлі або на відкритій площадці, який
-                можна використовувати як простір для відпочинку або для вирощування рослин.
-                Веранда: це відкритий простір, який прилягає до будівлі та зазвичай огороджений з трьох сторін. Веранда
-                може мати різні форми та розміри.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>

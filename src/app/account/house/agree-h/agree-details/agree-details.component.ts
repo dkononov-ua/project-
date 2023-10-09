@@ -20,6 +20,7 @@ export class AgreeDetailsComponent implements OnInit {
   selectedFlatAgree: any;
   selectedAgreement: any;
   selectedFlatId: any;
+  loading: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -36,6 +37,8 @@ export class AgreeDetailsComponent implements OnInit {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
       this.selectedAgreement = await this.getAgree();
     });
+    this.loading = false;
+
   }
 
   async getAgree(): Promise<any> {

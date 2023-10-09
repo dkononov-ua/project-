@@ -22,6 +22,8 @@ export class AgreeDownloadComponent implements OnInit {
   selectedAgreement: any;
   selectedFlatId: any;
   printableContent: SafeHtml | undefined;
+  loading: boolean = true;
+
 
   goBack(): void {
     this.location.back();
@@ -44,6 +46,7 @@ export class AgreeDownloadComponent implements OnInit {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
       this.selectedAgreement = await this.getAgree();
     });
+    this.loading = false;
   }
 
   async getAgree(): Promise<any> {
@@ -58,9 +61,12 @@ export class AgreeDownloadComponent implements OnInit {
     try {
       const response = (await this.http.post(url, data).toPromise()) as any[];
       const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedFlatAgree);
+      console.log(selectedAgreement)
 
+      this.loading = false;
       return selectedAgreement || null;
     } catch (error) {
+      this.loading = false;
       console.error(error);
       return null;
     }

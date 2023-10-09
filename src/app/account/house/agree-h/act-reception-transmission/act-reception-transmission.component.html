@@ -3,6 +3,7 @@
 </ng-container>
 
 <ng-template #content>
+  <app-navbar></app-navbar>
   <div *ngIf="!isContainerVisible" class="container-box">
     <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
       <h2>Формування</h2>
@@ -122,16 +123,7 @@
     </div>
 
   </div>
-
   <div class="agreement-container" *ngIf="isContainerVisible" id="agreement-container">
-    <div class="btn-group-abs">
-      <button class="btn m-1" type="submit" (click)="closeContainer()">НАЗАД</button>
-      <button class="btn m-1" type="submit" (click)="print()">ДРУКУВАТИ <span class="material-symbols-outlined">
-          print
-        </span>
-      </button>
-    </div>
-
     <div class="agree print-only">
 
       <div class="page">
@@ -148,7 +140,7 @@
 
           <div class="title-group w-30">
             <div class="box">
-              <img class="logo"  src="{{path_logo}}" alt="logo">
+              <img class="logo" src="{{path_logo}}" alt="logo">
               <div class="text">© Discussio. Угода</div>
             </div>
           </div>
@@ -209,23 +201,35 @@
             Орендар зобов'язується забезпечити збереження та повернути Орендодавцеві Об'єкт нерухомості в належному
             стані, з
             урахуванням нормального фізичного зносу.
-            Момент передачі в користування Об'єкту нерухомості зафіксований вірно: <br>
+            Момент передачі в користування Об'єкту нерухомості зафіксований вірно:
 
-            Показання лічильника електроенергії:
-            <span class="accent" *ngIf="electro">{{electro}} </span>
-            <span *ngIf="!electro">___________________________________.</span>кВт.<br>
+            <div class="meter-container">
 
-            Показання лічильника холодної води:
-            <span class="accent" *ngIf="cold_water">{{cold_water}}</span>
-            <span *ngIf="!cold_water">___________________________________.</span>м³.<br>
+              <div class="meter-box p-2">
+                <div class="meter_name">Лічильника електроенергії:</div>
+                <span class="meter_reading" *ngIf="electro">{{electro}} кВт.</span>
+                <span *ngIf="!electro" class="meter_reading">кВт.</span>
+              </div>
 
-            Показання лічильника гарячої води:
-            <span class="accent" *ngIf="hot_water">{{hot_water}}</span>
-            <span *ngIf="!hot_water">___________________________________.</span>м³.<br>
+              <div class="meter-box p-2">
+                <div class="meter_name">Лічильника холодної води:</div>
+                <span class="meter_reading" *ngIf="cold_water">{{cold_water}} м³.</span>
+                <span *ngIf="!cold_water" class="meter_reading">м³.</span>
+              </div>
 
-            Показанння лічильника газу:
-            <span class="accent" *ngIf="gas">{{gas}}</span>
-            <span *ngIf="!gas">___________________________________.</span>м³.
+              <div class="meter-box p-2">
+                <div class="meter_name">Лічильника гарячої води:</div>
+                <span class="meter_reading" *ngIf="hot_water">{{hot_water}} м³.</span>
+                <span *ngIf="!hot_water" class="meter_reading">м³.</span>
+              </div>
+
+              <div class="meter-box p-2">
+                <div class="meter_name">Лічильника газу:</div>
+                <span class="meter_reading" *ngIf="gas">{{gas}} м³.</span>
+                <span *ngIf="!gas" class="meter_reading">м³.</span>
+              </div>
+
+            </div>
           </div>
         </div>
 
@@ -339,5 +343,12 @@
       </div>
     </div>
 
+    <div class="control mt-2">
+      <button class="btn m-1" type="submit" (click)="closeContainer()">НАЗАД</button>
+      <button class="btn m-1" type="submit" (click)="print()">ДРУКУВАТИ<i class="fa-regular fa-file-pdf"></i>
+      </button>
+    </div>
+
   </div>
+  <app-footer></app-footer>
 </ng-template>

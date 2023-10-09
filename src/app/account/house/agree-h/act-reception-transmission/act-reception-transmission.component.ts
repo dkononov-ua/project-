@@ -248,10 +248,10 @@ export class ActReceptionTransmissionComponent implements OnInit {
           agreement_id: this.selectedAgreement.flat.agreement_id,
 
           counter: {
-            gas: this.gas || 0,
-            electro: this.electro || 0,
-            hot_water: this.hot_water || 0,
-            cold_water: this.cold_water || 0,
+            gas: this.gas || '',
+            electro: this.electro || '',
+            hot_water: this.hot_water || '',
+            cold_water: this.cold_water || '',
           },
 
           filling: this.flat_objects,
