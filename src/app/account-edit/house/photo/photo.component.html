@@ -7,7 +7,7 @@
 
     <div [@cardAnimation1] class="card-box-photo p-2 col-lg-6 col-md-5 col-sm-6 col-12">
       <div class="mb-2" *ngIf="flatImg?.length > 0">
-        
+
         <div class="img-container shadow">
           <div class="img-wrapper">
             <img class="img-fluid"
@@ -46,8 +46,8 @@
         <div class="card-body-cast">
           <ul>
             <li>Формат фото: img, jpg, png, jpeg, webp.</li>
-            <li>Максимальний розмір фото до 5 мб.</li>
-            <li>Максимальна кількість фото 8 шт.</li>
+            <li>Максимальний розмір фото до 10 мб.</li>
+            <li>Максимальна кількість фото 20 шт.</li>
             <li>Перше завантажене фото буде головним фото вашої оселі. Після видалення першого фото головним стане наступне.</li>
             <li>Фото видаляються разом з видаленням оселі.</li>
             <li>Фото можна додавати по одному за раз.</li>
@@ -63,3 +63,9 @@
 
   </div>
 </ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

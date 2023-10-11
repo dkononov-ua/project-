@@ -14,6 +14,20 @@
   }
 }
 
+.btn-discussi {
+  width: 100%;
+  text-align: end;
+  border: none;
+  background-color: transparent;
+  color: $color-text;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 20px 0 0;
+  &:hover {
+    color: $color-accent;
+  }
+}
+
 .container {
   height: 100vh;
   width: 100%;

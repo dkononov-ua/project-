@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { NgModel } from '@angular/forms';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-add-house',
@@ -26,11 +26,13 @@ export class AddHouseComponent implements OnInit {
       location.reload();
     }, 500);
   }
+  path_logo = path_logo;
 
   flat_name: string = '';
   showInput = false;
   showCreate = false;
   selectedFlatId: string | null = null;
+  statusMessage: string | undefined;
 
   constructor(
     private http: HttpClient,
@@ -61,14 +63,29 @@ export class AddHouseComponent implements OnInit {
     }
 
     try {
-      const response = await this.http
+      const response: any = await this.http
         .post(serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
           new: { flat_id: this.flat_name },
         })
         .toPromise();
-      console.log(response)
-      this.reloadPageWithLoader()
+      if (response.status == 'Нова оселя успішно створена') {
+        setTimeout(() => {
+          this.statusMessage = 'Оселя успішно створена, перегляньте список оселей';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.reloadPageWithLoader()
+          }, 2500);
+        }, 500);
+      } else {
+        setTimeout(() => {
+          this.statusMessage = 'Помилка створення';
+          setTimeout(() => {
+            this.statusMessage = '';
+          }, 1500);
+        }, 500);
+      }
+
     } catch (error) {
       this.loading = false;
       console.error(error);

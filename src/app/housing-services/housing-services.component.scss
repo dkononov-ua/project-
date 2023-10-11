@@ -7,6 +7,18 @@
   pointer-events: none;
 }
 
+.select-box {
+  width: 100%;
+  position: relative;
+}
+
+.list-label-1 {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 12px;
+}
+
 .img-fluid {
   display: flex;
   flex-direction: column;

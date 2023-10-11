@@ -1,13 +1,15 @@
 <div class="form-container mb-2">
   <ng-container>
-    <mat-form-field class="list-form" appearance="outline">
-      <mat-label class="list-label">Рік</mat-label>
-      <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear"
-        (selectionChange)="onSelectionChangeYear()">
-        <mat-option class="list-option" *ngFor="let year of years" [value]="year">{{year}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="select-box">
+      <mat-label class="list-label-1">Обраний рік</mat-label>
+      <mat-form-field class="list-form w-100" appearance="outline">
+        <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear"
+          (selectionChange)="onSelectionChangeYear()">
+          <mat-option class="list-option" *ngFor="let year of years" [value]="year">{{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </ng-container>
 </div>
 

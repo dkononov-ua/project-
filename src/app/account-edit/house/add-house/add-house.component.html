@@ -53,3 +53,9 @@
 <ng-container *ngIf="loading; else content">
   <app-loader></app-loader>
 </ng-container>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

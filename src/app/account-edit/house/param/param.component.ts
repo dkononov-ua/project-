@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 
 interface FlatInfo {
@@ -61,21 +61,24 @@ export class ParamComponent {
   maxValueKitchen: number = 100;
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
+  path_logo = path_logo;
 
   helpRepair: boolean = false;
   helpBalcony: boolean = false;
-  openHelpBalcony () {
+  statusMessage: string | undefined;
+
+  openHelpBalcony() {
     this.helpBalcony = !this.helpBalcony;
   }
 
-  openHelpRepair () {
+  openHelpRepair() {
     this.helpRepair = !this.helpRepair;
   }
 
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
@@ -117,14 +120,27 @@ export class ParamComponent {
       }
 
       try {
-        this.loading = true
-        const response = await this.http.post(serverPath + '/flatinfo/add/parametrs', {
+        const response: any = await this.http.post(serverPath + '/flatinfo/add/parametrs', {
           auth: JSON.parse(userJson),
           new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
 
-        this.reloadPageWithLoader()
+        if (response.status == 'Параметри успішно додані') {
+          setTimeout(() => {
+            this.statusMessage = 'Параметри успішно додані';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка видалення';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        }
 
       } catch (error) {
         this.loading = false;
@@ -137,14 +153,14 @@ export class ParamComponent {
   }
 
   clearInfo(): void {
-      this.flatInfo = {
-        rooms: 0,
-        repair_status: '',
-        area: 0,
-        kitchen_area: 0,
-        balcony: '',
-        floor: 0,
-        option_flat: 2,
-      };
+    this.flatInfo = {
+      rooms: 0,
+      repair_status: '',
+      area: 0,
+      kitchen_area: 0,
+      balcony: '',
+      floor: 0,
+      option_flat: 2,
+    };
   }
 }

@@ -47,13 +47,15 @@ export class RegistrationComponent implements OnInit {
   loginForm!: FormGroup;
   registrationForm!: FormGroup;
   statusMessage: string | undefined;
-
+  isCopied = false;
   formErrors: any = {
     userName: '',
     password: '',
     email: '',
     dob: '',
   };
+
+  discussio!: string;
 
   validationMessages: any = {
     userName: {
@@ -217,6 +219,22 @@ export class RegistrationComponent implements OnInit {
         });
       }
     });
+  }
+
+  copyDiscussio() {
+    this.discussio = '@discussio.beta';
+    if (this.discussio) {
+      navigator.clipboard.writeText(this.discussio)
+        .then(() => {
+          this.isCopied = true;
+          setTimeout(() => {
+            this.isCopied = false;
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopied = false;
+        });
+    }
   }
 }
 

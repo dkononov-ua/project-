@@ -3,21 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-
-import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { FormControl, Validators } from '@angular/forms';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
-import * as _moment from 'moment';
-import { default as _rollupMoment, Moment } from 'moment';
-import { ActivatedRoute, Router } from '@angular/router';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
-
-const moment = _rollupMoment || _moment;
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
 export const MY_FORMATS = {
   parse: {
@@ -62,13 +51,6 @@ interface UserParam {
   styleUrls: ['./information-user.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
-    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
     trigger('cardAnimation', [
@@ -98,7 +80,7 @@ interface UserParam {
 })
 
 export class InformationUserComponent implements OnInit {
-
+  path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -153,6 +135,7 @@ export class InformationUserComponent implements OnInit {
   emailCheck: number = 0;
   passwordCheck: number = 0;
   checkCode: any;
+  statusMessage: string | undefined;
 
   indexPage: number = 0;
 
@@ -198,15 +181,14 @@ export class InformationUserComponent implements OnInit {
   isAccountOpenStatus: boolean = true;
 
   helpAdd: boolean = false;
-  openHelpAdd () {
+  openHelpAdd() {
     this.helpAdd = !this.helpAdd;
   }
-  
+
   phonePattern = '^[0-9]{10}$';
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private datePipe: DatePipe,
     private isAccountOpenService: IsAccountOpenService,
   ) { }
 
@@ -258,6 +240,21 @@ export class InformationUserComponent implements OnInit {
       const data = { ...this.userInfo };
       this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
+          if (response.status = true) {
+            setTimeout(() => {
+              this.statusMessage = 'Персональні дані збережено';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 500);
+          } else if (response.status = false) {
+            setTimeout(() => {
+              this.statusMessage = 'Помилка збереження';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 500);
+          }
         }, (error: any) => {
           console.error(error);
         });
@@ -271,6 +268,21 @@ export class InformationUserComponent implements OnInit {
       const data = this.userCont;
       this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data })
         .subscribe((response: any) => {
+          if (response.status = true) {
+            setTimeout(() => {
+              this.statusMessage = 'Контактні дані збережено';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 500);
+          } else if (response.status = false) {
+            setTimeout(() => {
+              this.statusMessage = 'Помилка збереження';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 500);
+          }
         }, (error: any) => {
           console.error(error);
         });
@@ -279,24 +291,11 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
-
-  // clearInfoUser(): void {
-  //     this.userInfo = {
-  //       agreeAdd: false,
-  //       firstName: '',
-  //       lastName: '',
-  //       email: '',
-  //       surName: '',
-  //       dob: this.userInfo.dob,
-  //       password: '',
-  //     };
-  // }
-
-
   descriptionVisibility: { [key: string]: boolean } = {};
   isDescriptionVisible(key: string): boolean {
     return this.descriptionVisibility[key] || false;
   }
+
   toggleDescription(key: string): void {
     this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
   }
@@ -314,10 +313,6 @@ export class InformationUserComponent implements OnInit {
       viber: '',
     };
   }
-
-  togglePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-  };
 
   logout() {
     this.authService.logout();

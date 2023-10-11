@@ -39,6 +39,12 @@
               placeholder="Ім'я користувача" required maxlength="15" minlength="3">
             <div *ngIf="formErrors.userName" class="alert alert-danger">{{formErrors.userName}}</div>
           </mat-form-field>
+
+          <button class="btn-discussi" matTooltip="Копіювати" (click)="copyDiscussio()">
+            <div *ngIf="!isCopied" class="title-selected-accent">@discussio.beta</div>
+            <div *ngIf="isCopied" class="title-selected-accent message">Cкопійовано!</div>
+          </button>
+
           <mat-form-field class="inputbox" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput class="input-field" id="email" type="email" formControlName="email" placeholder="email"

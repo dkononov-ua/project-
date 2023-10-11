@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
 @Component({
   selector: 'app-photo',
@@ -28,7 +28,8 @@ export class PhotoComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  
+  path_logo = path_logo;
+
   loading = false;
   filename: string | undefined;
   selectedFile: any;
@@ -36,7 +37,7 @@ export class PhotoComponent implements OnInit {
   selectedFlatId: any;
   images: string[] = [];
   currentPhotoIndex: number = 0;
-
+  statusMessage: string | undefined;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -85,8 +86,10 @@ export class PhotoComponent implements OnInit {
     this.selectedFile = event.target.files[0];
     setTimeout(() => {
       this.onUpload();
-      this.reloadPageWithLoader();
-    },);
+      setTimeout(() => {
+        this.getInfo();
+      }, 1000);
+    }, 100);
   }
 
   onUpload(): void {
@@ -101,9 +104,26 @@ export class PhotoComponent implements OnInit {
     this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
       (data: any) => {
         this.images.push(serverPath + '/img/flat/' + data.filename);
+        this.loading = false;
+        if (data.status === 'Збережено') {
+          setTimeout(() => {
+            this.statusMessage = 'Фото додано';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка завантаження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        }
       },
       (error: any) => {
         console.log(error);
+        this.loading = false;
       }
     );
   }
@@ -122,21 +142,37 @@ export class PhotoComponent implements OnInit {
 
   deleteObject(selectImg: any): void {
     const userJson = localStorage.getItem('user');
-    const selectedFlat = this.selectedFlatId;
-    console.log(selectImg)
-
-    if (userJson && selectImg && selectedFlat) {
+    if (userJson && selectImg && selectImg !== "housing_default.svg" && this.selectedFlatId) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
+        flat_id: this.selectedFlatId,
         img: selectImg,
       };
 
       this.http.post(serverPath + '/flatinfo/deleteFlatImg', data)
         .subscribe(
           (response: any) => {
-            this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg.img);
-            this.reloadPageWithLoader();
+            if (response.status == 'Видалення було успішне') {
+              setTimeout(() => {
+                this.statusMessage = 'Видалено';
+                const deletedIndex = this.flatImg.findIndex((item: { img: any; }) => item.img === selectImg);
+                this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg);
+                if (this.currentPhotoIndex > deletedIndex) {
+                  this.currentPhotoIndex--;
+                }
+                this.getInfo();
+                setTimeout(() => {
+                  this.statusMessage = '';
+                }, 1500);
+              }, 500);
+            } else {
+              setTimeout(() => {
+                this.statusMessage = 'Помилка видалення';
+                setTimeout(() => {
+                  this.statusMessage = '';
+                }, 1500);
+              }, 500);
+            }
           },
           (error: any) => {
             console.error(error);
@@ -149,4 +185,10 @@ export class PhotoComponent implements OnInit {
 
 
 
+
 }
+
+
+
+
+

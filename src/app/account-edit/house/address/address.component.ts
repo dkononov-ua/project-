@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface FlatInfo {
   flat_id: string | undefined;
@@ -78,7 +78,8 @@ export class AddressComponent implements OnInit {
   selectedCity: any;
   regions = regions;
   cities = cities;
-
+  path_logo = path_logo;
+  statusMessage: string | undefined;
   selectedFlatId!: string | null;
   public locationLink: string = '';
 
@@ -167,18 +168,28 @@ export class AddressComponent implements OnInit {
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
-
       try {
-        this.loading = true
-
-        const response = await this.http.post(serverPath + '/flatinfo/add/addres', {
+        const response: any = await this.http.post(serverPath + '/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,
         }).toPromise();
 
-        this.reloadPageWithLoader()
-
+        if (response && response.status === 'Параметри успішно додані') {
+          setTimeout(() => {
+            this.statusMessage = 'Параметри успішно додані';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка збереження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        }
       } catch (error) {
         this.loading = false;
         console.error(error);
@@ -189,23 +200,24 @@ export class AddressComponent implements OnInit {
     }
   }
 
+
   clearInfo(): void {
-      this.flatInfo = {
-        flat_id: '',
-        country: '',
-        region: '',
-        city: '',
-        street: '',
-        houseNumber: '',
-        apartment: 0,
-        flat_index: '',
-        private: false,
-        rent: false,
-        distance_parking: 0,
-        distance_metro: 0,
-        distance_stop: 0,
-        distance_green: 0,
-        distance_shop: 0,
-      };
+    this.flatInfo = {
+      flat_id: '',
+      country: '',
+      region: '',
+      city: '',
+      street: '',
+      houseNumber: '',
+      apartment: 0,
+      flat_index: '',
+      private: false,
+      rent: false,
+      distance_parking: 0,
+      distance_metro: 0,
+      distance_stop: 0,
+      distance_green: 0,
+      distance_shop: 0,
+    };
   }
 }

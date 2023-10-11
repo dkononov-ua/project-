@@ -77,6 +77,12 @@
       <div class="card ">
 
         <mat-label class="label">Персональні дані</mat-label>
+
+        <div class="w-100">
+          <mat-label>Дата народження</mat-label>
+          <div>{{userInfo.dob | date}}</div>
+        </div>
+
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Ім'я</mat-label>
           <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
@@ -90,13 +96,6 @@
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>По батькові</mat-label>
           <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
-        </mat-form-field>
-
-        <mat-form-field class="w-100">
-          <mat-label>Дата народження</mat-label>
-          <input matInput [matDatepicker]="picker" [disabled]="true" [(ngModel)]="userInfo.dob">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <mat-label class="group-label  border-top">Управління аккаунтом</mat-label>
@@ -189,83 +188,6 @@
           <i class="icon-up fa-solid fa-door-open"></i>
         </button>
       </div>
-
-      <!-- <div class="card">
-
-        <mat-label class="label">Змінити пошту</mat-label>
-        <div class="flex-row" *ngIf="emailCheck === 0">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Ваша пошта</mat-label>
-            <input name="userInfo.email" matInput [disabled]="disabledEmail" [(ngModel)]="userInfo.email">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ЗМІНИТИ ПОШТУ" (click)="sendCodeEmail()">
-            <i class="icon fa-solid fa-pen"></i>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="emailCheck === 1">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Код підтвердження для зміни</mat-label>
-            <input name="emailCode" matInput [(ngModel)]="checkCode">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="confirmCodeEmail()">
-            <i class="fa-regular fa-circle-check"></i>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="emailCheck === 2">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Введіть нову пошту</mat-label>
-            <input name="userInfo.email" matInput [(ngModel)]="userInfo.email">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="sendCodeNewEmail()">
-            <i class="fa-regular fa-circle-check"></i>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="emailCheck === 3">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Код підтвердження нової пошти</mat-label>
-            <input name="emailCheck" matInput [(ngModel)]="checkCode">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="confirmCodeNewEmail()">
-            <i class="fa-regular fa-circle-check"></i>
-          </button>
-        </div>
-
-        <mat-label class="label">Змінити пароль</mat-label>
-        <div class="flex-row" *ngIf="passwordCheck === 0">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Ваш пароль</mat-label>
-            <input name="password" type="password" matInput [disabled]="disabledPassword"
-              [(ngModel)]="userInfo.password">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ЗМІНИТИ ПАРОЛЬ" (click)="sendCodePassword()">
-            <i class="icon fa-solid fa-pen"></i>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="passwordCheck === 1">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Код підтвердження для зміни</mat-label>
-            <input name="checkCode" matInput [(ngModel)]="checkCode">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="confirmCodePassword()">
-            <i class="fa-regular fa-circle-check"></i>
-          </button>
-        </div>
-
-        <div class="flex-row" *ngIf="passwordCheck === 2">
-          <mat-form-field class="item-select m-1" appearance="outline">
-            <mat-label>Введіть новий пароль</mat-label>
-            <input name="password" matInput [(ngModel)]="userInfo.password">
-          </mat-form-field>
-          <button class="btn-change" matTooltip="ПІДТВЕРДИТИ" (click)="sendCodeNewPassword()">
-            <i class="fa-regular fa-circle-check"></i>
-          </button>
-        </div>
-
-      </div> -->
     </div>
 
     <div [@cardAnimation] class="card-animation p-2 col-12" *ngIf="indexPage === 1">
@@ -357,3 +279,10 @@
 <div *ngIf="loading" class="loader-overlay">
   <app-loader></app-loader>
 </div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>
+

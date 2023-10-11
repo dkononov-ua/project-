@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface FlatInfo {
   students: boolean;
@@ -45,6 +45,7 @@ export class AboutComponent implements OnInit {
   minValue: number = 0;
   maxValue: number = 1000000;
   loading = false;
+  path_logo = path_logo;
 
   flatInfo: FlatInfo = {
     students: false,
@@ -74,6 +75,7 @@ export class AboutComponent implements OnInit {
   helpRent: boolean = false;
   helpRoom: boolean = false;
   helpPriority: boolean = false;
+  statusMessage: string | undefined;
   openHelpRent() {
     this.helpRent = !this.helpRent;
   }
@@ -142,14 +144,35 @@ export class AboutComponent implements OnInit {
         room: this.flatInfo.room || 0,
       }
       try {
-        this.loading = true
-        const response = await this.http.post(serverPath + '/flatinfo/add/about', {
+        const response: any = await this.http.post(serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
           flat: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
 
-        this.reloadPageWithLoader()
+        if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
+          setTimeout(() => {
+            this.statusMessage = 'Оголошення розміщено';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
+          setTimeout(() => {
+            this.statusMessage = 'Параметри успішно додані, оголошення приховане';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка збереження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        }
+
       } catch (error) {
         this.loading = false;
         console.error(error);

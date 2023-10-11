@@ -71,8 +71,8 @@
 
         <div class="group-label">Паркінг / транспорт / метро</div>
         <mat-form-field class="item-select mt-3" appearance="outline">
-          <mat-label >Відстань до парковки</mat-label>
-          <mat-select name="distance_parking"  [(ngModel)]="flatInfo.distance_parking">
+          <div class="list-label-1">Відстань до парковки</div>
+          <mat-select name="distance_parking" placeholder="Відстань до парковки"  [(ngModel)]="flatInfo.distance_parking">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="1">на території</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
@@ -83,8 +83,9 @@
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
-          <mat-label for="distance_stop">Відстань до зупинки транспорту</mat-label>
-          <mat-select name="distance_stop" id="distance_stop" [(ngModel)]="flatInfo.distance_stop">
+          <div class="list-label-1">Відстань до зупинки транспорту</div>
+
+          <mat-select name="distance_stop" placeholder="Відстань до зупинки транспорту" id="distance_stop" [(ngModel)]="flatInfo.distance_stop">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -94,8 +95,9 @@
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
-          <mat-label for="distance_metro">Відстань до метро</mat-label>
-          <mat-select name="distance_metro" id="distance_metro" [(ngModel)]="flatInfo.distance_metro">
+          <div class="list-label-1">Відстань до метро</div>
+
+          <mat-select name="distance_metro" placeholder="Відстань до метро" id="distance_metro" [(ngModel)]="flatInfo.distance_metro">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -107,8 +109,9 @@
 
         <div class="group-label">Інфраструктура</div>
         <mat-form-field class="item-select" appearance="outline">
-          <mat-label for="distance_green">Відстань до парку</mat-label>
-          <mat-select name="distance_green" id="distance_green" [(ngModel)]="flatInfo.distance_green">
+          <div class="list-label-1">Відстань до парку</div>
+
+          <mat-select name="distance_green" placeholder="Відстань до парку" id="distance_green" [(ngModel)]="flatInfo.distance_green">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -118,8 +121,9 @@
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
-          <mat-label for="distance_shop">Відстань до маркетів</mat-label>
-          <mat-select name="distance_shop" id="distance_shop" [(ngModel)]="flatInfo.distance_shop">
+          <div class="list-label-1">Відстань до маркетів</div>
+
+          <mat-select name="distance_shop" placeholder="Відстань до маркетів" id="distance_shop" [(ngModel)]="flatInfo.distance_shop">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -139,3 +143,9 @@
     </div>
   </div>
 </ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

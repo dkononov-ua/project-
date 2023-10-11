@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 export class Feedback {
   constructor(
     public optionDevice: string = '',
@@ -24,6 +24,8 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('feedbackForm') feedbackForm!: NgForm;
   menu: Feedback = new Feedback();
   menuName: string | undefined;
+  statusMessage: string | undefined;
+  path_logo = path_logo;
 
   optionName = [
     'Чат',
@@ -68,6 +70,7 @@ export class FeedbackComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getFeedback ();
   }
 
   async saveFeedback(): Promise<void> {
@@ -75,13 +78,31 @@ export class FeedbackComponent implements OnInit {
     const formData = this.feedbackForm.value;
     if (userJson && this.feedbackForm.valid) {
       try {
-        const response = await this.http.post(serverPath + '/feedback/add', {
+        const response: any = await this.http.post(serverPath + '/feedback/add', {
           auth: JSON.parse(userJson),
           user_id: JSON.parse(userJson).user_id,
           formData
         }).toPromise();
-        console.log(response)
-      } catch (error) {
+        if (response) {
+          setTimeout(() => {
+            this.statusMessage = 'Дякуємо за ваш відгук';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        }
+      }
+
+
+
+       catch (error) {
         console.error(error);
       }
     } else {
