@@ -1,37 +1,35 @@
-<ng-container
-  *ngIf="(ownFlats.length > 0 || (ownFlats !== null && ownFlats !== undefined)) || (rentedFlats && rentedFlats.length > 0)">
-  <mat-form-field class="form-container mb-2" appearance="outline">
-    <mat-label class="list-label">Оселя</mat-label>
-    <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange($event)">
-      <mat-option disabled value="">виберіть оселю</mat-option>
+<ng-container *ngIf="ownFlats && ownFlats.length > 0 || rentedFlats && rentedFlats.length > 0">
+  <div class="container-menu">
 
-      <mat-optgroup *ngIf="(ownFlats.length > 0 || ownFlats === null || ownFlats === undefined)" label="Власні оселі">
-        <mat-option class="list-option" *ngFor="let ownFlat of ownFlats" [value]="ownFlat.flat_id">
-          {{ownFlat.flat_name}}
+    <div class="selectedHouse-box">
+      <div class="flatName-label">Ви обрали оселю</div>
+      <div class="flatName w-75">{{selectedFlatName}}</div>
+      <button class="btn" [matMenuTriggerFor]="menu" aria-label="menu">
+        <i class="fa-solid fa-circle-chevron-down"></i>
+      </button>
+    </div>
+
+
+    <mat-menu #menu="matMenu" class="mat-menu">
+      <mat-optgroup *ngIf="ownFlats && ownFlats.length > 0" label="Власні оселі" class="name-optgroup">
+        <mat-option class="list-option" *ngFor="let ownFlat of ownFlats" [value]="ownFlat.flat_id"
+          (click)="selectFlat(ownFlat)">
+          {{ ownFlat.flat_name }}
         </mat-option>
       </mat-optgroup>
-
       <ng-container *ngIf="rentedFlats && rentedFlats.length > 0">
-        <mat-optgroup label="Орендовані оселі">
-          <mat-option class="list-option" *ngFor="let rentedFlat of rentedFlats" [value]="rentedFlat.flat_id">
-            {{rentedFlat.flat_name}}
+        <mat-optgroup label="Орендовані оселі" class="name-optgroup">
+          <mat-option class="list-option" *ngFor="let rentedFlat of rentedFlats" [value]="rentedFlat.flat_id"
+            (click)="selectFlat(rentedFlat)">
+            {{ rentedFlat.flat_name }}
           </mat-option>
         </mat-optgroup>
       </ng-container>
+    </mat-menu>
 
-      <!-- <ng-container *ngIf="discussioFlats && discussioFlats.length > 0">
-        <mat-optgroup label="Дискусія">
-          <mat-option class="list-option" *ngFor="let discussioFlat of discussioFlats" [value]="discussioFlat.flat_id">
-            {{ discussioFlat.flat_name }}
-          </mat-option>
-        </mat-optgroup>
-      </ng-container> -->
-    </mat-select>
-
-  </mat-form-field>
+  </div>
 
 </ng-container>
-
 
 <div *ngIf="loading" class="loader-overlay">
   <app-loader></app-loader>

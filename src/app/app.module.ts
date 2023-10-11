@@ -41,6 +41,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,6 +86,7 @@ import { AboutProjectComponent } from './pages/about-project/about-project.compo
     HousingServicesRoutingModule,
     ReactiveFormsModule,
     MatRadioModule,
+    MatMenuModule,
 
     MatInputModule,
     MatFormFieldModule,

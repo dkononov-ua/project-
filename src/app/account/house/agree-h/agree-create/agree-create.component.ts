@@ -102,6 +102,9 @@ export class AgreeCreateComponent implements OnInit {
   currentStep: number = 1;
   statusMessage: string | undefined;
 
+
+  rentPrice: number = 0;
+
   // дата створення угоди
   agreementDate: any = moment();
   // термін початку - закінчення угоди
@@ -167,6 +170,8 @@ export class AgreeCreateComponent implements OnInit {
       end: new FormControl(new Date(year, month))
     });
 
+
+
     const currentDate = new Date();
     this.rentDueDate = currentDate.getDate();
 
@@ -190,10 +195,33 @@ export class AgreeCreateComponent implements OnInit {
     });
   }
 
+  updateRentPrice(newValue: number) {
+    if (!newValue) {
+      if (this.houseData.about.option_pay === 0) {
+        this.rentPrice = this.houseData.about.price_m || 0;
+      } else if (this.houseData.about.option_pay === 1) {
+        this.rentPrice = this.houseData.about.price_d || 0;
+      } else {
+        this.rentPrice = 0;
+      }
+    }
+  }
+
   async getHouse(): Promise<void> {
     try {
       const response: any = await this.dataService.getData().toPromise();
       this.houseData = response.houseData;
+      console.log(response)
+
+      this.rentPrice = 0;
+      if (this.houseData.about.option_pay === 0) {
+        this.rentPrice = this.rentPrice || this.houseData.about.price_m;
+      } else if (this.houseData.about.option_pay === 1) {
+        this.rentPrice = this.houseData.about.price_d || 0;
+      } else {
+        this.rentPrice = this.rentPrice;
+      }
+
       if (this.houseData.imgs === 'Картинок нема') {
         this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
       }
@@ -271,6 +299,7 @@ export class AgreeCreateComponent implements OnInit {
         return;
       }
       if (this.selectedSubscriber && this.selectedFlatId) {
+
         const data = {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
@@ -300,12 +329,12 @@ export class AgreeCreateComponent implements OnInit {
             houseNumber: this.houseData?.flat.houseNumber,
             apartment: this.houseData?.flat.apartment,
             area: this.houseData?.param.area,
-            price: this.houseData?.about.price_m,
+            price: this.rentPrice,
             street: this.houseData?.flat.street,
-
             floor: this.houseData?.param.floor,
             ownership: this.ownership,
             room: this.houseData?.about.room,
+            option_pay: this.houseData?.about.option_pay,
             option_flat: this.houseData?.param.option_flat,
           },
 
@@ -321,7 +350,7 @@ export class AgreeCreateComponent implements OnInit {
             dateAgreeStart: formattedAgreementDateStart,
             dateAgreeEnd: formattedAgreementDateEnd,
             transferHouse: this.transferHouse || 0,
-            whoPayComun: this.whoPayComun,
+            whoPayComun: this.whoPayComun || 0,
             depositPayment: this.depositPayment || 0,
             dateAgreeBreakUp: this.dateAgreeBreakUp || 0,
             numberVisits: this.numberVisits || 0,
@@ -329,7 +358,6 @@ export class AgreeCreateComponent implements OnInit {
             vacateHouse: this.vacateHouse || 0,
           }
         };
-
         this.http.post(serverPath + '/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {
@@ -371,9 +399,9 @@ export class AgreeCreateComponent implements OnInit {
 
   showMessage(msg: string): void {
     this.message = msg;
-      setTimeout(() => {
-        this.clearMessage();
-      }, 2000);
+    setTimeout(() => {
+      this.clearMessage();
+    }, 2000);
   }
 
   clearMessage(): void {

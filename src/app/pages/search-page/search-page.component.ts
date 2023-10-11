@@ -35,16 +35,17 @@ import { path_logo } from 'src/app/shared/server-config';
 
   ],
 })
+
 export class SearchPageComponent {
   path_logo = path_logo;
 
   constructor(private router: Router) { }
 
   goToSearchHouse() {
-    this.router.navigate(['/search/host-house/housingSearch']);
+    this.router.navigate(['/search/host-house/']);
   }
 
   goToSearchTenant() {
-    this.router.navigate(['/search/host-tenant/tenantsSearch']);
+    this.router.navigate(['/search/host-tenant/']);
   }
 }

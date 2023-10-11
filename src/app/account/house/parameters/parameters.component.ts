@@ -134,6 +134,18 @@ export class ParametersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectParam();
+  }
+
+  getSelectParam() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+      if (this.selectedFlatId) {
+        this.getInfoHouse();
+      }
+    });
+  }
+
+  getInfoHouse() {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       this.dataService.getData().subscribe((response: any) => {
@@ -207,12 +219,7 @@ export class ParametersComponent implements OnInit {
         }
       });
     }
-  }
 
-  getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-    });
   }
 
 }

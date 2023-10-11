@@ -19,32 +19,6 @@ img {
   }
 }
 
-.prev-img,
-.next-img {
-  position: absolute;
-  width: 50px;
-  top: 0;
-  height: 100%;
-  z-index: 10;
-  border: none;
-  background-color: transparent;
-  transition: 0.5s;
-  border-radius: 10px;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.277);
-    .fa-solid {
-      color: $color-accent;
-      transform: scale(1.8);
-      padding: 5px;
-    }
-  }
-
-  &:active {
-    background-color: rgba(255, 255, 255, 0.541);
-  }
-}
-
 .switch-box {
   position: relative;
   width: 100%;
@@ -271,10 +245,12 @@ img {
   position: relative;
   overflow: hidden;
 }
+
 .img-wrapper {
   display: flex;
   overflow: hidden;
 }
+
 .img-fluid {
   display: flex;
   flex-direction: column;
@@ -282,13 +258,6 @@ img {
   overflow: hidden;
 }
 
-.prev-img {
-  left: 0;
-}
-
-.next-img {
-  right: 0;
-}
 .item-copy {
   display: flex;
   align-items: center;
@@ -368,7 +337,7 @@ img {
   flex-direction: column-reverse;
   border-radius: 10px;
   @include s1-s3 {
-    height: 75vh;
+    height: 90vh;
   }
 }
 

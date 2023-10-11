@@ -1,5 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
 
 .container-fluid {
   display: flex;
@@ -359,13 +360,6 @@ mat-label {
   margin: 5px;
   align-items: flex-start;
   flex-direction: column;
-}
-
-.content-group {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .descr {

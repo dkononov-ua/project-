@@ -259,23 +259,13 @@
             <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
           </mat-form-field>
 
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-50">Заставна сума яка повертається Орендодавцем після закінчення цієї угоди:</div>
-            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-              <mat-label class="label-accent">Сума застава</mat-label>
-              <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
-                required [(ngModel)]="depositPayment ? depositPayment : houseData.about.price_m"
-                #depositPaymentInput="ngModel">
-            </mat-form-field>
-          </div>
-
-
           <div class="characteristics-group mt-1" *ngIf="houseData.about.option_pay == 0">
             <div class="info-text w-50">Орендна плата за використання квартири та майна за місяць становить:</div>
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-auto">Сума плати</mat-label>
+
               <input matInput type="number" id="price_m" name="price_m"
-                [ngModel]="houseData.about.price_m ? houseData.about.price_m : ''" placeholder="сума">
+              [(ngModel)]="rentPrice" (ngModelChange)="updateRentPrice($event)" placeholder="сума">
             </mat-form-field>
           </div>
 
@@ -284,7 +274,17 @@
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-auto">Сума плати</mat-label>
               <input matInput type="number" id="price_m" name="price_d"
-                [ngModel]="houseData.about.price_d ? houseData.about.price_d : ''" placeholder="сума">
+              [(ngModel)]="rentPrice" (ngModelChange)="updateRentPrice($event)" placeholder="сума">
+            </mat-form-field>
+          </div>
+
+          <div class="characteristics-group mt-1">
+            <div class="info-text w-50">Заставна сума яка повертається Орендодавцем після закінчення цієї угоди:</div>
+            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+              <mat-label class="label-accent">Сума застава</mat-label>
+              <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
+                required [(ngModel)]="depositPayment"
+                #depositPaymentInput="ngModel">
             </mat-form-field>
           </div>
 
@@ -544,8 +544,11 @@
         </ul>
         <ul>3.Орендна плата
           <li> 3.1. Орендна плата за використання квартири та майна становить:
-            <span class="accent" *ngIf="houseData.about.option_pay == 0">{{houseData.about.price_m}} на місяць.</span>
-            <span class="accent" *ngIf="houseData.about.option_pay == 1">{{houseData.about.price_d}} за добу.</span>
+            <span class="accent"
+              *ngIf="rentPrice">{{rentPrice}}
+              грн на місяць.</span>
+            <span class="accent"
+              *ngIf="!rentPrice">___________________ грн за _______.</span>
           </li>
           <li>3.2. Орендна плата вноситься не пізніше
             <span class="accent" *ngIf="rentDueDate"> {{ rentDueDate }} числа</span>

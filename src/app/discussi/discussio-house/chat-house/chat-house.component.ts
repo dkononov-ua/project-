@@ -261,6 +261,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(): void {
+    this.isSmileyPanelOpen = false;
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId && this.selectedSubscriberID) {
       const data = {
@@ -277,6 +278,8 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
             if (this.selectedSubscriberID === this.selectedUser.user_id) {
               this.getMessages();
             }
+            this.textArea.nativeElement.style.height = '50px';
+
           } else {
             console.log("Ваше повідомлення не надіслано");
           }

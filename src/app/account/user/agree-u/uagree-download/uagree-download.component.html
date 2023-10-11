@@ -137,13 +137,10 @@
             <ul>3.Орендна плата
               <li> 3.1. Орендна плата за використання квартири та майна становить:
                 <span class="accent"
-                  *ngIf="selectedAgreement?.flat?.option_pay == 0">{{selectedAgreement?.flat?.price_m}}
-                  на
-                  місяць.</span>
+                  *ngIf="selectedAgreement?.flat?.price">{{selectedAgreement?.flat?.price}}
+                  грн на місяць.</span>
                 <span class="accent"
-                  *ngIf="selectedAgreement?.flat?.option_pay == 1">{{selectedAgreement?.flat?.price_d}}
-                  за
-                  добу.</span>
+                  *ngIf="!selectedAgreement?.flat?.price">___________________ грн за _______.</span>
               </li>
               <li>3.2. Орендна плата вноситься не пізніше
                 <span class="accent" *ngIf="selectedAgreement?.flat?.rent_due_data">
@@ -152,8 +149,8 @@
               </li>
               <li>3.3. Оплату за комунальні послуги: за електроенергію, газ, холодну, гарячу воду (за лічильниками),
                 інтернет кабель, тв, телефон, опалення здійснює
-                <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun === 0"> Орендодавець </span>
-                <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun === 1"> Орендар </span>
+                <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun == 0"> Орендодавець </span>
+                <span class="accent" *ngIf="selectedAgreement?.flat?.whoPayComun == 1"> Орендар </span>
               </li>
               <li>3.4. Оплата заставної суми
                 <span class="accent" *ngIf="selectedAgreement?.flat?.depositPayment"> {{

@@ -1,5 +1,7 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+@use "../../style/radio.scss";
 
 .container-card {
   display: flex;
@@ -146,15 +148,6 @@ mat-label {
 
 .inputbox-item::-webkit-scrollbar {
   display: none;
-}
-
-.inputbox-group {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  position: relative;
 }
 
 .group-label {
@@ -326,13 +319,7 @@ textarea {
   flex-direction: column;
 }
 
-.content-group {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 3px;
-}
+
 
 .descr {
   color: $color-white;

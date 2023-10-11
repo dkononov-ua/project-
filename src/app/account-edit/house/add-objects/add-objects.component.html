@@ -4,35 +4,37 @@
 
 <ng-template #content>
   <div class="container-card">
+
+    <div class="info-container">
+      <div class="info-help-box" *ngIf="helpInfo">
+        <div class="info-help-name">Меню наповнення</div>
+        <div class="info-help-text">
+          <p class="info-help-text bold">Це меню створено для того щоб власник оселі міг описати об'єкти та
+            техніку яка знаходиться в оселі.
+            яку
+            передає у користування орендару</p>
+          <p><strong>Функції</strong></p>
+          <ul>
+            <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
+              техніки і т.д</li>
+            <li>Цю інформацію також можна буде показувати людям з якими у
+              вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
+            <li>Сформований список буде додаватись до шаблону угоди.</li>
+            <li>Сформований список можна корегувати додаючи чи видаляючи об'єкти</li>
+            <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
+            </li>
+          </ul>
+        </div>
+        <button class="btn" (click)="openHelp()">Зрозуміло</button>
+      </div>
+    </div>
+
     <div class="box">
 
       <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
         <div class="card m-2 p-2">
 
-          <div class="info-container">
-            <button class="info-btn" id="info-btn" (click)="openHelp()">Допомога</button>
-            <div class="info-help-box" *ngIf="helpInfo">
-              <div class="info-help-name">Меню наповнення</div>
-              <div class="info-help-text">
-                <p class="info-help-text bold">Це меню створено для того щоб власник оселі міг описати об'єкти та
-                  техніку яка знаходиться в оселі.
-                  яку
-                  передає у користування орендару</p>
-                <p><strong>Функції</strong></p>
-                <ul>
-                  <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-                    техніки і т.д</li>
-                  <li>Цю інформацію також можна буде показувати людям з якими у
-                    вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-                  <li>Сформований список буде додаватись до шаблону угоди.</li>
-                  <li>Сформований список можна корегувати додаючи чи видаляючи об'єкти</li>
-                  <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
-                  </li>
-                </ul>
-              </div>
-              <button class="btn" (click)="openHelp()">Зрозуміло</button>
-            </div>
-          </div>
+          <button class="info-btn" (click)="openHelp()">Допомога</button>
 
           <mat-label class="group-label mb-2">Додати об'єкт</mat-label>
 
@@ -96,7 +98,7 @@
         </div>
       </div>
 
-      <div class="box-filling  p-2 col-lg-6 col-md-12 col-sm-12 col-12">
+      <div [@cardAnimation1] class="box-filling  p-2 col-lg-6 col-md-12 col-sm-12 col-12">
 
         <div class="card-box" *ngIf="flat_objects?.length === 0">
           <div class="w-100 p-2">
@@ -118,7 +120,7 @@
           </div>
         </div>
 
-        <div *ngFor="let flat of flat_objects" class="card-filling m-2"
+        <div *ngFor="let flat of flat_objects" class="card-filling p-2 mb-2"
           [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
           <div class="box-img" [class.selected]="flat.filling_id === selectedCard">
             <img class="card-img" [src]="getImageSource(flat)" alt="User Image">

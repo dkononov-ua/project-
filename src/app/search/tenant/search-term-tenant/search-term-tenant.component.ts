@@ -186,9 +186,16 @@ export class SearchTermTenantComponent implements OnInit {
     if (userJson) {
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          this.filteredUsers = response.user_inf;
-          this.optionsFound = response.search_count;
-          this.passInformationToService(this.filteredUsers)
+          if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
+            // Перевірка на масив та на пустоту
+            this.filteredUsers = response.user_inf;
+            this.optionsFound = response.search_count;
+            this.passInformationToService(this.filteredUsers);
+          } else {
+            this.filteredUsers = [null];
+            this.optionsFound = 0;
+            console.log('Нічого не знайдено');
+          }
         }, (error: any) => {
           console.error(error);
         });

@@ -197,6 +197,11 @@ export class InformationUserComponent implements OnInit {
 
   isAccountOpenStatus: boolean = true;
 
+  helpAdd: boolean = false;
+  openHelpAdd () {
+    this.helpAdd = !this.helpAdd;
+  }
+  
   phonePattern = '^[0-9]{10}$';
   constructor(
     private http: HttpClient,

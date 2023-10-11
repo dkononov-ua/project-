@@ -50,7 +50,6 @@ export class ChatUserComponent implements OnInit {
 
   getSelectSubscription() {
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(async flatId => {
-      console.log(flatId)
       this.selectedFlat = flatId;
       if (flatId) {
         const offs = 0;
@@ -62,7 +61,6 @@ export class ChatUserComponent implements OnInit {
       }
     });
   }
-
 
   addSmiley(smiley: string) {
     this.messageText += smiley;
@@ -163,7 +161,6 @@ export class ChatUserComponent implements OnInit {
   }
 
   async getNewMessages(selectedFlat: any): Promise<void> {
-    console.log(selectedFlat)
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
       this.http.post(serverPath + '/chat/get/NewMessageUser', {
@@ -207,6 +204,10 @@ export class ChatUserComponent implements OnInit {
     }
   }
 
+  preventKeyboardCollapse(event: Event) {
+    event.preventDefault();
+  }
+
   messagesHaveBeenRead(selectedFlat: any) {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -219,6 +220,7 @@ export class ChatUserComponent implements OnInit {
   }
 
   sendMessage(selectedFlat: any): void {
+    this.isSmileyPanelOpen = false;
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
       const data = {
@@ -235,6 +237,8 @@ export class ChatUserComponent implements OnInit {
             if (selectedFlat === this.selectedFlat) {
               this.getMessages(selectedFlat);
             }
+
+            this.textArea.nativeElement.style.height = '50px';
           } else {
             console.log("Ваше повідомлення не надіслано");
           }

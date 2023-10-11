@@ -1,23 +1,18 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { Subject, Subscription } from 'rxjs';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-
-
-interface SelectedFlat {
+interface chosenFlat {
   flat: any;
   owner: any;
   img: any;
 }
-
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -34,61 +29,15 @@ interface SelectedFlat {
       ]),
     ]),
   ],
-
 })
 
 export class SubscribersDiscusComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-
   currentIndex: number = 0;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  surName: string | undefined;
-  viber: string | null | undefined;
-  facebook: string | undefined;
-  instagram: string | undefined;
-  telegram: string | undefined;
-  flat_id: any;
-  country: any;
-  region: any;
-  city: any;
-  street: any;
-  houseNumber: any;
-  apartment: any;
-  flat_index: any;
-  subscribers: any;
-  distance_metro!: number;
-  distance_stop!: number;
-  distance_shop!: number;
-  distance_green!: number;
-  distance_parking!: number;
-  tell!: number;
-  mail!: number;
-  woman!: number;
-  man!: number;
-  family!: number;
-  students!: number;
-  animals!: string;
-  price_m!: number;
-  price_y!: string;
-  bunker!: string;
-  rooms!: string;
-  area!: string;
-  kitchen_area!: string;
-  repair_status!: string;
-  floor!: number;
-  balcony!: string;
-  about: any;
-  house: any;
-  isFeatureEnabled: boolean = false;
   loading: boolean | undefined;
-  userData: any;
-  currentSubscription: Subject<unknown> | undefined;
   indexPage: number = 1;
-
-  mobile: boolean = true;
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
@@ -120,256 +69,28 @@ export class SubscribersDiscusComponent implements OnInit {
     1: 'Подобово',
   }
 
-  selectedFlat: SelectedFlat | null = null;
-  isOpen = true;
-  isOnline = true;
-  isOffline = false;
-  idleTimeout: any;
+  chosenFlat: chosenFlat | null = null;
   isCopied = false;
-  ownerImg: string | undefined;
-  public selectedFlatId: any | null;
-  selectedSubscription: any | null = null;
-  user_id: string | undefined;
-  flatImg: any = [{ img: "housing_default.svg" }];
-  private selectedFlatIdSubscription: Subscription | undefined;
-  images: string[] = [serverPath + '/img/flat/housing_default.svg'];
-  userImg: any;
+  choseFlatId: any | null;
   currentPhotoIndex: number = 0;
-  deletingFlatId: any;
-
   chatExists = false;
   statusMessageChat: any;
-
   public locationLink: string = '';
   selectedView!: any;
   selectedViewName!: string;
-  isChatOpenStatus: boolean = true;
-
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 500);
-  }
-
   subscriptions: any[] = [];
 
   constructor(
-    private dataService: DataService,
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
     private dialog: MatDialog,
     private selectedViewComun: ViewComunService,
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.getSubscribedFlats();
-    this.subscribeToSelectedFlatIdChanges();
-    this.restoreSelectedFlatId();
-    await this.loadData();
-    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(
-      flatId => {
-        this.selectedFlatId = flatId;
-        this.reloadComponent();
-      }
-    );
-
-    this.selectedFlatId = this.choseSubscribeService.chosenFlatId;
-    if (this.selectedFlatId !== null) {
-      localStorage.setItem('selectedFlatId', this.selectedFlatId);
-      this.getFlatDetails(this.selectedFlatId);
-
-    } else {
-      const storedFlatId = localStorage.getItem('selectedFlatId');
-      if (storedFlatId) {
-        this.selectedFlatId = storedFlatId;
-        this.getFlatDetails(this.selectedFlatId);
-      }
-    }
-    this.getOwnerInfo();
-  }
-
-  async loadData(): Promise<void> {
-    this.dataService.getData().subscribe((response: any) => {
-      this.userData = response.userData;
-      this.loading = false;
-
-    }, (error) => {
-      console.error(error);
-      this.loading = false;
-    });
-  }
-
-  prevPhoto() {
-    this.currentPhotoIndex--;
-  }
-
-  nextPhoto() {
-    this.currentPhotoIndex++;
-  }
-
-  getOwnerInfo(): void {
-    if (this.selectedFlat && this.selectedFlat.owner && this.selectedFlat.owner.img) {
-      this.ownerImg = this.selectedFlat.owner.img;
-      this.user_id = this.selectedFlat.owner.user_id;
-      this.firstName = this.selectedFlat.owner.firstName;
-      this.lastName = this.selectedFlat.owner.lastName;
-      this.surName = this.selectedFlat.owner.surName;
-      this.viber = this.selectedFlat.owner.viber;
-      this.facebook = this.selectedFlat.owner.facebook;
-      this.instagram = this.selectedFlat.owner.instagram;
-      this.telegram = this.selectedFlat.owner.telegram;
-      this.about = this.selectedFlat.flat.about;
-      this.animals = this.selectedFlat.flat.animals;
-      this.apartment = this.selectedFlat.flat.apartment;
-      this.area = this.selectedFlat.flat.area;
-      this.balcony = this.selectedFlat.flat.balcony;
-      this.bunker = this.selectedFlat.flat.bunker;
-      this.city = this.selectedFlat.flat.city;
-      this.country = this.selectedFlat.flat.country;
-      this.distance_metro = Number(this.selectedFlat.flat.distance_metro);
-      this.distance_stop = Number(this.selectedFlat.flat.distance_stop);
-      this.distance_shop = Number(this.selectedFlat.flat.distance_shop);
-      this.distance_green = Number(this.selectedFlat.flat.distance_green);
-      this.distance_parking = Number(this.selectedFlat.flat.distance_parking);
-      this.family = Number(this.selectedFlat.flat.family);
-      this.flat_id = this.selectedFlat.flat.flat_id;
-      this.flat_index = this.selectedFlat.flat.flat_index;
-      this.floor = Number(this.selectedFlat.flat.floor);
-      this.houseNumber = this.selectedFlat.flat.houseNumber;
-      this.kitchen_area = this.selectedFlat.flat.kitchen_area;
-      this.man = Number(this.selectedFlat.flat.man);
-      this.price_m = Number(this.selectedFlat.flat.price_m);
-      this.price_y = this.selectedFlat.flat.price_y;
-      this.region = this.selectedFlat.flat.region;
-      this.repair_status = this.selectedFlat.flat.repair_status;
-      this.rooms = this.selectedFlat.flat.rooms;
-      this.street = this.selectedFlat.flat.street;
-      this.students = Number(this.selectedFlat.flat.students);
-      this.woman = Number(this.selectedFlat.flat.woman);
-      this.tell = this.selectedFlat.owner.tell;
-      this.mail = this.selectedFlat.owner.mail;
-    };
-  }
-
-  getFlatDetails(flatId: string): void {
-    const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-
-    const url = serverPath + '/acceptsubs/get/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      flatId: flatId,
-      offs: 0,
-    };
-
-    this.http.post(url, data).subscribe((response: any) => {
-      const selectedFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-      if (selectedFlat) {
-        this.selectedFlat = selectedFlat;
-        this.generateLocationUrl();
-        this.getOwnerInfo();
-      }
-    });
-  }
-
-  copyFlatId() {
-    const flatId = this.selectedFlat?.flat.flat_id;
-
-    if (flatId) {
-      navigator.clipboard.writeText(flatId)
-        .then(() => {
-          this.isCopied = true;
-          setTimeout(() => {
-            this.isCopied = false;
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopied = false;
-        });
-    }
-  }
-
-  copyTell() {
-    const tell = this.selectedFlat?.owner.tell;
-
-    if (tell) {
-      navigator.clipboard.writeText(tell)
-        .then(() => {
-          this.isCopied = true;
-          setTimeout(() => {
-            this.isCopied = false;
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopied = false;
-        });
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.selectedFlatIdSubscription) {
-      this.selectedFlatIdSubscription.unsubscribe();
-    }
-  }
-
-  reloadComponent(): void {
-    this.selectedFlatId = this.choseSubscribeService.chosenFlatId;
-    localStorage.setItem('selectedFlatId', this.selectedFlatId);
-    if (this.selectedFlatId !== null) {
-      this.getFlatDetails(this.selectedFlatId);
-    }
-  }
-
-  createChat(SelectedFlat: any): void {
-    const selectedFlat = this.selectedFlatId;
-    const userJson = localStorage.getItem('user');
-    if (userJson && SelectedFlat) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-      };
-      this.http.post(serverPath + '/chat/add/chatUser', data)
-        .subscribe((response: any) => {
-          if (response) {
-            this.indexPage = 3;
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      console.log('user or subscriber not found');
-    }
-  }
-
-  async checkChatExistence (): Promise<any> {
-    const url = serverPath + '/chat/get/userchats';
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        offs: 0
-      };
-      try {
-        const response = await this.http.post(url, data).toPromise() as any;
-        if (this.selectedFlatId && Array.isArray(response.status)) {
-          const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === this.selectedFlatId);
-          this.chatExists = chatExists;
-        }
-        else {
-          console.log('чат не існує');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.log('user not found');
-    }
   }
 
   async getSubscribedFlats(): Promise<void> {
@@ -403,55 +124,112 @@ export class SubscribersDiscusComponent implements OnInit {
           }
         }
       });
-
       this.subscriptions = newSubscriptions;
       if (newSubscriptions.length > 0) {
-        this.selectFlatId(newSubscriptions[0].flat_id);
+        this.onFlatSelect(newSubscriptions[0]);
       }
     } catch (error) {
       console.error(error);
     }
   }
 
-  selectFlatId(flatId: string) {
-    this.choseSubscribeService.chosenFlatId = flatId;
-    this.selectedFlatId = flatId;
-    this.checkChatExistence();
+  onFlatSelect(flat: any) {
+    this.choseSubscribeService.setChosenFlatId(flat.flat_id);
+    this.choseFlatId = flat.flat_id;
+    this.checkChatExistence(this.choseFlatId);
+    this.getFlatDetails(this.choseFlatId);
   }
 
-  goToComun() {
-    localStorage.removeItem('selectedName');
-    localStorage.removeItem('house');
-    localStorage.removeItem('selectedComun');
-    localStorage.removeItem('selectedFlatId');
-    this.selectedView = this.selectedFlat?.flat.flat_id;
-    this.selectedViewName = this.selectedFlat?.flat.flat_name;
-    this.selectedViewComun.setSelectedView(this.selectedView);
-    this.selectedViewComun.setSelectedName(this.selectedViewName);
-    if (this.selectedView) {
-      this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
-    }
-  }
-
-  private restoreSelectedFlatId() {
-    const selectedFlatId = this.choseSubscribeService.chosenFlatId;
-    if (selectedFlatId) {
-      this.selectFlatId(selectedFlatId);
-    }
-  }
-
-  private subscribeToSelectedFlatIdChanges() {
-    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(
-      flatId => {
-        this.selectedFlatId = flatId;
-      }
-    );
-  }
-
-  async openDialog(flat: any): Promise<void> {
+  async getFlatDetails(flatId: string): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
+    const url = serverPath + '/acceptsubs/get/ysubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: user_id,
+      flatId: flatId,
+      offs: 0,
+    };
+
+    this.http.post(url, data).subscribe((response: any) => {
+      const chosenFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
+      if (chosenFlat) {
+        this.chosenFlat = chosenFlat;
+        this.generateLocationUrl();
+      } else {
+        console.log('Немає інформації')
+      }
+    });
+  }
+
+  generateLocationUrl() {
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.chosenFlat?.flat.region || '';
+    const city = this.chosenFlat?.flat.city || '';
+    const street = this.chosenFlat?.flat.street || '';
+    const houseNumber = this.chosenFlat?.flat.houseNumber || '';
+    const flatIndex = this.chosenFlat?.flat.flat_index || '';
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+    return this.locationLink;
+  }
+
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
+  }
+
+  copyFlatId() {
+    const flatId = this.chosenFlat?.flat.flat_id;
+    if (flatId) {
+      navigator.clipboard.writeText(flatId)
+        .then(() => {
+          this.isCopied = true;
+          setTimeout(() => {
+            this.isCopied = false;
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopied = false;
+        });
+    }
+  }
+
+  copyTell() {
+    const tell = this.chosenFlat?.owner.tell;
+    if (tell) {
+      navigator.clipboard.writeText(tell)
+        .then(() => {
+          this.isCopied = true;
+          setTimeout(() => {
+            this.isCopied = false;
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopied = false;
+        });
+    }
+  }
+
+  reloadPage() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
+  }
+
+  async deleteSubscriber(flat: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
     const url = serverPath + '/acceptsubs/delete/ysubs';
+
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
       data: {
         flatId: flat.flat.flat_id,
@@ -471,7 +249,7 @@ export class SubscribersDiscusComponent implements OnInit {
           const response = await this.http.post(url, data).toPromise();
           this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat.flat_id);
           this.indexPage = 1;
-          this.selectedFlat = null;
+          this.chosenFlat = null;
           this.updateComponent.triggerUpdateUser();
         } catch (error) {
           console.error(error);
@@ -480,21 +258,68 @@ export class SubscribersDiscusComponent implements OnInit {
     });
   }
 
-  generateLocationUrl() {
-    const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.selectedFlat?.flat.region || '';
-    const city = this.selectedFlat?.flat.city || '';
-    const street = this.selectedFlat?.flat.street || '';
-    const houseNumber = this.selectedFlat?.flat.houseNumber || '';
-    const flatIndex = this.selectedFlat?.flat.flat_index || '';
-    const encodedRegion = encodeURIComponent(region);
-    const encodedCity = encodeURIComponent(city);
-    const encodedStreet = encodeURIComponent(street);
-    const encodedHouseNumber = encodeURIComponent(houseNumber);
-    const encodedFlatIndex = encodeURIComponent(flatIndex);
-    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-    this.locationLink = locationUrl;
-    return this.locationLink;
+  async createChat(chosenFlat: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && chosenFlat.flat.flat_id) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: chosenFlat.flat.flat_id,
+      };
+      this.http.post(serverPath + '/chat/add/chatUser', data)
+        .subscribe((response: any) => {
+          if (response) {
+            this.indexPage = 3;
+          } else if (response.status === false) {
+            this.statusMessageChat = true;
+            console.log('чат вже створено')
+          }
+          this.chosenFlat = chosenFlat;
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+  async checkChatExistence(choseFlatId: any): Promise<any> {
+    const url = serverPath + '/chat/get/userchats';
+    const userJson = localStorage.getItem('user');
+    if (userJson && choseFlatId) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: choseFlatId,
+        offs: 0
+      };
+      try {
+        const response = await this.http.post(url, data).toPromise() as any;
+        if (choseFlatId && Array.isArray(response.status)) {
+          const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === choseFlatId);
+          this.chatExists = chatExists;
+        }
+        else {
+          console.log('чат не існує');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  goToComun() {
+    localStorage.removeItem('selectedName');
+    localStorage.removeItem('house');
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('chosenFlatId');
+    this.selectedView = this.chosenFlat?.flat.flat_id;
+    this.selectedViewName = this.chosenFlat?.flat.flat_name;
+    this.selectedViewComun.setSelectedView(this.selectedView);
+    this.selectedViewComun.setSelectedName(this.selectedViewName);
+    if (this.selectedView) {
+      this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
+    }
   }
 }
 

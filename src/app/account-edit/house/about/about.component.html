@@ -4,27 +4,63 @@
 
 <ng-template #content>
   <div class="container-card">
+
+    <div class="info-container">
+      <div class="info-help-box" *ngIf="helpRoom">
+        <div class="info-help-name">Оберіть формат здачі:</div>
+        <div class="info-help-text">
+          <ul>Варіанти здачі:
+            <li>
+              <div class="bold">Оселя</div> - якщо здаю в оренду квартиру/будинок повністью.
+            </li>
+            <li>
+              <div class="bold"> Кімната</div> - якщо здаю квартиру/будинок частково або окрему кімнату. Якщо
+              шукаю сусіда в
+              квартиру/будинок або окрему кімнату.
+            </li>
+          </ul>
+        </div>
+        <button class="btn" (click)="openHelpRoom()">Зрозуміло</button>
+      </div>
+
+      <div class="info-help-box" *ngIf="helpPriority">
+        <div class="info-help-name">Оберіть пріоритетність здачі:</div>
+        <div class="info-help-text">
+          <ul>Варіанти:
+            <li><span class="bold">W</span> - Пріорітетно на поселення в оселю шукаю жінок.</li>
+            <li><span class="bold">M</span> - Пріорітетно на поселення в оселю шукаю чоловіків.</li>
+            <li><span class="bold">S</span> - Пріорітетно на поселення в оселю шукаю студентів.</li>
+            <li><span class="bold">F</span> - Пріорітетно на поселення в оселю шукаю сім'ї.</li>
+          </ul>
+        </div>
+        <button class="btn" (click)="openHelpPriority()">Зрозуміло</button>
+      </div>
+
+      <div class="info-help-box" *ngIf="helpRent">
+        <div class="info-help-text">
+          <ul>
+            <li>
+              <div class="bold">Приховати</div> - зберігаємо всі параметри але оголошення не опубліковуємо.
+            </li>
+            <li>
+              <div class="bold">Розмістити</div> - опубліковуємо оголошення. Опубліковується після того як ви
+              внесете всі обов'язкові параметри такі як (меню: характеристики "Тип оселі" меню: особливості
+              "Формат оплати", "Формат здачі оселі" меню: фото "Додати фото оселі")
+            </li>
+          </ul>
+
+        </div>
+        <button class="btn" (click)="openHelpRent()">Зрозуміло</button>
+      </div>
+    </div>
+
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
       <div class="card">
 
         <mat-label class="group-label  border-top">Пріорітет орендарів</mat-label>
         <!-- оселя -->
         <div class="inputbox-group">
-          <div class="info-container">
-            <button class="info-btn" id="info-btn" (click)="openHelpPriority()">Допомога</button>
-            <div class="info-help-box" *ngIf="helpPriority">
-              <div class="info-help-name">Оберіть пріоритетність здачі:</div>
-              <div class="info-help-text">
-                <ul>Варіанти:
-                  <li><span class="bold">W</span> - Пріорітетно на поселення в оселю шукаю жінок.</li>
-                  <li><span class="bold">M</span> - Пріорітетно на поселення в оселю шукаю чоловіків.</li>
-                  <li><span class="bold">S</span> - Пріорітетно на поселення в оселю шукаю студентів.</li>
-                  <li><span class="bold">F</span> - Пріорітетно на поселення в оселю шукаю сім'ї.</li>
-                </ul>
-              </div>
-              <button class="btn" (click)="openHelpPriority()">Зрозуміло</button>
-            </div>
-          </div>
+          <button class="info-btn" (click)="openHelpPriority()">Допомога</button>
 
           <div class="inputbox-group">
             <div class="content-group">
@@ -167,25 +203,7 @@
         <mat-label class="group-label  border-top">Оренда: оселя або кімната</mat-label>
         <!-- оселя -->
         <div class="inputbox-group">
-          <div class="info-container">
-            <button class="info-btn" id="info-btn" (click)="openHelpRoom()">Допомога</button>
-            <div class="info-help-box" *ngIf="helpRoom">
-              <div class="info-help-name">Оберіть формат здачі:</div>
-              <div class="info-help-text">
-                <ul>Варіанти здачі:
-                  <li>
-                    <div class="bold">Оселя</div> - якщо здаю в оренду квартиру/будинок повністью.
-                  </li>
-                  <li>
-                    <div class="bold"> Кімната</div> - якщо здаю квартиру/будинок частково або окрему кімнату. Якщо
-                    шукаю сусіда в
-                    квартиру/будинок або окрему кімнату.
-                  </li>
-                </ul>
-              </div>
-              <button class="btn" (click)="openHelpRoom()">Зрозуміло</button>
-            </div>
-          </div>
+          <button class="info-btn" (click)="openHelpRoom()">Допомога</button>
 
           <div class="content-group">
             <label class="checkBox">
@@ -209,25 +227,7 @@
         <mat-label class="group-label  border-top">Статус оголошення</mat-label>
         <!-- приховати -->
         <div class="inputbox-group">
-          <div class="info-container">
-            <button class="info-btn" id="info-btn" (click)="openHelpRent()">Допомога</button>
-            <div class="info-help-box" *ngIf="helpRent">
-              <div class="info-help-text">
-                <ul>
-                  <li>
-                    <div class="bold">Приховати</div> - зберігаємо всі параметри але оголошення не опубліковуємо.
-                  </li>
-                  <li>
-                    <div class="bold">Розмістити</div> - опубліковуємо оголошення. Опубліковується після того як ви
-                    внесете всі обов'язкові параметри такі як (меню: характеристики "Тип оселі" меню: особливості
-                    "Формат оплати", "Формат здачі оселі" меню: фото "Додати фото оселі")
-                  </li>
-                </ul>
-
-              </div>
-              <button class="btn" (click)="openHelpRent()">Зрозуміло</button>
-            </div>
-          </div>
+          <button class="info-btn" (click)="openHelpRent()">Допомога</button>
 
           <div class="content-group">
             <label class="checkBox">

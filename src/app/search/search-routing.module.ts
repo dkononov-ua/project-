@@ -15,15 +15,15 @@ const routes: Routes = [
       {
         path: 'host-house', component: HostHouseComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'housingSearch', pathMatch: 'full' },
-          { path: 'housingSearch', component: HousingSearchComponent, canActivate: [CanActivateGuard] },
+          { path: '', redirectTo: 'housing-search', pathMatch: 'full' },
+          { path: 'housing-search', component: HousingSearchComponent, canActivate: [CanActivateGuard] },
         ]
       },
       {
         path: 'host-tenant', component: HostTenantComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'tenantsSearch', pathMatch: 'full' },
-          { path: 'tenantsSearch', component: TenantsSearchComponent, canActivate: [CanActivateGuard] },
+          { path: '', redirectTo: 'tenants-search', pathMatch: 'full' },
+          { path: 'tenants-search', component: TenantsSearchComponent, canActivate: [CanActivateGuard] },
         ]
       },
     ],

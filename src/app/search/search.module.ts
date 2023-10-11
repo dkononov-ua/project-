@@ -32,6 +32,7 @@ import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component'
 import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.component';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from '../shared/custom-paginator';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CustomPaginatorIntl } from '../shared/custom-paginator';
     MatAutocompleteModule,
     NgbTypeaheadModule,
     MatPaginatorModule,
+    MatRadioModule,
   ],
   exports: [
   ]

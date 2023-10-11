@@ -90,8 +90,7 @@ export class HouseShareComponent implements OnInit {
 
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
-
+    if (userJson && this.selectedFlatId !== undefined) {
       try {
         this.loading = true
         this.disabled = true;
@@ -114,19 +113,14 @@ export class HouseShareComponent implements OnInit {
     }
   }
 
-  editInfo(): void {
-    this.disabled = false;
-  }
-
   clearInfo(): void {
-    if (this.disabled === false)
-      this.flatInfo = {
-        osbb_name: '',
-        osbb_phone: 0,
-        pay_card: 0,
-        wifi: '',
-        info_about: '',
-      };
+    this.flatInfo = {
+      osbb_name: '',
+      osbb_phone: 0,
+      pay_card: 0,
+      wifi: '',
+      info_about: '',
+    };
   }
-}
 
+}

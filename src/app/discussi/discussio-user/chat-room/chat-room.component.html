@@ -1,36 +1,42 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-<div class="card-container">
-  <h4 class="hide-mobile">Оберіть чат</h4>
-  <div class="card-box hide-mobile" *ngIf="chats.length === 0">
-    <div class="card-container">
-      <h3>Тут будуть чати</h3>
-      <p>У вас поки немає чатів...</p>
+<ng-template #content>
+  <div class="card-container">
+    <div class="card-box hide-mobile" *ngIf="chats.length === 0">
+      <div class="card-container">
+        <h3>Тут будуть чати</h3>
+        <p>У вас поки немає чатів...</p>
 
-      <div class="card-wrapper card m-3">
-        <div class="card-img-container">
-          <img class="card-img-top" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="House Image">
+        <div class="card-wrapper card m-3">
+          <div class="card-img-container">
+            <img class="card-img-top" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="House Image">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title"> Чат ID оселі </h2>
+          </div>
         </div>
-        <div class="card-body">
-          <h2 class="card-title"> Чат ID оселі </h2>
+      </div>
+    </div>
+    <div class="card-box" *ngIf="chats.length !== 0">
+      <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
+        [ngClass]="{'selected': chat.isSelected}">
+        <div class="container-sticker">
+          <div class="status-container">
+            <div class="status" *ngIf="chat.unread !== 0">{{chat.unread}}</div>
+          </div>
+        </div>
+        <div class="card-img-container w-40">
+          <img class="card-img-top"
+            [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')"
+            alt="User Image">
+        </div>
+        <div class="massage-box w-60">
+          <div class="card-title">{{ chat.flat_name }}</div>
+          <div class="text">{{ chat.lastMessage }}</div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="card-box" *ngIf="chats.length !== 0">
-    <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
-      [ngClass]="{'selected': chat.isSelected}">
-      <div class="container-sticker">
-        <div class="status-container">
-          <div class="status rent-yes" *ngIf="chat.unread !== 0">{{chat.unread}}</div>
-        </div>
-      </div>
-      <div class="card-img-container">
-        <img class="card-img-top"
-          [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')"
-          alt="User Image">
-      </div>
-      <div class="card-title">{{ chat.flat_name }}</div>
-    </div>
-  </div>
-</div>
+</ng-template>

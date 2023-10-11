@@ -12,20 +12,24 @@
     </div>
 
     <div class="card-box" *ngIf="chats.length !== 0">
-      <div class="card-container p-2">
-        <div class="card-wrapper card m-3" *ngFor="let chat of chats" (click)="selectChat(chat)"
-          [ngClass]="{'selected': chat.isSelected}">
-          <div class="container-sticker">
-            <div class="status-container">
-              <div class="status rent-yes" *ngIf="chat.unread !== 0">{{chat.unread}}</div>
-            </div>
+      <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
+        [ngClass]="{'selected': chat.isSelected}">
+        <div class="container-sticker">
+          <div class="status-container">
+            <div class="status" *ngIf="chat.unread !== 0">{{chat.unread}}</div>
           </div>
-          <div class="card-img-container">
-            <img class="card-img-top"
-              [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"
-              alt="User Image">
-          </div>
-          <div class="card-title"> {{ chat.infUser.inf.firstName }} </div>
+        </div>
+        <div class="card-img-container w-40">
+          <img class="card-img-top"
+          [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"
+          alt="User Image">
+        </div>
+        <div class="massage-box w-60">
+          <div class="card-title">{{ chat.infUser.inf.firstName }}</div>
+          <div class="card-title">{{ chat.infUser.inf.lastName }}</div>
+          <div class="card-title">{{ chat.infUser.inf.surName }}</div>
+          <!-- <div class="card-title">{{ chat.user_id }}</div>
+          <div class="text">{{ chat.lastMessage }}</div> -->
         </div>
       </div>
     </div>

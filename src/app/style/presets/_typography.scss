@@ -28,6 +28,17 @@ h5 {
   font-size: 18px;
 }
 
+textarea {
+  width: 100%;
+  height: auto;
+  resize: vertical;
+  max-height: 30vh;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+}
+
 .accent {
   color: $color-accent;
 }

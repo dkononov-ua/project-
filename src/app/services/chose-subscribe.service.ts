@@ -5,20 +5,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ChoseSubscribeService {
-  private selectedFlatIdSubject = new BehaviorSubject<string | null>(null);
-  public selectedFlatId$ = this.selectedFlatIdSubject.asObservable();
+  private chosenFlatIdSubject = new BehaviorSubject<string | null>(null);
+  public selectedFlatId$ = this.chosenFlatIdSubject.asObservable();
   selectedFlat: { flat_id: any; flatImg: any; price_m: any; } | undefined;
   selectedFlatId: string | null = null;
 
-  get chosenFlatId(): string | null {
-    return this.selectedFlatIdSubject.value;
-  }
-
-  set chosenFlatId(flatId: string | null) {
-    this.selectedFlatIdSubject.next(flatId);
-  }
-
-  setSelectedFlatId(flatId: string) {
-    this.selectedFlatIdSubject.next(flatId);
+  setChosenFlatId(flatId: string) {
+    this.chosenFlatIdSubject.next(flatId);
   }
 }

@@ -45,6 +45,17 @@ export class SelectedFlatService {
     }
   }
 
+  // обрана оселя з Id та назвою
+  setSelectedHouse(flatId: string, flatName: string): void {
+    const selectedHouse = {
+      selectedFlatId: flatId,
+      selectedFlatName: flatName,
+    };
+    localStorage.setItem('selectedHouse', JSON.stringify(selectedHouse));
+    this.selectedFlatIdSubject.next(flatId);
+    this.selectedFlatNameSubject.next(flatName);
+  }
+
   // при видаленні оселі очищаємо selectedFlatId
   clearSelectedFlatId(): void {
     localStorage.removeItem('selectedFlatId');

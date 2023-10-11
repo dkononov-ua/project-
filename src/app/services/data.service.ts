@@ -2,26 +2,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { serverPath } from 'src/app/shared/server-config';
+import { SelectedFlatService } from './selected-flat.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  getFlats: any;
 
-  constructor(private http: HttpClient) { }
+  getFlats: any;
+  selectedFlatId: any | null;
+
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService,
+  ) { }
 
   getData(): Observable<any> {
-    const houseJson = localStorage.getItem('house');
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
     const userJson = localStorage.getItem('user');
-
     let request: Observable<any>;
 
     if (userJson !== null) {
-      if (houseJson) {
-        const n = JSON.parse(houseJson);
+      if (this.selectedFlatId) {
         const flatinfo = serverPath + '/flatinfo/localflat';
-        request = this.http.post(flatinfo, { auth: JSON.parse(userJson), flat_id: n.flat_id });
+        request = this.http.post(flatinfo, { auth: JSON.parse(userJson), flat_id: this.selectedFlatId });
       } else {
         console.log('house not found');
         request = of(null);

@@ -1,4 +1,4 @@
-<div class="switch-box p-2 hide-pc">
+<div class="switch-box p-2 mt-2 hide-pc">
   <div class="btn-menu">
     <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Меню"
       (click)="indexPage = 0">
@@ -21,7 +21,8 @@
 
 </div>
 
-<app-search-term-tenant class="p-2" *ngIf="indexPage === 0"></app-search-term-tenant>
+<app-search-term-tenant class="p-2 hide-pc" *ngIf="indexPage === 0"></app-search-term-tenant>
+<app-search-term-tenant class="p-2 hide-mobile"></app-search-term-tenant>
 
 <div class="container-house">
 
@@ -367,7 +368,6 @@
         [ngClass]="{ 'selected': selectedUser === user }"
         [style.animation-delay.ms]="i * 100">
         <a class="card-mini m-2" [class.selected]="selectedUser === user" [@slideAnimation] (click)="selectUser(user)">
-
           <div class="card-img-container">
             <img class="card-img-top" [src]="serverPathPhotoUser + (user.img ? user.img : 'user_default.svg')"
               alt="User Image">
@@ -375,22 +375,16 @@
           <div class="card-title">
             <div class="accent">{{ user.lastName }}</div>
             <div class="accent">{{ user.firstName }}</div>
-
             <div class="item-deskr" *ngIf="user.house && user.house !== null">
               <span class="item-deskr">Будинок</span>
             </div>
-
             <div class="item-deskr" *ngIf="user.flat && user.flat !== null">
               <span class="item-deskr">Квартира</span>
             </div>
-
             <div class="item-deskr" *ngIf="user.room && user.room !== null">
               <span class="item-deskr">Кімната</span>
             </div>
-
           </div>
-
-
           <div class="deskr-box">
             <div class="item-characteristics-1" *ngIf="user.years && user.years !== null">Р:<span class="accent">{{
                 user.years }}</span> </div>
@@ -470,15 +464,13 @@
 
             <div class="item-box m-1">
               <button mat-raised-button class="prev card link" (click)="onPrevCard()">
-                <div class="prev-arrow-top"></div>
-                <div class="prev-arrow-bottom"></div>
+                <i class="fa-solid fa-chevron-left"></i>
               </button>
             </div>
 
             <div class="item-box m-1">
               <button mat-raised-button class="next card link" (click)="onNextCard()">
-                <div class="next-arrow-top"></div>
-                <div class="next-arrow-bottom"></div>
+                <i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
 

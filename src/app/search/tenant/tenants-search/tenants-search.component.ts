@@ -140,7 +140,7 @@ export class TenantsSearchComponent implements OnInit {
   hideMenu: boolean = false;
   indexPage: number = 0;
 
-  opensCard () {
+  opensCard() {
     this.openCard = !this.openCard;
     this.hideCard = !this.hideCard;
 
@@ -187,10 +187,8 @@ export class TenantsSearchComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
+    this.checkSubscribe();
     this.indexPage = 2;
-    setTimeout(() => {
-      this.checkSubscribe();
-    }, 50);
   }
 
   updateFilteredData(filterValue: any) {

@@ -10,6 +10,7 @@ interface Chat {
   chat_id: string;
   flat_id: string;
   isSelected?: boolean;
+  lastMessage: string;
   unread: number;
   infFlat: {
     imgs: string;
@@ -37,7 +38,7 @@ export class ChatRoomsComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  
+
   selectedFlatId: any;
   chats: Chat[] = [];
   selectedChat: Chat | undefined;
@@ -106,13 +107,15 @@ export class ChatRoomsComponent implements OnInit {
       try {
         this.http.post(url, data)
           .subscribe(async (response: any) => {
+            console.log(response)
             if (Array.isArray(response.status) && response.status) {
               let chat = await Promise.all(response.status.map(async (value: any) => {
                 let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
                 let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-                return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread }
+                return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message}
               }))
               this.chats = chat;
+              console.log(this.chats)
             } else {
               console.log('chat not found');
             }

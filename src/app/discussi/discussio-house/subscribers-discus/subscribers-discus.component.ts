@@ -7,10 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { ActivatedRoute } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-
 interface Subscriber {
   animals: string | undefined;
   area_of: number | undefined;
@@ -56,7 +54,6 @@ interface Subscriber {
   viber: string;
   facebook: string;
 }
-
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -76,14 +73,12 @@ interface Subscriber {
       ])
     ]),
   ],
-
 })
-export class SubscribersDiscusComponent implements OnInit {
 
+export class SubscribersDiscusComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   offs: number = 0;
@@ -95,10 +90,9 @@ export class SubscribersDiscusComponent implements OnInit {
   statusMessageChat: any;
   cardNext: number = 0;
   selectedCard: boolean = false;
-  isFeatureEnabled: boolean = false;
-  toggleMode(): void {
-    this.isFeatureEnabled = !this.isFeatureEnabled;
-  }
+  selectedSubscriberId: string | null = null;
+  indexPage: number = 1;
+  chatExists = false;
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -131,28 +125,26 @@ export class SubscribersDiscusComponent implements OnInit {
     5: 'Щось цікавіше',
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageEvent = event;
-    this.offs = event.pageIndex * event.pageSize;
-    this.getSubs(this.selectedFlatId, this.offs);
-  }
-  selectedSubscriberId: string | null = null;
-  indexPage: number = 1;
-  chatExists = false;
-
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
-    private route: ActivatedRoute,
     private updateComponent: UpdateComponentService,
   ) { }
 
   ngOnInit(): void {
+    this.getSelectedFlatID();
+  }
+
+  getSelectedFlatID () {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
-      this.getSubs(this.selectedFlatId, this.offs);
+      if (this.selectedFlatId) {
+        this.getSubs(this.selectedFlatId, this.offs);
+      } else {
+        console.log('Оберіть оселю');
+      }
     });
   }
 
@@ -173,12 +165,11 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  onSubscriberSelect(subscriber: Subscriber): void {
-    this.indexPage = 2;
+  async onSubscriberSelect(subscriber: Subscriber): Promise<void> {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
-    this.selectedSubscriberId = subscriber.user_id;
-    this.getChats();
+    this.checkChatExistence(this.selectedUser.user_id);
+    this.indexPage = 2;
   }
 
   async openDialog(subscriber: any): Promise<void> {
@@ -213,7 +204,7 @@ export class SubscribersDiscusComponent implements OnInit {
     });
   }
 
-  createChat(selectedUser: any): void {
+  async createChat(selectedUser: any): Promise<void> {
     const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson && selectedUser) {
@@ -222,8 +213,6 @@ export class SubscribersDiscusComponent implements OnInit {
         flat_id: selectedFlat,
         user_id: selectedUser.user_id,
       };
-      this.toggleMode()
-
       this.http.post(serverPath + '/chat/add/chatFlat', data)
         .subscribe((response: any) => {
           if (response) {
@@ -241,10 +230,10 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  async getChats(): Promise<any> {
+  async checkChatExistence (selectedUser: any): Promise<any> {
     const url = serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    if (userJson && selectedUser) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
@@ -252,9 +241,13 @@ export class SubscribersDiscusComponent implements OnInit {
       };
       try {
         const response = await this.http.post(url, data).toPromise() as any;
-        if (this.selectedUser && Array.isArray(response.status)) {
-          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === this.selectedUser.user_id);
+        if (this.selectedFlatId && Array.isArray(response.status)) {
+          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === selectedUser);
           this.chatExists = chatExists;
+          console.log(this.chatExists)
+        }
+        else {
+          console.log('чат не існує');
         }
       } catch (error) {
         console.error(error);
@@ -262,6 +255,12 @@ export class SubscribersDiscusComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageEvent = event;
+    this.offs = event.pageIndex * event.pageSize;
+    this.getSubs(this.selectedFlatId, this.offs);
   }
 
 }

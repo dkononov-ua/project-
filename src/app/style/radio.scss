@@ -1,0 +1,19 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}
+
+input[type="radio"]:checked + div {
+  left: -10px;
+  top: -10px;
+}
+
+input[type="radio"] {
+  position: absolute;
+  left: 50px;
+  visibility: hidden;
+}

@@ -1,0 +1,121 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+// вікно додаткової інформації
+.content-group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 3px;
+}
+
+.inputbox-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+// вікно додаткової інформації
+.info-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 30;
+
+  @include s1-s3 {
+    width: 100%;
+  }
+
+  .info-help-box {
+    max-height: 50vh;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    background-color: $color-dark;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 8px;
+  }
+
+  .info-help-text {
+    color: $color-white;
+    font-size: 14px;
+  }
+
+  .info-help-name {
+    color: $color-white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .btn {
+    background-color: $color-accent;
+  }
+}
+
+
+// перемикання фото в каруселі
+.prev-img {
+  left: 0;
+}
+
+.next-img {
+  right: 0;
+}
+
+.prev-img,
+.next-img {
+  position: absolute;
+  width: 50px;
+  top: 0;
+  height: 100%;
+  z-index: 10;
+  border: none;
+  background-color: transparent;
+  transition: 0.5s;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.277);
+    .fa-solid {
+      color: $color-accent;
+      transform: scale(1.8);
+      padding: 5px;
+    }
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.541);
+  }
+}
+
+// медіа запити
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
+
+
+

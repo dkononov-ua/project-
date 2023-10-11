@@ -19,7 +19,8 @@
 
 </div>
 
-<app-search-term class="p-2" *ngIf="indexPage === 0"></app-search-term>
+<app-search-term class="p-2 hide-pc" *ngIf="indexPage === 0"></app-search-term>
+<app-search-term class="p-2 hide-mobile"></app-search-term>
 
 <div class="container-house">
 
@@ -302,8 +303,7 @@
       <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
         [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
         [style.animation-delay.ms]="i * 100">
-        <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation] (click)="indexPage = 2">
-
+        <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
           <div class="card-img-container">
             <img
               [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
@@ -399,15 +399,13 @@
 
             <div class="item-box m-1">
               <button mat-raised-button class="prev card link" (click)="onPrevCard()">
-                <div class="prev-arrow-top"></div>
-                <div class="prev-arrow-bottom"></div>
+                <i class="fa-solid fa-chevron-left"></i>
               </button>
             </div>
 
             <div class="item-box m-1">
               <button mat-raised-button class="next card link" (click)="onNextCard()">
-                <div class="next-arrow-top"></div>
-                <div class="next-arrow-bottom"></div>
+                <i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
 

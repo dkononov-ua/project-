@@ -23,16 +23,6 @@ interface ObjectInfo {
         animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateY(0)' }),
-        animate('400ms 0ms ease-in-out', style({ transform: 'translateY(100%)' }))
-      ])
-    ])
   ],
 })
 
@@ -181,9 +171,10 @@ export class AddObjectsComponent implements OnInit {
     const headers = { 'Accept': 'application/json' };
     this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
       (uploadResponse: any) => {
+
         console.log(2222)
         console.log(uploadResponse)
-        if (uploadResponse.status === 'Наповнення успішно збережено') {
+        if (uploadResponse.status === 'Збережено') {
           setTimeout(() => {
             this.statusMessage = "Об'єкт додано до списку";
             setTimeout(() => {

@@ -14,9 +14,9 @@
         </div>
 
         <div class="card-social-link">
-          <a target="_blank" href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-          <a target="_blank" href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
-          <a target="_blank" href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook"></i></a>
+          <a target="_blank" href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram" *ngIf="user.instagram"></i></a>
+          <a target="_blank" href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram" *ngIf="user.telegram"></i></a>
+          <a target="_blank" href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook" *ngIf="user.facebook"></i></a>
         </div>
 
         <div class="item-wrapper p-3">
@@ -169,7 +169,7 @@
 
       </div>
 
-      <div class="card m-2"
+      <div class="card p-2"
         *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
 
         <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>

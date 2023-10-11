@@ -224,9 +224,10 @@ export class HousingSearchComponent implements OnInit {
   }
 
   selectFlat(flat: FlatInfo) {
-    this.selectedFlat = flat;
     this.currentPhotoIndex = 0;
+    this.indexPage = 2;
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
+    this.selectedFlat = flat;
     this.checkSubscribe();
     this.generateLocationUrl();
   }

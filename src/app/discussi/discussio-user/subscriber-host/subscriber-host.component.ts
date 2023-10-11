@@ -1,18 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { serverPath } from 'src/app/shared/server-config';
-
-
 @Component({
   selector: 'app-subscriber-host',
   templateUrl: './subscriber-host.component.html',
   styleUrls: ['./subscriber-host.component.scss']
 })
 export class SubscriberHostComponent implements OnInit {
-
-  selectedFlatId!: string | null;
   counterSubs: any;
   counterSubscriptions: any;
   counterAcceptSubs: any;
@@ -20,7 +15,6 @@ export class SubscriberHostComponent implements OnInit {
   dataUpdated = false;
 
   constructor(
-    private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private updateComponent: UpdateComponentService,
   ) { }
@@ -31,24 +25,16 @@ export class SubscriberHostComponent implements OnInit {
   }
 
   async getUpdate() {
-    await this.getFlatId();
     await this.getSubsCount();
     await this.getAcceptSubsCount();
     await this.getSubscriptionsCount();
     this.updateComponent.updateUser$.subscribe(() => {
       this.dataUpdated = true;
       if (this.dataUpdated === true) {
-        this.getFlatId();
         this.getSubsCount();
         this.getAcceptSubsCount();
         this.getSubscriptionsCount();
       }
-    });
-  }
-
-  getFlatId() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
     });
   }
 

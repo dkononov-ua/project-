@@ -13,26 +13,23 @@ export class ChatMenuComponent implements OnInit, AfterViewInit {
 
   loading: boolean = true;
 
-  isMenuOpen = false;
   isChatOpenStatus: boolean = true;
 
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
+  chatOpen: boolean = false;
+  chatMenuOpen: boolean = true;
+
+  openChat(): void {
+    this.chatOpen = true;
+    this.chatMenuOpen = false;
   }
 
-  closeMenu(): void {
-    this.isMenuOpen = false;
+  openMenuChat(): void {
+    this.chatMenuOpen = true;
+    this.chatOpen = false;
   }
 
   goBack(): void {
     this.location.back();
-  }
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.closeMenu();
-    }
   }
 
   selectedFlatId: any;

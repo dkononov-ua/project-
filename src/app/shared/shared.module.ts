@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { UpdateComponentService } from '../services/update-component.service';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -61,7 +62,7 @@ import { UpdateComponentService } from '../services/update-component.service';
     MatDatepickerModule,
     MatDialogModule,
     FormsModule,
-
+    MatMenuModule,
     MatFormFieldModule,
     MatSelectModule,
   ]

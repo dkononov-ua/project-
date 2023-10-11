@@ -29,7 +29,7 @@ export class SearchTermComponent implements OnInit {
   price_to!: number;
   region!: string;
   city!: string;
-  rooms_of!: number;
+  rooms_of: any = '0';
   rooms_to!: number;
   area_of!: number;
   area_to!: number;
@@ -46,7 +46,7 @@ export class SearchTermComponent implements OnInit {
   family: number = 0;
   balcony!: string;
   bunker!: string;
-  option_flat: number = 2;
+  option_flat: string = "2";
   room: number = 0;
   option_pay: number = 0;
   kitchen_area!: number;
@@ -123,7 +123,7 @@ export class SearchTermComponent implements OnInit {
   // пошук оселі по ID
   searchByID() {
     if (this.searchQuery) {
-      const endpoint =  serverPath + '/search/flat';
+      const endpoint = serverPath + '/search/flat';
       const flatId = this.searchQuery;
       const url = `${endpoint}/?flat_id=${flatId}`;
       this.getSearchData(url);
@@ -161,7 +161,7 @@ export class SearchTermComponent implements OnInit {
       family: this.family ? 1 : '',
       balcony: this.balcony || '',
       bunker: this.bunker || '',
-      option_flat: this.option_flat || '1',
+      option_flat: this.option_flat,
       room: this.room ? '1' : '0',
       option_pay: this.option_pay ? '1' : '0',
       limit: this.limit,
@@ -173,7 +173,7 @@ export class SearchTermComponent implements OnInit {
 
   // побудова URL пошукового запиту
   buildSearchURL(params: any): string {
-    const endpoint =  serverPath + '/search/flat';
+    const endpoint = serverPath + '/search/flat';
     const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
     return `${endpoint}?${paramsString}`;
   }

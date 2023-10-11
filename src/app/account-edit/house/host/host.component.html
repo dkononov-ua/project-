@@ -1,87 +1,73 @@
 <div class="container-fluid">
-
   <div class="switch-box p-2 hide-pc">
-
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/address'"><span class="link-text"><i
-            class="fa-solid fa-location-dot"></i></span>
+        [routerLink]="'/housing-parameters/host/address'"><span class="link-text">
+          <i class="fa-solid fa-location-dot"></i></span>
       </a>
     </div>
-
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/param'" (click)="onToggleMenu()"><span class="link-text"><i
-            class="fa-solid fa-trowel-bricks"></i></span>
+        [routerLink]="'/housing-parameters/host/param'" (click)="onToggleMenu()"><span class="link-text">
+          <i class="fa-solid fa-trowel-bricks"></i></span>
       </a>
     </div>
-
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/about'" (click)="onToggleMenu()"><span class="link-text"><i
-            class="fa-solid fa-users-gear"></i></span>
+        [routerLink]="'/housing-parameters/host/about'" (click)="onToggleMenu()"><span class="link-text">
+          <i class="fa-solid fa-users-gear"></i></span>
       </a>
     </div>
-
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/add-objects'" (click)="onToggleMenu()"><span class="link-text"><i
-            class="fa-solid fa-dolly"></i></span>
+        [routerLink]="'/housing-parameters/host/add-objects'" (click)="onToggleMenu()"><span class="link-text">
+          <i class="fa-solid fa-dolly"></i></span>
       </a>
     </div>
-
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/photo'" (click)="onToggleMenu()"><span class="link-text"><i
-            class="fa-solid fa-images"></i></span>
+        [routerLink]="'/housing-parameters/host/photo'" (click)="onToggleMenu()"><span class="link-text">
+          <i class="fa-solid fa-images"></i></span>
       </a>
     </div>
-
-
-
-
-
-
-
-
-
-
   </div>
-
   <div class="container-navbar hide-mobile">
     <nav class="navbar">
-      <a [routerLinkActive]="'active'" [routerLink]="'/user/info'"><i class="fa-solid fa-chevron-left"></i></a>
       <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
       <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">Профіль оселі</a>
     </nav>
   </div>
-
   <div class="container-card">
-
     <div class="wrapper hide-mobile col-lg-3 col-md-5 col-sm-6 col-12">
       <div class="card-box">
         <div class="card-menu">
           <app-selection-housing></app-selection-housing>
 
-
           <div class="mobile">
             <nav *ngIf="selectedFlatId && selectedFlatId !== null">
+              <a [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Назад</a>
+
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"
-                (click)="onToggleMenu()"><span class="link-text">Місцезнаходження</span>
+                (click)="onToggleMenu()"><span class="link-text ">Розташування</span>
+                <i class="fa-solid fa-location-dot ml-2"></i>
               </a>
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"
-                (click)="onToggleMenu()"><span class="link-text">Характеристики</span>
+                (click)="onToggleMenu()"><span class="link-text">Параметри</span>
+                <i class="fa-solid fa-trowel-bricks"></i>
               </a>
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"
                 (click)="onToggleMenu()"><span class="link-text">Особливості</span>
+                <i class="fa-solid fa-users-gear"></i>
               </a>
 
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"
                 (click)="onToggleMenu()"><span class="link-text">Наповнення</span>
+                <i class="fa-solid fa-dolly"></i>
               </a>
 
               <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
                 (click)="onToggleMenu()"><span class="link-text">Додати фото</span>
+                <i class="fa-solid fa-images"></i>
               </a>
 
             </nav>
@@ -93,7 +79,6 @@
         </div>
       </div>
     </div>
-
     <div class="wrapper hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
       <div class="card-box">
         <div class="card-menu">
@@ -127,9 +112,7 @@
         </div>
       </div>
     </div>
-
     <div class="card-box1 col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
-
       <div class="col-lg-6 col-sm-12 p-3">
         <h1>Створіть нову оселю.</h1>
         <h3>Тут ви зможете створювати нові оселі, або видаляти їх.</h3>
@@ -137,9 +120,7 @@
           оселей які можна
           створювати наразі необмежено.</p>
       </div>
-
     </div>
-
     <div class="hide-pc p-2 col-lg-8 col-md-5 col-sm-6 col-12">
       <div class="box"> <app-selection-housing class="w-75"></app-selection-housing>
         <button class="btn-add" (click)="onAddHouse()">
@@ -153,11 +134,8 @@
       </div>
       <app-add-house *ngIf="addHouse"></app-add-house>
     </div>
-
-    <div class="col-lg-8 col-md-5 col-sm-6 col-12" >
+    <div class="col-lg-8 col-md-5 col-sm-6 col-12">
       <router-outlet *ngIf="selectedFlatId"></router-outlet>
     </div>
-
-
   </div>
 </div>

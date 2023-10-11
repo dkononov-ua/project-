@@ -41,16 +41,12 @@
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-user">
-                    <!-- <img class="avatar-user"
-                      [src]="serverPathPhotoUser + (infoPublic[0].infUser.img[0].img ? infoPublic[0].infUser.img[0].img : 'user_default.svg')"
-                      alt="Flat Image"> -->
                     <div class="name-user">
                       <div class="accent-name"><span class="time">{{ message.time }} </span> {{
                         infoPublic[0].infUser.inf.firstName }} {{ infoPublic[0].infUser.inf.lastName }}</div>
                     </div>
                   </div>
                   <div class="message-content-user">
-                    <!-- <div class="accent">{{ message.is_read }}</div> -->
                     <div class="message-text-user"><i class="fa-solid fa-check-double"></i>{{ message.message }}</div>
                   </div>
                 </div>
@@ -61,9 +57,6 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                   <div class="avatar-wrapper-owner">
-                    <!-- <img class="avatar-owner"
-                      [src]="serverPathPhotoFlat + (infoPublic[0].infFlat.imgs[0].img ? infoPublic[0].infFlat.imgs[0].img : 'housing_default.svg')"
-                      alt="User Image"> -->
                     <div class="name-owner">
                       <div class="accent-name">{{ infoPublic[0].flat_name }}<span class="time">{{ message.time
                           }}</span>
@@ -84,9 +77,6 @@
               <div class="chat-container-user">
                 <div class="user-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-user">
-                    <!-- <img class="avatar-user"
-                      [src]="serverPathPhotoUser + (infoPublic[0].infUser.img[0].img ? infoPublic[0].infUser.img[0].img : 'user_default.svg')"
-                      alt="User Image"> -->
                     <div class="name-user">
                       <div class="accent-name"><span class="time">{{ messagesNotRead.time }} </span> {{
                         infoPublic[0].infUser.inf.firstName }} {{ infoPublic[0].infUser.inf.lastName }}</div>
@@ -104,9 +94,6 @@
               <div class="chat-container-owner">
                 <div class="owner-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                   <div class="avatar-wrapper-owner">
-                    <!-- <img class="avatar-owner"
-                      [src]="serverPathPhotoUser + (infoPublic[0].infFlat.imgs[0].img ? infoPublic[0].infFlat.imgs[0].img : 'housing_default.svg')"
-                      alt="User Image"> -->
                     <div class="name-owner">
                       <div class="accent-name">{{ infoPublic[0].infFlat.flat }}<span class="time">{{
                           messagesNotRead.time
@@ -127,31 +114,29 @@
 
       <div class="group">
 
-        <div class="group-input">
+        <button class="btn-more w-10" (click)="toggleSmileyPanel()">
+          <i class="fa-regular fa-face-smile-beam"></i>
+        </button>
 
-          <button class="btn-more" (click)="toggleSmileyPanel()">
-            <span class="material-symbols-outlined">
-              add_reaction
-            </span>
+        <div class="smiley-panel" *ngIf="isSmileyPanelOpen">
+          <button class="btn-more w-10" (click)="toggleSmileyPanel()">
+            <i class="fa-regular fa-face-smile-beam"></i>
           </button>
-
-          <div class="smiley-panel" [class.open]="isSmileyPanelOpen">
-            <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
-          </div>
-
+          <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
         </div>
 
-        <div class="input-box">
+        <div class="input-box w-90">
           <div class="chat-input col-10">
-            <textarea class="input-field" (input)="onInput()" #textArea id="floatingTextarea" matInput
-              [(ngModel)]="messageText" (keydown.enter)="sendMessage(selectedFlat)"
-              placeholder="Напишіть повідомлення"></textarea>
+            <textarea class="input-field" #textArea id="floatingTextarea" matInput
+                      [(ngModel)]="messageText" (keydown.enter)="sendMessage(selectedFlat)"
+                      placeholder="Напишіть повідомлення" (click)="preventKeyboardCollapse($event)"></textarea>
           </div>
 
-          <button class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedFlat)">
+          <button *ngIf="messageText" class="btn-send" matTooltip="Надіслати" (click)="sendMessage(selectedFlat)">
             <i class="fa-solid fa-paper-plane fa-2xl"></i>
           </button>
         </div>
+
 
 
       </div>
