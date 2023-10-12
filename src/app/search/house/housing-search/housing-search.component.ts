@@ -84,6 +84,7 @@ export class HousingSearchComponent implements OnInit {
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
+  loading = true;
 
   offs: number = 0;
   pageEvent: PageEvent = {
@@ -189,37 +190,39 @@ export class HousingSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscriptionMessageTimeout.subscribe(() => {
-      setTimeout(() => {
-        this.subscriptionMessage = undefined;
-      }, 2000);
-    });
+    this.getSearchInfo()
+  }
 
-    this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
-      const filterValue = this.filterService.getFilterValue();
-      const optionsFound = this.filterService.getOptionsFound();
-      if (filterValue && optionsFound) {
-        this.getFilteredData(filterValue, optionsFound);
-      } else {
-        this.getFilteredData(0, 0);
-      }
-    });
-
-    if (this.filteredFlats && this.filteredFlats.length > 0) {
-      this.selectedFlat = this.filteredFlats[this.currentCardIndex];
-      this.locationLink = this.generateLocationUrl();
+  async getSearchInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.filterSubscription = this.filterService.filterChange$.subscribe(async () => {
+        const filterValue = this.filterService.getFilterValue();
+        const optionsFound = this.filterService.getOptionsFound();
+        if (filterValue && optionsFound && optionsFound !== 0) {
+          this.getFilteredData(filterValue, optionsFound);
+        } else {
+          this.getFilteredData(undefined, 0);
+        }
+      })
+    } else {
+      console.log('Авторизуйтесь')
     }
   }
 
   getFilteredData(filterValue: any, optionsFound: number) {
-    if (!filterValue) {
-      this.optionsFound = 0;
-      this.filteredFlats = undefined;
-    } else {
+    if (filterValue) {
       this.filteredFlats = filterValue;
       this.optionsFound = optionsFound;
-      this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+      this.selectedFlat = this.filteredFlats![0];
+      this.locationLink = this.generateLocationUrl();
       this.checkSubscribe();
+      this.loading = false;
+    } else {
+      this.optionsFound = 0;
+      this.filteredFlats = undefined;
+      this.selectedFlat = undefined;
+      this.loading = false;
     }
   }
 

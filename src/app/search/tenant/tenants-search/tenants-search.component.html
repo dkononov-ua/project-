@@ -1,6 +1,12 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+
 <div class="switch-box p-2 mt-2 hide-pc">
   <div class="btn-menu">
-    <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Меню"
+    <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Фільтр"
       (click)="indexPage = 0">
       <i class="fa-solid fa-filter"></i></button>
   </div>
@@ -73,12 +79,15 @@
         </a>
       </div>
     </div>
+    <div [@cardAnimation] class="card-container" *ngIf="!filteredUsers">
+      <h2>Нічого не знайдено...</h2>
+    </div>
   </div>
 
   <div class="section-1 hide-mobile col-lg-8 col-md-9 col-sm-12 col-12">
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-house m-2" *ngIf="selectedUser">
+      <div [@cardAnimation] class="card-house m-2">
 
         <div class="card card-selected">
 
@@ -186,8 +195,8 @@
     </div>
 
     <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation2] class="card-house m-2" *ngIf="selectedUser">
-        <div class="card card-selected p-2">
+      <div [@cardAnimation2] class="card-house m-2">
+        <div class="card card-selected p-2" *ngIf="selectedUser">
 
           <div class="container-sticker">
             <div class="status-container">
@@ -344,12 +353,12 @@
 
         </div>
 
-        <div class="card card-logo m-2" *ngIf="!selectedUser">
+        <div class="card card-selected card-logo p-2" *ngIf="!selectedUser">
           <div class="img-wrapper">
-            <img class="img-fluid rounded" src="../../../assets/logo/Discussio (7).svg" alt="Логотип">
+            <img class="img-fluid rounded" src="{{path_logo}}" alt="logo">
           </div>
           <div class="characteristics-group p-4">
-            <h2>Оберіть орендара і тут будуть його побажання</h2>
+            <h2>Оберіть оселю і тут будуть її характеристики</h2>
           </div>
           <div class="characteristics-group p-4">
             <h2>© Discussio.</h2>
@@ -365,8 +374,7 @@
   <div class="section hide-pc col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 1">
     <div class="card-container" cdkScrollable *ngIf="filteredUsers">
       <div class="card-wrapper" *ngFor="let user of filteredUsers; let i = index"
-        [ngClass]="{ 'selected': selectedUser === user }"
-        [style.animation-delay.ms]="i * 100">
+        [ngClass]="{ 'selected': selectedUser === user }" [style.animation-delay.ms]="i * 100">
         <a class="card-mini m-2" [class.selected]="selectedUser === user" [@slideAnimation] (click)="selectUser(user)">
           <div class="card-img-container">
             <img class="card-img-top" [src]="serverPathPhotoUser + (user.img ? user.img : 'user_default.svg')"
@@ -692,3 +700,5 @@
   </div>
 
 </div>
+
+</ng-template>

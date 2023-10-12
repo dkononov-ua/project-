@@ -230,6 +230,64 @@
   right: 0;
 }
 
+.card-btn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.next {
+  display: flex;
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.prev {
+  display: flex;
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.btn-link {
+  color: $color-text;
+  transition: all 0.4s ease;
+  letter-spacing: 1px;
+
+  &:hover {
+    background-color: $color-gray;
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
+      10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+
+  &:active {
+    transform: scale(0.8);
+    letter-spacing: 0px;
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
+      10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+
+  &.active {
+    letter-spacing: 5px;
+    font-weight: bold;
+    color: $color-accent;
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
+      10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+}
+
+
 
 
 

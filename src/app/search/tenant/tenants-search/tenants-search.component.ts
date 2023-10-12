@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 interface UserInfo {
   animals: string | undefined;
   area_of: number | undefined;
@@ -102,6 +102,7 @@ export class TenantsSearchComponent implements OnInit {
   statusSubscriptionMessage: boolean | undefined;
   statusMessage: any;
   selectedFlatId!: string | null;
+  loading = true;
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -139,6 +140,8 @@ export class TenantsSearchComponent implements OnInit {
   openMenu: boolean = true;
   hideMenu: boolean = false;
   indexPage: number = 0;
+  optionsFound: number = 0;
+  path_logo = path_logo;
 
   opensCard() {
     this.openCard = !this.openCard;
@@ -161,7 +164,7 @@ export class TenantsSearchComponent implements OnInit {
     this.getSelectedFlat();
   }
 
-  getSelectedFlat() {
+  async getSelectedFlat() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
@@ -172,16 +175,35 @@ export class TenantsSearchComponent implements OnInit {
     });
   }
 
-  getSearchInfo() {
-    this.filterSubscription = this.filterService.filterChange$.subscribe(() => {
-      const filterValue = this.filterService.getFilterValue();
-      if (filterValue) {
-        this.selectedUser = null;
-        this.updateFilteredData(filterValue);
-        this.selectedUser = this.filteredUsers![0];
-        this.checkSubscribe();
-      }
-    });
+  async getSearchInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.filterSubscription = this.filterService.filterChange$.subscribe(async () => {
+        const filterValue = this.filterService.getFilterValue();
+        const optionsFound = this.filterService.getOptionsFound();
+        if (filterValue && optionsFound && optionsFound !== 0) {
+          this.getFilteredData(filterValue, optionsFound);
+        } else {
+          this.getFilteredData(undefined, 0);
+        }
+      })
+    } else {
+      console.log('Авторизуйтесь')
+    }
+  }
+
+  getFilteredData(filterValue: any, optionsFound: number) {
+    if (filterValue) {
+      this.filteredUsers = filterValue;
+      this.optionsFound = optionsFound;
+      this.selectedUser = this.filteredUsers![0];
+      this.loading = false;
+    } else {
+      this.optionsFound = 0;
+      this.filteredUsers = undefined;
+      this.selectedUser = undefined;
+      this.loading = false;
+    }
   }
 
   selectUser(user: UserInfo) {
@@ -189,13 +211,6 @@ export class TenantsSearchComponent implements OnInit {
     this.selectedUser = user;
     this.checkSubscribe();
     this.indexPage = 2;
-  }
-
-  updateFilteredData(filterValue: any) {
-    this.filterForm.patchValue(filterValue);
-    this.filteredUsers = filterValue;
-    this.selectedUser = this.filteredUsers![this.currentCardIndex];
-    this.updateSelectedUser;
   }
 
   private updateSelectedUser() {

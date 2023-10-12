@@ -56,18 +56,18 @@ export class ComunHistoryComponent implements OnInit {
   ];
 
   months = [
-    { id: 0, name: 'Січень' },
-    { id: 1, name: 'Лютий' },
-    { id: 2, name: 'Березень' },
-    { id: 3, name: 'Квітень' },
-    { id: 4, name: 'Травень' },
-    { id: 5, name: 'Червень' },
-    { id: 6, name: 'Липень' },
-    { id: 7, name: 'Серпень' },
-    { id: 8, name: 'Вересень' },
-    { id: 9, name: 'Жовтень' },
-    { id: 10, name: 'Листопад' },
-    { id: 11, name: 'Грудень' }
+    { id: '1', name: 'Січень' },
+    { id: '2', name: 'Лютий' },
+    { id: '3', name: 'Березень' },
+    { id: '4', name: 'Квітень' },
+    { id: '5', name: 'Травень' },
+    { id: '6', name: 'Червень' },
+    { id: '7', name: 'Липень' },
+    { id: '8', name: 'Серпень' },
+    { id: '9', name: 'Вересень' },
+    { id: '10', name: 'Жовтень' },
+    { id: '11', name: 'Листопад' },
+    { id: '12', name: 'Грудень' }
   ];
 
   flatInfo: FlatInfo = {
@@ -440,5 +440,25 @@ export class ComunHistoryComponent implements OnInit {
       user_id: undefined,
     };
   }
+
+  prevMonth(): void {
+    const currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
+    if (currentIndex > 0) {
+      const previousMonth = this.months[currentIndex - 1].name;
+      console.log(previousMonth)
+      this.changeMonthService.setSelectedMonth(previousMonth);
+      this.selectComunInfo();
+    }
+  }
+
+  nextMonth() {
+    const currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
+    if (currentIndex < 11) {
+      const previousMonth = this.months[currentIndex + 1].name;
+      this.changeMonthService.setSelectedMonth(previousMonth);
+      this.selectComunInfo();
+    }
+  }
+
 }
 

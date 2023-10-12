@@ -7,16 +7,24 @@ import { BehaviorSubject } from 'rxjs';
 export class FilterUserService {
 
   private filterValue: any;
-  filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private optionsFound: number | undefined;
+  filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>(null);  constructor() { }
 
-  constructor() { }
-
-  updateFilter(filterValue: any) {
+  updateFilter(filterValue: any, optionsFound: number) {
     this.filterValue = filterValue;
-    this.filterChange$.next(filterValue);
+    this.optionsFound = optionsFound;
+    if (this.filterValue) {
+      this.filterChange$.next(filterValue);
+    }
   }
 
   getFilterValue() {
     return this.filterValue;
   }
+
+  getOptionsFound() {
+    return this.optionsFound;
+  }
 }
+
+

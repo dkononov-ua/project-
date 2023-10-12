@@ -1,4 +1,6 @@
 @use "../housing-services.component.scss";
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .about {
   font-size: 13px;
@@ -12,4 +14,12 @@
 .formula {
   font-size: 13px;
   font-weight: 600;
+}
+
+.name {
+  text-align: center;
+}
+
+.card-btn-container {
+  border-radius: 10px;
 }

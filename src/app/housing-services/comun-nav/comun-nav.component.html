@@ -2,29 +2,20 @@
   <div class="box">
 
     <div *ngIf="!selectedName">
-
-      <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
-        <span class="link-text">Реквізити</span>
-        <i class="fa-solid fa-building-columns"></i>
-      </a>
-
-    </div>
-
-    <div *ngIf="!selectedName">
       <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
         <span class="link-text">Додати</span>
         <i class="fa-solid fa-pen"></i>
       </a>
     </div>
 
-    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
-      <span class="link-text">Сезон</span>
-      <i class="fa-solid fa-chart-column"></i>
-    </a>
-
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-month'">
       <span class="link-text">Місяць</span>
       <i class="fa-solid fa-building-columns"></i>
+    </a>
+
+    <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
+      <span class="link-text">Сезон</span>
+      <i class="fa-solid fa-chart-column"></i>
     </a>
 
     <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-year'">
@@ -36,6 +27,13 @@
       <span class="link-text">Загальні</span>
       <i class="fa-solid fa-chart-bar"></i>
     </a>
+
+    <div *ngIf="!selectedName">
+      <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
+        <span class="link-text">Реквізити</span>
+        <i class="fa-solid fa-building-columns"></i>
+      </a>
+    </div>
 
   </div>
 </div>

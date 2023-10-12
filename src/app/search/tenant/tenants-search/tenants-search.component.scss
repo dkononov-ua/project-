@@ -24,14 +24,6 @@
   display: none;
 }
 
-.img-container {
-  border-radius: 10px;
-  height: 300px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
 .img-wrapper {
   display: flex;
   overflow: hidden;
@@ -210,6 +202,7 @@ h2 {
   min-width: 100%;
   display: flex;
   justify-content: flex-start;
+  position: relative;
 }
 
 .fa-heart {
@@ -267,19 +260,6 @@ $subscribed-color-3: rgb(240, 80, 52);
 .discussion {
   background-color: $color-accent;
   color: white;
-}
-
-.img-fluid {
-  z-index: 1;
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  transition: transform 1s;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
-  }
 }
 
 h4 {
@@ -685,22 +665,29 @@ a {
 }
 
 .img-container {
-  display: flex;
   border-radius: 10px;
-  width: 100%;
   height: 300px;
+  width: 100%;
+  position: relative;
   overflow: hidden;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: flex-end;
 }
 
 .img-wrapper {
-  position: absolute;
-  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+}
+
+.img-fluid {
   width: 100%;
   height: 300px;
   overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
 }
 
 .user-group {

@@ -66,6 +66,7 @@ export class SearchTermComponent implements OnInit {
   searchTimer: any;
   // загальна кількість знайдених осель
   optionsFound: number = 0
+  loading = true;
 
   toggleSearchTerm() {
     this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
@@ -184,11 +185,18 @@ export class SearchTermComponent implements OnInit {
     this.optionsFound = response.count;
     this.filteredFlats = response.img;
     this.passInformationToService(this.filteredFlats, this.optionsFound);
+    this.loading = false;
   }
 
   // передача отриманих даних до сервісу а потім виведення на картки карток
   passInformationToService(filteredFlats: any, optionsFound: number) {
-    this.filterService.updateFilter(filteredFlats, optionsFound);
+    if (filteredFlats && optionsFound) {
+      this.filterService.updateFilter(filteredFlats, optionsFound);
+      this.loading = false;
+    } else {
+      this.filterService.updateFilter(undefined, 0);
+      this.loading = false;
+    }
   }
 
   // наступна сторінка

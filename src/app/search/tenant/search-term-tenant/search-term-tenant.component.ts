@@ -117,7 +117,7 @@ export class SearchTermTenantComponent implements OnInit {
   minValue: number = 0;
   maxValue: number = 100000;
 
-  loading: boolean | undefined;
+  loading = true;
   timer: any;
   searchQuery: string | undefined;
   minValueDays: number = 0;
@@ -187,21 +187,25 @@ export class SearchTermTenantComponent implements OnInit {
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
-            // Перевірка на масив та на пустоту
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
-            this.passInformationToService(this.filteredUsers);
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
+            this.loading = false;
           } else {
             this.filteredUsers = [null];
             this.optionsFound = 0;
-            console.log('Нічого не знайдено');
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
+            this.loading = false;
           }
         }, (error: any) => {
           console.error(error);
+          this.loading = false;
+
         });
     } else {
-      this.passInformationToService(this.filteredUsers)
+      this.passInformationToService(this.filteredUsers, this.optionsFound)
       console.log('user not found');
+      this.loading = false;
     }
   }
 
@@ -216,7 +220,7 @@ export class SearchTermTenantComponent implements OnInit {
         this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
-            this.filterUserService.updateFilter(this.filteredUsers);
+            this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
           }, (error: any) => {
             console.error(error);
           });
@@ -238,8 +242,8 @@ export class SearchTermTenantComponent implements OnInit {
   }
 
   // передача отриманих даних до сервісу а потім виведення на картки карток
-  passInformationToService(filteredUsers: any) {
-    this.filterUserService.updateFilter(filteredUsers);
+  passInformationToService(filteredFlats: any, optionsFound: number) {
+    this.filterUserService.updateFilter(filteredFlats, optionsFound);
   }
 
   // завантаження бази міст

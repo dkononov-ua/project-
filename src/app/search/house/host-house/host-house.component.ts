@@ -5,11 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './host-house.component.html',
   styleUrls: ['./host-house.component.scss']
 })
-export class HostHouseComponent {
-
-  isSearchTermCollapsed: boolean = false;
-
-  toggleSearchTerm() {
-    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
-  }
-}
+export class HostHouseComponent {}

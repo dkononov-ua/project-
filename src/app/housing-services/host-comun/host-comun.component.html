@@ -38,7 +38,6 @@
             </div>
 
             <div class="box" *ngIf="showInput">
-
               <mat-form-field class="inputbox" appearance="outline">
                 <mat-label>Оберіть або створіть нову</mat-label>
                 <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу"
@@ -73,7 +72,8 @@
       <div class="col-lg-8 col-md-8 col-sm-12 col-12">
 
         <div class="menu-btn-box">
-          <button class="link-item p-2 hide-pc w-25" (click)="showPanel()" [ngClass]="{ 'active': controlPanel }"> <span class="link-text">ПАНЕЛЬ УПРАВЛІННЯ</span>
+          <button class="link-item p-2 hide-pc w-25" (click)="showPanel()" [ngClass]="{ 'active': controlPanel }"> <span
+              class="link-text">ПАНЕЛЬ УПРАВЛІННЯ</span>
             <i class="fa-solid fa-outdent"></i>
           </button>
           <app-comun-nav class="hide-mobile"></app-comun-nav>

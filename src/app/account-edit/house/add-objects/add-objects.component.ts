@@ -29,11 +29,6 @@ interface ObjectInfo {
 export class AddObjectsComponent implements OnInit {
   path_logo = path_logo;
   loading = false;
-  addMyObj: boolean = false;
-
-  addObj() {
-    this.addMyObj = !this.addMyObj;
-  }
 
   reloadPageWithLoader() {
     this.loading = true;

@@ -1,3 +1,8 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
 <div class="card-box">
 
   <div class="box-2">
@@ -390,3 +395,4 @@
 
 
   </div>
+</ng-template>

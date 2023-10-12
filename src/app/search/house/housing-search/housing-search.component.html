@@ -1,3 +1,9 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+
 <div class="switch-box hide-pc">
   <div class="btn-menu">
     <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Меню"
@@ -292,7 +298,6 @@
           </div>
 
         </div>
-
       </div>
     </div>
 
@@ -575,3 +580,5 @@
 <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
   <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">
 </div>
+
+</ng-template>

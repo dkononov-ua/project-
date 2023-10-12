@@ -33,6 +33,7 @@ import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.compo
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from '../shared/custom-paginator';
 import { MatRadioModule } from '@angular/material/radio';
+import { FilterUserService } from './filter-user.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   providers: [
     FilterService,
+    FilterUserService,
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     BrowserModule,
