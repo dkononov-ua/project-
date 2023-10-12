@@ -211,7 +211,7 @@ mat-form-field {
 }
 
 textarea {
-  min-height: 150px;
+  min-height: 100px;
 }
 
 .item-select {
@@ -373,3 +373,33 @@ textarea {
   border-radius: 5px;
   margin-top: 10px;
 }
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

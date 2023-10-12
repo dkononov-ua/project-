@@ -100,7 +100,7 @@
       <div class="card">
 
         <mat-form-field class="item-select" appearance="outline">
-          <mat-label>Кількість кімнат</mat-label>
+          <div class="list-label-1">Кіл. кімнат</div>
           <mat-select [(ngModel)]="flatInfo.rooms" name="rooms">
             <mat-option [value]="0">Приховати</mat-option>
             <mat-option [value]="1">Однокімнатна</mat-option>
@@ -113,7 +113,7 @@
 
         <div class="item-box">
           <mat-form-field class="item-select" appearance="outline">
-            <mat-label>Стан оселі</mat-label>
+            <div class="list-label-1">Стан оселі</div>
             <mat-select [(ngModel)]="flatInfo.repair_status" name="repair_status">
               <mat-option value="">Приховати</mat-option>
               <mat-option value="Добрий">Новий</mat-option>
@@ -127,7 +127,7 @@
 
         <div class="item-box">
           <mat-form-field class="item-select" appearance="outline">
-            <mat-label>Наявність балкону і його тип</mat-label>
+            <div class="list-label-1">Балкон/тип</div>
             <mat-select [(ngModel)]="flatInfo.balcony" name="balcony">
               <mat-option value="">Приховати</mat-option>
               <mat-option value="Класичний">Класичний</mat-option>

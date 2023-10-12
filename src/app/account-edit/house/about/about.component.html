@@ -117,8 +117,8 @@
         </div>
 
         <mat-form-field class="item-select mt-2" appearance="outline">
-          <mat-label>Наявність укриття</mat-label>
-          <mat-select [(ngModel)]="flatInfo.bunker" name="bunker">
+          <div class="list-label-1">Наявність укриття</div>
+          <mat-select [(ngModel)]="flatInfo.bunker" name="bunker" placeholder="Наявність укриття">
             <mat-option [value]="''">Приховати</mat-option>
             <mat-option value="Паркінг">Паркінг</mat-option>
             <mat-option value="В будинку">В будинку</mat-option>
@@ -127,8 +127,8 @@
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
-          <mat-label>Дозвіл на тварин</mat-label>
-          <mat-select [(ngModel)]="flatInfo.animals" name="animals">
+          <div class="list-label-1">Дозвіл на тварин</div>
+          <mat-select [(ngModel)]="flatInfo.animals" name="animals" placeholder="Дозвіл на тварин">
             <mat-option [value]="''">Приховати</mat-option>
             <mat-option value="1">Без тварин</mat-option>
             <mat-option value="2">За домовленістю</mat-option>

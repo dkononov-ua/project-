@@ -1,22 +1,81 @@
+@use "../housing-parameters.component.scss";
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
-@use "../../../style/shared.scss";
 
-.card {
-  height: auto;
-  @include s1-s3 {
-    height: auto;
+.textarea-form {
+  max-height: 150px;
+}
+
+.add-photo-group {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .add-photo-label {
+    width: 50%;
+    height: 60px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 15px;
+    color: $color-accent;
+    font-weight: 600;
+  }
+
+  .add-photo-box {
+    cursor: pointer;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid $color-accent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+    transition: 1s;
+
+    &:hover {
+      background-color: $color-dark;
+    }
+  }
+
+  .add-photo-icon {
+    color: $color-accent;
+    font-size: 30px;
+    animation: iconflicker 8s linear infinite;
+  }
+
+  .add-photo-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.box-add-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  .box-add-btn {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
   }
 }
 
 p,
 li {
   font-size: 13px;
-}
-
-textarea {
-  max-height: 150px;
-  overflow: auto;
 }
 
 img {
@@ -29,141 +88,10 @@ img {
   transition: transform 1s;
 }
 
-.fa-solid {
-  color: $color-white;
-}
-
-.container-card {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
-  @include s1-s3 {
-    align-content: flex-start;
-    height: 90vh;
-  }
-}
-.box {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: flex-start;
-}
-.card-box {
-  display: flex;
-  @include s1-s3 {
-    flex-direction: column;
-  }
-}
-
-.group-label {
-  font-weight: 600;
-  color: $color-accent;
-}
-
-.item-select {
-  font-size: 16px !important;
-  width: 100%;
-  height: 70px;
-}
 .option-icon {
   width: 24px;
   height: 24px;
   margin-right: 8px;
-}
-.option-text {
-  flex: 1;
-}
-.group {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.group-item {
-  width: 100%;
-  display: flex;
-  border-radius: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.label-1 {
-  font-size: 15px;
-  color: $color-accent;
-  font-weight: 600;
-}
-.input-div {
-  cursor: pointer;
-  position: relative;
-  background-color: $color-dark;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid $color-accent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  box-shadow:
-    0px 0px 20px $color-primary,
-    inset 0px 0px 10px $color-primary,
-    0px 0px 5px rgb(255, 255, 255);
-  transition: 1s;
-
-  &:hover {
-    background-color: $color-accent;
-  }
-}
-
-.btn-group {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-  align-items: center;
-  justify-content: center;
-}
-.btn-add {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-}
-
-.btn-delete {
-  z-index: 20;
-  position: absolute;
-  left: -10px;
-  bottom: -10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  padding: 5px;
-  transition: 1s;
-  border: none;
-  background-color: $color-accent;
-
-  &:hover {
-    background-color: $color-dark;
-    transform: scale(1.4);
-    border: 1px solid $color-dark;
-  }
-}
-
-.card-info {
-  position: relative;
-}
-.card-group {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: stretch;
-  justify-content: flex-start;
-  position: relative;
-  flex-direction: column;
 }
 
 .box-filling {
@@ -174,8 +102,7 @@ img {
   align-content: flex-start;
   justify-content: center;
   @include s1-s3 {
-    height: auto;
-    max-height: 90vh;
+    height: 70vh;
   }
 }
 
@@ -188,23 +115,23 @@ img {
   width: 97%;
   height: 130px;
   display: flex;
-  background-color: white;
-  color: rgba(0, 0, 0, 0.8117647059);
   border-radius: 10px;
   justify-content: space-between;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
   transition: 1s;
+  position: relative;
 
   &:hover {
     transform: scale(1.05);
-    background-color: $color-accent;
+    background-color: $color-white;
   }
 
   @include s1-s3 {
     width: 94%;
   }
+}
+
+.card-filling.selectedCard {
+  background-color: $color-accent;
 }
 
 .card-add {
@@ -220,12 +147,18 @@ img {
   width: 50%;
   position: relative;
 }
+
+.box-img.selectedCard {
+  display: none;
+}
+
 .card-img {
   border-radius: 10px;
 
   width: 100%;
   height: 100%;
 }
+
 .icon {
   position: absolute;
   background-color: $color-white;
@@ -248,8 +181,49 @@ img {
   position: relative;
   overflow: auto;
 }
+
 .card-title {
-  font-size: 14px;
+  font-size: 12px;
+}
+
+.btn-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  z-index: 20;
+  .fa-solid {
+    color: $color-text;
+  }
+  &:hover {
+    background-color: $color-white;
+  }
+}
+
+.btn-menu {
+  .btn {
+    width: 150px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.switch-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 60px;
+  z-index: 50;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
 }
 
 .hide-mobile {

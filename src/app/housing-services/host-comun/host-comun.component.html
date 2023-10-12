@@ -71,13 +71,15 @@
       </div>
 
       <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+
         <div class="menu-btn-box">
-          <button class="link-item p-2 hide-pc" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0 }"> <span class="link-text">ПАНЕЛЬ УПРАВЛІННЯ</span>
+          <button class="link-item p-2 hide-pc w-25" (click)="showPanel()" [ngClass]="{ 'active': controlPanel }"> <span class="link-text">ПАНЕЛЬ УПРАВЛІННЯ</span>
             <i class="fa-solid fa-outdent"></i>
           </button>
-          <app-comun-nav (click)="indexPage = 1"></app-comun-nav>
+          <app-comun-nav class="hide-mobile"></app-comun-nav>
+          <app-comun-nav class="w-75 scroll-menu hide-pc"></app-comun-nav>
         </div>
-        <div class="card-menu hide-pc" *ngIf="indexPage === 0">
+        <div class="card-menu hide-pc" *ngIf="controlPanel">
           <div *ngIf="selectedName" class="flex-column">
             <div class="text-min">Вам надано доступ на перегляд статистики по оселі:</div>
             <div class="text-title">{{selectedName}}</div>
@@ -135,12 +137,9 @@
               </div>
             </div>
           </div>
+        </div>
 
-        </div>
-        <div class="hide-mobile" *ngIf="indexPage === 0">
-          <h2>Внесіть дані по комунальним витратам, та зможете використовувати статистичні дані.</h2>
-        </div>
-        <router-outlet *ngIf="indexPage === 1"></router-outlet>
+        <router-outlet></router-outlet>
       </div>
 
     </div>

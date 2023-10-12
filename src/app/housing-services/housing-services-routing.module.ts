@@ -20,7 +20,7 @@ const routes: Routes = [
         component: HostComunComponent, canActivate: [CanActivateGuard],
 
         children: [
-          // { path: '', redirectTo: 'comun-company', pathMatch: 'full' },
+          { path: '', redirectTo: 'comun-company', pathMatch: 'full' },
           { path: 'comun-history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-stat-season', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-stat-comun', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },

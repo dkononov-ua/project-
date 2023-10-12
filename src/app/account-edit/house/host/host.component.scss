@@ -212,13 +212,6 @@
   }
 }
 
-.mobile {
-  @include s1-s3 {
-    display: flex;
-    flex-direction: column-reverse;
-  }
-}
-
 .link-menu {
   transition: 0.4s;
   display: flex;

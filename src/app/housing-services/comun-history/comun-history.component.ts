@@ -7,7 +7,7 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface FlatInfo {
   comunal_before: any;
@@ -71,13 +71,13 @@ export class ComunHistoryComponent implements OnInit {
   ];
 
   flatInfo: FlatInfo = {
-    comunal_before: 0,
-    comunal_now: 0,
-    howmuch_pay: 0,
+    comunal_before: NaN,
+    comunal_now: NaN,
+    howmuch_pay: NaN,
     about_pay: '',
-    tariff: 0,
-    consumed: 0,
-    calc_howmuch_pay: 0,
+    tariff: NaN,
+    consumed: NaN,
+    calc_howmuch_pay: NaN,
     option_sendData: 1,
     user_id: '',
   };
@@ -99,6 +99,8 @@ export class ComunHistoryComponent implements OnInit {
   selectedComun: any;
   selectedYear: any;
   selectedMonth: any;
+  path_logo = path_logo;
+  statusMessage: string | undefined;
 
   constructor(
     private dataService: DataService,
@@ -110,16 +112,9 @@ export class ComunHistoryComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.getInfoFlat();
     this.getSelectParam();
     this.loading = false;
-    if (this.selectedFlatId && this.selectedYear && this.selectedMonth && this.selectedComun !== 'undefined' && this.selectedComun) {
-      await this.getComunalYearInfo();
-      await this.selectMonthInfo();
-      this.getDefaultData();
-      this.getInfoFlat();
-    }
-    console.log(this.selectedComun)
-
   }
 
   getSelectParam() {
@@ -214,7 +209,7 @@ export class ComunHistoryComponent implements OnInit {
 
   async selectMonthInfo(): Promise<void> {
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
-    if (com_inf && this.selectedComun && this.selectedComun !== 'undefined' &&  this.selectedYear && this.selectedMonth && com_inf.comunal === undefined) {
+    if (com_inf && this.selectedComun && this.selectedComun !== 'undefined' && this.selectedYear && this.selectedMonth && com_inf.comunal === undefined) {
       const selectedInfo = com_inf.find((selectMonth: any) => {
         return selectMonth.when_pay_y === this.selectedYear &&
           selectMonth.when_pay_m === this.selectedMonth &&
@@ -229,7 +224,16 @@ export class ComunHistoryComponent implements OnInit {
         this.calculatePay();
       } else {
         this.noInformationMessage = true;
-        console.log('No data found for selected month.');
+        this.flatInfo.comunal_before = NaN,
+          this.flatInfo.comunal_now = NaN,
+          this.flatInfo.howmuch_pay = NaN,
+          this.flatInfo.about_pay = '',
+          this.flatInfo.tariff = NaN,
+          this.flatInfo.consumed = NaN,
+          this.flatInfo.calc_howmuch_pay = NaN,
+          this.flatInfo.option_sendData = NaN,
+          this.flatInfo.user_id = '',
+          console.log('No data found for selected month.');
       }
     } else if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal !== undefined) {
       const selectedInfo = com_inf.comunal.find((selectMonth: any) => {
@@ -298,12 +302,12 @@ export class ComunHistoryComponent implements OnInit {
       const comunalNextMonthData = {
         tariff: this.flatInfo.tariff,
         comunal_before: comunal_before,
-        comunal_now: 0,
-        howmuch_pay: 0,
+        comunal_now: NaN,
+        howmuch_pay: NaN,
         about_pay: '',
-        consumed: 0,
-        calc_howmuch_pay: 0,
-        calc_tariff_square: 0,
+        consumed: NaN,
+        calc_howmuch_pay: NaN,
+        calc_tariff_square: NaN,
         option_sendData: this.flatInfo.option_sendData,
       };
 
@@ -316,10 +320,24 @@ export class ComunHistoryComponent implements OnInit {
           when_pay_m: nextMonth,
           comunal: comunalNextMonthData,
         }).subscribe((response: any) => {
-          localStorage.removeItem('comunal_inf');
-          this.disabled = true;
-          this.loading = true;
-          this.reloadPageWithLoader();
+          if (response.status === 'Данні по комуналці успішно змінені') {
+            setTimeout(() => {
+              this.statusMessage = 'Збережено';
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.selectComunInfo();
+              }, 2500);
+            }, 200);
+          } else if (response.status === false) {
+            setTimeout(() => {
+              this.statusMessage = 'Не вдалось зберегти';
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.selectComunInfo();
+              }, 1500);
+            }, 500);
+          }
+
         }, (error: any) => {
           console.error(error);
         });
@@ -410,18 +428,17 @@ export class ComunHistoryComponent implements OnInit {
   }
 
   clearInfo(): void {
-    if (this.disabled === false)
-      this.flatInfo = {
-        comunal_before: 0,
-        comunal_now: 0,
-        howmuch_pay: 0,
-        about_pay: '',
-        tariff: 0,
-        consumed: 0,
-        calc_howmuch_pay: 0,
-        option_sendData: 1,
-        user_id: '',
-      };
+    this.flatInfo = {
+      comunal_before: undefined,
+      comunal_now: undefined,
+      howmuch_pay: 0,
+      about_pay: undefined,
+      tariff: undefined,
+      consumed: undefined,
+      calc_howmuch_pay: 0,
+      option_sendData: 1,
+      user_id: undefined,
+    };
   }
 }
 

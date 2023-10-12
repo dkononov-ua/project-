@@ -31,11 +31,9 @@ export class SelectMonthComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMonthService();
-    console.log(this.selectedMonth)
     if (!this.selectedMonth) {
       this.getMonthCurrent();
       this.changeMonthService.setSelectedMonth(this.selectedMonth);
-      console.log(this.selectedMonth)
     }
   }
 

@@ -44,7 +44,12 @@ export class HostComunComponent implements OnInit {
   discussio_view: boolean = false;
   selectedView: string | null | undefined;
   selectedName: string | null | undefined;
-  indexPage: number = 0;
+  indexPage: number = 1;
+  controlPanel: boolean = false;
+
+  showPanel () {
+    this.controlPanel = !this.controlPanel;
+  }
 
   constructor(
     private http: HttpClient,

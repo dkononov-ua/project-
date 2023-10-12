@@ -2,8 +2,6 @@
 
   <div class="container-card col-12">
 
-    <app-select-month class="hide-pc w-100 p-2"></app-select-month>
-
     <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="card">
 
@@ -98,7 +96,7 @@
             </mat-form-field>
 
             <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label class="disabledNot">Тип оселі</mat-label>
+              <div class="list-label-1 list-label-2">Тип оселі</div>
               <mat-select class="disabledNot" name="area" [(ngModel)]="selectedOption" [disabled]="disabledNot">
                 <mat-option [value]="1">Будинок</mat-option>
                 <mat-option [value]="2">Квартира</mat-option>
@@ -178,32 +176,68 @@
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="card">
 
-        <div *ngIf="flatInfo.option_sendData === 1">
+        <div *ngIf="!flatInfo.option_sendData">
           <div class="p-2">
-            <p class="about"><strong>Лічильник</strong> - якщо обрати цей спосіб розрахунку то розрахунок буде мати
+            <p class="about"><strong class="accent">Лічильник</strong> - якщо обрати цей спосіб розрахунку то розрахунок
+              буде мати
               такий вигляд:</p>
           </div>
 
           <div class="p-2">
-            <strong class="about">Спожито</strong> - формула розрахунку
-            <div class="formula">("поточний" - "попередній") * тариф = спожито</div>
+            <p class="about"><strong class="accent">Спожито</strong> - формула розрахунку:</p>
+            <div class="formula">("поточний" - "попередній") * тариф</div>
           </div>
 
           <div class="p-2">
-            <strong class="about">До сплати</strong> - формула розрахунку
-            <div class="formula">тариф * спожито = до сплати</div>
+            <p class="about"><strong class="accent">До сплати</strong> - формула розрахунку:</p>
+            <div class="formula">(тариф * спожито)</div>
           </div>
 
           <div class="p-2">
-            <p class="about"><strong>Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
+            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
           </div>
 
           <div class="p-2">
-            <p class="about"><strong>Коментар про запис</strong> - для внесення коментарів про створений підрахунок</p>
+            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
+              підрахунок</p>
           </div>
 
           <div class="p-2">
-            <p class="about">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
+            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
+              попередній в наступний
+              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
+          </div>
+
+        </div>
+
+        <div *ngIf="flatInfo.option_sendData === 1">
+          <div class="p-2">
+            <p class="about"><strong class="accent">Лічильник</strong> - якщо обрати цей спосіб розрахунку то розрахунок
+              буде мати
+              такий вигляд:</p>
+          </div>
+
+          <div class="p-2">
+            <p class="about"><strong class="accent">Спожито</strong> - формула розрахунку:</p>
+            <div class="formula">("поточний" - "попередній") * тариф</div>
+          </div>
+
+          <div class="p-2">
+            <p class="about"><strong class="accent">До сплати</strong> - формула розрахунку:</p>
+            <div class="formula">(тариф * спожито)</div>
+          </div>
+
+          <div class="p-2">
+            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
+          </div>
+
+          <div class="p-2">
+            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
+              підрахунок</p>
+          </div>
+
+          <div class="p-2">
+            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
               попередній в наступний
               місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
           </div>
@@ -211,55 +245,57 @@
         </div>
 
         <div class="box" *ngIf="flatInfo.option_sendData === 2">
+
           <div class="p-2">
-            <p class="about"><strong>Площа</strong> - якщо обрати цей спосіб розрахунку то розрахунок буде мати такий
-              вигляд:</p>
+            <p class="about"><strong class="accent">Площа</strong> - якщо обрати цей спосіб розрахунку то розрахунок
+              буде мати такий вигляд:</p>
           </div>
 
           <div class="p-2">
-            <strong class="about">До сплати</strong> - формула розрахунку
-            <div class="formula">тариф * площу м² = до сплати</div>
+            <p class="about"><strong class="accent">До сплати</strong> - формула розрахунку:</p>
+              <div class="formula">(тариф * площу м2)</div>
           </div>
 
           <div class="p-2">
-            <p class="about"><strong>Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
+            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
           </div>
 
           <div class="p-2">
-            <p class="about"><strong>Коментар про запис</strong> - для внесення коментарів про створений підрахунок</p>
+            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
+              підрахунок</p>
           </div>
 
           <div class="p-2">
-            <p class="about">Всі дані записуються в окремі місяці, тариф також записується в наступний місяць, ці дані
-              можна корегувати
-              в кожному місяці</p>
+            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
+              попередній в наступний
+              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
           </div>
 
         </div>
 
         <div class="box" *ngIf="flatInfo.option_sendData === 3">
           <div class="p-2">
-            <p class="about"><strong>Вартість</strong> - якщо обрати цей спосіб розрахунку то розрахунок буде мати такий
-              вигляд:</p>
+            <p class="about"><strong class="accent">Вартість</strong> - якщо обрати цей спосіб розрахунку то розрахунок
+              буде мати такий вигляд:</p>
           </div>
 
           <div class="p-2">
-            <strong class="about">До сплати</strong> - формула розрахунку
-            <div class="formula">тариф = до сплати</div>
+            <p class="about"><strong class="accent">До сплати</strong> - оплата по фіксованому тарифу:</p>
           </div>
 
           <div class="p-2">
-            <p class="about"><strong>Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
+            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
           </div>
 
           <div class="p-2">
-            <p class="about"><strong>Коментар про запис</strong> - для внесення коментарів про створений підрахунок</p>
+            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
+              підрахунок</p>
           </div>
 
           <div class="p-2">
-            <p class="about">Всі дані записуються в окремі місяці, в цьому випадку ми оплачуємо однаразову послугу яка
-              повторюється
-              кожен місяць</p>
+            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
+              попередній в наступний
+              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
           </div>
 
         </div>
@@ -274,3 +310,11 @@
 <ng-container *ngIf="loading; else content">
   <app-loader></app-loader>
 </ng-container>
+
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">Дані за послугу <br> <span class="accent">"{{selectedComun}}" {{ selectedMonth }} {{
+      selectedYear }}</span> <br> {{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

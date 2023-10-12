@@ -29,6 +29,12 @@ interface ObjectInfo {
 export class AddObjectsComponent implements OnInit {
   path_logo = path_logo;
   loading = false;
+  addMyObj: boolean = false;
+
+  addObj() {
+    this.addMyObj = !this.addMyObj;
+  }
+
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
@@ -58,12 +64,14 @@ export class AddObjectsComponent implements OnInit {
   filteredObjects: any[] = [];
   selectedType!: string;
   selectedObject: any;
+  customObject: any;
   selectedFlatId!: string | null;
   selectedFile: any;
   userImg: any;
   fillingImg: any;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
+  indexPage: number = 0;
 
   minValue: number = 0;
   maxValue: number = 99;
@@ -141,7 +149,7 @@ export class AddObjectsComponent implements OnInit {
 
   onInput() {
     const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
+    textarea.style.height = '100px';
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
@@ -153,46 +161,52 @@ export class AddObjectsComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = {
       type_filling: this.selectedType,
-      name_filling: this.selectedObject,
+      name_filling: this.selectedObject === 0 ? this.customObject : this.selectedObject,
       number_filling: this.objectInfo.number,
       condition_filling: this.objectInfo.condition,
       about_filling: this.objectInfo.about,
       flat_id: this.selectedFlatId,
     };
-    const formData: FormData = new FormData();
-    if (this.selectedFile) {
-      formData.append('file', this.selectedFile, this.selectedFile.name);
-    } else {
-      formData.append('file', 'no_photo');
-    }
-    formData.append("inf", JSON.stringify(data));
-    formData.append('auth', userJson!);
 
-    const headers = { 'Accept': 'application/json' };
-    this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
-      (uploadResponse: any) => {
-
-        console.log(2222)
-        console.log(uploadResponse)
-        if (uploadResponse.status === 'Збережено') {
-          setTimeout(() => {
-            this.statusMessage = "Об'єкт додано до списку";
-            setTimeout(() => {
-              this.statusMessage = '';
-              this.getInfo()
-            }, 1500);
-          }, 1000);
-        } else {
-          setTimeout(() => {
-            this.statusMessage = 'Дані не збережено';
-            this.reloadPageWithLoader()
-          }, 2000);
-        }
-      },
-      (uploadError: any) => {
-        console.log(uploadError);
+    if (userJson && data && this.selectedType && this.selectedObject || this.customObject) {
+      const formData: FormData = new FormData();
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      } else {
+        formData.append('file', 'no_photo');
       }
-    );
+      formData.append("inf", JSON.stringify(data));
+      formData.append('auth', userJson!);
+
+      const headers = { 'Accept': 'application/json' };
+      this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
+        (uploadResponse: any) => {
+          if (uploadResponse.status === 'Збережено') {
+            this.customObject = '';
+            setTimeout(() => {
+              this.statusMessage = "Об'єкт додано до списку";
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.getInfo()
+              }, 1500);
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              this.statusMessage = 'Дані не збережено';
+              this.reloadPageWithLoader()
+            }, 2000);
+          }
+        },
+        (uploadError: any) => {
+          console.log(uploadError);
+        }
+      );
+
+
+    } else {
+      console.log('Внесіть данні')
+    }
+
   }
 
   deleteObject(flat: any): void {

@@ -13,10 +13,25 @@
             (error)="useDefaultImage($event)">
         </div>
 
-        <div class="card-social-link">
-          <a target="_blank" href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram" *ngIf="user.instagram"></i></a>
-          <a target="_blank" href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram" *ngIf="user.telegram"></i></a>
-          <a target="_blank" href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook" *ngIf="user.facebook"></i></a>
+        <div class="social-link-container">
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"
+                *ngIf="user.instagram"></i></a>
+            <div class="social-link-name">instagram</div>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook"
+              *ngIf="user.facebook"></i></a>
+            <div class="social-link-name">facebook</div>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"
+              *ngIf="user.telegram"></i></a>
+            <div class="social-link-name">telegram</div>
+          </div>
+
         </div>
 
         <div class="item-wrapper p-3">
