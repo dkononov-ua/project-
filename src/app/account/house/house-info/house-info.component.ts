@@ -19,12 +19,6 @@ interface FlatInfo {
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(130%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
         style({ transform: 'translateX(230%)' }),
         animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
@@ -32,12 +26,6 @@ interface FlatInfo {
         style({ transform: 'translateX(0)' }),
         animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
       ])
-    ]),
-    trigger('fadeInAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('1000ms', style({ opacity: 1 })),
-      ]),
     ]),
   ],
 })
@@ -48,11 +36,7 @@ export class HouseInfoComponent implements OnInit {
   serverPathPhotoFlat = serverPathPhotoFlat;
 
   isOpen = true;
-  isOnline = true;
-  isOffline = false;
-  idleTimeout: any;
   isCopied = false;
-  switch: boolean = false;
   indexCard: number = 1;
 
   user = {
@@ -155,7 +139,6 @@ export class HouseInfoComponent implements OnInit {
 
   copyFlatId() {
     const flatId = this.house.flat_id;
-
     navigator.clipboard.writeText(flatId)
       .then(() => {
         console.log('ID оселі скопійовано!');
@@ -171,105 +154,81 @@ export class HouseInfoComponent implements OnInit {
       });
   }
 
-
-  isFeatureEnabled: boolean = false;
-  toggleMode(): void {
-    this.isFeatureEnabled = !this.isFeatureEnabled;
-  }
-
-  addressHouse: any;
   images: string[] = [];
   flatImg: any = [{ img: "housing_default.svg" }];
-  selectedFlatId!: string | null;
   loading: boolean = false;
-  flatInfo: any;
+  houseData: any;
 
-  constructor(
-    private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getSelectedFlatId();
+    this.loadDataFlat();
   }
 
-  getSelectedFlatId() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        this.getInfo();
-      } else {
-        console.log('no flat')
-      }
-    });
-  }
-
-  async getInfo(): Promise<any> {
+  loadDataFlat(): void {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId) {
-      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (response)
-            this.house.region = response.flat.region;
-          this.house.flat_id = response.flat.flat_id;
-          this.house.country = response.flat.country;
-          this.house.city = response.flat.city;
-          this.house.street = response.flat.street;
-          this.house.houseNumber = response.flat.houseNumber;
-          this.house.apartment = response.flat.apartment;
-          this.house.flat_index = response.flat.flat_index;
-          this.house.private = response.flat.private;
-          this.house.rent = response.about.rent;
-          this.house.live = response.flat.live;
-          this.house.who_live = response.flat.who_live;
-          this.house.subscribers = response.flat.subscribers;
+    if (userJson) {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+        this.house.region = parsedHouseData.flat.region;
+        this.house.flat_id = parsedHouseData.flat.flat_id;
+        this.house.country = parsedHouseData.flat.country;
+        this.house.city = parsedHouseData.flat.city;
+        this.house.street = parsedHouseData.flat.street;
+        this.house.houseNumber = parsedHouseData.flat.houseNumber;
+        this.house.apartment = parsedHouseData.flat.apartment;
+        this.house.flat_index = parsedHouseData.flat.flat_index;
+        this.house.private = parsedHouseData.flat.private;
+        this.house.rent = parsedHouseData.about.rent;
+        this.house.live = parsedHouseData.flat.live;
+        this.house.who_live = parsedHouseData.flat.who_live;
+        this.house.subscribers = parsedHouseData.flat.subscribers;
 
-          this.param.rooms = response.param.rooms;
-          this.param.repair_status = response.param.repair_status;
-          this.param.area = response.param.area;
-          this.param.kitchen_area = response.param.kitchen_area;
-          this.param.balcony = response.param.balcony;
-          this.param.floor = response.param.floor;
+        this.param.rooms = parsedHouseData.param.rooms;
+        this.param.repair_status = parsedHouseData.param.repair_status;
+        this.param.area = parsedHouseData.param.area;
+        this.param.kitchen_area = parsedHouseData.param.kitchen_area;
+        this.param.balcony = parsedHouseData.param.balcony;
+        this.param.floor = parsedHouseData.param.floor;
 
-          this.about.distance_metro = response.about.distance_metro;
-          this.about.distance_stop = response.about.distance_stop;
-          this.about.distance_shop = response.about.distance_shop;
-          this.about.distance_green = response.about.distance_green;
-          this.about.distance_parking = response.about.distance_parking;
-          this.about.woman = response.about.woman;
-          this.about.man = response.about.man;
-          this.about.family = response.about.family;
-          this.about.students = response.about.students;
-          this.about.option_pay = response.about.option_pay;
+        this.about.distance_metro = parsedHouseData.about.distance_metro;
+        this.about.distance_stop = parsedHouseData.about.distance_stop;
+        this.about.distance_shop = parsedHouseData.about.distance_shop;
+        this.about.distance_green = parsedHouseData.about.distance_green;
+        this.about.distance_parking = parsedHouseData.about.distance_parking;
+        this.about.woman = parsedHouseData.about.woman;
+        this.about.man = parsedHouseData.about.man;
+        this.about.family = parsedHouseData.about.family;
+        this.about.students = parsedHouseData.about.students;
+        this.about.option_pay = parsedHouseData.about.option_pay;
 
-          this.about.animals = response.about.animals;
-          this.about.price_m = response.about.price_m;
-          this.about.price_d = response.about.price_d;
-          this.about.about = response.about.about;
-          this.about.bunker = response.about.bunker;
+        this.about.animals = parsedHouseData.about.animals;
+        this.about.price_m = parsedHouseData.about.price_m;
+        this.about.price_d = parsedHouseData.about.price_d;
+        this.about.about = parsedHouseData.about.about;
+        this.about.bunker = parsedHouseData.about.bunker;
 
-          if (response.imgs !== 'Картинок нема') {
-            this.flatImg = response.imgs;
+        if (parsedHouseData.imgs !== 'Картинок нема') {
+          this.flatImg = parsedHouseData.imgs;
+        }
+
+        if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && parsedHouseData.imgs !== 'Картинок нема') {
+          for (const img of this.flatImg) {
+            this.images.push(serverPath + '/img/flat/' + img.img);
           }
+        } else {
+          this.images.push(serverPath + '/housing_default.svg');
+        }
 
-          if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && response.imgs !== 'Картинок нема') {
-            for (const img of this.flatImg) {
-              this.images.push(serverPath + '/img/flat/' + img.img);
-            }
-          } else {
-            this.images.push(serverPath + '/housing_default.svg');
-          }
-
-          this.flatInfo = response;
-          this.loading = false;
-        }, (error: any) => {
-          console.error(error);
-          this.loading = false;
-        });
+      } else {
+        console.log('Немає інформації про оселю')
+      }
     } else {
-      console.log('house not found');
-      this.loading = false;
+      console.log('Авторизуйтесь')
     }
-  };
+  }
+
 }
 
 

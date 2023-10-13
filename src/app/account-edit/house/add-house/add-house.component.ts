@@ -5,6 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { NgModel } from '@angular/forms';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-house',
@@ -37,7 +38,8 @@ export class AddHouseComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -75,6 +77,7 @@ export class AddHouseComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = '';
             this.reloadPageWithLoader()
+            this.router.navigate(['/housing-parameters/host/photo']);
           }, 2500);
         }, 500);
       } else {

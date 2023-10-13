@@ -24,6 +24,10 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('house');
     localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('houseData');
+
     setTimeout(() => {
       this.router.navigate(['/registration']);
     }, 500);

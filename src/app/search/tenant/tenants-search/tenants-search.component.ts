@@ -46,6 +46,7 @@ interface UserInfo {
   weeks: number | undefined;
   woman: boolean | undefined;
   years: number | undefined;
+  about: string | undefined;
 }
 @Component({
   selector: 'app-tenants-search',
@@ -114,6 +115,7 @@ export class TenantsSearchComponent implements OnInit {
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
+    1: 'На території будинку',
     5: 'На території будинку',
     100: '100м',
     300: '300м',
@@ -128,9 +130,9 @@ export class TenantsSearchComponent implements OnInit {
 
   animals: { [key: number]: string } = {
     0: 'Без тварин',
-    1: 'З котячими',
-    2: 'З собачими',
-    3: 'З собачими/котячими',
+    1: 'Котики',
+    2: 'Песики',
+    3: 'Котики і песики',
     4: 'Є багато різного',
     5: 'Щось цікавіше',
   }
@@ -171,6 +173,7 @@ export class TenantsSearchComponent implements OnInit {
         this.getSearchInfo();
       } else {
         console.log('Немає обраної оселі')
+        this.loading = false;
       }
     });
   }
@@ -209,6 +212,7 @@ export class TenantsSearchComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
+    console.log(this.selectedUser)
     this.checkSubscribe();
     this.indexPage = 2;
   }

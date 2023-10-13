@@ -24,6 +24,7 @@ export class SelectedFlatService {
   }
 
   getSelectedFlatId(): string | null {
+    console.log()
     return this.selectedFlatIdSubject.value;
   }
 
@@ -32,6 +33,7 @@ export class SelectedFlatService {
   }
 
   setSelectedFlatId(flatId: string): void {
+    console.log(flatId)
     if (this.selectedFlatIdSubject.value !== flatId) {
       localStorage.setItem('selectedFlatId', flatId);
       this.selectedFlatIdSubject.next(flatId);

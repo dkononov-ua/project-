@@ -3,10 +3,7 @@
 </ng-container>
 
 <ng-template #content>
-  <nav class="navbar">
-
-    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-      <span class="link-text">Моя оселя</span></a>
+  <nav class="navbar" *ngIf="selectedFlatId">
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat'">
       <span class="link-text">Повідомлення</span>

@@ -192,8 +192,8 @@ export class ActViewComponent implements OnInit {
 
   async getHouse(): Promise<void> {
     try {
-      const response: any = await this.dataService.getData().toPromise();
-      this.houseData = response.houseData;
+      const response: any = await this.dataService.getInfoFlat().toPromise();
+      this.houseData = response;
       if (this.houseData.imgs === 'Картинок нема') {
         this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
       }

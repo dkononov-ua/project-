@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ActivatedRoute } from '@angular/router';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath } from 'src/app/shared/server-config';
-
 
 interface FlatStat {
   totalNeedPay: any;
@@ -141,15 +139,12 @@ export class ComunStatComunComponent implements OnInit {
 
 
   constructor(
-    private dataService: DataService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeYearService: ChangeYearService,
     private route: ActivatedRoute,
     private selectedViewComun: ViewComunService,
-
-
   ) { }
 
   ngOnInit(): void {
@@ -237,13 +232,6 @@ export class ComunStatComunComponent implements OnInit {
     if (this.seasonConsumptions.length > 0) {
       this.maxConsumptionsValue = Math.max(...this.seasonConsumptions.map(season => season.consumptions));
     }
-  }
-
-  getInfoFlat() {
-    this.dataService.getData().subscribe((data: any) => {
-      this.area = data.houseData.param.area;
-      this.selectedOption = data.houseData.param.option_flat;
-    });
   }
 
   async getInfoComun(): Promise<any> {

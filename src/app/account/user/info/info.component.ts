@@ -198,6 +198,19 @@ export class InfoComponent implements OnInit {
     }
   }
 
+  onChangeFlat(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.dataService.getInfoUser().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('userData', JSON.stringify(response));
+        } else {
+          console.log('Немає інформації')
+        }
+      });
+    }
+  }
+
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {

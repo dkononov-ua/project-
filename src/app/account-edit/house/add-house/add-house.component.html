@@ -32,13 +32,13 @@
     <div class="btn-group" *ngIf="!showInput">
 
       <div class="btn-name">
-        <button class="btn-create" (click)="openBtn()" matTooltip="ДОДАТИ НОВУ ОСЕЛЮ"><i
+        <button class="btn-create" (click)="openBtn()" matTooltip="СТВОРИТИ НОВУ ОСЕЛЮ"><i
             class="fa-solid fa-circle-plus"></i>
         </button>
-        <mat-label>Додати оселю</mat-label>
+        <mat-label>Створити оселю</mat-label>
       </div>
 
-      <div class="btn-name">
+      <div class="btn-name" *ngIf="selectedFlatId">
         <button class="btn-create btn-deleted" (click)="openDialog()" mat-icon-button color="warn"
           matTooltip="ВИДАЛИТИ ОСЕЛЮ"><i class="fa-solid fa-circle-minus"></i>
         </button>

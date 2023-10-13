@@ -17,6 +17,21 @@
   }
 }
 
+h3, p {
+  text-align: center;
+}
+
+.card-box2 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  @include s1-s3 {
+    height: 100vh;
+    margin-top: 10px;
+  }
+}
+
 .mobile {
   @include s1-s3 {
     height: 60px;

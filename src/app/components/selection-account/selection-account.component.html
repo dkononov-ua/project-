@@ -1,43 +1,31 @@
 <div class="btn-group hide-mobile mb-3">
-  <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
-    <div class="img-fluid">
-      <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
-        (error)="useDefaultImage($event)">
-    </div>
+  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
+    <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
+      alt="User Image">
   </a>
-  <ng-container *ngIf="(houses.length > 0) || (rentedHouses.length > 0)">
-    <a class="link-btn with-image" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ"
-      [routerLink]="'/house/house-info'">
-      <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
-        <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
-      </ng-container>
+  <ng-container>
+    <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
+      <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+        alt="Flat Image">
     </a>
   </ng-container>
 </div>
 
 <div class="navbar-toggle hide-pc" [ngClass]="{'open': isMenuOpen}">
+  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
+    <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
+      alt="User Image" (click)="openMenuUser()">
+  </a>
 
-  <button class="link-btn with-image" [ngClass]="{'active': openUserMenu}" matTooltip="МІЙ ПРОФІЛЬ"
-    (click)="openMenuUser()">
-    <div class="img-fluid">
-      <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
-        (error)="useDefaultImage($event)">
-    </div>
-  </button>
-
-  <ng-container *ngIf="(houses.length > 0) || (rentedHouses.length > 0)">
-    <button class="link-btn with-image" [ngClass]="{'active': openFlatMenu}" matTooltip="МОЇ ОСЕЛІ"
-      (click)="openMenuFlat()">
-      <ng-container *ngIf="flatImg !== undefined && flatImg.length > 0">
-        <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
-      </ng-container>
-    </button>
+  <ng-container>
+    <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'" (click)="openMenuFlat()">
+      <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+        alt="Flat Image">
+    </a>
   </ng-container>
 
-  <div>
-    <p class="bold">Discussio Beta</p>
-  </div>
-
+  <a class="nav-link w-30" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ"
+    [routerLink]="'/about-project'">Discussio Beta</a>
 </div>
 
 <div class="card-box hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
@@ -48,8 +36,4 @@
   <div class="card-menu" *ngIf="openFlatMenu" (click)="sendMenuClose()">
     <app-navbar-house></app-navbar-house>
   </div>
-</div>
-
-<div *ngIf="loading" class="loader-overlay">
-  <div class="loader"></div>
 </div>

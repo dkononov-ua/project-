@@ -83,15 +83,24 @@ export class AddressComponent implements OnInit {
   selectedFlatId!: string | null;
   public locationLink: string = '';
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) {
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService
+    ) {
     this.filteredRegions = [];
   }
 
   ngOnInit(): void {
+    this.getSelectParam();
+    if (this.selectedFlatId) {
+      this.getInfo();
+    }
+  }
+
+  getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
+      this.selectedFlatId = flatId || this.selectedFlatId;
     });
-    this.getInfo();
   }
 
   async getInfo(): Promise<any> {

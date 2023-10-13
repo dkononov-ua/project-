@@ -324,9 +324,9 @@ export class InformationUserComponent implements OnInit {
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
     setTimeout(() => {
+      this.loading = true;
       this.onUpload();
-      this.reloadPageWithLoader();
-    },);
+    }, 100);
   }
 
   onUpload(): void {
@@ -344,10 +344,25 @@ export class InformationUserComponent implements OnInit {
     const headers = { 'Accept': 'application/json' };
     this.http.post(serverPath + '/img/uploaduser', formData, { headers }).subscribe(
       (data: any) => {
-        this.userImg = data.imgUrl;
-        setTimeout(() => {
-          this.reloadPageWithLoader();
-        },);
+        if (data.status === 'Збережено') {
+          setTimeout(() => {
+            this.statusMessage = 'Фото додано';
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.getInfo();
+              this.loading = false;
+            }, 1500);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка завантаження';
+            setTimeout(() => {
+              this.getInfo();
+              this.statusMessage = '';
+              this.loading = false;
+            }, 1500);
+          }, 500);
+        }
       },
       error => console.log(error)
     );

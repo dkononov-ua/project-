@@ -228,9 +228,9 @@ export class ComunStatSeasonComponent implements OnInit {
   }
 
   getInfoFlat() {
-    this.dataService.getData().subscribe((data: any) => {
-      this.area = data.houseData.param.area;
-      this.selectedOption = data.houseData.param.option_flat;
+    this.dataService.getInfoFlat().subscribe((data: any) => {
+      this.area = data.param.area;
+      this.selectedOption = data.param.option_flat;
     });
   }
 

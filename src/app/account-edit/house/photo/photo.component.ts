@@ -30,7 +30,7 @@ export class PhotoComponent implements OnInit {
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
 
-  loading = false;
+  loading = true;
   filename: string | undefined;
   selectedFile: any;
   flatImg: any = [{ img: "housing_default.svg" }];
@@ -50,6 +50,7 @@ export class PhotoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectedFlat();
+    this.loading = false;
   }
 
   getSelectedFlat() {

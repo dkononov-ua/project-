@@ -76,10 +76,10 @@ export class SearchTermTenantComponent implements OnInit {
 
   userInfo: UserInfo = {
     room: undefined,
-    price: 0,
+    price: NaN,
     region: '',
     city: '',
-    rooms: 0,
+    rooms: NaN,
     area: '',
     repair_status: '',
     bunker: '',
@@ -98,10 +98,10 @@ export class SearchTermTenantComponent implements OnInit {
     woman: true,
     man: true,
     family: true,
-    days: 0,
-    weeks: 0,
-    months: 0,
-    years: 0,
+    days: NaN,
+    weeks: NaN,
+    months: NaN,
+    years: NaN,
     day_counts: '',
     house: 0,
     flat: 0,
@@ -186,6 +186,7 @@ export class SearchTermTenantComponent implements OnInit {
     if (userJson) {
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;

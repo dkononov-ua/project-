@@ -70,7 +70,6 @@ export class HostComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectParam();
-    console.log(this.selectedFlatId)
   }
 
   getSelectParam(): void {

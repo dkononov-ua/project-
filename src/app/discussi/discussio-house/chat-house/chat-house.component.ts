@@ -71,12 +71,23 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   async loadData(): Promise<void> {
-    this.dataService.getData().subscribe((response: any) => {
-      this.houseData = response.houseData;
-      this.userData = response.userData;
-    }, (error) => {
-      console.error(error);
-    });
+    this.dataService.getInfoFlat().subscribe(
+      (response: any) => {
+        this.houseData = response;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+    this.dataService.getInfoUser().subscribe(
+      (response: any) => {
+        this.userData = response;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   getSelectedFlatId() {

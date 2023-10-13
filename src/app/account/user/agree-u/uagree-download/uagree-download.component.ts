@@ -43,14 +43,21 @@ export class UagreeDownloadComponent implements OnInit {
     });
     this.loadData();
     this.loading = false;
-
   }
 
   loadData(): void {
-    this.dataService.getData().subscribe(
+    this.dataService.getInfoFlat().subscribe(
       (response: any) => {
-        this.houseData = response.houseData;
-        this.userData = response.userData;
+        this.houseData = response;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+    this.dataService.getInfoUser().subscribe(
+      (response: any) => {
+        this.userData = response;
       },
       (error) => {
         console.error(error);

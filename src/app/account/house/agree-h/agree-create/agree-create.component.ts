@@ -209,10 +209,8 @@ export class AgreeCreateComponent implements OnInit {
 
   async getHouse(): Promise<void> {
     try {
-      const response: any = await this.dataService.getData().toPromise();
-      this.houseData = response.houseData;
-      console.log(response)
-
+      const response: any = await this.dataService.getInfoFlat().toPromise();
+      this.houseData = response;
       this.rentPrice = 0;
       if (this.houseData.about.option_pay === 0) {
         this.rentPrice = this.rentPrice || this.houseData.about.price_m;

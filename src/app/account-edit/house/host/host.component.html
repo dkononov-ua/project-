@@ -1,5 +1,13 @@
 <div class="container-fluid">
   <div class="switch-box p-2 hide-pc">
+
+    <div class="btn-menu">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/photo'" (click)="onToggleMenu()"><span class="link-text">
+          <i class="fa-solid fa-images"></i></span>
+      </a>
+    </div>
+
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/address'"><span class="link-text">
@@ -12,24 +20,21 @@
           <i class="fa-solid fa-trowel-bricks"></i></span>
       </a>
     </div>
-    <div class="btn-menu">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/about'" (click)="onToggleMenu()"><span class="link-text">
-          <i class="fa-solid fa-users-gear"></i></span>
-      </a>
-    </div>
+
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/add-objects'" (click)="onToggleMenu()"><span class="link-text">
           <i class="fa-solid fa-dolly"></i></span>
       </a>
     </div>
+
     <div class="btn-menu">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/photo'" (click)="onToggleMenu()"><span class="link-text">
-          <i class="fa-solid fa-images"></i></span>
+        [routerLink]="'/housing-parameters/host/about'" (click)="onToggleMenu()"><span class="link-text">
+          <i class="fa-solid fa-users-gear"></i></span>
       </a>
     </div>
+
   </div>
   <div class="container-navbar hide-mobile">
     <nav class="navbar">
@@ -46,6 +51,11 @@
           <nav *ngIf="selectedFlatId && selectedFlatId !== null">
             <a [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Назад</a>
 
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
+              (click)="onToggleMenu()"><span class="link-text">Додати фото</span>
+              <i class="fa-solid fa-images"></i>
+            </a>
+
             <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"
               (click)="onToggleMenu()"><span class="link-text ">Розташування</span>
               <i class="fa-solid fa-location-dot ml-2"></i>
@@ -54,21 +64,17 @@
               (click)="onToggleMenu()"><span class="link-text">Параметри</span>
               <i class="fa-solid fa-trowel-bricks"></i>
             </a>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"
-              (click)="onToggleMenu()"><span class="link-text">Особливості</span>
-              <i class="fa-solid fa-users-gear"></i>
-            </a>
 
             <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'"
               (click)="onToggleMenu()"><span class="link-text">Наповнення</span>
               <i class="fa-solid fa-dolly"></i>
             </a>
 
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"
-              (click)="onToggleMenu()"><span class="link-text">Додати фото</span>
-              <i class="fa-solid fa-images"></i>
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"
+              (click)="onToggleMenu()"><span class="link-text">Особливості</span>
+              <i class="fa-solid fa-users-gear"></i>
             </a>
-
+            
           </nav>
           <app-add-house></app-add-house>
         </div>
@@ -79,7 +85,8 @@
       <div class="col-lg-6 col-sm-12 p-3">
         <h1>Створіть нову оселю.</h1>
         <h3>Тут ви зможете створювати нові оселі, або видаляти їх.</h3>
-        <p>Для створення оселі натисніть кнопку <span class="bold">"додати оселю"</span> та введіть її назву. Кількість
+        <p>Для створення оселі натисніть кнопку <span class="bold">"створити оселю"</span> та введіть її назву.
+          Кількість
           оселей які можна
           створювати наразі необмежено.</p>
       </div>

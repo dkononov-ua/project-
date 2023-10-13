@@ -265,10 +265,17 @@ export class ComunHistoryComponent implements OnInit {
   }
 
   getInfoFlat() {
-    this.dataService.getData().subscribe((data: any) => {
-      this.area = data.houseData.param.area;
-      this.selectedOption = data.houseData.param.option_flat;
-    });
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const houseData = localStorage.getItem('houseData');
+      if (houseData) {
+        const parsedHouseData = JSON.parse(houseData);
+        this.area = parsedHouseData.param.area;
+        this.selectedOption = parsedHouseData.param.option_flat;
+      } else {
+        console.log('немає оселі')
+      }
+    }
   }
 
   saveInfo(): void {

@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { serverPath } from 'src/app/shared/server-config';
 import { SelectedFlatService } from './selected-flat.service';
-
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-
-  getFlats: any;
   selectedFlatId: any | null;
 
   constructor(
@@ -17,46 +14,44 @@ export class DataService {
     private selectedFlatService: SelectedFlatService,
   ) { }
 
-  getData(): Observable<any> {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-    });
+  getInfoUser(): Observable<any> {
     const userJson = localStorage.getItem('user');
-    let request: Observable<any>;
-
     if (userJson !== null) {
-      if (this.selectedFlatId) {
-        const flatinfo = serverPath + '/flatinfo/localflat';
-        request = this.http.post(flatinfo, { auth: JSON.parse(userJson), flat_id: this.selectedFlatId });
-      } else {
-        console.log('house not found');
-        request = of(null);
-      }
+      return this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
+        .pipe(
+          tap((response: any) => {
+            localStorage.setItem('userData', JSON.stringify(response));
+          }),
+          catchError((error: any) => {
+            localStorage.removeItem('userData');
+            return throwError('user not found');
+          })
+        );
     } else {
-      console.log('user not found');
-      request = of(null);
+      return throwError('user not found');
     }
+  }
 
-    const userinfo = serverPath + '/userinfo';
-    const userRequest = this.http.post(userinfo, JSON.parse(userJson ?? 'null')).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.log('Failed to retrieve user info:', error.message);
-        return of(null);
-      })
-    );
+  getInfoFlat(): Observable<any> {
+    const userJson = localStorage.getItem('user');
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId || null;
+    });
 
-    return forkJoin([request, userRequest]).pipe(
-      map(([houseData, userData]) => {
-        if (houseData === null) {
-          return userData;
-        } else {
-          return {
-            houseData: houseData,
-            userData: userData,
-          };
-        }
-      })
-    );
+    if (userJson && this.selectedFlatId) {
+      return this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .pipe(
+          tap((response: any) => {
+            localStorage.setItem('houseData', JSON.stringify(response));
+          }),
+          catchError((error: any) => {
+            localStorage.removeItem('houseData');
+            return throwError('house not found');
+          })
+        );
+    } else {
+      return throwError('house not found');
+    }
   }
 
   getComunalInfo(userJson: string, selectedFlatId: string, comunal_name: any): Observable<any> {

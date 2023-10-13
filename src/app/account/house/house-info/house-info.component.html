@@ -97,12 +97,12 @@
       </div>
     </div>
 
-    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="selectedFlatId">
-      <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 1 && house.rent === 1">
+    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="houseData">
+      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 1 && house.rent === 1">
         <app-parameters></app-parameters>
       </div>
 
-      <div [@cardAnimation2] class="card card-animation p-2" *ngIf="indexCard === 2 || house.rent === 0">
+      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 2 || house.rent === 0">
         <app-house-share></app-house-share>
       </div>
     </div>

@@ -81,10 +81,16 @@ export class ParamComponent {
   ) { }
 
   ngOnInit(): void {
+    this.getSelectParam();
+    if (this.selectedFlatId) {
+      this.getInfo();
+    }
+  }
+
+  getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
+      this.selectedFlatId = flatId || this.selectedFlatId;
     });
-    this.getInfo();
   }
 
   async getInfo(): Promise<void> {

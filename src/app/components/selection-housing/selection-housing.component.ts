@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
-import { DiscussioViewService } from 'src/app/services/discussio-view.service';
+import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath } from 'src/app/shared/server-config';
 @Component({
@@ -24,36 +24,48 @@ export class SelectionHousingComponent implements OnInit {
   flatName: any | null;
   ownFlats: { id: number, flat_id: string, flat_name: string }[] = [];
   rentedFlats: { id: number; flat_id: string, flat_name: string; }[] = [];
-  discussioFlats: any;
-  discussio_view: boolean = false;
+  houseData: any
+  houseInfo: any
 
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
-    private discussioViewService: DiscussioViewService,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.loadHouses();
-  }
-
-  async loadHouses(): Promise<void> {
     this.loadOwnFlats();
-    this.loadDiscussioFlat();
   }
 
+  // обираємо іншу оселю
   selectFlat(flat: any) {
-    this.loading = true;
-    this.selectedFlatId = flat.flat_id;
-    this.selectedFlatName = flat.flat_name;
-    this.changeComunService.clearSelectedComun();
-    this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
-    this.selectedFlatService.setSelectedFlatName(this.selectedFlatName);
-    this.selectedFlatService.setSelectedHouse(this.selectedFlatId, this.selectedFlatName);
-    setTimeout(() => {
-      location.reload();
-    }, 200);
+    if (flat) {
+      this.loading = true;
+      localStorage.removeItem('houseData');
+      this.changeComunService.clearSelectedComun();
+      this.selectedFlatService.setSelectedFlatId(flat.flat_id);
+      this.selectedFlatService.setSelectedFlatName(flat.flat_name);
+      this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
+      this.onChangeFlat();
+      setTimeout(() => {
+        location.reload();
+      }, 200);
+    }
+  }
+
+  //після вибору оновлюємо дані оселі в локальному сховищі при перемиканні
+  onChangeFlat(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+        } else {
+          console.log('Немає оселі')
+        }
+      });
+    }
   }
 
   async getSelectParam(flats: any) {
@@ -90,40 +102,17 @@ export class SelectionHousingComponent implements OnInit {
           location.reload();
         }, 200);
       }
-    }
-
-    this.discussioViewService.discussioView$.subscribe((discussio_view: boolean) => {
-      this.discussio_view = discussio_view;
-    });
-  }
-
-  async loadDiscussioFlat(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/acceptsubs/get/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      offs: 0,
-    };
-    try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      const newDiscussioFlats: any[] = response.map((flat: any) => {
-        if (flat.flat_id) {
-          return {
-            flat_id: flat.flat.flat_id,
-            flat_name: flat.flat.flat_name,
-          };
-        } else {
-          return {
-            flat_id: flat.flat.flat_id,
-            flat_name: flat.flat.flat_name,
-          }
-        }
-      });
-      this.discussioFlats = newDiscussioFlats;
-    } catch (error) {
-      console.error(error);
+    } else {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+        const flat_id = parsedHouseData.flat.flat_id;
+        this.selectedFlatId = flat_id;
+        this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
+        this.onChangeFlat()
+      } else {
+        console.log('Немає оселі')
+      }
     }
   }
 

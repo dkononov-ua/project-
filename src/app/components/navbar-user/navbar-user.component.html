@@ -5,9 +5,6 @@
 <ng-template #content>
   <nav class="navbar">
 
-    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-      <span class="link-text">Мій аккаунт</span></a>
-
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
       <span class="link-text">Повідомлення</span>
       <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
