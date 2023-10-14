@@ -96,6 +96,12 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('houseData');
     this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
         if (response.status) {
@@ -122,6 +128,12 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('houseData');
     if (this.registrationForm.valid && this.agreementAccepted) {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');

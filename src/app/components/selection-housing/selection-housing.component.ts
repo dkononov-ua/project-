@@ -4,7 +4,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-selection-housing',
   templateUrl: './selection-housing.component.html',
@@ -17,6 +17,7 @@ export class SelectionHousingComponent implements OnInit {
     this.trigger.openMenu();
   }
 
+  path_logo = path_logo;
   loading = false;
   selectedFlatId: any | null;
   selectedFlatName: any;
@@ -26,6 +27,14 @@ export class SelectionHousingComponent implements OnInit {
   rentedFlats: { id: number; flat_id: string, flat_name: string; }[] = [];
   houseData: any
   houseInfo: any
+  statusMessage: string | undefined;
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
+  }
 
   constructor(
     private http: HttpClient,
@@ -40,17 +49,32 @@ export class SelectionHousingComponent implements OnInit {
 
   // обираємо іншу оселю
   selectFlat(flat: any) {
-    if (flat) {
-      this.loading = true;
+    const userJson = localStorage.getItem('user');
+    if (userJson && flat) {
+      localStorage.removeItem('selectedComun');
+      localStorage.removeItem('selectedHouse');
+      localStorage.removeItem('selectedFlatId');
+      localStorage.removeItem('selectedFlatName');
       localStorage.removeItem('houseData');
-      this.changeComunService.clearSelectedComun();
       this.selectedFlatService.setSelectedFlatId(flat.flat_id);
       this.selectedFlatService.setSelectedFlatName(flat.flat_name);
       this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
-      this.onChangeFlat();
-      setTimeout(() => {
-        location.reload();
-      }, 200);
+      this.statusMessage = 'Обираємо оселю ' + flat.flat_name;
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+          this.selectedFlatName = flat.flat_name;
+          this.selectedFlatId = flat.flat_id;
+          setTimeout(() => {
+            this.reloadPageWithLoader()
+          }, 1500);
+        } else {
+          console.log('Немає інформації про оселю')
+          this.reloadPageWithLoader()
+        }
+      })
+    } else {
+      console.log('Авторизуйтесь')
     }
   }
 
@@ -68,11 +92,11 @@ export class SelectionHousingComponent implements OnInit {
     }
   }
 
+  //перевірка на існування айді оселі своєї чи орендованої, після призначення обраного айді або відновлення з локального сховища
   async getSelectParam(flats: any) {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
     });
-
     this.selectedFlatService.selectedFlatName$.subscribe((flatName: string | null) => {
       this.selectedFlatName = flatName || this.selectedFlatName;
     });
@@ -90,14 +114,16 @@ export class SelectionHousingComponent implements OnInit {
           checkFlatId = true
         }
       })
+
       if (checkFlatId) {
         this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
         this.selectedFlatId = houseID || this.selectedFlatId;
       } else {
-        this.changeComunService.clearSelectedComun();
+        localStorage.removeItem('selectedComun');
+        localStorage.removeItem('selectedHouse');
         localStorage.removeItem('selectedFlatId');
         localStorage.removeItem('selectedFlatName');
-        localStorage.removeItem('selectedHouse');
+        localStorage.removeItem('houseData');
         setTimeout(() => {
           location.reload();
         }, 200);
@@ -106,8 +132,7 @@ export class SelectionHousingComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        const flat_id = parsedHouseData.flat.flat_id;
-        this.selectedFlatId = flat_id;
+        this.selectedFlatId = parsedHouseData.flat.flat_id;
         this.selectedFlatService.setSelectedFlatId(this.selectedFlatId);
         this.onChangeFlat()
       } else {
@@ -118,25 +143,47 @@ export class SelectionHousingComponent implements OnInit {
 
   async loadOwnFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
+    if (userJson) {
       this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
-            this.ownFlats = response.ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
-              id: index + 1,
-              flat_id: item.flat_id,
-              flat_name: item.flat_name,
-            }));
-            this.rentedFlats = response.citizen_ids
-              .map((item: { flat_id: any, flat_name: any }, index: number) => ({
-                id: index + 1,
-                flat_id: item.flat_id,
-                flat_name: item.flat_name,
-              }));
-            this.getSelectParam(response);
-          },
-          (error: any) => {
-            console.error(error);
+            if (response.ids && response.ids.length === 0 && response.citizen_ids && response.citizen_ids.length === 0) {
+              console.log('Оселі немає');
+            } else {
+              if (response.ids && response.ids.length > 0) {
+                this.ownFlats = response.ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
+                  id: index + 1,
+                  flat_id: item.flat_id,
+                  flat_name: item.flat_name,
+                }));
+                // для автоматичного вибору оселі після входження в аккаунт - не працює
+                // if (this.selectedFlatId) {
+                // } else {
+                //   console.log(this.selectedFlatId)
+                //   const lastFlat = response.ids[response.ids.length - 1];
+                //   this.selectedFlatId = lastFlat.flat_id;
+                //   this.selectedFlatService.setSelectedFlatId(lastFlat.flat_id);
+                //   this.selectedFlatService.setSelectedFlatName(lastFlat.flat_name);
+                // }
+              } else {
+                this.ownFlats = [];
+              }
+              if (response.ids && response.ids.length === 0 && response.citizen_ids && response.citizen_ids.length > 0) {
+                this.rentedFlats = response.citizen_ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
+                  id: index + 1,
+                  flat_id: item.flat_id,
+                  flat_name: item.flat_name,
+                }));
+                // для автоматичного вибору оселі після входження в аккаунт - не працює
+                // const lastFlat = response.citizen_ids[response.citizen_ids.length - 1];
+                // this.selectedFlatId = lastFlat.flat_id;
+                // this.selectedFlatService.setSelectedFlatId(lastFlat.flat_id);
+                // this.selectedFlatService.setSelectedFlatName(lastFlat.flat_name);
+              } else {
+                this.rentedFlats = [];
+              }
+              this.getSelectParam(response);
+            }
           }
         );
     } else {

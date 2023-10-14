@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 import { CloseMenuService } from 'src/app/services/close-menu.service';
 import { DataService } from 'src/app/services/data.service';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 @Component({
   selector: 'app-selection-account',
   templateUrl: './selection-account.component.html',
@@ -13,7 +14,7 @@ export class SelectionAccountComponent implements OnInit {
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
-  public selectedFlatId: any | null;
+  selectedFlatId: any | null;
   houseInfo: any;
   userInfo: any;
 
@@ -30,14 +31,6 @@ export class SelectionAccountComponent implements OnInit {
     this.openUserMenu = true;
     this.openFlatMenu = false;
   }
-
-  // menuBtn () {
-  //   if (!this.openUserMenu) {
-  //     this.openMenuUser()
-  //   } else {
-  //     this.closeMenuUser()
-  //   }
-  // }
 
   openMenuFlat(): void {
     this.openUserMenu = false;
@@ -65,6 +58,7 @@ export class SelectionAccountComponent implements OnInit {
     private location: Location,
     private isCloseMenu: CloseMenuService,
     private dataService: DataService,
+    private selectedFlatService: SelectedFlatService,
   ) { }
 
   ngOnInit(): void {
@@ -120,17 +114,22 @@ export class SelectionAccountComponent implements OnInit {
     }
   }
 
+  async getSelectParam() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+  }
+
   onLoginCheckFlat(): void {
     const userJson = localStorage.getItem('user');
-    if (userJson) {
+    this.getSelectParam()
+    if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
-        if (response) {
           localStorage.setItem('houseData', JSON.stringify(response));
           this.loadDataFlat()
-        } else {
-          console.log('Немає оселі')
-        }
       });
+    } else {
+      console.log('Оберіть оселю')
     }
   }
 

@@ -118,7 +118,6 @@ export class ChatRoomsComponent implements OnInit {
       try {
         this.http.post(url, data)
           .subscribe(async (response: any) => {
-            console.log(response)
             if (Array.isArray(response.status) && response.status) {
               let chat = await Promise.all(response.status.map(async (value: any) => {
                 let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
@@ -126,7 +125,6 @@ export class ChatRoomsComponent implements OnInit {
                 return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message}
               }))
               this.chats = chat;
-              console.log(this.chats)
             } else {
               console.log('chat not found');
             }

@@ -37,7 +37,7 @@ export class HouseInfoComponent implements OnInit {
 
   isOpen = true;
   isCopied = false;
-  indexCard: number = 1;
+  indexCard: number = 2;
 
   user = {
     firstName: '',

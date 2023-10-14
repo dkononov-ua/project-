@@ -7,6 +7,7 @@ import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -190,6 +191,7 @@ export class InformationUserComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private isAccountOpenService: IsAccountOpenService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -315,10 +317,21 @@ export class InformationUserComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    this.statusMessage = 'Виходимо з аккаунту';
     setTimeout(() => {
+      this.statusMessage = '';
       this.reloadPageWithLoader();
-    },);
+      setTimeout(() => {
+        this.router.navigate(['/registration']);
+      }, 1500);
+    }, 1500);
   }
 
   onFileSelected(event: any): void {

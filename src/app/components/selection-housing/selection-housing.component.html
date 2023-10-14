@@ -3,12 +3,12 @@
 
     <div class="selectedHouse-box">
       <div class="flatName-label">Вибір оселі</div>
-      <div class="flatName w-75">{{selectedFlatName}}</div>
+      <div class="flatName w-75" *ngIf="selectedFlatName">{{selectedFlatName}}</div>
+      <div class="flatName w-75" *ngIf="!selectedFlatName">Оберіть оселю</div>
       <button class="btn" [matMenuTriggerFor]="menu" aria-label="menu">
         <i class="fa-solid fa-circle-chevron-down"></i>
       </button>
     </div>
-
 
     <mat-menu #menu="matMenu" class="mat-menu">
       <mat-optgroup *ngIf="ownFlats && ownFlats.length > 0" label="Власні оселі" class="name-optgroup">
@@ -33,4 +33,10 @@
 
 <div *ngIf="loading" class="loader-overlay">
   <app-loader></app-loader>
+</div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
 </div>

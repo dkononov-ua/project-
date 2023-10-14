@@ -47,18 +47,26 @@
   display: none;
 }
 
+h1, h2, h3, p {
+  text-align: center;
+}
+
 .box {
   display: flex;
   height: 60px !important;
+  align-items: center;
   justify-content: space-around;
 }
 
 .btn-add {
   background-color: transparent;
-  border: 1px solid $color-gray;
+  border: 1px solid #7E7F7F;
   border-radius: 50%;
   width: 55px;
   height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .switch-box {
@@ -163,9 +171,10 @@
 }
 
 .card-box1 {
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo-fluid {

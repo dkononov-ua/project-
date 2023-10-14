@@ -18,7 +18,6 @@ export class ChatUserComponent implements OnInit {
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
 
-
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
 
@@ -51,6 +50,7 @@ export class ChatUserComponent implements OnInit {
   getSelectSubscription() {
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(async flatId => {
       this.selectedFlat = flatId;
+      console.log(this.selectedFlat)
       if (flatId) {
         const offs = 0;
         this.selectedFlat = flatId;

@@ -1,31 +1,65 @@
 <div class="btn-group hide-mobile mb-3">
-  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
-    <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
-      alt="User Image">
-  </a>
-  <ng-container>
-    <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
-      <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
-        alt="Flat Image">
+  <div class="account-box">
+    <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
+      <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
+        alt="User Image">
     </a>
+    <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Профіль</div>
+  </div>
+
+  <ng-container *ngIf="selectedFlatId">
+    <div class="account-box">
+      <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
+        <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+          alt="Flat Image">
+      </a>
+      <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!selectedFlatId">
+    <div class="account-box">
+      <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ"
+        [routerLink]="'/housing-parameters/host/'" (click)="openMenuFlat()">
+        <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+          alt="Flat Image">
+      </a>
+      <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</div>
+    </div>
   </ng-container>
 </div>
 
 <div class="navbar-toggle hide-pc" [ngClass]="{'open': isMenuOpen}">
-  <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
-    <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
-      alt="User Image" (click)="openMenuUser()">
-  </a>
-
-  <ng-container>
-    <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'" (click)="openMenuFlat()">
-      <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
-        alt="Flat Image">
+  <div class="account-box">
+    <a class="link-btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+      <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
+        alt="User Image" (click)="openMenuUser()">
     </a>
+    <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Профіль</div>
+  </div>
+
+  <ng-container *ngIf="selectedFlatId">
+    <div class="account-box">
+      <a class="link-btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"
+        (click)="openMenuFlat()">
+        <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+          alt="Flat Image">
+      </a>
+      <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</div>
+    </div>
   </ng-container>
 
-  <a class="nav-link w-30" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ"
-    [routerLink]="'/about-project'">Discussio Beta</a>
+  <ng-container *ngIf="!selectedFlatId">
+    <div class="account-box">
+      <a class="link-btn" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'" (click)="openMenuFlat()">
+        <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+          alt="Flat Image">
+      </a>
+      <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</div>
+    </div>
+  </ng-container>
+
+  <a class="nav-link w-30" [routerLinkActive]="'active'" [routerLink]="'/about-project'">Discussio Beta</a>
 </div>
 
 <div class="card-box hide-pc col-lg-3 col-md-5 col-sm-6 col-12">

@@ -6,6 +6,21 @@
   justify-content: space-evenly;
 }
 
+.account-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .account-name {
+    font-size: 12px;
+  }
+
+  .account-name.active {
+    color: $color-accent;
+    font-weight: 600;
+  }
+}
+
 .link-btn {
   display: flex;
   overflow: hidden;

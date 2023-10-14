@@ -14,193 +14,198 @@
         </div>
 
         <div class="social-link-container">
-          <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="{{ user.instagram }}"><i class="fab fa-brands fa-instagram"
-                *ngIf="user.instagram"></i></a>
-            <div class="social-link-name">instagram</div>
-          </div>
 
-          <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="{{ user.facebook }}"><i class="fab fa-brands fa-facebook"
-              *ngIf="user.facebook"></i></a>
-            <div class="social-link-name">facebook</div>
-          </div>
-
-          <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="{{ user.telegram }}"><i class="fab fa-brands fa-telegram"
-              *ngIf="user.telegram"></i></a>
-            <div class="social-link-name">telegram</div>
-          </div>
-
+        <div class="social-link-box" *ngIf="!user.instagram && !user.facebook && !user.telegram">
+          <p>Посилання на соціальні мережі відсутні.</p>
+          <p>Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+            інформаці</p>
         </div>
 
-        <div class="item-wrapper p-3">
-          <div class="item-name">{{ user.lastName }}</div>
-          <div class="item-name">{{ user.firstName }}</div>
-          <div class="item-name">{{ user.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ user.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ user.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ user.mail }}</span></div>
+        <div class="social-link-box" *ngIf="user.instagram">
+          <a class="social-link-icon" target="_blank" href="{{ user.instagram }}"><i
+              class="fab fa-brands fa-instagram"></i></a>
+          <div class="social-link-name">instagram</div>
+        </div>
+
+        <div class="social-link-box" *ngIf="user.facebook">
+          <a class="social-link-icon" target="_blank" href="{{ user.facebook }}"><i
+              class="fab fa-brands fa-facebook"></i></a>
+          <div class="social-link-name">facebook</div>
+        </div>
+
+        <div class="social-link-box" *ngIf="user.telegram">
+          <a class="social-link-icon" target="_blank" href="{{ user.telegram }}"><i
+              class="fab fa-brands fa-telegram"></i></a>
+          <div class="social-link-name">telegram</div>
         </div>
 
       </div>
+
+      <div class="item-wrapper p-3">
+        <div class="item-name">{{ user.lastName }}</div>
+        <div class="item-name">{{ user.firstName }}</div>
+        <div class="item-name">{{ user.surName }}</div>
+        <div class="item-info">User ID: <span class="accent">{{ user.user_id }}</span></div>
+        <div class="item-info">Телефон: <span class="accent">{{ user.tell }}</span></div>
+        <div class="item-info">Email: <span class="accent">{{ user.mail }}</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
+    <div class="card p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
+
+      <div class="container-sticker">
+        <div class="status-container">
+          <div class="status rent-yes" *ngIf="userInfo.agree_search === 1">Опубліковано</div>
+          <div class="status rent-yes" *ngIf="userInfo.woman === 1">W</div>
+          <div class="status rent-yes" *ngIf="userInfo.man === 1">M</div>
+          <div class="status rent-yes" *ngIf="userInfo.students === 1">S</div>
+          <div class="status rent-yes" *ngIf="userInfo.family === 1">F</div>
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="userInfo.region || userInfo.city">
+        <div class="characteristics-label">Шукаю оселю в :</div>
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo.region">Область :
+            <span class="item">{{ userInfo.region }}</span>
+          </div>
+          <div class="item-characteristics" *ngIf="userInfo.city">Місто :
+            <span class="item">{{ userInfo.city }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="characteristics">
+        <div class="characteristics-label">Мої пошукові параметри оселі:</div>
+
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="userInfo?.area_of || userInfo.area_to">
+            Площа:
+            <span class="item" *ngIf="userInfo.area_of">від {{ userInfo.area_of || '?' }}м²</span>
+            <span class="item" *ngIf="userInfo.area_to">до {{ userInfo.area_to || '?' }}м²</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="userInfo.area_of || userInfo.area_to">
+            Кіл. кімнат:
+            <span class="item" *ngIf="userInfo.rooms_of !== 0 && userInfo.rooms_of !== null">від {{
+              userInfo.rooms_of}}</span>
+            <span class="item" *ngIf="userInfo.rooms_to !== 0 && userInfo.rooms_to !== null">до {{
+              userInfo.rooms_to}}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.repair_status">Стан оселі:
+            <span class="item">{{ userInfo.repair_status }}</span>
+          </div>
+          <div class="item-characteristics" *ngIf="userInfo.balcony">
+            Тип
+            балкону:<span class="item">{{ userInfo.balcony }}</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics"
+        *ngIf="userInfo.distance_metro || userInfo.distance_stop || userInfo.distance_shop || userInfo.distance_green || userInfo.distance_parking">
+        <div class="characteristics-label">Інфраструктура:</div>
+
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo?.distance_metro !== 0 && userInfo?.distance_metro !== null">
+            Метро
+            до:<span class="item">{{ aboutDistance[userInfo.distance_metro] }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.distance_stop !== 0 && userInfo?.distance_stop !== null">
+            Зупинка
+            до:<span class="item">{{ aboutDistance[userInfo.distance_stop] }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.distance_shop !== 0 && userInfo?.distance_shop !== null">
+            Маркет
+            до:<span class="item">{{ aboutDistance[userInfo.distance_shop] }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.distance_green !== 0 && userInfo?.distance_green !== null">
+            Парк
+            до:<span class="item">{{ aboutDistance[userInfo.distance_green] }}</span> </div>
+          <div class="item-characteristics"
+            *ngIf="userInfo?.distance_parking !== 0 && userInfo?.distance_parking !== null">
+            Паркінг:<span class="item">{{ aboutDistance[userInfo.distance_parking] }}</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="userInfo.bunker || userInfo.animals">
+        <div class="characteristics-label">Особливості:</div>
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="userInfo.purpose_rent">
+            Мета оренди:<span class="item">{{ purpose[userInfo.purpose_rent] }}</span> </div>
+
+
+          <div class="item-characteristics" *ngIf="userInfo.bunker">
+            Наявність укриття:<span class="item">{{ userInfo.bunker }}</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo.animals">
+            Домашні улюбленці: <span class="item">{{ animals[userInfo.animals] }} </span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="userInfo.flat || userInfo.house || userInfo.room">
+        <div class="characteristics-label">Розглядаю тип оселі:</div>
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo?.flat && userInfo?.flat !== null"><span
+              class="item">Квартира</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.house && userInfo?.house !== null"><span
+              class="item">Будинок</span> </div>
+          <div class="item-characteristics" *ngIf="userInfo?.room && userInfo?.room !== null"><span
+              class="item">Кімната</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="userInfo.looking_woman || userInfo.looking_man">
+        <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
+        <div class="characteristics-group">
+          <div class="item-characteristics" *ngIf="userInfo?.looking_man && userInfo?.looking_man !== null">
+            <span class="item">Чоловік</span>
+          </div>
+          <div class="item-characteristics" *ngIf="userInfo?.looking_woman && userInfo?.looking_woman !== null"><span
+              class="item">Жінка</span> </div>
+        </div>
+      </div>
+
+      <div class="characteristics" *ngIf="userInfo?.years || userInfo?.mounths || userInfo?.weeks || userInfo?.days">
+        <div class="characteristics-label">Орієнтовний термін оренди:</div>
+        <div class="characteristics-group">
+
+          <div class="item-characteristics" *ngIf="userInfo?.years && userInfo?.years !== null"><span class="item">{{
+              userInfo.years }}</span>Роки</div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.mounths && userInfo?.mounths !== null">Місяці
+            <span class="item">{{ userInfo.mounths }}</span>
+          </div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.weeks && userInfo?.weeks !== null"><span class="item">{{
+              userInfo.weeks }}</span>Тижні</div>
+
+          <div class="item-characteristics" *ngIf="userInfo?.days && userInfo?.days !== null"><span class="item">{{
+              userInfo.days }}</span>Дні</div>
+
+        </div>
+      </div>
+
     </div>
 
-    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
-      <div class="card p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
+    <div class="card p-2"
+      *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
 
-        <div class="container-sticker">
-          <div class="status-container">
-            <div class="status rent-yes" *ngIf="userInfo.agree_search === 1">Опубліковано</div>
-            <div class="status rent-yes" *ngIf="userInfo.woman === 1">W</div>
-            <div class="status rent-yes" *ngIf="userInfo.man === 1">M</div>
-            <div class="status rent-yes" *ngIf="userInfo.students === 1">S</div>
-            <div class="status rent-yes" *ngIf="userInfo.family === 1">F</div>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
+        <div class="box">
+          <div class="logo-fluid">
+            <img class="logo rounded" src="{{path_logo}}" alt="logo">
           </div>
+          <p class="accent">"Пасивний пошук оселі"</p>
         </div>
-
-        <div class="characteristics" *ngIf="userInfo.region || userInfo.city">
-          <div class="characteristics-label">Шукаю оселю в :</div>
-          <div class="characteristics-group">
-            <div class="item-characteristics" *ngIf="userInfo.region">Область :
-              <span class="item">{{ userInfo.region }}</span>
-            </div>
-            <div class="item-characteristics" *ngIf="userInfo.city">Місто :
-              <span class="item">{{ userInfo.city }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="characteristics">
-          <div class="characteristics-label">Мої пошукові параметри оселі:</div>
-
-          <div class="characteristics-group">
-
-            <div class="item-characteristics" *ngIf="userInfo?.area_of || userInfo.area_to">
-              Площа:
-              <span class="item" *ngIf="userInfo.area_of">від {{ userInfo.area_of || '?' }}м²</span>
-              <span class="item" *ngIf="userInfo.area_to">до {{ userInfo.area_to || '?' }}м²</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="userInfo.area_of || userInfo.area_to">
-              Кіл. кімнат:
-              <span class="item" *ngIf="userInfo.rooms_of !== 0 && userInfo.rooms_of !== null">від {{
-                userInfo.rooms_of}}</span>
-              <span class="item" *ngIf="userInfo.rooms_to !== 0 && userInfo.rooms_to !== null">до {{
-                userInfo.rooms_to}}</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="userInfo?.repair_status">Стан оселі:
-              <span class="item">{{ userInfo.repair_status }}</span>
-            </div>
-            <div class="item-characteristics" *ngIf="userInfo.balcony">
-              Тип
-              балкону:<span class="item">{{ userInfo.balcony }}</span> </div>
-          </div>
-        </div>
-
-        <div class="characteristics"
-          *ngIf="userInfo.distance_metro || userInfo.distance_stop || userInfo.distance_shop || userInfo.distance_green || userInfo.distance_parking">
-          <div class="characteristics-label">Інфраструктура:</div>
-
-          <div class="characteristics-group">
-            <div class="item-characteristics"
-              *ngIf="userInfo?.distance_metro !== 0 && userInfo?.distance_metro !== null">
-              Метро
-              до:<span class="item">{{ aboutDistance[userInfo.distance_metro] }}</span> </div>
-            <div class="item-characteristics" *ngIf="userInfo?.distance_stop !== 0 && userInfo?.distance_stop !== null">
-              Зупинка
-              до:<span class="item">{{ aboutDistance[userInfo.distance_stop] }}</span> </div>
-            <div class="item-characteristics" *ngIf="userInfo?.distance_shop !== 0 && userInfo?.distance_shop !== null">
-              Маркет
-              до:<span class="item">{{ aboutDistance[userInfo.distance_shop] }}</span> </div>
-            <div class="item-characteristics"
-              *ngIf="userInfo?.distance_green !== 0 && userInfo?.distance_green !== null">
-              Парк
-              до:<span class="item">{{ aboutDistance[userInfo.distance_green] }}</span> </div>
-            <div class="item-characteristics"
-              *ngIf="userInfo?.distance_parking !== 0 && userInfo?.distance_parking !== null">
-              Паркінг:<span class="item">{{ aboutDistance[userInfo.distance_parking] }}</span> </div>
-          </div>
-        </div>
-
-        <div class="characteristics" *ngIf="userInfo.bunker || userInfo.animals">
-          <div class="characteristics-label">Особливості:</div>
-          <div class="characteristics-group">
-
-            <div class="item-characteristics" *ngIf="userInfo.purpose_rent">
-              Мета оренди:<span class="item">{{ purpose[userInfo.purpose_rent] }}</span> </div>
-
-
-            <div class="item-characteristics" *ngIf="userInfo.bunker">
-              Наявність укриття:<span class="item">{{ userInfo.bunker }}</span> </div>
-            <div class="item-characteristics" *ngIf="userInfo.animals">
-              Домашні улюбленці: <span class="item">{{ animals[userInfo.animals] }} </span> </div>
-          </div>
-        </div>
-
-        <div class="characteristics" *ngIf="userInfo.flat || userInfo.house || userInfo.room">
-          <div class="characteristics-label">Розглядаю тип оселі:</div>
-          <div class="characteristics-group">
-            <div class="item-characteristics" *ngIf="userInfo?.flat && userInfo?.flat !== null"><span
-                class="item">Квартира</span> </div>
-            <div class="item-characteristics" *ngIf="userInfo?.house && userInfo?.house !== null"><span
-                class="item">Будинок</span> </div>
-            <div class="item-characteristics" *ngIf="userInfo?.room && userInfo?.room !== null"><span
-                class="item">Кімната</span> </div>
-          </div>
-        </div>
-
-        <div class="characteristics" *ngIf="userInfo.looking_woman || userInfo.looking_man">
-          <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
-          <div class="characteristics-group">
-            <div class="item-characteristics" *ngIf="userInfo?.looking_man && userInfo?.looking_man !== null">
-              <span class="item">Чоловік</span>
-            </div>
-            <div class="item-characteristics" *ngIf="userInfo?.looking_woman && userInfo?.looking_woman !== null"><span
-                class="item">Жінка</span> </div>
-          </div>
-        </div>
-
-        <div class="characteristics" *ngIf="userInfo?.years || userInfo?.mounths || userInfo?.weeks || userInfo?.days">
-          <div class="characteristics-label">Орієнтовний термін оренди:</div>
-          <div class="characteristics-group">
-
-            <div class="item-characteristics" *ngIf="userInfo?.years && userInfo?.years !== null"><span class="item">{{
-                userInfo.years }}</span>Роки</div>
-
-            <div class="item-characteristics" *ngIf="userInfo?.mounths && userInfo?.mounths !== null">Місяці
-              <span class="item">{{ userInfo.mounths }}</span>
-            </div>
-
-            <div class="item-characteristics" *ngIf="userInfo?.weeks && userInfo?.weeks !== null"><span class="item">{{
-                userInfo.weeks }}</span>Тижні</div>
-
-            <div class="item-characteristics" *ngIf="userInfo?.days && userInfo?.days !== null"><span class="item">{{
-                userInfo.days }}</span>Дні</div>
-
-          </div>
-        </div>
-
+      </a>
+      <div class="p-3">
+        <p class="mt-3">Тут будуть Ваші параметри пасивного пошуку оселі як їх бачуть користувачі в Discussio.</p>
+        <p>Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли.</p>
       </div>
 
-      <div class="card p-2"
-        *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
-
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
-          <div class="box">
-            <div class="logo-fluid">
-              <img class="logo rounded" src="{{path_logo}}" alt="logo">
-            </div>
-            <p class="accent">"Пасивний пошук оселі"</p>
-          </div>
-        </a>
-        <div class="p-3">
-          <p class="mt-3">Тут будуть Ваші параметри пасивного пошуку оселі як їх бачуть користувачі в Discussio.</p>
-          <p>Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли.</p>
-        </div>
-
-      </div>
     </div>
+  </div>
   </div>
 </ng-template>

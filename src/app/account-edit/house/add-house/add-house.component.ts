@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
-import { NgModel } from '@angular/forms';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
 import { Router } from '@angular/router';
 
@@ -27,8 +26,8 @@ export class AddHouseComponent implements OnInit {
       location.reload();
     }, 500);
   }
-  path_logo = path_logo;
 
+  path_logo = path_logo;
   flat_name: string = '';
   showInput = false;
   showCreate = false;
@@ -49,68 +48,76 @@ export class AddHouseComponent implements OnInit {
   async getSelectParam(): Promise<void> {
     this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
       this.selectedFlatId = flatId;
-      if (!this.selectedFlatId) {
-        await this.loadOwnFlats();
-      }
     });
   }
 
   async houseCreate(): Promise<void> {
     const userJson = localStorage.getItem('user');
-
-    if (!userJson) {
-      this.loading = false;
-      console.log('user not found');
-      return;
-    }
-
-    try {
-      const response: any = await this.http
-        .post(serverPath + '/flatinfo/add/flat_id', {
+    if (userJson) {
+      try {
+        const response: any = await this.http.post(serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
           new: { flat_id: this.flat_name },
-        })
-        .toPromise();
-      if (response.status == 'Нова оселя успішно створена') {
-        setTimeout(() => {
-          this.statusMessage = 'Оселя успішно створена, перегляньте список оселей';
+        }).toPromise();
+        if (response.status == 'Нова оселя успішно створена') {
+          localStorage.removeItem('selectedComun');
+          localStorage.removeItem('selectedHouse');
+          localStorage.removeItem('selectedFlatId');
+          localStorage.removeItem('selectedFlatName');
+          localStorage.removeItem('houseData');
+          this.statusMessage = 'Оселя ' + this.flat_name + ' успішно створена';
           setTimeout(() => {
-            this.statusMessage = '';
-            this.reloadPageWithLoader()
-            this.router.navigate(['/housing-parameters/host/photo']);
-          }, 2500);
-        }, 500);
-      } else {
-        setTimeout(() => {
+            this.loadOwnFlats(this.flat_name)
+          }, 2000);
+        } else {
           this.statusMessage = 'Помилка створення';
           setTimeout(() => {
             this.statusMessage = '';
+            this.reloadPageWithLoader()
           }, 1500);
-        }, 500);
+        }
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
       }
-
-    } catch (error) {
-      this.loading = false;
-      console.error(error);
     }
   }
 
-  async loadOwnFlats(): Promise<void> {
+  async getFlat(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
+    if (userJson) {
       this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe(
-          (response: any) => {
-            if (response.ids[0] && response.ids[0].flat_id && !this.selectedFlatId) {
-              console.log(111111)
-              this.setSelectedFlatId = response.ids[0].flat_id;
-              this.setSelectedFlatName = response.ids[0].flat_name;
-              if (this.setSelectedFlatId) {
-                this.selectedFlatService.setSelectedFlatId(this.setSelectedFlatId);
-                this.selectedFlatService.setSelectedFlatName(this.setSelectedFlatName);
-              }
+        .subscribe((response: any) => {
+          if (response && response.ids.length > 0) {
+            const nextFlatName = response.ids[0].flat_name;
+            this.loadOwnFlats(nextFlatName)
+          } else {
+            this.reloadPageWithLoader()
+            console.log('Оселі немає')
+          }
+        });
+    } else { console.log('Авторизуйтесь') }
+  }
+
+  async loadOwnFlats(flat_name: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
+          if (flatInfo) {
+            const flatIdFromResponse = flatInfo.flat_id;
+            if (flatIdFromResponse) {
+              this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
+              this.selectedFlatService.setSelectedFlatName(flat_name);
+              this.statusMessage = 'Обираємо оселю ' + flat_name;
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.reloadPageWithLoader()
+              }, 2500);
             }
-          },
+          }
+        },
           (error: any) => {
             console.error(error);
           }
@@ -121,18 +128,14 @@ export class AddHouseComponent implements OnInit {
   }
 
   async openDialog(): Promise<void> {
-
     const selectedFlatName = localStorage.getItem('selectedFlatName');
     if (selectedFlatName !== null) {
       console.log('Назва вибраної оселі:', selectedFlatName);
     } else {
       console.log('Назва вибраної оселі не знайдена в сховищі');
     }
-
     const dialogRef = this.dialog.open(DeleteHouseComponent, {
-      data: {
-        flat_name: selectedFlatName,
-      }
+      data: { flat_name: selectedFlatName, }
     });
 
     dialogRef.afterClosed().subscribe(async (result: any) => {
@@ -146,17 +149,24 @@ export class AddHouseComponent implements OnInit {
             })
             .subscribe(
               (response: any) => {
-                this.selectedFlatService.clearSelectedFlatId();
-                this.selectedFlatService.clearSelectedFlatName();
-                localStorage.removeItem('house');
+                localStorage.removeItem('selectedComun');
+                localStorage.removeItem('selectedHouse');
+                localStorage.removeItem('selectedFlatId');
+                localStorage.removeItem('selectedFlatName');
+                localStorage.removeItem('houseData');
+                this.statusMessage = 'Оселя видалена';
+                setTimeout(() => {
+                  this.getFlat();
+                  this.statusMessage = '';
+                }, 1500);
               },
               (error: any) => {
                 console.error(error);
               }
             );
-          this.reloadPageWithLoader()
         } else {
           console.log('house not found');
+          this.reloadPageWithLoader()
         }
       }
     });

@@ -4,7 +4,26 @@
 .container-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  min-height: 70vh;
+  align-items: flex-start;
+  align-content: flex-start;
+  @include s1-s3 {
+    min-height: 90vh;
+  }
+}
+
+.container-noFlat {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 70vh;
+  align-items: stretch;
+  align-content: center;
+  flex-direction: column;
+  @include s1-s3 {
+    min-height: 90vh;
+  }
 }
 
 .card-box {
@@ -17,7 +36,7 @@
   }
 }
 
-h3, p {
+h1, h3, p {
   text-align: center;
 }
 
@@ -27,7 +46,7 @@ h3, p {
   flex-direction: column;
   justify-content: center;
   @include s1-s3 {
-    height: 100vh;
+    height: 90vh;
     margin-top: 10px;
   }
 }

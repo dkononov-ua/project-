@@ -23,16 +23,13 @@ h5 {
   margin-top: 2rem;
 }
 
-.container {
-  justify-content: center;
-}
-
 .container-main {
   display: flex;
-  flex-direction: column;
-  height: 75vh;
+  height: 100vh;
   justify-content: center;
+  flex-direction: column;
   @include s1-s3 {
+    justify-content: flex-start;
     height: 90vh;
   }
 }
@@ -42,10 +39,6 @@ h5 {
   position: relative;
   justify-content: center;
   align-items: center;
-  height: 80vh;
-  @include s1-s3 {
-    height: 80vh;
-  }
 }
 
 .container-card::-webkit-scrollbar {
@@ -80,7 +73,8 @@ h5 {
   flex-direction: column;
   @include s1-s3 {
     height: 90vh;
-    justify-content: center;
+    justify-content: flex-start;
+    display: flex;
   }
 }
 
@@ -218,6 +212,10 @@ img {
   }
 }
 
+.box::-webkit-scrollbar {
+  display: none;
+}
+
 .mob-1 {
   @include s1-s3 {
     width: 50%;
@@ -283,7 +281,11 @@ img {
 }
 
 .btn-group {
-  width: 100%;
+  // position: absolute;
+  // bottom: 10%;
+  // left: 50%;
+  // width: 400px;
+  // transform: translateX(-200px);
   display: flex;
   align-items: center;
   height: 10vh;

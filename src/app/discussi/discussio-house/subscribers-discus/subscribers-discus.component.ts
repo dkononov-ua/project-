@@ -244,7 +244,6 @@ export class SubscribersDiscusComponent implements OnInit {
         if (this.selectedFlatId && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === selectedUser);
           this.chatExists = chatExists;
-          console.log(this.chatExists)
         }
         else {
           console.log('чат не існує');

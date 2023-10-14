@@ -17,7 +17,7 @@ const routes: Routes = [
         path: 'host',
         component: HostComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'address', pathMatch: 'full' },
+          { path: '', redirectTo: 'photo', pathMatch: 'full' },
           { path: 'address', component: AddressComponent, data: { animation: 'address' }, canActivate: [CanActivateGuard] },
           { path: 'param', component: ParamComponent, data: { animation: 'param' }, canActivate: [CanActivateGuard] },
           { path: 'photo', component: PhotoComponent, data: { animation: 'photo' }, canActivate: [CanActivateGuard] },
