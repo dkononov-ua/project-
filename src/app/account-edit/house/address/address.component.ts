@@ -5,6 +5,7 @@ import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { Router } from '@angular/router';
 
 interface FlatInfo {
   flat_id: string | undefined;
@@ -85,7 +86,8 @@ export class AddressComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,
     ) {
     this.filteredRegions = [];
   }
@@ -189,6 +191,7 @@ export class AddressComponent implements OnInit {
             this.statusMessage = 'Параметри успішно додані';
             setTimeout(() => {
               this.statusMessage = '';
+              this.router.navigate(['/housing-parameters/host/param']);
             }, 1500);
           }, 500);
         } else {

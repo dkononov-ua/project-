@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { Router } from '@angular/router';
 
 
 interface FlatInfo {
@@ -77,7 +78,8 @@ export class ParamComponent {
 
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -137,6 +139,7 @@ export class ParamComponent {
             this.statusMessage = 'Параметри успішно додані';
             setTimeout(() => {
               this.statusMessage = '';
+              this.router.navigate(['/housing-parameters/host/about']);
             }, 1500);
           }, 500);
         } else {

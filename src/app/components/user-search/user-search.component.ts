@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface Subscriber {
   user_id: string;
@@ -30,6 +30,9 @@ export class UserSearchComponent implements OnInit {
   timer: NodeJS.Timeout | undefined;
   selectedSubscriber: Subscriber | undefined;
   selectedFlatId: any;
+  statusMessage: string | undefined;
+  path_logo = path_logo;
+  user: any;
 
   constructor(
     private http: HttpClient,
@@ -42,6 +45,13 @@ export class UserSearchComponent implements OnInit {
         this.selectedFlatId = selectedFlatId;
       }
     });
+  }
+
+  reloadPageWithLoader() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
   }
 
   async onSubmit(): Promise<void> {
@@ -58,10 +68,20 @@ export class UserSearchComponent implements OnInit {
           flat_id: selectedFlat,
           user_id: this.searchQuery,
         };
-
         try {
-          const response = await this.http.post<Subscriber[]>(url, data).toPromise();
-          this.subscribers = response;
+          const response: any = await this.http.post<Subscriber[]>(url, data).toPromise();
+          if (response.status === false) {
+            this.statusMessage = 'Немає доступу або не існує такого ID';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 2500);
+          } else {
+            this.statusMessage = 'Додаємо користувача з ID:' + this.searchQuery;
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.reloadPageWithLoader()
+            }, 1500);
+          }
         } catch (error) {
           console.error(error);
         }
@@ -69,10 +89,6 @@ export class UserSearchComponent implements OnInit {
         console.log('User not found');
       }
     }
-
-    setTimeout(() => {
-      location.reload();
-    }, 2000);
   }
 
   isValidSearchQuery(): any {

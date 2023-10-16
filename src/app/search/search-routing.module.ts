@@ -3,27 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './search.component';
 import { CanActivateGuard } from '../services/auth.guard';
 import { HousingSearchComponent } from './house/housing-search/housing-search.component';
-import { TenantsSearchComponent } from './tenant/tenants-search/tenants-search.component';
 import { HostHouseComponent } from './house/host-house/host-house.component';
-import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component';
+import { SearchTenantComponent } from './search-tenant/search-tenant.component';
 
 const routes: Routes = [
   {
     path: 'search', component: SearchComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'host-house', pathMatch: 'full' },
+      { path: 'tenants', component: SearchTenantComponent, canActivate: [CanActivateGuard] },
       {
         path: 'host-house', component: HostHouseComponent, canActivate: [CanActivateGuard],
         children: [
           { path: '', redirectTo: 'housing-search', pathMatch: 'full' },
           { path: 'housing-search', component: HousingSearchComponent, canActivate: [CanActivateGuard] },
-        ]
-      },
-      {
-        path: 'host-tenant', component: HostTenantComponent, canActivate: [CanActivateGuard],
-        children: [
-          { path: '', redirectTo: 'tenants-search', pathMatch: 'full' },
-          { path: 'tenants-search', component: TenantsSearchComponent, canActivate: [CanActivateGuard] },
         ]
       },
     ],

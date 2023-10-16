@@ -15,6 +15,19 @@ mat-select {
   }
 }
 
+.container-search {
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+  max-height: 1000px;
+}
+
+.container-search.collapsed {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  transition: max-height 1s ease;
+}
+
 .heightSet {
   width: 200px;
   height: 60px;
@@ -71,8 +84,23 @@ mat-select {
   padding: 5px 0;
   display: flex;
   justify-content: space-evenly;
-  align-items: baseline;
   height: 70px !important;
+  align-items: center;
+}
+
+.group-1 {
+  display: flex;
+}
+
+
+
+.price {
+  height: 60px !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0px !important;
+  background-color: red;
 }
 
 .group-left {
@@ -131,6 +159,7 @@ mat-select {
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: center;
 
   .paginator-count {
     display: flex;
@@ -248,7 +277,7 @@ mat-select {
 
 .label-mat {
   position: absolute;
-  top: -3px;
+  top: -15px;
   left: 50;
   font-size: 12px;
   font-weight: 600;
@@ -306,4 +335,3 @@ mat-select {
     display: none;
   }
 }
-

@@ -15,7 +15,8 @@
   .flatName-label {
     position: absolute;
     top: -10px;
-    left: 5px;
+    left: 50%;
+    transform: translateX(-40px);
     font-size: 12px;
     padding: 0 5px;
     background-color: $color-primary;

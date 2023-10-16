@@ -1,0 +1,84 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../search-term.scss";
+
+mat-radio-group {
+  display: flex;
+  justify-content: center;
+}
+
+.position-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  @include s1-s3 {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 30%);
+  }
+}
+
+.search-header {
+  @include flex-box-column;
+}
+
+.flex-box-row {
+  @include flex-box-row;
+  justify-content: space-evenly;
+}
+
+.bold {
+  font-size: 18px;
+}
+
+.flex-box-column {
+  @include flex-box-column;
+}
+
+.flex-box {
+  @include flex-box-column;
+  .btn {
+    font-size: 28px;
+  }
+}
+
+.search-group {
+  display: flex;
+
+  .search-filter {
+    @include flex-box-column;
+
+    .search-filter-switch {
+      @include flex-box-row;
+      justify-content: space-evenly;
+    }
+
+    .search-filter-group {
+      @include flex-box;
+      flex-wrap: wrap;
+      .search-filter-group-name {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+mat-label {
+  font-size: 12px;
+  color: $color-text;
+}
+
+mat-hint {
+  // font-weight: 600;
+  font-size: 12px;
+  color: $color-text;
+}
+
+.group {
+  width: 100%;
+  position: relative;
+  display: flex;
+  border-radius: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+}

@@ -168,7 +168,7 @@ export class SelectionHousingComponent implements OnInit {
               } else {
                 this.ownFlats = [];
               }
-              if (response.ids && response.ids.length === 0 && response.citizen_ids && response.citizen_ids.length > 0) {
+              if (response.ids && response.citizen_ids && response.citizen_ids.length > 0) {
                 this.rentedFlats = response.citizen_ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
                   id: index + 1,
                   flat_id: item.flat_id,

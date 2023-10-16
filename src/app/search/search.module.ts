@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { SearchComponent } from './search.component';
 import { HousingSearchComponent } from './house/housing-search/housing-search.component';
-import { TenantsSearchComponent } from './tenant/tenants-search/tenants-search.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,25 +25,24 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { SearchTermTenantComponent } from './tenant/search-term-tenant/search-term-tenant.component';
 import { HostHouseComponent } from './house/host-house/host-house.component';
-import { HostTenantComponent } from './tenant/host-tenant/host-tenant.component';
 import { PhotoGalleryComponent } from './house/photo-gallery/photo-gallery.component';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from '../shared/custom-paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { FilterUserService } from './filter-user.service';
-
+import { SearchTenantComponent } from './search-tenant/search-tenant.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ProfileComponent } from './search-tenant/profile/profile.component';
 @NgModule({
   declarations: [
     SearchTermComponent,
     HousingSearchComponent,
-    TenantsSearchComponent,
     SearchComponent,
-    SearchTermTenantComponent,
     HostHouseComponent,
-    HostTenantComponent,
     PhotoGalleryComponent,
+    SearchTenantComponent,
+    ProfileComponent,
   ],
   providers: [
     FilterService,
@@ -78,6 +76,7 @@ import { FilterUserService } from './filter-user.service';
     NgbTypeaheadModule,
     MatPaginatorModule,
     MatRadioModule,
+    MatCheckboxModule,
   ],
   exports: [
   ]

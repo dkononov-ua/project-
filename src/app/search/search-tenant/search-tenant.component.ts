@@ -1,9 +1,9 @@
-import { regions } from '../../../shared/data-city';
-import { cities } from '../../../shared/data-city';
+import { regions } from '../../shared/data-city';
+import { cities } from '../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { FilterUserService } from '../../filter-user.service';
+import { FilterUserService } from '../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { PageEvent } from '@angular/material/paginator';
 import { serverPath } from 'src/app/shared/server-config';
@@ -42,9 +42,9 @@ interface UserInfo {
   limit: number;
 }
 @Component({
-  selector: 'app-search-term-tenant',
-  templateUrl: './search-term-tenant.component.html',
-  styleUrls: ['./search-term-tenant.component.scss'],
+  selector: 'app-search-tenant',
+  templateUrl: './search-tenant.component.html',
+  styleUrls: ['./search-tenant.component.scss'],
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -61,7 +61,7 @@ interface UserInfo {
   ],
 })
 
-export class SearchTermTenantComponent implements OnInit {
+export class SearchTenantComponent implements OnInit {
 
   limit: number = 0;
   offs: number = 0;
@@ -139,6 +139,23 @@ export class SearchTermTenantComponent implements OnInit {
   flatInfo: any[] | undefined;
   filteredFlats?: any;
   selectedFlatId!: string | null;
+
+  filter_group: number = 1;
+  openUser: boolean = false;
+
+  filterSwitchNext() {
+    if (this.filter_group < 4) {
+      this.filter_group ++;
+    }
+    console.log(this.filter_group)
+  }
+
+  filterSwitchPrev() {
+    if (this.filter_group > 1) {
+      this.filter_group --;
+    }
+    console.log(this.filter_group)
+  }
 
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;
@@ -297,3 +314,4 @@ export class SearchTermTenantComponent implements OnInit {
     this.searchFilter();
   }
 }
+

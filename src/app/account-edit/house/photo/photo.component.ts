@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
@@ -46,7 +47,10 @@ export class PhotoComponent implements OnInit {
     }, 1000);
   }
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,) { }
 
   ngOnInit(): void {
     this.getSelectedFlat();
@@ -111,6 +115,7 @@ export class PhotoComponent implements OnInit {
             this.statusMessage = 'Фото додано';
             setTimeout(() => {
               this.statusMessage = '';
+              this.router.navigate(['/housing-parameters/host/address']);
             }, 1500);
           }, 500);
         } else {

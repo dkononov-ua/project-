@@ -1,0 +1,374 @@
+<div class="search-container col-12">
+
+  <div class="search-group col-12">
+    <aside class="search-filter p-2 col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!openUser">
+
+      <header class="search-header position-sticky w-100">
+        <div class="title-page">Шукаємо орендара</div>
+        <div class="hide-pc">
+          <div class="flex-box">Всього знайдено <button class="btn accent bold"
+              (click)="openUser = true">{{optionsFound}}</button></div>
+        </div>
+      </header>
+
+      <div class="search-filter-switch col-12">
+        <button class="btn" (click)="filterSwitchPrev()"><i class="fa-solid fa-caret-left"></i></button>
+        <div class="item-name">Фільтр {{filter_group}} / 4</div>
+        <button class="btn" (click)="filterSwitchNext()"><i class="fa-solid fa-caret-right"></i></button>
+      </div>
+
+      <div class="search-filter-group col-12" *ngIf="filter_group === 1">
+        <app-selection-housing class="w-100"></app-selection-housing>
+
+        <mat-label align="start">Область та місто де шукаєте орендара</mat-label>
+
+        <mat-form-field class="item-select" appearance="outline">
+          <input name="flatInfo.region" matInput (ngModelChange)="onSubmitWithDelay()" placeholder="Область"
+            [(ngModel)]="userInfo.region" placeholder="Виберіть область" (ngModelChange)="loadCities()"
+            [matAutocomplete]="autoRegion">
+          <mat-autocomplete #autoRegion="matAutocomplete">
+            <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
+              {{ region.name }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="start">Область</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select" appearance="outline">
+          <input name="flatInfo.city" matInput (ngModelChange)="onSubmitWithDelay()" placeholder="Місто"
+            [(ngModel)]="userInfo.city" placeholder="Виберіть місто" (ngModelChange)="loadRegions()"
+            [matAutocomplete]="autoCity">
+          <mat-autocomplete #autoCity="matAutocomplete">
+            <mat-option *ngFor="let city of filteredCities" [value]="city.name">
+              {{ city.name }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+          <mat-hint align="start">Місто</mat-hint>
+        </mat-form-field>
+
+        <mat-label align="start">Варінти оплати</mat-label>
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="userInfo.option_pay"
+          (ngModelChange)="onSubmitWithDelay()">
+          <mat-radio-button color="warn" [value]="1">Доба</mat-radio-button>
+          <mat-radio-button color="warn" [value]="0">Місяць</mat-radio-button>
+        </mat-radio-group>
+
+        <mat-label align="start">Бюджет та мета оренди</mat-label>
+        <mat-form-field class="item-select" floatLabel="always" appearance="outline">
+          <input matInput type="number" [min]="minValue" [max]="maxValue" class="example-right-align" placeholder="0"
+            [(ngModel)]="userInfo.price" name="price" (ngModelChange)="onSubmitWithDelay()">
+          <span matTextPrefix>₴&nbsp;</span>
+          <span matTextSuffix>.00</span>
+          <mat-icon matSuffix><i class="fa-solid fa-sack-dollar"></i></mat-icon>
+          <mat-hint align="start">Бюджет</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select" appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Мета оренди"
+            [(ngModel)]="userInfo.purpose_rent" name="purpose_rent">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="0">Переїзд</mat-option>
+            <mat-option value="1">Відряджання</mat-option>
+            <mat-option value="2">Подорож</mat-option>
+            <mat-option value="3">Навчання</mat-option>
+            <mat-option value="4">Особисті причини</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-head-side-virus"></i></mat-icon>
+          <mat-hint align="start">Мета оренди</mat-hint>
+        </mat-form-field>
+
+        <mat-label align="start">Розглядаю варінти орендарів</mat-label>
+        <section class="checkbox-section">
+          <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+            [(ngModel)]="userInfo.students">Студенти</mat-checkbox>
+          <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+            [(ngModel)]="userInfo.woman">Жінки</mat-checkbox>
+          <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+            [(ngModel)]="userInfo.man">Чоловіки</mat-checkbox>
+          <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+            [(ngModel)]="userInfo.family">Сім'ї</mat-checkbox>
+        </section>
+      </div>
+
+      <div class="search-filter-group col-12" *ngIf="filter_group === 2">
+
+        <mat-label align="start" class="search-filter-group-name">Оберіть термін на який шукаєте орендара.</mat-label>
+
+        <div>
+          <mat-form-field class="item-select w-50 p-1" appearance="outline">
+            <input type="number" name="days" (ngModelChange)="onSubmitWithDelay()" placeholder="Дні"
+              (click)="onDayCountsChange()" [(ngModel)]="userInfo.days" [min]="minValueDays" [max]="maxValueDays"
+              matInput>
+            <mat-hint>Дні</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="item-select w-50 p-1" appearance="outline">
+            <input type="number" name="weeks" (ngModelChange)="onSubmitWithDelay()" placeholder="Тиж."
+              (click)="onDayCountsChange()" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks" [max]="maxValueWeeks"
+              matInput>
+            <mat-hint>Тижні</mat-hint>
+
+          </mat-form-field>
+
+          <mat-form-field class="item-select w-50 p-1" appearance="outline">
+            <div class="list-label-1"></div>
+            <input type="number" name="months" (ngModelChange)="onSubmitWithDelay()" placeholder="Міс."
+              (click)="onDayCountsChange()" [(ngModel)]="userInfo.months" [min]="minValueMonths" [max]="maxValueMonths"
+              matInput>
+            <mat-hint>Місяці</mat-hint>
+
+          </mat-form-field>
+
+          <mat-form-field class="item-select w-50 p-1" appearance="outline">
+            <input type="number" name="years" (ngModelChange)="onSubmitWithDelay()" placeholder="Роки"
+              (click)="onDayCountsChange()" [(ngModel)]="userInfo.years" [min]="minValueYears" [max]="maxValueYears"
+              matInput>
+            <mat-hint>Роки</mat-hint>
+
+          </mat-form-field>
+
+        </div>
+
+        <mat-label align="start" class="search-filter-group-name">Чи є укриття, чи можна з тваринами?</mat-label>
+
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Укриття" [(ngModel)]="userInfo.bunker"
+            name="bunker">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="Паркінг">Паркінг</mat-option>
+            <mat-option value="В будинку">В будинку</mat-option>
+            <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-shield-heart"></i></mat-icon>
+          <mat-hint align="start">Укриття</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Тварини" [(ngModel)]="userInfo.animals"
+            name="animals">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="0">Без тварин</mat-option>
+            <mat-option value="1">Котики</mat-option>
+            <mat-option value="2">Песики</mat-option>
+            <mat-option value="3">Котики і песики</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-paw"></i></mat-icon>
+          <mat-hint align="start">Тварини</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <input matInput type="text" (ngModelChange)="searchByUserID()" placeholder="Тут можна знайти орендара по ID"
+            [(ngModel)]="searchQuery" />
+          <mat-icon matSuffix><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
+          <mat-hint align="end">Знайти орендара по ID</mat-hint>
+        </mat-form-field>
+
+      </div>
+
+      <div class="search-filter-group col-12" *ngIf="filter_group === 3">
+        <mat-label align="start" class="search-filter-group-name">Параметри вашої оселі</mat-label>
+
+        <mat-label align="start">Здаєте в оренду</mat-label>
+        <div>
+          <section class="checkbox-section">
+            <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+              [(ngModel)]="userInfo.house">Будинок</mat-checkbox>
+            <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+              [(ngModel)]="userInfo.flat">Квартира</mat-checkbox>
+            <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+              [(ngModel)]="userInfo.room">Кімнату</mat-checkbox>
+          </section>
+        </div>
+
+        <div *ngIf="userInfo.room">
+          <mat-label align="start">Сусід по кімнаті?</mat-label>
+          <section class="checkbox-section">
+            <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+              [(ngModel)]="userInfo.looking_woman">Жінка</mat-checkbox>
+            <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+              [(ngModel)]="userInfo.looking_man">Чоловік</mat-checkbox>
+          </section>
+        </div>
+
+        <mat-form-field class="item-select m-1" appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Стан оселі"
+            [(ngModel)]="userInfo.repair_status" name="repair_status">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="Новий">Новий</mat-option>
+            <mat-option value="Добрий">Добрий</mat-option>
+            <mat-option value="Задовільний">Задовільний</mat-option>
+            <mat-option value="Поганий">Поганий</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
+          <mat-hint align="start">Стан оселі</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select m-1" appearance="outline">
+          <input matInput type="text" [min]="minValue" [max]="maxValue" (ngModelChange)="onSubmitWithDelay()"
+            placeholder="Площа м²" [(ngModel)]="userInfo.area" name="area">
+          <mat-icon matSuffix><i class="fa-solid fa-compass-drafting"></i></mat-icon>
+          <mat-hint align="start">Площа м²</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select m-1" appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Кіл. кімнат" [(ngModel)]="userInfo.rooms"
+            name="rooms">
+            <mat-option [value]="0">Неважливо</mat-option>
+            <mat-option [value]="1">Однокімнатна</mat-option>
+            <mat-option [value]="2">Двокімнатна</mat-option>
+            <mat-option [value]="3">Трикімнатна</mat-option>
+            <mat-option [value]="4">Чотирьохкімнатна</mat-option>
+            <mat-option [value]="5">Більше чотирьох</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
+          <mat-hint align="start">Кількість кімнат</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select m-1" appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Балкон" [(ngModel)]="userInfo.balcony"
+            name="balcony">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="Класичний">Класичний</mat-option>
+            <mat-option value="Французький">Французький</mat-option>
+            <mat-option value="Лоджія">Лоджія</mat-option>
+            <mat-option value="Тераса">Тераса</mat-option>
+            <mat-option value="Веранда">Веранда</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
+          <mat-hint align="start">Балкон</mat-hint>
+        </mat-form-field>
+
+
+
+
+      </div>
+
+      <div class="search-filter-group col-12" *ngIf="filter_group === 4">
+        <mat-label align="start" class="search-filter-group-name">Інфраструктура</mat-label>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Парк" [(ngModel)]="userInfo.distance_green"
+            name="distance_green">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-tree"></i></mat-icon>
+          <mat-hint align="start">Парк</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Маркет" [(ngModel)]="userInfo.distance_shop"
+            name="distance_shop">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-basket-shopping"></i></mat-icon>
+          <mat-hint align="start">Маркет</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Паркінг"
+            [(ngModel)]="userInfo.distance_parking" name="distance_parking">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="1">на території</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-car-side"></i></mat-icon>
+          <mat-hint align="start">Паркінг</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Зупинки" [(ngModel)]="userInfo.distance_stop"
+            name="distance_stop">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-bus"></i></mat-icon>
+          <mat-hint align="start">Зупинки</mat-hint>
+
+        </mat-form-field>
+
+        <mat-form-field class="item-select " appearance="outline">
+          <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Метро" [(ngModel)]="userInfo.distance_metro"
+            name="distance_metro">
+            <mat-option [value]="''">Неважливо</mat-option>
+            <mat-option value="100">до 100м</mat-option>
+            <mat-option value="300">до 300м</mat-option>
+            <mat-option value="500">до 500м</mat-option>
+            <mat-option value="1000">до 1км</mat-option>
+            <mat-option value="2000">до 2км</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-train"></i></mat-icon>
+          <mat-hint align="start">Метро</mat-hint>
+
+        </mat-form-field>
+
+
+
+      </div>
+
+    </aside>
+
+    <main class="search-results col-lg-9 col-md-9 col-sm-12 col-12">
+
+      <div class="custom-paginator hide-mobile">
+        <div class="hide-mobile">Всього знайдено <span class="accent bold">{{optionsFound}} співпадінь</span></div>
+        <button class="paginator-button" (click)="decrementOffset()"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="paginator-info">показано
+          {{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} -
+          {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
+            pageEvent.pageSize) : optionsFound }} з {{ optionsFound }} знайдених </div>
+            <button class="paginator-button" (click)="incrementOffset()"><i
+                class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <div class="hide-pc position-sticky">
+          <div class="flex-box-row">
+            <div class="flex-box"><button class="btn accent bold" (click)="openUser = false"><i
+                  class="fa-solid fa-filter"></i></button>
+            </div>
+
+            <div class="flex-box">
+              <button class="btn accent bold" (click)="decrementOffset()"><i
+                  class="fa-solid fa-chevron-left"></i></button>
+            </div>
+
+            <div class="flex-box-column">
+              <div>Показано</div>
+              <div class="flex-box-row">
+                <div>{{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} - </div>
+                <div>{{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
+                    pageEvent.pageSize) : optionsFound }}</div>
+                </div>
+                <div> з <span class="accent bold">{{ optionsFound }}</span></div>
+              </div>
+
+              <div class="flex-box"><button class="btn accent bold" (click)="incrementOffset()"><i
+                    class="fa-solid fa-chevron-right"></i></button>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <app-profile class="hide-mobile"></app-profile>
+          <app-profile *ngIf="openUser"></app-profile>
+    </main>
+  </div>
+
+</div>

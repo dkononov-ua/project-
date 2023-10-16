@@ -163,6 +163,7 @@ export class ComunHistoryComponent implements OnInit {
 
       if (response) {
         localStorage.setItem('comunal_inf', JSON.stringify(response.comunal));
+        console.log(localStorage.getItem('comunal_inf'))
         this.selectMonthInfo();
       }
     }

@@ -8,6 +8,26 @@
   padding-left: $gap;
 }
 
+@mixin flex-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-box-column {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+@mixin flex-box-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 @mixin text-shortener {
   display: block;
   overflow: hidden;

@@ -46,6 +46,6 @@ export class SearchPageComponent {
   }
 
   goToSearchTenant() {
-    this.router.navigate(['/search/host-tenant/']);
+    this.router.navigate(['/search/tenants/']);
   }
 }

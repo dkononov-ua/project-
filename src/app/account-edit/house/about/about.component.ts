@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
 
@@ -88,11 +89,10 @@ export class AboutComponent implements OnInit {
     this.helpPriority = !this.helpPriority;
   }
 
-
-
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) { }
+    private selectedFlatService: SelectedFlatService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getSelectParam();
@@ -155,6 +155,7 @@ export class AboutComponent implements OnInit {
             this.statusMessage = 'Оголошення розміщено';
             setTimeout(() => {
               this.statusMessage = '';
+              this.router.navigate(['/house/house-info']);
             }, 1500);
           }, 500);
         } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
@@ -162,6 +163,7 @@ export class AboutComponent implements OnInit {
             this.statusMessage = 'Параметри успішно додані, оголошення приховане';
             setTimeout(() => {
               this.statusMessage = '';
+              this.router.navigate(['/house/house-info']);
             }, 1500);
           }, 500);
         } else {

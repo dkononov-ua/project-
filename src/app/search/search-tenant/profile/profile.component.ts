@@ -49,9 +49,9 @@ interface UserInfo {
   about: string | undefined;
 }
 @Component({
-  selector: 'app-tenants-search',
-  templateUrl: './tenants-search.component.html',
-  styleUrls: ['./tenants-search.component.scss'],
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
@@ -77,7 +77,7 @@ interface UserInfo {
   ]
 })
 
-export class TenantsSearchComponent implements OnInit {
+export class ProfileComponent implements OnInit {
 
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -141,9 +141,15 @@ export class TenantsSearchComponent implements OnInit {
   hideCard: boolean = true;
   openMenu: boolean = true;
   hideMenu: boolean = false;
-  indexPage: number = 0;
+  indexPage: number = 1;
   optionsFound: number = 0;
   path_logo = path_logo;
+
+  card_info : boolean = false;
+
+  openInfoUser () {
+    this.card_info = true;
+  }
 
   opensCard() {
     this.openCard = !this.openCard;
@@ -282,3 +288,4 @@ export class TenantsSearchComponent implements OnInit {
     }
   }
 }
+
