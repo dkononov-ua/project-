@@ -50,9 +50,9 @@ interface FlatInfo {
   option_pay: number;
 }
 @Component({
-  selector: 'app-housing-search',
-  templateUrl: './housing-search.component.html',
-  styleUrls: ['./housing-search.component.scss'],
+  selector: 'app-house',
+  templateUrl: './house.component.html',
+  styleUrls: ['./house.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
@@ -78,7 +78,7 @@ interface FlatInfo {
   ]
 })
 
-export class HousingSearchComponent implements OnInit {
+export class HouseComponent implements OnInit {
 
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -169,10 +169,15 @@ export class HousingSearchComponent implements OnInit {
   openMenu: boolean = true;
   hideMenu: boolean = false;
 
-  indexPage: number = 0;
+  indexPage: number = 1;
+  card_info : boolean = false;
+
+  openInfoUser () {
+    this.card_info = true;
+  }
 
 
-  opensCard () {
+  opensCard() {
     this.openCard = !this.openCard;
     this.hideCard = !this.hideCard;
 
@@ -266,7 +271,7 @@ export class HousingSearchComponent implements OnInit {
 
   openFullScreenImage(photos: string[]): void {
     const sanitizedPhotos: SafeUrl[] = photos.map(photo =>
-      this.sanitizer.bypassSecurityTrustUrl( serverPath + '/img/flat/' + photo)
+      this.sanitizer.bypassSecurityTrustUrl(serverPath + '/img/flat/' + photo)
     );
 
     const dialogRef = this.dialog.open(PhotoGalleryComponent, {
@@ -312,7 +317,7 @@ export class HousingSearchComponent implements OnInit {
 
     if (userJson) {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post( serverPath + '/subs/subscribe', payload)
+      this.http.post(serverPath + '/subs/subscribe', payload)
         .subscribe((response: any) => {
           this.subscriptionMessage = response.status;
           this.isSubscribed = true;
@@ -333,7 +338,7 @@ export class HousingSearchComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post( serverPath + '/subs/checkSubscribe', payload)
+      this.http.post(serverPath + '/subs/checkSubscribe', payload)
         .subscribe((response: any) => {
           this.statusMessage = response.status;
           this.statusSubscriptionMessage = true;
@@ -351,3 +356,4 @@ export class HousingSearchComponent implements OnInit {
     }
   }
 }
+

@@ -42,7 +42,7 @@ export class SearchPageComponent {
   constructor(private router: Router) { }
 
   goToSearchHouse() {
-    this.router.navigate(['/search/host-house/']);
+    this.router.navigate(['/search/house/']);
   }
 
   goToSearchTenant() {

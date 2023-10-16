@@ -1,194 +1,79 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
 
-input {
-  font-size: 13px;
-  @include s1-s3 {
-    font-size: 12px;
-  }
-}
-
-mat-select {
-  font-size: 13px;
-  @include s1-s3 {
-    font-size: 12px;
-  }
-}
-
-.container-search {
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-  max-height: 1000px;
-}
-
-.container-search.collapsed {
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-  transition: max-height 1s ease;
-}
-
-.heightSet {
-  width: 200px;
-  height: 60px;
-  position: relative;
-  @include s1-s3 {
-    width: 50%;
-  }
-}
-
-.item-select {
-  width: 100%;
-  font-size: 13px;
-  @include s1-s3 {
-    font-size: 12px;
-  }
-}
-
-.list-label-1 {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 0 5px;
-  font-size: 12px;
-  color: $color-accent;
-  z-index: 2;
-}
-
-.box-2 {
-  width: 100%;
+mat-radio-group {
   display: flex;
-  justify-content: space-between;
-  border-radius: 5px 5px 0 0;
-  align-items: center;
-  @include s1-s3 {
-    flex-wrap: wrap;
-    align-items: center;
-  }
-}
-
-.box-1 {
-  width: 500px;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 5px 5px 0 0;
-  align-items: center;
-  @include s1-s3 {
-    width: 100%;
-    flex-direction: column;
-  }
-}
-
-.group-transparent {
-  width: 100%;
-  padding: 5px 0;
-  display: flex;
-  justify-content: space-evenly;
-  height: 70px !important;
-  align-items: center;
-}
-
-.group-1 {
-  display: flex;
-}
-
-
-
-.price {
-  height: 60px !important;
-}
-
-.mat-mdc-form-field-subscript-wrapper {
-  height: 0px !important;
-  background-color: red;
-}
-
-.group-left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  @include s1-s3 {
-    justify-content: center;
-  }
-}
-
-.search-change {
-  display: flex;
-  height: 60px;
-  width: 60px;
-  border: 2px solid $color-primary;
-  border-radius: 50%;
-  align-items: center;
   justify-content: center;
+}
 
-  &:hover {
-    transition: 0.4s;
-    color: $color-accent;
-    transform: scale(1.2);
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  }
-  &:active {
-    color: $color-accent;
-    transform: scale(0.8);
-    box-shadow: 0px 0px 10px $color-accent;
-  }
-
-  &.active {
-    color: $color-accent;
-    box-shadow: 0px 0px 10px $color-accent;
-    border-color: $color-accent;
+.position-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  @include s1-s3 {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 30%);
   }
 }
 
-.fa-solid {
-  color: $color-dark;
+.search-header {
+  @include flex-box-column;
 }
 
-.searchName {
+.bold {
+  font-size: 18px;
+}
+
+.flex-box {
+  @include flex-box-column;
+  .btn {
+    font-size: 28px;
+  }
+}
+
+.flex-box-column {
+  @include flex-box-column;
+}
+
+.flex-box-row {
+  @include flex-box-row;
+  justify-content: space-evenly;
+}
+
+.search-group {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+
+  .search-filter {
+    @include flex-box-column;
+
+    .search-filter-switch {
+      @include flex-box-row;
+      justify-content: space-evenly;
+    }
+
+    .search-filter-group {
+      @include flex-box;
+      flex-wrap: wrap;
+      .search-filter-group-name {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+mat-label {
+  font-size: 12px;
+  color: $color-text;
+}
+
+mat-hint {
+  font-size: 12px;
+  color: $color-text;
 }
 
 .title-page {
   font-size: 18px;
   text-transform: uppercase;
-}
-
-.custom-paginator {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-
-  .paginator-count {
-    display: flex;
-  }
-
-  .paginator-info {
-    display: flex;
-    font-size: 13px;
-  }
-
-  .paginator-button {
-    border: none;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-  }
-}
-
-.container-btn {
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include s1-s3 {
-    width: 150px;
-    top: 15px;
-    right: 15px;
-    z-index: 50;
-  }
 }
 
 .btn {
@@ -224,104 +109,45 @@ mat-select {
   }
 }
 
-.animate {
-  transition: transform 1.5s;
-  transform-origin: center;
-}
-
-.animate.rotate-up {
-  transform: rotate(180deg);
-}
-
-.animate.rotate-down {
-  transform: rotate(-180deg);
-}
-
-.mobile-group {
+.item-select {
   width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.container-search {
-  overflow: hidden;
-  transition: max-height 1s;
-  max-height: 120vh;
-  @include s1-s3 {
-    margin: 0;
-    padding: 0;
-  }
-}
-.box {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-}
-.group-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.group {
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
-  justify-content: space-between;
-  border-radius: 5px;
-}
-
-.label-mat {
-  position: absolute;
-  top: -15px;
-  left: 50;
-  font-size: 12px;
-  font-weight: 600;
-  color: $color-accent;
-  background-color: $color-primary;
-  padding: 0 8px;
-  margin-left: 5px;
-  border-radius: 5px;
-  @include s1-s3 {
-    background-color: $color-white;
-  }
-}
-.border-horizontal {
-  border-top: 1px solid $color-gray;
-}
-.content {
-  width: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  @include s1-s3 {
-    width: 76px;
-  }
-}
-
-.text {
   font-size: 14px;
   @include s1-s3 {
     font-size: 12px;
   }
 }
 
-.status {
-  padding: 5px 10px;
-  background-color: $color-accent;
-  margin: 0 3px;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 4px;
-  box-shadow:
-    2px 3px 10px rgba(0, 0, 0, 0.25),
-    2px 2px 10px rgba(0, 0, 0, 0.22);
+.custom-paginator {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+
+  .paginator-count {
+    display: flex;
+  }
+
+  .paginator-info {
+    display: flex;
+    font-size: 13px;
+  }
+
+  .paginator-button {
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+  }
+}
+
+.search_panel {
+  @include flex-box-row;
+  align-items: baseline;
+  height: 70px;
+  @include s1-s3 {
+    padding-top: 10px;
+    height: 30px;
+  }
 }
 
 .hide-pc {

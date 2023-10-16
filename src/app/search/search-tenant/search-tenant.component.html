@@ -6,8 +6,9 @@
       <header class="search-header position-sticky w-100">
         <div class="title-page">Шукаємо орендара</div>
         <div class="hide-pc">
-          <div class="flex-box">Всього знайдено <button class="btn accent bold"
-              (click)="openUser = true">{{optionsFound}}</button></div>
+          <div class="flex-box">Всього знайдено <button class="btn accent bold" (click)="openUser = true"
+              [disabled]="optionsFound === 0">{{optionsFound}}</button>
+          </div>
         </div>
       </header>
 
@@ -31,6 +32,7 @@
               {{ region.name }}
             </mat-option>
           </mat-autocomplete>
+          <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
           <mat-hint align="start">Область</mat-hint>
         </mat-form-field>
 
@@ -58,8 +60,7 @@
         <mat-form-field class="item-select" floatLabel="always" appearance="outline">
           <input matInput type="number" [min]="minValue" [max]="maxValue" class="example-right-align" placeholder="0"
             [(ngModel)]="userInfo.price" name="price" (ngModelChange)="onSubmitWithDelay()">
-          <span matTextPrefix>₴&nbsp;</span>
-          <span matTextSuffix>.00</span>
+          <span matTextSuffix>₴&nbsp;</span>
           <mat-icon matSuffix><i class="fa-solid fa-sack-dollar"></i></mat-icon>
           <mat-hint align="start">Бюджет</mat-hint>
         </mat-form-field>
@@ -112,7 +113,6 @@
           </mat-form-field>
 
           <mat-form-field class="item-select w-50 p-1" appearance="outline">
-            <div class="list-label-1"></div>
             <input type="number" name="months" (ngModelChange)="onSubmitWithDelay()" placeholder="Міс."
               (click)="onDayCountsChange()" [(ngModel)]="userInfo.months" [min]="minValueMonths" [max]="maxValueMonths"
               matInput>
@@ -323,7 +323,7 @@
 
     </aside>
 
-    <main class="search-results col-lg-9 col-md-9 col-sm-12 col-12">
+    <main class="search-results col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="optionsFound > 0">
 
       <div class="custom-paginator hide-mobile">
         <div class="hide-mobile">Всього знайдено <span class="accent bold">{{optionsFound}} співпадінь</span></div>
@@ -369,6 +369,11 @@
           <app-profile class="hide-mobile"></app-profile>
           <app-profile *ngIf="openUser"></app-profile>
     </main>
+
+    <div *ngIf="optionsFound === 0">
+      <h2 class="flex-box-column p-5">По вашим пошуковим параметрам нічого не знайдено</h2>
+    </div>
+
   </div>
 
 </div>

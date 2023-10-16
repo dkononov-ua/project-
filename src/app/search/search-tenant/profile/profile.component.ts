@@ -58,8 +58,12 @@ interface UserInfo {
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1500ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
     ]),
     trigger('cardAnimation2', [
@@ -218,7 +222,6 @@ export class ProfileComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.selectedUser = this.filteredUsers![0];
     this.selectedUser = user;
-    console.log(this.selectedUser)
     this.checkSubscribe();
     this.indexPage = 2;
   }

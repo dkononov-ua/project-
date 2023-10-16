@@ -1,6 +1,6 @@
-import { FilterService } from '../../filter.service';
-import { regions } from '../../../shared/data-city';
-import { cities } from '../../../shared/data-city';
+import { FilterService } from '../filter.service';
+import { regions } from '../../shared/data-city';
+import { cities } from '../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
@@ -10,12 +10,12 @@ interface SearchParams {
   [key: string]: any;
 }
 @Component({
-  selector: 'app-search-term',
-  templateUrl: './search-term.component.html',
-  styleUrls: ['./search-term.component.scss'],
+  selector: 'app-search-housing',
+  templateUrl: './search-housing.component.html',
+  styleUrls: ['./search-housing.component.scss'],
 })
 
-export class SearchTermComponent implements OnInit {
+export class SearchHousingComponent implements OnInit {
 
   limit: number = 0;
   offs: number = 0;
@@ -48,6 +48,8 @@ export class SearchTermComponent implements OnInit {
   bunker!: string;
   option_flat: string = "2";
   room: number = 0;
+  looking_woman: number = 0;
+  looking_man: number = 0;
   option_pay: number = 0;
   kitchen_area!: number;
   filterData: number = 0;
@@ -67,6 +69,22 @@ export class SearchTermComponent implements OnInit {
   // загальна кількість знайдених осель
   optionsFound: number = 0
   loading = true;
+  filter_group: number = 1;
+  openUser: boolean = false;
+
+  filterSwitchNext() {
+    if (this.filter_group < 3) {
+      this.filter_group++;
+    }
+    console.log(this.filter_group)
+  }
+
+  filterSwitchPrev() {
+    if (this.filter_group > 1) {
+      this.filter_group--;
+    }
+    console.log(this.filter_group)
+  }
 
   toggleSearchTerm() {
     this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
@@ -167,6 +185,8 @@ export class SearchTermComponent implements OnInit {
       option_pay: this.option_pay ? '1' : '0',
       limit: this.limit,
       filterData: this.filterData || '',
+      looking_woman: this.looking_woman ? '1' : '0',
+      looking_man: this.looking_man ? '1' : '0',
     };
     const url = this.buildSearchURL(params);
     await this.getSearchData(url);
@@ -219,3 +239,4 @@ export class SearchTermComponent implements OnInit {
     this.searchFilter();
   }
 }
+

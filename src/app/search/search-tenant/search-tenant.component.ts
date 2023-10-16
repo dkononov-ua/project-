@@ -2,7 +2,6 @@ import { regions } from '../../shared/data-city';
 import { cities } from '../../shared/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { FilterUserService } from '../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { PageEvent } from '@angular/material/paginator';
@@ -45,20 +44,6 @@ interface UserInfo {
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
   styleUrls: ['./search-tenant.component.scss'],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ],
 })
 
 export class SearchTenantComponent implements OnInit {
@@ -145,16 +130,14 @@ export class SearchTenantComponent implements OnInit {
 
   filterSwitchNext() {
     if (this.filter_group < 4) {
-      this.filter_group ++;
+      this.filter_group++;
     }
-    console.log(this.filter_group)
   }
 
   filterSwitchPrev() {
     if (this.filter_group > 1) {
-      this.filter_group --;
+      this.filter_group--;
     }
-    console.log(this.filter_group)
   }
 
   calculateTotalDays(): number {
@@ -203,7 +186,6 @@ export class SearchTenantComponent implements OnInit {
     if (userJson) {
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;

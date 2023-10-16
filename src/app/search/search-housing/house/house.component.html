@@ -3,65 +3,33 @@
 </ng-container>
 
 <ng-template #content>
+  <div class="hide-mobile">
+    <div class="card-container">
 
-<div class="switch-box hide-pc">
-  <div class="btn-menu">
-    <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Меню"
-      (click)="indexPage = 0">
-      <i class="fa-solid fa-filter"></i></button>
-  </div>
+      <aside class="search-results col-lg-6 col-md-6 col-sm-12 col-12" cdkScrollable *ngIf="filteredFlats">
+        <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
+          [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
+          [style.animation-delay.ms]="i * 100">
+          <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
 
-  <div class="btn-menu hide-pc">
-    <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1" matTooltip="Оселя"
-      [disabled]="!filteredFlats">
-      <i class="fa-solid fa-list"></i></button>
-  </div>
+            <div class="card-img-container">
+              <img
+                [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+                alt="Flat Image" class="card-img-top">
+            </div>
+            <div class="card-title">
+              <div class="accent">{{ flat.price_m }} грн/міс</div>
+              <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
+              <div class="title">{{ flat.city }}</div>
+              <div class="title">{{ flat.area }} м²</div>
+            </div>
+          </a>
+        </div>
+      </aside>
 
-  <div class="btn-menu">
-    <button [disabled]="!selectedFlat" class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2"
-      matTooltip="Параметри" [disabled]="!filteredFlats">
-      <i class="fa-solid fa-eye"></i></button>
-  </div>
+      <div class="search-results-detail col-lg-6 col-md-6 col-sm-12 col-12">
 
-</div>
-
-<app-search-term class="p-2 hide-pc" *ngIf="indexPage === 0"></app-search-term>
-<app-search-term class="p-2 hide-mobile"></app-search-term>
-
-<div class="container-house">
-
-  <div class="section hide-mobile col-lg-4 col-md-9 col-sm-12 col-12">
-    <div [@cardAnimation] class="card-container" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
-        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
-        [style.animation-delay.ms]="i * 100">
-        <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
-
-          <div class="card-img-container">
-            <img
-              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" class="card-img-top">
-          </div>
-          <div class="card-title">
-            <div class="accent">{{ flat.price_m }} грн/міс</div>
-            <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
-            <div class="title">{{ flat.city }}</div>
-            <div class="title">{{ flat.area }} м²</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div [@cardAnimation] class="card-container" *ngIf="filteredFlats == null">
-      <h2>Нічого не знайдено...</h2>
-    </div>
-  </div>
-
-  <div class="section-1 hide-mobile col-lg-8 col-md-9 col-sm-12 col-12">
-    <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation] class="card-house">
-
-        <div class="card card-selected">
+        <div class="card card-selected" *ngIf="!card_info && selectedFlat">
 
           <div class="container-sticker">
 
@@ -121,7 +89,7 @@
 
           <div class="card-btn-container">
             <div class="item-box">
-              <button mat-raised-button class="next card link"
+              <button mat-raised-button class="btn link"
                 [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}"
                 (click)="onSubmitSbs()">
                 <i class="fa-regular fa-heart" *ngIf="!isSubscribed && statusMessage !== 'Ви в дискусії'"></i>
@@ -131,13 +99,13 @@
             </div>
 
             <div class="item-box m-1">
-              <button mat-raised-button class="prev card link" (click)="onPrevCard()">
+              <button mat-raised-button class="btn link" (click)="onPrevCard()">
                 <i class="fa-solid fa-chevron-left"></i>
               </button>
             </div>
 
             <div class="item-box m-1">
-              <button mat-raised-button class="next card link" (click)="onNextCard()">
+              <button mat-raised-button class="btn link" (click)="onNextCard()">
                 <i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
@@ -170,16 +138,17 @@
               <div class="title-selected">Площа оселі : </div>
               <div class="title-selected-accent">{{ selectedFlat?.area }} м²</div>
             </div>
+
+            <button class="title-group w-100" (click)="card_info = true">Більше інформацію про оселю</button>
+
           </div>
+
+
+
 
         </div>
 
-      </div>
-    </div>
-
-    <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div [@cardAnimation2] class="card-house">
-        <div class="card card-selected p-2" *ngIf="selectedFlat">
+        <div class="card card-selected p-2" *ngIf="card_info && selectedFlat">
 
           <div class="container-sticker">
             <div class="status-container">
@@ -285,53 +254,34 @@
 
         </div>
 
-        <div class="card card-selected card-logo p-2" *ngIf="!selectedFlat">
-          <div class="img-wrapper">
-            <img class="img-fluid rounded" src="{{path_logo}}" alt="logo">
-          </div>
-          <div class="characteristics-group p-4">
-            <h2>Оберіть оселю і тут будуть її характеристики</h2>
-          </div>
-          <div class="characteristics-group p-4">
-            <h2>© Discussio.</h2>
-            <p> Simplify property management with Discussio.</p>
-          </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="hide-pc">
+    <div class="card-container">
+      <aside class="search-results col-lg-6 col-md-6 col-sm-12 col-12" cdkScrollable *ngIf="indexPage === 1 && filteredFlats">
+        <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
+          [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
+          [style.animation-delay.ms]="i * 100">
+          <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
+
+            <div class="card-img-container">
+              <img
+                [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+                alt="Flat Image" class="card-img-top">
+            </div>
+            <div class="card-title">
+              <div class="accent">{{ flat.price_m }} грн/міс</div>
+              <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
+              <div class="title">{{ flat.city }}</div>
+              <div class="title">{{ flat.area }} м²</div>
+            </div>
+          </a>
         </div>
-      </div>
-    </div>
+      </aside>
 
-  </div>
-
-  <div class="section hide-pc col-lg-4 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 1">
-    <div class="card-container" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
-        [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
-        [style.animation-delay.ms]="i * 100">
-        <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
-          <div class="card-img-container">
-            <img
-              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" class="card-img-top">
-          </div>
-          <div class="card-title">
-            <div class="accent">{{ flat.price_m }} грн/міс</div>
-            <div class="title">{{ flat.street }}<span class="accent">{{ flat.houseNumber }}</span></div>
-            <div class="title">{{ flat.city }}</div>
-            <div class="title">{{ flat.area }} м²</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="card-container" *ngIf="filteredFlats == null">
-      <h2>Нічого не знайдено...</h2>
-    </div>
-  </div>
-
-  <div class="section-1 hide-pc col-lg-8 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 2">
-    <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div class="card-house">
+      <div class="mob-100vh col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexPage === 2 && selectedFlat">
 
         <div class="card card-selected">
 
@@ -392,8 +342,15 @@
           </div>
 
           <div class="card-btn-container">
+
+            <div class="item-box m-1">
+              <button mat-raised-button class="btn link" (click)="indexPage = 1">
+                <i class="fa-solid fa-list"></i>
+              </button>
+            </div>
+
             <div class="item-box">
-              <button mat-raised-button class="next card link"
+              <button mat-raised-button class="btn link"
                 [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}"
                 (click)="onSubmitSbs()">
                 <i class="fa-regular fa-heart" *ngIf="!isSubscribed && statusMessage !== 'Ви в дискусії'"></i>
@@ -403,13 +360,13 @@
             </div>
 
             <div class="item-box m-1">
-              <button mat-raised-button class="prev card link" (click)="onPrevCard()">
+              <button mat-raised-button class="btn link" (click)="onPrevCard()">
                 <i class="fa-solid fa-chevron-left"></i>
               </button>
             </div>
 
             <div class="item-box m-1">
-              <button mat-raised-button class="next card link" (click)="onNextCard()">
+              <button mat-raised-button class="btn link" (click)="onNextCard()">
                 <i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
@@ -442,16 +399,17 @@
               <div class="title-selected">Площа оселі : </div>
               <div class="title-selected-accent">{{ selectedFlat?.area }} м²</div>
             </div>
+
+            <button class="title-group w-100" (click)="card_info = true">Більше інформацію про оселю</button>
+
           </div>
+
+
+
 
         </div>
 
-      </div>
-    </div>
-
-    <div class="section-2 col-lg-6 col-md-9 col-sm-12 col-12">
-      <div class="card-house">
-        <div class="card card-selected p-2" *ngIf="selectedFlat">
+        <div class="card card-selected p-2">
 
           <div class="container-sticker">
             <div class="status-container">
@@ -557,28 +515,14 @@
 
         </div>
 
-        <div class="card card-selected card-logo p-2" *ngIf="!selectedFlat">
-          <div class="img-wrapper">
-            <img class="img-fluid rounded" src="{{path_logo}}" alt="logo">
-          </div>
-          <div class="characteristics-group p-4">
-            <h2>Оберіть оселю і тут будуть її характеристики</h2>
-          </div>
-          <div class="characteristics-group p-4">
-            <h2>© Discussio.</h2>
-            <p> Simplify property management with Discussio.</p>
-          </div>
-
-        </div>
-
       </div>
     </div>
-
   </div>
-</div>
 
-<div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
-  <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">
-</div>
+
+
+  <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
+    <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">
+  </div>
 
 </ng-template>
