@@ -4,7 +4,9 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { OpenSelectHouseComponent } from '../open-select-house/open-select-house.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-selection-housing',
   templateUrl: './selection-housing.component.html',
@@ -16,6 +18,7 @@ export class SelectionHousingComponent implements OnInit {
   someMethod() {
     this.trigger.openMenu();
   }
+  serverPathPhotoFlat = serverPathPhotoFlat;
 
   path_logo = path_logo;
   loading = false;
@@ -28,6 +31,7 @@ export class SelectionHousingComponent implements OnInit {
   houseData: any
   houseInfo: any
   statusMessage: string | undefined;
+  chosenHouseMenu: boolean = false;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -41,41 +45,15 @@ export class SelectionHousingComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private dataService: DataService,
+    private dialog: MatDialog,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.loadOwnFlats();
   }
 
-  // обираємо іншу оселю
-  selectFlat(flat: any) {
-    const userJson = localStorage.getItem('user');
-    if (userJson && flat) {
-      localStorage.removeItem('selectedComun');
-      localStorage.removeItem('selectedHouse');
-      localStorage.removeItem('selectedFlatId');
-      localStorage.removeItem('selectedFlatName');
-      localStorage.removeItem('houseData');
-      this.selectedFlatService.setSelectedFlatId(flat.flat_id);
-      this.selectedFlatService.setSelectedFlatName(flat.flat_name);
-      this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
-      this.statusMessage = 'Обираємо оселю ' + flat.flat_name;
-      this.dataService.getInfoFlat().subscribe((response: any) => {
-        if (response) {
-          localStorage.setItem('houseData', JSON.stringify(response));
-          this.selectedFlatName = flat.flat_name;
-          this.selectedFlatId = flat.flat_id;
-          setTimeout(() => {
-            this.reloadPageWithLoader()
-          }, 1500);
-        } else {
-          console.log('Немає інформації про оселю')
-          this.reloadPageWithLoader()
-        }
-      })
-    } else {
-      console.log('Авторизуйтесь')
-    }
+  openSelectHouse() {
+    this.chosenHouseMenu = !this.chosenHouseMenu;
   }
 
   //після вибору оновлюємо дані оселі в локальному сховищі при перемиканні
@@ -147,6 +125,7 @@ export class SelectionHousingComponent implements OnInit {
       this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
+            console.log(response)
             if (response.ids && response.ids.length === 0 && response.citizen_ids && response.citizen_ids.length === 0) {
               console.log('Оселі немає');
             } else {
@@ -190,4 +169,77 @@ export class SelectionHousingComponent implements OnInit {
       console.log('User not found');
     }
   }
+
+  // обираємо іншу оселю
+  selectFlat(flat: any) {
+    const userJson = localStorage.getItem('user');
+    if (userJson && flat) {
+      this.openSelectHouse()
+      this.statusMessage = 'Обираємо оселю ' + flat.flat_name;
+      setTimeout(() => {
+        localStorage.removeItem('selectedComun');
+        localStorage.removeItem('selectedHouse');
+        localStorage.removeItem('selectedFlatId');
+        localStorage.removeItem('selectedFlatName');
+        localStorage.removeItem('houseData');
+        this.selectedFlatService.setSelectedFlatId(flat.flat_id);
+        this.selectedFlatService.setSelectedFlatName(flat.flat_name);
+        this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
+        this.dataService.getInfoFlat().subscribe((response: any) => {
+          if (response) {
+            localStorage.setItem('houseData', JSON.stringify(response));
+            this.selectedFlatName = flat.flat_name;
+            this.selectedFlatId = flat.flat_id;
+            setTimeout(() => {
+              this.reloadPageWithLoader()
+            }, 1500);
+          } else {
+            console.log('Немає інформації про оселю')
+            this.reloadPageWithLoader()
+          }
+        })
+      }, 1500);
+    } else {
+      console.log('Авторизуйтесь')
+    }
+  }
+
+
+  // async openDialog(subscriber: any): Promise<void> {
+  //   const userJson = localStorage.getItem('user');
+  //   if (userJson) {
+  //     localStorage.removeItem('selectedComun');
+  //     localStorage.removeItem('selectedHouse');
+  //     localStorage.removeItem('selectedFlatId');
+  //     localStorage.removeItem('selectedFlatName');
+  //     localStorage.removeItem('houseData');
+
+  //     const dialogRef = this.dialog.open(OpenSelectHouseComponent, {
+  //       data: {
+  //         user_id: subscriber.user_id,
+  //         firstName: subscriber.firstName,
+  //         lastName: subscriber.lastName,
+  //         component_id: 3,
+  //       }
+  //     });
+  //     dialogRef.afterClosed().subscribe(async (result: any) => {
+  //       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
+  //         const data = {
+  //           auth: JSON.parse(userJson),
+  //           flat_id: this.selectedFlatId,
+  //           user_id: subscriber.user_id,
+  //         };
+  //         try {
+  //           // const response = await this.http.post(url, data).toPromise();
+  //           // this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
+  //           // this.indexPage = 1;
+  //           // this.selectedUser = undefined;
+  //           // this.updateComponent.triggerUpdate();
+  //         } catch (error) {
+  //           console.error(error);
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 }

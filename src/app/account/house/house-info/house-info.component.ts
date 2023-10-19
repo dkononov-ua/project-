@@ -137,6 +137,17 @@ export class HouseInfoComponent implements OnInit {
     option_pay: Number(''),
   };
 
+  currentPhotoIndex: number = 0;
+
+
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
+  }
+
   copyFlatId() {
     const flatId = this.house.flat_id;
     navigator.clipboard.writeText(flatId)
@@ -209,18 +220,11 @@ export class HouseInfoComponent implements OnInit {
         this.about.about = parsedHouseData.about.about;
         this.about.bunker = parsedHouseData.about.bunker;
 
-        if (parsedHouseData.imgs !== 'Картинок нема') {
+        if (Array.isArray(parsedHouseData.imgs) && parsedHouseData.imgs.length > 0) {
           this.flatImg = parsedHouseData.imgs;
-        }
-
-        if (this.flatImg !== undefined && Array.isArray(this.flatImg) && this.flatImg.length > 0 && parsedHouseData.imgs !== 'Картинок нема') {
-          for (const img of this.flatImg) {
-            this.images.push(serverPath + '/img/flat/' + img.img);
-          }
         } else {
-          this.images.push(serverPath + '/housing_default.svg');
+          this.flatImg = [{ img: "housing_default.svg" }];
         }
-
       } else {
         console.log('Немає інформації про оселю')
       }

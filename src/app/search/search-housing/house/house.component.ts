@@ -149,16 +149,16 @@ export class HouseComponent implements OnInit {
     2: 'Ні',
   }
 
-  animals: { [key: number]: string } = {
-    0: 'Приховати',
-    1: 'Без тварин',
-    2: 'За домовленістю',
-    3: 'Можна з тваринами',
-  }
-
   option_pay: { [key: number]: string } = {
     0: 'Щомісяця',
     1: 'Подобово',
+  }
+
+  animals: { [key: number]: string } = {
+    0: 'Без тварин',
+    1: 'Можна з тваринами',
+    2: 'Тільки котики',
+    3: 'Тільки песики',
   }
 
   statusSubscriptionMessage: boolean | undefined;
@@ -205,6 +205,7 @@ export class HouseComponent implements OnInit {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
         if (filterValue && optionsFound && optionsFound !== 0) {
+          console.log(filterValue)
           this.getFilteredData(filterValue, optionsFound);
         } else {
           this.getFilteredData(undefined, 0);
@@ -289,10 +290,8 @@ export class HouseComponent implements OnInit {
   }
 
   async generateLocationUrl() {
-
     let locationUrl = '';
-
-    if (this.selectedFlat) {
+    if (this.selectedFlat && this.selectedFlat.region) {
       const baseUrl = 'https://www.google.com/maps/place/';
       const region = this.selectedFlat.region || '';
       const city = this.selectedFlat.city || '';
@@ -305,10 +304,12 @@ export class HouseComponent implements OnInit {
       const encodedHouseNumber = encodeURIComponent(houseNumber);
       const encodedFlatIndex = encodeURIComponent(flatIndex);
       locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+      this.locationLink = locationUrl;
+      return locationUrl;
+    } else {
+      this.locationLink = null;
+      return locationUrl;
     }
-
-    this.locationLink = locationUrl;
-    return locationUrl;
   }
 
   onSubmitSbs(): void {
@@ -331,6 +332,10 @@ export class HouseComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+  }
+
+  openMap () {
+    window.open(this.locationLink, '_blank');
   }
 
   checkSubscribe(): void {

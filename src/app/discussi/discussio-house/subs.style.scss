@@ -1,5 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
 
 .container-box {
   display: flex;
@@ -278,43 +279,6 @@ mat-paginator {
 .selectedUser .title {
   color: $color-white;
   font-weight: 600;
-}
-
-.characteristics {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.characteristics-label {
-  text-align: center;
-  font-size: 16px;
-}
-
-.characteristics-group {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-start;
-  align-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.item-characteristics {
-  font-size: 12px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 2px 5px;
-  background-color: $color-primary;
-}
-.item {
-  font-size: 16px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 5px;
 }
 
 .title-1 {

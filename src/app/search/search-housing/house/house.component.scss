@@ -2,24 +2,3 @@
 @use "../../../style/mixins/" as *;
 @use "../../search.component.scss";
 
-.price {
-  height: 100px;
-  width: 100%;
-  position: absolute;
-  z-index: 10;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  background: linear-gradient(to top, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
-  justify-content: flex-end;
-}
-
-.price_m {
-  font-size: 20px;
-  color: $color-accent;
-  font-weight: 600;
-  font-size: 30px;
-}

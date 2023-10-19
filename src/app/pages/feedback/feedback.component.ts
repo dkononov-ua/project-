@@ -99,9 +99,6 @@ export class FeedbackComponent implements OnInit {
           }, 500);
         }
       }
-
-
-
        catch (error) {
         console.error(error);
       }

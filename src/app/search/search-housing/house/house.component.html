@@ -72,6 +72,11 @@
                   (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
               </div>
               <div class="price">
+                <div class="ml-2 flex-box" *ngIf="selectedFlat.rooms">
+                  <div class="room">{{ selectedFlat.rooms }}</div>
+                  <div class="text">кімнатна</div>
+                </div>
+
                 <div *ngIf="selectedFlat?.option_pay === 0" class="ml-2 price_m">{{
                   selectedFlat?.price_m
                   || '?' }}
@@ -129,26 +134,33 @@
                 }}</div>
             </div>
 
-            <a class="title-group location" [href]="locationLink" target="_blank">
-              <div class="title-selected">Місцезнаходження: </div>
-              <div class="title-selected-accent"><span class="material-symbols-outlined">location_on</span></div>
-            </a>
-
             <div class="title-group" *ngIf="selectedFlat?.area">
               <div class="title-selected">Площа оселі : </div>
               <div class="title-selected-accent">{{ selectedFlat?.area }} м²</div>
             </div>
 
-            <button class="title-group w-100" (click)="card_info = true">Більше інформацію про оселю</button>
+            <div class="btn-container">
+              <div class="btn-box" *ngIf="locationLink">
+                <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
+                <div class="btn-name">Локація</div>
+              </div>
 
+              <div class="btn-box">
+                <button class="btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
+                <div class="btn-name">Детальніше</div>
+              </div>
+            </div>
           </div>
-
-
-
-
         </div>
 
         <div class="card card-selected p-2" *ngIf="card_info && selectedFlat">
+
+          <div class="btn-container">
+            <div class="btn-box">
+              <button class="btn" (click)="card_info = false"><i class="fa-regular fa-circle-xmark"></i></button>
+              <div class="btn-name">Основна</div>
+            </div>
+          </div>
 
           <div class="container-sticker">
             <div class="status-container">
@@ -238,8 +250,14 @@
               <div class="item-characteristics"
                 *ngIf="selectedFlat.bunker !== 'Приховати' && selectedFlat.bunker !== null">Наявність
                 укриття:<span class="item">{{ selectedFlat.bunker }}</span> </div>
-              <div class="item-characteristics" *ngIf="selectedFlat.animals !== 0 && selectedFlat.animals !== null">
-                Дозвіл на тварин: <span class="item">{{ animals[selectedFlat.animals] }} </span> </div>
+
+              <div class="item-characteristics" *ngIf="selectedFlat.animals">
+                <div *ngIf="selectedFlat.animals !== 'Неважливо'">
+                  Дозвіл на тварин: <span class="item">{{ animals[selectedFlat.animals] }} </span> </div>
+                <div *ngIf="selectedFlat.animals === 'Неважливо'">Дозвіл на тварин:<span class="item"> Наявність чи відсутність
+                    тварин неважливо.</span></div>
+              </div>
+
             </div>
           </div>
 
@@ -260,7 +278,8 @@
 
   <div class="hide-pc">
     <div class="card-container">
-      <aside class="search-results col-lg-6 col-md-6 col-sm-12 col-12" cdkScrollable *ngIf="indexPage === 1 && filteredFlats">
+      <aside class="search-results2 col-lg-6 col-md-6 col-sm-12 col-12" cdkScrollable
+        *ngIf="indexPage === 1 && filteredFlats">
         <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index"
           [ngClass]="{ 'selected': selectedFlat === flat }" (click)="selectFlat(flat)"
           [style.animation-delay.ms]="i * 100">
@@ -326,6 +345,12 @@
                   (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
               </div>
               <div class="price">
+
+                <div class="ml-2 flex-box" *ngIf="selectedFlat.rooms">
+                  <div class="room">{{ selectedFlat.rooms }}</div>
+                  <div class="text">кімнатна</div>
+                </div>
+
                 <div *ngIf="selectedFlat?.option_pay === 0" class="ml-2 price_m">{{
                   selectedFlat?.price_m
                   || '?' }}
@@ -390,11 +415,6 @@
                 }}</div>
             </div>
 
-            <a class="title-group location" [href]="locationLink" target="_blank">
-              <div class="title-selected">Місцезнаходження: </div>
-              <div class="title-selected-accent"><span class="material-symbols-outlined">location_on</span></div>
-            </a>
-
             <div class="title-group" *ngIf="selectedFlat?.area">
               <div class="title-selected">Площа оселі : </div>
               <div class="title-selected-accent">{{ selectedFlat?.area }} м²</div>
@@ -403,13 +423,9 @@
             <button class="title-group w-100" (click)="card_info = true">Більше інформацію про оселю</button>
 
           </div>
-
-
-
-
         </div>
 
-        <div class="card card-selected p-2">
+        <div class="card card-selected p-2 pt-5">
 
           <div class="container-sticker">
             <div class="status-container">
@@ -499,8 +515,14 @@
               <div class="item-characteristics"
                 *ngIf="selectedFlat.bunker !== 'Приховати' && selectedFlat.bunker !== null">Наявність
                 укриття:<span class="item">{{ selectedFlat.bunker }}</span> </div>
-              <div class="item-characteristics" *ngIf="selectedFlat.animals !== 0 && selectedFlat.animals !== null">
-                Дозвіл на тварин: <span class="item">{{ animals[selectedFlat.animals] }} </span> </div>
+
+                <div class="item-characteristics" *ngIf="selectedFlat.animals">
+                  <div *ngIf="selectedFlat.animals !== 'Неважливо'">
+                    Дозвіл на тварин: <span class="item">{{ animals[selectedFlat.animals] }} </span> </div>
+                  <div *ngIf="selectedFlat.animals === 'Неважливо'">Дозвіл на тварин:<span class="item"> Наявність чи відсутність
+                      тварин неважливо.</span></div>
+                </div>
+
             </div>
           </div>
 
@@ -512,14 +534,18 @@
             </div>
           </div>
 
+          <div class="btn-container">
+            <div class="btn-box" *ngIf="locationLink">
+              <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
+              <div class="btn-name">Локація</div>
+            </div>
+          </div>
 
         </div>
 
       </div>
     </div>
   </div>
-
-
 
   <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
     <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">

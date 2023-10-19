@@ -1,0 +1,60 @@
+@use "skin" as *;
+
+.container-sticker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  height: 20px;
+
+  .status-container {
+    display: flex;
+    .status {
+      z-index: 12;
+      margin: 3px;
+      padding: 5px 10px;
+      color: $color-white;
+      border-radius: 4px;
+      background-color: $color-accent;
+      box-shadow:
+        2px 3px 10px rgba(0, 0, 0, 0.25),
+        2px 2px 10px rgba(0, 0, 0, 0.22);
+
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+}
+
+.container-sticker:hover .info-menu {
+  display: block;
+}
+
+.info-menu {
+  width: 300px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: $color-dark;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+
+  .info-menu-text {
+    color: $color-white;
+
+    .li-group {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+    }
+  }
+
+  .info-menu p {
+    margin: 4px 0;
+  }
+}

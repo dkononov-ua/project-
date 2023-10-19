@@ -1,6 +1,21 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
 
+.btn-search {
+  @include flex-box;
+  @include box-shadow;
+  border: none;
+  background-color: $color-white;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 12px;
+  transition: 1s;
+  &:hover {
+    background-color: $color-accent;
+    font-weight: 600;
+  }
+}
+
 mat-radio-group {
   display: flex;
   justify-content: center;
@@ -26,6 +41,7 @@ mat-radio-group {
 
 .flex-box {
   @include flex-box-column;
+  position: relative;
   .btn {
     font-size: 28px;
   }
@@ -59,6 +75,10 @@ mat-radio-group {
       }
     }
   }
+
+  @include s1-s3 {
+    padding: 10px;
+  }
 }
 
 mat-label {
@@ -68,7 +88,32 @@ mat-label {
 
 mat-hint {
   font-size: 12px;
-  color: $color-text;
+  color: $color-accent;
+}
+
+.item-disabled {
+  color: $color-gray;
+}
+
+.mat-icon.mat-icon {
+  width: 25px;
+  height: 25px;
+  padding: 4px;
+  margin-right: 5px;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.mat-mdc-form-field-icon-prefix > .mat-icon,
+.mat-mdc-form-field-icon-suffix > .mat-icon {
+  padding: 0;
 }
 
 .title-page {
@@ -111,9 +156,10 @@ mat-hint {
 
 .item-select {
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
+  flex-direction: column-reverse;
   @include s1-s3 {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 

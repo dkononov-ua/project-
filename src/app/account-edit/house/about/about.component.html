@@ -120,19 +120,20 @@
           <div class="list-label-1">Наявність укриття</div>
           <mat-select [(ngModel)]="flatInfo.bunker" name="bunker" placeholder="Наявність укриття">
             <mat-option [value]="''">Приховати</mat-option>
-            <mat-option value="Паркінг">Паркінг</mat-option>
-            <mat-option value="В будинку">В будинку</mat-option>
+            <mat-option value="Паркінг">Підземний паркінг</mat-option>
+            <mat-option value="В будинку">Укриття в будинку</mat-option>
             <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
-          <div class="list-label-1">Дозвіл на тварин</div>
+          <div class="list-label-1">Орендар може мати тварин?</div>
           <mat-select [(ngModel)]="flatInfo.animals" name="animals" placeholder="Дозвіл на тварин">
-            <mat-option [value]="''">Приховати</mat-option>
-            <mat-option value="1">Без тварин</mat-option>
-            <mat-option value="2">За домовленістю</mat-option>
-            <mat-option value="3">Можна з тваринами</mat-option>
+            <mat-option value='Неважливо'>Неважливо</mat-option>
+            <mat-option value="0">Без тварин</mat-option>
+            <mat-option value="1">Можна з тваринами</mat-option>
+            <mat-option value="2">Тільки котики</mat-option>
+            <mat-option value="3">Тільки песики</mat-option>
           </mat-select>
         </mat-form-field>
 

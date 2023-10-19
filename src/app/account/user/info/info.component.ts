@@ -17,7 +17,7 @@ interface UserInfo {
   repair_status: string | undefined;
   bunker: string | undefined;
   balcony: string | undefined;
-  animals: number;
+  animals: string | undefined;
   distance_metro: number;
   distance_stop: number;
   distance_green: number;
@@ -26,9 +26,9 @@ interface UserInfo {
   option_pay: number | undefined;
   day_counts: string | undefined;
   purpose_rent: any;
-  house: boolean | undefined;
-  flat: boolean | undefined;
-  room: boolean | undefined;
+  house: number | undefined;
+  flat: number | undefined;
+  room: number | undefined;
   looking_woman: boolean | undefined;
   looking_man: boolean | undefined;
   agree_search: number | undefined;
@@ -40,6 +40,7 @@ interface UserInfo {
   weeks: number | undefined;
   mounths: number | undefined;
   years: number | undefined;
+  about: string | undefined;
 }
 
 @Component({
@@ -74,16 +75,16 @@ export class InfoComponent implements OnInit {
     repair_status: '',
     bunker: '',
     balcony: '',
-    animals: 0,
+    animals: '',
     distance_metro: 0,
     distance_stop: 0,
     distance_green: 0,
     distance_shop: 0,
     distance_parking: 0,
     option_pay: 0,
-    house: false,
-    flat: false,
-    room: false,
+    house: 0,
+    flat: 0,
+    room: 0,
     day_counts: '',
     purpose_rent: '',
     looking_woman: false,
@@ -97,11 +98,14 @@ export class InfoComponent implements OnInit {
     weeks: 0,
     mounths: 0,
     years: 0,
+
+    about: '',
   };
 
   userImg: any;
   loading: boolean = true;
   public selectedFlatId: any | null;
+  searchInfoUserData: any;
 
   user = {
     user_id: '',
@@ -141,13 +145,11 @@ export class InfoComponent implements OnInit {
     1: 'Подобово',
   }
 
-  animals: { [key: number]: string } = {
-    0: 'Без тварин',
-    1: 'З котячими',
-    2: 'З собачими',
-    3: 'З собачими/котячими',
-    4: 'Є багато різного',
-    5: 'Щось цікавіше',
+  animals: { [key: string]: string } = {
+    '0': 'Без тварин',
+    '1': 'З тваринами',
+    '2': 'Тільки котики',
+    '3': 'Тільки песики',
   }
 
   constructor(private dataService: DataService, private http: HttpClient) { }
@@ -166,7 +168,7 @@ export class InfoComponent implements OnInit {
   async getInfoUser(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post( serverPath + '/userinfo', JSON.parse(userJson))
+      this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           if (response) {
             this.user.user_id = response.inf?.user_id || '';
@@ -212,11 +214,54 @@ export class InfoComponent implements OnInit {
   }
 
   async getInfo(): Promise<any> {
+    localStorage.removeItem('searchInfoUserData')
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post( serverPath + '/features/get', { auth: JSON.parse(userJson) })
+      this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
-          this.userInfo = response.inf;
+          localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
+          const searchInfoUserData = localStorage.getItem('searchInfoUserData');
+          if (searchInfoUserData !== null) {
+            this.searchInfoUserData = JSON.parse(searchInfoUserData);
+            console.log(this.searchInfoUserData)
+            this.userInfo.price_of = this.searchInfoUserData.price_of;
+            this.userInfo.price_to = this.searchInfoUserData.price_to;
+            this.userInfo.region = this.searchInfoUserData.region;
+            this.userInfo.city = this.searchInfoUserData.city;
+            this.userInfo.rooms_of = this.searchInfoUserData.rooms_of;
+            this.userInfo.rooms_to = this.searchInfoUserData.rooms_to;
+            this.userInfo.area_of = this.searchInfoUserData.area_of === "0.00" ? '' : this.searchInfoUserData.area_of;
+            this.userInfo.area_to = this.searchInfoUserData.area_to === "100000.00" ? '' : this.searchInfoUserData.area_to;
+            this.userInfo.repair_status = this.searchInfoUserData.repair_status;
+            this.userInfo.bunker = this.searchInfoUserData.bunker;
+            this.userInfo.balcony = this.searchInfoUserData.balcony;
+            this.userInfo.animals = this.searchInfoUserData.animals;
+            this.userInfo.distance_metro = this.searchInfoUserData.distance_metro;
+            this.userInfo.distance_stop = this.searchInfoUserData.distance_stop;
+            this.userInfo.distance_green = this.searchInfoUserData.distance_green;
+            this.userInfo.distance_shop = this.searchInfoUserData.distance_shop;
+            this.userInfo.distance_parking = this.searchInfoUserData.distance_parking;
+            this.userInfo.option_pay = this.searchInfoUserData.option_pay;
+            this.userInfo.day_counts = this.searchInfoUserData.day_counts;
+            this.userInfo.purpose_rent = this.searchInfoUserData.purpose_rent;
+            this.userInfo.house = this.searchInfoUserData.house;
+            this.userInfo.flat = this.searchInfoUserData.flat;
+            this.userInfo.room = this.searchInfoUserData.room;
+            this.userInfo.looking_woman = this.searchInfoUserData.looking_woman;
+            this.userInfo.looking_man = this.searchInfoUserData.looking_man;
+            this.userInfo.agree_search = this.searchInfoUserData.agree_search;
+            this.userInfo.students = this.searchInfoUserData.students;
+            this.userInfo.woman = this.searchInfoUserData.woman;
+            this.userInfo.man = this.searchInfoUserData.man;
+            this.userInfo.family = this.searchInfoUserData.family;
+            this.userInfo.days = this.searchInfoUserData.days;
+            this.userInfo.weeks = this.searchInfoUserData.weeks;
+            this.userInfo.mounths = this.searchInfoUserData.mounths;
+            this.userInfo.years = this.searchInfoUserData.years;
+            this.userInfo.about = this.searchInfoUserData.about;
+          } else {
+            this.searchInfoUserData = {};
+          }
         }, (error: any) => {
           console.error(error);
         });

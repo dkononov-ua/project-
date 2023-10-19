@@ -2,3 +2,38 @@
 @use "../../../style/mixins/" as *;
 @use "../../search.component.scss";
 
+.date-box {
+  margin: 0 5px;
+  @include flex-box-column;
+  .date {
+    @include flex-box;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid $color-gray;
+    font-size: 36px;
+    color: $color-accent;
+    font-weight: 600;
+  }
+  .date-name {
+    font-size: 12px;
+    color: $color-accent;
+  }
+}
+
+.date-container {
+  @include flex-box;
+  justify-content: flex-end;
+  width: 100%;
+  .btn-box {
+    @include flex-box-column;
+    .btn {
+      width: 40px;
+      height: 40px;
+    }
+    .btn-name {
+      font-size: 12px;
+      color: $color-text;
+    }
+  }
+}

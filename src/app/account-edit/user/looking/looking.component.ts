@@ -22,19 +22,19 @@ interface UserInfo {
   bunker: string | undefined;
   balcony: string | undefined;
   animals: string | undefined;
-  distance_metro: number | undefined;
-  distance_stop: number | undefined;
-  distance_green: number | undefined;
-  distance_shop: number | undefined;
-  distance_parking: number | undefined;
+  distance_metro: string | undefined;
+  distance_stop: string | undefined;
+  distance_green: string | undefined;
+  distance_shop: string | undefined;
+  distance_parking: string | undefined;
   option_pay: number | undefined;
   day_counts: number | undefined;
   purpose_rent: string | undefined;
   house: boolean | undefined;
   flat: boolean | undefined;
   room: boolean | undefined;
-  looking_woman: boolean | undefined;
-  looking_man: boolean | undefined;
+  looking_woman: number | undefined;
+  looking_man: number | undefined;
   agree_search: number | undefined;
   students: boolean | false;
   woman: boolean | false;
@@ -74,26 +74,26 @@ export class LookingComponent implements OnInit {
     region: '',
     city: '',
     rooms_of: 0,
-    rooms_to: 0,
-    area_of: '',
-    area_to: '',
-    repair_status: '',
-    bunker: '',
-    balcony: '',
+    rooms_to: 6,
+    area_of: '0.00',
+    area_to: '100000.00',
+    repair_status: 'Неважливо',
+    bunker: 'Неважливо',
+    balcony: 'Неважливо',
     animals: '',
-    distance_metro: 0,
-    distance_stop: 0,
-    distance_green: 0,
-    distance_shop: 0,
-    distance_parking: 0,
+    distance_metro: '',
+    distance_stop: '',
+    distance_green: '',
+    distance_shop: '',
+    distance_parking: '',
     option_pay: 0,
     house: false,
     flat: false,
     room: false,
     day_counts: 0,
-    purpose_rent: '',
-    looking_woman: false,
-    looking_man: false,
+    purpose_rent: 'Неважливо',
+    looking_woman: 0,
+    looking_man: 0,
     agree_search: 0,
     students: false,
     woman: false,
@@ -170,6 +170,7 @@ export class LookingComponent implements OnInit {
     if (userJson !== null) {
       this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
+          console.log(response)
           this.userInfo = response.inf;
         }, (error: any) => {
           console.error(error);
@@ -187,7 +188,7 @@ export class LookingComponent implements OnInit {
         .subscribe(
           (response: any) => {
             this.loading = true;
-
+            console.log(data)
             if (this.userInfo && this.userInfo.agree_search === 0) {
               setTimeout(() => {
                 this.statusMessage = 'Дані збережено. Огололення НЕ опубліковується!';
@@ -239,26 +240,26 @@ export class LookingComponent implements OnInit {
         region: '',
         city: '',
         rooms_of: 0,
-        rooms_to: 0,
-        area_of: '',
-        area_to: '',
-        repair_status: '',
-        bunker: '',
-        balcony: '',
+        rooms_to: 6,
+        area_of: '0.00',
+        area_to: '100000.00',
+        repair_status: 'Неважливо',
+        bunker: 'Неважливо',
+        balcony: 'Неважливо',
         animals: '',
-        distance_metro: 0,
-        distance_stop: 0,
-        distance_green: 0,
-        distance_shop: 0,
-        distance_parking: 0,
+        distance_metro: '',
+        distance_stop: '',
+        distance_green: '',
+        distance_shop: '',
+        distance_parking: '',
         option_pay: 0,
         house: false,
         flat: false,
         room: false,
         day_counts: 0,
-        purpose_rent: '',
-        looking_woman: false,
-        looking_man: false,
+        purpose_rent: 'Неважливо',
+        looking_woman: 0,
+        looking_man: 0,
         agree_search: 0,
         students: false,
         woman: false,

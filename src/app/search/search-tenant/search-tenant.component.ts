@@ -26,10 +26,10 @@ interface UserInfo {
   purpose_rent: string | undefined;
   looking_woman: boolean | undefined;
   looking_man: boolean | undefined;
-  students: boolean | undefined;
-  woman: boolean | undefined;
-  man: boolean | undefined;
-  family: boolean | undefined;
+  students: number | undefined;
+  woman: number | undefined;
+  man: number | undefined;
+  family: number | undefined;
   days: number | undefined;
   weeks: number | undefined;
   months: number | undefined;
@@ -39,6 +39,8 @@ interface UserInfo {
   house: number | undefined;
   flat: number | undefined;
   limit: number;
+
+  kitchen_area: number | undefined;
 }
 @Component({
   selector: 'app-search-tenant',
@@ -61,10 +63,10 @@ export class SearchTenantComponent implements OnInit {
 
   userInfo: UserInfo = {
     room: undefined,
-    price: NaN,
+    price: undefined,
     region: '',
     city: '',
-    rooms: NaN,
+    rooms: undefined,
     area: '',
     repair_status: '',
     bunker: '',
@@ -79,18 +81,19 @@ export class SearchTenantComponent implements OnInit {
     purpose_rent: '',
     looking_woman: undefined,
     looking_man: undefined,
-    students: true,
-    woman: true,
-    man: true,
-    family: true,
-    days: NaN,
-    weeks: NaN,
-    months: NaN,
-    years: NaN,
-    day_counts: '',
-    house: 0,
-    flat: 0,
+    students: 1,
+    woman: 1,
+    man: 1,
+    family: 1,
+    days: undefined,
+    weeks: undefined,
+    months: undefined,
+    years: undefined,
+    day_counts: undefined,
+    house: undefined,
+    flat: undefined,
     limit: 0,
+    kitchen_area: undefined,
   };
 
   filteredCities: any[] | undefined;
@@ -101,7 +104,6 @@ export class SearchTenantComponent implements OnInit {
   cities = cities;
   minValue: number = 0;
   maxValue: number = 100000;
-
   loading = true;
   timer: any;
   searchQuery: string | undefined;
@@ -124,7 +126,7 @@ export class SearchTenantComponent implements OnInit {
   flatInfo: any[] | undefined;
   filteredFlats?: any;
   selectedFlatId!: string | null;
-
+  houseData: any;
   filter_group: number = 1;
   openUser: boolean = false;
 
@@ -167,8 +169,89 @@ export class SearchTenantComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.getSelectedFlatId();
+  }
+
+  clearFilter() {
+    this.userInfo.room = undefined;
+    this.userInfo.price = undefined;
+    this.userInfo.region = undefined;
+    this.userInfo.city = undefined;
+    this.userInfo.rooms = undefined;
+    this.userInfo.area = undefined;
+    this.userInfo.repair_status = '';
+    this.userInfo.bunker = '';
+    this.userInfo.balcony = '';
+    this.userInfo.animals = '';
+    this.userInfo.distance_metro = '';
+    this.userInfo.distance_stop = '';
+    this.userInfo.distance_green = '';
+    this.userInfo.distance_shop = '';
+    this.userInfo.distance_parking = '';
+    this.userInfo.option_pay = 0;
+    this.userInfo.purpose_rent = '';
+    this.userInfo.looking_woman = undefined;
+    this.userInfo.looking_man = undefined;
+    this.userInfo.students = 1;
+    this.userInfo.woman = 1;
+    this.userInfo.man = 1;
+    this.userInfo.family = 1;
+    this.userInfo.days = undefined;
+    this.userInfo.weeks = undefined;
+    this.userInfo.months = undefined;
+    this.userInfo.years = undefined;
+    this.userInfo.day_counts = undefined;
+    this.userInfo.house = undefined;
+    this.userInfo.flat = undefined;
+    this.userInfo.kitchen_area = undefined;
+    this.searchFilter()
+
+  }
+
+  async loadDataFlat(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+        console.log(parsedHouseData)
+        this.userInfo.region = parsedHouseData.flat.region;
+        this.userInfo.city = parsedHouseData.flat.city;
+        this.userInfo.rooms = parsedHouseData.param.rooms;
+        this.userInfo.repair_status = parsedHouseData.param.repair_status || 'Неважливо';
+        this.userInfo.area = parsedHouseData.param.area;
+        this.userInfo.kitchen_area = parsedHouseData.param.kitchen_area;
+        this.userInfo.balcony = parsedHouseData.param.balcony || 'Неважливо';
+        // this.userInfo.floor = parsedHouseData.param.floor;
+        this.userInfo.distance_metro = parsedHouseData.flat.distance_metro.toString();
+        this.userInfo.distance_stop = parsedHouseData.flat.distance_stop.toString();
+        this.userInfo.distance_shop = parsedHouseData.flat.distance_shop.toString();
+        this.userInfo.distance_green = parsedHouseData.flat.distance_green.toString();
+        this.userInfo.distance_parking = parsedHouseData.flat.distance_parking.toString();
+        this.userInfo.woman = parsedHouseData.about.woman;
+        this.userInfo.man = parsedHouseData.about.man;
+        this.userInfo.family = parsedHouseData.about.family;
+        this.userInfo.students = parsedHouseData.about.students;
+        this.userInfo.option_pay = parsedHouseData.about.option_pay;
+        this.userInfo.room = parsedHouseData.about.room;
+        this.userInfo.animals = parsedHouseData.about.animals || 'Неважливо';
+        this.userInfo.price = parsedHouseData.about.price_m ? parsedHouseData.about.price_m : parsedHouseData.about.price_d;
+        this.userInfo.bunker = parsedHouseData.about.bunker || 'Неважливо';
+        if (parsedHouseData.param.option_flat === 1) {
+          this.userInfo.house = 1;
+          this.userInfo.flat = 0;
+        } else if (parsedHouseData.param.option_flat === 2) {
+          this.userInfo.house = 0;
+          this.userInfo.flat = 1;
+        }
+        this.searchFilter()
+      } else {
+        console.log('Немає інформації про оселю')
+      }
+    } else {
+      console.log('Авторизуйтесь')
+    }
   }
 
   getSelectedFlatId() {
@@ -184,8 +267,10 @@ export class SearchTenantComponent implements OnInit {
   searchFilter(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
+      console.log(this.userInfo)
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
+          console.log(response)
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
@@ -220,6 +305,7 @@ export class SearchTenantComponent implements OnInit {
         this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
+            console.log(this.filteredUsers)
             this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
           }, (error: any) => {
             console.error(error);

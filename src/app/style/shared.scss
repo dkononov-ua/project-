@@ -103,6 +103,42 @@
   }
 }
 
+// загальні обрані параметри користувача
+.param-box {
+  .param-label {
+    font-weight: 600;
+    font-size: 12px;
+    margin: 2px;
+    color: $color-accent;
+  }
+
+  .param-group {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .param-field {
+      font-weight: 600;
+      font-size: 12px;
+      margin: 2px;
+      border-radius: 10px;
+      padding: 5px;
+      background-color: $color-primary;
+    }
+
+    .param-value {
+      font-weight: 400;
+      font-size: 16px;
+      margin: 2px;
+      padding: 5px;
+      color: $color-text;
+    }
+  }
+}
+
 // медіа запити
 .hide-mobile {
   @include s1-s3 {

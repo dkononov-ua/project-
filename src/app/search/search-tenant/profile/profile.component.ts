@@ -134,11 +134,9 @@ export class ProfileComponent implements OnInit {
 
   animals: { [key: number]: string } = {
     0: 'Без тварин',
-    1: 'Котики',
-    2: 'Песики',
-    3: 'Котики і песики',
-    4: 'Є багато різного',
-    5: 'Щось цікавіше',
+    1: 'З тваринами',
+    2: 'Тільки котики',
+    3: 'Тільки песики',
   }
 
   openCard: boolean = false;

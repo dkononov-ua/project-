@@ -42,6 +42,7 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { OpenSelectHouseComponent } from './components/open-select-house/open-select-house.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { MatMenuModule } from '@angular/material/menu';
     SearchPageComponent,
     FeedbackComponent,
     AboutProjectComponent,
+    OpenSelectHouseComponent,
   ],
   providers: [
     SelectedFlatService,

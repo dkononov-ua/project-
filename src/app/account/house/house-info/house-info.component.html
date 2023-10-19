@@ -19,10 +19,28 @@
           </div>
         </div>
 
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-fluid"
+              [src]="flatImg && flatImg[currentPhotoIndex].img ? serverPathPhotoFlat + flatImg[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+              alt="Flat Image" alt="Flat Image">
+          </div>
+          <div *ngIf="flatImg?.length > 1">
+            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button *ngIf="currentPhotoIndex !== flatImg?.length - 1" class="next-img" (click)="nextPhoto()"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <!-- <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="img-wrapper" *ngIf="flatImg?.length > 0">
+                <img class="img-fluid"
+                  [src]="flatImg && flatImg.img ? serverPathPhotoFlat + flatImg.img : serverPathPhotoFlat + 'housing_default.svg'"
+                  alt="Flat Image" alt="Flat Image">
+
                 <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
               </div>
             </div>
@@ -42,7 +60,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
-        </div>
+        </div> -->
 
         <div class="characteristics-group">
           <div class="item-characteristics">ID оселі: <span class="item">{{ house.flat_id }}</span>
