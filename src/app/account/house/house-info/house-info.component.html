@@ -11,11 +11,22 @@
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card mb-3">
 
-        <div class="container-sticker">
-          <div class="status-container">
-            <div class="status rent-yes" *ngIf="house.rent === 1">Опублікована</div>
-            <div class="status rent-no" *ngIf="house.rent === 0">Не опублікована</div>
-            <div class="status private-yes" *ngIf="house.private === 1">Приватно</div>
+        <div class="status-container">
+          <div class="status-box">
+            <div class="status-value" *ngIf="house.rent === 1">Активне</div>
+            <div class="status-value" *ngIf="house.rent === 0">Не опублікована</div>
+            <div class="status-value" *ngIf="house.private === 1">Приватно</div>
+          </div>
+          <div class="status-hover">
+            <div class="status-hover-label">Допомога</div>
+            <div class="status-hover-text">
+              <ul *ngIf="house.rent === 1">
+                Статус оселі:
+                <li *ngIf="house.rent === 1" class="status-hover-li">
+                  <div class="status-value">Активне</div> - оголошення опубліковане.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -31,55 +42,48 @@
             <button *ngIf="currentPhotoIndex !== flatImg?.length - 1" class="next-img" (click)="nextPhoto()"><i
                 class="fa-solid fa-chevron-right"></i></button>
           </div>
-        </div>
+          <div class="price">
 
-        <!-- <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="img-wrapper" *ngIf="flatImg?.length > 0">
-                <img class="img-fluid"
-                  [src]="flatImg && flatImg.img ? serverPathPhotoFlat + flatImg.img : serverPathPhotoFlat + 'housing_default.svg'"
-                  alt="Flat Image" alt="Flat Image">
-
-                <img [src]="serverPathPhotoFlat + flatImg[0].img" alt="Flat Image" class="img-fluid rounded">
-              </div>
+            <div *ngIf="about.option_pay === 0" class="ml-2 price_m">{{
+              about.price_m
+              || '?' }}
+              <span class="title-selected">ціна ₴/міс</span>
             </div>
-            <div class="carousel-item" *ngFor="let image of flatImg?.slice(1)">
-              <div class="img-wrapper">
-                <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-fluid rounded">
-              </div>
+
+            <div *ngIf="about.option_pay !== 0" class="ml-2 price_m">{{
+              about.price_d
+              || '?' }}
+              <span class="title-selected">ціна ₴/добу</span>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div> -->
-
-        <div class="characteristics-group">
-          <div class="item-characteristics">ID оселі: <span class="item">{{ house.flat_id }}</span>
-          </div>
-          <button class="copy" (click)="copyFlatId()"><i class="fa-regular fa-copy"></i></button>
-          <div *ngIf="isCopied" class="message">ID оселі було скопійовано!</div>
         </div>
+
+        <div class="btn-box">
+
+          <div class="btn-group">
+            <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2"><i
+                class="fa-solid fa-info"></i></button>
+            <div class="btn-name">Інформація</div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1"><i
+                class="fa-solid fa-align-left"></i></button>
+            <div class="btn-name">Параметри</div>
+          </div>
+
+          <div class="btn-group" [ngClass]="{ 'copied': isCopied }" (click)="copyFlatId()">
+            <button class="btn">
+              <span class="item" *ngIf="!isCopied">{{ house.flat_id }}</span>
+              <span class="item" *ngIf="isCopied"><i class="fa-solid fa-copy"></i></span>
+            </button>
+            <div class="btn-name" *ngIf="!isCopied">ID оселі</div>
+            <div class="btn-name" *ngIf="isCopied">Скопійовано</div>
+          </div>
+        </div>
+
 
         <div class="card-text p-1">
-
-          <div class="title-group" *ngIf="about.option_pay !== 0">
-            <div class="title-selected">Ціна : </div>
-            <div class="title-selected-accent price">{{ about.price_d | number: '1.0-0'}}<sup>₴/доба</sup></div>
-          </div>
-
-          <div class="title-group" *ngIf="about.option_pay === 0">
-            <div class="title-selected">Ціна : </div>
-            <div class="title-selected-accent price">{{ about.price_m | number: '1.0-0'}}<sup>₴/міс</sup></div>
-          </div>
 
           <div class="title-group">
             <div class="title-selected">Область : </div>
@@ -107,10 +111,7 @@
           </div>
         </div>
 
-        <div class="btn-group p-1">
-          <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">Параметри</button>
-          <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">Інформація</button>
-        </div>
+
 
       </div>
     </div>

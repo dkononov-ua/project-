@@ -4,7 +4,7 @@
       <div class="flatName-label">Вибір оселі</div>
       <div class="flatName w-75" *ngIf="selectedFlatName">{{selectedFlatName}}</div>
       <div class="flatName w-75" *ngIf="!selectedFlatName">Оберіть оселю</div>
-      <button class="btn" (click)="openSelectHouse()" aria-label="menu">
+      <button class="btn-open" (click)="openSelectHouse()" aria-label="menu" matTooltip="ОБРАТИ ІНШУ ОСЕЛЮ">
         <i class="fa-solid fa-circle-chevron-down"></i>
       </button>
     </div>

@@ -55,11 +55,11 @@ export class SubscribersUserComponent implements OnInit {
     5: 'Особисті причини',
   }
 
-  animalsKey: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Без тварин',
-    2: 'За попередньою домовленістю',
-    3: 'Можна з тваринами',
+  animals: { [key: number]: string } = {
+    0: 'Без тварин',
+    1: 'Можна з тваринами',
+    2: 'Тільки котики',
+    3: 'Тільки песики',
   }
 
   option_pay: { [key: number]: string } = {

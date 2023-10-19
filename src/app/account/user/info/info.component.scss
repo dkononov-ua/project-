@@ -48,7 +48,7 @@
 .card {
   @include box-shadow;
   display: flex;
-  height: 600px;
+  height: 650px;
   overflow: auto;
   border-radius: 20px;
   flex-direction: column;
@@ -150,3 +150,6 @@
     transform: scale(1.2);
   }
 }
+
+
+

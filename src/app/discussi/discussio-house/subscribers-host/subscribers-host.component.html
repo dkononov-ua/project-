@@ -6,29 +6,9 @@
   <app-navbar></app-navbar>
   <div class="container-box">
     <div class="container-card hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
-      <div class="m-2">
-        <app-selection-housing></app-selection-housing>
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Назад</a>
-
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-house'">
-          <div class="link-text">Підписники<span class="count"
-              *ngIf="counterSubs?.status && counterSubs?.status !== false && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
-          </div>
-        </a>
-
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscriptions-house'">
-          <div class="link-text">Підписки<span class="count"
-              *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== false && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
-          </div>
-        </a>
-
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-discus'">
-          <div class="link-text">Дискусії<span class="count"
-              *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== false && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
-          </div>
-        </a>
-
-      </div>
+      <app-selection-account></app-selection-account>
+      <app-selection-housing></app-selection-housing>
+      <app-navbar-house></app-navbar-house>
     </div>
 
     <div class="container-card col-lg-9 col-md-9 col-sm-12 col-12">

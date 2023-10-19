@@ -152,15 +152,12 @@ export class HouseInfoComponent implements OnInit {
     const flatId = this.house.flat_id;
     navigator.clipboard.writeText(flatId)
       .then(() => {
-        console.log('ID оселі скопійовано!');
         this.isCopied = true;
-
         setTimeout(() => {
           this.isCopied = false;
-        }, 2000);
+        }, 1000);
       })
       .catch((error) => {
-        console.log('Помилка при копіюванні ID оселі.');
         this.isCopied = false;
       });
   }

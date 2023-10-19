@@ -118,11 +118,9 @@ export class SubscribersDiscusComponent implements OnInit {
 
   animals: { [key: number]: string } = {
     0: 'Без тварин',
-    1: 'З котячими',
-    2: 'З собачими',
-    3: 'З собачими/котячими',
-    4: 'Є багато різного',
-    5: 'Щось цікавіше',
+    1: 'З тваринами',
+    2: 'Тільки котики',
+    3: 'Тільки песики',
   }
 
   constructor(

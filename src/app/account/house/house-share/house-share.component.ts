@@ -34,8 +34,8 @@ export class HouseShareComponent implements OnInit {
 
   flatInfo: FlatInfo = {
     osbb_name: '',
-    osbb_phone: 0,
-    pay_card: 0,
+    osbb_phone: NaN,
+    pay_card: NaN,
     wifi: '',
     info_about: '',
   };
@@ -43,6 +43,22 @@ export class HouseShareComponent implements OnInit {
   disabled: boolean = true;
   selectedFlatId!: string | null;
   phonePattern = '^[0-9]{10}$';
+
+  formatCreditCard(event: any) {
+    let input = event.target.value;
+    input = input.replace(/\D/g, '');
+
+    if (input.length > 16) {
+      input = input.slice(0, 16);
+    }
+
+    if (input.length > 0) {
+      input = input.match(new RegExp('.{1,4}', 'g')).join(' ');
+    }
+
+    this.flatInfo.pay_card = input;
+  }
+
 
   constructor(
     private http: HttpClient,
@@ -116,8 +132,8 @@ export class HouseShareComponent implements OnInit {
   clearInfo(): void {
     this.flatInfo = {
       osbb_name: '',
-      osbb_phone: 0,
-      pay_card: 0,
+      osbb_phone: NaN,
+      pay_card: NaN,
       wifi: '',
       info_about: '',
     };

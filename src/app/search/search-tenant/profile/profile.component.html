@@ -54,18 +54,30 @@
 
         <div class="card card-selected" *ngIf="!card_info">
 
-          <div class="container-sticker">
-            <div class="status-container">
-              <div class="status">Інф.</div>
-              <div class="status" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
-              <div class="status" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
+          <div class="status-container">
+            <div class="status-box">
+              <div class="status-value" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
+              <div class="status-value" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
             </div>
-            <div class="info-menu">
-              <div class="info-menu-text">
-                <div *ngIf="selectedUser?.data">Дата останього оновлення оголошення {{selectedUser?.data | date}}
-                  час {{selectedUser?.data | date: 'HH:mm:ss'}}</div>
-                <div *ngIf="statusMessage === 'Ви успішно підписались'">Ви вже підписані на цього орендара.</div>
-                <div *ngIf="statusMessage === 'Ви в дискусії'">Ви вже в Дискусії з орендарем.</div>
+            <div class="status-hover">
+              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-text">
+                <ul *ngIf="selectedUser?.data || statusMessage">
+
+                  <li *ngIf="selectedUser?.data" class="status-hover-li">
+                    Дата останього оновлення оголошення {{selectedUser?.data | date}}
+                    час {{selectedUser?.data | date: 'HH:mm:ss'}}
+                  </li>
+
+                  <li *ngIf="statusMessage === 'Ви успішно підписались'" class="status-hover-li">
+                    <div class="status-value">Підписані</div> - Ви вже підписані на цього орендара.
+                  </li>
+
+                  <li *ngIf="statusMessage === 'Ви в дискусії'" class="status-hover-li">
+                    <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
+                  </li>
+                </ul>
+
               </div>
             </div>
           </div>
@@ -188,54 +200,51 @@
             </div>
           </div>
 
-          <div class="container-sticker">
-
-            <div class="status-container">
-              <div class="status" *ngIf="selectedUser.house === 1">Б</div>
-              <div class="status" *ngIf="selectedUser.flat === 1">Кв</div>
-              <div class="status" *ngIf="selectedUser.room === 1">К</div>
-              <div class="status" *ngIf="selectedUser.woman === 1">W</div>
-              <div class="status" *ngIf="selectedUser.man === 1">M</div>
-              <div class="status" *ngIf="selectedUser.students === 1">S</div>
-              <div class="status" *ngIf="selectedUser.family === 1">F</div>
+          <div class="status-container">
+            <div class="status-box">
+              <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
+              <div class="status-value" *ngIf="selectedUser.flat === 1">Кв</div>
+              <div class="status-value" *ngIf="selectedUser.room === 1">К</div>
+              <div class="status-value" *ngIf="selectedUser.woman === 1">W</div>
+              <div class="status-value" *ngIf="selectedUser.man === 1">M</div>
+              <div class="status-value" *ngIf="selectedUser.students === 1">S</div>
+              <div class="status-value" *ngIf="selectedUser.family === 1">F</div>
             </div>
-
-            <div class="info-menu">
-              <div class="accent bold">Допомога</div>
-              <div class="info-menu-text">
+            <div class="status-hover">
+              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-text">
                 <ul
                   *ngIf="selectedUser.woman === 1 || selectedUser.man === 1 || selectedUser.students === 1 || selectedUser.family === 1">
-                  Орендар шукає оселю для:
-                  <li *ngIf="selectedUser.woman === 1" class="li-group">
-                    <div class="status status-small">W</div> - жінки
+                  Пошук оселі для:
+                  <li *ngIf="selectedUser.woman === 1" class="status-hover-li">
+                    <div class="status-value">W</div> - жінки
                   </li>
-                  <li *ngIf="selectedUser.man === 1" class="li-group">
-                    <div class="status status-small">M</div> - чоловіка
+                  <li *ngIf="selectedUser.man === 1" class="status-hover-li">
+                    <div class="status-value">M</div> - чоловіка
                   </li>
-                  <li *ngIf="selectedUser.students === 1" class="li-group">
-                    <div class="status status-small">S</div> - студента
+                  <li *ngIf="selectedUser.students === 1" class="status-hover-li">
+                    <div class="status-value">S</div> - студента
                   </li>
-                  <li *ngIf="selectedUser.family === 1" class="li-group">
-                    <div class="status status-small">F</div> - сім'ї
+                  <li *ngIf="selectedUser.family === 1" class="status-hover-li">
+                    <div class="status-value">F</div> - сім'ї
                   </li>
                 </ul>
 
                 <ul *ngIf="selectedUser.house === 1 || selectedUser.flat === 1 || selectedUser.room === 1">
-                  Орендар розглядає тип оселі:
-                  <li *ngIf="selectedUser.house === 1" class="li-group">
-                    <div class="status status-small">Б</div> - Будинок
+                  Пошук по типу оселі:
+                  <li *ngIf="selectedUser.house === 1" class="status-hover-li">
+                    <div class="status-value">Б</div> - Будинок
                   </li>
-                  <li *ngIf="selectedUser.flat === 1" class="li-group">
-                    <div class="status status-small">Кв</div> - Квартира
+                  <li *ngIf="selectedUser.flat === 1" class="status-hover-li">
+                    <div class="status-value">Кв</div> - Квартира
                   </li>
-                  <li *ngIf="selectedUser.room === 1" class="li-group">
-                    <div class="status status-small">К</div> - Підійде кімната
+                  <li *ngIf="selectedUser.room === 1" class="status-hover-li">
+                    <div class="status-value">К</div> - Підійде кімната
                   </li>
                 </ul>
 
               </div>
             </div>
-
           </div>
 
           <div class="param-box" *ngIf="selectedUser.region || selectedUser.city">
@@ -434,18 +443,30 @@
 
         <div class="card card-selected">
 
-          <div class="container-sticker">
-            <div class="status-container">
-              <div class="status">Інф.</div>
-              <div class="status" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
-              <div class="status" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
+          <div class="status-container">
+            <div class="status-box">
+              <div class="status-value" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
+              <div class="status-value" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
             </div>
-            <div class="info-menu">
-              <div class="info-menu-text">
-                <div *ngIf="selectedUser?.data">Дата останього оновлення оголошення {{selectedUser?.data | date}}
-                  час {{selectedUser?.data | date: 'HH:mm:ss'}}</div>
-                <div *ngIf="statusMessage === 'Ви успішно підписались'">Ви вже підписані на цього орендара.</div>
-                <div *ngIf="statusMessage === 'Ви в дискусії'">Ви вже в Дискусії з орендарем.</div>
+            <div class="status-hover">
+              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-text">
+                <ul *ngIf="selectedUser?.data || statusMessage">
+
+                  <li *ngIf="selectedUser?.data" class="status-hover-li">
+                    Дата останього оновлення оголошення {{selectedUser?.data | date}}
+                    час {{selectedUser?.data | date: 'HH:mm:ss'}}
+                  </li>
+
+                  <li *ngIf="statusMessage === 'Ви успішно підписались'" class="status-hover-li">
+                    <div class="status-value">Підписані</div> - Ви вже підписані на цього орендара.
+                  </li>
+
+                  <li *ngIf="statusMessage === 'Ви в дискусії'" class="status-hover-li">
+                    <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
+                  </li>
+                </ul>
+
               </div>
             </div>
           </div>
@@ -562,177 +583,189 @@
 
         <div class="card card-selected p-2 pt-5">
 
-          <div class="container-sticker">
-
-            <div class="status-container">
-              <div class="status" *ngIf="selectedUser.house === 1">Б</div>
-              <div class="status" *ngIf="selectedUser.flat === 1">Кв</div>
-              <div class="status" *ngIf="selectedUser.room === 1">К</div>
-              <div class="status" *ngIf="selectedUser.woman === 1">W</div>
-              <div class="status" *ngIf="selectedUser.man === 1">M</div>
-              <div class="status" *ngIf="selectedUser.students === 1">S</div>
-              <div class="status" *ngIf="selectedUser.family === 1">F</div>
+          <div class="status-container">
+            <div class="status-box">
+              <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
+              <div class="status-value" *ngIf="selectedUser.flat === 1">Кв</div>
+              <div class="status-value" *ngIf="selectedUser.room === 1">К</div>
+              <div class="status-value" *ngIf="selectedUser.woman === 1">W</div>
+              <div class="status-value" *ngIf="selectedUser.man === 1">M</div>
+              <div class="status-value" *ngIf="selectedUser.students === 1">S</div>
+              <div class="status-value" *ngIf="selectedUser.family === 1">F</div>
             </div>
-
-            <div class="info-menu">
-              <div class="accent bold">Допомога</div>
-              <div class="info-menu-text">
+            <div class="status-hover">
+              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-text">
                 <ul
                   *ngIf="selectedUser.woman === 1 || selectedUser.man === 1 || selectedUser.students === 1 || selectedUser.family === 1">
-                  Орендар шукає оселю для:
-                  <li *ngIf="selectedUser.woman === 1" class="li-group">
-                    <div class="status status-small">W</div> - жінки
+                  Пошук оселі для:
+                  <li *ngIf="selectedUser.woman === 1" class="status-hover-li">
+                    <div class="status-value">W</div> - жінки
                   </li>
-                  <li *ngIf="selectedUser.man === 1" class="li-group">
-                    <div class="status status-small">M</div> - чоловіка
+                  <li *ngIf="selectedUser.man === 1" class="status-hover-li">
+                    <div class="status-value">M</div> - чоловіка
                   </li>
-                  <li *ngIf="selectedUser.students === 1" class="li-group">
-                    <div class="status status-small">S</div> - студента
+                  <li *ngIf="selectedUser.students === 1" class="status-hover-li">
+                    <div class="status-value">S</div> - студента
                   </li>
-                  <li *ngIf="selectedUser.family === 1" class="li-group">
-                    <div class="status status-small">F</div> - сім'ї
+                  <li *ngIf="selectedUser.family === 1" class="status-hover-li">
+                    <div class="status-value">F</div> - сім'ї
                   </li>
                 </ul>
 
                 <ul *ngIf="selectedUser.house === 1 || selectedUser.flat === 1 || selectedUser.room === 1">
-                  Орендар розглядає тип оселі:
-                  <li *ngIf="selectedUser.house === 1" class="li-group">
-                    <div class="status status-small">Б</div> - Будинок
+                  Пошук по типу оселі:
+                  <li *ngIf="selectedUser.house === 1" class="status-hover-li">
+                    <div class="status-value">Б</div> - Будинок
                   </li>
-                  <li *ngIf="selectedUser.flat === 1" class="li-group">
-                    <div class="status status-small">Кв</div> - Квартира
+                  <li *ngIf="selectedUser.flat === 1" class="status-hover-li">
+                    <div class="status-value">Кв</div> - Квартира
                   </li>
-                  <li *ngIf="selectedUser.room === 1" class="li-group">
-                    <div class="status status-small">К</div> - Підійде кімната
+                  <li *ngIf="selectedUser.room === 1" class="status-hover-li">
+                    <div class="status-value">К</div> - Підійде кімната
                   </li>
                 </ul>
 
               </div>
             </div>
-
           </div>
 
-          <div class="characteristics">
-            <div class="characteristics" *ngIf="selectedUser.region || selectedUser.city">
-              <div class="characteristics-label">Пошукові параметри :</div>
-              <div class="characteristics-group">
-                <div class="item-characteristics" *ngIf="selectedUser.region">Область :
-                  <span class="item">{{ selectedUser.region }}</span>
-                </div>
-                <div class="item-characteristics" *ngIf="selectedUser.city">Місто :
-                  <span class="item">{{ selectedUser.city }}</span>
-                </div>
+          <div class="param-box" *ngIf="selectedUser.region || selectedUser.city">
+            <div class="param-label">Шукаю оселю в :</div>
+            <div class="param-group">
+              <div class="param-field" *ngIf="selectedUser.region">Область :
+                <span class="param-value">{{ selectedUser.region }}</span>
               </div>
-            </div>
-
-            <div class="characteristics-group">
-
-              <div class="item-characteristics" *ngIf="selectedUser.area_of || selectedUser.area_to">
-                Площа:
-                <span class="item" *ngIf="selectedUser.area_of">від {{ selectedUser.area_of || '?' }}м²</span>
-                <span class="item" *ngIf="selectedUser.area_to">до {{ selectedUser.area_to || '?' }}м²</span>
+              <div class="param-field" *ngIf="selectedUser.city">Місто :
+                <span class="param-value">{{ selectedUser.city }}</span>
               </div>
-
-              <div class="item-characteristics" *ngIf="selectedUser.area_of || selectedUser.area_to">
-                Кіл. кімнат:
-                <span class="item" *ngIf="selectedUser?.rooms_of !== 0 && selectedUser?.rooms_of !== null">від {{
-                  selectedUser?.rooms_of}}</span>
-                <span class="item" *ngIf="selectedUser?.rooms_to !== 0 && selectedUser?.rooms_to !== null">до {{
-                  selectedUser?.rooms_to}}</span>
-              </div>
-
-              <div class="item-characteristics" *ngIf="selectedUser.repair_status">Стан оселі:
-                <span class="item">{{ selectedUser.repair_status }}</span>
-              </div>
-              <div class="item-characteristics" *ngIf="selectedUser.balcony">
-                Тип
-                балкону:<span class="item">{{ selectedUser.balcony }}</span> </div>
             </div>
           </div>
 
-          <div class="characteristics"
+          <div class="param-box">
+            <div class="param-label">Мої пошукові параметри оселі:</div>
+
+            <div class="param-group">
+
+              <div class="param-field">
+                <div *ngIf="selectedUser?.area_of || selectedUser.area_to"> Площа:
+                  <span class="param-value" *ngIf="selectedUser.area_of">від {{ selectedUser.area_of || '?' }}м²</span>
+                  <span class="param-value" *ngIf="selectedUser.area_to">до {{ selectedUser.area_to || '?' }}м²</span>
+                </div>
+                <div *ngIf="selectedUser?.area_of === '' && selectedUser.area_to === ''">Площа: <span
+                    class="param-value"> Неважливо </span></div>
+              </div>
+
+              <div class="param-field" *ngIf="selectedUser.rooms_of || selectedUser.rooms_to">
+                <div *ngIf="selectedUser.rooms_of !== 0 || selectedUser.rooms_to !== 6 "> Кіл. кімнат:
+                  <span class="param-value" *ngIf="selectedUser.rooms_of !== 0 && selectedUser.rooms_of !== null">від {{
+                    selectedUser.rooms_of}}</span>
+                  <span class="param-value" *ngIf="selectedUser.rooms_to !== 6">до {{ selectedUser.rooms_to}}</span>
+                </div>
+                <div *ngIf="selectedUser.rooms_of === 0 && selectedUser.rooms_to === 6"> Кіл. кімнат: неважливо </div>
+              </div>
+
+              <div class="param-field" *ngIf="selectedUser?.repair_status">Стан оселі:
+                <span class="param-value">{{ selectedUser.repair_status }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="selectedUser.balcony">
+                Тип балкону:<span class="param-value">{{ selectedUser.balcony }}</span> </div>
+            </div>
+          </div>
+
+          <div class="param-box"
             *ngIf="selectedUser.distance_metro || selectedUser.distance_stop || selectedUser.distance_shop || selectedUser.distance_green || selectedUser.distance_parking">
-            <div class="characteristics-label">Інфраструктура:</div>
+            <div class="param-label">Інфраструктура в доступі:</div>
 
-            <div class="characteristics-group">
-              <div class="item-characteristics"
-                *ngIf="selectedUser.distance_metro !== 0 && selectedUser.distance_metro !== null">
-                Метро
-                до:<span class="item">{{ aboutDistance[selectedUser.distance_metro] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser.distance_stop !== 0 && selectedUser.distance_stop !== null">
-                Зупинка
-                до:<span class="item">{{ aboutDistance[selectedUser.distance_stop] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser.distance_shop !== 0 && selectedUser.distance_shop !== null">
-                Маркет
-                до:<span class="item">{{ aboutDistance[selectedUser.distance_shop] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser.distance_green !== 0 && selectedUser.distance_green !== null">
-                Парк
-                до:<span class="item">{{ aboutDistance[selectedUser.distance_green] }}</span> </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser.distance_parking !== 0 && selectedUser.distance_parking !== null">
-                Паркінг:<span class="item">{{ aboutDistance[selectedUser.distance_parking] }}</span> </div>
+            <div class="param-group">
+              <div class="param-field"
+                *ngIf="selectedUser?.distance_metro !== 0 && selectedUser?.distance_metro !== null">
+                Метро до:<span class="param-value">{{ aboutDistance[selectedUser.distance_metro] }}</span> </div>
+              <div class="param-field"
+                *ngIf="selectedUser?.distance_stop !== 0 && selectedUser?.distance_stop !== null">
+                Зупинка до:<span class="param-value">{{ aboutDistance[selectedUser.distance_stop] }}</span> </div>
+              <div class="param-field"
+                *ngIf="selectedUser?.distance_shop !== 0 && selectedUser?.distance_shop !== null">
+                Маркет до:<span class="param-value">{{ aboutDistance[selectedUser.distance_shop] }}</span> </div>
+              <div class="param-field"
+                *ngIf="selectedUser?.distance_green !== 0 && selectedUser?.distance_green !== null">
+                Парк до:<span class="param-value">{{ aboutDistance[selectedUser.distance_green] }}</span> </div>
+              <div class="param-field"
+                *ngIf="selectedUser?.distance_parking !== 0 && selectedUser?.distance_parking !== null">
+                Паркінг:<span class="param-value">{{ aboutDistance[selectedUser.distance_parking] }}</span> </div>
             </div>
           </div>
 
-          <div class="characteristics" *ngIf="selectedUser.bunker || selectedUser.animals">
-            <div class="characteristics-label">Особливості:</div>
-            <div class="characteristics-group">
-              <div class="item-characteristics" *ngIf="selectedUser.bunker">
-                Наявність укриття:<span class="item">{{ selectedUser.bunker }}</span> </div>
+          <div class="param-box" *ngIf="selectedUser.bunker || selectedUser.animals || selectedUser.purpose_rent">
+            <div class="param-label">Особливості:</div>
+            <div class="param-group">
 
-              <div class="item-characteristics" *ngIf="selectedUser.animals">
+              <div class="param-field" *ngIf="selectedUser.purpose_rent">
+                Мета оренди:<span class="param-value">{{ purpose[selectedUser.purpose_rent] }}</span> </div>
+
+              <div class="param-field" *ngIf="selectedUser.bunker">
+                Наявність укриття:<span class="param-value">{{ selectedUser.bunker }}</span> </div>
+
+              <div class="param-field" *ngIf="selectedUser.animals">
                 <div *ngIf="selectedUser.animals !== 'Неважливо'">
-                  Домашні улюбленці: <span class="item">{{ animals[selectedUser.animals] }} </span> </div>
-                <div *ngIf="selectedUser.animals === 'Неважливо'">Домашні улюбленці: <span class="item"> Наявність чи
-                    відсутність
-                    тварин не вказано.</span></div>
+                  Домашні улюбленці: <span class="param-value">{{ animals[selectedUser.animals] }} </span> </div>
+                <div *ngIf="selectedUser.animals === 'Неважливо'">Домашні улюбленці: <span class="param-value">
+                    Наявність чи відсутність тварин не вказано.</span></div>
               </div>
 
             </div>
           </div>
 
-          <div class="characteristics" *ngIf="selectedUser.looking_woman || selectedUser.looking_man">
-            <div class="characteristics-label">Розглядаю сусіда по оселі:</div>
-            <div class="characteristics-group">
-              <div class="item-characteristics" *ngIf="selectedUser.looking_man && selectedUser.looking_man !== null">
-                <span class="item">Чоловік</span>
-              </div>
-              <div class="item-characteristics"
-                *ngIf="selectedUser.looking_woman && selectedUser.looking_woman !== null">
-                <span class="item">Жінка</span>
-              </div>
+          <div class="param-box" *ngIf="selectedUser.flat || selectedUser.house || selectedUser.room">
+            <div class="param-label">Розглядаю тип оселі:</div>
+            <div class="param-group">
+              <div class="param-field" *ngIf="selectedUser?.flat && selectedUser?.flat !== null"><span
+                  class="param-value">Квартира</span> </div>
+              <div class="param-field" *ngIf="selectedUser?.house && selectedUser?.house !== null"><span
+                  class="param-value">Будинок</span> </div>
+              <div class="param-field" *ngIf="selectedUser?.room && selectedUser?.room !== null"><span
+                  class="param-value">Кімната</span> </div>
             </div>
           </div>
 
-          <div class="characteristics"
-            *ngIf="selectedUser.years || selectedUser.mounths || selectedUser.weeks || selectedUser.days">
-            <div class="characteristics-label">Орієнтовний термін оренди:</div>
-            <div class="characteristics-group">
-
-              <div class="item-characteristics" *ngIf="selectedUser.years && selectedUser.years !== null"><span
-                  class="item">{{
-                  selectedUser.years }}</span>Роки</div>
-
-              <div class="item-characteristics" *ngIf="selectedUser.mounths && selectedUser.mounths !== null">Місяці
-                <span class="item">{{ selectedUser.mounths }}</span>
+          <div class="param-box" *ngIf="selectedUser.room !== 0">
+            <div class="param-label">Розглядаю сусіда по оселі:</div>
+            <div class="param-group">
+              <div class="param-field" *ngIf="selectedUser.looking_man">
+                <span class="param-value">Чоловік</span>
               </div>
-
-              <div class="item-characteristics" *ngIf="selectedUser.weeks && selectedUser.weeks !== null"><span
-                  class="item">{{
-                  selectedUser.weeks }}</span>Тижні</div>
-
-              <div class="item-characteristics" *ngIf="selectedUser.days && selectedUser.days !== null"><span
-                  class="item">{{
-                  selectedUser.days }}</span>Дні</div>
+              <div class="param-field" *ngIf="selectedUser.looking_woman"><span class="param-value">Жінка</span> </div>
+              <div class="param-field" *ngIf="!selectedUser.looking_woman && !selectedUser.looking_man"><span
+                  class="param-value">Неважливо який сусід по оселі</span> </div>
             </div>
           </div>
 
-          <div class="characteristics" *ngIf="selectedUser.about">
-            <div class="characteristics-label">Додаткова інформація:</div>
-            <div class="item-characteristics">{{ selectedUser.about }}</div>
+          <div class="param-box"
+            *ngIf="selectedUser?.years || selectedUser?.mounths || selectedUser?.weeks || selectedUser?.days">
+            <div class="param-label">Орієнтовний термін оренди:</div>
+            <div class="param-group">
+
+              <div class="param-field" *ngIf="selectedUser?.years && selectedUser?.years !== null">Роки:<span
+                  class="param-value">{{ selectedUser.years }}</span></div>
+
+              <div class="param-field" *ngIf="selectedUser?.mounths && selectedUser?.mounths !== null">Місяці:
+                <span class="param-value">{{ selectedUser.mounths }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="selectedUser?.weeks && selectedUser?.weeks !== null">Тижні:<span
+                  class="param-value">{{ selectedUser.weeks }}</span></div>
+
+              <div class="param-field" *ngIf="selectedUser?.days && selectedUser?.days !== null">Дні:<span
+                  class="param-value">{{ selectedUser.days }}</span></div>
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="selectedUser.about">
+            <div class="param-label">Додаткова інформація:</div>
+            <div class="param-field">
+              <span class="param-value">{{selectedUser.about}}</span>
+            </div>
           </div>
 
         </div>

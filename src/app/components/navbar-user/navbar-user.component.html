@@ -7,6 +7,7 @@
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
       <span class="link-text">Повідомлення</span>
+      <div class="link-icon"><i class="fa-regular fa-message"></i></div>
       <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
     </a>
 
@@ -14,31 +15,42 @@
       <div class="link-text">Підписники<span class="count"
           *ngIf="counterSubs?.status && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
       </div>
+      <div class="link-icon"><i class="fa-solid fa-person-praying"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
       <div class="link-text">Підписки<span class="count"
           *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
       </div>
+      <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
       <div class="link-text">Дискусії <span class="count"
           *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
       </div>
+      <div class="link-icon"><i class="fa-solid fa-person-walking-luggage"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-menu'">
-      <span class="link-text">Угоди оренди</span></a>
+      <span class="link-text">Угоди оренди</span>
+      <div class="link-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+    </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'">
-      <span class="link-text">Пасивний пошук</span></a>
+      <span class="link-text">Пасивний пошук</span>
+      <div class="link-icon"><i class="fa-regular fa-clock"></i></div>
+    </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/search/house/'">
-      <span class="link-text">Пошук оселі</span></a>
+      <span class="link-text">Пошук оселі</span>
+      <div class="link-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+    </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
-      <span class="link-text">Редагувати</span></a>
+      <span class="link-text">Редагувати</span>
+      <div class="link-icon"><i class="fa-solid fa-gears"></i></div>
+    </a>
 
 
   </nav>

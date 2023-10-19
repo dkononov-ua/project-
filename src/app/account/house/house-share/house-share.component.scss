@@ -4,7 +4,12 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  height: 100%;
+  height: 630px;
+  justify-content: space-between;
+}
+
+.description {
+  font-size: 12px;
 }
 
 .inputbox-group {

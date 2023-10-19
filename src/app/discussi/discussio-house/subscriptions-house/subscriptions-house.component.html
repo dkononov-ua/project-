@@ -161,28 +161,51 @@
 
       </div>
 
-      <div class="btn-container">
-        <div class="status-container">
-          <div class="status selectedUser" *ngIf="selectedUser.option_flat === 1">Будинок</div>
-          <div class="status selectedUser" *ngIf="selectedUser.option_flat === 2">Квартира</div>
-
-          <div class="status rent-yes" *ngIf="selectedUser.woman === 1">W</div>
-          <div class="status rent-yes" *ngIf="selectedUser.man === 1">M</div>
-          <div class="status rent-yes" *ngIf="selectedUser.students === 1">S</div>
-          <div class="status rent-yes" *ngIf="selectedUser.family === 1">F</div>
+      <div class="status-container">
+        <div class="status-box">
+          <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
+          <div class="status-value" *ngIf="selectedUser.flat === 1">Кв</div>
+          <div class="status-value" *ngIf="selectedUser.room === 1">К</div>
+          <div class="status-value" *ngIf="selectedUser.woman === 1">W</div>
+          <div class="status-value" *ngIf="selectedUser.man === 1">M</div>
+          <div class="status-value" *ngIf="selectedUser.students === 1">S</div>
+          <div class="status-value" *ngIf="selectedUser.family === 1">F</div>
         </div>
-        <div class="info-menu">
-          <div class="accent bold">Допомога</div>
-          <div class="info-menu-text">
-            <ul>Орендар шукає оселю для:
-              <li *ngIf="selectedUser.woman === 1">W - Жінка</li>
-              <li *ngIf="selectedUser.man === 1">M - Чоловік</li>
-              <li *ngIf="selectedUser.students === 1">S - Студент</li>
-              <li *ngIf="selectedUser.family === 1">F - Сім'я</li>
+        <div class="status-hover">
+          <div class="status-hover-label">Допомога</div>
+          <div class="status-hover-text">
+            <ul
+              *ngIf="selectedUser.woman === 1 || selectedUser.man === 1 || selectedUser.students === 1 || selectedUser.family === 1">
+              Пошук оселі для:
+              <li *ngIf="selectedUser.woman === 1" class="status-hover-li">
+                <div class="status-value">W</div> - жінки
+              </li>
+              <li *ngIf="selectedUser.man === 1" class="status-hover-li">
+                <div class="status-value">M</div> - чоловіка
+              </li>
+              <li *ngIf="selectedUser.students === 1" class="status-hover-li">
+                <div class="status-value">S</div> - студента
+              </li>
+              <li *ngIf="selectedUser.family === 1" class="status-hover-li">
+                <div class="status-value">F</div> - сім'ї
+              </li>
             </ul>
+
+            <ul *ngIf="selectedUser.house === 1 || selectedUser.flat === 1 || selectedUser.room === 1">
+              Пошук по типу оселі:
+              <li *ngIf="selectedUser.house === 1" class="status-hover-li">
+                <div class="status-value">Б</div> - Будинок
+              </li>
+              <li *ngIf="selectedUser.flat === 1" class="status-hover-li">
+                <div class="status-value">Кв</div> - Квартира
+              </li>
+              <li *ngIf="selectedUser.room === 1" class="status-hover-li">
+                <div class="status-value">К</div> - Підійде кімната
+              </li>
+            </ul>
+
           </div>
         </div>
-
       </div>
 
       <div class="p-2">

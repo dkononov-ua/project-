@@ -7,6 +7,7 @@
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat'">
       <span class="link-text">Повідомлення</span>
+      <div class="link-icon"><i class="fa-regular fa-message"></i></div>
       <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
     </a>
 
@@ -14,28 +15,37 @@
       <div class="link-text">Підписники<span class="count"
           *ngIf="counterSubs?.status && counterSubs?.status !== false && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
       </div>
+      <div class="link-icon"><i class="fa-solid fa-person-praying"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscriptions-house'">
       <div class="link-text">Підписки<span class="count"
           *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== false && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
       </div>
+      <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-discus'">
       <div class="link-text">Дискусії<span class="count"
           *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== false && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
       </div>
+      <div class="link-icon"><i class="fa-solid fa-person-walking-luggage"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">
-      <span class="link-text">Меню угод</span></a>
+      <span class="link-text">Меню угод</span>
+      <div class="link-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+    </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/filling'">
-      <span class="link-text">Наповнення</span></a>
+      <span class="link-text">Наповнення</span>
+      <div class="link-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+    </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/residents'">
-      <span class="link-text">Мешканці</span></a>
+      <span class="link-text">Мешканці</span>
+      <div class="link-icon"><i class="fa-solid fa-people-roof"></i></div>
+    </a>
 
     <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'">
       <span class="link-text">Комунальні</span></a>
@@ -44,7 +54,9 @@
       <span class="link-text">Пошук орендара</span></a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'">
-      <span class="link-text">Редагувати</span></a>
+      <span class="link-text">Редагувати</span>
+      <div class="link-icon"><i class="fa-solid fa-gears"></i></div>
+    </a>
 
     <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/feedback'">
       <span class="link-text">Відгук</span></a>

@@ -32,9 +32,7 @@ import { ResidentsComponent } from './residents/residents.component';
 import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { HouseRoutingModule } from './house-routing.module';
-import { DiscussioHouseRoutingModule } from 'src/app/discussi/discussio-house/discussio-house-routing.module';
 import { HouseInfoComponent } from './house-info/house-info.component';
-
 @NgModule({
   declarations: [
     HouseComponent,

@@ -5,7 +5,6 @@ import { ChangeComunService } from 'src/app/housing-services/change-comun.servic
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/shared/server-config';
-import { OpenSelectHouseComponent } from '../open-select-house/open-select-house.component';
 import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-selection-housing',
@@ -204,42 +203,4 @@ export class SelectionHousingComponent implements OnInit {
     }
   }
 
-
-  // async openDialog(subscriber: any): Promise<void> {
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson) {
-  //     localStorage.removeItem('selectedComun');
-  //     localStorage.removeItem('selectedHouse');
-  //     localStorage.removeItem('selectedFlatId');
-  //     localStorage.removeItem('selectedFlatName');
-  //     localStorage.removeItem('houseData');
-
-  //     const dialogRef = this.dialog.open(OpenSelectHouseComponent, {
-  //       data: {
-  //         user_id: subscriber.user_id,
-  //         firstName: subscriber.firstName,
-  //         lastName: subscriber.lastName,
-  //         component_id: 3,
-  //       }
-  //     });
-  //     dialogRef.afterClosed().subscribe(async (result: any) => {
-  //       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
-  //         const data = {
-  //           auth: JSON.parse(userJson),
-  //           flat_id: this.selectedFlatId,
-  //           user_id: subscriber.user_id,
-  //         };
-  //         try {
-  //           // const response = await this.http.post(url, data).toPromise();
-  //           // this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-  //           // this.indexPage = 1;
-  //           // this.selectedUser = undefined;
-  //           // this.updateComponent.triggerUpdate();
-  //         } catch (error) {
-  //           console.error(error);
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
 }
