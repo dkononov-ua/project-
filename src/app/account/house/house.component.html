@@ -12,4 +12,11 @@
   </div>
 </div>
 
+<div class="container-box" *ngIf="!selectedFlatId">
+  <div class="card-box mobile col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+    <app-selection-account></app-selection-account>
+    <app-selection-housing class="mobile-param"></app-selection-housing>
+  </div>
+</div>
+
 <app-footer></app-footer>

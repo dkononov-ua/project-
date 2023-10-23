@@ -1,5 +1,4 @@
-import { Subscription, debounceTime } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { regions } from '../../../shared/data-city';
 import { cities } from '../../../shared/data-city';
 import { subway } from '../../../shared/subway';
@@ -158,7 +157,9 @@ export class LookingComponent implements OnInit {
     this.saveDayCounts();
   }
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getInfo();
@@ -180,10 +181,47 @@ export class LookingComponent implements OnInit {
     }
   }
 
-  saveInfo(): void {
+  saveInfo(agree: any): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      const data = { ...this.userInfo };
+      const data = {
+        agree_search: agree,
+        price_of: this.userInfo.price_of,
+        price_to: this.userInfo.price_to,
+        region: this.userInfo.region,
+        city: this.userInfo.city,
+        rooms_of: this.userInfo.rooms_of,
+        rooms_to: this.userInfo.rooms_to,
+        area_of: this.userInfo.area_of,
+        area_to: this.userInfo.area_to,
+        repair_status: this.userInfo.repair_status,
+        bunker: this.userInfo.bunker,
+        balcony: this.userInfo.balcony,
+        animals: this.userInfo.animals,
+        distance_metro: this.userInfo.distance_metro,
+        distance_stop: this.userInfo.distance_stop,
+        distance_green: this.userInfo.distance_green,
+        distance_shop: this.userInfo.distance_shop,
+        distance_parking: this.userInfo.distance_parking,
+        option_pay: this.userInfo.option_pay,
+        day_counts: this.userInfo.day_counts,
+        purpose_rent: this.userInfo.purpose_rent,
+        house: this.userInfo.house,
+        flat: this.userInfo.flat,
+        room: this.userInfo.room,
+        looking_woman: this.userInfo.looking_woman,
+        looking_man: this.userInfo.looking_man,
+        students: this.userInfo.students,
+        woman: this.userInfo.woman,
+        man: this.userInfo.man,
+        family: this.userInfo.family,
+        days: this.userInfo.days,
+        weeks: this.userInfo.weeks,
+        mounths: this.userInfo.mounths,
+        years: this.userInfo.years,
+        about: this.userInfo.about,
+        metro: this.userInfo.metro,
+      };
       this.http.post(serverPath + '/features/add', { auth: JSON.parse(userJson), new: data })
         .subscribe(
           (response: any) => {
@@ -227,56 +265,53 @@ export class LookingComponent implements OnInit {
     }
   }
 
-
-  editInfo(): void {
-    this.disabled = false;
+  clearInfoCard1(): void {
+    this.userInfo.students = false;
+    this.userInfo.woman = false;
+    this.userInfo.man = false;
+    this.userInfo.family = false;
+    this.userInfo.region = '';
+    this.userInfo.city = '';
+    this.userInfo.house = false;
+    this.userInfo.flat = false;
+    this.userInfo.room = false;
+    this.userInfo.looking_woman = 0;
+    this.userInfo.looking_man = 0;
+    this.userInfo.purpose_rent = 'Неважливо';
+    this.userInfo.repair_status = 'Неважливо';
   }
 
-  clearInfo(): void {
-    if (this.disabled === false)
-      this.userInfo = {
-        price_of: 0,
-        price_to: 0,
-        region: '',
-        city: '',
-        rooms_of: 0,
-        rooms_to: 6,
-        area_of: '0.00',
-        area_to: '100000.00',
-        repair_status: 'Неважливо',
-        bunker: 'Неважливо',
-        balcony: 'Неважливо',
-        animals: '',
-        distance_metro: '',
-        distance_stop: '',
-        distance_green: '',
-        distance_shop: '',
-        distance_parking: '',
-        option_pay: 0,
-        house: false,
-        flat: false,
-        room: false,
-        day_counts: 0,
-        purpose_rent: 'Неважливо',
-        looking_woman: 0,
-        looking_man: 0,
-        agree_search: 0,
-        students: false,
-        woman: false,
-        man: false,
-        family: false,
-        days: 0,
-        weeks: 0,
-        mounths: 0,
-        years: 0,
-        about: '',
-        metro: '',
-      };
+  clearInfoCard2(): void {
+    this.userInfo.area_of = '0.00';
+    this.userInfo.area_to = '100000.00';
+    this.userInfo.rooms_of = 0;
+    this.userInfo.rooms_to = 6;
+    this.userInfo.distance_metro = '';
+    this.userInfo.distance_stop = '';
+    this.userInfo.distance_green = '';
+    this.userInfo.distance_shop = '';
+    this.userInfo.distance_parking = '';
+    this.userInfo.bunker = 'Неважливо';
+    this.userInfo.balcony = 'Неважливо';
+    this.userInfo.animals = 'Неважливо';
   }
 
+  clearInfoCard3(): void {
+    this.userInfo.option_pay = 0;
+    this.userInfo.price_of = NaN;
+    this.userInfo.price_to = NaN;
+    this.userInfo.day_counts = 0;
+    this.userInfo.days = NaN;
+    this.userInfo.weeks = NaN;
+    this.userInfo.mounths = NaN;
+    this.userInfo.years = NaN;
+    this.userInfo.about = '';
+    this.userInfo.metro = '';
+  }
+
+  // завантаження бази міст
   loadCities() {
-    if (!this.userInfo) return;
-    const searchTerm = this.userInfo.region?.toLowerCase() || '';
+    const searchTerm = this.userInfo.region!.toLowerCase();
     this.filteredRegions = this.regions.filter(region =>
       region.name.toLowerCase().includes(searchTerm)
     );
@@ -287,8 +322,8 @@ export class LookingComponent implements OnInit {
     this.userInfo.city = '';
   }
 
-  loadDistricts() {
-    if (!this.userInfo) return;
+  // завантаження бази областей
+  loadRegions() {
     const searchTerm = this.userInfo.city!.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.userInfo.region

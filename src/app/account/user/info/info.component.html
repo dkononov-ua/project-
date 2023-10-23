@@ -102,6 +102,18 @@
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
       <div class="card p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
 
+        <div class="param-box" *ngIf="userInfo.price_of || userInfo.price_to">
+          <div class="param-label">Бюджет в грн:</div>
+          <div class="param-group">
+            <div class="param-field" *ngIf="userInfo.price_of">Від :
+              <span class="param-value">{{ userInfo.price_of }} ₴</span>
+            </div>
+            <div class="param-field" *ngIf="userInfo.price_to">До:
+              <span class="param-value">{{ userInfo.price_to }} ₴</span>
+            </div>
+          </div>
+        </div>
+
         <div class="param-box" *ngIf="userInfo.region || userInfo.city">
           <div class="param-label">Шукаю оселю в :</div>
           <div class="param-group">
@@ -253,6 +265,7 @@
         </div>
 
       </div>
+      
     </div>
   </div>
 </ng-template>

@@ -5,14 +5,33 @@ import { IsAccountOpenService } from './services/is-account-open.service';
 import { serverPath } from 'src/app/shared/server-config';
 import { Router } from '@angular/router';
 import { CloseMenuService } from './services/close-menu.service';
+import { ThemeVariables, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
+
+const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    $global: lyl `{
+      body {
+        margin: 0
+        direction: ${theme.direction}
+      }
+    }`,
+    root: lyl `{
+      display: block
+    }`
+  };
+};
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [StyleRenderer]
 })
 
 export class AppComponent implements OnInit {
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
+
   @ViewChild('locationElement') locationElement!: ElementRef;
   loginForm: any;
   loggedInAccount: boolean = true;
@@ -35,7 +54,6 @@ export class AppComponent implements OnInit {
   }
 
   loading: boolean = true;
-
 
   openMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -60,15 +78,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-    private isAccountOpenService: IsAccountOpenService,
-    private location: Location,
-    private router: Router,
-    private el: ElementRef,
-    private isCloseMenu: CloseMenuService,
-  ) { }
+  constructor(readonly sRenderer: StyleRenderer,
+              private http: HttpClient,
+              private cdr: ChangeDetectorRef,
+              private isAccountOpenService: IsAccountOpenService,
+              private location: Location,
+              private router: Router,
+              private el: ElementRef,
+              private isCloseMenu: CloseMenuService) { }
 
   async ngOnInit(): Promise<void> {
     const currentLocation = this.location.path();

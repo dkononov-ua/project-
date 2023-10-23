@@ -52,6 +52,7 @@ import { AddHouseComponent } from '../account-edit/house/add-house/add-house.com
   ],
   providers: [
     UpdateComponentService,
+
   ],
   imports: [
     CommonModule,

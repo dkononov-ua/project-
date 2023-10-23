@@ -7,7 +7,7 @@
     <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Профіль</div>
   </div>
 
-  <ng-container *ngIf="selectedFlatId">
+  <ng-container>
     <div class="account-box">
       <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
         <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
@@ -17,7 +17,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!selectedFlatId">
+  <!-- <ng-container *ngIf="!selectedFlatId">
     <div class="account-box">
       <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ"
         [routerLink]="'/housing-parameters/host/'" (click)="openMenuFlat()">
@@ -26,7 +26,7 @@
       </a>
       <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</div>
     </div>
-  </ng-container>
+  </ng-container> -->
 </div>
 
 <div class="navbar-toggle hide-pc" [ngClass]="{'open': isMenuOpen}">

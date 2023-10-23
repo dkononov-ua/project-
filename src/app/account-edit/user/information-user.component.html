@@ -3,91 +3,210 @@
 </ng-container>
 
 <ng-template #content>
-<app-navbar></app-navbar>
+  <app-navbar></app-navbar>
 
-<div class="container-fluid">
+  <div class="container-fluid">
 
-  <div class="switch-box p-2 hide-pc">
-    <div class="btn-menu">
-      <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Фото"
-        (click)="indexPage = 0">
-        <i class="fa-regular fa-image"></i></button>
-    </div>
-
-    <div class="btn-menu hide-pc">
-      <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1" matTooltip="ПОБ">
-        <i class="fa-regular fa-circle-user"></i></button>
-    </div>
-
-    <div class="btn-menu">
-      <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2" matTooltip="Контакти">
-        <i class="fa-solid fa-share-nodes"></i></button>
-    </div>
-
-  </div>
-
-  <div class="container-navbar hide-mobile">
-    <nav class="navbar">
-      <a [routerLinkActive]="'active'" [routerLink]="'/user/info'"><i class="fa-solid fa-chevron-left"></i></a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
-      <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host'">Профіль оселі</a>
-    </nav>
-  </div>
-
-  <div class="container-card hide-mobile">
-
-    <div class="info-container">
-      <div class="info-help-box" *ngIf="helpAdd">
-        <div class="info-help-text">
-          <ul>
-            <li>
-              <div class="bold">Дозвіл на додавання в оселю</div> - він дозволяє власнику оселі додати вас до мешканців
-              напряму без формування угоди.
-            </li>
-          </ul>
-        </div>
-        <button class="btn" (click)="openHelpAdd()">Зрозуміло</button>
-      </div>
-    </div>
-
-    <div class="card-box-photo p-2 col-lg-4 col-md-5 col-sm-6 col-12">
-      <div class="img-fluid">
-        <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')">
+    <div class="switch-box p-2 hide-pc">
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Фото"
+          (click)="indexPage = 0">
+          <i class="fa-regular fa-image"></i></button>
       </div>
 
-      <div class="card-1 mb-2">
-        <div class="flex-column w-70">
-          <label class="label-1">ЗАВАНТАЖИТИ ФОТО</label>
-          <div class="description">Додайте або оновіть фото вашого аккаунту</div>
-        </div>
-        <div class="input-div w-30">
-          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+      <div class="btn-menu hide-pc">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1" matTooltip="ПОБ">
+          <i class="fa-regular fa-circle-user"></i></button>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2" matTooltip="Контакти">
+          <i class="fa-solid fa-share-nodes"></i></button>
+      </div>
+
+    </div>
+
+    <div class="container-navbar hide-mobile">
+      <nav class="navbar">
+        <a [routerLinkActive]="'active'" [routerLink]="'/user/info'"><i class="fa-solid fa-chevron-left"></i></a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/information-user'">Профіль корустувача</a>
+        <a [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host'">Профіль оселі</a>
+      </nav>
+    </div>
+
+    <div class="container-card hide-mobile">
+
+      <div class="info-container">
+        <div class="info-help-box" *ngIf="helpAdd">
+          <div class="info-help-text">
+            <ul>
+              <li>
+                <div class="bold">Дозвіл на додавання в оселю</div> - він дозволяє власнику оселі додати вас до
+                мешканців
+                напряму без формування угоди.
+              </li>
+            </ul>
+          </div>
+          <button class="btn" (click)="openHelpAdd()">Зрозуміло</button>
         </div>
       </div>
 
-      <div class="card-1 mb-2">
-        <div class="flex-column w-70">
-          <label class="label-1">ВИЙТИ З АККАУНТУ</label>
-          <div class="description">Створіть новий або увійдіть в інший аккаунт</div>
+      <div class="card-box-photo p-2 col-lg-4 col-md-5 col-sm-6 col-12">
+        <div class="img-fluid">
+          <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')">
         </div>
-        <button class="input-div w-30" (click)="logout()">
-          <i class="icon-up fa-solid fa-door-open"></i>
-        </button>
+
+        <div class="card-1 mb-2">
+          <div class="flex-column w-70">
+            <label class="label-1">ЗАВАНТАЖИТИ ФОТО</label>
+            <div class="description">Додайте або оновіть фото вашого аккаунту</div>
+          </div>
+          <div class="input-div w-30">
+            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+            <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+            <button class="input-up" ly-button (click)="_fileInput.click()">
+              <ly-icon [lyMf]="1">image</ly-icon>
+              <span>Select File</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-1 mb-2">
+          <div class="flex-column w-70">
+            <label class="label-1">ВИЙТИ З АККАУНТУ</label>
+            <div class="description">Створіть новий або увійдіть в інший аккаунт</div>
+          </div>
+          <button class="input-div w-30" (click)="logout()">
+            <i class="icon-up fa-solid fa-door-open"></i>
+          </button>
+        </div>
       </div>
+
+      <div [@cardAnimation1] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
+
+        <div class="card ">
+
+          <mat-label class="label">Персональні дані</mat-label>
+
+          <div class="w-100">
+            <mat-label>Дата народження</mat-label>
+            <div>{{userInfo.dob | date}}</div>
+          </div>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Ім'я</mat-label>
+            <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Прізвище</mat-label>
+            <input name="userInfo.lastName" matInput [(ngModel)]="userInfo.lastName">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>По батькові</mat-label>
+            <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
+          </mat-form-field>
+
+          <mat-label class="group-label  border-top">Управління аккаунтом</mat-label>
+          <!-- оселя -->
+          <div class="inputbox-group">
+            <button class="info-btn" (click)="openHelpAdd()">Допомога</button>
+
+            <div class="content-group">
+              <label class="checkBox">
+                <input type="checkbox" [(ngModel)]="userParam.add_in_flat">
+                <div class="transition"></div>
+              </label>
+              <div class="ml-2">Додавати в оселю</div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn-1" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoUser()">ЗБЕРЕГТИ</button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div [@cardAnimation2] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
+
+        <div class="card">
+
+          <mat-label class="label">Контактні дані</mat-label>
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Телефон</mat-label>
+            <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell" [maxlength]="10"
+              [pattern]="phonePattern">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Ваша контактна пошта</mat-label>
+            <input name="userCont.mail" matInput [(ngModel)]="userCont.mail">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Telegram<i class="fa-brands fa-telegram"></i></mat-label>
+            <input name="userCont.telegram" matInput [(ngModel)]="userCont.telegram">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Facebook<i class="fa-brands fa-facebook"></i></mat-label>
+            <input name="userCont.facebook" matInput [(ngModel)]="userCont.facebook">
+          </mat-form-field>
+
+          <mat-form-field class="item-select m-1" appearance="outline">
+            <mat-label>Instagram<i class="fa-brands fa-instagram"></i></mat-label>
+            <input name="userCont.instagram" matInput [(ngModel)]="userCont.instagram">
+          </mat-form-field>
+
+          <div class="btn-group">
+            <button class="btn-1" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoCont()">ЗБЕРЕГТИ</button>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div [@cardAnimation1] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
+    <div class="container-card mt-2 hide-pc">
 
-      <div class="card ">
+      <div [@cardAnimation] class="p-2 col-12" *ngIf="indexPage === 0">
+        <div class="img-fluid">
+          <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')">
+        </div>
+
+        <div class="card-1 mb-2">
+          <div class="flex-column w-70">
+            <label class="label-1">ЗАВАНТАЖИТИ ФОТО</label>
+            <div class="description">Додайте або оновіть фото вашого аккаунту</div>
+          </div>
+          <div class="input-div w-30">
+            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+            <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+            <button class="input-up" ly-button (click)="_fileInput.click()">
+              <ly-icon [lyMf]="1">image</ly-icon>
+              <span>Select File</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-1 mb-2">
+          <div class="flex-column w-70">
+            <label class="label-1">ВИЙТИ З АККАУНТУ</label>
+            <div class="description">Створіть новий або увійдіть в інший аккаунт</div>
+          </div>
+          <button class="input-div w-30" (click)="logout()">
+            <i class="icon-up fa-solid fa-door-open"></i>
+          </button>
+        </div>
+      </div>
+
+      <div [@cardAnimation] class="card-animation p-2 col-12" *ngIf="indexPage === 1">
 
         <mat-label class="label">Персональні дані</mat-label>
-
-        <div class="w-100">
-          <mat-label>Дата народження</mat-label>
-          <div>{{userInfo.dob | date}}</div>
-        </div>
-
         <mat-form-field class="item-select m-1" appearance="outline">
           <mat-label>Ім'я</mat-label>
           <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
@@ -103,8 +222,15 @@
           <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
         </mat-form-field>
 
-        <mat-label class="group-label  border-top">Управління аккаунтом</mat-label>
-        <!-- оселя -->
+        <mat-form-field class="w-100">
+          <mat-label>Дата народження</mat-label>
+          <input matInput [matDatepicker]="picker" [disabled]="true" [(ngModel)]="userInfo.dob">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-label class="label">Управління аккаунтом</mat-label>
+
         <div class="inputbox-group">
           <button class="info-btn" (click)="openHelpAdd()">Допомога</button>
 
@@ -121,13 +247,10 @@
           <button class="btn-1" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoUser()">ЗБЕРЕГТИ</button>
         </div>
 
+
       </div>
 
-    </div>
-
-    <div [@cardAnimation2] class="card-box p-2 col-lg-4 col-md-5 col-sm-6 col-12">
-
-      <div class="card">
+      <div [@cardAnimation] class="card-animation p-2 col-12" *ngIf="indexPage === 2">
 
         <mat-label class="label">Контактні дані</mat-label>
         <mat-form-field class="item-select m-1" appearance="outline">
@@ -163,123 +286,9 @@
       </div>
 
     </div>
-
   </div>
 
-  <div class="container-card mt-2 hide-pc">
-
-    <div [@cardAnimation] class="p-2 col-12" *ngIf="indexPage === 0">
-      <div class="img-fluid">
-        <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')">
-      </div>
-
-      <div class="card-1 mb-2">
-        <div class="flex-column w-70">
-          <label class="label-1">ЗАВАНТАЖИТИ ФОТО</label>
-          <div class="description">Додайте або оновіть фото вашого аккаунту</div>
-        </div>
-        <div class="input-div w-30">
-          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
-        </div>
-      </div>
-
-      <div class="card-1 mb-2">
-        <div class="flex-column w-70">
-          <label class="label-1">ВИЙТИ З АККАУНТУ</label>
-          <div class="description">Створіть новий або увійдіть в інший аккаунт</div>
-        </div>
-        <button class="input-div w-30" (click)="logout()">
-          <i class="icon-up fa-solid fa-door-open"></i>
-        </button>
-      </div>
-    </div>
-
-    <div [@cardAnimation] class="card-animation p-2 col-12" *ngIf="indexPage === 1">
-
-      <mat-label class="label">Персональні дані</mat-label>
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Ім'я</mat-label>
-        <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Прізвище</mat-label>
-        <input name="userInfo.lastName" matInput [(ngModel)]="userInfo.lastName">
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>По батькові</mat-label>
-        <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
-      </mat-form-field>
-
-      <mat-form-field class="w-100">
-        <mat-label>Дата народження</mat-label>
-        <input matInput [matDatepicker]="picker" [disabled]="true" [(ngModel)]="userInfo.dob">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-label class="label">Управління аккаунтом</mat-label>
-
-      <div class="inputbox-group">
-        <button class="info-btn" (click)="openHelpAdd()">Допомога</button>
-
-        <div class="content-group">
-          <label class="checkBox">
-            <input type="checkbox" [(ngModel)]="userParam.add_in_flat">
-            <div class="transition"></div>
-          </label>
-          <div class="ml-2">Додавати в оселю</div>
-        </div>
-      </div>
-
-      <div class="btn-group">
-        <button class="btn-1" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoUser()">ЗБЕРЕГТИ</button>
-      </div>
-
-
-    </div>
-
-    <div [@cardAnimation] class="card-animation p-2 col-12" *ngIf="indexPage === 2">
-
-      <mat-label class="label">Контактні дані</mat-label>
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Телефон</mat-label>
-        <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell" [maxlength]="10"
-          [pattern]="phonePattern">
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Ваша контактна пошта</mat-label>
-        <input name="userCont.mail" matInput [(ngModel)]="userCont.mail">
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Telegram<i class="fa-brands fa-telegram"></i></mat-label>
-        <input name="userCont.telegram" matInput [(ngModel)]="userCont.telegram">
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Facebook<i class="fa-brands fa-facebook"></i></mat-label>
-        <input name="userCont.facebook" matInput [(ngModel)]="userCont.facebook">
-      </mat-form-field>
-
-      <mat-form-field class="item-select m-1" appearance="outline">
-        <mat-label>Instagram<i class="fa-brands fa-instagram"></i></mat-label>
-        <input name="userCont.instagram" matInput [(ngModel)]="userCont.instagram">
-      </mat-form-field>
-
-      <div class="btn-group">
-        <button class="btn-1" matTooltip="ЗБЕРЕГТИ" (click)="saveInfoCont()">ЗБЕРЕГТИ</button>
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
-<app-footer></app-footer>
+  <app-footer></app-footer>
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">
@@ -287,4 +296,3 @@
   <img class="status-message-logo" src="{{path_logo}}" alt="logo">
   <div class="status-message-name">Discussio</div>
 </div>
-

@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -8,6 +8,10 @@ import localeUk from '@angular/common/locales/uk';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 import { Router } from '@angular/router';
+
+import { ImgCropperEvent } from '@alyle/ui/image-cropper';
+import { LyDialog } from '@alyle/ui/dialog';
+import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -81,6 +85,8 @@ interface UserParam {
 })
 
 export class InformationUserComponent implements OnInit {
+
+  cropped?: string;
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -129,17 +135,13 @@ export class InformationUserComponent implements OnInit {
   selectedFile!: File;
   selectedFlatId: any;
   userImg: any;
-
-
   disabledPassword: boolean = true;
   disabledEmail: boolean = true;
   emailCheck: number = 0;
   passwordCheck: number = 0;
   checkCode: any;
   statusMessage: string | undefined;
-
   indexPage: number = 0;
-
 
   sendCodeEmail() {
     this.emailCheck = 1;
@@ -180,18 +182,18 @@ export class InformationUserComponent implements OnInit {
   }
 
   isAccountOpenStatus: boolean = true;
-
   helpAdd: boolean = false;
   openHelpAdd() {
     this.helpAdd = !this.helpAdd;
   }
-
   phonePattern = '^[0-9]{10}$';
+
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
     private isAccountOpenService: IsAccountOpenService,
     private router: Router,
+    private _dialog: LyDialog,
+    private _cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -334,24 +336,43 @@ export class InformationUserComponent implements OnInit {
     }, 1500);
   }
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-    setTimeout(() => {
-      this.loading = true;
-      this.onUpload();
-    }, 100);
+  openCropperDialog(event: Event) {
+    this.cropped;
+    this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
+      data: event,
+      width: 320,
+      disableClose: true
+    }).afterClosed.subscribe((result?: ImgCropperEvent) => {
+      if (result) {
+        const blob = this.dataURItoBlob(result.dataURL!);
+        const formData = new FormData();
+        formData.append('file', blob, result.name!);
+        this.onUpload(formData);
+        this.cropped = result.dataURL;
+        this._cd.markForCheck();
+      }
+    });
   }
 
-  onUpload(): void {
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+  onUpload(formData: any): void {
     const userJson = localStorage.getItem('user');
 
-    if (!this.selectedFile) {
+    if (!formData) {
       console.log('Файл не обраний. Завантаження не відбудеться.');
       return;
     }
 
-    const formData: FormData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
 
     const headers = { 'Accept': 'application/json' };

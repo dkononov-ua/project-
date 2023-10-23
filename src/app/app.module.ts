@@ -25,7 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
@@ -42,6 +42,16 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { LY_THEME, LY_THEME_NAME, StyleRenderer, LyTheme2 } from '@alyle/ui';
+import { MinimaLight, MinimaDeepDark, MinimaDark } from '@alyle/ui/themes/minima';
+
+import { LyImageCropperModule } from '@alyle/ui/image-cropper';
+import { LySliderModule } from '@alyle/ui/slider';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyIconModule } from '@alyle/ui/icon';
+import { CropImgComponent } from './components/crop-img/crop-img.component';
+import { LyDialogModule } from '@alyle/ui/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,10 +65,17 @@ import { MatMenuModule } from '@angular/material/menu';
     SearchPageComponent,
     FeedbackComponent,
     AboutProjectComponent,
+    CropImgComponent,
   ],
   providers: [
     SelectedFlatService,
     DatePipe,
+    StyleRenderer,
+    LyTheme2,
+    { provide: LY_THEME_NAME, useValue: 'minima-deep-dark' },
+    { provide: LY_THEME, useClass: MinimaLight, multi: true },
+    { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
+    { provide: LY_THEME, useClass: MinimaDark, multi: true },
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -87,6 +104,11 @@ import { MatMenuModule } from '@angular/material/menu';
     ReactiveFormsModule,
     MatRadioModule,
     MatMenuModule,
+    LyImageCropperModule,
+    LySliderModule,
+    LyButtonModule,
+    LyIconModule,
+    LyDialogModule,
 
     MatInputModule,
     MatFormFieldModule,
@@ -99,6 +121,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
+    HammerModule,
   ]
 })
 export class AppModule { }
