@@ -203,14 +203,14 @@ p {
 
 .img-fluid {
   display: flex;
-  height: 200px;
+  height: 300px;
   width: 100%;
   overflow: hidden;
   margin-bottom: 10px;
   justify-content: center;
   align-items: center;
   @include s1-s3 {
-    height: 250px;
+    height: 300px;
   }
 }
 img {

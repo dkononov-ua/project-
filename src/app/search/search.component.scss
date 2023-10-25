@@ -109,7 +109,7 @@
 
 .img-container {
   border-radius: 10px;
-  height: 300px;
+  height: 400px;
   width: 100%;
   position: relative;
   &:hover {
@@ -128,7 +128,7 @@
 
 .img-fluid {
   width: 100%;
-  height: 300px;
+  height: 400px;
   overflow: hidden;
   object-fit: cover;
   transition: transform 1s;
@@ -367,17 +367,18 @@
 }
 
 .price {
-  height: 100px;
+  height: 100%;
   width: 100%;
   position: absolute;
-  z-index: 10;
+  z-index: 5;
   bottom: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  background: linear-gradient(to top, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  flex-direction: column;
+  align-content: flex-start;
   justify-content: flex-end;
+  background: linear-gradient(to top, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 30%);
 }
 
 .price_m {
@@ -399,18 +400,24 @@
 }
 
 .btn-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 200;
   display: flex;
-  width: 100%;
+  width: 100px;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
+  flex-direction: column;
 
   .btn-box {
     @include flex-box-column;
     .btn {
-      margin: 0 15px;
+      margin: 5px 15px;
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      background-color: $color-white;
     }
     .btn-name {
       font-size: 12px;
@@ -419,20 +426,33 @@
 }
 
 .flex-box {
-  height: 45px;
   display: flex;
-  justify-content: center;
-  align-items: baseline;
-
+  flex-direction: column;
+  align-items: center;
   .room {
-    font-size: 46px;
-    color: $color-accent;
+    height: 40px;
+    font-size: 36px;
+    color: $color-text;
     font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-shadow:
+      -1px -1px 0 white,
+      1px -1px 0 white,
+      -1px 1px 0 white,
+      1px 1px 0 white;
   }
 }
 
 .text {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-text;
+  text-shadow:
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
 }
 
 .hide-mobile {

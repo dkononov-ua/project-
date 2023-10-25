@@ -1,10 +1,13 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 
+import { ImgCropperEvent } from '@alyle/ui/image-cropper';
+import { LyDialog } from '@alyle/ui/dialog';
+import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 @Component({
   selector: 'app-photo',
   templateUrl: './photo.component.html',
@@ -39,6 +42,23 @@ export class PhotoComponent implements OnInit {
   images: string[] = [];
   currentPhotoIndex: number = 0;
   statusMessage: string | undefined;
+  selectedPhoto: boolean = false;
+
+  selectPhoto(photo: any): void {
+    if (this.selectedPhoto === photo) {
+      this.selectedPhoto = false;
+    } else {
+      this.selectedPhoto = photo;
+      this.scrollToSelectedPhoto(photo);
+    }
+  }
+
+  scrollToSelectedPhoto(selectedPhoto: any) {
+    const selectedPhotoElement = this.elementRef.nativeElement.querySelector(`[data-img="${selectedPhoto}"]`);
+    if (selectedPhotoElement) {
+      selectedPhotoElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -50,7 +70,10 @@ export class PhotoComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
-    private router: Router,) { }
+    private router: Router,
+    private _dialog: LyDialog,
+    private elementRef: ElementRef
+  ) { }
 
   ngOnInit(): void {
     this.getSelectedFlat();
@@ -74,6 +97,8 @@ export class PhotoComponent implements OnInit {
           (response: any) => {
             if (Array.isArray(response.imgs) && response.imgs.length > 0) {
               this.flatImg = response.imgs;
+              this.flatImg.reverse();
+              console.log(this.flatImg)
             } else {
               this.flatImg = [{ img: "housing_default.svg" }];
             }
@@ -87,25 +112,43 @@ export class PhotoComponent implements OnInit {
     }
   };
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-    setTimeout(() => {
-      this.onUpload();
-      setTimeout(() => {
-        this.getInfo();
-      }, 1000);
-    }, 100);
+  openCropperDialog(event: Event) {
+    this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
+      data: event,
+      width: 400,
+      disableClose: true
+    }).afterClosed.subscribe((result?: ImgCropperEvent) => {
+      if (result) {
+        const blob = this.dataURItoBlob(result.dataURL!);
+        const formData = new FormData();
+        formData.append('file', blob, result.name!);
+        this.onUpload(formData);
+      }
+    });
   }
 
-  onUpload(): void {
-    this.loading = true;
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+  onUpload(formData: any): void {
     const userJson = localStorage.getItem('user');
-    const formData: FormData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
+    if (!formData) {
+      console.log('Файл не обраний. Завантаження не відбудеться.');
+      return;
+    }
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
     formData.append('flat_id', this.selectedFlatId);
 
     const headers = { 'Accept': 'application/json' };
+    console.log(formData)
     this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
       (data: any) => {
         this.images.push(serverPath + '/img/flat/' + data.filename);
@@ -115,7 +158,8 @@ export class PhotoComponent implements OnInit {
             this.statusMessage = 'Фото додано';
             setTimeout(() => {
               this.statusMessage = '';
-              this.router.navigate(['/housing-parameters/host/address']);
+              this.reloadPageWithLoader();
+              // this.router.navigate(['/housing-parameters/host/address']);
             }, 1500);
           }, 500);
         } else {

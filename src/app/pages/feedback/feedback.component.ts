@@ -26,6 +26,11 @@ export class FeedbackComponent implements OnInit {
   menuName: string | undefined;
   statusMessage: string | undefined;
   path_logo = path_logo;
+  allFeedback: boolean = false;
+  allFeedbackRead: any;
+  checkAllFeedback() {
+    this.allFeedback = !this.allFeedback;
+  }
 
   optionName = [
     'Чат',
@@ -66,11 +71,26 @@ export class FeedbackComponent implements OnInit {
     'Багато непотрібного',
   ]
 
+  openPassword: boolean = false;
+  getOpen() {
+    this.openPassword = !this.openPassword;
+  }
+  passwordCheck: any;
+  passwordAdmin: any;
+
+  checkPassword() {
+    if (this.passwordAdmin == 'discAdm321') {
+      this.passwordCheck = true;
+    } else {
+      this.passwordCheck = false;
+    }
+  }
+
   constructor(
     private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getFeedback ();
+    this.getFeedback();
   }
 
   async saveFeedback(): Promise<void> {
@@ -99,7 +119,7 @@ export class FeedbackComponent implements OnInit {
           }, 500);
         }
       }
-       catch (error) {
+      catch (error) {
         console.error(error);
       }
     } else {
@@ -135,6 +155,30 @@ export class FeedbackComponent implements OnInit {
         }
       } catch (error) {
         this.menu = new Feedback();
+        console.error(error);
+      }
+    } else {
+      console.log('user not found');
+    }
+  }
+
+  async getAllFeedback(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      console.log(123)
+      try {
+        const response2: any = await this.http.post(serverPath + '/feedback/get/admin', {
+          auth: { password: 123456, email: "discAdm321" },
+          menuName: this.menuName,
+        }).toPromise();
+
+        if (response2) {
+          this.allFeedbackRead = response2
+        } else {
+          console.log('Немає відгуків')
+        }
+      }
+      catch (error) {
         console.error(error);
       }
     } else {

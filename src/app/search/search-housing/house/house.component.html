@@ -33,7 +33,7 @@
 
           <div class="status-container">
             <div class="status-box">
-              <div class="status-value" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
+              <div class="status-value" *ngIf="isSubscribed">Підписані</div>
               <div class="status-value" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
             </div>
             <div class="status-hover">
@@ -81,21 +81,44 @@
                   (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
               </div>
               <div class="price">
+
                 <div class="ml-2 flex-box" *ngIf="selectedFlat.rooms">
                   <div class="room">{{ selectedFlat.rooms }}</div>
-                  <div class="text">кімнатна</div>
+                  <div class="text">кім.</div>
                 </div>
 
-                <div *ngIf="selectedFlat?.option_pay === 0" class="ml-2 price_m">{{
-                  selectedFlat?.price_m
-                  || '?' }}
-                  <span class="title-selected">ціна ₴/міс</span>
+                <div class="ml-2 flex-box" *ngIf="selectedFlat.area">
+                  <div class="room">{{ selectedFlat.area | number:'1.0-0' }}</div>
+                  <div class="text">м²</div>
                 </div>
 
-                <div *ngIf="selectedFlat?.option_pay !== 0" class="ml-2 price_m">{{
-                  selectedFlat?.price_d
-                  || '?' }}
-                  <span class="title-selected">ціна ₴/добу</span>
+                <div class="ml-2 flex-box" *ngIf="selectedFlat?.option_pay === 0">
+                  <div class="room"> {{ selectedFlat?.price_m | number:'1.0-0' }} </div>
+                  <div class="text">ціна ₴/міс</div>
+                </div>
+
+                <div class="ml-2 flex-box" *ngIf="selectedFlat?.option_pay !== 0">
+                  <div class="room"> {{ selectedFlat?.price_d | number:'1.0-0' }} </div>
+                  <div class="text">ціна ₴/добу</div>
+                </div>
+
+
+
+
+              </div>
+
+              <div class="btn-container">
+
+                <div class="btn-box" *ngIf="locationLink">
+                  <button class="btn" (click)="openFullScreenImage(selectedFlat?.img)"><i class="fa-regular fa-image"></i></button>
+                </div>
+
+                <div class="btn-box" *ngIf="locationLink">
+                  <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
+                </div>
+
+                <div class="btn-box">
+                  <button class="btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
                 </div>
               </div>
             </div>
@@ -143,22 +166,7 @@
                 }}</div>
             </div>
 
-            <div class="title-group" *ngIf="selectedFlat?.area">
-              <div class="title-selected">Площа оселі : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.area }} м²</div>
-            </div>
 
-            <div class="btn-container">
-              <div class="btn-box" *ngIf="locationLink">
-                <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
-                <div class="btn-name">Локація</div>
-              </div>
-
-              <div class="btn-box">
-                <button class="btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
-                <div class="btn-name">Детальніше</div>
-              </div>
-            </div>
           </div>
         </div>
 

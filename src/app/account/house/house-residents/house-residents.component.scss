@@ -1,7 +1,6 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
-
 .container-card {
   display: flex;
   align-items: center;
@@ -32,24 +31,34 @@
 }
 
 .card-wrapper {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-  height: 120px;
-  overflow: hidden;
+  justify-content: center;
+  height: 600px;
+  overflow: auto;
+  align-content: flex-start;
+}
+
+.card-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
   transition: all 0.3s ease;
+  overflow: hidden;
+
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  height: 130px;
+  display: flex;
+  justify-content: center;
 
   &:hover,
   :focus {
     transform: scale(1.05);
   }
-}
-
-.card {
-  width: 97%;
-  display: flex;
-  justify-content: center;
 }
 
 .card-body {
@@ -302,5 +311,3 @@ input {
     display: none;
   }
 }
-
-

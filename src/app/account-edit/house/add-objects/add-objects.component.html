@@ -95,26 +95,43 @@
           </button>
         </div>
 
-        <mat-form-field class="textarea-form mt-2">
+        <mat-form-field class="textarea-form mt-2" *ngIf="about">
           <mat-label>Опис об'єкту:</mat-label>
-          <textarea class="textarea-form" #textArea (input)="onInput()"
-            [(ngModel)]="objectInfo.about" matInput
+          <textarea class="textarea-form" #textArea (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
             placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
         </mat-form-field>
 
         <div class="add-photo-group">
-          <label class="add-photo-label" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
-          <label class="add-photo-label" *ngIf="!selectedFile">Додати фото</label>
-          <div class="add-photo-box">
-            <i class="add-photo-icon fa-regular fa-image" for="upload"></i>
-            <input class="add-photo-input" matTooltip="ДОДАТИ ФОТО" name="file" type="file" id="upload"
-              (change)="onFileSelected($event)">
+
+          <div class="box-group" *ngIf="cropped">
+            <div *ngIf="cropped"><img [src]="cropped"></div>
+            <p class="btn-name" *ngIf="cropped">Фото додане</p>
           </div>
-          <div class="add-photo-box">
-            <i class="add-photo-icon fa-solid fa-cloud-arrow-up" for="upload"></i>
-            <button class="add-photo-input" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"></button>
+
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-regular fa-image" for="upload"></i>
+              <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+              <button class="input-up" (click)="_fileInput.click()"> </button>
+            </div>
+            <p class="btn-name">Фото</p>
           </div>
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-solid fa-quote-right"></i>
+              <button class="input-up" (click)="addAbout()"></button>
+            </div>
+            <p class="btn-name">Опис</p>
+          </div>
+
+
         </div>
+
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"><i
+            class="fa-regular fa-circle-check"></i></button>
+
       </div>
     </div>
 
@@ -216,26 +233,42 @@
           </button>
         </div>
 
-        <mat-form-field class="textarea-form mt-2">
+        <mat-form-field class="textarea-form mt-2" *ngIf="about">
           <mat-label>Опис об'єкту:</mat-label>
-          <textarea class="textarea-form" #textArea (input)="onInput()"
-            [(ngModel)]="objectInfo.about" matInput
+          <textarea class="textarea-form" #textArea (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
             placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
         </mat-form-field>
-
+        
         <div class="add-photo-group">
-          <label class="add-photo-label" *ngIf="selectedFile">Обрано: {{ selectedFile.name }}</label>
-          <label class="add-photo-label" *ngIf="!selectedFile">Додати фото</label>
-          <div class="add-photo-box">
-            <i class="add-photo-icon fa-regular fa-image" for="upload"></i>
-            <input class="add-photo-input" matTooltip="ДОДАТИ ФОТО" name="file" type="file" id="upload"
-              (change)="onFileSelected($event)">
+
+          <div class="box-group" *ngIf="cropped">
+            <div *ngIf="cropped"><img [src]="cropped"></div>
+            <p class="btn-name" *ngIf="cropped">Фото додане</p>
           </div>
-          <div class="add-photo-box">
-            <i class="add-photo-icon fa-solid fa-cloud-arrow-up" for="upload"></i>
-            <button class="add-photo-input" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"></button>
+
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-regular fa-image" for="upload"></i>
+              <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+              <button class="input-up" (click)="_fileInput.click()"> </button>
+            </div>
+            <p class="btn-name">Фото</p>
           </div>
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-solid fa-quote-right"></i>
+              <button class="input-up" (click)="addAbout()"></button>
+            </div>
+            <p class="btn-name">Опис</p>
+          </div>
+
+
         </div>
+
+        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"><i
+            class="fa-regular fa-circle-check"></i></button>
       </div>
     </div>
 

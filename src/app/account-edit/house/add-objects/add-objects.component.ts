@@ -1,9 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { objects } from '../../../shared/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/shared/server-config';
+
+import { ImgCropperEvent } from '@alyle/ui/image-cropper';
+import { LyDialog } from '@alyle/ui/dialog';
+import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 
 interface ObjectInfo {
   name: string | undefined;
@@ -74,11 +78,22 @@ export class AddObjectsComponent implements OnInit {
   statusMessage: string | undefined;
 
   helpInfo: boolean = false;
+  photoData: any;
+  cropped?: string;
+  about: boolean = false;
+  addAbout () {
+    this.about = !this.about;
+  }
   openHelp() {
     this.helpInfo = !this.helpInfo;
   }
 
-  constructor(private http: HttpClient, private selectedFlatService: SelectedFlatService) { }
+  constructor(
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService,
+    private _dialog: LyDialog,
+    private _cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
@@ -152,7 +167,36 @@ export class AddObjectsComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+  openCropperDialog(event: Event) {
+    this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
+      data: event,
+      width: 400,
+      disableClose: true
+    }).afterClosed.subscribe((result?: ImgCropperEvent) => {
+      if (result) {
+        this.cropped = result.dataURL;
+        this._cd.markForCheck();
+        const blob = this.dataURItoBlob(result.dataURL!);
+        const photoData = new FormData();
+        photoData.append('file', blob, result.name!);
+        this.photoData = photoData;
+      }
+    });
+  }
+
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
   saveObject(): void {
+    const photoData = this.photoData;
     const userJson = localStorage.getItem('user');
     const data = {
       type_filling: this.selectedType,
@@ -163,7 +207,41 @@ export class AddObjectsComponent implements OnInit {
       flat_id: this.selectedFlatId,
     };
 
-    if (userJson && data && this.selectedType && this.selectedObject || this.customObject) {
+    if (photoData && userJson && data && this.selectedType && this.selectedObject || this.customObject) {
+      photoData.append("inf", JSON.stringify(data));
+      photoData.append('auth', userJson!);
+
+      const headers = { 'Accept': 'application/json' };
+      this.http.post(serverPath + '/img/uploadFilling', photoData, { headers }).subscribe(
+        (uploadResponse: any) => {
+          if (uploadResponse.status === 'Збережено') {
+            this.selectedObject = '';
+            this.objectInfo.number = 1;
+            this.customObject = '';
+            this.objectInfo.about = '';
+            setTimeout(() => {
+              this.statusMessage = "Об'єкт додано до списку";
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.selectedObject = '';
+                this.objectInfo.number = 1;
+                this.customObject = '';
+                this.objectInfo.about = '';
+                this.getInfo()
+              }, 1500);
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              this.statusMessage = 'Дані не збережено';
+              this.reloadPageWithLoader()
+            }, 2000);
+          }
+        },
+        (uploadError: any) => {
+          console.log(uploadError);
+        }
+      );
+    } else if (!photoData && userJson && data && this.selectedType && this.selectedObject || this.customObject) {
       const formData: FormData = new FormData();
       if (this.selectedFile) {
         formData.append('file', this.selectedFile, this.selectedFile.name);
@@ -196,7 +274,6 @@ export class AddObjectsComponent implements OnInit {
           console.log(uploadError);
         }
       );
-
 
     } else {
       console.log('Внесіть данні')

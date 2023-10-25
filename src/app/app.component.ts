@@ -5,32 +5,13 @@ import { IsAccountOpenService } from './services/is-account-open.service';
 import { serverPath } from 'src/app/shared/server-config';
 import { Router } from '@angular/router';
 import { CloseMenuService } from './services/close-menu.service';
-import { ThemeVariables, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
-
-const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
-  const __ = ref.selectorsOf(STYLES);
-  return {
-    $global: lyl `{
-      body {
-        margin: 0
-        direction: ${theme.direction}
-      }
-    }`,
-    root: lyl `{
-      display: block
-    }`
-  };
-};
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [StyleRenderer]
 })
 
 export class AppComponent implements OnInit {
-  readonly classes = this.sRenderer.renderSheet(STYLES, true);
 
   @ViewChild('locationElement') locationElement!: ElementRef;
   loginForm: any;
@@ -78,14 +59,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  constructor(readonly sRenderer: StyleRenderer,
-              private http: HttpClient,
-              private cdr: ChangeDetectorRef,
-              private isAccountOpenService: IsAccountOpenService,
-              private location: Location,
-              private router: Router,
-              private el: ElementRef,
-              private isCloseMenu: CloseMenuService) { }
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private isAccountOpenService: IsAccountOpenService,
+    private location: Location,
+    private router: Router,
+    private el: ElementRef,
+    private isCloseMenu: CloseMenuService) { }
 
   async ngOnInit(): Promise<void> {
     const currentLocation = this.location.path();
@@ -104,7 +85,7 @@ export class AppComponent implements OnInit {
   async getUserInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post( serverPath +'/auth', JSON.parse(userJson))
+      this.http.post(serverPath + '/auth', JSON.parse(userJson))
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);
@@ -135,7 +116,7 @@ export class AppComponent implements OnInit {
     this.isCloseMenu.closeMenu$.subscribe(async closeMenu => {
       this.closeMenuStatus = closeMenu;
       if (this.closeMenuStatus === false) {
-        this.onToggleMenu ();
+        this.onToggleMenu();
       }
     });
   }

@@ -1,5 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/radio.scss";
+@use "../../style/mixins/" as *;
 
 form {
   margin: 0;
@@ -81,5 +82,23 @@ li {
   font-size: 14px;
 }
 
+.box {
+  @include flex-box-column;
+  width: 100%;
+}
 
+.feedBack {
+  @include flex-box-column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 350px;
+  padding: 10px;
+  margin: 10px;
+  height: auto;
+}
 
+.feedBack-box {
+  @include flex-box;
+  flex-wrap: wrap;
+  height: auto;
+}

@@ -27,6 +27,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
 import { DeleteHouseComponent } from './delete-house/delete-house.component';
 
+import { LyImageCropperModule } from '@alyle/ui/image-cropper';
+import { LySliderModule } from '@alyle/ui/slider';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyIconModule } from '@alyle/ui/icon';
+import { LyDialogModule } from '@alyle/ui/dialog';
+
 @NgModule({
   declarations: [
     HousingParametersComponent,
@@ -59,6 +65,12 @@ import { DeleteHouseComponent } from './delete-house/delete-house.component';
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
+
+    LyImageCropperModule,
+    LySliderModule,
+    LyButtonModule,
+    LyIconModule,
+    LyDialogModule,
   ],
 })
 export class HousingParametersModule { }

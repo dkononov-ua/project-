@@ -439,7 +439,7 @@
 
             <mat-form-field class="item-select w-25 p-1" appearance="outline">
               <input type="number" name="months" placeholder="Міс." (click)="onDayCountsChange()"
-                [(ngModel)]="userInfo.mounths" [min]="minValueMounths" [max]="maxValueMounths" matInput>
+                [(ngModel)]="userInfo.mounths" [maxLength]="2" [min]="minValueMounths" [max]="maxValueMounths" matInput>
               <mat-hint>Місяці</mat-hint>
 
             </mat-form-field>

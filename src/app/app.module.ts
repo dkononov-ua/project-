@@ -42,14 +42,14 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { LY_THEME, LY_THEME_NAME, StyleRenderer, LyTheme2 } from '@alyle/ui';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinimaLight, MinimaDeepDark, MinimaDark } from '@alyle/ui/themes/minima';
 
+import { LY_THEME, LY_THEME_NAME, StyleRenderer, LyTheme2 } from '@alyle/ui';
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
-import { CropImgComponent } from './components/crop-img/crop-img.component';
 import { LyDialogModule } from '@alyle/ui/dialog';
 
 @NgModule({
@@ -65,7 +65,6 @@ import { LyDialogModule } from '@alyle/ui/dialog';
     SearchPageComponent,
     FeedbackComponent,
     AboutProjectComponent,
-    CropImgComponent,
   ],
   providers: [
     SelectedFlatService,
@@ -104,6 +103,9 @@ import { LyDialogModule } from '@alyle/ui/dialog';
     ReactiveFormsModule,
     MatRadioModule,
     MatMenuModule,
+    MatCheckboxModule,
+    HammerModule,
+
     LyImageCropperModule,
     LySliderModule,
     LyButtonModule,
@@ -112,16 +114,12 @@ import { LyDialogModule } from '@alyle/ui/dialog';
 
     MatInputModule,
     MatFormFieldModule,
-
     HousingParametersModule,
     HousingParametersRoutingModule,
-
     SearchModule,
     SearchRoutingModule,
-
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
-    HammerModule,
   ]
 })
 export class AppModule { }

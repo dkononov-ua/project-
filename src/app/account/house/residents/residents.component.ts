@@ -1,10 +1,21 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { NgZone } from '@angular/core';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
+
+export class Rating {
+  constructor(
+    public ratingComment: string = '',
+    public ratingValue: string = '',
+    public ratingDate: string = '',
+  ) { }
+}
 
 interface Subscriber {
   acces_flat_chats: any;
@@ -35,6 +46,12 @@ interface Subscriber {
   selector: 'app-residents',
   templateUrl: './residents.component.html',
   styleUrls: ['./residents.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
+
   animations: [
     trigger('cardAnimation1', [
       transition('void => *', [
@@ -69,6 +86,9 @@ interface Subscriber {
   ],
 })
 export class ResidentsComponent implements OnInit {
+
+  rating: Rating = new Rating();
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -96,51 +116,14 @@ export class ResidentsComponent implements OnInit {
   acces_flat_features: any;
   acces_flat_chats: any;
 
-  isMenuOpen = true;
-  hideMenu = false;
   statusMessageChat: any;
   isCopied = false;
 
   indexPage: number = 0;
+  indexMenu: number = 1;
+  indexPersonMenu: number = 0;
 
-  onToggleMenu() {
-    if (this.isMenuOpen) {
-      this.openMenu();
-      setTimeout(() => {
-        this.hideMenu = !this.hideMenu;
-      }, 500);
-    } else {
-      this.hideMenu = !this.hideMenu;
-      setTimeout(() => {
-        this.openMenu();
-      }, 100);
-    }
-  }
-
-  openMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  closeMenu() {
-    this.isMenuOpen = false;
-    setTimeout(() => {
-      this.hideMenu = true;
-    }, 500);
-  }
-
-
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    const containerElement = this.el.nativeElement.querySelector('.wrapper');
-    const cardBoxElement = this.el.nativeElement.querySelector('.card-box');
-
-    if (containerElement.contains(event.target as Node)) {
-      if (!cardBoxElement.contains(event.target as Node)) {
-        this.closeMenu();
-      }
-    }
-  }
+  ownerInfo: any
 
   isDescriptionVisible(key: string): boolean {
     return this.descriptionVisibility[key] || false;
@@ -159,6 +142,11 @@ export class ResidentsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.selectFlat()
+    this.selectSubscriber()
+  }
+
+  selectFlat() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       if (selectedFlatId) {
         const offs = 0;
@@ -173,9 +161,14 @@ export class ResidentsComponent implements OnInit {
             this.setAccessProperties(this.selectedSubscriber);
           }
         });
+
+        this.getOwner(selectedFlatId, offs)
+
       }
     });
+  }
 
+  selectSubscriber() {
     this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
       if (subscriberId) {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
@@ -183,6 +176,7 @@ export class ResidentsComponent implements OnInit {
           this.selectedSubscriber = selectedSubscriber;
           this.setAccessProperties(selectedSubscriber);
           this.saveSelectedSubscriber();
+          this.getRating(selectedSubscriber);
         }
       }
     });
@@ -226,6 +220,7 @@ export class ResidentsComponent implements OnInit {
     };
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       const newSubscribers: Subscriber[] = response
         .filter(user_id => user_id !== null)
         .map((user_id: any) => ({
@@ -270,6 +265,36 @@ export class ResidentsComponent implements OnInit {
 
     this.selectedFlatId = selectedFlatId;
   }
+
+  async getOwner(selectedFlatId: any, offs: number): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const userObject = JSON.parse(userJson);
+      const user_id = userObject.user_id;
+      const data = {
+        auth: JSON.parse(userJson!),
+        user_id: user_id,
+        flat_id: selectedFlatId,
+        offs: offs,
+      };
+      console.log(data)
+      try {
+        const response = await this.http.post(serverPath + '/citizen/get/ycitizen', data).toPromise() as any[];
+        console.log(response)
+        const ownerInfo = response.find(item => item.flat.flat_id.toString() === selectedFlatId)?.owner;
+        if (ownerInfo) {
+          this.ownerInfo = ownerInfo;
+          console.log(this.ownerInfo)
+          this.getRatingOwner(this.ownerInfo.user_id)
+        } else {
+          console.log('Owner для flat_id ' + selectedFlatId + ' не знайдено.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
 
   createChat(selectedSubscriber: any): void {
     const selectedFlat = this.selectedFlatId;
@@ -377,4 +402,102 @@ export class ResidentsComponent implements OnInit {
       console.log('User or subscriber not found');
     }
   }
+
+  sendRating(selectedSubscriber: any) {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson && selectedSubscriber) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: selectedSubscriber.user_id,
+        date: this.rating.ratingDate,
+        about: this.rating.ratingComment,
+        mark: this.rating.ratingValue
+      };
+      console.log(data)
+      this.http.post(serverPath + '/rating/add/userrating', data)
+        .subscribe((response: any) => {
+          console.log(response)
+          if (response) {
+            console.log('відгук надіслано')
+          } else if (response.status === false) {
+            console.log('помилка')
+          }
+          this.selectedSubscriber = selectedSubscriber;
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+  sendRatingOwner() {
+    const selectedFlat = this.selectedFlatId;
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: selectedFlat,
+        user_id: this.ownerInfo.user_id,
+        date: this.rating.ratingDate,
+        about: this.rating.ratingComment,
+        mark: this.rating.ratingValue
+      };
+      console.log(data)
+      this.http.post(serverPath + '/rating/add/flatrating', data)
+        .subscribe((response: any) => {
+          console.log(response)
+          if (response) {
+            console.log('відгук надіслано')
+          } else if (response.status === false) {
+            console.log('помилка')
+          }
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('user or subscriber not found');
+    }
+  }
+
+  async getRating(selectedSubscriber: any): Promise<any> {
+    console.log(11111)
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/usermarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: selectedSubscriber.user_id,
+    };
+
+    console.log(data)
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getRatingOwner(user_id: any): Promise<any> {
+    console.log(22222)
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/usermarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: user_id,
+    };
+
+    console.log(data)
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 }

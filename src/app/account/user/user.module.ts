@@ -28,7 +28,6 @@ import { UagreeDownloadComponent } from './agree-u/uagree-download/uagree-downlo
 import { UserComponent } from './user.component';
 import { RouterModule } from '@angular/router';
 
-
 @NgModule({
   declarations: [
     UserComponent,
@@ -65,7 +64,6 @@ import { RouterModule } from '@angular/router';
     MatStepperModule,
     MatNativeDateModule,
     RouterModule,
-
   ]
 })
 export class UserModule { }

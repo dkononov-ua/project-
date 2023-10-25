@@ -1,44 +1,39 @@
-<div ly-dialog-content [lyPx]="0">
+<div class="box">
+  <div ly-dialog-content [lyPx]="0">
 
-  <div *ngIf="ready">
-    <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
-    <button (click)="cropper.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
-    <button (click)="cropper.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
-    <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
-    <button (click)="cropper.fit()" ly-button>Fit</button>
-    <button (click)="cropper.fitToScreen()" ly-button>Fit to screen</button>
-    <button (click)="cropper.setScale(1)" ly-button>1:1</button>
+
+
+    <ly-img-cropper [config]="myConfig" [(scale)]="scale" (ready)="ready = true" (cleaned)="ready = false"
+      (minScale)="minScale = $event" (cropped)="onCropped($event)" (loaded)="onLoaded($event)"
+      (error)="onError($event)">
+      <span>Drag and drop image</span>
+    </ly-img-cropper>
+
+    <div [className]="classes.sliderContainer">
+      <div [class]="classes.slider">
+        <ly-slider [thumbVisible]="false" [min]="minScale" [max]="1" [(ngModel)]="scale" (input)="onSliderInput($event)"
+          [step]="0.000001" cdkFocusInitial></ly-slider>
+      </div>
+    </div>
+
   </div>
 
-  <ly-img-cropper
-    [config]="myConfig"
-    [(scale)]="scale"
-    (ready)="ready = true"
-    (cleaned)="ready = false"
-    (minScale)="minScale = $event"
-    (cropped)="onCropped($event)"
-    (loaded)="onLoaded($event)"
-    (error)="onError($event)"
-  >
-    <span>Drag and drop image</span>
-  </ly-img-cropper>
-
-  <div [className]="classes.sliderContainer">
-    <div [class]="classes.slider">
-      <ly-slider
-        [thumbVisible]="false"
-        [min]="minScale"
-        [max]="1"
-        [(ngModel)]="scale"
-        (input)="onSliderInput($event)"
-        [step]="0.000001"
-        cdkFocusInitial></ly-slider>
+  <div *ngIf="ready">
+    <div class="box-1">
+      <button (click)="cropper.zoomIn()" ly-button appearance="icon"><i
+          class="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button (click)="cropper.zoomOut()" ly-button appearance="icon"><i
+          class="fa-solid fa-magnifying-glass-minus"></i></button>
+      <button (click)="cropper.center()" ly-button appearance="icon"><i
+          class="fa-solid fa-arrows-to-circle"></i></button>
+      <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><i class="fa-solid fa-rotate-left"></i></button>
+      <button (click)="cropper.fit()" ly-button appearance="icon"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
     </div>
   </div>
 
-</div>
+  <div container *ngIf="ready" [lyJustifyContent]="'center'" ly-dialog-actions>
+    <button class="w-50" ly-button (click)="dialogRef.close()">ВІДМІНИТИ</button>
+    <button class="w-50" ly-button (click)="dialogRef.close(cropper.crop())">ГОТОВО</button>
+  </div>
 
-<div container *ngIf="ready" [lyJustifyContent]="'flex-end'" ly-dialog-actions>
-  <button ly-button color="primary" (click)="dialogRef.close()">CANCEL</button>
-  <button ly-button color="primary" (click)="dialogRef.close(cropper.crop())">DONE</button>
 </div>

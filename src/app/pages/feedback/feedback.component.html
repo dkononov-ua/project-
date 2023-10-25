@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="card-container">
 
-  <div class="card-box col-lg-5 col-md-5 col-sm-5 col-12">
+  <div class="card-box col-lg-5 col-md-5 col-sm-5 col-12" *ngIf="!passwordCheck">
     <div class="card p-2">
       <form (submit)="saveFeedback()" #feedbackForm="ngForm">
         <h4 class="m-2">Картка оцінювання</h4>
@@ -214,7 +214,7 @@
     </div>
   </div>
 
-  <div class="card-box col-lg-5 col-md-5 col-sm-5 col-12">
+  <div class="card-box col-lg-5 col-md-5 col-sm-5 col-12" *ngIf="!passwordCheck">
     <div class="card p-2">
       <h4 class="m-2">Нам важливий Ваш відгук!</h4>
       <ul>Це допоможе зробити:
@@ -234,6 +234,17 @@
           використання продукту,
           залишення відгуку може допомогти отримати швидку підтримку та вирішення проблеми.</li>
       </ul>
+
+      <button class="btn w-50" (click)="getOpen()" *ngIf="!openPassword">Всі відгуки</button>
+      <div class="box" *ngIf="openPassword && !passwordCheck">
+        <mat-form-field class="form-field item-select p-1" appearance="outline">
+          <mat-label class="mat-form-field-label">Пароль</mat-label>
+          <div class="mat-input-container">
+            <input matInput type="password" [(ngModel)]="passwordAdmin" name="passwordAdmin">
+          </div>
+        </mat-form-field>
+        <button class="btn" (click)="checkPassword()">Подивитись</button>
+      </div>
     </div>
 
     <!-- <div class="card p-3" *ngIf="menu.menuName == 'Чат'">
@@ -259,8 +270,50 @@
       </div> -->
   </div>
 
+  <div class="card-box p-2 col-lg-12 col-md-5 col-sm-5 col-12" *ngIf="passwordCheck">
+    <mat-form-field class="form-field w-50">
+      <mat-label>Назва меню</mat-label>
+      <mat-select [(ngModel)]="menuName" name="menuName" required (selectionChange)="getAllFeedback()">
+        <mat-option *ngFor="let option of optionName" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="feedBack-box">
+      <div *ngFor="let feedback of allFeedbackRead" class="card feedBack">
+        <div>Дата: {{ feedback.data | date:'medium' }}</div>
+        <div class="accent">Коментар: {{ feedback.menuComment }}</div>
+        <div>Назва меню: {{ feedback.menuName }}</div>
+        <div>Зручність: {{ feedback.optionComfort }}/5</div>
+        <div>Дизайн: {{ feedback.optionDesign }}/5</div>
+
+        <div>Пристрій:
+          <div *ngIf="feedback.optionDevice === 0">Смартфон</div>
+          <div *ngIf="feedback.optionDevice === 1">ПК</div>
+          <div *ngIf="feedback.optionDevice === 2">Обидва</div>
+        </div>
+
+        <div>Функціональність:
+          <div *ngIf="feedback.optionFunctional === 0">Мало</div>
+          <div *ngIf="feedback.optionFunctional === 1">Достатньо</div>
+          <div *ngIf="feedback.optionFunctional === 2">Багато</div>
+        </div>
+
+        <div>Короткий відгук:
+          <div *ngIf="feedback.optionImpression === 0">Погано</div>
+          <div *ngIf="feedback.optionImpression === 1">Нормально</div>
+          <div *ngIf="feedback.optionImpression === 2">Круто</div>
+        </div>
+
+        <div>User ID: {{ feedback.user_id }}</div>
+      </div>
+    </div>
+
+
+  </div>
+
 </div>
-<app-footer></app-footer>
 
 <div *ngIf="statusMessage" class="status-message">
   <div class="status-message-text">{{ statusMessage }}</div>

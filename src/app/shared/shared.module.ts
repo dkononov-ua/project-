@@ -25,6 +25,15 @@ import { SelectionDiscussioComponent } from '../components/selection-discussio/s
 import { UpdateComponentService } from '../services/update-component.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddHouseComponent } from '../account-edit/house/add-house/add-house.component';
+
+
+import { LySliderModule } from '@alyle/ui/slider';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyIconModule } from '@alyle/ui/icon';
+import { LyDialogModule } from '@alyle/ui/dialog';
+import { LyImageCropperModule } from '@alyle/ui/image-cropper';
+import { CropImgComponent } from '../components/crop-img/crop-img.component';
+
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -37,6 +46,8 @@ import { AddHouseComponent } from '../account-edit/house/add-house/add-house.com
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,
+    CropImgComponent,
+
   ],
   exports: [
     NavbarComponent,
@@ -49,6 +60,8 @@ import { AddHouseComponent } from '../account-edit/house/add-house/add-house.com
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,
+    CropImgComponent,
+
   ],
   providers: [
     UpdateComponentService,
@@ -69,6 +82,11 @@ import { AddHouseComponent } from '../account-edit/house/add-house/add-house.com
     MatMenuModule,
     MatFormFieldModule,
     MatSelectModule,
+    LyImageCropperModule,
+    LySliderModule,
+    LyButtonModule,
+    LyIconModule,
+    LyDialogModule,
   ]
 })
 export class SharedModule { }

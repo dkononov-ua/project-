@@ -109,3 +109,100 @@
   font-size: 0.8em;
   color: $color-dark !important;
 }
+
+.box-filling {
+  display: flex;
+  flex-wrap: wrap;
+  height: 60vh;
+  overflow: auto;
+  align-content: flex-start;
+  justify-content: center;
+  @include s1-s3 {
+    height: 70vh;
+  }
+}
+
+.box-filling::-webkit-scrollbar {
+  display: none;
+}
+
+.card-filling {
+  cursor: pointer;
+  width: 95%;
+  height: 300px;
+  display: flex;
+  border-radius: 20px;
+  justify-content: space-between;
+  transition: 1s;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @include s1-s3 {
+    width: 94%;
+  }
+}
+
+.card-filling.selectedCard {
+  background-color: $color-accent;
+}
+
+.box-img {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.img-card {
+  height: 300px;
+  width: 100%;
+}
+
+.btn-delete {
+  position: absolute;
+  top: 20;
+  background-color: $color-white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  z-index: 20;
+  .fa-solid {
+    color: $color-text;
+  }
+  &:hover {
+    background-color: $color-white;
+  }
+}
+
+.indicator-box {
+  @include flex-box-row;
+  z-index: 99;
+  top: 0;
+  height: 20px;
+  width: 100%;
+  position: sticky;
+}
+
+.indicator-photo {
+  @include flex-box;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+
+  .fa-solid {
+    font-size: 14px;
+  }
+
+  padding: 3px;
+  margin: 0 5px;
+  background-color: $color-accent;
+  border-radius: 50%;
+
+  &:hover {
+    color: $color-accent;
+    transform: scale(1.2);
+  }
+}

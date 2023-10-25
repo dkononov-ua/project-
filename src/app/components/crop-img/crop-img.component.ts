@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { StyleRenderer, WithStyles, lyl, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { LyDialogRef, LY_DIALOG_DATA } from '@alyle/ui/dialog';
 import { LySliderChange, STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
@@ -7,7 +7,8 @@ import {
   LyImageCropper,
   ImgCropperConfig,
   ImgCropperEvent,
-  ImgCropperErrorEvent
+  ImgCropperErrorEvent,
+  ImgResolution
 } from '@alyle/ui/image-cropper';
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
@@ -19,8 +20,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   return {
     root: lyl `{
       ${cropper.root} {
-        max-width: 320px
-        height: 320px
+        width: 400px
+        height: 400px
       }
     }`,
     sliderContainer: lyl `{
@@ -39,31 +40,29 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
     }`
   };
 };
-
 @Component({
   selector: 'app-crop-img',
   templateUrl: './crop-img.component.html',
   styleUrls: ['./crop-img.component.scss']
 })
+
 export class CropImgComponent implements WithStyles, AfterViewInit  {
+
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   ready: boolean = false;
-  scale: number = 1;
+  scale: number = 0;
   minScale: number = 1;
+
   @ViewChild(LyImageCropper, { static: true }) cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 400,
-    height: 400,
+    width: 600,
+    height: 600,
     // type: 'image/png',
     keepAspectRatio: true,
     responsiveArea: true,
-    output: {
-      width: 400,
-      height: 400
-    },
+    output: ImgResolution.OriginalImage,
     resizableArea: true
   };
-
   constructor(
     @Inject(LY_DIALOG_DATA) private event: Event,
     readonly sRenderer: StyleRenderer,
@@ -71,7 +70,6 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
   ) { }
 
   ngAfterViewInit() {
-    // Load image when dialog animation has finished
     this.dialogRef.afterOpened.subscribe(() => {
       this.cropper.selectInputEvent(this.event);
     });
@@ -80,18 +78,18 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
   onCropped(e: ImgCropperEvent) {
     console.log('cropped img: ', e);
   }
+
   onLoaded(e: ImgCropperEvent) {
     console.log('img loaded', e);
   }
+
   onError(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
-    // Close the dialog if it fails
     this.dialogRef.close();
   }
 
   onSliderInput(event: LySliderChange) {
     this.scale = event.value as number;
   }
-
 
 }

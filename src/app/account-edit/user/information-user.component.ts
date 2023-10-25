@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
@@ -86,7 +85,6 @@ interface UserParam {
 
 export class InformationUserComponent implements OnInit {
 
-  cropped?: string;
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -186,6 +184,7 @@ export class InformationUserComponent implements OnInit {
   openHelpAdd() {
     this.helpAdd = !this.helpAdd;
   }
+
   phonePattern = '^[0-9]{10}$';
 
   constructor(
@@ -193,7 +192,6 @@ export class InformationUserComponent implements OnInit {
     private isAccountOpenService: IsAccountOpenService,
     private router: Router,
     private _dialog: LyDialog,
-    private _cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -239,7 +237,6 @@ export class InformationUserComponent implements OnInit {
   saveInfoUser(): void {
     const userJson = localStorage.getItem('user');
     this.saveParamsUser();
-
     if (userJson) {
       const data = { ...this.userInfo };
       this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data })
@@ -266,6 +263,7 @@ export class InformationUserComponent implements OnInit {
       console.log('user not found, the form is blocked');
     }
   }
+
   saveInfoCont(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -337,7 +335,6 @@ export class InformationUserComponent implements OnInit {
   }
 
   openCropperDialog(event: Event) {
-    this.cropped;
     this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
       data: event,
       width: 320,
@@ -346,10 +343,10 @@ export class InformationUserComponent implements OnInit {
       if (result) {
         const blob = this.dataURItoBlob(result.dataURL!);
         const formData = new FormData();
+
         formData.append('file', blob, result.name!);
+        console.log(formData)
         this.onUpload(formData);
-        this.cropped = result.dataURL;
-        this._cd.markForCheck();
       }
     });
   }
@@ -367,14 +364,11 @@ export class InformationUserComponent implements OnInit {
 
   onUpload(formData: any): void {
     const userJson = localStorage.getItem('user');
-
     if (!formData) {
       console.log('Файл не обраний. Завантаження не відбудеться.');
       return;
     }
-
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-
     const headers = { 'Accept': 'application/json' };
     this.http.post(serverPath + '/img/uploaduser', formData, { headers }).subscribe(
       (data: any) => {

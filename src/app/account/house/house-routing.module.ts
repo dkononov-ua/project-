@@ -27,9 +27,10 @@ const routes: Routes = [
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-menu', component: AgreeMenuComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-review', component: AgreeReviewComponent, canActivate: [CanActivateGuard] },
+      { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
+
     ],
   },
-  { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
   { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
   { path: 'act-create', component: ActReceptionTransmissionComponent, canActivate: [CanActivateGuard] },
   { path: 'act-view/:selectedFlatAgree', component: ActViewComponent, canActivate: [CanActivateGuard] },

@@ -11,15 +11,16 @@
         <div class="img-container shadow">
           <div class="img-wrapper">
             <img class="img-fluid"
-              [src]="flatImg && flatImg[currentPhotoIndex].img ? serverPathPhotoFlat + flatImg[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" alt="Flat Image">
+              [src]="flatImg && flatImg.length > 0 && flatImg[flatImg.length - 1].img ? serverPathPhotoFlat + flatImg[flatImg.length - 1].img : serverPathPhotoFlat + 'housing_default.svg'"
+              alt="Flat Image">
           </div>
-          <div *ngIf="flatImg?.length > 1">
+
+          <!-- <div *ngIf="flatImg?.length > 1">
             <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
                 class="fa-solid fa-chevron-left"></i></button>
             <button *ngIf="currentPhotoIndex !== flatImg?.length - 1" class="next-img" (click)="nextPhoto()"><i
                 class="fa-solid fa-chevron-right"></i></button>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -32,23 +33,29 @@
 
       <div class="card-1">
         <label class="label-1">Завантажити фото оселі</label>
-        <div class="input-div">
+        <div class="input-div w-30">
           <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-          <input class="input-up" name="file" type="file" id="upload" (change)="onFileSelected($event)">
+          <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+          <button class="input-up" ly-button (click)="_fileInput.click()">
+            <ly-icon [lyMf]="1">image</ly-icon>
+            <span>Select File</span>
+          </button>
         </div>
       </div>
 
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card m-2">
+
+      <div class="card m-2" *ngIf="flatImg.length <= 1">
         <mat-label>Які фото можна завантажувати</mat-label>
         <div class="card-body-cast">
           <ul>
             <li>Формат фото: img, jpg, png, jpeg, webp.</li>
             <li>Максимальний розмір фото до 10 мб.</li>
             <li>Максимальна кількість фото 20 шт.</li>
-            <li>Перше завантажене фото буде головним фото вашої оселі. Після видалення першого фото головним стане наступне.</li>
+            <li>Перше завантажене фото буде головним фото вашої оселі. Після видалення першого фото головним стане
+              наступне.</li>
             <li>Фото видаляються разом з видаленням оселі.</li>
             <li>Фото можна додавати по одному за раз.</li>
           </ul>
@@ -59,6 +66,33 @@
         </div>
 
       </div>
+
+      <div class="box-filling m-2" *ngIf="flatImg.length > 1">
+
+        <div class="indicator-box">
+          <div *ngFor="let flat_photo of flatImg; let i = index"
+            [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }" (click)="selectPhoto(flat_photo.img)">
+            <div class="indicator-photo"><i class="fa-solid fa-circle-notch"></i></div>
+          </div>
+        </div>
+
+        <div *ngFor="let flat_photo of flatImg" class="card-filling p-2 mb-2"
+          [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }" (click)="selectPhoto(flat_photo.img)">
+          <div class="box-img" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
+            [attr.data-img]="flat_photo.img">
+            <img class="img-card"
+              [src]="flat_photo.img && flat_photo ? serverPathPhotoFlat + flat_photo.img : serverPathPhotoFlat + 'housing_default.svg'"
+              alt="Flat Image" alt="Flat Image">
+          </div>
+          <button class="btn-delete" (click)="deleteObject(flat_photo.img)" matTooltip="Видалити"><i
+              class="fa-solid fa-trash"></i></button>
+        </div>
+
+
+
+
+      </div>
+
     </div>
 
   </div>

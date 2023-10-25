@@ -1,0 +1,25 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+
+.box {
+  background-color: $color-white;
+  overflow: hidden;
+}
+
+.fa-solid {
+  color: $color-text;
+}
+
+ly-icon {
+  color: $color-text;
+}
+
+button {
+  color: $color-text;
+  font-family: $font-main
+}
+
+.box-1 {
+  display: flex;
+  justify-content: space-evenly;
+}

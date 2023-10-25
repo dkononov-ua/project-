@@ -3,90 +3,115 @@
 </ng-container>
 
 <ng-template #content>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-12" [@cardAnimation2]>
 
-  <app-navbar></app-navbar>
+    <div class="switch-box p-2">
 
-  <div class="switch-box p-2 hide-pc">
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexMenu == 0}" (click)="indexMenu = 0" matTooltip="Власник">
+          <i class="fa-solid fa-id-card-clip"></i></button>
+        <div class="btn-menu-name">Власник</div>
+      </div>
 
-    <div class="btn-menu hide-pc">
-      <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Всі мешканці">
-        <i class="fa-solid fa-user-group"></i></button>
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexMenu == 1}" (click)="indexMenu = 1" matTooltip="Мешканці">
+          <i class="fa-solid fa-users-gear"></i></button>
+        <div class="btn-menu-name">Мешканці</div>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexMenu == 2}" (click)="indexMenu = 2"
+          matTooltip="Додати мешканця"> <i class="fa-solid fa-user-plus"></i> </button>
+        <div class="btn-menu-name">Додати</div>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPersonMenu == 0}" (click)="indexPersonMenu = 0"
+          matTooltip="Профіль">
+          <i class="fa-solid fa-person-half-dress"></i></button>
+        <div class="btn-menu-name">Профіль</div>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPersonMenu == 1}" (click)="indexPersonMenu = 1"
+          matTooltip="Відгук">
+          <i class="fa-regular fa-comment-dots"></i></button>
+        <div class="btn-menu-name">Відгук</div>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPersonMenu == 2}" (click)="indexPersonMenu = 2"
+          matTooltip="Дозволи"> <i class="fa-solid fa-user-gear"></i> </button>
+        <div class="btn-menu-name">Дозволи</div>
+      </div>
+
     </div>
 
-    <div class="btn-menu">
-      <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1" matTooltip="Мешканець">
-        <i class="fa-solid fa-user-gear"></i></button>
-    </div>
-
-    <div class="btn-menu">
-      <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2" matTooltip="Додати мешканця">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-    </div>
-
-  </div>
-
-  <div class="card-container hide-mobile">
-    <div class="wrapper col-lg-3 col-md-5 col-sm-6 col-12">
-      <app-selection-account class="hide-mobile"></app-selection-account>
-      <app-selection-housing></app-selection-housing>
-      <app-user-search class="mt-3"></app-user-search>
-      <div class="text">Це поле дозволить додати мешканця напряму без створення угоди.</div>
-    </div>
-
-    <div class="card-box col-lg-9 col-md-9 col-sm-9 col-12" [@cardAnimation2]>
+    <div class="card-container col-12">
       <div class="col-lg-6 col-md-5 col-sm-6 col-12">
-        <div class="wrapper">
+
+        <div class="wrapper" *ngIf="indexMenu == 0">
+          <h1>Власник</h1>
+        </div>
+
+        <div class="wrapper" *ngIf="indexMenu == 1">
           <app-house-residents></app-house-residents>
         </div>
+
+        <div class="wrapper p-3" *ngIf="indexMenu == 2">
+          <h4>Додати мешканців</h4>
+          <app-user-search class="mt-3"></app-user-search>
+          <div class="text">Це поле дозволить додати мешканця напряму без створення угоди.</div>
+        </div>
+
       </div>
-      <div class="card col-lg-6 col-md-5 col-sm-6 col-12">
-        <div>
+
+      <div class="col-lg-6 col-md-5 col-sm-6 col-12">
+
+        <div class="card" *ngIf="indexMenu == 0">
           <div class="img-container">
             <div class="img-wrapper">
-              <img class="img-fluid rounded"
-                [src]="serverPathPhotoUser + (selectedSubscriber?.photo || 'user_default.svg')" alt="User Image">
+              <img class="img-fluid rounded" [src]="serverPathPhotoUser + (ownerInfo?.img || 'user_default.svg')"
+                alt="User Image">
             </div>
 
             <div class="user-group p-1">
 
               <div class="social-link-box">
-                <a target="_blank" href="{{ selectedSubscriber?.instagram }}"><i
-                    class="fab fa-brands fa-instagram"></i></a>
-                <a target="_blank" *ngIf="selectedSubscriber?.telegram" href="{{ selectedSubscriber?.telegram }}"><i
+                <a target="_blank" href="{{ ownerInfo?.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+                <a target="_blank" *ngIf="ownerInfo?.telegram" href="{{ ownerInfo?.telegram }}"><i
                     class="fab fa-brands fa-telegram"></i></a>
-                <a target="_blank" *ngIf="selectedSubscriber?.facebook" href="{{ selectedSubscriber?.facebook }}"><i
+                <a target="_blank" *ngIf="ownerInfo?.facebook" href="{{ ownerInfo?.facebook }}"><i
                     class="fab fa-brands fa-facebook"></i></a>
               </div>
 
               <div class="user-group-name">
                 <div class="user-sup-name">Прізвище : </div>
-                <div class="user-name">{{ selectedSubscriber?.lastName || '?' }}</div>
+                <div class="user-name">{{ ownerInfo?.lastName || '?' }}</div>
               </div>
 
               <div class="user-group-name">
                 <div class="user-sup-name">Ім'я : </div>
-                <div class="user-name">{{ selectedSubscriber?.firstName || '?' }}</div>
+                <div class="user-name">{{ ownerInfo?.firstName || '?' }}</div>
               </div>
 
               <div class="user-group-name">
                 <div class="user-sup-name">По батькові : </div>
-                <div class="user-name">{{ selectedSubscriber?.surName || '?' }}</div>
+                <div class="user-name">{{ ownerInfo?.surName || '?' }}</div>
               </div>
 
             </div>
           </div>
 
           <div class="card-body p-2">
-
             <div class="title-group-card">
               <div class="title-selected">User ID: </div>
-              <div class="title-selected-accent">{{ selectedSubscriber?.user_id || '?' }}</div>
+              <div class="title-selected-accent">{{ ownerInfo?.user_id || '?' }}</div>
             </div>
 
             <button class="title-group-card" matTooltip="Копіювати" (click)="copyTell()">
               <div class="title-selected">Телефон: </div>
-              <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedSubscriber?.tell }}</div>
+              <div *ngIf="!isCopied" class="title-selected-accent">{{ ownerInfo?.tell }}</div>
               <div *ngIf="isCopied" class="title-selected-accent message"> телефон скопійовано!</div>
             </button>
 
@@ -97,15 +122,128 @@
               </div>
             </button>
 
-            <button class="card-btn" [routerLinkActive]="'active'"
-              [routerLink]="['/agree-create', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
-                class="fa-solid fa-file-contract"></i></button>
+          </div>
+
+          <div class="group-rating">
+
+            <mat-form-field class="w-100">
+              <mat-label>Дата відгуку</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <div class="radio-group">
+              <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
+                <mat-radio-button color="warn" [value]="1">1</mat-radio-button>
+                <mat-radio-button color="warn" [value]="2">2</mat-radio-button>
+                <mat-radio-button color="warn" [value]="3">3</mat-radio-button>
+                <mat-radio-button color="warn" [value]="4">4</mat-radio-button>
+                <mat-radio-button color="warn" [value]="5">5</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <mat-form-field class="form-field w-100">
+              <mat-label>Відгук</mat-label>
+              <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
+                placeholder="Введіть Ваші побажання, пропозиції."></textarea>
+            </mat-form-field>
+
+            <button class="btn" (click)="sendRating(selectedSubscriber)">Відправити</button>
 
           </div>
         </div>
 
-        <div>
-          <div class="container-checkbox p-2">
+        <div class="card" *ngIf="indexMenu == 1">
+          <div *ngIf="indexPersonMenu == 0">
+            <div class="img-container">
+              <div class="img-wrapper">
+                <img class="img-fluid rounded"
+                  [src]="serverPathPhotoUser + (selectedSubscriber?.photo || 'user_default.svg')" alt="User Image">
+              </div>
+              <div class="user-group p-1">
+                <div class="social-link-box">
+                  <a target="_blank" href="{{ selectedSubscriber?.instagram }}"><i
+                      class="fab fa-brands fa-instagram"></i></a>
+                  <a target="_blank" *ngIf="selectedSubscriber?.telegram" href="{{ selectedSubscriber?.telegram }}"><i
+                      class="fab fa-brands fa-telegram"></i></a>
+                  <a target="_blank" *ngIf="selectedSubscriber?.facebook" href="{{ selectedSubscriber?.facebook }}"><i
+                      class="fab fa-brands fa-facebook"></i></a>
+                </div>
+                <div class="user-group-name">
+                  <div class="user-sup-name">Прізвище : </div>
+                  <div class="user-name">{{ selectedSubscriber?.lastName || '?' }}</div>
+                </div>
+
+                <div class="user-group-name">
+                  <div class="user-sup-name">Ім'я : </div>
+                  <div class="user-name">{{ selectedSubscriber?.firstName || '?' }}</div>
+                </div>
+
+                <div class="user-group-name">
+                  <div class="user-sup-name">По батькові : </div>
+                  <div class="user-name">{{ selectedSubscriber?.surName || '?' }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-2">
+              <div class="title-group-card">
+                <div class="title-selected">User ID: </div>
+                <div class="title-selected-accent">{{ selectedSubscriber?.user_id || '?' }}</div>
+              </div>
+
+              <button class="title-group-card" matTooltip="Копіювати" (click)="copyTell()">
+                <div class="title-selected">Телефон: </div>
+                <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedSubscriber?.tell }}</div>
+                <div *ngIf="isCopied" class="title-selected-accent message"> телефон скопійовано!</div>
+              </button>
+
+              <button class="card-btn" (click)="createChat(selectedSubscriber)">
+                <span>Створити чат</span><i class="fa-solid fa-message"></i>
+                <div *ngIf="statusMessageChat === true">
+                  Чат створено!
+                </div>
+              </button>
+
+              <button class="card-btn" [routerLinkActive]="'active'"
+                [routerLink]="['/agree-create', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
+                  class="fa-solid fa-file-contract"></i></button>
+
+            </div>
+          </div>
+
+          <div class="card-body p-2" *ngIf="indexPersonMenu == 1">
+            <div class="group-rating">
+
+              <mat-form-field class="w-100">
+                <mat-label>Дата відгуку</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <div class="radio-group">
+                <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
+                  <mat-radio-button color="warn" [value]="1">1</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="2">2</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="3">3</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="4">4</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="5">5</mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <mat-form-field class="form-field w-100">
+                <mat-label>Відгук</mat-label>
+                <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
+                  placeholder="Введіть Ваші побажання, пропозиції."></textarea>
+              </mat-form-field>
+
+              <button class="btn" (click)="sendRating(selectedSubscriber)">Відправити</button>
+
+            </div>
+          </div>
+
+          <div class="container-checkbox p-2" *ngIf="indexPersonMenu == 2">
             <h4>Дозволи</h4>
 
             <div class="content">
@@ -366,372 +504,15 @@
             </div>
 
             <button class="btn m-1" (click)="addAccess(selectedSubscriber!, acces_added, acces_admin,
-                  acces_services, acces_comunal, acces_filling, acces_subs, acces_discuss, acces_agreement,
-                  acces_citizen, acces_comunal_indexes, acces_agent, acces_flat_features, acces_flat_chats)">
+                      acces_services, acces_comunal, acces_filling, acces_subs, acces_discuss, acces_agreement,
+                      acces_citizen, acces_comunal_indexes, acces_agent, acces_flat_features, acces_flat_chats)">
               <i class="fa-solid fa-check-double"></i>Підтвердити
             </button>
           </div>
         </div>
 
-
       </div>
     </div>
 
   </div>
-
-  <div class="card-container hide-pc">
-    <div class="wrapper col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="indexPage === 2">
-      <app-selection-account class="hide-mobile"></app-selection-account>
-      <app-selection-housing></app-selection-housing>
-      <app-user-search></app-user-search>
-    </div>
-
-    <div class="card-box col-lg-9 col-md-9 col-sm-9 col-12" [@cardAnimation2]>
-      <div class="col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="indexPage === 0">
-        <div class="wrapper">
-          <app-house-residents (click)="indexPage = 1"></app-house-residents>
-        </div>
-      </div>
-      <div class="card col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="indexPage === 1">
-        <div>
-          <div class="img-container">
-            <div class="img-wrapper">
-              <img class="img-fluid rounded"
-                [src]="serverPathPhotoUser + (selectedSubscriber?.photo || 'user_default.svg')" alt="User Image">
-            </div>
-
-            <div class="user-group p-1">
-
-              <div class="social-link-box">
-                <a target="_blank" href="{{ selectedSubscriber?.instagram }}"><i
-                    class="fab fa-brands fa-instagram"></i></a>
-                <a target="_blank" *ngIf="selectedSubscriber?.telegram" href="{{ selectedSubscriber?.telegram }}"><i
-                    class="fab fa-brands fa-telegram"></i></a>
-                <a target="_blank" *ngIf="selectedSubscriber?.facebook" href="{{ selectedSubscriber?.facebook }}"><i
-                    class="fab fa-brands fa-facebook"></i></a>
-              </div>
-
-              <div class="user-group-name">
-                <div class="user-sup-name">Прізвище : </div>
-                <div class="user-name">{{ selectedSubscriber?.lastName || '?' }}</div>
-              </div>
-
-              <div class="user-group-name">
-                <div class="user-sup-name">Ім'я : </div>
-                <div class="user-name">{{ selectedSubscriber?.firstName || '?' }}</div>
-              </div>
-
-              <div class="user-group-name">
-                <div class="user-sup-name">По батькові : </div>
-                <div class="user-name">{{ selectedSubscriber?.surName || '?' }}</div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="card-body p-2">
-
-            <div class="title-group-card">
-              <div class="title-selected">User ID: </div>
-              <div class="title-selected-accent">{{ selectedSubscriber?.user_id || '?' }}</div>
-            </div>
-
-            <button class="title-group-card" matTooltip="Копіювати" (click)="copyTell()">
-              <div class="title-selected">Телефон: </div>
-              <div *ngIf="!isCopied" class="title-selected-accent">{{ selectedSubscriber?.tell }}</div>
-              <div *ngIf="isCopied" class="title-selected-accent message"> телефон скопійовано!</div>
-            </button>
-
-            <button class="card-btn" (click)="createChat(selectedSubscriber)">
-              <span>Створити чат</span><i class="fa-solid fa-message"></i>
-              <div *ngIf="statusMessageChat === true">
-                Чат створено!
-              </div>
-            </button>
-
-            <button class="card-btn" [routerLinkActive]="'active'"
-              [routerLink]="['/agree-create', selectedSubscriber?.user_id]"><span>Сформувати угоду</span><i
-                class="fa-solid fa-file-contract"></i></button>
-
-          </div>
-        </div>
-
-        <div>
-          <div class="container-checkbox p-2">
-            <h4>Дозволи</h4>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_comunal" type="checkbox" [(ngModel)]="acces_comunal">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_comunal')">Комунальні</span>
-                <button class="btn-info" (click)="toggleDescription('acces_comunal')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_comunal')" class="description">
-                  <p class="descr"><span class="bold">Комунальні</span> - повний доступ до меню комунальні послуги,
-                    створення/видалення послуг, додавання/видалення показників.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_comunal')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_filling" type="checkbox" [(ngModel)]="acces_filling">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_filling')">Наповнення оселі</span>
-                <button class="btn-info" (click)="toggleDescription('acces_filling')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_filling')" class="description">
-                  <p class="descr"><span class="bold">Наповнення оселі</span> - додавання/видаляти, коригування
-                    наповнення оселі (меблі, обладнання)</p>
-                  <button class="close-button" (click)="toggleDescription('acces_filling')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_subs" type="checkbox" [(ngModel)]="acces_subs">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_subs')">Управління підписниками</span>
-                <button class="btn-info" (click)="toggleDescription('acces_subs')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_subs')" class="description">
-                  <p class="descr"><span class="bold">Управління підписниками</span> - дозвіл видаляти або
-                    підтверджувати до Discusiї підписників.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_subs')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_discuss" type="checkbox" [(ngModel)]="acces_discuss">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_discuss')">Управління Discussiєю</span>
-                <button class="btn-info" (click)="toggleDescription('acces_discuss')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_discuss')" class="description">
-                  <p class="descr"><span class="bold">Управління Discussiєю</span> - дозвіл до меню Discusiї,
-                    можливість
-                    видаляти підписників з меню Discusiї,
-                    спілкуватись з підписниками від імені оселі.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_discuss')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_agreement" type="checkbox" [(ngModel)]="acces_agreement">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_agreement')">Управління угодами</span>
-                <button class="btn-info" (click)="toggleDescription('acces_agreement')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_agreement')" class="description">
-                  <p class="descr"><span class="bold">Управління угодами</span> - дозвіл на укладання та перегляд угод
-                    від імені оселі.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_agreement')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_citizen" type="checkbox" [(ngModel)]="acces_citizen">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_citizen')">Мешканці оселі</span>
-                <button class="btn-info" (click)="toggleDescription('acces_citizen')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_citizen')" class="description">
-                  <p class="descr"><span class="bold">Мешканці оселі</span> - дозвіл на перегляд та спілкування з
-                    вже доданими мешканцями оселі.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_citizen')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_comunal_indexes" type="checkbox" [(ngModel)]="acces_comunal_indexes">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_comunal_indexes')">Додавання
-                  показників</span>
-                <button class="btn-info" (click)="toggleDescription('acces_comunal_indexes')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_comunal_indexes')" class="description">
-                  <p class="descr"><span class="bold">Додавання показників</span> - можна вносити дані по комунальним
-                    послугам без
-                    можливості їх створення або видалення.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_comunal_indexes')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_flat_features" type="checkbox" [(ngModel)]="acces_flat_features">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_flat_features')">Редагування
-                  оселі</span>
-                <button class="btn-info" (click)="toggleDescription('acces_flat_features')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_flat_features')" class="description">
-                  <p class="descr"><span class="bold">Редагування оселі</span> - дозволити редагувати інформацію по
-                    оселю.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_flat_features')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_services" type="checkbox" [(ngModel)]="acces_services">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_services')">Замовлення послуг</span>
-                <button class="btn-info" (click)="toggleDescription('acces_services')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_services')" class="description">
-                  <p class="descr"><span class="bold">Замовлення послуг</span> - замовляти послуги з меню послуг.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_services')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_flat_chats" type="checkbox" [(ngModel)]="acces_flat_chats">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_flat_chats')">Чат оселі</span>
-                <button class="btn-info" (click)="toggleDescription('acces_flat_chats')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_flat_chats')" class="description">
-                  <p class="descr"><span class="bold">Чат оселі</span> - дозвіл на перегляд та користування чатом від
-                    імені оселі.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_flat_chats')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-
-                <label class="checkBox">
-                  <input id="acces_added" type="checkbox" [(ngModel)]="acces_added">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_added')">Додавати користувачів</span>
-                <button class="btn-info" (click)="toggleDescription('acces_added')"><i class="fa-solid fa-info"></i>
-                </button>
-
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_added')" class="description">
-                  <p class="descr"><span class="bold">Додавати користувачів</span> - дозволити додавання нових
-                    користувачів до оселі</p>
-                  <button class="close-button" (click)="toggleDescription('acces_added')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_agent" type="checkbox" [(ngModel)]="acces_agent">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_agent')">Представник оселі</span>
-                <button class="btn-info" (click)="toggleDescription('acces_agent')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_agent')" class="description">
-                  <p class="descr"><span class="bold">Представник оселі</span> - тільки одна особа може бути
-                    представником, вона буде відображатись від імені оселі при
-                    веденні Discusiї з підписниками та укладанні угоди.
-                    (якщо треба змінити представника то потрібно видалити з оселі попереднього представника).</p>
-                  <button class="close-button" (click)="toggleDescription('acces_agent')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="content-group">
-                <label class="checkBox">
-                  <input id="acces_admin" type="checkbox" [(ngModel)]="acces_admin">
-                  <div class="transition"></div>
-                </label>
-                <span class="checkBox-span" (click)="toggleDescription('acces_admin')">Адміністрування</span>
-                <button class="btn-info" (click)="toggleDescription('acces_admin')"><i
-                    class="fa-solid fa-info"></i></button>
-              </div>
-              <div class="description-container">
-                <div *ngIf="isDescriptionVisible('acces_admin')" class="description">
-                  <p class="descr"><span class="bold">Адміністрування</span> - якщо надати доступ до "Дозволити
-                    додавати
-                    людей" та "Адміністрування" то мешканець
-                    отримає можливість надавати дозволи.</p>
-                  <button class="close-button" (click)="toggleDescription('acces_admin')">Закрити</button>
-                </div>
-              </div>
-            </div>
-
-            <button class="btn m-1" (click)="addAccess(selectedSubscriber!, acces_added, acces_admin,
-                  acces_services, acces_comunal, acces_filling, acces_subs, acces_discuss, acces_agreement,
-                  acces_citizen, acces_comunal_indexes, acces_agent, acces_flat_features, acces_flat_chats)">
-              <i class="fa-solid fa-check-double"></i>Підтвердити
-            </button>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-
-  </div>
-
-  <app-footer></app-footer>
-
-
 </ng-template>
