@@ -1,5 +1,6 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
 
 .container-fluid {
   display: flex;
@@ -11,20 +12,19 @@
   align-content: flex-start;
 }
 
-.container-navbar {
+.navigation {
   display: flex;
   justify-content: flex-end;
-  @include s1-s3 {
-    width: 100%;
-  }
-}
-
-.navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include s1-s3 {
-    width: 100%;
+  width: 100%;
+  align-items: baseline;
+  .navigation-link {
+    &:hover {
+      color: $color-accent;
+      transform: scale(1.2);
+      .fa-solid {
+        color: $color-accent;
+      }
+    }
   }
 }
 

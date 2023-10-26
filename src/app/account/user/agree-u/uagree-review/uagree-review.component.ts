@@ -104,11 +104,18 @@ export class UagreeReviewComponent implements OnInit {
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
       console.log(response)
-      this.subscriptions = response;
-      this.subResponse = response;
-      this.loading = false;
+      if (response) {
+        this.subscriptions = response;
+        this.subResponse = response;
+        this.loading = false;
+      } else {
+        this.subscriptions = [];
+        this.subResponse = [];
+        this.loading = false;
+      }
     } catch (error) {
       console.error(error);
+      this.loading = false;
     }
   }
 

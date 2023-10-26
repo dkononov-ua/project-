@@ -5,6 +5,11 @@
 <ng-template #content>
   <nav class="navbar">
 
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+      <span class="link-text">Мій аккаунт</span>
+      <div class="link-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+    </a>
+
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
       <span class="link-text">Повідомлення</span>
       <div class="link-icon"><i class="fa-regular fa-message"></i></div>
@@ -12,17 +17,17 @@
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-user'">
-      <div class="link-text">Підписники<span class="count"
-          *ngIf="counterSubs?.status && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
+      <div class="link-text">Пропозиції<span class="count"
+          *ngIf="counterSubs?.status && counterSubs?.status !== 0">({{counterSubs?.status}}) </span>
       </div>
-      <div class="link-icon"><i class="fa-solid fa-person-praying"></i></div>
+      <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
-      <div class="link-text">Підписки<span class="count"
+      <div class="link-text">Вподобання<span class="count"
           *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
       </div>
-      <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
+      <div class="link-icon"><i class="fa-regular fa-heart"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
@@ -52,6 +57,10 @@
       <div class="link-icon"><i class="fa-solid fa-gears"></i></div>
     </a>
 
+    <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/feedback'">
+      <span class="link-text">Відгук</span>
+      <div class="link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+    </a>
 
   </nav>
 </ng-template>

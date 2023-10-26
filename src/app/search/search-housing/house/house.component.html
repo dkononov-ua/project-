@@ -102,15 +102,13 @@
                   <div class="text">ціна ₴/добу</div>
                 </div>
 
-
-
-
               </div>
 
               <div class="btn-container">
 
-                <div class="btn-box" *ngIf="locationLink">
-                  <button class="btn" (click)="openFullScreenImage(selectedFlat?.img)"><i class="fa-regular fa-image"></i></button>
+                <div class="btn-box">
+                  <button class="btn" (click)="openFullScreenImage(selectedFlat?.img)"><i
+                      class="fa-regular fa-image"></i></button>
                 </div>
 
                 <div class="btn-box" *ngIf="locationLink">
@@ -342,7 +340,6 @@
       </aside>
 
       <div class="mob-100vh col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexPage === 2 && selectedFlat">
-
         <div class="card card-selected">
 
           <div class="status-container">
@@ -373,46 +370,52 @@
             </div>
           </div>
 
-          <div *ngIf="!selectedFlat">
-            <div class="img-container">
-              <div class="img-wrapper">
-                <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
-              </div>
+          <div class="img-container">
+            <div class="img-wrapper">
+              <img class="img-fluid"
+                [src]="selectedFlat?.img && selectedFlat?.img[currentPhotoIndex] ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] : serverPathPhotoFlat + 'housing_default.svg'"
+                alt="Flat Image" (click)="openFullScreenImage(selectedFlat?.img)">
             </div>
-          </div>
+            <div *ngIf="selectedFlat?.img.length > 1">
+              <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                  class="fa-solid fa-chevron-left"></i></button>
+              <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
+                (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="price">
 
-          <div *ngIf="selectedFlat">
-            <div class="img-container">
-              <div class="img-wrapper">
-                <img class="img-fluid"
-                  [src]="selectedFlat?.img && selectedFlat?.img[currentPhotoIndex] ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] : serverPathPhotoFlat + 'housing_default.svg'"
-                  alt="Flat Image" (click)="openFullScreenImage(selectedFlat?.img)">
+              <div class="ml-2 flex-box" *ngIf="selectedFlat.rooms">
+                <div class="room">{{ selectedFlat.rooms }}</div>
+                <div class="text">кім.</div>
               </div>
-              <div *ngIf="selectedFlat?.img.length > 1">
-                <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
-                    class="fa-solid fa-chevron-left"></i></button>
-                <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
-                  (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
+
+              <div class="ml-2 flex-box" *ngIf="selectedFlat.area">
+                <div class="room">{{ selectedFlat.area | number:'1.0-0' }}</div>
+                <div class="text">м²</div>
               </div>
-              <div class="price">
 
-                <div class="ml-2 flex-box" *ngIf="selectedFlat.rooms">
-                  <div class="room">{{ selectedFlat.rooms }}</div>
-                  <div class="text">кімнатна</div>
-                </div>
-
-                <div *ngIf="selectedFlat?.option_pay === 0" class="ml-2 price_m">{{
-                  selectedFlat?.price_m
-                  || '?' }}
-                  <span class="title-selected">ціна ₴/міс</span>
-                </div>
-
-                <div *ngIf="selectedFlat?.option_pay !== 0" class="ml-2 price_m">{{
-                  selectedFlat?.price_d
-                  || '?' }}
-                  <span class="title-selected">ціна ₴/добу</span>
-                </div>
+              <div class="ml-2 flex-box" *ngIf="selectedFlat?.option_pay === 0">
+                <div class="room"> {{ selectedFlat?.price_m | number:'1.0-0' }} </div>
+                <div class="text">ціна ₴/міс</div>
               </div>
+
+              <div class="ml-2 flex-box" *ngIf="selectedFlat?.option_pay !== 0">
+                <div class="room"> {{ selectedFlat?.price_d | number:'1.0-0' }} </div>
+                <div class="text">ціна ₴/добу</div>
+              </div>
+
+            </div>
+            <div class="btn-container">
+
+              <div class="btn-box">
+                <button class="btn" (click)="openFullScreenImage(selectedFlat?.img)"><i
+                    class="fa-regular fa-image"></i></button>
+              </div>
+
+              <div class="btn-box" *ngIf="locationLink">
+                <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
+              </div>
+
             </div>
           </div>
 
@@ -464,13 +467,6 @@
               <div class="title-selected-accent">{{ selectedFlat?.street || '?' }} {{ selectedFlat?.houseNumber || '?'
                 }}</div>
             </div>
-
-            <div class="title-group" *ngIf="selectedFlat?.area">
-              <div class="title-selected">Площа оселі : </div>
-              <div class="title-selected-accent">{{ selectedFlat?.area }} м²</div>
-            </div>
-
-            <button class="title-group w-100" (click)="card_info = true">Більше інформацію про оселю</button>
 
           </div>
         </div>
@@ -524,14 +520,7 @@
             </div>
           </div>
 
-          <div class="btn-container">
-            <div class="btn-box" *ngIf="locationLink">
-              <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
-              <div class="btn-name">Локація</div>
-            </div>
-          </div>
-
-          <div class="param-box">
+          <div class="param-box mt-4">
             <div class="param-label">Параметри оселі:</div>
             <div class="param-group">
               <div class="param-field" *ngIf="selectedFlat.option_flat">
@@ -615,11 +604,9 @@
             <div class="param-value">{{ selectedFlat.about }}</div>
           </div>
 
-
-
         </div>
-
       </div>
+
     </div>
   </div>
 

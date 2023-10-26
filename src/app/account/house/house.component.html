@@ -1,21 +1,16 @@
 <app-navbar></app-navbar>
 
-<div class="container-box" *ngIf="selectedFlatId">
-  <div class="card-box mobile col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
-    <app-selection-account></app-selection-account>
+<div class="container-box">
+  <div class="card-box mobile col-lg-3 col-md-3 col-sm-12 col-12">
+    <h2 *ngIf="!selectedFlatId">Вибір оселі</h2>
+    <h5 *ngIf="!selectedFlatId">Натисніть обрати оселю</h5>
+    <app-selection-account class="hide-mobile" *ngIf="selectedFlatId"></app-selection-account>
     <app-selection-housing class="mobile-param"></app-selection-housing>
-    <app-navbar-house></app-navbar-house>
+    <app-navbar-house class="hide-mobile"></app-navbar-house>
   </div>
 
-  <div class="card-box col-lg-9 col-md-9 col-sm-12 col-12">
+  <div class="card-box col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="selectedFlatId">
     <router-outlet></router-outlet>
-  </div>
-</div>
-
-<div class="container-box" *ngIf="!selectedFlatId">
-  <div class="card-box mobile col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
-    <app-selection-account></app-selection-account>
-    <app-selection-housing class="mobile-param"></app-selection-housing>
   </div>
 </div>
 

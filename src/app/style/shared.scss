@@ -1,6 +1,18 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
 
+.flex-box {
+  @include flex-box;
+}
+
+.flex-box-column {
+  @include flex-box-column;
+}
+
+.flex-box-row {
+  @include flex-box-row;
+}
+
 // вікно додаткової інформації
 .content-group {
   width: 100%;
@@ -28,7 +40,7 @@
   width: 50%;
   display: flex;
   justify-content: flex-end;
-  z-index: 30;
+  z-index: 50;
 
   @include s1-s3 {
     width: 100%;
@@ -135,6 +147,40 @@
       margin: 2px;
       padding: 5px;
       color: $color-text;
+    }
+  }
+}
+
+// перемикач мобільний
+.switch-box {
+  @include flex-box;
+  width: 100%;
+  justify-content: space-evenly;
+  z-index: 50;
+
+  .btn-menu {
+    @include flex-box-column;
+    flex: 1;
+  }
+
+  .btn {
+    @include flex-box-column;
+    justify-content: center;
+    height: 50px;
+    background-color: transparent;
+
+    &.active {
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-text;
+      font-size: 30px;
     }
   }
 }

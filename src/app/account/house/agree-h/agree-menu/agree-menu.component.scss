@@ -73,22 +73,21 @@ a {
     }
   }
 }
+
 .card {
   width: 100%;
   display: flex;
   justify-content: center;
 }
+
 .card-img-container {
   position: relative;
   width: 60%;
   height: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
-  &:hover,
-  :focus {
-    width: 50%;
-  }
 }
+
 .card-img-top {
   height: 100%;
   width: 100%;

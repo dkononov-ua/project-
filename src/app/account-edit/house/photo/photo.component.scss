@@ -1,6 +1,39 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
+.price {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 5;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  align-content: flex-start;
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 30%);
+}
+
+.flex-box {
+  display: flex;
+  flex-direction: column;
+  .room {
+    height: 40px;
+    font-size: 26px;
+    color: $color-text;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.text {
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-text;
+}
+
 .container-card {
   width: 100%;
   display: flex;
@@ -64,27 +97,6 @@
   color: $color-accent;
   font-weight: 600;
 }
-.input-div {
-  cursor: pointer;
-  position: relative;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid $color-accent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  box-shadow:
-    0px 0px 20px $color-primary,
-    inset 0px 0px 10px $color-primary,
-    0px 0px 5px rgb(255, 255, 255);
-  transition: 1s;
-
-  &:hover {
-    background-color: $color-dark;
-  }
-}
 
 .card-box {
   display: flex;
@@ -129,24 +141,25 @@
 .card-filling {
   cursor: pointer;
   width: 95%;
-  height: 300px;
+  height: 250px;
   display: flex;
   border-radius: 20px;
   justify-content: space-between;
   transition: 1s;
   position: relative;
 
-  &:hover {
-    transform: scale(1.05);
-  }
+  // &:hover {
+  //   transform: scale(1.05);
+  // }
 
   @include s1-s3 {
     width: 94%;
   }
 }
 
-.card-filling.selectedCard {
-  background-color: $color-accent;
+.box-img.selectedCard {
+  transform: scale(1.05);
+  border: 1px solid $color-accent;
 }
 
 .box-img {
@@ -156,7 +169,7 @@
 }
 
 .img-card {
-  height: 300px;
+  height: 250px;
   width: 100%;
 }
 
@@ -184,6 +197,7 @@
   height: 20px;
   width: 100%;
   position: sticky;
+  background-color: $color-primary;
 }
 
 .indicator-photo {
@@ -191,15 +205,16 @@
   justify-content: center;
   align-items: center;
   transition: 1s;
+  padding: 3px;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  background-color: $color-white;
+  border-radius: 50%;
 
   .fa-solid {
     font-size: 14px;
   }
-
-  padding: 3px;
-  margin: 0 5px;
-  background-color: $color-accent;
-  border-radius: 50%;
 
   &:hover {
     color: $color-accent;

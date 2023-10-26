@@ -15,25 +15,27 @@
               alt="Flat Image">
           </div>
 
-          <!-- <div *ngIf="flatImg?.length > 1">
-            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
-                class="fa-solid fa-chevron-left"></i></button>
-            <button *ngIf="currentPhotoIndex !== flatImg?.length - 1" class="next-img" (click)="nextPhoto()"><i
-                class="fa-solid fa-chevron-right"></i></button>
-          </div> -->
+          <div class="price">
+            <div class="ml-2 flex-box">
+              <div class="text">Першим відображається в пошуку</div>
+              <div class="room">Фото профілю оселі</div>
+            </div>
+          </div>
+
         </div>
+
       </div>
 
       <div class="card-1 mb-2">
-        <label class="label-1">Видалити фото оселі</label>
-        <button class="input-div" (click)="deleteObject(flatImg[currentPhotoIndex].img)" matTooltip="Видалити">
+        <label class="label-1 w-70">Видалити головне фото вашої оселі</label>
+        <button class="input-div" (click)="deleteObject(flatImg[flatImg.length - 1].img)" matTooltip="Видалити">
           <i class="fa-solid fa-trash icon-up fa-solid fa-cloud-arrow-up"></i>
         </button>
       </div>
 
       <div class="card-1">
         <label class="label-1">Завантажити фото оселі</label>
-        <div class="input-div w-30">
+        <div class="input-div">
           <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
           <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
           <button class="input-up" ly-button (click)="_fileInput.click()">
@@ -72,15 +74,15 @@
         <div class="indicator-box">
           <div *ngFor="let flat_photo of flatImg; let i = index"
             [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }" (click)="selectPhoto(flat_photo.img)">
-            <div class="indicator-photo"><i class="fa-solid fa-circle-notch"></i></div>
+            <div class="indicator-photo">{{ i + 1 }}</div>
           </div>
         </div>
 
         <div *ngFor="let flat_photo of flatImg" class="card-filling p-2 mb-2"
-          [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }" (click)="selectPhoto(flat_photo.img)">
+           (click)="selectPhoto(flat_photo.img)">
           <div class="box-img" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
             [attr.data-img]="flat_photo.img">
-            <img class="img-card"
+            <img class="img-card" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
               [src]="flat_photo.img && flat_photo ? serverPathPhotoFlat + flat_photo.img : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image" alt="Flat Image">
           </div>

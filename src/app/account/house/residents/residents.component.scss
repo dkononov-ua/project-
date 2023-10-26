@@ -1,5 +1,6 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
 
 .card-container {
   display: flex;
@@ -8,9 +9,31 @@
 .card {
   height: 65vh;
   overflow-y: auto;
+  justify-content: flex-start;
   @include s1-s3 {
     overflow-y: visible;
     height: auto;
+  }
+}
+
+.checkbox-group {
+  @include flex-box;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid $color-primary;
+
+  .checkbox-name {
+    font-size: 18px;
+    font-family: $font-main;
+  }
+
+  .checkbox-btn {
+    @include flex-box;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid $color-primary;
   }
 }
 
@@ -22,12 +45,12 @@
   position: absolute;
   border-radius: 10px;
   width: 100%;
-  height: 300px;
+  height: 350px;
   overflow: hidden;
 }
 .img-fluid {
   width: 100%;
-  height: 300px;
+  height: 350px;
   object-fit: cover;
   transition: transform 1s;
 
@@ -41,7 +64,7 @@
   display: flex;
   border-radius: 10px;
   width: 100%;
-  height: 300px;
+  height: 350px;
   overflow: hidden;
   justify-content: space-between;
   flex-direction: column;
@@ -93,7 +116,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   color: $color-text;
 }
 
@@ -116,8 +139,8 @@
   font-weight: 600;
 }
 .card-btn {
+  @include flex-box;
   width: 100%;
-  display: flex;
   border: 1px solid $color-primary;
   border-radius: 10px;
   padding: 5px;
@@ -128,125 +151,31 @@
   box-shadow:
     5px 2px 2px rgba(0, 0, 0, 0.25),
     2px 1px 2px rgba(0, 0, 0, 0.22);
+  transition: 1s;
 
   &:hover {
-    color: $color-accent;
-    transition: 0.4s;
-    transform: scale(1.1);
+    background-color: $color-accent;
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
 
     span {
       transition: 0.4s;
       transform: scale(1.1);
+      font-weight: 600;
     }
 
     .fa-solid,
     .fa-regular {
-      color: $color-accent;
       transform: scale(1.1);
       transition: 0.4s;
     }
   }
 }
 
-.container-checkbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.content-group {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.content {
-  width: 100%;
-  display: flex;
-  border: 1px solid rgba(1, 19, 12, 0.2);
-  border-radius: 10px;
-  margin: 5px;
-  align-items: flex-start;
-  flex-direction: column;
-  position: relative;
-}
-
-.descr {
-  color: $color-white;
-  font-size: 16px;
-}
-
-.checkBox {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  border: 3px solid rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  box-shadow: 0 0 0 2px $color-primary;
-}
-
-.checkBox-span {
-  cursor: pointer;
-  transition: 0.5s;
-  &:hover {
-    color: $color-accent;
-    font-weight: 600;
-    transform: scale(1.1);
-  }
-}
-
-.bold {
-  color: $color-accent;
-  font-weight: 600;
-}
-
-.btn-info {
-  background-color: rgba(255, 255, 255, 0);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-}
-
-.description-container {
-  display: flex;
-  position: absolute;
-  z-index: 999;
-  background-color: rgb(44, 44, 44);
-  top: 0;
-  left: 0;
-  right: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-}
-
-.description {
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-.close-button {
-  width: 100%;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-.switch-box {
+.switch-box1 {
   position: relative;
   width: 100%;
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
   height: 80px;
   z-index: 50;
   @include s1-s3 {
@@ -256,10 +185,32 @@
   }
 }
 
-.btn-menu {
+.acces_group {
+  @include flex-box;
+  .acces_box {
+    @include flex-box-column;
+    .acces_box_img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+}
+
+mat-label {
+  font-size: 20px;
+  color: $color-accent;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+.btn-menu1 {
   @include flex-box-column;
   z-index: 10;
-  flex: 1;
+  width: 80px;
 
   .btn {
     @include flex-box-column;
@@ -330,13 +281,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.442);
 }
 
 .radio-group {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
 }
 
 .hide-mobile {

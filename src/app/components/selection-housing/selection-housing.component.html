@@ -1,10 +1,10 @@
 <ng-container *ngIf="ownFlats && ownFlats.length > 0 || rentedFlats && rentedFlats.length > 0">
   <div class="container-menu">
-    <div class="selectedHouse-box">
+    <div class="selectedHouse-box" (click)="openSelectHouse()">
       <div class="flatName-label">Вибір оселі</div>
       <div class="flatName w-75" *ngIf="selectedFlatName">{{selectedFlatName}}</div>
-      <div class="flatName w-75" *ngIf="!selectedFlatName">Оберіть оселю</div>
-      <button class="btn-open" (click)="openSelectHouse()" aria-label="menu" matTooltip="ОБРАТИ ІНШУ ОСЕЛЮ">
+      <div class="flatName w-75" *ngIf="!selectedFlatName">Обрати/створити оселю</div>
+      <button class="btn-open" aria-label="menu" matTooltip="ОБРАТИ ІНШУ ОСЕЛЮ">
         <i class="fa-solid fa-circle-chevron-down"></i>
       </button>
     </div>

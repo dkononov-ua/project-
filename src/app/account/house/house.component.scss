@@ -7,10 +7,11 @@
   justify-content: center;
   min-height: 70vh;
   align-items: flex-start;
-  align-content: flex-start;
-  @include s1-s3 {
-    min-height: 90vh;
-  }
+  align-content: center;
+}
+
+h2, h5 {
+  text-align: center;
 }
 
 .container-noFlat {
@@ -59,7 +60,6 @@ h1, h3, p {
 
 .mobile-param {
   @include s1-s3 {
-    margin-top: 10px;
     padding: 0 10px
   }
 }

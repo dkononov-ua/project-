@@ -1,14 +1,10 @@
-import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
-import { NgZone } from '@angular/core';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
-
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
-
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -16,7 +12,6 @@ export class Rating {
     public ratingDate: string = '',
   ) { }
 }
-
 interface Subscriber {
   acces_flat_chats: any;
   acces_flat_features: any;
@@ -51,94 +46,40 @@ interface Subscriber {
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
-
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ])
-  ],
 })
+
 export class ResidentsComponent implements OnInit {
 
   rating: Rating = new Rating();
+  helpMenu: boolean = false;
+  helpInfo: number = 0;
 
+  openHelpMenu(helpInfoIndex: number) {
+    this.helpInfo = helpInfoIndex;
+    this.helpMenu = !this.helpMenu;
+  }
+
+  path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-
   selectedSubscriber: Subscriber | undefined;
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
   loading = false;
-
-  isChatClosed: boolean = true;
-  isAccessClosed: boolean = true;
-  descriptionVisibility: { [key: string]: boolean } = {};
-
-  acces_added: any;
-  acces_admin: any;
-  acces_services: any;
-  acces_comunal: any;
-  acces_filling: any;
-  acces_subs: any;
-  acces_discuss: any;
-  acces_agreement: any;
-  acces_citizen: any;
-  acces_comunal_indexes: any;
-  acces_agent: any;
-  acces_flat_features: any;
-  acces_flat_chats: any;
-
   statusMessageChat: any;
   isCopied = false;
-
   indexPage: number = 0;
   indexMenu: number = 1;
-  indexPersonMenu: number = 0;
-
+  indexPersonMenu: number = 1;
   ownerInfo: any
-
-  isDescriptionVisible(key: string): boolean {
-    return this.descriptionVisibility[key] || false;
-  }
-
-  toggleDescription(key: string): void {
-    this.descriptionVisibility[key] = !this.isDescriptionVisible(key);
-  }
+  ownerPage: boolean = false;
+  statusMessage: string | undefined;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
-    private zone: NgZone,
-    private el: ElementRef,
   ) { }
 
   ngOnInit(): void {
@@ -158,12 +99,9 @@ export class ResidentsComponent implements OnInit {
             } else {
               this.selectedSubscriber = this.subscribers[0];
             }
-            this.setAccessProperties(this.selectedSubscriber);
           }
         });
-
         this.getOwner(selectedFlatId, offs)
-
       }
     });
   }
@@ -174,40 +112,10 @@ export class ResidentsComponent implements OnInit {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
-          this.setAccessProperties(selectedSubscriber);
-          this.saveSelectedSubscriber();
           this.getRating(selectedSubscriber);
         }
       }
     });
-  }
-
-  saveSelectedSubscriber(): void {
-    if (this.selectedSubscriber) {
-      localStorage.setItem('selectedSubscriber', JSON.stringify(this.selectedSubscriber));
-    }
-  }
-
-  setAccessProperties(subscriber: Subscriber | undefined): void {
-    if (subscriber) {
-      this.acces_added = subscriber.acces_added;
-      this.acces_admin = subscriber.acces_admin;
-      this.acces_services = subscriber.acces_services;
-      this.acces_comunal = subscriber.acces_comunal;
-      this.acces_filling = subscriber.acces_filling;
-      this.acces_subs = subscriber.acces_subs;
-      this.acces_discuss = subscriber.acces_discuss;
-      this.acces_agreement = subscriber.acces_agreement;
-      this.acces_citizen = subscriber.acces_citizen;
-      this.acces_comunal_indexes = subscriber.acces_comunal_indexes;
-      this.acces_agent = subscriber.acces_agent;
-      this.acces_flat_features = subscriber.acces_flat_features;
-      this.acces_flat_chats = subscriber.acces_flat_chats;
-    }
-  }
-
-  onSelectionChange(): void {
-    this.selectedFlatIdService.setSelectedFlatId(this.selectedFlatId);
   }
 
   async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
@@ -220,7 +128,6 @@ export class ResidentsComponent implements OnInit {
     };
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       const newSubscribers: Subscriber[] = response
         .filter(user_id => user_id !== null)
         .map((user_id: any) => ({
@@ -248,9 +155,7 @@ export class ResidentsComponent implements OnInit {
           acces_flat_features: user_id.acces_flat_features,
           acces_flat_chats: user_id.acces_flat_chats,
         }));
-
       this.subscribers = newSubscribers;
-
     } catch (error) {
       console.error(error);
     }
@@ -259,11 +164,8 @@ export class ResidentsComponent implements OnInit {
       const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === selectedSubscriberId);
       if (selectedSubscriber) {
         this.selectedSubscriber = selectedSubscriber;
-        this.setAccessProperties(selectedSubscriber);
       }
     }
-
-    this.selectedFlatId = selectedFlatId;
   }
 
   async getOwner(selectedFlatId: any, offs: number): Promise<any> {
@@ -277,24 +179,22 @@ export class ResidentsComponent implements OnInit {
         flat_id: selectedFlatId,
         offs: offs,
       };
-      console.log(data)
       try {
         const response = await this.http.post(serverPath + '/citizen/get/ycitizen', data).toPromise() as any[];
-        console.log(response)
         const ownerInfo = response.find(item => item.flat.flat_id.toString() === selectedFlatId)?.owner;
         if (ownerInfo) {
+          this.ownerPage = true;
           this.ownerInfo = ownerInfo;
-          console.log(this.ownerInfo)
           this.getRatingOwner(this.ownerInfo.user_id)
         } else {
           console.log('Owner для flat_id ' + selectedFlatId + ' не знайдено.');
+          this.ownerPage = false;
         }
       } catch (error) {
         console.error(error);
       }
     }
   }
-
 
   createChat(selectedSubscriber: any): void {
     const selectedFlat = this.selectedFlatId;
@@ -339,67 +239,52 @@ export class ResidentsComponent implements OnInit {
     }
   }
 
-  addAccess(
-    subscriber: Subscriber,
-    acces_added: boolean,
-    acces_admin: boolean,
-    acces_services: boolean,
-    acces_comunal: boolean,
-    acces_filling: boolean,
-    acces_subs: boolean,
-    acces_discuss: boolean,
-    acces_agreement: boolean,
-    acces_citizen: boolean,
-    acces_comunal_indexes: boolean,
-    acces_agent: boolean,
-    acces_flat_features: boolean,
-    acces_flat_chats: boolean
-  ): void {
-    const selectedFlat = this.selectedFlatId;
+  addAccess(subscriber: any): void {
     const userJson = localStorage.getItem('user');
-    this.loading = true;
-
     if (userJson && subscriber) {
+
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
+        flat_id: this.selectedFlatId,
         user_id: subscriber.user_id,
-        acces_added: acces_added,
-        acces_admin: acces_admin,
-        acces_services: acces_services,
-        acces_filling: acces_filling,
-        acces_comunal: acces_comunal,
-        acces_subs: acces_subs,
-        acces_discuss: acces_discuss,
-        acces_agreement: acces_agreement,
-        acces_citizen: acces_citizen,
-        acces_comunal_indexes: acces_comunal_indexes,
-        acces_agent: acces_agent,
-        acces_flat_features: acces_flat_features,
-        acces_flat_chats: acces_flat_chats,
+        acces_added: this.selectedSubscriber?.acces_added,
+        acces_admin: this.selectedSubscriber?.acces_admin,
+        acces_services: this.selectedSubscriber?.acces_services,
+        acces_filling: this.selectedSubscriber?.acces_filling,
+        acces_comunal: this.selectedSubscriber?.acces_comunal,
+        acces_subs: this.selectedSubscriber?.acces_subs,
+        acces_discuss: this.selectedSubscriber?.acces_discuss,
+        acces_agreement: this.selectedSubscriber?.acces_agreement,
+        acces_citizen: this.selectedSubscriber?.acces_citizen,
+        acces_comunal_indexes: this.selectedSubscriber?.acces_comunal_indexes,
+        acces_agent: this.selectedSubscriber?.acces_agent,
+        acces_flat_features: this.selectedSubscriber?.acces_flat_features,
+        acces_flat_chats: this.selectedSubscriber?.acces_flat_chats,
       };
 
       this.http.post(serverPath + '/citizen/add/access', data).subscribe(
         (response: any) => {
-          setTimeout(() => {
-            this.zone.run(() => {
-              location.reload();
-            });
-          },);
+          if (response.status == ')') {
+            setTimeout(() => {
+              this.statusMessage = 'Доступи надано';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 500);
+
+          } else {
+            setTimeout(() => {
+              this.statusMessage = 'Помилка збереження';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 500);
+          }
         },
-        (error: any) => {
-          console.error(error);
-        },
-        () => {
-          setTimeout(() => {
-            this.zone.run(() => {
-              this.loading = false;
-            });
-          }, 1000);
-        }
       );
+
     } else {
-      console.log('User or subscriber not found');
+      console.log('Авторизуйтесь');
     }
   }
 

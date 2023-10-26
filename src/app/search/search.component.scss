@@ -294,9 +294,10 @@
     top: 0;
     left: 0;
     background-color: $color-white;
-    height: auto;
+    height: 100vh;
+    overflow: auto;
     padding-bottom: 10px;
-    z-index: 150;
+    z-index: 100;
   }
 }
 
@@ -413,15 +414,22 @@
   .btn-box {
     @include flex-box-column;
     .btn {
+      transition: 0.5s;
       margin: 5px 15px;
       width: 40px;
       height: 40px;
       border-radius: 50%;
       background-color: $color-white;
+      &:hover {
+        background-color: $color-accent;
+        transform: scale(1.2);
+      }
     }
     .btn-name {
       font-size: 12px;
     }
+
+
   }
 }
 
