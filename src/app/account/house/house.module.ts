@@ -78,7 +78,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     RouterModule,
     MatRadioModule,
     MatCheckboxModule,
-
   ]
 })
 export class HouseModule { }

@@ -15,6 +15,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { CropImgComponent } from './components/crop-img/crop-img.component';
+import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
+  { path: 'rating', component: AboutRatingComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

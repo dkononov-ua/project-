@@ -1,10 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
+
+
+// переклад календаря
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+// переклад календаря
+
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -41,11 +47,14 @@ interface Subscriber {
   selector: 'app-residents',
   templateUrl: './residents.component.html',
   styleUrls: ['./residents.component.scss'],
+
+  // переклад календаря
   providers: [
-    { provide: LOCALE_ID, useValue: 'uk-UA' },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS], },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
+  // переклад календаря
 })
 
 export class ResidentsComponent implements OnInit {
@@ -76,11 +85,29 @@ export class ResidentsComponent implements OnInit {
   ownerPage: boolean = false;
   statusMessage: string | undefined;
 
+  minDate!: string;
+  maxDate!: string;
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
-  ) { }
+    private datePipe: DatePipe,
+  ) {
+    this.setMinMaxDate(35);
+  }
+
+  setMinMaxDate(daysBeforeToday: number) {
+    const today = new Date();
+    const minDate = new Date(today);
+    minDate.setDate(today.getDate() - daysBeforeToday);
+
+    this.minDate = this.formatDate(minDate);
+    this.maxDate = this.formatDate(today);
+  }
+
+  formatDate(date: Date): string {
+    return date.toISOString().slice(0, 10);
+  }
 
   ngOnInit(): void {
     this.selectFlat()
@@ -89,7 +116,9 @@ export class ResidentsComponent implements OnInit {
 
   selectFlat() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
+      this.selectedFlatId = selectedFlatId;
+      console.log(this.selectedFlatId)
+      if (this.selectedFlatId) {
         const offs = 0;
         this.getSubs(selectedFlatId, offs).then(() => {
           if (this.subscribers.length > 0) {
@@ -289,14 +318,15 @@ export class ResidentsComponent implements OnInit {
   }
 
   sendRating(selectedSubscriber: any) {
-    const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
+    const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
+
     if (userJson && selectedSubscriber) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
+        flat_id: this.selectedFlatId,
         user_id: selectedSubscriber.user_id,
-        date: this.rating.ratingDate,
+        date: formattedDate,
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue
       };

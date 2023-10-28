@@ -51,6 +51,7 @@ import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
+import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { LyDialogModule } from '@alyle/ui/dialog';
     SearchPageComponent,
     FeedbackComponent,
     AboutProjectComponent,
+    AboutRatingComponent,
   ],
   providers: [
     SelectedFlatService,

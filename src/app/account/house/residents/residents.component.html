@@ -291,7 +291,21 @@
 
           <div class="card p-2" *ngIf="indexPersonMenu == 1 && selectedSubscriber">
 
-            <mat-label>Відгук про мешканця</mat-label>
+            <div class="status-container">
+              <div class="status-box">
+                <div class="status-value">Допомога</div>
+              </div>
+              <div class="status-hover">
+                <div class="status-hover-label">Забезпечення Зручності та Довіри</div>
+                <div class="status-hover-text">Система <span class="accent bold">"Рейтинг
+                    орендара"</span>дозволяє власникам нерухомості оцінювати орендарів раз на місяць. Вони можуть
+                  редагувати свої оцінки протягом 45 днів після їх поставлення. Ця система допомагає створити довіру з самого початку до
+                  орендара або застерегти власників від можливих проблем .
+                </div>
+              </div>
+            </div>
+
+            <mat-label class="card-name">Відгук про мешканця</mat-label>
 
             <div class="acces_group">
               <div class="w-60">
@@ -312,9 +326,11 @@
             </div>
 
             <div class="group-rating">
+
               <mat-form-field class="w-100">
                 <mat-label>Дата відгуку</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
+                  name="ratingDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
