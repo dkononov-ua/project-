@@ -91,8 +91,7 @@
       </div>
 
       <div class="btn-menu1">
-        <button class="btn" [ngClass]="{ 'active': indexMenu == 1}" (click)="indexMenu = 1 || indexPersonMenu = 0"
-          matTooltip="Мешканці">
+        <button class="btn" [ngClass]="{ 'active': indexMenu == 1}" (click)="openTenants()" matTooltip="Мешканці">
           <i class="fa-solid fa-users-gear"></i></button>
         <div class="btn-menu-name">Мешканці</div>
       </div>
@@ -128,12 +127,45 @@
     <div class="card-container col-12">
       <div class="col-lg-6 col-md-5 col-sm-6 col-12">
 
-        <div class="wrapper" *ngIf="indexMenu == 0">
-          <h1>Власник</h1>
+        <div class="wrapper p-3" *ngIf="indexMenu == 0">
+
+          <div *ngIf="indexPersonMenu == 0">
+            <h1>Власник оселі</h1>
+            <p>Тут знаходиться основна інформація про власника або представника оселі. <br> Після створення власником
+              <a class="routerLink" [routerLink]="'/house/act-create'">акту передачі оселі</a>
+              у орендара з'являється можливість раз на місяць залишати відгуки
+              про те наскількі комфортно спілкуватись та вирішувати питання стосовно проживання в орендованій оселі.
+              Відгук може ставити лише та людина з якою була створена угода.
+            </p>
+          </div>
+
+          <div *ngIf="indexPersonMenu == 1">
+            <h1>Відгук про власника</h1>
+            <p>Можете залишити відгук про власника один раз на місяць, з можливістью коригування оцінки впродовж 45 днів
+              з моменту оцінювання.</p>
+          </div>
+
+
         </div>
 
-        <div class="wrapper" *ngIf="indexMenu == 1">
-          <app-house-residents></app-house-residents>
+        <div class="wrapper p-3" *ngIf="indexMenu == 1">
+
+          <div *ngIf="indexPersonMenu == 0">
+            <h1>Мешканці оселі</h1>
+            <app-house-residents></app-house-residents>
+          </div>
+
+          <div *ngIf="indexPersonMenu == 1">
+            <h1>Відгук про мешканця</h1>
+            <p>Оберіть мешканця з яким створено акт передачі оселі та можете залишити йому відгук раз на місяць</p>
+          </div>
+
+          <div *ngIf="indexPersonMenu == 2">
+            <h1>Дозволи мешканця</h1>
+            <p>Оберіть мешканця та можете надати йому необхідні дозволи для керування або перегляду інформації про оселю
+            </p>
+          </div>
+
         </div>
 
         <div class="wrapper p-3" *ngIf="indexMenu == 2">
@@ -198,23 +230,81 @@
             </div>
           </div>
 
-          <div class="card-body p-2" *ngIf="indexPersonMenu == 1">
-            <div class="group-rating">
+          <div class="card p-2" *ngIf="indexPersonMenu == 1 && selectedSubscriber">
 
+            <div class="status-container">
+              <div class="status-box">
+                <div class="status-value">Допомога</div>
+              </div>
+              <div class="status-hover">
+                <div class="status-hover-label">Забезпечення Зручності та Довіри</div>
+                <div class="status-hover-text">Система <span class="accent bold">"Рейтинг
+                    орендодавця"</span>дозволяє орендарам оцінювати орендодавців раз на місяць. Вони можуть
+                  редагувати свої оцінки протягом 45 днів після їх поставлення. Ця система допомагає створити довіру з
+                  самого початку до власника або застерегти орендарів від можливих проблем.
+                </div>
+              </div>
+            </div>
+
+            <mat-label class="card-name">Відгук про власника</mat-label>
+
+            <div class="acces_group">
+              <div class="w-60">
+                <div class="user-group-name">
+                  <div class="user-sup-name">Прізвище : </div>
+                  <div class="user-name">{{ ownerInfo.lastName || '?' }}</div>
+                </div>
+
+                <div class="user-group-name">
+                  <div class="user-sup-name">Ім'я : </div>
+                  <div class="user-name">{{ ownerInfo.firstName || '?' }}</div>
+                </div>
+              </div>
+              <div class="acces_box w-40">
+                <img class="acces_box_img" [src]="serverPathPhotoUser + (ownerInfo.img || 'user_default.svg')"
+                  alt="User Image">
+              </div>
+              <div class="acces_box w-40" *ngIf="ratingOwner">
+                <div class="user-group-name">
+
+                  <div class="user-sup-name">Рейтинг : </div>
+                  <div class="user-name" *ngIf="ratingOwner < -31">
+                    <span class="smile">😡</span> {{ratingOwner}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingOwner >= -30 && ratingOwner < -16">
+                    <span class="smile">😕</span>{{ratingOwner}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingOwner >= -15 && ratingOwner < +15">
+                    <span class="smile">😐</span>{{ratingOwner}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingOwner > 16 && ratingOwner <= 30">
+                    <span class="smile">🙂</span>{{ratingOwner}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingOwner > 31">
+                    <span class="smile">🙂</span>{{ratingOwner}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="group-rating">
               <mat-form-field class="w-100">
                 <mat-label>Дата відгуку</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
+                  name="ratingDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
 
+              <mat-label>Оцінка рейтигу</mat-label>
               <div class="radio-group">
                 <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
-                  <mat-radio-button color="warn" [value]="1">1</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="2">2</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="3">3</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="4">4</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="5">5</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="-10">-10</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="-5">-5</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="3">0</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="5">+5</mat-radio-button>
+                  <mat-radio-button color="warn" [value]="10">+10</mat-radio-button>
                 </mat-radio-group>
               </div>
 
@@ -224,7 +314,7 @@
                   placeholder="Введіть Ваші побажання, пропозиції."></textarea>
               </mat-form-field>
 
-              <button class="btn" (click)="sendRating(selectedSubscriber)">Відправити</button>
+              <button class="btn" (click)="sendRatingOwner(ownerInfo)">Відправити</button>
 
             </div>
           </div>
@@ -232,7 +322,7 @@
 
         <!-- орендар -->
         <div *ngIf="indexMenu == 1">
-          <div class="card" *ngIf="indexPersonMenu == 0 && selectedSubscriber">
+          <div class="card" *ngIf="indexPersonMenu == 0 && selectedSubscriber ">
             <div class="img-container">
               <div class="img-wrapper">
                 <img class="img-fluid rounded"
@@ -299,7 +389,8 @@
                 <div class="status-hover-label">Забезпечення Зручності та Довіри</div>
                 <div class="status-hover-text">Система <span class="accent bold">"Рейтинг
                     орендара"</span>дозволяє власникам нерухомості оцінювати орендарів раз на місяць. Вони можуть
-                  редагувати свої оцінки протягом 45 днів після їх поставлення. Ця система допомагає створити довіру з самого початку до
+                  редагувати свої оцінки протягом 45 днів після їх поставлення. Ця система допомагає створити довіру з
+                  самого початку до
                   орендара або застерегти власників від можливих проблем .
                 </div>
               </div>
@@ -323,6 +414,28 @@
                 <img class="acces_box_img"
                   [src]="serverPathPhotoUser + (selectedSubscriber.photo || 'user_default.svg')" alt="User Image">
               </div>
+              <div class="acces_box w-40" *ngIf="ratingTenant">
+                <div class="user-group-name">
+
+                  <div class="user-sup-name">Рейтинг : </div>
+                  <div class="user-name" *ngIf="ratingTenant < -31">
+                    <span class="smile">😡</span> {{ratingTenant}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingTenant >= -30 && ratingTenant < -16">
+                    <span class="smile">😕</span>{{ratingTenant}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingTenant >= -15 && ratingTenant < +15">
+                    <span class="smile">😐</span>{{ratingTenant}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingTenant > 16 && ratingTenant <= 30">
+                    <span class="smile">🙂</span>{{ratingTenant}}
+                  </div>
+                  <div class="user-name" *ngIf="ratingTenant > 31">
+                    <span class="smile">🙂</span>{{ratingTenant}}
+                  </div>
+                </div>
+
+              </div>
             </div>
 
             <div class="group-rating">
@@ -336,30 +449,48 @@
               </mat-form-field>
 
               <mat-label>Оцінка рейтигу</mat-label>
-              <div class="radio-group">
-                <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
-                  <mat-radio-button color="warn" [value]="-10">-10</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="-5">-5</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="3">0</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="5">+5</mat-radio-button>
-                  <mat-radio-button color="warn" [value]="10">+10</mat-radio-button>
-                </mat-radio-group>
-              </div>
+              <mat-radio-group class="radio-group w-100" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
+
+                <div class="radio-btn">
+                  <mat-radio-button color="warn" [value]="-10"></mat-radio-button>
+                  <span class="smile">😡</span>
+                </div>
+
+                <div class="radio-btn">
+                  <mat-radio-button color="warn" [value]="-5"></mat-radio-button>
+                  <span class="smile">😕</span>
+                </div>
+
+                <div class="radio-btn">
+                  <mat-radio-button color="warn" [value]="3"></mat-radio-button>
+                  <span class="smile">😐</span>
+                </div>
+
+                <div class="radio-btn">
+                  <mat-radio-button color="warn" [value]="5"></mat-radio-button>
+                  <span class="smile">🙂</span>
+                </div>
+
+                <div class="radio-btn">
+                  <mat-radio-button color="warn" [value]="10"></mat-radio-button>
+                  <span class="smile">😁</span>
+                </div>
+
+              </mat-radio-group>
 
               <mat-form-field class="form-field w-100">
                 <mat-label>Відгук</mat-label>
                 <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
-                  placeholder="Введіть Ваші побажання, пропозиції."></textarea>
+                  placeholder="Опишіть що вплинуло на вашу оцінку."></textarea>
               </mat-form-field>
 
-              <button class="btn" (click)="sendRating(selectedSubscriber)">Відправити</button>
+              <button class="btn w-100" (click)="sendRating(selectedSubscriber)">Відправити</button>
 
             </div>
           </div>
 
           <div class="card p-2" *ngIf="indexPersonMenu == 2 && selectedSubscriber">
-
-            <mat-label>Дозволи мешканця</mat-label>
+            <mat-label class="card-name">Дозволи мешканця</mat-label>
 
             <div class="acces_group">
               <div class="w-60">

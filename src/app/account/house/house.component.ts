@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { Router } from '@angular/router';
+import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -20,10 +22,14 @@ export class HouseComponent implements OnInit {
 
   housingExists: boolean = false
   selectedFlatId!: string | null;
+  path_logo = path_logo;
+  houseData: any;
+  statusMessage: string | undefined;
 
   constructor(
-    private selectedFlatService: SelectedFlatService
-    ) {  }
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.loadDataFlat()
@@ -45,8 +51,17 @@ export class HouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const houseData = localStorage.getItem('houseData');
-      if (houseData) {
+      this.houseData = houseData;
+      const parsedHouseData = JSON.parse(this.houseData);
+      if (parsedHouseData) {
         this.housingExists = true;
+        if (parsedHouseData.imgs === 'Картинок нема') {
+          this.statusMessage = 'Додайте фото оселі';
+          setTimeout(() => {
+            this.router.navigate(['/housing-parameters/host/']);
+          }, 2000);
+        } else {
+                  }
       } else {
         this.housingExists = false;
       }

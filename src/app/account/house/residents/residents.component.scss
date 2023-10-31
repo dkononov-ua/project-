@@ -9,11 +9,19 @@
 .card {
   height: 65vh;
   overflow-y: auto;
-  justify-content: flex-start;
   @include s1-s3 {
     overflow-y: visible;
     height: auto;
   }
+}
+
+.routerLink {
+  font-size: 16px;
+  font-weight: 600;
+  color: $color-text;
+  padding: 0;
+  margin: 0;
+  text-transform: capitalize;
 }
 
 .checkbox-group {
@@ -198,6 +206,18 @@
   }
 }
 
+.radio-btn {
+  @include flex-box-column;
+}
+
+.smile {
+  font-size: 38px;
+}
+
+.card.change {
+  background-color: red;
+}
+
 .card-name {
   font-size: 20px;
   color: $color-accent;
@@ -271,6 +291,7 @@
   height: 650px;
 
   @include s1-s3 {
+    height: auto;
     width: 100%;
     flex-direction: column;
   }
@@ -285,6 +306,7 @@
 
 .radio-group {
   display: flex;
+  justify-content: space-evenly;
 }
 
 .hide-mobile {

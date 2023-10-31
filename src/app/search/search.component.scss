@@ -112,12 +112,6 @@
   height: 400px;
   width: 100%;
   position: relative;
-  &:hover {
-    .user-group {
-      transition: 10s;
-      opacity: 0;
-    }
-  }
 }
 
 .img-wrapper {
@@ -148,25 +142,24 @@
   z-index: 10;
   box-shadow: inset -70px 0px 70px 0px rgb(255, 255, 255);
   align-items: flex-end;
+  .user-group-name {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+    .user-sup-name {
+      font-size: 12px;
+      text-shadow: 0 0 5px rgb(255, 255, 255);
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgb(255, 255, 255);
+    }
+  }
 }
 
-.user-group-name {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  flex-direction: column;
-}
-
-.user-sup-name {
-  font-size: 12px;
-  text-shadow: 0 0 5px rgb(255, 255, 255);
-}
-
-.user-name {
-  font-size: 20px;
-  font-weight: 600;
-  text-shadow: 0 0 5px rgb(255, 255, 255);
-}
 .card-btn-container {
   display: flex;
   flex-direction: row;
@@ -428,8 +421,6 @@
     .btn-name {
       font-size: 12px;
     }
-
-
   }
 }
 

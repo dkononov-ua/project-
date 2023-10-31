@@ -93,6 +93,7 @@ export class SubscribersDiscusComponent implements OnInit {
   selectedSubscriberId: string | null = null;
   indexPage: number = 1;
   chatExists = false;
+  ratingTenant: number | undefined;
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -168,6 +169,7 @@ export class SubscribersDiscusComponent implements OnInit {
     this.selectedUser = subscriber;
     this.checkChatExistence(this.selectedUser.user_id);
     this.indexPage = 2;
+    this.getRating(subscriber)
   }
 
   async openDialog(subscriber: any): Promise<void> {
@@ -258,6 +260,32 @@ export class SubscribersDiscusComponent implements OnInit {
     this.pageEvent = event;
     this.offs = event.pageIndex * event.pageSize;
     this.getSubs(this.selectedFlatId, this.offs);
+  }
+
+  async getRating(selectedUser: any): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: selectedUser.user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        response.status.forEach((item: { mark: number; }) => {
+          if (item.mark) {
+            totalMarkTenant += item.mark;
+            this.ratingTenant = totalMarkTenant;
+          }
+        });
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 }

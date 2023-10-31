@@ -106,6 +106,9 @@ export class InfoComponent implements OnInit {
   loading: boolean = true;
   public selectedFlatId: any | null;
   searchInfoUserData: any;
+  ratingTenant: number | undefined;
+  ratingOwner: number | undefined;
+
 
   user = {
     user_id: '',
@@ -187,6 +190,9 @@ export class InfoComponent implements OnInit {
             if (response.img && response.img.length > 0) {
               this.userImg = response.img[0].img;
             }
+
+            this.getRating();
+            this.getRatingOwner()
           }
 
           if (userJson !== null) {
@@ -272,6 +278,58 @@ export class InfoComponent implements OnInit {
 
   useDefaultImage(event: any): void {
     event.target.src = '../../../../assets/user_default.svg';
+  }
+
+  async getRating(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: this.user.user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        response.status.forEach((item: { mark: number; }) => {
+          if (item.mark) {
+            totalMarkTenant += item.mark;
+            this.ratingTenant = totalMarkTenant;
+          }
+        });
+      } else {
+        console.log('Орендар не містить оцінок.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getRatingOwner(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/ownerMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: this.user.user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkOwner = 0;
+        response.status.forEach((item: { mark: number; }) => {
+          if (item.mark) {
+            totalMarkOwner += item.mark;
+            this.ratingOwner = totalMarkOwner;
+          }
+        });
+      } else {
+        console.log('Власник не містить оцінок.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 }

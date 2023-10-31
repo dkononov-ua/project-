@@ -37,18 +37,13 @@
 
   </div>
 
-  <div class="navigation hide-mobile">
-    <a class="flex-box navigation-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"><i
-        class="fa-solid fa-chevron-left"></i>НАЗАД</a>
-    <h2>Редагування оселі</h2>
-  </div>
-
   <div class="container-card">
 
     <div class="wrapper hide-mobile col-lg-3 col-md-5 col-sm-6 col-12"
       *ngIf="selectedFlatId && selectedFlatId !== null">
       <div class="card-box">
         <div class="card-menu">
+          <app-selection-account class="hide-mobile"></app-selection-account>
           <app-selection-housing></app-selection-housing>
           <nav>
             <a [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Назад</a>
@@ -111,6 +106,11 @@
     </div>
 
     <div class="col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="!addHouse">
+      <div class="navigation hide-mobile" *ngIf="selectedFlatId">
+        <a class="flex-box navigation-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"><i
+            class="fa-solid fa-chevron-left"></i>НАЗАД</a>
+        <h2>Редагування оселі</h2>
+      </div>
       <router-outlet *ngIf="selectedFlatId"></router-outlet>
     </div>
 

@@ -7,17 +7,18 @@
   @include flex-box-column;
   .date {
     @include flex-box;
+    background-color: $color-white;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 1px solid $color-gray;
-    font-size: 36px;
-    color: $color-accent;
+    font-size: 30px;
+    color: $color-text;
     font-weight: 600;
   }
   .date-name {
     font-size: 12px;
-    color: $color-accent;
+    color: $color-text;
   }
 }
 

@@ -38,6 +38,10 @@
   height: 600px;
   overflow: auto;
   align-content: flex-start;
+  @include s1-s3 {
+    height: auto;
+    max-height: 600px;
+  }
 }
 
 .card-wrapper::-webkit-scrollbar {

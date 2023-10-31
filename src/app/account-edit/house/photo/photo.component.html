@@ -26,7 +26,7 @@
 
       </div>
 
-      <div class="card-1 mb-2">
+      <div class="card-1 mb-2" *ngIf="flatImg[0].img !== 'housing_default.svg'">
         <label class="label-1 w-70">Видалити головне фото вашої оселі</label>
         <button class="input-div" (click)="deleteObject(flatImg[flatImg.length - 1].img)" matTooltip="Видалити">
           <i class="fa-solid fa-trash icon-up fa-solid fa-cloud-arrow-up"></i>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="card-1">
-        <label class="label-1">Завантажити фото оселі</label>
+        <label class="label-1 w-70">Завантажити фото оселі. Завантажено {{flatImg.length}}/20  </label>
         <div class="input-div">
           <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
           <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
@@ -80,9 +80,9 @@
 
         <div *ngFor="let flat_photo of flatImg" class="card-filling p-2 mb-2"
            (click)="selectPhoto(flat_photo.img)">
-          <div class="box-img" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
+          <div class="box-img shadow" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
             [attr.data-img]="flat_photo.img">
-            <img class="img-card" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
+            <img class="img-card " [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
               [src]="flat_photo.img && flat_photo ? serverPathPhotoFlat + flat_photo.img : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image" alt="Flat Image">
           </div>

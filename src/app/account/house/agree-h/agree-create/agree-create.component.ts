@@ -286,7 +286,7 @@ export class AgreeCreateComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       const formattedAgreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
-      const formattedAgreementDateStart = this.datePipe.transform(this.campaignOne.get('end')?.value, 'yyyy-MM-dd');
+      const formattedAgreementDateStart = this.datePipe.transform(this.campaignOne.get('start')?.value, 'yyyy-MM-dd');
       const formattedAgreementDateEnd = this.datePipe.transform(this.campaignOne.get('end')?.value, 'yyyy-MM-dd');
       if (!this.selectedSubscriber) {
         this.showMessage('Будь ласка, оберіть орендара');
@@ -356,6 +356,8 @@ export class AgreeCreateComponent implements OnInit {
             vacateHouse: this.vacateHouse || 0,
           }
         };
+
+        console.log(data)
         this.http.post(serverPath + '/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {

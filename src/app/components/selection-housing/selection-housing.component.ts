@@ -124,9 +124,7 @@ export class SelectionHousingComponent implements OnInit {
       this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
         .subscribe(
           (response: any) => {
-            console.log(response)
             if (response.ids && response.ids.length === 0 && response.citizen_ids && response.citizen_ids.length === 0) {
-              console.log('Оселі немає');
             } else {
               if (response.ids && response.ids.length > 0) {
                 this.ownFlats = response.ids.map((item: { flat_id: any, flat_name: any }, index: number) => ({
@@ -180,10 +178,7 @@ export class SelectionHousingComponent implements OnInit {
       localStorage.removeItem('houseData');
       this.openSelectHouse()
       this.statusMessage = 'Обираємо оселю ' + flat.flat_name;
-      console.log(1111)
       setTimeout(() => {
-        console.log(2222)
-
         this.statusMessage = 'Оновлюємо дані';
         this.selectedFlatService.setSelectedFlatId(flat.flat_id);
         this.selectedFlatService.setSelectedFlatName(flat.flat_name);
@@ -191,8 +186,6 @@ export class SelectionHousingComponent implements OnInit {
         this.dataService.getInfoFlat().subscribe((response: any) => {
           if (response) {
             setTimeout(() => {
-              console.log(3333)
-
               this.statusMessage = 'Оновлено';
               localStorage.setItem('houseData', JSON.stringify(response));
               this.selectedFlatName = flat.flat_name;

@@ -8,7 +8,6 @@
   justify-content: center;
   flex-wrap: nowrap;
   flex-direction: row;
-  background-color: #cbcdcd;
   border-radius: 0 0px 20px 0;
   width: 96%;
   padding: 0 10px;
@@ -30,6 +29,12 @@
   .social-link-name {
     font-size: 12px;
   }
+}
+
+.item-wrapper {
+  background-color: #cbcdcd;
+border: 1px solid $color-white;
+border-radius: 20px;
 }
 
 .container-box {
@@ -73,7 +78,28 @@
   flex-direction: column;
   width: 100%;
   border-radius: 20px 20px 20px 0;
+  position: relative;
 }
+
+img {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 1s;
+  border-radius: 10px;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.4);
+  }
+}
+
+.text {
+  font-size: 12px;
+}
+
+
 
 .fab {
   font-size: 25px;
@@ -149,6 +175,37 @@
   &:hover {
     transition: transform 1s;
     transform: scale(1.2);
+  }
+}
+
+.user-group {
+  position: absolute;
+  z-index: 30;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 10;
+  box-shadow: inset -70px 0px 70px 0px rgb(255, 255, 255);
+  align-items: flex-end;
+  .user-group-name {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+    .user-sup-name {
+      font-size: 12px;
+      text-shadow: 0 0 5px rgb(255, 255, 255);
+    }
+
+    .user-name {
+      font-size: 30px;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgb(255, 255, 255);
+    }
   }
 }
 

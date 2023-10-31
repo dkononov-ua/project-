@@ -139,9 +139,34 @@
 
       <div class="card-body p-2">
 
+
+
         <div class="title-group-card">
           <div class="title-selected">User ID: </div>
           <div class="title-selected-accent">{{ selectedUser?.user_id || '?' }}</div>
+          <div class="title-selected" *ngIf="ratingTenant">Рейтинг : </div>
+
+
+          <div class="acces_box w-40" *ngIf="ratingTenant">
+            <div class="user-group-name">
+              <div class="user-name" *ngIf="ratingTenant < -31">
+                <span class="smile">😡</span> {{ratingTenant}}
+              </div>
+              <div class="user-name" *ngIf="ratingTenant >= -30 && ratingTenant < -16">
+                <span class="smile">😕</span>{{ratingTenant}}
+              </div>
+              <div class="user-name" *ngIf="ratingTenant >= -15 && ratingTenant ==0 && ratingTenant < +15">
+                <span class="smile">😐</span>{{ratingTenant}}
+              </div>
+              <div class="user-name" *ngIf="ratingTenant > 16 && ratingTenant <= 30">
+                <span class="smile">🙂</span>{{ratingTenant}}
+              </div>
+              <div class="user-name" *ngIf="ratingTenant > 31">
+                <span class="smile">🙂</span>{{ratingTenant}}
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <div class="title-group-card" *ngIf="selectedUser?.option_pay">

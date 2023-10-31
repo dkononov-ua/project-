@@ -101,6 +101,7 @@ export class PhotoComponent implements OnInit {
               console.log(this.flatImg)
             } else {
               this.flatImg = [{ img: "housing_default.svg" }];
+              console.log(this.flatImg[0])
             }
           },
           (error: any) => {

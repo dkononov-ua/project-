@@ -9,6 +9,7 @@ import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { trigger, transition, style, animate } from '@angular/animations';
 // переклад календаря
 
 export class Rating {
@@ -47,6 +48,16 @@ interface Subscriber {
   selector: 'app-residents',
   templateUrl: './residents.component.html',
   styleUrls: ['./residents.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateY(100%)' }),
+        animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+    ]),
+  ],
+
+
 
   // переклад календаря
   providers: [
@@ -62,6 +73,13 @@ export class ResidentsComponent implements OnInit {
   rating: Rating = new Rating();
   helpMenu: boolean = false;
   helpInfo: number = 0;
+  ratingTenant: number | undefined;
+  ratingOwner: number | undefined;
+
+  openTenants() {
+    this.indexMenu = 1;
+    this.indexPersonMenu = 0;
+  }
 
   openHelpMenu(helpInfoIndex: number) {
     this.helpInfo = helpInfoIndex;
@@ -80,7 +98,7 @@ export class ResidentsComponent implements OnInit {
   isCopied = false;
   indexPage: number = 0;
   indexMenu: number = 1;
-  indexPersonMenu: number = 1;
+  indexPersonMenu: number = 0;
   ownerInfo: any
   ownerPage: boolean = false;
   statusMessage: string | undefined;
@@ -94,6 +112,7 @@ export class ResidentsComponent implements OnInit {
     private datePipe: DatePipe,
   ) {
     this.setMinMaxDate(35);
+    this.rating.ratingDate = this.formatDate(new Date());
   }
 
   setMinMaxDate(daysBeforeToday: number) {
@@ -109,15 +128,15 @@ export class ResidentsComponent implements OnInit {
     return date.toISOString().slice(0, 10);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.selectFlat()
-    this.selectSubscriber()
+    await this.selectSubscriber()
+    this.getRatingOwner;
   }
 
   selectFlat() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
-      console.log(this.selectedFlatId)
       if (this.selectedFlatId) {
         const offs = 0;
         this.getSubs(selectedFlatId, offs).then(() => {
@@ -135,13 +154,13 @@ export class ResidentsComponent implements OnInit {
     });
   }
 
-  selectSubscriber() {
-    this.choseSubscribersService.selectedSubscriber$.subscribe(subscriberId => {
+  async selectSubscriber() {
+    this.choseSubscribersService.selectedSubscriber$.subscribe(async subscriberId => {
       if (subscriberId) {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
-          this.getRating(selectedSubscriber);
+          await this.getRating(selectedSubscriber);
         }
       }
     });
@@ -216,7 +235,6 @@ export class ResidentsComponent implements OnInit {
           this.ownerInfo = ownerInfo;
           this.getRatingOwner(this.ownerInfo.user_id)
         } else {
-          console.log('Owner для flat_id ' + selectedFlatId + ' не знайдено.');
           this.ownerPage = false;
         }
       } catch (error) {
@@ -240,7 +258,6 @@ export class ResidentsComponent implements OnInit {
             this.indexPage = 3;
           } else if (response.status === false) {
             this.statusMessageChat = true;
-            console.log('чат вже створено')
           }
           this.selectedSubscriber = selectedSubscriber;
         }, (error: any) => {
@@ -320,7 +337,6 @@ export class ResidentsComponent implements OnInit {
   sendRating(selectedSubscriber: any) {
     const userJson = localStorage.getItem('user');
     const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
-
     if (userJson && selectedSubscriber) {
       const data = {
         auth: JSON.parse(userJson),
@@ -330,86 +346,231 @@ export class ResidentsComponent implements OnInit {
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue
       };
-      console.log(data)
-      this.http.post(serverPath + '/rating/add/userrating', data)
-        .subscribe((response: any) => {
-          console.log(response)
-          if (response) {
-            console.log('відгук надіслано')
-          } else if (response.status === false) {
-            console.log('помилка')
-          }
-          this.selectedSubscriber = selectedSubscriber;
-        }, (error: any) => {
-          console.error(error);
-        });
+
+      this.http.post(serverPath + '/rating/add/userRating', data).subscribe((response: any) => {
+        let setMark = this.rating.ratingValue.toString();
+        if (response.status === true && setMark === '10') {
+          setTimeout(() => {
+            this.statusMessage = 'Дякуємо за підтримку гарних людей';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '5') {
+          setTimeout(() => {
+            this.statusMessage = 'Добрі стосунки це важливо';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено, дякуємо!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '3') {
+          setTimeout(() => {
+            this.statusMessage = 'Стабільність це добре';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено, дякуємо!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '-5') {
+          setTimeout(() => {
+            this.statusMessage = 'Йой, сподіваємось все налагодиться';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '-10') {
+          setTimeout(() => {
+            this.statusMessage = 'Напевно є не закриті питання';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка збереження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 2000);
+          }, 200);
+        }
+
+        this.indexPersonMenu = 0;
+        this.rating.ratingComment = '';
+
+      }, (error: any) => {
+        console.error(error);
+      });
     } else {
       console.log('user or subscriber not found');
     }
   }
 
-  sendRatingOwner() {
-    const selectedFlat = this.selectedFlatId;
+  sendRatingOwner(ownerID: any) {
     const userJson = localStorage.getItem('user');
+    const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
     if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        user_id: this.ownerInfo.user_id,
-        date: this.rating.ratingDate,
+        flat_id: this.selectedFlatId,
+        user_id: ownerID,
+        date: formattedDate,
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue
       };
-      console.log(data)
-      this.http.post(serverPath + '/rating/add/flatrating', data)
-        .subscribe((response: any) => {
-          console.log(response)
-          if (response) {
-            console.log('відгук надіслано')
-          } else if (response.status === false) {
-            console.log('помилка')
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+
+      this.http.post(serverPath + '/rating/add/ownerRating', data).subscribe((response: any) => {
+        let setMark = this.rating.ratingValue.toString();
+        if (response.status === true && setMark === '10') {
+          setTimeout(() => {
+            this.statusMessage = 'Дякуємо за підтримку гарних людей';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '5') {
+          setTimeout(() => {
+            this.statusMessage = 'Добрі стосунки це важливо';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено, дякуємо!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '3') {
+          setTimeout(() => {
+            this.statusMessage = 'Стабільність це добре';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено, дякуємо!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '-5') {
+          setTimeout(() => {
+            this.statusMessage = 'Йой, сподіваємось все налагодиться';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === true && setMark === '-10') {
+          setTimeout(() => {
+            this.statusMessage = 'Напевно є не закриті питання';
+            setTimeout(() => {
+              this.statusMessage = 'Відгук збережено!';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка збереження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 2000);
+          }, 200);
+        }
+
+        this.indexPersonMenu = 0;
+        this.rating.ratingComment = '';
+
+      }, (error: any) => {
+        console.error(error);
+      });
     } else {
-      console.log('user or subscriber not found');
+      console.log('Авторизуйтесь');
     }
   }
 
   async getRating(selectedSubscriber: any): Promise<any> {
-    console.log(11111)
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/usermarks';
+    const url = serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: selectedSubscriber.user_id,
     };
 
-    console.log(data)
-
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        response.status.forEach((item: { mark: number; }) => {
+          if (item.mark) {
+            totalMarkTenant += item.mark;
+            this.ratingTenant = totalMarkTenant;
+          }
+        });
+      } else {
+        console.log('Орендар без оцінок.');
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
   async getRatingOwner(user_id: any): Promise<any> {
-    console.log(22222)
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/usermarks';
+    const url = serverPath + '/rating/get/ownerMarks';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
     };
 
-    console.log(data)
-
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkOwner = 0;
+        response.status.forEach((item: { mark: number; }) => {
+          if (item.mark) {
+            totalMarkOwner += item.mark;
+            this.ratingOwner = totalMarkOwner;
+          }
+        });
+      } else {
+        console.log('Власник без оцінок.');
+      }
     } catch (error) {
       console.error(error);
     }

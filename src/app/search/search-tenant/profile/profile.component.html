@@ -104,27 +104,31 @@
                 <div class="user-name">{{ purpose[selectedUser.purpose_rent] }}</div>
               </div>
 
-              <div class="user-sup-name">Термін оренди: </div>
+            </div>
+
+            <div class="price">
+
+                <div class="date-box" *ngIf="selectedUser.days && selectedUser.days !== null">
+                  <div class="date">{{ selectedUser.days }}</div>
+                  <div class="text">Дні</div>
+                </div>
+                <div class="date-box" *ngIf="selectedUser.weeks && selectedUser.weeks !== null">
+                  <div class="date">{{ selectedUser.weeks }}</div>
+                  <div class="text">Тижні</div>
+                </div>
+                <div class="date-box" *ngIf="selectedUser.mounths && selectedUser.mounths !== null">
+                  <div class="date">{{ selectedUser.mounths }}</div>
+                  <div class="text">Місяці</div>
+                </div>
+                <div class="date-box" *ngIf="selectedUser.years && selectedUser.years !== null">
+                  <div class="date">{{ selectedUser.years }}</div>
+                  <div class="text">Роки</div>
+                </div>
+
             </div>
           </div>
 
-          <div class="date-container">
-            <div class="date-box" *ngIf="selectedUser.days && selectedUser.days !== null">
-              <div class="date">{{ selectedUser.days }}</div>
-              <div class="date-name">Дні</div>
-            </div>
-            <div class="date-box" *ngIf="selectedUser.weeks && selectedUser.weeks !== null">
-              <div class="date">{{ selectedUser.weeks }}</div>
-              <div class="date-name">Тижні</div>
-            </div>
-            <div class="date-box" *ngIf="selectedUser.mounths && selectedUser.mounths !== null">
-              <div class="date">{{ selectedUser.mounths }}</div>
-              <div class="date-name">Місяці</div>
-            </div>
-            <div class="date-box" *ngIf="selectedUser.years && selectedUser.years !== null">
-              <div class="date">{{ selectedUser.years }}</div>
-              <div class="date-name">Роки</div>
-            </div>
+          <div class="btn-container">
             <div class="btn-box">
               <button class="btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
               <div class="btn-name">Детальніше</div>
@@ -170,21 +174,10 @@
               <div class="title-selected-accent">{{ selectedUser?.city || '?' }}</div>
             </div>
 
-            <div class="title-group" *ngIf="selectedUser?.area_of || selectedUser?.area_to">
-              <div class="title-selected">Площа : </div>
-              <div class="title-selected-accent" *ngIf="selectedUser?.area_of">від {{ selectedUser?.area_of || '?'
-                }}м²
-              </div>
-              <div class="title-selected-accent" *ngIf="selectedUser?.area_to">до {{ selectedUser?.area_to || '?'
-                }}м²
-              </div>
-            </div>
-
             <div class="title-group">
               <div class="title-selected">Бюджет : </div>
-              <div class="title-selected-accent">{{ selectedUser?.price_of | number }}₴ - {{ selectedUser?.price_to
-                |
-                number }}₴</div>
+              <div class="title-selected-accent">{{ selectedUser?.price_of | number }}
+                ₴ - {{ selectedUser?.price_to | number }}₴</div>
             </div>
 
           </div>
@@ -493,9 +486,8 @@
                 <div class="user-name">{{ purpose[selectedUser.purpose_rent] }}</div>
               </div>
 
-              <div class="user-sup-name">Термін оренди: </div>
-
             </div>
+
           </div>
 
           <div class="btn-container">

@@ -337,7 +337,7 @@ export class InformationUserComponent implements OnInit {
   openCropperDialog(event: Event) {
     this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
       data: event,
-      width: 320,
+      width: 400,
       disableClose: true
     }).afterClosed.subscribe((result?: ImgCropperEvent) => {
       if (result) {

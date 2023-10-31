@@ -9,6 +9,7 @@
 
   .status-box {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .status-value {
@@ -30,7 +31,7 @@
   }
 
   .status-hover {
-    width: 100%;
+    width: 90%;
     min-width: 300px;
     position: absolute;
     top: 160%;

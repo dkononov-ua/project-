@@ -8,6 +8,7 @@
       <div class="card">
         <div class="status-container">
           <div class="status-box">
+            <div class="status-value" *ngIf="userInfo.agree_search === 1">Допомога</div>
             <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
             <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
             <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>
@@ -57,13 +58,25 @@
         <div class="img-fluid">
           <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
             (error)="useDefaultImage($event)">
+
+          <div class="user-group status-container">
+            <div class="user-group-name" *ngIf="ratingOwner">
+              <div class="user-sup-name">Рейтинг <br> власника: </div>
+              <div class="user-name">{{ ratingOwner }}</div>
+            </div>
+
+            <div class="user-group-name"  *ngIf="ratingTenant">
+              <div class="user-sup-name">Рейтинг <br> орендара : </div>
+              <div class="user-name">{{ ratingTenant }}</div>
+            </div>
+          </div>
         </div>
 
         <div class="social-link-container">
-          <div>Соціальні мережі</div>
+          <div>Посилання на мій:</div>
           <div class="social-link-box" *ngIf="!user.instagram && !user.facebook && !user.telegram">
-            <p>Посилання на соціальні мережі відсутні.</p>
-            <p>Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+            <p class="text">Посилання на мене відсутні.</p>
+            <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
               інформаці</p>
           </div>
 
@@ -265,7 +278,7 @@
         </div>
 
       </div>
-      
+
     </div>
   </div>
 </ng-template>
