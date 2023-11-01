@@ -8,6 +8,7 @@ import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
+import { PageEvent } from '@angular/material/paginator';
 interface chosenFlat {
   flat: any;
   owner: any;
@@ -32,12 +33,6 @@ interface chosenFlat {
 })
 
 export class SubscribersDiscusComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  currentIndex: number = 0;
-  loading: boolean | undefined;
-  indexPage: number = 1;
 
   aboutDistance: { [key: number]: string } = {
     0: 'Немає',
@@ -46,6 +41,7 @@ export class SubscribersDiscusComponent implements OnInit {
     300: '300м',
     500: '500м',
     1000: '1км',
+    2000: '2км',
   }
 
   purpose: { [key: number]: string } = {
@@ -69,8 +65,12 @@ export class SubscribersDiscusComponent implements OnInit {
     1: 'Подобово',
   }
 
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  loading: boolean | undefined;
   chosenFlat: chosenFlat | null = null;
-  isCopied = false;
+  isCopiedMessage!: string;
   choseFlatId: any | null;
   currentPhotoIndex: number = 0;
   chatExists = false;
@@ -79,6 +79,33 @@ export class SubscribersDiscusComponent implements OnInit {
   selectedView!: any;
   selectedViewName!: string;
   subscriptions: any[] = [];
+
+  // показ карток
+  card_info: boolean = false;
+  indexPage: number = 0;
+  indexMenu: number = 0;
+  indexMenuMobile: number = 1;
+  ratingOwner: number = 0;
+  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
+    this.indexMenu = indexMenu;
+    this.indexPage = indexPage;
+    this.indexMenuMobile = indexMenuMobile;
+  }
+
+  openInfoUser() {
+    this.card_info = true;
+  }
+
+  // пагінатор
+  offs: number = 0;
+  counterFound: number = 0;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageEvent: PageEvent = {
+    length: this.counterFound,
+    pageSize: 5,
+    pageIndex: 0
+  };
 
   constructor(
     private http: HttpClient,
@@ -90,95 +117,57 @@ export class SubscribersDiscusComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getSubscribedFlats();
+    this.getSubInfo(null, this.offs);
+    await this.getAcceptSubsCount();
   }
 
-  async getSubscribedFlats(): Promise<void> {
+  // Отримання даних всіх дискусій
+  async getSubInfo(flatId: any, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = serverPath + '/acceptsubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
-      offs: 0,
+      offs: offs,
     };
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      const newSubscriptions: any[] = response.map((flat: any) => {
-        if (flat.flat_id) {
-          return {
-            flat_id: flat.flat.flat_id,
-            flatImg: flat.img,
-            price_m: flat.flat.price_m,
-            region: flat.flat.region,
-            city: flat.flat.city,
-          };
-        } else {
-          return {
-            flat_id: flat.flat.flat_id,
-            flatImg: flat.img,
-            price_m: flat.flat.price_m,
-            region: flat.flat.region,
-            city: flat.flat.city,
+      if (response) {
+        this.subscriptions = response;
+        if (flatId) {
+          const chosenFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
+          if (chosenFlat) {
+            this.chosenFlat = chosenFlat;
+            this.getRatingOwner(this.chosenFlat?.owner.user_id);
+            this.generateLocationUrl();
+          } else {
+            console.log('Немає інформації');
           }
+        } else {
+          this.onFlatSelect(response[0]);
         }
-      });
-      this.subscriptions = newSubscriptions;
-      if (newSubscriptions.length > 0) {
-        this.onFlatSelect(newSubscriptions[0]);
+      } else {
+        console.log('Немає дискусій');
       }
     } catch (error) {
       console.error(error);
     }
   }
 
+  // Перемикання оселі
   onFlatSelect(flat: any) {
-    this.choseSubscribeService.setChosenFlatId(flat.flat_id);
-    this.choseFlatId = flat.flat_id;
+    this.ratingOwner = 0;
+    this.currentPhotoIndex = 0;
+    this.indexPage = 1;
+    this.choseFlatId = flat.flat.flat_id;
+    this.choseSubscribeService.setChosenFlatId(this.choseFlatId);
+    this.getSubInfo(this.choseFlatId, this.offs);
     this.checkChatExistence(this.choseFlatId);
-    this.getFlatDetails(this.choseFlatId);
   }
 
-  async getFlatDetails(flatId: string): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/acceptsubs/get/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      flatId: flatId,
-      offs: 0,
-    };
-
-    this.http.post(url, data).subscribe((response: any) => {
-      const chosenFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-      if (chosenFlat) {
-        this.chosenFlat = chosenFlat;
-        this.generateLocationUrl();
-      } else {
-        console.log('Немає інформації')
-      }
-    });
-  }
-
-  generateLocationUrl() {
-    const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.chosenFlat?.flat.region || '';
-    const city = this.chosenFlat?.flat.city || '';
-    const street = this.chosenFlat?.flat.street || '';
-    const houseNumber = this.chosenFlat?.flat.houseNumber || '';
-    const flatIndex = this.chosenFlat?.flat.flat_index || '';
-    const encodedRegion = encodeURIComponent(region);
-    const encodedCity = encodeURIComponent(city);
-    const encodedStreet = encodeURIComponent(street);
-    const encodedHouseNumber = encodeURIComponent(houseNumber);
-    const encodedFlatIndex = encodeURIComponent(flatIndex);
-    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-    this.locationLink = locationUrl;
-    return this.locationLink;
-  }
-
+  // Перемикання Фото в каруселі
   prevPhoto() {
     this.currentPhotoIndex--;
   }
@@ -187,38 +176,36 @@ export class SubscribersDiscusComponent implements OnInit {
     this.currentPhotoIndex++;
   }
 
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
   copyFlatId() {
-    const flatId = this.chosenFlat?.flat.flat_id;
-    if (flatId) {
-      navigator.clipboard.writeText(flatId)
-        .then(() => {
-          this.isCopied = true;
-          setTimeout(() => {
-            this.isCopied = false;
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopied = false;
-        });
-    }
+    this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано');
   }
-
+  copyOwnerId() {
+    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано');
+  }
   copyTell() {
-    const tell = this.chosenFlat?.owner.tell;
-    if (tell) {
-      navigator.clipboard.writeText(tell)
-        .then(() => {
-          this.isCopied = true;
-          setTimeout(() => {
-            this.isCopied = false;
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopied = false;
-        });
-    }
+    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Телефон скопійовано');
+  }
+  copyMail() {
+    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано');
   }
 
+  // Перезавантаження сторінки з лоадером
   reloadPage() {
     this.loading = true;
     setTimeout(() => {
@@ -226,6 +213,7 @@ export class SubscribersDiscusComponent implements OnInit {
     }, 500);
   }
 
+  // Видалення дискусії
   async deleteSubscriber(flat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/acceptsubs/delete/ysubs';
@@ -258,6 +246,7 @@ export class SubscribersDiscusComponent implements OnInit {
     });
   }
 
+  // Створюю чат
   async createChat(chosenFlat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && chosenFlat.flat.flat_id) {
@@ -282,6 +271,30 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
+  // Генерую локацію оселі
+  generateLocationUrl() {
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.chosenFlat?.flat.region || '';
+    const city = this.chosenFlat?.flat.city || '';
+    const street = this.chosenFlat?.flat.street || '';
+    const houseNumber = this.chosenFlat?.flat.houseNumber || '';
+    const flatIndex = this.chosenFlat?.flat.flat_index || '';
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+    return this.locationLink;
+  }
+
+  // Відкриваю локацію на мапі
+  openMap() {
+    window.open(this.locationLink, '_blank');
+  }
+
+  // Перевірка на існування чату
   async checkChatExistence(choseFlatId: any): Promise<any> {
     const url = serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
@@ -308,6 +321,7 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
+  // Перегляд статистики комунальних
   goToComun() {
     localStorage.removeItem('selectedName');
     localStorage.removeItem('house');
@@ -321,5 +335,83 @@ export class SubscribersDiscusComponent implements OnInit {
       this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
     }
   }
+
+  // Отримую загальну кількість дискусій
+  async getAcceptSubsCount() {
+    const userJson = localStorage.getItem('user')
+    const url = serverPath + '/acceptsubs/get/CountYsubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+    };
+
+    try {
+      const response: any = await this.http.post(url, data).toPromise() as any;
+      console.log(response)
+      this.counterFound = response.status;
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
+  // пагінатор наступна сторінка з картками
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubInfo(null, this.offs);
+    }
+    this.getCurrentPageInfo()
+  }
+
+  // пагінатор попередня сторінка з картками
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubInfo(null, this.offs);
+    }
+    this.getCurrentPageInfo()
+  }
+
+  // пагінатор перевіряю кількість сторінок
+  async getCurrentPageInfo(): Promise<string> {
+    const itemsPerPage = this.pageEvent.pageSize;
+    const currentPage = this.pageEvent.pageIndex + 1;
+    const totalPages = Math.ceil(this.counterFound / itemsPerPage);
+    this.currentPage = currentPage;
+    this.totalPages = totalPages;
+    return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
+  // отримую рейтинг власника оселі
+  async getRatingOwner(user_id: any): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/ownerMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkOwner = 0;
+        response.status.forEach((item: { mark: number; }) => {
+          if (item.mark) {
+            totalMarkOwner += item.mark;
+            this.ratingOwner = totalMarkOwner;
+          }
+        });
+      } else {
+        console.log('Власник без оцінок.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 }
 

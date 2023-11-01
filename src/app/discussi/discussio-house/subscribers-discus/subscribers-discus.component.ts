@@ -88,28 +88,6 @@ export class SubscribersDiscusComponent implements OnInit {
   chatExists = false;
   ratingTenant: number | undefined;
 
-  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
-    this.indexMenu = indexMenu;
-    this.indexPage = indexPage;
-    this.indexMenuMobile = indexMenuMobile;
-  }
-
-  // показ карток
-  indexPage: number = 1;
-  indexMenu: number = 1;
-  indexMenuMobile: number = 1;
-
-  // пагінатор
-  offs: number = 0;
-  counterFound: number = 0;
-  currentPage: number = 1;
-  totalPages: number = 1;
-  pageEvent: PageEvent = {
-    length: this.counterFound,
-    pageSize: 3,
-    pageIndex: 0
-  };
-
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
     1: 'Відряджання',
@@ -139,11 +117,31 @@ export class SubscribersDiscusComponent implements OnInit {
     3: 'Тільки песики',
   }
 
+  // показ карток
   card_info: boolean = false;
+  indexPage: number = 0;
+  indexMenu: number = 0;
+  indexMenuMobile: number = 1;
+  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
+    this.indexMenu = indexMenu;
+    this.indexPage = indexPage;
+    this.indexMenuMobile = indexMenuMobile;
+  }
 
   openInfoUser() {
     this.card_info = true;
   }
+
+  // пагінатор
+  offs: number = 0;
+  counterFound: number = 0;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageEvent: PageEvent = {
+    length: this.counterFound,
+    pageSize: 5,
+    pageIndex: 0
+  };
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -337,7 +335,6 @@ export class SubscribersDiscusComponent implements OnInit {
       this.getSubs(this.selectedFlatId, this.offs);
     }
     this.getCurrentPageInfo()
-
   }
 
   // попередня сторінка з картками
@@ -351,17 +348,12 @@ export class SubscribersDiscusComponent implements OnInit {
     this.getCurrentPageInfo()
   }
 
-
   async getCurrentPageInfo(): Promise<string> {
     const itemsPerPage = this.pageEvent.pageSize;
     const currentPage = this.pageEvent.pageIndex + 1;
     const totalPages = Math.ceil(this.counterFound / itemsPerPage);
     this.currentPage = currentPage;
     this.totalPages = totalPages;
-
-    // console.log(itemsPerPage)
-    // console.log(currentPage)
-    // console.log(totalPages)
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
 

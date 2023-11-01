@@ -1,4 +1,5 @@
 <div class="container-box">
+
   <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12">
 
     <div class="switch-box">
@@ -37,9 +38,9 @@
 
     </div>
 
-    <div class="mt-4 w-100" *ngIf="indexMenu == 0">
+    <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
       <div class="param-box">
-        <div class="param-name"><i class="fa-solid fa-person-walking-luggage"></i> Меню дискусії оселі
+        <div class="param-name"><i class="fa-solid fa-person-walking-luggage"></i> Меню Дискусії оселі
           <p class="t-min ">користувачі з якими можна зробити угоду</p>
           <p class="t-med ">Отримати Дискусії можна ухваливши користувача з підписників оселі</p>
           <a class="param-name-text" [routerLink]="'/subscribers-host/subscribers-house'"><i
@@ -72,8 +73,8 @@
         <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
           [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-mini-img-container">
-            <img class="card-mini-img" [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
-              alt="img">
+            <img class="card-mini-img"
+              [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')" alt="img">
           </div>
           <div class="card-body">
             <div class="p-1">
@@ -107,8 +108,8 @@
         <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
           [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-mini-img-container">
-            <img class="card-mini-img" [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
-              alt="img">
+            <img class="card-mini-img"
+              [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')" alt="img">
           </div>
           <div class="card-body">
             <div class="p-1">
@@ -161,6 +162,21 @@
           </div>
         </div>
 
+        <div class="item-wrapper p-3">
+          <div class="user-group status-container">
+            <div class="user-group-name" *ngIf="ratingTenant">
+              <div class="user-name">{{ ratingTenant }}</div>
+              <div class="user-sup-name">рейтинг орендара</div>
+            </div>
+          </div>
+          <div class="item-name">{{ selectedUser.lastName }}</div>
+          <div class="item-name">{{ selectedUser.firstName }}</div>
+          <div class="item-name">{{ selectedUser.surName }}</div>
+          <div class="item-info">User ID: <span class="accent">{{ selectedUser.user_id }}</span></div>
+          <div class="item-info">Телефон: <span class="accent">{{ selectedUser.tell }}</span></div>
+          <div class="item-info">Email: <span class="accent">{{ selectedUser.mail }}</span></div>
+        </div>
+
         <div class="social-link-container">
           <div *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
             <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
@@ -180,21 +196,6 @@
                 class="fab fa-brands fa-telegram"></i></a>
             <div class="social-link-name">telegram</div>
           </div>
-        </div>
-
-        <div class="item-wrapper p-3">
-          <div class="user-group status-container">
-            <div class="user-group-name" *ngIf="ratingTenant">
-              <div class="user-name">{{ ratingTenant }}</div>
-              <div class="user-sup-name">рейтинг орендара</div>
-            </div>
-          </div>
-          <div class="item-name">{{ selectedUser.lastName }}</div>
-          <div class="item-name">{{ selectedUser.firstName }}</div>
-          <div class="item-name">{{ selectedUser.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ selectedUser.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ selectedUser.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ selectedUser.mail }}</span></div>
         </div>
       </div>
     </div>

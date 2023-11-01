@@ -1,1 +1,4 @@
-@use "../sub.scss"
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../sub.scss";
+

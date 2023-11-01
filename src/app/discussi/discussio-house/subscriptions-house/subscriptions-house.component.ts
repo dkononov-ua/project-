@@ -82,11 +82,8 @@ export class SubscriptionsHouseComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
-  offs: number = 0;
-  pageEvent: PageEvent | undefined;
   selectedUser: Subscriber | any;
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
@@ -97,12 +94,6 @@ export class SubscriptionsHouseComponent implements OnInit {
   isFeatureEnabled: boolean = false;
   toggleMode(): void {
     this.isFeatureEnabled = !this.isFeatureEnabled;
-  }
-
-  card_info : boolean = false;
-
-  openInfoUser () {
-    this.card_info = true;
   }
 
   purpose: { [key: number]: string } = {
@@ -134,14 +125,34 @@ export class SubscriptionsHouseComponent implements OnInit {
     3: 'Тільки песики',
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageEvent = event;
-    this.offs = event.pageIndex * event.pageSize;
-    this.getSubs(this.selectedFlatId, this.offs);
-  }
   selectedSubscriberId: string | null = null;
-  indexPage: number = 1;
   chatExists = false;
+
+  // показ карток
+  card_info: boolean = false;
+  indexPage: number = 0;
+  indexMenu: number = 0;
+  indexMenuMobile: number = 1;
+  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
+    this.indexMenu = indexMenu;
+    this.indexPage = indexPage;
+    this.indexMenuMobile = indexMenuMobile;
+  }
+
+  openInfoUser() {
+    this.card_info = true;
+  }
+
+  // пагінатор
+  offs: number = 0;
+  counterFound: number = 0;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageEvent: PageEvent = {
+    length: this.counterFound,
+    pageSize: 5,
+    pageIndex: 0
+  };
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -152,9 +163,10 @@ export class SubscriptionsHouseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       this.getSubs(this.selectedFlatId, this.offs);
+      await this.getSubscriptionsCount();
     });
   }
 
@@ -169,7 +181,6 @@ export class SubscriptionsHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -177,7 +188,8 @@ export class SubscriptionsHouseComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: Subscriber): void {
-    this.indexPage = 2;
+    this.indexPage = 1;
+    this.indexMenuMobile = 0;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
@@ -214,6 +226,56 @@ export class SubscriptionsHouseComponent implements OnInit {
       }
     });
   }
+
+  // Підписки
+  async getSubscriptionsCount() {
+    const userJson = localStorage.getItem('user')
+    const url = serverPath + '/usersubs/get/CountUserSubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: this.selectedFlatId,
+    };
+
+    try {
+      const response: any = await this.http.post(url, data).toPromise() as any;
+      this.counterFound = response.status;
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
+  // наступна сторінка з картками
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubs(this.selectedFlatId, this.offs);
+    }
+    this.getCurrentPageInfo()
+  }
+
+  // попередня сторінка з картками
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubs(this.selectedFlatId, this.offs);
+    }
+    this.getCurrentPageInfo()
+  }
+
+  async getCurrentPageInfo(): Promise<string> {
+    const itemsPerPage = this.pageEvent.pageSize;
+    const currentPage = this.pageEvent.pageIndex + 1;
+    const totalPages = Math.ceil(this.counterFound / itemsPerPage);
+    this.currentPage = currentPage;
+    this.totalPages = totalPages;
+    return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
 
 
 }

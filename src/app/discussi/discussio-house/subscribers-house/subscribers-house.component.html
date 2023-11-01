@@ -1,45 +1,47 @@
 <div class="container-box">
+  <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12">
 
-  <div class="card-box-img col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscribers.length === 0">
-    <div class="title-1">Дискусій ще немає...</div>
-    <img class="img-dog" src="../../../../assets/example-no-info/no_subs.png" alt="no_subs">
-  </div>
-
-  <div class="card-box-img p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscribers.length === 0">
-    <p class="mb-4"><strong>Підписки на орендарів </strong> - тут Ви зможете бачити користувачів на яких Ви
-      підписались.</p>
-    <p><strong>Детальна інформацію</strong> про людину на яку Ви
-      підписались буде доступна коли вона вас ухвалить до Підписники, там Ви вже зможете почати спілкування та
-      познайомитись, переглянути соціальні мережі, та перейти до обговорення оренди.</p>
-  </div>
-
-  <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscribers.length !== 0">
     <div class="switch-box">
-      <div class="btn-menu1 hide-pc">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0 || indexPage = 0"
-          matTooltip="Меню"> <i class="fa-solid fa-circle-info"></i></button>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="onClickMenu(0,0,0)" [ngClass]="{ 'active': indexMenu == 0}">
+          <i class="fa-solid fa-circle-info"></i>
+        </button>
         <div class="t-min dark bold">Про меню</div>
       </div>
 
-      <div class="btn-menu1">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1 || indexPage = 1"
-          matTooltip="Підписники"> <i class="fa-solid fa-user-group"></i></button>
-        <div class="t-min dark bold">Підписники</div>
+      <div class="switch-btn-group">
+        <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(1,0,1)"
+          [ngClass]="{ 'active': indexMenu == 1}">
+          <i class="fa-solid fa-user-group"></i>
+        </button>
+        <div class="t-min dark bold">Дискусії</div>
+        <div class="counterNum t-lar bold">{{counterFound}}</div>
       </div>
 
-      <div class="btn-menu1">
-        <button class="btn" [disabled]="!selectedUser" class="btn" [ngClass]="{ 'active': indexPage == 2}"
-          (click)="indexPage = 2" matTooltip="Підписник"> <i class="fa-regular fa-user"></i></button>
-        <div class="t-min dark bold">Підписник</div>
+      <div class="switch-btn-group">
+        <button class="btn" [disabled]="!selectedUser" (click)="onClickMenu(1,1,0)"
+          [ngClass]="{ 'active': indexPage == 1}">
+          <i class="fa-solid fa-user-large"></i>
+        </button>
+        <div class="t-min dark bold">Орендар</div>
       </div>
 
     </div>
 
-    <div class="mt-4 hide-mobile" *ngIf="indexPage == 0 || indexPage == 1">
+    <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
       <div class="param-box">
-        <div class="param-name"><i class="fa-solid fa-child-reaching"></i> Меню Підписники оселі
+        <div class="param-name"><i class="fa-solid fa-child-reaching"></i> Меню Підписників оселі
           <p class="t-min ">користувачі які підписані на вашу оселю</p>
-          <p class="t-med ">Підписники формуються із тих користувачів які вподобали вашу оселю в пошуку і підписались на неї</p>
+          <p class="t-med ">Підписники формуються із тих користувачів які вподобали вашу оселю в пошуку оселі і
+            підписались на
+            неї</p>
+          <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
+              class="ml-2">пошук оселі тут</span></a>
+          <p class="t-med ">Після ухвалення орендара він з'явиться в меню Дискусії оселі</p>
+          <a class="param-name-text" [routerLink]="'/subscribers-host/subscribers-discus'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2">Дискусії оселі тут</span></a>
+
         </div>
       </div>
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
@@ -49,154 +51,73 @@
       </ul>
     </div>
 
-    <div class="mt-4 hide-pc" *ngIf="indexPage == 0">
-      <div class="param-box">
-        <div class="param-name"><i class="fa-solid fa-child-reaching"></i> Меню Підписники оселі
-          <p class="t-min ">користувачі які підписані на вашу оселю</p>
+    <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
+      <div class="paginator-container">
+        <button class="paginator-btn" (click)="decrementOffset()">
+          <i class="fa-solid fa-chevron-left"></i></button>
+        <div class="paginator-box">
+          <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
+          <div class="t-min">Всього Дискусій {{counterFound}}</div>
         </div>
-      </div>
-    </div>
-
-    <div class="mt-4 hide-pc" *ngIf="indexPage == 1">
-      <div class="param-box">
-        <div class="param-name"><i class="fa-solid fa-users"></i> Підписники
-          <p class="t-min ">всі користувачі які підписані на оселю</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-4" *ngIf="indexPage == 2">
-      <div class="param-box">
-        <div class="param-name"><i class="fa-regular fa-id-card"></i> Підписник
-          <p class="t-min ">інформаці про підписника оселі</p>
-        </div>
+        <button class="paginator-btn" (click)="incrementOffset()">
+          <i class="fa-solid fa-chevron-right"></i></button>
       </div>
 
-      <div class="card-container hide-mobile" *ngIf="subscribers.length !== 0">
-        <div class="card-wrapper">
-          <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
-            [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
-            <div class="card-img-container">
-              <img class="card-img" [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
-                alt="User Image">
-            </div>
-            <div class="card-body">
-              <div class="title-group p-1">
-                <div class="title">{{ subscriber.lastName }}</div>
-                <div class="title">{{ subscriber.firstName }}</div>
-                <div class="title">{{ subscriber.surName }}</div>
-              </div>
+      <div class="cards-container p-2" *ngIf="counterFound !== 0">
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+          [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
+          <div class="card-mini-img-container">
+            <img class="card-mini-img"
+              [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')" alt="img">
+          </div>
+          <div class="card-body">
+            <div class="p-1">
+              <div class="t-lar">{{ subscriber.lastName }}</div>
+              <div class="t-lar">{{ subscriber.firstName }}</div>
+              <div class="t-lar">{{ subscriber.surName }}</div>
             </div>
           </div>
         </div>
-
-        <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
-          [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
-          aria-label="Select page">
-        </mat-paginator>
       </div>
     </div>
 
-    <div class="mt-4" *ngIf="indexPage == 3">
-      <div class="param-box">
-        <div class="param-name"><i class="fa-solid fa-comments"></i> Чат з орендарем
-          <p class="t-min ">користувачі з якими можна спілкуватись</p>
-        </div>
-      </div>
-      <div class="card-container hide-mobile" *ngIf="subscribers.length !== 0">
-        <div class="card-wrapper">
-          <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
-            [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
-            <div class="card-img-container">
-              <img class="card-img" [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
-                alt="User Image">
-            </div>
-            <div class="card-body">
-              <div class="title-group p-1">
-                <div class="title">{{ subscriber.lastName }}</div>
-                <div class="title">{{ subscriber.firstName }}</div>
-                <div class="title">{{ subscriber.surName }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
-          [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
-          aria-label="Select page">
-        </mat-paginator>
-      </div>
-    </div>
   </div>
 
-  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="subscribers.length !== 0">
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="counterFound !== 0 && indexMenu == 1">
 
-    <div [@cardAnimation2] class="card-animation mt-4 p-2 hide-pc" *ngIf="indexPage == 0">
-      <div class="param-box">
-        <div class="param-name">
-          <p class="t-med ">Підписники формуються із тих користувачів які вподобали вашу оселю в пошуку і підписались на неї</p>
+    <!-- всі картки для мобільного -->
+    <div [@cardAnimation2] class="card-animation hide-pc" *ngIf="indexMenu == 1 && indexMenuMobile == 1">
+      <div class="paginator-container">
+        <button class="paginator-btn" (click)="decrementOffset()">
+          <i class="fa-solid fa-chevron-left"></i></button>
+        <div class="paginator-box">
+          <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
+          <div class="t-min">Всього Дискусій {{counterFound}}</div>
         </div>
+        <button class="paginator-btn" (click)="incrementOffset()">
+          <i class="fa-solid fa-chevron-right"></i></button>
       </div>
-      <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>Перегляд інформації користувача</li>
-        <li>Перегляд соціальних мереж</li>
-        <li>Видалення з підписників</li>
-      </ul>
-    </div>
 
-    <div [@cardAnimation2] class="card-animation hide-pc" *ngIf="indexPage == 1">
-      <div class="card-container" *ngIf="subscribers.length !== 0">
-        <div class="card-wrapper">
-          <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
-            [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
-            <div class="card-img-container">
-              <img class="card-img" [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
-                alt="User Image">
-            </div>
-            <div class="card-body">
-              <div class="title-group p-1">
-                <div class="title">{{ subscriber.lastName }}</div>
-                <div class="title">{{ subscriber.firstName }}</div>
-                <div class="title">{{ subscriber.surName }}</div>
-              </div>
+      <div class="cards-container p-2" *ngIf="counterFound !== 0">
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+          [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
+          <div class="card-mini-img-container">
+            <img class="card-mini-img"
+              [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')" alt="img">
+          </div>
+          <div class="card-body">
+            <div class="p-1">
+              <div class="t-lar">{{ subscriber.lastName }}</div>
+              <div class="t-lar">{{ subscriber.firstName }}</div>
+              <div class="t-lar">{{ subscriber.surName }}</div>
             </div>
           </div>
         </div>
-
-        <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
-          [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
-          aria-label="Select page">
-        </mat-paginator>
       </div>
     </div>
 
-    <div [@cardAnimation2] class="hide-mobile" *ngIf="indexPage === 0 || indexPage === 1">
-      <div class="card-container" *ngIf="subscribers.length !== 0">
-        <div class="card-wrapper">
-          <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
-            [ngClass]="{ 'selectedUser': subscriber.user_id == selectedUser?.user_id }">
-            <div class="card-img-container">
-              <img class="card-img" [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')"
-                alt="User Image">
-            </div>
-            <div class="card-body">
-              <div class="title-group p-1">
-                <div class="title">{{ subscriber.lastName }}</div>
-                <div class="title">{{ subscriber.firstName }}</div>
-                <div class="title">{{ subscriber.surName }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <mat-paginator class="mb-2" [pageIndex]="pageEvent?.pageIndex" [length]="subscribers.length"
-          [pageSize]="pageEvent?.pageSize" [pageSizeOptions]="[6, 12, 24, 100]" (page)="onPageChange($event)"
-          aria-label="Select page">
-        </mat-paginator>
-      </div>
-    </div>
-
-    <div [@cardAnimation2] class="card-animation" *ngIf="selectedUser && indexPage == 2 && !card_info">
+    <!-- основна інформація користувача -->
+    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && !card_info && selectedUser">
       <div class="card">
 
         <div class="img-fluid">
@@ -205,7 +126,8 @@
 
           <div class="btn-container">
             <div class="img-btn-box">
-              <button class="img-btn" (click)="approveSubscriber(selectedUser)"><i class="fa-regular fa-thumbs-up"></i></button>
+              <button class="img-btn" (click)="approveSubscriber(selectedUser)"><i
+                  class="fa-regular fa-thumbs-up"></i></button>
               <div class="t-min">До дискусії</div>
             </div>
 
@@ -217,43 +139,38 @@
           </div>
         </div>
 
-        <div class="social-link-container" *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
-          <div class="t-lar">Посилання на соціальні мережі відсутні...</div>
-        </div>
-
-        <div class="social-link-container" *ngIf="selectedUser.instagram || selectedUser.facebook || selectedUser.telegram">
-          <div class="t-lar">Посилання на:</div>
-
-          <div class="social-link-box" *ngIf="selectedUser.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.instagram }}"><i
-                class="fab fa-brands fa-instagram"></i></a>
-            <div class="social-link-name">instagram</div>
-          </div>
-
-          <div class="social-link-box" *ngIf="selectedUser.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.facebook }}"><i
-                class="fab fa-brands fa-facebook"></i></a>
-            <div class="social-link-name">facebook</div>
-          </div>
-
-          <div class="social-link-box" *ngIf="selectedUser.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.telegram }}"><i
-                class="fab fa-brands fa-telegram"></i></a>
-            <div class="social-link-name">telegram</div>
-          </div>
-
-        </div>
-
         <div class="item-wrapper p-3">
           <div class="item-name">{{ selectedUser.lastName }}</div>
           <div class="item-name">{{ selectedUser.firstName }}</div>
           <div class="item-name">{{ selectedUser.surName }}</div>
           <div class="item-info">User ID: <span class="accent">{{ selectedUser.user_id }}</span></div>
         </div>
+
+        <div class="social-link-container">
+          <div *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
+            <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
+          </div>
+          <div class="social-link-box" *ngIf="selectedUser.instagram">
+            <a class="social-link-icon" target="_blank" href="{{ selectedUser.instagram }}"><i
+                class="fab fa-brands fa-instagram"></i></a>
+            <div class="social-link-name">instagram</div>
+          </div>
+          <div class="social-link-box" *ngIf="selectedUser.facebook">
+            <a class="social-link-icon" target="_blank" href="{{ selectedUser.facebook }}"><i
+                class="fab fa-brands fa-facebook"></i></a>
+            <div class="social-link-name">facebook</div>
+          </div>
+          <div class="social-link-box" *ngIf="selectedUser.telegram">
+            <a class="social-link-icon" target="_blank" href="{{ selectedUser.telegram }}"><i
+                class="fab fa-brands fa-telegram"></i></a>
+            <div class="social-link-name">telegram</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-animation" *ngIf="selectedUser && indexPage == 2 && card_info">
+    <!-- додаткова інформація користувача -->
+    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && card_info && selectedUser">
       <div class="card">
 
         <div class="btn-close-container">
@@ -467,10 +384,5 @@
       </div>
     </div>
 
-    <div [@cardAnimation2] class="card-animation card-chat" *ngIf="selectedUser && indexPage == 3">
-      <app-chat-house></app-chat-house>
-    </div>
-
   </div>
-
 </div>
