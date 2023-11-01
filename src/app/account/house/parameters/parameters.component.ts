@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 @Component({
   selector: 'app-parameters',
   templateUrl: './parameters.component.html',
@@ -15,6 +15,8 @@ import { serverPath } from 'src/app/shared/server-config';
   ]
 })
 export class ParametersComponent implements OnInit {
+  path_logo = path_logo;
+
   serverPath = serverPath;
   user = {
     firstName: '',

@@ -124,7 +124,7 @@ export class AboutComponent implements OnInit {
     }
   };
 
-  async saveInfo(): Promise<void> {
+  async saveInfo(rent: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
 
@@ -140,7 +140,7 @@ export class AboutComponent implements OnInit {
         price_m: this.flatInfo.price_m || undefined,
         about: this.flatInfo.about || undefined,
         private: this.flatInfo.private || false,
-        rent: this.flatInfo.rent || 0,
+        rent: rent,
         room: this.flatInfo.room || 0,
       }
       try {
@@ -154,16 +154,19 @@ export class AboutComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = 'Оголошення розміщено';
             setTimeout(() => {
-              this.statusMessage = '';
-              this.router.navigate(['/house/house-info']);
+              this.statusMessage = 'Оновлюємо інформацію';
+              // this.router.navigate(['/house/house-info']);
+              this.reloadPageWithLoader()
             }, 1500);
           }, 500);
         } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
           setTimeout(() => {
-            this.statusMessage = 'Параметри успішно додані, оголошення приховане';
+            this.statusMessage = 'Параметри успішно додані, оголошення НЕ активне';
             setTimeout(() => {
-              this.statusMessage = '';
-              this.router.navigate(['/house/house-info']);
+              this.statusMessage = 'Оновлюємо інформацію';
+              this.reloadPageWithLoader()
+
+              // this.router.navigate(['/house/house-info']);
             }, 1500);
           }, 500);
         } else {
@@ -186,11 +189,10 @@ export class AboutComponent implements OnInit {
   }
 
   reloadPageWithLoader() {
-    if (this.loading) {
-      setTimeout(() => {
-        location.reload();
-      }, 1000);
-    }
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
   }
 
   ngAfterViewInit() {

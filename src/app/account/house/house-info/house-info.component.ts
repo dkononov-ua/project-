@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 interface FlatInfo {
@@ -34,10 +34,11 @@ export class HouseInfoComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
 
   isOpen = true;
   isCopied = false;
-  indexCard: number = 2;
+  indexCard: number = 1;
 
   user = {
     firstName: '',
@@ -138,12 +139,9 @@ export class HouseInfoComponent implements OnInit {
   };
 
   currentPhotoIndex: number = 0;
-
-
   prevPhoto() {
     this.currentPhotoIndex--;
   }
-
   nextPhoto() {
     this.currentPhotoIndex++;
   }
@@ -216,6 +214,12 @@ export class HouseInfoComponent implements OnInit {
         this.about.price_d = parsedHouseData.about.price_d;
         this.about.about = parsedHouseData.about.about;
         this.about.bunker = parsedHouseData.about.bunker;
+
+        if (this.house.rent == 1) {
+          this.indexCard = 1;
+        } else {
+          this.indexCard = 2;
+        }
 
         if (Array.isArray(parsedHouseData.imgs) && parsedHouseData.imgs.length > 0) {
           this.flatImg = parsedHouseData.imgs;

@@ -99,6 +99,12 @@
       this.isFeatureEnabled = !this.isFeatureEnabled;
     }
 
+    card_info : boolean = false;
+
+    openInfoUser () {
+      this.card_info = true;
+    }
+
     purpose: { [key: number]: string } = {
       0: 'Переїзд',
       1: 'Відряджання',
@@ -163,6 +169,7 @@
 
       try {
         const response = await this.http.post(url, data).toPromise() as any[];
+        console.log(response)
         this.subscribers = response;
       } catch (error) {
         console.error(error);

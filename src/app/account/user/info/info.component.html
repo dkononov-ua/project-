@@ -6,9 +6,68 @@
   <div class="container-box">
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card">
+        <div class="img-fluid">
+          <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
+            (error)="useDefaultImage($event)">
+        </div>
+
+        <div class="social-link-container">
+          <div>Посилання на мій:</div>
+          <div class="social-link-box" *ngIf="!user.instagram && !user.facebook && !user.telegram">
+            <p class="text">Посилання на мене відсутні.</p>
+            <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+              інформаці</p>
+          </div>
+
+          <div class="social-link-box" *ngIf="user.instagram">
+            <a class="social-link-icon" target="_blank" href="{{ user.instagram }}"><i
+                class="fab fa-brands fa-instagram"></i></a>
+            <div class="social-link-name">instagram</div>
+          </div>
+
+          <div class="social-link-box" *ngIf="user.facebook">
+            <a class="social-link-icon" target="_blank" href="{{ user.facebook }}"><i
+                class="fab fa-brands fa-facebook"></i></a>
+            <div class="social-link-name">facebook</div>
+          </div>
+
+          <div class="social-link-box" *ngIf="user.telegram">
+            <a class="social-link-icon" target="_blank" href="{{ user.telegram }}"><i
+                class="fab fa-brands fa-telegram"></i></a>
+            <div class="social-link-name">telegram</div>
+          </div>
+
+        </div>
+
+        <div class="item-wrapper p-3">
+          <div class="item-name">{{ user.lastName }}</div>
+          <div class="item-name">{{ user.firstName }}</div>
+          <div class="item-name">{{ user.surName }}</div>
+          <div class="item-info">User ID: <span class="accent">{{ user.user_id }}</span></div>
+          <div class="item-info">Телефон: <span class="accent">{{ user.tell }}</span></div>
+          <div class="item-info">Email: <span class="accent">{{ user.mail }}</span></div>
+
+          <div class="user-group status-container">
+            <div class="user-group-name" *ngIf="ratingOwner">
+              <div class="user-name">{{ ratingOwner }}</div>
+              <div class="user-sup-name">рейтинг власника</div>
+            </div>
+
+            <div class="user-group-name" *ngIf="ratingTenant">
+              <div class="user-name">{{ ratingTenant }}</div>
+              <div class="user-sup-name">рейтинг орендара</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
+      <div class="card" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
+
         <div class="status-container">
           <div class="status-box">
-            <div class="status-value" *ngIf="userInfo.agree_search === 1">Допомога</div>
             <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
             <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
             <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>
@@ -55,69 +114,16 @@
           </div>
         </div>
 
-        <div class="img-fluid">
-          <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
-            (error)="useDefaultImage($event)">
+        <div class="param-box mt-5" *ngIf="userInfo.price_of || userInfo.price_to">
 
-          <div class="user-group status-container">
-            <div class="user-group-name" *ngIf="ratingOwner">
-              <div class="user-sup-name">Рейтинг <br> власника: </div>
-              <div class="user-name">{{ ratingOwner }}</div>
-            </div>
-
-            <div class="user-group-name"  *ngIf="ratingTenant">
-              <div class="user-sup-name">Рейтинг <br> орендара : </div>
-              <div class="user-name">{{ ratingTenant }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="social-link-container">
-          <div>Посилання на мій:</div>
-          <div class="social-link-box" *ngIf="!user.instagram && !user.facebook && !user.telegram">
-            <p class="text">Посилання на мене відсутні.</p>
-            <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
-              інформаці</p>
+          <div class="param-name">Мої пошукові параметри
+            <p class="t-min">за якими мене знайдуть в пошуку</p>
+            <a class="param-name-text" [routerLink]="'/looking'"><i class="fa-solid fa-arrow-right"></i><span
+                class="ml-2">перейти щоб деактивувати</span></a>
           </div>
 
-          <div class="social-link-box" *ngIf="user.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ user.instagram }}"><i
-                class="fab fa-brands fa-instagram"></i></a>
-            <div class="social-link-name">instagram</div>
-          </div>
-
-          <div class="social-link-box" *ngIf="user.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ user.facebook }}"><i
-                class="fab fa-brands fa-facebook"></i></a>
-            <div class="social-link-name">facebook</div>
-          </div>
-
-          <div class="social-link-box" *ngIf="user.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ user.telegram }}"><i
-                class="fab fa-brands fa-telegram"></i></a>
-            <div class="social-link-name">telegram</div>
-          </div>
-
-        </div>
-
-        <div class="item-wrapper p-3">
-          <div class="item-name">{{ user.lastName }}</div>
-          <div class="item-name">{{ user.firstName }}</div>
-          <div class="item-name">{{ user.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ user.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ user.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ user.mail }}</span></div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
-      <div class="card p-2" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
-
-        <div class="param-box" *ngIf="userInfo.price_of || userInfo.price_to">
           <div class="param-label">Бюджет в грн:</div>
-          <div class="param-group">
+          <div class="param-group p-1">
             <div class="param-field" *ngIf="userInfo.price_of">Від :
               <span class="param-value">{{ userInfo.price_of }} ₴</span>
             </div>
@@ -128,8 +134,8 @@
         </div>
 
         <div class="param-box" *ngIf="userInfo.region || userInfo.city">
-          <div class="param-label">Шукаю оселю в :</div>
-          <div class="param-group">
+          <div class="param-label">Локація, шукаю оселю в :</div>
+          <div class="param-group p-1">
             <div class="param-field" *ngIf="userInfo.region">Область :
               <span class="param-value">{{ userInfo.region }}</span>
             </div>
@@ -140,9 +146,9 @@
         </div>
 
         <div class="param-box">
-          <div class="param-label">Мої пошукові параметри оселі:</div>
+          <div class="param-label">Параметри оселі:</div>
 
-          <div class="param-group">
+          <div class="param-group p-1">
 
             <div class="param-field">
               <div *ngIf="userInfo?.area_of || userInfo.area_to"> Площа:
@@ -175,7 +181,7 @@
           *ngIf="userInfo.distance_metro || userInfo.distance_stop || userInfo.distance_shop || userInfo.distance_green || userInfo.distance_parking">
           <div class="param-label">Інфраструктура в доступі:</div>
 
-          <div class="param-group">
+          <div class="param-group p-1">
             <div class="param-field" *ngIf="userInfo?.distance_metro !== 0 && userInfo?.distance_metro !== null">
               Метро до:<span class="param-value">{{ aboutDistance[userInfo.distance_metro] }}</span> </div>
             <div class="param-field" *ngIf="userInfo?.distance_stop !== 0 && userInfo?.distance_stop !== null">
@@ -191,7 +197,7 @@
 
         <div class="param-box" *ngIf="userInfo.bunker || userInfo.animals || userInfo.purpose_rent">
           <div class="param-label">Особливості:</div>
-          <div class="param-group">
+          <div class="param-group p-1">
 
             <div class="param-field" *ngIf="userInfo.purpose_rent">
               Мета оренди:<span class="param-value">{{ purpose[userInfo.purpose_rent] }}</span> </div>
@@ -211,7 +217,7 @@
 
         <div class="param-box" *ngIf="userInfo.flat || userInfo.house || userInfo.room">
           <div class="param-label">Розглядаю тип оселі:</div>
-          <div class="param-group">
+          <div class="param-group p-1">
             <div class="param-field" *ngIf="userInfo?.flat && userInfo?.flat !== null"><span
                 class="param-value">Квартира</span> </div>
             <div class="param-field" *ngIf="userInfo?.house && userInfo?.house !== null"><span
@@ -223,7 +229,7 @@
 
         <div class="param-box" *ngIf="userInfo.room !== 0">
           <div class="param-label">Розглядаю сусіда по оселі:</div>
-          <div class="param-group">
+          <div class="param-group p-1">
             <div class="param-field" *ngIf="userInfo.looking_man">
               <span class="param-value">Чоловік</span>
             </div>
@@ -235,7 +241,7 @@
 
         <div class="param-box" *ngIf="userInfo?.years || userInfo?.mounths || userInfo?.weeks || userInfo?.days">
           <div class="param-label">Орієнтовний термін оренди:</div>
-          <div class="param-group">
+          <div class="param-group p-1">
 
             <div class="param-field" *ngIf="userInfo?.years && userInfo?.years !== null">Роки:<span
                 class="param-value">{{ userInfo.years }}</span></div>
@@ -252,33 +258,22 @@
           </div>
         </div>
 
-        <div class="param-box" *ngIf="userInfo.about">
-          <div class="param-label">Додаткова інформація:</div>
-          <div class="param-field">
-            <span class="param-value">{{userInfo.about}}</span>
-          </div>
+        <div class="p-2" *ngIf="userInfo.about">
+          <div class="t-lar dark bold">Додаткова інформація:</div>
+          <div class="t-min ">{{userInfo.about}}</div>
         </div>
 
       </div>
 
-      <div class="card p-2"
-        *ngIf="userInfo.agree_search === 0 || userInfo.agree_search === undefined || userInfo.agree_search === null">
-
-        <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'"><span></span>
-          <div class="box">
-            <div class="logo-fluid">
-              <img class="logo rounded" src="{{path_logo}}" alt="logo">
-            </div>
-            <p class="accent">"Пасивний пошук оселі"</p>
-          </div>
+      <div class="stub-card p-3" *ngIf="!userInfo.agree_search">
+        <a class="stub-card-link" [routerLink]="'/looking'">
+          <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
+          <p class="t-lar accent bold">"Пошуковий профіль вимкнено"</p>
+          <p class="t-min bold">Натисніть сюди для його активації</p>
+          <p class="t-lar gray mt-3">Тут будуть Ваші параметри пошуку оселі і те як їх бачуть користувачі в Discussio.
+            Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли. </p>
         </a>
-        <div class="p-3">
-          <p class="mt-3">Тут будуть Ваші параметри пасивного пошуку оселі як їх бачуть користувачі в Discussio.</p>
-          <p>Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли.</p>
-        </div>
-
       </div>
-
     </div>
   </div>
 </ng-template>

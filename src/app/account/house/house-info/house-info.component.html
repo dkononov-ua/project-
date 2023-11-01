@@ -10,7 +10,7 @@
         <div class="status-container">
           <div class="status-box">
             <div class="status-value" *ngIf="house.rent === 1">Активне</div>
-            <div class="status-value" *ngIf="house.rent === 0">Не опублікована</div>
+            <!-- <div class="status-value" *ngIf="house.rent === 0">Не опублікована</div> -->
             <div class="status-value" *ngIf="house.private === 1">Приватно</div>
           </div>
           <div class="status-hover">
@@ -117,7 +117,17 @@
         <app-parameters></app-parameters>
       </div>
 
-      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 2 || house.rent === 0">
+      <div [@cardAnimation] class="stub-card card p-3" *ngIf="indexCard === 1 && house.rent === 0">
+        <a class="stub-card-link" [routerLink]="'/housing-parameters/host/about'">
+          <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
+          <p class="t-lar accent bold">"Пошуковий профіль оселі вимкнено"</p>
+          <p class="t-min bold">Натисніть сюди для його активації</p>
+          <p class="t-lar gray mt-3">Тут будуть параметри вашої оселі і те як їх бачать орендарі в Discussio.
+            Заповніть форму та чекайте коли на Вас підпишуться орендарі.</p>
+        </a>
+      </div>
+
+      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 2">
         <app-house-share></app-house-share>
       </div>
     </div>

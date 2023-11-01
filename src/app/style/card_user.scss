@@ -1,0 +1,141 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.card {
+  @include box-shadow;
+  display: flex;
+  height: 650px;
+  overflow: auto;
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  @include s1-s3 {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+.img-fluid {
+  display: flex;
+  height: 400px;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  border: 1px solid $color-primary;
+
+  img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 1s;
+    border-radius: 10px;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.4);
+    }
+  }
+}
+
+.social-link-container {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 96%;
+  padding: 0 10px;
+  align-items: center;
+
+  .social-link-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+
+  }
+
+  .social-link-icon {
+    margin: 0;
+    padding: 0 5px 0 5px;
+  }
+
+  .social-link-name {
+    font-size: 12px;
+  }
+}
+
+.text {
+  font-size: 12px;
+}
+
+.fab {
+  font-size: 25px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(1.2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.item-wrapper {
+  background-color: #cbcdcd;
+  border: 1px solid $color-white;
+  border-radius: 20px;
+  position: relative;
+}
+
+.item-name {
+  font-size: 25px;
+  font-weight: 600;
+}
+.item-info {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-group {
+  position: absolute;
+  z-index: 30;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  z-index: 10;
+  align-items: flex-end;
+  flex-direction: column;
+  .user-group-name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 120px;
+    padding: 5px 5px 0 5px;
+    .user-sup-name {
+      font-size: 12px;
+      text-shadow: 0 0 5px rgb(255, 255, 255);
+    }
+
+    .user-name {
+      font-size: 30px;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgb(255, 255, 255);
+    }
+  }
+}

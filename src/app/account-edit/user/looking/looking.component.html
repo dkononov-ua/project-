@@ -12,7 +12,7 @@
       <h5 class="hide-mobile">Для отримання пропозицій від власників оселі.</h5>
       <div class="indicator-box">
         <button [ngClass]="{'active-step': currentStep === 0}" class="indicator hide-pc"
-        (click)="changeStep(currentStep = 0)"><i class="fa-solid fa-info"></i></button>
+          (click)="changeStep(currentStep = 0)"><i class="fa-solid fa-info"></i></button>
         <button [ngClass]="{'active-step': currentStep === 1}" class="indicator"
           (click)="changeStep(currentStep = 1)"><i class="fa-solid fa-1"></i></button>
         <button [ngClass]="{'active-step': currentStep === 2}" class="indicator"
@@ -34,9 +34,12 @@
 
         <div class="description">
           <ul>
-            <li class="status-hover-li mb-2"><span class="bold">Крок перший </span> - опишіть для кого і який формат оселі вам треба.</li>
-            <li class="status-hover-li mb-2"><span class="bold">Крок другий </span> - параметри оселі, інфраструктура, особливості.</li>
-            <li class="status-hover-li mb-2"><span class="bold">Крок третій </span> - терміни, бюджет, додаткова інформація.</li>
+            <li class="status-hover-li mb-2"><span class="bold">Крок перший </span> - опишіть для кого і який формат
+              оселі вам треба.</li>
+            <li class="status-hover-li mb-2"><span class="bold">Крок другий </span> - параметри оселі, інфраструктура,
+              особливості.</li>
+            <li class="status-hover-li mb-2"><span class="bold">Крок третій </span> - терміни, бюджет, додаткова
+              інформація.</li>
           </ul>
         </div>
       </div>
@@ -62,9 +65,12 @@
 
         <div class="description">
           <ul>
-            <li class="status-hover-li mb-2"><span class="bold">Крок перший </span> - опишіть для кого і який формат оселі вам треба.</li>
-            <li class="status-hover-li mb-2"><span class="bold">Крок другий </span> - параметри оселі, інфраструктура, особливості.</li>
-            <li class="status-hover-li mb-2"><span class="bold">Крок третій </span> - терміни, бюджет, додаткова інформація.</li>
+            <li class="status-hover-li mb-2"><span class="bold">Крок перший </span> - опишіть для кого і який формат
+              оселі вам треба.</li>
+            <li class="status-hover-li mb-2"><span class="bold">Крок другий </span> - параметри оселі, інфраструктура,
+              особливості.</li>
+            <li class="status-hover-li mb-2"><span class="bold">Крок третій </span> - терміни, бюджет, додаткова
+              інформація.</li>
           </ul>
         </div>
       </div>
@@ -173,14 +179,11 @@
             </section>
           </div>
 
-          <div class="btn-box w-100">
-            <div class="btn-group">
-              <button class="btn" (click)="clearInfoCard1()">
-                <span class="item"><i class="icon fa-solid fa-eraser"></i></span>
-              </button>
-              <div class="btn-name">Очистити</div>
-            </div>
-
+          <div class="btn-group w-100">
+            <button class="btn" (click)="clearInfoCard1()">
+              <i class="icon fa-solid fa-eraser"></i>
+              <div class="t-lar dark bold p-2">Очистити</div>
+            </button>
           </div>
 
         </div>
@@ -382,13 +385,11 @@
             </mat-form-field>
           </div>
 
-          <div class="btn-box w-100">
-            <div class="btn-group">
-              <button class="btn" (click)="clearInfoCard2()">
-                <span class="item"><i class="icon fa-solid fa-eraser"></i></span>
-              </button>
-              <div class="btn-name">Очистити</div>
-            </div>
+          <div class="btn-group w-100">
+            <button class="btn" (click)="clearInfoCard2()">
+              <i class="icon fa-solid fa-eraser"></i>
+              <div class="t-lar dark bold p-2">Очистити</div>
+            </button>
           </div>
 
         </div>
@@ -479,41 +480,26 @@
               placeholder="Введіть додаткову інформацію."></textarea>
           </mat-form-field>
 
+          <div class="btn-group w-100">
+            <button class="btn" (click)="clearInfoCard3()">
+              <i class="icon fa-solid fa-eraser"></i>
+              <div class="t-lar dark bold p-2">Очистити</div>
+            </button>
 
-          <div class="btn-box w-100">
-
-            <div class="btn-group">
-              <button [disabled]="(!userInfo.price_of && !userInfo.price_to) || (!userInfo.region || !userInfo.city)"
-                class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
-                <span class="item"><i class="fa-regular fa-circle-check"></i></span>
-              </button>
-              <div class="btn-name" *ngIf="userInfo.agree_search === 1">Зберегти</div>
-              <div class="btn-name" *ngIf="userInfo.agree_search === 0">Активувати</div>
-            </div>
-
-            <div class="btn-group" *ngIf="userInfo.agree_search === 1">
-              <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
-                <span class="item"><i class="fa-solid fa-power-off"></i></span>
-              </button>
-              <div class="btn-name">Деактивувати</div>
-            </div>
-
-            <div class="btn-group">
-              <button class="btn" (click)="clearInfoCard3()">
-                <span class="item"><i class="icon fa-solid fa-eraser"></i></span>
-              </button>
-              <div class="btn-name">Очистити</div>
-            </div>
-
+            <button [disabled]="(!userInfo.price_of && !userInfo.price_to) || (!userInfo.region || !userInfo.city)"
+              class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
+              <i class="fa-regular fa-circle-check"></i>
+              <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search === 1">Зберегти зміни</div>
+              <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search === 0">Активувати</div>
+            </button>
           </div>
 
-
-
-
-
-
-
-
+          <div class="btn-group w-100" *ngIf="userInfo.agree_search === 1">
+            <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
+              <i class="fa-solid fa-power-off"></i>
+              <div class="t-lar dark bold p-2">Деактивувати</div>
+            </button>
+          </div>
 
         </div>
       </div>

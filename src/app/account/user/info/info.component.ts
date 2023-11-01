@@ -229,7 +229,6 @@ export class InfoComponent implements OnInit {
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
           if (searchInfoUserData !== null) {
             this.searchInfoUserData = JSON.parse(searchInfoUserData);
-            console.log(this.searchInfoUserData)
             this.userInfo.price_of = this.searchInfoUserData.price_of;
             this.userInfo.price_to = this.searchInfoUserData.price_to;
             this.userInfo.region = this.searchInfoUserData.region;

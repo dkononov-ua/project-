@@ -117,6 +117,27 @@
 
 // загальні обрані параметри користувача
 .param-box {
+  .param-name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: $color-text;
+
+    .fa-solid {
+      font-size: 30px;
+    }
+    .param-name-text {
+      @include flex-box;
+      font-size: 12px;
+      .fa-solid {
+        font-size: 16px;
+      }
+      &:hover {
+        color: $color-accent;
+      }
+    }
+  }
+
   .param-label {
     font-weight: 600;
     font-size: 12px;
@@ -150,7 +171,6 @@
     }
   }
 }
-
 // перемикач мобільний
 .switch-box {
   @include flex-box;
@@ -181,6 +201,35 @@
     .fa-regular {
       color: $color-text;
       font-size: 30px;
+    }
+  }
+}
+
+// картка заглушка з лого
+.stub-card {
+  @include flex-box-column;
+  @include box-shadow;
+  justify-content: center;
+  background-color: $color-white;
+  border-radius: 20px;
+
+  .stub-card-link {
+    @include flex-box-column;
+    transition: 0.4s;
+    .stub-card-text {
+      font-family: $font-main;
+      font-size: 14px;
+    }
+
+    &:hover {
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    }
+
+    .stub-card-logo {
+      height: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
     }
   }
 }

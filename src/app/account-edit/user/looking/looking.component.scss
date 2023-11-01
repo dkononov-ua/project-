@@ -144,39 +144,15 @@ mat-label {
   font-size: 14px;
 }
 
-.right-align {
-  text-align: right;
-}
-
-.btn-group {
-  width: 100%;
+.btn {
   display: flex;
+  height: 50px;
+  align-items: center;
   justify-content: center;
 }
 
-.btn-box {
-  @include flex-box-row;
-  justify-content: space-evenly;
-  .btn-group {
-    @include flex-box-column;
-    transition: 1s;
-    .btn {
-      margin: 5px 10px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-weight: 600;
-      @include box-shadow;
-    }
-    .btn-name {
-      font-size: 12px;
-    }
-    .fa-solid,
-    .fa-regular {
-      color: $color-text;
-      font-size: 24px;
-    }
-  }
+.right-align {
+  text-align: right;
 }
 
 .hide-mobile {

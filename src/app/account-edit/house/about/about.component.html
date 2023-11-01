@@ -225,35 +225,25 @@
           </div>
         </div>
 
-        <mat-label class="group-label  border-top">Статус оголошення</mat-label>
-        <!-- приховати -->
-        <div class="inputbox-group">
-          <button class="info-btn" (click)="openHelpRent()">Допомога</button>
-
-          <div class="content-group">
-            <label class="checkBox">
-              <input type="radio" name="flatInfo.rent" [(ngModel)]="flatInfo.rent" [value]="0">
-              <div class="transition"></div>
-            </label>
-            <div class="ml-2">Приховати</div>
-          </div>
-        </div>
-        <!-- розмістити -->
-        <div class="inputbox-group">
-          <div class="content-group">
-            <label class="checkBox">
-              <input type="radio" name="flatInfo.rent" [(ngModel)]="flatInfo.rent" [value]="1">
-              <div class="transition"></div>
-            </label>
-            <div class="ml-2">Розмістити</div>
-          </div>
-        </div>
-
         <div class="btn-group">
-          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-              class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
-              class="icon fa-solid fa-eraser"></i></button>
+          <button class="btn" (click)="clearInfo()">
+            <i class="icon fa-solid fa-eraser"></i>
+            <div class="t-min dark bold p-2" >Очистити</div>
+          </button>
+
+          <button [disabled]="(!flatInfo.price_m) || (!flatInfo.price_d)" class="btn"
+            (click)="saveInfo(flatInfo.rent = 1)">
+            <i class="fa-regular fa-circle-check"></i>
+            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 1">Зберегти зміни</div>
+            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 0">Активувати</div>
+          </button>
+        </div>
+
+        <div class="btn-group" *ngIf="flatInfo.rent === 1">
+          <button class="btn" (click)="saveInfo(flatInfo.rent = 0)">
+            <i class="fa-solid fa-power-off"></i>
+            <div class="t-med dark bold">Деактивувати</div>
+          </button>
         </div>
 
       </div>

@@ -47,3 +47,32 @@ textarea::-webkit-scrollbar {
   font-weight: 600;
 }
 
+.thin {
+  font-weight: 300;
+}
+
+.dark {
+  color: $color-text;
+}
+
+.gray {
+  color: $color-gray;
+}
+
+.t-min {
+  text-align: center;
+  font-size: 12px;
+}
+
+.t-med {
+  text-align: center;
+  font-size: 14px;
+}
+
+.t-lar {
+  text-align: center;
+  font-size: 16px;
+}
+
+
+

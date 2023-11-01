@@ -44,7 +44,13 @@
   </div>
 </div>
 
-<div class="param-box mt-4">
+<div class="param-box ">
+  <div class="param-name  mt-4">Мої параметри оселі
+    <p class="t-min ">за якими мене знайдуть в пошуку</p>
+    <a class="param-name-text" [routerLink]="'/housing-parameters/host/about'"><i class="fa-solid fa-arrow-right"></i><span
+        class="ml-2">перейти щоб деактивувати</span></a>
+  </div>
+
   <div class="param-label">Параметри оселі:</div>
   <div class="param-group">
     <div class="param-field" *ngIf="param.option_flat">
@@ -114,7 +120,7 @@
   </div>
 </div>
 
-<div class="param-box" *ngIf="about.about">
-  <div class="param-label">Додаткова інформація:</div>
-  <div class="param-value">{{ about.about }}</div>
+<div class="p-2" *ngIf="about.about">
+  <div class="t-lar dark bold">Додаткова інформація:</div>
+  <div class="t-min ">{{ about.about }}</div>
 </div>

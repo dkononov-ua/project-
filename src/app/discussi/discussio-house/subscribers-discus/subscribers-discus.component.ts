@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { CustomPaginatorIntl } from '../../../shared/custom-paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -58,9 +57,6 @@ interface Subscriber {
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
   styleUrls: ['./subscribers-discus.component.scss'],
-  providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-  ],
   animations: [
     trigger('cardAnimation2', [
       transition('void => *', [
@@ -81,8 +77,6 @@ export class SubscribersDiscusComponent implements OnInit {
   serverPathPhotoFlat = serverPathPhotoFlat;
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
-  offs: number = 0;
-  pageEvent: PageEvent | undefined;
   selectedUser: Subscriber | any;
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
@@ -91,9 +85,30 @@ export class SubscribersDiscusComponent implements OnInit {
   cardNext: number = 0;
   selectedCard: boolean = false;
   selectedSubscriberId: string | null = null;
-  indexPage: number = 1;
   chatExists = false;
   ratingTenant: number | undefined;
+
+  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
+    this.indexMenu = indexMenu;
+    this.indexPage = indexPage;
+    this.indexMenuMobile = indexMenuMobile;
+  }
+
+  // показ карток
+  indexPage: number = 1;
+  indexMenu: number = 1;
+  indexMenuMobile: number = 1;
+
+  // пагінатор
+  offs: number = 0;
+  counterFound: number = 0;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageEvent: PageEvent = {
+    length: this.counterFound,
+    pageSize: 3,
+    pageIndex: 0
+  };
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -124,6 +139,12 @@ export class SubscribersDiscusComponent implements OnInit {
     3: 'Тільки песики',
   }
 
+  card_info: boolean = false;
+
+  openInfoUser() {
+    this.card_info = true;
+  }
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -132,11 +153,13 @@ export class SubscribersDiscusComponent implements OnInit {
     private updateComponent: UpdateComponentService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.getSelectedFlatID();
+    await this.getAcceptSubsCount();
+    await this.getCurrentPageInfo();
   }
 
-  getSelectedFlatID () {
+  getSelectedFlatID() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
@@ -158,6 +181,7 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -168,7 +192,8 @@ export class SubscribersDiscusComponent implements OnInit {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.checkChatExistence(this.selectedUser.user_id);
-    this.indexPage = 2;
+    this.indexPage = 1;
+    this.indexMenuMobile = 0;
     this.getRating(subscriber)
   }
 
@@ -230,7 +255,7 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  async checkChatExistence (selectedUser: any): Promise<any> {
+  async checkChatExistence(selectedUser: any): Promise<any> {
     const url = serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     if (userJson && selectedUser) {
@@ -256,12 +281,6 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageEvent = event;
-    this.offs = event.pageIndex * event.pageSize;
-    this.getSubs(this.selectedFlatId, this.offs);
-  }
-
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/userMarks';
@@ -272,12 +291,14 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response)
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
         response.status.forEach((item: { mark: number; }) => {
           if (item.mark) {
             totalMarkTenant += item.mark;
             this.ratingTenant = totalMarkTenant;
+            console.log(this.ratingTenant)
           }
         });
       } else if (response.status === false) {
@@ -287,6 +308,64 @@ export class SubscribersDiscusComponent implements OnInit {
       console.error(error);
     }
   }
+
+
+  // Дискусії
+  async getAcceptSubsCount() {
+    const userJson = localStorage.getItem('user')
+    const url = serverPath + '/acceptsubs/get/CountSubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: this.selectedFlatId,
+    };
+
+    try {
+      const response: any = await this.http.post(url, data).toPromise() as any;
+      this.counterFound = response.status;
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
+  // наступна сторінка з картками
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubs(this.selectedFlatId, this.offs);
+    }
+    this.getCurrentPageInfo()
+
+  }
+
+  // попередня сторінка з картками
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubs(this.selectedFlatId, this.offs);
+    }
+    this.getCurrentPageInfo()
+  }
+
+
+  async getCurrentPageInfo(): Promise<string> {
+    const itemsPerPage = this.pageEvent.pageSize;
+    const currentPage = this.pageEvent.pageIndex + 1;
+    const totalPages = Math.ceil(this.counterFound / itemsPerPage);
+    this.currentPage = currentPage;
+    this.totalPages = totalPages;
+
+    // console.log(itemsPerPage)
+    // console.log(currentPage)
+    // console.log(totalPages)
+    return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
+
 
 }
 
