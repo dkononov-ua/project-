@@ -47,24 +47,31 @@
     </div>
 
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+
       <div class="param-box">
         <div class="param-name"><i class="fa-solid fa-person-walking-luggage"></i> Меню Дискусії
-          <p class="t-min ">оселі з якими можна зробити угоду</p>
+          <p class="t-min ">Оселі які ви ухвалили або вони вас. З ними доступні додаткові можливості.</p>
+        </div>
+      </div>
+
+      <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
+        <li>Перегляд контактної інформації.</li>
+        <li>Рейтинг власника.</li>
+        <li>Соціальні мережі власника.</li>
+        <li>Статистичні дані по комунальним.</li>
+        <li>Створення чату.</li>
+        <li>Створення шаблону угоди.</li>
+      </ul>
+
+      <div class="param-box">
+        <div class="param-name">
           <p class="t-med ">Отримати Дискусії можна ухваливши користувача з пропозицій</p>
-          <a class="param-name-text" [routerLink]="'/subscribers-host-user/subscribers-user'"><i
-              class="fa-solid fa-arrow-right"></i><span class="ml-2">пропозиції тут</span></a>
+          <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host-user/subscribers-user'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пропозиції тут</span></a>
           <p class="t-med ">Або якщо ви підписались на оселю і вас ухвалили.</p>
         </div>
       </div>
-      <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>Перегляд детальної інформації про оселю</li>
-        <li>Перегляд статистики по комунальним оселі</li>
-        <li>Перегляд інформації про власника</li>
-        <li>Перегляд рейтингу власника</li>
-        <li>Перегляд соціальних мереж власника</li>
-        <li>Створення чату</li>
-        <li>Створення угоди</li>
-      </ul>
+
     </div>
 
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
@@ -409,69 +416,70 @@
         <div class="container-img">
           <img class="img-fluid"
             [src]="serverPathPhotoUser + (chosenFlat.owner.img ? chosenFlat.owner.img : 'user_default.svg')" alt="img">
-          <div class="btn-container">
-            <div class="img-btn-box" *ngIf="!isCopiedMessage">
+          <div class="btn-container he-100">
+            <div class="img-btn-box" *ngIf="chosenFlat.owner.tell">
+              <button class="img-btn" (click)="copyTell()"><i class="fa-solid fa-phone"></i></button>
+              <div class="t-min">Телефон</div>
+              <div class="t-min bold accent">{{ chosenFlat.owner.tell }}</div>
+            </div>
+
+            <div class="img-btn-box">
               <button class="img-btn" matTooltip="Копіювати" (click)="copyOwnerId()"><i class="fa-solid fa-info"></i><i
                   class="fa-solid fa-d"></i></button>
               <div class="t-min">ID власника:</div>
+              <div class="t-min bold accent">{{ chosenFlat.owner.user_id }}</div>
             </div>
 
-            <div class="img-btn-box" *ngIf="!isCopiedMessage && chosenFlat.owner.tell">
-              <button class="img-btn" (click)="copyTell()"><i class="fa-solid fa-phone"></i></button>
-              <div class="t-min">Телефон</div>
-            </div>
-
-            <div class="img-btn-box" *ngIf="!isCopiedMessage && chosenFlat.owner.mail">
+            <div class="img-btn-box" *ngIf="chosenFlat.owner.mail">
               <button class="img-btn" (click)="copyMail()"><i class="fa-solid fa-at"></i></button>
               <div class="t-min">Пошта</div>
-            </div>
+              <div class="t-min bold accent">{{ (chosenFlat.owner.mail | slice:0:10).length < chosenFlat.owner.mail.length
+                  ? (chosenFlat.owner.mail | slice:0:10) + '...' : chosenFlat.owner.mail }}</div>
+              </div>
+
+              <div class="img-btn-box" *ngIf="ratingOwner">
+                <button class="img-btn"><i class="fa-solid fa-medal"></i></button>
+                <div class="t-min">Рейтинг власника</div>
+                <div class="t-min bold accent">{{ ratingOwner }}</div>
+              </div>
 
           </div>
         </div>
 
-        <div class="item-wrapper p-3">
-          <div class="user-group status-container">
-            <div class="user-group-name" *ngIf="ratingOwner">
-              <div class="user-name">{{ ratingOwner }}</div>
-              <div class="user-sup-name">рейтинг власника</div>
-            </div>
+          <div class="item-wrapper p-3">
+            <div class="item-name">{{ chosenFlat.owner.lastName }}</div>
+            <div class="item-name">{{ chosenFlat.owner.firstName }}</div>
+            <div class="item-name">{{ chosenFlat.owner.surName }}</div>
           </div>
-          <div class="item-name">{{ chosenFlat.owner.lastName }}</div>
-          <div class="item-name">{{ chosenFlat.owner.firstName }}</div>
-          <div class="item-name">{{ chosenFlat.owner.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ chosenFlat.owner.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ chosenFlat.owner.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ chosenFlat.owner.mail }}</span></div>
-        </div>
 
-        <div class="social-link-container">
-          <div *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
-            <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
-          </div>
-          <div class="social-link-box" *ngIf="chosenFlat.owner.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.instagram }}"><i
-                class="fab fa-brands fa-instagram"></i></a>
-            <div class="social-link-name">instagram</div>
-          </div>
-          <div class="social-link-box" *ngIf="chosenFlat.owner.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.facebook }}"><i
-                class="fab fa-brands fa-facebook"></i></a>
-            <div class="social-link-name">facebook</div>
-          </div>
-          <div class="social-link-box" *ngIf="chosenFlat.owner.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.telegram }}"><i
-                class="fab fa-brands fa-telegram"></i></a>
-            <div class="social-link-name">telegram</div>
+          <div class="social-link-container">
+            <div *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
+              <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
+            </div>
+            <div class="social-link-box" *ngIf="chosenFlat.owner.instagram">
+              <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.instagram }}"><i
+                  class="fab fa-brands fa-instagram"></i></a>
+              <div class="social-link-name">instagram</div>
+            </div>
+            <div class="social-link-box" *ngIf="chosenFlat.owner.facebook">
+              <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.facebook }}"><i
+                  class="fab fa-brands fa-facebook"></i></a>
+              <div class="social-link-name">facebook</div>
+            </div>
+            <div class="social-link-box" *ngIf="chosenFlat.owner.telegram">
+              <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.telegram }}"><i
+                  class="fab fa-brands fa-telegram"></i></a>
+              <div class="social-link-name">telegram</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- чат -->
-    <div [@cardAnimation] class="card-animation card-chat" *ngIf="chosenFlat && indexPage == 3">
-      <app-chat-user></app-chat-user>
+      <!-- чат -->
+      <div [@cardAnimation] class="card-animation card-chat" *ngIf="chosenFlat && indexPage == 3">
+        <app-chat-user></app-chat-user>
+      </div>
+
     </div>
 
   </div>
-
-</div>

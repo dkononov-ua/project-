@@ -93,6 +93,8 @@ export class SubscribersHouseComponent implements OnInit {
   cardNext: number = 0;
   selectedCard: boolean = false;
   isFeatureEnabled: boolean = false;
+  isCopiedMessage!: string;
+
   toggleMode(): void {
     this.isFeatureEnabled = !this.isFeatureEnabled;
   }
@@ -257,54 +259,73 @@ export class SubscribersHouseComponent implements OnInit {
     });
   }
 
-    // Підписники
-    async getSubsCount() {
-      const userJson = localStorage.getItem('user')
-      const url = serverPath + '/subs/get/countSubs';
-      const data = {
-        auth: JSON.parse(userJson!),
-        flat_id: this.selectedFlatId,
-      };
-      try {
-        const response: any = await this.http.post(url, data).toPromise() as any;
-        this.counterFound = response.status;
-      }
-      catch (error) {
-        console.error(error)
-      }
+  // Підписники
+  async getSubsCount() {
+    const userJson = localStorage.getItem('user')
+    const url = serverPath + '/subs/get/countSubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: this.selectedFlatId,
+    };
+    try {
+      const response: any = await this.http.post(url, data).toPromise() as any;
+      this.counterFound = response.status;
     }
-
-    // наступна сторінка з картками
-    incrementOffset() {
-      if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
-        this.pageEvent.pageIndex++;
-        const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-        this.offs = offs;
-        this.getSubs(this.selectedFlatId, this.offs);
-      }
-      this.getCurrentPageInfo()
+    catch (error) {
+      console.error(error)
     }
+  }
 
-    // попередня сторінка з картками
-    decrementOffset() {
-      if (this.pageEvent.pageIndex > 0) {
-        this.pageEvent.pageIndex--;
-        const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-        this.offs = offs;
-        this.getSubs(this.selectedFlatId, this.offs);
-      }
-      this.getCurrentPageInfo()
+  // наступна сторінка з картками
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubs(this.selectedFlatId, this.offs);
     }
+    this.getCurrentPageInfo()
+  }
 
-    async getCurrentPageInfo(): Promise<string> {
-      const itemsPerPage = this.pageEvent.pageSize;
-      const currentPage = this.pageEvent.pageIndex + 1;
-      const totalPages = Math.ceil(this.counterFound / itemsPerPage);
-      this.currentPage = currentPage;
-      this.totalPages = totalPages;
-      return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  // попередня сторінка з картками
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.offs = offs;
+      this.getSubs(this.selectedFlatId, this.offs);
     }
+    this.getCurrentPageInfo()
+  }
 
+  async getCurrentPageInfo(): Promise<string> {
+    const itemsPerPage = this.pageEvent.pageSize;
+    const currentPage = this.pageEvent.pageIndex + 1;
+    const totalPages = Math.ceil(this.counterFound / itemsPerPage);
+    this.currentPage = currentPage;
+    this.totalPages = totalPages;
+    return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
+  copyId() {
+    this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
+  }
 
 
 }

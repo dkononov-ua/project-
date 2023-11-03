@@ -15,7 +15,7 @@
           [ngClass]="{ 'active': indexMenu == 1}">
           <i class="fa-solid fa-user-group"></i>
         </button>
-        <div class="t-min dark bold">Дискусії</div>
+        <div class="t-min dark bold">Підписки</div>
         <div class="counterNum t-lar bold">{{counterFound}}</div>
       </div>
 
@@ -30,22 +30,29 @@
     </div>
 
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+
       <div class="param-box">
         <div class="param-name"><i class="fa-solid fa-people-pulling"></i> Меню Підписки оселі
-          <p class="t-min ">користувачі на яких ви підписались</p>
-          <p class="t-med ">Підписуватись на користувачів можна в пошуку орендарів</p>
-          <a class="param-name-text" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i><span
-              class="ml-2">пошук орендара</span></a>
-          <p class="t-med ">Після ухвалення вашої оселі орендарем, він з'явиться в меню Дискусії оселі</p>
-          <a class="param-name-text" [routerLink]="'/subscribers-host/subscribers-discus'"><i
-              class="fa-solid fa-arrow-right"></i><span class="ml-2">Дискусії оселі тут</span></a>
-
+          <p class="t-min ">орендарі на яких ви підписались.</p>
         </div>
       </div>
+
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
         <li>Перегляд детальної інформації, яку оселю шукає орендар.</li>
-        <li>Видалення підписки.</li>
+        <li>Видалення підписки на орендара.</li>
       </ul>
+
+      <div class="param-box">
+        <div class="param-name">
+          <p class="t-med ">Підписуватись на орендарів можна в пошуку орендарів.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i><span
+              class="ml-2 accent">пошук орендара</span></a>
+          <p class="t-med ">Після ухвалення вашої оселі орендарем, він з'явиться в меню Дискусії оселі.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host/subscribers-discus'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">Дискусії оселі тут</span></a>
+        </div>
+      </div>
+
     </div>
 
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
@@ -54,7 +61,7 @@
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
+          <div class="t-min">Всього {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -69,6 +76,7 @@
           </div>
           <div class="card-body">
             <div class="p-1">
+              <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
               <div class="t-lar">{{ subscriber.lastName }}</div>
               <div class="t-lar">{{ subscriber.firstName }}</div>
               <div class="t-lar">{{ subscriber.surName }}</div>
@@ -89,7 +97,7 @@
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
+          <div class="t-min">Всього {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -104,6 +112,7 @@
           </div>
           <div class="card-body">
             <div class="p-1">
+              <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
               <div class="t-lar">{{ subscriber.lastName }}</div>
               <div class="t-lar">{{ subscriber.firstName }}</div>
               <div class="t-lar">{{ subscriber.surName }}</div>
@@ -117,6 +126,12 @@
     <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && !card_info && selectedUser">
       <div class="card">
 
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
+
         <div class="img-fluid">
           <img [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')"
             alt="User Image">
@@ -125,6 +140,12 @@
             <div class="img-btn-box">
               <button class="img-btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
               <div class="t-min">Детальніше</div>
+            </div>
+
+            <div class="img-btn-box">
+              <button class="img-btn" matTooltip="Копіювати" (click)="copyId()"><i class="fa-solid fa-info"></i><i
+                  class="fa-solid fa-d"></i></button>
+              <div class="t-min">ID орендара:</div>
             </div>
 
             <div class="img-btn-box">

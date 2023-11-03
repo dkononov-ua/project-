@@ -87,6 +87,7 @@ export class SubscribersDiscusComponent implements OnInit {
   selectedSubscriberId: string | null = null;
   chatExists = false;
   ratingTenant: number | undefined;
+  isCopiedMessage!: string;
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -356,6 +357,33 @@ export class SubscribersDiscusComponent implements OnInit {
     this.totalPages = totalPages;
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
+
+    // Копіювання параметрів
+    copyToClipboard(textToCopy: string, message: string) {
+      if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            this.isCopiedMessage = message;
+            setTimeout(() => {
+              this.isCopiedMessage = '';
+            }, 2000);
+          })
+          .catch((error) => {
+            this.isCopiedMessage = '';
+          });
+      }
+    }
+
+    copyId() {
+      this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
+    }
+    copyTell() {
+      this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано');
+    }
+    copyMail() {
+      this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано');
+    }
+
 
 
 

@@ -136,6 +136,7 @@ export class SubscribersUserComponent implements OnInit {
       const response = await this.http.post(url, data).toPromise() as any[];
       if (response) {
         this.subscriptions = response;
+        console.log(response)
         if (flatId) {
           const chosenFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
           if (chosenFlat) {

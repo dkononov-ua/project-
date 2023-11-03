@@ -92,6 +92,8 @@ export class SubscriptionsHouseComponent implements OnInit {
   cardNext: number = 0;
   selectedCard: boolean = false;
   isFeatureEnabled: boolean = false;
+  isCopiedMessage!: string;
+
   toggleMode(): void {
     this.isFeatureEnabled = !this.isFeatureEnabled;
   }
@@ -274,6 +276,27 @@ export class SubscriptionsHouseComponent implements OnInit {
     this.currentPage = currentPage;
     this.totalPages = totalPages;
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
+
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
+  copyId() {
+    this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
   }
 
 

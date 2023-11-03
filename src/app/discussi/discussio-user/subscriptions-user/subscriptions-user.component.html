@@ -31,23 +31,30 @@
     </div>
 
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+
       <div class="param-box">
         <div class="param-name"><i class="fa-regular fa-heart"></i> Меню Вподобані оселі
-          <p class="t-min ">список оселей які вам сподобались і ви на них підписались</p>
-          <p class="t-med ">Підписуватись на оселі можна в пошуку оселей</p>
-          <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
-              class="ml-2">пошуку оселі тут</span></a>
-          <p class="t-med ">Після того як вас ухвалять оселя з'явиться в меню Дискусії</p>
-          <a class="param-name-text" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
-              class="fa-solid fa-arrow-right"></i><span class="ml-2">меню Дискусії тут</span></a>
-
+          <p class="t-min ">список оселей які вам сподобались і ви на них підписались.</p>
         </div>
       </div>
+
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>Перегляд детальної інформації про оселю</li>
-        <li>Видалення підписки</li>
-        <li>Перегляд локації</li>
+        <li>Перегляд інформації про оселю.</li>
+        <li>Видалення підписки.</li>
+        <li>Перегляд локації.</li>
       </ul>
+
+      <div class="param-box">
+        <div class="param-name">
+          <p class="t-med ">Підписуватись на оселі можна в пошуку оселей</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
+              class="ml-2 accent">пошуку оселі тут</span></a>
+          <p class="t-med ">Після того як вас ухвалять оселя з'явиться в меню Дискусії</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">меню Дискусії тут</span></a>
+        </div>
+
+      </div>
     </div>
 
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">

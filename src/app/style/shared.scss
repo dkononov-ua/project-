@@ -79,42 +79,6 @@
   }
 }
 
-
-// перемикання фото в каруселі
-.prev-img {
-  left: 0;
-}
-
-.next-img {
-  right: 0;
-}
-
-.prev-img,
-.next-img {
-  position: absolute;
-  width: 50px;
-  top: 0;
-  height: 100%;
-  z-index: 10;
-  border: none;
-  background-color: transparent;
-  transition: 0.5s;
-  border-radius: 10px;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.277);
-    .fa-solid {
-      color: $color-accent;
-      transform: scale(1.8);
-      padding: 5px;
-    }
-  }
-
-  &:active {
-    background-color: rgba(255, 255, 255, 0.541);
-  }
-}
-
 // загальні обрані параметри користувача
 .param-box {
   .param-name {
@@ -177,6 +141,11 @@
   width: 100%;
   justify-content: space-evenly;
   z-index: 50;
+
+  .switch-btn-group {
+    @include flex-box-column;
+    position: relative;
+  }
 
   .btn-menu {
     @include flex-box-column;
@@ -246,7 +215,3 @@
     display: none;
   }
 }
-
-
-
-

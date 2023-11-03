@@ -39,22 +39,34 @@
     </div>
 
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+
       <div class="param-box">
         <div class="param-name"><i class="fa-solid fa-person-walking-luggage"></i> Меню Дискусії оселі
-          <p class="t-min ">користувачі з якими можна зробити угоду</p>
-          <p class="t-med ">Отримати Дискусії можна ухваливши користувача з підписників оселі</p>
-          <a class="param-name-text" [routerLink]="'/subscribers-host/subscribers-house'"><i
-              class="fa-solid fa-arrow-right"></i><span class="ml-2">підписники оселі тут</span></a>
-          <p class="t-med ">Або якщо ви підписались на орендара і він вас ухвалив.</p>
+          <p class="t-min ">користувачі з якими відкриваються додаткові можливості.</p>
         </div>
       </div>
+
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>Перегляд детальної інформації</li>
-        <li>Перегляд рейтингу</li>
-        <li>Перегляд соціальних мереж</li>
-        <li>Створення чату</li>
-        <li>Створення угоди</li>
+        <li>Перегляд контактної інформації.</li>
+        <li>Перегляд рейтингу орендара.</li>
+        <li>Перегляд соціальних мереж орендара.</li>
+        <li>Створення чату.</li>
+        <li>Створення шаблону угоди.</li>
       </ul>
+
+      <div class="param-box">
+        <div class="param-name">
+          <p class="t-med ">Отримати Дискусії можна ухваливши користувача з підписників оселі. Або якщо ви підписались
+            на орендара і він вас ухвалив.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host/subscribers-house'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">підписники оселі тут</span></a>
+
+          <p class="t-med ">Сформувати угоду можна якщо у вас є дискусії.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/agree-create'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">формування угоди тут</span></a>
+        </div>
+      </div>
+
     </div>
 
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
@@ -78,6 +90,7 @@
           </div>
           <div class="card-body">
             <div class="p-1">
+              <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
               <div class="t-lar">{{ subscriber.lastName }}</div>
               <div class="t-lar">{{ subscriber.firstName }}</div>
               <div class="t-lar">{{ subscriber.surName }}</div>
@@ -113,6 +126,7 @@
           </div>
           <div class="card-body">
             <div class="p-1">
+              <div class="t-lar bold accent">{{ subscriber.user_id }}</div>
               <div class="t-lar">{{ subscriber.lastName }}</div>
               <div class="t-lar">{{ subscriber.firstName }}</div>
               <div class="t-lar">{{ subscriber.surName }}</div>
@@ -125,6 +139,12 @@
     <!-- основна інформація користувача -->
     <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && !card_info && selectedUser">
       <div class="card">
+
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
 
         <div class="img-fluid">
           <img [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')"
@@ -151,7 +171,7 @@
             <div class="img-btn-box">
               <button class="img-btn" [routerLink]="['/agree-create', selectedUser?.user_id]">
                 <i class="fa-solid fa-file-contract"></i></button>
-              <div class="t-min">Угода</div>
+              <div class="t-min">Створити Угоду</div>
             </div>
 
             <div class="img-btn-box">
@@ -162,25 +182,48 @@
           </div>
         </div>
 
-        <div class="item-wrapper p-3">
-          <div class="user-group status-container">
-            <div class="user-group-name" *ngIf="ratingTenant">
-              <div class="user-name">{{ ratingTenant }}</div>
-              <div class="user-sup-name">рейтинг орендара</div>
-            </div>
+        <div class="btn-container2">
+          <div class="img-btn-box" *ngIf="selectedUser.tell">
+            <button class="img-btn" (click)="copyTell()"><i class="fa-solid fa-phone"></i></button>
+            <div class="t-min">Телефон</div>
+            <div class="t-min bold accent">{{ selectedUser.tell }}</div>
           </div>
+
+          <div class="img-btn-box">
+            <button class="img-btn" matTooltip="Копіювати" (click)="copyId()"><i class="fa-solid fa-info"></i><i
+                class="fa-solid fa-d"></i></button>
+            <div class="t-min">ID орендара:</div>
+            <div class="t-min bold accent">{{ selectedUser.user_id }}</div>
+          </div>
+
+          <div class="img-btn-box" *ngIf="selectedUser.mail">
+            <button class="img-btn" (click)="copyMail()"><i class="fa-solid fa-at"></i></button>
+            <div class="t-min">Пошта</div>
+            <div class="t-min bold accent">{{ (selectedUser.mail | slice:0:10).length < selectedUser.mail.length
+              ? (selectedUser.mail | slice:0:10) + '...' : selectedUser.owner.mail }}</div>
+          </div>
+
+          <div class="img-btn-box" *ngIf="ratingTenant">
+            <button class="img-btn"><i class="fa-solid fa-medal"></i></button>
+            <div class="t-min">Рейтинг орендара</div>
+            <div class="t-min bold accent">{{ ratingTenant }}</div>
+          </div>
+
+        </div>
+
+        <div class="item-wrapper p-3">
           <div class="item-name">{{ selectedUser.lastName }}</div>
           <div class="item-name">{{ selectedUser.firstName }}</div>
           <div class="item-name">{{ selectedUser.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ selectedUser.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ selectedUser.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ selectedUser.mail }}</span></div>
         </div>
 
         <div class="social-link-container">
           <div *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
             <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
           </div>
+
+
+
           <div class="social-link-box" *ngIf="selectedUser.instagram">
             <a class="social-link-icon" target="_blank" href="{{ selectedUser.instagram }}"><i
                 class="fab fa-brands fa-instagram"></i></a>
@@ -197,6 +240,7 @@
             <div class="social-link-name">telegram</div>
           </div>
         </div>
+
       </div>
     </div>
 

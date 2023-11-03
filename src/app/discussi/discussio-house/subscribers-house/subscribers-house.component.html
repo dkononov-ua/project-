@@ -15,7 +15,7 @@
           [ngClass]="{ 'active': indexMenu == 1}">
           <i class="fa-solid fa-user-group"></i>
         </button>
-        <div class="t-min dark bold">Дискусії</div>
+        <div class="t-min dark bold">Підписники</div>
         <div class="counterNum t-lar bold">{{counterFound}}</div>
       </div>
 
@@ -30,25 +30,30 @@
     </div>
 
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+
       <div class="param-box">
         <div class="param-name"><i class="fa-solid fa-child-reaching"></i> Меню Підписників оселі
-          <p class="t-min ">користувачі які підписані на вашу оселю</p>
-          <p class="t-med ">Підписники формуються із тих користувачів які вподобали вашу оселю в пошуку оселі і
-            підписались на
-            неї</p>
-          <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
-              class="ml-2">пошук оселі тут</span></a>
-          <p class="t-med ">Після ухвалення орендара він з'явиться в меню Дискусії оселі</p>
-          <a class="param-name-text" [routerLink]="'/subscribers-host/subscribers-discus'"><i
-              class="fa-solid fa-arrow-right"></i><span class="ml-2">Дискусії оселі тут</span></a>
-
+          <p class="t-min ">користувачі які хочуть орендувати вашу оселю.</p>
         </div>
       </div>
+
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>Перегляд інформації користувача</li>
-        <li>Перегляд соціальних мереж</li>
-        <li>Видалення з підписників</li>
+        <li>Перегляд інформації орендара.</li>
+        <li>Перегляд соціальних мереж орендара.</li>
+        <li>Видалення з підписників.</li>
       </ul>
+
+      <div class="param-box">
+        <div class="param-name">
+          <p class="t-med ">Підписники формуються із тих користувачів які вподобали вашу оселю в пошуку оселі.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/search/house'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пошук оселі тут</span></a>
+          <p class="t-med ">Після ухвалення орендара він з'явиться в меню Дискусії оселі.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host/subscribers-discus'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">Дискусії оселі тут</span></a>
+        </div>
+      </div>
+
     </div>
 
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
@@ -57,7 +62,7 @@
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
+          <div class="t-min">Всього {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -72,6 +77,7 @@
           </div>
           <div class="card-body">
             <div class="p-1">
+              <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
               <div class="t-lar">{{ subscriber.lastName }}</div>
               <div class="t-lar">{{ subscriber.firstName }}</div>
               <div class="t-lar">{{ subscriber.surName }}</div>
@@ -92,7 +98,7 @@
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
+          <div class="t-min">Всього {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -107,6 +113,7 @@
           </div>
           <div class="card-body">
             <div class="p-1">
+              <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
               <div class="t-lar">{{ subscriber.lastName }}</div>
               <div class="t-lar">{{ subscriber.firstName }}</div>
               <div class="t-lar">{{ subscriber.surName }}</div>
@@ -120,6 +127,12 @@
     <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && !card_info && selectedUser">
       <div class="card">
 
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
+
         <div class="img-fluid">
           <img [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')"
             alt="User Image">
@@ -129,6 +142,12 @@
               <button class="img-btn" (click)="approveSubscriber(selectedUser)"><i
                   class="fa-regular fa-thumbs-up"></i></button>
               <div class="t-min">До дискусії</div>
+            </div>
+
+            <div class="img-btn-box">
+              <button class="img-btn" matTooltip="Копіювати" (click)="copyId()"><i class="fa-solid fa-info"></i><i
+                  class="fa-solid fa-d"></i></button>
+              <div class="t-min">ID орендара:</div>
             </div>
 
             <div class="img-btn-box">

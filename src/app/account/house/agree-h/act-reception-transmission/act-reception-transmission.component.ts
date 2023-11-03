@@ -257,9 +257,12 @@ export class ActReceptionTransmissionComponent implements OnInit {
           filling: this.flat_objects,
         };
 
+        console.log(data)
+
         this.http.post(serverPath + '/agreement/add/act', data)
           .subscribe(
             (response: any) => {
+              console.log(response)
               this.loading = true;
               if (response.status === 'Данні введено не правильно') {
                 console.error(response.status);

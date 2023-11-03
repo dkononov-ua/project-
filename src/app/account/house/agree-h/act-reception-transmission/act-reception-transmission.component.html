@@ -1,9 +1,4 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
 
-<ng-template #content>
-  <app-navbar></app-navbar>
   <div *ngIf="!isContainerVisible" class="container-box">
     <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
       <h2>Формування</h2>
@@ -39,7 +34,7 @@
       </div>
     </div>
 
-    <div class="container-right col-lg-5 col-md-5 col-sm-6 col-12">
+    <div class="container-right col-lg-6 col-md-5 col-sm-6 col-12">
       <div [@cardAnimation2] class="card-user p-2">
         <div class="img-fluid p-1">
           <div class="w-30">
@@ -350,5 +345,4 @@
     </div>
 
   </div>
-  <app-footer></app-footer>
-</ng-template>
+

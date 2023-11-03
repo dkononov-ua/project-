@@ -31,23 +31,31 @@
     </div>
 
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+
       <div class="param-box">
         <div class="param-name"><i class="fa-solid fa-child-reaching"></i> Меню Запропоновані оселі
           <p class="t-min ">користувачі які підписались на вас і пропонують вам свою оселю</p>
-          <p class="t-med ">Отримати пропозицію можна коли на вас підпишуться в меню пошук орендара</p>
-          <a class="param-name-text" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i><span
-              class="ml-2">пошук орендара тут</span></a>
-          <p class="t-med ">Після ухвалення оселі вона з'явиться в меню Дискусії</p>
-          <a class="param-name-text" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
-              class="fa-solid fa-arrow-right"></i><span class="ml-2">меню Дискусії тут</span></a>
         </div>
       </div>
+
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>Перегляд детальної інформації про оселю</li>
-        <li>Перегляд локації</li>
-        <li>Видаленння підписки</li>
-        <li>Ухвалення до дискусії</li>
+        <li>Перегляд інформації про оселю.</li>
+        <li>Перегляд локації оселі.</li>
+        <li>Видаленння підписки.</li>
+        <li>Ухвалення до дискусії.</li>
       </ul>
+
+      <div class="param-box">
+        <div class="param-name">
+          <p class="t-med ">Отримати пропозицію можна коли на вас підпишуться в меню пошук орендара.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i><span
+              class="ml-2 accent">пошук орендара тут</span></a>
+          <p class="t-med ">Після ухвалення оселі вона з'явиться в меню Дискусії.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">меню Дискусії тут</span></a>
+        </div>
+      </div>
+
     </div>
 
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
@@ -79,7 +87,7 @@
                 <div class="t-lar bold"> {{ subscriber.flat.price_m | number:'1.0-0' }} </div>
                 <div class="t-min bold">₴/міс</div>
               </div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay !== 0">
+              <div class="flex-box" *ngIf="subscriber.flat.option_pay === 1">
                 <div class="t-lar bold"> {{ subscriber.flat.price_d | number:'1.0-0' }} </div>
                 <div class="t-min bold">₴/добу</div>
               </div>

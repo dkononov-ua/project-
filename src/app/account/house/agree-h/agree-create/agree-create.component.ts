@@ -374,7 +374,7 @@ export class AgreeCreateComponent implements OnInit {
                 setTimeout(() => {
                   this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
                   setTimeout(() => {
-                    this.router.navigate(['/house/agree-review']);
+                    this.router.navigate(['/house/agree-menu']);
                   }, 3000);
                 }, 1000);
               }
