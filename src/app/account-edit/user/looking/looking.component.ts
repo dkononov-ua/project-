@@ -132,7 +132,7 @@ export class LookingComponent implements OnInit {
 
   disabled: boolean = true;
 
-  currentStep: number = 3;
+  currentStep: number = 1;
   statusMessage: string | undefined;
 
   changeStep(step: number): void {

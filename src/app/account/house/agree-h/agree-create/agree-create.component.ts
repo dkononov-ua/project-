@@ -170,8 +170,6 @@ export class AgreeCreateComponent implements OnInit {
       end: new FormControl(new Date(year, month))
     });
 
-
-
     const currentDate = new Date();
     this.rentDueDate = currentDate.getDate();
 
@@ -357,7 +355,6 @@ export class AgreeCreateComponent implements OnInit {
           }
         };
 
-        console.log(data)
         this.http.post(serverPath + '/agreement/add/agreement', data)
           .subscribe(
             (response: any) => {
@@ -374,7 +371,7 @@ export class AgreeCreateComponent implements OnInit {
                 setTimeout(() => {
                   this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
                   setTimeout(() => {
-                    this.router.navigate(['/house/agree-menu']);
+                    this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 2 } });
                   }, 3000);
                 }, 1000);
               }

@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
@@ -34,6 +34,7 @@ export class AgreeMenuComponent implements OnInit {
   indexMenuMobile: number = 1;
   numConcludedAgree: any;
   selectedAgree: any;
+  page: any;
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
@@ -49,9 +50,14 @@ export class AgreeMenuComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private selectedFlatIdService: SelectedFlatService,
-  ) { }
+    private route: ActivatedRoute,
+  ) {  }
 
   async ngOnInit(): Promise<void> {
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 0;
+      this.indexPage = Number(this.page);
+    });
     this.getSelectedFlatID();
   }
 
@@ -78,7 +84,6 @@ export class AgreeMenuComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as any;
-      console.log(response)
       if (response) {
         this.numSendAgree = response.length;
       } else {
@@ -100,13 +105,10 @@ export class AgreeMenuComponent implements OnInit {
 
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
-      console.log(response)
       const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
       this.agreementIds = agreementIds;
-      console.log(this.agreementIds);
       if (response) {
         this.numConcludedAgree = response.length;
-        // console.log(this.numConcludedAgree)
       } else {
         this.numConcludedAgree = 0;
       }
@@ -143,7 +145,6 @@ export class AgreeMenuComponent implements OnInit {
       }
 
       // Виводимо результати
-      console.log(actExistsArray);
 
     } catch (error) {
       console.error(error);

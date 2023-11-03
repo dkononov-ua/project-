@@ -1,10 +1,10 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, path_logo, serverPathPhotoFlat } from 'src/app/shared/server-config';
 
 interface Agree {
   flat: {
@@ -41,6 +41,7 @@ interface Agree {
 
   };
   img: string[];
+  exists: any;
 }
 @Component({
   selector: 'app-agree-concluded',
@@ -55,50 +56,94 @@ export class AgreeConcludedComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
 
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatId: any;
   deletingFlatId: string | null = null;
 
+  agreementIds: any;
+  offs: number = 0;
+  numConcludedAgree: any;
+  statusMessage: string | undefined;
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private selectedFlatIdService: SelectedFlatService,
     private dialog: MatDialog,
-
+    private router: Router,
   ) { }
 
   async ngOnInit(): Promise<any> {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      const offs = 0;
-      this.getAgree(selectedFlatId, offs);
-    });
+    this.getSelectedFlatID();
+    this.loading = false;
+  }
 
-    this.route.params.subscribe(params => {
-      this.agree = params['selectedFlatAgree'] || null;
+  getSelectedFlatID() {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
+      if (this.selectedFlatId) {
+        await this.getConcludedAgree();
+        await this.getActAgree();
+      }
     });
   }
 
-  async getAgree(selectedFlatId: string | null, offs: number): Promise<void> {
+  async getConcludedAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
-      flat_id: selectedFlatId,
-      offs: offs,
+      flat_id: this.selectedFlatId,
+      offs: this.offs,
     };
 
     try {
-      const response = (await this.http.post(url, data).toPromise()) as Agree[];
+      const response: any = (await this.http.post(url, data).toPromise()) as any;
       this.agree = response;
-      this.loading = false;
+      const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
+      this.agreementIds = agreementIds;
+      if (response) {
+        this.numConcludedAgree = response.length;
+      } else {
+        this.numConcludedAgree = 0;
+      }
     } catch (error) {
       console.error(error);
-      this.loading = false;
     }
-    this.selectedFlatId = selectedFlatId;
+  }
+
+  async getActAgree(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/agreement/get/act';
+    const offs = 0; // Поточне значення offs
+
+    try {
+      for (const agreementId of this.agreementIds) {
+        const data = {
+          auth: JSON.parse(userJson!),
+          flat_id: this.selectedFlatId,
+          agreement_id: agreementId,
+          offs
+        };
+
+        // Виконуємо запит для кожного agreement_id
+        const response = await this.http.post(url, data).toPromise() as any[];
+
+        // Шукаємо угоду за agreement_id у масиві this.agree
+        const agreement = this.agree.find((agreement) => agreement.flat.agreement_id === agreementId);
+
+        if (agreement) {
+          // Оновлюємо існуючу угоду, додаючи інформацію про наявність акту
+          agreement.exists = response.length > 0;
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   async openDialog(agree: any): Promise<void> {
@@ -125,11 +170,15 @@ export class AgreeConcludedComponent implements OnInit {
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          this.deletingFlatId = agree.flat.flat_id;
-          setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.flat_id !== item.flat.flat_id);
-            this.deletingFlatId = null;
-          }, 0);
+          if (response) {
+            this.statusMessage = 'Акт видалений';
+            setTimeout(() => {
+              this.getActAgree();
+              this.statusMessage = '';
+            }, 2000);
+          } else {
+            console.log('Помилка видалення')
+          }
         } catch (error) {
           console.error(error);
         }
@@ -162,10 +211,16 @@ export class AgreeConcludedComponent implements OnInit {
         };
         try {
           const response = await this.http.post(url, data).toPromise();
-          setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
-            location.reload;
-          }, 100);
+          if (response) {
+            this.statusMessage = 'Угода видалена';
+            setTimeout(() => {
+              this.getConcludedAgree();
+              this.statusMessage = '';
+            }, 2000);
+          } else {
+            console.log('Помилка видалення')
+          }
+
         } catch (error) {
           console.error(error);
         }
@@ -175,7 +230,6 @@ export class AgreeConcludedComponent implements OnInit {
   }
 
   async openDialog2(agree: any): Promise<void> {
-    console.log(agree)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/citizen/add/agreeSit';
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {

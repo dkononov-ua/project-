@@ -1,10 +1,9 @@
-import { Component, HostListener, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { objects } from '../../../../shared/objects-data';
-import { DataService } from 'src/app/services/data.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
 interface Agree {
@@ -106,11 +105,10 @@ export class ActReceptionTransmissionComponent implements OnInit {
   fillingImg: any;
   selectedIconUrl: string = '';
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
-  printOpen: boolean = false;
-  houseData: any;
   printableContent: SafeHtml | undefined;
   isCheckboxChecked: boolean = false;
-
+  offs: number = 0;
+  selectedAgr: any;
 
   changeStep(step: number): void {
     this.currentStep = step;
@@ -128,27 +126,30 @@ export class ActReceptionTransmissionComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private selectedFlatIdService: SelectedFlatService,
-    private dataService: DataService,
-    private sanitizer: DomSanitizer,
     private router: Router,
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.getSelectedFlatID();
+  }
+
+  // отримання ID обраної оселі
+  getSelectedFlatID() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
-      const offs = 0;
-      await this.getInfo();
-      await this.getHouse();
-      await this.getAgree(selectedFlatId, offs);
-      this.loadObjects();
-    });
-
-    this.route.params.subscribe(params => {
-      this.agree = params['selectedFlatAgree'] || null;
+      if (this.selectedFlatId) {
+        await this.getInfo();
+        await this.getAgree(selectedFlatId, this.offs);
+        this.loadObjects();
+      }
     });
   }
 
+  // отримую угоди
   async getAgree(selectedFlatId: string | null, offs: number): Promise<void> {
+    this.route.params.subscribe(async params => {
+      this.selectedAgr = params['selectedFlatAgree'] || null;
+    });
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/agreement/get/saveagreements';
     const data = {
@@ -160,6 +161,8 @@ export class ActReceptionTransmissionComponent implements OnInit {
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
       this.agree = response;
+      const selectedAgree = this.agree.find(agreement => agreement.flat.agreement_id === this.selectedAgr);
+      this.selectedAgreement = selectedAgree;
       this.loading = false;
     } catch (error) {
       console.error(error);
@@ -168,18 +171,8 @@ export class ActReceptionTransmissionComponent implements OnInit {
     this.selectedFlatId = selectedFlatId;
   }
 
-  async getHouse(): Promise<void> {
-    try {
-      const response: any = await this.dataService.getInfoFlat().toPromise();
-      this.houseData = response;
-      if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
+  // шлях до іконок
   getImageSource(flat: any): string {
     if (flat.img) {
       return serverPath + '/img/filling/' + flat.img;
@@ -188,6 +181,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
     }
   }
 
+  // отримання наповнення оселі
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
 
@@ -224,23 +218,10 @@ export class ActReceptionTransmissionComponent implements OnInit {
     }
   }
 
-  print(): void {
-    const printContainer = document.querySelector('.print-only');
-    if (printContainer) {
-      this.printableContent = this.sanitizer.bypassSecurityTrustHtml(printContainer.innerHTML);
-      setTimeout(() => {
-        window.print();
-      });
-    }
-  }
-
+  // створити акт
   sendFormAgreement(): void {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedAgreement) {
-      if (!this.selectedAgreement) {
-        this.showMessage('Будь ласка, оберіть угоду');
-        return;
-      }
       if (this.selectedAgreement && this.selectedFlatId) {
         const data = {
           auth: JSON.parse(userJson),
@@ -257,12 +238,9 @@ export class ActReceptionTransmissionComponent implements OnInit {
           filling: this.flat_objects,
         };
 
-        console.log(data)
-
         this.http.post(serverPath + '/agreement/add/act', data)
           .subscribe(
             (response: any) => {
-              console.log(response)
               this.loading = true;
               if (response.status === 'Данні введено не правильно') {
                 console.error(response.status);
@@ -276,7 +254,7 @@ export class ActReceptionTransmissionComponent implements OnInit {
                 setTimeout(() => {
                   this.statusMessage = 'Акт сформовано успішно!';
                   setTimeout(() => {
-                    this.router.navigate(['/house/agree-concluded']);
+                    this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 3 } });
                   }, 2000);
                 }, 1000);
               }
@@ -297,17 +275,6 @@ export class ActReceptionTransmissionComponent implements OnInit {
         this.loading = false;
       }
     }
-  }
-
-  showMessage(msg: string): void {
-    this.message = msg;
-    setTimeout(() => {
-      this.clearMessage();
-    }, 3000);
-  }
-
-  clearMessage(): void {
-    this.message = '';
   }
 }
 

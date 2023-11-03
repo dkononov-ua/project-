@@ -25,7 +25,6 @@ import { ParametersComponent } from './parameters/parameters.component';
 import { HouseShareComponent } from './house-share/house-share.component';
 import { ActReceptionTransmissionComponent } from './agree-h/act-reception-transmission/act-reception-transmission.component';
 import { ActViewComponent } from './agree-h/act-view/act-view.component';
-import { AgreeDetailsComponent } from './agree-h/agree-details/agree-details.component';
 import { AgreeDownloadComponent } from './agree-h/agree-download/agree-download.component';
 import { HouseResidentsComponent } from './house-residents/house-residents.component';
 import { ResidentsComponent } from './residents/residents.component';
@@ -48,7 +47,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ResidentsComponent,
     HouseResidentsComponent,
     AgreeDownloadComponent,
-    AgreeDetailsComponent,
     ActReceptionTransmissionComponent,
     ActViewComponent,
     HouseInfoComponent,

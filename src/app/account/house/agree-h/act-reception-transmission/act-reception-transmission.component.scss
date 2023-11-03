@@ -1,178 +1,75 @@
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
 @use "../../../../style/act.doc.scss";
+@use "../agree-menu/agree-menu.component.scss";
 
 .container-box {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  @include flex-box;
+  align-items: flex-start;
 }
 
-img {
+.flex-box {
+  align-items: stretch;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.img-wrapper {
+  @include flex-box;
   overflow: hidden;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  transition: transform 1s;
-  object-fit: cover;
-  transition: transform 1s;
-}
-
-.container-left {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-}
-.box-btn {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-}
-.link-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 110px;
-  height: 70px;
-  display: flex;
-  transition: 0.4s;
-  border: 1px solid;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-
-  &:active {
-    color: $color-accent;
-    transform: scale(0.8);
-    box-shadow: 0px 0px 10px $color-accent;
-  }
-
-  &.active {
-    background-color: $color-accent;
-    color: $color-white;
-    box-shadow: 0px 0px 10px $color-accent;
-    border-color: $color-accent;
-
-    span {
-      transition: 0.4s;
-      transform: scale(1.1);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-white;
-      transform: scale(1.1);
-      transition: 0.4s;
-    }
-  }
-
-  &:hover {
-    background-color: $color-accent;
-    color: $color-white;
-    transition: 0.4s;
-    transform: scale(1.1);
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-
-    span {
-      transition: 0.4s;
-      transform: scale(1.1);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-white;
-      transform: scale(1.1);
-      transition: 0.4s;
-    }
+  .img-fluid {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
   }
 }
 
-.container-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.checkbox-section {
+  background-color: $color-white;
 }
 
 .card-user {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  // border: 1px solid $color-gray;
+  border-radius: 20px;
+  padding: 10px;
   background-color: $color-white;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  @include box-shadow;
+}
 
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-  @include s1-s3 {
-    width: 97%;
+.btn-box-btn {
+  @include flex-box;
+  height: 60px;
+  width: 100%;
+  margin: 5px 0 5px 0;
+  border: none;
+  // background-color: $color-white;
+  // border: 1px solid $color-gray;
+  border-radius: 20px;
+  transition: 1s;
+
+  &:hover {
+    letter-spacing: 4px;
   }
 }
 
-.img-fluid {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+.btn-box-btn.active {
+  background-color: $color-accent;
 }
 
-.item-box {
-  display: flex;
+.card-body {
+  @include flex-box-column;
   justify-content: flex-start;
-  padding-bottom: 10px;
-  flex-wrap: wrap;
   align-items: flex-start;
-  align-content: flex-start;
-  flex-direction: column;
 }
 
-.item-name {
-  color: $color-dark;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.box-2 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
-.item-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-radius: 10px;
-  padding: 5px 10px;
-}
-
-.input-mat {
-  height: 70px !important;
-}
-
-.characteristics-group {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  border-bottom: 1px solid $color-primary;
-}
-
-.btn-agree {
-  font-size: 18px;
-  width: 100%;
-  height: 60px;
-  background-color: $color-white;
+.card-wrapper {
+  @include flex-box-column;
+  .card {
+    width: 50%;
+    @include s1-s3 {
+      width: 100%;
+    }
+  }
 }

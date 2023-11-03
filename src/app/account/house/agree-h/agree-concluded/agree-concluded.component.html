@@ -4,23 +4,10 @@
 
 <ng-template #content>
   <div class="container-card col-lg-12 col-md-12 col-sm-12 col-12">
-
-    <!-- <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card-info">
-        <h2>Заключені угоди</h2>
-        <div class="title p-2">
-          Тут Ви зможете бачити угоди які Ви заключили.
-        </div>
-        <div class="title p-2">
-          Ви можете переглянути деталі угоди, а також надрукувати її.
-        </div>
-      </div>
-    </div> -->
-
     <div class="card-wrapper">
       <div class="card-agree m-2 p-2" *ngFor="let agreement of agree">
-
-        <div class="t-lar gray">Сформована угода ID угоди: <span class="t-lar bold"> {{agreement.flat.agreement_id}} </span> </div>
+        <div class="t-lar gray">Ухвалена угода. ID угоди: <span class="t-lar bold"> {{agreement.flat.agreement_id}}
+          </span> </div>
 
         <div class="flex-box-row">
           <div class="p-2">
@@ -44,7 +31,7 @@
             </div>
           </div>
 
-          <div class="m-2">
+          <div class="p-2">
             <div class="card-btn m-1">
               <div class="t-min bold">Угода оренди</div>
               <div class="btn-group">
@@ -65,13 +52,19 @@
               <div class="t-min bold">Акт прийому-передачі</div>
               <div class="btn-group">
 
+                <button class="btn accent-bg" matTooltip="Сформувати Акт"
+                  [routerLink]="['/house/act-create', agreement.flat.agreement_id]" *ngIf="!agreement.exists">
+                  <i class="fa-solid fa-file-circle-check"></i>
+                  <div class="t-min bold">Сформувати</div>
+                </button>
+
                 <button class="btn" matTooltip="Переглянути Акт"
-                  [routerLink]="['/house/act-view', agreement.flat.agreement_id]">
+                  [routerLink]="['/house/act-view', agreement.flat.agreement_id]" *ngIf="agreement.exists">
                   <i class="fa-solid fa-file-circle-check"></i>
                   <div class="t-min bold">Переглянути</div>
                 </button>
 
-                <button class="btn" matTooltip="Видалити Акт" (click)="openDialog(agreement)">
+                <button class="btn" matTooltip="Видалити Акт" (click)="openDialog(agreement)" *ngIf="agreement.exists">
                   <i class="fa-solid fa-circle-minus"></i>
                   <div class="t-min bold">Видалити</div>
                 </button>
@@ -79,7 +72,7 @@
               </div>
             </div>
 
-            <div class="card-btn m-1">
+            <div class="card-btn m-1" *ngIf="agreement.exists">
               <div class="btn-group">
                 <button class="btn" matTooltip="Додати в мешканці" (click)="openDialog2(agreement)">
                   <i class="fa-solid fa-user-plus"></i>
@@ -96,7 +89,11 @@
       </div>
 
     </div>
-
-
   </div>
 </ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>
