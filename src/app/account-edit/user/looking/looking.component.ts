@@ -136,8 +136,20 @@ export class LookingComponent implements OnInit {
   statusMessage: string | undefined;
 
   changeStep(step: number): void {
-    this.currentStep = step;
+    this.indexPage = step;
   }
+
+    // показ карток
+    card_info: boolean = false;
+    indexPage: number = 0;
+    indexMenu: number = 0;
+    indexMenuMobile: number = 1;
+    numConcludedAgree: any;
+    selectedAgree: any;
+    page: any;
+    onClickMenu(indexPage: number) {
+      this.indexPage = indexPage;
+    }
 
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;

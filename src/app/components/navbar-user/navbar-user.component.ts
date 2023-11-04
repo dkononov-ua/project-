@@ -16,6 +16,8 @@ export class NavbarUserComponent implements OnInit {
   counterAcceptSubs: any;
   loading: boolean = true;
   dataUpdated = false;
+  offs: number = 0;
+  numSendAgree: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -51,12 +53,15 @@ export class NavbarUserComponent implements OnInit {
     await this.getSubsCount();
     await this.getAcceptSubsCount();
     await this.getSubscriptionsCount();
+    // await this.getSendAgree();
+
     this.updateComponent.updateUser$.subscribe(() => {
       this.dataUpdated = true;
       if (this.dataUpdated === true) {
         this.getSubsCount();
         this.getAcceptSubsCount();
         this.getSubscriptionsCount();
+        // this.getSendAgree();
       }
     });
   }
@@ -111,4 +116,30 @@ export class NavbarUserComponent implements OnInit {
       console.error(error)
     }
   }
+
+  // Отримати запропоновані угоди
+  // async getSendAgree(): Promise<void> {
+  //   const userJson = localStorage.getItem('user');
+  //   const user_id = JSON.parse(userJson!).email;
+
+  //   const url = serverPath + '/agreement/get/yagreements';
+  //   const data = {
+  //     auth: JSON.parse(userJson!),
+  //     user_id: user_id,
+  //     offs: this.offs,
+  //   };
+
+  //   try {
+  //     const response = (await this.http.post(url, data).toPromise()) as any;
+  //     console.log(response)
+  //     if (response) {
+  //       this.numSendAgree = response.length;
+  //       console.log(this.numSendAgree)
+  //     } else {
+  //       this.numSendAgree = 0;
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 }

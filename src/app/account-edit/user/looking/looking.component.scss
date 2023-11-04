@@ -1,53 +1,17 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 @use "../../../style/radio.scss";
+@use "../../../style/shared.scss" as *;
+
+.container-box {
+  @include flex-box;
+  align-items: flex-start;
+}
 
 .container-card {
   @include flex-box;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.container-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   justify-content: flex-start;
-  height: 650px;
-  @include s1-s3 {
-    height: 14vh;
-  }
-}
-
-.indicator-box {
-  cursor: pointer;
-  display: flex;
-  height: 100px;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 30px;
-  @include s1-s3 {
-    margin-top: 15px;
-  }
-}
-
-.indicator {
-  display: flex;
-  border-radius: 50%;
-  border: none;
-  background-color: $color-gray;
-  width: 60px;
-  height: 60px;
-  margin: 10px;
-  border-radius: 50%;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  justify-content: center;
-  align-items: center;
-  @include s1-s3 {
-    width: 30px;
-    height: 30px;
-    margin: 2px;
-  }
+  position: relative;
 }
 
 .btn-next {
@@ -76,17 +40,47 @@
   }
 }
 
-.active-step {
-  transition: 3s;
-  transform: scale(1.6);
-  background-color: $color-accent;
+.btn-group {
+  justify-content: center;
 }
 
-.fa-1,
-.fa-2,
-.fa-3,
-.fa-4 {
-  font-size: 20px;
+.t-l {
+  text-align: left
+}
+
+li {
+  padding: 3px;
+}
+
+.link-toMenu {
+  transition: 1s;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+}
+
+.switch-box {
+  @include flex-box;
+  justify-content: flex-start;
+  .switch-btn-group {
+    width: 80px;
+  }
+}
+
+.flex-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.flex-box-column {
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .card-box {

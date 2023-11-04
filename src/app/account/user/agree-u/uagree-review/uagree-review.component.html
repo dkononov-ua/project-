@@ -4,61 +4,67 @@
 
 <ng-template #content>
   <div class="container-card col-lg-12 col-md-12 col-sm-12 col-12">
-
-    <div class="box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card p-2 m-2 mt-4" *ngFor="let agreement of subscriptions">
-        <div class="img-fluid  mt-2">
-
-          <div class="w-30">
-            <img
-              [src]="agreement.img && agreement.img.length > 0 ? serverPathPhotoFlat + agreement.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image">
-          </div>
-
-          <div class="item-box p-1 w-70">
-            <div class="item-name">ID Оселі: {{ agreement.flat.flat_id}} </div>
-            <div class="item-name">Місто: {{ agreement.flat.city}} </div>
-            <div class="item-name">Вулиця: {{ agreement.flat.street}} </div>
-            <div class="item-name">Площа: {{ agreement.flat.area}} м²</div>
-          </div>
+    <div class="card-wrapper">
+      <div class="card-agree m-2 p-2" *ngFor="let agreement of subscriptions">
+        <div class="t-lar gray">Ухвалена угода. ID угоди:
+          <span class="t-lar bold"> {{agreement.flat.agreement_id}} </span>
         </div>
 
-        <div class="item-wrapper mt-1">
-          <div class="item-name">Строком на: роки {{ agreement.flat.year}} місяці {{agreement.flat.month}}</div>
-          <div class="item-name">Сума оплати: {{ agreement.flat.price}}грн</div>
+        <div class="flex-box-row">
+          <div class="p-2">
+            <div class="img-wrapper">
+              <img class="img-fluid " [src]="serverPathPhotoFlat + agreement.img[0] " alt="img">
+              <div class="card-body w-60 p-2">
+                <div class="t-min"> Оселя ID: {{ agreement.flat.flat_id}} </div>
+                <div class="t-med bold">місто: {{agreement.flat.city}} </div>
+                <div class="t-med bold">буд. {{agreement.flat.houseNumber }} кв. {{agreement.flat.apartment }}</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="t-min">Початок оренди: <span class="t-med bold">
+                  {{agreement.flat.dateAgreeStart| date }} </span></div>
+              <div class="t-min">Закінчення оренди: <span class="t-med bold">
+                  {{agreement.flat.dateAgreeEnd| date }} </span></div>
+              <div class="t-min" *ngIf="agreement.flat.price">Сума оплати:
+                <span class="t-med bold"> {{agreement.flat.price }} ₴/міс</span>.
+              </div>
+            </div>
+          </div>
 
-          <div class="btn-group"><button class="btn m-1">
-              <a class="link-menu" [routerLinkActive]="'active'" matTooltip="Переглянути угоду"
-                [routerLink]="['/user/uagree-details', agreement.flat.flat_id]">
-                <i class="fa-regular fa-handshake"></i>
-              </a>
-            </button>
-            <button class="btn m-1" matTooltip="Видалити угоду" (click)="openDialog(agreement)">
-              <i class="fa-solid fa-user-xmark"></i>
-            </button>
+          <div class="p-2">
+
+            <div class="card-btn m-1">
+              <div class="t-min bold">Угода оренди</div>
+              <div class="btn-group">
+                <button class="btn" matTooltip="Переглянути Угоду"
+                  [routerLink]="['/house/agree-download', agreement.flat.agreement_id]">
+                  <i class="fa-solid fa-file-circle-check"></i>
+                  <div class="t-min bold">Переглянути</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="card-btn m-1">
+              <div class="t-min bold">Акт прийому-передачі</div>
+              <div class="btn-group">
+                <button class="btn" matTooltip="Переглянути Акт"
+                  [routerLink]="['/house/act-view', agreement.flat.agreement_id]">
+                  <i class="fa-solid fa-file-circle-check"></i>
+                  <div class="t-min bold">Переглянути</div>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
-
       </div>
 
     </div>
-
-    <div class="box col-lg-6 col-md-12 col-sm-12 col-12 mt-4">
-      <div class="card-info p-2">
-        <h2 *ngIf="subResponse === false">Немає запропонованих угод...</h2>
-        <h2 *ngIf="subResponse !== false">Запропоновані угоди</h2>
-        <ul>В цьому меню Ви можете:
-          <li>Переглядати список угод які Вам запропоновані.</li>
-          <li>Переглянути деталі угод.</li>
-          <li>Відхилити угоду</li>
-          <li>Узгодити запропоновану пропозицію</li>
-        </ul>
-        <p class="text p-3">Створені угоди являються попередньою домовленістью між орендарем і орендодавцем вони не
-          будуть дійсні до
-          поки не відбудеться підписання Орендодавцем та Орендарем.</p>
-
-      </div>
-    </div>
-
   </div>
 </ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

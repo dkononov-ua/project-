@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 interface subscription {
   flat: {
     flat_id: string;
@@ -13,7 +13,6 @@ interface subscription {
     subscriber_firstName: string;
     subscriber_lastName: string;
     subscriber_surName: string;
-    subscriber_img: string;
     photo: string;
     instagram: string;
     telegram: string;
@@ -42,6 +41,9 @@ interface subscription {
     owner_tell: number;
     penalty: number;
     rent_due_data: number;
+    dateAgreeStart: string;
+    dateAgreeEnd: string;
+    subscriber_img: string;
   }
   img: [any];
 }
@@ -52,6 +54,8 @@ interface subscription {
   styleUrls: ['./uagree-review.component.scss']
 })
 export class UagreeReviewComponent implements OnInit {
+  path_logo = path_logo;
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -64,6 +68,7 @@ export class UagreeReviewComponent implements OnInit {
   selectedFlatAgree: any;
   loading: boolean = true;
   subResponse: any;
+  statusMessage: string | undefined;
 
   constructor(
     private http: HttpClient,
