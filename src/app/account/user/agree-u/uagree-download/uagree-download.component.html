@@ -334,7 +334,8 @@
   </div>
 
   <div class="btn-group">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-concluded'">НАЗАД</a>
+    <button class="btn m-2" matTooltip="Підтвердити угоду" (click)="goBack()">НАЗАД</button>
+
     <button class="btn" type="submit" (click)="print()">ДРУКУВАТИ<i class="fa-regular fa-file-pdf"></i></button>
   </div>
 

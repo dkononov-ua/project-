@@ -1,7 +1,7 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -33,7 +33,8 @@ export class UagreeDownloadComponent implements OnInit {
     private http: HttpClient,
     private dataService: DataService,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -93,6 +94,10 @@ export class UagreeDownloadComponent implements OnInit {
         window.print();
       });
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 3 } });
   }
 
 }

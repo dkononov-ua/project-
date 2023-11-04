@@ -180,7 +180,6 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);
@@ -290,14 +289,12 @@ export class SubscribersDiscusComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any;
-      console.log(response)
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
         response.status.forEach((item: { mark: number; }) => {
           if (item.mark) {
             totalMarkTenant += item.mark;
             this.ratingTenant = totalMarkTenant;
-            console.log(this.ratingTenant)
           }
         });
       } else if (response.status === false) {

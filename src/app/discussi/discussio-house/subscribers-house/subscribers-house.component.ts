@@ -184,7 +184,6 @@ export class SubscribersHouseComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       this.subscribers = response;
     } catch (error) {
       console.error(error);

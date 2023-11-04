@@ -18,10 +18,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
-      { path: 'uagree-concluded', component: UagreeConcludedComponent, canActivate: [CanActivateGuard] },
-      { path: 'uagree-delete', component: UagreeDeleteComponent, canActivate: [CanActivateGuard] },
       { path: 'uagree-menu', component: UagreeMenuComponent, canActivate: [CanActivateGuard] },
-      { path: 'uagree-review', component: UagreeReviewComponent, canActivate: [CanActivateGuard] },
     ],
   },
   { path: 'uact-view/:selectedFlatAgree', component: UactViewComponent, canActivate: [CanActivateGuard] },

@@ -119,7 +119,6 @@ export class AgreeConcludedComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/agreement/get/act';
     const offs = 0; // Поточне значення offs
-
     try {
       for (const agreementId of this.agreementIds) {
         const data = {

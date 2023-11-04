@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
-interface subscription {
+interface Agree {
   flat: {
     flat_id: string;
     price: number;
@@ -47,26 +47,26 @@ interface subscription {
   }
   img: [any];
 }
-
 @Component({
   selector: 'app-uagree-review',
   templateUrl: './uagree-review.component.html',
-  styleUrls: ['./uagree-review.component.scss']
+  styleUrls: ['./uagree-review.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
 })
 export class UagreeReviewComponent implements OnInit {
   path_logo = path_logo;
-
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
 
-  subscriptions: subscription[] = [];
+  agree: Agree[] = [];
   userId: string | any;
   flatId: any;
   deletingFlatId: string | null = null;
   selectedFlatId: any;
   selectedFlatAgree: any;
-  loading: boolean = true;
   subResponse: any;
   statusMessage: string | undefined;
 
@@ -81,22 +81,19 @@ export class UagreeReviewComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
     });
-
-    this.getSubscribedFlats();
+    this.getSendAgree();
   }
 
-  openDialog(subscriber: any): void {
+  openDialog(agreement: any): void {
     const dialogRef = this.dialog.open(UagreeDeleteComponent);
-
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        await this.removeAgreement(subscriber);
-        location.reload();
+        await this.removeAgreement(agreement);
       }
     });
   }
 
-  async getSubscribedFlats(): Promise<void> {
+  async getSendAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = serverPath + '/agreement/get/yagreements';
@@ -108,41 +105,37 @@ export class UagreeReviewComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      console.log(response)
       if (response) {
-        this.subscriptions = response;
-        this.subResponse = response;
-        this.loading = false;
+        this.agree = response;
       } else {
-        this.subscriptions = [];
-        this.subResponse = [];
-        this.loading = false;
+        this.agree = [];
       }
     } catch (error) {
       console.error(error);
-      this.loading = false;
     }
   }
 
-  async removeAgreement(subscriber: any): Promise<void> {
-    this.selectedFlatId = subscriber.flat.flat_id;
+  async removeAgreement(agreement: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
     const url = serverPath + '/agreement/delete/yagreement';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
-      flat_id: subscriber.flat.flat_id,
-      agreement_id: subscriber.flat.agreement_id
+      flat_id: agreement.flat.flat_id,
+      agreement_id: agreement.flat.agreement_id
     };
-
     try {
       const response = await this.http.post(url, data).toPromise();
-      this.deletingFlatId = subscriber.flat.flat_id;
-      setTimeout(() => {
-        this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat.flat_id !== subscriber.flat.flat_id);
-        this.deletingFlatId = null;
-      }, 0);
+      if (response) {
+        this.statusMessage = 'Угода видалена';
+        setTimeout(() => {
+          this.getSendAgree();
+          this.statusMessage = '';
+        }, 2000);
+      } else {
+        console.log('Помилка видалення')
+      }
     } catch (error) {
       console.error(error);
     }

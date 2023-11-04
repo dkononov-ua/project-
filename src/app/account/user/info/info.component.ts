@@ -155,7 +155,10 @@ export class InfoComponent implements OnInit {
     '3': 'Тільки песики',
   }
 
-  constructor(private dataService: DataService, private http: HttpClient) { }
+  constructor(
+    private dataService: DataService,
+    private http: HttpClient
+    ) { }
 
   ngOnInit(): void {
     // Об'єднуємо обидва Observable, і вони будуть виконані паралельно
@@ -167,7 +170,7 @@ export class InfoComponent implements OnInit {
       this.loading = false;
     });
   }
-
+  // інформація про орендара
   async getInfoUser(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
@@ -205,20 +208,7 @@ export class InfoComponent implements OnInit {
         });
     }
   }
-
-  onChangeFlat(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.dataService.getInfoUser().subscribe((response: any) => {
-        if (response) {
-          localStorage.setItem('userData', JSON.stringify(response));
-        } else {
-          console.log('Немає інформації')
-        }
-      });
-    }
-  }
-
+  // пошукові параметри орендара
   async getInfo(): Promise<any> {
     localStorage.removeItem('searchInfoUserData')
     const userJson = localStorage.getItem('user');
@@ -274,11 +264,10 @@ export class InfoComponent implements OnInit {
       console.log('user not found');
     }
   }
-
   useDefaultImage(event: any): void {
     event.target.src = '../../../../assets/user_default.svg';
   }
-
+  // рейтинг орендара
   async getRating(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/userMarks';
@@ -304,7 +293,7 @@ export class InfoComponent implements OnInit {
       console.error(error);
     }
   }
-
+  // рейтинг власника
   async getRatingOwner(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/ownerMarks';

@@ -17,7 +17,8 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [disabled]="numSendAgree === 0" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
+      <button class="btn" [disabled]="numSendAgree === 0" (click)="onClickMenu(2)"
+        [ngClass]="{ 'active': indexPage == 2}">
         <i class="fa-solid fa-hourglass-half"></i>
       </button>
       <div class="t-min dark bold">Надіслані</div>
@@ -37,25 +38,37 @@
 
   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
 
-    <div [@cardAnimation] class="flex-column card-animation" *ngIf="indexPage === 0">
+    <div class="flex-column card-animation" *ngIf="indexPage === 0">
 
       <div class="flex-box mt-3">
         <div class="param-box">
-          <div class="param-name"><i class="fa-solid fa-thermometer"></i> Меню угод орендара
+          <div class="param-name"><i class="fa-solid fa-business-time"></i> Меню угод орендара
             <p class="t-med">в цьому меню знаходиться все що пов'язане з угодами.</p>
           </div>
         </div>
       </div>
 
       <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
+
+        <li>
+          <div class="item-group flex-column p-2">
+            <button [disabled]="numSendAgree === 0" class="link-toMenu flex-box-row" (click)="onClickMenu(1)">
+              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Опис як працює Discussio угода.</span>
+            </button>
+            <div class="t-description bold">Покрокове пояснення як працює створення угоди та додавання вас до мешканців
+              оселі.</div>
+          </div>
+        </li>
+
         <li>
           <div class="item-group flex-column p-2">
             <button [disabled]="numSendAgree === 0" class="link-toMenu flex-box-row" (click)="onClickMenu(2)">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування шаблону угоди.</span>
+              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Погодження умов надісланих угод.</span>
             </button>
-            <div class="t-description bold">Створення шаблону та погодження всіх умов угоди з власником.</div>
+            <div class="t-description bold">Погодження або відхилення умов угоди з власником.</div>
           </div>
-          <div class="t-description bold accent" *ngIf="numSendAgree === 0">Стає доступним коли у вам надіслали угоду.</div>
+          <div class="t-description bold accent" *ngIf="numSendAgree === 0">Стає доступним коли у вам надіслали угоду.
+          </div>
           <div class="t-description">
             Після того як власник сформує шаблон угоди він вам надійде сюди для
             перегляду та обговорення умов. Ви можете погодити угоду або відхилити для її коригування.
@@ -69,7 +82,8 @@
             </button>
             <div class="t-description bold">Перегляд угоди, актів, друкування угоди, актів.</div>
           </div>
-          <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">Стає доступним коли є ухвалена угода.</div>
+          <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">Стає доступним коли є ухвалена угода.
+          </div>
           <div class="t-description">
             Після того як ви погодите умови угоди вона залишиться тут.
           </div>
@@ -82,92 +96,77 @@
     <div [@cardAnimation] class="flex-column card-animation" *ngIf="indexPage === 1">
 
       <div class="param-box mt-3">
-        <div class="param-name"><i class="fa-solid fa-person-chalkboard"></i><span class="ml-2">Створення Discussio
-            угод</span>
-          <p class="t-min ">Шлях по кроках від дискусії з орендарем до
-            додавання його в мешканці оселі.</p>
+        <div class="param-name"><i class="fa-solid fa-person-chalkboard"></i>
+          <span class="ml-2"> Як відбувається створення Discussio угод</span>
+          <p class="t-min ">Пояснення покроково що треба робити.</p>
         </div>
       </div>
 
       <div class="item-box">
-
         <div class="item-description">
-          <div class="t-med gray bold">Крок 1 (5хв)</div>
+          <div class="t-med gray bold">Крок 1</div>
           <div class="t-min">Створення шаблону угоди.
-            Угоду можна сформувати лише з орендарами з якими у вас є дискусія.</div>
+            Угоду створює власник оселі. Формування угоди відбувається шляхом обрання орендара зі списку Дискусій.</div>
         </div>
-
         <div class="item-group flex-column p-2">
-          <div class="t-min gray bold">У вас дискусій - </div>
-          <button [disabled]="" class="link-toMenu flex-box-row">
-            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формувати угоду</span>
+          <div class="t-min gray bold">У вас дискусій - {{counterDiscussi}}</div>
+          <button [disabled]="counterDiscussi === 0" class="link-toMenu flex-box-row">
+            <span class="ml-2 dark">Формування угоди</span>
           </button>
         </div>
-
         <div class="img-container">
           <img class="img" src="../../../../../assets/example-agree/agree3.jpg" alt="Flat Image">
         </div>
-
       </div>
 
       <div class="item-box">
-
         <div class="item-description">
           <div class="t-med gray bold">Крок 2</div>
-          <div class="t-min">Очікуємо підтвердження умов угоди від орендара. До того як орендар не погодив угоду
-            ви можете скасувати її.</div>
+          <div class="t-min">Після обрання оселі та орендара, власник описує умови угоди та відправляє орендару шаблон
+            угоду на розгляд. Після чого чекає погодження орендара.</div>
         </div>
-
         <div class="img-container">
           <img class="img" src="../../../../../assets/example-agree/agree1.jpg" alt="img">
         </div>
-
         <div class="item-group flex-column p-2">
-          <div class="t-min gray bold">Кількість </div>
-          <button [disabled]="" class="link-toMenu flex-box-row">
+          <div class="t-min gray bold">Кількість: {{numSendAgree}}</div>
+          <button [disabled]="numSendAgree === 0" class="link-toMenu flex-box-row" (click)="onClickMenu(2)">
             <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Надіслані угоди</span>
           </button>
         </div>
-
-
       </div>
 
       <div class="item-box">
-
         <div class="item-description">
           <div class="t-med gray bold">Крок 3</div>
-          <div class="t-min">На основі ухваленої угоди формуємо акт прийому-передачі оселі.</div>
+          <div class="t-min">Після підтвердження орендарем умов угоди вона з'являється у вас та у власника. Тепер він
+            може сформувати акт прийому-передачі оселі.</div>
         </div>
-
         <div class="item-group flex-column p-2">
           <div class="t-min gray bold">Кількість {{numConcludedAgree}}</div>
-          <button [disabled]="numConcludedAgree === 0" class="link-toMenu flex-box-row">
+          <button [disabled]="numConcludedAgree === 0" class="link-toMenu flex-box-row" (click)="onClickMenu(3)">
             <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ухвалені угоди</span>
           </button>
         </div>
-
         <div class="img-container">
           <img class="img" src="../../../../../assets/example-agree/agree.jpg" alt="img">
         </div>
-
       </div>
 
       <div class="item-box">
-
         <div class="item-description">
           <div class="t-med gray bold">Крок 4</div>
-          <div class="t-min">Після формування угоди та акту у нас є готові документи для підписання та
-            заселення.</div>
+          <div class="t-min">На основі ухваленої угоди власник формує акт прийому-передачі оселі. Після чого йому стає
+            доступна функція додати вас до мешканців. Після додавання вас до мешканців у вас з'являється доступ до
+            орендованої оселі.</div>
         </div>
-
         <div class="img-container">
           <img class="img" src="../../../../../assets/example-agree/default_img3.jpg" alt="img">
         </div>
-
         <div class="item-group flex-column p-2">
           <div class="t-min gray bold">Кількість {{numConcludedAgree}}</div>
           <button [disabled]="numConcludedAgree === 0" class="link-toMenu flex-box-row">
-            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формувати акт</span>
+            <span class="ml-2 dark">Формування акту</span>
           </button>
         </div>
       </div>

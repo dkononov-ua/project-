@@ -342,10 +342,14 @@
         </label>
         <i></i>
       </div>
-      <a class="btn hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-review'">Назад</a>
+
+      <button class="btn m-2" matTooltip="Підтвердити угоду" (click)="goBack()">Назад</button>
+
       <button class="btn m-2" matTooltip="Підтвердити угоду" [disabled]="!isCheckboxChecked"
         (click)="agreeAgreement()">Підтвердити угоду</button>
+
       <button class="btn m-2" matTooltip="Відхилити угоду" (click)="openDialog()">Відхилити угоду</button>
+
     </div>
 
   </div>

@@ -110,7 +110,7 @@ export class UagreeDetailsComponent implements OnInit {
       };
       console.log(data)
 
-      this.http.post( serverPath + '/agreement/accept/agreement', data)
+      this.http.post(serverPath + '/agreement/accept/agreement', data)
         .subscribe(
           (response: any) => {
             setTimeout(() => {
@@ -118,7 +118,7 @@ export class UagreeDetailsComponent implements OnInit {
               setTimeout(() => {
                 this.statusMessage = 'Умови угоди ухвалені!';
                 setTimeout(() => {
-                  this.router.navigate(['/user/uagree-concluded']);
+                  this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 3 } });
                 }, 4000);
               }, 100);
             }, 3000);
@@ -163,12 +163,16 @@ export class UagreeDetailsComponent implements OnInit {
       setTimeout(() => {
         this.deletingFlatId = null;
         setTimeout(() => {
-          this.router.navigate(['/user/uagree-review']);
+          this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 2 } });
         }, 400);
       }, 100);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 2 } });
   }
 }
 

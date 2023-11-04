@@ -135,7 +135,6 @@ export class ParametersComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        console.log(parsedHouseData)
         this.house.agent_id = parsedHouseData.flat.agent_id;
         this.house.apartment = parsedHouseData.flat.apartment;
         this.house.city = parsedHouseData.flat.city;
