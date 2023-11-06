@@ -19,7 +19,7 @@ export class NavbarUserComponent implements OnInit {
   offs: number = 0;
   numSendAgree: number = 0;
   userInf: any;
-  agreeNum: any;
+  agreeNum: number = 0;
 
   constructor(
     private http: HttpClient,

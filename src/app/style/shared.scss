@@ -203,6 +203,18 @@
   }
 }
 
+
+.link-toMenu {
+  transition: 1s;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+}
+
+
 // медіа запити
 .hide-mobile {
   @include s1-s3 {

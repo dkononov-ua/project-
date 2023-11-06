@@ -45,11 +45,34 @@ export class AgreeDownloadComponent implements OnInit {
     this.route.params.subscribe(async params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
       this.selectedAgreement = await this.getAgree();
+      if (!this.selectedAgreement) {
+        this.selectedAgreement = await this.getAgreeConcluded();
+      }
     });
     this.loading = false;
   }
 
   async getAgree(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/agreement/get/agreements';
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: this.selectedFlatId,
+      offs: 0
+    };
+
+    try {
+      const response = (await this.http.post(url, data).toPromise()) as any[];
+      const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedFlatAgree);
+      console.log(selectedAgreement)
+      return selectedAgreement || null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async getAgreeConcluded(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/agreement/get/saveagreements';
     const data = {

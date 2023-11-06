@@ -21,6 +21,8 @@
   transition: 0.4s;
   width: 100%;
   justify-content: flex-end;
+  margin: 3px 0px;
+  padding: 4px 15px;
 
   @include s3-s6-max {
     &:hover {
