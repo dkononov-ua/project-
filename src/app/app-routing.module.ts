@@ -31,7 +31,6 @@ const routes: Routes = [
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
   { path: 'search-page', component: SearchPageComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
-  { path: 'search', component: SearchComponent, canActivate: [CanActivateGuard] },
   { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },

@@ -1,5 +1,5 @@
 <div class="container-box">
-  <nav class="navbar" [ngClass]="{'open': isMenuOpen}">
+  <nav class="navbar w-100" [ngClass]="{'open': isMenuOpen}">
     <div class="nav-item">
       <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
         <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenu()">
@@ -7,11 +7,32 @@
       </a>
     </div>
 
+    <!-- <h1>Discussio</h1> -->
+
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Аккаунт</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Мій профіль</a>
     </div>
 
     <div class="nav-item hide-mobile">
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'" (click)="closeMenu()">Моя оселя</a>
+    </div>
+
+    <div class="nav-item hide-mobile">
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/search-page'" (click)="closeMenu()">Пошук</a>
+    </div>
+
+    <div class="nav-item hide-mobile">
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'" (click)="closeMenu()">Функції Discussio</a>
+    </div>
+
+    <!-- <app-selection-account></app-selection-account> -->
+
+
+    <!-- <div class="nav-item hide-mobile">
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Аккаунт</a>
+    </div> -->
+
+    <!-- <div class="nav-item hide-mobile">
       <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeMenu()">Про проєкт</a>
     </div>
 
@@ -21,7 +42,7 @@
 
     <div class="nav-item hide-mobile">
       <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'" (click)="closeMenu()">Функції проекту</a>
-    </div>
+    </div> -->
 
 
   </nav>

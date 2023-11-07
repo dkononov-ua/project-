@@ -8,7 +8,6 @@
 .navbar {
   display: flex;
   justify-content: flex-start;
-
   @include s1-s3 {
     justify-content: flex-start;
     flex-direction: column;

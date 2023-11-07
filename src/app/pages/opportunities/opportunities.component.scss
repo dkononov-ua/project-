@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  justify-content: center;
 }
 
 .link-anchor {
@@ -117,6 +118,9 @@ h5 {
     width: 100%;
     @include s1-s3 {
       width: 100%;
+    }
+    .fa-solid {
+      color: $color-text;
     }
   }
 }

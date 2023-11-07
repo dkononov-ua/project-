@@ -1,5 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/navbar.scss" as *;
 
 .container-box {
   display: flex;
@@ -8,6 +9,19 @@
   align-content: stretch;
   align-items: stretch;
   min-height: 70vh;
+}
+
+.nav-link {
+  font-size: 12px;
+  @include s3-s6-max {
+    &:hover {
+      color: $color-accent;
+      transition: 0.4s;
+      transform: scale(1.1);
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    }
+  }
+
 }
 
 .footer-box {
