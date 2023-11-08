@@ -1,4 +1,4 @@
-<div class="container-card p-2">
+<div class="container-card">
 
   <div class="switch-box">
 
@@ -38,65 +38,75 @@
 
   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
 
-    <div [@cardAnimation] class="flex-column card-animation" *ngIf="indexPage === 0">
+    <div [@cardAnimation] class="flex-box p-2 card-animation" *ngIf="indexPage === 0">
 
-      <div class="flex-box mt-3">
-        <div class="param-box">
-          <div class="param-name"><i class="fa-solid fa-thermometer"></i> Меню угод оселі
-            <p class="t-med">в цьому меню знаходиться все що пов'язане з угодами.</p>
+      <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="param-box p-2">
+          <div class="param-name"><i class="fa-solid fa-business-time"></i> Меню угод оселі
+            <div class="t-med">в цьому меню знаходиться все що пов'язане з угодами.</div>
+            <div class="t-min gray">Наша платформа дозволяє легко та швидко створювати угоди між орендарем та
+              орендодавцем всього за кілька хвилин. Ви можете згенерувати стандартні умови оренди нерухомого майна або
+              додавати власні додаткові умови. Після погодження умов орендної угоди, ви зможете створити акт
+              прийому-передачі оселі. Цей акт міститиме інформацію про угоду та опис наповнення вашої оселі, яку ви
+              передаєте орендару, а також показники лічильників на момент передачі.</div>
           </div>
+        </div>
+        <div class="img-wrapper">
+          <img class="img" src="../../../../../assets/example-agree/man_and_agree1.jpg" alt="">
         </div>
       </div>
 
-      <ul class="dark mt-2"><span class="bold">Тут доступні такі можливості:</span>
-        <li>
-          <div class="item-group flex-column p-2">
-            <button [disabled]="counterFound === 0" (click)="goToAgreeCreate()" class="link-toMenu flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування шаблону угоди.</span>
-            </button>
-            <div class="t-description bold" *ngIf="counterFound !== 0">У вас така кількість Дискусій: {{counterFound}}
-              по ним можна формувати угоди.</div>
-          </div>
-          <div class="t-description bold accent" *ngIf="counterFound === 0">Стає доступним коли у вас є дискусія.</div>
-          <div class="t-description">Створення шаблону та погодження всіх умов угоди з орендарем.</div>
-        </li>
-        <li>
-          <div class="item-group flex-column p-2">
-            <button [disabled]="numSendAgree === 0" (click)="onClickMenu(2)" class="link-toMenu flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Перегляд надісланих угод.</span>
-            </button>
-            <div class="t-description bold" *ngIf="numSendAgree !== 0">У вас така кількість надісланих угод:
-              {{numSendAgree}}.</div>
-          </div>
-          <div class="t-description bold accent" *ngIf="numSendAgree === 0">Доступне коли у вас є надіслана угода.</div>
-          <div class="t-description">Можливість переглянути надіслану угоду або скасувати її.</div>
-        </li>
-        <li>
-          <div class="item-group flex-column p-2">
-            <button [disabled]="numConcludedAgree === 0" (click)="onClickMenu(3)" class="link-toMenu flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Перегляд ухвалених угод.</span>
-            </button>
-            <div class="t-description bold" *ngIf="numConcludedAgree !== 0">У вас така кількість ухвалених угод:
-              {{numConcludedAgree}}.</div>
-          </div>
-          <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">Стає доступним коли у вас є погоджена
-            угода з орендарем.</div>
-          <div class="t-description">Друкування угод. Друкування акту. Додавання до мешканців.</div>
+      <div class="p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="t-lar bold">Тут доступні такі можливості:</div>
 
-        </li>
-        <li>
-          <div class="item-group flex-column p-2">
-            <button [disabled]="numConcludedAgree === 0" (click)="goToActCreate()" class="link-toMenu flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування акту прийому - передачі.</span>
-            </button>
-          </div>
-          <div class="t-description">Створення акту прийому-передачі оселі. Який буде також включати в себе всі об'єкти
-            в меню наповнення.</div>
-          <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">
-            Доступне коли у вас є погоджена угода з орендарем.</div>
+        <div class="item-group w-100 flex-column p-2">
+          <button class="link-toMenu flex-box-row" (click)="onClickMenu(1)">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Як працює Discussio угода.</span>
+          </button>
+          <div class="t-description bold">Покрокове пояснення як працює створення угоди.</div>
+        </div>
 
-        </li>
-      </ul>
+        <div class="item-group flex-column p-2">
+          <button [disabled]="counterFound === 0" (click)="goToAgreeCreate()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування угоди.</span>
+          </button>
+          <div class="t-description bold" *ngIf="counterFound !== 0">У вас така кількість Дискусій: {{counterFound}}
+            по ним можна формувати угоди.</div>
+        </div>
+        <div class="t-description bold accent" *ngIf="counterFound === 0">Стає доступним коли у вас є дискусія.</div>
+        <div class="t-description">Створення шаблону та погодження всіх умов угоди з орендарем.</div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="numSendAgree === 0" (click)="onClickMenu(2)" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Надіслані угоди.</span>
+          </button>
+          <div class="t-description bold" *ngIf="numSendAgree !== 0">У вас така кількість надісланих угод:
+            {{numSendAgree}}.</div>
+        </div>
+        <div class="t-description bold accent" *ngIf="numSendAgree === 0">Доступне коли у вас є надіслана угода.</div>
+        <div class="t-description">Можливість переглянути надіслану угоду або скасувати.</div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="numConcludedAgree === 0" (click)="onClickMenu(3)" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ухвалені угоди.</span>
+          </button>
+          <div class="t-description bold" *ngIf="numConcludedAgree !== 0">У вас така кількість ухвалених угод:
+            {{numConcludedAgree}}.</div>
+        </div>
+        <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">Стає доступним коли у вас є погоджена
+          угода з орендарем.</div>
+        <div class="t-description">Друкування угод. Друкування акту. Додавання до мешканців.</div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="numConcludedAgree === 0" (click)="goToActCreate()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування акту.</span>
+          </button>
+        </div>
+        <div class="t-description">Створення акту прийому-передачі оселі. Який буде також включати в себе всі об'єкти
+          в меню наповнення.</div>
+        <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">
+          Доступне коли у вас є погоджена угода з орендарем.</div>
+      </div>
 
     </div>
 
@@ -178,11 +188,12 @@
         <div class="item-description">
           <div class="t-med gray bold">Крок 4</div>
           <div class="t-min">Після формування угоди та акту у нас є готові документи для підписання та
-            заселення.</div>
+            заселення. Також з'являється можливість додати орендара до списку мешканців оселі в меню ухвалених угод.
+          </div>
         </div>
 
         <div class="img-container">
-          <img class="img" src="../../../../../assets/example-agree/default_img3.jpg" alt="img">
+          <img class="img" src="../../../../../assets/example-agree/man_and_agree3.jpg" alt="img">
         </div>
 
         <div class="item-group flex-column p-2">

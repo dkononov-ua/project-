@@ -165,6 +165,39 @@ li {
   display: none;
 }
 
+.flex-box {
+  align-items: flex-start;
+  @include s1-s3 {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.card-menu {
+  height: 550px;
+  overflow: hidden;
+  border-radius: 20px;
+  @include flex-box;
+  @include box-shadow;
+  align-items: flex-start;
+  position: relative;
+
+  .param-box {
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.831);
+  }
+
+  .img-wrapper {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 20px;
+    .img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;

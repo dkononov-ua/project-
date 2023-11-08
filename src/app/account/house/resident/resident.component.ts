@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
-
-
 // переклад календаря
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -43,11 +41,12 @@ interface Subscriber {
   acces_admin: any;
   acces_comunal: any;
   acces_added: any;
+  mail: string;
 }
 @Component({
-  selector: 'app-residents',
-  templateUrl: './residents.component.html',
-  styleUrls: ['./residents.component.scss'],
+  selector: 'app-resident',
+  templateUrl: './resident.component.html',
+  styleUrls: ['./resident.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -56,8 +55,6 @@ interface Subscriber {
       ]),
     ]),
   ],
-
-
 
   // переклад календаря
   providers: [
@@ -68,7 +65,7 @@ interface Subscriber {
   // переклад календаря
 })
 
-export class ResidentsComponent implements OnInit {
+export class ResidentComponent implements OnInit {
 
   rating: Rating = new Rating();
   helpMenu: boolean = false;
@@ -76,14 +73,21 @@ export class ResidentsComponent implements OnInit {
   ratingTenant: number | undefined;
   ratingOwner: number | undefined;
 
-  openTenants() {
-    this.indexMenu = 1;
-    this.indexPersonMenu = 0;
-  }
-
   openHelpMenu(helpInfoIndex: number) {
     this.helpInfo = helpInfoIndex;
     this.helpMenu = !this.helpMenu;
+  }
+
+  isCopiedMessage!: string;
+
+  // показ карток
+  indexMenu: number = 0;
+  indexPage: number = -1;
+  indexCard: number = 0;
+
+  onClickMenu(indexPage: number, indexMenu: number,) {
+    this.indexPage = indexPage;
+    this.indexMenu = indexMenu;
   }
 
   path_logo = path_logo;
@@ -96,8 +100,6 @@ export class ResidentsComponent implements OnInit {
   loading = false;
   statusMessageChat: any;
   isCopied = false;
-  indexPage: number = 0;
-  indexMenu: number = 1;
   indexPersonMenu: number = 0;
   ownerInfo: any
   ownerPage: boolean = false;
@@ -161,6 +163,7 @@ export class ResidentsComponent implements OnInit {
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
           await this.getRating(selectedSubscriber);
+          this.indexPage = 2;
         }
       }
     });
@@ -183,6 +186,7 @@ export class ResidentsComponent implements OnInit {
           firstName: user_id.firstName,
           lastName: user_id.lastName,
           surName: user_id.surName,
+          mail: user_id.mail,
           tell: user_id.tell,
           photo: user_id.img,
           instagram: user_id.instagram,
@@ -254,34 +258,27 @@ export class ResidentsComponent implements OnInit {
       };
       this.http.post(serverPath + '/chat/add/chatFlat', data)
         .subscribe((response: any) => {
-          if (response) {
-            this.indexPage = 3;
-          } else if (response.status === false) {
-            this.statusMessageChat = true;
+          console.log(response)
+          if (response.status !== false) {
+            setTimeout(() => {
+              this.statusMessage = 'Чат створено';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 200);
+          } else {
+            setTimeout(() => {
+              this.statusMessage = 'Чат вже існує';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 2000);
+            }, 200);
           }
-          this.selectedSubscriber = selectedSubscriber;
         }, (error: any) => {
           console.error(error);
         });
     } else {
       console.log('user or subscriber not found');
-    }
-  }
-
-  copyTell() {
-    const tell = this.selectedSubscriber?.tell.toString();
-
-    if (tell) {
-      navigator.clipboard.writeText(tell)
-        .then(() => {
-          this.isCopied = true;
-          setTimeout(() => {
-            this.isCopied = false;
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopied = false;
-        });
     }
   }
 
@@ -344,7 +341,7 @@ export class ResidentsComponent implements OnInit {
         user_id: selectedSubscriber.user_id,
         date: formattedDate,
         about: this.rating.ratingComment,
-        mark: this.rating.ratingValue
+        mark: this.rating.ratingValue,
       };
 
       this.http.post(serverPath + '/rating/add/userRating', data).subscribe((response: any) => {
@@ -576,4 +573,36 @@ export class ResidentsComponent implements OnInit {
     }
   }
 
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
+  copyId(copyId: any) {
+    if (copyId)
+      this.copyToClipboard(copyId, 'ID скопійовано');
+  }
+
+  copyTell(copyTell: any) {
+    if (copyTell)
+      this.copyToClipboard(copyTell, 'Телефон скопійовано');
+  }
+
+  copyMail(copyMail: any) {
+    if (copyMail)
+      this.copyToClipboard(copyMail, 'Пошту скопійовано');
+  }
+
 }
+

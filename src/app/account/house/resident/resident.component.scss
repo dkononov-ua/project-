@@ -1,0 +1,126 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+@use "../../../style/discussi.scss";
+
+.card-container {
+  @include flex-box;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.switch-box {
+  justify-content: flex-start;
+  .switch-btn-group {
+    width: 100px;
+  }
+}
+
+.flex-box-row {
+  align-items: flex-start;
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
+}
+
+.link-toMenu {
+  @include flex-box;
+  justify-content: flex-start;
+  position: relative;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  color: $color-accent;
+  padding: 5px;
+  transition: 1s;
+  cursor: not-allowed;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  .fa-solid {
+    color: $color-accent;
+  }
+}
+
+.t-min,
+.t-lar,
+.t-med {
+  text-align: start;
+}
+
+.card-menu {
+  height: 550px;
+  overflow: hidden;
+  border-radius: 20px;
+  @include flex-box;
+  @include box-shadow;
+  align-items: flex-start;
+  position: relative;
+
+  .param-box {
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.831);
+  }
+
+  .img-wrapper {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 20px;
+    .img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.radio-group {
+  @include flex-box;
+  justify-content: space-evenly;
+  .radio-btn {
+    @include flex-box;
+    position: relative;
+  }
+}
+
+.abs {
+  @include abs-position;
+  @include flex-box;
+  background-color: $color-white;
+  border-radius: 50%;
+  z-index: 10;
+  font-size: 30px;
+  transition: 0.5s;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    color: $color-accent;
+  }
+}
+
+.abs.active {
+  color: $color-accent;
+  transform: scale(1.5);
+}
+
+.checkbox-container {
+  .checkbox-group {
+    @include flex-box;
+    padding: 0 10px;
+    justify-content: space-between;
+    .checkbox-btn {
+      width: 35px;
+      border-radius: 50%;
+      border: 1px solid $color-primary;
+      background-color: transparent;
+    }
+  }
+}
+
+.img-btn.active {
+  color: $color-accent;
+  transform: scale(1.1);
+  background-color: $color-accent !important;
+}

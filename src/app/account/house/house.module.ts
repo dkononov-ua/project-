@@ -27,13 +27,13 @@ import { ActReceptionTransmissionComponent } from './agree-h/act-reception-trans
 import { ActViewComponent } from './agree-h/act-view/act-view.component';
 import { AgreeDownloadComponent } from './agree-h/agree-download/agree-download.component';
 import { HouseResidentsComponent } from './house-residents/house-residents.component';
-import { ResidentsComponent } from './residents/residents.component';
 import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { HouseRoutingModule } from './house-routing.module';
 import { HouseInfoComponent } from './house-info/house-info.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ResidentComponent } from './resident/resident.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -44,12 +44,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AgreeReviewComponent,
     ParametersComponent,
     HouseShareComponent,
-    ResidentsComponent,
     HouseResidentsComponent,
     AgreeDownloadComponent,
     ActReceptionTransmissionComponent,
     ActViewComponent,
     HouseInfoComponent,
+    ResidentComponent,
   ],
   providers: [
     DatePipe

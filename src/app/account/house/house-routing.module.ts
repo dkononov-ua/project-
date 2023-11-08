@@ -9,8 +9,8 @@ import { ActReceptionTransmissionComponent } from './agree-h/act-reception-trans
 import { ActViewComponent } from './agree-h/act-view/act-view.component';
 import { AgreeDownloadComponent } from './agree-h/agree-download/agree-download.component';
 import { HouseResidentsComponent } from './house-residents/house-residents.component';
-import { ResidentsComponent } from './residents/residents.component';
 import { HouseInfoComponent } from './house-info/house-info.component';
+import { ResidentComponent } from './resident/resident.component';
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
       { path: 'filling', component: FillingComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-menu', component: AgreeMenuComponent, canActivate: [CanActivateGuard] },
-      { path: 'residents', component: ResidentsComponent, canActivate: [CanActivateGuard] },
+      { path: 'resident', component: ResidentComponent, canActivate: [CanActivateGuard] },
     ],
   },
   { path: 'house-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
