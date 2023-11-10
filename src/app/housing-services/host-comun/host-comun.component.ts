@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath } from 'src/app/shared/server-config';
@@ -44,11 +44,27 @@ export class HostComunComponent implements OnInit {
   discussio_view: boolean = false;
   selectedView: string | null | undefined;
   selectedName: string | null | undefined;
-  indexPage: number = 1;
   controlPanel: boolean = false;
 
-  showPanel () {
+  showPanel() {
     this.controlPanel = !this.controlPanel;
+  }
+
+
+  // показ карток
+  indexMenu: number = 0;
+  indexPage: number = -1;
+  indexCard: number = 0;
+
+  onClickMenu(indexPage: number, indexMenu: number,) {
+    this.indexPage = indexPage;
+    this.indexMenu = indexMenu;
+  }
+
+  onClickHost(indexPage: number, indexMenu: number,) {
+    this.indexPage = indexPage;
+    this.indexMenu = indexMenu;
+    this.router.navigate(['/housing-services/host-comun']);
   }
 
   constructor(
@@ -59,6 +75,7 @@ export class HostComunComponent implements OnInit {
     private route: ActivatedRoute,
     private discussioViewService: DiscussioViewService,
     private selectedViewComun: ViewComunService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {

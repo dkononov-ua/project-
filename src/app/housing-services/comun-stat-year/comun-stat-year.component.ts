@@ -179,9 +179,9 @@ export class ComunStatYearComponent implements OnInit {
       for (const key in monthlySum) {
         if (monthlySum.hasOwnProperty(key)) {
           const entry = monthlySum[key];
-          totalNeedPay += entry.total_howmuch_pay;
+          totalNeedPay += entry.total_calc_howmuch_pay;
           totalСonsumed += entry.total_consumed;
-          totalPaid += entry.total_calc_howmuch_pay;
+          totalPaid += entry.total_howmuch_pay;
           totalDifference += entry.total_calc_howmuch_pay - entry.total_howmuch_pay;
         }
       }

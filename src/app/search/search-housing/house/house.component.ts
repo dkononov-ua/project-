@@ -9,6 +9,8 @@ import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { ReportsComponent } from 'src/app/components/reports/reports.component';
+import { parse } from 'path';
 
 interface FlatInfo {
   region: string;
@@ -170,9 +172,9 @@ export class HouseComponent implements OnInit {
   hideMenu: boolean = false;
 
   indexPage: number = 1;
-  card_info : boolean = false;
+  card_info: boolean = false;
 
-  openInfoUser () {
+  openInfoUser() {
     this.card_info = true;
   }
 
@@ -334,7 +336,7 @@ export class HouseComponent implements OnInit {
     }
   }
 
-  openMap () {
+  openMap() {
     window.open(this.locationLink, '_blank');
   }
 
@@ -359,6 +361,39 @@ export class HouseComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+  }
+
+  // скарга на оселю
+  async reportHouse(flat: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/reports/flat';
+    const dialogRef = this.dialog.open(ReportsComponent, {
+      data: {
+        flatId: flat.flat_id,
+        flatName: flat.flat_name,
+        flatCity: flat.city,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result !== 0 && userJson && flat) {
+        const userInfo = JSON.parse(userJson);
+        const data = {
+          auth: JSON.parse(userJson),
+          flat_id: flat.flat_id,
+          reason: result.selectedReport,
+          about: result.aboutReport,
+          user_id: userInfo.user_id,
+        };
+        console.log(data)
+        try {
+          const response = await this.http.post(url, data).toPromise();
+          console.log(response)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
   }
 }
 

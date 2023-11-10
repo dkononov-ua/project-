@@ -1,28 +1,8 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
 
-.flex-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 
-.container-card {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.box {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: flex-start;
-}
 .card-group {
   display: flex;
   flex-flow: row wrap;
@@ -137,3 +117,12 @@
   font-size: 16px !important;
   width: 100%;
 }
+
+.switch-box {
+  justify-content: flex-start;
+  .switch-btn-group {
+    width: 100px;
+  }
+}
+
+

@@ -20,14 +20,13 @@
 }
 
 .selectedHouse-box {
-  height: 60px;
+  height: 50px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   position: relative;
-  padding: 5px;
-  margin-top: 5px;
-  border: 1px solid $color-gray;
+  padding: 3px;
+  border: 1px solid rgba(128, 128, 128, 0.468);
   border-radius: 5px;
 
   .flatName-label {
@@ -35,10 +34,8 @@
     top: -10px;
     left: 50%;
     transform: translateX(-40px);
-    font-size: 12px;
     padding: 0 5px;
     background-color: $color-primary;
-    color: $color-accent;
     @include s1-s3 {
       background-color: $color-white;
     }

@@ -1,5 +1,6 @@
 <div class="container-card p-2 col-12">
 
+  <app-select-year></app-select-year>
   <div class="mat-form-field mb-2">
     <label class="label p-1" for="sortSelect">Сортування:</label>
     <mat-select id="sortSelect" [(ngModel)]="selectedSortOption" (selectionChange)="sortData()">
@@ -111,7 +112,7 @@
         <div class="box-item">0₴ </div>
       </div>
 
-      <div class="box">Не сплачено
+      <div class="box">Загалом різниця
         <div class="box-item">0₴ </div>
       </div>
     </div>

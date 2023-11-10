@@ -3,173 +3,62 @@
   <div class="container-card col-12">
 
     <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card">
+      <div class="p-3">
 
-        <div class="group">
+        <div class="flex-column">
+          <app-select-year></app-select-year>
+          <app-select-comun></app-select-comun>
 
-          <div class="card-btn-container mt-1">
-
-            <div class="item-box p-1">
-              <div class="name accent">"{{selectedComun}}"</div>
-              <div class="name">{{ selectedMonth }} <br> {{ selectedYear }}</div>
+          <div class="add-photo-group">
+            <div class="box-group">
+              <div class="add-photo-box">
+                <i class="fa-regular fa-image" for="upload"></i>
+                <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+                <button class="input-up" (click)="_fileInput.click()"> </button>
+              </div>
+              <p class="btn-name">Копія платіжки</p>
             </div>
 
-            <div class="item-box p-1">
-              <button mat-raised-button class="prev btn-link" (click)="prevMonth()">
-                <i class="fa-solid fa-chevron-left"></i>
-              </button>
+            <div class="box-group">
+              <div class="add-photo-box">
+                <i class="fa-solid fa-quote-right"></i>
+                <button class="input-up" (click)="addAbout()"></button>
+              </div>
+              <p class="btn-name">Опис</p>
             </div>
-
-
-
-            <div class="item-box p-1">
-              <button mat-raised-button class="next btn-link" (click)="nextMonth()">
-                <i class="fa-solid fa-chevron-right"></i>
-              </button>
-            </div>
-          </div>
-
-
-          <div class="group-item-1">
-            <div class="content">
-              <label class="checkBox">
-                <input id="send_counter" type="radio" [(ngModel)]="flatInfo.option_sendData" name="send_counter"
-                  [value]=1>
-                <div class="transition"></div>
-              </label>
-              <span class="about">Лічильник</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="send_area" type="radio" [(ngModel)]="flatInfo.option_sendData" name="send_area" [value]=2>
-                <div class="transition"></div>
-              </label>
-              <span class="about">Площа</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="send_price" type="radio" [(ngModel)]="flatInfo.option_sendData" name="send_price" [value]=3>
-                <div class="transition"></div>
-              </label>
-              <span class="about">Вартість</span>
-              <i></i>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="input-group" *ngIf="flatInfo.option_sendData === 1">
-          <div class="item-group mt-2">
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label class="disabledNot">Попередні:</mat-label>
-              <input class="disabledNot" matInput type="number" [(ngModel)]="flatInfo.comunal_before"
-                name="comunal_before" (ngModelChange)="calculateConsumed()">
-            </mat-form-field>
-
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label>Поточні:</mat-label>
-              <input matInput type="number" [(ngModel)]="flatInfo.comunal_now" name="comunal_now"
-                (ngModelChange)="calculatePay()" (ngModelChange)="calculateConsumed()">
-            </mat-form-field>
-          </div>
-
-          <div class="item-group">
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label class="disabledNot">Спожито {{ selectedUnit }}:</mat-label>
-              <input class="disabledNot" matInput type="number" [disabled]="disabledNot" [(ngModel)]="flatInfo.consumed"
-                name="consumed" (ngModelChange)="calculatePay()">
-            </mat-form-field>
-
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
-              <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
-                (ngModelChange)="calculatePay()">
-            </mat-form-field>
-          </div>
-
-          <div class="item-group">
-            <mat-form-field class="item-width-50 disabledNot" appearance="outline">
-              <mat-label class="disabledNot">До сплати &#8372;:</mat-label>
-              <input class="disabledNot" matInput type="number" [disabled]="disabledNot"
-                [(ngModel)]="flatInfo.calc_howmuch_pay" (ngModelChange)="calculatePay()" name="calc_howmuch_pay">
-            </mat-form-field>
-
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label>Сплатив &#8372;:</mat-label>
-              <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
-            </mat-form-field>
           </div>
         </div>
 
-        <div class="input-group" *ngIf="flatInfo.option_sendData === 2">
-          <div class="item-group mt-2">
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label class="disabledNot">Площа оселі м²</mat-label>
-              <input class="disabledNot" name="area" matInput [disabled]="disabledNot" [(ngModel)]="area">
-            </mat-form-field>
-
-            <mat-form-field class="item-width-50" appearance="outline">
-              <div class="list-label-1 list-label-2">Тип оселі</div>
-              <mat-select class="disabledNot" name="area" [(ngModel)]="selectedOption" [disabled]="disabledNot">
-                <mat-option [value]="1">Будинок</mat-option>
-                <mat-option [value]="2">Квартира</mat-option>
-              </mat-select>
-            </mat-form-field>
+        <div class="flex-box wrap t-min gray">
+          <h3 class="bold" *ngIf="selectedMonth">{{ selectedMonth }} {{ selectedYear }}</h3>
+          <div class="item" *ngIf="flatInfo.user_id">User ID:<span class="accent">{{flatInfo.user_id}}</span></div>
+          <div class="item" *ngIf="flatInfo.option_sendData">Розрахунок за:
+            <span class="accent" *ngIf="flatInfo.option_sendData === 1"> лічильником</span>
+            <span class="accent" *ngIf="flatInfo.option_sendData === 2"> площею</span>
+            <span class="accent" *ngIf="flatInfo.option_sendData === 3"> вартістю</span>
           </div>
+          <div class="item" *ngIf="selectedComun">Послуга: <span class="accent">{{selectedComun}}</span></div>
 
-          <div class="item-group">
-            <mat-form-field class="item-width-50 disabledNot" appearance="outline">
-              <mat-label class="disabledNot">До сплати &#8372;:</mat-label>
-              <input class="disabledNot" matInput type="number" [disabled]="disabledNot"
-                [(ngModel)]="flatInfo.calc_howmuch_pay" (ngModelChange)="calculatePay()" name="calc_howmuch_pay">
-            </mat-form-field>
-
-            <mat-form-field class="item-width-50" appearance="outline">
-              <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
-              <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
-                (ngModelChange)="calculatePay()">
-            </mat-form-field>
+          <div class="item" *ngIf="flatInfo.comunal_before">Попередній показник:
+            <span class="accent">{{flatInfo.comunal_before}} {{ selectedUnit }}</span>
           </div>
-
-          <div class="item-group">
-            <mat-form-field class="item-select" appearance="outline">
-              <mat-label>Сплатив &#8372;:</mat-label>
-              <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
-            </mat-form-field>
+          <div class="item" *ngIf="flatInfo.comunal_now">Поточний показник: <span
+              class="accent">{{flatInfo.comunal_now}} {{ selectedUnit }}</span>
           </div>
-
+          <div class="item" *ngIf="flatInfo.consumed">Спожито: <span class="accent">{{flatInfo.consumed}} {{
+              selectedUnit }}</span></div>
+          <div class="item" *ngIf="flatInfo.tariff">Тариф: <span class="accent">{{flatInfo.tariff | number: '1.2-2' }} &#8372;</span></div>
+          <div class="item" *ngIf="flatInfo.calc_howmuch_pay">До сплати: <span
+              class="accent">{{flatInfo.calc_howmuch_pay | number: '1.2-2'}} &#8372;</span></div>
+          <div class="item" *ngIf="flatInfo.howmuch_pay">Сплатив: <span class="accent">{{flatInfo.howmuch_pay}}
+              &#8372;</span></div>
         </div>
 
-        <div class="input-group" *ngIf="flatInfo.option_sendData === 3">
-          <mat-form-field class="item-select mb-2" appearance="outline">
-            <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
-            <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff" (ngModelChange)="calculatePay()">
-          </mat-form-field>
-
-          <mat-form-field class="item-select mb-2 disabledNot" appearance="outline">
-            <mat-label class="disabledNot">До сплати &#8372;:</mat-label>
-            <input class="disabledNot" matInput type="number" [disabled]="disabledNot"
-              [(ngModel)]="flatInfo.calc_howmuch_pay" (ngModelChange)="calculatePay()" name="calc_howmuch_pay">
-          </mat-form-field>
-
-          <mat-form-field class="item-select mb-2" appearance="outline">
-            <mat-label>Сплатив &#8372;:</mat-label>
-            <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
-          </mat-form-field>
-
+        <div class="img-fluid" *ngIf="comunImg">
+          <img [src]="serverPathPhotoUser + (comunImg ? comunImg : 'user_default.svg')">
         </div>
 
-        <div class="group">
-          <div class="text-1">Останній вносив показники</div>
-          <div class="text-1">користувач з ID <span class="accent"> {{flatInfo.user_id}}</span></div>
-        </div>
-
-        <div class="form-floating p-1">
+        <div class="form-floating p-1" *ngIf="about">
           <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
             [(ngModel)]="flatInfo.about_pay" name="about_pay" (input)="onInput()"></textarea>
           <label for="floatingTextarea">
@@ -177,22 +66,10 @@
           </label>
         </div>
 
-        <div class="btn-group">
-          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-              class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
-              class="icon fa-solid fa-eraser"></i></button>
-          <button class="btn" matTooltip="Копіювати" (click)="copy()"><i class="fa-regular fa-copy"></i></button>
-          <button class="btn" matTooltip="Вставити" (click)="paste()"><i class="fa-solid fa-paste"></i></button>
-        </div>
-
-
       </div>
 
-    </div>
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="card">
+      <!-- <div class="card">
 
         <div *ngIf="!flatInfo.option_sendData">
           <div class="p-2">
@@ -332,8 +209,243 @@
 
         </div>
 
+      </div> -->
+    </div>
+
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="card">
+
+        <div class="flex-column">
+
+          <div class="flex-box p-2 w-100">
+            <div class="flex-box-column w-50">
+              <div class="bold accent t-lar-xx">{{ selectedMonth }}</div>
+              <div class="t-min w-50">Місяць:</div>
+            </div>
+            <div class="flex-box w-50">
+              <button class="btn w-50 m-1" (click)="prevMonth()">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <app-select-month class="hide-mobile hide-pc"></app-select-month>
+              <button class="btn w-50 m-1" (click)="nextMonth()">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-box p-2">
+            <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="flatInfo.option_sendData">
+              <mat-radio-button color="warn" [value]="1">Лічильник</mat-radio-button>
+              <mat-radio-button color="warn" [value]="2">Площа</mat-radio-button>
+              <mat-radio-button color="warn" [value]="3">Вартість</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="input-group" *ngIf="flatInfo.option_sendData === 1">
+
+            <div class="t-min t-c gray">Показники лічильника:</div>
+            <div class="flex-box p-2 w-100">
+              <mat-form-field class="w-50 m-1" appearance="outline">
+                <mat-label>Попередні:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.comunal_before" name="comunal_before"
+                  (ngModelChange)="calculatePay()" (ngModelChange)="calculateConsumed()">
+              </mat-form-field>
+
+              <mat-form-field class="w-50 m-1" appearance="outline">
+                <mat-label>Поточні:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.comunal_now" name="comunal_now"
+                  (ngModelChange)="calculatePay()" (ngModelChange)="calculateConsumed()">
+              </mat-form-field>
+            </div>
+
+            <div class="flex-box p-2 w-100">
+              <mat-form-field class="w-50 m-1" appearance="outline">
+                <mat-label>Сплатив &#8372;:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+              </mat-form-field>
+
+              <mat-form-field class="w-50 m-1" appearance="outline">
+                <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
+                  (ngModelChange)="calculatePay()">
+              </mat-form-field>
+            </div>
+
+
+
+            <div class="flex-box center border-t p-2">
+
+              <div class="flex-column m-2" *ngIf="flatInfo.comunal_now">
+                <div class="t-min gray">Поточні</div>
+                <div class="t-lar-x bold gray">{{flatInfo.comunal_now}}</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="flatInfo.comunal_now">
+                <i class="fa-solid fa-minus"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.comunal_before">
+                <div class="t-min gray">Попередні</div>
+                <div class="t-lar-x bold gray">{{flatInfo.comunal_before}}</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="flatInfo.comunal_before">
+                <i class="fa-solid fa-equals"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.consumed">
+                <div class="t-min gray">Спожито</div>
+                <div class="t-lar-x bold gray">{{flatInfo.consumed}}{{ selectedUnit }}</div>
+              </div>
+
+            </div>
+
+            <div class="flex-box center border-t p-2">
+
+              <div class="flex-column m-2" *ngIf="flatInfo.consumed">
+                <div class="t-min gray">Спожито</div>
+                <div class="t-lar-x bold gray">{{flatInfo.consumed}}</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="flatInfo.comunal_now">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.tariff">
+                <div class="t-min gray">Тариф</div>
+                <div class="t-lar-x bold gray">{{flatInfo.tariff | number: '1.2-2'}}</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="flatInfo.comunal_before">
+                <i class="fa-solid fa-equals"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.calc_howmuch_pay">
+                <div class="t-min gray">Нараховано</div>
+                <div class="t-lar-x bold gray">{{flatInfo.calc_howmuch_pay | number: '1.2-2' }}&#8372;</div>
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+          <div class="input-group" *ngIf="flatInfo.option_sendData === 2">
+
+            <div class="flex-column m-2" *ngIf="selectedOption">
+              <div class="t-min gray">Тип оселі</div>
+              <div class="t-lar-x bold gray" *ngIf="selectedOption === 1">Будинок</div>
+              <div class="t-lar-x bold gray" *ngIf="selectedOption === 2">Квартира</div>
+            </div>
+
+            <div class="flex-box p-2">
+              <div class="t-med w-50">Тариф в цьому місяці:</div>
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
+                  (ngModelChange)="calculatePay()">
+              </mat-form-field>
+            </div>
+
+            <div class="flex-box p-2">
+              <div class="t-med w-50">Було сплачено за {{ selectedMonth }}:</div>
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>Сплатив &#8372;:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+              </mat-form-field>
+            </div>
+
+            <div class="flex-box center border-t">
+
+              <div class="flex-column m-2" *ngIf="area">
+                <div class="t-min gray">Площа оселі</div>
+                <div class="t-lar-x bold gray">{{area}}м²</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="area">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.tariff">
+                <div class="t-min gray">Тариф</div>
+                <div class="t-lar-x bold gray">{{flatInfo.tariff | number: '1.2-2' }}&#8372;</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="area">
+                <i class="fa-solid fa-equals"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.calc_howmuch_pay">
+                <div class="t-min gray">До сплати</div>
+                <div class="t-lar-x bold gray">{{ flatInfo.calc_howmuch_pay | number: '1.2-2' }}&#8372;</div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="input-group" *ngIf="flatInfo.option_sendData === 3">
+
+
+            <div class="flex-box p-2">
+              <div class="t-med w-50">Було сплачено за {{ selectedMonth }}:</div>
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>Сплатив &#8372;:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
+              </mat-form-field>
+            </div>
+
+            <div class="flex-box p-2">
+              <div class="t-med w-50">Тариф в цьому місяці:</div>
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>Тариф &#8372;/{{ selectedUnit }}:</mat-label>
+                <input matInput type="number" [(ngModel)]="flatInfo.tariff" name="tariff"
+                  (ngModelChange)="calculatePay()">
+              </mat-form-field>
+            </div>
+
+            <div class="flex-box center border-t">
+
+              <div class="flex-column m-2" *ngIf="flatInfo.tariff">
+                <div class="t-min gray">Тариф</div>
+                <div class="t-lar-x bold gray">{{flatInfo.tariff | number: '1.2-2' }}&#8372;</div>
+              </div>
+
+              <div class="flex-box m-2" *ngIf="area">
+                <i class="fa-solid fa-equals"></i>
+              </div>
+
+              <div class="flex-column m-2" *ngIf="flatInfo.calc_howmuch_pay">
+                <div class="t-min gray">До сплати</div>
+                <div class="t-lar-x bold gray">{{ flatInfo.calc_howmuch_pay | number: '1.2-2' }}&#8372;</div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+
+
+
+
+        </div>
+
+        <div class="btn-group">
+          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
+              class="icon fa-regular fa-circle-check"></i></button>
+          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
+              class="icon fa-solid fa-eraser"></i></button>
+          <button class="btn" matTooltip="Копіювати" (click)="copy()"><i class="fa-regular fa-copy"></i></button>
+          <button class="btn" matTooltip="Вставити" (click)="paste()"><i class="fa-solid fa-paste"></i></button>
+        </div>
+
       </div>
     </div>
+
 
   </div>
 

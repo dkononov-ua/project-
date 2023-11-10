@@ -11,7 +11,13 @@
 
 .flex-box-row {
   @include flex-box-row;
+  align-items: flex-start;
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
 }
+
+
 
 // вікно додаткової інформації
 .content-group {
@@ -139,7 +145,7 @@
 .switch-box {
   @include flex-box;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   z-index: 50;
 
   .switch-btn-group {
@@ -157,6 +163,7 @@
     justify-content: center;
     height: 50px;
     background-color: transparent;
+    border: none;
 
     &.active {
       .fa-solid,
@@ -203,17 +210,52 @@
   }
 }
 
+.card-menu {
+  height: 550px;
+  overflow: hidden;
+  border-radius: 20px;
+  @include flex-box;
+  @include box-shadow;
+  align-items: flex-start;
+  position: relative;
+
+  .param-box {
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.831);
+  }
+
+  .img-wrapper {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 20px;
+    .img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
 
 .link-toMenu {
+  @include flex-box;
+  justify-content: flex-start;
+  position: relative;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  color: $color-accent;
+  padding: 5px;
   transition: 1s;
+  cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.095);
     border-radius: 20px;
     letter-spacing: 3px;
     font-weight: 600;
   }
+  .fa-solid {
+    color: $color-accent;
+  }
 }
-
 
 // медіа запити
 .hide-mobile {

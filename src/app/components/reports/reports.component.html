@@ -1,0 +1,37 @@
+<div class="message-box">
+  <mat-dialog-content>
+
+    <div class="t-lar bold t-c">Скарга на оселю</div>
+    <div class="t-med t-c">Оберіть причину скарги, якщо треба то опишіть її більш детально.</div>
+
+    <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="selectedReport">
+      <mat-radio-button color="warn" [value]="1">Неправдиві оголошення</mat-radio-button>
+      <div class="t-min">Містить неправдиві або маніпулятивні інформації про нерухомість.</div>
+      <mat-radio-button color="warn" [value]="2">Фотошоп та обробка зображень</mat-radio-button>
+      <div class="t-min">Фотографії були очевидно відредаговані або використовують
+        обманливий ракурс для приховування недоліків нерухомості.</div>
+      <mat-radio-button color="warn" [value]="4">Проблеми з контактами</mat-radio-button>
+      <div class="t-min">Скарга на відсутність або невірні контактні дані в оголошенні, що ускладнює зв'язок з власником
+        нерухомості.</div>
+      <mat-radio-button color="warn" [value]="5">Порушення правил публікації</mat-radio-button>
+      <div class="t-min">Скарга на оголошення, яке порушує правила публікації сайту, такі як образливий вміст або
+        використання заборонених слів.</div>
+      <mat-radio-button color="warn" [value]="6">Фішинг та шахрайство</mat-radio-button>
+      <div class="t-min">Скарга на оголошення, яке може бути пов'язане із спробами фішингу або шахрайства.</div>
+      <mat-radio-button color="warn" [value]="7">Неправомірні операції</mat-radio-button>
+      <div class="t-min">Скарга на сумнівні операції або обман, пов'язаний із нерухомістю, які можуть завдати шкоди
+        користувачам.</div>
+
+      <mat-form-field class="w-100 mt-2">
+        <mat-label>Додаткова інформація</mat-label>
+        <textarea #textArea id="floatingTextarea" [(ngModel)]="aboutReport" matInput
+          placeholder="Введіть додаткову інформацію."></textarea>
+      </mat-form-field>
+    </mat-radio-group>
+
+  </mat-dialog-content>
+  <mat-dialog-actions class="box" align="end">
+    <button class="btn m-2" mat-button [mat-dialog-close]="0">Ні</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="{selectedReport, aboutReport}">Так</button>
+  </mat-dialog-actions>
+</div>

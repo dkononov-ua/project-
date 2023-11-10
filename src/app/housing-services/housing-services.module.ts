@@ -18,7 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SelectYearComponent } from './select-year/select-year.component';
 import { SelectMonthComponent } from './select-month/select-month.component';
-import { ComunNavComponent } from './comun-nav/comun-nav.component';
 import { ComunHistoryComponent } from './comun-history/comun-history.component';
 import { MatTableModule } from '@angular/material/table';
 import { DeleteComunComponent } from './delete-comun/delete-comun.component';
@@ -28,6 +27,9 @@ import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.compon
 import { ComunStatSeasonComponent } from './comun-stat-season/comun-stat-season.component';
 import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
+import { ComunAboutComponent } from './comun-about/comun-about.component';
+import { ComunAddComponent } from './comun-add/comun-add.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -37,13 +39,14 @@ import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.com
     SelectYearComponent,
     SelectMonthComponent,
     SelectComunComponent,
-    ComunNavComponent,
     ComunHistoryComponent,
     DeleteComunComponent,
     ComunStatYearComponent,
     ComunStatSeasonComponent,
     ComunStatMonthComponent,
     ComunStatComunComponent,
+    ComunAboutComponent,
+    ComunAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.com
     MatAutocompleteModule,
     MatTableModule,
     MatDialogModule,
+    MatRadioModule,
   ],
 })
 export class HousingServicesModule { }

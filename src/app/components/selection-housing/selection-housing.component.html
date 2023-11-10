@@ -1,9 +1,9 @@
 <ng-container>
   <div class="container-menu">
     <div class="selectedHouse-box" (click)="openSelectHouse()">
-      <div class="flatName-label">Вибір оселі</div>
-      <div class="flatName w-75" *ngIf="selectedFlatName">{{selectedFlatName}}</div>
-      <div class="flatName w-75" *ngIf="!selectedFlatName">Обрати/створити оселю</div>
+      <div class="flatName-label t-min gray">Вибір оселі</div>
+      <div class="t-lar w-75" *ngIf="selectedFlatName">{{selectedFlatName}}</div>
+      <div class="flatName w-75" *ngIf="!selectedFlatName">Вибір оселі</div>
       <button class="btn-open" aria-label="menu" matTooltip="ОБРАТИ ІНШУ ОСЕЛЮ">
         <i class="fa-solid fa-circle-chevron-down"></i>
       </button>

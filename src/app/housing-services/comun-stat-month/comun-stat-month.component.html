@@ -1,5 +1,7 @@
 <div class="container-card p-2 col-12">
-  <h3 class="text"><span class="accent">{{selectedMonth}}, {{selectedYear}}рік</span></h3>
+  <!-- <h3 class="text"><span class="accent">{{selectedMonth}}, {{selectedYear}}рік</span></h3> -->
+  <app-select-month></app-select-month>
+  <app-select-year></app-select-year>
 
   <div class="table-container" *ngIf="!noInformationMessage">
     <div class="wrapper">
@@ -80,7 +82,7 @@
       <div class="box">Загалом сплачено
         <div class="box-item">{{ totalPaid }}₴ </div>
       </div>
-      <div class="box">Не сплачено
+      <div class="box">Загалом різниця
         <div class="box-item">{{ difference }}₴ </div>
       </div>
     </div>

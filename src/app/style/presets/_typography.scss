@@ -60,18 +60,31 @@ textarea::-webkit-scrollbar {
 }
 
 .t-min {
-  text-align: center;
   font-size: 12px;
 }
 
 .t-med {
-  text-align: center;
   font-size: 14px;
 }
 
+.t-lar-xx {
+  font-size: 25px;
+}
+
+.t-lar-x {
+  font-size: 20px;
+}
+
 .t-lar {
-  text-align: center;
   font-size: 16px;
+}
+
+.t-s {
+  text-align: start;
+}
+
+.t-c {
+  text-align: center;
 }
 
 

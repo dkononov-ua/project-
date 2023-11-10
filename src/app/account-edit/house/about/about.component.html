@@ -231,7 +231,7 @@
             <div class="t-min dark bold p-2" >Очистити</div>
           </button>
 
-          <button [disabled]="(!flatInfo.price_m) || (!flatInfo.price_d)" class="btn"
+          <button [disabled]="(!flatInfo.price_m) && (!flatInfo.price_d)" class="btn"
             (click)="saveInfo(flatInfo.rent = 1)">
             <i class="fa-regular fa-circle-check"></i>
             <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 1">Зберегти зміни</div>

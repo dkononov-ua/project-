@@ -10,19 +10,26 @@
     <!-- <h1>Discussio</h1> -->
 
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Мій профіль</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Аккаунт</a>
     </div>
 
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'" (click)="closeMenu()">Моя оселя</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'" (click)="closeMenu()">Оселя</a>
     </div>
+
+
 
     <div class="nav-item hide-mobile">
       <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/search-page'" (click)="closeMenu()">Пошук</a>
     </div>
 
+
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'" (click)="closeMenu()">Функції Discussio</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'" (click)="closeMenu()">Функції</a>
+    </div>
+
+    <div class="nav-item hide-mobile selection">
+      <app-selection-housing></app-selection-housing>
     </div>
 
     <!-- <app-selection-account></app-selection-account> -->

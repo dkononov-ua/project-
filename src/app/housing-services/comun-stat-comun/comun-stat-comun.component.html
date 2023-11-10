@@ -4,10 +4,9 @@
 
 <ng-template #content>
   <div class="container-card col-12">
-    <div class="comunal-info">
-      <h3 class="text"><span class="accent">{{selectedComun}}</span><span class="accent"> {{selectedYear}} рік</span>
-      </h3>
-    </div>
+    <app-select-year></app-select-year>
+    <app-select-comun></app-select-comun>
+
     <div class="group col-12">
       <div class="btn-group">
         <button class="btn w-30" [class.active]="option_stat === 2" (click)="option_stat = 2">

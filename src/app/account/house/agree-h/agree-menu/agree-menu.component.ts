@@ -51,7 +51,7 @@ export class AgreeMenuComponent implements OnInit {
     private router: Router,
     private selectedFlatIdService: SelectedFlatService,
     private route: ActivatedRoute,
-  ) {  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
@@ -105,9 +105,9 @@ export class AgreeMenuComponent implements OnInit {
 
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
-      const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
-      this.agreementIds = agreementIds;
       if (response) {
+        const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
+        this.agreementIds = agreementIds;
         this.numConcludedAgree = response.length;
       } else {
         this.numConcludedAgree = 0;
@@ -125,31 +125,31 @@ export class AgreeMenuComponent implements OnInit {
     // Масив для зберігання результатів перевірки існування акта
     const actExistsArray = [];
 
-    try {
-      for (const agreementId of this.agreementIds) {
-        const data = {
-          auth: JSON.parse(userJson!),
-          flat_id: this.selectedFlatId,
-          agreement_id: agreementId,
-          offs
-        };
+    if (this.agreementIds) {
+      try {
+        for (const agreementId of this.agreementIds) {
+          const data = {
+            auth: JSON.parse(userJson!),
+            flat_id: this.selectedFlatId,
+            agreement_id: agreementId,
+            offs
+          };
 
-        // Виконуємо запит для кожного agreement_id
-        const response = await this.http.post(url, data).toPromise() as any[];
-
-        // Додаємо результат до масиву
-        actExistsArray.push({
-          agreement_id: agreementId,
-          exists: response.length > 0
-        });
+          // Виконуємо запит для кожного agreement_id
+          const response = await this.http.post(url, data).toPromise() as any[];
+          // Додаємо результат до масиву
+          actExistsArray.push({
+            agreement_id: agreementId,
+            exists: response.length > 0
+          });
+        }
+        // Виводимо результати
+      } catch (error) {
+        console.error(error);
+        return null;
       }
-
-      // Виводимо результати
-
-    } catch (error) {
-      console.error(error);
-      return null;
     }
+
   }
 
 

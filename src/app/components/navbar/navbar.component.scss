@@ -126,6 +126,10 @@
   text-transform: capitalize;
 }
 
+.selection {
+  width: 250px;
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;

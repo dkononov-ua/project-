@@ -42,6 +42,9 @@ export class RegistrationComponent implements OnInit {
 
   isFeatureEnabled: boolean = true;
   passwordType = 'password';
+
+  emailCheckCode: any;
+
   agreementAccepted: boolean = false;
   errorMessage$: Subject<string> = new Subject<string>();
   loginForm!: FormGroup;
@@ -52,10 +55,21 @@ export class RegistrationComponent implements OnInit {
     userName: '',
     password: '',
     email: '',
+    regPassword: '',
+    regEmail: 'Введіть email',
     dob: '',
+    passwordEmail: '',
   };
 
   discussio!: string;
+  disabledEmail: boolean = false;
+
+  indexBtn: number = 0;
+  nextBtn(indexBtn: number) {
+    if (indexBtn)
+      this.indexBtn = indexBtn;
+    this.disabledEmail = true;
+  }
 
   validationMessages: any = {
     userName: {
@@ -68,9 +82,21 @@ export class RegistrationComponent implements OnInit {
       minlength: 'Мінімальна довжина 7 символів',
       maxlength: 'Максимальна довжина 25 символів'
     },
+    regPassword: {
+      required: "Пароль обов'язково",
+      minlength: 'Мінімальна довжина 7 символів',
+      maxlength: 'Максимальна довжина 25 символів'
+    },
     email: {
       required: "Пошта обов'язкова",
       pattern: 'Невірно вказана пошта',
+    },
+
+    regEmail: {
+      required: "Пошта обов'язкова",
+      pattern: 'Невірно вказана пошта',
+      minlength: 'Мінімальна довжина 7 символів',
+      maxlength: 'Максимальна довжина 30 символів'
     },
     dob: {
       required: "Дата народження обов'язково",
@@ -138,9 +164,9 @@ export class RegistrationComponent implements OnInit {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
         const data = {
-          userName: this.registrationForm.get('userName')?.value,
-          regEmail: this.registrationForm.get('email')?.value,
-          regPassword: this.registrationForm.get('password')?.value,
+          // userName: this.registrationForm.get('userName')?.value,
+          regEmail: this.registrationForm.get('regEmail')?.value,
+          regPassword: this.registrationForm.get('regPassword')?.value,
           dob: dob,
         };
 
@@ -188,6 +214,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
+
   private initializeForm(): void {
     this.loginForm = this.fb.group({
       password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
@@ -195,9 +222,9 @@ export class RegistrationComponent implements OnInit {
     });
 
     this.registrationForm = this.fb.group({
-      userName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
-      password: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
-      email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
+      // userName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      regPassword: [null, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
+      regEmail: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
       dob: [null, [Validators.required]],
     });
 
@@ -246,6 +273,62 @@ export class RegistrationComponent implements OnInit {
         .catch((error) => {
           this.isCopied = false;
         });
+    }
+  }
+
+
+
+
+
+
+
+
+
+  checkEmail(): void {
+    this.indexBtn = 1;
+
+    if (this.registrationForm.get('regEmail')?.value)
+    try {
+      const data = {
+        email: this.registrationForm.get('regEmail')?.value,
+      };
+
+      this.http.post(serverPath + '/registration', data).subscribe(
+        (response: any) => {
+          if (response) {
+            // this.indexBtn = 1;
+            console.error(response.status);
+          } else {
+            console.error('error');
+          }
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  checkEmailCode(): void {
+    this.indexBtn = 2;
+
+    if (this.emailCheckCode)
+    try {
+      const data = {
+        code: this.emailCheckCode,
+      };
+
+      this.http.post(serverPath + '/registration', data).subscribe(
+        (response: any) => {
+          if (response) {
+            // this.indexBtn = 2;
+            console.error(response.status);
+          } else {
+            console.error('error');
+          }
+        },
+      );
+    } catch (error) {
+      console.error(error);
     }
   }
 }

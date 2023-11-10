@@ -9,6 +9,7 @@ import { ComunStatSeasonComponent } from './comun-stat-season/comun-stat-season.
 import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.component';
 import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
+import { ComunAboutComponent } from './comun-about/comun-about.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
         component: HostComunComponent, canActivate: [CanActivateGuard],
 
         children: [
-          { path: '', redirectTo: 'comun-history', pathMatch: 'full' },
+          { path: '', redirectTo: 'comun-about', pathMatch: 'full' },
+          { path: 'comun-about', component: ComunAboutComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-stat-season', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
           { path: 'comun-stat-comun', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },

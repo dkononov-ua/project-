@@ -9,7 +9,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/shared/server-config';
 
 interface ComunInfo {
   comunal_company: string | undefined;
@@ -43,6 +43,11 @@ interface ComunInfo {
 })
 export class ComunCompanyComponent implements OnInit {
 
+  showInput = false;
+  clickShowInput() {
+    this.showInput = !this.showInput;
+  }
+
   comunInfo: ComunInfo = {
     comunal_company: '',
     comunal_name: '',
@@ -56,12 +61,12 @@ export class ComunCompanyComponent implements OnInit {
   };
 
   defaultImageUrl: string = "../../../assets/example-comun/default_services.svg";
-
+  path_logo = path_logo;
   comunalServices = [
-    { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_teplo.jpg" },
+    { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_cat3.jpg" },
     { name: "Водопостачання", imageUrl: "../../../assets/example-comun/water.jfif" },
     { name: "Вивіз сміття", imageUrl: "../../../assets/example-comun/cleaning.jpg" },
-    { name: "Електроенергія", imageUrl: "../../../assets/example-comun/comun_electro.jpg" },
+    { name: "Електроенергія", imageUrl: "../../../assets/example-comun/comun_rozetka1.jpg" },
     { name: "Газопостачання", imageUrl: "../../../assets/example-comun/comun_gas.jpg" },
     { name: "Комунальна плата за утримання будинку", imageUrl: "../../../assets/example-comun/default_services.svg" },
     { name: "Охорона будинку", imageUrl: "../../../assets/example-comun/ohorona.jpg" },
@@ -80,6 +85,7 @@ export class ComunCompanyComponent implements OnInit {
   selectedMonth: any;
   disabled: boolean = true;
   loading: boolean = true;
+  statusMessage: string | undefined;
 
   constructor(
     private dataService: DataService,
@@ -170,15 +176,23 @@ export class ComunCompanyComponent implements OnInit {
       comunal: this.comunInfo,
     }
 
-    if (userJson && this.selectedFlatId !== undefined && this.disabled === false) {
+    if (userJson && this.selectedFlatId !== undefined) {
       this.http.post(serverPath + '/comunal/add/comunalCompany', data)
         .subscribe((response: any) => {
-          this.disabled = true;
-        }, (error: any) => {
-          console.error(error);
+          if (response.status === 'Данні по комуналці успішно змінені') {
+            setTimeout(() => {
+              this.statusMessage = 'Дані збережено';
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 200);
+          } else {
+            this.statusMessage = 'Помилка збереження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }
         });
-    } else {
-      console.log('user not found, the form is blocked');
     }
   }
 

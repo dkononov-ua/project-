@@ -9,7 +9,7 @@ import { serverPath } from 'src/app/shared/server-config';
   templateUrl: './filling.component.html',
   styleUrls: ['./filling.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
+    trigger('cardAnimation', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
         animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(0)' }))
@@ -40,6 +40,12 @@ export class FillingComponent implements OnInit {
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
+
+    // показ карток
+    indexPage: number = 0;
+    onClickMenu(indexPage: number) {
+      this.indexPage = indexPage;
+    }
 
   constructor(
     private http: HttpClient,

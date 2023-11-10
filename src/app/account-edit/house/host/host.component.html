@@ -1,38 +1,45 @@
 <div class="container-fluid">
+
   <div class="switch-box p-2 hide-pc">
 
-    <div class="btn-menu">
+    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
           <i class="fa-solid fa-images"></i></span>
       </a>
+      <div class="t-min dark bold">Фото</div>
     </div>
 
-    <div class="btn-menu">
+    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/address'"><span class="link-text">
           <i class="fa-solid fa-location-dot"></i></span>
       </a>
+      <div class="t-min dark bold">Розт.</div>
     </div>
-    <div class="btn-menu">
+
+    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/param'"><span class="link-text">
           <i class="fa-solid fa-trowel-bricks"></i></span>
       </a>
+      <div class="t-min dark bold">Парам.</div>
     </div>
 
-    <div class="btn-menu">
+    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/add-objects'"><span class="link-text">
           <i class="fa-solid fa-dolly"></i></span>
       </a>
+      <div class="t-min dark bold">Напов.</div>
     </div>
 
-    <div class="btn-menu">
+    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/about'"><span class="link-text">
           <i class="fa-solid fa-users-gear"></i></span>
       </a>
+      <div class="t-min dark bold">Особл.</div>
     </div>
 
   </div>
@@ -42,9 +49,9 @@
     <div class="wrapper hide-mobile col-lg-3 col-md-5 col-sm-6 col-12"
       *ngIf="selectedFlatId && selectedFlatId !== null">
       <div class="card-box">
-        <div class="card-menu">
+        <div class="card-menu-house">
           <!-- <app-selection-account class="hide-mobile"></app-selection-account> -->
-          <app-selection-housing></app-selection-housing>
+          <!-- <app-selection-housing></app-selection-housing> -->
           <nav>
             <!-- <a [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Назад</a> -->
 
@@ -77,7 +84,7 @@
       </div>
     </div>
 
-    <div class="card-box1 col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
+    <div class="card-box1 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
       <div class="col-lg-6 col-sm-12 p-3">
         <app-selection-housing></app-selection-housing>
         <h1>Створіть нову оселю.</h1>
@@ -90,7 +97,7 @@
       </div>
     </div>
 
-    <div class="hide-pc p-2 col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
+    <div class="hide-pc p-2 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
       <div class="box">
         <app-selection-housing class="w-75"></app-selection-housing>
         <button class="btn-add" (click)="onAddHouse()">
@@ -105,7 +112,7 @@
       <app-add-house *ngIf="addHouse"></app-add-house>
     </div>
 
-    <div class="col-lg-8 col-md-5 col-sm-6 col-12" *ngIf="!addHouse">
+    <div class="col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!addHouse">
       <div class="navigation hide-mobile" *ngIf="selectedFlatId">
         <a class="flex-box navigation-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"><i
             class="fa-solid fa-chevron-left"></i>НАЗАД</a>
