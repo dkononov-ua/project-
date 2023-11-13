@@ -114,5 +114,8 @@ export class UagreeConcludedComponent implements OnInit {
     }
   }
 
+  useDefaultImage(event: any): void {
+    event.target.src = '../../../../assets/housing_default.svg';
+  }
 }
 

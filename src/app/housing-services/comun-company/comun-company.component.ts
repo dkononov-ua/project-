@@ -65,9 +65,9 @@ export class ComunCompanyComponent implements OnInit {
   comunalServices = [
     { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_cat3.jpg" },
     { name: "Водопостачання", imageUrl: "../../../assets/example-comun/water.jfif" },
-    { name: "Вивіз сміття", imageUrl: "../../../assets/example-comun/cleaning.jpg" },
+    { name: "Вивіз сміття", imageUrl: "../../../assets/example-comun/car_scavenging3.jpg" },
     { name: "Електроенергія", imageUrl: "../../../assets/example-comun/comun_rozetka1.jpg" },
-    { name: "Газопостачання", imageUrl: "../../../assets/example-comun/comun_gas.jpg" },
+    { name: "Газопостачання", imageUrl: "../../../assets/example-comun/gas_station4.jpg" },
     { name: "Комунальна плата за утримання будинку", imageUrl: "../../../assets/example-comun/default_services.svg" },
     { name: "Охорона будинку", imageUrl: "../../../assets/example-comun/ohorona.jpg" },
     { name: "Ремонт під'їзду", imageUrl: "../../../assets/example-comun/default_services.svg" },

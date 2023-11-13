@@ -263,6 +263,10 @@ export class AgreeConcludedComponent implements OnInit {
       }
     });
   }
+
+  useDefaultImage(event: any): void {
+    event.target.src = '../../../../assets/user_default.svg';
+  }
 }
 
 

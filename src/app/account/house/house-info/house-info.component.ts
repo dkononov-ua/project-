@@ -177,6 +177,7 @@ export class HouseInfoComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
+        // console.log(parsedHouseData)
         this.house.region = parsedHouseData.flat.region;
         this.house.flat_id = parsedHouseData.flat.flat_id;
         this.house.country = parsedHouseData.flat.country;

@@ -5,10 +5,15 @@
 <ng-template #content>
   <div class="container-card col-12">
 
-    <div class="m-2 p-2">
-      <h3 class="text">Графік за <span class="accent">{{selectedYear}} </span> рік</h3>
+    <div class="flex-box mb-2 w-100">
+      <div class="p-1 w-50">
+        <h3 class="text">Графік за <span class="accent">{{selectedYear}} </span> рік</h3>
+      </div>
+      <app-select-year class="p-1 w-50"></app-select-year>
     </div>
-    <app-select-year></app-select-year>
+
+
+
 
     <div class="group col-12">
       <div class="btn-group">

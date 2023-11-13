@@ -41,27 +41,12 @@ h1, h3, p {
   text-align: center;
 }
 
-.card-box2 {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.card-box-pick {
+  @include flex-box-column;
   justify-content: center;
-  @include s1-s3 {
-    height: 90vh;
-    margin-top: 10px;
-  }
-}
-
-.mobile {
-  @include s1-s3 {
-    height: 60px;
-  }
-}
-
-.mobile-param {
-  @include s1-s3 {
-    padding: 0 10px
-  }
+  align-items: center;
+  height: 650px;
+  width: 100%;
 }
 
 .hide-mobile {

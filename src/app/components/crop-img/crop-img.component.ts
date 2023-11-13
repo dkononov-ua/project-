@@ -92,4 +92,7 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
     this.scale = event.value as number;
   }
 
+
+
+
 }

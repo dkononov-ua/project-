@@ -18,6 +18,21 @@ export class NavbarHouseComponent {
   counterAcceptSubs: any;
   loading: boolean = true;
   dataUpdated = false;
+  houseData: any;
+
+  acces_added: number = 1;
+  acces_admin: number = 1;
+  acces_agent: number = 1;
+  acces_agreement: number = 1;
+  acces_citizen: number = 1;
+  acces_comunal: number = 1;
+  acces_comunal_indexes: number = 1;
+  acces_discuss: number = 1;
+  acces_filling: number = 1;
+  acces_flat_chats: number = 1;
+  acces_flat_features: number = 1;
+  acces_services: number = 1;
+  acces_subs: number = 1;
 
   constructor(
     private http: HttpClient,
@@ -29,6 +44,7 @@ export class NavbarHouseComponent {
     const userJson = localStorage.getItem('user');
     this.getFlatId();
     if (userJson && this.selectedFlatId) {
+      this.loadDataFlat();
       await this.getUpdate();
     }
     this.loading = false;
@@ -72,6 +88,38 @@ export class NavbarHouseComponent {
       });
     } else {
       console.log('user not found');
+    }
+  }
+
+  loadDataFlat(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+        console.log(parsedHouseData.acces)
+        if (parsedHouseData.acces) {
+          this.acces_added = parsedHouseData.acces.acces_added;
+          this.acces_admin = parsedHouseData.acces.acces_admin;
+          this.acces_agent = parsedHouseData.acces.acces_agent;
+          this.acces_agreement = parsedHouseData.acces.acces_agreement;
+          this.acces_citizen = parsedHouseData.acces.acces_citizen;
+          this.acces_comunal = parsedHouseData.acces.acces_comunal;
+          this.acces_comunal_indexes = parsedHouseData.acces.acces_comunal_indexes;
+          this.acces_discuss = parsedHouseData.acces.acces_discuss;
+          this.acces_filling = parsedHouseData.acces.acces_filling;
+          this.acces_flat_chats = parsedHouseData.acces.acces_flat_chats;
+          this.acces_flat_features = parsedHouseData.acces.acces_flat_features;
+          this.acces_services = parsedHouseData.acces.acces_services;
+          this.acces_subs = parsedHouseData.acces.acces_subs;
+          console.log(this.acces_comunal)
+        } else {
+        }
+      } else {
+        console.log('Немає інформації про оселю')
+      }
+    } else {
+      console.log('Авторизуйтесь')
     }
   }
 

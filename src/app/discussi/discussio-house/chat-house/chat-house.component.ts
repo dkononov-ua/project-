@@ -222,9 +222,13 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         data: this.allMessages[0]?.data,
       };
 
+      console.log(data)
+
       this.http.post(serverPath + '/chat/get/NewMessageFlat', data)
         .subscribe(
           async (response: any) => {
+            console.log(response)
+
             if (Array.isArray(response.status)) {
               let c: any = []
               await Promise.all(response.status.map((i: any, index: any) => {
@@ -245,6 +249,8 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
                 }
               }))
               this.allMessagesNotRead = c;
+              console.log(this.allMessagesNotRead)
+
               this.selectedUser = this.selectedUser;
               if (this.selectedSubscriberID) {
                 this.messagesHaveBeenRead();

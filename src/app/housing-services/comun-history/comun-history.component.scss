@@ -3,11 +3,11 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
-.container-card {
-  @include s1-s3 {
-    flex-direction: column-reverse;
-  }
-}
+// .container-card {
+//   @include s1-s3 {
+//     flex-direction: column-reverse;
+//   }
+// }
 
 .flex-box, .flex-box-column {
   justify-content: flex-start;

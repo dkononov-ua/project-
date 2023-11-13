@@ -6,13 +6,16 @@
   <div class="container-card col-lg-12 col-md-12 col-sm-12 col-12">
     <div class="card-wrapper">
       <div class="card-agree m-2 p-2" *ngFor="let agreement of agree">
-        <div class="t-lar gray">Відправленна на розгляд. ID угоди: <span class="t-lar bold"> {{agreement.flat.agreement_id}}
+        <div class="t-lar gray">Відправленна на розгляд. ID угоди: <span class="t-lar bold">
+            {{agreement.flat.agreement_id}}
           </span> </div>
 
         <div class="flex-box-row">
           <div class="p-2">
             <div class="img-wrapper">
-              <img class="img-fluid " [src]="serverPathPhotoUser + agreement.flat.subscriber_img " alt="img">
+              <img class="img-fluid"
+                [src]="serverPathPhotoUser + agreement.flat.subscriber_img"
+                alt="img" (error)="useDefaultImage($event)">
               <div class="card-body w-60 p-2">
                 <div class="t-min"> Орендар ID: {{ agreement.flat.subscriber_id}} </div>
                 <div class="t-med bold"> {{agreement.flat.subscriber_lastName}} </div>

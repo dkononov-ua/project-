@@ -4,37 +4,27 @@
 
 <ng-template #content>
   <div class="card-container">
-    <div class="card-box hide-mobile" *ngIf="chats.length === 0">
-      <div class="card-container">
-        <h3>Тут будуть чати</h3>
-        <p>У вас поки немає чатів...</p>
-
-        <div class="card-wrapper card m-3">
-          <div class="card-img-container">
-            <img class="card-img-top" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="House Image">
-          </div>
-          <div class="card-body">
-            <h2 class="card-title"> Чат ID оселі </h2>
-          </div>
-        </div>
-      </div>
+    <div class="cards-container p-2" *ngIf="chats.length === 0">
+      <h3>Тут будуть чати</h3>
+      <p>У вас поки немає чатів...</p>
     </div>
-    <div class="card-box" *ngIf="chats.length !== 0">
-      <div class="card-wrapper card mb-4" *ngFor="let chat of chats" (click)="selectChat(chat)"
-        [ngClass]="{'selected': chat.isSelected}">
-        <div class="container-sticker">
-          <div class="status-container">
-            <div class="status" *ngIf="chat.unread !== 0">{{chat.unread}}</div>
-          </div>
+
+    <div class="cards-container p-2" *ngIf="chats.length !== 0">
+      <div class="card-mini mb-3" *ngFor="let chat of chats" (click)="selectChat(chat)"
+        [ngClass]="{ 'selected': chat.isSelected}">
+
+        <div class="notification-box" *ngIf="chat.unread !== 0">
+          <div class="notification-num">{{chat.unread}}</div>
         </div>
-        <div class="card-img-container w-40">
-          <img class="card-img-top"
-            [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')"
-            alt="User Image">
+
+        <div class="card-mini-img-container">
+          <img class="card-mini-img"
+            [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'user_default.svg')"
+            alt="img">
         </div>
-        <div class="massage-box w-60">
-          <div class="card-title">{{ chat.flat_name }}</div>
-          <div class="text">{{ chat.lastMessage }}</div>
+        <div class="card-body">
+          <div class="t-med name bold ">Оселя: {{ chat.flat_name }} <br> <span class="accent"> ID оселі: {{ chat.flat_id }}</span></div>
+          <div class="t-min message">{{ chat.lastMessage }}</div>
         </div>
       </div>
     </div>

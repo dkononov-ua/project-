@@ -140,6 +140,10 @@ export class UagreeReviewComponent implements OnInit {
       console.error(error);
     }
   }
+
+  useDefaultImage(event: any): void {
+    event.target.src = '../../../../assets/housing_default.svg';
+  }
 }
 
 

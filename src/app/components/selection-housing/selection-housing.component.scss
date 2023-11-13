@@ -111,7 +111,7 @@
 }
 
 .card-house {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -124,7 +124,7 @@
   .card-house-wrapper {
     @include flex-box-column;
     justify-content: space-between;
-    box-shadow: 0px 0px 20px 30px rgba(0, 0, 0, 0.121);
+    box-shadow: 0px 0px 20px 1000px rgba(0, 0, 0, 0.471);
     overflow: auto;
     max-height: 600px;
     color: $color-text;

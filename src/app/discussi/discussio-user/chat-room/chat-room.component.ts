@@ -44,6 +44,7 @@ export class ChatRoomComponent implements OnInit {
   loading: boolean | undefined;
   offs: 0 | undefined;
   choseFlatId: any | null;
+  selectedChat: Chat | undefined;
 
   constructor(
     private http: HttpClient,
@@ -73,6 +74,7 @@ export class ChatRoomComponent implements OnInit {
               }
             }))
             this.chats = chat;
+            console.log(this.chats)
           } else {
             console.log('Немає чатів');
           }
@@ -84,19 +86,29 @@ export class ChatRoomComponent implements OnInit {
     }
   }
 
-  async selectChat(chat: Chat): Promise<void> {
-    this.choseSubscribeService.setChosenFlatId(chat.flat_id);
+  onFlatSelect(chat: Chat): void {
     const url = serverPath + '/chat/readMessageUser';
     const userJson = localStorage.getItem('user');
-    if (userJson && chat) {
+    if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: chat.flat_id,
+        user_id: chat.user_id,
       };
       this.http.post(url, data).subscribe()
     } else {
-      console.log('Чат не знайдено');
+      console.log('user not found');
     }
+    this.choseSubscribeService.setChosenFlatId(chat.flat_id);
+  }
+
+  selectChat(chat: Chat): void {
+    if (this.selectedChat) {
+      this.selectedChat.isSelected = false;
+    }
+    this.selectedChat = chat;
+    chat.isSelected = true;
+    this.onFlatSelect(chat);
   }
 
 }

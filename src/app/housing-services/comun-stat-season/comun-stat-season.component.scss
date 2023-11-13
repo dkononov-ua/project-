@@ -1,5 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
 
 .container-card {
   display: flex;
@@ -7,7 +8,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .text {
   text-align: center;

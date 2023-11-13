@@ -1,5 +1,6 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
+@use "../style/shared.scss" as *;
 
 .disabledNot {
   color: $color-accent !important;

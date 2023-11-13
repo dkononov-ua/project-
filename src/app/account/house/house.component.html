@@ -3,16 +3,14 @@
 <div class="container-box">
   <div class="card-box hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
     <h2 *ngIf="!selectedFlatId">Вибір оселі</h2>
-    <h5 *ngIf="!selectedFlatId">Натисніть обрати оселю</h5>
-    <!-- <app-selection-account class="hide-mobile" *ngIf="selectedFlatId"></app-selection-account> -->
-    <!-- <app-selection-housing class="hide-mobile"></app-selection-housing> -->
+    <h5 class="mb-3" *ngIf="!selectedFlatId">Натисніть обрати оселю</h5>
     <app-navbar-house class="hide-mobile"></app-navbar-house>
   </div>
 
-  <div class="card-box p-2 mobile hide-pc col-sm-12 col-12" *ngIf="!houseData">
+  <div class="card-box-pick p-2 hide-pc col-sm-12 col-12" *ngIf="!houseData">
     <h2>Вибір оселі</h2>
-    <h5>Натисніть обрати оселю</h5>
-    <app-selection-housing></app-selection-housing>
+    <h5 class="mb-3">Натисніть обрати оселю</h5>
+    <app-selection-housing class="w-70"></app-selection-housing>
   </div>
 
   <div class="card-box col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="selectedFlatId">

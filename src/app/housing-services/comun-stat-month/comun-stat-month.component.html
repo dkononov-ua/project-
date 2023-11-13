@@ -1,7 +1,9 @@
 <div class="container-card p-2 col-12">
   <!-- <h3 class="text"><span class="accent">{{selectedMonth}}, {{selectedYear}}рік</span></h3> -->
-  <app-select-month></app-select-month>
-  <app-select-year></app-select-year>
+  <div class="flex-box w-100">
+    <app-select-year class="p-1 w-50"></app-select-year>
+    <app-select-month class="p-1 w-50"></app-select-month>
+  </div>
 
   <div class="table-container" *ngIf="!noInformationMessage">
     <div class="wrapper">
