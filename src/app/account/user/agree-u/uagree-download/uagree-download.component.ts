@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 
 registerLocaleData(localeUk);
 @Component({

@@ -17,7 +17,7 @@ const moment = _rollupMoment || _moment;
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 
 export const MY_FORMATS = {
   parse: {

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 
 @Component({
   selector: 'app-host',
@@ -17,7 +17,7 @@ export class HostComponent implements OnInit {
   selectedFlatId!: string | null;
   indexPage: number = 1;
 
-  onAddHouse () {
+  onAddHouse() {
     this.addHouse = !this.addHouse;
   }
 

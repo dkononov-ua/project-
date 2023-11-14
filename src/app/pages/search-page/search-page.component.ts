@@ -1,7 +1,7 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { path_logo } from 'src/app/shared/server-config';
+import { path_logo } from 'src/app/config/server-config';
 
 @Component({
   selector: 'app-search-page',

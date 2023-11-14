@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { CloseMenuService } from 'src/app/services/close-menu.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -125,8 +125,8 @@ export class SelectionAccountComponent implements OnInit {
     this.getSelectParam()
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
-          localStorage.setItem('houseData', JSON.stringify(response));
-          this.loadDataFlat()
+        localStorage.setItem('houseData', JSON.stringify(response));
+        this.loadDataFlat()
       });
     } else {
       console.log('Оберіть оселю')

@@ -7,7 +7,6 @@ import { UserLicenceComponent } from './pages/user-licence/user-licence.componen
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
-import { SharedModule } from "./shared/shared.module";
 import { SearchRoutingModule } from './search/search-routing.module';
 import { SearchModule } from './search/search.module';
 import { DiscussioRoutingModule } from './discussi/discussio-user/discussio-routing.module';
@@ -54,6 +53,7 @@ import { LyDialogModule } from '@alyle/ui/dialog';
 import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [

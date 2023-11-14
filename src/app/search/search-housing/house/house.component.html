@@ -34,23 +34,23 @@
           <div class="status-container">
             <div class="status-box">
               <div class="status-value" *ngIf="isSubscribed">Підписані</div>
-              <div class="status-value" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
+              <div class="status-value" *ngIf="subscriptionStatus === 'Ви в дискусії'">Discussiя</div>
             </div>
             <div class="status-hover">
               <div class="status-hover-label">Допомога</div>
               <div class="status-hover-text">
-                <ul *ngIf="selectedFlat?.data || statusMessage">
+                <ul *ngIf="selectedFlat?.data || subscriptionStatus">
 
                   <li *ngIf="selectedFlat?.data" class="status-hover-li">
                     Дата останього оновлення оголошення {{selectedFlat?.data | date}}
                     час {{selectedFlat?.data | date: 'HH:mm:ss'}}
                   </li>
 
-                  <li *ngIf="statusMessage === 'Ви успішно підписались'" class="status-hover-li">
+                  <li *ngIf="subscriptionStatus === 'Ви успішно підписались'" class="status-hover-li">
                     <div class="status-value">Підписані</div> - Ви вже підписані на цю оселю.
                   </li>
 
-                  <li *ngIf="statusMessage === 'Ви в дискусії'" class="status-hover-li">
+                  <li *ngIf="subscriptionStatus === 'Ви в дискусії'" class="status-hover-li">
                     <div class="status-value">Discussiя</div> - Ви вже в Дискусії з цією оселю.
                   </li>
                 </ul>
@@ -135,11 +135,11 @@
           <div class="card-btn-container">
             <div class="item-box">
               <button mat-raised-button class="btn link"
-                [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}"
+                [ngClass]="{'subscribed': isSubscribed, 'discussion': subscriptionStatus === 'Ви в дискусії'}"
                 (click)="onSubmitSbs()">
-                <i class="fa-regular fa-heart" *ngIf="!isSubscribed && statusMessage !== 'Ви в дискусії'"></i>
+                <i class="fa-regular fa-heart" *ngIf="!isSubscribed && subscriptionStatus !== 'Ви в дискусії'"></i>
                 <i class="fa-solid fa-heart orange" *ngIf="isSubscribed"></i>
-                <i class="fa-solid fa-heart white" *ngIf="statusMessage === 'Ви в дискусії'"></i>
+                <i class="fa-solid fa-heart white" *ngIf="subscriptionStatus === 'Ви в дискусії'"></i>
               </button>
             </div>
 
@@ -356,24 +356,24 @@
 
           <div class="status-container">
             <div class="status-box">
-              <div class="status-value" *ngIf="statusMessage === 'Ви успішно підписались'">Підписані</div>
-              <div class="status-value" *ngIf="statusMessage === 'Ви в дискусії'">Discussiя</div>
+              <div class="status-value" *ngIf="subscriptionStatus === 'Ви успішно підписались'">Підписані</div>
+              <div class="status-value" *ngIf="subscriptionStatus === 'Ви в дискусії'">Discussiя</div>
             </div>
             <div class="status-hover">
               <div class="status-hover-label">Допомога</div>
               <div class="status-hover-text">
-                <ul *ngIf="selectedFlat?.data || statusMessage">
+                <ul *ngIf="selectedFlat?.data || subscriptionStatus">
 
                   <li *ngIf="selectedFlat?.data" class="status-hover-li">
                     Дата останього оновлення оголошення {{selectedFlat?.data | date}}
                     час {{selectedFlat?.data | date: 'HH:mm:ss'}}
                   </li>
 
-                  <li *ngIf="statusMessage === 'Ви успішно підписались'" class="status-hover-li">
+                  <li *ngIf="subscriptionStatus === 'Ви успішно підписались'" class="status-hover-li">
                     <div class="status-value">Підписані</div> - Ви вже підписані на цю оселю.
                   </li>
 
-                  <li *ngIf="statusMessage === 'Ви в дискусії'" class="status-hover-li">
+                  <li *ngIf="subscriptionStatus === 'Ви в дискусії'" class="status-hover-li">
                     <div class="status-value">Discussiя</div> - Ви вже в Дискусії з цією оселю.
                   </li>
                 </ul>
@@ -422,10 +422,18 @@
               <div class="btn-box">
                 <button class="btn" (click)="openFullScreenImage(selectedFlat?.img)"><i
                     class="fa-regular fa-image"></i></button>
+                <div class="t-min">Фото</div>
               </div>
 
               <div class="btn-box" *ngIf="locationLink">
                 <button class="btn" (click)="openMap()"><i class="fa-solid fa-location-dot"></i></button>
+                <div class="t-min">Локація</div>
+              </div>
+
+              <div class="btn-box">
+                <button class="btn" (click)="reportHouse(selectedFlat)"><i
+                    class="fa-solid fa-masks-theater"></i></button>
+                <div class="t-min">Скарга</div>
               </div>
 
             </div>
@@ -441,11 +449,11 @@
 
             <div class="item-box">
               <button mat-raised-button class="btn link"
-                [ngClass]="{'subscribed': isSubscribed, 'discussion': statusMessage === 'Ви в дискусії'}"
+                [ngClass]="{'subscribed': isSubscribed, 'discussion': subscriptionStatus === 'Ви в дискусії'}"
                 (click)="onSubmitSbs()">
-                <i class="fa-regular fa-heart" *ngIf="!isSubscribed && statusMessage !== 'Ви в дискусії'"></i>
+                <i class="fa-regular fa-heart" *ngIf="!isSubscribed && subscriptionStatus !== 'Ви в дискусії'"></i>
                 <i class="fa-solid fa-heart orange" *ngIf="isSubscribed"></i>
-                <i class="fa-solid fa-heart white" *ngIf="statusMessage === 'Ви в дискусії'"></i>
+                <i class="fa-solid fa-heart white" *ngIf="subscriptionStatus === 'Ви в дискусії'"></i>
               </button>
             </div>
 
@@ -627,3 +635,9 @@
   </div>
 
 </ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

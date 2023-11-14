@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component } from '@angular/core';
-import { path_logo } from 'src/app/shared/server-config';
+import { path_logo } from 'src/app/config/server-config';
 @Component({
   selector: 'app-about-project',
   templateUrl: './about-project.component.html',

@@ -7,7 +7,7 @@ import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject } from 'rxjs';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 
 
 interface FlatStat {
@@ -209,7 +209,7 @@ export class ComunStatSeasonComponent implements OnInit {
         this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
           this.selectedFlatId = flatId;
           if (flatId) {
-              this.getDefaultData();
+            this.getDefaultData();
           } else {
             this.selectedFlatId = null;
           }

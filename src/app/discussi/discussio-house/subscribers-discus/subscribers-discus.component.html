@@ -179,6 +179,13 @@
                 <i class="fa-solid fa-user-xmark"></i></button>
               <div class="t-min">Видалити</div>
             </div>
+
+            <div class="img-btn-box">
+              <button class="img-btn" (click)="reportUser(selectedUser)"><i
+                  class="fa-solid fa-masks-theater"></i></button>
+              <div class="t-min">Скарга</div>
+            </div>
+
           </div>
         </div>
 
@@ -465,4 +472,10 @@
     </div>
 
   </div>
+</div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
 </div>

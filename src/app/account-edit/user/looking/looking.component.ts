@@ -1,12 +1,12 @@
 import { FormBuilder } from '@angular/forms';
-import { regions } from '../../../shared/data-city';
-import { cities } from '../../../shared/data-city';
-import { subway } from '../../../shared/subway';
+import { regions } from '../../../data/data-city';
+import { cities } from '../../../data/data-city';
+import { subway } from '../../../data/subway';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -139,17 +139,17 @@ export class LookingComponent implements OnInit {
     this.indexPage = step;
   }
 
-    // показ карток
-    card_info: boolean = false;
-    indexPage: number = 0;
-    indexMenu: number = 0;
-    indexMenuMobile: number = 1;
-    numConcludedAgree: any;
-    selectedAgree: any;
-    page: any;
-    onClickMenu(indexPage: number) {
-      this.indexPage = indexPage;
-    }
+  // показ карток
+  card_info: boolean = false;
+  indexPage: number = 0;
+  indexMenu: number = 0;
+  indexMenuMobile: number = 1;
+  numConcludedAgree: any;
+  selectedAgree: any;
+  page: any;
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
+  }
 
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;

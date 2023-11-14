@@ -6,8 +6,8 @@ import { CanActivate, Router } from '@angular/router';
 })
 
 export class CanActivateGuard implements CanActivate {
-      //  користувач увійшов в свій аккаунт, дозволяємо доступ до роутів
-      constructor(private router: Router) { }
+  //  користувач увійшов в свій аккаунт, дозволяємо доступ до роутів
+  constructor(private router: Router) { }
 
   canActivate(): boolean {
     if (localStorage.getItem('user')) {

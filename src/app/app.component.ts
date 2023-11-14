@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, HostListen
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { CloseMenuService } from './services/close-menu.service';
 @Component({

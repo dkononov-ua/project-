@@ -25,7 +25,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PhotoGalleryComponent } from './search-housing/photo-gallery/photo-gallery.component';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
-import { CustomPaginatorIntl } from '../shared/custom-paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { FilterUserService } from './filter-user.service';
 import { SearchTenantComponent } from './search-tenant/search-tenant.component';
@@ -45,7 +44,7 @@ import { HouseComponent } from './search-housing/house/house.component';
   providers: [
     FilterService,
     FilterUserService,
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
+    { provide: MatPaginatorIntl }],
   imports: [
     BrowserModule,
     AppRoutingModule,

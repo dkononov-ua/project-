@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 @Component({
   selector: 'app-parameters',
   templateUrl: './parameters.component.html',

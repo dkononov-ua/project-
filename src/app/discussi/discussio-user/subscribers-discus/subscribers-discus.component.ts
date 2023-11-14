@@ -6,9 +6,15 @@ import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { PageEvent } from '@angular/material/paginator';
+import { SharedService } from 'src/app/services/shared.service';
+
+// власні імпорти інформації
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
+import { UserInfo } from 'src/app/interface/info';
+import { PaginationConfig } from 'src/app/config/paginator';
+
 interface chosenFlat {
   flat: any;
   owner: any;
@@ -34,52 +40,30 @@ interface chosenFlat {
 
 export class SubscribersDiscusComponent implements OnInit {
 
-  aboutDistance: { [key: number]: string } = {
-    0: 'Немає',
-    1: 'На території будинку',
-    100: '100м',
-    300: '300м',
-    500: '500м',
-    1000: '1км',
-    2000: '2км',
-  }
-
-  purpose: { [key: number]: string } = {
-    0: 'Переїзд',
-    1: 'Відряджання',
-    2: 'Подорож',
-    3: 'Пожити в іншому місті',
-    4: 'Навчання',
-    5: 'Особисті причини',
-  }
-
-  animals: { [key: number]: string } = {
-    0: 'Без тварин',
-    1: 'Можна з тваринами',
-    2: 'Тільки котики',
-    3: 'Тільки песики',
-  }
-
-  option_pay: { [key: number]: string } = {
-    0: 'Щомісяця',
-    1: 'Подобово',
-  }
-
+  // розшифровка пошукових параметрів
+  purpose = purpose;
+  aboutDistance = aboutDistance;
+  option_pay = option_pay;
+  animals = animals;
+  // шляхи до серверу
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  loading: boolean | undefined;
+  path_logo = path_logo;
+  // параметри оселі
   chosenFlat: chosenFlat | null = null;
-  isCopiedMessage!: string;
   choseFlatId: any | null;
-  currentPhotoIndex: number = 0;
-  chatExists = false;
-  statusMessageChat: any;
   public locationLink: string = '';
+  subscriptions: any[] = [];
   selectedView!: any;
   selectedViewName!: string;
-  subscriptions: any[] = [];
-
+  chatExists = false;
+  currentPhotoIndex: number = 0;
+  // статуси
+  loading: boolean | undefined;
+  isCopiedMessage!: string;
+  statusMessage: any;
+  statusMessageChat: any;
   // показ карток
   card_info: boolean = false;
   indexPage: number = 0;
@@ -91,21 +75,15 @@ export class SubscribersDiscusComponent implements OnInit {
     this.indexPage = indexPage;
     this.indexMenuMobile = indexMenuMobile;
   }
-
   openInfoUser() {
     this.card_info = true;
   }
-
   // пагінатор
-  offs: number = 0;
-  counterFound: number = 0;
-  currentPage: number = 1;
-  totalPages: number = 1;
-  pageEvent: PageEvent = {
-    length: this.counterFound,
-    pageSize: 5,
-    pageIndex: 0
-  };
+  offs = PaginationConfig.offs;
+  counterFound = PaginationConfig.counterFound;
+  currentPage = PaginationConfig.currentPage;
+  totalPages = PaginationConfig.totalPages;
+  pageEvent = PaginationConfig.pageEvent;
 
   constructor(
     private http: HttpClient,
@@ -114,11 +92,13 @@ export class SubscribersDiscusComponent implements OnInit {
     private selectedViewComun: ViewComunService,
     private router: Router,
     private updateComponent: UpdateComponentService,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.getSubInfo(null, this.offs);
     await this.getAcceptSubsCount();
+    await this.getCurrentPageInfo();
   }
 
   // Отримання даних всіх дискусій
@@ -157,7 +137,7 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   // Перемикання оселі
-  onFlatSelect(flat: any) {
+  async onFlatSelect(flat: any) {
     this.ratingOwner = 0;
     this.currentPhotoIndex = 0;
     this.indexPage = 1;
@@ -361,6 +341,8 @@ export class SubscribersDiscusComponent implements OnInit {
       this.offs = offs;
       this.getSubInfo(null, this.offs);
     }
+    console.log(22222222)
+
     this.getCurrentPageInfo()
   }
 
@@ -412,5 +394,23 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
+  async reportHouse(flat: any): Promise<void> {
+    console.log(flat)
+    this.sharedService.reportHouse(flat);
+    this.sharedService.getReportResultSubject().subscribe(result => {
+      // Обробка результату в компоненті
+      if (result.status === true) {
+        this.statusMessage = 'Скаргу надіслано';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
+      } else {
+        this.statusMessage = 'Помилка';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
+      }
+    });
+  }
 }
 

@@ -6,48 +6,13 @@ import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
-interface UserInfo {
-  animals: string | undefined;
-  area_of: number | undefined;
-  area_to: number | undefined;
-  balcony: string | undefined;
-  bunker: string | undefined;
-  city: string | undefined;
-  country: string | undefined;
-  day_counts: number | undefined;
-  days: number | undefined;
-  distance_green: number | undefined;
-  distance_metro: number | undefined;
-  distance_parking: number | undefined;
-  distance_shop: number | undefined;
-  distance_stop: number | undefined;
-  family: boolean | undefined;
-  firstName: string | undefined;
-  flat: string | undefined;
-  house: string | undefined;
-  img: string | undefined;
-  lastName: string | undefined;
-  looking_man: boolean | undefined;
-  looking_woman: boolean | undefined;
-  man: boolean | undefined;
-  mounths: number | undefined;
-  option_pay: number | undefined;
-  price_of: number | undefined;
-  price_to: number | undefined;
-  purpose_rent: number | undefined;
-  region: string | undefined;
-  repair_status: string | undefined;
-  room: boolean | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  students: boolean | undefined;
-  user_id: string | undefined;
-  weeks: number | undefined;
-  woman: boolean | undefined;
-  years: number | undefined;
-  about: string | undefined;
-}
+import { SharedService } from 'src/app/services/shared.service';
+
+// власні імпорти інформації
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
+import { UserInfo } from 'src/app/interface/info';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -83,91 +48,48 @@ interface UserInfo {
 
 export class ProfileComponent implements OnInit {
 
+  // розшифровка пошукових параметрів
+  purpose = purpose;
+  aboutDistance = aboutDistance;
+  option_pay = option_pay;
+  animals = animals;
+
+  // шляхи до серверу
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
 
+  // параметри користувача
   isSubscribed: boolean = false;
-  showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
-  subscriptionMessageTimeout: Subject<void> = new Subject<void>();
-  private filterSubscription: Subscription | undefined;
   userInfo: UserInfo[] = [];
   filteredUsers: UserInfo[] | undefined;
   selectedUser: UserInfo | any;
-  filterForm: FormGroup;
-  limit: number = 0;
-  additionalLoadLimit: number = 5;
-  offset: number = 0;
-  localStorageKey!: string;
-  showFullScreenImage = false;
-  fullScreenImageUrl = '';
-  currentCardIndex: number = 0;
-  cards: UserInfo[] = [];
-  statusSubscriptionMessage: boolean | undefined;
-  statusMessage: any;
+
+  // параметри оселі
   selectedFlatId!: string | null;
+
+  // статуси
+  currentCardIndex: number = 0;
+  subscriptionStatus: any;
+  statusMessage: any;
   loading = true;
-
-  purpose: { [key: number]: string } = {
-    0: 'Переїзд',
-    1: 'Відряджання',
-    2: 'Подорож',
-    3: 'Навчання',
-    4: 'Особисті причини',
-  }
-
-  aboutDistance: { [key: number]: string } = {
-    0: 'Немає',
-    1: 'На території будинку',
-    5: 'На території будинку',
-    100: '100м',
-    300: '300м',
-    500: '500м',
-    1000: '1км',
-  }
-
-  option_pay: { [key: number]: string } = {
-    0: 'Щомісяця',
-    1: 'Подобово',
-  }
-
-  animals: { [key: number]: string } = {
-    0: 'Без тварин',
-    1: 'З тваринами',
-    2: 'Тільки котики',
-    3: 'Тільки песики',
-  }
-
-  openCard: boolean = false;
-  hideCard: boolean = true;
-  openMenu: boolean = true;
-  hideMenu: boolean = false;
   indexPage: number = 1;
   optionsFound: number = 0;
-  path_logo = path_logo;
 
-  card_info : boolean = false;
-
-  openInfoUser () {
+  card_info: boolean = false;
+  openInfoUser() {
     this.card_info = true;
-  }
-
-  opensCard() {
-    this.openCard = !this.openCard;
-    this.hideCard = !this.hideCard;
-
-    this.openMenu = !this.openMenu;
-    this.hideMenu = !this.hideMenu;
   }
 
   constructor(
     private filterService: FilterUserService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private sharedService: SharedService,
   ) {
-    this.filterForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -189,7 +111,7 @@ export class ProfileComponent implements OnInit {
   async getSearchInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.filterSubscription = this.filterService.filterChange$.subscribe(async () => {
+      this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
         if (filterValue && optionsFound && optionsFound !== 0) {
@@ -274,9 +196,9 @@ export class ProfileComponent implements OnInit {
       const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
       this.http.post(serverPath + '/usersubs/checkSubscribe', data)
         .subscribe((response: any) => {
-          this.statusMessage = response.status;
+          this.subscriptionStatus = response.status;
           this.isSubscribed = true;
-          if (this.statusMessage === 'Ви успішно відписались') {
+          if (this.subscriptionStatus === 'Ви успішно відписались') {
             this.isSubscribed = false;
           } else {
             this.isSubscribed = false;
@@ -287,6 +209,24 @@ export class ProfileComponent implements OnInit {
     } else {
       console.log('user not found');
     }
+  }
+
+  async reportUser(user: any): Promise<void> {
+    this.sharedService.reportUser(user);
+    this.sharedService.getReportResultSubject().subscribe(result => {
+      // Обробка результату в компоненті
+      if (result.status === true) {
+        this.statusMessage = 'Скаргу надіслано';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
+      } else {
+        this.statusMessage = 'Помилка';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
+      }
+    });
   }
 }
 

@@ -5,7 +5,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 
 
 @Component({

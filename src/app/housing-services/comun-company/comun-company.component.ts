@@ -9,7 +9,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 
 interface ComunInfo {
   comunal_company: string | undefined;

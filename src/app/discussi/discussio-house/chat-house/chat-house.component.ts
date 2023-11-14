@@ -4,8 +4,8 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { DataService } from 'src/app/services/data.service';
 import { EMPTY, Subject, Subscription, interval, switchMap, takeUntil } from 'rxjs';
-import { SMILEYS } from '../../../shared/data-smile'
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { SMILEYS } from '../../../data/data-smile'
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 
 interface User {
   user_id: string;

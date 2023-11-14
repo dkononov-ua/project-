@@ -6,7 +6,7 @@ import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ActivatedRoute } from '@angular/router';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 
 interface FlatStat {
   totalNeedPay: any;

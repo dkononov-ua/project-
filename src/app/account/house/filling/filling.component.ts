@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { objects } from '../../../shared/objects-data';
+import { objects } from '../../../data/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 @Component({
   selector: 'app-filling',
   templateUrl: './filling.component.html',
@@ -41,16 +41,16 @@ export class FillingComponent implements OnInit {
   selectedCard: boolean = false;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
 
-    // показ карток
-    indexPage: number = 0;
-    onClickMenu(indexPage: number) {
-      this.indexPage = indexPage;
-    }
+  // показ карток
+  indexPage: number = 0;
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
+  }
 
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService
-    ) { }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
@@ -66,7 +66,7 @@ export class FillingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post( serverPath + '/flatinfo/get/filling', {
+      const response = await this.http.post(serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
@@ -78,7 +78,7 @@ export class FillingComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return  serverPath + '/img/filling/' + flat.img;
+      return serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }

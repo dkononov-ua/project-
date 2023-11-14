@@ -8,7 +8,7 @@ import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 
 @Component({
   selector: 'app-comun-add',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { Router } from '@angular/router';
-import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -61,7 +61,7 @@ export class HouseComponent implements OnInit {
             this.router.navigate(['/housing-parameters/host/']);
           }, 2000);
         } else {
-                  }
+        }
       } else {
         this.housingExists = false;
       }

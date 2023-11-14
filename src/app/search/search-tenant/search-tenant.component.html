@@ -7,7 +7,7 @@
         <div class="title-page">Шукаємо орендара</div>
         <div class="hide-pc">
           <div class="flex-box">Всього знайдено <button class="btn accent bold" (click)="openUser = true"
-              [disabled]="optionsFound === 0">{{optionsFound}}</button>
+              [disabled]="counterFound === 0">{{counterFound}}</button>
           </div>
         </div>
       </header>
@@ -312,15 +312,15 @@
 
     </aside>
 
-    <main class="search-results col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="optionsFound > 0">
+    <main class="search-results col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="counterFound > 0">
 
       <div class="custom-paginator hide-mobile">
-        <div class="hide-mobile">Всього знайдено <span class="accent bold">{{optionsFound}} співпадінь</span></div>
+        <div class="hide-mobile">Всього знайдено <span class="accent bold">{{counterFound}} співпадінь</span></div>
         <button class="paginator-button" (click)="decrementOffset()"><i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-info">показано
           {{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} -
-          {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
-            pageEvent.pageSize) : optionsFound }} з {{ optionsFound }} знайдених </div>
+          {{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= counterFound ? ((pageEvent.pageIndex + 1) *
+            pageEvent.pageSize) : counterFound }} з {{ counterFound }} знайдених </div>
             <button class="paginator-button" (click)="incrementOffset()"><i
                 class="fa-solid fa-chevron-right"></i></button>
         </div>
@@ -340,10 +340,10 @@
               <div>Показано</div>
               <div class="flex-box-row">
                 <div>{{ (pageEvent.pageIndex * pageEvent.pageSize) + 1 }} - </div>
-                <div>{{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= optionsFound ? ((pageEvent.pageIndex + 1) *
-                    pageEvent.pageSize) : optionsFound }}</div>
+                <div>{{ ((pageEvent.pageIndex + 1) * pageEvent.pageSize) <= counterFound ? ((pageEvent.pageIndex + 1) *
+                    pageEvent.pageSize) : counterFound }}</div>
                 </div>
-                <div> з <span class="accent bold">{{ optionsFound }}</span></div>
+                <div> з <span class="accent bold">{{ counterFound }}</span></div>
               </div>
 
               <div class="flex-box"><button class="btn accent bold" (click)="incrementOffset()"><i
@@ -359,7 +359,7 @@
           <app-profile *ngIf="openUser"></app-profile>
     </main>
 
-    <div *ngIf="optionsFound === 0">
+    <div *ngIf="counterFound === 0">
       <h2 class="flex-box-column p-5">По вашим пошуковим параметрам нічого не знайдено</h2>
     </div>
 

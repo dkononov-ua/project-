@@ -1,58 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-interface Subscriber {
-  animals: string | undefined;
-  area_of: number | undefined;
-  area_to: number | undefined;
-  balcony: string | undefined;
-  bunker: string | undefined;
-  city: string | undefined;
-  country: string | undefined;
-  day_counts: number | undefined;
-  days: number | undefined;
-  distance_green: number | undefined;
-  distance_metro: number | undefined;
-  distance_parking: number | undefined;
-  distance_shop: number | undefined;
-  distance_stop: number | undefined;
-  family: boolean | undefined;
-  firstName: string | undefined;
-  flat: string | undefined;
-  house: string | undefined;
-  img: string | undefined;
-  lastName: string | undefined;
-  looking_man: boolean | undefined;
-  looking_woman: boolean | undefined;
-  man: boolean | undefined;
-  mounths: number | undefined;
-  option_pay: number | undefined;
-  price_of: number | undefined;
-  price_to: number | undefined;
-  purpose_rent: number | undefined;
-  region: string | undefined;
-  repair_status: string | undefined;
-  room: boolean | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  students: boolean | undefined;
-  user_id: string;
-  weeks: number | undefined;
-  woman: boolean | undefined;
-  years: number | undefined;
-  surName: string;
-  instagram: string;
-  telegram: string;
-  viber: string;
-  facebook: string;
-}
+import { SharedService } from 'src/app/services/shared.service';
+// власні імпорти інформації
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
+import { UserInfo } from 'src/app/interface/info';
+import { PaginationConfig } from 'src/app/config/paginator';
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -72,52 +31,28 @@ interface Subscriber {
 })
 
 export class SubscribersDiscusComponent implements OnInit {
+  // розшифровка пошукових параметрів
+  purpose = purpose;
+  aboutDistance = aboutDistance;
+  option_pay = option_pay;
+  animals = animals;
+  // шляхи до серверу
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-  subscribers: Subscriber[] = [];
+  path_logo = path_logo;
+  // параметри користувача
+  subscribers: UserInfo[] = [];
+  selectedUser: UserInfo | any;
+  // параметри оселі
   selectedFlatId: string | any;
-  selectedUser: Subscriber | any;
-  showSubscriptionMessage: boolean = false;
-  subscriptionMessage: string | undefined;
+  // рейтинг орендара
+  ratingTenant: number | undefined;
+  // статуси
   statusMessage: any;
   statusMessageChat: any;
-  cardNext: number = 0;
-  selectedCard: boolean = false;
-  selectedSubscriberId: string | null = null;
   chatExists = false;
-  ratingTenant: number | undefined;
   isCopiedMessage!: string;
-
-  purpose: { [key: number]: string } = {
-    0: 'Переїзд',
-    1: 'Відряджання',
-    2: 'Подорож',
-    3: 'Навчання',
-    4: 'Особисті причини',
-  }
-
-  aboutDistance: { [key: number]: string } = {
-    0: 'Немає',
-    1: 'На території',
-    100: '100м',
-    300: '300м',
-    500: '500м',
-    1000: '1км',
-  }
-
-  option_pay: { [key: number]: string } = {
-    0: 'Щомісяця',
-    1: 'Подобово',
-  }
-
-  animals: { [key: number]: string } = {
-    0: 'Без тварин',
-    1: 'З тваринами',
-    2: 'Тільки котики',
-    3: 'Тільки песики',
-  }
-
   // показ карток
   card_info: boolean = false;
   indexPage: number = 0;
@@ -128,21 +63,15 @@ export class SubscribersDiscusComponent implements OnInit {
     this.indexPage = indexPage;
     this.indexMenuMobile = indexMenuMobile;
   }
-
   openInfoUser() {
     this.card_info = true;
   }
-
   // пагінатор
-  offs: number = 0;
-  counterFound: number = 0;
-  currentPage: number = 1;
-  totalPages: number = 1;
-  pageEvent: PageEvent = {
-    length: this.counterFound,
-    pageSize: 5,
-    pageIndex: 0
-  };
+  offs = PaginationConfig.offs;
+  counterFound = PaginationConfig.counterFound;
+  currentPage = PaginationConfig.currentPage;
+  totalPages = PaginationConfig.totalPages;
+  pageEvent = PaginationConfig.pageEvent;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -150,6 +79,7 @@ export class SubscribersDiscusComponent implements OnInit {
     private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
     private updateComponent: UpdateComponentService,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -186,7 +116,7 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  async onSubscriberSelect(subscriber: Subscriber): Promise<void> {
+  async onSubscriberSelect(subscriber: UserInfo): Promise<void> {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
     this.checkChatExistence(this.selectedUser.user_id);
@@ -355,34 +285,49 @@ export class SubscribersDiscusComponent implements OnInit {
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
 
-    // Копіювання параметрів
-    copyToClipboard(textToCopy: string, message: string) {
-      if (textToCopy) {
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            this.isCopiedMessage = message;
-            setTimeout(() => {
-              this.isCopiedMessage = '';
-            }, 2000);
-          })
-          .catch((error) => {
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
             this.isCopiedMessage = '';
-          });
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
+  copyId() {
+    this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
+  }
+  copyTell() {
+    this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано');
+  }
+  copyMail() {
+    this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано');
+  }
+
+  async reportUser(user: any): Promise<void> {
+    this.sharedService.reportUser(user);
+    this.sharedService.getReportResultSubject().subscribe(result => {
+      // Обробка результату в компоненті
+      if (result.status === true) {
+        this.statusMessage = 'Скаргу надіслано';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
+      } else {
+        this.statusMessage = 'Помилка';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
       }
-    }
-
-    copyId() {
-      this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
-    }
-    copyTell() {
-      this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано');
-    }
-    copyMail() {
-      this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано');
-    }
-
-
-
+    });
+  }
 
 }
 

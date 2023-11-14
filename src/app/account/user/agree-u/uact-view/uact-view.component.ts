@@ -2,11 +2,11 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { objects } from '../../../../shared/objects-data';
+import { objects } from '../../../../data/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Location } from '@angular/common';
 
 interface Agree {
@@ -186,7 +186,7 @@ export class UactViewComponent implements OnInit {
       const response: any = await this.dataService.getInfoFlat().toPromise();
       this.houseData = response;
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs =  serverPath +['/img/flat/housing_default.svg'];
+        this.houseData.imgs = serverPath + ['/img/flat/housing_default.svg'];
       }
     } catch (error) {
       console.error(error);

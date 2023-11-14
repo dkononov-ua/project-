@@ -1,56 +1,18 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { FilterService } from '../../filter.service';
-import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { PageEvent } from '@angular/material/paginator';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
-import { ReportsComponent } from 'src/app/components/reports/reports.component';
-import { parse } from 'path';
+import { HouseInfo } from 'src/app/interface/info';
+import { SharedService } from 'src/app/services/shared.service';
 
-interface FlatInfo {
-  region: string;
-  city: string;
-  rooms: string;
-  area: string;
-  repair_status: string;
-  selectedKitchen_area: string;
-  balcony: string;
-  bunker: string;
-  animals: string;
-  distance_metro: string;
-  distance_stop: string;
-  distance_green: string;
-  distance_shop: string;
-  distance_parking: string;
-  limit: string;
-  country: string;
-  price: any;
-  price_m: any;
-  id: number;
-  name: string;
-  photos: string[];
-  img: string;
-  about: string;
-  apartment: string;
-  family: string;
-  flat_id: string;
-  flat_index: string;
-  floor: string;
-  houseNumber: string;
-  kitchen_area: string;
-  man: string;
-  metro: string;
-  price_y: string;
-  street: string;
-  students: string;
-  woman: string;
-  option_pay: number;
-}
+// власні імпорти інформації
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { purpose, aboutDistance, option_pay, animals, options, checkBox } from 'src/app/data/search-param';
+import { PaginationConfig } from 'src/app/config/paginator';
+
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -81,120 +43,54 @@ interface FlatInfo {
 })
 
 export class HouseComponent implements OnInit {
+  // розшифровка пошукових параметрів
+  purpose = purpose;
+  aboutDistance = aboutDistance;
+  option_pay = option_pay;
+  animals = animals;
+  options = options;
+  checkBox = checkBox;
 
+  // шляхи до серверу
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
+
+  // пагінатор
+  offs = PaginationConfig.offs;
+  counterFound = PaginationConfig.counterFound;
+  currentPage = PaginationConfig.currentPage;
+  totalPages = PaginationConfig.totalPages;
+  pageEvent = PaginationConfig.pageEvent;
+
+  // параметри оселі
+  filteredFlats: HouseInfo[] | undefined;
+  selectedFlat: HouseInfo | any;
+  showFullScreenImage = false;
+  fullScreenImageUrl = '';
+  locationLink: any = '';
+  currentCardIndex: number = 0;
+  currentPhotoIndex: number = 0;
+  card_info: boolean = false;
+  // статуси
   loading = true;
-
-  offs: number = 0;
-  pageEvent: PageEvent = {
-    length: 0,
-    pageSize: 5,
-    pageIndex: 0
-  };
-
   isSubscribed: boolean = false;
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
-  subscriptionMessageTimeout: Subject<void> = new Subject<void>();
-
-  private filterSubscription: Subscription | undefined;
-  flatInfo: FlatInfo[] = [];
-  filteredFlats: FlatInfo[] | undefined;
-  selectedFlat: FlatInfo | any;
-  flatImages: any[] = [];
-  selectedFlatPhotos: string[] = [];
-  currentPhotoIndex: number = 0;
-  isCarouselAnimating!: boolean;
-  limit: number = 0;
-  additionalLoadLimit: number = 5;
-  localStorageKey!: string;
-  showFullScreenImage = false;
-  fullScreenImageUrl = '';
-  currentCardIndex: number = 0;
-  locationLink: any = '';
-  location: string | null = null;
-  selectedFlatRegion: string = '';
-  selectedFlatCity: string = '';
-  selectedFlatStreet: string = '';
-  selectedFlatHouseNumber: string = '';
-  selectedFlatFlatIndex: string = '';
-  optionsFound: number = 0;
-
-  options: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Новий',
-    2: 'Добрий',
-    3: 'Задовільний',
-    4: 'Поганий',
-    5: 'Класичний балкон',
-    6: 'Французький балкон',
-    7: 'Лоджія',
-    8: 'Тераса',
-    9: 'Веранда',
-  }
-
-  aboutDistance: { [key: number]: string } = {
-    0: 'Немає',
-    5: 'На території будинку',
-    100: '100м',
-    300: '300м',
-    500: '500м',
-    1000: '1км',
-  }
-
-  checkBox: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Так',
-    2: 'Ні',
-  }
-
-  option_pay: { [key: number]: string } = {
-    0: 'Щомісяця',
-    1: 'Подобово',
-  }
-
-  animals: { [key: number]: string } = {
-    0: 'Без тварин',
-    1: 'Можна з тваринами',
-    2: 'Тільки котики',
-    3: 'Тільки песики',
-  }
-
   statusSubscriptionMessage: boolean | undefined;
+  subscriptionStatus: any;
   statusMessage: any;
-
-  openCard: boolean = false;
-  hideCard: boolean = true;
-  openMenu: boolean = true;
-  hideMenu: boolean = false;
-
   indexPage: number = 1;
-  card_info: boolean = false;
-
-  openInfoUser() {
-    this.card_info = true;
-  }
-
-
-  opensCard() {
-    this.openCard = !this.openCard;
-    this.hideCard = !this.hideCard;
-
-    this.openMenu = !this.openMenu;
-    this.hideMenu = !this.hideMenu;
-  }
+  optionsFound: number = 0;
 
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
     private dialog: MatDialog,
-    private sanitizer: DomSanitizer
-  ) {
-
-  }
+    private sanitizer: DomSanitizer,
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit(): void {
     this.getSearchInfo()
@@ -203,7 +99,7 @@ export class HouseComponent implements OnInit {
   async getSearchInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.filterSubscription = this.filterService.filterChange$.subscribe(async () => {
+      this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
         if (filterValue && optionsFound && optionsFound !== 0) {
@@ -234,7 +130,7 @@ export class HouseComponent implements OnInit {
     }
   }
 
-  selectFlat(flat: FlatInfo) {
+  selectFlat(flat: HouseInfo) {
     this.currentPhotoIndex = 0;
     this.indexPage = 2;
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
@@ -347,9 +243,8 @@ export class HouseComponent implements OnInit {
       const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
       this.http.post(serverPath + '/subs/checkSubscribe', payload)
         .subscribe((response: any) => {
-          this.statusMessage = response.status;
+          this.subscriptionStatus = response.status;
           this.statusSubscriptionMessage = true;
-
           if (response.status === 'Ви успішно відписались') {
             this.isSubscribed = true;
           } else {
@@ -365,35 +260,23 @@ export class HouseComponent implements OnInit {
 
   // скарга на оселю
   async reportHouse(flat: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const url = serverPath + '/reports/flat';
-    const dialogRef = this.dialog.open(ReportsComponent, {
-      data: {
-        flatId: flat.flat_id,
-        flatName: flat.flat_name,
-        flatCity: flat.city,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result !== 0 && userJson && flat) {
-        const userInfo = JSON.parse(userJson);
-        const data = {
-          auth: JSON.parse(userJson),
-          flat_id: flat.flat_id,
-          reason: result.selectedReport,
-          about: result.aboutReport,
-          user_id: userInfo.user_id,
-        };
-        console.log(data)
-        try {
-          const response = await this.http.post(url, data).toPromise();
-          console.log(response)
-        } catch (error) {
-          console.error(error);
-        }
+    console.log(flat)
+    this.sharedService.reportHouse(flat);
+    this.sharedService.getReportResultSubject().subscribe(result => {
+      // Обробка результату в компоненті
+      if (result.status === true) {
+        this.statusMessage = 'Скаргу надіслано';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
+      } else {
+        this.statusMessage = 'Помилка';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 2000);
       }
     });
   }
+
 }
 

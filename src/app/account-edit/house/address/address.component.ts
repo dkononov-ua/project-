@@ -1,10 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { regions } from '../../../shared/data-city';
-import { cities } from '../../../shared/data-city';
+import { regions } from '../../../data/data-city';
+import { cities } from '../../../data/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 
 interface FlatInfo {
@@ -88,7 +88,7 @@ export class AddressComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
-    ) {
+  ) {
     this.filteredRegions = [];
   }
 

@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { objects } from '../../../shared/objects-data';
+import { objects } from '../../../data/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
@@ -81,7 +81,7 @@ export class AddObjectsComponent implements OnInit {
   photoData: any;
   cropped?: string;
   about: boolean = false;
-  addAbout () {
+  addAbout() {
     this.about = !this.about;
   }
   openHelp() {

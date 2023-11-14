@@ -2,8 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
-import { SMILEYS } from '../../../shared/data-smile'
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { SMILEYS } from '../../../data/data-smile'
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { Location } from '@angular/common';
 
 @Component({
@@ -94,9 +94,9 @@ export class ChatUserComponent implements OnInit {
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread };
         }));
         let zxc = asd.filter((item) => item.flat_id === selectedFlat);
-        if(zxc[0]){
+        if (zxc[0]) {
           this.infoPublic = zxc
-        }else{
+        } else {
           this.infoPublic = undefined
         }
         return this.infoPublic;

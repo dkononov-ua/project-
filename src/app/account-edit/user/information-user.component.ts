@@ -5,7 +5,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';

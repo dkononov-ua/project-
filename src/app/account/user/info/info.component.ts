@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { forkJoin } from 'rxjs';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -158,7 +158,7 @@ export class InfoComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private http: HttpClient
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     // Об'єднуємо обидва Observable, і вони будуть виконані паралельно

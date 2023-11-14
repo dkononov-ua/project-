@@ -5,7 +5,7 @@ import { ChoseSubscribersService } from '../../../services/chose-subscribers.ser
 import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../agree-h/agree-delete/agree-delete.component';
 import { Router } from '@angular/router';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 
 interface Subscriber {
   user_id: string;

@@ -8,7 +8,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
 import moment from 'moment';
-import { serverPath, path_logo } from 'src/app/shared/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 
 @Component({
   selector: 'app-registration',
@@ -118,6 +118,13 @@ export class RegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
     this.initializeForm();
   }
 
@@ -154,6 +161,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration(): void {
+    console.log(11111111111)
     localStorage.removeItem('user');
     localStorage.removeItem('userData');
     localStorage.removeItem('selectedHouse');
@@ -163,11 +171,18 @@ export class RegistrationComponent implements OnInit {
     if (this.registrationForm.valid && this.agreementAccepted) {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
+        // const data = {
+        //   userName: this.registrationForm.get('userName')?.value,
+        //   regEmail: this.registrationForm.get('regEmail')?.value,
+        //   regPassword: this.registrationForm.get('regPassword')?.value,
+        //   dob: dob,
+        // };
+
         const data = {
-          // userName: this.registrationForm.get('userName')?.value,
+          userName: 'userName',
           regEmail: this.registrationForm.get('regEmail')?.value,
-          regPassword: this.registrationForm.get('regPassword')?.value,
-          dob: dob,
+          regPassword: '1234567',
+          dob: '1946-03-08',
         };
 
         console.log(data);
@@ -177,22 +192,16 @@ export class RegistrationComponent implements OnInit {
             console.log(response);
             if (response.status === 'Не правильно передані данні') {
               console.error(response.status);
-              localStorage.removeItem('user');
-              localStorage.removeItem('house');
-              localStorage.removeItem('selectedFlatId');
               this.statusMessage = 'Помилка реєстрації.';
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
+              // setTimeout(() => {
+              //   location.reload();
+              // }, 1000);
             } else if (response.status === 'Не правильний ключ-пошта') {
               console.error(response.status);
-              localStorage.removeItem('user');
-              localStorage.removeItem('house');
-              localStorage.removeItem('selectedFlatId');
               this.statusMessage = 'Помилка реєстрації.';
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
+              // setTimeout(() => {
+              //   location.reload();
+              // }, 1000);
             } else {
               this.statusMessage = 'Вітаємо в Discussio!';
               localStorage.setItem('user', JSON.stringify(response));
@@ -204,16 +213,14 @@ export class RegistrationComponent implements OnInit {
           (error: any) => {
             console.error(error);
             this.statusMessage = 'Помилка реєстрації.';
-            setTimeout(() => {
-              location.reload();
-            }, 2000);
+            // setTimeout(() => {
+            //   location.reload();
+            // }, 2000);
           }
         );
       }
     }
   }
-
-
 
   private initializeForm(): void {
     this.loginForm = this.fb.group({
@@ -276,60 +283,52 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
   checkEmail(): void {
     this.indexBtn = 1;
 
     if (this.registrationForm.get('regEmail')?.value)
-    try {
-      const data = {
-        email: this.registrationForm.get('regEmail')?.value,
-      };
+      try {
+        const data = {
+          email: this.registrationForm.get('regEmail')?.value,
+        };
 
-      this.http.post(serverPath + '/registration', data).subscribe(
-        (response: any) => {
-          if (response) {
-            // this.indexBtn = 1;
-            console.error(response.status);
-          } else {
-            console.error('error');
-          }
-        },
-      );
-    } catch (error) {
-      console.error(error);
-    }
+        this.http.post(serverPath + '/registration', data).subscribe(
+          (response: any) => {
+            if (response) {
+              // this.indexBtn = 1;
+              console.error(response.status);
+            } else {
+              console.error('error');
+            }
+          },
+        );
+      } catch (error) {
+        console.error(error);
+      }
   }
 
   checkEmailCode(): void {
     this.indexBtn = 2;
 
     if (this.emailCheckCode)
-    try {
-      const data = {
-        code: this.emailCheckCode,
-      };
+      try {
+        const data = {
+          code: this.emailCheckCode,
+        };
 
-      this.http.post(serverPath + '/registration', data).subscribe(
-        (response: any) => {
-          if (response) {
-            // this.indexBtn = 2;
-            console.error(response.status);
-          } else {
-            console.error('error');
-          }
-        },
-      );
-    } catch (error) {
-      console.error(error);
-    }
+        this.http.post(serverPath + '/registration', data).subscribe(
+          (response: any) => {
+            if (response) {
+              // this.indexBtn = 2;
+              console.error(response.status);
+            } else {
+              console.error('error');
+            }
+          },
+        );
+      } catch (error) {
+        console.error(error);
+      }
   }
 }
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
-import { path_logo } from 'src/app/shared/server-config';
+import { path_logo } from 'src/app/config/server-config';
 
 
 @Component({

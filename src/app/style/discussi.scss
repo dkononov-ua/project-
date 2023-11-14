@@ -125,8 +125,9 @@
 
 .btn-container {
   @include flex-box;
+  overflow-x: auto;
   background-color: rgba(255, 255, 255, 0.673);
-  height: 80px;
+  height: 90px;
   padding: 5px;
   border: 5px solid $color-white;
   border-radius: 20px;
@@ -135,7 +136,7 @@
   left: 0;
   z-index: 1;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   .img-btn-box {
     @include flex-box-column;
     .img-btn {
@@ -143,14 +144,13 @@
       background-color: transparent;
       border-radius: 50%;
       border: none;
-      width: 50px;
-      height: 50px;
-      &:hover {
-        background-color: $color-accent;
-        @include box-shadow;
-      }
-      .fa-solid {
+      width: 80px;
+      .fa-solid, .fa-regular {
         color: $color-dark;
+        &:hover {
+          color: $color-accent;
+          @include box-shadow;
+        }
       }
     }
   }

@@ -1,10 +1,10 @@
 import { FilterService } from '../filter.service';
-import { regions } from '../../shared/data-city';
-import { cities } from '../../shared/data-city';
+import { regions } from '../../data/data-city';
+import { cities } from '../../data/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { serverPath } from 'src/app/shared/server-config';
+import { serverPath } from 'src/app/config/server-config';
 
 interface UserInfo {
   price_of: string | undefined;

@@ -4,7 +4,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/shared/server-config';
+import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-selection-housing',
