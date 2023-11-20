@@ -127,6 +127,10 @@ export class SearchHousingComponent implements OnInit {
 
   userInfoSearch: any;
 
+  card_info: number = 0;
+  indexPage: number = 1;
+  shownCard: string | undefined;
+
   filterSwitchNext() {
     if (this.filter_group < 3) {
       this.filter_group++;
@@ -146,7 +150,12 @@ export class SearchHousingComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
-  ) { }
+  ) {
+    this.filterService.filterChange$.subscribe(async () => {
+      this.card_info = this.filterService.getCardInfo();
+      this.indexPage = this.filterService.getIndexPage();
+    })
+   }
 
   ngOnInit() {
     this.searchFilter();
@@ -361,6 +370,7 @@ export class SearchHousingComponent implements OnInit {
     console.log(response)
     this.optionsFound = response.count;
     this.filteredFlats = response.img;
+    this.calculatePaginatorInfo()
     this.passInformationToService(this.filteredFlats, this.optionsFound);
     this.loading = false;
   }
@@ -394,6 +404,35 @@ export class SearchHousingComponent implements OnInit {
       this.limit = offs;
     }
     this.searchFilter();
+  }
+
+  changeOpenUser() {
+    this.openUser = !this.openUser;
+  }
+
+  changeIndexPage(indexPage: number) {
+    this.indexPage = indexPage;
+    this.openUser = true;
+    this.passIndexPage();
+  }
+
+  changeCardInfo(cardInfo: number) {
+    this.card_info = cardInfo;
+    this.openUser = true;
+    this.passIndexPage();
+  }
+
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passIndexPage() {
+    this.filterService.updatePage(this.card_info, this.indexPage);
+  }
+
+  calculatePaginatorInfo(): string {
+    const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
+    const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
+    this.shownCard = `${startIndex} - ${endIndex}`;
+    console.log(this.shownCard)
+    return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 }
 

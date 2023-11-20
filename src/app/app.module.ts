@@ -54,6 +54,7 @@ import { AboutRatingComponent } from './pages/about-rating/about-rating.componen
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
+import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { SharedModule } from './shared/shared.module';
     AboutRatingComponent,
     OpportunitiesComponent,
     ReportsComponent,
+    AccessibleAllComponent,
   ],
   providers: [
     SelectedFlatService,

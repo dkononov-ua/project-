@@ -1,22 +1,20 @@
-<div class="container-reg">
-  <div class="container pb-2">
+<!-- <div class="container-reg">
+  <div class="container">
 
     <div class="card-box-logo col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="logo-box">
         <img class="logo" src="{{path_logo}}" alt="logo">
         <div class="name">
-          <h1 class="title-name">Discussio <span class="t-min bold">Beta</span></h1>
-          <div class="t-min hide-pc">Зручна та ефективна система управління Вашою оселею </div>
-          <div class="accent t-min">Проходить закритий бета-тест</div>
+          <h1 class="title-name">Discussio</h1>
+          <div class="text-abs hide-pc">Зручна та ефективна система управління Вашою оселею</div>
+          <p class="beta">Beta</p>
         </div>
         <h3 class="title-text hide-mobile">Зручна та ефективна система управління Вашою оселею</h3>
       </div>
-      <app-footer></app-footer>
-
-      <!-- <div class="logo-box hide-mobile">
+      <div class="logo-box hide-mobile">
         <div class="text"> © Discussio. Simplify property management with Discussio.
           Developed by Discussio team 2023.</div>
-      </div> -->
+      </div>
     </div>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
@@ -28,48 +26,66 @@
           <p>Зареєструйтесь для входу </p>
           <button (click)="toggleMode()" class="btn-none">або увійдіть в аккаунт.</button>
         </div>
+
         <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
-          <mat-form-field class="inputbox">
+
+          <button (click)="copyDiscussio()">email</button>
+
+          <div class="flex-box input-email w-100">
+            <mat-form-field class="inputbox" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput class="input-field" id="regEmail" type="email" formControlName="regEmail"
+                placeholder="email" maxlength="30" minlength="7" required>
+              <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field class="inputbox" *ngIf="indexBtn === 2">
             <mat-label>Дата народження</mat-label>
             <input matInput [matDatepicker]="picker" id="dob" formControlName="dob">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-          <mat-form-field class="inputbox mt-2" appearance="outline">
-            <mat-label>Ім'я користувача</mat-label>
-            <input matInput class="input-field" id="userName" type="text" formControlName="userName"
-              placeholder="Ім'я користувача" required maxlength="15" minlength="3">
-            <div *ngIf="formErrors.userName" class="alert alert-danger">{{formErrors.userName}}</div>
-          </mat-form-field>
 
-          <button class="btn-discussi" matTooltip="Копіювати" (click)="copyDiscussio()">
-            <div *ngIf="!isCopied" class="title-selected-accent">@discussio.beta</div>
-            <div *ngIf="isCopied" class="title-selected-accent message">Cкопійовано!</div>
-          </button>
-
-          <mat-form-field class="inputbox" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput class="input-field" id="email" type="email" formControlName="email" placeholder="email"
-              required>
-            <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
-          </mat-form-field>
-          <mat-form-field class="inputbox" appearance="outline">
+          <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 2">
             <mat-label>Пароль</mat-label>
-            <input matInput class="input-field" id="password" [type]="passwordType" name="password"
-              formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
+            <input matInput class="input-field" id="regPassword" [type]="passwordType" name="regPassword"
+              formControlName="regPassword" placeholder="Пароль" required maxlength="25" minlength="7">
             <button type="button" (click)="togglePasswordVisibility()" class="see">
               <i class="icon"
                 [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
             </button>
-            <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+            <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
           </mat-form-field>
 
+
+
+
+
           <button class="btn" [disabled]="!registrationForm.valid || !agreementAccepted"
-            [ngClass]="{'disabled-button': !registrationForm.valid || !agreementAccepted}">
+            [ngClass]="{'disabled-button': !registrationForm.valid || !agreementAccepted}" *ngIf="indexBtn === 2">
             Зареєструватись
           </button>
         </form>
-        <div class="box-agree p-2">
+
+        <button class="btn" [disabled]="formErrors.regEmail" [ngClass]="{'disabled-button': formErrors.regEmail}"
+          (click)="checkEmail()" *ngIf="indexBtn === 0" (click)="checkEmail()">
+          Надіслати
+        </button>
+
+        <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="indexBtn === 1">
+          <mat-label>Код підтвердження пошти</mat-label>
+          <div class="mat-input-container">
+            <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+              placeholder="Введіть код який прийшов вам на email">
+          </div>
+        </mat-form-field>
+
+        <button class="btn" [disabled]="!emailCheckCode" *ngIf="indexBtn === 1" (click)="checkEmailCode()">
+          Підтвердити Email
+        </button>
+
+        <div class="box-agree p-2" *ngIf="indexBtn === 2">
           <label class="checkBox">
             <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
             <div class="transition"></div>
@@ -118,4 +134,4 @@
   <div class="status-message-text">{{ statusMessage }}</div>
   <img class="status-message-logo" src="{{path_logo}}" alt="logo">
   <div class="status-message-name">Discussio</div>
-</div>
+</div> -->

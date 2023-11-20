@@ -44,15 +44,13 @@ export class SharedService {
 
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result !== 0 && userJson && flat) {
-        const userInfo = JSON.parse(userJson);
         const data = {
           auth: JSON.parse(userJson),
           flat_id: flat.flat_id ? flat.flat_id : flat.flat.flat_id,
           reason: result.selectedReport,
           about: result.aboutReport,
-          user_id: userInfo.user_id,
         };
-        // console.log(data)
+        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
           console.log(response);
@@ -84,9 +82,9 @@ export class SharedService {
           auth: JSON.parse(userJson),
           reason: result.selectedReport,
           about: result.aboutReport,
-          user_id: userInfo.user_id,
+          user_id: user.user_id,
         };
-        // console.log(data)
+        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
           console.log(response);

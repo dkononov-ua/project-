@@ -40,7 +40,6 @@ interface UserInfo {
   house: number | undefined;
   flat: number | undefined;
   limit: number;
-
   kitchen_area: number | undefined;
 }
 @Component({
@@ -51,12 +50,11 @@ interface UserInfo {
 
 export class SearchTenantComponent implements OnInit {
 
-  limit: number = 0;
   // загальна кількість знайдених осель
 
   // пагінатор
   offs = PaginationConfig.offs;
-  counterFound = PaginationConfig.counterFound;
+  optionsFound = PaginationConfig.counterFound;
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
@@ -130,6 +128,10 @@ export class SearchTenantComponent implements OnInit {
   filter_group: number = 1;
   openUser: boolean = false;
 
+  card_info: number = 0;
+  indexPage: number = 1;
+  shownCard: any;
+
   filterSwitchNext() {
     if (this.filter_group < 4) {
       this.filter_group++;
@@ -167,7 +169,12 @@ export class SearchTenantComponent implements OnInit {
   constructor(
     private filterUserService: FilterUserService,
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) { }
+    private selectedFlatService: SelectedFlatService) {
+    this.filterUserService.filterChange$.subscribe(async () => {
+      this.card_info = this.filterUserService.getCardInfo();
+      this.indexPage = this.filterUserService.getIndexPage();
+    })
+  }
 
   async ngOnInit(): Promise<void> {
     this.getSelectedFlatId();
@@ -273,13 +280,13 @@ export class SearchTenantComponent implements OnInit {
           console.log(response)
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
             this.filteredUsers = response.user_inf;
-            this.counterFound = response.search_count;
-            this.passInformationToService(this.filteredUsers, this.counterFound);
+            this.optionsFound = response.search_count;
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
             this.loading = false;
           } else {
             this.filteredUsers = [null];
-            this.counterFound = 0;
-            this.passInformationToService(this.filteredUsers, this.counterFound);
+            this.optionsFound = 0;
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
             this.loading = false;
           }
         }, (error: any) => {
@@ -288,7 +295,7 @@ export class SearchTenantComponent implements OnInit {
 
         });
     } else {
-      this.passInformationToService(this.filteredUsers, this.counterFound)
+      this.passInformationToService(this.filteredUsers, this.optionsFound)
       console.log('user not found');
       this.loading = false;
     }
@@ -306,7 +313,7 @@ export class SearchTenantComponent implements OnInit {
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
             console.log(this.filteredUsers)
-            this.filterUserService.updateFilter(this.filteredUsers, this.counterFound);
+            this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
           }, (error: any) => {
             console.error(error);
           });
@@ -328,8 +335,9 @@ export class SearchTenantComponent implements OnInit {
   }
 
   // передача отриманих даних до сервісу а потім виведення на картки карток
-  passInformationToService(filteredFlats: any, counterFound: number) {
-    this.filterUserService.updateFilter(filteredFlats, counterFound);
+  passInformationToService(filteredFlats: any, optionsFound: number) {
+    this.calculatePaginatorInfo()
+    this.filterUserService.updateFilter(filteredFlats, optionsFound);
   }
 
   // завантаження бази міст
@@ -364,7 +372,11 @@ export class SearchTenantComponent implements OnInit {
 
   // наступна сторінка
   incrementOffset() {
-    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
+    console.log(1111111)
+    console.log(this.optionsFound)
+    console.log(this.pageEvent.pageIndex)
+    console.log(this.pageEvent.pageSize)
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.userInfo.limit = offs;
@@ -381,5 +393,35 @@ export class SearchTenantComponent implements OnInit {
     }
     this.searchFilter();
   }
+
+  changeOpenUser() {
+    this.openUser = !this.openUser;
+  }
+
+  changeIndexPage(indexPage: number) {
+    this.indexPage = indexPage;
+    this.openUser = true;
+    this.passIndexPage();
+  }
+
+  changeCardInfo(cardInfo: number) {
+    this.card_info = cardInfo;
+    this.openUser = true;
+    this.passIndexPage();
+  }
+
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passIndexPage() {
+    this.filterUserService.updatePage(this.card_info, this.indexPage);
+  }
+
+  calculatePaginatorInfo(): string {
+    const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
+    const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
+    this.shownCard = `${startIndex} - ${endIndex}`;
+    console.log(this.shownCard)
+    return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
+  }
+
 }
 

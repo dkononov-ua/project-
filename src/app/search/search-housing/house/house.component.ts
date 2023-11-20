@@ -12,7 +12,6 @@ import { SharedService } from 'src/app/services/shared.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals, options, checkBox } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
-
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -59,7 +58,7 @@ export class HouseComponent implements OnInit {
 
   // пагінатор
   offs = PaginationConfig.offs;
-  counterFound = PaginationConfig.counterFound;
+  optionsFound = PaginationConfig.counterFound;
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
@@ -72,7 +71,7 @@ export class HouseComponent implements OnInit {
   locationLink: any = '';
   currentCardIndex: number = 0;
   currentPhotoIndex: number = 0;
-  card_info: boolean = false;
+
   // статуси
   loading = true;
   isSubscribed: boolean = false;
@@ -81,8 +80,9 @@ export class HouseComponent implements OnInit {
   statusSubscriptionMessage: boolean | undefined;
   subscriptionStatus: any;
   statusMessage: any;
+
+  card_info: number = 0;
   indexPage: number = 1;
-  optionsFound: number = 0;
 
   constructor(
     private filterService: FilterService,
@@ -102,6 +102,8 @@ export class HouseComponent implements OnInit {
       this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
+        this.card_info = this.filterService.getCardInfo();
+        this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
           console.log(filterValue)
           this.getFilteredData(filterValue, optionsFound);
@@ -133,10 +135,16 @@ export class HouseComponent implements OnInit {
   selectFlat(flat: HouseInfo) {
     this.currentPhotoIndex = 0;
     this.indexPage = 2;
+    this.passIndexPage();
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
     this.selectedFlat = flat;
     this.checkSubscribe();
     this.generateLocationUrl();
+  }
+
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passIndexPage() {
+    this.filterService.updatePage(this.card_info, this.indexPage);
   }
 
   onPrevCard() {

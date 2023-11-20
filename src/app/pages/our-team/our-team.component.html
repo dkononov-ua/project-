@@ -1,7 +1,6 @@
-<app-navbar></app-navbar>
-<section class="our-team">
+<section class="our-team mt-2">
   <div class="container-card mt-2">
-    <h3>Команда яка займається розробкою платформи<span class="bold accent"> Discussio</span></h3>
+    <h3 class="t-c">Команда яка займається розробкою платформи<span class="bold accent"> Discussio</span></h3>
     <div class="row row-mid">
       <div class="col-md-4" *ngFor="let member of teamMembers">
         <div class="team-member">
@@ -13,8 +12,9 @@
             <p class="team-member-position">{{ member.position }}</p>
             <p class="team-member-description">{{ member.description }}</p>
             <div class="team-member-social">
+              <a href="{{ member.social.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
               <a href="{{ member.social.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
-              <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a>
+              <!-- <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a> -->
               <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
             </div>
           </div>

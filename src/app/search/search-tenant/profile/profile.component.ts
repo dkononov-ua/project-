@@ -75,13 +75,10 @@ export class ProfileComponent implements OnInit {
   subscriptionStatus: any;
   statusMessage: any;
   loading = true;
-  indexPage: number = 1;
   optionsFound: number = 0;
 
-  card_info: boolean = false;
-  openInfoUser() {
-    this.card_info = true;
-  }
+  card_info: number = 0;
+  indexPage: number = 1;
 
   constructor(
     private filterService: FilterUserService,
@@ -90,6 +87,10 @@ export class ProfileComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
   ) {
+    this.filterService.filterChange$.subscribe(async () => {
+      this.card_info = this.filterService.getCardInfo();
+      this.indexPage = this.filterService.getIndexPage();
+    })
   }
 
   ngOnInit(): void {
@@ -114,6 +115,8 @@ export class ProfileComponent implements OnInit {
       this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
+        this.card_info = this.filterService.getCardInfo();
+        this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
           this.getFilteredData(filterValue, optionsFound);
         } else {
@@ -140,10 +143,12 @@ export class ProfileComponent implements OnInit {
   }
 
   selectUser(user: UserInfo) {
-    this.selectedUser = this.filteredUsers![0];
-    this.selectedUser = user;
-    this.checkSubscribe();
     this.indexPage = 2;
+    console.log(this.indexPage)
+    this.currentCardIndex = this.filteredUsers!.indexOf(user);
+    this.selectedUser = user;
+    this.passIndexPage();
+    this.checkSubscribe();
   }
 
   private updateSelectedUser() {
@@ -213,6 +218,7 @@ export class ProfileComponent implements OnInit {
 
   async reportUser(user: any): Promise<void> {
     this.sharedService.reportUser(user);
+    console.log(user)
     this.sharedService.getReportResultSubject().subscribe(result => {
       // Обробка результату в компоненті
       if (result.status === true) {
@@ -227,6 +233,11 @@ export class ProfileComponent implements OnInit {
         }, 2000);
       }
     });
+  }
+
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passIndexPage() {
+    this.filterService.updatePage(this.card_info, this.indexPage);
   }
 }
 
