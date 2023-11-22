@@ -155,18 +155,18 @@ export class RegistrationComponent implements OnInit {
               localStorage.removeItem('house');
               localStorage.removeItem('selectedFlatId');
               this.statusMessage = 'Помилка реєстрації.';
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
+              // setTimeout(() => {
+              //   location.reload();
+              // }, 1000);
             } else if (response.status === 'Не правильний ключ-пошта') {
               console.error(response.status);
               localStorage.removeItem('user');
               localStorage.removeItem('house');
               localStorage.removeItem('selectedFlatId');
               this.statusMessage = 'Помилка реєстрації.';
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
+              // setTimeout(() => {
+              //   location.reload();
+              // }, 1000);
             } else {
               this.statusMessage = 'Вітаємо в Discussio!';
               localStorage.setItem('user', JSON.stringify(response));

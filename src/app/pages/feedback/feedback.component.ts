@@ -75,16 +75,6 @@ export class FeedbackComponent implements OnInit {
   getOpen() {
     this.openPassword = !this.openPassword;
   }
-  passwordCheck: any;
-  passwordAdmin: any;
-
-  checkPassword() {
-    if (this.passwordAdmin == 'discAdm321') {
-      this.passwordCheck = true;
-    } else {
-      this.passwordCheck = false;
-    }
-  }
 
   constructor(
     private http: HttpClient) { }

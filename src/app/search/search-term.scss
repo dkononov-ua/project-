@@ -228,7 +228,6 @@ mat-hint {
   @include s1-s3 {
     width: 100%;
     flex-direction: column;
-    padding-top: 10px;
     align-items: stretch;
   }
 }
@@ -266,7 +265,6 @@ mat-hint {
   align-items: baseline;
   flex-direction: column;
   @include s1-s3 {
-    padding: 10px;
     align-items: center;
   }
 }

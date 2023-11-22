@@ -84,6 +84,9 @@ export class SubscribersUserComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
+  reviews: any;
+  numberOfReviews: any;
+
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
@@ -333,16 +336,20 @@ export class SubscribersUserComponent implements OnInit {
     };
 
     try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (response && Array.isArray(response.status)) {
+      const response: any = await this.http.post(url, data).toPromise() as any[];
+      this.numberOfReviews = response.status.length;
+      this.reviews = response.status;
+      if (this.reviews && Array.isArray(this.reviews)) {
         let totalMarkOwner = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            totalMarkOwner += item.mark;
+        this.reviews.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkOwner += item.info.mark;
             this.ratingOwner = totalMarkOwner;
           }
         });
       } else {
+        this.numberOfReviews = 0;
+        this.ratingOwner = response.status.mark;
         console.log('Власник без оцінок.');
       }
     } catch (error) {
@@ -351,7 +358,6 @@ export class SubscribersUserComponent implements OnInit {
   }
 
   async reportHouse(flat: any): Promise<void> {
-    console.log(flat)
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
       // Обробка результату в компоненті

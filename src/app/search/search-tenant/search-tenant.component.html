@@ -3,6 +3,14 @@
 
     <div class="search_panel">
       <div class="box m-1">
+
+        <div class="flex-box m-1 hide-pc">
+          <button class="btn bold" [routerLink]="'/house/house-info'">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="t-min">Назад</div>
+        </div>
+
         <div class="flex-box m-1">
           <button class="btn bold" (click)="changeOpenUser()" [ngClass]="{ 'active': openUser === false}">
             <i class="fa-solid fa-filter"></i>
@@ -33,24 +41,41 @@
 
     </div>
 
-    <div class="search-group col-12">
+    <div class="search-group col-12 p-2">
 
       <aside class="search-filter col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!openUser">
 
+        <div class="t-lar-xx bold hide-pc">Пошук орендара</div>
+
+        <div class="item-name">Фільтр {{filter_group}} / 4</div>
         <div class="search-filter-switch col-12">
-          <button class="btn" (click)="filterSwitchPrev()"><i class="fa-solid fa-caret-left"></i></button>
-          <div class="item-name">Фільтр {{filter_group}} / 4</div>
-          <button class="btn" (click)="filterSwitchNext()"><i class="fa-solid fa-caret-right"></i></button>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="filterSwitchPrev()"><i class="fa-solid fa-caret-left"></i></button>
+            <div class="t-min">Фільтр</div>
+          </div>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="filterSwitchNext()"><i class="fa-solid fa-caret-right"></i></button>
+            <div class="t-min">Фільтр</div>
+          </div>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="loadDataFlat()"><i class="fa-regular fa-paste"></i></button>
+            <div class="t-min">Мої дані</div>
+          </div>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="clearFilter()"><i class="fa-solid fa-broom"></i></button>
+            <div class="t-min">Очистити</div>
+          </div>
+
         </div>
+
 
         <div class="search-filter-group col-12" *ngIf="filter_group === 1">
 
           <app-selection-housing class="w-100"></app-selection-housing>
-
-          <div class="btn-group w-100 mt-1">
-            <button class="btn-search w-50 mr-2" (click)="loadDataFlat()" *ngIf="selectedFlatId">Пошук по оселі</button>
-            <button class="btn-search w-50" (click)="clearFilter()">Очистити фільтри</button>
-          </div>
 
           <mat-form-field class="item-select" appearance="outline">
             <input name="flatInfo.region" matInput (ngModelChange)="onSubmitWithDelay()" placeholder="Область"

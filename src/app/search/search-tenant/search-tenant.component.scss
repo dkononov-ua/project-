@@ -3,3 +3,9 @@
 @use "../search-term.scss";
 
 
+.search_box {
+  @include s1-s3 {
+    height: 93vh;
+    justify-content: flex-start;
+  }
+}

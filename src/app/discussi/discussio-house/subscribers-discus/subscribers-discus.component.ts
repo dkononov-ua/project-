@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
@@ -16,6 +16,9 @@ import { PaginationConfig } from 'src/app/config/paginator';
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
   styleUrls: ['./subscribers-discus.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
   animations: [
     trigger('cardAnimation2', [
       transition('void => *', [
@@ -73,6 +76,10 @@ export class SubscribersDiscusComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
+  numberOfReviews: any;
+  totalDays: any;
+  reviews: any;
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -128,7 +135,6 @@ export class SubscribersDiscusComponent implements OnInit {
   async openDialog(subscriber: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/acceptsubs/delete/subs';
-
     const dialogRef = this.dialog.open(DeleteSubComponent, {
       data: {
         user_id: subscriber.user_id,
@@ -136,7 +142,9 @@ export class SubscribersDiscusComponent implements OnInit {
         lastName: subscriber.lastName,
         component_id: 3,
       }
+
     });
+
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
         const data = {
@@ -216,14 +224,15 @@ export class SubscribersDiscusComponent implements OnInit {
       auth: JSON.parse(userJson!),
       user_id: selectedUser.user_id,
     };
-
     try {
       const response = await this.http.post(url, data).toPromise() as any;
+      this.reviews = response.status;
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            totalMarkTenant += item.mark;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkTenant += item.info.mark;
             this.ratingTenant = totalMarkTenant;
           }
         });
@@ -234,7 +243,6 @@ export class SubscribersDiscusComponent implements OnInit {
       console.error(error);
     }
   }
-
 
   // Дискусії
   async getAcceptSubsCount() {

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ViewComunService } from 'src/app/services/view-comun.service';
 import { Router } from '@angular/router';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -23,6 +24,9 @@ interface chosenFlat {
   selector: 'app-subscriptions-user',
   templateUrl: './subscriptions-user.component.html',
   styleUrls: ['./subscriptions-user.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -64,7 +68,6 @@ export class SubscriptionsUserComponent implements OnInit {
   statusMessage: any;
   statusMessageChat: any;
   // показ карток
-  card_info: boolean = false;
   indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
@@ -74,9 +77,7 @@ export class SubscriptionsUserComponent implements OnInit {
     this.indexPage = indexPage;
     this.indexMenuMobile = indexMenuMobile;
   }
-  openInfoUser() {
-    this.card_info = true;
-  }
+
   // пагінатор
   offs = PaginationConfig.offs;
   counterFound = PaginationConfig.counterFound;
@@ -84,10 +85,15 @@ export class SubscriptionsUserComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
+  card_info: number = 0;
+  reviews: any;
+  numberOfReviews: any;
+
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
     private dialog: MatDialog,
+    private selectedViewComun: ViewComunService,
     private router: Router,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
@@ -95,7 +101,7 @@ export class SubscriptionsUserComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getSubInfo(null, this.offs);
-    await this.getSubsCount();
+    await this.getAcceptSubsCount();
     await this.getCurrentPageInfo();
   }
 
@@ -133,8 +139,9 @@ export class SubscriptionsUserComponent implements OnInit {
     }
   }
 
+
   // Перемикання оселі
-  onFlatSelect(flat: any) {
+  async onFlatSelect(flat: any) {
     this.ratingOwner = 0;
     this.currentPhotoIndex = 0;
     this.indexPage = 1;
@@ -171,6 +178,15 @@ export class SubscriptionsUserComponent implements OnInit {
   copyFlatId() {
     this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано');
   }
+  copyOwnerId() {
+    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано');
+  }
+  copyTell() {
+    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Телефон скопійовано');
+  }
+  copyMail() {
+    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано');
+  }
 
   // Перезавантаження сторінки з лоадером
   reloadPage() {
@@ -190,7 +206,7 @@ export class SubscriptionsUserComponent implements OnInit {
         flatId: flat.flat.flat_id,
         flatName: flat.flat.flat_name,
         flatCity: flat.flat.city,
-        flatSub: 'subscriptions',
+        flatSub: 'discussio',
       }
     });
 
@@ -213,6 +229,7 @@ export class SubscriptionsUserComponent implements OnInit {
     });
   }
 
+
   // Генерую локацію оселі
   generateLocationUrl() {
     const baseUrl = 'https://www.google.com/maps/place/';
@@ -234,6 +251,23 @@ export class SubscriptionsUserComponent implements OnInit {
   // Відкриваю локацію на мапі
   openMap() {
     window.open(this.locationLink, '_blank');
+  }
+
+  // Отримую загальну кількість
+  async getAcceptSubsCount() {
+    const userJson = localStorage.getItem('user')
+    const url = serverPath + '/subs/get/countYSubs';
+    const data = {
+      auth: JSON.parse(userJson!),
+    };
+
+    try {
+      const response: any = await this.http.post(url, data).toPromise() as any;
+      this.counterFound = response.status;
+    }
+    catch (error) {
+      console.error(error)
+    }
   }
 
   // пагінатор наступна сторінка з картками
@@ -268,25 +302,38 @@ export class SubscriptionsUserComponent implements OnInit {
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
 
-  // Отримую загальну кількість дискусій
-  async getSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/subs/get/countYSubs';
+  // отримую рейтинг власника оселі
+  async getRatingOwner(user_id: any): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/ownerMarks';
     const data = {
       auth: JSON.parse(userJson!),
+      user_id: user_id,
     };
 
     try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
-      this.counterFound = response.status;
-    }
-    catch (error) {
-      console.error(error)
+      const response: any = await this.http.post(url, data).toPromise() as any[];
+      this.numberOfReviews = response.status.length;
+      this.reviews = response.status;
+      if (this.reviews && Array.isArray(this.reviews)) {
+        let totalMarkOwner = 0;
+        this.reviews.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkOwner += item.info.mark;
+            this.ratingOwner = totalMarkOwner;
+          }
+        });
+      } else {
+        this.numberOfReviews = 0;
+        this.ratingOwner = response.status.mark;
+        console.log('Власник без оцінок.');
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
   async reportHouse(flat: any): Promise<void> {
-    console.log(flat)
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
       // Обробка результату в компоненті

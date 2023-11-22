@@ -47,7 +47,10 @@
   display: none;
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
   text-align: center;
 }
 
@@ -60,7 +63,7 @@ h1, h2, h3, p {
 
 .btn-add {
   background-color: transparent;
-  border: 1px solid #7E7F7F;
+  border: 1px solid #7e7f7f;
   border-radius: 50%;
   width: 55px;
   height: 55px;
@@ -81,6 +84,23 @@ h1, h2, h3, p {
     background-color: $color-white;
     padding-top: 20px;
     top: 0;
+  }
+}
+
+.switch-box {
+  justify-content: flex-start;
+  @include s1-s3 {
+    overflow-x: auto;
+  }
+  .switch-btn-group {
+    .btn {
+      width: 60px;
+    }
+
+    a {
+      margin: 0;
+      padding: 0;
+    }
   }
 }
 

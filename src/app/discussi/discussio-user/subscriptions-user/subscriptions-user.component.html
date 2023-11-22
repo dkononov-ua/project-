@@ -5,6 +5,13 @@
     <div class="switch-box">
 
       <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="t-min dark bold">Назад</div>
+      </div>
+
+      <div class="switch-btn-group">
         <button class="btn" (click)="onClickMenu(0,0,0)" [ngClass]="{ 'active': indexMenu == 0}">
           <i class="fa-solid fa-circle-info"></i>
         </button>
@@ -47,8 +54,8 @@
       <div class="param-box">
         <div class="param-name">
           <p class="t-med ">Підписуватись на оселі можна в пошуку оселей</p>
-          <a class="param-name-text link-toMenu" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
-              class="ml-2 accent">пошуку оселі тут</span></a>
+          <a class="param-name-text link-toMenu" [routerLink]="'/search/house'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пошуку оселі тут</span></a>
           <p class="t-med ">Після того як вас ухвалять оселя з'явиться в меню Дискусії</p>
           <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
               class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">меню Дискусії тут</span></a>
@@ -57,13 +64,14 @@
       </div>
     </div>
 
+
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
       <div class="paginator-container">
         <button class="paginator-btn" (click)="decrementOffset()">
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього {{counterFound}}</div>
+          <div class="t-min">Всього Дискусій {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -95,9 +103,11 @@
         </div>
       </div>
     </div>
+
   </div>
 
   <div class="card-box mt-3 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="counterFound !== 0 && indexMenu == 1">
+
     <!-- всі картки для мобільного -->
     <div [@cardAnimation] class="card-animation hide-pc" *ngIf="indexPage == 0 && indexMenuMobile == 1">
       <div class="paginator-container">
@@ -105,7 +115,7 @@
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього {{counterFound}}</div>
+          <div class="t-min">Всього Дискусій {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -210,6 +220,13 @@
 
             <div class="btn-container">
 
+              <div class="img-btn-box" *ngIf="ratingOwner">
+                <button class="img-btn" (click)="indexPage = 4"><i class="fa-regular fa-star"></i>
+                </button>
+                <div><span class="t-med bold">{{ratingOwner}} </span><span class="t-min">({{numberOfReviews}})</span>
+                </div>
+              </div>
+
               <div class="img-btn-box">
                 <button class="img-btn" matTooltip="Копіювати" (click)="copyFlatId()"><i class="fa-solid fa-info"></i><i
                     class="fa-solid fa-d"></i></button>
@@ -237,31 +254,59 @@
           </div>
         </div>
 
-        <div class="p-2">
-
-          <div class="price">
-            <div class="flex-box-row">
-              <div class="flex-box" *ngIf="chosenFlat.flat.rooms">
-                <div class="room">{{ chosenFlat.flat.rooms }}</div>
-                <div class="t-min gray">кімнат</div>
-              </div>
-
-              <div class="ml-5 flex-box" *ngIf="chosenFlat.flat.area">
-                <div class="room">{{ chosenFlat.flat.area | number:'1.0-0' }}</div>
-                <div class="t-min gray">м²</div>
-              </div>
-
-              <div class="flex-box" *ngIf="chosenFlat.flat.option_pay === 0">
-                <div class="room"> {{ chosenFlat.flat.price_m | number:'1.0-0' }} </div>
-                <div class="t-min gray">ціна ₴/міс</div>
-              </div>
-
-              <div class="ml-2 flex-box" *ngIf="chosenFlat.flat.option_pay !== 0">
-                <div class="room"> {{ chosenFlat.flat.price_d | number:'1.0-0' }} </div>
-                <div class="t-min gray">ціна ₴/добу</div>
-              </div>
+        <div class="flex-box wrap">
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.rooms">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.rooms }}</div>
+              <div class="t-min bg-w">Кімнат</div>
             </div>
           </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.area">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.area | number:'1.0-0' }}</div>
+              <div class="t-min bg-w">Площа</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.floor">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.floor }}</div>
+              <div class="t-min bg-w">Поверх</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.option_pay === 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_m | number:'1.0-0' }}</div>
+              <div class="t-min bg-w accent">Ціна ₴/міс</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.option_pay !== 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_d | number:'1.0-0' }}</div>
+              <div class="t-min bg-w accent">Ціна ₴/добу</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.street">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar bold">{{ chosenFlat.flat.street }}</div>
+              <div class="t-min bg-w">Вулиця</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.houseNumber">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="w-100 bg-g t-lar-x bold">{{ chosenFlat.flat.houseNumber }}</div>
+              <div class="t-min bg-w">Будинок</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="p-2">
 
           <div class="param-box" *ngIf="chosenFlat.flat.region || chosenFlat.flat.city">
             <div class="param-label">Локація:</div>
@@ -374,12 +419,11 @@
 
       </div>
     </div>
+
   </div>
 
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
-</div>
+  <div *ngIf="statusMessage" class="status-message">
+    <div class="status-message-text">{{ statusMessage }}</div>
+    <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+    <div class="status-message-name">Discussio</div>
+  </div>

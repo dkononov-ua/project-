@@ -43,6 +43,7 @@ export interface UserInfo {
   telegram: string;
   viber: string;
   facebook: string;
+  mail: any;
 }
 
 export interface HouseInfo {

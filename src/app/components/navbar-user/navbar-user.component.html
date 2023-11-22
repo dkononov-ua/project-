@@ -18,21 +18,21 @@
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-user'">
       <div class="link-text">Пропозиції<span class="count"
-          *ngIf="counterSubs?.status && counterSubs?.status !== 0">({{counterSubs?.status}}) </span>
+          *ngIf="counterUserSubs?.status && counterUserSubs?.status !== 0">({{counterUserSubs?.status}}) </span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
       <div class="link-text">Вподобання<span class="count"
-          *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
+          *ngIf="counterUserSubscriptions?.status && counterUserSubscriptions?.status !== 0">({{counterUserSubscriptions?.status}})</span>
       </div>
       <div class="link-icon"><i class="fa-regular fa-heart"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
       <div class="link-text">Дискусії <span class="count"
-          *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
+          *ngIf="counterUserDiscuss?.status && counterUserDiscuss?.status !== 0">({{counterUserDiscuss?.status}})</span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-person-walking-luggage"></i></div>
     </a>

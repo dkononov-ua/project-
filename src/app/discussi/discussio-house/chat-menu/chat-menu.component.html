@@ -4,8 +4,9 @@
 
 <ng-template #content>
   <app-navbar></app-navbar>
-  <div class="container-card">
+  <app-menu></app-menu>
 
+  <div class="container-card">
     <div class="card-box col-lg-3 col-md-4 col-sm-4 col-12 hide-mobile">
       <app-navbar-house></app-navbar-house>
     </div>
@@ -21,6 +22,7 @@
     </div>
 
     <div class="card-box col-lg-5 col-md-8 col-sm-8 col-12 hide-pc" *ngIf="chatOpen">
+
       <button class="btn-close1 hide-pc" (click)="openMenuChat()"><i class="fa-solid fa-chevron-left"></i></button>
       <div class="chat">
         <app-chat-house></app-chat-house>
@@ -28,9 +30,11 @@
     </div>
 
     <div class="card-box1 col-lg-4 col-md-4 col-sm-4 hide-pc" *ngIf="chatMenuOpen">
+      <div class="w-100">
+        <div class="t-lar-xx bold t-c">Повідомлення оселі</div>
+      </div>
       <app-chat-rooms (click)="openChat()" class="w-100"></app-chat-rooms>
     </div>
 
   </div>
-  <app-footer></app-footer>
 </ng-template>

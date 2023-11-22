@@ -33,6 +33,7 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { CropImgComponent } from '../components/crop-img/crop-img.component';
+import { MenuComponent } from '../components/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { CropImgComponent } from '../components/crop-img/crop-img.component';
     SelectionDiscussioComponent,
     AddHouseComponent,
     CropImgComponent,
-
+    MenuComponent,
   ],
   exports: [
     NavbarComponent,
@@ -61,7 +62,7 @@ import { CropImgComponent } from '../components/crop-img/crop-img.component';
     SelectionDiscussioComponent,
     AddHouseComponent,
     CropImgComponent,
-
+    MenuComponent,
   ],
   providers: [
     UpdateComponentService,

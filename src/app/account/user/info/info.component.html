@@ -4,15 +4,20 @@
 
 <ng-template #content>
   <div class="container-box">
+
+    <app-menu class="w-100"></app-menu>
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+
       <div class="card">
+        <div class="t-lar bold t-c hide-pc">Профіль користувача</div>
+
         <div class="img-fluid">
           <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
             (error)="useDefaultImage($event)">
         </div>
 
         <div class="social-link-container">
-          <div>Посилання на мій:</div>
+          <div class="t-min">Посилання на мій:</div>
           <div class="social-link-box" *ngIf="!user.instagram && !user.facebook && !user.telegram">
             <p class="text">Посилання на мене відсутні.</p>
             <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
@@ -276,4 +281,6 @@
       </div>
     </div>
   </div>
+
+  <app-footer></app-footer>
 </ng-template>

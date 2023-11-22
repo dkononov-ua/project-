@@ -60,6 +60,9 @@ export class ProfileComponent implements OnInit {
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
 
+  // рейтинг орендара
+  ratingTenant: number | undefined;
+
   // параметри користувача
   isSubscribed: boolean = false;
   subscriptionMessage: string | undefined;
@@ -79,6 +82,9 @@ export class ProfileComponent implements OnInit {
 
   card_info: number = 0;
   indexPage: number = 1;
+  numberOfReviews: any;
+  totalDays: any;
+  reviews: any;
 
   constructor(
     private filterService: FilterUserService,
@@ -132,6 +138,7 @@ export class ProfileComponent implements OnInit {
     if (filterValue) {
       this.filteredUsers = filterValue;
       this.optionsFound = optionsFound;
+      console.log(this.filteredUsers)
       this.selectedUser = this.filteredUsers![0];
       this.loading = false;
     } else {
@@ -144,33 +151,50 @@ export class ProfileComponent implements OnInit {
 
   selectUser(user: UserInfo) {
     this.indexPage = 2;
+    this.getRating(user)
     console.log(this.indexPage)
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
     this.passIndexPage();
     this.checkSubscribe();
+    this.calculateTotalDays()
+    this.updateSelectedUser();
   }
 
   private updateSelectedUser() {
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
     this.checkSubscribe();
+    this.calculateTotalDays()
+    this.getRating(this.selectedUser)
   }
 
   onPrevCard() {
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
     this.checkSubscribe();
+    this.calculateTotalDays()
     this.updateSelectedUser();
   }
 
   onNextCard() {
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
     this.checkSubscribe();
+    this.calculateTotalDays()
     this.updateSelectedUser();
   }
 
   private calculateCardIndex(index: number): number {
     const length = this.filteredUsers?.length || 0;
     return (index + length) % length;
+  }
+
+  calculateTotalDays(): number {
+    const days = this.selectedUser.days || 0;
+    const weeks = this.selectedUser.weeks || 0;
+    const months = this.selectedUser.months || 0;
+    const years = this.selectedUser.years || 0;
+    const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    this.totalDays = totalDays;
+    return totalDays;
   }
 
   onSubmitSbs(): void {
@@ -239,5 +263,41 @@ export class ProfileComponent implements OnInit {
   passIndexPage() {
     this.filterService.updatePage(this.card_info, this.indexPage);
   }
+
+  async getRating(selectedUser: any): Promise<any> {
+    console.log(selectedUser);
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: selectedUser.user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response);
+
+      this.reviews = response.status;
+      console.log(this.reviews);
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkTenant += item.info.mark;
+            this.ratingTenant = totalMarkTenant;
+            console.log(this.ratingTenant);
+          }
+        });
+
+        console.log('Кількість відгуків:', this.numberOfReviews);
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 }
 

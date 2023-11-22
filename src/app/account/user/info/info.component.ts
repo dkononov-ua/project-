@@ -4,6 +4,7 @@ import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { forkJoin } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { CloseMenuService } from 'src/app/services/close-menu.service';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -57,6 +58,7 @@ interface UserInfo {
   ],
 })
 export class InfoComponent implements OnInit {
+  indexPage: number = 1;
 
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -155,9 +157,16 @@ export class InfoComponent implements OnInit {
     '3': 'Тільки песики',
   }
 
+  showMenu: boolean = false;
+
+  toggleMenu () {
+    this.showMenu = !this.showMenu;
+  }
+
   constructor(
     private dataService: DataService,
-    private http: HttpClient
+    private http: HttpClient,
+    private closeMenuService: CloseMenuService,
   ) { }
 
   ngOnInit(): void {
@@ -170,6 +179,11 @@ export class InfoComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  sendMenuOpen(closeMenu: boolean) {
+    this.closeMenuService.setCloseMenu(closeMenu);
+  }
+
   // інформація про орендара
   async getInfoUser(): Promise<any> {
     const userJson = localStorage.getItem('user');

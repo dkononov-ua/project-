@@ -11,9 +11,9 @@ export class NavbarUserComponent implements OnInit {
 
   unreadMessage: any;
   selectedFlatId!: string | null;
-  counterSubs: any;
-  counterSubscriptions: any;
-  counterAcceptSubs: any;
+  counterUserSubs: any;
+  counterUserSubscriptions: any;
+  counterUserDiscuss: any;
   loading: boolean = true;
   dataUpdated = false;
   offs: number = 0;
@@ -83,7 +83,7 @@ export class NavbarUserComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      this.counterSubs = response;
+      this.counterUserSubs = response;
     }
     catch (error) {
       console.error(error)
@@ -100,7 +100,7 @@ export class NavbarUserComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      this.counterSubscriptions = response;
+      this.counterUserSubscriptions = response;
     }
     catch (error) {
       console.error(error)
@@ -117,7 +117,7 @@ export class NavbarUserComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any[];
-      this.counterAcceptSubs = response;
+      this.counterUserDiscuss = response;
     }
     catch (error) {
       console.error(error)

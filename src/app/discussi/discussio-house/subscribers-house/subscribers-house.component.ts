@@ -72,6 +72,10 @@ export class SubscribersHouseComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
+  numberOfReviews: any;
+  totalDays: any;
+  reviews: any;
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -115,6 +119,7 @@ export class SubscribersHouseComponent implements OnInit {
     this.indexMenuMobile = 0;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
+    this.getRating(subscriber)
   }
 
   approveSubscriber(subscriber: UserInfo): void {
@@ -127,10 +132,12 @@ export class SubscribersHouseComponent implements OnInit {
         flat_id: selectedFlat,
         user_id: subscriber.user_id,
       };
+      console.log(data)
 
       this.http.post(serverPath + '/subs/accept', data)
         .subscribe(
           (response: any) => {
+            console.log(response)
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
             this.updateComponent.triggerUpdate();
             this.indexPage = 1;
@@ -262,6 +269,43 @@ export class SubscribersHouseComponent implements OnInit {
       }
     });
   }
+
+
+  async getRating(selectedUser: any): Promise<any> {
+    console.log(selectedUser);
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: selectedUser.user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response);
+
+      this.reviews = response.status;
+      console.log(this.reviews);
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkTenant += item.info.mark;
+            this.ratingTenant = totalMarkTenant;
+            console.log(this.ratingTenant);
+          }
+        });
+
+        console.log('Кількість відгуків:', this.numberOfReviews);
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
 
 }

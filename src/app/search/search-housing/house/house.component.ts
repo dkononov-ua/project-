@@ -83,6 +83,11 @@ export class HouseComponent implements OnInit {
 
   card_info: number = 0;
   indexPage: number = 1;
+  reviews: any;
+  numberOfReviews: any;
+  ratingOwner: number | undefined;
+  isCopiedMessage!: string;
+
 
   constructor(
     private filterService: FilterService,
@@ -138,6 +143,7 @@ export class HouseComponent implements OnInit {
     this.passIndexPage();
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
     this.selectedFlat = flat;
+    this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();
   }
@@ -151,6 +157,7 @@ export class HouseComponent implements OnInit {
     this.currentPhotoIndex = 0;
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();
   }
@@ -159,6 +166,7 @@ export class HouseComponent implements OnInit {
     this.currentPhotoIndex = 0;
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();
   }
@@ -284,6 +292,26 @@ export class HouseComponent implements OnInit {
         }, 2000);
       }
     });
+  }
+
+  // отримую рейтинг власника оселі
+  async getRating(selectedFlat: any): Promise<any> {
+    console.log(selectedFlat.rating);
+    if (selectedFlat && Array.isArray(selectedFlat.rating)) {
+      let totalMarkTenant = 0;
+      this.numberOfReviews = selectedFlat.rating.length;
+      selectedFlat.rating.forEach((item: { mark: number }) => {
+        if (item.mark) {
+          totalMarkTenant += item.mark;
+          this.ratingOwner = totalMarkTenant;
+          console.log(this.ratingOwner);
+        }
+      });
+
+      console.log('Кількість відгуків:', this.numberOfReviews);
+    } else if (selectedFlat.rating === false) {
+      this.ratingOwner = 0;
+    }
   }
 
 }

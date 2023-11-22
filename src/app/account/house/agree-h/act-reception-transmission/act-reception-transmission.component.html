@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
+<app-menu></app-menu>
 
 <div class="container-box" *ngIf="!isContainerVisible">
 
@@ -33,6 +34,13 @@
             можна додати в меню наповнення.</p>
           <a class="param-name-text link-toMenu" [routerLink]="'/housing-parameters/host/add-objects'"><i
               class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">Додати наповнення тут</span></a>
+        </div>
+      </div>
+      <div class="param-box">
+        <div class="param-name">
+          <p class="t-med ">Повернутись назад до меню угод.</p>
+          <a class="param-name-text link-toMenu" [routerLink]="'/house/agree-menu'"><i
+              class="fa-solid fa-arrow-left"></i><span class="ml-2 accent">Назад</span></a>
         </div>
       </div>
     </div>

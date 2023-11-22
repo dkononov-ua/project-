@@ -279,6 +279,7 @@ export class SearchTenantComponent implements OnInit {
         .subscribe((response: any) => {
           console.log(response)
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
+            
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
@@ -372,10 +373,6 @@ export class SearchTenantComponent implements OnInit {
 
   // наступна сторінка
   incrementOffset() {
-    console.log(1111111)
-    console.log(this.optionsFound)
-    console.log(this.pageEvent.pageIndex)
-    console.log(this.pageEvent.pageSize)
     if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;

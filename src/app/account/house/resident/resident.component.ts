@@ -5,9 +5,9 @@ import { ChoseSubscribersService } from '../../../services/chose-subscribers.ser
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 // переклад календаря
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 // переклад календаря
 
 export class Rating {
@@ -47,6 +47,14 @@ interface Subscriber {
   selector: 'app-resident',
   templateUrl: './resident.component.html',
   styleUrls: ['./resident.component.scss'],
+    // переклад календаря
+    providers: [
+      { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+      { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS], },
+      { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    ],
+    // переклад календаря
+
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -56,13 +64,7 @@ interface Subscriber {
     ]),
   ],
 
-  // переклад календаря
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS], },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-  ],
-  // переклад календаря
+
 })
 
 export class ResidentComponent implements OnInit {
@@ -72,6 +74,8 @@ export class ResidentComponent implements OnInit {
   helpInfo: number = 0;
   ratingTenant: number | undefined;
   ratingOwner: number | undefined;
+  numberOfReviewsOwner: any;
+  reviewsOwner: any;
 
   openHelpMenu(helpInfoIndex: number) {
     this.helpInfo = helpInfoIndex;
@@ -107,6 +111,10 @@ export class ResidentComponent implements OnInit {
 
   minDate!: string;
   maxDate!: string;
+
+  numberOfReviews: any;
+  totalDays: any;
+  reviews: any;
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -426,22 +434,28 @@ export class ResidentComponent implements OnInit {
     }
   }
 
-  sendRatingOwner(ownerID: any) {
+  sendRatingOwner(owner: any) {
+    console.log(owner)
     const userJson = localStorage.getItem('user');
     const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
     if (userJson) {
       const data = {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
-        user_id: ownerID,
+        user_id: owner.user_id,
         date: formattedDate,
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue
       };
 
-      this.http.post(serverPath + '/rating/add/ownerRating', data).subscribe((response: any) => {
+      console.log(data)
+
+      this.http.post(serverPath + '/rating/add/flatrating', data).subscribe((response: any) => {
         let setMark = this.rating.ratingValue.toString();
+        console.log(response)
+
         if (response.status === true && setMark === '10') {
+
           setTimeout(() => {
             this.statusMessage = 'Дякуємо за підтримку гарних людей';
             setTimeout(() => {
@@ -521,33 +535,44 @@ export class ResidentComponent implements OnInit {
     }
   }
 
-  async getRating(selectedSubscriber: any): Promise<any> {
+  async getRating(selectedUser: any): Promise<any> {
+    console.log(selectedUser);
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
-      user_id: selectedSubscriber.user_id,
+      user_id: selectedUser.user_id,
     };
 
     try {
       const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response);
+
+      this.reviews = response.status;
+      console.log(this.reviews);
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            totalMarkTenant += item.mark;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkTenant += item.info.mark;
             this.ratingTenant = totalMarkTenant;
+            console.log(this.ratingTenant);
           }
         });
-      } else {
-        console.log('Орендар без оцінок.');
+
+        console.log('Кількість відгуків:', this.numberOfReviews);
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
       }
     } catch (error) {
       console.error(error);
     }
   }
 
+  // отримую рейтинг власника оселі
   async getRatingOwner(user_id: any): Promise<any> {
+    console.log(user_id)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/ownerMarks';
     const data = {
@@ -556,16 +581,24 @@ export class ResidentComponent implements OnInit {
     };
 
     try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (response && Array.isArray(response.status)) {
+      const response: any = await this.http.post(url, data).toPromise() as any[];
+
+      this.numberOfReviewsOwner = response.status.length;
+      this.reviewsOwner = response.status;
+      console.log(this.reviewsOwner)
+
+      if (this.reviewsOwner && Array.isArray(this.reviewsOwner)) {
         let totalMarkOwner = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            totalMarkOwner += item.mark;
+        this.reviewsOwner.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkOwner += item.info.mark;
             this.ratingOwner = totalMarkOwner;
+            console.log(this.ratingOwner)
           }
         });
       } else {
+        this.numberOfReviews = 0;
+        this.ratingOwner = response.status.mark;
         console.log('Власник без оцінок.');
       }
     } catch (error) {

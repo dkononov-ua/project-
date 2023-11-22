@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
@@ -17,6 +17,9 @@ import { PaginationConfig } from 'src/app/config/paginator';
   selector: 'app-subscriptions-house',
   templateUrl: './subscriptions-house.component.html',
   styleUrls: ['./subscriptions-house.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
   animations: [
     trigger('cardAnimation2', [
       transition('void => *', [
@@ -74,6 +77,10 @@ export class SubscriptionsHouseComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
+  numberOfReviews: any;
+  totalDays: any;
+  reviews: any;
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -114,6 +121,7 @@ export class SubscriptionsHouseComponent implements OnInit {
     this.indexMenuMobile = 0;
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedUser = subscriber;
+    this.getRating(subscriber)
   }
 
   async openDialog(subscriber: any): Promise<void> {
@@ -234,6 +242,42 @@ export class SubscriptionsHouseComponent implements OnInit {
       }
     });
   }
+
+  async getRating(selectedUser: any): Promise<any> {
+    console.log(selectedUser);
+    const userJson = localStorage.getItem('user');
+    const url = serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: selectedUser.user_id,
+    };
+
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      console.log(response);
+
+      this.reviews = response.status;
+      console.log(this.reviews);
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkTenant += item.info.mark;
+            this.ratingTenant = totalMarkTenant;
+            console.log(this.ratingTenant);
+          }
+        });
+
+        console.log('Кількість відгуків:', this.numberOfReviews);
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
 }
 

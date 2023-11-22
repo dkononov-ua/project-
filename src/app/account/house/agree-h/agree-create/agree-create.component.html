@@ -4,6 +4,7 @@
 
 <ng-template #content>
   <app-navbar></app-navbar>
+  <app-menu></app-menu>
   <div *ngIf="!isContainerVisible" class="container-box">
     <div class="container-box col-12">
 
@@ -43,8 +44,8 @@
             умовами угоди він може погодитись або відхилити ці уомови.</div>
         </div>
 
-        <div class="btn-group">
-          <a class="btn-next hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
+        <div class="btn-group hide-mobile">
+          <a class="btn-next " [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
           <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
             [disabled]="currentStep === 1">НАЗАД</button>
           <button *ngIf="currentStep < 5" class="btn-next" (click)="changeStep(currentStep + 1)"
@@ -264,8 +265,8 @@
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-auto">Сума плати</mat-label>
 
-              <input matInput type="number" id="price_m" name="price_m"
-              [(ngModel)]="rentPrice" (ngModelChange)="updateRentPrice($event)" placeholder="сума">
+              <input matInput type="number" id="price_m" name="price_m" [(ngModel)]="rentPrice"
+                (ngModelChange)="updateRentPrice($event)" placeholder="сума">
             </mat-form-field>
           </div>
 
@@ -273,8 +274,8 @@
             <div class="info-text w-50">Орендна плата за використання квартири та майна за добу становить:</div>
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-auto">Сума плати</mat-label>
-              <input matInput type="number" id="price_m" name="price_d"
-              [(ngModel)]="rentPrice" (ngModelChange)="updateRentPrice($event)" placeholder="сума">
+              <input matInput type="number" id="price_m" name="price_d" [(ngModel)]="rentPrice"
+                (ngModelChange)="updateRentPrice($event)" placeholder="сума">
             </mat-form-field>
           </div>
 
@@ -283,8 +284,7 @@
             <mat-form-field appearance="outline" class="input-mat w-50 p-1">
               <mat-label class="label-accent">Сума застава</mat-label>
               <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
-                required [(ngModel)]="depositPayment"
-                #depositPaymentInput="ngModel">
+                required [(ngModel)]="depositPayment" #depositPaymentInput="ngModel">
             </mat-form-field>
           </div>
 
@@ -431,6 +431,15 @@
           </div>
         </div>
       </div>
+
+      <div class="btn-group hide-pc">
+        <a class="btn-next " [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
+        <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
+          [disabled]="currentStep === 1">НАЗАД</button>
+        <button *ngIf="currentStep < 5" class="btn-next" (click)="changeStep(currentStep + 1)"
+          [disabled]="currentStep === 5">ДАЛІ</button>
+      </div>
+
     </div>
   </div>
 
@@ -544,11 +553,9 @@
         </ul>
         <ul>3.Орендна плата
           <li> 3.1. Орендна плата за використання квартири та майна становить:
-            <span class="accent"
-              *ngIf="rentPrice">{{rentPrice}}
+            <span class="accent" *ngIf="rentPrice">{{rentPrice}}
               грн на місяць.</span>
-            <span class="accent"
-              *ngIf="!rentPrice">___________________ грн за _______.</span>
+            <span class="accent" *ngIf="!rentPrice">___________________ грн за _______.</span>
           </li>
           <li>3.2. Орендна плата вноситься не пізніше
             <span class="accent" *ngIf="rentDueDate"> {{ rentDueDate }} числа</span>

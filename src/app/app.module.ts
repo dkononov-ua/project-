@@ -55,7 +55,6 @@ import { OpportunitiesComponent } from './pages/opportunities/opportunities.comp
 import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
 import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.component';
-
 @NgModule({
   declarations: [
     AppComponent,

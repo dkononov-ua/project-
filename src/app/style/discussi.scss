@@ -281,10 +281,21 @@
   border: none;
 }
 
+.img-review-wrapper {
+  overflow: hidden;
+  border-radius: 50%;
+  .img-review-fluid {
+    object-fit: cover;
+    width: 30px;
+    height: 30px;
+  }
+}
+
 .flex-box {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   .room {
     height: 40px;
     font-size: 36px;
@@ -332,6 +343,56 @@ li {
     letter-spacing: 3px;
     font-weight: 600;
   }
+}
+
+.param-g {
+  @include flex-box;
+  border: 1px solid $color-gray;
+  background-color: transparent;
+  margin-top: 5px;
+  border-radius: 10px;
+  height: 60px;
+  min-width: 50px;
+  overflow: hidden;
+  padding: 3px;
+
+  &:hover {
+    .bg-g {
+      height: 100%;
+    }
+    .bg-w {
+      display: none;
+    }
+  }
+
+  .fa-solid, .fa-regular {
+    color: $color-white;
+  }
+
+  .bg-g {
+    @include flex-box;
+    height: 70%;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .bg-w {
+    @include flex-box;
+    border-top: 1px solid gray;
+    height: 30%;
+    width: 100%;
+  }
+}
+
+.card-reviews {
+  @include box-shadow;
+  background-color: $color-white;
+  border-radius: 10px;
+}
+
+.btn-container-close {
+  position: absolute;
+  right: 0;
 }
 
 .hide-pc {

@@ -3,11 +3,14 @@
 </ng-container>
 
 <ng-template #content>
+  <app-menu class="w-100"></app-menu>
   <div class="container-box">
     <app-selection-housing class="hide-pc w-100 mb-2"></app-selection-housing>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card mb-3">
+
+        <div class="t-lar bold t-c hide-pc">Профіль оселі</div>
 
         <div class="status-container">
           <div class="status-box">
@@ -135,4 +138,7 @@
     </div>
 
   </div>
+
+  <app-footer class="hide-mobile"></app-footer>
+
 </ng-template>

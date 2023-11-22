@@ -14,35 +14,22 @@
               alt="User Image">
           </div>
           <div class="card-title">
-            <div class="accent">{{ user.lastName }}</div>
-            <div class="accent">{{ user.firstName }}</div>
+            <div class="t-min bold accent">{{ user.lastName }}</div>
+            <div class="t-min bold accent">{{ user.firstName }}</div>
 
             <div class="item-deskr" *ngIf="user.house && user.house !== null">
-              <span class="item-deskr">Будинок</span>
+              <span class="t-min">Будинок</span>
             </div>
 
             <div class="item-deskr" *ngIf="user.flat && user.flat !== null">
-              <span class="item-deskr">Квартира</span>
+              <span class="t-min">Квартира</span>
             </div>
 
             <div class="item-deskr" *ngIf="user.room && user.room !== null">
-              <span class="item-deskr">Кімната</span>
+              <span class="t-min">Кімната</span>
             </div>
           </div>
 
-          <div class="deskr-box">
-            <div class="item-characteristics-1" *ngIf="user.years && user.years !== null">Р:<span class="accent">
-                {{ user.years }}</span> </div>
-
-            <div class="item-characteristics-1" *ngIf="user.mounths && user.mounths !== null">
-              М:<span class="accent">{{ user.mounths }}</span> </div>
-
-            <div class="item-characteristics-1" *ngIf="user.weeks && user.weeks !== null">
-              Т:<span class="accent">{{ user.weeks }}</span> </div>
-
-            <div class="item-characteristics-1" *ngIf="user.days && user.days !== null">Д:<span class="accent">
-                {{ user.days }}</span> </div>
-          </div>
         </a>
       </div>
 
@@ -59,8 +46,8 @@
               alt="User Image">
           </div>
           <div class="card-title">
-            <div class="accent">{{ user.lastName }}</div>
-            <div class="accent">{{ user.firstName }}</div>
+            <div class="t-med bold accent">{{ user.lastName }}</div>
+            <div class="t-med bold accent">{{ user.firstName }}</div>
 
             <div class="item-deskr" *ngIf="user.house && user.house !== null">
               <span class="item-deskr">Будинок</span>
@@ -76,17 +63,27 @@
           </div>
 
           <div class="deskr-box">
-            <div class="item-characteristics-1" *ngIf="user.years && user.years !== null">Р:<span class="accent">
-                {{ user.years }}</span> </div>
 
-            <div class="item-characteristics-1" *ngIf="user.mounths && user.mounths !== null">
-              М:<span class="accent">{{ user.mounths }}</span> </div>
+            <div class="data-box flex-box-row" *ngIf="user.years">
+              <div class="t-min bg-w t-c">{{ user.years }}</div>
+              <div class="t-min bg-g">Роки</div>
+            </div>
 
-            <div class="item-characteristics-1" *ngIf="user.weeks && user.weeks !== null">
-              Т:<span class="accent">{{ user.weeks }}</span> </div>
+            <div class="data-box flex-box-row" *ngIf="user.mounths">
+              <div class="t-min bg-w t-c">{{ user.mounths }}</div>
+              <div class="t-min bg-g">Міс.</div>
+            </div>
 
-            <div class="item-characteristics-1" *ngIf="user.days && user.days !== null">Д:<span class="accent">
-                {{ user.days }}</span> </div>
+            <div class="data-box flex-box-row" *ngIf="user.weeks">
+              <div class="t-min bg-w t-c">{{ user.weeks }}</div>
+              <div class="t-min bg-g">Тижні</div>
+            </div>
+
+            <div class="data-box flex-box-row" *ngIf="user.days">
+              <div class="t-min bg-w t-c">{{ user.days }}</div>
+              <div class="t-min bg-g">Дні</div>
+            </div>
+
           </div>
         </a>
       </div>
@@ -125,61 +122,34 @@
           </div>
         </div>
 
-        <div class="img-container">
-          <div class="img-wrapper">
-            <img class="img-fluid rounded" [src]="serverPathPhotoUser + (selectedUser?.img || 'user_default.svg')"
-              alt="User Image">
-          </div>
+        <div class="container-img">
+          <div class="wrapper-img">
+            <img class="img-fluid" [src]="serverPathPhotoUser + (selectedUser?.img || 'user_default.svg')" alt="img">
+            <div class="btn-container center">
 
-          <div class="user-group">
-            <div class="user-group-name">
-              <div class="user-sup-name">Прізвище: </div>
-              <div class="user-name">{{ selectedUser?.lastName || '?' }}</div>
+              <div class="img-btn-box" *ngIf="ratingTenant">
+                <button class="img-btn" (click)="card_info = 2"><i class="fa-regular fa-star"></i>
+                </button>
+                <div><span class="t-med bold">{{ratingTenant}} </span><span class="t-min">({{numberOfReviews}})</span>
+                </div>
+              </div>
+
+              <div class="img-btn-box">
+                <button class="img-btn" (click)="reportUser(selectedUser)"><i
+                    class="fa-solid fa-masks-theater"></i></button>
+                <div class="t-min">Скарга</div>
+              </div>
+
+              <div class="item-box">
+                <div mat-raised-button class="flex-column"  *ngIf="selectedUser.firstName">
+                  <div class="bg-g t-lar-x bold">{{ selectedUser.firstName }}</div>
+                </div>
+                <div mat-raised-button class="flex-column" *ngIf="selectedUser.lastName">
+                  <div class="bg-g t-lar bold">{{ selectedUser.lastName }}</div>
+                </div>
+              </div>
+
             </div>
-
-            <div class="user-group-name">
-              <div class="user-sup-name">Ім'я : </div>
-              <div class="user-name">{{ selectedUser?.firstName || '?' }}</div>
-            </div>
-
-            <div class="user-group-name" *ngIf="selectedUser?.purpose_rent !== null">
-              <div class="user-sup-name">Мета оренди: </div>
-              <div class="user-name">{{ purpose[selectedUser.purpose_rent] }}</div>
-            </div>
-
-          </div>
-
-          <div class="price">
-
-            <div class="date-box" *ngIf="selectedUser.days && selectedUser.days !== null">
-              <div class="date">{{ selectedUser.days }}</div>
-              <div class="text">Дні</div>
-            </div>
-            <div class="date-box" *ngIf="selectedUser.weeks && selectedUser.weeks !== null">
-              <div class="date">{{ selectedUser.weeks }}</div>
-              <div class="text">Тижні</div>
-            </div>
-            <div class="date-box" *ngIf="selectedUser.mounths && selectedUser.mounths !== null">
-              <div class="date">{{ selectedUser.mounths }}</div>
-              <div class="text">Місяці</div>
-            </div>
-            <div class="date-box" *ngIf="selectedUser.years && selectedUser.years !== null">
-              <div class="date">{{ selectedUser.years }}</div>
-              <div class="text">Роки</div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="btn-container">
-          <div class="btn-box">
-            <button class="btn" (click)="card_info = 1"><i class="fa-solid fa-info"></i></button>
-            <div class="btn-name">Детальніше</div>
-          </div>
-
-          <div class="btn-box">
-            <button class="btn" (click)="reportUser(selectedUser)"><i class="fa-solid fa-masks-theater"></i></button>
-            <div class="t-min">Скарга</div>
           </div>
         </div>
 
@@ -193,6 +163,12 @@
                 *ngIf="subscriptionStatus !== 'Ви успішно підписались' && subscriptionStatus !== 'Ви в дискусії'"></i>
               <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 'Ви успішно підписались'"></i>
               <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 'Ви в дискусії'"></i>
+            </button>
+          </div>
+
+          <div class="item-box m-1">
+            <button mat-raised-button class="btn link" (click)="card_info = 1">
+              <i class="fa-solid fa-info"></i>
             </button>
           </div>
 
@@ -212,32 +188,65 @@
 
         <div class="p-2">
 
-          <div class="title-group">
-            <div class="title-selected">Область : </div>
-            <div class="title-selected-accent">{{ selectedUser?.region || '?' }}</div>
-          </div>
+          <div class="flex-box">
 
-          <div class="title-group">
-            <div class="title-selected">Місто : </div>
-            <div class="title-selected-accent">{{ selectedUser?.city || '?' }}</div>
-          </div>
 
-          <div class="title-group">
-            <div class="title-selected">Бюджет : </div>
-            <div class="title-selected-accent">{{ selectedUser?.price_of | number }}
-              ₴ - {{ selectedUser?.price_to | number }}₴</div>
-          </div>
 
+            <div class="item-box" *ngIf="selectedUser.purpose_rent">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar bold">{{ purpose[selectedUser.purpose_rent] }}</div>
+                <div class="t-min bg-w">Мета оренди</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="totalDays">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar bold">{{totalDays}}</div>
+                <div class="t-min bg-w">Днів</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.region">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar bold">{{ selectedUser.region }}</div>
+                <div class="t-min bg-w">Область</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.city">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar bold">{{ selectedUser.city }}</div>
+                <div class="t-min bg-w">Місто</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.price_of">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar bold"*ngIf="selectedUser.price_of">{{ selectedUser.price_of }}₴</div>
+                <div class="t-min bg-w">Бюджет від</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.price_to">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar bold">{{ selectedUser.price_to }}₴</div>
+                <div class="t-min bg-w">Бюджет до</div>
+              </div>
+            </div>
+
+
+          </div>
         </div>
+
 
       </div>
 
       <div class="card p-2 card-selected" *ngIf="card_info === 1">
 
-        <div class="btn-container">
-          <div class="btn-box">
-            <button class="btn" (click)="card_info = 0"><i class="fa-regular fa-circle-xmark"></i></button>
-            <div class="btn-name">Основна</div>
+        <div class="btn-container-close">
+          <div class="flex-box-column p-1">
+            <button class="btn-close" (click)="card_info = 0"></button>
+            <div class="t-min">Назад</div>
           </div>
         </div>
 
@@ -422,6 +431,51 @@
           <div class="param-field">
             <span class="param-value">{{selectedUser.about}}</span>
           </div>
+        </div>
+
+
+      </div>
+
+      <div class="card card-selected p-2" *ngIf="card_info === 2">
+
+        <div class="t-lar-xx">Відгуки орендодавців</div>
+
+        <div class="btn-container-close">
+          <div class="flex-box-column p-1">
+            <button class="btn-close" (click)="card_info = 0"></button>
+            <div class="t-min">Назад</div>
+          </div>
+        </div>
+
+        <div *ngIf="reviews">
+          <div class="card p-2 m-2" *ngFor="let review of reviews">
+            <div class="flex-box">
+
+              <div class="img-review-wrapper">
+                <img class="img-review-fluid"
+                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
+                  alt="img">
+              </div>
+
+              <div class="flex-box">
+                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
+                  {{review.reporter.surName}}</div>
+              </div>
+
+              <div class="flex-box">
+                <div class="t-min">ID відправника:{{review.info.appraiser}}</div>
+              </div>
+            </div>
+            <div class="flex-column">
+              <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
+                  class="accent"> {{review.info.mark}}</span></div>
+              <div class="t-min">{{review.info.about}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!reviews">
+          <div class="t-lar-xx">Відгуків ще немає</div>
         </div>
 
 

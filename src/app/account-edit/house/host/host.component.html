@@ -3,6 +3,13 @@
   <div class="switch-box p-2 hide-pc">
 
     <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <div class="t-min dark bold">Назад</div>
+    </div>
+
+    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
           <i class="fa-solid fa-images"></i></span>
@@ -50,11 +57,7 @@
       *ngIf="selectedFlatId && selectedFlatId !== null">
       <div class="card-box">
         <div class="card-menu-house">
-          <!-- <app-selection-account class="hide-mobile"></app-selection-account> -->
-          <!-- <app-selection-housing></app-selection-housing> -->
           <nav>
-            <!-- <a [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Назад</a> -->
-
             <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span
                 class="link-text">Додати фото</span>
               <i class="fa-solid fa-images"></i>

@@ -5,6 +5,13 @@
     <div class="switch-box">
 
       <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="t-min dark bold">Назад</div>
+      </div>
+
+      <div class="switch-btn-group">
         <button class="btn" (click)="onClickMenu(0,0,0)" [ngClass]="{ 'active': indexMenu == 0}">
           <i class="fa-solid fa-circle-info"></i>
         </button>
@@ -48,8 +55,8 @@
       <div class="param-box">
         <div class="param-name">
           <p class="t-med ">Отримати пропозицію можна коли на вас підпишуться в меню пошук орендара.</p>
-          <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i><span
-              class="ml-2 accent">пошук орендара тут</span></a>
+          <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i
+              class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пошук орендара тут</span></a>
           <p class="t-med ">Після ухвалення оселі вона з'явиться в меню Дискусії.</p>
           <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
               class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">меню Дискусії тут</span></a>
@@ -141,8 +148,8 @@
     </div>
 
     <!-- інформація про оселю -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && chosenFlat">
-      <div class="card">
+    <div [@cardAnimation] class="card-animation" *ngIf="chosenFlat">
+      <div class="card card-selected" *ngIf="indexPage == 1">
 
         <div class="status-container">
           <div class="status-box">
@@ -212,16 +219,28 @@
 
             <div class="btn-container">
 
-              <div class="img-btn-box">
-                <button class="img-btn" matTooltip="Копіювати" (click)="copyFlatId()"><i class="fa-solid fa-info"></i><i
-                    class="fa-solid fa-d"></i></button>
-                <div class="t-min">ID оселі:</div>
+              <div class="img-btn-box" *ngIf="ratingOwner">
+                <button class="img-btn" (click)="indexPage = 4"><i class="fa-regular fa-star"></i>
+                </button>
+                <div><span class="t-med bold">{{ratingOwner}} </span><span class="t-min">({{numberOfReviews}})</span>
+                </div>
               </div>
 
               <div class="img-btn-box">
                 <button class="img-btn" (click)="approveSubscriber(choseFlatId)"><i
                     class="fa-regular fa-thumbs-up"></i></button>
                 <div class="t-min">До дискусії</div>
+              </div>
+
+              <div class="img-btn-box">
+                <button class="img-btn" matTooltip="Копіювати" (click)="copyFlatId()"><i class="fa-solid fa-info"></i><i
+                    class="fa-solid fa-d"></i></button>
+                <div class="t-min">ID оселі:</div>
+              </div>
+
+              <div class="img-btn-box" *ngIf="chatExists">
+                <button class="img-btn" (click)="indexPage = 3"><i class="fa-solid fa-message"></i></button>
+                <div class="t-min">Написати</div>
               </div>
 
               <div class="img-btn-box" (click)="deleteSubscriber(chosenFlat)">
@@ -245,31 +264,59 @@
           </div>
         </div>
 
-        <div class="p-2">
-
-          <div class="price">
-            <div class="flex-box-row">
-              <div class="flex-box" *ngIf="chosenFlat.flat.rooms">
-                <div class="room">{{ chosenFlat.flat.rooms }}</div>
-                <div class="t-min gray">кімнат</div>
-              </div>
-
-              <div class="ml-5 flex-box" *ngIf="chosenFlat.flat.area">
-                <div class="room">{{ chosenFlat.flat.area | number:'1.0-0' }}</div>
-                <div class="t-min gray">м²</div>
-              </div>
-
-              <div class="flex-box" *ngIf="chosenFlat.flat.option_pay === 0">
-                <div class="room"> {{ chosenFlat.flat.price_m | number:'1.0-0' }} </div>
-                <div class="t-min gray">ціна ₴/міс</div>
-              </div>
-
-              <div class="ml-2 flex-box" *ngIf="chosenFlat.flat.option_pay !== 0">
-                <div class="room"> {{ chosenFlat.flat.price_d | number:'1.0-0' }} </div>
-                <div class="t-min gray">ціна ₴/добу</div>
-              </div>
+        <div class="flex-box wrap">
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.rooms">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.rooms }}</div>
+              <div class="t-min bg-w">Кімнат</div>
             </div>
           </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.area">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.area | number:'1.0-0' }}</div>
+              <div class="t-min bg-w">Площа</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.floor">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.floor }}</div>
+              <div class="t-min bg-w">Поверх</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.option_pay === 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_m | number:'1.0-0' }}</div>
+              <div class="t-min bg-w accent">Ціна ₴/міс</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.option_pay !== 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_d | number:'1.0-0' }}</div>
+              <div class="t-min bg-w accent">Ціна ₴/добу</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.street">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar bold">{{ chosenFlat.flat.street }}</div>
+              <div class="t-min bg-w">Вулиця</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.houseNumber">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="w-100 bg-g t-lar-x bold">{{ chosenFlat.flat.houseNumber }}</div>
+              <div class="t-min bg-w">Будинок</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="p-2">
 
           <div class="param-box" *ngIf="chosenFlat.flat.region || chosenFlat.flat.city">
             <div class="param-label">Локація:</div>
@@ -381,7 +428,46 @@
         </div>
 
       </div>
+      <div class="card card-selected p-2" *ngIf="indexPage === 4">
+
+        <div class="t-lar-xx">Відгуки орендарів</div>
+
+        <div class="btn-container-close">
+          <div class="flex-box-column p-1">
+            <button class="btn-close" (click)="indexPage = 1"></button>
+            <div class="t-min">Назад</div>
+          </div>
+        </div>
+
+        <div *ngIf="reviews">
+          <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
+            <div class="flex-box">
+              <div class="img-review-wrapper">
+                <img class="img-review-fluid"
+                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
+                  alt="img">
+              </div>
+              <div class="flex-box">
+                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
+                  {{review.reporter.surName}}</div>
+              </div>
+            </div>
+            <div class="flex-column">
+              <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
+                  class="accent"> {{review.info.mark}}</span></div>
+              <div class="t-min">{{review.info.about}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!reviews">
+          <div class="t-lar-xx">Відгуків ще немає</div>
+        </div>
+
+
+      </div>
     </div>
+
   </div>
 
 </div>

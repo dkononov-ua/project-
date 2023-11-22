@@ -1,3 +1,15 @@
 @use "../../../style/discussi.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
-
+.switch-box {
+  justify-content: flex-start;
+  @include s1-s3 {
+    overflow-x: auto;
+  }
+  .switch-btn-group {
+    .btn {
+      width: 80px;
+    }
+  }
+}

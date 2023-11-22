@@ -4,6 +4,14 @@
 
     <div class="search_panel">
       <div class="box m-1">
+
+        <div class="flex-box m-1 hide-pc">
+          <button class="btn bold" [routerLink]="'/user/info'">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="t-min">Назад</div>
+        </div>
+
         <div class="flex-box m-1">
           <button class="btn bold" (click)="changeOpenUser()" [ngClass]="{ 'active': openUser === false}">
             <i class="fa-solid fa-filter"></i>
@@ -18,12 +26,12 @@
 
         <div class="flex-box m-1">
           <button class="btn bold" (click)="decrementOffset()"><i class="fa-solid fa-chevron-left"></i></button>
-          <div class="t-min">Попередня</div>
+          <div class="t-min">Попередні</div>
         </div>
 
         <div class="flex-box m-1">
           <button class="btn bold" (click)="incrementOffset()"><i class="fa-solid fa-chevron-right"></i></button>
-          <div class="t-min">Наступна</div>
+          <div class="t-min">Наступні</div>
         </div>
 
       </div>
@@ -42,34 +50,53 @@
         <div class="t-med bold">Показано {{shownCard}} з {{optionsFound}}</div>
       </div>
 
-      <mat-form-field class="hide-pc" appearance="outline" *ngIf="indexPage === 1">
-        <mat-select [(ngModel)]="userInfo.filterData" (ngModelChange)="onSubmitWithDelay()" placeholder="Сортування">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="1">Дешевші</mat-option>
-          <mat-option value="2">Дорожчі</mat-option>
-          <mat-option value="3">Новіші</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-sort"></i></mat-icon>
-      </mat-form-field>
     </div>
 
-    <div class="search-group col-12">
+    <div class="search-group col-12 p-2">
 
       <aside class="search-filter col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!openUser">
 
+        <div class="t-lar-xx bold hide-pc">Пошук оселі</div>
+
+        <div class="item-name">Фільтр {{filter_group}} / 3</div>
         <div class="search-filter-switch col-12">
-          <button class="btn" (click)="filterSwitchPrev()"><i class="fa-solid fa-caret-left"></i></button>
-          <div class="item-name">Фільтр {{filter_group}} / 3</div>
-          <button class="btn" (click)="filterSwitchNext()"><i class="fa-solid fa-caret-right"></i></button>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="filterSwitchPrev()"><i class="fa-solid fa-caret-left"></i></button>
+            <div class="t-min">Фільтр</div>
+          </div>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="filterSwitchNext()"><i class="fa-solid fa-caret-right"></i></button>
+            <div class="t-min">Фільтр</div>
+          </div>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="loadDataUserSearch()"><i class="fa-regular fa-paste"></i></button>
+            <div class="t-min">Мої дані</div>
+          </div>
+
+          <div class="flex-box m-1">
+            <button class="btn" (click)="clearFilter()"><i class="fa-solid fa-broom"></i></button>
+            <div class="t-min">Очистити</div>
+          </div>
+
         </div>
 
         <div class="search-filter-group col-12" *ngIf="filter_group === 1">
-          <div class="btn-group w-100 mt-1">
-            <button class="btn-search w-50 mr-2" (click)="loadDataUserSearch()">Мої пошукові параметри</button>
-            <button class="btn-search w-50" (click)="clearFilter()">Очистити фільтри</button>
-          </div>
 
-          <mat-label align="start">Де будемо шукати?</mat-label>
+          <mat-form-field class="item-select hide-pc" appearance="outline" *ngIf="indexPage === 1">
+            <mat-select [(ngModel)]="userInfo.filterData" (ngModelChange)="onSubmitWithDelay()"
+              placeholder="Сортування">
+              <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+              <mat-option value="1">Дешевші</mat-option>
+              <mat-option value="2">Дорожчі</mat-option>
+              <mat-option value="3">Новіші</mat-option>
+            </mat-select>
+            <mat-icon matSuffix><i class="fa-solid fa-sort"></i></mat-icon>
+            <mat-hint align="start">Сортування</mat-hint>
+          </mat-form-field>
+
           <mat-form-field class="item-select" appearance="outline">
             <input name="flatInfo.region" (ngModelChange)="onSubmitWithDelay()" matInput [(ngModel)]="userInfo.region"
               placeholder="Оберіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">

@@ -47,17 +47,17 @@ export class AppComponent implements OnInit {
     }, 500);
   }
 
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    const containerElement = this.el.nativeElement.querySelector('.body-container');
-    const cardBoxElement = this.el.nativeElement.querySelector('.onClick_notHide');
+  // @HostListener('document:click', ['$event'])
+  // onClick(event: Event): void {
+  //   const containerElement = this.el.nativeElement.querySelector('.body-container');
+  //   const cardBoxElement = this.el.nativeElement.querySelector('.onClick_notHide');
 
-    if (containerElement.contains(event.target as Node)) {
-      if (!cardBoxElement.contains(event.target as Node)) {
-        this.closeMenu();
-      }
-    }
-  }
+  //   if (containerElement.contains(event.target as Node)) {
+  //     if (!cardBoxElement.contains(event.target as Node)) {
+  //       this.closeMenu();
+  //     }
+  //   }
+  // }
 
   constructor(
     private http: HttpClient,

@@ -4,6 +4,15 @@
 
     <div class="switch-box">
 
+      <div class="hide-pc">
+        <div class="switch-btn-group">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="t-min dark bold">Назад</div>
+        </div>
+      </div>
+
       <div class="switch-btn-group">
         <button class="btn" (click)="onClickMenu(0,0,0)" [ngClass]="{ 'active': indexMenu == 0}">
           <i class="fa-solid fa-circle-info"></i>
@@ -151,6 +160,14 @@
             alt="User Image">
 
           <div class="btn-container">
+
+            <div class="img-btn-box" *ngIf="ratingTenant">
+              <button class="img-btn" (click)="indexPage = 3"><i class="fa-regular fa-star"></i>
+              </button>
+              <div><span class="t-med bold">{{ratingTenant}} </span><span class="t-min">({{numberOfReviews}})</span>
+              </div>
+            </div>
+
             <div class="img-btn-box">
               <button class="img-btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
               <div class="t-min">Детальніше</div>
@@ -203,11 +220,10 @@
             <div class="t-min bold accent">{{ selectedUser.user_id }}</div>
           </div>
 
-          <div class="img-btn-box" *ngIf="selectedUser.mail">
+          <div class="img-btn-box" *ngIf="selectedUser?.mail">
             <button class="img-btn" (click)="copyMail()"><i class="fa-solid fa-at"></i></button>
             <div class="t-min">Пошта</div>
-            <div class="t-min bold accent">{{ (selectedUser.mail | slice:0:10).length < selectedUser.mail.length
-              ? (selectedUser.mail | slice:0:10) + '...' : selectedUser.owner.mail }}</div>
+            <div class="t-min bold accent">{{ selectedUser.mail | slice:0:10 }}</div>
           </div>
 
           <div class="img-btn-box" *ngIf="ratingTenant">
@@ -469,6 +485,54 @@
     <!-- Чат -->
     <div [@cardAnimation2] class="card-animation card-chat" *ngIf="indexPage == 2 && selectedUser">
       <app-chat-house></app-chat-house>
+    </div>
+
+    <!-- Відгук -->
+    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 3 && selectedUser">
+      <div class="card card-selected p-2">
+
+        <div class="t-lar-xx">Відгуки власників</div>
+
+        <div class="btn-container-close">
+          <div class="flex-box-column p-1">
+            <button class="btn-close" (click)="indexPage = 1"></button>
+            <div class="t-min">Назад</div>
+          </div>
+        </div>
+
+        <div *ngIf="reviews">
+          <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
+            <div class="flex-box">
+
+              <div class="img-review-wrapper">
+                <img class="img-review-fluid"
+                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
+                  alt="img">
+              </div>
+
+              <div class="flex-box">
+                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
+                  {{review.reporter.surName}}</div>
+              </div>
+
+              <div class="flex-box">
+                <div class="t-min">ID відправника:{{review.info.appraiser}}</div>
+              </div>
+            </div>
+            <div class="flex-column">
+              <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
+                  class="accent"> {{review.info.mark}}</span></div>
+              <div class="t-min">{{review.info.about}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!reviews">
+          <div class="t-lar-xx">Відгуків ще немає</div>
+        </div>
+
+
+      </div>
     </div>
 
   </div>

@@ -40,3 +40,28 @@
 }
 
 
+
+.data-box {
+  margin-top: 5px;
+  .bg-gray {
+    @include flex-box;
+    background-color: rgba(60, 60, 60, 0.316);
+    width: 40px;
+    font-weight: 600;
+    border-radius: 0 5px 5px 0;
+
+  }
+
+  .bg-white {
+    border-radius: 5px 0 0 5px;
+
+    font-weight: 600;
+    color: $color-text;
+    background-color: rgba(255, 255, 255, 0.076);
+    width: 30px;
+  }
+}
+
+.center {
+  justify-content: space-between;
+}

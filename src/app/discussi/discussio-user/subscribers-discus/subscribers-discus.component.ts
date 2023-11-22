@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
@@ -24,6 +24,9 @@ interface chosenFlat {
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
   styleUrls: ['./subscribers-discus.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -65,7 +68,6 @@ export class SubscribersDiscusComponent implements OnInit {
   statusMessage: any;
   statusMessageChat: any;
   // показ карток
-  card_info: boolean = false;
   indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
@@ -75,15 +77,17 @@ export class SubscribersDiscusComponent implements OnInit {
     this.indexPage = indexPage;
     this.indexMenuMobile = indexMenuMobile;
   }
-  openInfoUser() {
-    this.card_info = true;
-  }
+
   // пагінатор
   offs = PaginationConfig.offs;
   counterFound = PaginationConfig.counterFound;
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
+
+  card_info: number = 0;
+  reviews: any;
+  numberOfReviews: any;
 
   constructor(
     private http: HttpClient,
@@ -341,8 +345,6 @@ export class SubscribersDiscusComponent implements OnInit {
       this.offs = offs;
       this.getSubInfo(null, this.offs);
     }
-    console.log(22222222)
-
     this.getCurrentPageInfo()
   }
 
@@ -377,16 +379,20 @@ export class SubscribersDiscusComponent implements OnInit {
     };
 
     try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (response && Array.isArray(response.status)) {
+      const response: any = await this.http.post(url, data).toPromise() as any[];
+      this.numberOfReviews = response.status.length;
+      this.reviews = response.status;
+      if (this.reviews && Array.isArray(this.reviews)) {
         let totalMarkOwner = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            totalMarkOwner += item.mark;
+        this.reviews.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkOwner += item.info.mark;
             this.ratingOwner = totalMarkOwner;
           }
         });
       } else {
+        this.numberOfReviews = 0;
+        this.ratingOwner = response.status.mark;
         console.log('Власник без оцінок.');
       }
     } catch (error) {
@@ -395,7 +401,6 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   async reportHouse(flat: any): Promise<void> {
-    console.log(flat)
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
       // Обробка результату в компоненті
