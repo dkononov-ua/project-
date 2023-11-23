@@ -8,13 +8,20 @@
 //     flex-direction: column-reverse;
 //   }
 // }
+.img-comun-box {
+  height: 200px;
+  .img-comun {
+    height: 200px;
+  }
+}
 
-.flex-box, .flex-box-column {
-  justify-content: flex-start;
+.flex-box,
+.flex-box-column {
+  justify-content: center;
   align-items: flex-start;
-  .fa-solid {
-    color: $color-gray;
-    font-size: 16px;
+  align-content: flex-start;
+  .fa-solid, .fa-regular {
+    color: $color-text;
   }
 }
 

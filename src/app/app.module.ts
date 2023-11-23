@@ -33,7 +33,6 @@ import { RouterModule } from '@angular/router';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -65,7 +64,6 @@ import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.co
     UserLicenceComponent,
     ComunPageComponent,
     LookingComponent,
-    SearchPageComponent,
     FeedbackComponent,
     AboutProjectComponent,
     AboutRatingComponent,

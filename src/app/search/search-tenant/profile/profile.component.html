@@ -125,28 +125,31 @@
         <div class="container-img">
           <div class="wrapper-img">
             <img class="img-fluid" [src]="serverPathPhotoUser + (selectedUser?.img || 'user_default.svg')" alt="img">
-            <div class="btn-container center">
-
-              <div class="img-btn-box" *ngIf="ratingTenant">
-                <button class="img-btn" (click)="card_info = 2"><i class="fa-regular fa-star"></i>
-                </button>
-                <div><span class="t-med bold">{{ratingTenant}} </span><span class="t-min">({{numberOfReviews}})</span>
-                </div>
-              </div>
-
-              <div class="img-btn-box">
-                <button class="img-btn" (click)="reportUser(selectedUser)"><i
-                    class="fa-solid fa-masks-theater"></i></button>
-                <div class="t-min">Скарга</div>
-              </div>
+            <div class="btn-container">
 
               <div class="item-box">
-                <div mat-raised-button class="flex-column"  *ngIf="selectedUser.firstName">
-                  <div class="bg-g t-lar-x bold">{{ selectedUser.firstName }}</div>
+                <div mat-raised-button class="flex-column" *ngIf="selectedUser.firstName">
+                  <div class="t-lar-xx bold dark">{{ selectedUser.firstName }}</div>
                 </div>
                 <div mat-raised-button class="flex-column" *ngIf="selectedUser.lastName">
-                  <div class="bg-g t-lar bold">{{ selectedUser.lastName }}</div>
+                  <div class="t-lar gray">{{ selectedUser.lastName }}</div>
                 </div>
+              </div>
+
+              <div class="flex-box func">
+
+                <button class="btn-panel" *ngIf="ratingTenant" (click)="card_info = 2">
+                  <div class="flex-box">
+                    <div class="t-lar bold">{{ratingTenant}}</div>
+                    <div class="t-min">({{numberOfReviews}})</div>
+                  </div>
+                  <div class="t-min">Рейтинг</div>
+                </button>
+
+                <button class="btn-panel" (click)="reportUser(selectedUser)">
+                  <i class="fa-solid fa-masks-theater"></i>
+                  <div class="t-min">Скарга</div>
+                </button>
               </div>
 
             </div>
@@ -190,8 +193,6 @@
 
           <div class="flex-box">
 
-
-
             <div class="item-box" *ngIf="selectedUser.purpose_rent">
               <div mat-raised-button class="param-g flex-column">
                 <div class="bg-g t-lar bold">{{ purpose[selectedUser.purpose_rent] }}</div>
@@ -222,7 +223,7 @@
 
             <div class="item-box" *ngIf="selectedUser.price_of">
               <div mat-raised-button class="param-g flex-column">
-                <div class="bg-g t-lar bold"*ngIf="selectedUser.price_of">{{ selectedUser.price_of }}₴</div>
+                <div class="bg-g t-lar bold" *ngIf="selectedUser.price_of">{{ selectedUser.price_of }}₴</div>
                 <div class="t-min bg-w">Бюджет від</div>
               </div>
             </div>

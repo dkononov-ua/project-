@@ -146,37 +146,35 @@
 
           <div class="btn-container">
 
-            <div class="img-btn-box" *ngIf="ratingTenant">
-              <button class="img-btn" (click)="indexPage = 3"><i class="fa-regular fa-star"></i>
-              </button>
-              <div><span class="t-med bold">{{ratingTenant}} </span><span class="t-min">({{numberOfReviews}})</span>
+            <button class="btn-panel" (click)="approveSubscriber(selectedUser)">
+              <i class="fa-regular fa-thumbs-up"></i>
+              <div class="t-min">Дискусія</div>
+            </button>
+
+            <button class="btn-panel" *ngIf="ratingTenant" (click)="indexPage = 3">
+              <div class="flex-box">
+                <div class="t-lar bold">{{ratingTenant}}</div>
+                <div class="t-min">({{numberOfReviews}})</div>
               </div>
-            </div>
+              <div class="t-min">Рейтинг</div>
+            </button>
 
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="approveSubscriber(selectedUser)"><i
-                  class="fa-regular fa-thumbs-up"></i></button>
-              <div class="t-min">До дискусії</div>
-            </div>
+            <button class="btn-panel" (click)="card_info = true">
+              <i class="fa-solid fa-info"></i>
+              <div class="t-min">Деталі</div>
+            </button>
 
-            <div class="img-btn-box">
-              <button class="img-btn" matTooltip="Копіювати" (click)="copyId()"><i class="fa-solid fa-info"></i><i
-                  class="fa-solid fa-d"></i></button>
-              <div class="t-min">Орендара:</div>
-            </div>
+            <button class="btn-panel" (click)="openDialog(selectedUser)">
+              <i class="fa-solid fa-user-xmark"></i>
+              <div class="t-min">Видал.</div>
+            </button>
 
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="openDialog(selectedUser)">
-                <i class="fa-solid fa-user-xmark"></i></button>
-              <div class="t-min">Видалити</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="reportUser(selectedUser)"><i
-                  class="fa-solid fa-masks-theater"></i></button>
+            <button class="btn-panel" (click)="reportUser(selectedUser)"><i class="fa-solid fa-masks-theater"></i>
               <div class="t-min">Скарга</div>
-            </div>
+            </button>
+
           </div>
+
         </div>
 
         <div class="item-wrapper p-3">

@@ -17,8 +17,6 @@
   }
 }
 
-
-
 // вікно додаткової інформації
 .content-group {
   width: 100%;
@@ -254,6 +252,33 @@
   }
   .fa-solid {
     color: $color-accent;
+  }
+}
+
+// кнопки з функціями в панелі
+.btn-panel {
+  @include flex-box-column;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  width: 60px;
+  height: 50px;
+  border-radius: 50%;
+  transition: 0.5s;
+
+  .fa-solid,
+  .fa-regular {
+    font-size: 30px;
+    color: $color-text;
+  }
+
+  &:hover {
+    color: $color-accent;
+    .fa-solid,
+    .fa-regular {
+      transition: 0.5s;
+      color: $color-accent;
+    }
   }
 }
 

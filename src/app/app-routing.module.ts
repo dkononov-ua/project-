@@ -9,12 +9,9 @@ import { UserLicenceComponent } from './pages/user-licence/user-licence.componen
 import { HousingServicesComponent } from './housing-services/housing-services.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HousingParametersComponent } from './account-edit/house/housing-parameters.component';
-import { SearchComponent } from './search/search.component';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
-import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
-import { CropImgComponent } from './components/crop-img/crop-img.component';
 import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.component';
@@ -30,7 +27,6 @@ const routes: Routes = [
   { path: 'user-payment', component: UserPaymentComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
-  { path: 'search-page', component: SearchPageComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
   { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },

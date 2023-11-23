@@ -26,7 +26,6 @@ import { UpdateComponentService } from '../services/update-component.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddHouseComponent } from '../account-edit/house/add-house/add-house.component';
 
-
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
@@ -34,6 +33,7 @@ import { LyDialogModule } from '@alyle/ui/dialog';
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { CropImgComponent } from '../components/crop-img/crop-img.component';
 import { MenuComponent } from '../components/menu/menu.component';
+import { GalleryComponent } from '../components/gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +49,7 @@ import { MenuComponent } from '../components/menu/menu.component';
     AddHouseComponent,
     CropImgComponent,
     MenuComponent,
+    GalleryComponent,
   ],
   exports: [
     NavbarComponent,
@@ -63,6 +64,7 @@ import { MenuComponent } from '../components/menu/menu.component';
     AddHouseComponent,
     CropImgComponent,
     MenuComponent,
+    GalleryComponent,
   ],
   providers: [
     UpdateComponentService,

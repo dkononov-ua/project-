@@ -159,51 +159,47 @@
           <img [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')"
             alt="User Image">
 
-          <div class="btn-container">
+            <div class="btn-container">
 
-            <div class="img-btn-box" *ngIf="ratingTenant">
-              <button class="img-btn" (click)="indexPage = 3"><i class="fa-regular fa-star"></i>
+              <button class="btn-panel" *ngIf="ratingTenant" (click)="indexPage = 3">
+                <div class="flex-box">
+                  <div class="t-lar bold">{{ratingTenant}}</div>
+                  <div class="t-min">({{numberOfReviews}})</div>
+                </div>
+                <div class="t-min">Рейтинг</div>
               </button>
-              <div><span class="t-med bold">{{ratingTenant}} </span><span class="t-min">({{numberOfReviews}})</span>
-              </div>
+
+              <button class="btn-panel" (click)="card_info = true">
+                <i class="fa-solid fa-info"></i>
+                <div class="t-min">Деталі</div>
+              </button>
+
+              <button class="btn-panel" *ngIf="chatExists" (click)="onSubscriberSelect(selectedUser)" (click)="indexPage = 2"><i
+                  class="fa-solid fa-message"></i>
+                <div class="t-min">Повід.</div>
+              </button>
+
+              <button class="btn-panel" *ngIf="!chatExists" (click)="createChat(selectedUser)"><i class="fa-solid fa-message"></i>
+                <div class="t-min">Повід.</div>
+              </button>
+
+              <button class="btn-panel" [routerLink]="['/agree-create', selectedUser?.user_id]">
+                <i class="fa-solid fa-file-contract"></i>
+                <div class="t-min">Угода</div>
+              </button>
+
+              <button class="btn-panel" (click)="openDialog(selectedUser)">
+                <i class="fa-solid fa-user-xmark"></i>
+                <div class="t-min">Видал.</div>
+              </button>
+
+              <button class="btn-panel" (click)="reportUser(selectedUser)"><i class="fa-solid fa-masks-theater"></i>
+                <div class="t-min">Скарга</div>
+              </button>
+
+
             </div>
 
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="card_info = true"><i class="fa-solid fa-info"></i></button>
-              <div class="t-min">Детальніше</div>
-            </div>
-
-            <div class="img-btn-box" *ngIf="chatExists">
-              <button class="img-btn" (click)="onSubscriberSelect(selectedUser)" (click)="indexPage = 2"><i
-                  class="fa-solid fa-message"></i></button>
-              <div class="t-min">Написати</div>
-            </div>
-
-            <div class="img-btn-box" *ngIf="!chatExists">
-              <button class="img-btn" (click)="createChat(selectedUser)"><i class="fa-solid fa-message"></i></button>
-              <div class="t-min">Написати</div>
-              <div class="t-min" *ngIf="statusMessageChat === true">Чат створено!</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" [routerLink]="['/agree-create', selectedUser?.user_id]">
-                <i class="fa-solid fa-file-contract"></i></button>
-              <div class="t-min">+Угода</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="openDialog(selectedUser)">
-                <i class="fa-solid fa-user-xmark"></i></button>
-              <div class="t-min">Видалити</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="reportUser(selectedUser)"><i
-                  class="fa-solid fa-masks-theater"></i></button>
-              <div class="t-min">Скарга</div>
-            </div>
-
-          </div>
         </div>
 
         <div class="btn-container2">

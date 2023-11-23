@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { serverPath } from 'src/app/config/server-config';
+import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-navbar-user',
   templateUrl: './navbar-user.component.html',
@@ -24,11 +25,14 @@ export class NavbarUserComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private updateComponent: UpdateComponentService,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+
     const userJson = localStorage.getItem('user');
     if (userJson) {
+      this.dataService.getInfoUser();
       await this.getMessageAll()
       await this.getUpdate();
     }
@@ -56,6 +60,7 @@ export class NavbarUserComponent implements OnInit {
     const userInfo = localStorage.getItem('userData');
     if (userInfo) {
       this.userInf = JSON.parse(userInfo);
+      console.log(this.userInf)
       this.agreeNum = this.userInf.agree.total;
     }
 

@@ -136,6 +136,71 @@
   }
 }
 
+.dropdown {
+  @include flex-box-column;
+  width: 100%;
+
+  .dropdown-toggle {
+    @include flex-box-row;
+
+    &:hover {
+      transition: 1s;
+
+      .fa-solid {
+        transition: 1s;
+        color: $color-accent;
+      }
+    }
+
+    .fa-solid {
+      color: $color-text;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: transparent;
+    border: none;
+
+    .dropdown-item {
+      position: relative;
+      @include box-shadow;
+      @include flex-box;
+      text-transform: capitalize;
+      color: $color-text;
+      justify-content: flex-start;
+      border-radius: 10px;
+      font-weight: 600;
+      height: 50px;
+      background-color: $color-white;
+
+      &:hover {
+        background-color: $color-accent;
+        transition: 1s;
+        color: $color-white;
+
+        .fa-solid {
+          transition: 1s;
+          color: $color-white;
+        }
+      }
+
+      &.active {
+        background-color: $color-accent;
+        color: $color-white;
+
+        .fa-solid {
+          color: $color-white;
+        }
+      }
+
+      .fa-solid {
+        color: $color-text;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
 .hide-pc {
   @include s3-s6-max {
     z-index: 9999;

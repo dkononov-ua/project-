@@ -35,10 +35,6 @@ mat-radio-group {
   @include flex-box-column;
 }
 
-.bold {
-  font-size: 18px;
-}
-
 .flex-box {
   @include flex-box-column;
   position: relative;
@@ -220,14 +216,17 @@ mat-hint {
   }
 }
 
+.fa-solid, .fa-regular {
+  color: $color-text
+}
+
 .search_panel {
   @include flex-box;
   display: flex;
-  justify-content: space-evenly;
   align-items: baseline;
+  justify-content: space-between;
   @include s1-s3 {
     width: 100%;
-    flex-direction: column;
     align-items: stretch;
   }
 }
@@ -267,10 +266,6 @@ mat-hint {
   @include s1-s3 {
     align-items: center;
   }
-}
-
-.shownCard {
-  @include flex-box-row;
 }
 
 .hide-pc {

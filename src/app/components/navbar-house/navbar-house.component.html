@@ -67,11 +67,6 @@
       <div class="link-icon"><i class="fa-solid fa-chart-pie"></i></div>
     </a>
 
-    <a *ngIf="selectedFlatId && acces_discuss === 1" class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/search/tenants/'">
-      <span class="link-text">Пошук орендара</span>
-      <div class="link-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-    </a>
-
     <a *ngIf="selectedFlatId && acces_flat_features === 1" class="link-menu" [routerLinkActive]="'active'"
       [routerLink]="'/housing-parameters/host/'">
       <span class="link-text">Редагувати</span>

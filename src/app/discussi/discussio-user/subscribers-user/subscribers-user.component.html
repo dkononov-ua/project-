@@ -219,48 +219,41 @@
 
             <div class="btn-container">
 
-              <div class="img-btn-box" *ngIf="ratingOwner">
-                <button class="img-btn" (click)="indexPage = 4"><i class="fa-regular fa-star"></i>
-                </button>
-                <div><span class="t-med bold">{{ratingOwner}} </span><span class="t-min">({{numberOfReviews}})</span>
+              <button class="btn-panel" (click)="approveSubscriber(choseFlatId)">
+                <i class="fa-regular fa-thumbs-up"></i>
+                <div class="t-min">Дискусія</div>
+              </button>
+
+              <button class="btn-panel" *ngIf="ratingOwner" (click)="indexPage = 4">
+                <div class="flex-box">
+                  <div class="t-lar bold">{{ratingOwner}}</div>
+                  <div class="t-min">({{numberOfReviews}})</div>
                 </div>
-              </div>
+                <div class="t-min">Рейтинг</div>
+              </button>
 
-              <div class="img-btn-box">
-                <button class="img-btn" (click)="approveSubscriber(choseFlatId)"><i
-                    class="fa-regular fa-thumbs-up"></i></button>
-                <div class="t-min">До дискусії</div>
-              </div>
+              <button class="btn-panel" (click)="deleteSubscriber(chosenFlat)">
+                <i class="fa-solid fa-user-xmark"></i>
+                <div class="t-min">Видал.</div>
+              </button>
 
-              <div class="img-btn-box">
-                <button class="img-btn" matTooltip="Копіювати" (click)="copyFlatId()"><i class="fa-solid fa-info"></i><i
-                    class="fa-solid fa-d"></i></button>
-                <div class="t-min">ID оселі:</div>
-              </div>
-
-              <div class="img-btn-box" *ngIf="chatExists">
-                <button class="img-btn" (click)="indexPage = 3"><i class="fa-solid fa-message"></i></button>
-                <div class="t-min">Написати</div>
-              </div>
-
-              <div class="img-btn-box" (click)="deleteSubscriber(chosenFlat)">
-                <button class="img-btn"><i class="fa-solid fa-user-xmark"></i></button>
-                <div class="t-min">Відписатись</div>
-              </div>
-
-              <div class="img-btn-box">
-                <button class="img-btn" (click)="reportHouse(chosenFlat)"><i
-                    class="fa-solid fa-masks-theater"></i></button>
+              <button class="btn-panel" (click)="reportHouse(chosenFlat)">
+                <i class="fa-solid fa-masks-theater"></i>
                 <div class="t-min">Скарга</div>
-              </div>
+              </button>
 
-              <div class="img-btn-box" (click)="openMap()"
-                *ngIf="chosenFlat.flat.region && chosenFlat.flat.city && chosenFlat.flat.street">
-                <button class="img-btn"><i class="fa-solid fa-location-dot"></i></button>
+              <button class="btn-panel" *ngIf="chosenFlat.flat.region && chosenFlat.flat.city && chosenFlat.flat.street"
+                (click)="openMap()"><i class="fa-solid fa-location-dot"></i>
                 <div class="t-min">Локація</div>
-              </div>
+              </button>
+
+              <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
+                <i class="fa-solid fa-fingerprint"></i>
+                <div class="t-min">ID</div>
+              </button>
 
             </div>
+
           </div>
         </div>
 

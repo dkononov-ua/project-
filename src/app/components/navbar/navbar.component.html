@@ -1,54 +1,59 @@
 <div class="container-box">
-  <nav class="navbar w-100" [ngClass]="{'open': isMenuOpen}">
+  <nav class="navbar w-100">
+
     <div class="nav-item">
       <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-        <img class="logo" src="{{path_logo}}" alt="logo" (click)="closeMenu()">
+        <img class="logo" src="{{path_logo}}" alt="logo">
         <div class="text">Discussio. Beta</div>
       </a>
     </div>
 
-    <!-- <h1>Discussio</h1> -->
-
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Аккаунт</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Аккаунт</a>
     </div>
 
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'" (click)="closeMenu()">Оселя</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</a>
     </div>
 
     <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/search-page'" (click)="closeMenu()">Пошук</a>
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'">Функції</a>
     </div>
 
-
-    <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'" (click)="closeMenu()">Функції</a>
+    <div class="switch-btn-group">
+      <div class="dropdown nav-item">
+        <a class="dropdown-toggle nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-magnifying-glass pr-2"></i>Пошук
+        </a>
+        <ul class="dropdown-menu">
+          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/house'">
+            <i class="fa-solid fa-people-roof"></i>
+            <div class="flex-column">
+              <div class="t-min t-c">Пошук</div>
+              <div class="t-med t-c">Оселі</div>
+            </div>
+          </a>
+          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'" >
+            <i class="fa-solid fa-people-pulling"></i>
+            <div class="flex-column">
+              <div class="t-min t-c">Пошук</div>
+              <div class="t-med t-c">Орендара</div>
+            </div>
+          </a>
+          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/looking'">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="flex-column">
+              <div class="t-med t-c">Пошуковий</div>
+              <div class="t-min t-c">Профіль</div>
+            </div>
+          </a>
+        </ul>
+      </div>
     </div>
 
     <div class="nav-item hide-mobile selection">
       <app-selection-housing></app-selection-housing>
     </div>
-
-    <!-- <app-selection-account></app-selection-account> -->
-
-
-    <!-- <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeMenu()">Аккаунт</a>
-    </div> -->
-
-    <!-- <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeMenu()">Про проєкт</a>
-    </div>
-
-    <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/feedback'" (click)="closeMenu()">Відгук</a>
-    </div>
-
-    <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'" (click)="closeMenu()">Функції проекту</a>
-    </div> -->
-
 
   </nav>
 

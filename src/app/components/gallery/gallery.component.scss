@@ -1,4 +1,5 @@
-@use "../../../style/presets/" as *;
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .img-container {
   height: auto;
@@ -18,37 +19,33 @@
 
 .prev-img,
 .next-img,
-.close-button {
+.btn-close {
   position: absolute;
-  top: 0;
   z-index: 99;
-  border: red;
   background-color: transparent;
   transition: 0.5s;
-
   &:hover {
     background-color: rgba(0, 0, 0, 0.277);
-    .fa-solid {
-      color: $color-accent;
-      transform: scale(1.8);
-    }
   }
 }
 
 .prev-img {
+  top: 50%;
   left: 0;
-  height: 100%;
+  transform: translateY(-50px);
+  height: 100px;
   width: 100px;
 }
 
 .next-img {
+  top: 50%;
+  transform: translateY(-50px);
   right: 0;
-  height: 100%;
+  height: 100px;
   width: 100px;
 }
 
-.close-button {
-  bottom: 0;
-  width: 100%;
-  height: 50px;
+.btn-close {
+  top: 0;
+  right: 0;
 }

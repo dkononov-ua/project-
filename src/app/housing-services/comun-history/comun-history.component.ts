@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
@@ -7,10 +7,13 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat, serverPathPhotoComunal } from 'src/app/config/server-config';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
+import { GalleryComponent } from 'src/app/components/gallery/gallery.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 interface FlatInfo {
   comunal_before: any;
@@ -22,6 +25,7 @@ interface FlatInfo {
   calc_howmuch_pay: any;
   option_sendData: number;
   user_id: string | undefined;
+  img: any;
 }
 @Component({
   selector: 'app-comun-history',
@@ -48,7 +52,7 @@ export class ComunHistoryComponent implements OnInit {
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
-
+  serverPathPhotoComunal = serverPathPhotoComunal;
 
   comunalServices = [
     { name: "Опалення", unit: "Гкал" },
@@ -89,6 +93,7 @@ export class ComunHistoryComponent implements OnInit {
     calc_howmuch_pay: '',
     option_sendData: 2,
     user_id: '',
+    img: '',
   };
 
   @ViewChild('textArea', { static: false })
@@ -111,6 +116,14 @@ export class ComunHistoryComponent implements OnInit {
   statusMessage: string | undefined;
   comunImg: any;
   about: boolean = false;
+
+  cropped?: string;
+  photoData: any;
+  selectedFile: any;
+
+  showFullScreenImage = false;
+  fullScreenImageUrl = '';
+
   addAbout() {
     this.about = !this.about;
   }
@@ -124,6 +137,10 @@ export class ComunHistoryComponent implements OnInit {
     private changeMonthService: ChangeMonthService,
     private changeYearService: ChangeYearService,
     private _dialog: LyDialog,
+    private dialog: MatDialog,
+    private _cd: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -171,6 +188,7 @@ export class ComunHistoryComponent implements OnInit {
         comunal_name: this.selectedComun,
         when_pay_y: this.selectedYear
       }).toPromise() as any;
+
       if (response.status === false) {
         console.log('Немає послуг');
         return;
@@ -197,6 +215,7 @@ export class ComunHistoryComponent implements OnInit {
       if (selectedInfo) {
         this.noInformationMessage = false;
         this.flatInfo = selectedInfo;
+        console.log(this.flatInfo)
       } else {
         this.noInformationMessage = true;
         console.log('No data found for selected month.');
@@ -295,8 +314,8 @@ export class ComunHistoryComponent implements OnInit {
 
   saveInfo(): void {
     const userJson = localStorage.getItem('user');
-
     if (userJson && this.selectedFlatId !== undefined) {
+      this.saveObject()
       this.http.post(serverPath + '/comunal/add/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
@@ -306,7 +325,6 @@ export class ComunHistoryComponent implements OnInit {
         comunal: this.flatInfo,
       })
         .subscribe((response: any) => {
-          this.disabled = true;
         }, (error: any) => {
           console.error(error);
         });
@@ -460,6 +478,7 @@ export class ComunHistoryComponent implements OnInit {
       calc_howmuch_pay: 0,
       option_sendData: 1,
       user_id: undefined,
+      img: '',
     };
   }
 
@@ -482,67 +501,120 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-  openCropperDialog(event: Event) {
-    this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
-      data: event,
-      width: 400,
-      disableClose: true
-    }).afterClosed.subscribe((result?: ImgCropperEvent) => {
-      if (result) {
-        const blob = this.dataURItoBlob(result.dataURL!);
-        const formData = new FormData();
-
-        formData.append('file', blob, result.name!);
-        console.log(formData)
-        this.onUpload(formData);
-      }
-    });
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
   }
 
-  dataURItoBlob(dataURI: string): Blob {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
-
-  onUpload(formData: any): void {
+  saveObject(): void {
     const userJson = localStorage.getItem('user');
-    if (!formData) {
-      console.log('Файл не обраний. Завантаження не відбудеться.');
-      return;
-    }
-    formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-    const headers = { 'Accept': 'application/json' };
-    this.http.post(serverPath + '/img/uploaduser', formData, { headers }).subscribe(
-      (data: any) => {
-        if (data.status === 'Збережено') {
-          setTimeout(() => {
-            this.statusMessage = 'Фото додано';
+    const data = {
+      comunal_name: this.selectedComun,
+      when_pay_y: this.selectedYear,
+      when_pay_m: this.selectedMonth,
+      flat_id: this.selectedFlatId,
+    };
+
+    if (userJson && data && this.selectedFile) {
+      const formData: FormData = new FormData();
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      } else {
+        formData.append('file', 'no_photo');
+      }
+      formData.append("inf", JSON.stringify(data));
+      formData.append('auth', userJson!);
+
+      const headers = { 'Accept': 'application/json' };
+      this.http.post(serverPath + '/img/uploadcomunal', formData, { headers }).subscribe(
+        (uploadResponse: any) => {
+          if (uploadResponse.status === 'Збережено') {
             setTimeout(() => {
-              this.statusMessage = '';
-              // this.getInfo();
-              this.loading = false;
-            }, 1500);
-          }, 500);
-        } else {
-          setTimeout(() => {
-            this.statusMessage = 'Помилка завантаження';
+              this.statusMessage = "Об'єкт додано до списку";
+              setTimeout(() => {
+                this.statusMessage = '';
+              }, 1500);
+            }, 1000);
+          } else {
             setTimeout(() => {
-              // this.getInfo();
-              this.statusMessage = '';
-              this.loading = false;
-            }, 1500);
-          }, 500);
+              this.statusMessage = 'Дані не збережено';
+              this.reloadPageWithLoader()
+            }, 2000);
+          }
+        },
+        (uploadError: any) => {
+          console.log(uploadError);
         }
-      },
-      error => console.log(error)
-    );
+      );
+
+
+    } else {
+      console.log('Внесіть данні')
+    }
+
   }
+
+  openFullScreenImage(photos: string): void {
+    const sanitizedPhotos: SafeUrl = (this.sanitizer.bypassSecurityTrustUrl(serverPathPhotoComunal + photos)
+    );
+
+    const dialogRef = this.dialog.open(GalleryComponent, {
+      data: {
+        photos: sanitizedPhotos,
+        place: 'comun',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => { });
+  }
+
+  closeFullScreenImage(): void {
+    this.showFullScreenImage = false;
+    this.fullScreenImageUrl = '';
+  }
+
+  // saveObject(): void {
+
+  //   const photoData = this.photoData;
+  //   const userJson = localStorage.getItem('user');
+  //   const data = {
+  //     comunal_name: this.selectedComun,
+  //     when_pay_y: this.selectedYear,
+  //     when_pay_m: this.selectedMonth,
+  //     flat_id: this.selectedFlatId,
+  //   };
+
+  //   console.log(data)
+  //   if (photoData && userJson && data) {
+  //     photoData.append("inf", JSON.stringify(data));
+  //     photoData.append('auth', userJson!);
+  //     console.log(photoData)
+  //     const headers = { 'Accept': 'application/json' };
+  //     this.http.post(serverPath + '/img/uploadcomunal', photoData, { headers }).subscribe(
+  //       (uploadResponse: any) => {
+  //         console.log(uploadResponse)
+  //         if (uploadResponse.status === 'Збережено') {
+  //           setTimeout(() => {
+  //             this.statusMessage = "Об'єкт додано до списку";
+  //             setTimeout(() => {
+  //               this.statusMessage = '';
+  //             }, 1500);
+  //           }, 1000);
+  //         } else {
+  //           setTimeout(() => {
+  //             this.statusMessage = 'Дані не збережено';
+  //             // this.reloadPageWithLoader()
+  //           }, 2000);
+  //         }
+  //       },
+  //       (uploadError: any) => {
+  //         console.log(uploadError);
+  //       }
+  //     );
+  //   } else {
+  //     console.log('Внесіть данні')
+  //   }
+
+  // }
 
 }
 

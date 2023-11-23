@@ -19,7 +19,7 @@
                 <app-comun-add class="w-70"></app-comun-add>
 
                 <div class="btn-name w-30">
-                  <button class="btn-2" (click)="clickShowInput()" matTooltip="Про послугу">
+                  <button class="btn-2" (click)="clickShowInput()" matTooltip="Додати коментар про послугу">
                     <i class="fa-solid fa-quote-right"></i>
                   </button>
                   <mat-label>Про послугу</mat-label>
@@ -91,12 +91,16 @@
           </div>
 
 
-
           <div class="btn-group">
-            <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-                class="icon fa-regular fa-circle-check"></i></button>
-            <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
-                class="icon fa-solid fa-eraser"></i></button>
+            <button class="btn flex-box-row" (click)="saveInfo()">
+              <i class="icon fa-regular fa-circle-check"></i>
+              <div class="t-min">Зберегти</div>
+            </button>
+
+            <button class="btn flex-box-row" (click)="clearInfo()">
+              <i class="icon fa-solid fa-eraser"></i>
+              <div class="t-min">Очистити</div>
+            </button>
           </div>
 
         </div>

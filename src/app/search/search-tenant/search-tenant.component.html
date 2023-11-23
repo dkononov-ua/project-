@@ -2,9 +2,10 @@
   <div class="search_box search-header position-sticky">
 
     <div class="search_panel">
+
       <div class="box m-1">
 
-        <div class="flex-box m-1 hide-pc">
+        <div class="flex-box m-1">
           <button class="btn bold" [routerLink]="'/house/house-info'">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
@@ -22,21 +23,23 @@
           <button class="btn bold" (click)="changeIndexPage(1)"> {{optionsFound}}</button>
           <div class="t-min">Знайдено</div>
         </div>
+      </div>
+
+      <div class="box m-1">
+        <header class="flex-column hide-mobile m-1">
+          <h3 class="t-lar-xx"><strong>Пошук орендара</strong></h3>
+          <div class="t-min bold gray">Показано {{shownCard}} з {{optionsFound}}</div>
+        </header>
 
         <div class="flex-box m-1">
           <button class="btn bold" (click)="decrementOffset()"><i class="fa-solid fa-chevron-left"></i></button>
-          <div class="t-min">Попередня</div>
+          <div class="t-min">Попередні</div>
         </div>
 
         <div class="flex-box m-1">
           <button class="btn bold" (click)="incrementOffset()"><i class="fa-solid fa-chevron-right"></i></button>
-          <div class="t-min">Наступна</div>
+          <div class="t-min">Наступні</div>
         </div>
-
-        <div class="shownCard m-1 hide-mobile">
-          <div class="t-med bold">Показано {{shownCard}} з {{optionsFound}}</div>
-        </div>
-
       </div>
 
     </div>

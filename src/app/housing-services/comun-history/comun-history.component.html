@@ -2,31 +2,59 @@
 
   <div class="container-card col-12">
 
-    <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-      <div class="p-3">
+    <div class="flex-column col-lg-6 col-md-12 col-sm-12 col-12">
 
-        <div class="flex-column">
-          <app-select-year></app-select-year>
-          <app-select-comun></app-select-comun>
+      <div class="flex-column">
 
-          <div class="add-photo-group">
-            <div class="box-group">
-              <div class="add-photo-box">
-                <i class="fa-regular fa-image" for="upload"></i>
-                <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
-                <button class="input-up" (click)="_fileInput.click()"> </button>
-              </div>
-              <p class="btn-name">Копія платіжки</p>
+        <div class="flex-box">
+          <app-select-year class="w-30 pr-2 p-1"></app-select-year>
+          <app-select-comun class="w-70 p-1"></app-select-comun>
+        </div>
+
+        <div class="add-photo-group">
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-regular fa-image" for="upload"></i>
+              <input class="add-photo-input" matTooltip="ДОДАТИ ФОТО" name="file" type="file" id="upload"
+              (change)="onFileSelected($event)">
+              <!-- <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+              <button class="input-up" (click)="_fileInput.click()"> </button> -->
             </div>
-
-            <div class="box-group">
-              <div class="add-photo-box">
-                <i class="fa-solid fa-quote-right"></i>
-                <button class="input-up" (click)="addAbout()"></button>
-              </div>
-              <p class="btn-name">Опис</p>
-            </div>
+            <p class="btn-name">Додати фото</p>
           </div>
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-regular fa-circle-xmark"></i>
+              <button class="input-up" (click)="addAbout()"></button>
+            </div>
+            <p class="btn-name">Видалити фото</p>
+          </div>
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-solid fa-expand"></i>
+              <button class="input-up" (click)="openFullScreenImage(flatInfo.img.img)"></button>
+            </div>
+            <p class="btn-name">Переглянути</p>
+          </div>
+
+          <div class="box-group">
+            <div class="add-photo-box">
+              <i class="fa-solid fa-quote-right"></i>
+              <button class="input-up" (click)="addAbout()"></button>
+            </div>
+            <p class="btn-name">Додати опис</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flex-column">
+
+        <div class="img-fluid" *ngIf="flatInfo?.img">
+          <img [src]="serverPathPhotoComunal + (flatInfo.img?.img ? flatInfo.img?.img : 'user_default.svg')">
         </div>
 
         <div class="flex-box wrap t-min gray">
@@ -43,176 +71,32 @@
             <span class="accent">{{flatInfo.comunal_before}} {{ selectedUnit }}</span>
           </div>
           <div class="item" *ngIf="flatInfo.comunal_now">Поточний показник: <span
-              class="accent">{{flatInfo.comunal_now}} {{ selectedUnit }}</span>
+              class="accent">{{flatInfo.comunal_now}}
+              {{ selectedUnit }}</span>
           </div>
-          <div class="item" *ngIf="flatInfo.consumed">Спожито: <span class="accent">{{flatInfo.consumed}} {{
-              selectedUnit }}</span></div>
-          <div class="item" *ngIf="flatInfo.tariff">Тариф: <span class="accent">{{flatInfo.tariff | number: '1.2-2' }} &#8372;</span></div>
+          <div class="item" *ngIf="flatInfo.consumed">Спожито {{ selectedUnit }}: <span class="accent">{{flatInfo.consumed}} </span></div>
+          <div class="item" *ngIf="flatInfo.tariff">Тариф: <span class="accent">{{flatInfo.tariff | number: '1.2-2' }}
+              &#8372;</span></div>
           <div class="item" *ngIf="flatInfo.calc_howmuch_pay">До сплати: <span
-              class="accent">{{flatInfo.calc_howmuch_pay | number: '1.2-2'}} &#8372;</span></div>
+              class="accent">{{flatInfo.calc_howmuch_pay
+              | number: '1.2-2'}} &#8372;</span></div>
           <div class="item" *ngIf="flatInfo.howmuch_pay">Сплатив: <span class="accent">{{flatInfo.howmuch_pay}}
               &#8372;</span></div>
         </div>
 
-        <div class="img-fluid" *ngIf="comunImg">
-          <img [src]="serverPathPhotoUser + (comunImg ? comunImg : 'user_default.svg')">
-        </div>
-
-        <div class="form-floating p-1" *ngIf="about">
-          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-            [(ngModel)]="flatInfo.about_pay" name="about_pay" (input)="onInput()"></textarea>
-          <label for="floatingTextarea">
-            <p>Коментар про запис:</p>
-          </label>
-        </div>
-
       </div>
 
+      <div class="form-floating p-1" *ngIf="about">
+        <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
+          [(ngModel)]="flatInfo.about_pay" name="about_pay" (input)="onInput()"></textarea>
+        <label for="floatingTextarea">
+          <p>Коментар про запис:</p>
+        </label>
+      </div>
 
-      <!-- <div class="card">
-
-        <div *ngIf="!flatInfo.option_sendData">
-          <div class="p-2">
-            <p class="about"><strong class="accent">Лічильник</strong> - якщо обрати цей спосіб розрахунку то розрахунок
-              буде мати
-              такий вигляд:</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Спожито</strong> - формула розрахунку:</p>
-            <div class="formula">("поточний" - "попередній") * тариф</div>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">До сплати</strong> - формула розрахунку:</p>
-            <div class="formula">(тариф * спожито)</div>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
-              підрахунок</p>
-          </div>
-
-          <div class="p-2">
-            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
-              попередній в наступний
-              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
-          </div>
-
-        </div>
-
-        <div *ngIf="flatInfo.option_sendData === 1">
-
-          <mat-label class="group-label">Спосіб розрахунку
-            <span class="accent">Лічильник</span>
-          </mat-label>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Лічильник</strong> - якщо обрати цей спосіб розрахунку то розрахунок
-              буде мати
-              такий вигляд:</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Спожито</strong> - формула розрахунку:</p>
-            <div class="formula">("поточний" - "попередній") * тариф</div>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">До сплати</strong> - формула розрахунку:</p>
-            <div class="formula">(тариф * спожито)</div>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
-              підрахунок</p>
-          </div>
-
-          <div class="p-2">
-            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
-              попередній в наступний
-              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
-          </div>
-
-        </div>
-
-        <div class="box" *ngIf="flatInfo.option_sendData === 2">
-
-          <mat-label class="group-label">Спосіб розрахунку
-            <span class="accent">Площа</span>
-          </mat-label>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Площа</strong> - якщо обрати цей спосіб розрахунку то розрахунок
-              буде мати такий вигляд:</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">До сплати</strong> - формула розрахунку:</p>
-            <div class="formula">(тариф * площу м2)</div>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
-              підрахунок</p>
-          </div>
-
-          <div class="p-2">
-            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
-              попередній в наступний
-              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
-          </div>
-
-        </div>
-
-        <div class="box" *ngIf="flatInfo.option_sendData === 3">
-
-          <mat-label class="group-label">Спосіб розрахунку
-            <span class="accent">Вартість</span>
-          </mat-label>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Вартість</strong> - якщо обрати цей спосіб розрахунку то розрахунок
-              буде мати такий вигляд:</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">До сплати</strong> - оплата по фіксованому тарифу:</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Сплатив</strong> - для внесення суми яку була по факту оплачена</p>
-          </div>
-
-          <div class="p-2">
-            <p class="about"><strong class="accent">Коментар про запис</strong> - для внесення коментарів про створений
-              підрахунок</p>
-          </div>
-
-          <div class="p-2">
-            <p class="description">Всі дані записуються в окремі місяці, поточний показник по лічильнику записується як
-              попередній в наступний
-              місяць, тариф також записується в наступний місяць, ці дані можна корегувати в кожному місяці</p>
-          </div>
-
-        </div>
-
-      </div> -->
     </div>
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+    <div [@cardAnimation1] class="flex-box col-lg-6 col-md-12 col-sm-12 col-12">
       <div class="card">
 
         <div class="flex-column">
@@ -294,8 +178,8 @@
               </div>
 
               <div class="flex-column m-2" *ngIf="flatInfo.consumed">
-                <div class="t-min gray">Спожито</div>
-                <div class="t-lar-x bold gray">{{flatInfo.consumed}}{{ selectedUnit }}</div>
+                <div class="t-min gray">Спожито {{ selectedUnit }}</div>
+                <div class="t-lar-x bold gray">{{flatInfo.consumed}}</div>
               </div>
 
             </div>
@@ -425,27 +309,33 @@
 
           </div>
 
-
-
-
-
-
-
-
         </div>
 
         <div class="btn-group">
-          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-              class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
-              class="icon fa-solid fa-eraser"></i></button>
-          <button class="btn" matTooltip="Копіювати" (click)="copy()"><i class="fa-regular fa-copy"></i></button>
-          <button class="btn" matTooltip="Вставити" (click)="paste()"><i class="fa-solid fa-paste"></i></button>
+          <button class="btn flex-column" (click)="saveInfo()">
+            <i class="icon fa-regular fa-circle-check"></i>
+            <div class="t-min">Зберегти</div>
+          </button>
+
+          <button class="btn" (click)="clearInfo()">
+            <i class="icon fa-solid fa-eraser"></i>
+            <div class="t-min">Очистити</div>
+          </button>
+
+          <button class="btn" (click)="copy()">
+            <i class="icon fa-regular fa-copy"></i>
+            <div class="t-min">Копіювати</div>
+          </button>
+
+          <button class="btn" (click)="paste()">
+            <i class="icon fa-solid fa-paste"></i>
+            <div class="t-min">Вставити</div>
+          </button>
+
         </div>
 
       </div>
     </div>
-
 
   </div>
 

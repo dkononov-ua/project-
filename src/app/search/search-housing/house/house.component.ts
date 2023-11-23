@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FilterService } from '../../filter.service';
 import { MatDialog } from '@angular/material/dialog';
-import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HouseInfo } from 'src/app/interface/info';
 import { SharedService } from 'src/app/services/shared.service';
@@ -12,6 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals, options, checkBox } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
+import { GalleryComponent } from 'src/app/components/gallery/gallery.component';
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -189,7 +189,7 @@ export class HouseComponent implements OnInit {
       this.sanitizer.bypassSecurityTrustUrl(serverPath + '/img/flat/' + photo)
     );
 
-    const dialogRef = this.dialog.open(PhotoGalleryComponent, {
+    const dialogRef = this.dialog.open(GalleryComponent, {
       data: {
         photos: sanitizedPhotos,
       },

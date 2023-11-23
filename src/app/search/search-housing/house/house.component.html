@@ -90,31 +90,38 @@
                 ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
                 serverPathPhotoFlat + 'housing_default.svg'" alt="img">
 
+            <div *ngIf="selectedFlat?.img.length > 1">
+              <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                  class="fa-solid fa-chevron-left"></i></button>
+              <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
+                (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
             <div class="btn-container">
 
-              <div class="img-btn-box" *ngIf="ratingOwner">
-                <button class="img-btn" (click)="card_info = 2"><i class="fa-regular fa-star"></i>
-                </button>
-                <div><span class="t-med bold">{{ratingOwner}} </span><span class="t-min">({{numberOfReviews}})</span>
+              <button class="btn-panel" *ngIf="ratingOwner" (click)="card_info = 2">
+                <div class="flex-box">
+                  <div class="t-lar bold">{{ratingOwner}}</div>
+                  <div class="t-min">({{numberOfReviews}})</div>
                 </div>
-              </div>
+                <div class="t-min">Рейтинг</div>
+              </button>
 
-              <div class="img-btn-box">
-                <button class="img-btn" (click)="openFullScreenImage(selectedFlat?.img)">
-                  <i class="fa-regular fa-image"></i></button>
+              <button class="btn-panel" (click)="openFullScreenImage(selectedFlat?.img)">
+                <i class="fa-regular fa-image"></i>
                 <div class="t-min">Фото</div>
-              </div>
+              </button>
 
-              <div class="img-btn-box">
-                <button class="img-btn" (click)="reportHouse(selectedFlat)"><i
-                    class="fa-solid fa-masks-theater"></i></button>
+
+              <button class="btn-panel" (click)="reportHouse(selectedFlat)">
+                <i class="fa-solid fa-masks-theater"></i>
                 <div class="t-min">Скарга</div>
-              </div>
+              </button>
 
-              <div class="img-btn-box" (click)="openMap()" *ngIf="locationLink">
-                <button class="img-btn"><i class="fa-solid fa-location-dot"></i></button>
+              <button class="btn-panel" (click)="openMap()" *ngIf="locationLink">
+                <i class="fa-solid fa-location-dot"></i>
                 <div class="t-min">Локація</div>
-              </div>
+              </button>
 
             </div>
 
