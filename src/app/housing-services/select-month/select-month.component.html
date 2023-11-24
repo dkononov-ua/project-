@@ -4,7 +4,7 @@
       <mat-label class="list-label-1">Обраний місяць</mat-label>
       <mat-form-field class="list-form" appearance="outline">
         <mat-select class="list-select" name="selectedMonth" [(ngModel)]="this.selectedMonth"
-          (selectionChange)="onSelectionChangeMonth()">
+          (selectionChange)="onSelectionChangeMonth(this.selectedMonth)">
           <mat-option class="list-option" *ngFor="let month of months" [value]="month.name">{{month.name}}
           </mat-option>
         </mat-select>

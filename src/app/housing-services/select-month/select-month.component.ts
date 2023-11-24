@@ -30,28 +30,23 @@ export class SelectMonthComponent implements OnInit {
   constructor(private changeMonthService: ChangeMonthService) { }
 
   ngOnInit(): void {
-    this.getMonthService();
-    if (!this.selectedMonth) {
+    const storedMonth = localStorage.getItem('selectedMonth');
+    if (storedMonth === 'undefined') {
       this.getMonthCurrent();
-      this.changeMonthService.setSelectedMonth(this.selectedMonth);
+    } else {
+      this.selectedMonth = storedMonth;
     }
-  }
-
-  getMonthService() {
-    this.changeMonthService.selectedMonth$.subscribe(month => {
-      this.serviceMonth = month;
-    });
   }
 
   getMonthCurrent() {
     const currentDate = new Date();
     this.currentMonth = currentDate.getMonth() + 1;
     this.selectedMonth = this.months.find(month => month.id === this.currentMonth.toString())?.name;
+    this.changeMonthService.setSelectedMonth(this.selectedMonth);
   }
 
-  onSelectionChangeMonth(): void {
-    this.selectedMonth = this.selectedMonth;
-    this.changeMonthService.setSelectedMonth(this.selectedMonth);
+  onSelectionChangeMonth(selectedMonth: any): void {
+    this.changeMonthService.setSelectedMonth(selectedMonth);
   }
 
 }

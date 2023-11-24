@@ -38,6 +38,7 @@
     "jspdf-autotable": "^3.5.31",
     "moment": "^2.29.4",
     "moment-es6": "^1.0.0",
+    "ngx-image-zoom": "^3.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.5.0",
     "zone.js": "~0.13.0"

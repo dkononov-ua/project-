@@ -18,24 +18,25 @@
               <i class="fa-regular fa-image" for="upload"></i>
               <input class="add-photo-input" matTooltip="ДОДАТИ ФОТО" name="file" type="file" id="upload"
               (change)="onFileSelected($event)">
-              <!-- <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
-              <button class="input-up" (click)="_fileInput.click()"> </button> -->
+              <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+              <button class="input-up" (click)="_fileInput.click()"> </button>
             </div>
             <p class="btn-name">Додати фото</p>
           </div>
 
-          <div class="box-group">
+
+          <!-- <div class="box-group">
             <div class="add-photo-box">
               <i class="fa-regular fa-circle-xmark"></i>
               <button class="input-up" (click)="addAbout()"></button>
             </div>
             <p class="btn-name">Видалити фото</p>
-          </div>
+          </div> -->
 
-          <div class="box-group">
+          <div class="box-group" *ngIf="comunImg">
             <div class="add-photo-box">
               <i class="fa-solid fa-expand"></i>
-              <button class="input-up" (click)="openFullScreenImage(flatInfo.img.img)"></button>
+              <button class="input-up" (click)="openFullScreenImage(comunImg)"></button>
             </div>
             <p class="btn-name">Переглянути</p>
           </div>
@@ -53,12 +54,17 @@
 
       <div class="flex-column">
 
-        <div class="img-fluid" *ngIf="flatInfo?.img">
-          <img [src]="serverPathPhotoComunal + (flatInfo.img?.img ? flatInfo.img?.img : 'user_default.svg')">
+        <div class="img-comun-box" *ngIf="cropped">
+          <img class="img-comun" [src]="cropped">
+          <div class="cropped-text"><p class="cropped-text1 t-lar-xx">Передперегляд</p></div>
+        </div>
+
+        <div class="img-comun-box" *ngIf="comunImg && !cropped">
+          <img class="img-comun" [src]="serverPathPhotoComunal + (comunImg ? comunImg : 'default.png')">
         </div>
 
         <div class="flex-box wrap t-min gray">
-          <h3 class="bold" *ngIf="selectedMonth">{{ selectedMonth }} {{ selectedYear }}</h3>
+          <h3 class="bold" *ngIf="selectedMonth && selectedYear">{{ selectedMonth }} {{ selectedYear }}</h3>
           <div class="item" *ngIf="flatInfo.user_id">User ID:<span class="accent">{{flatInfo.user_id}}</span></div>
           <div class="item" *ngIf="flatInfo.option_sendData">Розрахунок за:
             <span class="accent" *ngIf="flatInfo.option_sendData === 1"> лічильником</span>
@@ -74,7 +80,8 @@
               class="accent">{{flatInfo.comunal_now}}
               {{ selectedUnit }}</span>
           </div>
-          <div class="item" *ngIf="flatInfo.consumed">Спожито {{ selectedUnit }}: <span class="accent">{{flatInfo.consumed}} </span></div>
+          <div class="item" *ngIf="flatInfo.consumed">Спожито {{ selectedUnit }}: <span
+              class="accent">{{flatInfo.consumed}} </span></div>
           <div class="item" *ngIf="flatInfo.tariff">Тариф: <span class="accent">{{flatInfo.tariff | number: '1.2-2' }}
               &#8372;</span></div>
           <div class="item" *ngIf="flatInfo.calc_howmuch_pay">До сплати: <span
@@ -103,7 +110,7 @@
 
           <div class="flex-box p-2 w-100">
             <div class="flex-box-column w-50">
-              <div class="bold accent t-lar-xx">{{ selectedMonth }}</div>
+              <div class="bold accent t-lar-xx" *ngIf="selectedMonth">{{ selectedMonth }}</div>
               <div class="t-min w-50">Місяць:</div>
             </div>
             <div class="flex-box w-50">
@@ -233,7 +240,7 @@
             </div>
 
             <div class="flex-box p-2">
-              <div class="t-med w-50">Було сплачено за {{ selectedMonth }}:</div>
+              <div class="t-med w-50" *ngIf="selectedMonth">Було сплачено за {{ selectedMonth }}:</div>
               <mat-form-field class="w-50" appearance="outline">
                 <mat-label>Сплатив &#8372;:</mat-label>
                 <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">
@@ -273,7 +280,7 @@
 
 
             <div class="flex-box p-2">
-              <div class="t-med w-50">Було сплачено за {{ selectedMonth }}:</div>
+              <div class="t-med w-50" *ngIf="selectedMonth">Було сплачено за {{ selectedMonth }}:</div>
               <mat-form-field class="w-50" appearance="outline">
                 <mat-label>Сплатив &#8372;:</mat-label>
                 <input matInput type="number" [(ngModel)]="flatInfo.howmuch_pay" name="howmuch_pay">

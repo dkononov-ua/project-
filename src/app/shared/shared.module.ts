@@ -34,6 +34,7 @@ import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { CropImgComponent } from '../components/crop-img/crop-img.component';
 import { MenuComponent } from '../components/menu/menu.component';
 import { GalleryComponent } from '../components/gallery/gallery.component';
+import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { GalleryComponent } from '../components/gallery/gallery.component';
     CropImgComponent,
     MenuComponent,
     GalleryComponent,
+    CropImg2Component,
   ],
   exports: [
     NavbarComponent,
@@ -65,6 +67,7 @@ import { GalleryComponent } from '../components/gallery/gallery.component';
     CropImgComponent,
     MenuComponent,
     GalleryComponent,
+    CropImg2Component,
   ],
   providers: [
     UpdateComponentService,

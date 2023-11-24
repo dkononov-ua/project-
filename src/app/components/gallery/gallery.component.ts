@@ -16,8 +16,6 @@ export class GalleryComponent {
   private offsetY: number = 0;
   private isDragging: boolean = false;
 
-
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   prevPhoto() {
@@ -32,54 +30,57 @@ export class GalleryComponent {
     }
   }
 
-  zoomIn() {
-    this.zoomLevel += 0.1;
-    this.updateImageSize();
-  }
+// В компоненті
+zoomIn(): void {
+  const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
+  const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
 
-  zoomOut() {
-    if (this.zoomLevel > 0.1) {
-      this.zoomLevel -= 0.1;
-      this.updateImageSize();
-    }
-  }
+  if (img && container) {
+    const mouseX = container.offsetWidth / 2;
+    const mouseY = container.offsetHeight / 2;
 
-  @HostListener('wheel', ['$event'])
-  onWheel(event: WheelEvent) {
-    const img = this.fullscreenImg?.nativeElement as HTMLImageElement;
-    const container = this.imgContainer?.nativeElement as HTMLElement;
-
-    // Отримання позиції курсора відносно контейнера
-    const mouseX = event.clientX - container.getBoundingClientRect().left;
-    const mouseY = event.clientY - container.getBoundingClientRect().top;
-
-    // Визначення напрямку зумування на основі значення deltaY
-    const zoomDirection = event.deltaY < 0 ? 1 : -1;
-
-    // Визначення нового рівня зумування
+    const zoomDirection = 1;
     const newZoomLevel = this.zoomLevel + zoomDirection * 0.1;
 
-    // Обчислення нового положення зображення відносно курсора
     const deltaX = (mouseX / img.width) * (this.zoomLevel - newZoomLevel);
     const deltaY = (mouseY / img.height) * (this.zoomLevel - newZoomLevel);
 
-    // Оновлення рівня зумування та положення
     this.zoomLevel = newZoomLevel;
     this.offsetX += deltaX;
     this.offsetY += deltaY;
 
-    // Виклик функції для оновлення розмірів та положення зображення
     this.updateImageSize();
-
-    event.preventDefault();
   }
+}
+
+zoomOut(): void {
+  const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
+  const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
+
+  if (img && container) {
+    const mouseX = container.offsetWidth / 2;
+    const mouseY = container.offsetHeight / 2;
+
+    const zoomDirection = -1;
+    const newZoomLevel = this.zoomLevel + zoomDirection * 0.1;
+
+    const deltaX = (mouseX / img.width) * (this.zoomLevel - newZoomLevel);
+    const deltaY = (mouseY / img.height) * (this.zoomLevel - newZoomLevel);
+
+    this.zoomLevel = newZoomLevel;
+    this.offsetX += deltaX;
+    this.offsetY += deltaY;
+
+    this.updateImageSize();
+  }
+}
 
 
   private updateImageSize() {
-    if (this.fullscreenImg && this.imgContainer) {
-      const img = this.fullscreenImg.nativeElement as HTMLImageElement;
-      const container = this.imgContainer.nativeElement as HTMLElement;
+    const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
+    const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
 
+    if (img && container) {
       const mouseX = container.scrollLeft + (container.offsetWidth / 2);
       const mouseY = container.scrollTop + (container.offsetHeight / 2);
 
@@ -93,15 +94,37 @@ export class GalleryComponent {
       const deltaY = (mouseY - containerRect.top) / imgRect.height * (newHeight - container.offsetHeight);
 
       img.style.transform = `scale(${this.zoomLevel})`;
+      img.style.transformOrigin = 'top left';
       container.scrollLeft = Math.max(0, deltaX);
       container.scrollTop = Math.max(0, deltaY);
     }
   }
 
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent) {
+    this.isDragging = true;
+  }
 
+  @HostListener('mouseup', ['$event'])
+  onMouseUp(event: MouseEvent) {
+    this.isDragging = false;
+  }
 
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (this.isDragging) {
+      const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
 
+      if (img) {
+        this.offsetX += event.movementX / img.width;
+        this.offsetY += event.movementY / img.height;
+        this.updateImageSize();
+      }
+    }
+  }
 
-
-
+  @HostListener('mouseleave', ['$event'])
+  onMouseLeave(event: MouseEvent) {
+    this.isDragging = false;
+  }
 }

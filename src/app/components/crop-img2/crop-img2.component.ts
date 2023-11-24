@@ -18,16 +18,17 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   const cropper = ref.selectorsOf(CROPPER_STYLES);
 
   return {
-    root: lyl `{
+    root: lyl`{
       ${cropper.root} {
         width: 400px
         height: 400px
       }
+
     }`,
-    sliderContainer: lyl `{
+    sliderContainer: lyl`{
       position: relative
       ${slider.root} {
-        width: 80%
+        width: 100%
         position: absolute
         left: 0
         right: 0
@@ -35,34 +36,40 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
         top: -32px
       }
     }`,
-    slider: lyl `{
+    slider: lyl`{
       padding: 1em
     }`
   };
 };
 @Component({
-  selector: 'app-crop-img',
-  templateUrl: './crop-img.component.html',
-  styleUrls: ['./crop-img.component.scss']
+  selector: 'app-crop-img2',
+  templateUrl: './crop-img2.component.html',
+  styleUrls: ['./crop-img2.component.scss']
 })
 
-export class CropImgComponent implements WithStyles, AfterViewInit  {
+export class CropImg2Component implements WithStyles, AfterViewInit {
 
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   ready: boolean = false;
-  scale: number = 0;
-  minScale: number = 1;
+  scale: number = 0.01;
+  minScale: number = 0.1;
+
+  isHorizontalFormat: boolean = true;
+  formatCropper: number = 0;
+  formatWidth: number = 300;
+  formatHeight: number = 300;
 
   @ViewChild(LyImageCropper, { static: true }) cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 600,
-    height: 600,
+    width: this.formatWidth,
+    height: this.formatHeight,
     type: 'image/png',
     keepAspectRatio: true,
     responsiveArea: true,
     output: ImgResolution.OriginalImage,
     resizableArea: true
   };
+
   constructor(
     @Inject(LY_DIALOG_DATA) private event: Event,
     readonly sRenderer: StyleRenderer,
@@ -73,6 +80,18 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
     this.dialogRef.afterOpened.subscribe(() => {
       this.cropper.selectInputEvent(this.event);
     });
+  }
+
+  async pickFormats(formatWidth: number, formatHeight: number) {
+    this.myConfig = {
+      width: formatWidth,
+      height: formatHeight,
+      type: 'image/png',
+      keepAspectRatio: true,
+      responsiveArea: true,
+      output: ImgResolution.OriginalImage,
+      resizableArea: true
+    };
   }
 
   onCropped(e: ImgCropperEvent) {
@@ -91,5 +110,7 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
   onSliderInput(event: LySliderChange) {
     this.scale = event.value as number;
   }
+
+
 
 }
