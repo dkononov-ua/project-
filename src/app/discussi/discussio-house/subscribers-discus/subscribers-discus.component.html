@@ -479,8 +479,9 @@
     </div>
 
     <!-- Чат -->
-    <div [@cardAnimation2] class="card-animation card-chat" *ngIf="indexPage == 2 && selectedUser">
-      <app-chat-house></app-chat-house>
+    <div [@cardAnimation2] class="flex-column-chat" *ngIf="indexPage == 2 && selectedUser">
+      <app-chat-house class="chat"></app-chat-house>
+      <app-send-message class="send-message"></app-send-message>
     </div>
 
     <!-- Відгук -->

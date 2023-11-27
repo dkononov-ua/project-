@@ -4,6 +4,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 
 
 interface FlatInfo {
@@ -79,7 +80,8 @@ export class ParamComponent {
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
-    private router: Router
+    private router: Router,
+    private dataService: DataService,
   ) { }
 
   ngOnInit(): void {
@@ -93,6 +95,19 @@ export class ParamComponent {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
     });
+  }
+
+  updateFlatInfo () {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+        } else {
+          console.log('Немає оселі')
+        }
+      });
+    }
   }
 
   async getInfo(): Promise<void> {
@@ -135,6 +150,7 @@ export class ParamComponent {
         }).toPromise();
 
         if (response.status == 'Параметри успішно додані') {
+          this.updateFlatInfo();
           setTimeout(() => {
             this.statusMessage = 'Параметри успішно додані';
             setTimeout(() => {

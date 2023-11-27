@@ -29,7 +29,6 @@ export class NavbarUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.dataService.getInfoUser();
@@ -43,7 +42,6 @@ export class NavbarUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/chat/get/DontReadMessageUser';
     const data = { auth: JSON.parse(userJson!) };
-
     if (userJson) {
       this.http.post(url, data).subscribe((response: any) => {
         this.unreadMessage = response.status;
@@ -60,7 +58,6 @@ export class NavbarUserComponent implements OnInit {
     const userInfo = localStorage.getItem('userData');
     if (userInfo) {
       this.userInf = JSON.parse(userInfo);
-      console.log(this.userInf)
       this.agreeNum = this.userInf.agree.total;
     }
 

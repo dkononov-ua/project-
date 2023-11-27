@@ -42,6 +42,7 @@
   display: flex;
   flex-direction: column-reverse;
   border-radius: 20px;
+  justify-content: space-between;
   @include s1-s3 {
     height: 90vh;
   }
@@ -145,7 +146,8 @@
       border-radius: 50%;
       border: none;
       width: 80px;
-      .fa-solid, .fa-regular {
+      .fa-solid,
+      .fa-regular {
         color: $color-dark;
         &:hover {
           color: $color-accent;
@@ -365,7 +367,8 @@ li {
     }
   }
 
-  .fa-solid, .fa-regular {
+  .fa-solid,
+  .fa-regular {
     color: $color-white;
   }
 

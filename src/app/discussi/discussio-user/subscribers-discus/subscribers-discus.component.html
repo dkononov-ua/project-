@@ -283,7 +283,7 @@
 
 
             </div>
-            
+
           </div>
         </div>
 
@@ -527,9 +527,10 @@
         </div>
       </div>
 
-      <!-- чат -->
-      <div [@cardAnimation] class="card-animation card-chat" *ngIf="chosenFlat && indexPage == 3">
-        <app-chat-user></app-chat-user>
+      <!-- Чат -->
+      <div [@cardAnimation] class="flex-column-chat" *ngIf="indexPage == 3 && chosenFlat">
+        <app-chat-user class="chat"></app-chat-user>
+        <app-send-message-user class="send-message"></app-send-message-user>
       </div>
 
       <div [@cardAnimation] class="card card-selected p-2" *ngIf="indexPage === 4">

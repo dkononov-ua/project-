@@ -51,7 +51,7 @@
               <span class="title-selected">ціна ₴/міс</span>
             </div>
 
-            <div *ngIf="about.option_pay !== 0" class="ml-2 price_m">{{
+            <div *ngIf="about.option_pay === 1" class="ml-2 price_m">{{
               about.price_d
               || '?' }}
               <span class="title-selected">ціна ₴/добу</span>
@@ -122,7 +122,8 @@
         <app-parameters></app-parameters>
       </div>
 
-      <div [@cardAnimation] class="stub-card card p-3" *ngIf="indexCard === 1 && house.rent === 0">
+      <div [@cardAnimation] class="stub-card card p-3"
+        *ngIf="indexCard === 1 && house.rent === 0 || house.rent === null">
         <a class="stub-card-link" [routerLink]="'/housing-parameters/host/about'">
           <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
           <p class="t-lar accent bold">"Пошуковий профіль оселі вимкнено"</p>

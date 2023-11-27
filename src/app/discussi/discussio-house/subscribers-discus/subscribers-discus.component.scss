@@ -13,3 +13,18 @@
     }
   }
 }
+
+
+.flex-column-chat {
+  @include flex-box-column;
+  align-items: stretch;
+  position: relative;
+  .send-message {
+    @include s1-s3 {
+      width: 100%;
+      position: fixed;
+      z-index: 200;
+      bottom: 0;
+    }
+  }
+}

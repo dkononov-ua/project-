@@ -24,7 +24,7 @@
             </button>
             <div class="t-min dark bold">Назад</div>
           </div>
-          
+
           <div class="switch-btn-group">
             <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage == 0}">
               <i class="fa-solid fa-circle-info"></i>
@@ -90,10 +90,10 @@
 
           <div class="btn-group mt-3 w-100">
             <button *ngIf="indexPage === 0" class="btn-next" (click)="changeStep(indexPage + 1)">ПОЧАТИ</button>
-            <button *ngIf="indexPage > 1" class="btn-next" (click)="changeStep(indexPage - 1)"
+            <!-- <button *ngIf="indexPage > 1" class="btn-next" (click)="changeStep(indexPage - 1)"
               [disabled]="indexPage === 1">НАЗАД</button>
             <button *ngIf="indexPage < 3 && indexPage !== 0" class="btn-next" (click)="changeStep(indexPage + 1)"
-              [disabled]="indexPage === 3">ДАЛІ</button>
+              [disabled]="indexPage === 3">ДАЛІ</button> -->
           </div>
 
         </div>
@@ -240,9 +240,20 @@
             </div>
 
             <div class="btn-group w-100">
-              <button class="btn" (click)="clearInfoCard1()">
+
+              <button class="btn w-30" (click)="indexPage = 0">
+                <i class="fa-solid fa-arrow-left"></i>
+                <div class="t-med dark bold p-2">Назад</div>
+              </button>
+
+              <button class="btn w-40" (click)="clearInfoCard1()">
                 <i class="icon fa-solid fa-eraser"></i>
-                <div class="t-lar dark bold p-2">Очистити</div>
+                <div class="t-med dark bold p-2">Очистити</div>
+              </button>
+
+              <button class="btn w-30" (click)="indexPage = 2">
+                <div class="t-med dark bold p-2">Далі</div>
+                <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
 
@@ -446,9 +457,17 @@
             </div>
 
             <div class="btn-group w-100">
-              <button class="btn" (click)="clearInfoCard2()">
+              <button class="btn w-30" (click)="indexPage = 1">
+                <i class="fa-solid fa-arrow-left"></i>
+                <div class="t-med dark bold p-2">Назад</div>
+              </button>
+              <button class="btn w-40" (click)="clearInfoCard2()">
                 <i class="icon fa-solid fa-eraser"></i>
-                <div class="t-lar dark bold p-2">Очистити</div>
+                <div class="t-med dark bold p-2">Очистити</div>
+              </button>
+              <button class="btn w-30" (click)="indexPage = 3">
+                <div class="t-med dark bold p-2">Далі</div>
+                <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
 
@@ -542,21 +561,28 @@
             </mat-form-field>
 
             <div class="btn-group w-100">
+
+              <button class="btn" (click)="indexPage = 2">
+                <i class="fa-solid fa-arrow-left"></i>
+                <div class="t-med dark bold p-2">Назад</div>
+              </button>
+
               <button class="btn" (click)="clearInfoCard3()">
                 <i class="icon fa-solid fa-eraser"></i>
                 <div class="t-lar dark bold p-2">Очистити</div>
               </button>
 
+            </div>
+
+            <div class="btn-group w-100" >
               <button [disabled]="(!userInfo.price_of && !userInfo.price_to) || (!userInfo.region || !userInfo.city)"
                 class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
                 <i class="fa-regular fa-circle-check"></i>
-                <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search === 1">Зберегти зміни</div>
-                <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search === 0">Активувати</div>
+                <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search === 1">Зберегти</div>
+                <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search !== 1">Активувати</div>
               </button>
-            </div>
 
-            <div class="btn-group w-100" *ngIf="userInfo.agree_search === 1">
-              <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
+              <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)" *ngIf="userInfo.agree_search === 1">
                 <i class="fa-solid fa-power-off"></i>
                 <div class="t-lar dark bold p-2">Деактивувати</div>
               </button>

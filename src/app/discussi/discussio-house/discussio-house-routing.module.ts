@@ -6,14 +6,14 @@ import { SubscribersHouseComponent } from './subscribers-house/subscribers-house
 import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
 import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
-import { ChatMenuComponent } from './chat-menu/chat-menu.component';
 import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
+import { ChatHostHouseComponent } from './chat-host-house/chat-host-house.component';
 
 const routes: Routes = [
   { path: 'agree-create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
   { path: 'agree-create/:selectedSubscriber?.user_id', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
   { path: 'chat-house', component: ChatHouseComponent, canActivate: [CanActivateGuard] },
-  { path: 'chat', component: ChatMenuComponent, canActivate: [CanActivateGuard] },
+  { path: 'chat', component: ChatHostHouseComponent, canActivate: [CanActivateGuard] },
   {
     path: 'subscribers-host', component: SubscribersHostComponent, canActivate: [CanActivateGuard],
     children: [

@@ -6,8 +6,8 @@ import { serverPath } from 'src/app/config/server-config';
 
 interface FlatInfo {
   osbb_name: string | undefined;
-  osbb_phone: number;
-  pay_card: number;
+  osbb_phone: string | undefined;
+  pay_card: string | undefined;
   wifi: string | undefined;
   info_about: string | undefined;
 }
@@ -34,8 +34,8 @@ export class HouseShareComponent implements OnInit {
 
   flatInfo: FlatInfo = {
     osbb_name: '',
-    osbb_phone: NaN,
-    pay_card: NaN,
+    osbb_phone: '',
+    pay_card: '',
     wifi: '',
     info_about: '',
   };
@@ -132,8 +132,8 @@ export class HouseShareComponent implements OnInit {
   clearInfo(): void {
     this.flatInfo = {
       osbb_name: '',
-      osbb_phone: NaN,
-      pay_card: NaN,
+      osbb_phone: '',
+      pay_card: '',
       wifi: '',
       info_about: '',
     };

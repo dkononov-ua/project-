@@ -23,7 +23,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ChatHouseComponent } from './chat-house/chat-house.component';
-import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { SubscribersHouseComponent } from './subscribers-house/subscribers-house.component';
 import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -31,23 +30,24 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
 import { DeleteSubComponent } from './delete-sub/delete-sub.component';
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
-import { ChatMenuComponent } from './chat-menu/chat-menu.component';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
 import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
 import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
+import { SendMessageComponent } from './send-message/send-message.component';
+import { ChatHostHouseComponent } from './chat-host-house/chat-host-house.component';
 
 
 @NgModule({
   declarations: [
     AgreeCreateComponent,
     ChatHouseComponent,
-    ChatRoomsComponent,
     SubscribersHouseComponent,
     SubscriptionsHouseComponent,
     DeleteSubComponent,
     SubscribersDiscusComponent,
-    ChatMenuComponent,
     SubscribersHostComponent,
+    SendMessageComponent,
+    ChatHostHouseComponent,
   ],
   providers: [
     SelectedFlatService,

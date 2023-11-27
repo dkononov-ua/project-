@@ -23,6 +23,13 @@
       <div class="t-min dark bold">Кроки</div>
     </div>
 
+    <div class="switch-btn-group" *ngIf="counterFound !== 0">
+      <button class="btn" (click)="goToAgreeCreate()">
+        <i class="fa-solid fa-feather-pointed"></i>
+      </button>
+      <div class="t-min dark bold">Формувати</div>
+    </div>
+
     <div class="switch-btn-group">
       <button class="btn" [disabled]="numSendAgree === 0" (click)="onClickMenu(2)"
         [ngClass]="{ 'active': indexPage == 2}">

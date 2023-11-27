@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { SharedService } from 'src/app/services/shared.service';
+import { Router } from '@angular/router';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -165,7 +167,11 @@ export class HouseInfoComponent implements OnInit {
   loading: boolean = false;
   houseData: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private sharedService: SharedService
+    ) { }
 
   ngOnInit(): void {
     this.loadDataFlat();
@@ -177,7 +183,6 @@ export class HouseInfoComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        // console.log(parsedHouseData)
         this.house.region = parsedHouseData.flat.region;
         this.house.flat_id = parsedHouseData.flat.flat_id;
         this.house.country = parsedHouseData.flat.country;
@@ -215,12 +220,6 @@ export class HouseInfoComponent implements OnInit {
         this.about.price_d = parsedHouseData.about.price_d;
         this.about.about = parsedHouseData.about.about;
         this.about.bunker = parsedHouseData.about.bunker;
-
-        if (this.house.rent == 1) {
-          this.indexCard = 1;
-        } else {
-          this.indexCard = 2;
-        }
 
         if (Array.isArray(parsedHouseData.imgs) && parsedHouseData.imgs.length > 0) {
           this.flatImg = parsedHouseData.imgs;

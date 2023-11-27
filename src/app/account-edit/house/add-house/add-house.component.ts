@@ -5,6 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-add-house',
@@ -39,6 +40,7 @@ export class AddHouseComponent implements OnInit {
     private dialog: MatDialog,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -65,9 +67,10 @@ export class AddHouseComponent implements OnInit {
           localStorage.removeItem('selectedFlatId');
           localStorage.removeItem('selectedFlatName');
           localStorage.removeItem('houseData');
-          this.statusMessage = 'Оселя ' + this.flat_name + ' успішно створена';
+          // this.statusMessage = 'Оселя ' + this.flat_name + ' успішно створена';
+          this.sharedService.setStatusMessage('Оселя ' + this.flat_name + ' успішно створена');
           setTimeout(() => {
-            this.loadOwnFlats(this.flat_name)
+            this.loadNewFlats(this.flat_name);
           }, 2000);
         } else {
           this.statusMessage = 'Помилка створення';
@@ -92,11 +95,46 @@ export class AddHouseComponent implements OnInit {
             const nextFlatName = response.ids[0].flat_name;
             this.loadOwnFlats(nextFlatName)
           } else {
-            this.reloadPageWithLoader()
-            console.log('Оселі немає')
+            this.sharedService.setStatusMessage('Оселей немає');
+            this.router.navigate(['/house/house-info']);
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.reloadPageWithLoader()
+            }, 1500);
           }
         });
     } else { console.log('Авторизуйтесь') }
+  }
+
+  async loadNewFlats(flat_name: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
+        .subscribe((response: any) => {
+          const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
+          if (flatInfo) {
+            const flatIdFromResponse = flatInfo.flat_id;
+            if (flatIdFromResponse) {
+              this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
+              this.selectedFlatService.setSelectedFlatName(flat_name);
+              this.sharedService.setStatusMessage('Обираємо оселю ' + flat_name);
+              // this.statusMessage = 'Обираємо оселю ' + flat_name;
+              setTimeout(() => {
+                this.sharedService.setStatusMessage('');
+                // this.statusMessage = '';
+                this.router.navigate(['/housing-parameters/host/']);
+                // this.reloadPageWithLoader()
+              }, 2500);
+            }
+          }
+        },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('User not found');
+    }
   }
 
   async loadOwnFlats(flat_name: any): Promise<void> {
@@ -155,6 +193,7 @@ export class AddHouseComponent implements OnInit {
                 localStorage.removeItem('selectedFlatName');
                 localStorage.removeItem('houseData');
                 this.statusMessage = 'Оселя видалена';
+                this.sharedService.setStatusMessage('Оселя видалена');
                 setTimeout(() => {
                   this.getFlat();
                   this.statusMessage = '';

@@ -8,6 +8,10 @@
   align-items: flex-start;
 }
 
+.fa-solid {
+  color: $color-text;
+}
+
 .container-card {
   @include flex-box;
   justify-content: flex-start;

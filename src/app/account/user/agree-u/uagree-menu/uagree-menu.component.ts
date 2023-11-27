@@ -96,11 +96,11 @@ export class UagreeMenuComponent {
 
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
-      this.responseAgree = response;
-      this.loading = false;
-      const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
-      this.agreementIds = agreementIds;
       if (response) {
+        this.responseAgree = response;
+        this.loading = false;
+        const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
+        this.agreementIds = agreementIds;
         this.numConcludedAgree = response.length;
       } else {
         this.numConcludedAgree = 0;

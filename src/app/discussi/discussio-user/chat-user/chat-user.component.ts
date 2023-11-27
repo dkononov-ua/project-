@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
-import { SMILEYS } from '../../../data/data-smile'
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { Location } from '@angular/common';
 
@@ -13,29 +12,40 @@ import { Location } from '@angular/common';
 })
 export class ChatUserComponent implements OnInit {
 
+  @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
+  private isScrolledDown = true; // додайте змінну напрямку скролінгу
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+  onScroll(event: Event): void {
+    // визначте напрямок скролінгу
+    const element = event.target as HTMLElement;
+    this.isScrolledDown = element.scrollHeight - element.scrollTop === element.clientHeight;
+  }
+
+  scrollToBottom(): void {
+    try {
+      if (this.isScrolledDown) {
+        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+      }
+    } catch (err) {}
+  }
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
 
-  @ViewChild('textArea', { static: false })
-  textArea!: ElementRef;
 
-  isSmileyPanelOpen = false;
-  smileys: string[] = SMILEYS;
   allMessages: any[] = [];
   allMessagesNotRead: any[] = [];
   currentSubscription: Subject<unknown> | undefined;
-  messageText: string = '';
   loading: boolean | undefined;
   selectedFlat: any;
   selectedFlatIdSubscription: any;
   infoPublic: any[] | undefined;
   interval: any;
-
-  goBack(): void {
-    this.location.back();
-  }
+  chatExist: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -50,30 +60,13 @@ export class ChatUserComponent implements OnInit {
   getSelectSubscription() {
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(async flatId => {
       this.selectedFlat = flatId;
-      console.log(this.selectedFlat)
-      if (flatId) {
+      if (this.selectedFlat) {
         const offs = 0;
-        this.selectedFlat = flatId;
         await this.getUserChats(this.selectedFlat, offs);
-        await this.getMessages(this.selectedFlat);
       } else {
         this.selectedFlat = undefined;
       }
     });
-  }
-
-  addSmiley(smiley: string) {
-    this.messageText += smiley;
-  }
-
-  toggleSmileyPanel() {
-    this.isSmileyPanelOpen = !this.isSmileyPanelOpen;
-  }
-
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   async getUserChats(selectedFlat: string, offs: number): Promise<any> {
@@ -99,12 +92,15 @@ export class ChatUserComponent implements OnInit {
         } else {
           this.infoPublic = undefined
         }
+        await this.getMessages(this.selectedFlat);
         return this.infoPublic;
       } else {
+        this.selectedFlat = undefined;
+        this.chatExist = false;
         console.log('чат не знайдено');
       }
     } else {
-      console.log('відсутня інформація користувача');
+      console.log('Авторизуйтесь');
     }
   }
 
@@ -120,7 +116,7 @@ export class ChatUserComponent implements OnInit {
 
     const userJson = localStorage.getItem('user');
 
-    if (userJson && selectedFlat) {
+    if (userJson && selectedFlat && this.chatExist) {
       const info = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
@@ -162,7 +158,7 @@ export class ChatUserComponent implements OnInit {
 
   async getNewMessages(selectedFlat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && selectedFlat) {
+    if (userJson && selectedFlat && this.chatExist) {
       this.http.post(serverPath + '/chat/get/NewMessageUser', {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
@@ -204,10 +200,6 @@ export class ChatUserComponent implements OnInit {
     }
   }
 
-  preventKeyboardCollapse(event: Event) {
-    event.preventDefault();
-  }
-
   messagesHaveBeenRead(selectedFlat: any) {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -218,36 +210,4 @@ export class ChatUserComponent implements OnInit {
       this.http.post(serverPath + '/chat/readMessageUser', data).subscribe();
     }
   }
-
-  sendMessage(selectedFlat: any): void {
-    this.isSmileyPanelOpen = false;
-    const userJson = localStorage.getItem('user');
-    if (userJson && selectedFlat) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        message: this.messageText,
-      };
-
-      this.http.post(serverPath + '/chat/sendMessageUser', data)
-        .subscribe((response: any) => {
-          if (response.status) {
-            this.messageText = '';
-
-            if (selectedFlat === this.selectedFlat) {
-              this.getMessages(selectedFlat);
-            }
-
-            this.textArea.nativeElement.style.height = '50px';
-          } else {
-            console.log("Ваше повідомлення не надіслано");
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
-    }
-  }
-
-
-
 }

@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { ReportsComponent } from '../components/reports/reports.component';
 import { serverPath } from 'src/app/config/server-config';
 import { SelectedFlatService } from './selected-flat.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
   selectedFlatId!: string | null;
+  private statusMessageSubject = new BehaviorSubject<string>(''); // Додайте BehaviorSubject
   private reportResultSubject = new Subject<any>();
 
   constructor(
@@ -95,4 +96,15 @@ export class SharedService {
       }
     });
   }
+
+    // Додайте метод для отримання статусного повідомлення
+    getStatusMessage(): Observable<string> {
+      return this.statusMessageSubject.asObservable();
+    }
+
+    // Додайте метод для встановлення статусного повідомлення
+    setStatusMessage(message: string): void {
+      this.statusMessageSubject.next(message);
+      console.log(message)
+    }
 }

@@ -97,7 +97,6 @@ export class NavbarHouseComponent {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        console.log(parsedHouseData.acces)
         if (parsedHouseData.acces) {
           this.acces_added = parsedHouseData.acces.acces_added;
           this.acces_admin = parsedHouseData.acces.acces_admin;
@@ -112,7 +111,6 @@ export class NavbarHouseComponent {
           this.acces_flat_features = parsedHouseData.acces.acces_flat_features;
           this.acces_services = parsedHouseData.acces.acces_services;
           this.acces_subs = parsedHouseData.acces.acces_subs;
-          console.log(this.acces_comunal)
         } else {
         }
       } else {

@@ -138,7 +138,6 @@ export class ProfileComponent implements OnInit {
     if (filterValue) {
       this.filteredUsers = filterValue;
       this.optionsFound = optionsFound;
-      console.log(this.filteredUsers)
       this.selectedUser = this.filteredUsers![0];
       this.loading = false;
     } else {
@@ -152,11 +151,9 @@ export class ProfileComponent implements OnInit {
   selectUser(user: UserInfo) {
     this.indexPage = 2;
     this.getRating(user)
-    console.log(this.indexPage)
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
     this.passIndexPage();
-    this.checkSubscribe();
     this.calculateTotalDays()
     this.updateSelectedUser();
   }
@@ -242,7 +239,6 @@ export class ProfileComponent implements OnInit {
 
   async reportUser(user: any): Promise<void> {
     this.sharedService.reportUser(user);
-    console.log(user)
     this.sharedService.getReportResultSubject().subscribe(result => {
       // Обробка результату в компоненті
       if (result.status === true) {
@@ -265,7 +261,6 @@ export class ProfileComponent implements OnInit {
   }
 
   async getRating(selectedUser: any): Promise<any> {
-    console.log(selectedUser);
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/userMarks';
     const data = {
@@ -275,10 +270,7 @@ export class ProfileComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any;
-      console.log(response);
-
       this.reviews = response.status;
-      console.log(this.reviews);
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
         this.numberOfReviews = response.status.length;
@@ -286,11 +278,9 @@ export class ProfileComponent implements OnInit {
           if (item.info.mark) {
             totalMarkTenant += item.info.mark;
             this.ratingTenant = totalMarkTenant;
-            console.log(this.ratingTenant);
           }
         });
-
-        console.log('Кількість відгуків:', this.numberOfReviews);
+        // console.log('Кількість відгуків:', this.numberOfReviews);
       } else if (response.status === false) {
         this.ratingTenant = 0;
       }

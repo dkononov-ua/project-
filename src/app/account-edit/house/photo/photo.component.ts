@@ -8,6 +8,7 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
+import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-photo',
   templateUrl: './photo.component.html',
@@ -72,12 +73,26 @@ export class PhotoComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private _dialog: LyDialog,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private dataService: DataService,
   ) { }
 
   ngOnInit(): void {
     this.getSelectedFlat();
     this.loading = false;
+  }
+
+  updateFlatInfo () {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+        } else {
+          console.log('Немає оселі')
+        }
+      });
+    }
   }
 
   getSelectedFlat() {
@@ -159,6 +174,7 @@ export class PhotoComponent implements OnInit {
             this.statusMessage = 'Фото додано';
             setTimeout(() => {
               this.statusMessage = '';
+              this.updateFlatInfo();
               this.reloadPageWithLoader();
               // this.router.navigate(['/housing-parameters/host/address']);
             }, 1500);

@@ -33,7 +33,7 @@
               <div class="t-med t-c">Оселі</div>
             </div>
           </a>
-          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'" >
+          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'"  *ngIf="selectedFlatId">
             <i class="fa-solid fa-people-pulling"></i>
             <div class="flex-column">
               <div class="t-min t-c">Пошук</div>

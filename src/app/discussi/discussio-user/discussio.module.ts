@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DiscussioRoutingModule } from './discussio-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +21,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ChatUserComponent } from './chat-user/chat-user.component';
 import { ChatHostComponent } from './chat-host/chat-host.component';
-import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
 import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
@@ -32,16 +30,17 @@ import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-u
 import { DeleteSubsComponent } from './delete-subs/delete-subs.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SubscriberHostComponent } from './subscriber-host/subscriber-host.component';
+import { SendMessageUserComponent } from './send-message-user/send-message-user.component';
 @NgModule({
   declarations: [
     ChatUserComponent,
     ChatHostComponent,
-    ChatRoomComponent,
     SubscribersUserComponent,
     SubscribersDiscusComponent,
     SubscriptionsUserComponent,
     DeleteSubsComponent,
     SubscriberHostComponent,
+    SendMessageUserComponent,
   ],
   providers: [ChoseSubscribeService],
   imports: [

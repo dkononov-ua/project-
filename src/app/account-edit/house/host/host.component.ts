@@ -24,7 +24,6 @@ export class HostComponent implements OnInit {
   constructor(
     private el: ElementRef,
     private selectedFlatService: SelectedFlatService
-
   ) { }
 
   ngOnInit(): void {

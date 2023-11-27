@@ -24,16 +24,23 @@ interface User {
 })
 
 export class ChatHouseComponent implements OnInit, OnDestroy {
+
+  @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
+  private isScrolledDown = true; // додайте змінну напрямку скролінгу
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+  scrollToBottom(): void {
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {}
+  }
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
-  private httpSubscription: Subscription | undefined;
 
-  @ViewChild('textArea', { static: false })
-  textArea!: ElementRef;
-  isSmileyPanelOpen = false;
-  smileys: string[] = SMILEYS;
   users: User[] = [];
   allMessagesNotRead: any[] = [];
   selectedFlatId: string | any;
@@ -70,24 +77,27 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     }
   }
 
-  async loadData(): Promise<void> {
-    this.dataService.getInfoFlat().subscribe(
-      (response: any) => {
-        this.houseData = response;
-      },
-      (error) => {
-        console.error(error);
+  // Підвантажуємо інформацію про користвача та оселю з локального сховища
+  loadData(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        this.userData = parsedUserData;
+        const houseData = localStorage.getItem('houseData');
+        if (houseData) {
+          const parsedHouseData = JSON.parse(houseData);
+          this.houseData = parsedHouseData;
+        } else {
+          console.log('Інформація оселі відсутня')
+        }
+      } else {
+        console.log('Інформація користувача відсутня')
       }
-    );
-
-    this.dataService.getInfoUser().subscribe(
-      (response: any) => {
-        this.userData = response;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    } else {
+      console.log('Авторизуйтесь')
+    }
   }
 
   getSelectedFlatId() {
@@ -109,20 +119,6 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         console.log('Оберіть чат')
       }
     });
-  }
-
-  addSmiley(smiley: string) {
-    this.messageText += smiley;
-  }
-
-  toggleSmileyPanel() {
-    this.isSmileyPanelOpen = !this.isSmileyPanelOpen;
-  }
-
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   async getChats(): Promise<any> {
@@ -169,8 +165,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   async getMessages(): Promise<any> {
-    console.log('Запит повідомлення', 'user:', this.selectedSubscriberID)
-
+    // console.log('Запит повідомлення', 'user:', this.selectedSubscriberID)
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
     this.allMessages = [];
@@ -222,14 +217,12 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         data: this.allMessages[0]?.data,
       };
 
-      console.log(data)
-
       this.http.post(serverPath + '/chat/get/NewMessageFlat', data)
         .subscribe(
           async (response: any) => {
             console.log(response)
-
             if (Array.isArray(response.status)) {
+              console.log(11111111)
               let c: any = []
               await Promise.all(response.status.map((i: any, index: any) => {
                 const reverseIndex = response.status.length - 1 - index;
@@ -250,7 +243,6 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
               }))
               this.allMessagesNotRead = c;
               console.log(this.allMessagesNotRead)
-
               this.selectedUser = this.selectedUser;
               if (this.selectedSubscriberID) {
                 this.messagesHaveBeenRead();
@@ -277,32 +269,4 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendMessage(): void {
-    this.isSmileyPanelOpen = false;
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId && this.selectedSubscriberID) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        user_id: this.selectedSubscriberID,
-        message: this.messageText,
-      };
-
-      this.http.post(serverPath + '/chat/sendMessageFlat', data)
-        .subscribe((response: any) => {
-          if (response.status) {
-            this.messageText = '';
-            if (this.selectedSubscriberID === this.selectedUser.user_id) {
-              this.getMessages();
-            }
-            this.textArea.nativeElement.style.height = '50px';
-
-          } else {
-            console.log("Ваше повідомлення не надіслано");
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
-    }
-  }
 }

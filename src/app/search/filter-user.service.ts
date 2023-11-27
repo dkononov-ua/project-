@@ -33,8 +33,6 @@ export class FilterUserService {
     this.indexPage = indexPage;
     this.filterChange$.next(card_info);
     this.filterChange$.next(indexPage);
-    console.log(this.indexPage)
-    console.log(this.card_info)
   }
 
   getCardInfo() {

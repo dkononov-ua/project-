@@ -222,7 +222,6 @@ export class SearchTenantComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        console.log(parsedHouseData)
         this.userInfo.region = parsedHouseData.flat.region;
         this.userInfo.city = parsedHouseData.flat.city;
         this.userInfo.rooms = parsedHouseData.param.rooms;
@@ -274,12 +273,9 @@ export class SearchTenantComponent implements OnInit {
   searchFilter(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      console.log(this.userInfo)
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          console.log(response)
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
-            
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
@@ -313,7 +309,6 @@ export class SearchTenantComponent implements OnInit {
         this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
-            console.log(this.filteredUsers)
             this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
           }, (error: any) => {
             console.error(error);
@@ -416,7 +411,6 @@ export class SearchTenantComponent implements OnInit {
     const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
     const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
     this.shownCard = `${startIndex} - ${endIndex}`;
-    console.log(this.shownCard)
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 

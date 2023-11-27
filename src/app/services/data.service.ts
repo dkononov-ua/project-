@@ -16,11 +16,10 @@ export class DataService {
 
   getInfoUser(): Observable<any> {
     const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
+    if (userJson) {
       return this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .pipe(
           tap((response: any) => {
-            console.log(response)
             localStorage.setItem('userData', JSON.stringify(response));
           }),
           catchError((error: any) => {
@@ -44,7 +43,6 @@ export class DataService {
         .pipe(
           tap((response: any) => {
             console.log(response)
-
             localStorage.setItem('houseData', JSON.stringify(response));
           }),
           catchError((error: any) => {

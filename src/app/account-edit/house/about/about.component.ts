@@ -4,6 +4,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { DataService } from 'src/app/services/data.service';
 
 interface FlatInfo {
   students: boolean;
@@ -92,7 +93,9 @@ export class AboutComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
-    private router: Router) { }
+    private router: Router,
+    private dataService: DataService,
+  ) { }
 
   ngOnInit(): void {
     this.getSelectParam();
@@ -106,6 +109,20 @@ export class AboutComponent implements OnInit {
       this.selectedFlatId = flatId || this.selectedFlatId;
     });
   }
+
+  updateFlatInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+        } else {
+          console.log('Немає оселі')
+        }
+      });
+    }
+  }
+
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
@@ -151,6 +168,7 @@ export class AboutComponent implements OnInit {
         }).toPromise();
 
         if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
+          this.updateFlatInfo();
           setTimeout(() => {
             this.statusMessage = 'Оголошення розміщено';
             setTimeout(() => {
@@ -160,6 +178,7 @@ export class AboutComponent implements OnInit {
             }, 1500);
           }, 500);
         } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
+          this.updateFlatInfo();
           setTimeout(() => {
             this.statusMessage = 'Параметри успішно додані, оголошення НЕ активне';
             setTimeout(() => {

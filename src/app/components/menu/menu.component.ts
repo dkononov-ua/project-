@@ -108,7 +108,6 @@ export class MenuComponent {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        console.log(parsedHouseData.acces)
         if (parsedHouseData.acces) {
           this.acces_added = parsedHouseData.acces.acces_added;
           this.acces_admin = parsedHouseData.acces.acces_admin;
