@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { Location } from '@angular/common';
+import { SendMessageService } from 'src/app/services/send-message.service';
 
 @Component({
   selector: 'app-chat-user',
@@ -12,31 +12,13 @@ import { Location } from '@angular/common';
 })
 export class ChatUserComponent implements OnInit {
 
-  @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
-  private isScrolledDown = true; // додайте змінну напрямку скролінгу
-  ngAfterViewChecked() {
-    this.scrollToBottom();
-  }
-  onScroll(event: Event): void {
-    // визначте напрямок скролінгу
-    const element = event.target as HTMLElement;
-    this.isScrolledDown = element.scrollHeight - element.scrollTop === element.clientHeight;
-  }
-
-  scrollToBottom(): void {
-    try {
-      if (this.isScrolledDown) {
-        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
-      }
-    } catch (err) {}
-  }
+  @ViewChild('chatContainer', { static: true }) chatContainer!: ElementRef;
+  private isScrolledDown = false;
 
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
-
-
   allMessages: any[] = [];
   allMessagesNotRead: any[] = [];
   currentSubscription: Subject<unknown> | undefined;
@@ -46,15 +28,38 @@ export class ChatUserComponent implements OnInit {
   infoPublic: any[] | undefined;
   interval: any;
   chatExist: boolean = true;
+  messageText: string = '';
+  messageALL: any[] = [];
+  userData: any;
 
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
-    private location: Location
+    private sendMessageService: SendMessageService,
   ) { }
 
   async ngOnInit(): Promise<any> {
-    this.getSelectSubscription();
+    this.loadData()
+  }
+
+  loadData(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        this.getSelectSubscription();
+        const parsedUserData = JSON.parse(userData);
+        this.userData = parsedUserData;
+        this.sendMessageService.messageTextUser$.subscribe(text => {
+          this.messageText = text;
+          this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
+        });
+      } else {
+        console.log('Інформація користувача відсутня')
+      }
+    } else {
+      console.log('Авторизуйтесь')
+    }
   }
 
   getSelectSubscription() {
@@ -104,7 +109,6 @@ export class ChatUserComponent implements OnInit {
     }
   }
 
-
   async getMessages(selectedFlat: any): Promise<any> {
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
@@ -115,20 +119,18 @@ export class ChatUserComponent implements OnInit {
     }
 
     const userJson = localStorage.getItem('user');
-
     if (userJson && selectedFlat && this.chatExist) {
       const info = {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
         offs: 0,
       };
-
       const destroy$ = new Subject();
-
       this.http.post(serverPath + '/chat/get/usermessage', info)
         .pipe(
           switchMap((response: any) => {
             if (Array.isArray(response.status)) {
+              this.messageALL = response.status
               this.allMessages = response.status.map((message: any) => {
                 const dateTime = new Date(message.data);
                 const time = dateTime.toLocaleTimeString();
@@ -146,9 +148,7 @@ export class ChatUserComponent implements OnInit {
         .subscribe(() => {
           this.getNewMessages(selectedFlat);
         });
-
       this.currentSubscription = destroy$;
-
       destroy$.subscribe(() => {
       });
     } else {
@@ -197,6 +197,34 @@ export class ChatUserComponent implements OnInit {
             console.error(error);
           }
         );
+    }
+  }
+
+  async loadPreviousMessages(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlat) {
+      const info = {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlat,
+        offs: this.allMessages.length,
+      };
+
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/get/usermessage', info).toPromise();
+        this.messageALL = response.status;
+        if (Array.isArray(response.status)) {
+          const newMessages = response.status.map((message: any) => {
+            const dateTime = new Date(message.data);
+            const time = dateTime.toLocaleTimeString();
+            return { ...message, time };
+          });
+          this.allMessages = [...this.allMessages, ...newMessages];
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log('Оберіть чат');
     }
   }
 

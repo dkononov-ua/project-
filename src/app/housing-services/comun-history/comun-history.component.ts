@@ -129,6 +129,7 @@ export class ComunHistoryComponent implements OnInit {
     this.about = !this.about;
   }
 
+  currentIndex: number = 0;
 
   constructor(
     private dataService: DataService,
@@ -171,8 +172,8 @@ export class ComunHistoryComponent implements OnInit {
         this.selectMonthInfo();
         this.getDefaultData();
         this.getInfoFlat();
-        this.calculateConsumed();
-        this.calculatePay();
+        // this.calculateConsumed();
+        // this.calculatePay();
       }
     });
   }
@@ -488,18 +489,22 @@ export class ComunHistoryComponent implements OnInit {
   }
 
   prevMonth(): void {
-    const currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
-    if (currentIndex > 0) {
-      const previousMonth = this.months[currentIndex - 1].name;
+
+    this.currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
+    console.log(this.currentIndex)
+    if (this.currentIndex > 0) {
+      const previousMonth = this.months[this.currentIndex - 1].name;
+      console.log(previousMonth)
       this.changeMonthService.setSelectedMonth(previousMonth);
       this.selectComunInfo();
     }
   }
 
   nextMonth() {
-    const currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
-    if (currentIndex < 11) {
-      const previousMonth = this.months[currentIndex + 1].name;
+    this.currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
+    console.log(this.currentIndex)
+    if (this.currentIndex < 11) {
+      const previousMonth = this.months[this.currentIndex + 1].name;
       this.changeMonthService.setSelectedMonth(previousMonth);
       this.selectComunInfo();
     }

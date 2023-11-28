@@ -181,6 +181,7 @@ export class HouseComponent implements OnInit {
 
   calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
+    console.log(length)
     return (index + length) % length;
   }
 

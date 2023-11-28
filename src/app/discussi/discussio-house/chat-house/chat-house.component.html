@@ -15,17 +15,23 @@
   </div>
 
   <div class="container-chat" *ngIf="selectedUser">
-    <div class="chat" #chatContainer>
+
+    <div class="chat" id="chatContainer" #chatContainer>
+
+      <button class="btn" (click)="loadPreviousMessages()" *ngIf="messageALL.length > 49">Старі</button>
+
       <div class="chat-messages-read">
         <div *ngFor="let message of allMessages">
+
+          <!-- <div class="t-lar-xx bold t-c gray border-date" *ngIf="message.uniqueDate">{{ message.uniqueDate }}</div> -->
           <ng-container *ngIf="message.user_id === selectedSubscriberID && message.is_read === 1">
+
             <div class="chat-container-user">
               <div class="user-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                 <div class="avatar-wrapper-user">
                   <div class="name-user">
                     <div class="accent-name">{{ selectedUser.lastName }} {{ selectedUser.firstName }} <span
-                        class="time">{{
-                        message.time }} </span></div>
+                        class="time">{{ message.time }} </span></div>
                   </div>
                 </div>
                 <div class="message-content-user">
@@ -36,6 +42,7 @@
           </ng-container>
 
           <ng-container *ngIf="message.flat_id !== null && message.is_read === 1">
+
             <div class="chat-container-owner">
               <div class="owner-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                 <div class="avatar-wrapper-owner">
@@ -50,12 +57,16 @@
                 </div>
               </div>
             </div>
+
           </ng-container>
+
         </div>
       </div>
+
       <div class="chat-messages-unread">
         <div class="chat" *ngFor="let messagesNotRead of allMessagesNotRead">
           <ng-container *ngIf="messagesNotRead.user_id === selectedUser?.user_id && messagesNotRead.is_read === 0">
+
             <div class="chat-container-user">
               <div class="user-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                 <div class="avatar-wrapper-user">
@@ -66,7 +77,8 @@
                   </div>
                 </div>
                 <div class="message-content-user">
-                  <div class="message-text-user"><i class="fa-solid fa-check"></i>{{ messagesNotRead.message }}
+                  <div class="message-text-user"><i class="fa-solid fa-check" *ngIf="messagesNotRead.time"></i>{{
+                    messagesNotRead.message }}
                   </div>
                 </div>
               </div>
@@ -83,7 +95,8 @@
                   </div>
                 </div>
                 <div class="message-content-owner">
-                  <p class="message-text-owner"><i class="fa-solid fa-check"></i>{{ messagesNotRead.message }}</p>
+                  <p class="message-text-owner"><i class="fa-solid fa-check" *ngIf="messagesNotRead.time"></i>{{
+                    messagesNotRead.message }}</p>
                 </div>
               </div>
             </div>
@@ -91,6 +104,7 @@
         </div>
 
       </div>
+
     </div>
   </div>
 

@@ -9,9 +9,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class SharedService {
   selectedFlatId!: string | null;
-  private statusMessageSubject = new BehaviorSubject<string>(''); // Додайте BehaviorSubject
+  private statusMessageSubject = new BehaviorSubject<string>('');
   private reportResultSubject = new Subject<any>();
 
   constructor(
@@ -33,7 +34,6 @@ export class SharedService {
 
   // скарга на оселю
   async reportHouse(flat: any): Promise<void> {
-    console.log(flat)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/reports/flat';
     const dialogRef = this.dialog.open(ReportsComponent, {
@@ -51,11 +51,9 @@ export class SharedService {
           reason: result.selectedReport,
           about: result.aboutReport,
         };
-        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
-          console.log(response);
-          this.reportResultSubject.next(response); // Відправляємо результат через Subject
+          this.reportResultSubject.next(response);
         } catch (error) {
           console.error(error);
         }
@@ -85,11 +83,9 @@ export class SharedService {
           about: result.aboutReport,
           user_id: user.user_id,
         };
-        console.log(data)
         try {
           const response = await this.http.post(url, data).toPromise();
-          console.log(response);
-          this.reportResultSubject.next(response); // Відправляємо результат через Subject
+          this.reportResultSubject.next(response);
         } catch (error) {
           console.error(error);
         }
@@ -97,14 +93,12 @@ export class SharedService {
     });
   }
 
-    // Додайте метод для отримання статусного повідомлення
-    getStatusMessage(): Observable<string> {
-      return this.statusMessageSubject.asObservable();
-    }
+  getStatusMessage(): Observable<string> {
+    return this.statusMessageSubject.asObservable();
+  }
 
-    // Додайте метод для встановлення статусного повідомлення
-    setStatusMessage(message: string): void {
-      this.statusMessageSubject.next(message);
-      console.log(message)
-    }
+  setStatusMessage(message: string): void {
+    this.statusMessageSubject.next(message);
+    console.log(message)
+  }
 }

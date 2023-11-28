@@ -13,9 +13,11 @@
     </div>
   </div>
 
-  <div class="container-chat" *ngIf="selectedFlat">
-    <div class="chat" #chatContainer (scroll)="onScroll($event)">
+  <div class="container-chat">
+    <div class="chat" id="chatContainer" #chatContainer>
+      <button class="btn" (click)="loadPreviousMessages()" *ngIf="messageALL.length > 49">Старі</button>
       <div class="chat-messages-read">
+
         <div class="chat" *ngFor="let message of allMessages">
           <ng-container *ngIf="infoPublic && message.user_id !== null && message.is_read === 1">
             <div class="chat-container-user">
@@ -33,7 +35,7 @@
             </div>
           </ng-container>
 
-          <ng-container *ngIf="infoPublic && message.flat_id !== null && message.is_read === 1">
+          <ng-container *ngIf="infoPublic && message.flat_id && message.is_read === 1">
             <div class="chat-container-owner">
               <div class="owner-message message p-2" [ngClass]="{ 'read': message.is_read === 1 }">
                 <div class="avatar-wrapper-owner">
@@ -53,7 +55,7 @@
       </div>
       <div class="chat-messages-unread">
         <div class="chat" *ngFor="let messagesNotRead of allMessagesNotRead">
-          <ng-container *ngIf="infoPublic && messagesNotRead.user_id !== null && messagesNotRead.is_read === 0">
+          <ng-container *ngIf="infoPublic && messagesNotRead.user_id && messagesNotRead.is_read === 0">
             <div class="chat-container-user">
               <div class="user-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                 <div class="avatar-wrapper-user">
@@ -70,12 +72,12 @@
             </div>
           </ng-container>
 
-          <ng-container *ngIf="infoPublic && messagesNotRead.flat_id !== null && messagesNotRead.is_read == 0">
+          <ng-container *ngIf="infoPublic && messagesNotRead.flat_id && messagesNotRead.is_read == 0">
             <div class="chat-container-owner">
               <div class="owner-message message p-2" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
                 <div class="avatar-wrapper-owner">
                   <div class="name-owner">
-                    <div class="accent-name">{{ infoPublic[0].infFlat.flat }}<span class="time">{{
+                    <div class="accent-name">{{ infoPublic[0].flat_name }}<span class="time">{{
                         messagesNotRead.time
                         }}</span>
                     </div>
@@ -88,7 +90,6 @@
             </div>
           </ng-container>
         </div>
-
       </div>
     </div>
   </div>

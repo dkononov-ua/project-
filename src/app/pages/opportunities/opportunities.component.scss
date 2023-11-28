@@ -9,6 +9,19 @@
   justify-content: center;
 }
 
+.video {
+  overflow: hidden;
+}
+
+.h-350 {
+  height: 350px;
+}
+
+.item-vid {
+  height: 100%;
+  object-fit: cover
+}
+
 .link-anchor {
   @include flex-box;
   font-size: 12px;

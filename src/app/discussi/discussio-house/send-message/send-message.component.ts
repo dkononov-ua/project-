@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
-import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SMILEYS } from '../../../data/data-smile'
+import { SendMessageService } from 'src/app/services/send-message.service';
 
 @Component({
   selector: 'app-send-message',
@@ -30,9 +29,8 @@ export class SendMessageComponent implements OnInit {
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
-    private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
-    private dataService: DataService,
+    private sendMessageService: SendMessageService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -92,30 +90,22 @@ export class SendMessageComponent implements OnInit {
   }
 
   sendMessage(): void {
-    this.isSmileyPanelOpen = false;
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId && this.selectedSubscriberID) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        user_id: this.selectedSubscriberID,
-        message: this.messageText,
-      };
+    this.sendMessageService.sendMessage(this.messageText, this.selectedFlatId, this.selectedSubscriberID)
+    .subscribe(
+      response => {
 
-      this.http.post(serverPath + '/chat/sendMessageFlat', data)
-        .subscribe((response: any) => {
-          if (response.status) {
-            this.messageText = '';
-            // if (this.selectedSubscriberID === this.selectedUser.user_id) {
-            //   this.getMessages();
-            // }
-            this.textArea.nativeElement.style.height = '50px';
-          } else {
-            console.log("Ваше повідомлення не надіслано");
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
-    }
+        // Отримайте статус респонсу тут
+        console.log(response);
+      },
+
+      error => {
+        // Обробка помилок тут
+        console.error(error);
+      }
+    );
+    this.messageText = '';
   }
+
+
+
 }
