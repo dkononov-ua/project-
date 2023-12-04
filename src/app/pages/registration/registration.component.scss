@@ -19,7 +19,7 @@
   position: relative;
   display: flex;
   width: 100%;
-  height: 75px;
+  // height: 75px;
 }
 
 .input-email {
@@ -77,11 +77,11 @@
   align-content: center;
   align-items: center;
   flex-direction: column;
-  // height: 25vh;
+  height: 25vh;
   position: relative;
-  // @include s1-s3 {
-  //   height: 150px;
-  // }
+  @include s1-s3 {
+    height: 150px;
+  }
 }
 
 .box {
@@ -210,12 +210,8 @@ p {
   border-radius: 5px;
   font-weight: 600;
   letter-spacing: 0.2em;
-  width: 90%;
+  width: 100%;
   background-color: $color-accent;
-
-  @include s1-s3 {
-    width: 90%;
-  }
 }
 
 .disabled-button {
@@ -257,6 +253,10 @@ h2 {
   }
 }
 
+.btn-none.disabled-button {
+  color: $color-gray;
+}
+
 .form {
   display: flex;
   justify-content: center;
@@ -279,9 +279,19 @@ h2 {
   border: none;
 }
 
+.error-message {
+  font-size: 12px;
+  color: rgba(255, 0, 0, 0.663);
+}
+
 h1 {
   font-weight: 600;
   width: 100%;
+}
+
+.fa-solid, .fa-regular {
+  font-size: 18px;
+  color: $color-dark;
 }
 
 .hide-mobile {

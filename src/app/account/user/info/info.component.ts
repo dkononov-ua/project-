@@ -254,9 +254,10 @@ export class InfoComponent implements OnInit {
   async getInfo(): Promise<any> {
     localStorage.removeItem('searchInfoUserData')
     const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
+    if (userJson) {
       this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
+          console.log(response)
           localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
           if (searchInfoUserData !== null) {

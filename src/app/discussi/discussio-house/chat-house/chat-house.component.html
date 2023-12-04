@@ -18,7 +18,9 @@
 
     <div class="chat" id="chatContainer" #chatContainer>
 
-      <button class="btn" (click)="loadPreviousMessages()" *ngIf="messageALL.length > 49">Старі</button>
+      <div class="btn-more-box ">
+        <button class="btn btn-more" (click)="loadPreviousMessages()" *ngIf="messageALL.length > 49"><i class="fa-solid fa-chevron-up"></i></button>
+      </div>
 
       <div class="chat-messages-read">
         <div *ngFor="let message of allMessages">

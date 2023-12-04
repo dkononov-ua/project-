@@ -285,6 +285,20 @@ input {
   background: rgba(245, 222, 179, 0);
 }
 
+.btn-more-box {
+  @include flex-box;
+  .btn-more {
+    width: 200px;
+    margin: 5px;
+    background-color: transparent;
+    &:hover {
+      .fa-solid {
+        color: $color-accent;
+      }
+    }
+  }
+}
+
 .hide-mobile {
   @include s1-s3 {
     display: none;
