@@ -1,5 +1,7 @@
 <ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
+  <div class="container-loader-mini">
+    <mat-spinner color="warn"></mat-spinner>
+  </div>
 </ng-container>
 
 <ng-template #content>

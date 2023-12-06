@@ -31,6 +31,8 @@ import { DeleteSubsComponent } from './delete-subs/delete-subs.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SubscriberHostComponent } from './subscriber-host/subscriber-host.component';
 import { SendMessageUserComponent } from './send-message-user/send-message-user.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 @NgModule({
   declarations: [
     ChatUserComponent,
@@ -66,7 +68,7 @@ import { SendMessageUserComponent } from './send-message-user/send-message-user.
     MatSnackBarModule,
     MatDialogModule,
     MatPaginatorModule,
-
+    MatProgressSpinnerModule,
     HouseRoutingModule,
     UserRoutingModule,
 

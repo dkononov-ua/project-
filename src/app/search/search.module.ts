@@ -44,9 +44,9 @@ import { HouseComponent } from './search-housing/house/house.component';
     FilterUserService,
     { provide: MatPaginatorIntl }],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
+    // BrowserModule,
+    // AppRoutingModule,
+    // BrowserAnimationsModule,
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
@@ -72,8 +72,6 @@ import { HouseComponent } from './search-housing/house/house.component';
     MatPaginatorModule,
     MatRadioModule,
     MatCheckboxModule,
-  ],
-  exports: [
   ]
 })
 export class SearchModule { }

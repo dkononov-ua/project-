@@ -96,18 +96,6 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   }
 
   onSubscriberSelect(chat: Chat): void {
-    const url = serverPath + '/chat/readMessageFlat';
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: chat.flat_id,
-        user_id: chat.user_id,
-      };
-      this.http.post(url, data).subscribe()
-    } else {
-      console.log('user not found');
-    }
     this.choseSubscribersService.setSelectedSubscriber(chat.user_id);
   }
 
@@ -133,6 +121,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
                 return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message }
               }))
               this.chats = chat;
+              localStorage.setItem('flatChats', JSON.stringify(this.chats));
             } else {
               console.log('chat not found');
             }

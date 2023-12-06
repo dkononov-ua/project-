@@ -44,7 +44,7 @@ export class ChatHostComponent implements OnInit {
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   chats: Chat[] = [];
-  loading: boolean | undefined;
+  loading: boolean = false;
   offs: 0 | undefined;
   choseFlatId: any | null;
   selectedChat: Chat | undefined;
@@ -56,10 +56,9 @@ export class ChatHostComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getFlatChats()
+    this.getFlatChats();
+    this.loading = false;
   }
-
-
 
   async getFlatChats(): Promise<any> {
     const url = serverPath + '/chat/get/userchats';
@@ -80,7 +79,7 @@ export class ChatHostComponent implements OnInit {
               }
             }))
             this.chats = chat;
-            console.log(this.chats)
+            localStorage.setItem('userChats', JSON.stringify(this.chats));
           } else {
             console.log('Немає чатів');
           }
@@ -93,18 +92,6 @@ export class ChatHostComponent implements OnInit {
   }
 
   onFlatSelect(chat: Chat): void {
-    const url = serverPath + '/chat/readMessageUser';
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: chat.flat_id,
-        user_id: chat.user_id,
-      };
-      this.http.post(url, data).subscribe()
-    } else {
-      console.log('user not found');
-    }
     this.choseSubscribeService.setChosenFlatId(chat.flat_id);
   }
 

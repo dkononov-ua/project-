@@ -35,6 +35,7 @@ import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
 import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
 import { SendMessageComponent } from './send-message/send-message.component';
 import { ChatHostHouseComponent } from './chat-host-house/chat-host-house.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { ChatHostHouseComponent } from './chat-host-house/chat-host-house.compon
     MatDialogModule,
     MatPaginatorModule,
     MatStepperModule,
+    MatProgressSpinnerModule,
 
     HouseRoutingModule,
     UserRoutingModule,

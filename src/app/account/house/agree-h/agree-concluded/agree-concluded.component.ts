@@ -100,6 +100,9 @@ export class AgreeConcludedComponent implements OnInit {
       offs: this.offs,
     };
 
+    console.log('concluded-house')
+
+
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
       this.agree = response;

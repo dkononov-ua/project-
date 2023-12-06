@@ -26,15 +26,16 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
   animations: [
     trigger('cardAnimation2', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)', opacity: 1.0 }))
+        style({ transform: 'translateX(230%)', zIndex: 2 }), // Початкове значення zIndex
+        animate('1600ms 200ms ease-in-out', style({ transform: 'translateX(0)', zIndex: 2 })) // Значення zIndex під час анімації
       ]),
       transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1400ms 200ms ease-in-out', style({ transform: 'translateX(230%)', opacity: 0.0 }))
+        style({ transform: 'translateX(0)', zIndex: 1 }), // Початкове значення zIndex
+        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(230%)', zIndex: 1 })) // Значення zIndex під час анімації
       ])
     ]),
   ],
+
 })
 
 export class RegistrationComponent implements OnInit {
@@ -64,6 +65,7 @@ export class RegistrationComponent implements OnInit {
   validateAgeMessage: any;
   validateAgeDate: boolean = false;
   emailAcc: any;
+  loading = false;
 
   nextBtn(indexBtn: number) {
     if (indexBtn)
@@ -155,7 +157,9 @@ export class RegistrationComponent implements OnInit {
     localStorage.removeItem('selectedFlatId');
     localStorage.removeItem('selectedFlatName');
     localStorage.removeItem('houseData');
-    console.log(this.loginForm.value)
+    console.log(this.loginForm.value);
+    this.loading = true;
+
     this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
         console.log(response)
@@ -176,9 +180,15 @@ export class RegistrationComponent implements OnInit {
             }, 1000);
           }, 1000);
         }
+
       }, (error: any) => {
         console.error(error);
+        this.loading = false;
         this.errorMessage$.next('Сталася помилка на сервері');
+        this.statusMessage = 'Сталася помилка на сервері.';
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       });
   }
 
@@ -198,7 +208,7 @@ export class RegistrationComponent implements OnInit {
           dob: dob,
         };
         console.log(data)
-
+        this.loading = true;
         this.http.post(serverPath + '/registration/first', data).subscribe(
           (response: any) => {
             console.log(response);
@@ -217,9 +227,12 @@ export class RegistrationComponent implements OnInit {
             } else {
               this.indexBtn = 2;
             }
+            this.loading = false;
+
           },
           (error: any) => {
             console.error(error);
+            this.loading = false;
             this.statusMessage = 'Помилка реєстрації.';
             setTimeout(() => {
               location.reload();
@@ -278,6 +291,7 @@ export class RegistrationComponent implements OnInit {
     localStorage.removeItem('selectedFlatName');
     localStorage.removeItem('houseData');
     this.emailAcc = this.loginForm.get('email')?.value;
+    this.loading = true;
 
     const data = {
       email: this.loginForm.get('email')?.value,
@@ -292,6 +306,7 @@ export class RegistrationComponent implements OnInit {
           this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
           setTimeout(() => {
             this.statusMessage = '';
+            this.loading = false;
           }, 2000);
         } else {
           this.statusMessage = 'Помилка надсилання коду безпеки.';
@@ -299,6 +314,7 @@ export class RegistrationComponent implements OnInit {
             location.reload();
           }, 2000);
         }
+
       }, (error: any) => {
         console.error(error);
         this.errorMessage$.next('Сталася помилка на сервері');
@@ -311,6 +327,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   onChangePassword() {
+    this.loading = true;
+
     const data = {
       email: this.loginForm.get('email')?.value,
       password: this.changePassForm.get('changePassword')?.value,
@@ -328,9 +346,9 @@ export class RegistrationComponent implements OnInit {
           }, 1000);
         } else {
           localStorage.setItem('user', JSON.stringify(response));
-          this.statusMessage = 'Вітаємо в Discussio!';
+          this.statusMessage = 'Пароль змінено, Вітаємо в Discussio!';
           setTimeout(() => {
-            this.router.navigate(['/about-project']);
+            this.router.navigate(['/user/info']);
           }, 2000);
         }
       },

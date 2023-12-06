@@ -32,10 +32,11 @@ const routes: Routes = [
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
+  // { path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule), canActivate: [CanActivateGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
   { path: 'rating', component: AboutRatingComponent, canActivate: [CanActivateGuard] },
   { path: 'opportunities', component: OpportunitiesComponent, canActivate: [CanActivateGuard] },
-  { path: 'accessible', component: AccessibleAllComponent },
+  { path: 'accessible', component: AccessibleAllComponent }, // Інформація для всіх по функціоналу
 ];
 
 @NgModule({

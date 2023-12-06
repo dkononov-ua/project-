@@ -4,6 +4,7 @@ import { SearchComponent } from './search.component';
 import { CanActivateGuard } from '../services/auth.guard';
 import { SearchTenantComponent } from './search-tenant/search-tenant.component';
 import { SearchHousingComponent } from './search-housing/search-housing.component';
+import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -20,4 +21,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+
 export class SearchRoutingModule { }

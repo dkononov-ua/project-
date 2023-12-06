@@ -63,45 +63,19 @@ export class SendMessageUserComponent implements OnInit {
     event.preventDefault();
   }
 
-  // sendMessage(selectedFlat: any): void {
-  //   this.isSmileyPanelOpen = false;
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson && selectedFlat) {
-  //     const data = {
-  //       auth: JSON.parse(userJson),
-  //       flat_id: selectedFlat,
-  //       message: this.messageText,
-  //     };
-
-  //     this.http.post(serverPath + '/chat/sendMessageUser', data)
-  //       .subscribe((response: any) => {
-  //         if (response.status) {
-  //           this.messageText = '';
-  //           this.textArea.nativeElement.style.height = '50px';
-  //         } else {
-  //           console.log("Ваше повідомлення не надіслано");
-  //         }
-  //       }, (error: any) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }
-
-
   sendMessage(selectedFlat: any): void {
-    this.sendMessageService.sendMessageUser(this.messageText, selectedFlat)
-    .subscribe(
-      response => {
-        // Отримайте статус респонсу тут
-        console.log(response);
-      },
-
-      error => {
-        // Обробка помилок тут
-        console.error(error);
-      }
-    );
-    this.messageText = '';
+    if (this.messageText.trim() !== '' && selectedFlat) {
+      this.sendMessageService.sendMessageUser(this.messageText, selectedFlat)
+        .subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.error(error);
+          }
+        );
+      this.messageText = '';
+    }
   }
 
 }

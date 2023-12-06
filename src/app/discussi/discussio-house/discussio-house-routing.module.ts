@@ -8,6 +8,7 @@ import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create
 import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
 import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
 import { ChatHostHouseComponent } from './chat-host-house/chat-host-house.component';
+import { NotFoundComponent } from 'src/app/pages/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'agree-create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
@@ -23,6 +24,9 @@ const routes: Routes = [
       { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard] },
     ],
   },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '/404' }, // Перенаправлення для будь-якого іншого URL
+
 ];
 
 @NgModule({

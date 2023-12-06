@@ -86,16 +86,18 @@ export class UagreeMenuComponent {
 
   async getConcludedAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/saveyagreements';
+    const userData = localStorage.getItem('userData');
+    const user_id = JSON.parse(userData!).inf.user_id;
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
       offs: this.offs,
     };
+    console.log(data)
 
     try {
-      const response: any = (await this.http.post(url, data).toPromise()) as any;
+      const response: any = (await this.http.post(serverPath + '/agreement/get/saveyagreements', data).toPromise()) as any;
+      console.log(response)
       if (response) {
         this.responseAgree = response;
         this.loading = false;

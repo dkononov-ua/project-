@@ -54,6 +54,7 @@ import { OpportunitiesComponent } from './pages/opportunities/opportunities.comp
 import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
 import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +71,7 @@ import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.co
     OpportunitiesComponent,
     ReportsComponent,
     AccessibleAllComponent,
+    NotFoundComponent,
   ],
   providers: [
     SelectedFlatService,

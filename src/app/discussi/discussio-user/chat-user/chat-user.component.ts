@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
+import { EMPTY, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SendMessageService } from 'src/app/services/send-message.service';
 
@@ -10,11 +10,10 @@ import { SendMessageService } from 'src/app/services/send-message.service';
   templateUrl: './chat-user.component.html',
   styleUrls: ['./chat-user.component.scss']
 })
-export class ChatUserComponent implements OnInit {
+export class ChatUserComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatContainer', { static: true }) chatContainer!: ElementRef;
   private isScrolledDown = false;
-
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -22,7 +21,7 @@ export class ChatUserComponent implements OnInit {
   allMessages: any[] = [];
   allMessagesNotRead: any[] = [];
   currentSubscription: Subject<unknown> | undefined;
-  loading: boolean | undefined;
+  loading: boolean = true;
   selectedFlat: any;
   selectedFlatIdSubscription: any;
   infoPublic: any[] | undefined;
@@ -31,6 +30,7 @@ export class ChatUserComponent implements OnInit {
   messageText: string = '';
   messageALL: any[] = [];
   userData: any;
+  userAllChats: any;
 
   constructor(
     private http: HttpClient,
@@ -39,7 +39,7 @@ export class ChatUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
-    this.loadData()
+    this.loadData();
   }
 
   loadData(): void {
@@ -47,9 +47,8 @@ export class ChatUserComponent implements OnInit {
     if (userJson) {
       const userData = localStorage.getItem('userData');
       if (userData) {
-        this.getSelectSubscription();
-        const parsedUserData = JSON.parse(userData);
-        this.userData = parsedUserData;
+        this.userData = JSON.parse(userData);
+        this.getSelectFlatInfo();
         this.sendMessageService.messageTextUser$.subscribe(text => {
           this.messageText = text;
           this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
@@ -62,57 +61,28 @@ export class ChatUserComponent implements OnInit {
     }
   }
 
-  getSelectSubscription() {
-    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$.subscribe(async flatId => {
-      this.selectedFlat = flatId;
-      if (this.selectedFlat) {
-        const offs = 0;
-        await this.getUserChats(this.selectedFlat, offs);
-      } else {
-        this.selectedFlat = undefined;
-      }
-    });
-  }
-
-  async getUserChats(selectedFlat: string, offs: number): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = serverPath + '/chat/get/userchats';
-
-    if (userJson && selectedFlat) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
-        offs: offs
-      };
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (Array.isArray(response.status)) {
-        let asd = await Promise.all(response.status.map(async (value: any) => {
-          const infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-          const infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-          return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread };
-        }));
-        let zxc = asd.filter((item) => item.flat_id === selectedFlat);
-        if (zxc[0]) {
-          this.infoPublic = zxc
+  // отримуємо обрану оселю, та беремо інформацію по ній з локального сховища userChats який ми записали в chat-Host,
+  async getSelectFlatInfo(): Promise<any> {
+    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$
+      .pipe(take(1)) // take(1) гарантує, що після одного виникнення події обробник буде автоматично відписаний від observable.
+      .subscribe(async flatId => {
+        this.selectedFlat = flatId;
+        if (this.selectedFlat) {
+          const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
+          const selectChat = userAllChats.filter((item: any) => item.flat_id === flatId);
+          this.infoPublic = selectChat.length > 0 ? selectChat : undefined;
+          await this.getMessages(flatId);
         } else {
-          this.infoPublic = undefined
+          this.selectedFlat = undefined;
         }
-        await this.getMessages(this.selectedFlat);
-        return this.infoPublic;
-      } else {
-        this.selectedFlat = undefined;
-        this.chatExist = false;
-        console.log('чат не знайдено');
-      }
-    } else {
-      console.log('Авторизуйтесь');
-    }
+      });
   }
 
   async getMessages(selectedFlat: any): Promise<any> {
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
     this.allMessages = [];
+    this.getNewMessages(selectedFlat);
 
     if (this.currentSubscription) {
       this.currentSubscription.next(undefined);
@@ -136,11 +106,10 @@ export class ChatUserComponent implements OnInit {
                 const time = dateTime.toLocaleTimeString();
                 return { ...message, time };
               });
-              this.getNewMessages(selectedFlat);
             } else {
               this.allMessages = [];
-              this.getNewMessages(selectedFlat);
             }
+            this.loading = false;
             return EMPTY;
           }),
           takeUntil(destroy$)
@@ -153,6 +122,7 @@ export class ChatUserComponent implements OnInit {
       });
     } else {
       console.log('user or subscriber not found');
+      this.loading = false;
     }
   }
 
@@ -186,12 +156,16 @@ export class ChatUserComponent implements OnInit {
                   return 1
                 }
               }))
-              this.allMessagesNotRead = c
-              if (this.selectedFlat) {
-                this.messagesHaveBeenRead(this.selectedFlat);
-              }
+              this.allMessagesNotRead = c;
+              // Перевірка чиє повідомлення непрочитане
+              const iHaveMessages = this.allMessagesNotRead.every(message => message.is_read === 1 || message.user_id === null);
+              setTimeout(() => {
+                if (iHaveMessages) {
+                  this.readMessage(selectedFlat);
+                }
+              }, 5000);
             }
-            this.interval = setTimeout(() => { this.getNewMessages(selectedFlat) }, 5000);
+            this.interval = setTimeout(() => { this.getNewMessages(selectedFlat) }, 3000);
           },
           (error: any) => {
             console.error(error);
@@ -228,7 +202,7 @@ export class ChatUserComponent implements OnInit {
     }
   }
 
-  messagesHaveBeenRead(selectedFlat: any) {
+  readMessage(selectedFlat: any) {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
@@ -236,6 +210,12 @@ export class ChatUserComponent implements OnInit {
         flat_id: selectedFlat,
       };
       this.http.post(serverPath + '/chat/readMessageUser', data).subscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
     }
   }
 }

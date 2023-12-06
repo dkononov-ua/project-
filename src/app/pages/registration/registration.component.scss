@@ -8,7 +8,7 @@
   left: 0;
   height: 100vh;
   width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
 
   @include s1-s3 {
     background-color: $color-white;
@@ -66,7 +66,7 @@
   height: 75vh;
   position: relative;
   @include s1-s3 {
-    height: auto;
+    height: 70vh;
     justify-content: flex-start;
   }
 }
@@ -80,7 +80,8 @@
   height: 25vh;
   position: relative;
   @include s1-s3 {
-    height: 150px;
+    height: auto;
+    justify-content: flex-start;
   }
 }
 
@@ -113,8 +114,9 @@ h3 {
   font-weight: 600;
 
   @include s1-s3 {
-    top: 45px;
-    right: -20px;
+    position: absolute;
+    top: -10px;
+    right: 20px;
     font-size: 16px;
   }
 }
@@ -133,6 +135,10 @@ h3 {
   bottom: 10px;
   font-size: 12px;
   text-align: center;
+  @include s1-s3 {
+    position: relative;
+    justify-content: flex-start;
+  }
 }
 
 a {
@@ -188,7 +194,7 @@ a {
 }
 
 .logo {
-  height: 150px;
+  height: 120px;
   width: 100%;
   @include s1-s3 {
     width: 40%;

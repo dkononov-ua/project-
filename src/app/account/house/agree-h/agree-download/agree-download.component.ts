@@ -80,6 +80,7 @@ export class AgreeDownloadComponent implements OnInit {
       flat_id: this.selectedFlatId,
       offs: 0
     };
+    console.log('download-house')
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as any[];

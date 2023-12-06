@@ -105,7 +105,7 @@ export class InfoComponent implements OnInit {
   };
 
   userImg: any;
-  loading: boolean = true;
+  loading: boolean = false;
   public selectedFlatId: any | null;
   searchInfoUserData: any;
   ratingTenant: number | undefined;
@@ -171,6 +171,7 @@ export class InfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.getInfoUser()
     this.getInfo(),
     this.loading = false;
@@ -180,11 +181,49 @@ export class InfoComponent implements OnInit {
     this.closeMenuService.setCloseMenu(closeMenu);
   }
 
+  // async getInfoUser1(): Promise<any> {
+  //   const userJson = localStorage.getItem('user');
+  //   if (userJson) {
+  //     this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
+  //       .subscribe((response: any) => {
+  //         console.log(response)
+  //         this.loading = false;
+  //         this.user.user_id = response.inf?.user_id || '';
+  //         this.user.firstName = response.inf?.firstName || '';
+  //         this.user.lastName = response.inf?.lastName || '';
+  //         this.user.surName = response.inf?.surName || '';
+  //         this.user.email = response.inf?.email || '';
+  //         this.user.password = response.inf?.password || '';
+  //         this.user.dob = response.inf?.dob || '';
+  //         this.user.tell = response.cont?.tell || '';
+  //         this.user.telegram = response.cont?.telegram || '';
+  //         this.user.facebook = response.cont?.facebook || '';
+  //         this.user.instagram = response.cont?.instagram || '';
+  //         this.user.mail = response.cont?.mail || '';
+  //         this.user.viber = response.cont?.viber || '';
+  //         if (response.img && response.img.length > 0) {
+  //           this.userImg = response.img[0].img;
+  //         }
+  //         this.getRating();
+  //         this.getRatingOwner();
+
+  //       }, (error: any) => {
+  //         console.error(error);
+  //         this.loading = false;
+  //       });
+  //   } else {
+  //     console.log('user not found');
+  //     this.loading = false;
+  //   }
+  // };
+
   getInfoUser() {
+    this.loading = true;
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.dataService.getInfoUser().subscribe(
         (response: any) => {
+          console.log(response)
           this.user.user_id = response.inf?.user_id || '';
           this.user.firstName = response.inf?.firstName || '';
           this.user.lastName = response.inf?.lastName || '';
@@ -202,7 +241,7 @@ export class InfoComponent implements OnInit {
             this.userImg = response.img[0].img;
           }
           this.getRating();
-          this.getRatingOwner()
+          this.getRatingOwner();
         },
         (error) => {
           console.error(error);
@@ -211,53 +250,15 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  // інформація про орендара
-  // async getInfoUser(): Promise<any> {
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson !== null) {
-  //     this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
-  //       .subscribe((response: any) => {
-  //         if (response) {
-  //           console.log(response)
-  //           this.user.user_id = response.inf?.user_id || '';
-  //           this.user.firstName = response.inf?.firstName || '';
-  //           this.user.lastName = response.inf?.lastName || '';
-  //           this.user.surName = response.inf?.surName || '';
-  //           this.user.email = response.inf?.email || '';
-  //           this.user.password = response.inf?.password || '';
-  //           this.user.dob = response.inf?.dob || '';
-  //           this.user.tell = response.cont?.tell || '';
-  //           this.user.telegram = response.cont?.telegram || '';
-  //           this.user.facebook = response.cont?.facebook || '';
-  //           this.user.instagram = response.cont?.instagram || '';
-  //           this.user.mail = response.cont?.mail || '';
-  //           this.user.viber = response.cont?.viber || '';
-  //           if (response.img && response.img.length > 0) {
-  //             this.userImg = response.img[0].img;
-  //           }
-
-  //           this.getRating();
-  //           this.getRatingOwner()
-  //         }
-
-  //         if (userJson !== null) {
-  //           const user = JSON.parse(userJson);
-  //           user.user_id = this.user.user_id.toString();
-  //           const updatedUserJson = JSON.stringify(user);
-  //           localStorage.setItem('user', updatedUserJson);
-  //         }
-
-  //       });
-  //   }
-  // }
   // пошукові параметри орендара
   async getInfo(): Promise<any> {
+    this.loading = true;
+
     localStorage.removeItem('searchInfoUserData')
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe((response: any) => {
-          console.log(response)
           localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
           if (searchInfoUserData !== null) {
@@ -307,9 +308,11 @@ export class InfoComponent implements OnInit {
       console.log('user not found');
     }
   }
+
   useDefaultImage(event: any): void {
     event.target.src = '../../../../assets/user_default.svg';
   }
+
   // рейтинг орендара
   async getRating(): Promise<any> {
     const userJson = localStorage.getItem('user');

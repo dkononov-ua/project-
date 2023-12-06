@@ -86,24 +86,25 @@ export class SendMessageComponent implements OnInit {
     this.getSelectedUser = this.choseSubscribersService.selectedSubscriber$.subscribe(async subscriberId => {
       if (subscriberId && this.selectedFlatId) {
         this.selectedSubscriberID = subscriberId;
-    }});
+      }
+    });
   }
 
   sendMessage(): void {
-    this.sendMessageService.sendMessage(this.messageText, this.selectedFlatId, this.selectedSubscriberID)
-    .subscribe(
-      response => {
-
-        // Отримайте статус респонсу тут
-        console.log(response);
-      },
-
-      error => {
-        // Обробка помилок тут
-        console.error(error);
-      }
-    );
-    this.messageText = '';
+    if (this.messageText.trim() !== '' && this.selectedFlatId && this.selectedSubscriberID) {
+      this.sendMessageService.sendMessage(this.messageText, this.selectedFlatId, this.selectedSubscriberID)
+        .subscribe(
+          response => {
+            // Отримайте статус респонсу тут
+            console.log(response);
+          },
+          error => {
+            // Обробка помилок тут
+            console.error(error);
+          }
+        );
+      this.messageText = '';
+    }
   }
 
 
