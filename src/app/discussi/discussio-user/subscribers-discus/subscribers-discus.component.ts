@@ -20,6 +20,35 @@ interface chosenFlat {
   owner: any;
   img: any;
 }
+
+interface Chat {
+  user_id: string;
+  chat_id: string;
+  flat_id: string;
+  flat_name: string;
+  lastMessage: string;
+  isSelected?: boolean;
+  unread: number;
+
+  infFlat: {
+    imgs: any;
+    flat: string;
+  }
+
+  infUser: {
+    img: any;
+    inf: {
+      firstName: string;
+      lastName: string;
+      surName: string;
+    }
+  }
+
+  instagram: string;
+  telegram: string;
+  viber: string;
+  facebook: string;
+}
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -72,6 +101,7 @@ export class SubscribersDiscusComponent implements OnInit {
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
   ratingOwner: number = 0;
+  chats: Chat[] = [];
   onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
     this.indexMenu = indexMenu;
     this.indexPage = indexPage;
@@ -231,27 +261,79 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   // Створюю чат
-  async createChat(chosenFlat: any): Promise<void> {
+  async createChat(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && chosenFlat.flat.flat_id) {
+    if (userJson && this.choseFlatId) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: chosenFlat.flat.flat_id,
+        flat_id: this.choseFlatId,
       };
       this.http.post(serverPath + '/chat/add/chatUser', data)
         .subscribe((response: any) => {
-          if (response) {
-            this.indexPage = 3;
-          } else if (response.status === false) {
+          if (response.status === true) {
+            this.statusMessage = 'Чат створено';
+            this.getFlatChats();
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.indexPage = 3;
+            }, 1000);
+          } else {
             this.statusMessageChat = true;
             console.log('чат вже створено')
           }
-          this.chosenFlat = chosenFlat;
         }, (error: any) => {
           console.error(error);
         });
     } else {
       console.log('user or subscriber not found');
+    }
+  }
+
+  openOwner() {
+    this.statusMessage = 'Представник оселі';
+    setTimeout(() => {
+      this.statusMessage = '';
+      this.onClickMenu(1, 2, 0)
+    }, 1000);
+  }
+
+  openChat() {
+    this.getFlatChats();
+    this.statusMessage = 'Відкриваєм чат';
+    setTimeout(() => {
+      this.statusMessage = '';
+      this.indexPage = 3;
+    }, 1000);
+  }
+
+  async getFlatChats(): Promise<any> {
+    const url = serverPath + '/chat/get/userchats';
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const data = {
+        auth: JSON.parse(userJson),
+        offs: 0
+      };
+      this.http.post(url, data)
+        .subscribe(async (response: any) => {
+          if (Array.isArray(response.status) && response.status) {
+            let chat = await Promise.all(response.status.map(async (value: any) => {
+              let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+              let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+              return {
+                flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message
+              }
+            }))
+            this.chats = chat;
+            localStorage.setItem('userChats', JSON.stringify(this.chats));
+          } else {
+            console.log('Немає чатів');
+          }
+        }, (error: any) => {
+          console.error(error);
+        });
+    } else {
+      console.log('Нічого не знайдено');
     }
   }
 
@@ -315,8 +397,11 @@ export class SubscribersDiscusComponent implements OnInit {
     this.selectedViewName = this.chosenFlat?.flat.flat_name;
     this.selectedViewComun.setSelectedView(this.selectedView);
     this.selectedViewComun.setSelectedName(this.selectedViewName);
+    this.statusMessage = 'Переходимо до статистики оселі';
     if (this.selectedView) {
-      this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
+    setTimeout(() => {
+        this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
+      }, 2000);
     }
   }
 

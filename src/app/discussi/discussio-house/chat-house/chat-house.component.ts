@@ -208,7 +208,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
                 if (iHaveMessages) {
                   this.readMessage();
                 }
-              }, 5000);
+              }, 3000);
             }
             this.interval = setTimeout(() => { this.getNewMessages() }, 3000);
           },

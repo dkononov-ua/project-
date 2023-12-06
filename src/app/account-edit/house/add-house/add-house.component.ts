@@ -67,9 +67,10 @@ export class AddHouseComponent implements OnInit {
           localStorage.removeItem('selectedFlatId');
           localStorage.removeItem('selectedFlatName');
           localStorage.removeItem('houseData');
-          // this.statusMessage = 'Оселя ' + this.flat_name + ' успішно створена';
+          this.statusMessage = 'Оселя ' + this.flat_name + ' успішно створена';
           this.sharedService.setStatusMessage('Оселя ' + this.flat_name + ' успішно створена');
           setTimeout(() => {
+            this.statusMessage = '';
             this.loadNewFlats(this.flat_name);
           }, 2000);
         } else {
@@ -118,10 +119,10 @@ export class AddHouseComponent implements OnInit {
               this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
               this.selectedFlatService.setSelectedFlatName(flat_name);
               this.sharedService.setStatusMessage('Обираємо оселю ' + flat_name);
-              // this.statusMessage = 'Обираємо оселю ' + flat_name;
+              this.statusMessage = 'Обираємо оселю ' + flat_name;
               setTimeout(() => {
                 this.sharedService.setStatusMessage('');
-                // this.statusMessage = '';
+                this.statusMessage = '';
                 this.router.navigate(['/housing-parameters/host/']);
                 // this.reloadPageWithLoader()
               }, 2500);

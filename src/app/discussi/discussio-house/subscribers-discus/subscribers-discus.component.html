@@ -37,13 +37,13 @@
         <div class="t-min dark bold">Орендар</div>
       </div>
 
-      <div class="switch-btn-group">
+      <!-- <div class="switch-btn-group">
         <button class="btn" [disabled]="!selectedUser || !chatExists" (click)="onClickMenu(1,2,0)"
           [ngClass]="{ 'active': indexPage == 2}">
           <i class="fa-regular fa-message"></i>
         </button>
         <div class="t-min dark bold">Чат</div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -174,7 +174,7 @@
                 <div class="t-min">Деталі</div>
               </button>
 
-              <button class="btn-panel" *ngIf="chatExists" (click)="onSubscriberSelect(selectedUser)" (click)="indexPage = 2"><i
+              <button class="btn-panel" *ngIf="chatExists" (click)="openChat()"><i
                   class="fa-solid fa-message"></i>
                 <div class="t-min">Повід.</div>
               </button>
@@ -265,7 +265,7 @@
 
     <!-- додаткова інформація користувача -->
     <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && card_info && selectedUser">
-      <div class="card">
+      <div class="card pt-5">
 
         <div class="btn-close-container">
           <div class="btn-close-box">
@@ -480,6 +480,11 @@
 
     <!-- Чат -->
     <div [@cardAnimation2] class="flex-column-chat" *ngIf="indexPage == 2 && selectedUser">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
       <app-chat-house class="chat"></app-chat-house>
       <app-send-message class="send-message"></app-send-message>
     </div>

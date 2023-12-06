@@ -12,6 +12,30 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
+
+interface Chat {
+  user_id: string;
+  chat_id: string;
+  flat_id: string;
+  isSelected?: boolean;
+  lastMessage: string;
+  unread: number;
+  infFlat: {
+    imgs: string;
+  }
+  infUser: {
+    img: any;
+    inf: {
+      firstName: string;
+      lastName: string;
+      surName: string;
+    }
+  }
+  instagram: string;
+  telegram: string;
+  viber: string;
+  facebook: string;
+}
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -79,6 +103,9 @@ export class SubscribersDiscusComponent implements OnInit {
   numberOfReviews: any;
   totalDays: any;
   reviews: any;
+
+  chats: Chat[] = [];
+
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -165,29 +192,79 @@ export class SubscribersDiscusComponent implements OnInit {
     });
   }
 
+  openChat() {
+    this.getFlatChats();
+    this.statusMessage = 'Відкриваєм чат';
+    setTimeout(() => {
+      this.statusMessage = '';
+      this.indexPage = 2;
+    }, 1000);
+  }
+
   async createChat(selectedUser: any): Promise<void> {
-    const selectedFlat = this.selectedFlatId;
     const userJson = localStorage.getItem('user');
     if (userJson && selectedUser) {
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: selectedFlat,
+        flat_id: this.selectedFlatId,
         user_id: selectedUser.user_id,
       };
       this.http.post(serverPath + '/chat/add/chatFlat', data)
-        .subscribe((response: any) => {
-          if (response) {
-            this.indexPage = 3;
-          } else if (response.status === false) {
+        .subscribe(async (response: any) => {
+          console.log(response)
+          if (response.status === true) {
+            this.statusMessage = 'Чат створено';
+            await this.getFlatChats();
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.indexPage = 2;
+            }, 1000);
+          } else {
             this.statusMessageChat = true;
             console.log('чат вже створено')
           }
-          this.selectedUser = selectedUser;
         }, (error: any) => {
           console.error(error);
         });
     } else {
-      console.log('user or subscriber not found');
+      console.log('Авторизуйтесь');
+    }
+  }
+
+  async getFlatChats(): Promise<any> {
+    const url = serverPath + '/chat/get/flatchats';
+    const userJson = localStorage.getItem('user');
+    const offs = 0;
+
+    if (userJson && this.selectedFlatId) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        offs: offs,
+      };
+
+      try {
+        this.http.post(url, data)
+          .subscribe(async (response: any) => {
+            if (Array.isArray(response.status) && response.status) {
+              let chat = await Promise.all(response.status.map(async (value: any) => {
+                let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+                let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+                return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message }
+              }))
+              this.chats = chat;
+              localStorage.setItem('flatChats', JSON.stringify(this.chats));
+            } else {
+              console.log('chat not found');
+            }
+          }, (error: any) => {
+            console.error(error);
+          });
+      } catch (error) {
+
+      }
+    } else {
+      console.log('chat not found');
     }
   }
 

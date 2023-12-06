@@ -185,9 +185,9 @@
 }
 
 .btn-close-container {
-  position: sticky;
+  position: absolute;
   right: 0;
-  top: 20px;
+  top: 0;
   z-index: 300;
   .btn-close-box {
     @include flex-box-column;

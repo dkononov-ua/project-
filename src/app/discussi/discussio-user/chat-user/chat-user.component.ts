@@ -49,10 +49,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       if (userData) {
         this.userData = JSON.parse(userData);
         this.getSelectFlatInfo();
-        this.sendMessageService.messageTextUser$.subscribe(text => {
-          this.messageText = text;
-          this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
-        });
       } else {
         console.log('Інформація користувача відсутня')
       }
@@ -66,7 +62,12 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$
       .pipe(take(1)) // take(1) гарантує, що після одного виникнення події обробник буде автоматично відписаний від observable.
       .subscribe(async flatId => {
+        this.sendMessageService.messageTextUser$.subscribe(text => {
+          this.messageText = text;
+          this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
+        });
         this.selectedFlat = flatId;
+        console.log(this.selectedFlat)
         if (this.selectedFlat) {
           const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
           const selectChat = userAllChats.filter((item: any) => item.flat_id === flatId);
@@ -109,6 +110,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
             } else {
               this.allMessages = [];
             }
+            console.log(this.allMessages)
             this.loading = false;
             return EMPTY;
           }),
@@ -157,13 +159,15 @@ export class ChatUserComponent implements OnInit, OnDestroy {
                 }
               }))
               this.allMessagesNotRead = c;
+              console.log(this.allMessagesNotRead)
+
               // Перевірка чиє повідомлення непрочитане
               const iHaveMessages = this.allMessagesNotRead.every(message => message.is_read === 1 || message.user_id === null);
               setTimeout(() => {
                 if (iHaveMessages) {
                   this.readMessage(selectedFlat);
                 }
-              }, 5000);
+              }, 3000);
             }
             this.interval = setTimeout(() => { this.getNewMessages(selectedFlat) }, 3000);
           },
