@@ -1,8 +1,4 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
 
-<ng-template #content>
   <nav class="navbar">
 
     <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
@@ -25,7 +21,7 @@
     <a *ngIf="selectedFlatId && acces_subs === 1" class="link-menu" [routerLinkActive]="'active'"
       [routerLink]="'/subscribers-host/subscribers-house'">
       <div class="link-text">Підписники<span class="count"
-          *ngIf="counterSubs?.status && counterSubs?.status !== false && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
+          *ngIf="counterHouseSubscribers && counterHouseSubscribers !== 0">({{counterHouseSubscribers}})</span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-child-reaching"></i></div>
     </a>
@@ -33,7 +29,7 @@
     <a *ngIf="selectedFlatId && acces_subs === 1" class="link-menu" [routerLinkActive]="'active'"
       [routerLink]="'/subscribers-host/subscriptions-house'">
       <div class="link-text">Підписки<span class="count"
-          *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== false && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
+          *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== 0">({{counterHouseSubscriptions}})</span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
     </a>
@@ -41,7 +37,7 @@
     <a *ngIf="selectedFlatId && acces_discuss === 1" class="link-menu" [routerLinkActive]="'active'"
       [routerLink]="'/subscribers-host/subscribers-discus'">
       <div class="link-text">Дискусії<span class="count"
-          *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== false && counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span>
+          *ngIf="counterHouseDiscussio && counterHouseDiscussio !== 0">({{counterHouseDiscussio}})</span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-person-walking-luggage"></i></div>
     </a>
@@ -79,4 +75,3 @@
     </a>
 
   </nav>
-</ng-template>

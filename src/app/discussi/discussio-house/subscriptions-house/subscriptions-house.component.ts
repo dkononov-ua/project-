@@ -1,3 +1,4 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -7,12 +8,12 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { trigger, transition, style, animate } from '@angular/animations';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
-
 // власні імпорти інформації
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
+import { CounterService } from 'src/app/services/counter.service';
 @Component({
   selector: 'app-subscriptions-house',
   templateUrl: './subscriptions-house.component.html',
@@ -32,8 +33,8 @@ import { PaginationConfig } from 'src/app/config/paginator';
       ])
     ]),
   ],
-
 })
+
 export class SubscriptionsHouseComponent implements OnInit {
   // розшифровка пошукових параметрів
   purpose = purpose;
@@ -53,6 +54,7 @@ export class SubscriptionsHouseComponent implements OnInit {
   // рейтинг орендара
   ratingTenant: number | undefined;
   // статуси
+  loading: boolean | undefined;
   statusMessage: any;
   statusMessageChat: any;
   chatExists = false;
@@ -62,21 +64,23 @@ export class SubscriptionsHouseComponent implements OnInit {
   indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
+  selectedUserID: any;
+  counterHouseDiscussio: any;
+  counterHouseSubscriptions: any;
+  counterHouseSubscribers: any;
+  counterHD: any;
   onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
     this.indexMenu = indexMenu;
     this.indexPage = indexPage;
     this.indexMenuMobile = indexMenuMobile;
   }
-  openInfoUser() {
-    this.card_info = true;
-  }
+  openInfoUser() { this.card_info = true; }
   // пагінатор
   offs = PaginationConfig.offs;
   counterFound = PaginationConfig.counterFound;
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
-
   numberOfReviews: any;
   totalDays: any;
   reviews: any;
@@ -88,67 +92,98 @@ export class SubscriptionsHouseComponent implements OnInit {
     private choseSubscribersService: ChoseSubscribersService,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
+    private counterService: CounterService
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-      this.getSubs(this.selectedFlatId, this.offs);
-      await this.getSubscriptionsCount();
-      await this.getCurrentPageInfo();
+    await this.getCounterHouse();
+    this.getSelectedFlatID();
+  }
+
+  async getCounterHouse() {
+    // кількість підписок
+    this.counterService.counterHouseSubscriptions$.subscribe(async data => {
+      this.counterHouseSubscriptions = data;
+      this.counterFound = this.counterHouseSubscriptions.status;
+      if (this.counterFound) {
+        await this.getCurrentPageInfo();
+      }
     });
   }
 
-  async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = serverPath + '/usersubs/get/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: selectedFlatId,
-      offs: offs,
-    };
+  // Отримання айді обраної оселі
+  getSelectedFlatID() {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
+      if (this.selectedFlatId) {
+        this.getSubInfo(this.offs);
+      } else { console.log('Оберіть оселю'); }
+    });
+  }
 
+  // Отримання та збереження даних всіх дискусій
+  async getSubInfo(offs: number): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.subscribers = response;
+      const allDiscussions = await this.http.post(serverPath + '/usersubs/get/ysubs', data).toPromise() as any[];
+      if (allDiscussions) {
+        localStorage.setItem('allHouseSubscriptions', JSON.stringify(allDiscussions));
+        const getAllDiscussions = JSON.parse(localStorage.getItem('allHouseSubscriptions') || '[]');
+        if (getAllDiscussions) {
+          this.subscribers = getAllDiscussions;
+        } else {
+          this.subscribers = []
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
-  onSubscriberSelect(subscriber: UserInfo): void {
-    this.indexPage = 1;
-    this.indexMenuMobile = 0;
+  // Виводимо інформацію з локального сховища про обрану оселю
+  selectDiscussion(subscriber: UserInfo) {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
-    this.selectedUser = subscriber;
-    this.getRating(subscriber)
+    this.selectedUserID = subscriber.user_id;
+    if (this.selectedUserID) {
+      const allHouseDiscussions = JSON.parse(localStorage.getItem('allHouseSubscriptions') || '[]');
+      if (allHouseDiscussions) {
+        this.indexPage = 1;
+        this.indexMenuMobile = 0;
+        const selectedUser = allHouseDiscussions.find((user: any) => user.user_id === this.selectedUserID);
+        if (selectedUser) {
+          this.selectedUser = selectedUser;
+          this.getRating(this.selectedUser)
+        } else {
+          this.selectedUser = undefined;
+          console.log('Немає інформації');
+        }
+      }
+    }
   }
 
-  async openDialog(subscriber: any): Promise<void> {
+  // Видалення орендара
+  async deleteUser(subscriber: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/usersubs/delete/subs';
-
     const dialogRef = this.dialog.open(DeleteSubComponent, {
-      data: {
-        user_id: subscriber.user_id,
-        firstName: subscriber.firstName,
-        lastName: subscriber.lastName,
-        component_id: 2,
-      }
+      data: { user_id: subscriber.user_id, firstName: subscriber.firstName, lastName: subscriber.lastName, component_id: 2, }
     });
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
-        const data = {
-          auth: JSON.parse(userJson),
-          flat_id: this.selectedFlatId,
-          user_id: subscriber.user_id,
-        };
+        const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
         try {
-          const response = await this.http.post(url, data).toPromise();
-          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-          this.indexPage = 1;
-          this.selectedUser = undefined;
-          this.updateComponent.triggerUpdate();
+          const response: any = await this.http.post(serverPath + '/usersubs/delete/subs', data).toPromise();
+          if (response.status === true) {
+            this.statusMessage = 'Дискусія видалена';
+            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.updateComponent.triggerUpdate();
+            this.selectedUser = undefined;
+            this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+            this.getSubInfo(this.offs);
+          } else {
+            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            setTimeout(() => { this.statusMessage = ''; this.reloadPage(); }, 2000);
+          }
         } catch (error) {
           console.error(error);
         }
@@ -156,22 +191,32 @@ export class SubscriptionsHouseComponent implements OnInit {
     });
   }
 
-  // Підписки
-  async getSubscriptionsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/usersubs/get/CountUserSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
+  // Перезавантаження сторінки з лоадером
+  reloadPage() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
+  }
 
+  // Отримання рейтингу
+  async getRating(selectedUser: any): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), user_id: selectedUser.user_id, };
     try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
-      this.counterFound = response.status;
-    }
-    catch (error) {
-      console.error(error)
-    }
+      const response = await this.http.post(serverPath + '/rating/get/userMarks', data).toPromise() as any;
+      this.reviews = response.status;
+      if (response && Array.isArray(response.status)) {
+        let totalMarkTenant = 0;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info.mark) {
+            totalMarkTenant += item.info.mark;
+            this.ratingTenant = totalMarkTenant;
+          }
+        });
+      } else if (response.status === false) { this.ratingTenant = 0; }
+    } catch (error) { console.error(error); }
   }
 
   // наступна сторінка з картками
@@ -180,7 +225,7 @@ export class SubscriptionsHouseComponent implements OnInit {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubs(this.selectedFlatId, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
@@ -191,11 +236,12 @@ export class SubscriptionsHouseComponent implements OnInit {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubs(this.selectedFlatId, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
 
+  // перевірка на якій ми сторінці і скільки їх
   async getCurrentPageInfo(): Promise<string> {
     const itemsPerPage = this.pageEvent.pageSize;
     const currentPage = this.pageEvent.pageIndex + 1;
@@ -206,78 +252,26 @@ export class SubscriptionsHouseComponent implements OnInit {
   }
 
   // Копіювання параметрів
+  copyId() { this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано'); }
+  copyTell() { this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано'); }
+  copyMail() { this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано'); }
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-          this.isCopiedMessage = message;
-          setTimeout(() => {
-            this.isCopiedMessage = '';
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopiedMessage = '';
-        });
+        .then(() => { this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000); })
+        .catch((error) => { this.isCopiedMessage = ''; });
     }
   }
 
-  copyId() {
-    this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
-  }
-
+  // Відправка скарги на орендара, через сервіс
   async reportUser(user: any): Promise<void> {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
-      // Обробка результату в компоненті
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      } else {
-        this.statusMessage = 'Помилка';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      }
+        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
+      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
     });
   }
-
-  async getRating(selectedUser: any): Promise<any> {
-    console.log(selectedUser);
-    const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/userMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: selectedUser.user_id,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      console.log(response);
-
-      this.reviews = response.status;
-      console.log(this.reviews);
-      if (response && Array.isArray(response.status)) {
-        let totalMarkTenant = 0;
-        this.numberOfReviews = response.status.length;
-        response.status.forEach((item: any) => {
-          if (item.info.mark) {
-            totalMarkTenant += item.info.mark;
-            this.ratingTenant = totalMarkTenant;
-            console.log(this.ratingTenant);
-          }
-        });
-
-        console.log('Кількість відгуків:', this.numberOfReviews);
-      } else if (response.status === false) {
-        this.ratingTenant = 0;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
 
 }
 

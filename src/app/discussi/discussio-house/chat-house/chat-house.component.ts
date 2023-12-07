@@ -9,8 +9,6 @@ import { SendMessageService } from 'src/app/services/send-message.service';
 interface User {
   user_id: string;
   chat_id: string;
-  flat_id: string;
-  photoFlat: string;
   photoUser: string;
   firstName: string;
   lastName: string;
@@ -113,8 +111,6 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
             .map((user_id: any) => ({
               user_id: user_id.user_id,
               chat_id: user_id.chat_id,
-              flat_id: user_id.flat_id,
-              photoFlat: user_id.infFlat.imgs[0],
               photoUser: user_id.infUser.img[0].img,
               firstName: user_id.infUser.inf.firstName,
               lastName: user_id.infUser.inf.lastName,

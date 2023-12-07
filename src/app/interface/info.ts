@@ -84,5 +84,30 @@ export interface HouseInfo {
   students: string;
   woman: string;
   option_pay: number;
+};
+
+export interface Chat {
+  user_id: string;
+  chat_id: string;
+  flat_id: string;
+  isSelected?: boolean;
+  lastMessage: string;
+  unread: number;
+  infFlat: {
+    imgs: string;
+  }
+  infUser: {
+    img: any;
+    inf: {
+      firstName: string;
+      lastName: string;
+      surName: string;
+    }
+  }
+  instagram: string;
+  telegram: string;
+  viber: string;
+  facebook: string;
 }
+
 

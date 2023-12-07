@@ -12,30 +12,9 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
+import { CounterService } from 'src/app/services/counter.service';
+import { Chat } from '../../../interface/info';
 
-interface Chat {
-  user_id: string;
-  chat_id: string;
-  flat_id: string;
-  isSelected?: boolean;
-  lastMessage: string;
-  unread: number;
-  infFlat: {
-    imgs: string;
-  }
-  infUser: {
-    img: any;
-    inf: {
-      firstName: string;
-      lastName: string;
-      surName: string;
-    }
-  }
-  instagram: string;
-  telegram: string;
-  viber: string;
-  facebook: string;
-}
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -76,6 +55,7 @@ export class SubscribersDiscusComponent implements OnInit {
   // рейтинг орендара
   ratingTenant: number | undefined;
   // статуси
+  loading: boolean | undefined;
   statusMessage: any;
   statusMessageChat: any;
   chatExists = false;
@@ -85,27 +65,27 @@ export class SubscribersDiscusComponent implements OnInit {
   indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
+  selectedUserID: any;
+  counterHouseDiscussio: any;
+  counterHouseSubscriptions: any;
+  counterHouseSubscribers: any;
+  counterHD: any;
   onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
     this.indexMenu = indexMenu;
     this.indexPage = indexPage;
     this.indexMenuMobile = indexMenuMobile;
   }
-  openInfoUser() {
-    this.card_info = true;
-  }
+  openInfoUser() { this.card_info = true; }
   // пагінатор
   offs = PaginationConfig.offs;
   counterFound = PaginationConfig.counterFound;
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
-
   numberOfReviews: any;
   totalDays: any;
   reviews: any;
-
   chats: Chat[] = [];
-
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -114,77 +94,101 @@ export class SubscribersDiscusComponent implements OnInit {
     private choseSubscribersService: ChoseSubscribersService,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
+    private counterService: CounterService
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCounterHouse();
     this.getSelectedFlatID();
-    await this.getAcceptSubsCount();
-    await this.getCurrentPageInfo();
   }
 
+  // отримання, кількіст дискусій та запит на якій я сторінці
+  async getCounterHouse() {
+    this.counterService.counterHouseDiscussio$.subscribe(async data => {
+      this.counterHouseDiscussio = data;
+      this.counterFound = this.counterHouseDiscussio.status;
+      if (this.counterFound) {
+        await this.getCurrentPageInfo();
+      }
+    })
+  }
+
+  // Отримання айді обраної оселі
   getSelectedFlatID() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
-        this.getSubs(this.selectedFlatId, this.offs);
-      } else {
-        console.log('Оберіть оселю');
-      }
+        this.getSubInfo(this.offs);
+      } else { console.log('Оберіть оселю'); }
     });
   }
 
-  async getSubs(selectedFlatId: string | any, offs: number): Promise<any> {
+  // Отримання та збереження даних всіх дискусій
+  async getSubInfo(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/acceptsubs/get/subs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: selectedFlatId,
-      offs: offs,
-    };
-
+    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.subscribers = response;
+      const allDiscussions = await this.http.post(serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
+      if (allDiscussions) {
+        localStorage.setItem('allHouseDiscussions', JSON.stringify(allDiscussions));
+        const getAllDiscussions = JSON.parse(localStorage.getItem('allHouseDiscussions') || '[]');
+        if (getAllDiscussions) {
+          this.subscribers = getAllDiscussions;
+        } else {
+          this.subscribers = []
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
-  async onSubscriberSelect(subscriber: UserInfo): Promise<void> {
+  // Виводимо інформацію з локального сховища про обрану оселю
+  async selectDiscussion(subscriber: UserInfo) {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
-    this.selectedUser = subscriber;
-    this.checkChatExistence(this.selectedUser.user_id);
-    this.indexPage = 1;
-    this.indexMenuMobile = 0;
-    this.getRating(subscriber)
+    this.selectedUserID = subscriber.user_id;
+    if (this.selectedUserID) {
+      const allHouseDiscussions = JSON.parse(localStorage.getItem('allHouseDiscussions') || '[]');
+      if (allHouseDiscussions) {
+        this.indexPage = 1;
+        this.indexMenuMobile = 0;
+        const selectedUser = allHouseDiscussions.find((user: any) => user.user_id === this.selectedUserID);
+        if (selectedUser) {
+          this.selectedUser = selectedUser;
+          this.checkChatExistence();
+          this.getRating(this.selectedUser)
+        } else {
+          this.selectedUser = undefined;
+          console.log('Немає інформації');
+        }
+      }
+    }
   }
 
-  async openDialog(subscriber: any): Promise<void> {
+  // Видалення орендара
+  async deleteUser(subscriber: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/acceptsubs/delete/subs';
     const dialogRef = this.dialog.open(DeleteSubComponent, {
-      data: {
-        user_id: subscriber.user_id,
-        firstName: subscriber.firstName,
-        lastName: subscriber.lastName,
-        component_id: 3,
-      }
-
+      data: { user_id: subscriber.user_id, firstName: subscriber.firstName, lastName: subscriber.lastName, component_id: 3, }
     });
-
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
-        const data = {
-          auth: JSON.parse(userJson),
-          flat_id: this.selectedFlatId,
-          user_id: subscriber.user_id,
-        };
+        const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
         try {
-          const response = await this.http.post(url, data).toPromise();
-          this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-          this.indexPage = 1;
-          this.selectedUser = undefined;
-          this.updateComponent.triggerUpdate();
+          const response: any = await this.http.post(serverPath + '/acceptsubs/delete/subs', data).toPromise();
+          if (response.status === true) {
+            this.statusMessage = 'Дискусія видалена';
+            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.updateComponent.triggerUpdate();
+            this.selectedUser = undefined;
+            this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+            this.getSubInfo(this.offs);
+          } else {
+            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            setTimeout(() => {
+              this.statusMessage = ''; this.sharedService.reloadPage();
+            }, 2000);
+          }
         } catch (error) {
           console.error(error);
         }
@@ -192,117 +196,103 @@ export class SubscribersDiscusComponent implements OnInit {
     });
   }
 
-  openChat() {
-    this.getFlatChats();
-    this.statusMessage = 'Відкриваєм чат';
-    setTimeout(() => {
-      this.statusMessage = '';
-      this.indexPage = 2;
-    }, 1000);
+  // Відкриваю чат
+  async openChat() {
+    console.log(1111)
+    try {
+      this.statusMessage = 'Завантажуємо чат...';
+      const result = await this.getFlatChats();
+      if (result === 1) {
+        this.statusMessage = 'Відкриваємо чат';
+        setTimeout(() => { this.statusMessage = ''; this.indexPage = 2; }, 1000);
+      } else if (result === 0) {
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 1000);
+      }
+    } catch (error) {
+      console.error('Помилка при завантаженні чату:', error);
+      this.statusMessage = 'Помилка на сервері, спробуйте пізніше';
+      setTimeout(() => { this.statusMessage = ''; }, 2000);
+    }
   }
 
-  async createChat(selectedUser: any): Promise<void> {
+  // Створюю чат
+  async createChat(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && selectedUser) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        user_id: selectedUser.user_id,
-      };
-      this.http.post(serverPath + '/chat/add/chatFlat', data)
-        .subscribe(async (response: any) => {
-          console.log(response)
-          if (response.status === true) {
-            this.statusMessage = 'Чат створено';
-            await this.getFlatChats();
-            setTimeout(() => {
-              this.statusMessage = '';
-              this.indexPage = 2;
-            }, 1000);
-          } else {
-            this.statusMessageChat = true;
-            console.log('чат вже створено')
+    if (userJson && this.selectedUserID) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: this.selectedUserID, };
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        if (response.status === true) {
+          this.statusMessage = 'Створюємо чат';
+          const result = await this.getFlatChats();
+          if (result === 1) {
+            setTimeout(() => { this.openChat(); }, 2000);
+          } else if (result === 0) {
+            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            setTimeout(() => { this.statusMessage = ''; }, 2000);
           }
-        }, (error: any) => {
-          console.error(error);
-        });
+        } else { this.statusMessageChat = true; }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
       console.log('Авторизуйтесь');
     }
   }
 
-  async getFlatChats(): Promise<any> {
-    const url = serverPath + '/chat/get/flatchats';
-    const userJson = localStorage.getItem('user');
-    const offs = 0;
-
-    if (userJson && this.selectedFlatId) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        offs: offs,
-      };
-
-      try {
-        this.http.post(url, data)
-          .subscribe(async (response: any) => {
-            if (Array.isArray(response.status) && response.status) {
-              let chat = await Promise.all(response.status.map(async (value: any) => {
-                let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-                let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-                return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message }
-              }))
-              this.chats = chat;
-              localStorage.setItem('flatChats', JSON.stringify(this.chats));
-            } else {
-              console.log('chat not found');
-            }
-          }, (error: any) => {
-            console.error(error);
-          });
-      } catch (error) {
-
+  // Запитую та записую інформацію для виведання чату
+  async getFlatChats(): Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: 0 };
+        this.http.post(serverPath + '/chat/get/flatchats', data).subscribe(async (response: any) => {
+          if (Array.isArray(response.status) && response.status) {
+            let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
+              let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+              return { user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, unread: value.unread, lastMessage: value.last_message };
+            }));
+            localStorage.setItem('flatChats', JSON.stringify(allChatsInfo));
+            this.chats = allChatsInfo;
+            resolve(1);
+          } else {
+            resolve(0);
+          }
+        }, (error: any) => {
+          console.error(error);
+          reject(error);
+        });
+      } else {
+        reject('Нічого не знайдено');
       }
-    } else {
-      console.log('chat not found');
-    }
+    });
   }
 
-  async checkChatExistence(selectedUser: any): Promise<any> {
-    const url = serverPath + '/chat/get/flatchats';
+  // Перевірка на існування чату
+  async checkChatExistence(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    if (userJson && selectedUser) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        offs: this.offs
-      };
+    if (userJson && this.selectedUserID) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: this.offs };
       try {
-        const response = await this.http.post(url, data).toPromise() as any;
-        if (this.selectedFlatId && Array.isArray(response.status)) {
-          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === selectedUser);
+        const response = await this.http.post(serverPath + '/chat/get/flatchats', data).toPromise() as any;
+        if (this.selectedUserID && Array.isArray(response.status)) {
+          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === this.selectedUserID);
           this.chatExists = chatExists;
         }
-        else {
-          console.log('чат не існує');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.log('user not found');
-    }
+        else { console.log('чат не існує'); }
+      } catch (error) { console.error(error); }
+    } else { console.log('Авторизуйтесь'); }
   }
 
+  // Отримання рейтингу
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/userMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: selectedUser.user_id,
-    };
+    const data = { auth: JSON.parse(userJson!), user_id: selectedUser.user_id, };
     try {
-      const response = await this.http.post(url, data).toPromise() as any;
+      const response = await this.http.post(serverPath + '/rating/get/userMarks', data).toPromise() as any;
       this.reviews = response.status;
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
@@ -313,30 +303,8 @@ export class SubscribersDiscusComponent implements OnInit {
             this.ratingTenant = totalMarkTenant;
           }
         });
-      } else if (response.status === false) {
-        this.ratingTenant = 0;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Дискусії
-  async getAcceptSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/acceptsubs/get/CountSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
-
-    try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
-      this.counterFound = response.status;
-    }
-    catch (error) {
-      console.error(error)
-    }
+      } else if (response.status === false) { this.ratingTenant = 0; }
+    } catch (error) { console.error(error); }
   }
 
   // наступна сторінка з картками
@@ -345,7 +313,7 @@ export class SubscribersDiscusComponent implements OnInit {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubs(this.selectedFlatId, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
@@ -356,11 +324,12 @@ export class SubscribersDiscusComponent implements OnInit {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubs(this.selectedFlatId, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
 
+  // перевірка на якій ми сторінці і скільки їх
   async getCurrentPageInfo(): Promise<string> {
     const itemsPerPage = this.pageEvent.pageSize;
     const currentPage = this.pageEvent.pageIndex + 1;
@@ -371,46 +340,24 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   // Копіювання параметрів
+  copyId() { this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано'); }
+  copyTell() { this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано'); }
+  copyMail() { this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано'); }
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-          this.isCopiedMessage = message;
-          setTimeout(() => {
-            this.isCopiedMessage = '';
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopiedMessage = '';
-        });
+        .then(() => { this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000); })
+        .catch((error) => { this.isCopiedMessage = ''; });
     }
   }
 
-  copyId() {
-    this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано');
-  }
-  copyTell() {
-    this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано');
-  }
-  copyMail() {
-    this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано');
-  }
-
+  // Відправка скарги на орендара, через сервіс
   async reportUser(user: any): Promise<void> {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
-      // Обробка результату в компоненті
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      } else {
-        this.statusMessage = 'Помилка';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      }
+        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
+      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
     });
   }
 

@@ -376,7 +376,7 @@ export class SubscribersDiscusComponent implements OnInit {
         }
         else { console.log('чат не існує'); }
       } catch (error) { console.error(error); }
-    } else { console.log('user not found'); }
+    } else { console.log('Авторизуйтесь'); }
   }
 
   // Перегляд статистики комунальних

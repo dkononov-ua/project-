@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { serverPath } from 'src/app/config/server-config';
+import { CounterService } from 'src/app/services/counter.service';
 
 @Component({
   selector: 'app-navbar-house',
@@ -13,10 +14,9 @@ export class NavbarHouseComponent {
 
   unreadMessage: any;
   selectedFlatId: any;
-  counterSubs: any;
-  counterSubscriptions: any;
-  counterAcceptSubs: any;
-  loading: boolean = true;
+  counterHouseSubscribers: any;
+  counterHouseSubscriptions: any;
+  counterHouseDiscussio: any;
   dataUpdated = false;
   houseData: any;
 
@@ -33,35 +33,60 @@ export class NavbarHouseComponent {
   acces_flat_features: number = 1;
   acces_services: number = 1;
   acces_subs: number = 1;
+  subscribed: any;
 
   constructor(
     private http: HttpClient,
     private selectedFlatIdService: SelectedFlatService,
     private updateComponent: UpdateComponentService,
-  ) { }
+    private counterService: CounterService
+  ) {
+
+  }
 
   async ngOnInit(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    this.getFlatId();
-    if (userJson && this.selectedFlatId) {
-      this.loadDataFlat();
-      await this.getUpdate();
+    if (userJson) {
+      this.getFlatId();
+      if (this.selectedFlatId) {
+        this.getUpdate();
+      }
+    } else {
+      console.log('Авторизуйтесь')
     }
-    this.loading = false;
   }
 
+  async getCounterHouse(): Promise<void> {
+    // кількість підписників
+    this.counterService.counterHouseSubscribers$.subscribe(data => {
+      const counterHouseSubscribers: any = data;
+      this.counterHouseSubscribers = counterHouseSubscribers.status;
+      console.log('counterHouseSubscribers', this.counterHouseSubscribers)
+    });
+    // кількість підписок
+    this.counterService.counterHouseSubscriptions$.subscribe(data => {
+      const counterHouseSubscriptions: any = data;
+      this.counterHouseSubscriptions = counterHouseSubscriptions.status;
+      console.log('counterHouseSubscriptions', this.counterHouseSubscriptions)
+
+    });
+    // кількість дискусій
+    this.counterService.counterHouseDiscussio$.subscribe(data => {
+      const counterHouseDiscussio: any = data;
+      this.counterHouseDiscussio = counterHouseDiscussio.status;
+      console.log('counterHouseDiscussio', this.counterHouseDiscussio)
+    });
+  }
+
+
   async getUpdate() {
+    this.counterService.getHouseSubsCount(this.selectedFlatId);
     await this.getMessageAll();
-    await this.getSubsCount();
-    await this.getAcceptSubsCount();
-    await this.getSubscriptionsCount();
-    this.updateComponent.update$.subscribe(() => {
+    await this.getCounterHouse();
+    this.updateComponent.update$.subscribe(async () => {
       this.dataUpdated = true;
       if (this.dataUpdated === true) {
-        this.getFlatId();
-        this.getSubsCount();
-        this.getAcceptSubsCount();
-        this.getSubscriptionsCount();
+        // this.getFlatId();
       }
     });
   }
@@ -121,56 +146,4 @@ export class NavbarHouseComponent {
     }
   }
 
-  // Підписники
-  async getSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/subs/get/countSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
-    try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.counterSubs = response;
-    }
-    catch (error) {
-      console.error(error)
-    }
-  }
-
-  // Підписки
-  async getSubscriptionsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/usersubs/get/CountUserSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.counterSubscriptions = response;
-    }
-    catch (error) {
-      console.error(error)
-    }
-  }
-
-  // Дискусії
-  async getAcceptSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/acceptsubs/get/CountSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.counterAcceptSubs = response;
-    }
-    catch (error) {
-      console.error(error)
-    }
-  }
 }

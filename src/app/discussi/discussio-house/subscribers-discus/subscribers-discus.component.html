@@ -4,13 +4,11 @@
 
     <div class="switch-box">
 
-      <div class="hide-pc">
-        <div class="switch-btn-group">
-          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-            <i class="fa-solid fa-arrow-left"></i>
-          </button>
-          <div class="t-min dark bold">Назад</div>
-        </div>
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="t-min dark bold">Назад</div>
       </div>
 
       <div class="switch-btn-group">
@@ -25,7 +23,7 @@
           [ngClass]="{ 'active': indexMenu == 1}">
           <i class="fa-solid fa-user-group"></i>
         </button>
-        <div class="t-min dark bold">Дискусії</div>
+        <div class="t-min dark bold">Оренадрі</div>
         <div class="counterNum t-lar bold">{{counterFound}}</div>
       </div>
 
@@ -36,14 +34,6 @@
         </button>
         <div class="t-min dark bold">Орендар</div>
       </div>
-
-      <!-- <div class="switch-btn-group">
-        <button class="btn" [disabled]="!selectedUser || !chatExists" (click)="onClickMenu(1,2,0)"
-          [ngClass]="{ 'active': indexPage == 2}">
-          <i class="fa-regular fa-message"></i>
-        </button>
-        <div class="t-min dark bold">Чат</div>
-      </div> -->
 
     </div>
 
@@ -91,7 +81,7 @@
       </div>
 
       <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="selectDiscussion(subscriber)"
           [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-mini-img-container">
             <img class="card-mini-img"
@@ -127,7 +117,7 @@
       </div>
 
       <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="selectDiscussion(subscriber)"
           [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-mini-img-container">
             <img class="card-mini-img"
@@ -148,130 +138,6 @@
     <!-- основна інформація користувача -->
     <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && !card_info && selectedUser">
       <div class="card">
-
-        <div class="copyMessage-box" *ngIf="isCopiedMessage">
-          <div class="copyMessage-text">{{isCopiedMessage}}</div>
-          <i class="fa-regular fa-copy"></i>
-          <div class="t-lar dark bold">Discussio</div>
-        </div>
-
-        <div class="img-fluid">
-          <img [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')"
-            alt="User Image">
-
-            <div class="btn-container">
-
-              <button class="btn-panel" *ngIf="ratingTenant" (click)="indexPage = 3">
-                <div class="flex-box">
-                  <div class="t-lar bold">{{ratingTenant}}</div>
-                  <div class="t-min">({{numberOfReviews}})</div>
-                </div>
-                <div class="t-min">Рейтинг</div>
-              </button>
-
-              <button class="btn-panel" (click)="card_info = true">
-                <i class="fa-solid fa-info"></i>
-                <div class="t-min">Деталі</div>
-              </button>
-
-              <button class="btn-panel" *ngIf="chatExists" (click)="openChat()"><i
-                  class="fa-solid fa-message"></i>
-                <div class="t-min">Повід.</div>
-              </button>
-
-              <button class="btn-panel" *ngIf="!chatExists" (click)="createChat(selectedUser)"><i class="fa-solid fa-message"></i>
-                <div class="t-min">Повід.</div>
-              </button>
-
-              <button class="btn-panel" [routerLink]="['/agree-create', selectedUser?.user_id]">
-                <i class="fa-solid fa-file-contract"></i>
-                <div class="t-min">Угода</div>
-              </button>
-
-              <button class="btn-panel" (click)="openDialog(selectedUser)">
-                <i class="fa-solid fa-user-xmark"></i>
-                <div class="t-min">Видал.</div>
-              </button>
-
-              <button class="btn-panel" (click)="reportUser(selectedUser)"><i class="fa-solid fa-masks-theater"></i>
-                <div class="t-min">Скарга</div>
-              </button>
-
-
-            </div>
-
-        </div>
-
-        <div class="btn-container2">
-          <div class="img-btn-box" *ngIf="selectedUser.tell">
-            <button class="img-btn" (click)="copyTell()"><i class="fa-solid fa-phone"></i></button>
-            <div class="t-min">Телефон</div>
-            <div class="t-min bold accent">{{ selectedUser.tell }}</div>
-          </div>
-
-          <div class="img-btn-box">
-            <button class="img-btn" matTooltip="Копіювати" (click)="copyId()"><i class="fa-solid fa-info"></i><i
-                class="fa-solid fa-d"></i></button>
-            <div class="t-min">ID орендара:</div>
-            <div class="t-min bold accent">{{ selectedUser.user_id }}</div>
-          </div>
-
-          <div class="img-btn-box" *ngIf="selectedUser?.mail">
-            <button class="img-btn" (click)="copyMail()"><i class="fa-solid fa-at"></i></button>
-            <div class="t-min">Пошта</div>
-            <div class="t-min bold accent">{{ selectedUser.mail | slice:0:10 }}</div>
-          </div>
-
-          <div class="img-btn-box" *ngIf="ratingTenant">
-            <button class="img-btn"><i class="fa-solid fa-medal"></i></button>
-            <div class="t-min">Рейтинг орендара</div>
-            <div class="t-min bold accent">{{ ratingTenant }}</div>
-          </div>
-
-        </div>
-
-        <div class="item-wrapper p-3">
-          <div class="item-name">{{ selectedUser.lastName }}</div>
-          <div class="item-name">{{ selectedUser.firstName }}</div>
-          <div class="item-name">{{ selectedUser.surName }}</div>
-        </div>
-
-        <div class="social-link-container">
-          <div *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
-            <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
-          </div>
-
-
-
-          <div class="social-link-box" *ngIf="selectedUser.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.instagram }}"><i
-                class="fab fa-brands fa-instagram"></i></a>
-            <div class="social-link-name">instagram</div>
-          </div>
-          <div class="social-link-box" *ngIf="selectedUser.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.facebook }}"><i
-                class="fab fa-brands fa-facebook"></i></a>
-            <div class="social-link-name">facebook</div>
-          </div>
-          <div class="social-link-box" *ngIf="selectedUser.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.telegram }}"><i
-                class="fab fa-brands fa-telegram"></i></a>
-            <div class="social-link-name">telegram</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- додаткова інформація користувача -->
-    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage == 1 && card_info && selectedUser">
-      <div class="card pt-5">
-
-        <div class="btn-close-container">
-          <div class="btn-close-box">
-            <button class="btn-close" (click)="card_info = false"></button>
-          </div>
-        </div>
 
         <div class="status-container">
           <div class="status-box">
@@ -321,12 +187,100 @@
           </div>
         </div>
 
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
+
+        <div class="container-img">
+          <div class="wrapper-img">
+            <img class="img-fluid"
+              [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')" alt="img">
+            <div class="panel-container">
+              <div class="wrapper">
+
+                <button class="btn-panel" *ngIf="ratingTenant" (click)="indexPage = 3">
+                  <div class="flex-box">
+                    <div class="t-lar bold">{{ratingTenant}}</div>
+                    <div class="t-min">({{numberOfReviews}})</div>
+                  </div>
+                  <div class="t-min">Рейтинг</div>
+                </button>
+
+                <button class="btn-panel" *ngIf="chatExists" (click)="openChat()"><i class="fa-solid fa-message"></i>
+                  <div class="t-min">Повід.</div>
+                </button>
+
+                <button class="btn-panel" *ngIf="!chatExists" (click)="createChat()"><i class="fa-solid fa-message"></i>
+                  <div class="t-min">Повід.</div>
+                </button>
+
+                <button class="btn-panel" [routerLink]="['/agree-create', selectedUser?.user_id]">
+                  <i class="fa-solid fa-file-contract"></i>
+                  <div class="t-min">Угода</div>
+                </button>
+
+                <button class="btn-panel" (click)="deleteUser(selectedUser)">
+                  <i class="fa-solid fa-user-xmark"></i>
+                  <div class="t-min">Видал.</div>
+                </button>
+
+                <button class="btn-panel" (click)="reportUser(selectedUser)"><i class="fa-solid fa-masks-theater"></i>
+                  <div class="t-min">Скарга</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyTell()" *ngIf="selectedUser.tell"><i
+                    class="fa-solid fa-phone"></i>
+                  <div class="t-min">Телефон</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyId()"><i class="fa-solid fa-fingerprint"></i>
+                  <div class="t-min">ID</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyMail()" *ngIf="selectedUser?.mail"><i class="fa-solid fa-at"></i>
+                  <div class="t-min">Пошта</div>
+                </button>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex-box p-2">
+          <div class="t-lar-xx t-c bold p-1">{{ selectedUser.lastName }} </div>
+          <div class="t-lar-xx t-c bold p-1">{{ selectedUser.firstName }}</div>
+          <div class="t-lar-x t-c p-1">{{ selectedUser.surName }}</div>
+        </div>
+
+        <div class="social-link-container">
+          <div *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
+            <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
+          </div>
+
+          <div class="social-link-box" *ngIf="selectedUser.instagram">
+            <a class="social-link-icon" target="_blank" href="{{ selectedUser.instagram }}"><i
+                class="fab fa-brands fa-instagram"></i></a>
+            <div class="social-link-name">instagram</div>
+          </div>
+          <div class="social-link-box" *ngIf="selectedUser.facebook">
+            <a class="social-link-icon" target="_blank" href="{{ selectedUser.facebook }}"><i
+                class="fab fa-brands fa-facebook"></i></a>
+            <div class="social-link-name">facebook</div>
+          </div>
+          <div class="social-link-box" *ngIf="selectedUser.telegram">
+            <a class="social-link-icon" target="_blank" href="{{ selectedUser.telegram }}"><i
+                class="fab fa-brands fa-telegram"></i></a>
+            <div class="social-link-name">telegram</div>
+          </div>
+        </div>
+
         <div class="param-box" *ngIf="selectedUser.price_of || selectedUser.price_to">
 
           <div class="param-name">Пошукові параметри
             <p class="t-min">за якими орендар шукає оселю</p>
-            <a class="param-name-text" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i><span
-                class="ml-2">перейти до пошуку орендарів</span></a>
           </div>
 
           <div class="param-label">Бюджет в грн:</div>
@@ -352,7 +306,8 @@
           </div>
         </div>
 
-        <div class="param-box">
+        <div class="param-box"
+          *ngIf="selectedUser?.area_of || selectedUser.area_to || selectedUser.rooms_of || selectedUser.rooms_to || selectedUser?.repair_status || selectedUser.balcony">
           <div class="param-label">Параметри оселі:</div>
 
           <div class="param-group p-1">
@@ -437,7 +392,7 @@
           </div>
         </div>
 
-        <div class="param-box" *ngIf="selectedUser.room !== 0">
+        <div class="param-box" *ngIf="selectedUser.room && selectedUser.room !== 0">
           <div class="param-label">Розглядаю сусіда по оселі:</div>
           <div class="param-group p-1">
             <div class="param-field" *ngIf="selectedUser.looking_man">
@@ -473,6 +428,13 @@
         <div class="p-2" *ngIf="selectedUser.about">
           <div class="t-lar dark bold">Додаткова інформація:</div>
           <div class="t-min ">{{selectedUser.about}}</div>
+        </div>
+
+        <div class="param-box p-2">
+          <div class="param-name">Подивитись інших орендарів
+            <a class="param-name-text" [routerLink]="'/search/tenants'"><i class="fa-solid fa-arrow-right"></i>
+              <span class="ml-2 ">перейти до пошуку орендарів</span></a>
+          </div>
         </div>
 
       </div>

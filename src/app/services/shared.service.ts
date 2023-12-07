@@ -14,6 +14,7 @@ export class SharedService {
   selectedFlatId!: string | null;
   private statusMessageSubject = new BehaviorSubject<string>('');
   private reportResultSubject = new Subject<any>();
+  loading: boolean | undefined;
 
   constructor(
     private dialog: MatDialog,
@@ -101,4 +102,12 @@ export class SharedService {
     this.statusMessageSubject.next(message);
     console.log(message)
   }
+
+  reloadPage() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
+  }
+
 }
