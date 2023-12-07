@@ -149,6 +149,7 @@
   .switch-btn-group {
     @include flex-box-column;
     position: relative;
+    width: 80px;
   }
 
   .btn-menu {
@@ -160,6 +161,7 @@
     @include flex-box-column;
     justify-content: center;
     height: 50px;
+    width: 80px;
     background-color: transparent;
     border: none;
 

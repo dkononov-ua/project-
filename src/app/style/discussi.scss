@@ -59,10 +59,11 @@
   height: 650px;
 
   @include s1-s3 {
-    height: 86vh;
+    height: auto;
     margin-top: 15px;
     width: 95%;
-    overflow: auto;
+    padding-bottom: 10px;
+    // overflow: auto;
   }
 }
 
@@ -96,10 +97,13 @@
   width: 100%;
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
+  justify-content: flex-start;
   height: 60px;
+  width: 80px;
+
   z-index: 50;
   @include s1-s3 {
+    overflow-x: auto;
     height: 80px;
     background-color: $color-white;
     padding-top: 10px;
@@ -109,6 +113,9 @@
   .switch-btn-group {
     @include flex-box-column;
     position: relative;
+    .btn {
+      width: 80px;
+    }
   }
 }
 

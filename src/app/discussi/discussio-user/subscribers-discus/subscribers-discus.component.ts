@@ -14,6 +14,7 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
+import { Subject } from 'rxjs';
 
 interface chosenFlat {
   flat: any;
@@ -72,6 +73,9 @@ interface Chat {
 
 export class SubscribersDiscusComponent implements OnInit {
 
+  private chatsUpdatesSubject = new Subject<number>();
+  chatsUpdates$ = this.chatsUpdatesSubject.asObservable();
+
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
@@ -102,6 +106,7 @@ export class SubscribersDiscusComponent implements OnInit {
   indexMenuMobile: number = 1;
   ratingOwner: number = 0;
   chats: Chat[] = [];
+  chatsUpdates: number | undefined;
   onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
     this.indexMenu = indexMenu;
     this.indexPage = indexPage;
@@ -130,55 +135,57 @@ export class SubscribersDiscusComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getSubInfo(null, this.offs);
+    this.getSubInfo(this.offs);
     await this.getAcceptSubsCount();
     await this.getCurrentPageInfo();
   }
 
-  // Отримання даних всіх дискусій
-  async getSubInfo(flatId: any, offs: number): Promise<void> {
+  // Отримання та збереження даних всіх дискусій
+  async getSubInfo(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/acceptsubs/get/ysubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      offs: offs,
-    };
-
+    const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      if (response[0]) {
-        this.subscriptions = response;
-        if (flatId) {
-          const chosenFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-          if (chosenFlat) {
-            this.chosenFlat = chosenFlat;
-            this.getRatingOwner(this.chosenFlat?.owner.user_id);
-            this.generateLocationUrl();
-          } else {
-            console.log('Немає інформації');
-          }
+      const allDiscussions = await this.http.post(serverPath + '/acceptsubs/get/ysubs', data).toPromise() as any[];
+      if (allDiscussions) {
+        localStorage.setItem('allDiscussions', JSON.stringify(allDiscussions));
+        const getAllDiscussions = JSON.parse(localStorage.getItem('allDiscussions') || '[]');
+        if (getAllDiscussions) {
+          this.subscriptions = getAllDiscussions;
         } else {
-          this.onFlatSelect(response[0]);
+          this.subscriptions = []
         }
-      } else {
-        console.log('Немає дискусій');
       }
     } catch (error) {
       console.error(error);
     }
   }
 
+  // Виводимо інформацію з локального сховища про обрану оселю
+  selectDiscussion() {
+    if (this.choseFlatId) {
+      const allDiscussions = JSON.parse(localStorage.getItem('allDiscussions') || '[]');
+      if (allDiscussions) {
+        const chosenFlat = allDiscussions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
+        if (chosenFlat) {
+          this.chosenFlat = chosenFlat;
+          this.getRatingOwner(this.chosenFlat?.owner.user_id);
+          this.generateLocationUrl();
+        } else {
+          console.log('Немає інформації');
+        }
+      }
+    }
+  }
+
   // Перемикання оселі
-  async onFlatSelect(flat: any) {
-    this.ratingOwner = 0;
-    this.currentPhotoIndex = 0;
-    this.indexPage = 1;
-    this.choseFlatId = flat.flat.flat_id;
-    this.choseSubscribeService.setChosenFlatId(this.choseFlatId);
-    this.getSubInfo(this.choseFlatId, this.offs);
-    this.checkChatExistence(this.choseFlatId);
+  async onFlatSelect(choseFlatId: any) {
+    this.choseFlatId = choseFlatId; // обираємо айді оселі
+    this.ratingOwner = 0; // оновлюємо рейтинг власника
+    this.currentPhotoIndex = 0; // встановлюємо перше фото оселі
+    this.indexPage = 1; // встановлюємо основну картку оселі
+    this.choseSubscribeService.setChosenFlatId(this.choseFlatId); // передаємо всім компонентам айді оселі яке ми обрали
+    this.selectDiscussion(); // Виводимо інформацію про обрану оселю
+    this.checkChatExistence(this.choseFlatId); // Перевіряємо чи існує чат
   }
 
   // Перемикання Фото в каруселі
@@ -230,29 +237,23 @@ export class SubscribersDiscusComponent implements OnInit {
   // Видалення дискусії
   async deleteSubscriber(flat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/acceptsubs/delete/ysubs';
-
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
-      data: {
-        flatId: flat.flat.flat_id,
-        flatName: flat.flat.flat_name,
-        flatCity: flat.flat.city,
-        flatSub: 'discussio',
-      }
+      data: { flatId: flat.flat.flat_id, flatName: flat.flat.flat_name, flatCity: flat.flat.city, flatSub: 'discussio', }
     });
-
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && flat) {
-        const data = {
-          auth: JSON.parse(userJson),
-          flat_id: flat.flat.flat_id,
-        };
+        const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
         try {
-          const response = await this.http.post(url, data).toPromise();
-          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat.flat_id);
-          this.indexPage = 1;
-          this.chosenFlat = null;
-          this.updateComponent.triggerUpdateUser();
+          const response: any = await this.http.post(serverPath + '/acceptsubs/delete/ysubs', data).toPromise();
+          if (response.status === true) {
+            this.statusMessage = 'Дискусія видалена';
+            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.chosenFlat = null;
+            this.getSubInfo(this.offs);
+          } else {
+            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            setTimeout(() => { this.statusMessage = ''; this.reloadPage(); }, 2000);
+          }
         } catch (error) {
           console.error(error);
         }
@@ -264,77 +265,78 @@ export class SubscribersDiscusComponent implements OnInit {
   async createChat(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.choseFlatId) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: this.choseFlatId,
-      };
-      this.http.post(serverPath + '/chat/add/chatUser', data)
-        .subscribe((response: any) => {
-          if (response.status === true) {
-            this.statusMessage = 'Чат створено';
-            this.getFlatChats();
-            setTimeout(() => {
-              this.statusMessage = '';
-              this.indexPage = 3;
-            }, 1000);
-          } else {
-            this.statusMessageChat = true;
-            console.log('чат вже створено')
+      const data = { auth: JSON.parse(userJson), flat_id: this.choseFlatId, };
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/add/chatUser', data).toPromise();
+        if (response.status === true) {
+          this.statusMessage = 'Створюємо чат';
+          const result = await this.getFlatChats();
+          if (result === 1) {
+            setTimeout(() => { this.openChat(); }, 2000);
+          } else if (result === 0) {
+            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            setTimeout(() => { this.statusMessage = ''; }, 2000);
           }
-        }, (error: any) => {
-          console.error(error);
-        });
+        } else { this.statusMessageChat = true; }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
-      console.log('user or subscriber not found');
+      console.log('Авторизуйтесь');
     }
   }
 
   openOwner() {
     this.statusMessage = 'Представник оселі';
-    setTimeout(() => {
-      this.statusMessage = '';
-      this.onClickMenu(1, 2, 0)
-    }, 1000);
+    setTimeout(() => { this.statusMessage = ''; this.onClickMenu(1, 2, 0) }, 1000);
   }
 
-  openChat() {
-    this.getFlatChats();
-    this.statusMessage = 'Відкриваєм чат';
-    setTimeout(() => {
-      this.statusMessage = '';
-      this.indexPage = 3;
-    }, 1000);
+  async openChat() {
+    try {
+      this.statusMessage = 'Завантажуємо чат...';
+      const result = await this.getFlatChats();
+      if (result === 1) {
+        this.statusMessage = 'Відкриваємо чат';
+        setTimeout(() => { this.statusMessage = ''; this.indexPage = 3; }, 1000);
+      } else if (result === 0) {
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 1000);
+      }
+    } catch (error) {
+      console.error('Помилка при завантаженні чату:', error);
+      this.statusMessage = 'Помилка на сервері, спробуйте пізніше';
+      setTimeout(() => { this.statusMessage = ''; }, 2000);
+    }
   }
 
-  async getFlatChats(): Promise<any> {
-    const url = serverPath + '/chat/get/userchats';
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const data = {
-        auth: JSON.parse(userJson),
-        offs: 0
-      };
-      this.http.post(url, data)
-        .subscribe(async (response: any) => {
+  async getFlatChats(): Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        const data = { auth: JSON.parse(userJson), offs: 0 };
+        this.http.post(serverPath + '/chat/get/userchats', data).subscribe(async (response: any) => {
           if (Array.isArray(response.status) && response.status) {
-            let chat = await Promise.all(response.status.map(async (value: any) => {
+            let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
               let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
               let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-              return {
-                flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message
-              }
-            }))
-            this.chats = chat;
-            localStorage.setItem('userChats', JSON.stringify(this.chats));
+              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message };
+            }));
+            localStorage.setItem('userChats', JSON.stringify(allChatsInfo));
+            this.chats = allChatsInfo;
+            resolve(1);
           } else {
-            console.log('Немає чатів');
+            resolve(0);
           }
         }, (error: any) => {
           console.error(error);
+          reject(error);
         });
-    } else {
-      console.log('Нічого не знайдено');
-    }
+      } else {
+        reject('Нічого не знайдено');
+      }
+    });
   }
 
   // Генерую локацію оселі
@@ -357,34 +359,24 @@ export class SubscribersDiscusComponent implements OnInit {
 
   // Відкриваю локацію на мапі
   openMap() {
-    window.open(this.locationLink, '_blank');
+    this.statusMessage = 'Відкриваємо локаці на мапі';
+    setTimeout(() => { this.statusMessage = ''; window.open(this.locationLink, '_blank'); }, 2000);
   }
 
   // Перевірка на існування чату
   async checkChatExistence(choseFlatId: any): Promise<any> {
-    const url = serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
     if (userJson && choseFlatId) {
-      const data = {
-        auth: JSON.parse(userJson),
-        flat_id: choseFlatId,
-        offs: 0
-      };
+      const data = { auth: JSON.parse(userJson), flat_id: choseFlatId, offs: 0 };
       try {
-        const response = await this.http.post(url, data).toPromise() as any;
+        const response = await this.http.post(serverPath + '/chat/get/userchats', data).toPromise() as any;
         if (choseFlatId && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === choseFlatId);
           this.chatExists = chatExists;
         }
-        else {
-          console.log('чат не існує');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.log('user not found');
-    }
+        else { console.log('чат не існує'); }
+      } catch (error) { console.error(error); }
+    } else { console.log('user not found'); }
   }
 
   // Перегляд статистики комунальних
@@ -399,27 +391,19 @@ export class SubscribersDiscusComponent implements OnInit {
     this.selectedViewComun.setSelectedName(this.selectedViewName);
     this.statusMessage = 'Переходимо до статистики оселі';
     if (this.selectedView) {
-    setTimeout(() => {
-        this.router.navigate(['/housing-services/host-comun/comun-stat-month']);
-      }, 2000);
+      setTimeout(() => { this.router.navigate(['/housing-services/host-comun/comun-stat-month']); }, 2000);
     }
   }
 
   // Отримую загальну кількість дискусій
   async getAcceptSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = serverPath + '/acceptsubs/get/CountYsubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-    };
-
+    const data = { auth: JSON.parse(userJson!) };
     try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
+      const response: any = await this.http.post(serverPath + '/acceptsubs/get/CountYsubs', data).toPromise() as any;
       this.counterFound = response.status;
     }
-    catch (error) {
-      console.error(error)
-    }
+    catch (error) { console.error(error) }
   }
 
   // пагінатор наступна сторінка з картками
@@ -428,7 +412,7 @@ export class SubscribersDiscusComponent implements OnInit {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubInfo(null, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
@@ -439,7 +423,7 @@ export class SubscribersDiscusComponent implements OnInit {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubInfo(null, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
@@ -457,14 +441,9 @@ export class SubscribersDiscusComponent implements OnInit {
   // отримую рейтинг власника оселі
   async getRatingOwner(user_id: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/ownerMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-    };
-
+    const data = { auth: JSON.parse(userJson!), user_id: user_id, };
     try {
-      const response: any = await this.http.post(url, data).toPromise() as any[];
+      const response: any = await this.http.post(serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
       this.numberOfReviews = response.status.length;
       this.reviews = response.status;
       if (this.reviews && Array.isArray(this.reviews)) {
@@ -478,7 +457,6 @@ export class SubscribersDiscusComponent implements OnInit {
       } else {
         this.numberOfReviews = 0;
         this.ratingOwner = response.status.mark;
-        console.log('Власник без оцінок.');
       }
     } catch (error) {
       console.error(error);
@@ -488,17 +466,12 @@ export class SubscribersDiscusComponent implements OnInit {
   async reportHouse(flat: any): Promise<void> {
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
-      // Обробка результату в компоненті
       if (result.status === true) {
         this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
+        setTimeout(() => { this.statusMessage = '' }, 2000);
       } else {
         this.statusMessage = 'Помилка';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
+        setTimeout(() => { this.statusMessage = '' }, 2000);
       }
     });
   }

@@ -4,13 +4,11 @@
 
     <div class="switch-box">
 
-      <div class="hide-pc">
-        <div class="switch-btn-group">
-          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-            <i class="fa-solid fa-arrow-left"></i>
-          </button>
-          <div class="t-min dark bold">Назад</div>
-        </div>
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="t-min dark bold">Назад</div>
       </div>
 
       <div class="switch-btn-group">
@@ -21,8 +19,8 @@
       </div>
 
       <div class="switch-btn-group">
-        <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(1,0,1)"
-          [ngClass]="{ 'active': indexPage == 0}">
+        <button class="btn" [disabled]="!subscriptions" (click)="onClickMenu(1,0,1)"
+          [ngClass]="{ 'active': indexMenu == 1}">
           <i class="fa-solid fa-people-group"></i>
         </button>
         <div class="t-min dark bold">Дискусії</div>
@@ -96,7 +94,7 @@
       </div>
 
       <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions" (click)="onFlatSelect(subscriber)"
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions" (click)="onFlatSelect(subscriber.flat.flat_id)"
           [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
           <div class="card-mini-img-container">
             <img class="card-mini-img"
@@ -140,7 +138,7 @@
       </div>
 
       <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions" (click)="onFlatSelect(subscriber)"
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions" (click)="onFlatSelect(subscriber.flat.flat_id)"
           [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
           <div class="card-mini-img-container">
             <img class="card-mini-img"
@@ -258,7 +256,7 @@
 
                 <button class="btn-panel" *ngIf="!chatExists" (click)="createChat()">
                   <i class="fa-solid fa-message"></i>
-                  <div class="t-min">Повід.</div>
+                  <div class="t-min">Чат.</div>
                 </button>
 
                 <button class="btn-panel" (click)="deleteSubscriber(chosenFlat)">
@@ -535,7 +533,7 @@
       <div [@cardAnimation] class="flex-column-chat" *ngIf="indexPage == 3 && chosenFlat">
         <div class="btn-close-container">
           <div class="btn-close-box">
-            <button class="btn-close" (click)="indexPage = 2"></button>
+            <button class="btn-close" (click)="indexPage = 1"></button>
           </div>
         </div>
         <app-chat-user class="chat"></app-chat-user>

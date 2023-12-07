@@ -70,9 +70,12 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         console.log(this.selectedFlat)
         if (this.selectedFlat) {
           const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
-          const selectChat = userAllChats.filter((item: any) => item.flat_id === flatId);
+          console.log(userAllChats)
+
+          const selectChat = userAllChats.filter((item: any) => item.flat_id === this.selectedFlat);
+          console.log(selectChat)
           this.infoPublic = selectChat.length > 0 ? selectChat : undefined;
-          await this.getMessages(flatId);
+          await this.getMessages(this.selectedFlat);
         } else {
           this.selectedFlat = undefined;
         }
