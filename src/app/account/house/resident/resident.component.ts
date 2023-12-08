@@ -9,7 +9,6 @@ import { DatePipe } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 // переклад календаря
-
 export class Rating {
   constructor(
     public ratingComment: string = '',

@@ -4,6 +4,7 @@ import { ChoseSubscribeService } from '../../../services/chose-subscribe.service
 import { EMPTY, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SendMessageService } from 'src/app/services/send-message.service';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 @Component({
   selector: 'app-chat-user',
@@ -36,6 +37,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
     private sendMessageService: SendMessageService,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -67,13 +69,9 @@ export class ChatUserComponent implements OnInit, OnDestroy {
           this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
         });
         this.selectedFlat = flatId;
-        console.log(this.selectedFlat)
         if (this.selectedFlat) {
           const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
-          console.log(userAllChats)
-
           const selectChat = userAllChats.filter((item: any) => item.flat_id === this.selectedFlat);
-          console.log(selectChat)
           this.infoPublic = selectChat.length > 0 ? selectChat : undefined;
           await this.getMessages(this.selectedFlat);
         } else {
@@ -113,7 +111,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
             } else {
               this.allMessages = [];
             }
-            console.log(this.allMessages)
             this.loading = false;
             return EMPTY;
           }),
@@ -125,10 +122,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       this.currentSubscription = destroy$;
       destroy$.subscribe(() => {
       });
-    } else {
-      console.log('user or subscriber not found');
-      this.loading = false;
-    }
+    } else { console.log('Авторизуйтесь'); this.loading = false; }
   }
 
   async getNewMessages(selectedFlat: any): Promise<void> {
@@ -162,15 +156,13 @@ export class ChatUserComponent implements OnInit, OnDestroy {
                 }
               }))
               this.allMessagesNotRead = c;
-              console.log(this.allMessagesNotRead)
-
               // Перевірка чиє повідомлення непрочитане
               const iHaveMessages = this.allMessagesNotRead.every(message => message.is_read === 1 || message.user_id === null);
               setTimeout(() => {
                 if (iHaveMessages) {
                   this.readMessage(selectedFlat);
                 }
-              }, 3000);
+              }, 500);
             }
             this.interval = setTimeout(() => { this.getNewMessages(selectedFlat) }, 3000);
           },
@@ -216,7 +208,10 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
       };
-      this.http.post(serverPath + '/chat/readMessageUser', data).subscribe();
+      const response: any = this.http.post(serverPath + '/chat/readMessageUser', data).subscribe();
+      if (response) {
+        this.updateComponent.iReadUserMessage();
+      }
     }
   }
 

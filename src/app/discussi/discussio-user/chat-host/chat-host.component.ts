@@ -2,35 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
-
-interface Chat {
-  user_id: string;
-  chat_id: string;
-  flat_id: string;
-  flat_name: string;
-  lastMessage: string;
-  isSelected?: boolean;
-  unread: number;
-
-  infFlat: {
-    imgs: any;
-    flat: string;
-  }
-
-  infUser: {
-    img: any;
-    inf: {
-      firstName: string;
-      lastName: string;
-      surName: string;
-    }
-  }
-
-  instagram: string;
-  telegram: string;
-  viber: string;
-  facebook: string;
-}
+import { Chat } from '../../../interface/info';
 
 @Component({
   selector: 'app-chat-host',

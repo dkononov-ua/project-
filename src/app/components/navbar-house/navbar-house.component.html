@@ -15,7 +15,7 @@
     <a *ngIf="selectedFlatId && acces_flat_chats === 1" class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat'">
       <span class="link-text">Повідомлення</span>
       <div class="link-icon"><i class="fa-regular fa-message"></i></div>
-      <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
+      <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">{{counterHouseNewMessage}}</div>
     </a>
 
     <a *ngIf="selectedFlatId && acces_subs === 1" class="link-menu" [routerLinkActive]="'active'"

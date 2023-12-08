@@ -15,6 +15,7 @@ import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { Subject } from 'rxjs';
+import { CounterService } from 'src/app/services/counter.service';
 
 interface chosenFlat {
   flat: any;
@@ -107,6 +108,7 @@ export class SubscribersDiscusComponent implements OnInit {
   ratingOwner: number = 0;
   chats: Chat[] = [];
   chatsUpdates: number | undefined;
+  counterUserDiscussio: any;
   onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
     this.indexMenu = indexMenu;
     this.indexPage = indexPage;
@@ -132,12 +134,27 @@ export class SubscribersDiscusComponent implements OnInit {
     private router: Router,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
+    private counterService: CounterService
+
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.getSubInfo(this.offs);
-    await this.getAcceptSubsCount();
-    await this.getCurrentPageInfo();
+    await this.getCounterUser();
+  }
+
+  // отримання, кількіст дискусій та запит на якій я сторінці
+  async getCounterUser() {
+    await this.counterService.getUserSubscribersCount();
+    await this.counterService.getUserSubscriptionsCount();
+    await this.counterService.getUserDiscussioCount();
+    this.counterService.counterUserDiscussio$.subscribe(async data => {
+      this.counterUserDiscussio = data;
+      this.counterFound = this.counterUserDiscussio.status;
+      if (this.counterFound) {
+        await this.getCurrentPageInfo();
+      }
+    })
   }
 
   // Отримання та збереження даних всіх дискусій
@@ -162,6 +179,7 @@ export class SubscribersDiscusComponent implements OnInit {
 
   // Виводимо інформацію з локального сховища про обрану оселю
   selectDiscussion() {
+    console.log(this.choseFlatId)
     if (this.choseFlatId) {
       const allDiscussions = JSON.parse(localStorage.getItem('allDiscussions') || '[]');
       if (allDiscussions) {
@@ -249,6 +267,7 @@ export class SubscribersDiscusComponent implements OnInit {
             this.statusMessage = 'Дискусія видалена';
             setTimeout(() => { this.statusMessage = ''; }, 2000);
             this.chosenFlat = null;
+            this.counterService.getUserDiscussioCount();
             this.getSubInfo(this.offs);
           } else {
             this.statusMessage = 'Щось пішло не так, повторіть спробу';
@@ -393,17 +412,6 @@ export class SubscribersDiscusComponent implements OnInit {
     if (this.selectedView) {
       setTimeout(() => { this.router.navigate(['/housing-services/host-comun/comun-stat-month']); }, 2000);
     }
-  }
-
-  // Отримую загальну кількість дискусій
-  async getAcceptSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const data = { auth: JSON.parse(userJson!) };
-    try {
-      const response: any = await this.http.post(serverPath + '/acceptsubs/get/CountYsubs', data).toPromise() as any;
-      this.counterFound = response.status;
-    }
-    catch (error) { console.error(error) }
   }
 
   // пагінатор наступна сторінка з картками

@@ -360,45 +360,14 @@
   height: 73vh;
 }
 
-// .btn-container {
-//   position: absolute;
-//   right: 0;
-//   top: 0;
-//   z-index: 200;
-//   display: flex;
-//   width: 100px;
-//   justify-content: flex-end;
-//   align-items: flex-end;
-//   flex-direction: column;
-
-//   .btn-box {
-//     @include flex-box-column;
-//     .btn {
-//       transition: 0.5s;
-//       margin: 5px 15px;
-//       width: 40px;
-//       height: 40px;
-//       border-radius: 50%;
-//       background-color: $color-white;
-//       &:hover {
-//         background-color: $color-accent;
-//         transform: scale(1.2);
-//       }
-//     }
-//     .btn-name {
-//       font-size: 12px;
-//     }
-//   }
-// }
-
 .btn-container {
   @include flex-box;
   overflow-x: auto;
   background-color: rgba(255, 255, 255, 0.673);
   height: 90px;
   padding: 5px;
-  border: 5px solid $color-white;
-  border-radius: 20px;
+  // border: 5px solid $color-white;
+  border-radius: 20px 20px 0 0;
   position: absolute;
   bottom: 0;
   left: 0;

@@ -5,45 +5,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { forkJoin } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { CloseMenuService } from 'src/app/services/close-menu.service';
-
-interface UserInfo {
-  price_of: number | undefined;
-  price_to: number | undefined;
-  region: string | undefined;
-  city: string | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  area_of: string | undefined;
-  area_to: string | undefined;
-  repair_status: string | undefined;
-  bunker: string | undefined;
-  balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: number;
-  distance_stop: number;
-  distance_green: number;
-  distance_shop: number;
-  distance_parking: number;
-  option_pay: number | undefined;
-  day_counts: string | undefined;
-  purpose_rent: any;
-  house: number | undefined;
-  flat: number | undefined;
-  room: number | undefined;
-  looking_woman: boolean | undefined;
-  looking_man: boolean | undefined;
-  agree_search: number | undefined;
-  students: number | undefined;
-  woman: number | undefined;
-  man: number | undefined;
-  family: number | undefined;
-  days: number | undefined;
-  weeks: number | undefined;
-  mounths: number | undefined;
-  years: number | undefined;
-  about: string | undefined;
-}
-
+import { UserInfo } from '../../../interface/info';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
@@ -58,8 +20,8 @@ interface UserInfo {
   ],
 })
 export class InfoComponent implements OnInit {
-  indexPage: number = 1;
 
+  indexPage: number = 1;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -100,8 +62,20 @@ export class InfoComponent implements OnInit {
     weeks: 0,
     mounths: 0,
     years: 0,
-
     about: '',
+    country: undefined,
+    firstName: undefined,
+    img: undefined,
+    lastName: undefined,
+    user_id: '',
+    surName: '',
+    instagram: '',
+    telegram: '',
+    viber: '',
+    facebook: '',
+    mail: undefined,
+    tell: undefined,
+    dob: undefined
   };
 
   userImg: any;
@@ -110,23 +84,6 @@ export class InfoComponent implements OnInit {
   searchInfoUserData: any;
   ratingTenant: number | undefined;
   ratingOwner: number | undefined;
-
-
-  user = {
-    user_id: '',
-    firstName: '',
-    lastName: '',
-    surName: '',
-    email: '',
-    password: '',
-    dob: '',
-    tell: '',
-    telegram: '',
-    facebook: '',
-    instagram: '',
-    mail: '',
-    viber: '',
-  };
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -157,13 +114,6 @@ export class InfoComponent implements OnInit {
     '3': 'Тільки песики',
   }
 
-  showMenu: boolean = false;
-  userData: any;
-
-  toggleMenu() {
-    this.showMenu = !this.showMenu;
-  }
-
   constructor(
     private dataService: DataService,
     private http: HttpClient,
@@ -181,62 +131,23 @@ export class InfoComponent implements OnInit {
     this.closeMenuService.setCloseMenu(closeMenu);
   }
 
-  // async getInfoUser1(): Promise<any> {
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson) {
-  //     this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
-  //       .subscribe((response: any) => {
-  //         console.log(response)
-  //         this.loading = false;
-  //         this.user.user_id = response.inf?.user_id || '';
-  //         this.user.firstName = response.inf?.firstName || '';
-  //         this.user.lastName = response.inf?.lastName || '';
-  //         this.user.surName = response.inf?.surName || '';
-  //         this.user.email = response.inf?.email || '';
-  //         this.user.password = response.inf?.password || '';
-  //         this.user.dob = response.inf?.dob || '';
-  //         this.user.tell = response.cont?.tell || '';
-  //         this.user.telegram = response.cont?.telegram || '';
-  //         this.user.facebook = response.cont?.facebook || '';
-  //         this.user.instagram = response.cont?.instagram || '';
-  //         this.user.mail = response.cont?.mail || '';
-  //         this.user.viber = response.cont?.viber || '';
-  //         if (response.img && response.img.length > 0) {
-  //           this.userImg = response.img[0].img;
-  //         }
-  //         this.getRating();
-  //         this.getRatingOwner();
-
-  //       }, (error: any) => {
-  //         console.error(error);
-  //         this.loading = false;
-  //       });
-  //   } else {
-  //     console.log('user not found');
-  //     this.loading = false;
-  //   }
-  // };
-
   getInfoUser() {
     this.loading = true;
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.dataService.getInfoUser().subscribe(
         (response: any) => {
-          console.log(response)
-          this.user.user_id = response.inf?.user_id || '';
-          this.user.firstName = response.inf?.firstName || '';
-          this.user.lastName = response.inf?.lastName || '';
-          this.user.surName = response.inf?.surName || '';
-          this.user.email = response.inf?.email || '';
-          this.user.password = response.inf?.password || '';
-          this.user.dob = response.inf?.dob || '';
-          this.user.tell = response.cont?.tell || '';
-          this.user.telegram = response.cont?.telegram || '';
-          this.user.facebook = response.cont?.facebook || '';
-          this.user.instagram = response.cont?.instagram || '';
-          this.user.mail = response.cont?.mail || '';
-          this.user.viber = response.cont?.viber || '';
+          this.userInfo.user_id = response.inf?.user_id || '';
+          this.userInfo.firstName = response.inf?.firstName || '';
+          this.userInfo.lastName = response.inf?.lastName || '';
+          this.userInfo.surName = response.inf?.surName || '';
+          this.userInfo.mail = response.inf?.email || '';
+          this.userInfo.dob = response.inf?.dob || '';
+          this.userInfo.tell = response.cont?.tell || '';
+          this.userInfo.telegram = response.cont?.telegram || '';
+          this.userInfo.facebook = response.cont?.facebook || '';
+          this.userInfo.instagram = response.cont?.instagram || '';
+          this.userInfo.viber = response.cont?.viber || '';
           if (response.img && response.img.length > 0) {
             this.userImg = response.img[0].img;
           }
@@ -319,7 +230,7 @@ export class InfoComponent implements OnInit {
     const url = serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
-      user_id: this.user.user_id,
+      user_id: this.userInfo.user_id,
     };
 
     try {
@@ -333,19 +244,21 @@ export class InfoComponent implements OnInit {
           }
         });
       } else {
-        console.log('Орендар не містить оцінок.');
+        this.ratingTenant = 0;
+        // console.log('Орендар не містить оцінок.');
       }
     } catch (error) {
       console.error(error);
     }
   }
+
   // рейтинг власника
   async getRatingOwner(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/ownerMarks';
     const data = {
       auth: JSON.parse(userJson!),
-      user_id: this.user.user_id,
+      user_id: this.userInfo.user_id,
     };
 
     try {
@@ -359,7 +272,8 @@ export class InfoComponent implements OnInit {
           }
         });
       } else {
-        console.log('Власник не містить оцінок.');
+        this.ratingOwner = 0;
+        // console.log('Власник не містить оцінок.');
       }
     } catch (error) {
       console.error(error);

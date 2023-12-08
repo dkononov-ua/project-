@@ -96,11 +96,15 @@
     ) { }
 
     async ngOnInit(): Promise<void> {
-      await this.getCounterHouse();
       this.getSelectedFlatID();
+      await this.getCounterHouse();
     }
 
     async getCounterHouse () {
+      await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
+      await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
+      await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+
       // кількість підписників
       this.counterService.counterHouseSubscribers$.subscribe(async data => {
         this.counterHouseSubscribers = data;
@@ -174,11 +178,10 @@
           try {
             const response: any = await this.http.post(serverPath + '/subs/delete/subs', data).toPromise();
             if (response.status === true) {
-              this.statusMessage = 'Дискусія видалена';
+              this.statusMessage = 'Підписник видалений';
               setTimeout(() => { this.statusMessage = ''; }, 2000);
-              this.updateComponent.triggerUpdate();
               this.selectedUser = undefined;
-              this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+              this.counterService.getHouseSubscribersCount(this.selectedFlatId);
               this.getSubInfo(this.offs);
             } else {
               this.statusMessage = 'Щось пішло не так, повторіть спробу';
@@ -282,10 +285,12 @@
         this.http.post(serverPath + '/subs/accept', data)
           .subscribe(
             (response: any) => {
-              this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
-              this.updateComponent.triggerUpdate();
+              // this.updateComponent.triggerUpdate();
               this.indexPage = 1;
               this.selectedUser = undefined;
+              this.counterService.getHouseSubscribersCount(this.selectedFlatId);
+              this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+              this.getSubInfo(this.offs);
             },
             (error: any) => { console.error(error); }
           );

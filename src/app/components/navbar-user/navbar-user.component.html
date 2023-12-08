@@ -13,26 +13,26 @@
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
       <span class="link-text">Повідомлення</span>
       <div class="link-icon"><i class="fa-regular fa-message"></i></div>
-      <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
+      <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">{{counterUserNewMessage}}</div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-user'">
       <div class="link-text">Пропозиції<span class="count"
-          *ngIf="counterUserSubs?.status && counterUserSubs?.status !== 0">({{counterUserSubs?.status}}) </span>
+          *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">({{counterUserSubscribers}}) </span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
       <div class="link-text">Вподобання<span class="count"
-          *ngIf="counterUserSubscriptions?.status && counterUserSubscriptions?.status !== 0">({{counterUserSubscriptions?.status}})</span>
+          *ngIf="counterUserSubscriptions && counterUserSubscriptions !== 0">({{counterUserSubscriptions}})</span>
       </div>
       <div class="link-icon"><i class="fa-regular fa-heart"></i></div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
       <div class="link-text">Дискусії <span class="count"
-          *ngIf="counterUserDiscuss?.status && counterUserDiscuss?.status !== 0">({{counterUserDiscuss?.status}})</span>
+          *ngIf="counterUserDiscussio && counterUserDiscussio !== 0">({{counterUserDiscussio}})</span>
       </div>
       <div class="link-icon"><i class="fa-solid fa-person-walking-luggage"></i></div>
     </a>

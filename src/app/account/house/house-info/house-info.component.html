@@ -14,16 +14,16 @@
 
         <div class="status-container">
           <div class="status-box">
-            <div class="status-value" *ngIf="house.rent === 1">Активне</div>
-            <!-- <div class="status-value" *ngIf="house.rent === 0">Не опублікована</div> -->
-            <div class="status-value" *ngIf="house.private === 1">Приватно</div>
+            <div class="status-value" *ngIf="HouseInfo.rent === 1">Активне</div>
+            <!-- <div class="status-value" *ngIf="HouseInfo.rent === 0">Не опублікована</div> -->
+            <div class="status-value" *ngIf="HouseInfo.private === 1">Приватно</div>
           </div>
           <div class="status-hover">
             <div class="status-hover-label">Допомога</div>
             <div class="status-hover-text">
-              <ul *ngIf="house.rent === 1">
+              <ul *ngIf="HouseInfo.rent === 1">
                 Статус оселі:
-                <li *ngIf="house.rent === 1" class="status-hover-li">
+                <li *ngIf="HouseInfo.rent === 1" class="status-hover-li">
                   <div class="status-value">Активне</div> - оголошення опубліковане.
                 </li>
               </ul>
@@ -34,25 +34,25 @@
         <div class="img-container">
           <div class="img-wrapper">
             <img class="img-fluid"
-              [src]="flatImg && flatImg[currentPhotoIndex].img ? serverPathPhotoFlat + flatImg[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+              [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
               alt="Flat Image" alt="Flat Image">
           </div>
-          <div *ngIf="flatImg?.length > 1">
+          <div *ngIf="HouseInfo.photos.length > 1">
             <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
                 class="fa-solid fa-chevron-left"></i></button>
-            <button *ngIf="currentPhotoIndex !== flatImg?.length - 1" class="next-img" (click)="nextPhoto()"><i
+            <button *ngIf="currentPhotoIndex !== HouseInfo.photos.length - 1" class="next-img" (click)="nextPhoto()"><i
                 class="fa-solid fa-chevron-right"></i></button>
           </div>
           <div class="price">
 
-            <div *ngIf="about.option_pay === 0" class="ml-2 price_m">{{
-              about.price_m
+            <div *ngIf="HouseInfo.option_pay === 0" class="ml-2 price_m">{{
+              HouseInfo.price_m
               || '?' }}
               <span class="title-selected">ціна ₴/міс</span>
             </div>
 
-            <div *ngIf="about.option_pay === 1" class="ml-2 price_m">{{
-              about.price_d
+            <div *ngIf="HouseInfo.option_pay === 1" class="ml-2 price_m">{{
+              HouseInfo.price_d
               || '?' }}
               <span class="title-selected">ціна ₴/добу</span>
             </div>
@@ -75,7 +75,7 @@
 
           <div class="btn-group" [ngClass]="{ 'copied': isCopied }" (click)="copyFlatId()">
             <button class="btn">
-              <span class="item" *ngIf="!isCopied">{{ house.flat_id }}</span>
+              <span class="item" *ngIf="!isCopied">{{ HouseInfo.flat_id }}</span>
               <span class="item" *ngIf="isCopied"><i class="fa-solid fa-copy"></i></span>
             </button>
             <div class="btn-name" *ngIf="!isCopied">ID оселі</div>
@@ -88,27 +88,27 @@
 
           <div class="title-group">
             <div class="title-selected">Область : </div>
-            <div class="title-selected-accent">{{ house.region }}</div>
+            <div class="title-selected-accent">{{ HouseInfo.region }}</div>
           </div>
 
           <div class="title-group">
             <div class="title-selected">Місто : </div>
-            <div class="title-selected-accent">{{ house.city }}</div>
+            <div class="title-selected-accent">{{ HouseInfo.city }}</div>
           </div>
 
           <div class="title-group">
             <div class="title-selected">Вулиця : </div>
-            <div class="title-selected-accent">{{ house.street }}</div>
+            <div class="title-selected-accent">{{ HouseInfo.street }}</div>
           </div>
 
           <div class="title-group">
             <div class="title-selected">Будинок : </div>
-            <div class="title-selected-accent">{{ house.houseNumber }}</div>
+            <div class="title-selected-accent">{{ HouseInfo.houseNumber }}</div>
           </div>
 
           <div class="title-group">
             <div class="title-selected">Квартира : </div>
-            <div class="title-selected-accent">{{ house.apartment }}</div>
+            <div class="title-selected-accent">{{ HouseInfo.apartment }}</div>
           </div>
         </div>
 
@@ -118,12 +118,12 @@
     </div>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="houseData">
-      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 1 && house.rent === 1">
+      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 1 && HouseInfo.rent === 1">
         <app-parameters></app-parameters>
       </div>
 
       <div [@cardAnimation] class="stub-card card p-3"
-        *ngIf="indexCard === 1 && house.rent === 0 || house.rent === null">
+        *ngIf="indexCard === 1 && HouseInfo.rent === 0 || HouseInfo.rent === null">
         <a class="stub-card-link" [routerLink]="'/housing-parameters/host/about'">
           <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
           <p class="t-lar accent bold">"Пошуковий профіль оселі вимкнено"</p>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { HouseInfo } from '../../../interface/info';
+
 @Component({
   selector: 'app-parameters',
   templateUrl: './parameters.component.html',
@@ -16,24 +18,9 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 })
 export class ParametersComponent implements OnInit {
   path_logo = path_logo;
-
   serverPath = serverPath;
-  user = {
-    firstName: '',
-    lastName: '',
-    surName: '',
-    email: '',
-    password: '',
-    dob: '',
-    tell: '',
-    telegram: '',
-    facebook: '',
-    instagram: '',
-    mail: '',
-    viber: '',
-  };
 
-  house = {
+  HouseInfo: HouseInfo = {
     flat_id: '',
     country: '',
     region: '',
@@ -42,20 +29,42 @@ export class ParametersComponent implements OnInit {
     houseNumber: '',
     apartment: '',
     flat_index: '',
-    agent_id: '',
-    owner_id: '',
-  };
-
-  param = {
-    region: '',
+    private: 0,
+    rent: 0,
     rooms: '',
     area: '',
     kitchen_area: '',
     repair_status: '',
-    floor: Number(''),
+    floor: '',
     balcony: '',
+    distance_metro: Number(''),
+    distance_stop: Number(''),
+    distance_shop: Number(''),
+    distance_green: Number(''),
+    distance_parking: Number(''),
+    woman: '',
+    man: '',
+    family: '',
+    students: '',
+    animals: Number(''),
+    price_m: '',
+    price_d: '',
+    about: '',
+    bunker: '',
+    option_pay: 0,
+    selectedKitchen_area: '',
+    limit: '',
+    id: 0,
+    name: '',
+    photos: [],
+    img: '',
+    metro: '',
+    price_y: '',
     option_flat: Number(''),
-  };
+    room: Number(''),
+    agent_id: undefined,
+    owner_id: undefined
+  }
 
   options: { [key: number]: string } = {
     0: 'Вибір не зроблено',
@@ -70,7 +79,7 @@ export class ParametersComponent implements OnInit {
     9: 'Веранда',
   }
 
-  aboutDistance: { [key: number]: string } = {
+  aboutDistance: { [key: number]: any } = {
     0: 'Немає',
     5: 'На території будинку',
     100: '100м',
@@ -98,36 +107,10 @@ export class ParametersComponent implements OnInit {
     1: 'Подобово',
   }
 
-  about = {
-    distance_metro: Number(''),
-    distance_stop: Number(''),
-    distance_shop: Number(''),
-    distance_green: Number(''),
-    distance_parking: Number(''),
-    woman: Number(''),
-    man: Number(''),
-    family: Number(''),
-    students: Number(''),
-    animals: Number(''),
-    price_m: Number(''),
-    price_y: Number(''),
-    about: '',
-    bunker: '',
-    option_pay: Number(''),
-    price_d: '',
-    private: '',
-    rent: '',
-    room: Number(''),
-  };
-
   houseData: any;
-  houseInfo: any;
-
   constructor() { }
 
-  ngOnInit(): void {
-    this.loadDataFlat();
-  }
+  ngOnInit(): void { this.loadDataFlat(); }
 
   loadDataFlat(): void {
     const userJson = localStorage.getItem('user');
@@ -135,43 +118,41 @@ export class ParametersComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        this.house.agent_id = parsedHouseData.flat.agent_id;
-        this.house.apartment = parsedHouseData.flat.apartment;
-        this.house.city = parsedHouseData.flat.city;
-        this.house.country = parsedHouseData.flat.country;
-        this.about.distance_green = parsedHouseData.flat.distance_green;
-        this.about.distance_metro = parsedHouseData.flat.distance_metro;
-        this.about.distance_parking = parsedHouseData.flat.distance_parking;
-        this.about.distance_shop = parsedHouseData.flat.distance_shop;
-        this.about.distance_stop = parsedHouseData.flat.distance_stop;
-        this.house.flat_id = parsedHouseData.flat.flat_id;
-        this.house.flat_index = parsedHouseData.flat.flat_index;
-        this.house.houseNumber = parsedHouseData.flat.houseNumber;
-        this.house.owner_id = parsedHouseData.flat.owner_id;
-        this.house.region = parsedHouseData.flat.region;
-        this.house.street = parsedHouseData.flat.street;
-
-        this.param.rooms = parsedHouseData.param.rooms;
-        this.param.repair_status = parsedHouseData.param.repair_status;
-        this.param.area = parsedHouseData.param.area;
-        this.param.kitchen_area = parsedHouseData.param.kitchen_area;
-        this.param.balcony = parsedHouseData.param.balcony;
-        this.param.floor = parsedHouseData.param.floor;
-        this.param.option_flat = parsedHouseData.param.option_flat;
-
-        this.about.about = parsedHouseData.about.about;
-        this.about.animals = parsedHouseData.about.animals;
-        this.about.bunker = parsedHouseData.about.bunker;
-        this.about.family = parsedHouseData.about.family;
-        this.about.man = parsedHouseData.about.man;
-        this.about.option_pay = parsedHouseData.about.option_pay;
-        this.about.price_d = parsedHouseData.about.price_d;
-        this.about.price_m = parsedHouseData.about.price_m;
-        this.about.private = parsedHouseData.about.private;
-        this.about.rent = parsedHouseData.about.rent;
-        this.about.room = parsedHouseData.about.room;
-        this.about.students = parsedHouseData.about.students;
-        this.about.woman = parsedHouseData.about.woman;
+        this.HouseInfo.agent_id = parsedHouseData.flat.agent_id;
+        this.HouseInfo.apartment = parsedHouseData.flat.apartment;
+        this.HouseInfo.city = parsedHouseData.flat.city;
+        this.HouseInfo.country = parsedHouseData.flat.country;
+        this.HouseInfo.distance_green = parsedHouseData.flat.distance_green;
+        this.HouseInfo.distance_metro = parsedHouseData.flat.distance_metro;
+        this.HouseInfo.distance_parking = parsedHouseData.flat.distance_parking;
+        this.HouseInfo.distance_shop = parsedHouseData.flat.distance_shop;
+        this.HouseInfo.distance_stop = parsedHouseData.flat.distance_stop;
+        this.HouseInfo.flat_id = parsedHouseData.flat.flat_id;
+        this.HouseInfo.flat_index = parsedHouseData.flat.flat_index;
+        this.HouseInfo.houseNumber = parsedHouseData.flat.houseNumber;
+        this.HouseInfo.owner_id = parsedHouseData.flat.owner_id;
+        this.HouseInfo.region = parsedHouseData.flat.region;
+        this.HouseInfo.street = parsedHouseData.flat.street;
+        this.HouseInfo.rooms = parsedHouseData.param.rooms;
+        this.HouseInfo.repair_status = parsedHouseData.param.repair_status;
+        this.HouseInfo.area = parsedHouseData.param.area;
+        this.HouseInfo.kitchen_area = parsedHouseData.param.kitchen_area;
+        this.HouseInfo.balcony = parsedHouseData.param.balcony;
+        this.HouseInfo.floor = parsedHouseData.param.floor;
+        this.HouseInfo.option_flat = parsedHouseData.param.option_flat;
+        this.HouseInfo.about = parsedHouseData.about.about;
+        this.HouseInfo.animals = parsedHouseData.about.animals;
+        this.HouseInfo.bunker = parsedHouseData.about.bunker;
+        this.HouseInfo.family = parsedHouseData.about.family;
+        this.HouseInfo.man = parsedHouseData.about.man;
+        this.HouseInfo.option_pay = parsedHouseData.about.option_pay;
+        this.HouseInfo.price_d = parsedHouseData.about.price_d;
+        this.HouseInfo.price_m = parsedHouseData.about.price_m;
+        this.HouseInfo.private = parsedHouseData.about.private;
+        this.HouseInfo.rent = parsedHouseData.about.rent;
+        this.HouseInfo.room = parsedHouseData.about.room;
+        this.HouseInfo.students = parsedHouseData.about.students;
+        this.HouseInfo.woman = parsedHouseData.about.woman;
       } else {
         console.log('Немає інформації про оселю')
       }

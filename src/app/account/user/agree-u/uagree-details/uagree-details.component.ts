@@ -4,40 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
 import { serverPath, path_logo } from 'src/app/config/server-config';
-interface Agree {
-  flat: {
-    agreementDate: string;
-    agreement_id: string;
-    apartment: string;
-    city: string;
-    flat_id: string;
-    houseNumber: string;
-    max_penalty: string;
-    month: number;
-    owner_email: string;
-    owner_firstName: string;
-    owner_id: string;
-    owner_lastName: string;
-    owner_surName: string;
-    owner_tell: string;
-    owner_img: string;
-    penalty: string;
-    price: string;
-    rent_due_data: number;
-    street: string;
-    subscriber_email: string;
-    subscriber_firstName: string;
-    subscriber_id: string;
-    subscriber_lastName: string;
-    subscriber_surName: string;
-    subscriber_tell: string;
-    year: number;
-    area: number;
-    about: string;
-  };
-  img: string[];
-}
-
+import { Agree } from '../../../../interface/info';
 @Component({
   selector: 'app-uagree-details',
   templateUrl: './uagree-details.component.html',

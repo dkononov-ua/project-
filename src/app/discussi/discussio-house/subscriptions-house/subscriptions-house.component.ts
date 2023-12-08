@@ -96,11 +96,14 @@ export class SubscriptionsHouseComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getCounterHouse();
     this.getSelectedFlatID();
+    await this.getCounterHouse();
   }
 
   async getCounterHouse() {
+    await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
+    await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
+    await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
     // кількість підписок
     this.counterService.counterHouseSubscriptions$.subscribe(async data => {
       this.counterHouseSubscriptions = data;
@@ -174,11 +177,11 @@ export class SubscriptionsHouseComponent implements OnInit {
         try {
           const response: any = await this.http.post(serverPath + '/usersubs/delete/subs', data).toPromise();
           if (response.status === true) {
-            this.statusMessage = 'Дискусія видалена';
+            this.statusMessage = 'Підписка видалена';
             setTimeout(() => { this.statusMessage = ''; }, 2000);
-            this.updateComponent.triggerUpdate();
+            // this.updateComponent.triggerUpdate();
             this.selectedUser = undefined;
-            this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+            this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
             this.getSubInfo(this.offs);
           } else {
             this.statusMessage = 'Щось пішло не так, повторіть спробу';

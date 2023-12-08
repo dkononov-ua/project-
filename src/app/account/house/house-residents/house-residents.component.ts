@@ -112,8 +112,6 @@ export class HouseResidentsComponent implements OnInit {
 
     const userObject = JSON.parse(userJson);
     const userId = userObject.user_id;
-    console.log(userId)
-    console.log(subscriber.user_id)
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {
       data: {
         flatId: this.selectedFlatId,
@@ -126,8 +124,6 @@ export class HouseResidentsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result && userId != subscriber.user_id) {
-        console.log(1111)
-
         const data = {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
@@ -143,7 +139,6 @@ export class HouseResidentsComponent implements OnInit {
           }
         );
       } else if (result && userId == subscriber.user_id) {
-        console.log(2222)
         const data = {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,

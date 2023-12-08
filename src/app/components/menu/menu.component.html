@@ -20,7 +20,7 @@
             <div class="t-med t-c">Пропозиції</div>
             <div class="t-min t-c">Користувача
               <span class="accent t-med bold"
-                *ngIf="counterUserSubs?.status && counterUserSubs?.status !== 0">({{counterUserSubs?.status}}) </span>
+                *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">({{counterUserSubscribers}}) </span>
             </div>
           </div>
         </a>
@@ -30,7 +30,7 @@
             <div class="t-med t-c">Вподобання</div>
             <div class="t-min t-c">Користувача
               <span class="accent t-med bold"
-                *ngIf="counterUserSubscriptions?.status && counterUserSubscriptions?.status !== 0">({{counterUserSubscriptions?.status}})</span>
+                *ngIf="counterUserSubscriptions && counterUserSubscriptions !== 0">({{counterUserSubscriptions}})</span>
             </div>
           </div>
         </a>
@@ -40,7 +40,7 @@
             <div class="t-med t-c">Дискусії</div>
             <div class="t-min t-c">Користувача
               <span class="accent t-med bold"
-                *ngIf="counterUserDiscuss?.status && counterUserDiscuss?.status !== 0">({{counterUserDiscuss?.status}})</span>
+                *ngIf="counterUserDiscussio && counterUserDiscussio !== 0">({{counterUserDiscussio}})</span>
             </div>
           </div>
         </a>
@@ -51,6 +51,13 @@
             <div class="t-min t-c">Користувача </div>
           </div>
           <div class="status" *ngIf="agreeNum !== 0">{{agreeNum}}</div>
+        </a>
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
+          <i class="fa-solid fa-user-gear"></i>
+          <div class="flex-column">
+            <div class="t-min t-c">Налаштування</div>
+            <div class="t-med t-c">Аккаунту</div>
+          </div>
         </a>
       </ul>
     </div>
@@ -76,7 +83,7 @@
           <div class="flex-column">
             <div class="t-med t-c">Підписники</div>
             <div class="t-min t-c">Оселі<span class="accent t-med bold"
-                *ngIf="counterSubs?.status && counterSubs?.status !== false && counterSubs?.status !== 0">({{counterSubs?.status}})</span>
+                *ngIf="counterHouseSubscribers && counterHouseSubscribers !== 0">({{counterHouseSubscribers}})</span>
             </div>
           </div>
         </a>
@@ -87,7 +94,7 @@
             <div class="t-med t-c">Підписки</div>
             <div class="t-min t-c">Оселі
               <span class="accent t-med bold"
-                *ngIf="counterSubscriptions?.status && counterSubscriptions?.status !== false && counterSubscriptions?.status !== 0">({{counterSubscriptions?.status}})</span>
+                *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== 0">({{counterHouseSubscriptions}})</span>
             </div>
           </div>
         </a>
@@ -98,22 +105,25 @@
             <div class="flex-column">
               <div class="t-med t-c">Дискусії
               </div>
-              <div class="t-min t-c">Оселі<span class="accent t-med bold" *ngIf="counterAcceptSubs?.status && counterAcceptSubs?.status !== false &&
-                counterAcceptSubs?.status !== 0">({{counterAcceptSubs?.status}})</span></div>
+              <div class="t-min t-c">Оселі<span class="accent t-med bold"
+                  *ngIf="counterHouseDiscussio && counterHouseDiscussio !== 0">({{counterHouseDiscussio}})</span>
+              </div>
             </div>
           </div>
 
 
 
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'" *ngIf="selectedFlatId && acces_agreement === 1">
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'"
+          *ngIf="selectedFlatId && acces_agreement === 1">
           <i class="fa-solid fa-handshake-angle"></i>
           <div class="flex-column">
             <div class="t-med t-c">Угоди</div>
             <div class="t-min t-c">Оселі</div>
           </div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/filling'" *ngIf="selectedFlatId && acces_filling">
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/filling'"
+          *ngIf="selectedFlatId && acces_filling">
           <i class="fa-solid fa-cubes-stacked"></i>
           <div class="flex-column">
             <div class="t-med t-c">Наповнення</div>
@@ -128,13 +138,24 @@
             <div class="t-min t-c">Оселі</div>
           </div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/resident'" *ngIf="selectedFlatId && acces_citizen === 1">
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/resident'"
+          *ngIf="selectedFlatId && acces_citizen === 1">
           <i class="fa-solid fa-people-roof"></i>
           <div class="flex-column">
             <div class="t-med t-c">Мешканці</div>
             <div class="t-min t-c">Оселі</div>
           </div>
         </a>
+
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'"
+          *ngIf="selectedFlatId && acces_flat_features === 1">
+          <i class="fa-solid fa-gear"></i>
+          <div class="flex-column">
+            <div class="t-min t-c">Налаштування</div>
+            <div class="t-med t-c">Оселі</div>
+          </div>
+        </a>
+
       </ul>
     </div>
   </div>
@@ -152,15 +173,18 @@
             <div class="t-med t-c">Повідомлення</div>
             <div class="t-min t-c">Користувача</div>
           </div>
-          <div class="status" *ngIf="unreadUserMessage && unreadUserMessage !== false">{{unreadUserMessage}}</div>
+          <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">{{counterUserNewMessage}}
+          </div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/chat'" *ngIf="selectedFlatId && acces_flat_chats === 1">
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/chat'"
+          *ngIf="selectedFlatId && acces_flat_chats === 1">
           <i class="fa-regular fa-comments"></i>
           <div class="flex-column">
             <div class="t-med t-c">Повідомлення</div>
             <div class="t-min t-c">Оселі</div>
           </div>
-          <div class="status" *ngIf="unreadMessage && unreadMessage !== false">{{unreadMessage}}</div>
+          <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
+            {{counterHouseNewMessage}}</div>
         </a>
       </ul>
     </div>
@@ -180,7 +204,8 @@
             <div class="t-med t-c">Оселі</div>
           </div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'" *ngIf="selectedFlatId && acces_discuss === 1">
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'"
+          *ngIf="selectedFlatId && acces_discuss === 1">
           <i class="fa-solid fa-people-pulling"></i>
           <div class="flex-column">
             <div class="t-min t-c">Пошук</div>
@@ -198,31 +223,6 @@
     </div>
   </div>
 
-  <div class="switch-btn-group">
-    <div class="dropdown">
-      <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-gears"></i>
-      </a>
-      <div class="t-min dark bold">Налашт.</div>
 
-      <ul class="dropdown-menu">
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
-          <i class="fa-solid fa-user-gear"></i>
-          <div class="flex-column">
-            <div class="t-min t-c">Налаштування</div>
-            <div class="t-med t-c">Аккаунту</div>
-          </div>
-        </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'"
-          *ngIf="selectedFlatId && acces_flat_features === 1">
-          <i class="fa-solid fa-gear"></i>
-          <div class="flex-column">
-            <div class="t-min t-c">Налаштування</div>
-            <div class="t-med t-c">Оселі</div>
-          </div>
-        </a>
-      </ul>
-    </div>
-  </div>
 
 </div>

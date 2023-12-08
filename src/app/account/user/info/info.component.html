@@ -18,26 +18,26 @@
 
         <div class="social-link-container">
           <div class="t-min">Посилання на мій:</div>
-          <div class="social-link-box" *ngIf="!user.instagram && !user.facebook && !user.telegram">
+          <div class="social-link-box" *ngIf="!userInfo.instagram && !userInfo.facebook && !userInfo.telegram">
             <p class="text">Посилання на мене відсутні.</p>
             <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
               інформаці</p>
           </div>
 
-          <div class="social-link-box" *ngIf="user.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ user.instagram }}"><i
+          <div class="social-link-box" *ngIf="userInfo.instagram">
+            <a class="social-link-icon" target="_blank" href="{{ userInfo.instagram }}"><i
                 class="fab fa-brands fa-instagram"></i></a>
             <div class="social-link-name">instagram</div>
           </div>
 
-          <div class="social-link-box" *ngIf="user.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ user.facebook }}"><i
+          <div class="social-link-box" *ngIf="userInfo.facebook">
+            <a class="social-link-icon" target="_blank" href="{{ userInfo.facebook }}"><i
                 class="fab fa-brands fa-facebook"></i></a>
             <div class="social-link-name">facebook</div>
           </div>
 
-          <div class="social-link-box" *ngIf="user.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ user.telegram }}"><i
+          <div class="social-link-box" *ngIf="userInfo.telegram">
+            <a class="social-link-icon" target="_blank" href="{{ userInfo.telegram }}"><i
                 class="fab fa-brands fa-telegram"></i></a>
             <div class="social-link-name">telegram</div>
           </div>
@@ -45,12 +45,12 @@
         </div>
 
         <div class="item-wrapper p-3">
-          <div class="item-name">{{ user.lastName }}</div>
-          <div class="item-name">{{ user.firstName }}</div>
-          <div class="item-name">{{ user.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ user.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ user.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ user.mail }}</span></div>
+          <div class="item-name">{{ userInfo.lastName }}</div>
+          <div class="item-name">{{ userInfo.firstName }}</div>
+          <div class="item-name">{{ userInfo.surName }}</div>
+          <div class="item-info">User ID: <span class="accent">{{ userInfo.user_id }}</span></div>
+          <div class="item-info">Телефон: <span class="accent">{{ userInfo.tell }}</span></div>
+          <div class="item-info">Email: <span class="accent">{{ userInfo.mail }}</span></div>
 
           <div class="user-group status-container">
             <div class="user-group-name" *ngIf="ratingOwner">

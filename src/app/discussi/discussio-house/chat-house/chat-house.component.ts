@@ -5,6 +5,7 @@ import { ChoseSubscribersService } from '../../../services/chose-subscribers.ser
 import { EMPTY, Subject, switchMap, take } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SendMessageService } from 'src/app/services/send-message.service';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 interface User {
   user_id: string;
@@ -51,6 +52,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
     private sendMessageService: SendMessageService,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -204,7 +206,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
                 if (iHaveMessages) {
                   this.readMessage();
                 }
-              }, 3000);
+              }, 500);
             }
             this.interval = setTimeout(() => { this.getNewMessages() }, 3000);
           },
@@ -253,7 +255,10 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         flat_id: this.selectedFlatId,
         user_id: this.selectedSubscriberID,
       };
-      this.http.post(serverPath + '/chat/readMessageFlat', data).subscribe();
+      const response: any = this.http.post(serverPath + '/chat/readMessageFlat', data).subscribe();
+      if (response) {
+        this.updateComponent.iReadHouseMessage();
+      }
     }
   }
 

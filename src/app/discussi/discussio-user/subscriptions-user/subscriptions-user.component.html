@@ -1,7 +1,5 @@
 <div class="container-box">
-
   <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12">
-
     <div class="switch-box">
 
       <div class="switch-btn-group">
@@ -36,7 +34,6 @@
       </div>
 
     </div>
-
     <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
 
       <div class="param-box">
@@ -63,15 +60,13 @@
 
       </div>
     </div>
-
-
     <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
       <div class="paginator-container">
         <button class="paginator-btn" (click)="decrementOffset()">
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
+          <div class="t-min">Всього {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -103,11 +98,9 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="card-box mt-3 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="counterFound !== 0 && indexMenu == 1">
-
     <!-- всі картки для мобільного -->
     <div [@cardAnimation] class="card-animation hide-pc" *ngIf="indexPage == 0 && indexMenuMobile == 1">
       <div class="paginator-container">
@@ -115,7 +108,7 @@
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
+          <div class="t-min">Всього {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
@@ -147,7 +140,6 @@
         </div>
       </div>
     </div>
-
     <!-- інформація про оселю -->
     <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && chosenFlat">
       <div class="card">
@@ -220,14 +212,6 @@
 
             <div class="btn-container">
 
-              <button class="btn-panel" *ngIf="ratingOwner" (click)="indexPage = 4">
-                <div class="flex-box">
-                  <div class="t-lar bold">{{ratingOwner}}</div>
-                  <div class="t-min">({{numberOfReviews}})</div>
-                </div>
-                <div class="t-min">Рейтинг</div>
-              </button>
-
               <button class="btn-panel" (click)="deleteSubscriber(chosenFlat)">
                 <i class="fa-solid fa-user-xmark"></i>
                 <div class="t-min">Видал.</div>
@@ -289,20 +273,6 @@
             </div>
           </div>
 
-          <div class="item-box m-1" *ngIf="chosenFlat.flat.street">
-            <div mat-raised-button class="param-g flex-column">
-              <div class="bg-g t-lar bold">{{ chosenFlat.flat.street }}</div>
-              <div class="t-min bg-w">Вулиця</div>
-            </div>
-          </div>
-
-          <div class="item-box m-1" *ngIf="chosenFlat.flat.houseNumber">
-            <div mat-raised-button class="param-g flex-column">
-              <div class="w-100 bg-g t-lar-x bold">{{ chosenFlat.flat.houseNumber }}</div>
-              <div class="t-min bg-w">Будинок</div>
-            </div>
-          </div>
-
         </div>
 
         <div class="p-2">
@@ -319,7 +289,7 @@
               </div>
 
               <div class="param-field" *ngIf="chosenFlat.flat.street">
-                Вулиця:<span class="param-value">{{ chosenFlat.flat.street }} </span>
+                Вулиця:<span class="param-value">{{ chosenFlat.flat.street }} {{ chosenFlat.flat.houseNumber }}</span>
               </div>
             </div>
           </div>
@@ -418,11 +388,11 @@
 
       </div>
     </div>
-
   </div>
+</div>
 
-  <div *ngIf="statusMessage" class="status-message">
-    <div class="status-message-text">{{ statusMessage }}</div>
-    <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-    <div class="status-message-name">Discussio</div>
-  </div>
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

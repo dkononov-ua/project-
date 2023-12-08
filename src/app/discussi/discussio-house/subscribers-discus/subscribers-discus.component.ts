@@ -98,12 +98,15 @@ export class SubscribersDiscusComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getCounterHouse();
     this.getSelectedFlatID();
+    await this.getCounterHouse();
   }
 
   // отримання, кількіст дискусій та запит на якій я сторінці
   async getCounterHouse() {
+    await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
+    await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
+    await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
     this.counterService.counterHouseDiscussio$.subscribe(async data => {
       this.counterHouseDiscussio = data;
       this.counterFound = this.counterHouseDiscussio.status;

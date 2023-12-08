@@ -1,41 +1,41 @@
 <div class="status-container">
   <div class="status-box">
-    <div class="status-value" *ngIf="about.room === 1">К</div>
-    <div class="status-value" *ngIf="param.option_flat === 1">Будинок</div>
-    <div class="status-value" *ngIf="param.option_flat === 2">Кв</div>
-    <div class="status-value" *ngIf="about.woman === 1">W</div>
-    <div class="status-value" *ngIf="about.man === 1">M</div>
-    <div class="status-value" *ngIf="about.students === 1">S</div>
-    <div class="status-value" *ngIf="about.family === 1">F</div>
+    <div class="status-value" *ngIf="HouseInfo.room === 1">К</div>
+    <div class="status-value" *ngIf="HouseInfo.option_flat === 1">Будинок</div>
+    <div class="status-value" *ngIf="HouseInfo.option_flat === 2">Кв</div>
+    <div class="status-value" *ngIf="HouseInfo.woman === 1">W</div>
+    <div class="status-value" *ngIf="HouseInfo.man === 1">M</div>
+    <div class="status-value" *ngIf="HouseInfo.students === 1">S</div>
+    <div class="status-value" *ngIf="HouseInfo.family === 1">F</div>
   </div>
   <div class="status-hover">
     <div class="status-hover-label">Допомога</div>
     <div class="status-hover-text">
-      <ul *ngIf="about.woman === 1 || about.man === 1 || about.students === 1 || about.family === 1">
+      <ul *ngIf="HouseInfo.woman === 1 || HouseInfo.man === 1 || HouseInfo.students === 1 || HouseInfo.family === 1">
         Пошук орендара:
-        <li *ngIf="about.woman === 1" class="status-hover-li">
+        <li *ngIf="HouseInfo.woman === 1" class="status-hover-li">
           <div class="status-value">W</div> - жінки
         </li>
-        <li *ngIf="about.man === 1" class="status-hover-li">
+        <li *ngIf="HouseInfo.man === 1" class="status-hover-li">
           <div class="status-value">M</div> - чоловіка
         </li>
-        <li *ngIf="about.students === 1" class="status-hover-li">
+        <li *ngIf="HouseInfo.students === 1" class="status-hover-li">
           <div class="status-value">S</div> - студента
         </li>
-        <li *ngIf="about.family === 1" class="status-hover-li">
+        <li *ngIf="HouseInfo.family === 1" class="status-hover-li">
           <div class="status-value">F</div> - сім'ї
         </li>
       </ul>
 
-      <ul *ngIf="param.option_flat || about.room === 1">
+      <ul *ngIf="HouseInfo.option_flat || HouseInfo.room === 1">
         Здаю оселю, тип оселі:
-        <li *ngIf="param.option_flat === 1" class="status-hover-li">
+        <li *ngIf="HouseInfo.option_flat === 1" class="status-hover-li">
           <div class="status-value">Б</div> - Будинок
         </li>
-        <li *ngIf="param.option_flat === 2" class="status-hover-li">
+        <li *ngIf="HouseInfo.option_flat === 2" class="status-hover-li">
           <div class="status-value">Кв</div> - Квартира
         </li>
-        <li *ngIf="about.room === 1" class="status-hover-li">
+        <li *ngIf="HouseInfo.room === 1" class="status-hover-li">
           <div class="status-value">К</div> - Кімната
         </li>
       </ul>
@@ -53,56 +53,56 @@
 
   <div class="param-label">Параметри оселі:</div>
   <div class="param-group">
-    <div class="param-field" *ngIf="param.option_flat">
-      <div *ngIf="about.room === 1">
+    <div class="param-field" *ngIf="HouseInfo.option_flat">
+      <div *ngIf="HouseInfo.room === 1">
         Здаю:<span class="param-value"> Кімнату </span>
       </div>
 
-      <div *ngIf="param.option_flat === 1">
+      <div *ngIf="HouseInfo.option_flat === 1">
         Тип оселі:<span class="param-value"> Будинок </span>
       </div>
 
-      <div *ngIf="param.option_flat === 2">
+      <div *ngIf="HouseInfo.option_flat === 2">
         Тип оселі:<span class="param-value"> Квартира </span>
       </div>
     </div>
 
 
-    <div class="param-field" *ngIf="param.area !== 'Приховати' && param.area !== null">
-      Площа:<span class="param-value">{{ param.area }}м²</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.area !== 'Приховати' && HouseInfo.area !== null">
+      Площа:<span class="param-value">{{ HouseInfo.area }}м²</span> </div>
 
-    <div class="param-field" *ngIf="param.repair_status !== 'Приховати' && param.repair_status !== null">Стан
-      оселі:<span class="param-value">{{ param.repair_status }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.repair_status !== 'Приховати' && HouseInfo.repair_status !== null">Стан
+      оселі:<span class="param-value">{{ HouseInfo.repair_status }}</span> </div>
 
-    <div class="param-field" *ngIf="param.rooms !== 'Приховати' && param.rooms !== null">
-      Кімнат:<span class="param-value">{{ param.rooms }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.rooms !== 'Приховати' && HouseInfo.rooms !== null">
+      Кімнат:<span class="param-value">{{ HouseInfo.rooms }}</span> </div>
 
-    <div class="param-field" *ngIf="param.floor !== 0 && param.floor !== null">Поверх:<span class="param-value">{{
-        param.floor }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.floor && HouseInfo.floor !== null">Поверх:<span class="param-value">{{
+        HouseInfo.floor }}</span> </div>
 
-    <div class="param-field" *ngIf="param.balcony">Тип
-      балкону:<span class="param-value">{{ param.balcony }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.balcony">Тип
+      балкону:<span class="param-value">{{ HouseInfo.balcony }}</span> </div>
 
-    <div class="param-field" *ngIf="param.kitchen_area !== 'Приховати' && param.kitchen_area !== null">Площа
-      кухні:<span class="param-value">{{ param.kitchen_area }}м²</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.kitchen_area !== 'Приховати' && HouseInfo.kitchen_area !== null">Площа
+      кухні:<span class="param-value">{{ HouseInfo.kitchen_area }}м²</span> </div>
 
   </div>
 </div>
 
 <div class="param-box"
-  *ngIf="about.distance_metro || about.distance_stop || about.distance_shop || about.distance_green || about.distance_parking">
+  *ngIf="HouseInfo.distance_metro || HouseInfo.distance_stop || HouseInfo.distance_shop || HouseInfo.distance_green || HouseInfo.distance_parking">
   <div class="param-label">Інфраструктура:</div>
   <div class="param-group">
-    <div class="param-field" *ngIf="about.distance_metro !== 0 && about.distance_metro !== null">Метро
-      до:<span class="param-value">{{ aboutDistance[about.distance_metro] }}</span> </div>
-    <div class="param-field" *ngIf="about.distance_stop !== 0 && about.distance_stop !== null">Зупинка
-      до:<span class="param-value">{{ aboutDistance[about.distance_stop] }}</span> </div>
-    <div class="param-field" *ngIf="about.distance_shop !== 0 && about.distance_shop !== null">Маркет
-      до:<span class="param-value">{{ aboutDistance[about.distance_shop] }}</span> </div>
-    <div class="param-field" *ngIf="about.distance_green !== 0 && about.distance_green !== null">Парк
-      до:<span class="param-value">{{ aboutDistance[about.distance_green] }}</span> </div>
-    <div class="param-field" *ngIf="about.distance_parking !== 0 && about.distance_parking !== null">
-      Паркінг до:<span class="param-value">{{ aboutDistance[about.distance_parking] }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.distance_metro && HouseInfo.distance_metro !== null">Метро
+      до:<span class="param-value">{{ aboutDistance[HouseInfo.distance_metro] }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.distance_stop && HouseInfo.distance_stop !== null">Зупинка
+      до:<span class="param-value">{{ aboutDistance[HouseInfo.distance_stop] }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.distance_shop && HouseInfo.distance_shop !== null">Маркет
+      до:<span class="param-value">{{ aboutDistance[HouseInfo.distance_shop] }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.distance_green && HouseInfo.distance_green !== null">Парк
+      до:<span class="param-value">{{ aboutDistance[HouseInfo.distance_green] }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.distance_parking && HouseInfo.distance_parking !== null">
+      Паркінг до:<span class="param-value">{{ aboutDistance[HouseInfo.distance_parking] }}</span> </div>
   </div>
 </div>
 
@@ -110,17 +110,17 @@
   <div class="param-label">Особливості:</div>
   <div class="param-group">
 
-    <div class="param-field" *ngIf="about.option_pay !== null">Оплата:<span class="param-value">{{
-        option_pay[about.option_pay] }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.option_pay !== null">Оплата:<span class="param-value">{{
+        option_pay[HouseInfo.option_pay] }}</span> </div>
 
-    <div class="param-field" *ngIf="about.bunker !== 'Приховати' && about.bunker !== null">Наявність
-      укриття:<span class="param-value">{{ about.bunker }}</span> </div>
-    <div class="param-field" *ngIf="about.animals !== 0 && about.animals !== null">Дозвіл на тварин: <span
-        class="param-value">{{ animals[about.animals] }} </span> </div>
+    <div class="param-field" *ngIf="HouseInfo.bunker !== 'Приховати' && HouseInfo.bunker !== null">Наявність
+      укриття:<span class="param-value">{{ HouseInfo.bunker }}</span> </div>
+    <div class="param-field" *ngIf="HouseInfo.animals && HouseInfo.animals !== null">Дозвіл на тварин: <span
+        class="param-value">{{ animals[HouseInfo.animals] }} </span> </div>
   </div>
 </div>
 
-<div class="p-2" *ngIf="about.about">
+<div class="p-2" *ngIf="HouseInfo.about">
   <div class="t-lar dark bold">Додаткова інформація:</div>
-  <div class="t-min ">{{ about.about }}</div>
+  <div class="t-min ">{{ HouseInfo.about }}</div>
 </div>

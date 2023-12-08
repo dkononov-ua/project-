@@ -62,7 +62,7 @@
             </div>
           </div>
 
-          <div class="deskr-box">
+          <!-- <div class="deskr-box">
 
             <div class="data-box flex-box-row" *ngIf="user.years">
               <div class="t-min bg-w t-c">{{ user.years }}</div>
@@ -84,7 +84,7 @@
               <div class="t-min bg-g">Дні</div>
             </div>
 
-          </div>
+          </div> -->
         </a>
       </div>
 
@@ -193,6 +193,38 @@
 
           <div class="flex-box">
 
+            <div class="item-box" *ngIf="selectedUser.region">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold">{{ selectedUser.region }}</div>
+                <div class="t-min">Область</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.city">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold">{{ selectedUser.city }}</div>
+                <div class="t-min">Місто</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.price_of">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold accent">{{ selectedUser.price_of }}₴</div>
+                <div class="t-min">Бюджет від</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedUser.price_to">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold accent">{{ selectedUser.price_to }}₴</div>
+                <div class="t-min">Бюджет до</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="flex-box">
+
             <div class="item-box" *ngIf="selectedUser.purpose_rent">
               <div mat-raised-button class="param-g flex-column">
                 <div class="bg-g t-lar bold">{{ purpose[selectedUser.purpose_rent] }}</div>
@@ -207,21 +239,7 @@
               </div>
             </div>
 
-            <div class="item-box" *ngIf="selectedUser.region">
-              <div mat-raised-button class="param-g flex-column">
-                <div class="bg-g t-lar bold">{{ selectedUser.region }}</div>
-                <div class="t-min bg-w">Область</div>
-              </div>
-            </div>
-
-            <div class="item-box" *ngIf="selectedUser.city">
-              <div mat-raised-button class="param-g flex-column">
-                <div class="bg-g t-lar bold">{{ selectedUser.city }}</div>
-                <div class="t-min bg-w">Місто</div>
-              </div>
-            </div>
-
-            <div class="item-box" *ngIf="selectedUser.price_of">
+            <!-- <div class="item-box" *ngIf="selectedUser.price_of">
               <div mat-raised-button class="param-g flex-column">
                 <div class="bg-g t-lar bold" *ngIf="selectedUser.price_of">{{ selectedUser.price_of }}₴</div>
                 <div class="t-min bg-w">Бюджет від</div>
@@ -233,7 +251,7 @@
                 <div class="bg-g t-lar bold">{{ selectedUser.price_to }}₴</div>
                 <div class="t-min bg-w">Бюджет до</div>
               </div>
-            </div>
+            </div> -->
 
 
           </div>

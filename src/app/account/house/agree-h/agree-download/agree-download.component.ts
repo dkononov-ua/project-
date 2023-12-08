@@ -63,9 +63,11 @@ export class AgreeDownloadComponent implements OnInit {
 
     try {
       const response = (await this.http.post(url, data).toPromise()) as any[];
-      const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedFlatAgree);
-      console.log(selectedAgreement)
-      return selectedAgreement || null;
+      if (response) {
+        const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedFlatAgree);
+        console.log(selectedAgreement)
+        return selectedAgreement || null;
+      } 
     } catch (error) {
       console.error(error);
       return null;

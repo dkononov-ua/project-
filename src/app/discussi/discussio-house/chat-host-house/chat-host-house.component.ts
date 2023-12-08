@@ -3,30 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/co
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
-
-interface Chat {
-  user_id: string;
-  chat_id: string;
-  flat_id: string;
-  isSelected?: boolean;
-  lastMessage: string;
-  unread: number;
-  infFlat: {
-    imgs: string;
-  }
-  infUser: {
-    img: any;
-    inf: {
-      firstName: string;
-      lastName: string;
-      surName: string;
-    }
-  }
-  instagram: string;
-  telegram: string;
-  viber: string;
-  facebook: string;
-}
+import { Chat } from '../../../interface/info';
 
 @Component({
   selector: 'app-chat-host-house',

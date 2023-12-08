@@ -13,6 +13,7 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
+import { CounterService } from 'src/app/services/counter.service';
 
 interface chosenFlat {
   flat: any;
@@ -69,6 +70,7 @@ export class SubscribersUserComponent implements OnInit {
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
   ratingOwner: number = 0;
+  counterUserSubscribers: any;
   onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
     this.indexMenu = indexMenu;
     this.indexPage = indexPage;
@@ -94,46 +96,46 @@ export class SubscribersUserComponent implements OnInit {
     private router: Router,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
+    private counterService: CounterService
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getSubInfo(null, this.offs);
-    await this.getSubsCount();
-    await this.getCurrentPageInfo();
+    this.getSubInfo(this.offs);
+    await this.getCounterUser();
   }
 
-  // Отримання даних всіх дискусій
-  async getSubInfo(flatId: any, offs: number): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/usersubs/get/subs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      offs: offs,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      if (response[0]) {
-        this.subscriptions = response;
-        if (flatId) {
-          const chosenFlat = response.find((flat: any) => flat.flat.flat_id === flatId);
-          if (chosenFlat) {
-            this.chosenFlat = chosenFlat;
-            this.getRatingOwner(this.chosenFlat?.owner.user_id);
-            this.generateLocationUrl();
-          } else {
-            console.log('Немає інформації');
-          }
-        } else {
-          this.onFlatSelect(response[0]);
-        }
-      } else {
-        console.log('Немає дискусій');
+  // отримання, кількості підписників та запит на якій я сторінці
+  async getCounterUser() {
+    await this.counterService.getUserSubscribersCount();
+    await this.counterService.getUserSubscriptionsCount();
+    await this.counterService.getUserDiscussioCount();
+    this.counterService.counterUserSubscribers$.subscribe(async data => {
+      this.counterUserSubscribers = data;
+      this.counterFound = this.counterUserSubscribers.status;
+      if (this.counterFound) {
+        await this.getCurrentPageInfo();
       }
-    } catch (error) {
-      console.error(error);
+    })
+  }
+
+  // Отримання даних всіх підписників
+  async getSubInfo(offs: number): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), offs: offs, };
+    try {
+      const response = await this.http.post(serverPath + '/usersubs/get/subs', data).toPromise() as any[];
+      if (response) { this.subscriptions = response; } else { this.subscriptions = []; }
+    } catch (error) { console.error(error); }
+  }
+
+  selectedHouse() {
+    if (this.choseFlatId) {
+      const chosenFlat = this.subscriptions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
+      if (chosenFlat) {
+        this.chosenFlat = chosenFlat;
+        this.getRatingOwner(this.chosenFlat?.owner.user_id);
+        this.generateLocationUrl();
+      } else { this.chosenFlat = null; console.log('Немає інформації'); }
     }
   }
 
@@ -144,112 +146,70 @@ export class SubscribersUserComponent implements OnInit {
     this.indexPage = 1;
     this.choseFlatId = flat.flat.flat_id;
     this.choseSubscribeService.setChosenFlatId(this.choseFlatId);
-    this.getSubInfo(this.choseFlatId, this.offs);
+    this.selectedHouse();
   }
 
   // Перемикання Фото в каруселі
-  prevPhoto() {
-    this.currentPhotoIndex--;
-  }
-
-  nextPhoto() {
-    this.currentPhotoIndex++;
-  }
+  prevPhoto() { this.currentPhotoIndex--; }
+  nextPhoto() { this.currentPhotoIndex++; }
 
   // Копіювання параметрів
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)
         .then(() => {
-          this.isCopiedMessage = message;
-          setTimeout(() => {
-            this.isCopiedMessage = '';
-          }, 2000);
+          this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000);
         })
-        .catch((error) => {
-          this.isCopiedMessage = '';
-        });
+        .catch((error) => { this.isCopiedMessage = ''; });
     }
   }
 
-  copyFlatId() {
-    this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано');
-  }
-  copyOwnerId() {
-    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано');
-  }
-  copyTell() {
-    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Телефон скопійовано');
-  }
-  copyMail() {
-    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано');
-  }
+  copyFlatId() { this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано'); }
+  copyOwnerId() { this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано'); }
+  copyTell() { this.copyToClipboard(this.chosenFlat?.owner.tell, 'Телефон скопійовано'); }
+  copyMail() { this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано'); }
 
   // Перезавантаження сторінки з лоадером
-  reloadPage() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 500);
-  }
+  reloadPage() { this.loading = true; setTimeout(() => { location.reload(); }, 500); }
 
   // Ухвалення до дискусії
   async approveSubscriber(choseFlatId: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const user_id = JSON.parse(userJson!).email;
     if (userJson) {
-      const data = {
-        auth: JSON.parse(userJson!),
-        user_id: user_id,
-        flat_id: choseFlatId,
-      };
-
-      this.http.post(serverPath + '/usersubs/accept', data)
-        .subscribe(
-          (response: any) => {
-            this.subscriptions = this.subscriptions.filter(subscriber => subscriber.flat_id !== choseFlatId);
-            this.indexPage = 1;
-            this.chosenFlat = null;
-            this.updateComponent.triggerUpdateUser();
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('user or subscriber not found');
-    }
+      const data = { auth: JSON.parse(userJson!), flat_id: choseFlatId, };
+      const response: any = await this.http.post(serverPath + '/usersubs/accept', data).toPromise();
+      if (response.status == true) {
+        this.statusMessage = 'Ухвалено до дискусії'
+        this.chosenFlat = null;
+        this.counterService.getUserDiscussioCount();
+        this.counterService.getUserSubscribersCount();
+        this.getSubInfo(this.offs);
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      } else { this.statusMessage = 'Помилка', this.reloadPage; }
+      (error: any) => { this.statusMessage = 'Помилка', setTimeout(() => { this.reloadPage }, 2000); console.error(error); }
+    } else { console.log('Авторизуйтесь'); }
   }
 
-  // Видалення дискусії
+  // Видалення підписника
   async deleteSubscriber(flat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/usersubs/delete/ysubs';
-
     const dialogRef = this.dialog.open(DeleteSubsComponent, {
-      data: {
-        flatId: flat.flat.flat_id,
-        flatName: flat.flat.flat_name,
-        flatCity: flat.flat.city,
-        flatSub: 'subscribers',
-      }
+      data: { flatId: flat.flat.flat_id, flatName: flat.flat.flat_name, flatCity: flat.flat.city, flatSub: 'subscribers', }
     });
 
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && flat) {
-        const data = {
-          auth: JSON.parse(userJson),
-          flat_id: flat.flat.flat_id,
-        };
+        const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
         try {
-          const response = await this.http.post(url, data).toPromise();
-          this.subscriptions = this.subscriptions.filter(item => item.flat_id !== flat.flat.flat_id);
-          this.indexPage = 1;
-          this.chosenFlat = null;
-          this.updateComponent.triggerUpdateUser();
-        } catch (error) {
-          console.error(error);
-        }
+          const response: any = await this.http.post(serverPath + '/usersubs/delete/ysubs', data).toPromise();
+          if (response.status === true) {
+            this.statusMessage = 'Підписника видалено'
+            this.chosenFlat = null;
+            this.counterService.getUserSubscribersCount();
+            this.getSubInfo(this.offs);
+            setTimeout(() => { this.statusMessage = ''; }, 2000);
+          } else { this.statusMessage = 'Помилка', this.reloadPage; }
+        } catch (error) { this.statusMessage = 'Помилка на сервері', this.reloadPage; console.error(error); }
       }
     });
   }
@@ -273,26 +233,7 @@ export class SubscribersUserComponent implements OnInit {
   }
 
   // Відкриваю локацію на мапі
-  openMap() {
-    window.open(this.locationLink, '_blank');
-  }
-
-  // Отримую загальну кількість дискусій
-  async getSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/usersubs/get/CountYUserSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-    };
-
-    try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
-      this.counterFound = response.status;
-    }
-    catch (error) {
-      console.error(error)
-    }
-  }
+  openMap() { window.open(this.locationLink, '_blank'); }
 
   // пагінатор наступна сторінка з картками
   incrementOffset() {
@@ -300,7 +241,7 @@ export class SubscribersUserComponent implements OnInit {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubInfo(null, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
@@ -311,7 +252,7 @@ export class SubscribersUserComponent implements OnInit {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
-      this.getSubInfo(null, this.offs);
+      this.getSubInfo(this.offs);
     }
     this.getCurrentPageInfo()
   }
@@ -329,14 +270,9 @@ export class SubscribersUserComponent implements OnInit {
   // отримую рейтинг власника оселі
   async getRatingOwner(user_id: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/ownerMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-    };
-
+    const data = { auth: JSON.parse(userJson!), user_id: user_id, };
     try {
-      const response: any = await this.http.post(url, data).toPromise() as any[];
+      const response: any = await this.http.post(serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
       this.numberOfReviews = response.status.length;
       this.reviews = response.status;
       if (this.reviews && Array.isArray(this.reviews)) {
@@ -350,29 +286,19 @@ export class SubscribersUserComponent implements OnInit {
       } else {
         this.numberOfReviews = 0;
         this.ratingOwner = response.status.mark;
-        console.log('Власник без оцінок.');
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) { console.error(error); }
   }
 
   async reportHouse(flat: any): Promise<void> {
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
-      // Обробка результату в компоненті
       if (result.status === true) {
         this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      } else {
-        this.statusMessage = 'Помилка';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      }
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
     });
   }
+
 }
 

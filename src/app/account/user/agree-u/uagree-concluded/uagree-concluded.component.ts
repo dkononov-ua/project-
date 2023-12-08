@@ -2,42 +2,7 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
-interface Agree {
-  flat: {
-    agreementDate: string;
-    agreement_id: string;
-    apartment: string;
-    city: string;
-    flat_id: string;
-    houseNumber: string;
-    max_penalty: string;
-    month: number;
-    owner_email: string;
-    owner_firstName: string;
-    owner_id: string;
-    owner_lastName: string;
-    owner_surName: string;
-    owner_tell: string;
-    owner_img: string;
-    penalty: string;
-    price: string;
-    rent_due_data: number;
-    street: string;
-    subscriber_email: string;
-    subscriber_firstName: string;
-    subscriber_id: string;
-    subscriber_lastName: string;
-    subscriber_surName: string;
-    subscriber_tell: string;
-    year: number;
-    area: number;
-    dateAgreeStart: string;
-    dateAgreeEnd: string;
-    subscriber_img: string;
-  };
-  img: string[];
-  exists: any;
-}
+import { Agree } from '../../../../interface/info';
 @Component({
   selector: 'app-uagree-concluded',
   templateUrl: './uagree-concluded.component.html',

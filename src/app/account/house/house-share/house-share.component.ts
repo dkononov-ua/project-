@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath } from 'src/app/config/server-config';
-
-
 interface FlatInfo {
   osbb_name: string | undefined;
   osbb_phone: string | undefined;
