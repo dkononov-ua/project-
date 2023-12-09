@@ -9,17 +9,58 @@
     <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
 
       <div class="card">
-        <div class="t-lar bold t-c hide-pc">Профіль користувача</div>
 
-        <div class="img-fluid">
-          <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="User Image"
-            (error)="useDefaultImage($event)">
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
+
+        <div class="container-img">
+          <div class="wrapper-img">
+            <img class="img-fluid" [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="img">
+            <div class="panel-container">
+              <div class="wrapper">
+
+                <button class="btn-panel" *ngIf="ratingTenant">
+                  <div class="flex-box">
+                    <div class="t-lar bold">{{ratingTenant}}</div>
+                  </div>
+                  <div class="t-min">Рейтинг орендара</div>
+                </button>
+
+                <button class="btn-panel" *ngIf="ratingOwner">
+                  <div class="flex-box">
+                    <div class="t-lar bold">{{ratingOwner}}</div>
+                  </div>
+                  <div class="t-min">Рейтинг власника</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyTell()" *ngIf="userInfo.tell"><i class="fa-solid fa-phone"></i>
+                  <div class="t-min">Телефон</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyId()"><i class="fa-solid fa-fingerprint"></i>
+                  <div class="t-min">ID</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyMail()" *ngIf="userInfo.mail"><i class="fa-solid fa-at"></i>
+                  <div class="t-min">Пошта</div>
+                </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-column">
+          <div class="t-lar-xx bold t-c flex-box">{{ userInfo.lastName }} {{ userInfo.firstName }}</div>
+          <div class="t-lar t-c">{{ userInfo.surName }}</div>
         </div>
 
         <div class="social-link-container">
-          <div class="t-min">Посилання на мій:</div>
           <div class="social-link-box" *ngIf="!userInfo.instagram && !userInfo.facebook && !userInfo.telegram">
-            <p class="text">Посилання на мене відсутні.</p>
+            <p class="text">Посилання відсутні.</p>
             <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
               інформаці</p>
           </div>
@@ -44,26 +85,13 @@
 
         </div>
 
-        <div class="item-wrapper p-3">
-          <div class="item-name">{{ userInfo.lastName }}</div>
-          <div class="item-name">{{ userInfo.firstName }}</div>
-          <div class="item-name">{{ userInfo.surName }}</div>
-          <div class="item-info">User ID: <span class="accent">{{ userInfo.user_id }}</span></div>
-          <div class="item-info">Телефон: <span class="accent">{{ userInfo.tell }}</span></div>
-          <div class="item-info">Email: <span class="accent">{{ userInfo.mail }}</span></div>
-
-          <div class="user-group status-container">
-            <div class="user-group-name" *ngIf="ratingOwner">
-              <div class="user-name">{{ ratingOwner }}</div>
-              <div class="user-sup-name">рейтинг власника</div>
-            </div>
-
-            <div class="user-group-name" *ngIf="ratingTenant">
-              <div class="user-name">{{ ratingTenant }}</div>
-              <div class="user-sup-name">рейтинг орендара</div>
-            </div>
+        <div class="param-box">
+          <div class="param-name">Ваша картка Discussio
+            <a class="param-name-text" [routerLink]="'/information-user'"><i class="fa-solid fa-arrow-right"></i><span
+                class="ml-2">перейти щоб редагувати</span></a>
           </div>
         </div>
+
 
       </div>
     </div>
@@ -273,11 +301,11 @@
       <div class="stub-card p-3" *ngIf="!userInfo.agree_search">
         <a class="stub-card-link" [routerLink]="'/looking'">
           <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
-          <p class="t-lar accent bold">"Пошуковий профіль вимкнено"</p>
-          <p class="t-min bold">Натисніть сюди для його активації</p>
-          <p class="t-lar gray mt-3">Тут будуть Ваші параметри пошуку оселі і те як їх бачуть користувачі в Discussio.
-            Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли. </p>
+          <p class="t-lar accent bold t-c">"Пошуковий профіль" </p>
+          <p class="t-min bold t-c">Вимкнено <br> натисніть сюди для його налаштування</p>
         </a>
+        <p class="t-lar gray t-c mt-3">Тут будуть Ваші параметри пошуку оселі і те як їх бачуть користувачі в Discussio.
+          Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли. </p>
       </div>
     </div>
   </div>

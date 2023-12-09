@@ -1,59 +1,10 @@
 @use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+@use "../parameters/parameters.component.scss";
 
-.box {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  height: 630px;
-  justify-content: space-between;
-}
-
-.description {
-  font-size: 12px;
-}
-
-.inputbox-group {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-}
-
-.item-select {
-  height: 70px !important;
-}
-
-.group-label {
-  text-align: center;
-  font-weight: 600;
-  color: $color-accent;
-}
-
-.form-field {
-  height: 80px !important;
-}
-
-.form-control {
-  height: auto;
-  overflow-y: hidden;
-  font-size: 13px;
-}
-
-.form-field::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-.form-control::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-textarea {
-  height: auto;
-  min-height: 200px;
-}
-
-.scrollable-textarea {
-  height: auto;
-  overflow: auto;
+.fa-solid, .fa-regular {
+  font-size: 20px;
+  color: $color-dark;
+  width: 30px;
 }

@@ -112,6 +112,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
               this.allMessages = [];
             }
             this.loading = false;
+            console.log(this.allMessages)
             return EMPTY;
           }),
           takeUntil(destroy$)

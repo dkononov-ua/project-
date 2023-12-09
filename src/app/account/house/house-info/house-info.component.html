@@ -8,9 +8,7 @@
     <app-selection-housing class="hide-pc w-100 mb-2"></app-selection-housing>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card mb-3">
-
-        <div class="t-lar bold t-c hide-pc">Профіль оселі</div>
+      <div class="card">
 
         <div class="status-container">
           <div class="status-box">
@@ -31,111 +29,148 @@
           </div>
         </div>
 
-        <div class="img-container">
-          <div class="img-wrapper">
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
+
+        <div class="container-img">
+          <div class="wrapper-img">
+
             <img class="img-fluid"
               [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" alt="Flat Image">
-          </div>
-          <div *ngIf="HouseInfo.photos.length > 1">
-            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
-                class="fa-solid fa-chevron-left"></i></button>
-            <button *ngIf="currentPhotoIndex !== HouseInfo.photos.length - 1" class="next-img" (click)="nextPhoto()"><i
-                class="fa-solid fa-chevron-right"></i></button>
-          </div>
-          <div class="price">
+              alt="img">
 
-            <div *ngIf="HouseInfo.option_pay === 0" class="ml-2 price_m">{{
-              HouseInfo.price_m
-              || '?' }}
-              <span class="title-selected">ціна ₴/міс</span>
+            <div *ngIf="HouseInfo.photos.length > 1">
+              <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                  class="fa-solid fa-chevron-left"></i></button>
+              <button *ngIf="currentPhotoIndex !== HouseInfo.photos.length - 1" class="next-img"
+                (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <div *ngIf="HouseInfo.option_pay === 1" class="ml-2 price_m">{{
-              HouseInfo.price_d
-              || '?' }}
-              <span class="title-selected">ціна ₴/добу</span>
+            <div class="panel-container">
+              <div class="wrapper">
+
+                <button class="btn-panel" *ngIf="HouseInfo.region && HouseInfo.city && HouseInfo.street"
+                  (click)="openMap()"><i class="fa-solid fa-location-dot"></i>
+                  <div class="t-min">Локація</div>
+                </button>
+
+                <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
+                  <i class="fa-solid fa-fingerprint"></i>
+                  <div class="t-min">ID</div>
+                </button>
+
+                <button class="btn-panel" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
+                  <i class="fa-solid fa-info"></i>
+                  <div class="t-min">Інфо.</div>
+                </button>
+
+                <button class="btn-panel" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
+                  <i class="fa-solid fa-align-left"></i>
+                  <div class="t-min">Парам.</div>
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="flex-box">
+
+          <div class="item-box" *ngIf="HouseInfo.region">
+            <div mat-raised-button class="flex-column">
+              <div class="t-lar bold">{{ HouseInfo.region }}</div>
+              <div class="t-min">Область</div>
             </div>
           </div>
+
+          <div class="item-box" *ngIf="HouseInfo.city">
+            <div mat-raised-button class="flex-column">
+              <div class="t-lar bold">{{ HouseInfo.city }}</div>
+              <div class="t-min">Місто</div>
+            </div>
+          </div>
+
+          <div class="item-box" *ngIf="HouseInfo.street">
+            <div mat-raised-button class="flex-column">
+              <div class="t-lar bold">{{ HouseInfo.street }} {{ HouseInfo.houseNumber }}</div>
+              <div class="t-min">Вулиця</div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="btn-box">
-
-          <div class="btn-group">
-            <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2"><i
-                class="fa-solid fa-info"></i></button>
-            <div class="btn-name">Інформація</div>
+        <div class="flex-box wrap">
+          <div class="item-box m-1" *ngIf="HouseInfo.rooms">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ HouseInfo.rooms }}</div>
+              <div class="t-min bg-w">Кімнат</div>
+            </div>
           </div>
 
-          <div class="btn-group">
-            <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1"><i
-                class="fa-solid fa-align-left"></i></button>
-            <div class="btn-name">Параметри</div>
+          <div class="item-box m-1" *ngIf="HouseInfo.area">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ HouseInfo.area | number:'1.0-0' }}</div>
+              <div class="t-min bg-w">Площа</div>
+            </div>
           </div>
 
-          <div class="btn-group" [ngClass]="{ 'copied': isCopied }" (click)="copyFlatId()">
-            <button class="btn">
-              <span class="item" *ngIf="!isCopied">{{ HouseInfo.flat_id }}</span>
-              <span class="item" *ngIf="isCopied"><i class="fa-solid fa-copy"></i></span>
-            </button>
-            <div class="btn-name" *ngIf="!isCopied">ID оселі</div>
-            <div class="btn-name" *ngIf="isCopied">Скопійовано</div>
+          <div class="item-box m-1" *ngIf="HouseInfo.floor">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-x bold">{{ HouseInfo.floor }}</div>
+              <div class="t-min bg-w">Поверх</div>
+            </div>
           </div>
+
+          <div class="item-box m-1" *ngIf="HouseInfo.price_m && HouseInfo.option_pay === 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold accent">{{ HouseInfo.price_m | number:'1.0-0' }}</div>
+              <div class="t-min bg-w accent">Ціна ₴/міс</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="HouseInfo.price_d && HouseInfo.option_pay !== 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold accent">{{ HouseInfo.price_d | number:'1.0-0' }}</div>
+              <div class="t-min bg-w accent">Ціна ₴/добу</div>
+            </div>
+          </div>
+
         </div>
 
-
-        <div class="card-text p-1">
-
-          <div class="title-group">
-            <div class="title-selected">Область : </div>
-            <div class="title-selected-accent">{{ HouseInfo.region }}</div>
-          </div>
-
-          <div class="title-group">
-            <div class="title-selected">Місто : </div>
-            <div class="title-selected-accent">{{ HouseInfo.city }}</div>
-          </div>
-
-          <div class="title-group">
-            <div class="title-selected">Вулиця : </div>
-            <div class="title-selected-accent">{{ HouseInfo.street }}</div>
-          </div>
-
-          <div class="title-group">
-            <div class="title-selected">Будинок : </div>
-            <div class="title-selected-accent">{{ HouseInfo.houseNumber }}</div>
-          </div>
-
-          <div class="title-group">
-            <div class="title-selected">Квартира : </div>
-            <div class="title-selected-accent">{{ HouseInfo.apartment }}</div>
+        <div class="param-box">
+          <div class="param-name">Ваша картка оселі
+            <a class="param-name-text" [routerLink]="'/housing-parameters/host/'"><i
+                class="fa-solid fa-arrow-right"></i><span class="ml-2">перейти до редагування</span></a>
           </div>
         </div>
-
-
 
       </div>
     </div>
 
     <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="houseData">
-      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 1 && HouseInfo.rent === 1">
+
+      <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 1 && showCardParam === 1">
         <app-parameters></app-parameters>
       </div>
 
-      <div [@cardAnimation] class="stub-card card p-3"
-        *ngIf="indexCard === 1 && HouseInfo.rent === 0 || HouseInfo.rent === null">
+      <div [@cardAnimation] class="stub-card card p-3" *ngIf="indexCard === 1 && showCardParam === 2">
         <a class="stub-card-link" [routerLink]="'/housing-parameters/host/about'">
           <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
-          <p class="t-lar accent bold">"Пошуковий профіль оселі вимкнено"</p>
-          <p class="t-min bold">Натисніть сюди для його активації</p>
-          <p class="t-lar gray mt-3">Тут будуть параметри вашої оселі і те як їх бачать орендарі в Discussio.
-            Заповніть форму та чекайте коли на Вас підпишуться орендарі.</p>
+          <p class="t-lar accent bold t-c">"Пошуковий профіль оселі"</p>
+          <p class="t-min bold t-c">Вимкнено, натисніть сюди для його активації</p>
         </a>
+        <p class="t-lar gray mt-3 t-c">Тут будуть параметри вашої оселі і те як їх бачать орендарі в Discussio.
+          Заповніть форму та чекайте коли на Вас підпишуться орендарі.</p>
       </div>
 
       <div [@cardAnimation] class="card card-animation p-2" *ngIf="indexCard === 2">
         <app-house-share></app-house-share>
       </div>
+
     </div>
 
   </div>
@@ -143,3 +178,9 @@
   <app-footer class="hide-mobile"></app-footer>
 
 </ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

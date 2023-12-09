@@ -9,6 +9,7 @@ import { HousingParametersComponent } from './housing-parameters.component';
 import { HostComponent } from './host/host.component';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
 import { AddHouseComponent } from './add-house/add-house.component';
+import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
           { path: 'about', component: AboutComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
           { path: 'add-objects', component: AddObjectsComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
           { path: 'add-house', component: AddHouseComponent, canActivate: [CanActivateGuard] },
+          { path: 'additional-info', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host', pathMatch: 'full' },

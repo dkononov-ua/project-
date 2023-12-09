@@ -28,7 +28,7 @@ export class HouseInfoComponent implements OnInit {
   path_logo = path_logo;
   isOpen = true;
   isCopied = false;
-  indexCard: number = 1;
+  indexCard: number = 2;
   loading: boolean = false;
   houseData: any;
 
@@ -118,6 +118,7 @@ export class HouseInfoComponent implements OnInit {
   }
 
   currentPhotoIndex: number = 0;
+  showCardParam: number = 0;
   prevPhoto() {
     this.currentPhotoIndex--;
   }
@@ -125,24 +126,25 @@ export class HouseInfoComponent implements OnInit {
     this.currentPhotoIndex++;
   }
 
-  copyFlatId() {
-    const flatId = this.HouseInfo.flat_id;
-    navigator.clipboard.writeText(flatId)
-      .then(() => {
-        this.isCopied = true;
-        setTimeout(() => {
-          this.isCopied = false;
-        }, 1000);
-      })
-      .catch((error) => {
-        this.isCopied = false;
-      });
+  isCopiedMessage!: string;
+  public locationLink: string = '';
+  statusMessage: any;
+
+  constructor() {
+
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loadDataFlat();
+    await this.cardParam();
+  }
+
+  cardParam() {
+    if (this.HouseInfo.rent === 1) {
+      this.showCardParam = 1;
+    } else {
+      this.showCardParam = 2;
+    }
   }
 
   loadDataFlat(): void {
@@ -187,6 +189,7 @@ export class HouseInfoComponent implements OnInit {
         } else {
           this.HouseInfo.photos[0] = "housing_default.svg";
         }
+        this.generateLocationUrl();
       } else {
         console.log('Немає інформації про оселю')
       }
@@ -194,6 +197,51 @@ export class HouseInfoComponent implements OnInit {
       console.log('Авторизуйтесь')
     }
   }
+
+
+  // Генерую локацію оселі
+  generateLocationUrl() {
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.HouseInfo.region || '';
+    const city = this.HouseInfo.city || '';
+    const street = this.HouseInfo.street || '';
+    const houseNumber = this.HouseInfo.houseNumber || '';
+    const flatIndex = this.HouseInfo.flat_index || '';
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+    return this.locationLink;
+  }
+
+  // Відкриваю локацію на мапі
+  openMap() {
+    this.statusMessage = 'Відкриваємо локаці на мапі';
+    setTimeout(() => { this.statusMessage = ''; window.open(this.locationLink, '_blank'); }, 2000);
+  }
+
+    // Копіювання параметрів
+    copyToClipboard(textToCopy: string, message: string) {
+      if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            this.isCopiedMessage = message;
+            setTimeout(() => {
+              this.isCopiedMessage = '';
+            }, 2000);
+          })
+          .catch((error) => {
+            this.isCopiedMessage = '';
+          });
+      }
+    }
+
+    copyFlatId() {
+      this.copyToClipboard(this.HouseInfo.flat_id, 'ID оселі скопійовано');
+    }
 
 }
 

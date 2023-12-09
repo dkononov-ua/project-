@@ -73,7 +73,7 @@ export class InfoComponent implements OnInit {
     telegram: '',
     viber: '',
     facebook: '',
-    mail: undefined,
+    mail: '',
     tell: undefined,
     dob: undefined
   };
@@ -84,6 +84,7 @@ export class InfoComponent implements OnInit {
   searchInfoUserData: any;
   ratingTenant: number | undefined;
   ratingOwner: number | undefined;
+  isCopiedMessage!: string;
 
   purpose: { [key: number]: string } = {
     0: 'Переїзд',
@@ -124,7 +125,7 @@ export class InfoComponent implements OnInit {
     this.loading = true;
     this.getInfoUser()
     this.getInfo(),
-    this.loading = false;
+      this.loading = false;
   }
 
   sendMenuOpen(closeMenu: boolean) {
@@ -141,7 +142,7 @@ export class InfoComponent implements OnInit {
           this.userInfo.firstName = response.inf?.firstName || '';
           this.userInfo.lastName = response.inf?.lastName || '';
           this.userInfo.surName = response.inf?.surName || '';
-          this.userInfo.mail = response.inf?.email || '';
+          this.userInfo.mail = response.cont.mail || '';
           this.userInfo.dob = response.inf?.dob || '';
           this.userInfo.tell = response.cont?.tell || '';
           this.userInfo.telegram = response.cont?.telegram || '';
@@ -277,6 +278,18 @@ export class InfoComponent implements OnInit {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  // Копіювання параметрів
+  copyId() { this.copyToClipboard(this.userInfo.user_id, 'ID скопійовано'); }
+  copyTell() { this.copyToClipboard(this.userInfo.tell, 'Телефон скопійовано'); }
+  copyMail() { this.copyToClipboard(this.userInfo.mail, 'Пошту скопійовано'); }
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => { this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000); })
+        .catch((error) => { this.isCopiedMessage = ''; });
     }
   }
 

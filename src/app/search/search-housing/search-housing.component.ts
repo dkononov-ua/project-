@@ -165,8 +165,6 @@ export class SearchHousingComponent implements OnInit {
     const searchInfoUserData = localStorage.getItem('searchInfoUserData');
     if (searchInfoUserData !== null) {
       this.userInfoSearch = JSON.parse(searchInfoUserData);
-      console.log(this.userInfoSearch)
-
       this.userInfo.region = this.userInfoSearch.region;
       this.userInfo.city = this.userInfoSearch.city;
 
@@ -352,7 +350,6 @@ export class SearchHousingComponent implements OnInit {
       house: undefined,
       flat: undefined
     };
-    console.log(params)
     const url = this.buildSearchURL(params);
     await this.getSearchData(url);
   }
@@ -367,7 +364,6 @@ export class SearchHousingComponent implements OnInit {
   // передача пошукових фільтрів та отримання результатів пошуку
   async getSearchData(url: string) {
     const response: any = await this.http.get(url).toPromise();
-    console.log(response)
     this.optionsFound = response.count;
     this.filteredFlats = response.img;
     this.calculatePaginatorInfo()

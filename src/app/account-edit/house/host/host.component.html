@@ -49,6 +49,14 @@
       <div class="t-min dark bold">Особл.</div>
     </div>
 
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/additional-info'"><span class="link-text">
+          <i class="fa-regular fa-address-book"></i></span>
+      </a>
+      <div class="t-min dark bold">Додат.</div>
+    </div>
+
   </div>
 
   <div class="container-card">
@@ -81,6 +89,14 @@
                 class="link-text">Особливості</span>
               <i class="fa-solid fa-users-gear"></i>
             </a>
+
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/additional-info'"><span
+                class="link-text">Додаткова інформація</span>
+              <i class="fa-solid fa-users-gear"></i>
+            </a>
+
+
+
           </nav>
         </div>
       </div>

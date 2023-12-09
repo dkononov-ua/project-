@@ -32,6 +32,7 @@ import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
+import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LyDialogModule } from '@alyle/ui/dialog';
     PhotoComponent,
     HostComponent,
     AddObjectsComponent,
-    DeleteHouseComponent
+    DeleteHouseComponent,
+    AdditionalInfoComponent,
   ],
   providers: [SelectedFlatService],
   imports: [

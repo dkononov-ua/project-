@@ -1,46 +1,43 @@
-<div class="box" *ngIf="selectedFlatId">
-  <mat-label class="group-label">Управління будинком/ОСББ</mat-label>
-  <mat-label class="description">Додайте ім'я та контакти представника будинку для того щоб можна було вирішити питання які
-    виникнуть стосовно будинку</mat-label>
-  <div class="inputbox-group">
-    <mat-form-field class="item-select w-50 p-1" appearance="outline">
-      <mat-label>Телефон</mat-label>
-      <input type="tel" name="osbb_phone" matInput [(ngModel)]="flatInfo.osbb_phone" [maxlength]="10"
-        [pattern]="phonePattern">
-    </mat-form-field>
+<div class="param-box ">
+  <div class="param-name  mt-4">Допоміжна інформація
+    <p class="t-min ">додаткова інформація про оселю та її налаштування</p>
+    <a class="param-name-text" [routerLink]="'/housing-parameters/host/additional-info'"><i
+        class="fa-solid fa-arrow-right"></i><span class="ml-2">перейти щоб налаштувати</span></a>
+  </div>
+</div>
 
-    <mat-form-field class="item-select w-50 p-1" appearance="outline">
-      <mat-label>Ім'я</mat-label>
-      <input name="osbb_name" matInput [(ngModel)]="flatInfo.osbb_name">
-    </mat-form-field>
+<div class="param-box ">
+  <div class="param-group flex-column" >
+    <div class="param-label"><i class="fa-solid fa-wifi"></i> Пароль від WiFi </div>
+    <div class="param-field" >
+      Пароль:<span class="param-value" *ngIf="flatInfo.wifi">{{ flatInfo.wifi }}</span>
+    </div>
   </div>
 
-  <mat-label class="group-label">Налаштування оселі</mat-label>
-  <mat-form-field class="item-select m-1" appearance="outline">
-    <mat-label>Пароль WiFi</mat-label>
-    <input placeholder="Введіть пароль від WiFi" name="wifi" matInput [(ngModel)]="flatInfo.wifi">
-  </mat-form-field>
-
-  <mat-label class="group-label">Картка власника для оплати</mat-label>
-  <mat-form-field class="item-select m-1" appearance="outline">
-    <mat-label>Картка для оплати</mat-label>
-    <input ngxMask="'0000 0000 0000 0000'" placeholder="0000 0000 0000 0000" [maxLength]="19" name="pay_card" matInput
-      [(ngModel)]="flatInfo.pay_card" (input)="formatCreditCard($event)">
-  </mat-form-field>
-
-
-
-  <div class="form-floating p-1">
-    <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea" [(ngModel)]="flatInfo.info_about"
-      name="info_about" (input)="onInput()"></textarea>
-    <label for="floatingTextarea">
-      <p>Додаткова інформація про оселю:</p>
-    </label>
+  <div class="param-group flex-column" >
+    <div class="param-label"><i class="fa-solid fa-person-chalkboard"></i> Ім'я представника ОСББ </div>
+    <div class="param-field">
+      Ім'я:<span class="param-value" *ngIf="flatInfo.osbb_name">{{ flatInfo.osbb_name }}</span>
+    </div>
   </div>
 
-  <div class="btn-group">
-    <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-        class="icon fa-regular fa-circle-check"></i></button>
-    <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i class="icon fa-solid fa-eraser"></i></button>
+  <div class="param-group flex-column" >
+    <div class="param-label"><i class="fa-solid fa-phone"></i> Номер телефону ОСББ </div>
+    <div class="param-field">
+      Номер телефону:<span class="param-value" *ngIf="flatInfo.osbb_phone">{{ flatInfo.osbb_phone }}</span>
+    </div>
   </div>
+
+  <div class="param-group flex-column" >
+    <div class="param-label"><i class="fa-regular fa-credit-card"></i> Картка власника оселі для оплати </div>
+    <div class="param-field">
+      Картка:<span class="param-value" *ngIf="flatInfo.pay_card">{{ flatInfo.pay_card }}</span>
+    </div>
+  </div>
+
+  <div class="param-group flex-column" >
+    <div class="param-label"><i class="fa-solid fa-info"></i> Додаткова інформація </div>
+    <div class="t-min " *ngIf="flatInfo.info_about">{{ flatInfo.info_about }}</div>
+  </div>
+
 </div>

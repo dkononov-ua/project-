@@ -110,7 +110,6 @@ export class HouseComponent implements OnInit {
         this.card_info = this.filterService.getCardInfo();
         this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
-          console.log(filterValue)
           this.getFilteredData(filterValue, optionsFound);
         } else {
           this.getFilteredData(undefined, 0);
@@ -181,7 +180,6 @@ export class HouseComponent implements OnInit {
 
   calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
-    console.log(length)
     return (index + length) % length;
   }
 
@@ -277,7 +275,6 @@ export class HouseComponent implements OnInit {
 
   // скарга на оселю
   async reportHouse(flat: any): Promise<void> {
-    console.log(flat)
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
       // Обробка результату в компоненті
@@ -297,7 +294,6 @@ export class HouseComponent implements OnInit {
 
   // отримую рейтинг власника оселі
   async getRating(selectedFlat: any): Promise<any> {
-    console.log(selectedFlat.rating);
     if (selectedFlat && Array.isArray(selectedFlat.rating)) {
       let totalMarkTenant = 0;
       this.numberOfReviews = selectedFlat.rating.length;
@@ -305,11 +301,9 @@ export class HouseComponent implements OnInit {
         if (item.mark) {
           totalMarkTenant += item.mark;
           this.ratingOwner = totalMarkTenant;
-          console.log(this.ratingOwner);
         }
       });
 
-      console.log('Кількість відгуків:', this.numberOfReviews);
     } else if (selectedFlat.rating === false) {
       this.ratingOwner = 0;
     }

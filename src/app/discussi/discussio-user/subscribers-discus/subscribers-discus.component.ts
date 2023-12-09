@@ -234,6 +234,7 @@ export class SubscribersDiscusComponent implements OnInit {
   copyFlatId() {
     this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано');
   }
+
   copyOwnerId() {
     this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано');
   }
@@ -330,32 +331,26 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  async getFlatChats(): Promise<number> {
-    return new Promise<number>((resolve, reject) => {
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        const data = { auth: JSON.parse(userJson), offs: 0 };
-        this.http.post(serverPath + '/chat/get/userchats', data).subscribe(async (response: any) => {
-          if (Array.isArray(response.status) && response.status) {
-            let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
-              let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-              let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
-              return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message };
-            }));
-            localStorage.setItem('userChats', JSON.stringify(allChatsInfo));
-            this.chats = allChatsInfo;
-            resolve(1);
-          } else {
-            resolve(0);
-          }
-        }, (error: any) => {
-          console.error(error);
-          reject(error);
-        });
+  async getFlatChats(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const data = { auth: JSON.parse(userJson), offs: 0 };
+      const response: any = await this.http.post(serverPath + '/chat/get/userchats', data).toPromise();
+      if (Array.isArray(response.status) && response.status) {
+        let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
+          let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+          let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+          return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message };
+        }));
+        localStorage.setItem('userChats', JSON.stringify(allChatsInfo));
+        this.chats = allChatsInfo;
+        return 1;
       } else {
-        reject('Нічого не знайдено');
+        return 0;
       }
-    });
+    } else {
+      console.log('Нічого не знайдено');
+    };
   }
 
   // Генерую локацію оселі

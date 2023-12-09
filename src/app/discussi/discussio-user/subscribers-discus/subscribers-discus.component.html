@@ -439,11 +439,23 @@
 
         </div>
 
+        <div class="param-box">
+          <div class="param-name">Пошук іншої оселі
+            <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
+                class="ml-2">перейти до пошуку</span></a>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <!-- інформація про власника -->
     <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 2 && chosenFlat">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
       <div class="card">
         <div class="copyMessage-box" *ngIf="isCopiedMessage">
           <div class="copyMessage-text">{{isCopiedMessage}}</div>
@@ -452,125 +464,140 @@
         </div>
 
         <div class="container-img">
-          <img class="img-fluid"
-            [src]="serverPathPhotoUser + (chosenFlat.owner.img ? chosenFlat.owner.img : 'user_default.svg')" alt="img">
-          <div class="btn-container he-100">
-            <div class="img-btn-box" *ngIf="chosenFlat.owner.tell">
-              <button class="img-btn" (click)="copyTell()"><i class="fa-solid fa-phone"></i></button>
-              <div class="t-min">Телефон</div>
-              <div class="t-min bold accent">{{ chosenFlat.owner.tell }}</div>
-            </div>
+          <div class="wrapper-img">
+            <img class="img-fluid"
+              [src]="serverPathPhotoUser + (chosenFlat.owner.img ? chosenFlat.owner.img : 'user_default.svg')"
+              alt="img">
+            <div class="panel-container">
+              <div class="wrapper">
 
-            <div class="img-btn-box">
-              <button class="img-btn" matTooltip="Копіювати" (click)="copyOwnerId()">
-                <i class="fa-solid fa-fingerprint"></i></button>
-              <div class="t-min">ID власника:</div>
-              <div class="t-min bold accent">{{ chosenFlat.owner.user_id }}</div>
-            </div>
-
-            <div class="img-btn-box" *ngIf="chosenFlat.owner.mail">
-              <button class="img-btn" (click)="copyMail()"><i class="fa-solid fa-at"></i></button>
-              <div class="t-min">Пошта</div>
-              <div class="t-min bold accent">{{ (chosenFlat.owner.mail | slice:0:10).length <
-                  chosenFlat.owner.mail.length ? (chosenFlat.owner.mail | slice:0:10) + '...' : chosenFlat.owner.mail
-                  }}</div>
-              </div>
-
-              <div class="img-btn-box" *ngIf="ratingOwner">
-                <button class="img-btn" (click)="indexPage = 4"><i class="fa-regular fa-star"></i>
+                <button class="btn-panel" *ngIf="ratingOwner" (click)="indexPage = 4">
+                  <div class="flex-box">
+                    <div class="t-lar bold">{{ratingOwner}}</div>
+                  </div>
+                  <div class="t-min">Рейтинг власника</div>
                 </button>
-                <div><span class="t-med bold">{{ratingOwner}} </span><span class="t-min">({{numberOfReviews}})</span>
-                </div>
+
+                <button class="btn-panel" (click)="copyTell()" *ngIf="chosenFlat.owner.tell"><i
+                    class="fa-solid fa-phone"></i>
+                  <div class="t-min">Телефон</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyOwnerId()"><i class="fa-solid fa-fingerprint"></i>
+                  <div class="t-min">ID</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyMail()" *ngIf="chosenFlat.owner.mail"><i
+                    class="fa-solid fa-at"></i>
+                  <div class="t-min">Пошта</div>
+                </button>
+
               </div>
-
             </div>
           </div>
+        </div>
 
-          <div class="item-wrapper p-3">
-            <div class="item-name">{{ chosenFlat.owner.lastName }}</div>
-            <div class="item-name">{{ chosenFlat.owner.firstName }}</div>
-            <div class="item-name">{{ chosenFlat.owner.surName }}</div>
+        <div class="param-box">
+          <div class="t-lar t-c gray bold">Картка власника оселі </div>
+        </div>
+
+        <div class="flex-column">
+          <div class="t-lar-xx bold t-c flex-box">{{ chosenFlat.owner.lastName }} {{ chosenFlat.owner.firstName }}</div>
+          <div class="t-lar t-c">{{ chosenFlat.owner.surName }}</div>
+        </div>
+
+        <div class="social-link-container">
+          <div class="social-link-box"
+            *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
+            <p class="t-med gray t-c">Посилання відсутні.</p>
+            <p class="t-min gray t-c">Власник оселі не додав жодних посилань на свої сторінки</p>
           </div>
 
-          <div class="social-link-container">
-            <div *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
-              <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
-            </div>
-            <div class="social-link-box" *ngIf="chosenFlat.owner.instagram">
-              <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.instagram }}"><i
-                  class="fab fa-brands fa-instagram"></i></a>
-              <div class="social-link-name">instagram</div>
-            </div>
-            <div class="social-link-box" *ngIf="chosenFlat.owner.facebook">
-              <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.facebook }}"><i
-                  class="fab fa-brands fa-facebook"></i></a>
-              <div class="social-link-name">facebook</div>
-            </div>
-            <div class="social-link-box" *ngIf="chosenFlat.owner.telegram">
-              <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.telegram }}"><i
-                  class="fab fa-brands fa-telegram"></i></a>
-              <div class="social-link-name">telegram</div>
-            </div>
+          <div class="social-link-box" *ngIf="chosenFlat.owner.instagram">
+            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.instagram }}"><i
+                class="fab fa-brands fa-instagram"></i></a>
+            <div class="social-link-name">instagram</div>
           </div>
+
+          <div class="social-link-box" *ngIf="chosenFlat.owner.facebook">
+            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.facebook }}"><i
+                class="fab fa-brands fa-facebook"></i></a>
+            <div class="social-link-name">facebook</div>
+          </div>
+
+          <div class="social-link-box" *ngIf="chosenFlat.owner.telegram">
+            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.telegram }}"><i
+                class="fab fa-brands fa-telegram"></i></a>
+            <div class="social-link-name">telegram</div>
+          </div>
+        </div>
+
+        <div class="param-box">
+          <div class="param-name">Пошук іншої оселі
+            <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
+                class="ml-2">перейти до пошуку</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Чат -->
+    <div [@cardAnimation] class="flex-column-chat" *ngIf="indexPage == 3 && chosenFlat">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
+      <app-chat-user class="chat"></app-chat-user>
+      <app-send-message-user class="send-message"></app-send-message-user>
+    </div>
+
+    <div [@cardAnimation] class="card card-selected p-2" *ngIf="indexPage === 4">
+
+      <div class="t-lar-xx">Відгуки орендарів</div>
+
+      <div class="btn-container-close">
+        <div class="flex-box-column p-1">
+          <button class="btn-close" (click)="indexPage = 0"></button>
+          <div class="t-min">Назад</div>
         </div>
       </div>
 
-      <!-- Чат -->
-      <div [@cardAnimation] class="flex-column-chat" *ngIf="indexPage == 3 && chosenFlat">
-        <div class="btn-close-container">
-          <div class="btn-close-box">
-            <button class="btn-close" (click)="indexPage = 1"></button>
-          </div>
-        </div>
-        <app-chat-user class="chat"></app-chat-user>
-        <app-send-message-user class="send-message"></app-send-message-user>
-      </div>
-
-      <div [@cardAnimation] class="card card-selected p-2" *ngIf="indexPage === 4">
-
-        <div class="t-lar-xx">Відгуки орендарів</div>
-
-        <div class="btn-container-close">
-          <div class="flex-box-column p-1">
-            <button class="btn-close" (click)="indexPage = 0"></button>
-            <div class="t-min">Назад</div>
-          </div>
-        </div>
-
-        <div *ngIf="reviews">
-          <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
+      <div *ngIf="reviews">
+        <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
+          <div class="flex-box">
+            <div class="img-review-wrapper">
+              <img class="img-review-fluid"
+                [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
+                alt="img">
+            </div>
             <div class="flex-box">
-              <div class="img-review-wrapper">
-                <img class="img-review-fluid"
-                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
-                  alt="img">
-              </div>
-              <div class="flex-box">
-                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
-                  {{review.reporter.surName}}</div>
-              </div>
-            </div>
-            <div class="flex-column">
-              <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
-                  class="accent"> {{review.info.mark}}</span></div>
-              <div class="t-min">{{review.info.about}}</div>
+              <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
+                {{review.reporter.surName}}</div>
             </div>
           </div>
+          <div class="flex-column">
+            <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
+                class="accent"> {{review.info.mark}}</span></div>
+            <div class="t-min">{{review.info.about}}</div>
+          </div>
         </div>
-
-        <div *ngIf="!reviews">
-          <div class="t-lar-xx">Відгуків ще немає</div>
-        </div>
-
-
       </div>
+
+      <div *ngIf="!reviews">
+        <div class="t-lar-xx">Відгуків ще немає</div>
+      </div>
+
 
     </div>
 
   </div>
 
-  <div *ngIf="statusMessage" class="status-message">
-    <div class="status-message-text">{{ statusMessage }}</div>
-    <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-    <div class="status-message-name">Discussio</div>
-  </div>
+</div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

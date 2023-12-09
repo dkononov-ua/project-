@@ -23,6 +23,9 @@
   font-size: 30px;
 }
 
+.panel-container {
+  background-color: rgba(255, 255, 255, 0.588);
+}
 
 .btn-box {
   @include flex-box-row;
@@ -41,11 +44,19 @@
     .btn-name {
       font-size: 12px;
     }
-    .fa-solid, .fa-regular {
+    .fa-solid,
+    .fa-regular {
       color: $color-text;
       font-size: 24px;
     }
   }
+}
+
+.btn-panel.active {
+  .fa-solid {
+    color: $color-accent;
+  }
+  color: $color-accent;
 }
 
 .btn-group.copied {
@@ -68,7 +79,7 @@
   display: flex;
   border-radius: 20px;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: stretch;
   height: 650px;
   width: 97%;
@@ -95,10 +106,10 @@
   align-items: stretch;
   justify-content: space-between;
   position: relative;
-  min-height: 65vh;
+  height: 65vh;
 
   @include s1-s3 {
-    min-height: 70vh;
+    height: auto;
   }
 }
 
@@ -130,7 +141,12 @@ mat-raised-button {
   background-color: none;
 }
 
-
+.item-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 5px;
+}
 
 .fa-solid {
   color: $color-primary;
@@ -189,12 +205,6 @@ a.link {
   font-size: 16px;
   font-weight: 400;
   margin-right: 2px;
-}
-
-.accent {
-  font-size: 16px;
-  color: $color-accent;
-  font-weight: 600;
 }
 
 .title-selected-accent {

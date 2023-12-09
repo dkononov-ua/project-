@@ -10,6 +10,14 @@
   justify-content: space-evenly;
 }
 
+.panel-container {
+  background-color: rgba(255, 255, 255, 0.588);
+}
+
+.card {
+  justify-content: flex-start;
+}
+
 .hide-pc {
   @include s3-s6-max {
     display: none;
@@ -21,5 +29,3 @@
   align-items: stretch;
   justify-content: center;
 }
-
-

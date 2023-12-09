@@ -22,7 +22,7 @@
         <button class="btn btn-more" (click)="loadPreviousMessages()" *ngIf="messageALL.length > 49"><i
             class="fa-solid fa-chevron-up"></i></button>
       </div>
-      <div class="chat-messages-read">
+      <div class="chat-messages-read" *ngIf="allMessages.length !== 0">
 
         <div class="chat" *ngFor="let message of allMessages">
           <ng-container *ngIf="infoPublic && message.user_id !== null && message.is_read === 1">
@@ -59,7 +59,7 @@
           </ng-container>
         </div>
       </div>
-      <div class="chat-messages-unread">
+      <div class="chat-messages-unread" *ngIf="allMessagesNotRead.length !== 0">
         <div class="chat" *ngFor="let messagesNotRead of allMessagesNotRead">
           <ng-container *ngIf="infoPublic && messagesNotRead.user_id && messagesNotRead.is_read === 0">
             <div class="chat-container-user">
@@ -97,6 +97,10 @@
           </ng-container>
         </div>
       </div>
+      <div *ngIf="allMessages.length === 0 && allMessagesNotRead.length === 0">
+        <p class="t-lar gray t-c p-3">Повідомлення відсутні...</p>
+      </div>
+
     </div>
   </div>
 </ng-template>
