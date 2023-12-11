@@ -27,15 +27,6 @@ export class FilterService {
     return this.optionsFound;
   }
 
-  updatePage(card_info: number, indexPage: number) {
-    this.card_info = card_info;
-    this.indexPage = indexPage;
-    this.filterChange$.next(card_info);
-    this.filterChange$.next(indexPage);
-    console.log(this.indexPage)
-    console.log(this.card_info)
-  }
-
   getCardInfo() {
     return this.card_info;
   }

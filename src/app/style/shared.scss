@@ -94,6 +94,9 @@
     .fa-solid {
       font-size: 30px;
     }
+    button {
+      border: none
+    }
     .param-name-text {
       @include flex-box;
       font-size: 12px;
@@ -401,7 +404,6 @@
     width: 100%;
   }
 }
-
 
 // медіа запити
 .hide-mobile {

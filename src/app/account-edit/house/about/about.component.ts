@@ -20,6 +20,7 @@ interface FlatInfo {
   private: boolean;
   rent: number;
   room: number;
+  price_f: number;
 }
 @Component({
   selector: 'app-about',
@@ -56,9 +57,10 @@ export class AboutComponent implements OnInit {
     family: false,
     bunker: undefined,
     animals: 'Неважливо',
-    option_pay: 0,
+    option_pay: 1,
     price_d: 0,
     price_m: 0,
+    price_f: 0.1,
     about: undefined,
     private: false,
     rent: 0,
@@ -145,6 +147,10 @@ export class AboutComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
 
+      if (this.flatInfo.option_pay === 2) {
+        this.flatInfo.price_m = 0.01;
+      }
+
       const data = {
         students: this.flatInfo.students || undefined,
         woman: this.flatInfo.woman || undefined,
@@ -154,12 +160,13 @@ export class AboutComponent implements OnInit {
         animals: this.flatInfo.animals || 'Неважливо',
         option_pay: this.flatInfo.option_pay || 0,
         price_d: this.flatInfo.price_d || undefined,
-        price_m: this.flatInfo.price_m || undefined,
+        price_m: this.flatInfo.price_m,
         about: this.flatInfo.about || undefined,
         private: this.flatInfo.private || false,
         rent: rent,
         room: this.flatInfo.room || 0,
       }
+      console.log(data)
       try {
         const response: any = await this.http.post(serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
@@ -236,10 +243,12 @@ export class AboutComponent implements OnInit {
       option_pay: 0,
       price_d: 0,
       price_m: 0,
+      price_f: 0,
       about: '',
       private: false,
       rent: 0,
       room: 0,
+
     };
   }
 }

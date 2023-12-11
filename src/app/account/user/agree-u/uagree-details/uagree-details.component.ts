@@ -12,8 +12,8 @@ import { Agree } from '../../../../interface/info';
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
-
 })
+
 export class UagreeDetailsComponent implements OnInit {
 
   serverPath = serverPath;
@@ -39,33 +39,23 @@ export class UagreeDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
     });
-
     await this.getAgree();
     this.loading = false;
-
   }
 
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/yagreements';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: user_id,
-      offs: 0
-    };
-
+    const data = { auth: JSON.parse(userJson!), user_id: user_id, offs: 0 };
     try {
-      const response = (await this.http.post(url, data).toPromise()) as any;
-      this.selectedAgreement = response[0];
-      console.log(this.selectedAgreement)
-    } catch (error) {
-      console.error(error);
-    }
+      const response = (await this.http.post(serverPath + '/agreement/get/yagreements', data).toPromise()) as any;
+      if (response) {
+        this.selectedAgreement = response[0];
+      } else { this.selectedAgreement = []; }
+    } catch (error) { console.error(error); }
   }
 
-  agreeAgreement(): void {
-    this.loading = true;
+  async agreeAgreement(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
@@ -75,32 +65,23 @@ export class UagreeDetailsComponent implements OnInit {
         user_id: this.selectedAgreement.flat.subscriber_id,
         i_agree: true,
       };
-      console.log(data)
-
-      this.http.post(serverPath + '/agreement/accept/agreement', data)
-        .subscribe(
-          (response: any) => {
-            setTimeout(() => {
-              this.loading = true;
-              setTimeout(() => {
-                this.statusMessage = 'Умови угоди ухвалені!';
-                setTimeout(() => {
-                  this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 3 } });
-                }, 4000);
-              }, 100);
-            }, 3000);
-          },
-          (error: any) => {
-            console.error(error);
-            setTimeout(() => {
-              this.loading = false;
-              this.statusMessage = 'Помилка ухвалення умов угоди угоди.';
-            }, 3000);
-          }
-        );
-    } else {
-      console.log('User, flat, or subscriber not found');
-      this.loading = false;
+      this.loading = true;
+      try {
+        const response = (await this.http.post(serverPath + '/agreement/accept/agreement', data).toPromise()) as any;
+        if (response.status === 'Договір погоджено') {
+          this.statusMessage = 'Умови угоди ухвалені!';
+          setTimeout(() => {
+            this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 3 } });
+          }, 3000);
+        } else {
+          this.statusMessage = 'Помилка ухвалення умов угоди угоди.';
+          setTimeout(() => { this.loading = false; this.statusMessage = ''; }, 2000);
+        }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, спробуйте пізніше.';
+        setTimeout(() => { location.reload }, 2000);
+      }
     }
   }
 

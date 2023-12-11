@@ -24,6 +24,7 @@ export class NavbarUserComponent implements OnInit {
   counterUserDiscussio: any;
   counterUserNewMessage: any;
   iReadUserMessage: boolean = false;
+  counterUserNewAgree: any;
 
   constructor(
     private http: HttpClient,
@@ -39,10 +40,20 @@ export class NavbarUserComponent implements OnInit {
       this.getUserSubscriptionsCount();
       this.getUserDiscussioCount();
       this.getUserNewMessage();
+      this.getCounterAgree()
       await this.getUpdateUserMessage();
       this.loading = false;
     } else {
       console.log('Авторизуйтесь')
+    }
+  }
+
+  getCounterAgree() {
+    const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
+    if (counterUserNewAgree) {
+      this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
+    } else {
+      this.counterUserNewAgree = 0;
     }
   }
 

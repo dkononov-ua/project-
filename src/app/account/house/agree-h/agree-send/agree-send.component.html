@@ -135,9 +135,11 @@
             </ul>
             <ul>3.Орендна плата
               <li> 3.1. Орендна плата за використання квартири та майна становить:
-                <span class="accent" *ngIf="selectedAgreement?.flat?.price">{{selectedAgreement?.flat?.price}}
+                <span class="accent"
+                  *ngIf="selectedAgreement?.flat?.price">{{selectedAgreement?.flat?.price}}
                   грн на місяць.</span>
-                <span class="accent" *ngIf="!selectedAgreement?.flat?.price">___________________ грн за _______.</span>
+                <span class="accent"
+                  *ngIf="!selectedAgreement?.flat?.price">___________________ грн за _______.</span>
               </li>
               <li>3.2. Орендна плата вноситься не пізніше
                 <span class="accent" *ngIf="selectedAgreement?.flat?.rent_due_data">
@@ -193,7 +195,6 @@
             </ul>
 
           </div>
-          <div class="page-number">Сторінка 1/2</div>
         </div>
 
         <div class="second-page">
@@ -264,103 +265,16 @@
             <ul>7. Додаткові умови від власника.
             </ul>
           </div>
-          <div class="container-box" *ngIf="selectedAgreement?.flat?.about_agree">
-            <span class="accent about">{{ selectedAgreement?.flat?.about_agree }}</span>
-          </div>
-          <!-- <div class="container-box">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-              <div class="m-2">
-                <div class="item-description bold">Орендодавець:</div>
-                <div class="input-box">
-                  <p class="item-description">Паспорт №</p>
-                </div>
-                <div class="input-box">
-                  <p class="item-description">Серія</p>
-                </div>
-                <div class="input-box">
-                  <p class="item-description">Виданий</p>
-                </div>
-                <div class="input-box">
-                  <p class="item-description">Проживає за адресою:</p>
-                </div>
-                <div class="input-box">
-                  <div class="item-description w-75"> {{selectedAgreement?.flat?.owner_lastName}}
-                    {{selectedAgreement?.flat?.owner_firstName}} {{selectedAgreement?.flat?.owner_surName}}</div>
-                  <div class="signature w-25">підпис</div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
-              <div class="m-2">
-                <div class="item-description bold">Орендар:</div>
-
-                <div class="input-box">
-                  <p class="item-description">Паспорт №</p>
-                </div>
-
-                <div class="input-box">
-                  <p class="item-description">Серія</p>
-                </div>
-
-                <div class="input-box">
-                  <p class="item-description">Виданий</p>
-                </div>
-
-                <div class="input-box">
-                  <p class="item-description">Проживає за адресою:</p>
-                </div>
-
-                <div class="input-box">
-                  <div class="item-description w-75"> {{selectedAgreement?.flat?.subscriber_lastName}}
-                    {{selectedAgreement?.flat?.subscriber_firstName}} {{selectedAgreement?.flat?.subscriber_surName}}
-                  </div>
-                  <div class="signature w-25">підпис</div>
-                </div>
-
-              </div>
-            </div>
-          </div> -->
-          <div class="page-number">Сторінка 2/2</div>
-
 
         </div>
       </div>
     </div>
   </div>
 
-  <div class="box-1 p-2">
-    <div class="content p-2">
-      <div class="t-min t-c w-70">Із вимогами угоди оренди ознайомлений.</div>
-      <label class="checkBox">
-        <input type="checkbox" [(ngModel)]="isCheckboxChecked">
-        <div class="transition"></div>
-      </label>
-      <i></i>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn" matTooltip="Підтвердити угоду" (click)="goBack()">
-        <i class="fa-solid fa-arrow-left"></i> Назад
-      </button>
-      <button class="btn" matTooltip="Підтвердити угоду" [disabled]="!isCheckboxChecked" (click)="agreeAgreement()">
-        <i class="fa-regular fa-handshake"></i>Підтвердити
-      </button>
-      <button class="btn" matTooltip="Відхилити угоду" (click)="openDialog()">
-        <i class="fa-regular fa-thumbs-down"></i>Відхилити
-      </button>
-    </div>
-
-
+  <div class="btn-group mt-2">
+    <button class="btn" [routerLink]="['/house/agree-menu']" [queryParams]="{ indexPage: 2 }">
+      <i class="fa-solid fa-arrow-left"></i> Назад
+    </button>
   </div>
 
-
-
 </ng-template>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
-</div>

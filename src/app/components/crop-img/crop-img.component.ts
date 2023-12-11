@@ -50,13 +50,13 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
 
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   ready: boolean = false;
-  scale: number = 0;
+  scale: number = 1;
   minScale: number = 1;
 
   @ViewChild(LyImageCropper, { static: true }) cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 600,
-    height: 600,
+    width: 400,
+    height: 400,
     type: 'image/png',
     keepAspectRatio: true,
     responsiveArea: true,
@@ -76,15 +76,15 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
   }
 
   onCropped(e: ImgCropperEvent) {
-    console.log('cropped img: ', e);
+    // console.log('cropped img: ', e);
   }
 
   onLoaded(e: ImgCropperEvent) {
-    console.log('img loaded', e);
+    // console.log('img loaded', e);
   }
 
   onError(e: ImgCropperErrorEvent) {
-    console.warn(`'${e.name}' is not a valid image`, e);
+    // console.warn(`'${e.name}' is not a valid image`, e);
     this.dialogRef.close();
   }
 

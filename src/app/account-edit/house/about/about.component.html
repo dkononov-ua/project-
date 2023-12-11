@@ -151,9 +151,10 @@
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
       <div class="card">
 
-        <div class="inputbox-group">
-          <mat-label class="group-label">Як бажаєте отримувати оплату?</mat-label>
-          <div class="group-description">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
+        <div class="flex-column">
+          <mat-label class="t-med t-s w-70 accent bold">Варіанти оплати*</mat-label>
+          <div class="t-min t-c">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
+          <button class="info-btn" (click)="openHelpRoom()">Допомога</button>
 
           <div class="inputbox-group">
 
@@ -174,12 +175,22 @@
               <span class="checkBox-span">Щомісяця</span>
               <i></i>
             </div>
+
+            <div class="content">
+              <label class="checkBox">
+                <input id="free" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=2>
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Безкоштовно</span>
+              <i></i>
+            </div>
+
           </div>
 
         </div>
 
-        <div class="inputbox-group">
-          <mat-label class="group-label">Ціна за термін в грн.</mat-label>
+        <div class="flex-column w-100">
+          <mat-label class="t-med t-s w-70 accent bold">Ціна за термін в грн*</mat-label>
           <div class="inputbox-group">
             <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
               <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
@@ -198,10 +209,20 @@
                 <span class="mat-input-suffix">₴</span>
               </div>
             </mat-form-field>
+
+            <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 2">
+              <mat-label class="mat-form-field-label">Безкоштовно</mat-label>
+              <div class="mat-input-container">
+                <input matInput type="number" disabled id="inputPriceF" [(ngModel)]="flatInfo.price_f" name="price_f"
+                  pattern="[0-9]*">
+                <span class="mat-input-suffix">₴</span>
+              </div>
+            </mat-form-field>
+
           </div>
         </div>
 
-        <mat-label class="group-label  border-top">Оренда: оселя або кімната</mat-label>
+        <mat-label class="group-label  border-top">Формат здачі оселі*</mat-label>
         <!-- оселя -->
         <div class="inputbox-group">
           <button class="info-btn" (click)="openHelpRoom()">Допомога</button>
@@ -211,7 +232,7 @@
               <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="0">
               <div class="transition"></div>
             </label>
-            <div class="ml-2">Оселя</div>
+            <div class="ml-2">Оселя (Вся оселя)</div>
           </div>
         </div>
         <!-- кімната -->
@@ -221,7 +242,7 @@
               <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
               <div class="transition"></div>
             </label>
-            <div class="ml-2">Кімната</div>
+            <div class="ml-2">Кімната (Частина оселі)</div>
           </div>
         </div>
 
@@ -231,7 +252,7 @@
             <div class="t-min dark bold p-2" >Очистити</div>
           </button>
 
-          <button [disabled]="(!flatInfo.price_m) && (!flatInfo.price_d)" class="btn"
+          <button [disabled]="flatInfo.option_pay === 0 && !flatInfo.price_m || flatInfo.option_pay === 1 && !flatInfo.price_d" class="btn"
             (click)="saveInfo(flatInfo.rent = 1)">
             <i class="fa-regular fa-circle-check"></i>
             <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 1">Зберегти зміни</div>

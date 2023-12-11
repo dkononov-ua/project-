@@ -409,25 +409,13 @@ export class SearchHousingComponent implements OnInit {
   changeIndexPage(indexPage: number) {
     this.indexPage = indexPage;
     this.openUser = true;
-    this.passIndexPage();
-  }
-
-  changeCardInfo(cardInfo: number) {
-    this.card_info = cardInfo;
-    this.openUser = true;
-    this.passIndexPage();
-  }
-
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passIndexPage() {
-    this.filterService.updatePage(this.card_info, this.indexPage);
   }
 
   calculatePaginatorInfo(): string {
     const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
     const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
     this.shownCard = `${startIndex} - ${endIndex}`;
-    console.log(this.shownCard)
+    // console.log(this.shownCard)
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 }

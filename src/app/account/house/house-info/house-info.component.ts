@@ -197,8 +197,6 @@ export class HouseInfoComponent implements OnInit {
       console.log('Авторизуйтесь')
     }
   }
-
-
   // Генерую локацію оселі
   generateLocationUrl() {
     const baseUrl = 'https://www.google.com/maps/place/';

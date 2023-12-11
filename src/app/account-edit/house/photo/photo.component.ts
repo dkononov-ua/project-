@@ -113,10 +113,8 @@ export class PhotoComponent implements OnInit {
             if (Array.isArray(response.imgs) && response.imgs.length > 0) {
               this.flatImg = response.imgs;
               this.flatImg.reverse();
-              console.log(this.flatImg)
             } else {
               this.flatImg = [{ img: "housing_default.svg" }];
-              console.log(this.flatImg[0])
             }
           },
           (error: any) => {

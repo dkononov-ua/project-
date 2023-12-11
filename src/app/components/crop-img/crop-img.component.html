@@ -1,5 +1,5 @@
 <div class="box">
-  <div ly-dialog-content [lyPx]="0">
+  <div ly-dialog-content  [lyPx]="0">
 
     <ly-img-cropper [config]="myConfig" [(scale)]="scale" (ready)="ready = true" (cleaned)="ready = false"
       (minScale)="minScale = $event" (cropped)="onCropped($event)" (loaded)="onLoaded($event)"

@@ -5,6 +5,10 @@
       <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-solid fa-person-half-dress"></i>
       </a>
+      <div class="statusCount" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">
+        <i class="fa-solid fa-circle accent"></i>
+      </div>
+
       <div class="t-min dark bold">Аккаунт</div>
       <ul class="dropdown-menu">
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
@@ -50,7 +54,7 @@
             <div class="t-med t-c">Угоди</div>
             <div class="t-min t-c">Користувача </div>
           </div>
-          <div class="status" *ngIf="agreeNum !== 0">{{agreeNum}}</div>
+          <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">{{counterUserNewAgree}}</div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
           <i class="fa-solid fa-user-gear"></i>
@@ -111,8 +115,6 @@
             </div>
           </div>
 
-
-
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'"
           *ngIf="selectedFlatId && acces_agreement === 1">
@@ -165,6 +167,11 @@
       <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-regular fa-message"></i>
       </a>
+      <div class="statusCount"
+        *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false || counterUserNewMessage && counterUserNewMessage !== false">
+        <i class="fa-solid fa-circle accent"></i>
+      </div>
+
       <div class="t-min dark bold">Повідом.</div>
       <ul class="dropdown-menu">
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">

@@ -93,11 +93,8 @@ export class UagreeMenuComponent {
       user_id: user_id,
       offs: this.offs,
     };
-    console.log(data)
-
     try {
       const response: any = (await this.http.post(serverPath + '/agreement/get/saveyagreements', data).toPromise()) as any;
-      console.log(response)
       if (response) {
         this.responseAgree = response;
         this.loading = false;

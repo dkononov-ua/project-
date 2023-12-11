@@ -1,6 +1,10 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 
+.ly-dialog-content {
+  max-width: 100%;
+}
+
 .box {
   background-color: $color-white;
   overflow: hidden;
@@ -16,7 +20,7 @@ ly-icon {
 
 button {
   color: $color-text;
-  font-family: $font-main
+  font-family: $font-main;
 }
 
 .box-1 {

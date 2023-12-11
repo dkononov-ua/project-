@@ -22,6 +22,7 @@ export class HouseComponent implements OnInit {
   selectedFlatId!: string | null;
   path_logo = path_logo;
   statusMessage: string | undefined;
+  houseData: any;
 
   constructor(private selectedFlatService: SelectedFlatService, private sharedService: SharedService,) { }
 
@@ -35,9 +36,26 @@ export class HouseComponent implements OnInit {
     });
   }
 
+  loadDataFlat(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+      } else {
+        console.log('Немає інформації про оселю')
+      }
+    } else {
+      console.log('Авторизуйтесь')
+    }
+  }
+
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+      if (this.selectedFlatId) {
+        this.loadDataFlat();
+      }
     });
   }
 

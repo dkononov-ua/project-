@@ -62,18 +62,15 @@ export class AgreeConcludedComponent implements OnInit {
       flat_id: this.selectedFlatId,
       offs: this.offs,
     };
-
-    console.log('concluded-house')
-
-
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
-      this.agree = response;
-      const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
-      this.agreementIds = agreementIds;
       if (response) {
+        this.agree = response;
         this.numConcludedAgree = response.length;
+        const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
+        this.agreementIds = agreementIds;
       } else {
+        this.agree = [];
         this.numConcludedAgree = 0;
       }
     } catch (error) {
@@ -177,6 +174,7 @@ export class AgreeConcludedComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           if (response) {
+            this.agree = [];
             this.statusMessage = 'Угода видалена';
             setTimeout(() => {
               this.getConcludedAgree();

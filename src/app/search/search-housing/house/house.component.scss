@@ -2,4 +2,15 @@
 @use "../../../style/mixins/" as *;
 @use "../../search.component.scss";
 
+.card-selected {
+  position: relative;
+}
 
+
+
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

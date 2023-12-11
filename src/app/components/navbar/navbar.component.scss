@@ -104,9 +104,9 @@
   height: 60px;
 }
 
-// .nav-item {
-//   position: relative;
-// }
+.nav-item {
+  position: relative;
+}
 
 .text {
   display: flex;
@@ -133,6 +133,17 @@
 .hide-mobile {
   @include s1-s3 {
     display: none;
+  }
+}
+
+.statusCount {
+  position: absolute;
+  right: 0px;
+  top: -5px;
+  z-index: 50;
+  .fa-solid {
+    color: $color-accent;
+    font-size: 15px;
   }
 }
 

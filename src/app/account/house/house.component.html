@@ -2,17 +2,17 @@
 
 <div class="container-box">
   <div class="card-box hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
-    <h2 *ngIf="!selectedFlatId">Меню оселі</h2>
-    <h5 class="mb-3" *ngIf="!selectedFlatId">Для початку давайте оберемо або створемо оселю</h5>
-    <app-add-house *ngIf="!selectedFlatId"></app-add-house>
+    <h2 *ngIf="!houseData">Меню оселі</h2>
+    <h5 class="mb-3" *ngIf="!houseData">Для початку давайте оберемо або створемо оселю</h5>
+    <app-add-house *ngIf="!houseData"></app-add-house>
     <app-navbar-house class="hide-mobile"></app-navbar-house>
   </div>
-  <div class="card-box-pick p-2 hide-pc col-sm-12 col-12" *ngIf="!selectedFlatId">
+  <div class="card-box-pick p-2 hide-pc col-sm-12 col-12" *ngIf="!houseData">
     <h2>Меню оселі</h2>
     <h5 class="mb-3">Для початку давайте оберемо або створемо оселю</h5>
     <app-selection-housing class="w-70"></app-selection-housing>
   </div>
-  <div class="card-box col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="selectedFlatId">
+  <div class="card-box col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="houseData">
     <router-outlet></router-outlet>
   </div>
 </div>

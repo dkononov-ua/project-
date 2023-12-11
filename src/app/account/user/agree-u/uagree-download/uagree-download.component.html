@@ -333,10 +333,13 @@
     </div>
   </div>
 
-  <div class="btn-group">
-    <button class="btn m-2" matTooltip="Підтвердити угоду" (click)="goBack()">НАЗАД</button>
-
-    <button class="btn" type="submit" (click)="print()">ДРУКУВАТИ<i class="fa-regular fa-file-pdf"></i></button>
+  <div class="btn-group mt-2">
+    <button class="btn" (click)="goBack()">
+      <i class="fa-solid fa-arrow-left"></i> Назад
+    </button>
+    <button class="btn" (click)="print()">
+      <i class="fa-regular fa-file-pdf"></i>Друкувати
+    </button>
   </div>
 
 </ng-template>

@@ -194,46 +194,46 @@ export class ProfileComponent implements OnInit {
     return totalDays;
   }
 
-  onSubmitSbs(): void {
-    const selectedFlatID = this.selectedFlatId;
-    const selectedUserID = this.selectedUser.user_id;
+  // Підписуюсь
+  async getSubscribe(): Promise<void> {
     const userJson = localStorage.getItem('user');
-
-    if (userJson) {
-      const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
-      this.http.post(serverPath + '/usersubs/subscribe', data)
-        .subscribe((response: any) => {
-          this.subscriptionMessage = response.status;
-          this.isSubscribed = true;
+    if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
+      const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
+      try {
+        const response: any = await this.http.post(serverPath + '/usersubs/subscribe', data).toPromise();
+        // console.log(response)
+        if (response) {
           this.checkSubscribe();
-        }, (error: any) => {
-          console.error(error);
-        });
+        } else { this.isSubscribed = false; }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
-      console.log('user not found');
+      console.log('Авторизуйтесь');
     }
   }
 
-  checkSubscribe(): void {
-    const selectedFlatID = this.selectedFlatId;
-    const selectedUserID = this.selectedUser.user_id;
+  // Перевіряю підписку
+  async checkSubscribe(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const data = { auth: JSON.parse(userJson), user_id: selectedUserID, flat_id: selectedFlatID };
-      this.http.post(serverPath + '/usersubs/checkSubscribe', data)
-        .subscribe((response: any) => {
+    if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
+      const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
+      try {
+        const response: any = await this.http.post(serverPath + '/usersubs/checkSubscribe', data).toPromise();
+        // console.log(response)
+        if (response) {
           this.subscriptionStatus = response.status;
           this.isSubscribed = true;
-          if (this.subscriptionStatus === 'Ви успішно відписались') {
-            this.isSubscribed = false;
-          } else {
-            this.isSubscribed = false;
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+        } else { this.isSubscribed = false; }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
-      console.log('user not found');
+      console.log('Авторизуйтесь');
     }
   }
 

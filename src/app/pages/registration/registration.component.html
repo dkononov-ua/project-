@@ -121,11 +121,11 @@
               </button>
               <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
             </mat-form-field>
-            <!--
-          <button class="btn" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
-            (click)="login()">Увійти</button> -->
 
-            <button class="btn" (click)="login()">Увійти</button>
+            <button class="btn" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
+              (click)="login()">Увійти</button>
+
+            <!-- <button class="btn" (click)="login()">Увійти</button> -->
 
           </form>
 

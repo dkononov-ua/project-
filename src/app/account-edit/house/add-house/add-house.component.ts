@@ -107,36 +107,68 @@ export class AddHouseComponent implements OnInit {
     } else { console.log('Авторизуйтесь') }
   }
 
+  // Створюю чат
   async loadNewFlats(flat_name: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
-          if (flatInfo) {
-            const flatIdFromResponse = flatInfo.flat_id;
-            if (flatIdFromResponse) {
-              this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
-              this.selectedFlatService.setSelectedFlatName(flat_name);
-              this.sharedService.setStatusMessage('Обираємо оселю ' + flat_name);
-              this.statusMessage = 'Обираємо оселю ' + flat_name;
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('');
-                this.statusMessage = '';
-                this.router.navigate(['/housing-parameters/host/']);
-                // this.reloadPageWithLoader()
-              }, 2500);
-            }
+      try {
+        const response: any = await this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise();
+        const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
+        if (flatInfo) {
+          const flatIdFromResponse = flatInfo.flat_id;
+          if (flatIdFromResponse) {
+            this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
+            this.selectedFlatService.setSelectedFlatName(flat_name);
+            this.sharedService.setStatusMessage('Обираємо оселю ' + flat_name);
+            this.statusMessage = 'Обираємо оселю ' + flat_name;
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('');
+              this.statusMessage = '';
+              this.router.navigate(['/housing-parameters/host/']);
+              // this.reloadPageWithLoader()
+            }, 2500);
           }
-        },
-          (error: any) => {
-            console.error(error);
-          }
-        );
+        }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
-      console.log('User not found');
+      console.log('Авторизуйтесь');
     }
   }
+
+  // async loadNewFlats(flat_name: any): Promise<void> {
+  //   const userJson = localStorage.getItem('user');
+  //   if (userJson) {
+  //     this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
+  //       .subscribe((response: any) => {
+  //         const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
+  //         if (flatInfo) {
+  //           const flatIdFromResponse = flatInfo.flat_id;
+  //           if (flatIdFromResponse) {
+  //             this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
+  //             this.selectedFlatService.setSelectedFlatName(flat_name);
+  //             this.sharedService.setStatusMessage('Обираємо оселю ' + flat_name);
+  //             this.statusMessage = 'Обираємо оселю ' + flat_name;
+  //             setTimeout(() => {
+  //               this.sharedService.setStatusMessage('');
+  //               this.statusMessage = '';
+  //               this.router.navigate(['/housing-parameters/host/']);
+  //               // this.reloadPageWithLoader()
+  //             }, 2500);
+  //           }
+  //         }
+  //       },
+  //         (error: any) => {
+  //           console.error(error);
+  //         }
+  //       );
+  //   } else {
+  //     console.log('User not found');
+  //   }
+  // }
 
   async loadOwnFlats(flat_name: any): Promise<void> {
     const userJson = localStorage.getItem('user');

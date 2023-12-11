@@ -2,6 +2,7 @@
 @use "../../../../style/mixins/" as *;
 @use "../../../../style/agree/agree.doc.scss";
 @use "../../../../style/radio.scss";
+@use "../../../../style/shared.scss";
 
 .container-box {
   display: flex;
@@ -76,7 +77,7 @@
 }
 
 .fa-solid {
-  color: $color-white;
+  color: $color-dark;
 }
 
 .material-symbols-outlined {
@@ -137,8 +138,11 @@
 
 .card {
   width: 100%;
-  justify-content: flex-start;
-  min-height: 65vh;
+  justify-content: space-between;
+  height: 600px;
+  @include s1-s3 {
+    height: auto;
+  }
 }
 
 .card-user {
@@ -177,7 +181,7 @@ img {
   overflow: hidden;
   height: 300px;
   width: 100%;
-  border-radius: 50%;
+  border-radius: 20px;
   transition: transform 1s;
   object-fit: cover;
   position: relative;
@@ -203,7 +207,7 @@ img {
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  border-bottom: 1px solid $color-primary;
+  // border-bottom: 1px solid $color-primary;
 }
 
 .label-auto {
@@ -351,9 +355,9 @@ textarea {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.614);
+  background-color: rgba(255, 255, 255, 0.754);
   z-index: 5;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .logo-wrapper {
@@ -365,7 +369,7 @@ textarea {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .logo-name {

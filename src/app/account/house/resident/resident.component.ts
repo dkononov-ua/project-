@@ -265,7 +265,7 @@ export class ResidentComponent implements OnInit {
       };
       this.http.post(serverPath + '/chat/add/chatFlat', data)
         .subscribe((response: any) => {
-          console.log(response)
+          // console.log(response)
           if (response.status !== false) {
             setTimeout(() => {
               this.statusMessage = 'Чат створено';
@@ -434,7 +434,7 @@ export class ResidentComponent implements OnInit {
   }
 
   sendRatingOwner(owner: any) {
-    console.log(owner)
+    // console.log(owner)
     const userJson = localStorage.getItem('user');
     const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
     if (userJson) {
@@ -447,11 +447,11 @@ export class ResidentComponent implements OnInit {
         mark: this.rating.ratingValue
       };
 
-      console.log(data)
+      // console.log(data)
 
       this.http.post(serverPath + '/rating/add/flatrating', data).subscribe((response: any) => {
         let setMark = this.rating.ratingValue.toString();
-        console.log(response)
+        // console.log(response)
 
         if (response.status === true && setMark === '10') {
 
@@ -535,7 +535,7 @@ export class ResidentComponent implements OnInit {
   }
 
   async getRating(selectedUser: any): Promise<any> {
-    console.log(selectedUser);
+    // console.log(selectedUser);
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/userMarks';
     const data = {
@@ -545,10 +545,10 @@ export class ResidentComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any;
-      console.log(response);
+      // console.log(response);
 
       this.reviews = response.status;
-      console.log(this.reviews);
+      // console.log(this.reviews);
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;
         this.numberOfReviews = response.status.length;
@@ -556,11 +556,11 @@ export class ResidentComponent implements OnInit {
           if (item.info.mark) {
             totalMarkTenant += item.info.mark;
             this.ratingTenant = totalMarkTenant;
-            console.log(this.ratingTenant);
+            // console.log(this.ratingTenant);
           }
         });
 
-        console.log('Кількість відгуків:', this.numberOfReviews);
+        // console.log('Кількість відгуків:', this.numberOfReviews);
       } else if (response.status === false) {
         this.ratingTenant = 0;
       }
@@ -571,7 +571,7 @@ export class ResidentComponent implements OnInit {
 
   // отримую рейтинг власника оселі
   async getRatingOwner(user_id: any): Promise<any> {
-    console.log(user_id)
+    // console.log(user_id)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/ownerMarks';
     const data = {
@@ -584,7 +584,7 @@ export class ResidentComponent implements OnInit {
 
       this.numberOfReviewsOwner = response.status.length;
       this.reviewsOwner = response.status;
-      console.log(this.reviewsOwner)
+      // console.log(this.reviewsOwner)
 
       if (this.reviewsOwner && Array.isArray(this.reviewsOwner)) {
         let totalMarkOwner = 0;
@@ -592,13 +592,13 @@ export class ResidentComponent implements OnInit {
           if (item.info.mark) {
             totalMarkOwner += item.info.mark;
             this.ratingOwner = totalMarkOwner;
-            console.log(this.ratingOwner)
+            // console.log(this.ratingOwner)
           }
         });
       } else {
         this.numberOfReviews = 0;
         this.ratingOwner = response.status.mark;
-        console.log('Власник без оцінок.');
+        // console.log('Власник без оцінок.');
       }
     } catch (error) {
       console.error(error);

@@ -221,75 +221,83 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
-  saveParamsUser(): void {
+  async saveParamsUser(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat })
-        .subscribe((response: any) => {
-        }, (error: any) => {
-          console.error(error);
-        });
+      this.loading = true;
+      const headers = { 'Accept': 'application/json' };
+      try {
+        const response: any = await this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat }).toPromise();
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        setTimeout(() => { location.reload }, 2000);
+      }
     } else {
-      console.log('user not found, the form is blocked');
+      console.log('Авторизуйтесь');
     }
   }
 
-  saveInfoUser(): void {
+  async saveInfoUser(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    this.saveParamsUser();
     if (userJson) {
-      const data = { ...this.userInfo };
-      this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data })
-        .subscribe((response: any) => {
-          if (response.status = true) {
-            setTimeout(() => {
-              this.statusMessage = 'Персональні дані збережено';
-              setTimeout(() => {
-                this.statusMessage = '';
-              }, 1500);
-            }, 500);
-          } else if (response.status = false) {
-            setTimeout(() => {
-              this.statusMessage = 'Помилка збереження';
-              setTimeout(() => {
-                this.statusMessage = '';
-              }, 1500);
-            }, 500);
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+      try {
+        this.loading = true;
+        this.saveParamsUser();
+        const data = { ...this.userInfo };
+        const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
+        // console.log(response)
+        if (response.status === true) {
+          this.statusMessage = 'Персональні дані збережено';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        } else {
+          this.statusMessage = 'Помилка збереження';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        setTimeout(() => { location.reload }, 2000);
+      }
     } else {
-      console.log('user not found, the form is blocked');
+      console.log('Авторизуйтесь');
     }
   }
 
-  saveInfoCont(): void {
+  async saveInfoCont(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      const data = this.userCont;
-      this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data })
-        .subscribe((response: any) => {
-          if (response.status = true) {
-            setTimeout(() => {
-              this.statusMessage = 'Контактні дані збережено';
-              setTimeout(() => {
-                this.statusMessage = '';
-              }, 1500);
-            }, 500);
-          } else if (response.status = false) {
-            setTimeout(() => {
-              this.statusMessage = 'Помилка збереження';
-              setTimeout(() => {
-                this.statusMessage = '';
-              }, 1500);
-            }, 500);
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+      try {
+        this.loading = true;
+        const data = this.userCont;
+        const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
+        // console.log(response)
+        if (response.status === true) {
+          this.statusMessage = 'Контактні дані збережено';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        } else {
+          this.statusMessage = 'Помилка збереження';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        setTimeout(() => { location.reload }, 2000);
+      }
     } else {
-      console.log('user not found, the form is blocked');
+      console.log('Авторизуйтесь');
     }
   }
 
@@ -343,10 +351,9 @@ export class InformationUserComponent implements OnInit {
       if (result) {
         const blob = this.dataURItoBlob(result.dataURL!);
         const formData = new FormData();
-
         formData.append('file', blob, result.name!);
-        console.log(formData)
-        this.onUpload(formData);
+        // console.log(formData)
+        this.setPhoto(formData);
       }
     });
   }
@@ -362,38 +369,36 @@ export class InformationUserComponent implements OnInit {
     return new Blob([ab], { type: mimeString });
   }
 
-  onUpload(formData: any): void {
+  async setPhoto(formData: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (!formData) {
-      console.log('Файл не обраний. Завантаження не відбудеться.');
-      return;
-    }
-    formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-    const headers = { 'Accept': 'application/json' };
-    this.http.post(serverPath + '/img/uploaduser', formData, { headers }).subscribe(
-      (data: any) => {
-        if (data.status === 'Збережено') {
+    if (userJson && formData) {
+      this.loading = true;
+      formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
+      const headers = { 'Accept': 'application/json' };
+      try {
+        const response: any = await this.http.post(serverPath + '/img/uploaduser', formData, { headers }).toPromise();
+        if (response.status === 'Збережено') {
+          this.statusMessage = 'Фото додано';
+          this.getInfo();
           setTimeout(() => {
-            this.statusMessage = 'Фото додано';
-            setTimeout(() => {
-              this.statusMessage = '';
-              this.getInfo();
-              this.loading = false;
-            }, 1500);
-          }, 500);
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
         } else {
+          this.statusMessage = 'Помилка завантаження';
           setTimeout(() => {
-            this.statusMessage = 'Помилка завантаження';
-            setTimeout(() => {
-              this.getInfo();
-              this.statusMessage = '';
-              this.loading = false;
-            }, 1500);
-          }, 500);
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
         }
-      },
-      error => console.log(error)
-    );
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        setTimeout(() => { location.reload }, 2000);
+      }
+    } else {
+      console.log('Авторизуйтесь');
+    }
   }
 
 };

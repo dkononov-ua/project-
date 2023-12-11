@@ -56,6 +56,7 @@ export class MenuComponent {
   counterHouseNewMessage: any;
   counterUserNewMessage: any;
   iReadUserMessage: boolean = false;
+  counterUserNewAgree: any;
 
   constructor(
     private http: HttpClient,
@@ -72,6 +73,7 @@ export class MenuComponent {
       await this.getUserDiscussioCount();
       await this.getUserNewMessage();
       await this.getUpdateUserMessage();
+      this.getCounterAgree();
       const houseData = localStorage.getItem('houseData');
       if (houseData) {
         const parsedHouseData = JSON.parse(houseData);
@@ -92,6 +94,16 @@ export class MenuComponent {
       console.log('Авторизуйтесь')
     }
   }
+
+  getCounterAgree() {
+    const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
+    if (counterUserNewAgree) {
+      this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
+    } else {
+      this.counterUserNewAgree = 0;
+    }
+  }
+
 
   // перевірка підписників оселі
   async getHouseSubscribersCount() {

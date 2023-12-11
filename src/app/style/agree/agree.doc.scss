@@ -43,6 +43,7 @@ ul {
 }
 
 .btn-group {
+  @include box-shadow;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -51,16 +52,17 @@ ul {
 .btn {
   width: 200px;
   display: flex;
-  height: 40px;
   font-size: 14px;
   background-color: white;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
-  flex-wrap: wrap;
+  
+  .fa-solid,
+  .fa-regular {
+    color: $color-dark;
+  }
+
   @include s1-s3 {
     width: 100%;
   }
@@ -239,7 +241,6 @@ ul {
   .agree {
     box-shadow: none !important;
     color: $color-text;
-
   }
 
   .logo {
@@ -295,4 +296,3 @@ ul {
     display: none;
   }
 }
-

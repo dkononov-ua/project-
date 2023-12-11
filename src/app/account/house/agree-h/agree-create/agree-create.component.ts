@@ -214,47 +214,31 @@ export class AgreeCreateComponent implements OnInit {
         this.rentPrice = this.rentPrice || this.houseData.about.price_m;
       } else if (this.houseData.about.option_pay === 1) {
         this.rentPrice = this.houseData.about.price_d || 0;
-      } else {
-        this.rentPrice = this.rentPrice;
-      }
-
+      } else { this.rentPrice = this.rentPrice; }
       if (this.houseData.imgs === 'Картинок нема') {
         this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) { console.error(error); }
   }
 
   async getAgent(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/userinfo/agent';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
+    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, };
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.userData = response;
-    } catch (error) {
-      console.error(error);
-    }
+      const response = await this.http.post(serverPath + '/userinfo/agent', data).toPromise() as any[];
+      if (response) { this.userData = response; }
+      else { this.userData = undefined; }
+    } catch (error) { console.error(error); }
   }
 
   async getSubs(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/acceptsubs/get/subs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-      offs: 0,
-    };
+    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: 0, };
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      this.subscribers = response;
-    } catch (error) {
-      console.error(error);
-    }
+      const response = await this.http.post(serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
+      if (response) { this.subscribers = response; }
+      else { this.subscribers = []; }
+    } catch (error) { console.error(error); }
   }
 
   foundSubscriber(selectedSubscriber: string): void {
@@ -262,10 +246,7 @@ export class AgreeCreateComponent implements OnInit {
       // Перетворюємо selectedSubscriber в числове значення
       const selectedSubscriberId = parseInt(selectedSubscriber, 10);
       const foundSubscriber = this.subscribers.find((subscriber) => subscriber.user_id === selectedSubscriberId);
-
-      if (foundSubscriber) {
-        this.selectedSubscriber = foundSubscriber;
-      }
+      if (foundSubscriber) { this.selectedSubscriber = foundSubscriber; }
     } else { }
   }
 
@@ -275,134 +256,114 @@ export class AgreeCreateComponent implements OnInit {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
-  onDateChange(selectedDate: Moment): void {
-    this.agreementDate = selectedDate;
-  }
+  onDateChange(selectedDate: Moment): void { this.agreementDate = selectedDate; }
 
-  sendFormAgreement(subscriber: Subscribers): void {
-    this.formSubmitted = true;
+  // Створюю угоду
+  async createAgreement(): Promise<void> {
     const userJson = localStorage.getItem('user');
+    const formattedAgreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
+    const formattedAgreementDateStart = this.datePipe.transform(this.campaignOne.get('start')?.value, 'yyyy-MM-dd');
+    const formattedAgreementDateEnd = this.datePipe.transform(this.campaignOne.get('end')?.value, 'yyyy-MM-dd');
     if (userJson && this.selectedFlatId) {
-      const formattedAgreementDate = this.datePipe.transform(this.agreementDate, 'yyyy-MM-dd');
-      const formattedAgreementDateStart = this.datePipe.transform(this.campaignOne.get('start')?.value, 'yyyy-MM-dd');
-      const formattedAgreementDateEnd = this.datePipe.transform(this.campaignOne.get('end')?.value, 'yyyy-MM-dd');
-      if (!this.selectedSubscriber) {
-        this.showMessage('Будь ласка, оберіть орендара');
-        return;
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        owner: {
+          user_id: this.userData?.cont?.user_id,
+          firstName: this.userData?.inf?.firstName,
+          lastName: this.userData?.inf?.lastName,
+          surName: this.userData?.inf?.surName,
+          tell: this.userData?.cont?.tell,
+          mail: this.userData?.cont?.mail,
+          owner_img: this.userData?.img[0].img,
+        },
+
+        subscriber: {
+          user_id: this.selectedSubscriber?.user_id,
+          firstName: this.selectedSubscriber?.firstName,
+          lastName: this.selectedSubscriber?.lastName,
+          surName: this.selectedSubscriber?.surName,
+          tell: this.selectedSubscriber?.tell,
+          mail: this.selectedSubscriber?.mail,
+          subscriber_img: this.selectedSubscriber?.img,
+        },
+
+        house: {
+          flat_id: this.houseData?.about.flat_id,
+          city: this.houseData?.flat.city,
+          houseNumber: this.houseData?.flat.houseNumber,
+          apartment: this.houseData?.flat.apartment,
+          area: this.houseData?.param.area,
+          price: this.rentPrice,
+          street: this.houseData?.flat.street,
+          floor: this.houseData?.param.floor,
+          ownership: this.ownership,
+          room: this.houseData?.about.room,
+          option_pay: this.houseData?.about.option_pay,
+          option_flat: this.houseData?.param.option_flat,
+        },
+
+        terms: {
+          agreementDate: formattedAgreementDate,
+          rent_due_data: this.rentDueDate,
+          penalty: this.penalty,
+          max_penalty: this.maxPenalty,
+          agree: this.isCheckboxChecked,
+          about: this.conditions,
+          agreement_type: this.agreement_type,
+
+          dateAgreeStart: formattedAgreementDateStart,
+          dateAgreeEnd: formattedAgreementDateEnd,
+          transferHouse: this.transferHouse || 0,
+          whoPayComun: this.whoPayComun || 0,
+          depositPayment: this.depositPayment || 0,
+          dateAgreeBreakUp: this.dateAgreeBreakUp || 0,
+          numberVisits: this.numberVisits || 0,
+          personsReside: this.personsReside,
+          vacateHouse: this.vacateHouse || 0,
+        }
+      };
+
+      if (!this.houseData?.flat.city) { this.showMessage('В оселі має бути вказано місто'); return; }
+      if (!this.houseData?.flat.houseNumber) { this.showMessage('В оселі має бути номер будинку'); return; }
+      if (!this.houseData?.param.area) { this.showMessage('В оселі має бути площа'); return; }
+      if (!this.selectedSubscriber?.tell) { this.showMessage('Вкажіть номер телефону орендара'); return; }
+      if (!this.selectedSubscriber?.mail) { this.showMessage('Вкажіть пошту орендара'); return; }
+      if (!this.selectedSubscriber) { this.showMessage('Будь ласка, оберіть орендара'); return; }
+      if (!this.selectedFlatId) { this.showMessage('Будь ласка, оберіть оселю'); return; }
+      if (!this.userData?.cont?.tell) { this.showMessage('Вкажіть номер телефону власника'); return; }
+      if (!this.userData?.cont?.mail) { this.showMessage('Вкажіть пошту власника'); return; }
+
+      try {
+        const response: any = await this.http.post(serverPath + '/agreement/add/agreement', data).toPromise();
+        // console.log(response)
+        this.loading = true;
+        if (response.status === 'Данні введено не правильно') {
+          this.statusMessage = 'Щось пішло не так, перевірте дані та повторіть спробу'; setTimeout(() => {
+            this.statusMessage = ''; this.loading = false;
+          }, 2000);
+        } else {
+          this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
+          setTimeout(() => { this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 2 } }); }, 3000);
+        }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        setTimeout(() => { location.reload(); }, 2000);
       }
-      if (!this.selectedFlatId) {
-        this.showMessage('Будь ласка, оберіть оселю');
-        return;
-      }
-      if (this.selectedSubscriber && this.selectedFlatId) {
-
-        const data = {
-          auth: JSON.parse(userJson),
-          flat_id: this.selectedFlatId,
-          owner: {
-            user_id: this.userData?.cont?.user_id,
-            firstName: this.userData?.inf?.firstName,
-            lastName: this.userData?.inf?.lastName,
-            surName: this.userData?.inf?.surName,
-            tell: this.userData?.cont?.tell,
-            mail: this.userData?.cont?.mail,
-            owner_img: this.userData?.img[0].img,
-          },
-
-          subscriber: {
-            user_id: this.selectedSubscriber?.user_id,
-            firstName: this.selectedSubscriber?.firstName,
-            lastName: this.selectedSubscriber?.lastName,
-            surName: this.selectedSubscriber?.surName,
-            tell: this.selectedSubscriber?.tell,
-            mail: this.selectedSubscriber?.mail,
-            subscriber_img: this.selectedSubscriber?.img,
-          },
-
-          house: {
-            flat_id: this.houseData?.about.flat_id,
-            city: this.houseData?.flat.city,
-            houseNumber: this.houseData?.flat.houseNumber,
-            apartment: this.houseData?.flat.apartment,
-            area: this.houseData?.param.area,
-            price: this.rentPrice,
-            street: this.houseData?.flat.street,
-            floor: this.houseData?.param.floor,
-            ownership: this.ownership,
-            room: this.houseData?.about.room,
-            option_pay: this.houseData?.about.option_pay,
-            option_flat: this.houseData?.param.option_flat,
-          },
-
-          terms: {
-            agreementDate: formattedAgreementDate,
-            rent_due_data: this.rentDueDate,
-            penalty: this.penalty,
-            max_penalty: this.maxPenalty,
-            agree: this.isCheckboxChecked,
-            about: this.conditions,
-            agreement_type: this.agreement_type,
-
-            dateAgreeStart: formattedAgreementDateStart,
-            dateAgreeEnd: formattedAgreementDateEnd,
-            transferHouse: this.transferHouse || 0,
-            whoPayComun: this.whoPayComun || 0,
-            depositPayment: this.depositPayment || 0,
-            dateAgreeBreakUp: this.dateAgreeBreakUp || 0,
-            numberVisits: this.numberVisits || 0,
-            personsReside: this.personsReside,
-            vacateHouse: this.vacateHouse || 0,
-          }
-        };
-
-        this.http.post(serverPath + '/agreement/add/agreement', data)
-          .subscribe(
-            (response: any) => {
-              this.loading = true;
-              if (response.status === 'Данні введено не правильно') {
-                console.error(response.status);
-                setTimeout(() => {
-                  this.statusMessage = 'Помилка формування угоди.';
-                  setTimeout(() => {
-                    location.reload();
-                  }, 3000);
-                }, 1000);
-              } else {
-                setTimeout(() => {
-                  this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
-                  setTimeout(() => {
-                    this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 2 } });
-                  }, 3000);
-                }, 1000);
-              }
-            },
-            (error: any) => {
-              console.error(error);
-              setTimeout(() => {
-                this.statusMessage = 'Помилка формування угоди.';
-                setTimeout(() => {
-                  location.reload();
-                }, 3000);
-              }, 1000);
-            }
-          );
-        this.loading = false;
-      } else {
-        console.log('User, flat, or subscriber not found');
-        this.loading = false;
-      }
+    } else {
+      console.log('Авторизуйтесь');
     }
   }
 
-  showMessage(msg: string): void {
-    this.message = msg;
-    setTimeout(() => {
-      this.clearMessage();
-    }, 2000);
+  goToHelp () {
+    this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
   }
 
-  clearMessage(): void {
-    this.message = '';
+  showMessage(msg: string): void {
+    this.message = msg; setTimeout(() => { this.message = ''; }, 2000);
+    console.log(this.message)
   }
+
 }
 

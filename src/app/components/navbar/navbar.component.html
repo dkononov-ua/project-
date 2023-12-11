@@ -10,10 +10,12 @@
 
     <div class="nav-item hide-mobile">
       <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Аккаунт</a>
+      <div class="statusCount" *ngIf="counterUserNewMessage || counterUserNewAgree"><i class="fa-solid fa-circle accent"></i></div>
     </div>
 
     <div class="nav-item hide-mobile">
       <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</a>
+      <div class="statusCount" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false"><i class="fa-solid fa-circle accent"></i></div>
     </div>
 
     <div class="nav-item hide-mobile">

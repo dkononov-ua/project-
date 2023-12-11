@@ -157,12 +157,12 @@ export class RegistrationComponent implements OnInit {
     localStorage.removeItem('selectedFlatId');
     localStorage.removeItem('selectedFlatName');
     localStorage.removeItem('houseData');
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
     this.loading = true;
 
     this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
-        console.log(response)
+        // console.log(response)
         if (response.status) {
           setTimeout(() => {
             this.statusMessage = 'З поверненням!';
@@ -207,11 +207,11 @@ export class RegistrationComponent implements OnInit {
           regPassword: this.registrationForm.get('regPassword')?.value,
           dob: dob,
         };
-        console.log(data)
+        // console.log(data)
         this.loading = true;
         this.http.post(serverPath + '/registration/first', data).subscribe(
           (response: any) => {
-            console.log(response);
+            // console.log(response);
             if (response.status === 'Не правильно передані данні') {
               console.error(response.status);
               this.statusMessage = 'Помилка реєстрації.';
@@ -253,10 +253,10 @@ export class RegistrationComponent implements OnInit {
           dob: dob,
           passCode: this.emailCheckCode,
         };
-        console.log(data);
+        // console.log(data);
         this.http.post(serverPath + '/registration/second', data).subscribe(
           (response: any) => {
-            console.log(response);
+            // console.log(response);
             if (response.status === 'Не правильно передані данні') {
               console.error(response.status);
               this.statusMessage = 'Помилка реєстрації.';

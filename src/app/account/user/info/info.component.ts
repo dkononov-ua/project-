@@ -114,6 +114,7 @@ export class InfoComponent implements OnInit {
     '2': 'Тільки котики',
     '3': 'Тільки песики',
   }
+  agreeNum: number = 0;
 
   constructor(
     private dataService: DataService,
@@ -138,6 +139,8 @@ export class InfoComponent implements OnInit {
     if (userJson) {
       this.dataService.getInfoUser().subscribe(
         (response: any) => {
+          this.agreeNum = response.agree;
+          localStorage.setItem('counterUserNewAgree', JSON.stringify(this.agreeNum));
           this.userInfo.user_id = response.inf?.user_id || '';
           this.userInfo.firstName = response.inf?.firstName || '';
           this.userInfo.lastName = response.inf?.lastName || '';

@@ -40,7 +40,7 @@
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-menu'">
       <span class="link-text">Угоди оренди</span>
       <div class="link-icon"><i class="fa-solid fa-handshake-angle"></i></div>
-      <div class="status" *ngIf="agreeNum !== 0">{{agreeNum}}</div>
+      <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">{{counterUserNewAgree}}</div>
     </a>
 
     <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'">

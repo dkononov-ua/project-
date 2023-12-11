@@ -9,7 +9,7 @@
     <div class="container-box col-12">
 
       <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
-        <h2 class="hide-mobile">Формування угоди</h2>
+        <div class="hide-mobile t-lar-xx bold dark">Формування угоди</div>
 
         <div class="indicator-box">
           <div [ngClass]="{'active-step': currentStep === 1}" class="indicator" (click)="changeStep(currentStep = 1)"><i
@@ -26,25 +26,27 @@
         </div>
 
         <div class="margin-top hide-mobile">
-          <div class="description" *ngIf="currentStep === 1"><span class="bold">Перший крок</span> - для створення угоди
+          <div class="t-lar-x dark" *ngIf="currentStep === 1"><span class="bold">Перший крок</span> - для створення
+            угоди
             оберіть оселю, перевірте правильність заповнення даних. По бажанню можете внести документ який засвідчує
             право власність.</div>
-          <div class="description" *ngIf="currentStep === 2"><span class="bold">Другий крок</span> - оберіть орендара із
+          <div class="t-lar-x dark" *ngIf="currentStep === 2"><span class="bold">Другий крок</span> - оберіть орендара
+            із
             списку які знаходяться в Дискусії оселі та перевірте правильність інформації. Без обраного орендара угода не
             сформується</div>
-          <div class="description" *ngIf="currentStep === 3"><span class="bold">Третій крок</span>
+          <div class="t-lar-x dark" *ngIf="currentStep === 3"><span class="bold">Третій крок</span>
             - заповніть основу форму. Оберіть дату формування угоди, термін оренди,
             внесіть дані по оплаті та іншим полям.</div>
-          <div class="description" *ngIf="currentStep === 4"><span class="bold">Четвертий крок</span>
+          <div class="t-lar-x dark" *ngIf="currentStep === 4"><span class="bold">Четвертий крок</span>
             - це картка детальних умов оренди, тут Ви зможете більш чітко описати умови. Вона є не обов'язковою і
             може бути заповнена по бажанню при зустрічі.</div>
-          <div class="description" *ngIf="currentStep === 5"><span class="bold">Перегляд та відправлення.</span>
+          <div class="t-lar-x dark" *ngIf="currentStep === 5"><span class="bold">Перегляд та відправлення.</span>
             Перевірте деталі угоди, якщо треба щось відкорегувати поверніться назад. Надіславши угоду орендару очікуйте
             його підтвердження, після того як орендар ознайомиться з
             умовами угоди він може погодитись або відхилити ці уомови.</div>
         </div>
 
-        <div class="btn-group hide-mobile">
+        <div class="flex-box hide-mobile">
           <a class="btn-next " [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
           <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
             [disabled]="currentStep === 1">НАЗАД</button>
@@ -56,32 +58,40 @@
 
       <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 1">
         <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
-
-          <div class="btn-container">
-            <button class="btn-info" id="infoButton">Допомога</button>
-            <div class="info-menu">
-              <div class="accent bold">Картка №1</div>
-              <div class="info-menu-text">В цій картці обов'язково потрібно обрати оселю. Та перевірити правильність
-                заповнення даних. Внесення документу на прово власності не обов'язкове, якщо Ви не бажаєте передавати цю
-                інформацію до моменту фактичного підписання угоди, його можна буде внести при зустрічи в шаблон
-                сформованої угоди</div>
-            </div>
-          </div>
-
           <div class="card">
+
+            <div class="status-container">
+              <div class="status-box">
+                <div class="status-value">Допомога</div>
+              </div>
+              <div class="status-hover">
+                <div class="status-hover-label">Перший крок</div>
+                <div class="status-hover-text">
+                  <ul>
+                    <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати оселю. Та перевірити
+                      правильність
+                      заповнення даних. Внесення документу на прово власності не обов'язкове, якщо Ви не бажаєте
+                      передавати цю
+                      інформацію до моменту фактичного підписання угоди, його можна буде внести при зустрічи в шаблон
+                      сформованої угоди</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <div class="img-fluid-house">
                     <img
                       [src]="houseData.imgs[0].img ? serverPathPhotoFlat + houseData.imgs[0].img : serverPathPhotoFlat + 'housing_default.svg'"
-                      alt="Flat Image" class="img-house rounded">
+                      alt="Flat Image" class="img-house">
                   </div>
 
                 </div>
                 <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
                   <div class="img-fluid-house">
-                    <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-house rounded">
+                    <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-house">
                   </div>
                 </div>
               </div>
@@ -150,27 +160,37 @@
       </div>
 
       <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 2">
-        <div class="btn-container">
-          <button class="btn-info" id="infoButton">Допомога</button>
-          <div class="info-menu">
-            <div class="accent bold">Картка №2</div>
-            <div class="info-menu-text">В цій картці обов'язково потрібно обрати орендара. Та перевірити правильність
-              заповнення
-              даних. Без внесених даних пошти та телефону угода не сформується</div>
-          </div>
-        </div>
         <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
-          <div class="card-user">
+
+          <div class="status-container">
+            <div class="status-box">
+              <div class="status-value">Допомога</div>
+            </div>
+            <div class="status-hover">
+              <div class="status-hover-label">Другий крок</div>
+              <div class="status-hover-text">
+                <ul>
+                  <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати орендара. Та перевірити
+                    правильність
+                    заповнення
+                    даних. Без внесених даних пошти та телефону угода не сформується</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-user mb-2">
             <div class="img-fluid p-1">
               <div class="w-30">
                 <img [src]="serverPathPhotoUser +
-                (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="User Image">
+              (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="User Image">
               </div>
               <div class="item-box w-70">
                 <div class="item-name">{{ userData.inf.lastName }}</div>
                 <div class="item-name">{{ userData.inf.firstName }} {{ userData.inf.surName }}</div>
-                <div class="item-description">іменований надалі "Орендодавець"</div>
-                <div class="item-description">User ID: {{ userData.cont.user_id }}</div>
+                <div class="item-description">іменований надалі </div>
+                <div class="item-description"><span class="bold accent">"Орендодавець"</span> User ID: {{
+                  userData.cont.user_id }}</div>
               </div>
             </div>
             <div class="item-wrapper mt-1">
@@ -185,13 +205,10 @@
               </mat-form-field>
             </div>
           </div>
-        </div>
 
-        <div [@cardAnimation1] class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
-          <div class="card-user">
+          <div [@cardAnimation1] class="card-user">
             <mat-form-field class="mat-form p-2" appearance="outline">
-              <mat-label class="accent">Орендар</mat-label>
-              <mat-select class="list-select" [(value)]="selectedSubscriber">
+              <mat-select class="list-select" [(value)]="selectedSubscriber" placeholder="Оберіть орендара">
                 <mat-option disabled value="">Виберіть підписника</mat-option>
                 <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
                   {{ subscriber.firstName }} {{ subscriber.lastName }}
@@ -203,14 +220,15 @@
               <div class="img-fluid p-1">
                 <div class="w-30">
                   <img [src]="serverPathPhotoUser +
-                  (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="User Image">
+                (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="User Image">
                 </div>
 
                 <div class="item-box w-70">
                   <div class="item-name">{{ selectedSubscriber?.lastName }}</div>
                   <div class="item-name">{{ selectedSubscriber?.firstName }} {{ selectedSubscriber?.surName }}</div>
-                  <div class="item-description">іменований надалі "Орендар"</div>
-                  <div class="item-description">User ID: {{ selectedSubscriber?.user_id }}</div>
+                  <div class="item-description">іменований надалі</div>
+                  <div class="item-description"><span class="bold accent">"Орендар"</span> User ID: {{
+                    selectedSubscriber?.user_id }}</div>
                 </div>
               </div>
 
@@ -227,217 +245,268 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
       <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 3">
+        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+          <div class="card mb-2 p-2 ">
 
-        <div class="btn-container">
-          <button class="btn-info" id="infoButton">Допомога</button>
-          <div class="info-menu">
-            <div class="accent bold">Картка №3</div>
-            <div class="info-menu-text">В цій картці обов'язково потрібно обрати дату формування угоди суму оплати та
-              число оплати для формування угоди. Інші параметри можуть бути заповнені при зустрічі</div>
-          </div>
-        </div>
-
-        <div class="card m-2 p-3">
-
-          <mat-form-field>
-            <mat-label>Дата укладання угоди</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="agreementDate" (ngModelChange)="onDateChange($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Термін оренди</mat-label>
-            <mat-date-range-input [formGroup]="campaignOne" [rangePicker]="campaignOnePicker">
-              <input matStartDate placeholder="Start date" formControlName="start">
-              <input matEndDate placeholder="End date" formControlName="end">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-          </mat-form-field>
-
-          <div class="characteristics-group mt-1" *ngIf="houseData.about.option_pay == 0">
-            <div class="info-text w-50">Орендна плата за використання квартири та майна за місяць становить:</div>
-            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-              <mat-label class="label-auto">Сума плати</mat-label>
-
-              <input matInput type="number" id="price_m" name="price_m" [(ngModel)]="rentPrice"
-                (ngModelChange)="updateRentPrice($event)" placeholder="сума">
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1" *ngIf="houseData.about.option_pay == 1">
-            <div class="info-text w-50">Орендна плата за використання квартири та майна за добу становить:</div>
-            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-              <mat-label class="label-auto">Сума плати</mat-label>
-              <input matInput type="number" id="price_m" name="price_d" [(ngModel)]="rentPrice"
-                (ngModelChange)="updateRentPrice($event)" placeholder="сума">
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-50">Заставна сума яка повертається Орендодавцем після закінчення цієї угоди:</div>
-            <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-              <mat-label class="label-accent">Сума застава</mat-label>
-              <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
-                required [(ngModel)]="depositPayment" #depositPaymentInput="ngModel">
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-50">Оплату комунальних здійснює:</div>
-            <div class="content w-25">
-              <label class="checkBox">
-                <input id="whoPayComunOwner" type="radio" [(ngModel)]="whoPayComun" name="whoPayComunOwner" [value]=0>
-                <div class="transition"></div>
-              </label>
-              <span class="info-text">Орендодавець</span>
-              <i></i>
+            <div class="status-container">
+              <div class="status-box">
+                <div class="status-value">Допомога</div>
+              </div>
+              <div class="status-hover">
+                <div class="status-hover-label">Третій крок</div>
+                <div class="status-hover-text">
+                  <ul>
+                    <li class="status-hover-li mb-2">В цій картці для формування угоди обов'язково потрібно обрати.
+                    </li>
+                    <li class="status-hover-li mb-2">- дату формування угоди</li>
+                    <li class="status-hover-li mb-2">- суму оплати</li>
+                    <li class="status-hover-li mb-2">- число оплати</li>
+                    <li class="status-hover-li mb-2">Інші параметри можуть бути заповнені при зустрічі</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div class="content w-25">
-              <label class="checkBox">
-                <input id="whoPayComunTenant" type="radio" [(ngModel)]="whoPayComun" name="whoPayComunTenant" [value]=1>
-                <div class="transition"></div>
-              </label>
-              <span class="info-text">Орендар</span>
-              <i></i>
+
+            <mat-form-field class="mt-3">
+              <mat-label>Дата укладання угоди</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="agreementDate"
+                (ngModelChange)="onDateChange($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <div class="info-text w-50">Термін оренди:</div>
+              <mat-date-range-input [formGroup]="campaignOne" [rangePicker]="campaignOnePicker">
+                <input matStartDate placeholder="Start date" formControlName="start">
+                <input matEndDate placeholder="End date" formControlName="end">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+            </mat-form-field>
+
+            <div class="characteristics-group mt-1" *ngIf="houseData.about.option_pay == 0">
+              <div class="info-text w-50">Орендна плата за використання квартири та майна за місяць становить:</div>
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+                <mat-label class="label-auto">Сума плати</mat-label>
+
+                <input matInput type="number" id="price_m" name="price_m" [(ngModel)]="rentPrice"
+                  (ngModelChange)="updateRentPrice($event)" placeholder="сума">
+              </mat-form-field>
             </div>
-          </div>
 
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-70">Орендна плата вноситься не пізніше заданого числа місяця</div>
-            <mat-form-field appearance="outline" class="input-mat w-30 p-1">
-              <mat-label class="label-accent">Число</mat-label>
-              <input matInput type="number" id="rent_due_date" name="rent_due_date" min="1" max="31" placeholder="Число"
-                required [(ngModel)]="rentDueDate" #rentDueDateInput="ngModel">
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-70">Термін через який Орендодавець передасть Орендарю Об'єкт нерухомості з моменту
-              підписання цієї угоди</div>
-            <mat-form-field appearance="outline" class="input-mat w-30 p-1">
-              <mat-label class="label-accent">Днів</mat-label>
-              <input matInput type="number" id="transferHouse" name="transferHouse" min="1" max="31" placeholder="Днів"
-                required [(ngModel)]="transferHouse">
-            </mat-form-field>
-          </div>
-
-        </div>
-      </div>
-
-      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 4">
-        <div class="btn-container">
-          <button class="btn-info" id="infoButton">Допомога</button>
-          <div class="info-menu">
-            <div class="accent bold">Картка №4</div>
-            <div class="info-menu-text">Ця картка додаткових параметрів угоди. Шаблон угоди може бути сформований і без
-              заповнення цих даних, на цих місцях будуть пусті значення. Їх можна буде заповнити вже при зустрічі</div>
-          </div>
-        </div>
-
-        <div class="card m-2 p-3">
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-75">Розірвання/зміна угоди, з повідомленням про це не менше
-              ніж за таку кількість днів</div>
-            <mat-form-field appearance="outline" class="input-mat w-25 p-1">
-              <mat-label class="label-accent" for="dateAgreeBreakUp">Днів</mat-label>
-              <input matInput type="number" name="dateAgreeBreakUp" placeholder="Днів" min="0" max="90"
-                [(ngModel)]="dateAgreeBreakUp" required>
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-75">Кількість разів на місяць Орендодавець може відвідувати оселю з метою
-              технічного огляду/профілактики/обслуговування </div>
-            <mat-form-field appearance="outline" class="input-mat w-25 p-1">
-              <mat-label class="label-accent" for="numberVisits">Раз</mat-label>
-              <input matInput type="number" name="numberVisits" placeholder="Раз" min="0" max="30"
-                [(ngModel)]="numberVisits" required>
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1">
-            <div class="info-text">Майно, що передається буде використовуватися для проживання перелічених осіб:</div>
-            <mat-form-field class="input-mat w-100 p-1" appearance="outline">
-              <mat-label class="label-accent">Проживатимуть:</mat-label>
-              <input type="text" name="personsReside" matInput [(ngModel)]="personsReside">
-            </mat-form-field>
-          </div>
-
-          <div class="characteristics-group mt-1">
-            <div class="info-text w-75">Звільнити і здати Орендодавцю Об'єкт після
-              закінчення/розірвання терміну дії угоди через </div>
-            <mat-form-field appearance="outline" class="input-mat w-25 p-1">
-              <mat-label class="label-accent" for="vacateHouse">Днів</mat-label>
-              <input matInput type="number" name="vacateHouse" placeholder="Днів" min="0" max="30"
-                [(ngModel)]="vacateHouse" required>
-            </mat-form-field>
-          </div>
-
-          <mat-form-field class="example-full-width mt-2">
-            <mat-label>Додаткові умови</mat-label>
-            <textarea #textArea id="floatingTextarea" [(ngModel)]="conditions" matInput
-              placeholder="Введіть Ваші умови які додадуться до стандартного шаблону угоди."></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 5">
-        <div class="btn-container">
-          <button class="btn-info" id="infoButton">Допомога</button>
-          <div class="info-menu">
-            <div class="accent bold">Картка перегляду угоди</div>
-            <div class="info-menu-text">
-              Чим більше інформації Ви заповните тим краще орендар буде розуміти умови оренди Вашої оселі. Шаблон цієї
-              угоди створений для полегшення заключення таких угод та ознайомлення з ними до їх підписання в
-              комфортних умовах для кожного. Надіслану угоду можна скасувати в меню угод.
+            <div class="characteristics-group mt-1" *ngIf="houseData.about.option_pay == 1">
+              <div class="info-text w-50">Орендна плата за використання квартири та майна за добу становить:</div>
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+                <mat-label class="label-auto">Сума плати</mat-label>
+                <input matInput type="number" id="price_m" name="price_d" [(ngModel)]="rentPrice"
+                  (ngModelChange)="updateRentPrice($event)" placeholder="сума">
+              </mat-form-field>
             </div>
-          </div>
-        </div>
 
-        <div class="card m-2">
-          <div class="img-fluid-house">
-            <div class="blur"></div>
-            <img class="img-house rounded" src="../../../../../assets/example-agree/agree.jpg" alt="...">
-            <div class="logo-wrapper">
-              <img class="logo-a" src="{{path_logo}}" alt="logo">
-              <div class="logo-name">Discussio угода</div>
+            <div class="characteristics-group mt-1">
+              <div class="info-text w-50">Заставна сума яка повертається Орендодавцем після закінчення цієї угоди:</div>
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+                <mat-label class="label-accent">Сума застава</mat-label>
+                <input matInput type="number" id="depositPayment" name="depositPayment" placeholder="Сума застава"
+                  required [(ngModel)]="depositPayment" #depositPaymentInput="ngModel">
+              </mat-form-field>
             </div>
-          </div>
-          <div class="p-2 mt-2">
 
-            <div class="characteristics-group m-2 p-2">
-              <div class="info-text w-75">З деталями угоди ознайомлений. Угода сформована вірно.</div>
+            <div class="characteristics-group mt-1">
+              <div class="info-text w-50">Оплату комунальних здійснює:</div>
               <div class="content w-25">
                 <label class="checkBox">
-                  <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+                  <input id="whoPayComunOwner" type="radio" [(ngModel)]="whoPayComun" name="whoPayComunOwner" [value]=0>
                   <div class="transition"></div>
                 </label>
+                <span class="info-text">Орендодавець</span>
+                <i></i>
+              </div>
+              <div class="content w-25">
+                <label class="checkBox">
+                  <input id="whoPayComunTenant" type="radio" [(ngModel)]="whoPayComun" name="whoPayComunTenant"
+                    [value]=1>
+                  <div class="transition"></div>
+                </label>
+                <span class="info-text">Орендар</span>
                 <i></i>
               </div>
             </div>
 
-            <button class="btn btn-agree mt-2 mb-2" type="submit" (click)="openContainer()">Переглянути деталі
-              угоди</button>
-            <button class="btn btn-agree" type="submit" (click)="sendFormAgreement(subscribers[0])"
-              [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!isCheckboxChecked">Надіслати угоду
-              орендару</button>
-            <div *ngIf="message" class="error-message">{{ message }}</div>
+            <div class="characteristics-group mt-1">
+              <div class="info-text w-70">Орендна плата вноситься не пізніше заданого числа місяця</div>
+              <mat-form-field appearance="outline" class="input-mat w-30 p-1">
+                <mat-label class="label-accent">Число</mat-label>
+                <input matInput type="number" id="rent_due_date" name="rent_due_date" min="1" max="31"
+                  placeholder="Число" required [(ngModel)]="rentDueDate" #rentDueDateInput="ngModel">
+              </mat-form-field>
+            </div>
+
+            <div class="characteristics-group mt-1">
+              <div class="info-text w-70">Термін через який Орендодавець передасть Орендарю Об'єкт нерухомості з моменту
+                підписання цієї угоди</div>
+              <mat-form-field appearance="outline" class="input-mat w-30 p-1">
+                <mat-label class="label-accent">Днів</mat-label>
+                <input matInput type="number" id="transferHouse" name="transferHouse" min="1" max="31"
+                  placeholder="Днів" required [(ngModel)]="transferHouse">
+              </mat-form-field>
+            </div>
+
           </div>
         </div>
       </div>
 
-      <div class="btn-group hide-pc">
-        <a class="btn-next " [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
-        <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
-          [disabled]="currentStep === 1">НАЗАД</button>
-        <button *ngIf="currentStep < 5" class="btn-next" (click)="changeStep(currentStep + 1)"
-          [disabled]="currentStep === 5">ДАЛІ</button>
+      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 4">
+        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+          <div class="card mb-2 p-2">
+
+            <div class="status-container">
+              <div class="status-box">
+                <div class="status-value">Допомога</div>
+              </div>
+              <div class="status-hover">
+                <div class="status-hover-label">Четвертий крок</div>
+                <div class="status-hover-text">
+                  <ul>
+                    <li class="status-hover-li mb-2">Це картка додаткових параметрів угоди. Шаблон угоди може бути
+                      сформований і без
+                      заповнення цих даних, на цих місцях будуть пусті значення. Їх можна буде заповнити вже при
+                      зустрічі
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="characteristics-group mt-3">
+              <div class="info-text w-75">Розірвання/зміна угоди, з повідомленням про це не менше
+                ніж за таку кількість днів</div>
+              <mat-form-field appearance="outline" class="input-mat w-25 p-1">
+                <mat-label class="label-accent" for="dateAgreeBreakUp">Днів</mat-label>
+                <input matInput type="number" name="dateAgreeBreakUp" placeholder="Днів" min="0" max="90"
+                  [(ngModel)]="dateAgreeBreakUp" required>
+              </mat-form-field>
+            </div>
+
+            <div class="characteristics-group mt-1">
+              <div class="info-text w-75">Кількість разів на місяць Орендодавець може відвідувати оселю з метою
+                технічного огляду/профілактики/обслуговування </div>
+              <mat-form-field appearance="outline" class="input-mat w-25 p-1">
+                <mat-label class="label-accent" for="numberVisits">Раз</mat-label>
+                <input matInput type="number" name="numberVisits" placeholder="Раз" min="0" max="30"
+                  [(ngModel)]="numberVisits" required>
+              </mat-form-field>
+            </div>
+
+            <div class="characteristics-group mt-1">
+              <div class="info-text">Майно, що передається буде використовуватися для проживання перелічених осіб:</div>
+              <mat-form-field class="input-mat w-100 p-1" appearance="outline">
+                <mat-label class="label-accent">Проживатимуть:</mat-label>
+                <input type="text" name="personsReside" matInput [(ngModel)]="personsReside">
+              </mat-form-field>
+            </div>
+
+            <div class="characteristics-group mt-1">
+              <div class="info-text w-75">Звільнити і здати Орендодавцю Об'єкт після
+                закінчення/розірвання терміну дії угоди через </div>
+              <mat-form-field appearance="outline" class="input-mat w-25 p-1">
+                <mat-label class="label-accent" for="vacateHouse">Днів</mat-label>
+                <input matInput type="number" name="vacateHouse" placeholder="Днів" min="0" max="30"
+                  [(ngModel)]="vacateHouse" required>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field class="example-full-width mt-2">
+              <mat-label>Додаткові умови</mat-label>
+              <textarea #textArea id="floatingTextarea" [(ngModel)]="conditions" matInput
+                placeholder="Введіть Ваші умови які додадуться до стандартного шаблону угоди."></textarea>
+            </mat-form-field>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 5">
+        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+          <div class="card mb-2">
+
+            <div class="status-container">
+              <div class="status-box">
+                <div class="status-value">Допомога</div>
+              </div>
+              <div class="status-hover">
+                <div class="status-hover-label">Завершення формування</div>
+                <div class="status-hover-text">
+                  <ul>
+                    <li class="status-hover-li mb-2">Чим більше інформації Ви заповните тим краще орендар буде розуміти
+                      умови оренди Вашої оселі. Шаблон цієї
+                      угоди створений для полегшення заключення таких угод та ознайомлення з ними до їх підписання в
+                      комфортних умовах для кожного. Надіслану угоду можна скасувати в меню угод.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="img-fluid-house">
+              <div class="blur"></div>
+              <img class="img-house" src="../../../../../assets/example-agree/agree.jpg" alt="...">
+              <div class="logo-wrapper">
+                <img class="logo-a" src="{{path_logo}}" alt="logo">
+                <div class="logo-name">Discussio угода</div>
+              </div>
+            </div>
+
+            <div class="param-box">
+              <div class="param-name">
+                <a class="param-name-text" [routerLink]="'/housing-parameters/host/'"><i
+                    class="fa-solid fa-arrow-right"></i><span class="ml-2">внести зміни в оселю</span></a>
+              </div>
+            </div>
+
+            <div class="param-box">
+              <div class="param-name">
+                <a class="param-name-text" [routerLink]="['/house/agree-menu']" [queryParams]="{ indexPage: 1 }">
+                  <i class="fa-solid fa-arrow-right"></i><span class="ml-2">як працює Discussio угода</span></a>
+              </div>
+            </div>
+
+            <div class="p-2 mt-2">
+              <div class="characteristics-group m-2 p-2">
+                <div class="t-min w-75 t-c">З деталями угоди ознайомлений. Угода сформована вірно.</div>
+                <div class="content w-25">
+                  <label class="checkBox">
+                    <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+                    <div class="transition"></div>
+                  </label>
+                  <i></i>
+                </div>
+              </div>
+
+              <div class="btn-group">
+                <button class="btn" matTooltip="Відхилити угоду" (click)="openContainer()">
+                  <i class="fa-solid fa-glasses"></i>Переглянути
+                </button>
+
+                <button class="btn" [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!isCheckboxChecked"
+                  (click)="createAgreement()">
+                  <i class="fa-solid fa-paper-plane"></i>Надіслати
+                </button>
+              </div>
+
+              <div *ngIf="message" class="error-message">{{ message }}</div>
+
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -661,72 +730,15 @@
       <div class="container-box" *ngIf="conditions">
         <span class="accent about">{{ conditions }}</span>
       </div>
-      <div class="container-box">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-          <div class="m-2">
-            <div class="item-description bold">Орендодавець:</div>
-            <div class="input-box">
-              <p class="item-description">Паспорт №</p>
-            </div>
-            <div class="input-box">
-              <p class="item-description">Серія</p>
-            </div>
-            <div class="input-box">
-              <p class="item-description">Виданий</p>
-            </div>
-            <div class="input-box">
-              <p class="item-description">Проживає за адресою:</p>
-            </div>
-            <div class="input-box">
-              <div class="item-description w-75"> {{userData.inf.lastName}}
-                {{userData.inf.firstName}} {{userData.inf.surName}}</div>
-              <div class="signature w-25">підпис</div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-sm-6 col-6 pb-5">
-          <div class="m-2">
-            <div class="item-description bold">Орендар:</div>
-
-            <div class="input-box">
-              <p class="item-description">Паспорт №</p>
-            </div>
-
-            <div class="input-box">
-              <p class="item-description">Серія</p>
-            </div>
-
-            <div class="input-box">
-              <p class="item-description">Виданий</p>
-            </div>
-
-            <div class="input-box">
-              <p class="item-description">Проживає за адресою:</p>
-            </div>
-
-            <div class="input-box">
-              <div class="item-description w-75"> {{selectedSubscriber?.lastName}}
-                {{selectedSubscriber?.firstName}} {{selectedSubscriber?.surName}}
-              </div>
-              <div class="signature w-25">підпис</div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
     </div>
 
-    <div class="control mt-2">
-      <div class="btn-group">
-        <button class="btn" type="submit" (click)="closeContainer()">Назад</button>
-      </div>
+    <div class="btn-group mt-2">
+      <button class="btn" matTooltip="Підтвердити угоду" (click)="closeContainer()">
+        <i class="fa-solid fa-arrow-left"></i> Назад
+      </button>
     </div>
 
   </div>
-  <app-footer></app-footer>
 
 </ng-template>
 

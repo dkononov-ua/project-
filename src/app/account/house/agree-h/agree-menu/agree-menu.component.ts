@@ -102,9 +102,6 @@ export class AgreeMenuComponent implements OnInit {
       flat_id: this.selectedFlatId,
       offs: this.offs,
     };
-
-    console.log('menu-house')
-
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
       if (response) {
@@ -115,7 +112,6 @@ export class AgreeMenuComponent implements OnInit {
         this.numConcludedAgree = 0;
       }
     } catch (error) {
-      console.log('menu-house')
       console.error(error);
     }
   }

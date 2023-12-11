@@ -42,7 +42,7 @@ export class DataService {
       return this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .pipe(
           tap((response: any) => {
-            console.log(response)
+            // console.log(response)
             localStorage.setItem('houseData', JSON.stringify(response));
           }),
           catchError((error: any) => {

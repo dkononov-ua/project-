@@ -139,17 +139,12 @@ export class HouseComponent implements OnInit {
   selectFlat(flat: HouseInfo) {
     this.currentPhotoIndex = 0;
     this.indexPage = 2;
-    this.passIndexPage();
+    this.card_info = 1;
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
     this.selectedFlat = flat;
     this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();
-  }
-
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passIndexPage() {
-    this.filterService.updatePage(this.card_info, this.indexPage);
   }
 
   onPrevCard() {
@@ -225,51 +220,48 @@ export class HouseComponent implements OnInit {
     }
   }
 
-  onSubmitSbs(): void {
-    const selectedFlat = this.selectedFlat.flat_id;
+  // Підписуюсь
+  async getSubscribe(): Promise<void> {
     const userJson = localStorage.getItem('user');
-
-    if (userJson) {
-      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post(serverPath + '/subs/subscribe', payload)
-        .subscribe((response: any) => {
-          this.subscriptionMessage = response.status;
-          this.isSubscribed = true;
+    if (userJson && this.selectedFlat.flat_id) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
+      try {
+        const response: any = await this.http.post(serverPath + '/subs/subscribe', data).toPromise();
+        // console.log(response)
+        if (response) {
           this.checkSubscribe();
-          setTimeout(() => {
-            this.showSubscriptionMessage = false;
-          }, 2000);
-        }, (error: any) => {
-          console.error(error);
-        });
+        } else { this.isSubscribed = false; }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
-      console.log('user not found');
+      console.log('Авторизуйтесь');
     }
   }
 
-  openMap() {
-    window.open(this.locationLink, '_blank');
-  }
+  openMap() {    window.open(this.locationLink, '_blank');  }
 
-  checkSubscribe(): void {
-    const selectedFlat = this.selectedFlat.flat_id;
+  // Перевіряю підписку
+  async checkSubscribe(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const payload = { auth: JSON.parse(userJson), flat_id: selectedFlat };
-      this.http.post(serverPath + '/subs/checkSubscribe', payload)
-        .subscribe((response: any) => {
+    if (userJson && this.selectedFlat.flat_id) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
+      try {
+        const response: any = await this.http.post(serverPath + '/subs/checkSubscribe', data).toPromise();
+        // console.log(response)
+        if (response) {
           this.subscriptionStatus = response.status;
-          this.statusSubscriptionMessage = true;
-          if (response.status === 'Ви успішно відписались') {
-            this.isSubscribed = true;
-          } else {
-            this.isSubscribed = false;
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+          this.isSubscribed = true;
+        } else { this.isSubscribed = false; }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Щось пішло не так, повторіть спробу';
+        setTimeout(() => { this.statusMessage = ''; }, 2000);
+      }
     } else {
-      console.log('user not found');
+      console.log('Авторизуйтесь');
     }
   }
 

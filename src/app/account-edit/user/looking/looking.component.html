@@ -161,7 +161,7 @@
               </div>
             </div>
 
-            <mat-label align="end">Шукаю оселю для</mat-label>
+            <div class="bold t-med accent t-s">Шукаю оселю для</div>
             <section class="checkbox-section">
               <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.students">Студент</mat-checkbox>
               <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.woman">Жінка</mat-checkbox>
@@ -220,12 +220,12 @@
               </mat-form-field>
             </div>
 
-            <mat-label align="end">Формат житла</mat-label>
+            <div class="bold t-med accent t-s">Формат оселі</div>
             <div>
               <section class="checkbox-section">
                 <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.house">Будинок</mat-checkbox>
                 <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.flat">Квартира</mat-checkbox>
-                <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.room">Кімнату</mat-checkbox>
+                <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.room">Кімната</mat-checkbox>
               </section>
             </div>
 
@@ -493,16 +493,25 @@
                     <li class="status-hover-li mb-2"> - Якщо потрібно опишіть себе або ваші додаткові побажання.</li>
                   </ul>
                 </div>
+                <div class="status-hover-text">
+                  Варіатн оплати Безкоштовно
+                  <ul>
+                    <li class="status-hover-li mb-2">Ми додали цей варіант для людей які потребають житла але не мають
+                      змоги за нього заплатити. Власники оселей можуть допомогти переселенцям або людям в скрутній ситуації. </li>
+                  </ul>
+                </div>
               </div>
+
             </div>
 
-            <mat-label align="end">Варінти оренди</mat-label>
+            <div class="bold t-med accent t-s">Варінти оплати*</div>
             <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="userInfo.option_pay">
               <mat-radio-button color="warn" [value]="1">Доба</mat-radio-button>
               <mat-radio-button color="warn" [value]="0">Місяць</mat-radio-button>
+              <mat-radio-button color="warn" [value]="2">Безкоштовно</mat-radio-button>
             </mat-radio-group>
 
-            <mat-label align="end">Приблизний або точний термін оренди</mat-label>
+            <div class="bold t-med accent t-s">Вкажіть термін оренди</div>
             <div>
               <mat-form-field class="item-select w-25 p-1" appearance="outline">
                 <input type="number" name="days" placeholder="Дні" (click)="onDayCountsChange()"
@@ -534,8 +543,12 @@
 
             </div>
 
-            <mat-label align="end">Визначить ваш бюджет</mat-label>
-            <div>
+            <div class="bold t-med accent t-s" *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">Визначить
+              ваш бюджет</div>
+            <div class="bold t-min accent t-s" *ngIf="userInfo.option_pay === 2">Вкажіть обов'язково причину чому ви
+              потребуєте житло, для того щоб власники могли розуміти ваші потреби та допомогти вам, або вкажіть чим би
+              ви могли допомогти взамін. Не зловживайте довірою людей.</div>
+            <div *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">
               <mat-form-field class="item-select w-50 pr-2" appearance="outline">
                 <input class="right-align" matInput type="number" step="1000" [min]="minValue" [max]="maxValue"
                   [(ngModel)]="userInfo.price_of" name="price_of" placeholder="0">
@@ -548,10 +561,9 @@
                 <input class="right-align" matInput type="number" step="1000" [min]="minValue" [max]="maxValue"
                   [(ngModel)]="userInfo.price_to" name="price_to" placeholder="0">
                 <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-                <mat-hint align="end" *ngIf="userInfo.option_pay === 0">до за місяць</mat-hint>
-                <mat-hint align="end" *ngIf="userInfo.option_pay === 1">до за добу</mat-hint>
+                <mat-hint align="start" *ngIf="userInfo.option_pay === 0">до</mat-hint>
+                <mat-hint align="start" *ngIf="userInfo.option_pay === 1">до</mat-hint>
               </mat-form-field>
-
             </div>
 
             <mat-form-field class="w-100 mt-2">
@@ -574,7 +586,7 @@
 
             </div>
 
-            <div class="btn-group w-100" >
+            <div class="btn-group w-100">
               <button [disabled]="(!userInfo.price_of && !userInfo.price_to) || (!userInfo.region || !userInfo.city)"
                 class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
                 <i class="fa-regular fa-circle-check"></i>
