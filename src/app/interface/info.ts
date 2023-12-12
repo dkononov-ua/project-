@@ -48,6 +48,45 @@ export interface UserInfo {
   mounths: number | undefined;
   years: number | undefined;
   about: string | undefined;
+
+
+
+
+}
+
+export interface UserInfoSearch {
+  price: number | undefined;
+  region: string | undefined;
+  city: string | undefined;
+  rooms: number | undefined;
+  area: string | undefined;
+  repair_status: string | undefined;
+  bunker: string | undefined;
+  balcony: string | undefined;
+  animals: string | undefined;
+  distance_metro: string | undefined;
+  distance_stop: string | undefined;
+  distance_green: string | undefined;
+  distance_shop: string | undefined;
+  distance_parking: string | undefined;
+  option_pay: any;
+  purpose_rent: string | undefined;
+  looking_woman: boolean | undefined;
+  looking_man: boolean | undefined;
+  students: number | undefined;
+  woman: number | undefined;
+  man: number | undefined;
+  family: number | undefined;
+  days: number | undefined;
+  weeks: number | undefined;
+  months: number | undefined;
+  years: number | undefined;
+  day_counts: string | undefined;
+  room: boolean | undefined;
+  house: number | undefined;
+  flat: number | undefined;
+  limit: number;
+  kitchen_area: number | undefined;
 }
 
 export interface HouseInfo {

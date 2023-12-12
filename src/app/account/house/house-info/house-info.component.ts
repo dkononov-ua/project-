@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { HouseInfo } from '../../../interface/info';
+import { HouseConfig } from '../../../interface/param-config';
+import { Options, Distance, Animals, CheckBox } from '../../../interface/name';
 @Component({
   selector: 'app-house-info',
   templateUrl: './house-info.component.html',
@@ -32,90 +34,8 @@ export class HouseInfoComponent implements OnInit {
   loading: boolean = false;
   houseData: any;
 
-  HouseInfo: HouseInfo = {
-    flat_id: '',
-    country: '',
-    region: '',
-    city: '',
-    street: '',
-    houseNumber: '',
-    apartment: '',
-    flat_index: '',
-    private: 0,
-    rent: 0,
-    rooms: '',
-    area: '',
-    kitchen_area: '',
-    repair_status: '',
-    floor: '',
-    balcony: '',
-    distance_metro: '',
-    distance_stop: '',
-    distance_shop: '',
-    distance_green: '',
-    distance_parking: '',
-    woman: '',
-    man: '',
-    family: '',
-    students: '',
-    animals: '',
-    price_m: '',
-    price_d: '',
-    about: '',
-    bunker: '',
-    option_pay: 0,
-    selectedKitchen_area: '',
-    limit: '',
-    id: 0,
-    name: '',
-    photos: [],
-    img: '',
-    metro: '',
-    price_y: '',
-    agent_id: undefined,
-    owner_id: undefined,
-    option_flat: undefined,
-    room: undefined
-  }
-
-  options: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Новий',
-    2: 'Добрий',
-    3: 'Задовільний',
-    4: 'Поганий',
-    5: 'Класичний балкон',
-    6: 'Французький балкон',
-    7: 'Лоджія',
-    8: 'Тераса',
-    9: 'Веранда',
-    10: 'Підземний паркінг',
-    11: 'Є повноцінне укриття в будинку',
-    12: 'Є укриття поряд з будинком',
-    13: 'Немає',
-  }
-
-  aboutDistance: { [key: number]: string } = {
-    0: 'Немає',
-    1: 'до 100м',
-    2: 'до 300м',
-    3: 'до 500м',
-    4: 'до 1км',
-    5: 'на території',
-  }
-
-  checkBox: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Так',
-    2: 'Ні',
-  }
-
-  checkBoxAnimals: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Без тварин',
-    2: 'За попередньою домовленістю',
-    3: 'Можна з тваринами',
-  }
+  HouseInfo: HouseInfo = HouseConfig;
+  options: { [key: number]: string } = Options;
 
   currentPhotoIndex: number = 0;
   showCardParam: number = 0;
@@ -130,9 +50,7 @@ export class HouseInfoComponent implements OnInit {
   public locationLink: string = '';
   statusMessage: any;
 
-  constructor() {
-
-  }
+  constructor() {  }
 
   async ngOnInit(): Promise<void> {
     this.loadDataFlat();
@@ -221,25 +139,25 @@ export class HouseInfoComponent implements OnInit {
     setTimeout(() => { this.statusMessage = ''; window.open(this.locationLink, '_blank'); }, 2000);
   }
 
-    // Копіювання параметрів
-    copyToClipboard(textToCopy: string, message: string) {
-      if (textToCopy) {
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            this.isCopiedMessage = message;
-            setTimeout(() => {
-              this.isCopiedMessage = '';
-            }, 2000);
-          })
-          .catch((error) => {
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
             this.isCopiedMessage = '';
-          });
-      }
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
     }
+  }
 
-    copyFlatId() {
-      this.copyToClipboard(this.HouseInfo.flat_id, 'ID оселі скопійовано');
-    }
+  copyFlatId() {
+    this.copyToClipboard(this.HouseInfo.flat_id, 'ID оселі скопійовано');
+  }
 
 }
 

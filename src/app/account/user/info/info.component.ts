@@ -6,6 +6,9 @@ import { forkJoin } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { CloseMenuService } from 'src/app/services/close-menu.service';
 import { UserInfo } from '../../../interface/info';
+import { UsereSearchConfig } from '../../../interface/param-config';
+import { Options, Distance, Animals, CheckBox, OptionPay, Purpose } from '../../../interface/name';
+
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
@@ -26,58 +29,6 @@ export class InfoComponent implements OnInit {
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
-
-  userInfo: UserInfo = {
-    price_of: 0,
-    price_to: 0,
-    region: '',
-    city: '',
-    rooms_of: 0,
-    rooms_to: 0,
-    area_of: '0',
-    area_to: '0',
-    repair_status: '',
-    bunker: '',
-    balcony: '',
-    animals: '',
-    distance_metro: 0,
-    distance_stop: 0,
-    distance_green: 0,
-    distance_shop: 0,
-    distance_parking: 0,
-    option_pay: 0,
-    house: 0,
-    flat: 0,
-    room: 0,
-    day_counts: '',
-    purpose_rent: '',
-    looking_woman: false,
-    looking_man: false,
-    agree_search: 0,
-    students: 0,
-    woman: 0,
-    man: 0,
-    family: 0,
-    days: 0,
-    weeks: 0,
-    mounths: 0,
-    years: 0,
-    about: '',
-    country: undefined,
-    firstName: undefined,
-    img: undefined,
-    lastName: undefined,
-    user_id: '',
-    surName: '',
-    instagram: '',
-    telegram: '',
-    viber: '',
-    facebook: '',
-    mail: '',
-    tell: undefined,
-    dob: undefined
-  };
-
   userImg: any;
   loading: boolean = false;
   public selectedFlatId: any | null;
@@ -86,34 +37,13 @@ export class InfoComponent implements OnInit {
   ratingOwner: number | undefined;
   isCopiedMessage!: string;
 
-  purpose: { [key: number]: string } = {
-    0: 'Переїзд',
-    1: 'Відряджання',
-    2: 'Подорож',
-    3: 'Навчання',
-    4: 'Особисті причини',
-  }
+  userInfo: UserInfo = UsereSearchConfig;
+  options: { [key: number]: string } = Options;
+  aboutDistance: { [key: number]: string } = Distance;
+  animals: { [key: string]: string } = Animals;
+  option_pay: { [key: number]: string } = OptionPay;
+  purpose: { [key: number]: string } = Purpose;
 
-  aboutDistance: { [key: number]: string } = {
-    0: 'Немає',
-    5: 'На території будинку',
-    100: '100м',
-    300: '300м',
-    500: '500м',
-    1000: '1км',
-  }
-
-  option_pay: { [key: number]: string } = {
-    0: 'Щомісяця',
-    1: 'Подобово',
-  }
-
-  animals: { [key: string]: string } = {
-    '0': 'Без тварин',
-    '1': 'З тваринами',
-    '2': 'Тільки котики',
-    '3': 'Тільки песики',
-  }
   agreeNum: number = 0;
 
   constructor(
@@ -139,6 +69,7 @@ export class InfoComponent implements OnInit {
     if (userJson) {
       this.dataService.getInfoUser().subscribe(
         (response: any) => {
+          // console.log(response)
           this.agreeNum = response.agree;
           localStorage.setItem('counterUserNewAgree', JSON.stringify(this.agreeNum));
           this.userInfo.user_id = response.inf?.user_id || '';
@@ -178,6 +109,7 @@ export class InfoComponent implements OnInit {
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
           if (searchInfoUserData !== null) {
             this.searchInfoUserData = JSON.parse(searchInfoUserData);
+            // console.log(this.searchInfoUserData)
             this.userInfo.price_of = this.searchInfoUserData.price_of;
             this.userInfo.price_to = this.searchInfoUserData.price_to;
             this.userInfo.region = this.searchInfoUserData.region;

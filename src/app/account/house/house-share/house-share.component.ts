@@ -4,9 +4,9 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath } from 'src/app/config/server-config';
 interface FlatInfo {
   osbb_name: string | undefined;
-  osbb_phone: string | undefined;
-  pay_card: string | undefined;
-  wifi: string | undefined;
+  osbb_phone: any;
+  pay_card: any;
+  wifi: any;
   info_about: string | undefined;
 }
 
@@ -22,6 +22,7 @@ export class HouseShareComponent implements OnInit {
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   loading = false;
+  isCopiedMessage!: string;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -136,5 +137,25 @@ export class HouseShareComponent implements OnInit {
       info_about: '',
     };
   }
+
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
+  copyWiFi() { this.copyToClipboard(this.flatInfo.wifi, 'WiFi пароль скопійовано'); }
+  copyOsbbPhone() { this.copyToClipboard(this.flatInfo.osbb_phone, 'Номер телефону скопійовано'); }
+  copyPayCard() { this.copyToClipboard(this.flatInfo.pay_card, 'Номер картки скопійовано'); }
 
 }

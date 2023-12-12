@@ -8,3 +8,13 @@
   color: $color-dark;
   width: 30px;
 }
+
+.btn-copy {
+  @include flex-box;
+  // border: 1px solid $color-gray;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  background-color: transparent;
+  margin-left: 10px;
+}

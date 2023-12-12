@@ -1,3 +1,9 @@
+<div class="copyMessage-box" *ngIf="isCopiedMessage">
+  <div class="copyMessage-text">{{isCopiedMessage}}</div>
+  <i class="fa-regular fa-copy"></i>
+  <div class="t-lar dark bold">Discussio</div>
+</div>
+
 <div class="param-box ">
   <div class="param-name  mt-4">Допоміжна інформація
     <p class="t-min ">додаткова інформація про оселю та її налаштування</p>
@@ -7,35 +13,44 @@
 </div>
 
 <div class="param-box ">
-  <div class="param-group flex-column" >
+  <div class="param-group flex-column">
     <div class="param-label"><i class="fa-solid fa-wifi"></i> Пароль від WiFi </div>
-    <div class="param-field" >
-      Пароль:<span class="param-value" *ngIf="flatInfo.wifi">{{ flatInfo.wifi }}</span>
+    <div class="flex-box">
+      <div class="param-field">
+        Пароль:<span class="param-value" *ngIf="flatInfo.wifi">{{ flatInfo.wifi }} </span>
+      </div>
+      <button class="btn-copy" (click)="copyWiFi()"><i class="fa-regular fa-clone"></i> </button>
     </div>
   </div>
 
-  <div class="param-group flex-column" >
+  <div class="param-group flex-column">
     <div class="param-label"><i class="fa-solid fa-person-chalkboard"></i> Ім'я представника ОСББ </div>
     <div class="param-field">
       Ім'я:<span class="param-value" *ngIf="flatInfo.osbb_name">{{ flatInfo.osbb_name }}</span>
     </div>
   </div>
 
-  <div class="param-group flex-column" >
+  <div class="param-group flex-column">
     <div class="param-label"><i class="fa-solid fa-phone"></i> Номер телефону ОСББ </div>
-    <div class="param-field">
-      Номер телефону:<span class="param-value" *ngIf="flatInfo.osbb_phone">{{ flatInfo.osbb_phone }}</span>
+    <div class="flex-box">
+      <div class="param-field">
+        Номер телефону:<span class="param-value" *ngIf="flatInfo.osbb_phone">{{ flatInfo.osbb_phone }}</span>
+      </div>
+      <button class="btn-copy" (click)="copyOsbbPhone()"><i class="fa-regular fa-clone"></i> </button>
     </div>
   </div>
 
-  <div class="param-group flex-column" >
+  <div class="param-group flex-column">
     <div class="param-label"><i class="fa-regular fa-credit-card"></i> Картка власника оселі для оплати </div>
-    <div class="param-field">
-      Картка:<span class="param-value" *ngIf="flatInfo.pay_card">{{ flatInfo.pay_card }}</span>
+    <div class="flex-box">
+      <div class="param-field">
+        Картка:<span class="param-value" *ngIf="flatInfo.pay_card">{{ flatInfo.pay_card }}</span>
+      </div>
+      <button class="btn-copy" (click)="copyPayCard()"><i class="fa-regular fa-clone"></i> </button>
     </div>
   </div>
 
-  <div class="param-group flex-column" >
+  <div class="param-group flex-column">
     <div class="param-label"><i class="fa-solid fa-info"></i> Додаткова інформація </div>
     <div class="t-min " *ngIf="flatInfo.info_about">{{ flatInfo.info_about }}</div>
   </div>

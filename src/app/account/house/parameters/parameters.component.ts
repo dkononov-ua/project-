@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { HouseInfo } from '../../../interface/info';
-
+import { HouseConfig } from '../../../interface/param-config';
+import { Options, Distance, Animals, CheckBox, OptionPay } from '../../../interface/name';
 @Component({
   selector: 'app-parameters',
   templateUrl: './parameters.component.html',
@@ -19,95 +20,14 @@ import { HouseInfo } from '../../../interface/info';
 export class ParametersComponent implements OnInit {
   path_logo = path_logo;
   serverPath = serverPath;
-
-  HouseInfo: HouseInfo = {
-    flat_id: '',
-    country: '',
-    region: '',
-    city: '',
-    street: '',
-    houseNumber: '',
-    apartment: '',
-    flat_index: '',
-    private: 0,
-    rent: 0,
-    rooms: '',
-    area: '',
-    kitchen_area: '',
-    repair_status: '',
-    floor: '',
-    balcony: '',
-    distance_metro: Number(''),
-    distance_stop: Number(''),
-    distance_shop: Number(''),
-    distance_green: Number(''),
-    distance_parking: Number(''),
-    woman: '',
-    man: '',
-    family: '',
-    students: '',
-    animals: Number(''),
-    price_m: '',
-    price_d: '',
-    about: '',
-    bunker: '',
-    option_pay: 0,
-    selectedKitchen_area: '',
-    limit: '',
-    id: 0,
-    name: '',
-    photos: [],
-    img: '',
-    metro: '',
-    price_y: '',
-    option_flat: Number(''),
-    room: Number(''),
-    agent_id: undefined,
-    owner_id: undefined
-  }
-
-  options: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Новий',
-    2: 'Добрий',
-    3: 'Задовільний',
-    4: 'Поганий',
-    5: 'Класичний балкон',
-    6: 'Французький балкон',
-    7: 'Лоджія',
-    8: 'Тераса',
-    9: 'Веранда',
-  }
-
-  aboutDistance: { [key: number]: any } = {
-    0: 'Немає',
-    5: 'На території будинку',
-    100: '100м',
-    300: '300м',
-    500: '500м',
-    1000: '1км',
-    2000: '2км',
-  }
-
-  checkBox: { [key: number]: string } = {
-    0: 'Вибір не зроблено',
-    1: 'Так',
-    2: 'Ні',
-  }
-
-  animals: { [key: number]: string } = {
-    0: 'Приховати',
-    1: 'Без тварин',
-    2: 'За домовленістю',
-    3: 'Можна з тваринами',
-  }
-
-  option_pay: { [key: number]: string } = {
-    0: 'Щомісяця',
-    1: 'Подобово',
-  }
-
+  HouseInfo: HouseInfo = HouseConfig;
+  options: { [key: number]: string } = Options;
+  aboutDistance: { [key: number]: string } = Distance;
+  animals: { [key: number]: string } = Animals;
+  checkBox: { [key: number]: string } = CheckBox;
+  option_pay: { [key: number]: string } = OptionPay;
   houseData: any;
+
   constructor() { }
 
   ngOnInit(): void { this.loadDataFlat(); }

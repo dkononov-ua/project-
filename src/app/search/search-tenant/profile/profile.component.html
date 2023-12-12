@@ -75,8 +75,8 @@
 
         <div class="status-container">
           <div class="status-box">
-            <div class="status-value" *ngIf="subscriptionStatus === 'Ви успішно підписались'">Підписані</div>
-            <div class="status-value" *ngIf="subscriptionStatus === 'Ви в дискусії'">Discussiя</div>
+            <div class="status-value" *ngIf="subscriptionStatus === 1">Підписані</div>
+            <div class="status-value" *ngIf="subscriptionStatus === 2">Discussiя</div>
             <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
             <div class="status-value" *ngIf="selectedUser.flat === 1">Кв</div>
             <div class="status-value" *ngIf="selectedUser.room === 1">К</div>
@@ -95,11 +95,11 @@
                   час {{selectedUser?.data | date: 'HH:mm:ss'}}
                 </li>
 
-                <li *ngIf="subscriptionStatus === 'Ви успішно підписались'" class="status-hover-li">
+                <li *ngIf="subscriptionStatus === 1" class="status-hover-li">
                   <div class="status-value">Підписані</div> - Ви вже підписані на цього орендара.
                 </li>
 
-                <li *ngIf="subscriptionStatus === 'Ви в дискусії'" class="status-hover-li">
+                <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
                   <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
                 </li>
               </ul>
@@ -176,12 +176,11 @@
 
           <div class="item-box">
             <button mat-raised-button class="btn link"
-              [ngClass]="{'unSubscribed': subscriptionStatus === 'Ви успішно відписались', 'subscribed': subscriptionStatus === 'Ви успішно підписались', 'discussion': subscriptionStatus === 'Ви в дискусії'}"
-              (click)="getSubscribe()" [disabled]="subscriptionStatus === 'Ви в дискусії'">
-              <i class="fa-regular fa-heart"
-                *ngIf="subscriptionStatus !== 'Ви успішно підписались' && subscriptionStatus !== 'Ви в дискусії'"></i>
-              <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 'Ви успішно підписались'"></i>
-              <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 'Ви в дискусії'"></i>
+              [ngClass]="{'unSubscribed': subscriptionStatus === 0, 'subscribed': subscriptionStatus === 1, 'discussion': subscriptionStatus === 2}"
+              (click)="getSubscribe()" [disabled]="subscriptionStatus === 2">
+              <i class="fa-regular fa-heart" *ngIf="subscriptionStatus === 0"></i>
+              <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 1"></i>
+              <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 2"></i>
             </button>
           </div>
 

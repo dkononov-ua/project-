@@ -7,41 +7,9 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { PageEvent } from '@angular/material/paginator';
 import { serverPath } from 'src/app/config/server-config';
 import { PaginationConfig } from 'src/app/config/paginator';
+import { UserConfig } from '../../interface/param-config'
+import { UserInfoSearch } from '../../interface/info'
 
-interface UserInfo {
-  price: number | undefined;
-  region: string | undefined;
-  city: string | undefined;
-  rooms: number | undefined;
-  area: string | undefined;
-  repair_status: string | undefined;
-  bunker: string | undefined;
-  balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: string | undefined;
-  distance_stop: string | undefined;
-  distance_green: string | undefined;
-  distance_shop: string | undefined;
-  distance_parking: string | undefined;
-  option_pay: any;
-  purpose_rent: string | undefined;
-  looking_woman: boolean | undefined;
-  looking_man: boolean | undefined;
-  students: number | undefined;
-  woman: number | undefined;
-  man: number | undefined;
-  family: number | undefined;
-  days: number | undefined;
-  weeks: number | undefined;
-  months: number | undefined;
-  years: number | undefined;
-  day_counts: string | undefined;
-  room: boolean | undefined;
-  house: number | undefined;
-  flat: number | undefined;
-  limit: number;
-  kitchen_area: number | undefined;
-}
 @Component({
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
@@ -59,40 +27,7 @@ export class SearchTenantComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
-  userInfo: UserInfo = {
-    room: undefined,
-    price: undefined,
-    region: '',
-    city: '',
-    rooms: undefined,
-    area: '',
-    repair_status: '',
-    bunker: '',
-    balcony: '',
-    animals: '',
-    distance_metro: '',
-    distance_stop: '',
-    distance_green: '',
-    distance_shop: '',
-    distance_parking: '',
-    option_pay: 0,
-    purpose_rent: '',
-    looking_woman: undefined,
-    looking_man: undefined,
-    students: 1,
-    woman: 1,
-    man: 1,
-    family: 1,
-    days: undefined,
-    weeks: undefined,
-    months: undefined,
-    years: undefined,
-    day_counts: undefined,
-    house: undefined,
-    flat: undefined,
-    limit: 0,
-    kitchen_area: undefined,
-  };
+  userInfo: UserInfoSearch = UserConfig;
 
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;

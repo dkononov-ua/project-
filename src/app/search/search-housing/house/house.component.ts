@@ -74,7 +74,6 @@ export class HouseComponent implements OnInit {
 
   // статуси
   loading = true;
-  isSubscribed: boolean = false;
   showSubscriptionMessage: boolean = false;
   subscriptionMessage: string | undefined;
   statusSubscriptionMessage: boolean | undefined;
@@ -228,9 +227,13 @@ export class HouseComponent implements OnInit {
       try {
         const response: any = await this.http.post(serverPath + '/subs/subscribe', data).toPromise();
         // console.log(response)
-        if (response) {
-          this.checkSubscribe();
-        } else { this.isSubscribed = false; }
+        if (response.status === 'Ви успішно відписались') {
+          this.subscriptionStatus = 0;
+        } else if (response.status === 'Ви в дискусії') {
+          this.subscriptionStatus = 2;
+        } else {
+          this.subscriptionStatus = 1;
+        }
       } catch (error) {
         console.error(error);
         this.statusMessage = 'Щось пішло не так, повторіть спробу';
@@ -241,7 +244,7 @@ export class HouseComponent implements OnInit {
     }
   }
 
-  openMap() {    window.open(this.locationLink, '_blank');  }
+  openMap() { window.open(this.locationLink, '_blank'); }
 
   // Перевіряю підписку
   async checkSubscribe(): Promise<void> {
@@ -250,11 +253,14 @@ export class HouseComponent implements OnInit {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
       try {
         const response: any = await this.http.post(serverPath + '/subs/checkSubscribe', data).toPromise();
-        // console.log(response)
-        if (response) {
-          this.subscriptionStatus = response.status;
-          this.isSubscribed = true;
-        } else { this.isSubscribed = false; }
+        // console.log(response.status)
+        if (response.status === 'Ви успішно відписались') {
+          this.subscriptionStatus = 1;
+        } else if (response.status === 'Ви в дискусії') {
+          this.subscriptionStatus = 2;
+        } else {
+          this.subscriptionStatus = 0;
+        }
       } catch (error) {
         console.error(error);
         this.statusMessage = 'Щось пішло не так, повторіть спробу';
