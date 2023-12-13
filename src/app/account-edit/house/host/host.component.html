@@ -61,48 +61,46 @@
 
   <div class="container-card">
 
-    <div class="wrapper hide-mobile col-lg-3 col-md-5 col-sm-6 col-12"
-      *ngIf="selectedFlatId && selectedFlatId !== null">
-      <div class="card-box">
-        <div class="card-menu-house">
-          <nav>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'"><span
-                class="link-text">Додати фото</span>
-              <i class="fa-solid fa-images"></i>
-            </a>
+    <nav class="navbar hide-mobile col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId && selectedFlatId !== null">
 
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'"><span
-                class="link-text ">Розташування</span>
-              <i class="fa-solid fa-location-dot ml-2"></i>
-            </a>
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'"><span
-                class="link-text">Параметри</span>
-              <i class="fa-solid fa-trowel-bricks"></i>
-            </a>
+      <a class="link-menu" [routerLink]="'/house/house-info'">
+        <span class="link-text bold accent">Назад</span>
+        <div class="link-icon"><i class="fa-solid fa-arrow-left"></i></div>
+      </a>
 
-            <a class="link-menu" [routerLinkActive]="'active'"
-              [routerLink]="'/housing-parameters/host/add-objects'"><span class="link-text">Наповнення</span>
-              <i class="fa-solid fa-dolly"></i>
-            </a>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">
+        <span class="link-text">Додати фото</span>
+        <div class="link-icon"><i class="fa-solid fa-images"></i></div>
+      </a>
 
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'"><span
-                class="link-text">Особливості</span>
-              <i class="fa-solid fa-users-gear"></i>
-            </a>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">
+        <span class="link-text">Розташування</span>
+        <div class="link-icon"> <i class="fa-solid fa-location-dot ml-2"></i> </div>
+      </a>
 
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/additional-info'"><span
-                class="link-text">Додаткова</span>
-                <i class="fa-solid fa-puzzle-piece"></i>
-            </a>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'">
+        <span class="link-text">Параметри</span>
+        <div class="link-icon"><i class="fa-solid fa-trowel-bricks"></i> </div>
+      </a>
 
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'">
+        <span class="link-text">Наповнення</span>
+        <div class="link-icon"><i class="fa-solid fa-dolly"></i> </div>
+      </a>
 
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">
+        <span class="link-text">Особливості</span>
+        <div class="link-icon"><i class="fa-solid fa-users-gear"></i></div>
+      </a>
 
-          </nav>
-        </div>
-      </div>
-    </div>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/additional-info'">
+        <span class="link-text">Додаткові</span>
+        <div class="link-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+      </a>
 
-    <div class="card-box1 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
+    </nav>
+
+    <!-- <div class="card-box1 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
       <div class="col-lg-6 col-sm-12 p-3">
         <app-selection-housing></app-selection-housing>
         <h1>Створіть нову оселю.</h1>
@@ -113,9 +111,9 @@
           створювати наразі необмежено.</p>
         <app-add-house class="w-100"></app-add-house>
       </div>
-    </div>
+    </div> -->
 
-    <div class="hide-pc p-2 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
+    <!-- <div class="hide-pc p-2 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
       <div class="box">
         <app-selection-housing class="w-75"></app-selection-housing>
         <button class="btn-add" (click)="onAddHouse()">
@@ -128,14 +126,9 @@
         </button>
       </div>
       <app-add-house *ngIf="addHouse"></app-add-house>
-    </div>
+    </div> -->
 
     <div class="col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!addHouse">
-      <div class="navigation hide-mobile" *ngIf="selectedFlatId">
-        <a class="flex-box navigation-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"><i
-            class="fa-solid fa-chevron-left"></i>НАЗАД</a>
-        <h2>Редагування оселі</h2>
-      </div>
       <router-outlet *ngIf="selectedFlatId"></router-outlet>
     </div>
 

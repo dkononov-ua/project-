@@ -1,6 +1,7 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss";
+@use "../../../style/navbar.scss";
 
 .container-fluid {
   display: flex;
@@ -226,54 +227,9 @@ p {
   }
 }
 
-.card-menu-house {
-  color: $color-text;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  @include s1-s3 {
-    justify-content: flex-end;
-    background-color: $color-white;
-    border: 1px solid $color-primary;
-    border-radius: 0 0 10px 10px;
-    padding: 20px 10px;
-  }
-}
-
-.link-menu {
-  transition: 0.4s;
-  display: flex;
-  justify-content: space-between;
-
-  .fa-solid,
-  .fa-regular {
-    color: $color-text;
-  }
-
-  &:hover {
-    color: $color-accent;
-    transition: 0.4s;
-    transform: scale(1.1);
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-
-    span {
-      transition: 0.4s;
-      transform: translate(20px) scale(1.1);
-    }
-
-    .fa-solid,
-    .fa-regular {
-      color: $color-accent;
-      transform: translate(10px) scale(1.1);
-      transition: 0.4s;
-    }
-  }
-}
-
-.link-text {
-  font-size: $font-size;
-  font-family: $font-main;
+.navbar {
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .material-symbols-outlined {

@@ -95,7 +95,7 @@
           </button>
         </div>
 
-        <mat-form-field class="textarea-form mt-2" *ngIf="about">
+        <mat-form-field class="textarea-form mt-2">
           <mat-label>Опис об'єкту:</mat-label>
           <textarea class="textarea-form" #textArea (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
             placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
@@ -118,19 +118,21 @@
             <p class="btn-name">Фото</p>
           </div>
 
-          <div class="box-group">
+          <!-- <div class="box-group">
             <div class="add-photo-box">
               <i class="fa-solid fa-quote-right"></i>
               <button class="input-up" (click)="addAbout()"></button>
             </div>
             <p class="btn-name">Опис</p>
-          </div>
+          </div> -->
 
 
         </div>
 
-        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"><i
-            class="fa-regular fa-circle-check"></i></button>
+        <div class="btn-group">
+          <button class="btn flex-box" (click)="saveObject()">ЗБЕРЕГТИ<i
+              class="fa-regular fa-circle-check ml-2"></i></button>
+        </div>
 
       </div>
     </div>
@@ -139,12 +141,12 @@
 
       <div class="card-box" *ngIf="flat_objects?.length === 0">
         <div class="w-100 p-2">
-          <h3><strong>Меню наповнення</strong></h3>
-          <p>Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
+          <div class="t-lar-x bold t-c">Меню наповнення</div>
+          <p  class="t-min gray t-c">Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
             яку
             передає у користування орендару</p>
-          <p><strong>Функції</strong></p>
-          <ul>
+          <p class="t-med bold dark t-c mt-2">Функції</p>
+          <ul class="t-min dark t-s">
             <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
               техніки і т.д</li>
             <li>Цю інформацію також можна буде показувати людям з якими у
@@ -233,12 +235,12 @@
           </button>
         </div>
 
-        <mat-form-field class="textarea-form mt-2" *ngIf="about">
+        <mat-form-field class="textarea-form mt-2">
           <mat-label>Опис об'єкту:</mat-label>
           <textarea class="textarea-form" #textArea (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
             placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
         </mat-form-field>
-        
+
         <div class="add-photo-group">
 
           <div class="box-group" *ngIf="cropped">
@@ -256,19 +258,22 @@
             <p class="btn-name">Фото</p>
           </div>
 
-          <div class="box-group">
+          <!-- <div class="box-group">
             <div class="add-photo-box">
               <i class="fa-solid fa-quote-right"></i>
               <button class="input-up" (click)="addAbout()"></button>
             </div>
             <p class="btn-name">Опис</p>
-          </div>
+          </div> -->
 
 
         </div>
 
-        <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveObject()"><i
-            class="fa-regular fa-circle-check"></i></button>
+        <div class="btn-group">
+          <button class="btn flex-box" (click)="saveObject()">ЗБЕРЕГТИ<i
+              class="fa-regular fa-circle-check ml-2"></i></button>
+        </div>
+
       </div>
     </div>
 

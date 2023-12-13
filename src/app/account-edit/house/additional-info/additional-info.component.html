@@ -6,7 +6,7 @@
   <div class="container-card">
 
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card">
+      <div class="card mb-2">
         <div class="param-box ">
           <div class="param-name  mt-4">Допоміжна інформація
             <p class="t-min ">додаткова інформація про оселю та її налаштування</p>
@@ -14,7 +14,7 @@
         </div>
 
         <div class="box" *ngIf="selectedFlatId">
-          <mat-label class="description">Додайте ім'я та контакти представника будинку для того щоб можна було вирішити
+          <mat-label class="t-min gray t-c">Додайте ім'я та контакти представника будинку для того щоб можна було вирішити
             питання
             які
             виникнуть стосовно будинку</mat-label>
@@ -53,11 +53,11 @@
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card">
+      <div class="card mb-2">
 
         <div class="param-box ">
           <div class="param-name  mt-4">Додаткова інформація
-            <p class="t-min ">вкажіть ваші застереження, інструкції абощо для ваших орендарів</p>
+            <p class="t-min gray">вкажіть ваші застереження, інструкції абощо для ваших орендарів</p>
           </div>
         </div>
 
@@ -70,10 +70,10 @@
         </div>
 
         <div class="btn-group">
-          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-              class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
-              class="icon fa-solid fa-eraser"></i></button>
+          <button class="btn flex-box" (click)="clearInfo()">ОЧИСТИТИ<i
+              class="icon fa-solid fa-eraser ml-2"></i></button>
+          <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
+              class="icon fa-regular fa-circle-check ml-2"></i></button>
         </div>
 
 

@@ -6,7 +6,7 @@
   <div class="container-card">
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
 
-      <div class="card">
+      <div class="card mb-2">
         <div class="group-label">Місцерозташування</div>
         <mat-form-field class="item-select mt-3" appearance="outline">
           <mat-label for="region">Область</mat-label>
@@ -67,12 +67,13 @@
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
 
-      <div class="card">
+      <div class="card mb-2 ">
 
         <div class="group-label">Паркінг / транспорт / метро</div>
         <mat-form-field class="item-select mt-3" appearance="outline">
           <div class="list-label-1">Відстань до парковки</div>
-          <mat-select name="distance_parking" placeholder="Відстань до парковки"  [(ngModel)]="flatInfo.distance_parking">
+          <mat-select name="distance_parking" placeholder="Відстань до парковки"
+            [(ngModel)]="flatInfo.distance_parking">
             <mat-option [value]="">Приховати</mat-option>
             <mat-option [value]="1">на території</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
@@ -85,7 +86,8 @@
         <mat-form-field class="item-select" appearance="outline">
           <div class="list-label-1">Відстань до зупинки транспорту</div>
 
-          <mat-select name="distance_stop" placeholder="Відстань до зупинки транспорту" id="distance_stop" [(ngModel)]="flatInfo.distance_stop">
+          <mat-select name="distance_stop" placeholder="Відстань до зупинки транспорту" id="distance_stop"
+            [(ngModel)]="flatInfo.distance_stop">
             <mat-option [value]="">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -97,7 +99,8 @@
         <mat-form-field class="item-select" appearance="outline">
           <div class="list-label-1">Відстань до метро</div>
 
-          <mat-select name="distance_metro" placeholder="Відстань до метро" id="distance_metro" [(ngModel)]="flatInfo.distance_metro">
+          <mat-select name="distance_metro" placeholder="Відстань до метро" id="distance_metro"
+            [(ngModel)]="flatInfo.distance_metro">
             <mat-option [value]="">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -111,7 +114,8 @@
         <mat-form-field class="item-select" appearance="outline">
           <div class="list-label-1">Відстань до парку</div>
 
-          <mat-select name="distance_green" placeholder="Відстань до парку" id="distance_green" [(ngModel)]="flatInfo.distance_green">
+          <mat-select name="distance_green" placeholder="Відстань до парку" id="distance_green"
+            [(ngModel)]="flatInfo.distance_green">
             <mat-option [value]="">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -123,7 +127,8 @@
         <mat-form-field class="item-select" appearance="outline">
           <div class="list-label-1">Відстань до маркетів</div>
 
-          <mat-select name="distance_shop" placeholder="Відстань до маркетів" id="distance_shop" [(ngModel)]="flatInfo.distance_shop">
+          <mat-select name="distance_shop" placeholder="Відстань до маркетів" id="distance_shop"
+            [(ngModel)]="flatInfo.distance_shop">
             <mat-option [value]="">Приховати</mat-option>
             <mat-option [value]="100">до 100м</mat-option>
             <mat-option [value]="300">до 300м</mat-option>
@@ -133,10 +138,10 @@
         </mat-form-field>
 
         <div class="btn-group">
-          <button class="btn" matTooltip="ЗБЕРЕГТИ" (click)="saveInfo()"><i
-              class="icon fa-regular fa-circle-check"></i></button>
-          <button class="btn" matTooltip="ОЧИСТИТИ" (click)="clearInfo()"><i
-              class="icon fa-solid fa-eraser"></i></button>
+          <button class="btn flex-box" (click)="clearInfo()">ОЧИСТИТИ<i
+              class="icon fa-solid fa-eraser ml-2"></i></button>
+          <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
+              class="icon fa-regular fa-circle-check ml-2"></i></button>
         </div>
       </div>
 

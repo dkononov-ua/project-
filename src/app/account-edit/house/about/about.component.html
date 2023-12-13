@@ -55,7 +55,7 @@
     </div>
 
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card">
+      <div class="card mb-2">
 
         <mat-label class="group-label  border-top">Пріорітет орендарів</mat-label>
         <!-- оселя -->
@@ -149,7 +149,7 @@
     </div>
 
     <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card">
+      <div class="card mb-2">
 
         <div class="flex-column">
           <mat-label class="t-med t-s w-70 accent bold">Варіанти оплати*</mat-label>
@@ -191,7 +191,7 @@
 
         <div class="flex-column w-100">
           <mat-label class="t-med t-s w-70 accent bold">Ціна за термін в грн*</mat-label>
-          <div class="inputbox-group">
+          <div class="inputbox-group mt-2">
             <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
               <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
               <div class="mat-input-container">
@@ -224,7 +224,7 @@
 
         <mat-label class="group-label  border-top">Формат здачі оселі*</mat-label>
         <!-- оселя -->
-        <div class="inputbox-group">
+        <div class="inputbox-group mt-2">
           <button class="info-btn" (click)="openHelpRoom()">Допомога</button>
 
           <div class="content-group">
@@ -236,7 +236,7 @@
           </div>
         </div>
         <!-- кімната -->
-        <div class="inputbox-group">
+        <div class="inputbox-group mt-2">
           <div class="content-group">
             <label class="checkBox">
               <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
@@ -246,24 +246,24 @@
           </div>
         </div>
 
-        <div class="btn-group">
+        <div class="btn-group mt-3">
           <button class="btn" (click)="clearInfo()">
             <i class="icon fa-solid fa-eraser"></i>
-            <div class="t-min dark bold p-2" >Очистити</div>
+            <div class="t-min dark bold p-2" >ОЧИТИТИ</div>
           </button>
 
           <button [disabled]="flatInfo.option_pay === 0 && !flatInfo.price_m || flatInfo.option_pay === 1 && !flatInfo.price_d" class="btn"
             (click)="saveInfo(flatInfo.rent = 1)">
             <i class="fa-regular fa-circle-check"></i>
-            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 1">Зберегти зміни</div>
-            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 0">Активувати</div>
+            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 1">ЗБЕРЕГТИ</div>
+            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 0">АКТИВУВАТИ</div>
           </button>
         </div>
 
-        <div class="btn-group" *ngIf="flatInfo.rent === 1">
+        <div class="btn-group " *ngIf="flatInfo.rent === 1">
           <button class="btn" (click)="saveInfo(flatInfo.rent = 0)">
             <i class="fa-solid fa-power-off"></i>
-            <div class="t-med dark bold">Деактивувати</div>
+            <div class="t-med dark bold ml-2">ДЕАКТИВУВАТИ</div>
           </button>
         </div>
 
