@@ -245,6 +245,9 @@ export class SubscribersDiscusComponent implements OnInit {
     this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано');
   }
 
+  copyViber() { this.copyToClipboard(this.chosenFlat?.owner.viber, 'Viber номер скопійовано'); }
+
+
   // Перезавантаження сторінки з лоадером
   reloadPage() {
     this.loading = true;

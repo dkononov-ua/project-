@@ -40,6 +40,9 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 
 export class RegistrationComponent implements OnInit {
 
+  minDate: Date;
+  maxDate: Date;
+
   path_logo = path_logo;
   passwordType = 'password';
   passwordType1 = 'password';
@@ -86,9 +89,9 @@ export class RegistrationComponent implements OnInit {
   validationMessages: any = {
     regPassword: {
       required: "Пароль обов'язково",
-      minlength: 'Не менше 7 символів',
+      minlength: 'Мін. 7 символів.',
       maxlength: 'Не більше довжина 25 символів',
-      pattern: 'Має містити цифру, не більше 2 повторів символів',
+      pattern: 'літеру, цифру, символ (@$!%*?&)',
     },
 
     userName: {
@@ -99,9 +102,9 @@ export class RegistrationComponent implements OnInit {
 
     password: {
       required: "Пароль обов'язково",
-      minlength: 'Не менше 7 символів',
+      minlength: 'Мін. 7 символів',
       maxlength: 'Не більше довжина 25 символів',
-      pattern: 'Має містити цифру, не більше 2 повторів символів',
+      pattern: 'літеру, цифру, символ [@$!%*?&]',
     },
 
     email: {
@@ -137,7 +140,12 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-  ) { }
+  ) {
+       // Set the minimum to January 1st 20 years in the past and December 31st a year in the future.
+       const currentYear = new Date().getFullYear();
+       this.minDate = new Date(currentYear - 80, 0, 1);
+       this.maxDate = new Date(currentYear - 16, 11, 31);
+   }
 
   ngOnInit(): void {
     localStorage.removeItem('selectedComun');
@@ -384,9 +392,8 @@ export class RegistrationComponent implements OnInit {
           Validators.required,
           Validators.minLength(7),
           Validators.maxLength(25),
-          Validators.pattern(/\d/),  // Перевірка на наявність цифри
-          // Validators.pattern(/[A-Za-z]/),  // Перевірка на наявність латинської літери
-          Validators.pattern(/^(?!.*(.).*\1)[A-Za-z@$!%*?&\d]{5,}$/),  // Відсутність більше двох символів підряд
+          Validators.pattern(/.*\d.*/),  // Перевірка на наявність цифри
+          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),  // Перевірка на наявність цифри
         ],
       ],
       regEmail: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
@@ -400,9 +407,10 @@ export class RegistrationComponent implements OnInit {
           Validators.required,
           Validators.minLength(7),
           Validators.maxLength(25),
-          Validators.pattern(/\d/),  // Перевірка на наявність цифри
+          Validators.pattern(/.*\d.*/),  // Перевірка на наявність цифри
+          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),  // Перевірка на наявність цифри
           // Validators.pattern(/[A-Za-z]/),  // Перевірка на наявність латинської літери
-          Validators.pattern(/^(?!.*(.).*\1)[A-Za-z@$!%*?&\d]{5,}$/),  // Відсутність більше двох символів підряд
+          // Validators.pattern(/^(?!.*(.)(?:.*\1){2})[A-Za-z@$!%*?&\d]{5,}$/)
         ],
       ],
       email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/), Validators.minLength(7),
@@ -411,8 +419,8 @@ export class RegistrationComponent implements OnInit {
 
     this.changePassForm = this.fb.group({
       changePasswordEmail: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
-      changePassword: [{ value: '', disabled: false }, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
-      changePassword1: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]]
+      changePassword: [{ value: '', disabled: false }, [Validators.required, Validators.minLength(7), Validators.maxLength(25), Validators.pattern(/.*\d.*/), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+      changePassword1: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(7), Validators.maxLength(25), Validators.pattern(/.*\d.*/), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]]
     });
 
     this.changePassForm.get('changePassword')?.valueChanges.subscribe(value => {

@@ -33,6 +33,12 @@ interface UserInfo {
   dob: string | any;
   password: string | undefined;
   agreeAdd: boolean | false;
+  user_mail: string | undefined;
+  data_create: string | undefined;
+  banned: number;
+  checked: number;
+  data_unban: string | undefined;
+  owner: string | undefined;
 }
 interface UserCont {
   facebook: string | undefined;
@@ -85,6 +91,20 @@ interface UserParam {
 
 export class InformationUserComponent implements OnInit {
 
+
+
+  extractUsernameFromUrl(url: string): string {
+    // Ваш регулярний вираз для витягування імені користувача
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:facebook\.com|instagram\.com|telegram\.me)\/([a-zA-Z0-9._]+)/;
+
+    // Витягнути ім'я користувача з посилання
+    const match = url.match(regex);
+
+    // Повернути ім'я користувача, якщо знайдено, або пустий рядок
+    return match ? match[1] : '';
+  }
+
+
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -98,6 +118,12 @@ export class InformationUserComponent implements OnInit {
     surName: '',
     dob: '',
     password: '',
+    user_mail: '',
+    data_create: '',
+    banned: 0,
+    checked: 0,
+    data_unban: '',
+    owner: '',
   };
 
   userCont: UserCont = {
@@ -209,6 +235,7 @@ export class InformationUserComponent implements OnInit {
     if (userJson !== null) {
       this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
+          console.log(response)
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
@@ -224,10 +251,24 @@ export class InformationUserComponent implements OnInit {
   async saveParamsUser(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.loading = true;
-      const headers = { 'Accept': 'application/json' };
       try {
+        this.loading = true;
+        // const data = { ...this.userInfo };
         const response: any = await this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat }).toPromise();
+        // console.log(response)
+        if (response.status === true) {
+          this.statusMessage = 'Налаштування збережено';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        } else {
+          this.statusMessage = 'Помилка збереження';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        }
       } catch (error) {
         console.error(error);
         this.statusMessage = 'Помилка на сервері, повторіть спробу';
@@ -238,18 +279,19 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
+
   async saveInfoUser(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
         this.loading = true;
-        this.saveParamsUser();
         const data = { ...this.userInfo };
         const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
           this.statusMessage = 'Персональні дані збережено';
           setTimeout(() => {
+            this.indexPage = 1;
             this.statusMessage = '';
             this.loading = false;
           }, 2000);
@@ -276,6 +318,7 @@ export class InformationUserComponent implements OnInit {
       try {
         this.loading = true;
         const data = this.userCont;
+        console.log(data)
         const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
@@ -283,6 +326,7 @@ export class InformationUserComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = '';
             this.loading = false;
+            this.router.navigate(['/user']);
           }, 2000);
         } else {
           this.statusMessage = 'Помилка збереження';

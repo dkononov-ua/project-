@@ -220,6 +220,7 @@ export class InfoComponent implements OnInit {
   copyId() { this.copyToClipboard(this.userInfo.user_id, 'ID скопійовано'); }
   copyTell() { this.copyToClipboard(this.userInfo.tell, 'Телефон скопійовано'); }
   copyMail() { this.copyToClipboard(this.userInfo.mail, 'Пошту скопійовано'); }
+  copyViber() { this.copyToClipboard(this.userInfo.viber, 'Viber номер скопійовано'); }
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)

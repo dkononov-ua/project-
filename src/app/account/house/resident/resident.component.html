@@ -1,4 +1,4 @@
-<ng-container *ngIf="loading; else content">
+<ng-container *ngIf="loading; else content">copyTell
   <app-loader></app-loader>
 </ng-container>
 
@@ -283,24 +283,36 @@
           </div>
 
           <div class="social-link-container">
-            <div *ngIf="!ownerInfo.instagram && !ownerInfo.facebook && !ownerInfo.telegram">
-              <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
+            <div class="social-link-box" *ngIf="!ownerInfo.instagram && !ownerInfo.facebook && !ownerInfo.telegram">
+              <p class="text">Посилання відсутні.</p>
+              <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+                інформаці</p>
             </div>
+
             <div class="social-link-box" *ngIf="ownerInfo.instagram">
-              <a class="social-link-icon" target="_blank" href="{{ ownerInfo.instagram }}"><i
+              <a class="social-link-icon" target="_blank" href="https://www.instagram.com/{{  ownerInfo.instagram }}"><i
                   class="fab fa-brands fa-instagram"></i></a>
               <div class="social-link-name">instagram</div>
             </div>
+
             <div class="social-link-box" *ngIf="ownerInfo.facebook">
-              <a class="social-link-icon" target="_blank" href="{{ ownerInfo.facebook }}"><i
+              <a class="social-link-icon" target="_blank" href="https://www.facebook.com/{{ ownerInfo.facebook }}"><i
                   class="fab fa-brands fa-facebook"></i></a>
               <div class="social-link-name">facebook</div>
             </div>
+
             <div class="social-link-box" *ngIf="ownerInfo.telegram">
-              <a class="social-link-icon" target="_blank" href="{{ ownerInfo.telegram }}"><i
+              <a class="social-link-icon" target="_blank" href="https://t.me/{{ ownerInfo.telegram }}"><i
                   class="fab fa-brands fa-telegram"></i></a>
               <div class="social-link-name">telegram</div>
             </div>
+
+            <div class="social-link-box" *ngIf="ownerInfo.viber">
+              <a class="social-link-icon" (click)="copyViber(ownerInfo.viber)"><i
+                  class="fab fa-brands fa-viber"></i></a>
+              <div class="social-link-name">viber</div>
+            </div>
+
           </div>
         </div>
         <!-- власник рейтинг -->
@@ -360,8 +372,7 @@
 
               <div class="radio-btn">
                 <mat-radio-button color="warn" value="10">
-                  <i class="fa-regular fa-face-smile-beam abs"
-                    [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
+                  <i class="fa-regular fa-face-smile-beam abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
                 </mat-radio-button>
               </div>
 
@@ -477,24 +488,37 @@
           </div>
 
           <div class="social-link-container">
-            <div *ngIf="!selectedSubscriber.instagram && !selectedSubscriber.facebook && !selectedSubscriber.telegram">
-              <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
+            <div class="social-link-box"
+              *ngIf="!selectedSubscriber.instagram && !selectedSubscriber.facebook && !selectedSubscriber.telegram">
+              <p class="text">Посилання відсутні.</p>
+              <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+                інформаці</p>
             </div>
 
             <div class="social-link-box" *ngIf="selectedSubscriber.instagram">
-              <a class="social-link-icon" target="_blank" href="{{ selectedSubscriber.instagram }}"><i
+              <a class="social-link-icon" target="_blank"
+                href="https://www.instagram.com/{{  selectedSubscriber.instagram }}"><i
                   class="fab fa-brands fa-instagram"></i></a>
               <div class="social-link-name">instagram</div>
             </div>
+
             <div class="social-link-box" *ngIf="selectedSubscriber.facebook">
-              <a class="social-link-icon" target="_blank" href="{{ selectedSubscriber.facebook }}"><i
+              <a class="social-link-icon" target="_blank"
+                href="https://www.facebook.com/{{ selectedSubscriber.facebook }}"><i
                   class="fab fa-brands fa-facebook"></i></a>
               <div class="social-link-name">facebook</div>
             </div>
+
             <div class="social-link-box" *ngIf="selectedSubscriber.telegram">
-              <a class="social-link-icon" target="_blank" href="{{ selectedSubscriber.telegram }}"><i
+              <a class="social-link-icon" target="_blank" href="https://t.me/{{ selectedSubscriber.telegram }}"><i
                   class="fab fa-brands fa-telegram"></i></a>
               <div class="social-link-name">telegram</div>
+            </div>
+
+            <div class="social-link-box" *ngIf="selectedSubscriber.viber">
+              <a class="social-link-icon" (click)="copyViber(selectedSubscriber.viber)"><i
+                  class="fab fa-brands fa-viber"></i></a>
+              <div class="social-link-name">viber</div>
             </div>
 
           </div>

@@ -13,7 +13,7 @@ img {
 
   .section-title {
     text-align: center;
-    animation: bounce-in 1s;
+    // animation: bounce-in 1s;
   }
 
   .container-card {
@@ -35,10 +35,11 @@ img {
     text-align: center;
     padding: 20px;
     margin-bottom: 30px;
+    transition: 1s;
 
     &:hover {
-      transform: scale(1.05);
-      animation: shake 0.5s;
+      transform: scale(1.1);
+      // animation: shake 0.5s;
     }
 
     .team-member-image {
@@ -47,7 +48,7 @@ img {
         width: 150px;
         height: 150px;
         margin-bottom: 20px;
-        animation: pulse 1s infinite;
+        // animation: pulse 1s infinite;
       }
     }
 
@@ -76,69 +77,69 @@ img {
           color: #000000;
           margin: 0 10px;
 
-          &:hover {
-            color: $color-accent;
-            animation: swing 0.5s;
-          }
+          // &:hover {
+          //   color: $color-accent;
+          //   animation: swing 0.5s;
+          // }
         }
       }
     }
   }
-  @keyframes bounce-in {
-    0% {
-      transform: translateY(-100px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
+  // @keyframes bounce-in {
+  //   0% {
+  //     transform: translateY(-100px);
+  //     opacity: 0;
+  //   }
+  //   100% {
+  //     transform: translateY(0);
+  //     opacity: 1;
+  //   }
+  // }
 
-  @keyframes shake {
-    0% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-10px);
-    }
-    50% {
-      transform: translateX(10px);
-    }
-    75% {
-      transform: translateX(-10px);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
+  // @keyframes shake {
+  //   0% {
+  //     transform: translateX(0);
+  //   }
+  //   25% {
+  //     transform: translateX(-10px);
+  //   }
+  //   50% {
+  //     transform: translateX(10px);
+  //   }
+  //   75% {
+  //     transform: translateX(-10px);
+  //   }
+  //   100% {
+  //     transform: translateX(0);
+  //   }
+  // }
 
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  @keyframes swing {
-    0% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(15deg);
-    }
-    50% {
-      transform: rotate(-10deg);
-    }
-    75% {
-      transform: rotate(5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
+  // @keyframes pulse {
+  //   0% {
+  //     transform: scale(1);
+  //   }
+  //   50% {
+  //     transform: scale(1.1);
+  //   }
+  //   100% {
+  //     transform: scale(1);
+  //   }
+  // }
+  // @keyframes swing {
+  //   0% {
+  //     transform: rotate(0deg);
+  //   }
+  //   25% {
+  //     transform: rotate(15deg);
+  //   }
+  //   50% {
+  //     transform: rotate(-10deg);
+  //   }
+  //   75% {
+  //     transform: rotate(5deg);
+  //   }
+  //   100% {
+  //     transform: rotate(0deg);
+  //   }
+  // }
 }

@@ -507,29 +507,36 @@
         </div>
 
         <div class="social-link-container">
-          <div class="social-link-box"
-            *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
-            <p class="t-med gray t-c">Посилання відсутні.</p>
-            <p class="t-min gray t-c">Власник оселі не додав жодних посилань на свої сторінки</p>
+          <div class="social-link-box" *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
+            <p class="text">Посилання відсутні.</p>
+            <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+              інформаці</p>
           </div>
 
           <div class="social-link-box" *ngIf="chosenFlat.owner.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.instagram }}"><i
+            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/{{  chosenFlat.owner.instagram }}"><i
                 class="fab fa-brands fa-instagram"></i></a>
             <div class="social-link-name">instagram</div>
           </div>
 
           <div class="social-link-box" *ngIf="chosenFlat.owner.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.facebook }}"><i
+            <a class="social-link-icon" target="_blank" href="https://www.facebook.com/{{ chosenFlat.owner.facebook }}"><i
                 class="fab fa-brands fa-facebook"></i></a>
             <div class="social-link-name">facebook</div>
           </div>
 
           <div class="social-link-box" *ngIf="chosenFlat.owner.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ chosenFlat.owner.telegram }}"><i
+            <a class="social-link-icon" target="_blank" href="https://t.me/{{ chosenFlat.owner.telegram }}"><i
                 class="fab fa-brands fa-telegram"></i></a>
             <div class="social-link-name">telegram</div>
           </div>
+
+          <div class="social-link-box" *ngIf="chosenFlat.owner.viber">
+            <a class="social-link-icon" (click)="copyViber()"><i
+                class="fab fa-brands fa-viber"></i></a>
+            <div class="social-link-name">viber</div>
+          </div>
+
         </div>
 
         <div class="param-box">

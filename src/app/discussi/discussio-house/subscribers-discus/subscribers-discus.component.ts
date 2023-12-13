@@ -346,6 +346,8 @@ export class SubscribersDiscusComponent implements OnInit {
   copyId() { this.copyToClipboard(this.selectedUser?.user_id, 'ID скопійовано'); }
   copyTell() { this.copyToClipboard(this.selectedUser?.tell, 'Телефон скопійовано'); }
   copyMail() { this.copyToClipboard(this.selectedUser?.mail, 'Пошту скопійовано'); }
+  copyViber() { this.copyToClipboard(this.selectedUser?.viber, 'Viber номер скопійовано'); }
+
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)

@@ -66,21 +66,27 @@
           </div>
 
           <div class="social-link-box" *ngIf="userInfo.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ userInfo.instagram }}"><i
+            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/{{  userInfo.instagram }}"><i
                 class="fab fa-brands fa-instagram"></i></a>
             <div class="social-link-name">instagram</div>
           </div>
 
           <div class="social-link-box" *ngIf="userInfo.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ userInfo.facebook }}"><i
+            <a class="social-link-icon" target="_blank" href="https://www.facebook.com/{{ userInfo.facebook }}"><i
                 class="fab fa-brands fa-facebook"></i></a>
             <div class="social-link-name">facebook</div>
           </div>
 
           <div class="social-link-box" *ngIf="userInfo.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ userInfo.telegram }}"><i
+            <a class="social-link-icon" target="_blank" href="https://t.me/{{ userInfo.telegram }}"><i
                 class="fab fa-brands fa-telegram"></i></a>
             <div class="social-link-name">telegram</div>
+          </div>
+
+          <div class="social-link-box" *ngIf="userInfo.viber">
+            <a class="social-link-icon" (click)="copyViber()"><i
+                class="fab fa-brands fa-viber"></i></a>
+            <div class="social-link-name">viber</div>
           </div>
 
         </div>

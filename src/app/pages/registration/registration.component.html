@@ -28,11 +28,19 @@
             <div class="t-lar-xx bold dark">Зареєструватись</div>
           </div>
           <div class="text-box">
-            <div class="t-lar bold dark">Зареєструйтесь для входу </div>
             <button (click)="indexCard = 1" class="btn-none">або увійдіть в аккаунт тут.</button>
           </div>
 
           <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
+
+            <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
+              <mat-label>Дата народження</mat-label>
+              <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
+                placeholder="Оберіть дату з календаря"  id="dob" formControlName="dob">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
+            </mat-form-field>
 
             <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
               <mat-label>Вкажіть ваш Email</mat-label>
@@ -41,15 +49,7 @@
               <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
             </mat-form-field>
 
-            <mat-form-field class="inputbox" *ngIf="indexBtn === 1">
-              <mat-label>Дата вашого народження</mat-label>
-              <input matInput [matDatepicker]="picker" id="dob" type="text" formControlName="dob">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
-            </mat-form-field>
-
-            <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
+            <mat-form-field class="inputbox " appearance="outline" *ngIf="indexBtn === 1">
               <mat-label>Придумайте пароль</mat-label>
               <input matInput id="regPassword" type="password" formControlName="regPassword" minlength="7"
                 maxlength="25" required class="input-field" [type]="passwordType">

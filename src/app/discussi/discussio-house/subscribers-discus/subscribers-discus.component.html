@@ -256,25 +256,36 @@
         </div>
 
         <div class="social-link-container">
-          <div *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
-            <p class="t-med gray">Посилання на соціальні мережі відсутні...</p>
+          <div class="social-link-box" *ngIf="!selectedUser.instagram && !selectedUser.facebook && !selectedUser.telegram">
+            <p class="text">Посилання відсутні.</p>
+            <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
+              інформаці</p>
           </div>
 
           <div class="social-link-box" *ngIf="selectedUser.instagram">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.instagram }}"><i
+            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/{{  selectedUser.instagram }}"><i
                 class="fab fa-brands fa-instagram"></i></a>
             <div class="social-link-name">instagram</div>
           </div>
+
           <div class="social-link-box" *ngIf="selectedUser.facebook">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.facebook }}"><i
+            <a class="social-link-icon" target="_blank" href="https://www.facebook.com/{{ selectedUser.facebook }}"><i
                 class="fab fa-brands fa-facebook"></i></a>
             <div class="social-link-name">facebook</div>
           </div>
+
           <div class="social-link-box" *ngIf="selectedUser.telegram">
-            <a class="social-link-icon" target="_blank" href="{{ selectedUser.telegram }}"><i
+            <a class="social-link-icon" target="_blank" href="https://t.me/{{ selectedUser.telegram }}"><i
                 class="fab fa-brands fa-telegram"></i></a>
             <div class="social-link-name">telegram</div>
           </div>
+
+          <div class="social-link-box" *ngIf="selectedUser.viber">
+            <a class="social-link-icon" (click)="copyViber()"><i
+                class="fab fa-brands fa-viber"></i></a>
+            <div class="social-link-name">viber</div>
+          </div>
+
         </div>
 
         <div class="param-box" *ngIf="selectedUser.price_of || selectedUser.price_to">

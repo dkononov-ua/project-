@@ -46,13 +46,13 @@ interface Subscriber {
   selector: 'app-resident',
   templateUrl: './resident.component.html',
   styleUrls: ['./resident.component.scss'],
-    // переклад календаря
-    providers: [
-      { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-      { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS], },
-      { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    ],
-    // переклад календаря
+  // переклад календаря
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS], },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
+  // переклад календаря
 
   animations: [
     trigger('cardAnimation', [
@@ -635,6 +635,12 @@ export class ResidentComponent implements OnInit {
     if (copyMail)
       this.copyToClipboard(copyMail, 'Пошту скопійовано');
   }
+
+  copyViber(copyViber: any) {
+    if (copyViber)
+      this.copyToClipboard(copyViber, 'Viber номер скопійовано');
+  }
+
 
 }
 
