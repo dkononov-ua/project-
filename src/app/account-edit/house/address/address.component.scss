@@ -1,1 +1,19 @@
 @use "../housing-parameters.component.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 5px;
+  padding: 0;
+  &:hover {
+    color: $color-accent;
+    .fa-solid {
+      color: $color-accent;
+    }
+  }
+}

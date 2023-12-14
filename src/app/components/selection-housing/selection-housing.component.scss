@@ -1,191 +1,66 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 
-.btn-open {
-  width: 50px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background-color: transparent;
-
-  .fa-solid {
-    font-size: 30px;
-    transition: 1s;
-    color: $color-text;
-    &:hover {
-      transform: scale(1.3);
-      color: $color-accent;
-    }
-  }
-}
-
-.selectedHouse-box {
-  height: 50px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  position: relative;
-  padding: 3px;
-  border: 1px solid rgba(128, 128, 128, 0.468);
-  border-radius: 5px;
-
-  .flatName-label {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-40px);
-    padding: 0 5px;
-    background-color: $color-primary;
-    @include s1-s3 {
-      background-color: $color-white;
-    }
-  }
-
-  .flatName {
-    font-size: 18px;
-    color: $color-accent;
-    font-weight: 600;
-  }
-
-  .btn-menu {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-.container-menu {
-  width: 100%;
-}
-
-.mat-mdc-menu-panel.mat-mdc-menu-panel {
-  min-width: 255px !important;
-  max-width: 469px !important;
+.cards-container {
+  @include flex-box;
+  flex-wrap: wrap;
+  height: 400px;
   overflow: auto;
-  position: relative;
-}
-
-.name-optgroup {
-  font-size: 12px;
-  color: $color-accent;
-  font-weight: 600;
-  width: 300px;
-}
-
-.form-container {
-  display: flex;
   width: 100%;
-  height: 65px;
-}
+  align-content: flex-start;
+  @include s1-s3 {
+    margin: 0;
+    height: 60vh;
+  }
 
-.list {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-}
-
-.list-form {
-  display: flex;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.list-label {
-  color: $color-accent;
-  border: none;
-  padding: 0;
-}
-
-.list-select {
-  border: none;
-  font-size: 20px;
-}
-
-.list-option {
-  border: none;
-  border-radius: 10px;
-}
-
-.house-box {
-  @include flex-box-column;
-}
-
-.card-house {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  .card-house-wrapper {
-    @include flex-box-column;
-    justify-content: space-between;
-    box-shadow: 0px 0px 20px 1000px rgba(0, 0, 0, 0.471);
-    overflow: auto;
-    max-height: 600px;
-    color: $color-text;
-    width: 400px;
+  .card-mini {
+    @include flex-box;
+    @include box-shadow;
+    cursor: pointer;
     background-color: $color-white;
-    border-radius: 20px;
     position: relative;
-
-    @include s1-s3 {
-      width: 100%;
+    width: 96%;
+    height: 130px;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    border-radius: 20px;
+    &:hover {
+      transform: scale(1.05);
     }
-
-    .position-sticky {
-      width: 100%;
-      background-color: $color-white;
-      position: sticky;
-      bottom: 0;
-    }
-
-    .btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      background-color: transparent;
-      border-radius: 50%;
-      .fa-regular {
-        font-size: 28px;
-        &:hover {
-          color: $color-accent;
-          transform: scale(1.2);
-        }
+    .card-mini-img-container {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      &:hover {
+        width: 55%;
+      }
+      .card-mini-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+        clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
       }
     }
-
-    .house-name {
-      font-size: 20px;
-      font-weight: 600;
-      color: $color-accent;
-      text-align: center
-    }
   }
-
-  .card-house-mini {
-    @include flex-box;
-    height: 60px;
-    width: 300px;
-    border-radius: 10px;
-    border: none;
-    &:hover {
-      background-color: $color-accent;
-      font-weight: 600;
-    }
+  .card-mini.selected {
+    transition: 1s;
+    color: $color-white;
+    background-color: $color-dark;
   }
 }
 
-h3 {
-  text-align: center;
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
 }
 
-
-
-.card-house-wrapper::-webkit-scrollbar {
-  display: none;
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
 }
+

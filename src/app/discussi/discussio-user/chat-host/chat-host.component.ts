@@ -32,6 +32,8 @@ export class ChatHostComponent implements OnInit {
     this.loading = false;
   }
 
+  
+
   async getFlatChats(): Promise<any> {
     const url = serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');

@@ -11,10 +11,10 @@
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
-          <i class="fa-solid fa-images"></i></span>
+        [routerLink]="'/housing-parameters/host/instruction'"><span class="link-text">
+          <i class="fa-solid fa-shoe-prints"></i></span>
       </a>
-      <div class="t-min dark bold">Фото</div>
+      <div class="t-min dark bold">Кроки</div>
     </div>
 
     <div class="switch-btn-group">
@@ -35,10 +35,10 @@
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/add-objects'"><span class="link-text">
-          <i class="fa-solid fa-dolly"></i></span>
+        [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
+          <i class="fa-solid fa-images"></i></span>
       </a>
-      <div class="t-min dark bold">Напов.</div>
+      <div class="t-min dark bold">Фото</div>
     </div>
 
     <div class="switch-btn-group">
@@ -48,6 +48,15 @@
       </a>
       <div class="t-min dark bold">Особл.</div>
     </div>
+
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+        [routerLink]="'/housing-parameters/host/add-objects'"><span class="link-text">
+          <i class="fa-solid fa-dolly"></i></span>
+      </a>
+      <div class="t-min dark bold">Напов.</div>
+    </div>
+
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
@@ -64,13 +73,13 @@
     <nav class="navbar hide-mobile col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId && selectedFlatId !== null">
 
       <a class="link-menu" [routerLink]="'/house/house-info'">
-        <span class="link-text bold accent">Назад</span>
+        <span class="link-text">Назад</span>
         <div class="link-icon"><i class="fa-solid fa-arrow-left"></i></div>
       </a>
 
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">
-        <span class="link-text">Додати фото</span>
-        <div class="link-icon"><i class="fa-solid fa-images"></i></div>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/instruction'">
+        <span class="link-text">Кроки</span>
+        <div class="link-icon"><i class="fa-solid fa-shoe-prints"></i></div>
       </a>
 
       <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">
@@ -83,9 +92,9 @@
         <div class="link-icon"><i class="fa-solid fa-trowel-bricks"></i> </div>
       </a>
 
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'">
-        <span class="link-text">Наповнення</span>
-        <div class="link-icon"><i class="fa-solid fa-dolly"></i> </div>
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">
+        <span class="link-text">Додати фото</span>
+        <div class="link-icon"><i class="fa-solid fa-images"></i></div>
       </a>
 
       <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">
@@ -93,9 +102,14 @@
         <div class="link-icon"><i class="fa-solid fa-users-gear"></i></div>
       </a>
 
+      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'">
+        <span class="link-text">Наповнення</span>
+        <div class="link-icon"><i class="fa-solid fa-dolly"></i> </div>
+      </a>
+
       <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/additional-info'">
         <span class="link-text">Додаткові</span>
-        <div class="link-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+        <div class="link-icon"><i class="fa-regular fa-address-book"></i></div>
       </a>
 
     </nav>

@@ -1,0 +1,38 @@
+@use "../../../style/agree/agree_about.scss";
+@use "../../../style/shared.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+.flex-column {
+  @include flex-box-column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flex-box {
+  @include flex-box;
+}
+
+.item-box {
+  justify-content: flex-start;
+  .item-description {
+    width: 60%;
+  }
+  @include s1-s3 {
+    .item-description {
+      width: 100%;
+    }
+  }
+}
+
+.buble {
+  width: 100px;
+  height: 100px;
+  background-color: $color-white;
+  border-radius: 50%;
+
+  .fa-solid {
+    font-size: 40px;
+    color: $color-dark;
+  }
+}

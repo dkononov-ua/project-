@@ -70,7 +70,7 @@ export class AddObjectsComponent implements OnInit {
   fillingImg: any;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
-  indexPage: number = 0;
+  indexPage: number = 1;
 
   minValue: number = 0;
   maxValue: number = 99;

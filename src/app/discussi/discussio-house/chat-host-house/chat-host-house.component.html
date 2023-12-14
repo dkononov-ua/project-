@@ -6,10 +6,15 @@
 
   <div class="flex-column">
 
-    <div class="switch-box p-2">
+    <div class="switch-box">
+
+      <div class="flex-column hide-mobile">
+        <div class="t-lar-xx bold dark hide-mobile">Чат оселі</div>
+        <div class="t-min gray hide-mobile">Тут знаходиться всі чати оселі</div>
+      </div>
 
       <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
           <i class="fa-solid fa-arrow-left"></i>
         </button>
         <div class="t-min dark bold">Назад</div>
@@ -23,13 +28,13 @@
       </div>
 
       <div class="switch-btn-group">
-        <button [disabled]="!selectedChat" class="btn" (click)="openChatCard = true" [ngClass]="{ 'active': openChatCard === true}">
+        <button [disabled]="!selectedChat" class="btn" (click)="openChatCard = true"
+          [ngClass]="{ 'active': openChatCard === true}">
           <i class="fa-regular fa-comment"></i>
         </button>
         <div class="t-min dark bold">Чат</div>
       </div>
 
-      <div class="t-lar-xx bold gray">Чат оселі</div>
 
     </div>
 
@@ -39,7 +44,6 @@
     <div class="card-box1 w-100" *ngIf="!openChatCard">
       <div class="card-container">
         <div class="cards-container p-2" *ngIf="chats.length === 0">
-          <h3>Тут будуть чати</h3>
           <p>У вас поки немає чатів...</p>
         </div>
         <div class="cards-container p-2" *ngIf="chats.length !== 0">

@@ -1,30 +1,29 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { HouseInfo } from '../../../interface/info';
 import { HouseConfig } from '../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox } from '../../../interface/name';
+
 @Component({
-  selector: 'app-house-info',
-  templateUrl: './house-info.component.html',
-  styleUrls: ['./house-info.component.scss'],
+  selector: 'app-main-info',
+  templateUrl: './main-info.component.html',
+  styleUrls: ['./main-info.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
+    trigger('cardAnimation', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
+      ])
     ]),
   ],
 })
 
-export class HouseInfoComponent implements OnInit {
+export class MainInfoComponent implements OnInit {
 
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -32,7 +31,7 @@ export class HouseInfoComponent implements OnInit {
   path_logo = path_logo;
   isOpen = true;
   isCopied = false;
-  indexCard: number = 1;
+  indexCard: number = 2;
   loading: boolean = false;
   houseData: any;
 
@@ -52,17 +51,11 @@ export class HouseInfoComponent implements OnInit {
   public locationLink: string = '';
   statusMessage: any;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
-    this.updateIndexCardBasedOnWindowSize();
-  }
-
-  constructor() { }
+  constructor() {  }
 
   async ngOnInit(): Promise<void> {
     this.loadDataFlat();
     await this.cardParam();
-    this.updateIndexCardBasedOnWindowSize();
   }
 
   cardParam() {
@@ -70,16 +63,6 @@ export class HouseInfoComponent implements OnInit {
       this.showCardParam = 1;
     } else {
       this.showCardParam = 2;
-    }
-  }
-
-  // перевірка ширини екрану
-  private updateIndexCardBasedOnWindowSize(): void {
-    const windowWidth = window.innerWidth;
-    if (windowWidth >= 768) {
-      this.indexCard = 2;
-    } else {
-      this.indexCard = 1;
     }
   }
 
@@ -178,5 +161,6 @@ export class HouseInfoComponent implements OnInit {
   }
 
 }
+
 
 

@@ -107,7 +107,7 @@ export class AddressComponent implements OnInit {
     });
   }
 
-  updateFlatInfo () {
+  updateFlatInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
@@ -174,21 +174,27 @@ export class AddressComponent implements OnInit {
   }
 
   generateLocationUrl() {
-    const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.flatInfo.region || '';
-    const city = this.flatInfo.city || '';
-    const street = this.flatInfo.street || '';
-    const houseNumber = this.flatInfo.houseNumber || '';
-    const flatIndex = this.flatInfo.flat_index || '';
-    const encodedRegion = encodeURIComponent(region);
-    const encodedCity = encodeURIComponent(city);
-    const encodedStreet = encodeURIComponent(street);
-    const encodedHouseNumber = encodeURIComponent(houseNumber);
-    const encodedFlatIndex = encodeURIComponent(flatIndex);
-    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-    this.locationLink = locationUrl;
+    if (this.flatInfo.region && this.flatInfo.city && this.flatInfo.street) {
 
-    return this.locationLink;
+      const baseUrl = 'https://www.google.com/maps/place/';
+      const region = this.flatInfo.region || '';
+      const city = this.flatInfo.city || '';
+      const street = this.flatInfo.street || '';
+      const houseNumber = this.flatInfo.houseNumber || '';
+      const flatIndex = this.flatInfo.flat_index || '';
+      const encodedRegion = encodeURIComponent(region);
+      const encodedCity = encodeURIComponent(city);
+      const encodedStreet = encodeURIComponent(street);
+      const encodedHouseNumber = encodeURIComponent(houseNumber);
+      const encodedFlatIndex = encodeURIComponent(flatIndex);
+      const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+      this.locationLink = locationUrl;
+
+      return this.locationLink;
+    } else {
+      return '';
+    }
+
   }
 
   async saveInfo(): Promise<void> {

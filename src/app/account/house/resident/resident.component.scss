@@ -12,12 +12,9 @@
   }
 }
 
-.flex-column {
-  width: 100%;
-}
-
 .switch-box {
   justify-content: flex-start;
+  align-items: center;
   .switch-btn-group {
     width: 100px;
   }

@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class SelectionHousingComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+  allFlats: any;
   someMethod() {
     this.trigger.openMenu();
   }
@@ -32,6 +33,8 @@ export class SelectionHousingComponent implements OnInit {
   statusMessage: string | undefined;
   chosenHouseMenu: boolean = false;
 
+  choseFlatId: any;
+
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
@@ -49,6 +52,7 @@ export class SelectionHousingComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loadOwnFlats();
+    this.getFlatInfo();
   }
 
   openSelectHouse() {
@@ -73,6 +77,7 @@ export class SelectionHousingComponent implements OnInit {
   async getSelectParam(flats: any) {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+      this.choseFlatId = this.selectedFlatId;
     });
     this.selectedFlatService.selectedFlatName$.subscribe((flatName: string | null) => {
       this.selectedFlatName = flatName || this.selectedFlatName;
@@ -118,6 +123,30 @@ export class SelectionHousingComponent implements OnInit {
     }
   }
 
+  // Отримання та збереження даних всіх дискусій
+  async getFlatInfo(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        const allFlats: any = await this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise() as any[];
+        console.log(allFlats)
+        if (Array.isArray(allFlats.ids) && allFlats.ids) {
+          let allFlatsInfo = await Promise.all(allFlats.ids.map(async (value: any) => {
+            let infFlat: any = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+            return { flat_id: value.flat_id, flat_name: value.flat_name, flat_img: infFlat.imgs[0].img }
+          }))
+          this.allFlats = allFlatsInfo;
+          console.log(this.allFlats)
+          localStorage.setItem('allFlats', JSON.stringify(this.allFlats));
+        } else {
+          this.allFlats = [];
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   async loadOwnFlats(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -132,6 +161,7 @@ export class SelectionHousingComponent implements OnInit {
                   flat_id: item.flat_id,
                   flat_name: item.flat_name,
                 }));
+                console.log(response)
                 // для автоматичного вибору оселі після входження в аккаунт - не працює
                 // if (this.selectedFlatId) {
                 // } else {

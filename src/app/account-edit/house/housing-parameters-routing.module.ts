@@ -8,8 +8,9 @@ import { CanActivateGuard } from '../../services/auth.guard';
 import { HousingParametersComponent } from './housing-parameters.component';
 import { HostComponent } from './host/host.component';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
-import { AddHouseComponent } from './add-house/add-house.component';
+import { AddHouseComponent } from '../../components/add-house/add-house.component';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
+import { InstructionComponent } from './instruction/instruction.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
         path: 'host',
         component: HostComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'photo', pathMatch: 'full' },
+          { path: '', redirectTo: 'instruction', pathMatch: 'full' },
           { path: 'address', component: AddressComponent, data: { animation: 'address' }, canActivate: [CanActivateGuard] },
           { path: 'param', component: ParamComponent, data: { animation: 'param' }, canActivate: [CanActivateGuard] },
           { path: 'photo', component: PhotoComponent, data: { animation: 'photo' }, canActivate: [CanActivateGuard] },
@@ -27,6 +28,7 @@ const routes: Routes = [
           { path: 'add-objects', component: AddObjectsComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
           { path: 'add-house', component: AddHouseComponent, canActivate: [CanActivateGuard] },
           { path: 'additional-info', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
+          { path: 'instruction', component: InstructionComponent, canActivate: [CanActivateGuard] },
         ]
       },
       { path: '', redirectTo: 'host', pathMatch: 'full' },

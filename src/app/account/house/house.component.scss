@@ -1,59 +1,13 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
 
-.container-box {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  min-height: 70vh;
-  align-items: flex-start;
-  align-content: flex-start;
-}
-
-h2, h5 {
-  text-align: center;
-}
-
-.container-noFlat {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  min-height: 70vh;
-  align-items: stretch;
-  align-content: center;
-  flex-direction: column;
-  @include s1-s3 {
-    min-height: 90vh;
-  }
-}
-
-.card-box {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  flex-direction: column;
-}
-
-h1, h3, p {
-  text-align: center;
-}
-
-.card-box-pick {
+.flex-column {
   @include flex-box-column;
+}
+.flex-box {
+  @include flex-box;
   justify-content: center;
-  align-items: center;
-  height: 650px;
-  width: 100%;
+  align-items: flex-start;
 }
 
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}

@@ -1,0 +1,46 @@
+<ng-template #content>
+
+  <!-- <div class="t-lar bold t-c">Створення оселі</div> -->
+
+  <mat-form-field class="item-select w-100" appearance="outline" *ngIf="showInput">
+    <mat-label>Назва оселі</mat-label>
+    <input id="flat_name" name="flat_name" placeholder="Мінімум 4 символи" matInput [(ngModel)]="flat_name"
+      minlength="4" maxlength="20" #flatIdInput="ngModel" required>
+    <mat-hint align="end" class="t-min gray">Придумайте назву своєї оселі "Моя оселя"</mat-hint>
+  </mat-form-field>
+
+  <div class="btn-group w-100">
+
+    <button class="btn" (click)="openBtn()" *ngIf="!showInput">
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="t-med dark bold ml-2">Створити оселю</div>
+    </button>
+
+    <button class="btn" (click)="openBtn()" *ngIf="showInput">
+      <i class="fa-solid fa-circle-minus"></i>
+      <div class="t-med dark bold ml-2">Відмінити</div>
+    </button>
+
+    <button class="btn" (click)="houseCreate()" *ngIf="showInput && flat_name.length > 3">
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="t-med dark bold ml-2">Підтвердити</div>
+    </button>
+
+    <button class="btn" (click)="openDialog()" *ngIf="selectedFlatId && !showInput">
+      <i class="fa-solid fa-circle-minus"></i>
+      <div class="t-med dark bold ml-2">Видалити оселю {{selectedFlatName}}</div>
+    </button>
+  </div>
+
+
+</ng-template>
+
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

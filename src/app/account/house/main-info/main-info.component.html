@@ -1,0 +1,138 @@
+<div class="status-container">
+  <div class="status-box">
+    <div class="status-value" *ngIf="HouseInfo.rent === 1">Активне</div>
+    <!-- <div class="status-value" *ngIf="HouseInfo.rent === 0">Не опублікована</div> -->
+    <div class="status-value" *ngIf="HouseInfo.private === 1">Приватно</div>
+  </div>
+  <div class="status-hover">
+    <div class="status-hover-label">Допомога</div>
+    <div class="status-hover-text">
+      <ul *ngIf="HouseInfo.rent === 1">
+        Статус оселі:
+        <li *ngIf="HouseInfo.rent === 1" class="status-hover-li">
+          <div class="status-value">Активне</div> - оголошення опубліковане.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="copyMessage-box" *ngIf="isCopiedMessage">
+  <div class="copyMessage-text">{{isCopiedMessage}}</div>
+  <i class="fa-regular fa-copy"></i>
+  <div class="t-lar dark bold">Discussio</div>
+</div>
+
+<div class="container-img">
+  <div class="wrapper-img">
+
+    <img class="img-fluid"
+      [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+      alt="img">
+
+    <div *ngIf="HouseInfo.photos.length > 1">
+      <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+          class="fa-solid fa-chevron-left"></i></button>
+      <button *ngIf="currentPhotoIndex !== HouseInfo.photos.length - 1" class="next-img" (click)="nextPhoto()"><i
+          class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <div class="panel-container">
+      <div class="wrapper">
+
+        <button class="btn-panel" *ngIf="HouseInfo.region && HouseInfo.city && HouseInfo.street" (click)="openMap()"><i
+            class="fa-solid fa-location-dot"></i>
+          <div class="t-min">Локація</div>
+        </button>
+
+        <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
+          <i class="fa-solid fa-fingerprint"></i>
+          <div class="t-min">ID</div>
+        </button>
+
+        <!-- <button class="btn-panel" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
+          <i class="fa-solid fa-info"></i>
+          <div class="t-min">Інфо.</div>
+        </button>
+
+        <button class="btn-panel" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
+          <i class="fa-solid fa-align-left"></i>
+          <div class="t-min">Парам.</div>
+        </button> -->
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="flex-box">
+
+  <div class="item-box m-1" *ngIf="HouseInfo.region">
+    <div mat-raised-button class="flex-column">
+      <div class="t-lar bold">{{ HouseInfo.region }}</div>
+      <div class="t-min">Область</div>
+    </div>
+  </div>
+
+  <div class="item-box m-1" *ngIf="HouseInfo.city">
+    <div mat-raised-button class="flex-column">
+      <div class="t-lar bold">{{ HouseInfo.city }}</div>
+      <div class="t-min">Місто</div>
+    </div>
+  </div>
+
+  <div class="item-box m-1" *ngIf="HouseInfo.street">
+    <div mat-raised-button class="flex-column">
+      <div class="t-lar bold">{{ HouseInfo.street }} {{ HouseInfo.houseNumber }}</div>
+      <div class="t-min">Вулиця</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="flex-box wrap">
+  <div class="item-box m-1" *ngIf="HouseInfo.rooms">
+    <div mat-raised-button class="param-g flex-column">
+      <div class="bg-g t-lar-x bold">{{ HouseInfo.rooms }}</div>
+      <div class="t-min bg-w">Кімнат</div>
+    </div>
+  </div>
+
+  <div class="item-box m-1" *ngIf="HouseInfo.area">
+    <div mat-raised-button class="param-g flex-column">
+      <div class="bg-g t-lar-x bold">{{ HouseInfo.area | number:'1.0-0' }}</div>
+      <div class="t-min bg-w">Площа</div>
+    </div>
+  </div>
+
+  <div class="item-box m-1" *ngIf="HouseInfo.floor">
+    <div mat-raised-button class="param-g flex-column">
+      <div class="bg-g t-lar-x bold">{{ HouseInfo.floor }}</div>
+      <div class="t-min bg-w">Поверх</div>
+    </div>
+  </div>
+
+  <div class="item-box m-1" *ngIf="HouseInfo.price_m && HouseInfo.option_pay === 0">
+    <div mat-raised-button class="param-g flex-column">
+      <div class="bg-g t-lar-xx bold accent">{{ HouseInfo.price_m | number:'1.0-0' }}</div>
+      <div class="t-min bg-w accent">Ціна ₴/міс</div>
+    </div>
+  </div>
+
+  <div class="item-box m-1" *ngIf="HouseInfo.price_d && HouseInfo.option_pay !== 0">
+    <div mat-raised-button class="param-g flex-column">
+      <div class="bg-g t-lar-xx bold accent">{{ HouseInfo.price_d | number:'1.0-0' }}</div>
+      <div class="t-min bg-w accent">Ціна ₴/добу</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="param-box">
+  <div class="param-name">Ваша картка оселі
+    <a class="param-name-text" [routerLink]="'/housing-parameters/host/'"><i class="fa-solid fa-arrow-right"></i><span
+        class="ml-2">перейти до редагування</span></a>
+  </div>
+</div>
+

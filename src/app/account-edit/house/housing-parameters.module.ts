@@ -33,6 +33,7 @@ import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
+import { InstructionComponent } from './instruction/instruction.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
     AddObjectsComponent,
     DeleteHouseComponent,
     AdditionalInfoComponent,
+    InstructionComponent,
   ],
   providers: [SelectedFlatService],
   imports: [

@@ -40,17 +40,17 @@ export class OurTeamComponent {
         linkedin: 'https://www.linkedin.com/in/denys-kononov-371625261/'
       }
     },
-    {
-      name: 'Maksym Oliinyk',
-      position: 'Frontend',
-      description: 'Максим має великий досвід у створенні високоякісного програмного забезпечення та знає всі сучасні технології та інструменти для розробки додатків.',
-      image: '../../../assets/developers/photo2.jpg',
-      social: {
-        instagram: 'https://instagram.com/maks._.oleynik?igshid=NTE5MzUyOTU=',
-        twitter: 'https://twitter.com/MaksimOliynik',
-        linkedin: 'https://www.linkedin.com/in/maksim-oliinyk-b0a9ab210/'
-      }
-    },
+    // {
+    //   name: 'Maksym Oliinyk',
+    //   position: 'Frontend',
+    //   description: 'Максим має великий досвід у створенні високоякісного програмного забезпечення та знає всі сучасні технології та інструменти для розробки додатків.',
+    //   image: '../../../assets/developers/photo2.jpg',
+    //   social: {
+    //     instagram: 'https://instagram.com/maks._.oleynik?igshid=NTE5MzUyOTU=',
+    //     twitter: 'https://twitter.com/MaksimOliynik',
+    //     linkedin: 'https://www.linkedin.com/in/maksim-oliinyk-b0a9ab210/'
+    //   }
+    // },
     {
       name: 'Viktor Yakovets',
       position: 'Backend, DevOps',

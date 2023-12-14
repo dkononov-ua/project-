@@ -1,57 +1,20 @@
 <ng-container>
-  <div class="container-menu">
-    <div class="selectedHouse-box" (click)="openSelectHouse()">
-      <div class="flatName-label t-min gray">Вибір оселі</div>
-      <div class="t-lar w-75" *ngIf="selectedFlatName">{{selectedFlatName}}</div>
-      <div class="flatName w-75" *ngIf="!selectedFlatName">Вибір оселі</div>
-      <button class="btn-open" aria-label="menu" matTooltip="ОБРАТИ ІНШУ ОСЕЛЮ">
-        <i class="fa-solid fa-circle-chevron-down"></i>
-      </button>
-    </div>
-  </div>
-</ng-container>
-<!-- *ngIf="chosenHouseMenu" -->
-<ng-container *ngIf="chosenHouseMenu">
-  <div class="card-house">
-    <div class="card-house-wrapper">
-      <div class="position-sticky top-0">
-        <button class="btn" (click)="openSelectHouse()"><i class="fa-regular fa-circle-xmark"></i></button>
-        <h3 class="p-2">Оберіть оселю</h3>
+  <div class="t-lar bold t-c" *ngIf="allFlats">Вибір оселі</div>
+  <div class="cards-container p-2" *ngIf="allFlats">
+    <div class="card-mini mb-3" *ngFor="let flatOwner of allFlats" (click)="selectFlat(flatOwner)"
+      [ngClass]="{ 'selected': choseFlatId == flatOwner.flat_id  }">
+      <div class="card-mini-img-container">
+        <img class="card-mini-img"
+          [src]="flatOwner.flat_img? serverPathPhotoFlat + flatOwner.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+          alt="img">
       </div>
-
-      <ng-container *ngIf="ownFlats.length > 0">
-        <div class="house-box">
-          <div class="house-name">Власні оселі</div>
-          <button class="card-house-mini mb-4" *ngFor="let ownFlat of ownFlats" (click)="selectFlat(ownFlat)">
-            <div class="card-body">
-              <div class="title-group p-1">
-                <div class="title">{{ ownFlat.flat_name }}</div>
-                <div class="title">ID: {{ ownFlat.flat_id }}</div>
-              </div>
-            </div>
-          </button>
+      <div class="card-body">
+        <div class="p-1">
+          <div class="t-med bold t-c accent" *ngIf="choseFlatId == flatOwner.flat_id">Ви обрали оселю:</div>
+          <div class="t-lar-xx bold t-c">{{ flatOwner.flat_name }}</div>
+          <div class="t-med bold t-c">ID: {{ flatOwner.flat_id }}</div>
         </div>
-      </ng-container>
-
-      <ng-container *ngIf="rentedFlats.length > 0">
-        <div class="house-box">
-          <div class="house-name">Орендовані оселі</div>
-          <button class="card-house-mini mb-4" *ngFor="let rentedFlat of rentedFlats" (click)="selectFlat(rentedFlat)">
-            <div class="card-body">
-              <div class="title-group p-1">
-                <div class="title">{{ rentedFlat.flat_name }}</div>
-                <div class="title">ID: {{ rentedFlat.flat_id }}</div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </ng-container>
-
-      <div class="position-sticky bottom-0 p-2">
-        <div class="house-name">Або створіть нову</div>
-        <app-add-house></app-add-house>
       </div>
-
     </div>
   </div>
 </ng-container>

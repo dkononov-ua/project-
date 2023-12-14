@@ -24,7 +24,7 @@ import { SelectionHousingComponent } from '../components/selection-housing/selec
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { UpdateComponentService } from '../services/update-component.service';
 import { MatMenuModule } from '@angular/material/menu';
-import { AddHouseComponent } from '../account-edit/house/add-house/add-house.component';
+import { AddHouseComponent } from '../components/add-house/add-house.component';
 
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';

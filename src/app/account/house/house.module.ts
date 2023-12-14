@@ -35,6 +35,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './resident/resident.component';
 import { AgreeSendComponent } from './agree-h/agree-send/agree-send.component';
+import { MainInfoComponent } from './main-info/main-info.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -52,6 +53,7 @@ import { AgreeSendComponent } from './agree-h/agree-send/agree-send.component';
     HouseInfoComponent,
     ResidentComponent,
     AgreeSendComponent,
+    MainInfoComponent,
   ],
   providers: [
     DatePipe

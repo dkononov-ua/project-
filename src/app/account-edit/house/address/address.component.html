@@ -3,6 +3,12 @@
 </ng-container>
 
 <ng-template #content>
+
+  <div class="flex-column p-2">
+    <div class="t-lar-xx bold dark">Розташування оселі</div>
+    <div class="t-min gray mb-2">Тут можна заповнити локацію та вказати доступність інфраструктури до вашої оселі</div>
+  </div>
+
   <div class="container-card">
     <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
 
@@ -17,6 +23,7 @@
               {{ region.name }}
             </mat-option>
           </mat-autocomplete>
+          <mat-hint align="end" class="t-min gray">Обов'язково для локації</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
@@ -28,11 +35,14 @@
               {{ city.name }}
             </mat-option>
           </mat-autocomplete>
+          <mat-hint align="end" class="t-min gray">Обов'язково для локації</mat-hint>
+
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
           <mat-label for="flat_index">Індекс</mat-label>
           <input name="flatInfo.flat_index" id="flat_index" matInput [(ngModel)]="flatInfo.flat_index">
+          <mat-hint align="end" class="t-min gray">Обов'язково для локації</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
@@ -40,23 +50,32 @@
           <input name="flatInfo.street" id="street" matInput [(ngModel)]="flatInfo.street">
         </mat-form-field>
 
-        <mat-form-field class="item-select" appearance="outline">
-          <mat-label for="houseNumber">Номер будинку</mat-label>
-          <input name="flatInfo.houseNumber" id="houseNumber" matInput [(ngModel)]="flatInfo.houseNumber">
-        </mat-form-field>
-
         <div class="inputbox-group">
-          <mat-form-field class="item-select" appearance="outline">
+
+          <mat-form-field class="item-select w-50" appearance="outline">
+            <mat-label for="houseNumber">Номер будинку</mat-label>
+            <input name="flatInfo.houseNumber" id="houseNumber" matInput [(ngModel)]="flatInfo.houseNumber">
+          </mat-form-field>
+
+          <mat-form-field class="item-select w-50" appearance="outline">
             <mat-label for="apartment">Номер квартири</mat-label>
             <input name="flatInfo.apartment" id="apartment" matInput [(ngModel)]="flatInfo.apartment">
           </mat-form-field>
+        </div>
 
-          <div class="inputbox"
-            *ngIf="flatInfo.region !== undefined && flatInfo.city !== null && flatInfo.flat_index !== null && flatInfo.street !== null && flatInfo.houseNumber !== null">
-            <a class="location" matTooltip="ЛОКАЦІЯ" href="{{ locationLink }}" target="_blank">
-              <i class="fa-solid fa-map-location"></i>
-            </a>
+        <div class="inputbox-group">
+          <div class="flex-column" *ngIf="!locationLink">
+            <div class="t-min">Локація формується після збереження</div>
           </div>
+
+          <div class="flex-column w-70" *ngIf="locationLink">
+            <div class="t-min">Перевірте правильність наданих даних це впливає на точність локації</div>
+          </div>
+
+          <a class="location" href="{{ locationLink }}" target="_blank" *ngIf="locationLink">
+            <i class="fa-solid fa-map-location"></i>
+            <div class="t-min bold">Локація</div>
+          </a>
 
         </div>
 

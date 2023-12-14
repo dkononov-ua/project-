@@ -3,18 +3,24 @@
 </ng-container>
 
 <ng-template #content>
+
+  <div class="flex-column p-2">
+    <div class="t-lar-xx bold dark">Наповнення оселі</div>
+    <div class="t-min gray mb-2">Додання об'єктів до вашої оселі.</div>
+  </div>
+
   <div class="container-card">
 
     <div class="switch-box hide-pc">
 
       <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0" matTooltip="Фото">
-          <i class="fa-solid fa-circle-plus"></i>Додати</button>
+        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
+          <i class="fa-solid fa-cubes-stacked"></i>Переглянути</button>
       </div>
 
       <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1" matTooltip="Фото">
-          <i class="fa-solid fa-cubes-stacked"></i>Переглянути</button>
+        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
+          <i class="fa-solid fa-circle-plus"></i>Додати</button>
       </div>
 
     </div>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { DeleteHouseComponent } from '../delete-house/delete-house.component';
+import { DeleteHouseComponent } from '../../account-edit/house/delete-house/delete-house.component';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
@@ -20,6 +20,7 @@ export class AddHouseComponent implements OnInit {
   loading = false;
   setSelectedFlatId: any;
   setSelectedFlatName: any;
+  selectedFlatName: any;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -45,6 +46,15 @@ export class AddHouseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectParam();
+    const selectedFlatName = localStorage.getItem('selectedFlatName');
+    if (selectedFlatName !== null) {
+      this.selectedFlatName = selectedFlatName;
+      console.log(this.selectedFlatName)
+      console.log('Назва вибраної оселі:', selectedFlatName);
+    } else {
+      console.log('Назва вибраної оселі не знайдена в сховищі');
+    }
+
   }
 
   async getSelectParam(): Promise<void> {
@@ -201,6 +211,7 @@ export class AddHouseComponent implements OnInit {
   async openDialog(): Promise<void> {
     const selectedFlatName = localStorage.getItem('selectedFlatName');
     if (selectedFlatName !== null) {
+      this.selectedFlatName = selectedFlatName
       console.log('Назва вибраної оселі:', selectedFlatName);
     } else {
       console.log('Назва вибраної оселі не знайдена в сховищі');

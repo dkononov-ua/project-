@@ -168,7 +168,8 @@ export class PhotoComponent implements OnInit {
         this.images.push(serverPath + '/img/flat/' + data.filename);
         this.loading = false;
         if (data.status === 'Збережено') {
-          setTimeout(() => {
+          // this.statusMessage = 'Фото додано';
+          // setTimeout(() => {
             this.statusMessage = 'Фото додано';
             setTimeout(() => {
               this.statusMessage = '';
@@ -176,7 +177,7 @@ export class PhotoComponent implements OnInit {
               this.reloadPageWithLoader();
               // this.router.navigate(['/housing-parameters/host/address']);
             }, 1500);
-          }, 500);
+          // }, 1000);
         } else {
           setTimeout(() => {
             this.statusMessage = 'Помилка завантаження';
