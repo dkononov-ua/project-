@@ -126,7 +126,7 @@ export interface HouseInfo {
   private: number;
   region: string;
   repair_status: string;
-  rent: number;
+  rent: any;
   rooms: string;
   room: any;
   selectedKitchen_area: string;

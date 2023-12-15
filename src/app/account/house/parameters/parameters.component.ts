@@ -27,6 +27,7 @@ export class ParametersComponent implements OnInit {
   checkBox: { [key: number]: string } = CheckBox;
   option_pay: { [key: number]: string } = OptionPay;
   houseData: any;
+  rent: any;
 
   constructor() { }
 
@@ -38,6 +39,8 @@ export class ParametersComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
+        console.log(parsedHouseData)
+        this.rent = parsedHouseData.about.rent;
         this.HouseInfo.agent_id = parsedHouseData.flat.agent_id;
         this.HouseInfo.apartment = parsedHouseData.flat.apartment;
         this.HouseInfo.city = parsedHouseData.flat.city;

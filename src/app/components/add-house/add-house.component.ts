@@ -82,6 +82,7 @@ export class AddHouseComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = '';
             this.loadNewFlats(this.flat_name);
+            // this.router.navigate(['/house/house-info']);
           }, 2000);
         } else {
           this.statusMessage = 'Помилка створення';
@@ -97,27 +98,26 @@ export class AddHouseComponent implements OnInit {
     }
   }
 
-  async getFlat(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          if (response && response.ids.length > 0) {
-            const nextFlatName = response.ids[0].flat_name;
-            this.loadOwnFlats(nextFlatName)
-          } else {
-            this.sharedService.setStatusMessage('Оселей немає');
-            this.router.navigate(['/house/house-info']);
-            setTimeout(() => {
-              this.statusMessage = '';
-              this.reloadPageWithLoader()
-            }, 1500);
-          }
-        });
-    } else { console.log('Авторизуйтесь') }
-  }
+  // async getFlat(): Promise<void> {
+  //   const userJson = localStorage.getItem('user');
+  //   if (userJson) {
+  //     this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
+  //       .subscribe((response: any) => {
+  //         if (response && response.ids.length > 0) {
+  //           const nextFlatName = response.ids[0].flat_name;
+  //           this.loadOwnFlats(nextFlatName)
+  //         } else {
+  //           this.sharedService.setStatusMessage('Оселей немає');
+  //           this.router.navigate(['/house/house-info']);
+  //           setTimeout(() => {
+  //             this.statusMessage = '';
+  //             this.reloadPageWithLoader()
+  //           }, 1500);
+  //         }
+  //       });
+  //   } else { console.log('Авторизуйтесь') }
+  // }
 
-  // Створюю чат
   async loadNewFlats(flat_name: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -149,7 +149,7 @@ export class AddHouseComponent implements OnInit {
     }
   }
 
-  // async loadNewFlats(flat_name: any): Promise<void> {
+  // async loadOwnFlats(flat_name: any): Promise<void> {
   //   const userJson = localStorage.getItem('user');
   //   if (userJson) {
   //     this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
@@ -160,13 +160,10 @@ export class AddHouseComponent implements OnInit {
   //           if (flatIdFromResponse) {
   //             this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
   //             this.selectedFlatService.setSelectedFlatName(flat_name);
-  //             this.sharedService.setStatusMessage('Обираємо оселю ' + flat_name);
   //             this.statusMessage = 'Обираємо оселю ' + flat_name;
   //             setTimeout(() => {
-  //               this.sharedService.setStatusMessage('');
   //               this.statusMessage = '';
-  //               this.router.navigate(['/housing-parameters/host/']);
-  //               // this.reloadPageWithLoader()
+  //               this.reloadPageWithLoader()
   //             }, 2500);
   //           }
   //         }
@@ -179,34 +176,6 @@ export class AddHouseComponent implements OnInit {
   //     console.log('User not found');
   //   }
   // }
-
-  async loadOwnFlats(flat_name: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson))
-        .subscribe((response: any) => {
-          const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
-          if (flatInfo) {
-            const flatIdFromResponse = flatInfo.flat_id;
-            if (flatIdFromResponse) {
-              this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
-              this.selectedFlatService.setSelectedFlatName(flat_name);
-              this.statusMessage = 'Обираємо оселю ' + flat_name;
-              setTimeout(() => {
-                this.statusMessage = '';
-                this.reloadPageWithLoader()
-              }, 2500);
-            }
-          }
-        },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('User not found');
-    }
-  }
 
   async openDialog(): Promise<void> {
     const selectedFlatName = localStorage.getItem('selectedFlatName');
@@ -239,8 +208,8 @@ export class AddHouseComponent implements OnInit {
                 this.statusMessage = 'Оселя видалена';
                 this.sharedService.setStatusMessage('Оселя видалена');
                 setTimeout(() => {
-                  this.getFlat();
                   this.statusMessage = '';
+                  this.reloadPageWithLoader()
                 }, 1500);
               },
               (error: any) => {

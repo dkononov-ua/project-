@@ -1,23 +1,73 @@
-<ng-container>
-  <div class="t-lar bold t-c" *ngIf="allFlats">Вибір оселі</div>
-  <div class="cards-container p-2" *ngIf="allFlats">
-    <div class="card-mini mb-3" *ngFor="let flatOwner of allFlats" (click)="selectFlat(flatOwner)"
-      [ngClass]="{ 'selected': choseFlatId == flatOwner.flat_id  }">
-      <div class="card-mini-img-container">
-        <img class="card-mini-img"
-          [src]="flatOwner.flat_img? serverPathPhotoFlat + flatOwner.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
-          alt="img">
-      </div>
-      <div class="card-body">
-        <div class="p-1">
-          <div class="t-med bold t-c accent" *ngIf="choseFlatId == flatOwner.flat_id">Ви обрали оселю:</div>
-          <div class="t-lar-xx bold t-c">{{ flatOwner.flat_name }}</div>
-          <div class="t-med bold t-c">ID: {{ flatOwner.flat_id }}</div>
+<div class="container-box">
+
+
+
+  <ng-container *ngIf="allFlats">
+    <div class="t-lar bold t-c">Власні оселі</div>
+    <div class="cards-container p-2">
+      <div class="card-mini mb-3" *ngFor="let flat of allFlats" (click)="selectFlat(flat)"
+        [ngClass]="{ 'selected': chooseFlatID === flat.flat_id }">
+        <div class="card-mini-img-container">
+          <img class="card-mini-img"
+            [src]="flat.flat_img ? serverPathPhotoFlat + flat.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+            alt="img">
+        </div>
+        <div class="card-body">
+          <div class="p-1">
+            <div class="t-med bold t-c accent" *ngIf="chooseFlatID === flat.flat_id">Ви обрали оселю:</div>
+            <div class="t-lar-xx bold t-c">{{ flat.flat_name }}</div>
+            <div class="t-med bold t-c">ID: {{ flat.flat_id }}</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+
+  <ng-container>
+    <div class="t-lar bold t-c" *ngIf="allFlatsTenant">Орендовані оселі</div>
+    <div class="cards-container p-2" *ngIf="allFlatsTenant">
+      <div class="card-mini mb-3" *ngFor="let flat of allFlatsTenant" (click)="selectFlat(flat)"
+        [ngClass]="{ 'selected': chooseFlatID === flat.flat_id  }">
+
+        <div class="status-container"
+          *ngIf="flat.acces_discuss === 1 || flat.acces_admin === 1 || flat.acces_agent === 1 || flat.acces_agreement === 1 || flat.acces_citizen === 1 || flat.acces_comunal === 1 || flat.acces_comunal_indexes === 1 || flat.acces_discuss === 1 || flat.acces_filling === 1 || flat.acces_flat_chats === 1 || flat.acces_flat_features === 1 || flat.acces_services === 1 || flat.acces_subs === 1">
+          <div class="status-box">
+            <div class="status-value"> Надані доступи</div>
+          </div>
+          <div class="status-hover ">
+            <div class="flex-box">
+              <div class="t-min white bg-accent" *ngIf="flat.acces_discuss === 1">Дискусія</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_admin === 1">Адмін</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_agent === 1">Представник</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_agreement === 1">Угоди</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_citizen === 1">Мешканці</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_comunal === 1">Команльні</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_comunal_indexes === 1">Лічильник</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_filling === 1">Наповнення</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_flat_chats === 1">Чат</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_flat_features === 1">Пошук</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_services === 1">Послуги</div>
+              <div class="t-min white bg-accent" *ngIf="flat.acces_subs === 1">Підписки</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-mini-img-container">
+          <img class="card-mini-img"
+            [src]="flat.flat_img? serverPathPhotoFlat + flat.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+            alt="img">
+        </div>
+        <div class="card-body">
+          <div class="p-1">
+            <div class="t-med bold t-c accent" *ngIf="chooseFlatID == flat.flat_id">Ви обрали оселю:</div>
+            <div class="t-lar-xx bold t-c">{{ flat.flat_name }}</div>
+            <div class="t-med bold t-c">ID: {{ flat.flat_id }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
 
 <div *ngIf="loading" class="loader-overlay">
   <app-loader></app-loader>

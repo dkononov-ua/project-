@@ -78,8 +78,6 @@
 
         <div class="search-filter-group col-12" *ngIf="filter_group === 1">
 
-          <app-selection-housing class="w-100"></app-selection-housing>
-
           <mat-form-field class="item-select" appearance="outline">
             <input name="flatInfo.region" matInput (ngModelChange)="onSubmitWithDelay()" placeholder="Область"
               [(ngModel)]="userInfo.region" placeholder="Виберіть область" (ngModelChange)="loadCities()"

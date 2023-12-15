@@ -9,14 +9,11 @@
       <div class="card-box-logo col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="logo-box">
           <img class="logo" src="{{path_logo}}" alt="logo">
-          <div class="name">
-            <h1 class="title-name t-c">Discussio</h1>
-            <p class="beta hide-pc">Beta</p>
-
-            <div class="t-med t-c  hide-pc">Зручна та ефективна система управління Вашою оселею</div>
-            <p class="beta hide-mobile">Beta</p>
+          <div class="flex-column">
+            <h1 class="bold dark t-c">Discussio <span class="t-min bold">Beta</span></h1>
+            <div class="t-min t-c hide-pc p-2">Зручна та ефективна система управління оселею</div>
           </div>
-          <h3 class="title-text hide-mobile">Зручна та ефективна система управління Вашою оселею</h3>
+          <div class="t-lar t-c hide-mobile">Зручна та ефективна система управління оселею</div>
         </div>
 
         <app-footer class="hide-mobile"></app-footer>
@@ -24,11 +21,14 @@
 
       <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card m-2 p-2" *ngIf="indexCard === 0" [@cardAnimation2]>
+
           <div class="text-box border-bottom">
             <div class="t-lar-xx bold dark">Зареєструватись</div>
           </div>
+
           <div class="text-box">
-            <button (click)="indexCard = 1" class="btn-none">або увійдіть в аккаунт тут.</button>
+            <div class="t-med bold dark">Якщо у вас вже є обліковий запис</div>
+            <button (click)="indexCard = 1" class="btn-none t-lar">увійдіть в аккаунт тут</button>
           </div>
 
           <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
@@ -36,7 +36,7 @@
             <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
               <mat-label>Дата народження</mat-label>
               <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
-                placeholder="Оберіть дату з календаря"  id="dob" formControlName="dob">
+                placeholder="Оберіть дату з календаря" id="dob" formControlName="dob">
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
               <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
@@ -98,8 +98,8 @@
           </div>
 
           <div class="text-box">
-            <div class="t-lar bold dark">Якщо у вас вже є обліковий запис</div>
-            <button (click)="indexCard = 0" class="btn-none">або зареєструйтесь тут.</button>
+            <div class="t-med bold dark">Якщо у вас ще немає облікового запису</div>
+            <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
           </div>
 
           <form class="form" [formGroup]="loginForm">
@@ -132,9 +132,8 @@
           <div class="text-box">
             <div class="t-min t-c">Якщо забули пароль введіть пошту на яку ви реєструвалисвій аккаунт та натисніть на
               посилання </div>
-            <i class="fa-solid fa-arrow-down dark"></i>
             <button [disabled]="formErrors.email" (click)="sendCodeForChangePass()" class="btn-none"
-              [ngClass]="{'disabled-button': formErrors.email}">Забули пароль?</button>
+              [ngClass]="{'disabled-button': formErrors.email}">забули пароль</button>
           </div>
 
         </div>
@@ -142,14 +141,14 @@
         <div class="card m-2 p-2" *ngIf="indexCard === 2" [@cardAnimation2]>
 
           <div class="text-box border-bottom">
-            <div class="t-lar-xx bold dark">Відновлення паролю</div>
+            <div class="t-lar-xx bold dark">Зміна паролю</div>
             <div class="t-med bold dark t-c">Код відправлений на пошту:</div>
             <div class="t-med bold accent t-c">{{emailAcc}}</div>
           </div>
 
           <div class="text-box">
-            <div class="t-lar bold dark">Якщо треба новий обліковий запис</div>
-            <button (click)="indexCard = 0" class="btn-none">зареєструйтесь тут.</button>
+            <div class="t-med bold dark">Якщо треба новий обліковий запис</div>
+            <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
           </div>
 
           <form class="form" (ngSubmit)="onChangePassword()" [formGroup]="changePassForm">

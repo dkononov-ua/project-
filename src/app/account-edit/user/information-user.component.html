@@ -87,7 +87,7 @@
             <div class="t-min gray mb-2">Тут можна вказати вашу інформаці та завантажити фото</div>
           </div>
 
-          <div class="flex-box">
+          <div class="card-box">
             <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
               <div class="card">
                 <div class="img-fluid">
@@ -144,8 +144,6 @@
             </div>
           </div>
 
-
-
         </div>
 
         <div class="flex-column w-100" *ngIf="indexPage === 1">
@@ -156,7 +154,7 @@
             </div>
           </div>
 
-          <div class="flex-box">
+          <div class="card-box">
 
             <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
               <div class="card p-2">
@@ -172,7 +170,7 @@
                   <mat-label class="flex-box"><i class="fa-solid fa-at"></i><span class="accent"> Контактна
                       пошта*</span></mat-label>
                   <input name="userCont.mail" matInput [(ngModel)]="userCont.mail">
-                  <mat-hint align="start" class="t-min gray">Контактна пошта для формування угод</mat-hint>
+                  <mat-hint align="end" class="t-min gray">Для формування угод</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field class="item-select m-1" appearance="outline">
@@ -180,7 +178,7 @@
                       Телефон*</span></mat-label>
                   <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell" [maxlength]="10"
                     [pattern]="phonePattern">
-                  <mat-hint align="start" class="t-min gray">Телефон для формування угод</mat-hint>
+                  <mat-hint align="end" class="t-min gray">Для формування угод</mat-hint>
                 </mat-form-field>
 
                 <mat-label class="label"></mat-label>
@@ -245,7 +243,7 @@
             <div class="t-lar-xx bold dark">Доступи та аналітика</div>
             <div class="t-min gray mb-2">Тут можна надати доступи або дивитись аналітику</div>
           </div>
-          <div class="flex-box">
+          <div class="card-box">
 
             <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
               <div class="card p-2">

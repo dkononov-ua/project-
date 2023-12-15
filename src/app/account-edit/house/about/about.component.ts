@@ -148,8 +148,11 @@ export class AboutComponent implements OnInit {
     if (userJson && this.selectedFlatId !== undefined) {
 
       if (this.flatInfo.option_pay === 2) {
-        this.flatInfo.price_m = 0.01;
+        this.flatInfo.price_m = 1;
+        this.flatInfo.price_d = 1;
       }
+
+      console.log(this.flatInfo.price_m)
 
       const data = {
         students: this.flatInfo.students || undefined,
@@ -159,7 +162,7 @@ export class AboutComponent implements OnInit {
         bunker: this.flatInfo.bunker || undefined,
         animals: this.flatInfo.animals || 'Неважливо',
         option_pay: this.flatInfo.option_pay || 0,
-        price_d: this.flatInfo.price_d || undefined,
+        price_d: this.flatInfo.price_d,
         price_m: this.flatInfo.price_m,
         about: this.flatInfo.about || undefined,
         private: this.flatInfo.private || false,
@@ -175,13 +178,14 @@ export class AboutComponent implements OnInit {
         }).toPromise();
 
         if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
+          console.log(response)
           this.updateFlatInfo();
           setTimeout(() => {
             this.statusMessage = 'Оголошення розміщено';
             setTimeout(() => {
               this.statusMessage = 'Оновлюємо інформацію';
-              // this.router.navigate(['/house/house-info']);
               this.reloadPageWithLoader()
+              // this.router.navigate(['/house/house-info']);
             }, 1500);
           }, 500);
         } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {

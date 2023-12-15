@@ -1,13 +1,18 @@
 <app-navbar></app-navbar>
 
-<div class="flex-column" *ngIf="!houseData">
-  <app-menu></app-menu>
-  <div class="t-lar t-c p-2">Для доступу до меню оселі створіть або оберіть вже існуючу оселю.</div>
-  <app-add-house class="col-lg-5 col-sm-12 col-12 p-2"></app-add-house>
-  <app-selection-housing></app-selection-housing>
+<div class="flex-box" *ngIf="!houseData">
+  <div class="col-lg-9 col-sm-12 col-12">
+    <app-menu></app-menu>
+    <div class="p-2">
+      <div class="t-lar t-c">Для доступу до меню оселі створіть або оберіть вже існуючу оселю.</div>
+      <app-add-house></app-add-house>
+      <app-selection-housing></app-selection-housing>
+    </div>
+    <app-footer class="hide-mobile"></app-footer>
+  </div>
 </div>
 
-<div class="flex-box" >
+<div class="flex-box">
   <div class="hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
     <app-navbar-house></app-navbar-house>
   </div>

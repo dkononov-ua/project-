@@ -1,17 +1,36 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.container-box {
+  @include flex-box-column;
+  overflow: auto;
+  height: 60vh;
+
+  @include s1-s3 {
+    margin: 0;
+    height: 68vh;
+  }
+}
+
+.flex-box {
+  flex-wrap: wrap;
+}
+
+.bg-accent {
+  background-color: $color-accent;
+  padding: 2px;
+  border-radius: 5px;
+  width: auto;
+  margin: 2px
+}
 
 .cards-container {
   @include flex-box;
   flex-wrap: wrap;
-  height: 400px;
-  overflow: auto;
+  height: auto;
   width: 100%;
   align-content: flex-start;
-  @include s1-s3 {
-    margin: 0;
-    height: 60vh;
-  }
 
   .card-mini {
     @include flex-box;
@@ -63,4 +82,3 @@
     display: none;
   }
 }
-
