@@ -20,24 +20,21 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   return {
     root: lyl `{
       ${cropper.root} {
-        width: 400px
-        height: 400px
+        width: 100%
+        height: 50vh
+        margin: 0
       }
     }`,
     sliderContainer: lyl `{
       position: relative
       ${slider.root} {
-        width: 80%
+        width: 100%
         position: absolute
         left: 0
-        right: 0
         margin: auto
-        top: -32px
+        top: 0
       }
     }`,
-    slider: lyl `{
-      padding: 1em
-    }`
   };
 };
 @Component({
@@ -55,7 +52,7 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
 
   @ViewChild(LyImageCropper, { static: true }) cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 400,
+    width: 300,
     height: 400,
     type: 'image/png',
     keepAspectRatio: true,

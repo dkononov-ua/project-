@@ -6,18 +6,10 @@
       (error)="onError($event)">
       <span>Drag and drop image</span>
     </ly-img-cropper>
-
-    <div [className]="classes.sliderContainer">
-      <div [class]="classes.slider">
-        <ly-slider [thumbVisible]="false" [min]="minScale" [max]="1" [(ngModel)]="scale" (input)="onSliderInput($event)"
-          [step]="0.000001" cdkFocusInitial></ly-slider>
-      </div>
-    </div>
-
   </div>
 
   <div *ngIf="ready">
-    <div class="box-1">
+    <div class="box-1 mt-4">
       <button (click)="cropper.zoomIn()" ly-button appearance="icon"><i
           class="fa-solid fa-magnifying-glass-plus"></i></button>
       <button (click)="cropper.zoomOut()" ly-button appearance="icon"><i
@@ -30,8 +22,8 @@
   </div>
 
   <div container *ngIf="ready" [lyJustifyContent]="'center'" ly-dialog-actions>
-    <button class="w-50" ly-button (click)="dialogRef.close()">ВІДМІНИТИ</button>
-    <button class="w-50" ly-button (click)="dialogRef.close(cropper.crop())">ГОТОВО</button>
+    <button class="w-30 btn m-1 t-med" ly-button (click)="dialogRef.close()"><i class="fa-solid fa-xmark"></i></button>
+    <button class="w-60 btn m-1 t-med" ly-button (click)="dialogRef.close(cropper.crop())"><i class="fa-regular fa-circle-check"></i>Завантажити</button>
   </div>
 
 </div>
