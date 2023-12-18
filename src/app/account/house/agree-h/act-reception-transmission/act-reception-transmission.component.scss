@@ -1,0 +1,75 @@
+@use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
+@use "../../../../style/agree/act.doc.scss";
+@use "../agree-menu/agree-menu.component.scss";
+
+.container-box {
+  @include flex-box;
+  align-items: flex-start;
+}
+
+.flex-box {
+  align-items: stretch;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.img-wrapper {
+  @include flex-box;
+  overflow: hidden;
+  .img-fluid {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+
+.checkbox-section {
+  background-color: $color-white;
+}
+
+.card-user {
+  // border: 1px solid $color-gray;
+  border-radius: 20px;
+  padding: 10px;
+  background-color: $color-white;
+  @include box-shadow;
+}
+
+.btn-box-btn {
+  @include flex-box;
+  height: 60px;
+  width: 100%;
+  margin: 5px 0 5px 0;
+  border: none;
+  // background-color: $color-white;
+  // border: 1px solid $color-gray;
+  border-radius: 20px;
+  transition: 1s;
+
+  &:hover {
+    letter-spacing: 4px;
+  }
+}
+
+.btn-box-btn.active {
+  background-color: $color-accent;
+}
+
+.card-body {
+  @include flex-box-column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.card-wrapper {
+  @include flex-box-column;
+  .card {
+    width: 50%;
+    @include s1-s3 {
+      width: 100%;
+    }
+  }
+}

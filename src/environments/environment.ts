@@ -1,21 +1,18 @@
+
+
+// Конфігураційні дані проекту
+
 export const environment = {
-  production: false,
   firebaseConfig: {
-    apiKey: "API_KEY",
-    authDomain: "AUTH_DOMAIN",
-    projectId: "PROJECT_ID",
-    storageBucket: "STORAGE_BUCKET",
-    messagingSenderId: "MESSAGING_SENDER_ID",
-    appId: "APP_ID",
-    measurementId: "MEASUREMENT_ID"
+    projectId: 'konnect-ukraine',
+    appId: '1:829086125717:web:b307326f4cbd78f1d0d59c',
+    databaseURL: 'https://konnect-ukraine-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'konnect-ukraine.appspot.com',
+    locationId: 'europe-central2',
+    apiKey: 'AIzaSyD7jtcAm16O5vybYAcwdEoiANdb8y6-cfY',
+    authDomain: 'konnect-ukraine.firebaseapp.com',
+    messagingSenderId: '829086125717',
   },
-  firebase: {
-    apiKey: "API_KEY",
-    authDomain: "AUTH_DOMAIN",
-    projectId: "PROJECT_ID",
-    storageBucket: "STORAGE_BUCKET",
-    messagingSenderId: "MESSAGING_SENDER_ID",
-    appId: "APP_ID"
-  }
 };
+
 

@@ -1,0 +1,238 @@
+
+  <div class="switch-box">
+
+    <div class="flex-column hide-mobile">
+      <div class="t-lar-xx bold dark hide-mobile">Угоди</div>
+      <div class="t-min gray hide-mobile">Створення угод</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="t-min dark bold">Назад</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage == 0}">
+        <i class="fa-solid fa-circle-info"></i>
+      </button>
+      <div class="t-min dark bold">Про меню</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
+        <i class="fa-solid fa-shoe-prints"></i>
+      </button>
+      <div class="t-min dark bold">Кроки</div>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="counterFound !== 0">
+      <button class="btn" (click)="goToAgreeCreate()">
+        <i class="fa-solid fa-feather-pointed"></i>
+      </button>
+      <div class="t-min dark bold">Формувати</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="numSendAgree === 0" (click)="onClickMenu(2)"
+        [ngClass]="{ 'active': indexPage == 2}">
+        <i class="fa-solid fa-hourglass-half"></i>
+      </button>
+      <div class="t-min dark bold">Надіслані</div>
+      <div class="counterNum t-lar bold" *ngIf="numSendAgree !== 0">{{numSendAgree}}</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="numConcludedAgree === 0" (click)="onClickMenu(3)"
+        [ngClass]="{ 'active': indexPage == 3}">
+        <i class="fa-solid fa-file-circle-check"></i>
+      </button>
+      <div class="t-min dark bold">Ухвалені</div>
+      <div class="counterNum t-lar bold" *ngIf="numConcludedAgree !== 0">{{numConcludedAgree}}</div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+
+    <div class="flex-box p-2 card-animation" *ngIf="indexPage === 0">
+
+      <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="param-box p-2">
+          <div class="param-name"><i class="fa-solid fa-business-time"></i> Меню угод оселі
+            <div class="t-med">в цьому меню знаходиться все що пов'язане з угодами.</div>
+            <div class="t-min gray">Наша платформа дозволяє легко та швидко створювати угоди між орендарем та
+              орендодавцем всього за кілька хвилин. Ви можете згенерувати стандартні умови оренди нерухомого майна або
+              додавати власні додаткові умови. Після погодження умов орендної угоди, ви зможете створити акт
+              прийому-передачі оселі. Цей акт міститиме інформацію про угоду та опис наповнення вашої оселі, яку ви
+              передаєте орендару, а також показники лічильників на момент передачі.</div>
+          </div>
+        </div>
+        <div class="img-wrapper">
+          <img class="img" src="../../../../../assets/example-agree/man_and_agree1.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="t-lar bold">Тут доступні такі можливості:</div>
+
+        <div class="item-group w-100 flex-column p-2">
+          <button class="link-toMenu flex-box-row" (click)="onClickMenu(1)">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Як працює Discussio угода.</span>
+          </button>
+          <div class="t-description bold">Покрокове пояснення як працює створення угоди.</div>
+        </div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="counterFound === 0" (click)="goToAgreeCreate()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування угоди.</span>
+          </button>
+          <div class="t-description bold" *ngIf="counterFound !== 0">У вас така кількість Дискусій: {{counterFound}}
+            по ним можна формувати угоди.</div>
+        </div>
+        <div class="t-description bold accent" *ngIf="counterFound === 0">Стає доступним коли у вас є дискусія.</div>
+        <div class="t-description">Створення шаблону та погодження всіх умов угоди з орендарем.</div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="numSendAgree === 0" (click)="onClickMenu(2)" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Надіслані угоди.</span>
+          </button>
+          <div class="t-description bold" *ngIf="numSendAgree !== 0">У вас така кількість надісланих угод:
+            {{numSendAgree}}.</div>
+        </div>
+        <div class="t-description bold accent" *ngIf="numSendAgree === 0">Доступне коли у вас є надіслана угода.</div>
+        <div class="t-description">Можливість переглянути надіслану угоду або скасувати.</div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="numConcludedAgree === 0" (click)="onClickMenu(3)" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ухвалені угоди.</span>
+          </button>
+          <div class="t-description bold" *ngIf="numConcludedAgree !== 0">У вас така кількість ухвалених угод:
+            {{numConcludedAgree}}.</div>
+        </div>
+        <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">Стає доступним коли у вас є погоджена
+          угода з орендарем.</div>
+        <div class="t-description">Друкування угод. Друкування акту. Додавання до мешканців.</div>
+
+        <div class="item-group flex-column p-2">
+          <button [disabled]="numConcludedAgree === 0" (click)="goToActCreate()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування акту.</span>
+          </button>
+        </div>
+        <div class="t-description">Створення акту прийому-передачі оселі. Який буде також включати в себе всі об'єкти
+          в меню наповнення.</div>
+        <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">
+          Доступне коли у вас є погоджена угода з орендарем.</div>
+      </div>
+
+    </div>
+
+    <div [@cardAnimation] class="flex-column card-animation" *ngIf="indexPage === 1">
+
+      <div class="param-box mt-3">
+        <div class="param-name"><i class="fa-solid fa-person-chalkboard"></i><span class="ml-2">Створення Discussio
+            угод</span>
+          <p class="t-min ">Шлях по кроках від дискусії з орендарем до
+            додавання його в мешканці оселі.</p>
+        </div>
+      </div>
+
+      <div class="item-box">
+
+        <div class="item-description">
+          <div class="t-med gray bold">Крок 1 (5хв)</div>
+          <div class="t-min">Створення шаблону угоди.
+            Угоду можна сформувати лише з орендарами з якими у вас є дискусія.</div>
+        </div>
+
+        <div class="item-group flex-column p-2">
+          <div class="t-min gray bold">У вас дискусій - {{counterFound}}</div>
+          <button [disabled]="counterFound === 0" (click)="goToAgreeCreate()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формувати угоду</span>
+          </button>
+        </div>
+
+        <div class="img-container">
+          <img class="img" src="../../../../../assets/example-agree/agree3.jpg" alt="Flat Image">
+        </div>
+
+      </div>
+
+      <div class="item-box">
+
+        <div class="item-description">
+          <div class="t-med gray bold">Крок 2</div>
+          <div class="t-min">Очікуємо підтвердження умов угоди від орендара. До того як орендар не погодив угоду
+            ви можете скасувати її.</div>
+        </div>
+
+        <div class="img-container">
+          <img class="img" src="../../../../../assets/example-agree/agree1.jpg" alt="img">
+        </div>
+
+        <div class="item-group flex-column p-2">
+          <div class="t-min gray bold">Кількість {{numSendAgree}}</div>
+          <button [disabled]="numSendAgree === 0" (click)="goToAgreeReview()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Надіслані угоди</span>
+          </button>
+        </div>
+
+
+      </div>
+
+      <div class="item-box">
+
+        <div class="item-description">
+          <div class="t-med gray bold">Крок 3</div>
+          <div class="t-min">На основі ухваленої угоди формуємо акт прийому-передачі оселі.</div>
+        </div>
+
+        <div class="item-group flex-column p-2">
+          <div class="t-min gray bold">Кількість {{numConcludedAgree}}</div>
+          <button [disabled]="numConcludedAgree === 0" (click)="goToConcluded()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ухвалені угоди</span>
+          </button>
+        </div>
+
+        <div class="img-container">
+          <img class="img" src="../../../../../assets/example-agree/agree.jpg" alt="img">
+        </div>
+
+      </div>
+
+      <div class="item-box">
+
+        <div class="item-description">
+          <div class="t-med gray bold">Крок 4</div>
+          <div class="t-min">Після формування угоди та акту у нас є готові документи для підписання та
+            заселення. Також з'являється можливість додати орендара до списку мешканців оселі в меню ухвалених угод.
+          </div>
+        </div>
+
+        <div class="img-container">
+          <img class="img" src="../../../../../assets/example-agree/man_and_agree3.jpg" alt="img">
+        </div>
+
+        <div class="item-group flex-column p-2">
+          <div class="t-min gray bold">Кількість {{numConcludedAgree}}</div>
+          <button [disabled]="numConcludedAgree === 0" (click)="goToActCreate()" class="link-toMenu flex-box-row">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формувати акт</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage === 2">
+      <app-agree-review></app-agree-review>
+    </div>
+
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage === 3">
+      <app-agree-concluded></app-agree-concluded>
+    </div>
+
+
+
+  </div>
+
+

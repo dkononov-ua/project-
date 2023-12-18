@@ -1,0 +1,25 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+
+.t-min {
+  text-align: start;
+}
+
+.flex-column {
+  @include flex-box-column;
+  align-items: center;
+  @include box-shadow;
+  background-color: $color-white;
+}
+
+.logo-wrapper {
+  transition: 0.2s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+img {
+  width: 300px;
+  object-fit: cover;
+}

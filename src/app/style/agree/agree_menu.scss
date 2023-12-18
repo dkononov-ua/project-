@@ -1,0 +1,70 @@
+@use "../presets/" as *;
+@use "../mixins/" as *;
+
+.container-card {
+  @include flex-box;
+  height: 600px;
+  align-items: flex-start;
+  overflow: auto;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.flex-box-row {
+  @include flex-box-row;
+  @include s1-s3 {
+    align-items: stretch;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+
+.card-btn {
+  @include flex-box-column;
+  border-radius: 20px;
+
+  .btn-group {
+    width: 100%;
+    .btn {
+      @include flex-box;
+      @include box-shadow;
+      width: 100%;
+      justify-content: flex-start;
+      background-color: $color-white;
+      &:hover {
+        background-color: $color-accent;
+      }
+
+      .fa-solid {
+        color: $color-text;
+      }
+    }
+  }
+}
+
+.accent-bg {
+  background-color: $color-accent !important;
+}
+
+.card-body {
+  @include flex-box-column;
+  align-items: flex-start;
+}
+
+.card-agree {
+  @include flex-box-column;
+  align-items: flex-start;
+  border-bottom: 1px solid $color-gray;
+}
+
+.img-wrapper {
+  @include flex-box;
+  overflow: hidden;
+  .img-fluid {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+}

@@ -1,14 +1,20 @@
 @use "sass:math";
 
-$font-header: "Roboto Slab", serif;
-$font-main: 'Roboto Condensed', sans-serif;
+$font-header: 'Montserrat', sans-serif;
+$font-main: 'Montserrat', sans-serif;
 $font-size: 16px;
+$font-size-menu: 20px;
 
-$ul: 1340px;
-$xl: 1200px;
-$lg: 992px;
-$md: 768px;
-$sm: 576px;
+$font-link: 'Roboto Condensed', sans-serif, 10px;
+$font-size-link: 12px;
+
+$s6: 1340px;
+$s5: 1200px;
+$s4: 992px;
+$s3: 768px;
+$s2: 576px;
+$s1: 1px;
+
 $gap: 20px;
 
 $gap-sm: math.div($gap, 2);

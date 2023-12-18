@@ -1,0 +1,62 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <nav class="navbar">
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+      <span class="link-text">Мій аккаунт</span>
+      <div class="link-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
+      <span class="link-text">Повідомлення</span>
+      <div class="link-icon"><i class="fa-regular fa-message"></i></div>
+      <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">{{counterUserNewMessage}}</div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-user'">
+      <div class="link-text">Пропозиції<span class="count"
+          *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">({{counterUserSubscribers}}) </span>
+      </div>
+      <div class="link-icon"><i class="fa-solid fa-people-pulling"></i></div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscriptions-user'">
+      <div class="link-text">Вподобання<span class="count"
+          *ngIf="counterUserSubscriptions && counterUserSubscriptions !== 0">({{counterUserSubscriptions}})</span>
+      </div>
+      <div class="link-icon"><i class="fa-regular fa-heart"></i></div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
+      <div class="link-text">Дискусії <span class="count"
+          *ngIf="counterUserDiscussio && counterUserDiscussio !== 0">({{counterUserDiscussio}})</span>
+      </div>
+      <div class="link-icon"><i class="fa-solid fa-person-walking-luggage"></i></div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/user/uagree-menu'">
+      <span class="link-text">Угоди оренди</span>
+      <div class="link-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+      <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">{{counterUserNewAgree}}</div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'">
+      <span class="link-text">Пошуковий профіль</span>
+      <div class="link-icon"><i class="fa-regular fa-clock"></i></div>
+    </a>
+
+    <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
+      <span class="link-text">Редагувати</span>
+      <div class="link-icon"><i class="fa-solid fa-gears"></i></div>
+    </a>
+
+    <a class="link-menu hide-pc" [routerLinkActive]="'active'" [routerLink]="'/feedback'">
+      <span class="link-text">Відгук</span>
+      <div class="link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+    </a>
+
+  </nav>
+</ng-template>

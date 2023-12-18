@@ -1,0 +1,15 @@
+<div class="form-container mb-2">
+  <ng-container>
+    <div class="select-box">
+      <mat-label class="list-label-1">Обрана послуга</mat-label>
+      <mat-form-field class="list-form" appearance="outline">
+        <mat-select class="list-select" name="selectedComun" [(ngModel)]="selectedComun"
+          (selectionChange)="onSelectionChangeComun()">
+          <mat-option class="list-option" *ngFor="let name of comunal_name"
+            [value]="name.comunal_name">{{name.comunal_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,23 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.flex-column {
+  @include flex-box-column;
+  align-items: stretch;
+}
+
+.noFlat {
+  @include flex-box-column;
+
+  width: 50%;
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.flex-box {
+  @include flex-box;
+  justify-content: center;
+  align-items: flex-start;
+}

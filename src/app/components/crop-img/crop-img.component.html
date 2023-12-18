@@ -1,0 +1,29 @@
+<div class="box">
+  <div ly-dialog-content  [lyPx]="0">
+
+    <ly-img-cropper [config]="myConfig" [(scale)]="scale" (ready)="ready = true" (cleaned)="ready = false"
+      (minScale)="minScale = $event" (cropped)="onCropped($event)" (loaded)="onLoaded($event)"
+      (error)="onError($event)">
+      <span>Drag and drop image</span>
+    </ly-img-cropper>
+  </div>
+
+  <div *ngIf="ready">
+    <div class="box-1 mt-4">
+      <button (click)="cropper.zoomIn()" ly-button appearance="icon"><i
+          class="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button (click)="cropper.zoomOut()" ly-button appearance="icon"><i
+          class="fa-solid fa-magnifying-glass-minus"></i></button>
+      <button (click)="cropper.center()" ly-button appearance="icon"><i
+          class="fa-solid fa-arrows-to-circle"></i></button>
+      <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><i class="fa-solid fa-rotate-left"></i></button>
+      <button (click)="cropper.fit()" ly-button appearance="icon"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+    </div>
+  </div>
+
+  <div container *ngIf="ready" [lyJustifyContent]="'center'" ly-dialog-actions>
+    <button class="w-30 btn m-1 t-med" ly-button (click)="dialogRef.close()"><i class="fa-solid fa-xmark"></i></button>
+    <button class="w-60 btn m-1 t-med" ly-button (click)="dialogRef.close(cropper.crop())"><i class="fa-regular fa-circle-check"></i>Завантажити</button>
+  </div>
+
+</div>

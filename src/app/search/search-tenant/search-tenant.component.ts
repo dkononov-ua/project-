@@ -1,0 +1,353 @@
+import { regions } from '../../data/data-city';
+import { cities } from '../../data/data-city';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FilterUserService } from '../filter-user.service';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { PageEvent } from '@angular/material/paginator';
+import { serverPath } from 'src/app/config/server-config';
+import { PaginationConfig } from 'src/app/config/paginator';
+import { UserConfig } from '../../interface/param-config'
+import { UserInfoSearch } from '../../interface/info'
+
+@Component({
+  selector: 'app-search-tenant',
+  templateUrl: './search-tenant.component.html',
+  styleUrls: ['./search-tenant.component.scss'],
+})
+
+export class SearchTenantComponent implements OnInit {
+
+  // загальна кількість знайдених осель
+
+  // пагінатор
+  offs = PaginationConfig.offs;
+  optionsFound = PaginationConfig.counterFound;
+  currentPage = PaginationConfig.currentPage;
+  totalPages = PaginationConfig.totalPages;
+  pageEvent = PaginationConfig.pageEvent;
+
+  userInfo: UserInfoSearch = UserConfig;
+
+  filteredCities: any[] | undefined;
+  filteredRegions: any[] | undefined;
+  selectedRegion!: string;
+  selectedCity!: string;
+  regions = regions;
+  cities = cities;
+  minValue: number = 0;
+  maxValue: number = 100000;
+  loading = true;
+  timer: any;
+  searchQuery: string | undefined;
+  minValueDays: number = 0;
+  maxValueDays: number = 31;
+  minValueWeeks: number = 0;
+  maxValueWeeks: number = 4;
+  minValueMonths: number = 0;
+  maxValueMonths: number = 11;
+  minValueYears: number = 0;
+  maxValueYears: number = 5;
+  minValueKitchen: number = 0;
+  maxValueKitchen: number = 100;
+  minValueFloor: number = -3;
+  maxValueFloor: number = 47;
+  isSearchTermCollapsed: boolean = false;
+  filteredUsers!: [any];
+  searchTimer: any;
+  flats: any[] | undefined;
+  flatInfo: any[] | undefined;
+  filteredFlats?: any;
+  selectedFlatId!: string | null;
+  houseData: any;
+  filter_group: number = 1;
+  openUser: boolean = false;
+
+  card_info: number = 0;
+  indexPage: number = 1;
+  shownCard: any;
+
+  filterSwitchNext() {
+    if (this.filter_group < 4) {
+      this.filter_group++;
+    }
+  }
+
+  filterSwitchPrev() {
+    if (this.filter_group > 1) {
+      this.filter_group--;
+    }
+  }
+
+  calculateTotalDays(): number {
+    const days = this.userInfo.days || 0;
+    const weeks = this.userInfo.weeks || 0;
+    const months = this.userInfo.months || 0;
+    const years = this.userInfo.years || 0;
+    const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    return totalDays;
+  }
+
+  saveDayCounts(): void {
+    const totalDays = this.calculateTotalDays();
+    this.userInfo.day_counts = totalDays > 0 ? totalDays.toString() : '';
+  }
+
+  onDayCountsChange(): void {
+    this.saveDayCounts();
+  }
+
+  toggleSearchTerm() {
+    this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
+  }
+
+  constructor(
+    private filterUserService: FilterUserService,
+    private http: HttpClient,
+    private selectedFlatService: SelectedFlatService) {
+    this.filterUserService.filterChange$.subscribe(async () => {
+      this.card_info = this.filterUserService.getCardInfo();
+      this.indexPage = this.filterUserService.getIndexPage();
+    })
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.getSelectedFlatId();
+  }
+
+  clearFilter() {
+    this.userInfo.room = undefined;
+    this.userInfo.price = undefined;
+    this.userInfo.region = undefined;
+    this.userInfo.city = undefined;
+    this.userInfo.rooms = undefined;
+    this.userInfo.area = undefined;
+    this.userInfo.repair_status = '';
+    this.userInfo.bunker = '';
+    this.userInfo.balcony = '';
+    this.userInfo.animals = '';
+    this.userInfo.distance_metro = '';
+    this.userInfo.distance_stop = '';
+    this.userInfo.distance_green = '';
+    this.userInfo.distance_shop = '';
+    this.userInfo.distance_parking = '';
+    this.userInfo.option_pay = 0;
+    this.userInfo.purpose_rent = '';
+    this.userInfo.looking_woman = undefined;
+    this.userInfo.looking_man = undefined;
+    this.userInfo.students = 1;
+    this.userInfo.woman = 1;
+    this.userInfo.man = 1;
+    this.userInfo.family = 1;
+    this.userInfo.days = undefined;
+    this.userInfo.weeks = undefined;
+    this.userInfo.months = undefined;
+    this.userInfo.years = undefined;
+    this.userInfo.day_counts = undefined;
+    this.userInfo.house = undefined;
+    this.userInfo.flat = undefined;
+    this.userInfo.kitchen_area = undefined;
+    this.searchFilter()
+
+  }
+
+  async loadDataFlat(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+        this.userInfo.region = parsedHouseData.flat.region;
+        this.userInfo.city = parsedHouseData.flat.city;
+        this.userInfo.rooms = parsedHouseData.param.rooms;
+        this.userInfo.repair_status = parsedHouseData.param.repair_status || 'Неважливо';
+        this.userInfo.area = parsedHouseData.param.area;
+        this.userInfo.kitchen_area = parsedHouseData.param.kitchen_area;
+        this.userInfo.balcony = parsedHouseData.param.balcony || 'Неважливо';
+        // this.userInfo.floor = parsedHouseData.param.floor;
+        this.userInfo.distance_metro = parsedHouseData.flat.distance_metro.toString();
+        this.userInfo.distance_stop = parsedHouseData.flat.distance_stop.toString();
+        this.userInfo.distance_shop = parsedHouseData.flat.distance_shop.toString();
+        this.userInfo.distance_green = parsedHouseData.flat.distance_green.toString();
+        this.userInfo.distance_parking = parsedHouseData.flat.distance_parking.toString();
+        this.userInfo.woman = parsedHouseData.about.woman;
+        this.userInfo.man = parsedHouseData.about.man;
+        this.userInfo.family = parsedHouseData.about.family;
+        this.userInfo.students = parsedHouseData.about.students;
+        this.userInfo.option_pay = parsedHouseData.about.option_pay;
+        this.userInfo.room = parsedHouseData.about.room;
+        this.userInfo.animals = parsedHouseData.about.animals || 'Неважливо';
+        this.userInfo.price = parsedHouseData.about.price_m ? parsedHouseData.about.price_m : parsedHouseData.about.price_d;
+        this.userInfo.bunker = parsedHouseData.about.bunker || 'Неважливо';
+        if (parsedHouseData.param.option_flat === 1) {
+          this.userInfo.house = 1;
+          this.userInfo.flat = 0;
+        } else if (parsedHouseData.param.option_flat === 2) {
+          this.userInfo.house = 0;
+          this.userInfo.flat = 1;
+        }
+        this.searchFilter()
+      } else {
+        console.log('Немає інформації про оселю')
+      }
+    } else {
+      console.log('Авторизуйтесь')
+    }
+  }
+
+  getSelectedFlatId() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (this.selectedFlatId !== null) {
+        this.searchFilter();
+      }
+    });
+  }
+
+  // пошук
+  searchFilter(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
+        .subscribe((response: any) => {
+          if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
+            this.filteredUsers = response.user_inf;
+            this.optionsFound = response.search_count;
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
+            this.loading = false;
+          } else {
+            this.filteredUsers = [null];
+            this.optionsFound = 0;
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
+            this.loading = false;
+          }
+        }, (error: any) => {
+          console.error(error);
+          this.loading = false;
+
+        });
+    } else {
+      this.passInformationToService(this.filteredUsers, this.optionsFound)
+      console.log('user not found');
+      this.loading = false;
+    }
+  }
+
+  // пошук юзера по ID
+  searchByUserID(): void {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      const userJson = localStorage.getItem('user');
+      const userId = this.searchQuery;
+
+      if (userJson && this.searchQuery) {
+        this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
+          .subscribe((response: any) => {
+            this.filteredUsers = response.user_inf;
+            this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
+          }, (error: any) => {
+            console.error(error);
+          });
+      } else {
+        this.searchFilter();
+        console.log('user not found');
+      }
+    }, 1000);
+  }
+
+  // додавання затримки на відправку запиту
+  onSubmitWithDelay() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+    this.searchTimer = setTimeout(() => {
+      this.searchFilter();
+    }, 2000);
+  }
+
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passInformationToService(filteredFlats: any, optionsFound: number) {
+    this.calculatePaginatorInfo()
+    this.filterUserService.updateFilter(filteredFlats, optionsFound);
+  }
+
+  // завантаження бази міст
+  loadCities() {
+    const searchTerm = this.userInfo.region!.toLowerCase();
+    this.filteredRegions = this.regions.filter(region =>
+      region.name.toLowerCase().includes(searchTerm)
+    );
+    const selectedRegionObj = this.filteredRegions.find(region =>
+      region.name === this.userInfo.region
+    );
+    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
+    this.userInfo.city = '';
+  }
+
+  // завантаження бази областей
+  loadRegions() {
+    const searchTerm = this.userInfo.city!.toLowerCase();
+    const selectedRegionObj = this.regions.find(region =>
+      region.name === this.userInfo.region
+    );
+    this.filteredCities = selectedRegionObj
+      ? selectedRegionObj.cities.filter(city =>
+        city.name.toLowerCase().includes(searchTerm)
+      )
+      : [];
+
+    const selectedCityObj = this.filteredCities.find(city =>
+      city.name === this.userInfo.city
+    );
+  }
+
+  // наступна сторінка
+  incrementOffset() {
+    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
+      this.pageEvent.pageIndex++;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.userInfo.limit = offs;
+    }
+    this.searchFilter();
+  }
+
+  // попередня сторінка
+  decrementOffset() {
+    if (this.pageEvent.pageIndex > 0) {
+      this.pageEvent.pageIndex--;
+      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      this.userInfo.limit = offs;
+    }
+    this.searchFilter();
+  }
+
+  changeOpenUser() {
+    this.openUser = !this.openUser;
+  }
+
+  changeIndexPage(indexPage: number) {
+    this.indexPage = indexPage;
+    this.openUser = true;
+    this.passIndexPage();
+  }
+
+  changeCardInfo(cardInfo: number) {
+    this.card_info = cardInfo;
+    this.openUser = true;
+    this.passIndexPage();
+  }
+
+  // передача отриманих даних до сервісу а потім виведення на картки карток
+  passIndexPage() {
+    this.filterUserService.updatePage(this.card_info, this.indexPage);
+  }
+
+  calculatePaginatorInfo(): string {
+    const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
+    const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
+    this.shownCard = `${startIndex} - ${endIndex}`;
+    return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
+  }
+
+}
+

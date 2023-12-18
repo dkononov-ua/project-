@@ -1,0 +1,52 @@
+<div class="box">
+  <div class="ly-container-img" ly-dialog-content [lyPx]="0">
+    <ly-img-cropper class="ly-img" [config]="myConfig!" [(scale)]="scale" (ready)="ready = true"
+      (cleaned)="ready = false" (minScale)="minScale = $event" (cropped)="onCropped($event)" (loaded)="onLoaded($event)"
+      (error)="onError($event)">
+      <span>Drag and drop image</span>
+    </ly-img-cropper>
+  </div>
+
+  <div *ngIf="ready">
+    <div class="box-1">
+
+      <div class="flex-column">
+
+        <div class="flex-box">
+
+          <div class="flex-column w-50">
+            <div class="t-min t-c">Ширина</div>
+            <ly-slider [min]="300" [max]="600" (ngModelChange)="pickFormats(formatWidth, formatHeight)"
+              [(ngModel)]="formatWidth"></ly-slider>
+          </div>
+
+          <div class="flex-column w-50">
+            <div class="t-min t-c">Висота</div>
+            <ly-slider [min]="300" [max]="600" (ngModelChange)="pickFormats(formatWidth, formatHeight)"
+              [(ngModel)]="formatHeight"></ly-slider>
+          </div>
+
+        </div>
+
+        <button (click)="cropper.zoomIn()" ly-button appearance="icon">
+          <i class="fa-solid fa-magnifying-glass-plus"></i>
+        </button>
+
+        <button (click)="cropper.zoomOut()" ly-button appearance="icon">
+          <i class="fa-solid fa-magnifying-glass-minus"> </i>
+        </button>
+
+        <button (click)="cropper.rotate(-90)" ly-button appearance="icon">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <div container *ngIf="ready" [lyJustifyContent]="'center'" ly-dialog-actions>
+    <button class="w-50" ly-button (click)="dialogRef.close()">ВІДМІНИТИ</button>
+    <button class="w-50" ly-button (click)="dialogRef.close(cropper.crop())">ГОТОВО</button>
+  </div>
+
+</div>

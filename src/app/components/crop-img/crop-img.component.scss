@@ -1,0 +1,54 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+
+.LyImageCropper-resizer-ag {
+  width: 47px;
+  height: 81px;
+  background: #c90c0c;
+  border-radius: 3px;
+  position: absolute;
+  touch-action: none;
+  bottom: 0;
+  right: 0;
+  pointer-events: all;
+  cursor: nwse-resize;
+}
+
+.ly-dialog-content {
+  max-width: 100%;
+}
+
+.box {
+  background-color: $color-white;
+  overflow: hidden;
+}
+
+.fa-solid {
+  color: $color-text;
+}
+
+ly-icon {
+  color: $color-text;
+}
+
+button {
+  color: $color-text;
+  font-family: $font-main;
+}
+
+.font-main {
+  font-family: $font-main;
+}
+
+.box-1 {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn {
+  background-color: $color-accent;
+  .fa-solid,
+  .fa-regular {
+    color: $color-dark;
+  }
+}

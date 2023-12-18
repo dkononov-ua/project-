@@ -1,4 +1,5 @@
 @use "app/style/presets/" as *;
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 * {
   box-sizing: border-box;
@@ -8,8 +9,8 @@
 
 html,
 body {
-  height: 100%;
   font-family: $font-main;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -26,38 +27,15 @@ a {
   text-decoration: none;
   display: block;
   border-radius: 10px;
-  transition: 0.5s ease;
+  transition: 0.3s ease;
 
   &.active {
-    background-color: $color-accent;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $color-primary;
     color: $color-accent;
-    background-color: $color-white;
-    border-color: rgb(255, 255, 255);
-
-    .fab {
-      color: $color-accent;
-      transform: scale(1.4);
-      transition: transform 2s;
-    }
   }
-}
 
-img {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 1s;
-
-  &:hover {
-    transition: transform 1s;
+  .fab {
     transform: scale(1.4);
-    border-radius: 10px;
+    transition: transform 2s;
   }
 }
 
@@ -77,4 +55,12 @@ img {
 .carousel-inner {
   border-radius: 10px;
 }
+
+@media print {
+  body {
+    background-color: transparent;
+  }
+}
+
+
 

@@ -1,0 +1,56 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.card-box {
+  @include flex-box;
+  justify-content: flex-start;
+  align-items: stretch;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.card {
+  height: 600px;
+  @include s1-s3 {
+    height: auto;
+  }
+}
+
+.img-fluid {
+  border-radius: 20px;
+}
+
+.flex-box {
+  align-items: stretch;
+}
+
+.switch-box {
+  justify-content: flex-start;
+  @include s1-s3 {
+    overflow-x: auto;
+  }
+  .switch-btn-group {
+    .btn {
+      width: 60px;
+    }
+
+    a {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}

@@ -1,0 +1,104 @@
+@use "../../style/presets/" as *;
+@use "../../style/radio.scss";
+@use "../../style/mixins/" as *;
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+.card-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.card-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  width: 95%;
+  height: 100%;
+  position: relative;
+  justify-content: flex-start;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.radio-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  width: 80px;
+}
+
+.content1 {
+  display: flex;
+  width: 50px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.442);
+}
+
+mat-label {
+  color: $color-accent;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.btn {
+  width: 100%;
+}
+
+.content-name {
+  font-size: 14px;
+}
+
+li {
+  font-size: 14px;
+}
+
+.box {
+  @include flex-box-column;
+  width: 100%;
+}
+
+.feedBack {
+  @include flex-box-column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 350px;
+  padding: 10px;
+  margin: 10px;
+  height: auto;
+}
+
+.feedBack-box {
+  @include flex-box;
+  flex-wrap: wrap;
+  height: auto;
+}

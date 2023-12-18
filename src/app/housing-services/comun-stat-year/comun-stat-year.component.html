@@ -1,0 +1,123 @@
+<div class="container-card p-2 col-12">
+
+  <div class="flex-box mb-2 w-100">
+    <app-select-year class="w-50 m-1"></app-select-year>
+    <div class="mat-form-field w-50 m-1">
+      <label class="label p-1" for="sortSelect">Сортування:</label>
+      <mat-select id="sortSelect" [(ngModel)]="selectedSortOption" (selectionChange)="sortData()">
+        <mat-option value="id">По порядку</mat-option>
+        <mat-option value="comunal_name">Назва послуги</mat-option>
+        <mat-option value="total_howmuch_pay">Найбільше сплачено ₴</mat-option>
+        <mat-option value="total_calc_howmuch_pay">Найбільше нараховано ₴</mat-option>
+        <mat-option value="total_difference">Найбільша заборгованість ₴</mat-option>
+      </mat-select>
+    </div>
+  </div>
+
+
+  <div class="table-container" *ngIf="dataLoaded && !noInformationMessage">
+
+    <div class="wrapper">
+      <table class="table-box">
+        <thead class="table-head fixed-table-head">
+          <tr class="table-row">
+            <th (click)="sortBy('id')">
+              <div class="table-cell name wi-30">№</div>
+            </th>
+            <th (click)="sortBy('comunal_name')">
+              <div class="table-cell name wi-150">Назва послуги</div>
+            </th>
+
+            <th>
+              <div class="table-cell name wi-100">Спожито</div>
+            </th>
+
+            <th (click)="sortBy('total_calc_howmuch_pay')">
+              <div class="table-cell name wi-100">Нараховано ₴</div>
+            </th>
+
+            <th (click)="sortBy('total_howmuch_pay')">
+              <div class="table-cell name wi-100">Сплатив</div>
+            </th>
+            <th (click)="sortBy('total_difference')">
+              <div class="table-cell name wi-100">Різниця</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody [@columnAnimation]>
+          <tr class="table-row" *ngFor="let entry of sortedMonthlySumData$ | async">
+            <td>
+              <div class="table-cell name-1 wi-30">
+                {{ entry['id'] }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-1 wi-150">
+                {{ entry['comunal_name'] }}
+              </div>
+            </td>
+
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ entry['total_consumed'] | number: '1.1-1' }}
+              </div>
+            </td>
+
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ entry['total_calc_howmuch_pay'] | number: '1.1-1' }}
+              </div>
+            </td>
+
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ entry['total_howmuch_pay'] | number: '1.1-1' }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ entry['total_difference'] | number: '1.1-1' }}
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <div [@columnAnimation1] class="container-box">
+      <div class="box">Загалом нараховано
+        <div class="box-item">{{ totalNeedPay | number: '1.1-1' }}₴</div>
+      </div>
+      <div class="box">Загалом сплачено
+        <div class="box-item">{{ totalPaid | number: '1.1-1' }}₴ </div>
+      </div>
+      <div class="box">Загалом різниця
+        <div class="box-item">{{ totalDifference | number: '1.1-1' }}₴ </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="dataLoaded && noInformationMessage">
+    <div class="message-box">
+      <h4>Статистики за цей місяць немає...</h4>
+    </div>
+
+    <div class="container-box">
+
+      <div class="box">Загалом нараховано
+        <div class="box-item">0₴</div>
+      </div>
+
+      <div class="box">Загалом сплачено
+        <div class="box-item">0₴ </div>
+      </div>
+
+      <div class="box">Загалом різниця
+        <div class="box-item">0₴ </div>
+      </div>
+    </div>
+  </div>
+</div>

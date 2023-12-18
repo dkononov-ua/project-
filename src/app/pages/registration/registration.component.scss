@@ -1,0 +1,302 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.container-reg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  // overflow: hidden;
+
+  @include s1-s3 {
+    background-color: $color-white;
+  }
+}
+
+.inputbox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  // height: 75px;
+}
+
+.input-email {
+  height: 100px;
+}
+
+.btn-discussi {
+  width: 100%;
+  text-align: end;
+  border: none;
+  background-color: transparent;
+  color: $color-text;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 20px 0 0;
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @include s1-s3 {
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+    justify-content: space-between;
+    align-content: flex-start;
+  }
+}
+
+.card-box {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 75vh;
+  position: relative;
+  @include s1-s3 {
+    height: 70vh;
+    justify-content: flex-start;
+  }
+}
+
+.card-box-logo {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 25vh;
+  position: relative;
+  @include s1-s3 {
+    height: auto;
+    justify-content: flex-start;
+  }
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+.beta {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  font-size: 16px;
+  font-weight: 600;
+
+  @include s1-s3 {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    font-size: 16px;
+  }
+}
+
+.switch-box {
+  position: relative;
+}
+
+.text {
+  font-size: 12px;
+  text-align: center;
+}
+
+.text-abs {
+  position: absolute;
+  bottom: 10px;
+  font-size: 12px;
+  text-align: center;
+  @include s1-s3 {
+    position: relative;
+    justify-content: flex-start;
+  }
+}
+
+a {
+  padding: 0;
+  margin: 0;
+  text-transform: lowercase;
+  color: $color-accent;
+  display: inline;
+}
+
+.alert-danger {
+  position: absolute;
+  bottom: -22px;
+  color: $color-accent;
+  font-size: 12px;
+  left: 0;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @include s1-s3 {
+    width: 100%;
+    // flex-direction: row;
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 400px;
+  overflow: hidden;
+  min-height: 550px;
+
+  @include s1-s3 {
+    min-height: 500px;
+    width: 96%;
+  }
+}
+
+.logo {
+  height: 120px;
+  width: 100%;
+  @include s1-s3 {
+    height: 80px;
+  }
+}
+
+p {
+  text-align: center;
+  font-size: 12px;
+}
+
+
+
+.btn {
+  height: 50px;
+  font-size: 16px;
+  color: $color-white;
+  background-color: $color-gray;
+  border-radius: 5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  width: 100%;
+  background-color: $color-accent;
+}
+
+.disabled-button {
+  background-color: gray;
+  color: white;
+  cursor: not-allowed;
+}
+
+.text-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+.box-agree {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-none {
+  border: none;
+  width: 100%;
+  background-color: transparent;
+  font-weight: 600;
+  color: $color-accent;
+  @include s3-s6-max {
+    &:hover {
+      color: $color-accent;
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    }
+  }
+}
+
+.btn-none.disabled-button {
+  color: $color-gray;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
+}
+
+.see {
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  position: absolute;
+  background: none;
+  border: none;
+}
+
+.error-message {
+  font-size: 12px;
+  color: rgba(255, 0, 0, 0.663);
+}
+
+h1 {
+  font-weight: 600;
+  width: 100%;
+}
+
+.fa-solid, .fa-regular {
+  font-size: 18px;
+  color: $color-dark;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

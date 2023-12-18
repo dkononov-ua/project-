@@ -1,0 +1,115 @@
+<div class="container-card p-2 col-12">
+  <!-- <h3 class="text"><span class="accent">{{selectedMonth}}, {{selectedYear}}рік</span></h3> -->
+  <div class="flex-box w-100">
+    <app-select-year class="p-1 w-50"></app-select-year>
+    <app-select-month class="p-1 w-50"></app-select-month>
+  </div>
+
+  <div class="table-container" *ngIf="!noInformationMessage">
+    <div class="wrapper">
+      <table class="table-box">
+        <thead class="table-head">
+          <tr class="table-row">
+            <th>
+              <div class="table-cell name wi-30">№</div>
+            </th>
+            <th>
+              <div class="table-cell name wi-150">Назва послуги</div>
+            </th>
+            <th>
+              <div class="table-cell name wi-100">Спожито</div>
+            </th>
+            <th>
+              <div class="table-cell name wi-80">Тариф ₴</div>
+            </th>
+            <th>
+              <div class="table-cell name wi-100">Нараховано ₴</div>
+            </th>
+            <th>
+              <div class="table-cell name wi-100">Сплатив ₴</div>
+            </th>
+            <th>
+              <div class="table-cell name wi-100">Різниця ₴</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody [@columnAnimation]>
+          <tr class="table-row" *ngFor="let utility of flatInfo">
+            <td>
+              <div class="table-cell name-1 wi-30">
+                {{ utility.id }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-1 wi-150">
+                {{ utility.name }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ utility.consumed | number: '1.1-1' }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-2 wi-80">
+                {{ utility.tariff | number: '1.1-1' }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ utility.needPay | number: '1.1-1' }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ utility.paid | number: '1.1-1' }}
+              </div>
+            </td>
+            <td>
+              <div class="table-cell name-2 wi-100">
+                {{ utility.difference | number: '1.1-1' }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+    <div [@columnAnimation1] class="container-box">
+      <div class="box">Загалом нараховано
+        <div class="box-item">{{ totalNeedPay }}₴</div>
+      </div>
+      <div class="box">Загалом сплачено
+        <div class="box-item">{{ totalPaid }}₴ </div>
+      </div>
+      <div class="box">Загалом різниця
+        <div class="box-item">{{ difference }}₴ </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="noInformationMessage">
+    <div class="message-box" *ngIf="noInformationMessage">
+      <h4>Статистики за цей місяць немає...</h4>
+    </div>
+
+
+
+    <div class="container-box">
+
+      <div class="box">Загалом нараховано
+        <div class="box-item">0₴</div>
+      </div>
+
+      <div class="box">Загалом сплачено
+        <div class="box-item">0₴ </div>
+      </div>
+
+      <div class="box">Не сплачено
+        <div class="box-item">0₴ </div>
+      </div>
+    </div>
+  </div>
+</div>

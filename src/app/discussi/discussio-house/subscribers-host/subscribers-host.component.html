@@ -1,0 +1,17 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <app-navbar></app-navbar>
+  <div class="container-box">
+    <div class="container-card hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
+      <app-navbar-house></app-navbar-house>
+    </div>
+
+    <div class="container-card col-lg-9 col-md-9 col-sm-12 col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <!-- <app-footer></app-footer> -->
+</ng-template>

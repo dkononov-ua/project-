@@ -1,0 +1,156 @@
+@use "../housing-services.component.scss";
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.img-comun-box {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  .img-comun {
+    height: 200px;
+  }
+  .cropped-text {
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    @include flex-box;
+    background-color: rgba(90, 86, 86, 0.591);
+    .cropped-text1 {
+      color: $color-white;
+    }
+  }
+}
+
+.flex-box,
+.flex-box-column {
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  .fa-solid, .fa-regular {
+    color: $color-text;
+  }
+}
+
+.border-t {
+  border-top: 1px solid $color-primary;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  align-items: stretch;
+  justify-content: space-between;
+  overflow: auto;
+  position: relative;
+}
+
+.about {
+  font-size: 13px;
+}
+
+.description {
+  font-size: 13px;
+  font-style: italic;
+}
+
+.formula {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.name {
+  text-align: center;
+}
+
+.card-btn-container {
+  border-radius: 10px;
+}
+
+.add-photo-group {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .add-photo-label {
+    width: 50%;
+    height: 60px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 15px;
+    color: $color-accent;
+    font-weight: 600;
+  }
+
+  .box-group {
+    @include flex-box-column;
+    position: relative;
+
+    .btn-name {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+
+  .add-photo-box {
+    cursor: pointer;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid $color-accent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+    transition: 1s;
+
+    &:hover {
+      background-color: $color-dark;
+    }
+  }
+
+  .add-photo-icon {
+    color: $color-accent;
+    font-size: 30px;
+    animation: iconflicker 8s linear infinite;
+  }
+
+  .add-photo-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.item {
+  @include flex-box;
+  margin: 2px;
+  // background-color: $color-primary;
+  border-radius: 10px;
+  // border: 1px solid $color-gray;
+  padding: 2px;
+}
+
+.btn-group {
+  position: sticky;
+  bottom: 0;
+}

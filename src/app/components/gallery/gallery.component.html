@@ -1,0 +1,20 @@
+<div class="img-container" #imgContainer>
+  <div class="img-wrapper" *ngIf="!data.place">
+    <img [src]="data.photos[currentPhotoIndex]" alt="Flat Image" class="fullscreen-img" #fullscreenImg />
+  </div>
+
+  <div class="img-wrapper" *ngIf="data.place === 'comun'">
+    <img [src]="data.photos" alt="Flat Image" class="fullscreen-img" #fullscreenImg />
+  </div>
+
+  <div>
+    <div class="zoomGroup">
+      <button class="zoomBtn" (click)="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button class="zoomBtn" (click)="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+    </div>
+    <button class="prev-img" (click)="prevPhoto()" *ngIf="!data.place"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="next-img" (click)="nextPhoto()" *ngIf="!data.place"><i
+        class="fa-solid fa-chevron-right"></i></button>
+    <button mat-dialog-close class="btn-close"></button>
+  </div>
+</div>

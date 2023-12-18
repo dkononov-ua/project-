@@ -8,6 +8,26 @@
   padding-left: $gap;
 }
 
+@mixin flex-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-box-column {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+@mixin flex-box-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 @mixin text-shortener {
   display: block;
   overflow: hidden;
@@ -16,35 +36,20 @@
   text-overflow: ellipsis;
 }
 
-@mixin bg-color($a: 0, $rgb: 0) {
-  background: rgba($rgb, $rgb, $rgb, $a);
-}
-
-@mixin block-header {
-  margin: 0;
-  padding-bottom: 10px;
-
-  border-bottom: 1px solid $color-dark;
-}
-
 @mixin visually-hidden {
   position: absolute;
-
   overflow: hidden;
   clip: rect(0 0 0 0);
-
   width: 1px;
   height: 1px;
   margin: -1px;
   padding: 0;
-
   border: 0;
 }
 
 @mixin unlist($m: 0, $p: 0) {
   margin: $m;
   padding: $p;
-
   list-style: none;
 }
 
@@ -56,6 +61,12 @@
   left: $left;
 }
 
+@mixin pos-abs-l() {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 @mixin box-shadow {
-  box-shadow: -3px 3px 20px -10px darken($color-gray-dark, 40%);
+  box-shadow: -3px 3px 20px -10px darken($color-gray, 40%);
 }

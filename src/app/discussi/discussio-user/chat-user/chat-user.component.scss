@@ -1,0 +1,44 @@
+@use "../../../style/chat/chat.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+.chat-container-user {
+  justify-content: flex-end;
+}
+
+.chat-container-owner {
+  justify-content: flex-start;
+}
+
+.user-message {
+  border-radius: 10px 10px 0px 10px;
+}
+
+.owner-message {
+  border-radius: 10px 10px 10px 0px;
+}
+
+.message-content-owner {
+  justify-content: flex-start;
+}
+
+.avatar-wrapper-user {
+  right: 0;
+}
+
+.avatar-wrapper-owner {
+  left: 0;
+}
+
+.name-owner {
+  justify-content: flex-start;
+  left: 0px;
+  top: 0;
+}
+
+.name-user {
+  top: 0;
+  right: 0px;
+  justify-content: flex-end;
+}
+

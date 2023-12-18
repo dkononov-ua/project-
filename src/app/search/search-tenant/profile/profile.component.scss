@@ -1,0 +1,86 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../search.component.scss";
+
+.btn-container {
+  height: 80px;
+  padding: 0;
+  // background-color: $color-white;
+  justify-content: space-between;
+}
+
+.func {
+  background-color: rgba(128, 128, 128, 0.277);
+  // border-radius: 10px;
+  height: 100%;
+}
+
+.item-box {
+  margin: 0;
+  height: 100%;
+  padding: 5px;
+  // background-color: $color-white;
+  align-items: flex-start;
+}
+
+.date-box {
+  margin: 0 5px;
+  @include flex-box-column;
+  .date {
+    @include flex-box;
+    background-color: $color-white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid $color-gray;
+    font-size: 30px;
+    color: $color-text;
+    font-weight: 600;
+  }
+  .date-name {
+    font-size: 12px;
+    color: $color-text;
+  }
+}
+
+.date-container {
+  @include flex-box;
+  justify-content: flex-end;
+  width: 100%;
+  .btn-box {
+    @include flex-box-column;
+    .btn {
+      width: 40px;
+      height: 40px;
+    }
+    .btn-name {
+      font-size: 12px;
+      color: $color-text;
+    }
+  }
+}
+
+
+
+.data-box {
+  margin-top: 5px;
+  .bg-gray {
+    @include flex-box;
+    background-color: rgba(60, 60, 60, 0.316);
+    width: 40px;
+    font-weight: 600;
+    border-radius: 0 5px 5px 0;
+
+  }
+
+  .bg-white {
+    border-radius: 5px 0 0 5px;
+
+    font-weight: 600;
+    color: $color-text;
+    background-color: rgba(255, 255, 255, 0.076);
+    width: 30px;
+  }
+}
+
+

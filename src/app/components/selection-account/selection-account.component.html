@@ -1,0 +1,53 @@
+<!-- <div class="btn-group hide-mobile mb-3">
+  <div class="account-box">
+    <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МІЙ ПРОФІЛЬ" [routerLink]="'/user/info'">
+      <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')"
+        alt="User Image">
+    </a>
+    <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Профіль</div>
+  </div>
+
+  <ng-container>
+    <div class="account-box">
+      <a class="link-btn" [routerLinkActive]="'active'" matTooltip="МОЇ ОСЕЛІ" [routerLink]="'/house/house-info'">
+        <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+          alt="Flat Image">
+      </a>
+      <div class="account-name" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</div>
+    </div>
+  </ng-container>
+</div>
+
+<div class="navbar-toggle hide-pc" [ngClass]="{'open': isMenuOpen}">
+
+  <button class="account-box" (click)="openMenuUser()">
+    <div class="link-btn" [ngClass]="{'active': openUserMenu == true}">
+      <img [src]="serverPathPhotoUser + (userInfo?.img[0].img ? userInfo?.img[0].img : 'user_default.svg')" alt="img">
+    </div>
+    <div class="account-name" [ngClass]="{'active': openUserMenu == true}">Аккаунт</div>
+  </button>
+
+  <ng-container>
+    <button class="account-box" (click)="openMenuFlat()">
+      <div class="link-btn" [ngClass]="{'active': openFlatMenu == true}">
+        <img [src]="serverPathPhotoFlat + (houseInfo?.imgs[0].img ? houseInfo?.imgs[0].img : 'housing_default.svg')"
+          alt="img">
+      </div>
+      <div class="account-name" [ngClass]="{'active': openFlatMenu == true}">Оселя</div>
+    </button>
+  </ng-container>
+
+  <a class="nav-link w-30" [routerLinkActive]="'active'" [routerLink]="'/opportunities'">Функції Discussio Beta</a>
+</div>
+
+<div class="card-box hide-pc col-lg-3 col-md-5 col-sm-6 col-12">
+  <div class="card-menu" *ngIf="openUserMenu" (click)="sendMenuClose()">
+    <h2 class="pl-3">Меню аккаунту</h2>
+    <app-navbar-user></app-navbar-user>
+  </div>
+
+  <div class="card-menu" *ngIf="openFlatMenu" (click)="sendMenuClose()">
+    <h2 class="pl-3">Меню оселі</h2>
+    <app-navbar-house></app-navbar-house>
+  </div>
+</div> -->

@@ -1,0 +1,14 @@
+@use "../../../style/chat/chat.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+.border-date {
+  border-top: 1px solid $color-gray;
+}
+
+.name-user {
+  top: 0;
+  left: 0px;
+}
+
+

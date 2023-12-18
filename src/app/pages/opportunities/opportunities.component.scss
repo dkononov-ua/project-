@@ -1,0 +1,176 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.flex-box {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+
+.video {
+  overflow: hidden;
+}
+
+.h-350 {
+  height: 350px;
+}
+
+.item-vid {
+  height: 100%;
+  object-fit: cover
+}
+
+.link-anchor {
+  @include flex-box;
+  font-size: 12px;
+  height: 30px;
+  flex-grow: 1;
+  // background-color: $color-white;
+  transition: 0.4s;
+  margin: 2px;
+  padding: 2px 2px;
+  border: 1px solid $color-primary;
+
+  @include s3-s6-max {
+    &:hover {
+      color: $color-accent;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+.item-img-container {
+  position: relative;
+  @include s1-s3 {
+    width: 100%;
+  }
+  .item-img {
+    object-fit: cover;
+  }
+}
+
+.w-200 {
+  width: 200px;
+}
+
+.w-300 {
+  width: 300px;
+}
+
+.w-350 {
+  width: 350px;
+}
+
+.w-400 {
+  width: 400px;
+}
+
+.w-500 {
+  width: 500px;
+}
+
+.w-600 {
+  width: 600px;
+}
+
+.h-300 {
+  height: 300px;
+  @include s1-s3 {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+.h-400 {
+  height: 400px;
+  @include s1-s3 {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+.h-500 {
+  height: 500px;
+  @include s1-s3 {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+.h-600 {
+  height: 600px;
+  @include s1-s3 {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+.flex-column {
+  margin-top: 40px;
+
+  margin-bottom: 40px;
+}
+
+h2,
+h5 {
+  text-align: center;
+}
+
+.item-box-1 {
+  background-color: $color-white;
+  border-radius: 20px;
+  overflow: hidden;
+  @include box-shadow;
+  @include flex-box;
+  justify-content: space-between;
+
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
+
+  .item-description {
+    @include flex-box;
+    padding: 10px;
+    flex-direction: column;
+    width: 100%;
+    @include s1-s3 {
+      width: 100%;
+    }
+    .fa-solid {
+      color: $color-text;
+    }
+  }
+}
+
+.link-toMenu {
+  transition: 1s;
+  color: $color-accent;
+  border-radius: 20px;
+  background-color: transparent;
+  border: none;
+  padding: 3px 5px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  .fa-solid {
+    color: $color-accent;
+  }
+}
+
+// медіа запити
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

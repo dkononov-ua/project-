@@ -1,0 +1,113 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+
+.flex-column {
+  @include flex-box-column;
+  align-items: stretch;
+  .send-message {
+    @include s1-s3 {
+      width: 100%;
+      position: fixed;
+      z-index: 200;
+      bottom: 0;
+    }
+  }
+}
+
+.container-card {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.chat {
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  background-color: $color-white;
+  width: 400px;
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.card-box {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  @include s1-s3 {
+    align-items: center;
+  }
+}
+
+.card-box1 {
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+  align-items: flex-start;
+
+  @include s1-s3 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: left 1s ease;
+    border-radius: 10px;
+    align-items: stretch;
+  }
+}
+
+// перемикач мобільний
+.switch-box {
+  @include flex-box;
+  width: 100%;
+  justify-content: flex-start;
+  z-index: 50;
+
+  .switch-btn-group {
+    @include flex-box-column;
+    position: relative;
+    width: 80px;
+  }
+
+  .btn-menu {
+    @include flex-box-column;
+    flex: 1;
+  }
+
+  .btn {
+    @include flex-box-column;
+    justify-content: center;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+
+    &.active {
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-text;
+      font-size: 30px;
+    }
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}

@@ -1,0 +1,22 @@
+<ng-container
+  *ngIf="(ownFlats.length > 0 || (ownFlats !== null && ownFlats !== undefined)) || (rentedFlats && rentedFlats.length > 0)">
+  <mat-form-field class="form-container mb-2" appearance="outline">
+    <mat-label class="list-label">Дискусія</mat-label>
+    <mat-select class="list-select" [(value)]="selectedFlatId" (selectionChange)="onSelectionChange($event)">
+      <mat-option disabled value="">виберіть оселю</mat-option>
+      <ng-container *ngIf="discussioFlats && discussioFlats.length > 0">
+        <mat-optgroup label="Дискусія">
+          <mat-option class="list-option" *ngFor="let discussioFlat of discussioFlats" [value]="discussioFlat.flat_id">
+            {{ discussioFlat.flat_name }}
+          </mat-option>
+        </mat-optgroup>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
+
+<div *ngIf="loading" class="loader-overlay">
+  <div class="loader">
+    <img src="../../../../assets/logo/Discussio (7).svg" alt="Logo" class="loader-logo">
+  </div>
+</div>

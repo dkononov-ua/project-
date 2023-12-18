@@ -1,5 +1,112 @@
 @use "skin" as *;
 
+.icon-up {
+  color: $color-accent;
+  font-size: 2rem;
+  cursor: pointer;
+  animation: iconflicker 8s linear infinite;
+}
+
+.input-up {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer !important;
+}
+
+.input-div {
+  cursor: pointer;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid $color-accent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow:
+    0px 0px 20px $color-primary,
+    inset 0px 0px 10px $color-primary,
+    0px 0px 5px rgb(255, 255, 255);
+  transition: 1s;
+
+  &:hover {
+    background-color: $color-dark;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    border: 2px solid $color-accent;
+    box-shadow:
+      0px 0px 10px $color-primary,
+      inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+
+  5% {
+    border: none;
+    box-shadow: none;
+  }
+
+  10% {
+    border: 2px solid $color-accent;
+    box-shadow:
+      0px 0px 10px $color-primary,
+      inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+
+  25% {
+    border: none;
+    box-shadow: none;
+  }
+
+  30% {
+    border: 2px solid $color-accent;
+    box-shadow:
+      0px 0px 10px $color-primary,
+      inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+
+  100% {
+    border: 2px solid $color-accent;
+    box-shadow:
+      0px 0px 10px $color-primary,
+      inset 0px 0px 10px $color-primary,
+      0px 0px 5px rgb(255, 255, 255);
+  }
+}
+
+@keyframes iconflicker {
+  0% {
+    opacity: 1;
+  }
+
+  5% {
+    opacity: 0.2;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0.2;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .btn {
   color: $color-text;
   text-decoration: none;
@@ -11,192 +118,199 @@
     background-color: $color-accent;
   }
 
+  &:active {
+    background-color: $color-accent;
+  }
+
   &:hover,
   &:focus {
     background-color: $color-accent;
   }
 }
 
-.button-subscribe {
-  position: relative;
-  font-size: 20px;
+.btn-1 {
+  background-color: $color-accent;
   border: none;
-  margin: 10px;
-  width: 100%;
-  height: 50px;
+  color: $color-text;
+  height: 35px;
   border-radius: 10px;
-  background-color: $color-primary;
-  transition: 0.6s ease;
+}
 
-  &:hover,
-  :focus {
+.btn-1 {
+  background-color: $color-primary;
+  border: none;
+  color: $color-text;
+  height: 35px;
+  border-radius: 10px;
+
+  &.active {
     background-color: $color-accent;
   }
+
+  &:hover,
+  &:focus {
+    background-color: $color-accent;
+  }
+}
+
+.info-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: $color-accent;
+  color: $color-white;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  height: 30px;
+  width: 100px;
+  font-size: 14px;
+  z-index: 20;
+  &:hover {
+    background-color: $color-dark;
+  }
+}
+
+.btn-create {
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background-color: tomato;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+
+  &:hover {
+    transition: 0.4s;
+    background-color: $color-white;
+    filter: drop-shadow(0px 0px 40px rgb(59, 247, 2));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgb(59, 247, 2);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.btn-deleted {
+  background-color: tomato;
+  &:hover {
+    transition: 0.4s;
+    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
+
+    .fa-solid,
+    .fa-regular {
+      color: rgba(255, 0, 0, 0.733);
+      transform: scale(2.5);
+      transition: transform 0.5s;
+    }
+  }
+}
+
+.prev-img,
+.next-img {
+  position: absolute;
+  width: 50px;
+  top: 50%;
+  transform: translateY(-25px);
+  height: 100px;
+  z-index: 10;
+  border: none;
+  background-color: transparent;
+  transition: 0.5s;
+  border-radius: 10px;
+  text-shadow:
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.756);
+    .fa-solid {
+      color: $color-accent;
+      transform: scale(1.8);
+      padding: 5px;
+    }
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.541);
+  }
+}
+
+.prev-img {
+  left: 0;
+}
+
+.next-img {
+  right: 0;
+}
+
+.card-btn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .next {
-  z-index: 1;
-  cursor: pointer;
-  width: 60px;
-  height: 100%;
-
-  border: none;
-  border-radius: 10px;
-  background-color: $color-white;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-
-
-  transform: translateX(-15%) translateY(0%) scale(0.7);
-  transition: transform 0.5s;
-
-  &:hover,
-  :focus {
-    background-color: $color-accent;
-  }
-}
-
-.next-arrow-top,
-.next-arrow-bottom {
-  background-color: #666;
-  height: 4px;
-  left: -5px;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-}
-
-.next-arrow-top:after,
-.next-arrow-bottom:after {
-  background-color: #fff;
-  content: "";
-  height: 100%;
-  position: absolute;
-  top: 0;
-  transition: all 0.15s;
-}
-
-.next-arrow-top {
-  transform: rotate(45deg);
-  transform-origin: bottom right;
-}
-
-.next-arrow-top:after {
-  left: 100%;
-  right: 0;
-  transition-delay: 0s;
-}
-
-.next-arrow-bottom {
-  transform: rotate(-45deg);
-  transform-origin: top right;
-}
-
-.next-arrow-bottom:after {
-  left: 0;
-  right: 100%;
-  transition-delay: 0.15s;
-}
-
-.next:hover .next-arrow-top:after {
-  left: 0;
-  transition-delay: 0.15s;
-}
-
-.next:hover .next-arrow-bottom:after {
-  right: 0;
-  transition-delay: 0s;
-}
-
-.next:active {
-  transform: translateX(0%) translateY(0%) scale(1);
+  display: flex;
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .prev {
-  cursor: pointer;
-  width: 60px;
-  height: 100%;
+  display: flex;
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-evenly;
+}
 
-  border: none;
-  border-radius: 10px;
-  background-color: $color-white;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+.btn-link {
+  color: $color-text;
+  transition: all 0.4s ease;
+  letter-spacing: 1px;
 
-
-  transform: translateX(15%) translateY(0%) scaleX(-1) scale(0.7);
-  transition: transform 0.5s;
-
-  &:hover,
-  :focus {
-    background-color: $color-accent;
+  &:hover {
+    background-color: $color-gray;
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
+      10px 20px 40px rgba(0, 0, 0, 0.162);
   }
-}
 
-.prev-arrow-top,
-.prev-arrow-bottom {
-  background-color: #666;
-  height: 4px;
-  left: -5px;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  transform: rotate(45deg);
-  transform-origin: bottom right;
-}
-
-.prev-arrow-top:after {
-  background-color: #fff;
-  content: "";
-  height: 100%;
-  position: absolute;
-  top: 0;
-  transition: all 0.15s;
-  left: 100%;
-  right: 0;
-  transition-delay: 0s;
-}
-
-.prev-arrow-bottom {
-  background-color: #666;
-  height: 4px;
-  left: -5px;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  transform: rotate(-45deg);
-  transform-origin: top right;
-}
-
-.prev-arrow-bottom:after {
-  background-color: #fff;
-  content: "";
-  height: 100%;
-  position: absolute;
-  top: 0;
-  transition: all 0.15s;
-  left: 0;
-  right: 100%;
-  transition-delay: 0.15s;
-}
-
-.prev:hover .prev-arrow-top:after {
-  left: 0;
-  transition-delay: 0.15s;
-}
-
-.prev:hover .prev-arrow-bottom:after {
-  right: 0;
-  transition-delay: 0s;
-}
-
-.prev:active {
-  transform: translateX(0%) translateY(0%) scale(0.9);
-  transform: scaleX(-1);
-}
-
-.btn {
   &:active {
-    background-color: $color-accent;
+    transform: scale(0.8);
+    letter-spacing: 0px;
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
+      10px 20px 40px rgba(0, 0, 0, 0.162);
+  }
+
+  &.active {
+    letter-spacing: 5px;
+    font-weight: bold;
+    color: $color-accent;
+    box-shadow:
+      10px 10px 40px rgba(0, 0, 0, 0.105),
+      10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 }
-
-

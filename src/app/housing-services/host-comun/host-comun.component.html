@@ -1,0 +1,74 @@
+<ng-template #content>
+  <div class="container-box col-12">
+    <div class="hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
+      <app-navbar-house></app-navbar-house>
+    </div>
+    <div class="container-card col-lg-9 col-md-9 col-sm-12 col-12">
+      <div class="switch-box mb-3">
+
+        <div class="switch-btn-group">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="t-min dark bold">Назад</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-about'">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+          <div class="t-min dark bold">Про меню</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
+            <i class="fa-solid fa-id-card"></i>
+          </button>
+          <div class="t-min dark bold">Послуга</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
+            <i class="fa-solid fa-pen-nib"></i>
+          </button>
+          <div class="t-min dark bold">Дані</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-month'">
+            <i class="fa-solid fa-calendar-day"></i>
+          </button>
+          <div class="t-min dark bold">Місяць</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
+            <i class="fa-solid fa-chart-column"></i>
+          </button>
+          <div class="t-min dark bold">Сезон</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-year'">
+            <i class="fa-solid fa-chart-pie"></i>
+          </button>
+          <div class="t-min dark bold">Рік</div>
+        </div>
+
+        <div class="switch-btn-group" *ngIf="!selectedName">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-season'">
+            <i class="fa-solid fa-chart-bar"></i>
+          </button>
+          <div class="t-min dark bold">Загальні</div>
+        </div>
+      </div>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>

@@ -1,0 +1,100 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="switch-box">
+
+    <div class="flex-column hide-mobile m-2">
+      <div class="t-lar-xx bold dark hide-mobile">Наповнення оселі</div>
+      <div class="t-min gray hide-mobile">Наповніть об'єктвми вашу оселю</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="t-min dark bold">Назад</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage == 0}">
+        <i class="fa-solid fa-circle-info"></i>
+      </button>
+      <div class="t-min dark bold">Про меню</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
+        <i class="fa-solid fa-boxes-packing"></i>
+      </button>
+      <div class="t-min dark bold">Наповнення</div>
+    </div>
+
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="flex-box-row p-2" *ngIf="indexPage === 0">
+      <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="param-box p-2">
+          <div class="param-name"><i class="fa-solid fa-couch"></i> Меню наповнення оселі
+            <div class="t-med">тут знаходиться вся інформація про наявні об'єкти оселі.
+            </div>
+            <div class="t-min gray">Ця всі інформація буде задіяна в акті прийому-передачі оселі.</div>
+          </div>
+        </div>
+        <div class="img-wrapper">
+          <img class="img" src="../../../../assets/example-agree/house_box3.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="t-lar bold">Тут доступні такі можливості:</div>
+        <div class="t-med">
+          Ви можете дізнатись що в якій
+          кількості та в якому стані було на момент прийому-передачі оселі, що було додано або забрано. Інстурукції
+          як і чим користуватись.
+        </div>
+
+        <div class="item-group w-100 flex-column p-2">
+          <button class="link-toMenu flex-box-row" (click)="onClickMenu(1)">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold accent">Перегляд інформації.</span>
+          </button>
+          <div class="t-min dark">Це меню доступне всім мешканцям оселі.</div>
+          <div class="t-min dark">Натиснувши на картку ви побачите опис.</div>
+        </div>
+
+        <div class="item-group w-100 flex-column p-2">
+          <button class="link-toMenu flex-box-row" [routerLink]="'/housing-parameters/host/add-objects'">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold accent">Додати наповнення тут.</span>
+          </button>
+          <div class="t-min dark">Наповнення може додавати і видаляти власник або користувач з відповідним доступом.
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div [@cardAnimation] class="card-group" *ngIf="indexPage === 1">
+      <div class="box-filling p-2">
+        <div *ngFor="let flat of flat_objects" class="card-filling m-2"
+          [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
+          <div class="box-img" [class.selected]="flat.filling_id === selectedCard">
+            <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
+            <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
+              alt="{{ flat.name_filling }} icon" />
+          </div>
+          <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
+            <div class="card-title">Тип: {{ flat.type_filling }}</div>
+            <div class="card-title">Назва: {{ flat.name_filling }} </div>
+            <div class="card-title">Стан: {{ selectCondition[flat.condition_filling] }}</div>
+            <div class="card-title">Кількість: {{ flat.number_filling }}</div>
+          </div>
+          <div class="card-body" *ngIf="flat.filling_id === selectedCard">
+            <div class="card-title">Опис: {{ flat.about_filling }} <span *ngIf="!flat.about_filling">відсутній...</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

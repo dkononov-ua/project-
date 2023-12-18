@@ -1,248 +1,123 @@
 @use "../presets" as *;
 $diff: 0.2px;
 
-@mixin ul-min {
-  @media (min-width: $ul) {
+// Міксин для медіа-запита, який включає стилі при розширенні екрану більше або рівно 1340 пікселів.
+@mixin s6-max {
+  @media (min-width: $s6) {
     @content;
   }
 }
 
-@mixin ul {
-  @media (max-width: ($ul - $diff)) {
+// Міксин для медіа-запита, який включає стилі при розширенні екрану від 1200 до 1339 пікселів.
+@mixin s5-s6 {
+  @media (max-width: ($s6 - $diff)) and (min-width: $s5) {
     @content;
   }
 }
 
-@mixin ul-xl {
-  @media (max-width: ($ul - $diff)) and (min-width: $xl) {
+// Міксин для медіа-запита, який включає стилі при розширенні екрану від 992 до 1340 пікселів.
+@mixin s4-s6 {
+  @media (max-width: ($s5 - $diff)) and (min-width: $s4) {
     @content;
   }
 }
 
-@mixin ul-lg {
-  @media (max-width: ($ul - $diff)) and (min-width: $lg) {
+@mixin s4-s5 {
+  @media (max-width: ($s5 - $diff)) and (min-width: $s4) {
     @content;
   }
 }
 
-@mixin ul-md {
-  @media (max-width: ($ul - $diff)) and (min-width: $md) {
+// Міксин для медіа-запита, який включає стилі при розширенні екрану від 768 до 1340 пікселів.
+@mixin s3-s6-max {
+  @media (min-width: $s3) {
     @content;
   }
 }
 
-@mixin ul-sm {
-  @media (max-width: ($ul - $diff)) and (min-width: $sm) {
+@mixin s3-s6 {
+  @media (max-width: ($s6 - $diff)) and (min-width: $s3) {
     @content;
   }
 }
 
-@mixin ul-xs {
-  @media (max-width: ($ul - $diff)) and (min-width: $xs) {
+@mixin s3-s5 {
+  @media (max-width: ($s5 - $diff)) and (min-width: $s3) {
     @content;
   }
 }
 
-@mixin ul-xx {
-  @media (max-width: ($ul - $diff)) and (min-width: $xx) {
+@mixin s3-s4 {
+  @media (max-width: ($s4 - $diff)) and (min-width: $s3) {
     @content;
   }
 }
 
-@mixin ul-ux {
-  @media (max-width: ($ul - $diff)) and (min-width: $ux) {
+// Міксин для медіа-запита, який включає стилі при розширенні екрану від 576 до 1340 пікселів.
+@mixin s2-s6 {
+  @media (max-width: ($s6 - $diff)) and (min-width: $s2) {
     @content;
   }
 }
 
-@mixin xl-min {
-  @media (min-width: $xl) {
+@mixin s2-s5 {
+  @media (max-width: ($s5 - $diff)) and (min-width: $s2) {
     @content;
   }
 }
 
-@mixin xl {
-  @media (max-width: ($xl - $diff)) {
+@mixin s2-s4 {
+  @media (max-width: ($s4 - $diff)) and (min-width: $s2) {
     @content;
   }
 }
 
-@mixin xl-lg {
-  @media (max-width: ($xl - $diff)) and (min-width: $lg) {
+@mixin s2-s3 {
+  @media (max-width: ($s3 - $diff)) and (min-width: $s2) {
     @content;
   }
 }
 
-@mixin xl-md {
-  @media (max-width: ($xl - $diff)) and (min-width: $md) {
+
+// Міксин для медіа-запита, який включає стилі при розширенні екрану від 1 до 1340 пікселів.
+@mixin s1-s6 {
+  @media (max-width: ($s6 - $diff)) and (min-width: $s1) {
     @content;
   }
 }
 
-@mixin xl-sm {
-  @media (max-width: ($xl - $diff)) and (min-width: $sm) {
+@mixin s1-s5 {
+  @media (max-width: ($s5 - $diff)) and (min-width: $s1) {
     @content;
   }
 }
 
-@mixin xl-xs {
-  @media (max-width: ($xl - $diff)) and (min-width: $xs) {
+@mixin s1-s4 {
+  @media (max-width: ($s4 - $diff)) and (min-width: $s1) {
     @content;
   }
 }
 
-@mixin xl-xx {
-  @media (max-width: ($xl - $diff)) and (min-width: $xx) {
+@mixin s1-s3plus {
+  @media (max-width: ($s4 - $diff)) and (min-width: $s1) {
     @content;
   }
 }
 
-@mixin xl-ux {
-  @media (max-width: ($xl - $diff)) and (min-width: $ux) {
+@mixin s1-s3 {
+  @media (max-width: ($s3 - $diff)) and (min-width: $s1) {
     @content;
   }
 }
 
-@mixin lg-min {
-  @media (min-width: $lg) {
+@mixin s1-s2plus {
+  @media (max-width: ($s3 - $diff)) and (min-width: $s1) {
     @content;
   }
 }
 
-@mixin lg {
-  @media (max-width: ($lg - $diff)) {
-    @content;
-  }
-}
-
-@mixin lg-md {
-  @media (max-width: ($lg - $diff)) and (min-width: $md) {
-    @content;
-  }
-}
-
-@mixin lg-sm {
-  @media (max-width: ($lg - $diff)) and (min-width: $sm) {
-    @content;
-  }
-}
-
-@mixin lg-xs {
-  @media (max-width: ($lg - $diff)) and (min-width: $xs) {
-    @content;
-  }
-}
-
-@mixin lg-xx {
-  @media (max-width: ($lg - $diff)) and (min-width: $xx) {
-    @content;
-  }
-}
-
-@mixin lg-ux {
-  @media (max-width: ($lg - $diff)) and (min-width: $ux) {
-    @content;
-  }
-}
-
-@mixin md-min {
-  @media (min-width: $md) {
-    @content;
-  }
-}
-
-@mixin md {
-  @media (max-width: ($md - $diff)) {
-    @content;
-  }
-}
-
-@mixin md-sm {
-  @media (max-width: ($md - $diff)) and (min-width: $sm) {
-    @content;
-  }
-}
-
-@mixin md-xs {
-  @media (max-width: ($md - $diff)) and (min-width: $xs) {
-    @content;
-  }
-}
-
-@mixin md-xx {
-  @media (max-width: ($md - $diff)) and (min-width: $xx) {
-    @content;
-  }
-}
-
-@mixin md-ux {
-  @media (max-width: ($md - $diff)) and (min-width: $ux) {
-    @content;
-  }
-}
-
-@mixin sm-min {
-  @media (min-width: $sm) {
-    @content;
-  }
-}
-
-@mixin sm {
-  @media (max-width: ($sm - $diff)) {
-    @content;
-  }
-}
-
-@mixin sm-xs {
-  @media (max-width: ($sm - $diff)) and (min-width: $xs) {
-    @content;
-  }
-}
-
-@mixin sm-xx {
-  @media (max-width: ($sm - $diff)) and (min-width: $xx) {
-    @content;
-  }
-}
-
-@mixin sm-ux {
-  @media (max-width: ($sm - $diff)) and (min-width: $ux) {
-    @content;
-  }
-}
-
-@mixin xs-min {
-  @media (min-width: $xs) {
-    @content;
-  }
-}
-
-@mixin xs {
-  @media (max-width: ($xs - $diff)) {
-    @content;
-  }
-}
-
-@mixin xs-xx {
-  @media (max-width: ($xs - $diff)) and (min-width: $xx) {
-    @content;
-  }
-}
-
-@mixin xs-ux {
-  @media (max-width: ($xs - $diff)) and (min-width: $ux) {
-    @content;
-  }
-}
-
-@mixin xx-min {
-  @media (min-width: $xx) {
-    @content;
-  }
-}
-
-@mixin xx {
-  @media (max-width: ($xx - $diff)) {
+@mixin s1-s2 {
+  @media (max-width: ($s2 - $diff)) and (min-width: $s1) {
     @content;
   }
 }

@@ -1,0 +1,73 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+@use "../../../style/discussi.scss";
+
+.card-container {
+  @include flex-box;
+  justify-content: flex-start;
+  align-items: flex-start;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.switch-box {
+  justify-content: flex-start;
+  align-items: center;
+  .switch-btn-group {
+    width: 100px;
+  }
+}
+
+.radio-group {
+  @include flex-box;
+  justify-content: space-evenly;
+  .radio-btn {
+    @include flex-box;
+    position: relative;
+  }
+}
+
+.abs {
+  @include abs-position;
+  @include flex-box;
+  background-color: $color-white;
+  border-radius: 50%;
+  z-index: 10;
+  font-size: 30px;
+  transition: 0.5s;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    color: $color-accent;
+  }
+}
+
+.abs.active {
+  color: $color-accent;
+  transform: scale(1.5);
+}
+
+.checkbox-container {
+  .checkbox-group {
+    @include flex-box;
+    padding: 0 10px;
+    justify-content: space-between;
+    .checkbox-btn {
+      width: 35px;
+      border-radius: 50%;
+      border: 1px solid $color-primary;
+      background-color: transparent;
+    }
+  }
+}
+
+.img-btn.active {
+  color: $color-accent;
+  transform: scale(1.1);
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}

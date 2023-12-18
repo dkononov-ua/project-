@@ -1,5 +1,91 @@
+@use "skin" as *;
+
 p {
   padding: 0;
   margin: 0;
-  font-size: 1.2em;
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.5;
+  font-size: 16px;
 }
+
+h4, h5 {
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
+  color: #666;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  max-height: 30vh;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.accent {
+  color: $color-accent;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.thin {
+  font-weight: 300;
+}
+
+.dark {
+  color: $color-text;
+}
+
+.gray {
+  color: $color-gray;
+}
+
+.t-min {
+  font-size: 12px;
+}
+
+.t-med {
+  font-size: 14px;
+}
+
+.t-lar-xx {
+  font-size: 25px;
+}
+
+.t-lar-x {
+  font-size: 20px;
+}
+
+.t-lar {
+  font-size: 16px;
+}
+
+.t-s {
+  text-align: start;
+}
+
+.t-c {
+  text-align: center;
+}
+
+
+

@@ -1,0 +1,32 @@
+<div class="message-box" >
+  <mat-dialog-content>
+
+    <div *ngIf="data.flatSub === 'subscriptions'">
+      <p class="text1">Відписатись від оселі?</p>
+      <p class="accent">{{data.flatName}} ID: {{data.flatId}}</p>
+      <p class="text"><span class="description">На оселю можна буде підписатись повторно</span></p>
+    </div>
+
+    <div *ngIf="data.flatSub === 'subscribers'">
+      <p class="text1">Видалити підписника?</p>
+      <p class="accent">{{data.flatName}} ID: {{data.flatId}}</p>
+      <p class="text"><span class="description">Оселя яка на Вас підписалсь отримає відмову</span></p>
+    </div>
+
+    <div *ngIf="data.flatSub === 'discussio'">
+      <p class="text1">Видалити Дискусію з оселею?</p>
+      <p class="accent">{{data.flatName}} ID: {{data.flatId}}</p>
+      <p class="text"><span class="description">Якщо видалити Дискусію для її повернення треба буде знову погодження оселі.</span></p>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions class="box" align="end">
+    <button class="btn m-2" mat-button mat-dialog-close>Ні</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true">Так</button>
+  </mat-dialog-actions>
+</div>
+
+
+
+
+

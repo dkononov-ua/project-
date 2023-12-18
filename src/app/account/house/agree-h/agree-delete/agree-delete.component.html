@@ -1,0 +1,38 @@
+<div class="message-box">
+  <mat-dialog-content>
+
+    <div *ngIf="data.offer === 0">
+      <div class="text1">Хочете видалити акт?</div>
+      <p class="text">до угоди ID угоди - <span class="agree-name">{{data.agreementId}}</span></p>
+      <p class="text">Акт буде видалений і у орендара також.</p>
+    </div>
+
+    <div *ngIf="data.offer === 1">
+      <div class="text1">Хочете видалити угоду?</div>
+      <p class="text">ID угоди - <span class="agree-name">{{data.agreementId}}</span></p>
+      <p class="text">Угода та акт будуть видалені і у орендара також.</p>
+    </div>
+
+    <div *ngIf="data.offer === 2">
+      <div class="text1">Додати в мешканці користувача</div>
+      <p class="text"><span class="agree-name">{{data.subscriber_firstName}} {{data.subscriber_lastName}}?</span></p>
+    </div>
+
+    <div *ngIf="data.offer === 3">
+      <div class="text1">Видалити мешканця</div>
+      <p class="text"><span class="agree-name">{{data.subscriber_firstName}} {{data.subscriber_lastName}}?</span></p>
+    </div>
+
+    <div *ngIf="data.offer === 4">
+      <div class="text1">Скасувати пропозицію</div>
+      <p class="text">ID угоди - <span class="agree-name">{{data.agreementId}}</span></p>
+      <p class="text">Користувачеві</p>
+      <p class="text"><span class="agree-name">{{data.firstName}} {{data.lastName}}?</span></p>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions class="box" align="end">
+    <button class="btn m-2" mat-button mat-dialog-close>Ні</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true">Так</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,419 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.flex-box {
+  @include flex-box;
+}
+
+.flex-box-column {
+  @include flex-box-column;
+}
+
+.flex-box-row {
+  @include flex-box-row;
+  align-items: flex-start;
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
+}
+
+// вікно додаткової інформації
+.content-group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 3px;
+}
+
+.inputbox-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+// вікно додаткової інформації
+.info-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 50;
+
+  @include s1-s3 {
+    width: 100%;
+  }
+
+  .info-help-box {
+    max-height: 50vh;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    background-color: $color-dark;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 8px;
+  }
+
+  .info-help-text {
+    color: $color-white;
+    font-size: 14px;
+  }
+
+  .info-help-name {
+    color: $color-white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .btn {
+    background-color: $color-accent;
+  }
+}
+
+// загальні обрані параметри користувача
+.param-box {
+  .param-name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: $color-text;
+
+    .fa-solid {
+      font-size: 30px;
+    }
+    button {
+      border: none
+    }
+    .param-name-text {
+      @include flex-box;
+      font-size: 12px;
+      .fa-solid {
+        font-size: 16px;
+      }
+      &:hover {
+        color: $color-accent;
+      }
+    }
+  }
+
+  .param-label {
+    font-weight: 600;
+    font-size: 12px;
+    margin: 2px;
+    color: $color-accent;
+  }
+
+  .param-group {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .param-field {
+      font-weight: 600;
+      font-size: 12px;
+      margin: 2px;
+      border-radius: 10px;
+      padding: 5px;
+      background-color: $color-primary;
+    }
+
+    .param-value {
+      font-weight: 400;
+      font-size: 16px;
+      margin: 2px;
+      padding: 5px;
+      color: $color-text;
+    }
+  }
+}
+// перемикач мобільний
+.switch-box {
+  @include flex-box;
+  width: 100%;
+  justify-content: flex-start;
+  z-index: 50;
+
+  .switch-btn-group {
+    @include flex-box-column;
+    position: relative;
+    width: 80px;
+  }
+
+  .btn-menu {
+    @include flex-box-column;
+    flex: 1;
+  }
+
+  .btn {
+    @include flex-box-column;
+    justify-content: center;
+    height: 50px;
+    width: 80px;
+    background-color: transparent;
+    border: none;
+
+    &.active {
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+    }
+
+    .fa-solid,
+    .fa-regular {
+      color: $color-text;
+      font-size: 30px;
+    }
+  }
+}
+
+// картка заглушка з лого
+.stub-card {
+  @include flex-box-column;
+  @include box-shadow;
+  justify-content: center;
+  background-color: $color-white;
+  border-radius: 20px;
+
+  .stub-card-link {
+    @include flex-box-column;
+    transition: 0.4s;
+    .stub-card-text {
+      font-family: $font-main;
+      font-size: 14px;
+    }
+
+    &:hover {
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    }
+
+    .stub-card-logo {
+      height: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}
+
+.card-menu {
+  height: 550px;
+  overflow: hidden;
+  border-radius: 20px;
+  @include flex-box;
+  @include box-shadow;
+  align-items: flex-start;
+  position: relative;
+
+  .param-box {
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.831);
+  }
+
+  .img-wrapper {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 20px;
+    .img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.link-toMenu {
+  @include flex-box;
+  justify-content: flex-start;
+  position: relative;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  color: $color-accent;
+  padding: 5px;
+  transition: 1s;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  .fa-solid {
+    color: $color-accent;
+  }
+}
+
+// кнопки з функціями в панелі
+.btn-panel {
+  @include flex-box-column;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  width: 60px;
+  height: 50px;
+  border-radius: 50%;
+  transition: 0.5s;
+
+  .fa-solid,
+  .fa-regular {
+    font-size: 30px;
+    color: $color-text;
+  }
+
+  &:hover {
+    color: $color-accent;
+    .fa-solid,
+    .fa-regular {
+      transition: 0.5s;
+      color: $color-accent;
+    }
+  }
+}
+
+.container-img {
+  position: relative;
+  .wrapper-img {
+    height: 400px;
+    border-radius: 20px;
+    position: relative;
+    .img-box {
+      border-radius: 0px;
+      overflow: hidden;
+      height: 400px !important;
+      .img-box-img {
+        border-radius: 0px;
+        height: 400px !important;
+        width: 100%;
+        overflow: hidden;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.panel-container {
+  display: flex;
+  background-color: $color-white;
+  overflow-x: auto;
+  height: 90px;
+  padding: 5px;
+  border-radius: 20px 20px 0 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+  justify-content: flex-start;
+
+  .wrapper {
+    @include flex-box;
+    .btn-panel {
+      @include flex-box-column;
+      .img-btn {
+        @include flex-box;
+        background-color: transparent;
+        border-radius: 50%;
+        border: none;
+        width: 80px;
+        .fa-solid,
+        .fa-regular {
+          color: $color-dark;
+          &:hover {
+            color: $color-accent;
+            @include box-shadow;
+          }
+        }
+      }
+    }
+  }
+}
+
+.copyMessage-box {
+  @include pos-abs-l;
+  @include flex-box-column;
+  justify-content: center;
+  z-index: 300;
+  background-color: rgba(255, 255, 255, 0.78);
+  height: 650px;
+  width: 100%;
+  color: $color-text;
+  .fa-regular {
+    color: $color-text;
+    font-size: 48px;
+  }
+  .copyMessage-text {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+  }
+}
+
+.param-g {
+  @include flex-box;
+  border: 1px solid $color-gray;
+  background-color: transparent;
+  margin-top: 5px;
+  border-radius: 10px;
+  height: 60px;
+  min-width: 50px;
+  overflow: hidden;
+  padding: 3px;
+
+  &:hover {
+    .bg-g {
+      height: 100%;
+    }
+    .bg-w {
+      display: none;
+    }
+  }
+
+  .fa-solid,
+  .fa-regular {
+    color: $color-white;
+  }
+
+  .bg-g {
+    @include flex-box;
+    height: 70%;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .bg-w {
+    @include flex-box;
+    border-top: 1px solid gray;
+    height: 30%;
+    width: 100%;
+  }
+}
+
+// медіа запити
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

@@ -1,0 +1,20 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.card-box {
+  @include flex-box;
+  justify-content: flex-start;
+  align-items: stretch;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.img-fluid {
+  border-radius: 20px;
+}
+
+.flex-box {
+  align-items: stretch;
+}

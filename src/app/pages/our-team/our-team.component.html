@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<app-menu></app-menu>
+<section class="our-team mt-2">
+  <div class="container-card mt-2">
+
+    <div class="t-lar-x t-c accent bold">Discussio team</div>
+    <div class="t-lar-x dark t-c">Команда яка займається розробкою платформи</div>
+    <div class="row row-mid">
+      <div class="col-md-4" *ngFor="let member of teamMembers">
+        <div class="team-member">
+          <div class="team-member-image">
+            <img src="{{ member.image }}" alt="{{ member.name }}">
+          </div>
+          <div class="team-member-info">
+            <h3 class="team-member-name">{{ member.name }}</h3>
+            <p class="team-member-position">{{ member.position }}</p>
+            <p class="team-member-description">{{ member.description }}</p>
+            <div class="team-member-social">
+              <a href="{{ member.social.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
+              <a href="{{ member.social.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+              <!-- <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a> -->
+              <a href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

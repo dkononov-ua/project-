@@ -1,0 +1,10 @@
+@use "../housing-parameters.component.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

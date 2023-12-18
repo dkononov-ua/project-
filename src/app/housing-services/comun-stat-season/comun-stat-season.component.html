@@ -1,0 +1,77 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="container-card col-12">
+
+    <div class="flex-box mb-2 w-100">
+      <div class="p-1 w-50">
+        <h3 class="text">Графік за <span class="accent">{{selectedYear}} </span> рік</h3>
+      </div>
+      <app-select-year class="p-1 w-50"></app-select-year>
+    </div>
+
+
+
+
+    <div class="group col-12">
+      <div class="btn-group">
+        <button class="btn w-30" [class.active]="option_stat === 2" (click)="option_stat = 2">
+          <span class="text-1">Нарахування</span>
+        </button>
+        <button class="btn w-30" [class.active]="option_stat === 3" (click)="option_stat = 3">
+          <span class="text-1">Споживання</span>
+        </button>
+        <button class="btn w-30" [class.active]="option_stat === 1" (click)="option_stat = 1">
+          <span class="text-1">Сплачено</span>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="container-box">
+      <div class="box" *ngIf="option_stat === 2">
+        <div class="progress-container">
+          <div class="progress m-1" [@columnAnimation] *ngFor="let season of dataForGraph" role="progressbar">
+            <div class="month-label">{{ season.comunal_name }}</div>
+            <div class="progress-bar"
+              [ngStyle]="{ 'width': (season.total_calc_howmuch_pay / maxPaymentsValue) * 100 + '%' }">
+              <span class="num-label">{{season.total_calc_howmuch_pay }}₴</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="box" *ngIf="option_stat === 1">
+        <div class="progress-container">
+          <div class="progress m-1" [@columnAnimation] *ngFor="let season of dataForGraph" role="progressbar">
+            <div class="month-label">{{ season.comunal_name }}</div>
+            <div class="progress-bar" [ngStyle]="{ 'width': (season.total_howmuch_pay / maxNeedPayValue) * 100 + '%' }">
+              <span class="num-label">{{season.total_howmuch_pay }}₴</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="box" *ngIf="option_stat === 3">
+        <div class="progress-container">
+          <div class="progress m-1" [@columnAnimation] *ngFor="let season of dataForGraph" role="progressbar">
+            <div class="month-label">{{ season.comunal_name }}</div>
+            <div class="progress-bar"
+              [ngStyle]="{ 'width': (season.total_consumed / maxConsumptionsValue) * 100 + '%' }">
+              <span class="num-label">{{season.total_consumed }}</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</ng-template>

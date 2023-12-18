@@ -1,0 +1,166 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/radio.scss";
+@use "../../../style/shared.scss" as *;
+
+.container-box {
+  @include flex-box;
+  align-items: flex-start;
+}
+
+.fa-solid {
+  color: $color-text;
+}
+
+.container-card {
+  @include flex-box;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.btn-next {
+  width: 150px;
+  height: 60px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: $color-accent;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 20px;
+  border: 2px solid $color-gray;
+  &:hover {
+    background-color: $color-dark;
+    color: $color-white;
+  }
+  @include s1-s3 {
+    height: 40px;
+    margin: 5px;
+    font-size: 16px;
+    width: 100px;
+  }
+}
+
+.btn-group {
+  justify-content: center;
+}
+
+.t-l {
+  text-align: left
+}
+
+li {
+  padding: 3px;
+}
+
+.link-toMenu {
+  transition: 1s;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+}
+
+.switch-box {
+  @include flex-box;
+  justify-content: flex-start;
+  .switch-btn-group {
+    width: 80px;
+  }
+}
+
+.flex-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.flex-box-column {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.card-box {
+  position: relative;
+  height: 650px;
+  @include s1-s3 {
+    position: absolute;
+    height: 600px;
+    width: 100%;
+    top: 120px;
+  }
+}
+
+.card-animation {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card {
+  @include flex-box;
+  position: relative;
+  padding: 10px;
+  width: 400px;
+  height: 650px;
+  justify-content: space-evenly;
+  @include s1-s3 {
+    height: 600px;
+    width: 100%;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.item-select {
+  width: 100%;
+  font-size: 16px;
+  flex-direction: column-reverse;
+  @include s1-s3 {
+    font-size: 16px;
+  }
+}
+
+mat-hint {
+  font-size: 12px;
+  color: $color-accent;
+}
+
+mat-label {
+  font-size: 14px;
+}
+
+.btn {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

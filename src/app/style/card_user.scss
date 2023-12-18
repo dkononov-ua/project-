@@ -1,0 +1,94 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.card {
+  @include box-shadow;
+  display: flex;
+  height: 650px;
+  overflow: auto;
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  @include s1-s3 {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+.img-fluid {
+  display: flex;
+  height: 400px;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  border: 1px solid $color-primary;
+
+  img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 1s;
+    border-radius: 10px;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.4);
+    }
+  }
+}
+
+.social-link-container {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 96%;
+  padding: 0 10px;
+  align-items: center;
+
+  .social-link-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+
+  }
+
+  .social-link-icon {
+    margin: 0;
+    padding: 0 5px 0 5px;
+  }
+
+  .social-link-name {
+    font-size: 12px;
+  }
+}
+
+.text {
+  font-size: 12px;
+}
+
+.fab {
+  font-size: 25px;
+  transition: 0.4s;
+
+  &:hover {
+    color: $color-accent;
+    transition: 0.4s;
+    transform: scale(1.2);
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  }
+}
