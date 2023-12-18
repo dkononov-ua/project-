@@ -24,7 +24,7 @@
   </ng-container>
 
   <ng-container>
-    <div class="t-lar bold t-c" *ngIf="allFlatsTenant">Орендовані оселі</div>
+    <div class="t-lar bold t-c" *ngIf="allFlatsTenant && allFlatsTenant.length > 0">Орендовані оселі</div>
     <div class="cards-container p-2" *ngIf="allFlatsTenant">
       <div class="card-mini mb-3" *ngFor="let flat of allFlatsTenant" (click)="selectFlat(flat)"
         [ngClass]="{ 'selected': chooseFlatID === flat.flat_id  }">

@@ -209,6 +209,7 @@ export class AgreeCreateComponent implements OnInit {
     try {
       const response: any = await this.dataService.getInfoFlat().toPromise();
       this.houseData = response;
+      // console.log(this.houseData)
       this.rentPrice = 0;
       if (this.houseData.about.option_pay === 0) {
         this.rentPrice = this.rentPrice || this.houseData.about.price_m;
@@ -362,7 +363,7 @@ export class AgreeCreateComponent implements OnInit {
 
   showMessage(msg: string): void {
     this.message = msg; setTimeout(() => { this.message = ''; }, 2000);
-    console.log(this.message)
+    // console.log(this.message)
   }
 
 }

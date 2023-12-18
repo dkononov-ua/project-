@@ -1,20 +1,18 @@
-// Імпортуємо Firebase SDK та його компоненти, які будемо використовувати
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+
 
 // Конфігураційні дані проекту
 
 export const environment = {
-  production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyD7jtcAm16O5vybYAcwdEoiANdb8y6-cfY",
-    authDomain: "konnect-ukraine.firebaseapp.com",
-    projectId: "konnect-ukraine",
-    storageBucket: "konnect-ukraine.appspot.com",
-    messagingSenderId: "829086125717",
-    appId: "1:829086125717:web:e156b704db7a672dd0d59c"
-  }
+    projectId: 'konnect-ukraine',
+    appId: '1:829086125717:web:b307326f4cbd78f1d0d59c',
+    databaseURL: 'https://konnect-ukraine-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'konnect-ukraine.appspot.com',
+    locationId: 'europe-central2',
+    apiKey: 'AIzaSyD7jtcAm16O5vybYAcwdEoiANdb8y6-cfY',
+    authDomain: 'konnect-ukraine.firebaseapp.com',
+    messagingSenderId: '829086125717',
+  },
 };
 
 

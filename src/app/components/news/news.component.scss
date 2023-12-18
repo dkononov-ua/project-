@@ -1,0 +1,11 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.flex-column {
+  font-family: $font-main;
+}
+
+.font {
+  font-family: $font-main;
+}

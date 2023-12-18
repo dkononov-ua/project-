@@ -28,7 +28,7 @@
         <div class="margin-top hide-mobile">
           <div class="t-lar-x dark" *ngIf="currentStep === 1"><span class="bold">Перший крок</span> - для створення
             угоди
-            оберіть оселю, перевірте правильність заповнення даних. По бажанню можете внести документ який засвідчує
+            оберіть оселю, перевірте правильність заповнення даних. Редагувати цю інформаця можна в налаштуваннях оселі. По бажанню можете внести документ який засвідчує
             право власність.</div>
           <div class="t-lar-x dark" *ngIf="currentStep === 2"><span class="bold">Другий крок</span> - оберіть орендара
             із
@@ -69,10 +69,8 @@
                 <div class="status-hover-text">
                   <ul>
                     <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати оселю. Та перевірити
-                      правильність
-                      заповнення даних. Внесення документу на прово власності не обов'язкове, якщо Ви не бажаєте
-                      передавати цю
-                      інформацію до моменту фактичного підписання угоди, його можна буде внести при зустрічи в шаблон
+                      правильність заповнення даних. Редагувати цю інформаця можна в налаштуваннях оселі. Внесення документу на прово власності не обов'язкове, якщо Ви не бажаєте
+                      передавати цю інформацію до моменту фактичного підписання угоди, його можна буде внести при зустрічи в шаблон
                       сформованої угоди</li>
                   </ul>
                 </div>
@@ -108,11 +106,21 @@
               </button>
             </div>
 
-            <div class="input-mat mt-2 p-2">
-              <app-selection-housing></app-selection-housing>
-            </div>
-
             <div class="characteristics-group p-2">
+
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+                <mat-label class="label-auto">Назва оселі</mat-label>
+                <input matInput type="text" id="house_name" name="apartment-city"
+                  [ngModel]="houseData.flat.flat_name ? houseData.flat.flat_name : ''" placeholder="Назва оселі"
+                  [disabled]="isCityDisabled">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
+                <mat-label class="label-auto">ID Оселі</mat-label>
+                <input matInput type="text" id="house_id" name="apartment-city"
+                  [ngModel]="houseData.flat.flat_id ? houseData.flat.flat_id : ''" placeholder="ID Оселі"
+                  [disabled]="isCityDisabled">
+              </mat-form-field>
 
               <mat-form-field appearance="outline" class="input-mat w-50 p-1">
                 <mat-label class="label-auto">Місто</mat-label>

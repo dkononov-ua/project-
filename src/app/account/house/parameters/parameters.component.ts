@@ -39,7 +39,7 @@ export class ParametersComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
-        console.log(parsedHouseData)
+        // console.log(parsedHouseData)
         this.rent = parsedHouseData.about.rent;
         this.HouseInfo.agent_id = parsedHouseData.flat.agent_id;
         this.HouseInfo.apartment = parsedHouseData.flat.apartment;

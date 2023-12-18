@@ -235,7 +235,7 @@ export class InformationUserComponent implements OnInit {
     if (userJson !== null) {
       this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
-          console.log(response)
+          // console.log(response)
           this.userImg = response.img[0].img;
           this.userInfo = response.inf;
           this.userCont = response.cont;
@@ -318,7 +318,7 @@ export class InformationUserComponent implements OnInit {
       try {
         this.loading = true;
         const data = this.userCont;
-        console.log(data)
+        // console.log(data)
         const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
