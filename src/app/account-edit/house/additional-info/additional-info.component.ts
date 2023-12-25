@@ -140,16 +140,24 @@ export class AdditionalInfoComponent implements OnInit {
     if (userJson && this.selectedFlatId !== undefined) {
       try {
         this.loading = true
-        this.disabled = true;
-
-        const response = await this.http.post(serverPath + '/flatinfo/add/flatinf', {
+        const response: any = await this.http.post(serverPath + '/flatinfo/add/flatinf', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,
         }).toPromise();
-
-        this.reloadPageWithLoader()
-
+        console.log(response.status)
+        // if (response.status === 'Збережено') {
+        if (response.status) {
+          this.statusMessage = "Допоміжна інформація збережена";
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.getInfo();
+            this.loading = false;
+          }, 2000);
+        } else {
+          this.statusMessage = "Помилка збереження";
+          this.reloadPageWithLoader()
+        }
       } catch (error) {
         this.loading = false;
         console.error(error);

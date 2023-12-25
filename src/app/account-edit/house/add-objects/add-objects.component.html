@@ -4,52 +4,99 @@
 
 <ng-template #content>
 
-  <div class="flex-column p-2">
-    <div class="t-lar-xx bold dark">Наповнення оселі</div>
-    <div class="t-min gray mb-2">Додання об'єктів до вашої оселі.</div>
+  <div class="info-container">
+    <div class="info-help-box" *ngIf="helpInfo">
+      <div class="info-help-name">Меню наповнення</div>
+      <div class="info-help-text">
+        <p class="info-help-text bold">Це меню створено для того щоб власник оселі міг описати об'єкти та
+          техніку яка знаходиться в оселі. яку передає у користування орендару</p>
+        <p><strong>Функції</strong></p>
+        <ul>
+          <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
+            техніки і т.д</li>
+          <li>Цю інформацію також можна буде показувати людям з якими у
+            вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
+          <li>Сформований список буде додаватись до шаблону угоди.</li>
+          <li>Сформований список можна корегувати додаючи чи видаляючи об'єкти</li>
+          <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
+          </li>
+        </ul>
+      </div>
+      <button class="btn" (click)="openHelp()">Зрозуміло</button>
+    </div>
   </div>
 
-  <div class="container-card">
+  <div class="box-top">
 
-    <div class="switch-box hide-pc">
+    <div class="flex-column p-2">
+      <div class="t-lar-xx bold dark">Наповнення</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 0">Інформація про функції меню наповнення.</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 1">Додання об'єктів до вашої оселі.</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 2">Огляд/видалення об'єктів вашої оселі.</div>
+    </div>
 
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
-          <i class="fa-solid fa-cubes-stacked"></i>Переглянути</button>
-      </div>
+    <div class="switch-box">
 
       <div class="btn-menu">
         <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
+          <i class="fa-solid fa-circle-info"></i>Інфо</button>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
           <i class="fa-solid fa-circle-plus"></i>Додати</button>
       </div>
 
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
+          <i class="fa-solid fa-cubes-stacked"></i>Огляд</button>
+      </div>
+
     </div>
 
-    <div class="info-container">
-      <div class="info-help-box" *ngIf="helpInfo">
-        <div class="info-help-name">Меню наповнення</div>
-        <div class="info-help-text">
-          <p class="info-help-text bold">Це меню створено для того щоб власник оселі міг описати об'єкти та
-            техніку яка знаходиться в оселі.
-            яку
-            передає у користування орендару</p>
-          <p><strong>Функції</strong></p>
-          <ul>
-            <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-              техніки і т.д</li>
-            <li>Цю інформацію також можна буде показувати людям з якими у
-              вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-            <li>Сформований список буде додаватись до шаблону угоди.</li>
-            <li>Сформований список можна корегувати додаючи чи видаляючи об'єкти</li>
-            <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
-            </li>
-          </ul>
+  </div>
+
+  <div class="flex-box flex-start">
+
+    <div [@cardAnimation1] class="card-box p-2" *ngIf="indexPage === 0">
+      <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="param-box p-2">
+          <div class="param-name"><i class="fa-solid fa-couch"></i> Додавання наповнення
+            <div class="t-med bold">Тут доступні такі можливості:</div>
+            <div class="t-min gray">Додавати до профілю оселі об'єкти описувати їх кількість та в якому вони стані на
+              момент прийому-передачі
+              оселі, що було додано або забрано. Інстурукції як і чим користуватись.</div>
+            <div class="t-min gray">Ця інформація буде задіяна в акті прийому-передачі.</div>
+
+          </div>
         </div>
-        <button class="btn" (click)="openHelp()">Зрозуміло</button>
+        <div class="img-wrapper">
+          <img class="img" src="../../../../assets/example-agree/house_box3.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+
+        <div class="item-group w-100 flex-column p-2">
+          <button class="link-toMenu flex-box-row" (click)="indexPage = 1">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold accent">Додати наповнення тут.</span>
+          </button>
+          <div class="t-min dark">Наповнення може додавати і видаляти власник або користувач з відповідним доступом.
+          </div>
+        </div>
+
+        <div class="item-group w-100 flex-column p-2">
+          <button class="link-toMenu flex-box-row" (click)="indexPage = 2">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold accent">Огляд/видалення.</span>
+          </button>
+          <div class="t-min dark">Доступне власнику оселі тут можна видаляти картки об'єктів.</div>
+          <div class="t-min dark">Натиснувши на картку ви побачите опис.</div>
+        </div>
+
       </div>
     </div>
 
-    <div class="hide-mobile card-box col-lg-6 col-md-12 col-sm-12 col-12">
+    <div [@cardAnimation1] class="card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="indexPage === 1">
       <div class="card m-2 p-2">
 
         <button class="info-btn" (click)="openHelp()">Допомога</button>
@@ -110,10 +157,9 @@
         <div class="add-photo-group">
 
           <div class="box-group" *ngIf="cropped">
-            <div *ngIf="cropped"><img [src]="cropped"></div>
+            <div *ngIf="cropped"><img class="cropped" [src]="cropped"></div>
             <p class="btn-name" *ngIf="cropped">Фото додане</p>
           </div>
-
 
           <div class="box-group">
             <div class="add-photo-box">
@@ -143,37 +189,17 @@
       </div>
     </div>
 
-    <div [@cardAnimation1] class="hide-mobile box-filling p-2 col-lg-6 col-md-12 col-sm-12 col-12">
-
-      <div class="card-box" *ngIf="flat_objects?.length === 0">
-        <div class="w-100 p-2">
-          <div class="t-lar-x bold t-c">Меню наповнення</div>
-          <p  class="t-min gray t-c">Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
-            яку
-            передає у користування орендару</p>
-          <p class="t-med bold dark t-c mt-2">Функції</p>
-          <ul class="t-min dark t-s">
-            <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-              техніки і т.д</li>
-            <li>Цю інформацію також можна буде показувати людям з якими у
-              вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-            <li>Сформований список буде додаватись до шаблону угоди.</li>
-            <li>Сформований список буде можна корегувати додаючи чи видаляючи об'єкти</li>
-            <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div *ngFor="let flat of flat_objects" class="card-filling p-2 mb-2"
+    <div [@cardAnimation2] class="box-filling p-2 col-lg-6 col-md-12 col-sm-12 col-12"
+      *ngIf="indexPage === 1 && indexCard === 1">
+      <div *ngFor="let flat of flat_objects" class="card-filling mb-2"
         [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
         <div class="box-img" [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }">
           <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
           <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
             alt="{{ flat.name_filling }} icon" />
         </div>
-        <button class="btn-delete" (click)="deleteObject(flat)" matTooltip="Видалити"><i
-            class="fa-solid fa-trash"></i></button>
+        <button class="btn-delete flex-box" (click)="deleteObject(flat)" matTooltip="Видалити">
+          <i class="fa-solid fa-xmark"></i></button>
         <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
           <div class="card-title">Тип: {{ flat.type_filling }}</div>
           <div class="card-title">Назва: {{ flat.name_filling }} </div>
@@ -189,131 +215,16 @@
 
     </div>
 
-    <div class="hide-pc card-box col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="indexPage === 0">
-      <div class="card m-2 p-2">
-
-        <button class="info-btn" (click)="openHelp()">Допомога</button>
-
-        <mat-label class="group-label mb-2">Додати об'єкт</mat-label>
-
-        <mat-form-field class="item-select" appearance="outline">
-          <div class="list-label-1">Тип об'єкту</div>
-          <mat-select [(ngModel)]="selectedType" (ngModelChange)="loadObjects()" placeholder="Виберіть тип">
-            <mat-option *ngFor="let type of objects" [value]="type.type">{{ type.type }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <div class="group-item">
-          <mat-form-field class="item-select w-25" appearance="outline">
-            <div class="list-label-1">Кіл.</div>
-            <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="objectInfo.number"
-              name="number">
-          </mat-form-field>
-
-          <mat-form-field class="item-select w-75" appearance="outline">
-            <div class="list-label-1">Стан</div>
-            <mat-select [(ngModel)]="objectInfo.condition" name="condition" placeholder="Виберіть стан">
-              <mat-option *ngFor="let condition of selectCondition | keyvalue" [value]="condition.key">
-                {{ condition.value }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <mat-form-field class="item-select" appearance="outline" *ngIf="selectedObject !== 0">
-          <div class="list-label-1">Назва об'єкту</div>
-          <mat-select [(ngModel)]="selectedObject" placeholder="Виберіть назву">
-            <mat-option [value]="0">Свій варіант</mat-option>
-            <mat-option *ngFor="let obj of filteredObjects" [value]="obj.name">
-              <img class="option-icon" [src]="obj.iconUrl" alt="{{ obj.name }} icon">
-              <span class="option-text">{{ obj.name }}</span>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <div class="box-add-custom" *ngIf="selectedObject === 0">
-          <mat-form-field class="item-select" appearance="outline">
-            <div class="list-label-1">Додати свій об'єкт</div>
-            <input matInput [(ngModel)]="customObject" placeholder="Введіть назву об'єкту">
-          </mat-form-field>
-          <button class="box-add-btn" (click)="selectedObject = ''">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <mat-form-field class="textarea-form mt-2">
-          <mat-label>Опис об'єкту:</mat-label>
-          <textarea class="textarea-form" #textArea (input)="onInput()" [(ngModel)]="objectInfo.about" matInput
-            placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."></textarea>
-        </mat-form-field>
-
-        <div class="add-photo-group">
-
-          <div class="box-group" *ngIf="cropped">
-            <div *ngIf="cropped"><img [src]="cropped"></div>
-            <p class="btn-name" *ngIf="cropped">Фото додане</p>
-          </div>
-
-
-          <div class="box-group">
-            <div class="add-photo-box">
-              <i class="fa-regular fa-image" for="upload"></i>
-              <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
-              <button class="input-up" (click)="_fileInput.click()"> </button>
-            </div>
-            <p class="btn-name">Фото</p>
-          </div>
-
-          <!-- <div class="box-group">
-            <div class="add-photo-box">
-              <i class="fa-solid fa-quote-right"></i>
-              <button class="input-up" (click)="addAbout()"></button>
-            </div>
-            <p class="btn-name">Опис</p>
-          </div> -->
-
-
-        </div>
-
-        <div class="btn-group">
-          <button class="btn flex-box" (click)="saveObject()">ЗБЕРЕГТИ<i
-              class="fa-regular fa-circle-check ml-2"></i></button>
-        </div>
-
-      </div>
-    </div>
-
-    <div [@cardAnimation1] class="hide-pc box-filling  p-2 col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="indexPage === 1">
-
-      <div class="card-box" *ngIf="flat_objects?.length === 0">
-        <div class="w-100 p-2">
-          <h3><strong>Меню наповнення</strong></h3>
-          <p>Це меню створено для того щоб власник оселі міг описати об'єкти та техніку яка знаходиться в оселі.
-            яку
-            передає у користування орендару</p>
-          <p><strong>Функції</strong></p>
-          <ul>
-            <li>З цього меню буде братись інформація для утворення списку прийому передачі меблів
-              техніки і т.д</li>
-            <li>Цю інформацію також можна буде показувати людям з якими у
-              вас дискусія щоб вони орієнтувались на те що в оселі вже є для їх комфорту</li>
-            <li>Сформований список буде додаватись до шаблону угоди.</li>
-            <li>Сформований список буде можна корегувати додаючи чи видаляючи об'єкти</li>
-            <li>Для орендара можна буде формувати такий самий список, яким буде зручно користуватись при переїзді
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div *ngFor="let flat of flat_objects" class="card-filling p-2 mb-2"
+    <div [@cardAnimation1] class="box-filling p-2 col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="indexPage === 2">
+      <div *ngFor="let flat of flat_objects" class="card-filling mb-2"
         [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
         <div class="box-img" [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }">
           <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
           <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
             alt="{{ flat.name_filling }} icon" />
         </div>
-        <button class="btn-delete" (click)="deleteObject(flat)" matTooltip="Видалити"><i
-            class="fa-solid fa-trash"></i></button>
+        <button class="btn-delete flex-box" (click)="deleteObject(flat)" matTooltip="Видалити">
+          <i class="fa-solid fa-xmark"></i></button>
         <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
           <div class="card-title">Тип: {{ flat.type_filling }}</div>
           <div class="card-title">Назва: {{ flat.name_filling }} </div>

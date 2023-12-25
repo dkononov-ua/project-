@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { objects } from '../../../data/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -22,6 +22,12 @@ interface ObjectInfo {
   styleUrls: ['./add-objects.component.scss'],
   animations: [
     trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
         animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
@@ -70,7 +76,8 @@ export class AddObjectsComponent implements OnInit {
   fillingImg: any;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
-  indexPage: number = 1;
+  indexPage: number = 0;
+  indexCard: number = 0;
 
   minValue: number = 0;
   maxValue: number = 99;
@@ -88,6 +95,11 @@ export class AddObjectsComponent implements OnInit {
     this.helpInfo = !this.helpInfo;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.updateIndexCardBasedOnWindowSize();
+  }
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
@@ -96,6 +108,7 @@ export class AddObjectsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.updateIndexCardBasedOnWindowSize();
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
@@ -104,6 +117,16 @@ export class AddObjectsComponent implements OnInit {
       }
     });
   }
+
+    // перевірка ширини екрану
+    private updateIndexCardBasedOnWindowSize(): void {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 768) {
+        this.indexCard = 1;
+      } else {
+        this.indexCard = 0;
+      }
+    }
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
@@ -195,7 +218,7 @@ export class AddObjectsComponent implements OnInit {
     return new Blob([ab], { type: mimeString });
   }
 
-  saveObject(): void {
+  async saveObject(): Promise<void> {
     const photoData = this.photoData;
     const userJson = localStorage.getItem('user');
     const data = {
@@ -210,75 +233,51 @@ export class AddObjectsComponent implements OnInit {
     if (photoData && userJson && data && this.selectedType && this.selectedObject || this.customObject) {
       photoData.append("inf", JSON.stringify(data));
       photoData.append('auth', userJson!);
-
       const headers = { 'Accept': 'application/json' };
-      this.http.post(serverPath + '/img/uploadFilling', photoData, { headers }).subscribe(
-        (uploadResponse: any) => {
-          if (uploadResponse.status === 'Збережено') {
-            this.selectedObject = '';
-            this.objectInfo.number = 1;
-            this.customObject = '';
-            this.objectInfo.about = '';
-            setTimeout(() => {
-              this.statusMessage = "Об'єкт додано до списку";
-              setTimeout(() => {
-                this.statusMessage = '';
-                this.selectedObject = '';
-                this.objectInfo.number = 1;
-                this.customObject = '';
-                this.objectInfo.about = '';
-                this.getInfo()
-              }, 1500);
-            }, 1000);
-          } else {
-            setTimeout(() => {
-              this.statusMessage = 'Дані не збережено';
-              this.reloadPageWithLoader()
-            }, 2000);
-          }
-        },
-        (uploadError: any) => {
-          console.log(uploadError);
+      try {
+        this.loading = true;
+        const response: any = await this.http.post(serverPath + '/img/uploadFilling', photoData, { headers }).toPromise();
+        if (response.status === 'Збережено') {
+          this.statusMessage = "Об'єкт додано до списку";
+          this.selectedObject = '';
+          this.objectInfo.number = 1;
+          this.customObject = '';
+          this.objectInfo.about = '';
+          this.cropped = '';
+          this.selectedFile = null;
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.getInfo();
+            this.loading = false;
+          }, 1500);
+        } else {
+          this.statusMessage = 'Дані не збережено';
+          setTimeout(() => { this.reloadPageWithLoader() }, 1500);
         }
-      );
+      } catch (error) { this.loading = false; console.error(error); }
     } else if (!photoData && userJson && data && this.selectedType && this.selectedObject || this.customObject) {
       const formData: FormData = new FormData();
       if (this.selectedFile) {
         formData.append('file', this.selectedFile, this.selectedFile.name);
-      } else {
-        formData.append('file', 'no_photo');
-      }
+      } else { formData.append('file', 'no_photo'); }
       formData.append("inf", JSON.stringify(data));
       formData.append('auth', userJson!);
-
       const headers = { 'Accept': 'application/json' };
-      this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).subscribe(
-        (uploadResponse: any) => {
-          if (uploadResponse.status === 'Збережено') {
-            this.customObject = '';
-            setTimeout(() => {
-              this.statusMessage = "Об'єкт додано до списку";
-              setTimeout(() => {
-                this.statusMessage = '';
-                this.getInfo()
-              }, 1500);
-            }, 1000);
-          } else {
-            setTimeout(() => {
-              this.statusMessage = 'Дані не збережено';
-              this.reloadPageWithLoader()
-            }, 2000);
-          }
-        },
-        (uploadError: any) => {
-          console.log(uploadError);
-        }
-      );
-
-    } else {
-      console.log('Внесіть данні')
-    }
-
+      try {
+        this.loading = true;
+        const response: any = await this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).toPromise();
+        if (response.status === 'Збережено') {
+          this.customObject = '';
+          this.selectedObject = '';
+          this.objectInfo.number = 1;
+          this.objectInfo.about = '';
+          this.statusMessage = "Об'єкт додано до списку";
+          setTimeout(() => {
+            this.statusMessage = ''; this.getInfo(); this.loading = false;
+          }, 1500);
+        } else { setTimeout(() => { this.statusMessage = 'Дані не збережено'; this.reloadPageWithLoader() }, 2000); }
+      } catch (error) { this.loading = false; console.error(error); }
+    } else { console.log('Внесіть данні') }
   }
 
   deleteObject(flat: any): void {

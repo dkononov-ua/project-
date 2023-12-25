@@ -20,8 +20,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   return {
     root: lyl `{
       ${cropper.root} {
-        width: 100%
-        height: 50vh
+        width: 99%
+        height: 400px
         margin: 0
       }
     }`,
@@ -52,7 +52,7 @@ export class CropImgComponent implements WithStyles, AfterViewInit  {
 
   @ViewChild(LyImageCropper, { static: true }) cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 300,
+    width: 400,
     height: 400,
     type: 'image/png',
     keepAspectRatio: true,

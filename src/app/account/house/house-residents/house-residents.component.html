@@ -1,19 +1,28 @@
-<div class="t-med">Кількість мешканців: <span class="accent">{{ subscribers.length }} </span></div>
-<div class="card-wrapper ">
-  <button class="card mb-4" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
-    [class.selected]="selectedSubscriber === subscriber">
-    <div class="card-img-container">
-      <img class="card-img-top" [src]="serverPathPhotoUser + (subscriber.photo ? subscriber.photo : 'user_default.svg')"
-        alt="User Image">
-    </div>
+<div class="flex-column hide-mobile m-2">
+  <div class="t-lar-xx bold dark hide-mobile">Мешканці</div>
+  <div class="t-min gray hide-mobile">Кількість мешканців які мають доступ до оселі: <span class="accent">{{
+      subscribers.length }} </span></div>
+</div>
 
+<div class="cards-container p-2" *ngIf="subscribers">
+  <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+    [class.selected]="selectedSubscriber === subscriber">
+    <div class="card-mini-img-container">
+      <img class="card-mini-img" [src]="serverPathPhotoUser + (subscriber.photo ? subscriber.photo : 'user_default.svg')"
+        alt="img">
+    </div>
     <div class="card-body">
-      <div class="title">{{ subscriber.lastName }} <br> {{ subscriber.firstName }} <br> {{ subscriber.surName }}</div>
-      <div class="btn-group">
-        <button class="btn m-1" (click)="removeSubscriber(subscriber)">
-          <i class="fa-solid fa-user-xmark"></i>
-        </button>
+      <div class="p-1">
+        <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
+        <div class="t-lar bold">{{ subscriber.lastName }}</div>
+        <div class="t-lar-xx bold">{{ subscriber.firstName }}</div>
+        <div class="t-med thin">{{ subscriber.surName }}</div>
+              <!-- <button class="btn m-1" (click)="removeSubscriber(subscriber)">
+        <i class="fa-solid fa-user-xmark"></i>
+      </button> -->
+
       </div>
     </div>
-  </button>
+  </div>
 </div>
+

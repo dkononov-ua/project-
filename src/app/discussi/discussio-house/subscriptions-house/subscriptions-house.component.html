@@ -2,12 +2,12 @@
 
   <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12">
 
-    <div class="switch-box">
+    <div class="flex-column pl-2 pt-2">
+      <div class="t-lar-xx bold dark ">Підписки</div>
+      <div class="t-min gray ">Підписки оселі</div>
+    </div>
 
-      <div class="flex-column hide-mobile m-2">
-        <div class="t-lar-xx bold dark hide-mobile">Підписки</div>
-        <div class="t-min gray hide-mobile">Підписки оселі</div>
-      </div>
+    <div class="switch-box">
 
       <div class="switch-btn-group">
         <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
@@ -89,9 +89,9 @@
           <div class="card-body">
             <div class="p-1">
               <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
-              <div class="t-lar">{{ subscriber.lastName }}</div>
-              <div class="t-lar">{{ subscriber.firstName }}</div>
-              <div class="t-lar">{{ subscriber.surName }}</div>
+              <div class="t-lar bold">{{ subscriber.lastName }}</div>
+              <div class="t-lar-xx bold">{{ subscriber.firstName }}</div>
+              <div class="t-med thin">{{ subscriber.surName }}</div>
             </div>
           </div>
         </div>
@@ -124,10 +124,10 @@
           </div>
           <div class="card-body">
             <div class="p-1">
-              <div class="t-lar bold accent">{{ subscriber.user_id }}</div>
-              <div class="t-lar">{{ subscriber.lastName }}</div>
-              <div class="t-lar">{{ subscriber.firstName }}</div>
-              <div class="t-lar">{{ subscriber.surName }}</div>
+              <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
+              <div class="t-lar bold">{{ subscriber.lastName }}</div>
+              <div class="t-lar-xx bold">{{ subscriber.firstName }}</div>
+              <div class="t-med thin">{{ subscriber.surName }}</div>
             </div>
           </div>
         </div>
@@ -199,10 +199,11 @@
             <div class="panel-container">
               <div class="wrapper">
 
-                <button class="btn-panel" *ngIf="ratingTenant" (click)="indexPage = 3">
-                  <div class="flex-box">
-                    <div class="t-lar bold">{{ratingTenant}}</div>
-                    <div class="t-min">({{numberOfReviews}})</div>
+                <button class="btn-panel" (click)="indexPage = 3">
+                  <div class="flex-box btn-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <div class="t-lar bold accent abs" *ngIf="ratingTenant">{{ratingTenant}}</div>
+                    <div class="t-min bold accent abs-1" *ngIf="ratingTenant">({{numberOfReviews}})</div>
                   </div>
                   <div class="t-min">Рейтинг</div>
                 </button>
@@ -435,17 +436,6 @@
         </div>
 
       </div>
-    </div>
-
-    <!-- Чат -->
-    <div [@cardAnimation2] class="flex-column-chat" *ngIf="indexPage == 2 && selectedUser">
-      <div class="btn-close-container">
-        <div class="btn-close-box">
-          <button class="btn-close" (click)="indexPage = 1"></button>
-        </div>
-      </div>
-      <app-chat-house class="chat"></app-chat-house>
-      <app-send-message class="send-message"></app-send-message>
     </div>
 
     <!-- Відгук -->

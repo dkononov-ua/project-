@@ -220,10 +220,11 @@
 
             <div class="panel-container">
               <div class="wrapper">
-                <button class="btn-panel" *ngIf="ratingOwner" (click)="indexPage = 4">
-                  <div class="flex-box">
-                    <div class="t-lar bold">{{ratingOwner}}</div>
-                    <div class="t-min">({{numberOfReviews}})</div>
+                <button class="btn-panel" (click)="indexPage = 4">
+                  <div class="flex-box btn-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <div class="t-lar bold accent abs" *ngIf="ratingOwner">{{ratingOwner}}</div>
+                    <div class="t-min bold accent abs-1" *ngIf="numberOfReviews">({{numberOfReviews}})</div>
                   </div>
                   <div class="t-min">Рейтинг</div>
                 </button>
@@ -454,11 +455,13 @@
             <div class="panel-container">
               <div class="wrapper">
 
-                <button class="btn-panel" *ngIf="ratingOwner" (click)="indexPage = 4">
-                  <div class="flex-box">
-                    <div class="t-lar bold">{{ratingOwner}}</div>
+                <button class="btn-panel" (click)="indexPage = 4">
+                  <div class="flex-box btn-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <div class="t-lar bold accent abs" *ngIf="ratingOwner">{{ratingOwner}}</div>
+                    <div class="t-min bold accent abs-1" *ngIf="numberOfReviews">({{numberOfReviews}})</div>
                   </div>
-                  <div class="t-min">Рейтинг власника</div>
+                  <div class="t-min">Рейтинг</div>
                 </button>
 
                 <button class="btn-panel" (click)="copyTell()" *ngIf="chosenFlat.owner.tell"><i

@@ -55,6 +55,8 @@ export class AgreeMenuComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
+      console.log(params['indexPage'])
+
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });

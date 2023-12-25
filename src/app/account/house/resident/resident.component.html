@@ -86,13 +86,11 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="switch-box mb-3">
 
-          <div class="hide-pc">
-            <div class="switch-btn-group">
-              <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-                <i class="fa-solid fa-arrow-left"></i>
-              </button>
-              <div class="t-min dark bold">Назад</div>
-            </div>
+          <div class="switch-btn-group">
+            <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="t-min dark bold">Назад</div>
           </div>
 
           <div class="switch-btn-group">
@@ -116,12 +114,12 @@
             <div class="t-min dark bold">Мешканці</div>
           </div>
 
-          <div class="switch-btn-group">
+          <!-- <div class="switch-btn-group">
             <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="onClickMenu(2,1)">
               <i class="fa-solid fa-user-gear"></i>
             </button>
             <div class="t-min dark bold">Інформація</div>
-          </div>
+          </div> -->
 
           <div class="switch-btn-group" *ngIf="!ownerPage">
             <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="onClickMenu(3,1)">
@@ -200,7 +198,6 @@
 
         </div>
       </div>
-
     </div>
 
     <div class="col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="indexMenu === 1">
@@ -393,98 +390,99 @@
       </div>
 
       <!-- картка орендар -->
-      <div class="card" *ngIf="indexPage === 2 && selectedSubscriber">
+      <div class="tenant-card" *ngIf="indexPage === 2 && selectedSubscriber">
         <div class="copyMessage-box" *ngIf="isCopiedMessage">
           <div class="copyMessage-text">{{isCopiedMessage}}</div>
           <i class="fa-regular fa-copy"></i>
           <div class="t-lar dark bold">Discussio</div>
         </div>
 
-        <!-- орендар фото -->
-        <div class="img-fluid">
-          <div class="img-wrapper">
-            <img
-              [src]="serverPathPhotoUser + (selectedSubscriber.photo ? selectedSubscriber.photo : 'user_default.svg')"
-              alt="User Image">
-          </div>
-          <div class="btn-container">
+        <div class="panel-tenants">
+          <div class="wrapper">
 
-            <div class="img-btn-box" *ngIf="ratingTenant">
-              <button class="img-btn" (click)="indexPage = 4"><i class="fa-regular fa-star"></i>
-              </button>
-              <div><span class="t-med bold">{{ratingTenant}} </span><span class="t-min">({{numberOfReviews}})</span>
-              </div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="createChat(selectedSubscriber)"><i
-                  class="fa-solid fa-message"></i></button>
-              <div class="t-min">Написати</div>
-              <div class="t-min" *ngIf="statusMessageChat === true">Чат створено!</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" [routerLink]="['/agree-create', selectedSubscriber.user_id]">
-                <i class="fa-solid fa-file-contract"></i></button>
-              <div class="t-min">Угода</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="indexCard = 0" [ngClass]="{ 'active': indexCard === 0 }">
-                <i class="fa-solid fa-person-half-dress"></i></button>
+            <button class="btn-panel" (click)="indexCard = 0" [ngClass]="{ 'active': indexCard === 0 }">
+              <i class="fa-regular fa-user"></i>
               <div class="t-min">Профіль</div>
-            </div>
+            </button>
 
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="indexCard = 1" [ngClass]="{ 'active': indexCard === 1 }">
-                <i class="fa-regular fa-comment-dots"></i></button>
+            <button class="btn-panel" (click)="indexCard = 1" [ngClass]="{ 'active': indexCard === 1 }">
+              <i class="fa-solid fa-ranking-star"></i>
               <div class="t-min">Відгук</div>
-            </div>
+            </button>
 
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="indexCard = 2" [ngClass]="{ 'active': indexCard === 2 }">
-                <i class="fa-solid fa-user-gear"></i></button>
+            <button class="btn-panel" (click)="indexCard = 2" [ngClass]="{ 'active': indexCard === 2 }">
+              <i class="fa-solid fa-user-gear"></i>
               <div class="t-min">Дозволи</div>
-            </div>
+            </button>
+
+            <button class="btn-panel" (click)="indexCard = 3" [ngClass]="{ 'active': indexCard === 3 }">
+              <div class="flex-box btn-rating">
+                <i class="fa-solid fa-star"></i>
+                <div class="t-lar bold accent abs" *ngIf="ratingTenant">{{ratingTenant}}</div>
+                <div class="t-min bold accent abs-1" *ngIf="ratingTenant">({{numberOfReviews}})</div>
+              </div>
+              <div class="t-min">Рейтинг</div>
+            </button>
+
+            <button class="btn-panel" (click)="removeUser(selectedSubscriber)">
+              <i class="fa-solid fa-user-xmark"></i>
+              <div class="t-min">Видалити</div>
+            </button>
+
           </div>
         </div>
 
         <!-- орендар інформація -->
-        <div *ngIf="indexCard === 0">
-          <div class="btn-container2">
-            <div class="img-btn-box" *ngIf="selectedSubscriber.tell">
-              <button class="img-btn" (click)="copyTell(selectedSubscriber.tell)"><i
-                  class="fa-solid fa-phone"></i></button>
-              <div class="t-min">Телефон</div>
-              <div class="t-min bold accent">{{ selectedSubscriber.tell }}</div>
-            </div>
+        <div [@cardAnimationTop] class="card" *ngIf="indexCard === 0">
 
-            <div class="img-btn-box">
-              <button class="img-btn" matTooltip="Копіювати" (click)="copyId(selectedSubscriber.user_id)"><i
-                  class="fa-solid fa-info"></i><i class="fa-solid fa-d"></i></button>
-              <div class="t-min">ID орендара:</div>
-              <div class="t-min bold accent">{{ selectedSubscriber.user_id }}</div>
+          <!-- орендар фото -->
+          <div class="img-fluid">
+            <div class="img-wrapper" *ngIf="indexCard === 0">
+              <img
+                [src]="serverPathPhotoUser + (selectedSubscriber.photo ? selectedSubscriber.photo : 'user_default.svg')"
+                alt="User Image">
             </div>
+            <div class="panel-container">
+              <div class="wrapper">
 
-            <div class="img-btn-box" *ngIf="selectedSubscriber.mail">
-              <button class="img-btn" (click)="copyMail(selectedSubscriber.mail)"><i
-                  class="fa-solid fa-at"></i></button>
-              <div class="t-min">Пошта</div>
-              <div class="t-min bold accent">{{ (selectedSubscriber.mail | slice:0:10)}}</div>
+                <button class="btn-panel" (click)="createChat(selectedSubscriber)"><i class="fa-solid fa-message"></i>
+                  <div class="t-min">Повід.</div>
+                  <div class="t-min" *ngIf="statusMessageChat === true">Чат створено!</div>
+                </button>
+
+                <button class="btn-panel" [routerLink]="['/agree-create', selectedSubscriber.user_id]">
+                  <i class="fa-solid fa-file-contract"></i>
+                  <div class="t-min">Угода</div>
+                </button>
+
+                <button class="btn-panel" (click)="reportUser(selectedSubscriber)"><i
+                    class="fa-solid fa-masks-theater"></i>
+                  <div class="t-min">Скарга</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyTell(selectedSubscriber.tell)" *ngIf="selectedSubscriber.tell"><i
+                    class="fa-solid fa-phone"></i>
+                  <div class="t-min">Телефон</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyId(selectedSubscriber.user_id)"><i
+                    class="fa-solid fa-fingerprint"></i>
+                  <div class="t-min">ID</div>
+                </button>
+
+                <button class="btn-panel" (click)="copyMail(selectedSubscriber.mail)" *ngIf="selectedSubscriber.mail"><i
+                    class="fa-solid fa-at"></i>
+                  <div class="t-min">Пошта</div>
+                </button>
+
+              </div>
             </div>
-
-            <div class="img-btn-box" *ngIf="ratingTenant">
-              <button class="img-btn"><i class="fa-solid fa-medal"></i></button>
-              <div class="t-min">Рейтинг орендара</div>
-              <div class="t-min bold accent">{{ ratingTenant }}</div>
-            </div>
-
           </div>
 
-          <div class="item-wrapper p-3">
-            <div class="item-name">{{ selectedSubscriber.lastName }}</div>
-            <div class="item-name">{{ selectedSubscriber.firstName }}</div>
-            <div class="item-name">{{ selectedSubscriber.surName }}</div>
+          <div class="flex-box p-2">
+            <div class="t-lar-xx t-c bold p-1">{{ selectedSubscriber.lastName }} </div>
+            <div class="t-lar-xx t-c bold p-1">{{ selectedSubscriber.firstName }}</div>
+            <div class="t-lar-x t-c p-1">{{ selectedSubscriber.surName }}</div>
           </div>
 
           <div class="social-link-container">
@@ -526,7 +524,7 @@
         </div>
 
         <!-- орендар рейтинг -->
-        <div *ngIf="indexCard === 1">
+        <div [@cardAnimationTop] class="card p-2" *ngIf="indexCard === 1">
           <div class="status-container ">
             <div class="status-box">
               <div class="status-value">Допомога</div>
@@ -542,6 +540,8 @@
               </div>
             </div>
           </div>
+
+          <div class="t-lar t-e bold p-1 accent">Відгук про мешканця</div>
 
           <div class="group-rating p-2">
             <mat-form-field class="w-100">
@@ -603,7 +603,7 @@
         </div>
 
         <!-- орендар доступ -->
-        <div class="checkbox-container" *ngIf="indexCard === 2">
+        <div [@cardAnimationTop] class="card checkbox-container" *ngIf="indexCard === 2">
 
           <div class="status-container ">
             <div class="status-box">
@@ -617,6 +617,8 @@
               </div>
             </div>
           </div>
+
+          <div class="t-lar t-e bold p-1 accent">Надати дозволи мешканцю</div>
 
           <div class="checkbox-group">
             <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal">
@@ -693,49 +695,42 @@
 
         </div>
 
-      </div>
+        <!-- орендар відгуки -->
+        <div [@cardAnimationTop] class="card p-2" *ngIf="indexCard === 3">
+          <div class="t-lar-x bold accent">Відгуки власників</div>
 
-      <!-- орендар відгуки -->
-      <div class="card p-2" *ngIf="indexPage === 4 && selectedSubscriber">
-        <div class="t-lar-xx">Відгуки власників</div>
+          <div *ngIf="reviews">
+            <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
+              <div class="flex-box">
 
-        <div class="btn-container-close">
-          <div class="flex-box-column p-1">
-            <button class="btn-close" (click)="indexPage = 2"></button>
-            <div class="t-min">Назад</div>
+                <div class="img-review-wrapper">
+                  <img class="img-review-fluid"
+                    [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
+                    alt="img">
+                </div>
+
+                <div class="flex-box">
+                  <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
+                    {{review.reporter.surName}}</div>
+                </div>
+
+                <div class="flex-box">
+                  <div class="t-min">ID відправника:{{review.info.appraiser}}</div>
+                </div>
+              </div>
+              <div class="flex-column">
+                <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
+                    class="accent"> {{review.info.mark}}</span></div>
+                <div class="t-min">{{review.info.about}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!reviews">
+            <div class="t-lar">Відгуків ще немає...</div>
           </div>
         </div>
 
-        <div *ngIf="reviews">
-          <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
-            <div class="flex-box">
-
-              <div class="img-review-wrapper">
-                <img class="img-review-fluid"
-                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
-                  alt="img">
-              </div>
-
-              <div class="flex-box">
-                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
-                  {{review.reporter.surName}}</div>
-              </div>
-
-              <div class="flex-box">
-                <div class="t-min">ID відправника:{{review.info.appraiser}}</div>
-              </div>
-            </div>
-            <div class="flex-column">
-              <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
-                  class="accent"> {{review.info.mark}}</span></div>
-              <div class="t-min">{{review.info.about}}</div>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="!reviews">
-          <div class="t-lar-xx">Відгуків ще немає</div>
-        </div>
       </div>
 
       <!-- власник відгуки -->

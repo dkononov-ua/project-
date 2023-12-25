@@ -14,7 +14,7 @@ import { Chat } from '../../../interface/info';
 export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   selectedFlatId: any;
   infoPublic: any[] | undefined;
-
+  loading: boolean = true;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -35,6 +35,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
     this.loadData();
     this.getSelectedFlatId();
     this.getFlatChats();
+    this.loading = false;
   }
 
   getSelectedFlatId() {

@@ -3,6 +3,63 @@
 @use "../../../style/shared.scss";
 @use "../../../style/discussi.scss";
 
+.tenant-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.img-fluid {
+  border-radius: 0 0 20px 20px;
+  // height: 350px;
+}
+
+.panel-tenants {
+  @include box-shadow;
+  display: flex;
+  background-color: tan;
+  overflow-x: auto;
+  height: 90px;
+  padding: 5px;
+  border-radius: 20px 20px 0 0;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+  justify-content: flex-start;
+
+  .wrapper {
+    @include flex-box;
+    justify-content: space-between;
+    .btn-panel {
+      @include flex-box-column;
+      justify-content: space-between;
+      .img-btn {
+        @include flex-box;
+        background-color: transparent;
+        border-radius: 50%;
+        border: none;
+        width: 80px;
+        .fa-solid,
+        .fa-regular {
+          color: $color-dark;
+          &:hover {
+            color: $color-accent;
+            @include box-shadow;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card {
+  border-radius: 0 0 20px 20px;
+  height: auto;
+}
+
 .card-container {
   @include flex-box;
   justify-content: flex-start;
@@ -12,11 +69,21 @@
   }
 }
 
+.btn-panel {
+  &.active {
+    color: $color-accent;
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+    }
+  }
+}
+
 .switch-box {
   justify-content: flex-start;
   align-items: center;
   .switch-btn-group {
-    width: 100px;
+    width: 80px;
   }
 }
 
@@ -50,6 +117,7 @@
 }
 
 .checkbox-container {
+  font-family: $font-main;
   .checkbox-group {
     @include flex-box;
     padding: 0 10px;

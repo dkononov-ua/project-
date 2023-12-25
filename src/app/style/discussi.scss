@@ -336,6 +336,29 @@ li {
   }
 }
 
+.btn-rating {
+  position: relative;
+  .fa-regular {
+    color: rgba(128, 128, 128, 0.551);
+  }
+}
+
+.abs {
+  position: absolute;
+  top: 5px;
+  left: 12px;
+}
+
+.abs-1 {
+  position: absolute;
+  top: -7px;
+  left: -10px;
+}
+
+.fa-star {
+  color: $color-gray;
+}
+
 .hide-pc {
   @include s3-s6-max {
     display: none;

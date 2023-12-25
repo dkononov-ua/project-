@@ -49,10 +49,10 @@
 
     <a *ngIf="selectedFlatId && acces_filling" class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/filling'">
       <span class="link-text">Наповнення</span>
-      <div class="link-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+      <div class="link-icon"><i class="fa-solid fa-boxes-packing"></i></div>
     </a>
 
-    <a *ngIf="selectedFlatId && acces_citizen === 1" class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/resident'">
+    <a *ngIf="selectedFlatId" class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/resident'">
       <span class="link-text">Мешканці</span>
       <div class="link-icon"><i class="fa-solid fa-people-roof"></i></div>
     </a>

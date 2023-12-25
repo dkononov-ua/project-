@@ -14,7 +14,6 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
-import { AccessibleAllComponent } from './pages/accessible-all/accessible-all.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -36,7 +35,6 @@ const routes: Routes = [
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
   { path: 'rating', component: AboutRatingComponent, canActivate: [CanActivateGuard] },
   { path: 'opportunities', component: OpportunitiesComponent, canActivate: [CanActivateGuard] },
-  { path: 'accessible', component: AccessibleAllComponent }, // Інформація для всіх по функціоналу
 ];
 
 @NgModule({

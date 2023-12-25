@@ -216,9 +216,14 @@ export class SubscribersHouseComponent implements OnInit {
           if (item.info.mark) {
             totalMarkTenant += item.info.mark;
             this.ratingTenant = totalMarkTenant;
+          } else {
+            this.ratingTenant = 0;
           }
         });
-      } else if (response.status === false) { this.ratingTenant = 0; }
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
+        this.numberOfReviews = 0;
+      }
     } catch (error) { console.error(error); }
   }
 

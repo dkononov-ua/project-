@@ -215,11 +215,20 @@ export class AgreeConcludedComponent implements OnInit {
           agreement_id: agree.flat.agreement_id,
         };
         try {
+          this.loading = true;
           const response = await this.http.post(url, data).toPromise();
+          console.log(response)
+          this.statusMessage = 'Мешканець доданий до оселі';
           setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
-            location.reload;
-          }, 100);
+            this.statusMessage = 'Переходимо до мешканців оселі';
+            setTimeout(() => {
+              this.router.navigate(['/house/resident'], { queryParams: { indexPage: 0, indexMenu: 1 } });
+            }, 2000);
+          }, 2000);
+          // setTimeout(() => {
+          //   this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
+          //   location.reload;
+          // }, 100);
         } catch (error) {
           console.error(error);
         }

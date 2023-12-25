@@ -39,8 +39,6 @@
     height: 400px;
     object-fit: cover;
     transition: transform 1s;
-    border-radius: 10px;
-
     &:hover {
       transition: transform 1s;
       transform: scale(1.4);

@@ -1,4 +1,4 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, state } from '@angular/animations';
 import { Component, ElementRef } from '@angular/core';
 
 @Component({
@@ -16,11 +16,32 @@ import { Component, ElementRef } from '@angular/core';
         animate('1200ms ease-in-out', style({ transform: 'scale(0.5)', opacity: 0 }))
       ]),
     ]),
+    trigger('scrollAnimation', [
+      state('up', style({ transform: 'translateY(0)' })),
+      state('down', style({ transform: 'translateY(-100%)' })),
+      transition('up <=> down', animate(300)),
+    ]),
   ],
 })
 
-export class OpportunitiesComponent {
-  constructor(private el: ElementRef) {}
+export class OpportunitiesComponent  {
+  indexPage: number = 0;
+  togglePageNext() {
+    if (this.indexPage !== 8) {
+      this.indexPage++;
+      this.scrollToAnchor('top');
+    }
+  }
+
+  togglePagePrev() {
+    if (this.indexPage !== 0) {
+      this.indexPage--;
+      this.scrollToAnchor('top');
+    }
+  }
+
+
+  constructor(private el: ElementRef) { }
 
   scrollToAnchor(anchor: string): void {
     const element = this.el.nativeElement.querySelector(`#${anchor}`);
@@ -29,5 +50,6 @@ export class OpportunitiesComponent {
     }
   }
 
-
 }
+
+

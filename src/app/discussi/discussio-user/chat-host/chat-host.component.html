@@ -37,10 +37,10 @@
         <div class="t-lar-xx bold gray">Чат</div>
 
       </div>
-
-      <app-chat-user class="chat" *ngIf="openChatCard"></app-chat-user>
-      <app-send-message-user class="send-message" *ngIf="openChatCard"></app-send-message-user>
-
+      <div class="flex-column">
+        <app-chat-user class="chat" *ngIf="openChatCard"></app-chat-user>
+        <app-send-message-user class="send-message" *ngIf="openChatCard"></app-send-message-user>
+      </div>
       <div class="card-box1 w-100" *ngIf="!openChatCard">
         <div class="card-container">
           <div class="cards-container p-2" *ngIf="chats.length === 0">

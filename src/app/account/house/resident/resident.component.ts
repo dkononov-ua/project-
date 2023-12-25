@@ -8,6 +8,10 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPT
 import { DatePipe } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
+import { AgreeDeleteComponent } from '../agree-h/agree-delete/agree-delete.component';
+import { MatDialog } from '@angular/material/dialog';
 // переклад календаря
 export class Rating {
   constructor(
@@ -61,6 +65,12 @@ interface Subscriber {
         animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
       ]),
     ]),
+    trigger('cardAnimationTop', [
+      transition('void => *', [
+        style({ transform: 'translateY(-100%)' }),
+        animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+    ]),
   ],
 
 
@@ -75,6 +85,8 @@ export class ResidentComponent implements OnInit {
   ratingOwner: number | undefined;
   numberOfReviewsOwner: any;
   reviewsOwner: any;
+  page: any;
+  menu: any;
 
   openHelpMenu(helpInfoIndex: number) {
     this.helpInfo = helpInfoIndex;
@@ -119,6 +131,10 @@ export class ResidentComponent implements OnInit {
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
     private datePipe: DatePipe,
+    private router: Router,
+    private route: ActivatedRoute,
+    private sharedService: SharedService,
+    private dialog: MatDialog,
   ) {
     this.setMinMaxDate(35);
     this.rating.ratingDate = this.formatDate(new Date());
@@ -138,6 +154,12 @@ export class ResidentComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || -1;
+      this.indexPage = Number(this.page);
+      this.menu = params['indexMenu'] || 0;
+      this.indexMenu = Number(this.menu);
+    });
     this.selectFlat()
     await this.selectSubscriber()
     this.getRatingOwner;
@@ -268,8 +290,9 @@ export class ResidentComponent implements OnInit {
           // console.log(response)
           if (response.status !== false) {
             setTimeout(() => {
-              this.statusMessage = 'Чат створено';
+              this.statusMessage = 'Чат створено, переходимо до чату';
               setTimeout(() => {
+                this.router.navigate(['/chat']);
                 this.statusMessage = '';
               }, 2000);
             }, 200);
@@ -640,6 +663,99 @@ export class ResidentComponent implements OnInit {
     if (copyViber)
       this.copyToClipboard(copyViber, 'Viber номер скопійовано');
   }
+
+  // Відправка скарги на орендара, через сервіс
+  async reportUser(user: any): Promise<void> {
+    this.sharedService.reportUser(user);
+    this.sharedService.getReportResultSubject().subscribe(result => {
+      if (result.status === true) {
+        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
+      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+    });
+  }
+
+  // Видаляю з оселі
+  removeUser(subscriber: any): void {
+    const userJson = localStorage.getItem('user');
+    const userData = localStorage.getItem('userData');
+    if (!userJson || !userData) { console.log('Авторизуйтесь'); return; }
+    const userObject = JSON.parse(userData);
+    const userId = userObject.inf.user_id;
+    const dialogRef = this.dialog.open(AgreeDeleteComponent, {
+      data: {
+        flatId: this.selectedFlatId,
+        subscriberId: subscriber.user_id,
+        subscriber_firstName: subscriber.firstName,
+        subscriber_lastName: subscriber.lastName,
+        offer: 3,
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        user_id: subscriber.user_id
+      };
+
+      if (result === true) {
+        this.loading = true;
+        if (userId !== subscriber.user_id) {
+          this.removeResident(data);
+        } else { this.leaveHouse(data); }
+      }
+    });
+  }
+
+  // Видаляю мешканця
+  removeResident(data: any): void {
+    this.statusMessage = 'Видаляємо мешканця';
+    this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(() => { this.updateSubscriberList(); },
+      (error: any) => { console.error('Error deleting subscriber:', error); });
+  }
+
+  // Видаляюсь з оселі
+  leaveHouse(data: any): void {
+    this.statusMessage = 'Видаляємось з оселі';
+    this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(
+      () => { },
+      (error: any) => {
+        console.error('Error deleting user:', error);
+      }
+    );
+    setTimeout(() => {
+      this.statusMessage = 'Видаляємо дані оселі';
+      this.clearLocalStorage();
+      location.reload();
+      setTimeout(() => {
+        this.selectedFlatIdService.clearSelectedFlatId();
+        this.router.navigate(['/user/info']);
+      }, 2000);
+    }, 1500);
+  }
+
+  // Оновлюю список мешканців
+  updateSubscriberList(): void {
+    setTimeout(() => {
+      this.statusMessage = 'Оновлюємо список мешканців';
+      this.selectedSubscriber = undefined;
+      setTimeout(() => {
+        this.getSubs(this.selectedFlatId, 0);
+        this.statusMessage = '';
+        this.loading = false;
+      }, 1000);
+    }, 1000);
+  }
+
+  // Якщо видаляюсь з оселі очищую всі дані оселі
+  clearLocalStorage(): void {
+    localStorage.removeItem('house');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+  }
+
 
 
 }

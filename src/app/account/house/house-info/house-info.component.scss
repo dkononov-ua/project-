@@ -12,6 +12,8 @@
 }
 
 .card {
+  position: relative;
+  overflow: hidden;
   height: 600px;
   @include s1-s3 {
     height: auto;

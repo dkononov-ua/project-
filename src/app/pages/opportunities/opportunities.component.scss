@@ -2,6 +2,45 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.switch-box {
+  overflow: auto;
+}
+
+.pos-abs {
+  position: absolute;
+  top: 0;
+}
+
+.btn-group {
+  @include s1-s3 {
+    width: 100%;
+  }
+
+  justify-content: flex-end;
+  margin-top: 20px;
+  .btn {
+    width: 150px;
+  }
+}
+
+.btn {
+  .t-min {
+    margin-top: 5px;
+  }
+
+  &.active {
+    .t-min {
+      font-weight: 600;
+      color: $color-accent;
+    }
+  }
+}
+
+.container-info {
+  @include flex-box;
+  position: relative;
+  // height: 550px;
+}
 .flex-box {
   flex-wrap: wrap;
   justify-content: space-between;
@@ -19,7 +58,7 @@
 
 .item-vid {
   height: 100%;
-  object-fit: cover
+  object-fit: cover;
 }
 
 .link-anchor {
@@ -105,12 +144,6 @@
     height: 200px;
     width: 100%;
   }
-}
-
-.flex-column {
-  margin-top: 40px;
-
-  margin-bottom: 40px;
 }
 
 h2,

@@ -324,8 +324,10 @@
 
   .wrapper {
     @include flex-box;
+    justify-content: space-between;
     .btn-panel {
       @include flex-box-column;
+      justify-content: space-between;
       .img-btn {
         @include flex-box;
         background-color: transparent;

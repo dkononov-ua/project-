@@ -16,6 +16,20 @@
 
 .link-menu {
   display: flex;
+  color: $color-text;
+  &.active {
+    color: $color-accent;
+    font-weight: 600;
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+    }
+  }
+}
+
+
+.link-menu {
+  display: flex;
   align-items: center;
   position: relative;
   transition: 0.4s;
