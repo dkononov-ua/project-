@@ -110,8 +110,8 @@ export class InfoComponent implements OnInit {
           if (searchInfoUserData !== null) {
             this.searchInfoUserData = JSON.parse(searchInfoUserData);
             // console.log(this.searchInfoUserData)
-            this.userInfo.price_of = this.searchInfoUserData.price_of;
-            this.userInfo.price_to = this.searchInfoUserData.price_to;
+            this.userInfo.price_of = this.searchInfoUserData.price_of === "0.01" ? -1 : this.searchInfoUserData.price_of;
+            this.userInfo.price_to = this.searchInfoUserData.price_to  === "0.01" ? -1 : this.searchInfoUserData.price_to;
             this.userInfo.region = this.searchInfoUserData.region;
             this.userInfo.city = this.searchInfoUserData.city;
             this.userInfo.rooms_of = this.searchInfoUserData.rooms_of;

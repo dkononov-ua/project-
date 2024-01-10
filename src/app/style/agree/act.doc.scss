@@ -17,18 +17,30 @@ li {
   justify-content: center;
 }
 
+.btn-group {
+  @include box-shadow;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .btn {
-  margin: 0;
-  width: 150px;
+  width: 200px;
   display: flex;
-  font-size: 10px;
+  font-size: 14px;
   background-color: white;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
+
+  .fa-solid,
+  .fa-regular {
+    color: $color-dark;
+  }
+
+  @include s1-s3 {
+    width: 100%;
+  }
 }
 
 .link-text {

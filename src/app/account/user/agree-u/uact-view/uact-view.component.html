@@ -224,9 +224,11 @@
 
   </div>
 
-  <div class="control mt-2">
-    <button class="btn m-1" type="submit" (click)="goBack()">НАЗАД</button>
-    <button class="btn m-1" type="submit" (click)="print()">ДРУКУВАТИ <i class="fa-regular fa-file-pdf"></i>
+  <div class="btn-group w-100 mt-2">
+    <button class="btn bold" (click)="goBack()">
+      <i class="fa-solid fa-arrow-left"></i>Назад</button>
+    <button class="btn bold" (click)="print()">
+      <i class="fa-regular fa-file-pdf"></i>Друкувати
     </button>
   </div>
 </ng-template>

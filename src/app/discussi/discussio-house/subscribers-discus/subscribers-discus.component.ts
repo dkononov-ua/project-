@@ -306,10 +306,11 @@ export class SubscribersDiscusComponent implements OnInit {
             this.ratingTenant = totalMarkTenant;
           }
         });
-      } else if (response.status === false) { this.ratingTenant = 0;
-        this.ratingTenant = 5;
-        this.numberOfReviews = 5;
- }
+      } else if (response.status === false) {
+        this.ratingTenant = 0;
+        // this.ratingTenant = 5;
+        // this.numberOfReviews = 5;
+      }
     } catch (error) { console.error(error); }
   }
 

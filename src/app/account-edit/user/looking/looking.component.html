@@ -169,7 +169,7 @@
               <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.family">Сім'я</mat-checkbox>
             </section>
 
-            <mat-form-field class="item-select" appearance="outline">
+            <mat-form-field class="item-select" appearance="outline" (click)="loadCities()">
               <input name="flatInfo.region" matInput placeholder="Область" [(ngModel)]="userInfo.region"
                 placeholder="Виберіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
               <mat-autocomplete #autoRegion="matAutocomplete">
@@ -181,8 +181,8 @@
               <mat-hint align="end">Оберіть область де шукаєте оселю</mat-hint>
             </mat-form-field>
 
-            <mat-form-field class="item-select" appearance="outline">
-              <input name="flatInfo.city" matInput placeholder="Місто" [(ngModel)]="userInfo.city"
+            <mat-form-field class="item-select" appearance="outline" (click)="loadRegions()">
+              <input [disabled]="!userInfo.region" name="flatInfo.city" matInput placeholder="Місто" [(ngModel)]="userInfo.city"
                 placeholder="Виберіть місто" (ngModelChange)="loadRegions()" [matAutocomplete]="autoCity">
               <mat-autocomplete #autoCity="matAutocomplete">
                 <mat-option *ngFor="let city of filteredCities" [value]="city.name">
@@ -497,7 +497,8 @@
                   Варіатн оплати Безкоштовно
                   <ul>
                     <li class="status-hover-li mb-2">Ми додали цей варіант для людей які потребають житла але не мають
-                      змоги за нього заплатити. Власники оселей можуть допомогти переселенцям або людям в скрутній ситуації. </li>
+                      змоги за нього заплатити. Власники оселей можуть допомогти переселенцям або людям в скрутній
+                      ситуації. </li>
                   </ul>
                 </div>
               </div>
@@ -583,21 +584,36 @@
                 <i class="icon fa-solid fa-eraser"></i>
                 <div class="t-lar dark bold p-2">Очистити</div>
               </button>
-
             </div>
 
             <div class="btn-group w-100">
-              <button [disabled]="(!userInfo.price_of && !userInfo.price_to) || (!userInfo.region || !userInfo.city)"
-                class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
+
+              <button *ngIf="userInfo.agree_search === 1 && !userInfo.region && !userInfo.city" class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
                 <i class="fa-regular fa-circle-check"></i>
-                <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search === 1">Зберегти</div>
-                <div class="t-lar dark bold p-2" *ngIf="userInfo.agree_search !== 1">Активувати</div>
+                <div class="t-lar dark bold p-2">Зберегти</div>
+              </button>
+
+              <button *ngIf="userInfo.agree_search === 1 && userInfo.region && userInfo.city" class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
+                <i class="fa-regular fa-circle-check"></i>
+                <div class="t-lar dark bold p-2">Зберегти</div>
+              </button>
+
+              <button *ngIf="userInfo.agree_search === 0" class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
+                <i class="fa-regular fa-circle-check"></i>
+                <div class="t-lar dark bold p-2">Зберегти</div>
+              </button>
+
+              <button *ngIf="userInfo.region && userInfo.city && userInfo.agree_search === 0" class="btn"
+                (click)="saveInfo(userInfo.agree_search = 1)">
+                <i class="fa-regular fa-circle-check"></i>
+                <div class="t-lar dark bold p-2">Активувати</div>
               </button>
 
               <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)" *ngIf="userInfo.agree_search === 1">
                 <i class="fa-solid fa-power-off"></i>
                 <div class="t-lar dark bold p-2">Деактивувати</div>
               </button>
+
             </div>
 
           </div>

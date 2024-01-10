@@ -193,7 +193,6 @@ export class LookingComponent implements OnInit {
     }
   }
 
-
   async saveInfo(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -297,25 +296,25 @@ export class LookingComponent implements OnInit {
     this.userInfo.area_to = '100000.00';
     this.userInfo.rooms_of = 0;
     this.userInfo.rooms_to = 6;
-    this.userInfo.distance_metro = '';
-    this.userInfo.distance_stop = '';
-    this.userInfo.distance_green = '';
-    this.userInfo.distance_shop = '';
-    this.userInfo.distance_parking = '';
+    this.userInfo.distance_metro = undefined;
+    this.userInfo.distance_stop = undefined;
+    this.userInfo.distance_green = undefined;
+    this.userInfo.distance_shop = undefined;
+    this.userInfo.distance_parking = undefined;
     this.userInfo.bunker = 'Неважливо';
     this.userInfo.balcony = 'Неважливо';
     this.userInfo.animals = 'Неважливо';
   }
 
   clearInfoCard3(): void {
-    this.userInfo.option_pay = 0;
-    this.userInfo.price_of = NaN;
-    this.userInfo.price_to = NaN;
+    this.userInfo.option_pay = 2;
+    this.userInfo.price_of = undefined;
+    this.userInfo.price_to = undefined;
     this.userInfo.day_counts = 0;
-    this.userInfo.days = NaN;
-    this.userInfo.weeks = NaN;
-    this.userInfo.mounths = NaN;
-    this.userInfo.years = NaN;
+    this.userInfo.days = undefined;
+    this.userInfo.weeks = undefined;
+    this.userInfo.mounths = undefined;
+    this.userInfo.years = undefined;
     this.userInfo.about = '';
     this.userInfo.metro = '';
   }

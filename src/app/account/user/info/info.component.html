@@ -84,8 +84,7 @@
           </div>
 
           <div class="social-link-box" *ngIf="userInfo.viber">
-            <a class="social-link-icon" (click)="copyViber()"><i
-                class="fab fa-brands fa-viber"></i></a>
+            <a class="social-link-icon" (click)="copyViber()"><i class="fab fa-brands fa-viber"></i></a>
             <div class="social-link-name">viber</div>
           </div>
 
@@ -161,8 +160,8 @@
                 class="ml-2">перейти щоб деактивувати</span></a>
           </div>
 
-          <div class="param-label">Бюджет в грн:</div>
-          <div class="param-group p-1">
+          <div class="param-label" *ngIf="userInfo.price_of !== -1">Бюджет в грн:</div>
+          <div class="param-group p-1" *ngIf="userInfo.price_of !== -1">
             <div class="param-field" *ngIf="userInfo.price_of">Від :
               <span class="param-value">{{ userInfo.price_of }} ₴</span>
             </div>
@@ -204,7 +203,9 @@
                   userInfo.rooms_of}}</span>
                 <span class="param-value" *ngIf="userInfo.rooms_to !== 6">до {{ userInfo.rooms_to}}</span>
               </div>
-              <div *ngIf="userInfo.rooms_of === 0 && userInfo.rooms_to === 6"> Кіл. кімнат: неважливо </div>
+              <div *ngIf="userInfo.rooms_of === 0 && userInfo.rooms_to === 6"> Кіл. кімнат:
+                <span class="param-value">Неважливо</span>
+              </div>
             </div>
 
             <div class="param-field" *ngIf="userInfo?.repair_status">Стан оселі:
@@ -239,7 +240,9 @@
           <div class="param-group p-1">
 
             <div class="param-field" *ngIf="userInfo.purpose_rent">
-              Мета оренди:<span class="param-value">{{ purpose[userInfo.purpose_rent] }}</span> </div>
+              Мета оренди:<span class="param-value" *ngIf="userInfo.purpose_rent !== 'Неважливо'">{{ purpose[userInfo.purpose_rent] }}</span>
+              <span class="param-value" *ngIf="userInfo.purpose_rent === 'Неважливо'">Неважливо</span>
+            </div>
 
             <div class="param-field" *ngIf="userInfo.bunker">
               Наявність укриття:<span class="param-value">{{ userInfo.bunker }}</span> </div>
