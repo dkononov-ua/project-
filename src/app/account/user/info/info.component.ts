@@ -36,6 +36,7 @@ export class InfoComponent implements OnInit {
   ratingTenant: number | undefined;
   ratingOwner: number | undefined;
   isCopiedMessage!: string;
+  indexCard: number = 1;
 
   userInfo: UserInfo = UsereSearchConfig;
   options: { [key: number]: string } = Options;

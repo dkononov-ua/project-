@@ -1,12 +1,9 @@
-@use "../../../style/agree/agree_about.scss";
 @use "../../../style/shared.scss";
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
 .flex-column {
   @include flex-box-column;
-  justify-content: flex-start;
-  align-items: flex-start;
 }
 
 .flex-box {
@@ -14,14 +11,31 @@
 }
 
 .item-box {
+  @include flex-box;
+  @include box-shadow;
+  width: 95%;
   justify-content: flex-start;
-  .item-description {
-    width: 60%;
-  }
-  @include s1-s3 {
-    .item-description {
-      width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 80px;
+  margin: 5px;
+
+  .link-toMenu {
+    @include flex-box;
+    @include box-shadow;
+
+    height: 100%;
+    color: $color-white;
+    background-color: $color-accent;
+    .fa-solid {
+      color: $color-white;
+      filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
     }
+  }
+
+  .item-d {
+    @include flex-box-column;
+    margin: 0;
   }
 }
 

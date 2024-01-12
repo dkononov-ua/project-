@@ -1,95 +1,64 @@
-<div class="flex-column p-2">
-  <div class="t-lar-xx bold dark">Як налаштувати та розмістити оголошення</div>
-  <div class="t-min gray mb-2">Шлях по кроках як розмістити оголошення.</div>
-</div>
+<div class="t-lar-xx bold dark pl-2">Налаштування оселі</div>
+<div class="t-min gray bold mb-2 pl-2">Шлях по кроках як розмістити оголошення.</div>
 
-<div [@cardAnimation1] class="flex-column">
+<div class="flex-column">
 
-  <div class="item-box">
-
-    <div class="item-description">
-      <div class="t-med gray bold">Крок 1</div>
-      <div class="t-min">Після створення оселі заповніть форму в меню "Розтушування".</div>
+  <div [@cardAnimation1]  class="item-box">
+    <div class="item-d w-70">
+      <div class="t-med gray bold">Крок 1*</div>
+      <div class="t-min t-c p-1">Після створення оселі заповніть форму в меню "Розтушування".</div>
     </div>
 
-    <div class="item-group flex-column p-2">
-      <div class="t-min gray bold t-c">Перейти до меню</div>
-      <button class="link-toMenu flex-box-row" [routerLink]="'/housing-parameters/host/address'">
-        <span class="ml-2">РОЗТАШУВАННЯ <i class="fa-solid fa-location-dot ml-2 ml-2"></i></span>
-      </button>
-    </div>
-
+    <button class="link-toMenu w-30 flex-column" [routerLink]="'/housing-parameters/host/address'">
+      <span class="ml-2 t-min">Розтушування</span>
+      <i class="fa-solid fa-location-dot ml-2 ml-2"></i>
+    </button>
   </div>
 
-  <div class="item-box">
-
-    <div class="item-description">
+  <div [@cardAnimation2] class="item-box">
+    <div class="item-d w-70">
       <div class="t-med gray bold">Крок 2*</div>
-      <div class="t-min">Заповнюємо форму в меню "Параметри" в якому треба <span class="accent bold">обов'язково вказати
+      <div class="t-min t-c p-1">Заповнюємо форму в меню "Параметри" в якому треба <span class="accent bold">обов'язково
+          вказати
           тип оселі*</span> .</div>
     </div>
 
-    <div class="item-group flex-column p-2">
-      <div class="t-min gray bold t-c">Перейти до меню </div>
-      <button class="link-toMenu flex-box-row" [routerLink]="'/housing-parameters/host/param'">
-        <span class="ml-2">ПАРАМЕТРИ</span> <i class="fa-solid fa-trowel-bricks ml-2"></i>
-      </button>
-    </div>
-
+    <button class="link-toMenu w-30 flex-column" [routerLink]="'/housing-parameters/host/param'">
+      <span class="ml-2 t-min">Параметри</span>
+      <i class="fa-solid fa-trowel-bricks ml-2"></i>
+    </button>
 
   </div>
 
-  <div class="item-box">
-
-    <div class="item-description">
+  <div [@cardAnimation3] class="item-box">
+    <div class="item-d w-70">
       <div class="t-med gray bold">Крок 3*</div>
-      <div class="t-min">Додайте фото оселі в меню "Додати фото", для розміщення оголошення оселі <span
+      <div class="t-min t-c p-1">Додайте фото оселі в меню "Додати фото", для розміщення оголошення оселі <span
           class="accent bold">фото обов'язкове*</span>.</div>
     </div>
 
-    <div class="item-group flex-column p-2">
-      <div class="t-min gray bold t-c">Перейти до меню </div>
-      <button class="link-toMenu flex-box-row" [routerLink]="'/housing-parameters/host/photo'">
-        <span class="ml-2">ДОДАТИ ФОТО</span> <i class="fa-solid fa-images ml-2"></i>
-      </button>
-    </div>
-
+    <button class="link-toMenu w-30 flex-column" [routerLink]="'/housing-parameters/host/photo'">
+      <span class="ml-2 t-min">Додати фото</span>
+      <i class="fa-solid fa-images ml-2"></i>
+    </button>
   </div>
 
-  <div class="item-box">
-
-    <div class="item-description">
-      <div class="t-med gray bold">Крок 4</div>
-      <div class="t-min">Заповніть форму в меню "Особливості" в якому треба вказати
-        <span class="accent bold">обов'язково варіанти оплати, ціну та формат здачі*</span> та натиснути кнопку
-        "Активувати".
+  <div [@cardAnimation4] class="item-box">
+    <div class="item-d w-70">
+      <div class="t-med gray bold">Крок 4*</div>
+      <div class="t-min t-c p-1">Меню "Особливості" обов'язково вказати
+        <span class="accent bold">варіанти оплати, ціну, формат здачі*</span> та "Активувати".
       </div>
     </div>
 
-    <div class="item-group flex-column p-2">
-      <div class="t-min gray bold t-c">Перейти до меню </div>
-      <button class="link-toMenu flex-box-row" [routerLink]="'/housing-parameters/host/about'">
-        <span class="ml-2">ОСОБЛИВОСТІ</span> <i class="fa-solid fa-users-gear ml-2"></i>
-      </button>
-    </div>
+    <button class="link-toMenu w-30 flex-column" [routerLink]="'/housing-parameters/host/about'">
+      <span class="ml-2 t-min">Особливості</span>
+      <i class="fa-solid fa-users-gear ml-2"></i>
+    </button>
   </div>
 
-  <div class="item-box">
-
-    <div class="item-description">
-      <div class="t-med gray bold">Оголошення розміщено</div>
-      <div class="t-min">Якщо ви вказали всі обо'язкові дані та натиснули активувати то ваше оголошення з'явиться в
-        меню "пошуку оселі" знайти вашу оселю зможуть по вашим параметрам або по ID, вкладка фільтр Фільтр 3 / 3 "Знайти
-        оселю по ID".
-      </div>
-    </div>
-
-    <div class="item-group flex-column p-2">
-      <div class="t-min gray bold t-c">Перейти до меню </div>
-      <button class="link-toMenu flex-box-row" [routerLink]="'/search/house'">
-        <span class="ml-2">ПОШУК ОСЕЛІ</span> <i class="fa-solid fa-magnifying-glass ml-2"></i>
-      </button>
-    </div>
+  <div [@cardAnimation5] class="item-description p-2">
+    <div class="t-min gray t-c bold">Після цих кроків оголошення буде розміщено в меню "пошук оселі"</div>
   </div>
 
 </div>

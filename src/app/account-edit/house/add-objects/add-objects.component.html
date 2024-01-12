@@ -28,12 +28,7 @@
 
   <div class="box-top">
 
-    <div class="flex-column p-2">
-      <div class="t-lar-xx bold dark">Наповнення</div>
-      <div class="t-min gray mb-2" *ngIf="indexPage === 0">Інформація про функції меню наповнення.</div>
-      <div class="t-min gray mb-2" *ngIf="indexPage === 1">Додання об'єктів до вашої оселі.</div>
-      <div class="t-min gray mb-2" *ngIf="indexPage === 2">Огляд/видалення об'єктів вашої оселі.</div>
-    </div>
+
 
     <div class="switch-box">
 
@@ -44,15 +39,28 @@
 
       <div class="btn-menu">
         <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
-          <i class="fa-solid fa-circle-plus"></i>Додати</button>
+          <i class="fa-solid fa-boxes-packing"></i>Додати</button>
       </div>
 
       <div class="btn-menu">
         <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
-          <i class="fa-solid fa-cubes-stacked"></i>Огляд</button>
+          <i class="fa-solid fa-boxes-stacked"></i>Огляд</button>
+      </div>
+
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">
+          <i class="fa-solid fa-dolly"></i>Видалення</button>
       </div>
 
     </div>
+
+    <!-- <div class="flex-column p-2">
+      <div class="t-lar-xx bold dark">Наповнення</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 0">Інформація про функції меню наповнення.</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 1">Додання об'єктів до вашої оселі.</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 2">Огляд об'єктів вашої оселі.</div>
+      <div class="t-min gray mb-2" *ngIf="indexPage === 3">Видалення об'єктів вашої оселі.</div>
+    </div> -->
 
   </div>
 
@@ -61,7 +69,7 @@
     <div [@cardAnimation1] class="card-box p-2" *ngIf="indexPage === 0">
       <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="param-box p-2">
-          <div class="param-name"><i class="fa-solid fa-couch"></i> Додавання наповнення
+          <div class="param-name"><i class="fa-solid fa-couch"></i> Наповнення
             <div class="t-med bold">Тут доступні такі можливості:</div>
             <div class="t-min gray">Додавати до профілю оселі об'єкти описувати їх кількість та в якому вони стані на
               момент прийому-передачі
@@ -216,6 +224,29 @@
     </div>
 
     <div [@cardAnimation1] class="box-filling p-2 col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="indexPage === 2">
+      <div *ngFor="let flat of flat_objects" class="card-filling mb-2"
+        [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
+        <div class="box-img" [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }">
+          <img class="card-img" [src]="getImageSource(flat)" alt="User Image">
+          <img class="icon" [src]="getIconUrl(flat.type_filling, flat.name_filling)"
+            alt="{{ flat.name_filling }} icon" />
+        </div>
+        <div class="card-body" *ngIf="flat.filling_id !== selectedCard">
+          <div class="card-title">Тип: {{ flat.type_filling }}</div>
+          <div class="card-title">Назва: {{ flat.name_filling }} </div>
+          <div class="card-title">Стан: {{ selectCondition[flat.condition_filling] }}</div>
+          <div class="card-title">Кількість: {{ flat.number_filling }}</div>
+        </div>
+        <div class="card-body" *ngIf="flat.filling_id === selectedCard">
+          <div class="card-title">Опис: {{ flat.about_filling }} <span *ngIf="!flat.about_filling">Тут Ви
+              можете описати предмет, його характеристики, стан, правила користування, додати інструкції і
+              т.д</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div [@cardAnimation1] class="box-filling p-2 col-lg-6 col-md-12 col-sm-12 col-12" *ngIf="indexPage === 3">
       <div *ngFor="let flat of flat_objects" class="card-filling mb-2"
         [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }" (click)="selectCard(flat)">
         <div class="box-img" [ngClass]="{ 'selectedCard': flat.filling_id === selectedCard }">

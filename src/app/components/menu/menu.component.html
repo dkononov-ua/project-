@@ -1,68 +1,73 @@
 <div class="switch-box p-2 hide-pc">
-
   <div class="switch-btn-group">
     <div class="dropdown">
       <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-solid fa-person-half-dress"></i>
+        <div class="t-min dark bold">Профіль</div>
       </a>
       <div class="statusCount" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">
         <i class="fa-solid fa-circle accent"></i>
       </div>
 
-      <div class="t-min dark bold">Аккаунт</div>
       <ul class="dropdown-menu">
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
           <i class="fa-solid fa-person-half-dress"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Профіль</div>
-            <div class="t-min t-c">Користувача</div>
+            <div class="t-med t-e">Профіль</div>
+            <div class="t-min t-e">Користувача</div>
           </div>
         </a>
         <a class="dropdown-item" [routerLink]="'/subscribers-host-user/subscribers-user'">
-          <i class="fa-solid fa-people-pulling"></i>
+          <div class="flex-box">
+            <i class="fa-solid fa-people-pulling"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">
+              ({{counterUserSubscribers}})</div>
+          </div>
           <div class="flex-column">
-            <div class="t-med t-c">Пропозиції</div>
-            <div class="t-min t-c">Користувача
-              <span class="accent t-med bold"
-                *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">({{counterUserSubscribers}}) </span>
-            </div>
+            <div class="t-med t-e">Пропозиції</div>
+            <div class="t-min t-e">Користувача </div>
           </div>
         </a>
         <a class="dropdown-item" [routerLink]="'/subscribers-host-user/subscriptions-user'">
-          <i class="fa-regular fa-heart"></i>
+          <div class="flex-box">
+            <i class="fa-regular fa-heart"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== 0">
+              ({{counterUserSubscriptions}}) </div>
+          </div>
           <div class="flex-column">
-            <div class="t-med t-c">Вподобання</div>
-            <div class="t-min t-c">Користувача
-              <span class="accent t-med bold"
-                *ngIf="counterUserSubscriptions && counterUserSubscriptions !== 0">({{counterUserSubscriptions}})</span>
-            </div>
+            <div class="t-med t-e">Вподобання</div>
+            <div class="t-min t-e">Користувача </div>
           </div>
         </a>
         <a class="dropdown-item" [routerLink]="'/subscribers-host-user/subscribers-discuss'">
-          <i class="fa-solid fa-person-walking-luggage"></i>
-          <div class="flex-column">
-            <div class="t-med t-c">Дискусії</div>
-            <div class="t-min t-c">Користувача
-              <span class="accent t-med bold"
-                *ngIf="counterUserDiscussio && counterUserDiscussio !== 0">({{counterUserDiscussio}})</span>
+          <div class="flex-box">
+            <i class="fa-solid fa-person-walking-luggage"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterUserDiscussio && counterUserDiscussio !== 0">
+              ({{counterUserDiscussio}})
             </div>
+          </div>
+          <div class="flex-column">
+            <div class="t-med t-e">Дискусії</div>
+            <div class="t-min t-e">Користувача </div>
           </div>
         </a>
         <a class="dropdown-item" [routerLink]="'/user/uagree-menu'">
           <i class="fa-solid fa-handshake-angle"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Угоди</div>
-            <div class="t-min t-c">Користувача </div>
+            <div class="t-med t-e">Угоди</div>
+            <div class="t-min t-e">Користувача </div>
           </div>
           <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">{{counterUserNewAgree}}</div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
+
+        <!-- <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
           <i class="fa-solid fa-user-gear"></i>
           <div class="flex-column">
-            <div class="t-min t-c">Налаштування</div>
-            <div class="t-med t-c">Аккаунту</div>
+            <div class="t-min t-e">Налаштування</div>
+            <div class="t-med t-e">Аккаунту</div>
           </div>
-        </a>
+        </a> -->
+
       </ul>
     </div>
   </div>
@@ -71,47 +76,54 @@
     <div class="dropdown">
       <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-solid fa-person-shelter"></i>
+        <div class="t-min dark bold">Оселя</div>
       </a>
-      <div class="t-min dark bold">Оселя</div>
       <ul class="dropdown-menu">
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
           <i class="fa-solid fa-person-shelter"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Профіль</div>
-            <div class="t-min t-c">Оселі</div>
+            <div class="t-med t-e">Профіль</div>
+            <div class="t-min t-e">Оселі</div>
           </div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-house'"
           *ngIf="selectedFlatId && acces_subs === 1">
-          <i class="fa-solid fa-child-reaching"></i>
-          <div class="flex-column">
-            <div class="t-med t-c">Підписники</div>
-            <div class="t-min t-c">Оселі<span class="accent t-med bold"
-                *ngIf="counterHouseSubscribers && counterHouseSubscribers !== 0">({{counterHouseSubscribers}})</span>
+          <div class="flex-box">
+            <i class="fa-solid fa-child-reaching"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== 0">
+              ({{counterHouseSubscribers}})
             </div>
+          </div>
+          <div class="flex-column">
+            <div class="t-med t-e">Підписники</div>
+            <div class="t-min t-e">Оселі </div>
           </div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscriptions-house'"
           *ngIf="selectedFlatId && acces_subs === 1">
-          <i class="fa-solid fa-people-pulling"></i>
-          <div class="flex-column">
-            <div class="t-med t-c">Підписки</div>
-            <div class="t-min t-c">Оселі
-              <span class="accent t-med bold"
-                *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== 0">({{counterHouseSubscriptions}})</span>
+          <div class="flex-box">
+            <i class="fa-solid fa-people-pulling"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== 0">
+              ({{counterHouseSubscriptions}})
             </div>
+          </div>
+          <div class="flex-column">
+            <div class="t-med t-e">Підписки</div>
+            <div class="t-min t-e">Оселі </div>
           </div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/subscribers-host/subscribers-discus'"
           *ngIf="selectedFlatId && acces_subs === 1">
-          <i class="fa-solid fa-person-walking-luggage"></i>
+          <div class="flex-box">
+            <i class="fa-solid fa-person-walking-luggage"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterHouseDiscussio && counterHouseDiscussio !== 0">
+              ({{counterHouseDiscussio}})
+            </div>
+          </div>
           <div class="flex-box ml-2">
             <div class="flex-column">
-              <div class="t-med t-c">Дискусії
-              </div>
-              <div class="t-min t-c">Оселі<span class="accent t-med bold"
-                  *ngIf="counterHouseDiscussio && counterHouseDiscussio !== 0">({{counterHouseDiscussio}})</span>
-              </div>
+              <div class="t-med t-e">Дискусії </div>
+              <div class="t-min t-e">Оселі </div>
             </div>
           </div>
 
@@ -120,43 +132,42 @@
           *ngIf="selectedFlatId && acces_agreement === 1">
           <i class="fa-solid fa-handshake-angle"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Угоди</div>
-            <div class="t-min t-c">Оселі</div>
+            <div class="t-med t-e">Угоди</div>
+            <div class="t-min t-e">Оселі</div>
           </div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/filling'"
           *ngIf="selectedFlatId && acces_filling">
-          <i class="fa-solid fa-cubes-stacked"></i>
+          <i class="fa-solid fa-boxes-packing"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Наповнення</div>
-            <div class="t-min t-c">Оселі</div>
+            <div class="t-med t-e">Наповнення</div>
+            <div class="t-min t-e">Оселі</div>
           </div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun'"
           *ngIf="selectedFlatId && acces_comunal_indexes === 1">
           <i class="fa-solid fa-chart-pie"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Статистика</div>
-            <div class="t-min t-c">Оселі</div>
+            <div class="t-med t-e">Статистика</div>
+            <div class="t-min t-e">Оселі</div>
           </div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/resident'"
-          *ngIf="selectedFlatId">
+        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/house/resident'" *ngIf="selectedFlatId">
           <i class="fa-solid fa-people-roof"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Мешканці</div>
-            <div class="t-min t-c">Оселі</div>
+            <div class="t-med t-e">Мешканці</div>
+            <div class="t-min t-e">Оселі</div>
           </div>
         </a>
 
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'"
+        <!-- <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'"
           *ngIf="selectedFlatId && acces_flat_features === 1">
           <i class="fa-solid fa-gear"></i>
           <div class="flex-column">
-            <div class="t-min t-c">Налаштування</div>
-            <div class="t-med t-c">Оселі</div>
+            <div class="t-med t-e">Налаштування</div>
+            <div class="t-min t-e">Оселі</div>
           </div>
-        </a>
+        </a> -->
 
       </ul>
     </div>
@@ -166,32 +177,45 @@
     <div class="dropdown">
       <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-regular fa-message"></i>
+        <div class="t-min dark bold">Повідом.</div>
+
       </a>
       <div class="statusCount"
         *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false || counterUserNewMessage && counterUserNewMessage !== false">
         <i class="fa-solid fa-circle accent"></i>
       </div>
 
-      <div class="t-min dark bold">Повідом.</div>
       <ul class="dropdown-menu">
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
-          <i class="fa-regular fa-comment"></i>
+
+          <div class="flex-box">
+            <i class="fa-regular fa-comment"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">
+              ({{counterUserNewMessage}})
+            </div>
+          </div>
+
           <div class="flex-column">
-            <div class="t-med t-c">Повідомлення</div>
-            <div class="t-min t-c">Користувача</div>
+            <div class="t-med t-e">Повідомлення</div>
+            <div class="t-min t-e">Користувача</div>
           </div>
-          <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">{{counterUserNewMessage}}
-          </div>
+
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/chat'"
           *ngIf="selectedFlatId && acces_flat_chats === 1">
-          <i class="fa-regular fa-comments"></i>
-          <div class="flex-column">
-            <div class="t-med t-c">Повідомлення</div>
-            <div class="t-min t-c">Оселі</div>
+
+          <div class="flex-box">
+            <i class="fa-regular fa-comments"></i>
+            <div class="accent t-lar-x bold" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
+              ({{counterHouseNewMessage}})
+            </div>
           </div>
-          <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
-            {{counterHouseNewMessage}}</div>
+
+          <div class="flex-column">
+            <div class="t-med t-e">Повідомлення</div>
+            <div class="t-min t-e">Оселі</div>
+          </div>
+
         </a>
       </ul>
     </div>
@@ -201,35 +225,32 @@
     <div class="dropdown">
       <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min dark bold">Пошук</div>
       </a>
-      <div class="t-min dark bold">Пошук</div>
       <ul class="dropdown-menu">
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/house'">
           <i class="fa-solid fa-people-roof"></i>
           <div class="flex-column">
-            <div class="t-min t-c">Пошук</div>
-            <div class="t-med t-c">Оселі</div>
+            <div class="t-min t-e">Пошук</div>
+            <div class="t-med t-e">Оселі</div>
           </div>
         </a>
         <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'"
           *ngIf="selectedFlatId && acces_discuss === 1">
           <i class="fa-solid fa-people-pulling"></i>
           <div class="flex-column">
-            <div class="t-min t-c">Пошук</div>
-            <div class="t-med t-c">Орендара</div>
+            <div class="t-min t-e">Пошук</div>
+            <div class="t-med t-e">Орендара</div>
           </div>
         </a>
-        <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/looking'">
+        <!-- <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/looking'">
           <i class="fa-solid fa-magnifying-glass"></i>
           <div class="flex-column">
-            <div class="t-med t-c">Пошуковий</div>
-            <div class="t-min t-c">Профіль</div>
+            <div class="t-med t-e">Пошуковий</div>
+            <div class="t-min t-e">Профіль</div>
           </div>
-        </a>
+        </a> -->
       </ul>
     </div>
   </div>
-
-
-
 </div>

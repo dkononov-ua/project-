@@ -3,148 +3,58 @@
   <div class="switch-box p-2 hide-pc">
 
     <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-        <i class="fa-solid fa-arrow-left"></i>
-      </a>
-      <div class="t-min dark bold">Назад</div>
-    </div>
-
-    <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/instruction'"><span class="link-text">
           <i class="fa-solid fa-shoe-prints"></i></span>
+        <div class="t-min dark bold">Кроки</div>
       </a>
-      <div class="t-min dark bold">Кроки</div>
     </div>
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/address'"><span class="link-text">
           <i class="fa-solid fa-location-dot"></i></span>
+        <div class="t-min dark bold">Розт.</div>
       </a>
-      <div class="t-min dark bold">Розт.</div>
     </div>
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/param'"><span class="link-text">
           <i class="fa-solid fa-trowel-bricks"></i></span>
+          <div class="t-min dark bold">Парам.</div>
       </a>
-      <div class="t-min dark bold">Парам.</div>
     </div>
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
           <i class="fa-solid fa-images"></i></span>
+        <div class="t-min dark bold">Фото</div>
       </a>
-      <div class="t-min dark bold">Фото</div>
     </div>
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/about'"><span class="link-text">
           <i class="fa-solid fa-users-gear"></i></span>
+        <div class="t-min dark bold">Особл.</div>
       </a>
-      <div class="t-min dark bold">Особл.</div>
     </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/add-objects'"><span class="link-text">
-          <i class="fa-solid fa-boxes-packing"></i></span>
-      </a>
-      <div class="t-min dark bold">Напов.</div>
-    </div>
-
 
     <div class="switch-btn-group">
       <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
         [routerLink]="'/housing-parameters/host/additional-info'"><span class="link-text">
           <i class="fa-regular fa-address-book"></i></span>
+        <div class="t-min dark bold">Додат.</div>
       </a>
-      <div class="t-min dark bold">Додат.</div>
     </div>
 
   </div>
 
   <div class="container-card">
-
-    <nav class="navbar hide-mobile col-lg-3 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId && selectedFlatId !== null">
-
-      <a class="link-menu" [routerLink]="'/house/house-info'">
-        <span class="link-text">Назад</span>
-        <div class="link-icon"><i class="fa-solid fa-arrow-left"></i></div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/instruction'">
-        <span class="link-text">Кроки</span>
-        <div class="link-icon"><i class="fa-solid fa-shoe-prints"></i></div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/address'">
-        <span class="link-text">Розташування</span>
-        <div class="link-icon"> <i class="fa-solid fa-location-dot ml-2"></i> </div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/param'">
-        <span class="link-text">Параметри</span>
-        <div class="link-icon"><i class="fa-solid fa-trowel-bricks"></i> </div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/photo'">
-        <span class="link-text">Додати фото</span>
-        <div class="link-icon"><i class="fa-solid fa-images"></i></div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/about'">
-        <span class="link-text">Особливості</span>
-        <div class="link-icon"><i class="fa-solid fa-users-gear"></i></div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/add-objects'">
-        <span class="link-text">Наповнення</span>
-        <div class="link-icon"><i class="fa-solid fa-boxes-packing"></i> </div>
-      </a>
-
-      <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/additional-info'">
-        <span class="link-text">Додаткові</span>
-        <div class="link-icon"><i class="fa-regular fa-address-book"></i></div>
-      </a>
-
-    </nav>
-
-    <!-- <div class="card-box1 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!selectedFlatId">
-      <div class="col-lg-6 col-sm-12 p-3">
-        <app-selection-housing></app-selection-housing>
-        <h1>Створіть нову оселю.</h1>
-        <h3>Тут ви зможете створювати нові оселі, або видаляти їх.</h3>
-        <p>Для створення оселі натисніть кнопку <span class="bold">"створити оселю"</span> та введіть її назву.
-          Кількість
-          оселей які можна
-          створювати наразі необмежено.</p>
-        <app-add-house class="w-100"></app-add-house>
-      </div>
-    </div> -->
-
-    <!-- <div class="hide-pc p-2 col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="selectedFlatId">
-      <div class="box">
-        <app-selection-housing class="w-75"></app-selection-housing>
-        <button class="btn-add" (click)="onAddHouse()">
-          <ng-container *ngIf="addHouse; else removeHouse">
-            <i class="fa-solid fa-xmark"></i>
-          </ng-container>
-          <ng-template #removeHouse>
-            <i class="fa-solid fa-plus-minus"></i>
-          </ng-template>
-        </button>
-      </div>
-      <app-add-house *ngIf="addHouse"></app-add-house>
-    </div> -->
-
     <div class="col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!addHouse">
       <router-outlet *ngIf="selectedFlatId"></router-outlet>
     </div>
-
   </div>
 </div>

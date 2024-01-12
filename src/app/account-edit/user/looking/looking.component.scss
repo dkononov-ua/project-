@@ -66,14 +66,6 @@ li {
   }
 }
 
-.switch-box {
-  @include flex-box;
-  justify-content: flex-start;
-  .switch-btn-group {
-    width: 80px;
-  }
-}
-
 .flex-box {
   align-items: flex-start;
   justify-content: flex-start;

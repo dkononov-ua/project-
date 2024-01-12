@@ -28,23 +28,6 @@
   align-items: stretch;
 }
 
-.switch-box {
-  justify-content: flex-start;
-  @include s1-s3 {
-    overflow-x: auto;
-  }
-  .switch-btn-group {
-    .btn {
-      width: 60px;
-    }
-
-    a {
-      margin: 0;
-      padding: 0;
-    }
-  }
-}
-
 .hide-pc {
   @include s3-s6-max {
     display: none;

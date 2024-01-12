@@ -1,1 +1,8 @@
-@use "../../../../style/agree/agree_about.scss"
+@use "../../../../style/agree/agree_about.scss";
+
+.switch-box {
+  justify-content: center;
+  .switch-btn-group {
+    width: 70px;
+  }
+}

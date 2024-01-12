@@ -50,6 +50,12 @@
           <div class="t-min">ID</div>
         </button>
 
+        <button class="btn-panel" matTooltip="Копіювати" [routerLink]="'/housing-parameters/host/'">
+          <i class="fa-solid fa-gear"></i>
+          <div class="t-min">Редагувати</div>
+        </button>
+
+
         <!-- <button class="btn-panel" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
           <i class="fa-solid fa-info"></i>
           <div class="t-min">Інфо.</div>
@@ -128,11 +134,3 @@
   </div>
 
 </div>
-
-<div class="param-box">
-  <div class="param-name">Ваша картка оселі
-    <a class="param-name-text" [routerLink]="'/housing-parameters/host/'"><i class="fa-solid fa-arrow-right"></i><span
-        class="ml-2">перейти до редагування</span></a>
-  </div>
-</div>
-

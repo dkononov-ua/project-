@@ -4,98 +4,45 @@
 
 <ng-template #content>
 
-  <app-navbar></app-navbar>
-
   <div class="container-box">
-
-    <div class="card-box hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
-      <app-selection-account class="hide-mobile"></app-selection-account>
-      <app-navbar-user></app-navbar-user>
-    </div>
 
     <div class="flex-box col-lg-9 col-md-9 col-sm-12 col-12">
 
-      <div class="flex-box-column col-lg-6 col-md-6 col-sm-12 col-12">
-        <div class="switch-box">
+      <div class="switch-box">
 
-          <div class="switch-btn-group">
-            <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-              <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <div class="t-min dark bold">Назад</div>
-          </div>
-
-          <div class="switch-btn-group">
-            <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage == 0}">
-              <i class="fa-solid fa-circle-info"></i>
-            </button>
-            <div class="t-min dark bold">Про меню</div>
-          </div>
-
-          <div class="switch-btn-group">
-            <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
-              <i class="fa-solid fa-1"></i>
-            </button>
-            <div class="t-min dark bold">Крок</div>
-          </div>
-
-          <div class="switch-btn-group">
-            <button class="btn" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
-              <i class="fa-solid fa-2"></i>
-            </button>
-            <div class="t-min dark bold">Крок</div>
-          </div>
-
-          <div class="switch-btn-group">
-            <button class="btn" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
-              <i class="fa-solid fa-3"></i>
-            </button>
-            <div class="t-min dark bold">Крок</div>
-          </div>
+        <div class="switch-btn-group">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="t-min dark bold">Назад</div>
         </div>
 
-        <div class="flex-box-column hide-mobile">
-          <div class="flex-box mt-3">
-            <div class="param-box">
-              <div class="param-name"><i class="fa-solid fa-person-shelter"></i> Пошуковий профіль орендара
-                <p class="t-med">в цьому меню можна вказати яку ви бажаєте оселю і чекати пропозицій від власників.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div class="switch-btn-group">
+          <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage == 0}">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+          <div class="t-min dark bold">Про меню</div>
+        </div>
 
-          <div class="t-med mt-2">
-            <span class="bold">Лише три кроки. </span> Заповніть форму та очікуйте пропозиції від власників.
-          </div>
+        <div class="switch-btn-group">
+          <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
+            <i class="fa-solid fa-1"></i>
+          </button>
+          <div class="t-min dark bold">Крок</div>
+        </div>
 
-          <div class="description">
-            <ul class="t-med mb-2">
-              <li class="t-l mb-2"><span class="bold">Крок перший
-                </span> - опишіть для кого і який формат оселі вам треба.</li>
-              <li class="t-l mb-2"><span class="bold">Крок другий
-                </span> - параметри оселі, інфраструктура, особливості.</li>
-              <li class="t-l mb-2"><span class="bold">Крок третій
-                </span> - терміни, бюджет, додаткова інформація.</li>
-            </ul>
-          </div>
+        <div class="switch-btn-group">
+          <button class="btn" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
+            <i class="fa-solid fa-2"></i>
+          </button>
+          <div class="t-min dark bold">Крок</div>
+        </div>
 
-          <div class="param-box">
-            <div class="param-name">
-              <p class="t-med ">Після активації пошукового профілю орендара ваша картка буде розміщена в меню пошуку
-                орендара.</p>
-              <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i
-                  class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пошук орендара тут</span></a>
-            </div>
-          </div>
-
-          <div class="btn-group mt-3 w-100">
-            <button *ngIf="indexPage === 0" class="btn-next" (click)="changeStep(indexPage + 1)">ПОЧАТИ</button>
-            <!-- <button *ngIf="indexPage > 1" class="btn-next" (click)="changeStep(indexPage - 1)"
-              [disabled]="indexPage === 1">НАЗАД</button>
-            <button *ngIf="indexPage < 3 && indexPage !== 0" class="btn-next" (click)="changeStep(indexPage + 1)"
-              [disabled]="indexPage === 3">ДАЛІ</button> -->
-          </div>
-
+        <div class="switch-btn-group">
+          <button class="btn" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
+            <i class="fa-solid fa-3"></i>
+          </button>
+          <div class="t-min dark bold">Крок</div>
         </div>
       </div>
 
@@ -182,8 +129,9 @@
             </mat-form-field>
 
             <mat-form-field class="item-select" appearance="outline" (click)="loadRegions()">
-              <input [disabled]="!userInfo.region" name="flatInfo.city" matInput placeholder="Місто" [(ngModel)]="userInfo.city"
-                placeholder="Виберіть місто" (ngModelChange)="loadRegions()" [matAutocomplete]="autoCity">
+              <input [disabled]="!userInfo.region" name="flatInfo.city" matInput placeholder="Місто"
+                [(ngModel)]="userInfo.city" placeholder="Виберіть місто" (ngModelChange)="loadRegions()"
+                [matAutocomplete]="autoCity">
               <mat-autocomplete #autoCity="matAutocomplete">
                 <mat-option *ngFor="let city of filteredCities" [value]="city.name">
                   {{ city.name }}
@@ -588,12 +536,14 @@
 
             <div class="btn-group w-100">
 
-              <button *ngIf="userInfo.agree_search === 1 && !userInfo.region && !userInfo.city" class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
+              <button *ngIf="userInfo.agree_search === 1 && !userInfo.region && !userInfo.city" class="btn"
+                (click)="saveInfo(userInfo.agree_search = 0)">
                 <i class="fa-regular fa-circle-check"></i>
                 <div class="t-lar dark bold p-2">Зберегти</div>
               </button>
 
-              <button *ngIf="userInfo.agree_search === 1 && userInfo.region && userInfo.city" class="btn" (click)="saveInfo(userInfo.agree_search = 1)">
+              <button *ngIf="userInfo.agree_search === 1 && userInfo.region && userInfo.city" class="btn"
+                (click)="saveInfo(userInfo.agree_search = 1)">
                 <i class="fa-regular fa-circle-check"></i>
                 <div class="t-lar dark bold p-2">Зберегти</div>
               </button>

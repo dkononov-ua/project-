@@ -3,10 +3,57 @@
 </ng-container>
 
 <ng-template #content>
+  <div class="switch-box">
+
+    <div class="flex-column">
+      <div class="t-lar-xx bold dark hide-mobile">Інформація про оселю</div>
+      <div class="t-min gray hide-mobile">Тут знаходиться вся інформація про оселю</div>
+    </div>
+
+    <div class="hide-pc">
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
+          <i class="fa-solid fa-id-card-clip"></i>
+        </button>
+        <div class="t-min dark bold">Основна</div>
+      </div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
+        <i class="fa-solid fa-indent"></i>
+      </button>
+      <div class="t-min dark bold">Парам.</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/looking'">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <div class="t-min dark bold">Пошук</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
+        <i class="fa-solid fa-user-gear"></i>
+      </button>
+      <div class="t-min dark bold">Налашт.</div>
+    </div>
+
+  </div>
+
   <div class="container-box">
 
-    <app-menu class="w-100"></app-menu>
-    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="flex-column p-2" *ngIf="indexCard === 1">
+      <div class="t-lar-xx bold dark">Профіль користувача</div>
+      <div class="t-min gray">Ваш профіль в Discussio виглядає так</div>
+    </div>
+
+    <div class="flex-column p-2" *ngIf="indexCard === 2">
+      <div class="t-lar-xx bold dark">Пошукові параметри</div>
+    </div>
+
+    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 1" [@cardAnimation]>
 
       <div class="card">
 
@@ -101,7 +148,7 @@
       </div>
     </div>
 
-    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" [@cardAnimation]>
+    <div class="card-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 2" [@cardAnimation]>
       <div class="card" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
 
         <div class="status-container">
@@ -240,7 +287,8 @@
           <div class="param-group p-1">
 
             <div class="param-field" *ngIf="userInfo.purpose_rent">
-              Мета оренди:<span class="param-value" *ngIf="userInfo.purpose_rent !== 'Неважливо'">{{ purpose[userInfo.purpose_rent] }}</span>
+              Мета оренди:<span class="param-value" *ngIf="userInfo.purpose_rent !== 'Неважливо'">{{
+                purpose[userInfo.purpose_rent] }}</span>
               <span class="param-value" *ngIf="userInfo.purpose_rent === 'Неважливо'">Неважливо</span>
             </div>
 
@@ -317,7 +365,7 @@
           Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли. </p>
       </div>
     </div>
+
   </div>
 
-  <app-footer></app-footer>
 </ng-template>

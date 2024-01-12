@@ -35,9 +35,6 @@
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: space-between;
-  @include s1-s3 {
-    height: 90vh;
-  }
 }
 
 .container-card::-webkit-scrollbar {
@@ -74,28 +71,24 @@ p {
 }
 
 .switch-box {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-around;
-  height: 80px;
-  z-index: 50;
-  @include s1-s3 {
-    background-color: $color-white;
-    padding-top: 20px;
-    top: 0;
-  }
-}
-
-.switch-box {
   justify-content: flex-start;
   @include s1-s3 {
     overflow-x: auto;
   }
   .switch-btn-group {
     .btn {
-      width: 60px;
+      width: 50px;
+      text-transform: capitalize;
+
+      &.active {
+        .fa-solid {
+          filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+        }
+
+        .t-min {
+          color: $color-accent;
+        }
+      }
     }
 
     a {

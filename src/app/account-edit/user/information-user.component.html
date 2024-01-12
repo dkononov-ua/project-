@@ -3,11 +3,10 @@
 </ng-container>
 
 <ng-template #content>
-  <app-navbar></app-navbar>
 
   <div class="container-fluid">
 
-    <div class="switch-box p-2 hide-pc">
+    <div class="switch-box p-2">
 
       <div class="switch-btn-group">
         <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
@@ -16,7 +15,7 @@
         <div class="t-min dark bold">Назад</div>
       </div>
 
-      <div class="btn-menu hide-pc">
+      <div class="btn-menu">
         <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
           <i class="fa-regular fa-circle-user"></i></button>
         <div class="t-min dark bold">Перс. дані</div>
@@ -53,30 +52,6 @@
     </div>
 
     <div class="container-card mt-2 ">
-
-      <nav class="navbar hide-mobile col-lg-3 col-md-5 col-sm-6 col-12">
-
-        <a class="link-menu" [routerLink]="'/user/info'">
-          <span class="link-text ">Назад</span>
-          <div class="link-icon"><i class="fa-solid fa-arrow-left"></i></div>
-        </a>
-
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
-          <span class="link-text">Персональні дані</span>
-          <div class="link-icon"><i class="fa-regular fa-circle-user"></i></div>
-        </a>
-
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
-          <span class="link-text">Контактні дані</span>
-          <div class="link-icon"> <i class="fa-solid fa-share-nodes"></i> </div>
-        </a>
-
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
-          <span class="link-text">Доступи</span>
-          <div class="link-icon"> <i class="fa-solid fa-sliders"></i> </div>
-        </a>
-
-      </nav>
 
       <div class="card-box col-lg-9 col-md-5 col-sm-6 col-12">
 

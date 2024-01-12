@@ -141,7 +141,7 @@ export class LookingComponent implements OnInit {
 
   // показ карток
   card_info: boolean = false;
-  indexPage: number = 1;
+  indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
   numConcludedAgree: any;

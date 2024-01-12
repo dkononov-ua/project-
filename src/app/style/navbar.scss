@@ -7,6 +7,7 @@
   align-items: flex-start;
   flex-wrap: wrap;
   flex-direction: column;
+  z-index: 10;
 
   @include s1-s3 {
     flex-wrap: wrap;
@@ -26,7 +27,6 @@
     }
   }
 }
-
 
 .link-menu {
   display: flex;
