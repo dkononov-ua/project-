@@ -55,9 +55,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
-// import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-// import { environment } from '../environments/environment';
-// import { provideAuth,getAuth } from '@angular/fire/auth';
+import { DiscussioComponent } from './components/discussio/discussio.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +73,7 @@ import { NewsComponent } from './components/news/news.component';
     ReportsComponent,
     NotFoundComponent,
     NewsComponent,
+    DiscussioComponent,
   ],
   providers: [
     SelectedFlatService,
@@ -130,8 +129,6 @@ import { NewsComponent } from './components/news/news.component';
     SearchRoutingModule,
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideAuth(() => getAuth()),
   ]
 })
 export class AppModule { }

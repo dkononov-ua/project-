@@ -47,6 +47,7 @@ export class UagreeConcludedComponent implements OnInit {
       const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
       this.agreementIds = agreementIds;
       this.agree = response;
+      console.log(this.agree)
       await this.getActAgree();
     } catch (error) {
       console.error(error);

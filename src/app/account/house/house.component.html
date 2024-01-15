@@ -1,7 +1,6 @@
 
 <div class="flex-box" *ngIf="!houseData">
   <div class="col-lg-9 col-sm-12 col-12">
-    <app-menu></app-menu>
     <div class="p-2">
       <div class="t-lar t-c">Для доступу до меню оселі створіть або оберіть вже існуючу оселю.</div>
       <app-add-house></app-add-house>
@@ -12,9 +11,6 @@
 </div>
 
 <div class="flex-box" *ngIf="houseData">
-  <div class="hide-mobile col-lg-3 col-md-3 col-sm-12 col-12">
-    <app-navbar-house></app-navbar-house>
-  </div>
   <div class="col-lg-9 col-md-9 col-sm-12 col-12">
     <router-outlet></router-outlet>
   </div>

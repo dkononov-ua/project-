@@ -46,14 +46,7 @@
     </div>
   </div>
 
-  <div class="param-box ">
-    <div class="param-name  mt-4">
-      <a class="param-name-text" [routerLink]="'/housing-parameters/host/about'"><i
-          class="fa-solid fa-arrow-right"></i><span class="ml-2">перейти щоб деактивувати</span></a>
-    </div>
-  </div>
-
-  <div class="param-box ">
+  <div class="param-box mt-4">
     <div class="param-label">Параметри оселі:</div>
     <div class="param-group">
       <div class="param-field" *ngIf="HouseInfo.option_flat">
@@ -124,6 +117,13 @@
   <div class="p-2" *ngIf="HouseInfo.about">
     <div class="t-lar dark bold">Додаткова інформація:</div>
     <div class="t-min ">{{ HouseInfo.about }}</div>
+  </div>
+
+  <div class="param-box ">
+    <div class="param-name">
+      <a class="param-name-text" [routerLink]="'/housing-parameters/host/about'"><i
+          class="fa-solid fa-arrow-right"></i><span class="ml-2">перейти щоб налаштувати</span></a>
+    </div>
   </div>
 
 </div>

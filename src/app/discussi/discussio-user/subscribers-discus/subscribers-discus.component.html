@@ -1,44 +1,70 @@
 <div class="container-box">
-  <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12">
 
-    <div class="switch-box">
+  <div class="switch-box">
 
-      <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="t-min dark bold">Назад</div>
-      </div>
-
-      <div class="switch-btn-group">
-        <button class="btn" (click)="onClickMenu(0,0,0)" [ngClass]="{ 'active': indexMenu == 0}">
-          <i class="fa-solid fa-circle-info"></i>
-        </button>
-        <div class="t-min dark bold">Про меню</div>
-      </div>
-
-      <div class="switch-btn-group">
-        <button class="btn" [disabled]="!subscriptions" (click)="onClickMenu(1,0,1)"
-          [ngClass]="{ 'active': indexMenu == 1}">
-          <i class="fa-solid fa-people-group"></i>
-        </button>
-        <div class="t-min dark bold">Дискусії</div>
-        <div class="counterNum t-lar bold">{{counterFound}}</div>
-      </div>
-
-      <div class="switch-btn-group">
-        <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(1,1,0)"
-          [ngClass]="{ 'active': indexPage == 1}">
-          <i class="fa-regular fa-building"></i>
-        </button>
-        <div class="t-min dark bold">Оселя</div>
-      </div>
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage === 0}">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="t-min dark bold">Інфо</div>
+      </button>
     </div>
 
-    <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="!subscriptions" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
+        <i class="fa-solid fa-people-group"></i>
+        <div class="t-min dark bold">Дискусії</div>
+      </button>
+      <div class="counterNum t-lar bold">{{counterFound}}</div>
+    </div>
 
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
+        <i class="fa-regular fa-building"></i>
+        <div class="t-min dark bold">Оселя</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
+        <i class="fa-solid fa-child-reaching"></i>
+        <div class="t-min dark bold">Власник</div>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 0">
+      <div class="t-lar-xx bold dark t-s"><i class="fa-solid fa-person-walking-luggage"></i> Дискусії користувача</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 1">
+      <div class="t-lar-xx bold dark t-s">Всі Дискусії</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 2">
+      <div class="t-lar-xx bold dark t-s">Інфо про оселю</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 3">
+      <div class="t-lar-xx bold dark t-s">Інфо про власника</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 4">
+      <div class="t-lar-xx bold dark t-s">Чат з оселею</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 5">
+      <div class="t-lar-xx bold dark t-s">Відгуки про власника</div>
+    </div>
+
+  </div>
+
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 0">
       <div class="param-box">
-        <div class="param-name"><i class="fa-solid fa-person-walking-luggage"></i> Меню Дискусії
+        <div class="param-name">
           <p class="t-min ">Оселі які ви ухвалили або вони вас. З ними доступні додаткові можливості.</p>
         </div>
       </div>
@@ -60,55 +86,10 @@
           <p class="t-med ">Або якщо ви підписались на оселю і вас ухвалили.</p>
         </div>
       </div>
-
     </div>
 
-    <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
-      <div class="paginator-container">
-        <button class="paginator-btn" (click)="decrementOffset()">
-          <i class="fa-solid fa-chevron-left"></i></button>
-        <div class="paginator-box">
-          <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього Дискусій {{counterFound}}</div>
-        </div>
-        <button class="paginator-btn" (click)="incrementOffset()">
-          <i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-
-      <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions"
-          (click)="onFlatSelect(subscriber.flat.flat_id)"
-          [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
-          <div class="card-mini-img-container">
-            <img class="card-mini-img"
-              [src]="subscriber.img && subscriber.img[0] ? serverPathPhotoFlat + subscriber.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="img">
-          </div>
-          <div class="card-body">
-            <div class="p-1">
-              <div class="t-med accent bold">ID: {{ subscriber.flat.flat_id }}</div>
-              <div class="t-min">Обл.: {{ subscriber.flat.region}}</div>
-              <div class="t-min">м.: {{ subscriber.flat.city}}</div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay === 0">
-                <div class="t-lar bold"> {{ subscriber.flat.price_m | number:'1.0-0' }} </div>
-                <div class="t-min bold">₴/міс</div>
-              </div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay !== 0">
-                <div class="t-lar bold"> {{ subscriber.flat.price_d | number:'1.0-0' }} </div>
-                <div class="t-min bold">₴/добу</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="card-box mt-3 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="counterFound !== 0 && indexMenu == 1">
-
-    <!-- всі картки для мобільного -->
-    <div [@cardAnimation] class="card-animation hide-pc" *ngIf="indexPage == 0 && indexMenuMobile == 1">
+    <!-- всі картки -->
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && counterFound !== 0">
       <div class="paginator-container">
         <button class="paginator-btn" (click)="decrementOffset()">
           <i class="fa-solid fa-chevron-left"></i></button>
@@ -149,7 +130,12 @@
     </div>
 
     <!-- інформація про оселю -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && chosenFlat">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 2 && counterFound !== 0 &&  chosenFlat">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
       <div class="card">
 
         <div class="status-container">
@@ -202,7 +188,7 @@
         <div class="copyMessage-box" *ngIf="isCopiedMessage">
           <div class="copyMessage-text">{{isCopiedMessage}}</div>
           <i class="fa-regular fa-copy"></i>
-          <div class="t-lar dark bold">Discussio</div>
+          <div class="t-lar dark bold">Скопійовано</div>
         </div>
 
         <div class="container-img">
@@ -220,14 +206,6 @@
 
             <div class="panel-container">
               <div class="wrapper">
-                <button class="btn-panel" (click)="indexPage = 4">
-                  <div class="flex-box btn-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <div class="t-lar bold accent abs" *ngIf="ratingOwner">{{ratingOwner}}</div>
-                    <div class="t-min bold accent abs-1" *ngIf="numberOfReviews">({{numberOfReviews}})</div>
-                  </div>
-                  <div class="t-min">Рейтинг</div>
-                </button>
 
                 <button class="btn-panel" (click)="goToComun()">
                   <i class="fa-solid fa-chart-pie"></i>
@@ -260,7 +238,7 @@
                   <div class="t-min">Локація</div>
                 </button>
 
-                <button class="btn-panel" (click)="openOwner()"><i class="fa-solid fa-building-user"></i>
+                <button class="btn-panel" (click)="openOwner(1)"><i class="fa-solid fa-building-user"></i>
                   <div class="t-min">Власник</div>
                 </button>
 
@@ -423,28 +401,21 @@
 
         </div>
 
-        <div class="param-box">
-          <div class="param-name">Пошук іншої оселі
-            <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
-                class="ml-2">перейти до пошуку</span></a>
-          </div>
-        </div>
-
       </div>
     </div>
 
     <!-- інформація про власника -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 2 && chosenFlat">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 3 && counterFound !== 0 && chosenFlat">
       <div class="btn-close-container">
         <div class="btn-close-box">
-          <button class="btn-close" (click)="indexPage = 1"></button>
+          <button class="btn-close" (click)="indexPage = 2"></button>
         </div>
       </div>
       <div class="card">
         <div class="copyMessage-box" *ngIf="isCopiedMessage">
           <div class="copyMessage-text">{{isCopiedMessage}}</div>
           <i class="fa-regular fa-copy"></i>
-          <div class="t-lar dark bold">Discussio</div>
+          <div class="t-lar dark bold">Скопійовано</div>
         </div>
 
         <div class="container-img">
@@ -455,7 +426,7 @@
             <div class="panel-container">
               <div class="wrapper">
 
-                <button class="btn-panel" (click)="indexPage = 4">
+                <button class="btn-panel" (click)="indexPage = 5">
                   <div class="flex-box btn-rating">
                     <i class="fa-solid fa-star"></i>
                     <div class="t-lar bold accent abs" *ngIf="ratingOwner">{{ratingOwner}}</div>
@@ -478,13 +449,23 @@
                   <div class="t-min">Пошта</div>
                 </button>
 
+                <button class="btn-panel" *ngIf="!chatExists" (click)="createChat()">
+                  <i class="fa-solid fa-message"></i>
+                  <div class="t-min">Чат.</div>
+                </button>
+
+                <button class="btn-panel" *ngIf="chatExists" (click)="openChat()">
+                  <i class="fa-solid fa-message"></i>
+                  <div class="t-min">Повід.</div>
+                </button>
+
+                <button class="btn-panel" (click)="openOwner(0)"><i class="fa-solid fa-building-user"></i>
+                  <div class="t-min">Оселя</div>
+                </button>
+
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="param-box">
-          <div class="t-lar t-c gray bold">Картка власника оселі </div>
         </div>
 
         <div class="flex-column">
@@ -493,20 +474,23 @@
         </div>
 
         <div class="social-link-container">
-          <div class="social-link-box" *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
+          <div class="social-link-box"
+            *ngIf="!chosenFlat.owner.instagram && !chosenFlat.owner.facebook && !chosenFlat.owner.telegram">
             <p class="text">Посилання відсутні.</p>
             <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
               інформаці</p>
           </div>
 
           <div class="social-link-box" *ngIf="chosenFlat.owner.instagram">
-            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/{{  chosenFlat.owner.instagram }}"><i
+            <a class="social-link-icon" target="_blank"
+              href="https://www.instagram.com/{{  chosenFlat.owner.instagram }}"><i
                 class="fab fa-brands fa-instagram"></i></a>
             <div class="social-link-name">instagram</div>
           </div>
 
           <div class="social-link-box" *ngIf="chosenFlat.owner.facebook">
-            <a class="social-link-icon" target="_blank" href="https://www.facebook.com/{{ chosenFlat.owner.facebook }}"><i
+            <a class="social-link-icon" target="_blank"
+              href="https://www.facebook.com/{{ chosenFlat.owner.facebook }}"><i
                 class="fab fa-brands fa-facebook"></i></a>
             <div class="social-link-name">facebook</div>
           </div>
@@ -518,25 +502,17 @@
           </div>
 
           <div class="social-link-box" *ngIf="chosenFlat.owner.viber">
-            <a class="social-link-icon" (click)="copyViber()"><i
-                class="fab fa-brands fa-viber"></i></a>
+            <a class="social-link-icon" (click)="copyViber()"><i class="fab fa-brands fa-viber"></i></a>
             <div class="social-link-name">viber</div>
           </div>
 
-        </div>
-
-        <div class="param-box">
-          <div class="param-name">Пошук іншої оселі
-            <a class="param-name-text" [routerLink]="'/search/house'"><i class="fa-solid fa-arrow-right"></i><span
-                class="ml-2">перейти до пошуку</span></a>
-          </div>
         </div>
 
       </div>
     </div>
 
     <!-- Чат -->
-    <div [@cardAnimation] class="flex-column-chat" *ngIf="indexPage == 3 && chosenFlat">
+    <div [@cardAnimation] class="flex-column-chat" *ngIf="indexPage == 4 && counterFound !== 0 && chosenFlat">
       <div class="btn-close-container">
         <div class="btn-close-box">
           <button class="btn-close" (click)="indexPage = 1"></button>
@@ -546,14 +522,12 @@
       <app-send-message-user class="send-message"></app-send-message-user>
     </div>
 
-    <div [@cardAnimation] class="card card-selected p-2" *ngIf="indexPage === 4">
-
-      <div class="t-lar-xx">Відгуки орендарів</div>
+    <!-- Відгуки -->
+    <div [@cardAnimation] class="card card-selected p-2" *ngIf="indexPage === 5 ">
 
       <div class="btn-container-close">
         <div class="flex-box-column p-1">
-          <button class="btn-close" (click)="indexPage = 0"></button>
-          <div class="t-min">Назад</div>
+          <button class="btn-close" (click)="indexPage = 3"></button>
         </div>
       </div>
 
@@ -579,14 +553,12 @@
       </div>
 
       <div *ngIf="!reviews">
-        <div class="t-lar-xx">Відгуків ще немає</div>
+        <div class="t-lar">Відгуків ще немає</div>
       </div>
 
 
     </div>
-
   </div>
-
 </div>
 
 <div *ngIf="statusMessage" class="status-message">

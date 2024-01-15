@@ -3,82 +3,77 @@
 </ng-container>
 
 <ng-template #content>
-
   <div class="container-box">
-
     <div class="flex-box col-lg-9 col-md-9 col-sm-12 col-12">
-
-      <div class="switch-box">
+      <div class="switch-box mt-2">
 
         <div class="switch-btn-group">
           <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
             <i class="fa-solid fa-arrow-left"></i>
+            <div class="t-min dark bold">Назад</div>
           </button>
-          <div class="t-min dark bold">Назад</div>
         </div>
 
         <div class="switch-btn-group">
           <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage == 0}">
             <i class="fa-solid fa-circle-info"></i>
+            <div class="t-min dark bold">Інфо</div>
           </button>
-          <div class="t-min dark bold">Про меню</div>
         </div>
 
         <div class="switch-btn-group">
           <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
             <i class="fa-solid fa-1"></i>
+            <div class="t-min dark bold">Крок</div>
           </button>
-          <div class="t-min dark bold">Крок</div>
         </div>
 
         <div class="switch-btn-group">
           <button class="btn" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
             <i class="fa-solid fa-2"></i>
+            <div class="t-min dark bold">Крок</div>
           </button>
-          <div class="t-min dark bold">Крок</div>
         </div>
 
         <div class="switch-btn-group">
           <button class="btn" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
             <i class="fa-solid fa-3"></i>
+            <div class="t-min dark bold">Крок</div>
           </button>
-          <div class="t-min dark bold">Крок</div>
         </div>
       </div>
-
       <div class="container-card mt-3 p-3 col-lg-6 col-md-6 col-sm-12 col-12">
 
-        <div [@cardAnimation] *ngIf="indexPage === 0" class="flex-box-column hide-pc">
-          <div class="flex-box mt-3">
-            <div class="param-box">
-              <div class="param-name"><i class="fa-solid fa-person-shelter"></i> Пошуковий профіль орендара
-                <p class="t-med">в цьому меню можна вказати яку ви бажаєте оселю і чекати пропозицій від власників.
-                </p>
+
+
+
+        <div [@cardAnimation] *ngIf="indexPage === 0" class="flex-box-column">
+          <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="flex-box">
+              <div class="param-box">
+                <div class="param-name"><i class="fa-solid fa-person-shelter"></i> Пошуковий профіль орендара
+                  <p class="t-med">в цьому меню можна вказати яку ви бажаєте оселю і чекати пропозицій від власників.
+                  </p>
+                </div>
+
+                <div class="t-med mt-2">
+                  <span class="bold">Лише три кроки. </span> Заповніть форму та очікуйте пропозиції від власників.
+                </div>
+              </div>
+
+
+
+              <div class="param-box">
+                <div class="param-name">
+                  <p class="t-med ">Після активації пошукового профілю орендара ваша картка буде розміщена в меню пошуку
+                    орендара.</p>
+                  <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i
+                      class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пошук орендара тут</span></a>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="t-med mt-2">
-            <span class="bold">Лише три кроки. </span> Заповніть форму та очікуйте пропозиції від власників.
-          </div>
-
-          <div class="description">
-            <ul class="t-med mb-2">
-              <li class="t-l mb-2"><span class="bold">Крок перший
-                </span> - опишіть для кого і який формат оселі вам треба.</li>
-              <li class="t-l mb-2"><span class="bold">Крок другий
-                </span> - параметри оселі, інфраструктура, особливості.</li>
-              <li class="t-l mb-2"><span class="bold">Крок третій
-                </span> - терміни, бюджет, додаткова інформація.</li>
-            </ul>
-          </div>
-
-          <div class="param-box">
-            <div class="param-name">
-              <p class="t-med ">Після активації пошукового профілю орендара ваша картка буде розміщена в меню пошуку
-                орендара.</p>
-              <a class="param-name-text link-toMenu" [routerLink]="'/search/tenants'"><i
-                  class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">пошук орендара тут</span></a>
+            <div class="img-wrapper">
+              <img class="img" src="../../../../../assets/example-agree/man_and_agree1.jpg" alt="">
             </div>
           </div>
         </div>
@@ -570,21 +565,8 @@
         </div>
 
       </div>
-
     </div>
-
   </div>
-
-
-
-
-
-
-
-
-
-
-
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

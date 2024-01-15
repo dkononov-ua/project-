@@ -12,10 +12,7 @@
   }
 }
 
-
-
 .switch-box {
-  
   @include s1-s3 {
     overflow-x: auto;
   }
@@ -117,13 +114,6 @@ li {
   margin: 0;
   color: $color-accent;
   padding: 5px;
-  transition: 1s;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.095);
-    border-radius: 20px;
-    letter-spacing: 3px;
-    font-weight: 600;
-  }
   .fa-solid {
     color: $color-accent;
   }
@@ -157,14 +147,8 @@ li {
 
 .card-animation {
   position: absolute;
-  height: 600px;
-
-  @include s1-s3 {
-    height: 86vh;
-    margin-top: 15px;
-    width: 95%;
-    overflow: auto;
-  }
+  width: 100%;
+  overflow: auto;
 }
 
 .card-animation::-webkit-scrollbar {

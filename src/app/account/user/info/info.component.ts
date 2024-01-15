@@ -19,7 +19,14 @@ import { Options, Distance, Animals, CheckBox, OptionPay, Purpose } from '../../
         style({ transform: 'translateX(130%)' }),
         animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-    ])
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+
   ],
 })
 export class InfoComponent implements OnInit {

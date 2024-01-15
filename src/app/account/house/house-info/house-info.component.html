@@ -10,61 +10,57 @@
       <div class="switch-btn-group">
         <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
           <i class="fa-solid fa-id-card-clip"></i>
+          <div class="t-min dark bold">Основна</div>
         </button>
-        <div class="t-min dark bold">Основна</div>
       </div>
     </div>
 
     <div class="switch-btn-group" *ngIf="houseData">
       <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
         <i class="fa-solid fa-indent"></i>
+        <div class="t-min dark bold">Парам.</div>
       </button>
-      <div class="t-min dark bold">Парам.</div>
     </div>
 
     <div class="switch-btn-group" *ngIf="houseData">
       <button class="btn" [ngClass]="{'active': indexCard === 3}" (click)="indexCard = 3">
         <i class="fa-regular fa-address-book"></i>
+        <div class="t-min dark bold">Допом.</div>
       </button>
-      <div class="t-min dark bold">Допом.</div>
     </div>
 
     <div class="switch-btn-group" *ngIf="houseData">
       <button class="btn" [ngClass]="{'active': indexCard === 0}" (click)="indexCard = 0">
         <i class="fa-solid fa-plus"></i>
+        <div class="t-min dark bold">Керув.</div>
       </button>
-      <div class="t-min dark bold">Керув.</div>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'">
         <i class="fa-solid fa-gear"></i>
+        <div class="t-min dark bold">Налашт.</div>
       </button>
-      <div class="t-min dark bold">Налашт.</div>
     </div>
 
   </div>
 
   <div class="card-box" *ngIf="houseData">
 
-    <div class="flex-column p-2" *ngIf="indexCard === 1">
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 1">
       <div class="t-lar-xx bold dark">Профіль оселі</div>
-      <div class="t-min gray">Профіль оселі в Discussio виглядає так</div>
     </div>
 
-    <div class="flex-column p-2" *ngIf="indexCard === 2">
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 2">
       <div class="t-lar-xx bold dark">Параметри оселі</div>
-      <div class="t-min gray">Інформація яка відображається в Discussio про оселю</div>
     </div>
 
-    <div class="flex-column p-2" *ngIf="indexCard === 3">
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 3">
       <div class="t-lar-xx bold dark">Допоміжня інформація</div>
-      <div class="t-min gray">додаткова інформація про оселю та її налаштування</div>
     </div>
 
-    <div class="flex-column p-2" *ngIf="indexCard === 0">
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 0">
       <div class="t-lar-xx bold dark">Вибір та створення оселі</div>
-      <div class="t-min gray">Профіль оселі в Discussio виглядає так</div>
     </div>
 
     <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 0">

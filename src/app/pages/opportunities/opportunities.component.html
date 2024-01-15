@@ -1,18 +1,4 @@
-<app-navbar></app-navbar>
-<app-menu></app-menu>
-
-<h2 class="t-lar-xx t-s bold dark m-2" id="top">Функції та переваги Discussio</h2>
-<div class="t-s t-lar bold accent m-2" >
-  <div *ngIf="indexPage === 0">Про профіль оселі</div>
-  <div *ngIf="indexPage === 1">Про наповнення</div>
-  <div *ngIf="indexPage === 2">Про систему дискусій</div>
-  <div *ngIf="indexPage === 3">Про угоди</div>
-  <div *ngIf="indexPage === 4">Про пошук</div>
-  <div *ngIf="indexPage === 5">Про пошуковий профіль</div>
-  <div *ngIf="indexPage === 6">Про статистику</div>
-  <div *ngIf="indexPage === 7">Про дозволи</div>
-  <div *ngIf="indexPage === 8">Про оцінювання</div>
-</div>
+<h2 class="t-lar-x t-c m-2" id="top">Опис функціоналу</h2>
 
 <div #switchBox class="switch-box p-2 m-2">
 
@@ -82,11 +68,15 @@
 
 </div>
 
-<div  class="container-info m-2">
+<div class="container-info m-2">
 
   <!-- Створення аккаунту оселі -->
   <div [@cardAnimation1] class="flex-column pos-abs" id="аккаунт" *ngIf="indexPage === 0">
+
     <div class="item-box-1">
+      <div class="item-img-container">
+        <img class="item-img w-400 h-300" src="../../../assets/example-agree/account_creation.jpg" alt="Flat Image">
+      </div>
       <div class="item-description">
         <div class="param-box mt-3">
           <div class="param-name"><i class="fa-solid fa-door-closed"></i><span class="ml-2">
@@ -104,14 +94,13 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/house'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ваша оселя тут</span>
         </button>
+        <div class="btn-group">
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
-      <div class="item-img-container">
-        <img class="item-img w-400 h-300" src="../../../assets/example-agree/account_creation.jpg" alt="Flat Image">
-      </div>
+
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
   </div>
 
@@ -140,13 +129,15 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/housing-parameters/host/add-objects'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Наповнення оселі тут</span>
         </button>
+
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
 
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -154,6 +145,9 @@
   <!-- Пропозиції, вподобання та дискусій. -->
   <div [@cardAnimation1] class="flex-column pos-abs" id="дискусія" *ngIf="indexPage === 2">
     <div class="item-box-1">
+      <div class="item-img-container">
+        <img class="item-img w-400 h-500" src="../../../assets/example-agree/man_and_door4.jpg" alt="Flat Image">
+      </div>
       <div class="item-description">
         <div class="param-box mt-3">
           <div class="param-name"><i class="fa-solid fa-building-user"></i><span class="ml-2">
@@ -205,16 +199,15 @@
           <button class="link-toMenu flex-box-row" [routerLink]="'/subscribers-host/subscribers-discus'">
             <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Дискусії оселі тут</span>
           </button>
+          <div class="btn-group">
+            <button class="btn" (click)="togglePagePrev()">Назад</button>
+            <button class="btn" (click)="togglePageNext()">Далі</button>
+          </div>
         </div>
       </div>
-      <div class="item-img-container">
-        <img class="item-img w-400 h-500" src="../../../assets/example-agree/man_and_door4.jpg" alt="Flat Image">
-      </div>
+
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -258,13 +251,14 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/house/agree-menu'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Формування Акту тут</span>
         </button>
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
 
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -313,12 +307,13 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/search/tenants'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Пошук орендара тут</span>
         </button>
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -326,6 +321,10 @@
   <!-- Пошуковий профіль орендара -->
   <div [@cardAnimation1] class="flex-column pos-abs" id="орендар" *ngIf="indexPage === 5">
     <div class="item-box-1">
+
+      <div class="item-img-container">
+        <img class="item-img w-400 h-300" src="../../../assets/example-agree/man_and_door1.jpg" alt="Flat Image">
+      </div>
 
       <div class="item-description">
         <div class="param-box mt-3">
@@ -343,17 +342,17 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/looking'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Пошуковий профіль орендара тут</span>
         </button>
+
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
 
-      <div class="item-img-container">
-        <img class="item-img w-400 h-300" src="../../../assets/example-agree/man_and_door1.jpg" alt="Flat Image">
-      </div>
+
 
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -365,11 +364,6 @@
       <div class="item-img-container">
         <img class="item-img w-400 h-300" src="../../../assets/example-agree/stats1.jpg" alt="Flat Image">
       </div>
-
-      <!-- <video class="item-vid w-40" autoplay loop>
-        <source src="../../../assets/video/Gen-2 2807304038, photo-default (1)jp, cam_Z in, cam_S 5.mp4"
-          type="video/mp4">
-      </video> -->
 
       <div class="item-description">
         <div class="param-box mt-3">
@@ -389,13 +383,14 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/comun-page'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Статистика комунальних тут</span>
         </button>
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
 
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -403,6 +398,10 @@
   <!-- Дозволи оселі. -->
   <div [@cardAnimation1] class="flex-column pos-abs" id="дозволи" *ngIf="indexPage === 7">
     <div class="item-box-1">
+
+      <div class="item-img-container">
+        <img class="item-img w-300 h-300" src="../../../assets/example-agree/key6.jpg" alt="Flat Image">
+      </div>
 
       <div class="item-description">
         <div class="param-box mt-3">
@@ -429,20 +428,20 @@
           буде корисним якщо ви захочете передати управління оселі членам сім'ї або друзям на момент вашої відсутності
           щоб
           вони мали доступ до інформації про вашу оселю та могли неї керувати</div>
-
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+          <button class="btn" (click)="togglePageNext()">Далі</button>
+        </div>
       </div>
 
 
 
-      <div class="item-img-container">
-        <img class="item-img w-300 h-300" src="../../../assets/example-agree/key6.jpg" alt="Flat Image">
-      </div>
+
+
+
 
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-      <button class="btn" (click)="togglePageNext()">Далі</button>
-    </div>
+
     <app-footer></app-footer>
 
   </div>
@@ -498,11 +497,12 @@
         <button class="link-toMenu flex-box-row" [routerLink]="'/house/residents'">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Оцінювання тут</span>
         </button>
+        <div class="btn-group">
+          <button class="btn" (click)="togglePagePrev()">Назад</button>
+        </div>
       </div>
     </div>
-    <div class="btn-group">
-      <button class="btn" (click)="togglePagePrev()">Назад</button>
-    </div>
+
     <app-footer></app-footer>
   </div>
 

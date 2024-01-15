@@ -4,15 +4,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ViewComunService } from 'src/app/services/view-comun.service';
-import { Router } from '@angular/router';
-import { UpdateComponentService } from 'src/app/services/update-component.service';
+import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
-import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 
@@ -21,6 +18,7 @@ interface chosenFlat {
   owner: any;
   img: any;
 }
+
 @Component({
   selector: 'app-subscriptions-user',
   templateUrl: './subscriptions-user.component.html',
@@ -39,12 +37,18 @@ interface chosenFlat {
         animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
     ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
   ],
 })
 
 export class SubscriptionsUserComponent implements OnInit {
 
-  // розшифровка пошукових параметрів
+ // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
   option_pay = option_pay;
@@ -59,9 +63,6 @@ export class SubscriptionsUserComponent implements OnInit {
   choseFlatId: any | null;
   public locationLink: string = '';
   subscriptions: any[] = [];
-  selectedView!: any;
-  selectedViewName!: string;
-  chatExists = false;
   currentPhotoIndex: number = 0;
   // статуси
   loading: boolean | undefined;
@@ -69,14 +70,12 @@ export class SubscriptionsUserComponent implements OnInit {
   statusMessage: any;
   statusMessageChat: any;
   // показ карток
+  page: number = 0;
   indexPage: number = 0;
-  indexMenu: number = 0;
-  indexMenuMobile: number = 1;
   counterUserSubscriptions: any;
-  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
-    this.indexMenu = indexMenu;
+
+  onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
-    this.indexMenuMobile = indexMenuMobile;
   }
 
   // пагінатор
@@ -85,23 +84,32 @@ export class SubscriptionsUserComponent implements OnInit {
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
-
   card_info: number = 0;
-  numberOfReviews: any;
 
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
     private dialog: MatDialog,
-    private router: Router,
-    private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
-    private counterService: CounterService
+    private counterService: CounterService,
+    private route: ActivatedRoute,
   ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 0;
+      this.indexPage = Number(this.page);
+    });
+
     this.getSubInfo(this.offs);
     await this.getCounterUser();
+
+    if (this.counterFound !== 0) {
+      this.indexPage = 1;
+    } else {
+      this.indexPage = 0;
+    }
   }
 
   // отримання, кількості підписок та запит на якій я сторінці
@@ -116,57 +124,100 @@ export class SubscriptionsUserComponent implements OnInit {
     })
   }
 
-  // Отримання даних всіх підписників
+  // Отримання та збереження даних всіх дискусій
   async getSubInfo(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
-      const response = await this.http.post(serverPath + '/subs/get/ysubs', data).toPromise() as any[];
-      if (response) { this.subscriptions = response; } else { this.subscriptions = []; }
-    } catch (error) { console.error(error); }
+      const allSubscriptions = await this.http.post(serverPath + '/subs/get/ysubs', data).toPromise() as any[];
+      if (allSubscriptions) {
+        localStorage.setItem('allSubscriptions', JSON.stringify(allSubscriptions));
+        const getAllSubscriptions = JSON.parse(localStorage.getItem('allSubscriptions') || '[]');
+        if (getAllSubscriptions) {
+          this.subscriptions = getAllSubscriptions;
+        } else {
+          this.subscriptions = []
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  selectedHouse() {
+  // Виводимо інформацію з локального сховища про обрану оселю
+  selectSubscriptions() {
     if (this.choseFlatId) {
-      const chosenFlat = this.subscriptions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
-      if (chosenFlat) {
-        this.chosenFlat = chosenFlat;
-        this.generateLocationUrl();
-      } else { this.chosenFlat = null; console.log('Немає інформації'); }
+      const allSubscriptions = JSON.parse(localStorage.getItem('allSubscriptions') || '[]');
+      if (allSubscriptions) {
+        const chosenFlat = allSubscriptions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
+        if (chosenFlat) {
+          this.chosenFlat = chosenFlat;
+          this.generateLocationUrl();
+        } else {
+          console.log('Немає інформації');
+        }
+      }
     }
   }
 
   // Перемикання оселі
-  onFlatSelect(flat: any) {
-    this.currentPhotoIndex = 0;
-    this.indexPage = 1;
-    this.choseFlatId = flat.flat.flat_id;
-    this.choseSubscribeService.setChosenFlatId(this.choseFlatId);
-    this.selectedHouse();
+  async onFlatSelect(choseFlatId: any) {
+    this.choseFlatId = choseFlatId; // обираємо айді оселі
+    this.currentPhotoIndex = 0; // встановлюємо перше фото оселі
+    this.indexPage = 2; // встановлюємо основну картку оселі
+    this.choseSubscribeService.setChosenFlatId(this.choseFlatId); // передаємо всім компонентам айді оселі яке ми обрали
+    this.selectSubscriptions(); // Виводимо інформацію про обрану оселю
   }
 
   // Перемикання Фото в каруселі
-  prevPhoto() { this.currentPhotoIndex--; }
-  nextPhoto() { this.currentPhotoIndex++; }
+  prevPhoto() {
+    this.currentPhotoIndex--;
+  }
+
+  nextPhoto() {
+    this.currentPhotoIndex++;
+  }
 
   // Копіювання параметрів
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)
         .then(() => {
-          this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000);
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
         })
-        .catch((error) => { this.isCopiedMessage = ''; });
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
     }
   }
 
-  copyFlatId() { this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано'); }
-  copyOwnerId() { this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано'); }
-  copyTell() { this.copyToClipboard(this.chosenFlat?.owner.tell, 'Телефон скопійовано'); }
-  copyMail() { this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано'); }
+  copyFlatId() {
+    this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі ' + this.chosenFlat?.flat.flat_id);
+  }
+
+  copyOwnerId() {
+    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID користувача ' + this.chosenFlat?.owner.user_id);
+  }
+  copyTell() {
+    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Номер ' + this.chosenFlat?.owner.tell);
+  }
+  copyMail() {
+    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту ' + this.chosenFlat?.owner.mail);
+  }
+
+  copyViber() { this.copyToClipboard(this.chosenFlat?.owner.viber, 'Номер ' + this.chosenFlat?.owner.viber); }
+
 
   // Перезавантаження сторінки з лоадером
-  reloadPage() { this.loading = true; setTimeout(() => { location.reload(); }, 500); }
+  reloadPage() {
+    this.loading = true;
+    setTimeout(() => {
+      location.reload();
+    }, 500);
+  }
 
   // Видалення підписки
   async deleteSubscriber(flat: any): Promise<void> {
@@ -211,15 +262,17 @@ export class SubscriptionsUserComponent implements OnInit {
   }
 
   // Відкриваю локацію на мапі
-  openMap() { window.open(this.locationLink, '_blank'); }
+  openMap() {
+    this.statusMessage = 'Відкриваємо локаці на мапі';
+    setTimeout(() => { this.statusMessage = ''; window.open(this.locationLink, '_blank'); }, 2000);
+  }
 
   // пагінатор наступна сторінка з картками
   incrementOffset() {
     if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.offs = offs;
-      this.getSubInfo(this.offs);
+      this.getSubInfo(offs);
     }
     this.getCurrentPageInfo()
   }
@@ -229,8 +282,7 @@ export class SubscriptionsUserComponent implements OnInit {
     if (this.pageEvent.pageIndex > 0) {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.offs = offs;
-      this.getSubInfo(this.offs);
+      this.getSubInfo(offs);
     }
     this.getCurrentPageInfo()
   }
@@ -245,14 +297,16 @@ export class SubscriptionsUserComponent implements OnInit {
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
 
-  // скарга на оселю
   async reportHouse(flat: any): Promise<void> {
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
         this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
-      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+        setTimeout(() => { this.statusMessage = '' }, 2000);
+      } else {
+        this.statusMessage = 'Помилка';
+        setTimeout(() => { this.statusMessage = '' }, 2000);
+      }
     });
   }
 }

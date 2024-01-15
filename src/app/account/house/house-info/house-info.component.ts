@@ -21,6 +21,13 @@ import { Options, Distance, Animals, CheckBox } from '../../../interface/name';
         animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
+
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('800ms 0ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
   ],
 })
 

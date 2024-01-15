@@ -1,43 +1,51 @@
 <div class="container-box">
-  <div class="card-box-left col-lg-6 col-md-6 col-sm-12 col-12">
-    <div class="switch-box">
 
-      <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="t-min dark bold">Назад</div>
-      </div>
+  <div class="switch-box">
 
-      <div class="switch-btn-group">
-        <button class="btn" (click)="onClickMenu(0,0,0)" [ngClass]="{ 'active': indexMenu == 0}">
-          <i class="fa-solid fa-circle-info"></i>
-        </button>
-        <div class="t-min dark bold">Про меню</div>
-      </div>
-
-      <div class="switch-btn-group">
-        <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(1,0,1)"
-          [ngClass]="{ 'active': indexMenu == 1}">
-          <i class="fa-solid fa-building-circle-check"></i>
-        </button>
-        <div class="t-min dark bold">Оселі</div>
-        <div class="counterNum t-lar bold">{{counterFound}}</div>
-      </div>
-
-      <div class="switch-btn-group">
-        <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(1,1,0)"
-          [ngClass]="{ 'active': indexPage == 1}">
-          <i class="fa-regular fa-building"></i>
-        </button>
-        <div class="t-min dark bold">Оселя</div>
-      </div>
-
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage === 0}">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="t-min dark bold">Інфо</div>
+      </button>
     </div>
-    <div class="mt-4 p-2 w-100" *ngIf="indexMenu == 0">
 
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="!subscriptions" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
+        <i class="fa-solid fa-people-group"></i>
+        <div class="t-min dark bold">Вподобані</div>
+      </button>
+      <div class="counterNum t-lar bold">{{counterFound}}</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
+        <i class="fa-regular fa-building"></i>
+        <div class="t-min dark bold">Оселя</div>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 0">
+      <div class="t-lar-xx bold dark t-s"><i class="fa-regular fa-heart"></i> Вподобані оселі</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 1">
+      <div class="t-lar-xx bold dark t-s">Всі вподобані оселі</div>
+    </div>
+
+    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 2">
+      <div class="t-lar-xx bold dark t-s">Інфо про оселю</div>
+    </div>
+
+  </div>
+
+  <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 0">
       <div class="param-box">
-        <div class="param-name"><i class="fa-regular fa-heart"></i> Меню Вподобані оселі
+        <div class="param-name">
           <p class="t-min ">список оселей які вам сподобались і ви на них підписались.</p>
         </div>
       </div>
@@ -57,23 +65,25 @@
           <a class="param-name-text link-toMenu" [routerLink]="'/subscribers-host-user/subscribers-discuss'"><i
               class="fa-solid fa-arrow-right"></i><span class="ml-2 accent">меню Дискусії тут</span></a>
         </div>
-
       </div>
     </div>
-    <div class="mt-4 w-100 hide-mobile" *ngIf="indexMenu == 1">
+
+    <!-- всі картки -->
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && counterFound !== 0">
       <div class="paginator-container">
         <button class="paginator-btn" (click)="decrementOffset()">
           <i class="fa-solid fa-chevron-left"></i></button>
         <div class="paginator-box">
           <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього {{counterFound}}</div>
+          <div class="t-min">Всього Дискусій {{counterFound}}</div>
         </div>
         <button class="paginator-btn" (click)="incrementOffset()">
           <i class="fa-solid fa-chevron-right"></i></button>
       </div>
 
       <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions" (click)="onFlatSelect(subscriber)"
+        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions"
+          (click)="onFlatSelect(subscriber.flat.flat_id)"
           [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
           <div class="card-mini-img-container">
             <img class="card-mini-img"
@@ -98,50 +108,14 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="card-box mt-3 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="counterFound !== 0 && indexMenu == 1">
-    <!-- всі картки для мобільного -->
-    <div [@cardAnimation] class="card-animation hide-pc" *ngIf="indexPage == 0 && indexMenuMobile == 1">
-      <div class="paginator-container">
-        <button class="paginator-btn" (click)="decrementOffset()">
-          <i class="fa-solid fa-chevron-left"></i></button>
-        <div class="paginator-box">
-          <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього {{counterFound}}</div>
-        </div>
-        <button class="paginator-btn" (click)="incrementOffset()">
-          <i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-
-      <div class="cards-container p-2" *ngIf="counterFound !== 0">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions" (click)="onFlatSelect(subscriber)"
-          [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
-          <div class="card-mini-img-container">
-            <img class="card-mini-img"
-              [src]="subscriber.img && subscriber.img[0] ? serverPathPhotoFlat + subscriber.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="img">
-          </div>
-          <div class="card-body">
-            <div class="p-1">
-              <div class="t-med accent bold">ID: {{ subscriber.flat.flat_id }}</div>
-              <div class="t-min">Обл.: {{ subscriber.flat.region}}</div>
-              <div class="t-min">м.: {{ subscriber.flat.city}}</div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay === 0">
-                <div class="t-lar bold"> {{ subscriber.flat.price_m | number:'1.0-0' }} </div>
-                <div class="t-min bold">₴/міс</div>
-              </div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay !== 0">
-                <div class="t-lar bold"> {{ subscriber.flat.price_d | number:'1.0-0' }} </div>
-                <div class="t-min bold">₴/добу</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- інформація про оселю -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && chosenFlat">
+    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 2 && counterFound !== 0 &&  chosenFlat">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
       <div class="card">
 
         <div class="status-container">
@@ -194,7 +168,7 @@
         <div class="copyMessage-box" *ngIf="isCopiedMessage">
           <div class="copyMessage-text">{{isCopiedMessage}}</div>
           <i class="fa-regular fa-copy"></i>
-          <div class="t-lar dark bold">Discussio</div>
+          <div class="t-lar dark bold">Скопійовано</div>
         </div>
 
         <div class="container-img">
@@ -210,28 +184,30 @@
                   class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <div class="btn-container">
+            <div class="panel-container">
+              <div class="wrapper">
 
-              <button class="btn-panel" (click)="deleteSubscriber(chosenFlat)">
-                <i class="fa-solid fa-user-xmark"></i>
-                <div class="t-min">Видал.</div>
-              </button>
+                <button class="btn-panel" (click)="deleteSubscriber(chosenFlat)">
+                  <i class="fa-solid fa-user-xmark"></i>
+                  <div class="t-min">Видал.</div>
+                </button>
 
-              <button class="btn-panel" (click)="reportHouse(chosenFlat)">
-                <i class="fa-solid fa-masks-theater"></i>
-                <div class="t-min">Скарга</div>
-              </button>
+                <button class="btn-panel" (click)="reportHouse(chosenFlat)">
+                  <i class="fa-solid fa-masks-theater"></i>
+                  <div class="t-min">Скарга</div>
+                </button>
 
-              <button class="btn-panel" *ngIf="chosenFlat.flat.region && chosenFlat.flat.city && chosenFlat.flat.street"
-                (click)="openMap()"><i class="fa-solid fa-location-dot"></i>
-                <div class="t-min">Локація</div>
-              </button>
+                <button class="btn-panel"
+                  *ngIf="chosenFlat.flat.region && chosenFlat.flat.city && chosenFlat.flat.street"
+                  (click)="openMap()"><i class="fa-solid fa-location-dot"></i>
+                  <div class="t-min">Локація</div>
+                </button>
 
-              <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
-                <i class="fa-solid fa-fingerprint"></i>
-                <div class="t-min">ID</div>
-              </button>
-
+                <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
+                  <i class="fa-solid fa-fingerprint"></i>
+                  <div class="t-min">ID</div>
+                </button>
+              </div>
             </div>
 
           </div>
@@ -259,14 +235,14 @@
             </div>
           </div>
 
-          <div class="item-box m-1" *ngIf="chosenFlat.flat.option_pay === 0">
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.price_m && chosenFlat.flat.option_pay === 0">
             <div mat-raised-button class="param-g flex-column">
               <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_m | number:'1.0-0' }}</div>
               <div class="t-min bg-w accent">Ціна ₴/міс</div>
             </div>
           </div>
 
-          <div class="item-box m-1" *ngIf="chosenFlat.flat.option_pay !== 0">
+          <div class="item-box m-1" *ngIf="chosenFlat.flat.price_d && chosenFlat.flat.option_pay !== 0">
             <div mat-raised-button class="param-g flex-column">
               <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_d | number:'1.0-0' }}</div>
               <div class="t-min bg-w accent">Ціна ₴/добу</div>
@@ -364,7 +340,7 @@
             <div class="param-label">Особливості:</div>
             <div class="param-group">
 
-              <div class="param-field">
+              <div class="param-field" *ngIf="chosenFlat.flat.option_pay">
                 Оплата:<span class="param-value">{{ option_pay[chosenFlat.flat.option_pay] }}</span>
               </div>
 
@@ -372,7 +348,7 @@
                 Наявність укриття:<span class="param-value">{{ chosenFlat.flat.bunker }}</span>
               </div>
 
-              <div class="param-field" *ngIf="chosenFlat.flat.animals !== 'Неважливо'">
+              <div class="param-field" *ngIf="chosenFlat.flat.animals && chosenFlat.flat.animals !== 'Неважливо'">
                 Дозвіл на тварин: <span class="param-value">{{ animals[chosenFlat.flat.animals] }} </span>
               </div>
 
@@ -388,6 +364,7 @@
 
       </div>
     </div>
+
   </div>
 </div>
 

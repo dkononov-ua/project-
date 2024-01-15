@@ -4,14 +4,7 @@
   <div class="t-lar dark bold">Discussio</div>
 </div>
 
-<div class="param-box ">
-  <div class="param-name  mt-4">
-    <a class="param-name-text" [routerLink]="'/housing-parameters/host/additional-info'"><i
-        class="fa-solid fa-arrow-right"></i><span class="ml-2">перейти щоб налаштувати</span></a>
-  </div>
-</div>
-
-<div class="param-box ">
+<div class="param-box mt-2">
   <div class="param-group flex-column">
     <div class="param-label"><i class="fa-solid fa-wifi"></i> Пароль від WiFi </div>
     <div class="flex-box">
@@ -52,6 +45,13 @@
   <div class="param-group flex-column">
     <div class="param-label"><i class="fa-solid fa-info"></i> Додаткова інформація </div>
     <div class="t-min " *ngIf="flatInfo.info_about">{{ flatInfo.info_about }}</div>
+  </div>
+
+  <div class="param-box ">
+    <div class="param-name  mt-2">
+      <a class="param-name-text" [routerLink]="'/housing-parameters/host/additional-info'"><i
+          class="fa-solid fa-arrow-right"></i><span class="ml-2">перейти щоб налаштувати</span></a>
+    </div>
   </div>
 
 </div>

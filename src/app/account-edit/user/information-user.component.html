@@ -6,32 +6,34 @@
 
   <div class="container-fluid">
 
-    <div class="switch-box p-2">
+    <div class="switch-box mt-2">
 
       <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-          <i class="fa-solid fa-arrow-left"></i>
+        <button class="btn" [ngClass]="{'active': indexPage === 0}" (click)="indexPage = 0">
+          <i class="fa-regular fa-circle-user"></i>
+          <div class="t-min">Профіль</div>
         </button>
-        <div class="t-min dark bold">Назад</div>
       </div>
 
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
-          <i class="fa-regular fa-circle-user"></i></button>
-        <div class="t-min dark bold">Перс. дані</div>
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 1}" (click)="indexPage = 1">
+          <i class="fa-solid fa-share-nodes"></i>
+          <div class="t-min">Контакти</div>
+        </button>
       </div>
 
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
-          <i class="fa-solid fa-share-nodes"></i></button>
-        <div class="t-min dark bold">Контакти</div>
-      </div>
-
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 2}" (click)="indexPage = 2">
           <i class="fa-solid fa-sliders"></i>
+          <div class="t-min">Доступи</div>
         </button>
-        <div class="t-min dark bold">Доступи</div>
+      </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/looking'">
+          <i class="fa-regular fa-id-card"></i>
+          <div class="t-min">Пошук</div>
+        </button>
       </div>
 
     </div>
@@ -57,9 +59,9 @@
 
         <div class="flex-column w-100" *ngIf="indexPage === 0">
 
-          <div class="flex-column p-2">
-            <div class="t-lar-xx bold dark">Персональні дані користувача</div>
-            <div class="t-min gray mb-2">Тут можна вказати вашу інформаці та завантажити фото</div>
+          <div [@cardAnimation3] class="flex-column pl-2">
+            <div class="t-lar-xx bold dark">Персональні дані</div>
+            <div class="t-min gray">Ваша інформація та фото</div>
           </div>
 
           <div class="card-box">
@@ -110,7 +112,7 @@
                   <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
                 </mat-form-field>
 
-                <div class="btn-group">
+                <div class="btn-group mt-2">
                   <button class="btn w-100 t-med bold" (click)="saveInfoUser()">ЗБЕРЕГТИ <i
                       class="fa-regular fa-circle-check ml-2"></i></button>
                 </div>
@@ -123,9 +125,9 @@
 
         <div class="flex-column w-100" *ngIf="indexPage === 1">
 
-          <div class="flex-column p-2">
-            <div class="t-lar-xx bold dark">Контактні дані користувача</div>
-            <div class="t-min gray mb-2">Тут можна вказати як з вами можна зв'язатись та посилання на ваші сторінки
+          <div [@cardAnimation3] class="flex-column pl-2">
+            <div class="t-lar-xx bold dark">Контактні дані</div>
+            <div class="t-min gray">Тут можна вказати як з вами можна зв'язатись та посилання на ваші сторінки
             </div>
           </div>
 
@@ -200,7 +202,7 @@
                     [pattern]="phonePattern">
                 </mat-form-field>
 
-                <div class="btn-group">
+                <div class="btn-group mt-2">
                   <button class="btn w-100 t-med bold" (click)="saveInfoCont()">ЗБЕРЕГТИ <i
                       class="fa-regular fa-circle-check ml-2"></i></button>
                 </div>
@@ -214,9 +216,9 @@
 
         <div class="flex-column w-100" *ngIf="indexPage === 2">
 
-          <div class="flex-column p-2">
+          <div [@cardAnimation3] class="flex-column pl-2">
             <div class="t-lar-xx bold dark">Доступи та аналітика</div>
-            <div class="t-min gray mb-2">Тут можна надати доступи або дивитись аналітику</div>
+            <div class="t-min gray">Тут можна надати доступи або дивитись аналітику</div>
           </div>
           <div class="card-box">
 
@@ -295,7 +297,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="btn-group">
+                <div class="btn-group mt-2">
                   <button class="btn w-100 t-med bold" (click)="saveParamsUser()">ЗБЕРЕГТИ <i
                       class="fa-regular fa-circle-check ml-2"></i></button>
                 </div>
@@ -310,7 +312,6 @@
     </div>
   </div>
 
-  <app-footer class="hide-mobile"></app-footer>
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

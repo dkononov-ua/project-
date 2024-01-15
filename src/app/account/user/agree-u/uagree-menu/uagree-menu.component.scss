@@ -2,3 +2,86 @@
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
 
+.flex-column {
+  @include flex-box-column;
+}
+
+.flex-box {
+  @include flex-box;
+}
+
+.link-t {
+  @include flex-box;
+  @include box-shadow;
+  border: none;
+  height: 100%;
+  color: $color-white;
+  padding: 5px;
+  background-color: rgba(128, 128, 128, 0.683);
+  border-radius: 20px;
+  .fa-solid {
+    color: $color-white;
+    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+  }
+}
+
+.link-t:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  cursor: not-allowed;
+  color: #929292;
+  .fa-solid {
+    color: #929292;
+  }
+}
+
+.item-box {
+  @include flex-box;
+  @include box-shadow;
+  width: 95%;
+  justify-content: flex-start;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 100px;
+  margin: 5px;
+
+  .link-t {
+    @include flex-box;
+    @include box-shadow;
+    border: none;
+    height: 100%;
+    color: $color-white;
+    background-color: $color-accent;
+    .fa-solid {
+      color: $color-white;
+      filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+    }
+  }
+
+  .link-t:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    cursor: not-allowed;
+    color: #929292;
+    .fa-solid {
+      color: #929292;
+    }
+  }
+
+  .item-d {
+    @include flex-box-column;
+    margin: 0;
+  }
+}
+
+.buble {
+  width: 100px;
+  height: 100px;
+  background-color: $color-white;
+  border-radius: 50%;
+
+  .fa-solid {
+    font-size: 40px;
+    color: $color-dark;
+  }
+}

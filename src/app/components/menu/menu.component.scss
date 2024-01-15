@@ -21,6 +21,17 @@
   @include flex-box-column;
   left: 0;
   top: 0;
+
+  .btn {
+    .fa-solid {
+      @include box-shadow;
+    }
+    .t-min {
+      font-size: 8px;
+      font-weight: 600;
+    }
+  }
+
   .btn:active {
     color: $color-accent;
 
@@ -37,7 +48,7 @@
     border: none;
     left: 0;
     top: 0;
-    transition: 2s;
+    // transition: 2s;
     z-index: -1;
     transform: translate3d(-200px, -70px, 0px);
 

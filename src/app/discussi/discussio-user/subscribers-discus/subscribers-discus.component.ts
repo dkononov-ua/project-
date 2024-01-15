@@ -5,7 +5,7 @@ import { ChoseSubscribeService } from '../../../services/chose-subscribe.service
 import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -16,6 +16,7 @@ import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { Subject } from 'rxjs';
 import { CounterService } from 'src/app/services/counter.service';
+import { PageEvent } from '@angular/material/paginator';
 
 interface chosenFlat {
   flat: any;
@@ -69,6 +70,12 @@ interface Chat {
         animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
     ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
   ],
 })
 
@@ -102,6 +109,7 @@ export class SubscribersDiscusComponent implements OnInit {
   statusMessage: any;
   statusMessageChat: any;
   // показ карток
+  page: number = 0;
   indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
@@ -109,10 +117,9 @@ export class SubscribersDiscusComponent implements OnInit {
   chats: Chat[] = [];
   chatsUpdates: number | undefined;
   counterUserDiscussio: any;
-  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
-    this.indexMenu = indexMenu;
+
+  onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
-    this.indexMenuMobile = indexMenuMobile;
   }
 
   // пагінатор
@@ -134,13 +141,25 @@ export class SubscribersDiscusComponent implements OnInit {
     private router: Router,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
-    private counterService: CounterService
-
+    private counterService: CounterService,
+    private route: ActivatedRoute,
   ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 0;
+      this.indexPage = Number(this.page);
+    });
+
     this.getSubInfo(this.offs);
     await this.getCounterUser();
+
+    if (this.counterFound !== 0) {
+      this.indexPage = 1;
+    } else {
+      this.indexPage = 0;
+    }
   }
 
   // отримання, кількіст дискусій та запит на якій я сторінці
@@ -179,7 +198,6 @@ export class SubscribersDiscusComponent implements OnInit {
 
   // Виводимо інформацію з локального сховища про обрану оселю
   selectDiscussion() {
-    console.log(this.choseFlatId)
     if (this.choseFlatId) {
       const allDiscussions = JSON.parse(localStorage.getItem('allDiscussions') || '[]');
       if (allDiscussions) {
@@ -200,7 +218,7 @@ export class SubscribersDiscusComponent implements OnInit {
     this.choseFlatId = choseFlatId; // обираємо айді оселі
     this.ratingOwner = 0; // оновлюємо рейтинг власника
     this.currentPhotoIndex = 0; // встановлюємо перше фото оселі
-    this.indexPage = 1; // встановлюємо основну картку оселі
+    this.indexPage = 2; // встановлюємо основну картку оселі
     this.choseSubscribeService.setChosenFlatId(this.choseFlatId); // передаємо всім компонентам айді оселі яке ми обрали
     this.selectDiscussion(); // Виводимо інформацію про обрану оселю
     this.checkChatExistence(this.choseFlatId); // Перевіряємо чи існує чат
@@ -232,20 +250,20 @@ export class SubscribersDiscusComponent implements OnInit {
   }
 
   copyFlatId() {
-    this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі скопійовано');
+    this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі ' + this.chosenFlat?.flat.flat_id);
   }
 
   copyOwnerId() {
-    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID скопійовано');
+    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID користувача ' + this.chosenFlat?.owner.user_id);
   }
   copyTell() {
-    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Телефон скопійовано');
+    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Номер ' + this.chosenFlat?.owner.tell);
   }
   copyMail() {
-    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту скопійовано');
+    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту ' + this.chosenFlat?.owner.mail);
   }
 
-  copyViber() { this.copyToClipboard(this.chosenFlat?.owner.viber, 'Viber номер скопійовано'); }
+  copyViber() { this.copyToClipboard(this.chosenFlat?.owner.viber, 'Номер ' + this.chosenFlat?.owner.viber); }
 
 
   // Перезавантаження сторінки з лоадером
@@ -311,9 +329,14 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  openOwner() {
-    this.statusMessage = 'Представник оселі';
-    setTimeout(() => { this.statusMessage = ''; this.onClickMenu(1, 2, 0) }, 1000);
+  openOwner(index: number) {
+    if (index === 0) {
+      this.statusMessage = 'Оселя';
+      setTimeout(() => { this.statusMessage = ''; this.onClickMenu(2) }, 1000);
+    } else {
+      this.statusMessage = 'Представник оселі';
+      setTimeout(() => { this.statusMessage = ''; this.onClickMenu(3) }, 1000);
+    }
   }
 
   async openChat() {
@@ -322,7 +345,7 @@ export class SubscribersDiscusComponent implements OnInit {
       const result = await this.getFlatChats();
       if (result === 1) {
         this.statusMessage = 'Відкриваємо чат';
-        setTimeout(() => { this.statusMessage = ''; this.indexPage = 3; }, 1000);
+        setTimeout(() => { this.statusMessage = ''; this.indexPage = 4; }, 1000);
       } else if (result === 0) {
         this.statusMessage = 'Щось пішло не так, повторіть спробу';
         setTimeout(() => { this.statusMessage = ''; }, 1000);
@@ -417,8 +440,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
       this.pageEvent.pageIndex++;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.offs = offs;
-      this.getSubInfo(this.offs);
+      this.getSubInfo(offs);
     }
     this.getCurrentPageInfo()
   }
@@ -428,8 +450,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (this.pageEvent.pageIndex > 0) {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.offs = offs;
-      this.getSubInfo(this.offs);
+      this.getSubInfo(offs);
     }
     this.getCurrentPageInfo()
   }
