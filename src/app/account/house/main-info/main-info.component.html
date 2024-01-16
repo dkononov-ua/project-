@@ -37,37 +37,39 @@
           class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    <div class="panel-container">
-      <div class="wrapper">
-
-        <button class="btn-panel" *ngIf="HouseInfo.region && HouseInfo.city && HouseInfo.street" (click)="openMap()"><i
-            class="fa-solid fa-location-dot"></i>
-          <div class="t-min">Локація</div>
-        </button>
-
-        <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
-          <i class="fa-solid fa-fingerprint"></i>
-          <div class="t-min">ID</div>
-        </button>
-
-        <button class="btn-panel" matTooltip="Копіювати" [routerLink]="'/housing-parameters/host/'">
-          <i class="fa-solid fa-gear"></i>
-          <div class="t-min">Редагувати</div>
-        </button>
 
 
-        <!-- <button class="btn-panel" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
-          <i class="fa-solid fa-info"></i>
-          <div class="t-min">Інфо.</div>
-        </button>
+  </div>
+</div>
 
-        <button class="btn-panel" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
-          <i class="fa-solid fa-align-left"></i>
-          <div class="t-min">Парам.</div>
-        </button> -->
+<div class="panel-container">
+  <div class="wrapper">
 
-      </div>
-    </div>
+    <button class="btn-panel" *ngIf="HouseInfo.region && HouseInfo.city && HouseInfo.street" (click)="openMap()"><i
+        class="fa-solid fa-location-dot"></i>
+      <div class="t-min">Локація</div>
+    </button>
+
+    <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
+      <i class="fa-solid fa-fingerprint"></i>
+      <div class="t-min">ID</div>
+    </button>
+
+    <button class="btn-panel" matTooltip="Копіювати" [routerLink]="'/housing-parameters/host/'">
+      <i class="fa-solid fa-gear"></i>
+      <div class="t-min">Редагувати</div>
+    </button>
+
+
+    <!-- <button class="btn-panel" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
+      <i class="fa-solid fa-info"></i>
+      <div class="t-min">Інфо.</div>
+    </button>
+
+    <button class="btn-panel" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
+      <i class="fa-solid fa-align-left"></i>
+      <div class="t-min">Парам.</div>
+    </button> -->
 
   </div>
 </div>

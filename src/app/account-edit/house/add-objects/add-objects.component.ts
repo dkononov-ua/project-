@@ -30,7 +30,7 @@ interface ObjectInfo {
     trigger('cardAnimation2', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1300ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
   ],
@@ -39,6 +39,7 @@ interface ObjectInfo {
 export class AddObjectsComponent implements OnInit {
   path_logo = path_logo;
   loading = false;
+  checkObj: any;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -76,9 +77,7 @@ export class AddObjectsComponent implements OnInit {
   fillingImg: any;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
-  indexPage: number = 0;
-  indexCard: number = 0;
-
+  indexPage: number = 1;
   minValue: number = 0;
   maxValue: number = 99;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
@@ -95,11 +94,6 @@ export class AddObjectsComponent implements OnInit {
     this.helpInfo = !this.helpInfo;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
-    this.updateIndexCardBasedOnWindowSize();
-  }
-
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
@@ -108,7 +102,6 @@ export class AddObjectsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.updateIndexCardBasedOnWindowSize();
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
@@ -117,16 +110,6 @@ export class AddObjectsComponent implements OnInit {
       }
     });
   }
-
-    // перевірка ширини екрану
-    private updateIndexCardBasedOnWindowSize(): void {
-      const windowWidth = window.innerWidth;
-      if (windowWidth >= 768) {
-        this.indexCard = 1;
-      } else {
-        this.indexCard = 0;
-      }
-    }
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
@@ -216,6 +199,16 @@ export class AddObjectsComponent implements OnInit {
       ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: mimeString });
+  }
+
+  checkObject() {
+    if (this.selectedType && this.selectedObject || this.customObject) {
+      this.checkObj = true;
+    } else {
+      this.checkObj = false;
+    }
+    console.log(this.checkObj)
+
   }
 
   async saveObject(): Promise<void> {

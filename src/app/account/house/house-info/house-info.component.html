@@ -4,6 +4,15 @@
 
 <ng-template #content>
 
+  <div class="flex-column pl-2">
+    <div class="t-lar-xx bold dark t-s">
+      <div [@cardAnimation1] *ngIf="indexCard === 0">Керування оселею</div>
+      <div [@cardAnimation1] *ngIf="indexCard === 1">Профіль оселі</div>
+      <div [@cardAnimation1] *ngIf="indexCard === 2">Параметри оселі</div>
+      <div [@cardAnimation1] *ngIf="indexCard === 3">Допоміжня інформація</div>
+    </div>
+  </div>
+
   <div class="switch-box">
 
     <div class="hide-pc" *ngIf="houseData">
@@ -47,31 +56,15 @@
 
   <div class="card-box" *ngIf="houseData">
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 1">
-      <div class="t-lar-xx bold dark">Профіль оселі</div>
-    </div>
-
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 2">
-      <div class="t-lar-xx bold dark">Параметри оселі</div>
-    </div>
-
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 3">
-      <div class="t-lar-xx bold dark">Допоміжня інформація</div>
-    </div>
-
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexCard === 0">
-      <div class="t-lar-xx bold dark">Вибір та створення оселі</div>
-    </div>
-
     <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 0">
-      <div [@cardAnimation1] class="w-100">
+      <div [@cardAnimation2] class="w-100">
         <app-add-house class="mt-2"></app-add-house>
         <app-selection-housing></app-selection-housing>
       </div>
     </div>
 
     <div class="flex-box p-2 hide-pc col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 1 && houseData">
-      <div [@cardAnimation1] class="card w-100">
+      <div [@cardAnimation2] class="card w-100">
         <app-main-info></app-main-info>
       </div>
     </div>
@@ -83,7 +76,7 @@
     </div>
 
     <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 3 && houseData">
-      <div [@cardAnimation1] class="card w-100 p-2">
+      <div [@cardAnimation2] class="card w-100 p-2">
         <app-house-share></app-house-share>
       </div>
     </div>

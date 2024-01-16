@@ -88,8 +88,8 @@ interface UserParam {
     ]),
     trigger('cardAnimation3', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
   ]

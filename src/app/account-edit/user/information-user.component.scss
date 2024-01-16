@@ -34,17 +34,6 @@
   flex-direction: column-reverse;
 }
 
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  margin: 0;
-  padding: 0;
-  @include s1-s3 {
-    align-content: flex-start;
-  }
-}
-
 .navigation {
   display: flex;
   justify-content: flex-end;

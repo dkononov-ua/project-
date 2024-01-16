@@ -8,16 +8,13 @@
 
 .box-top {
   display: flex;
-  @include s1-s3 {
-    flex-direction: column;
-  }
+  flex-direction: column;
 }
 
 .card-box {
   display: flex;
-  @include s1-s3 {
-    flex-direction: column;
-  }
+  position: relative;
+  flex-direction: column;
 }
 
 .add-photo-group {
@@ -235,28 +232,6 @@ li {
 
 .flex-start {
   justify-content: flex-start;
-}
-
-.switch-box {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 60px;
-  z-index: 50;
-  flex: 0;
-  @include s1-s3 {
-    background-color: $color-white;
-  }
-
-  .btn-menu {
-    .btn {
-      height: 60px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  }
 }
 
 .btn.active {

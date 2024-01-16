@@ -10,18 +10,37 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/co
   templateUrl: './agree-menu.component.html',
   styleUrls: ['./agree-menu.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation1', [
       transition('void => *', [
         style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
-      ])
     ]),
-  ],
-})
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1400ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1800ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation4', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('2000ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation5', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('2200ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],})
 export class AgreeMenuComponent implements OnInit {
   numSendAgree: number = 0;
   offs: number = 0;
@@ -30,8 +49,6 @@ export class AgreeMenuComponent implements OnInit {
   // показ карток
   card_info: boolean = false;
   indexPage: number = 0;
-  indexMenu: number = 0;
-  indexMenuMobile: number = 1;
   numConcludedAgree: any;
   selectedAgree: any;
   page: any;
@@ -55,8 +72,6 @@ export class AgreeMenuComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
-      console.log(params['indexPage'])
-
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });

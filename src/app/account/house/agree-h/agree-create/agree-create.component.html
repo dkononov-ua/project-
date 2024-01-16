@@ -3,261 +3,279 @@
 </ng-container>
 
 <ng-template #content>
-  <app-navbar></app-navbar>
-  <app-menu></app-menu>
   <div *ngIf="!isContainerVisible" class="container-box">
     <div class="container-box col-12">
 
-      <div class="container-left p-2 col-lg-6 col-md-5 col-sm-6 col-12">
-        <div class="hide-mobile t-lar-xx bold dark">Формування угоди</div>
+      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 1">
+        <div class="t-lar-xx bold dark t-s">Формування угоди</div>
+      </div>
 
-        <div class="indicator-box">
-          <div [ngClass]="{'active-step': currentStep === 1}" class="indicator" (click)="changeStep(currentStep = 1)"><i
-              class="fa-solid fa-1"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 2}" class="indicator" (click)="changeStep(currentStep = 2)"><i
-              class="fa-solid fa-2"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 3}" class="indicator" (click)="changeStep(currentStep = 3)"><i
-              class="fa-solid fa-3"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 4}" class="indicator" (click)="changeStep(currentStep = 4)"><i
-              class="fa-solid fa-4"></i></div>
-          <div [ngClass]="{'active-step': currentStep === 5}" class="indicator" (click)="changeStep(currentStep = 5)">
+      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 2">
+        <div class="t-lar-xx bold dark t-s">Вибір орендара</div>
+      </div>
+
+      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 3">
+        <div class="t-lar-xx bold dark t-s">Умови угоди</div>
+      </div>
+
+      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 4">
+        <div class="t-lar-xx bold dark t-s">Додаткові умови</div>
+      </div>
+
+      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 5">
+        <div class="t-lar-xx bold dark t-s">Відправлення угоди</div>
+      </div>
+
+      <div class="switch-box mt-2">
+
+        <div class="switch-btn-group">
+          <button class="btn" (click)="changeStep(currentStep = 1)" [ngClass]="{ 'active': currentStep == 1}">
+            <i class="fa-solid fa-1"></i>
+            <div class="t-min dark bold">Крок</div>
+          </button>
+        </div>
+
+        <div class="switch-btn-group">
+          <button class="btn" (click)="changeStep(currentStep = 2)" [ngClass]="{ 'active': currentStep == 2}">
+            <i class="fa-solid fa-2"></i>
+            <div class="t-min dark bold">Крок</div>
+          </button>
+        </div>
+
+        <div class="switch-btn-group">
+          <button [disabled]="!selectedSubscriber" class="btn" (click)="changeStep(currentStep = 3)"
+            [ngClass]="{ 'active': currentStep == 3}">
+            <i class="fa-solid fa-3"></i>
+            <div class="t-min dark bold">Крок</div>
+          </button>
+        </div>
+
+        <div class="switch-btn-group">
+          <button [disabled]="!selectedSubscriber" class="btn" (click)="changeStep(currentStep = 4)"
+            [ngClass]="{ 'active': currentStep == 4}">
+            <i class="fa-solid fa-4"></i>
+            <div class="t-min dark bold">Крок</div>
+          </button>
+        </div>
+
+        <div class="switch-btn-group">
+          <button [disabled]="!selectedSubscriber" class="btn" (click)="changeStep(currentStep = 5)"
+            [ngClass]="{ 'active': currentStep == 5}">
             <i class="fa-solid fa-feather-pointed"></i>
-          </div>
-        </div>
-
-        <div class="margin-top hide-mobile">
-          <div class="t-lar-x dark" *ngIf="currentStep === 1"><span class="bold">Перший крок</span> - для створення
-            угоди
-            оберіть оселю, перевірте правильність заповнення даних. Редагувати цю інформаця можна в налаштуваннях оселі. По бажанню можете внести документ який засвідчує
-            право власність.</div>
-          <div class="t-lar-x dark" *ngIf="currentStep === 2"><span class="bold">Другий крок</span> - оберіть орендара
-            із
-            списку які знаходяться в Дискусії оселі та перевірте правильність інформації. Без обраного орендара угода не
-            сформується</div>
-          <div class="t-lar-x dark" *ngIf="currentStep === 3"><span class="bold">Третій крок</span>
-            - заповніть основу форму. Оберіть дату формування угоди, термін оренди,
-            внесіть дані по оплаті та іншим полям.</div>
-          <div class="t-lar-x dark" *ngIf="currentStep === 4"><span class="bold">Четвертий крок</span>
-            - це картка детальних умов оренди, тут Ви зможете більш чітко описати умови. Вона є не обов'язковою і
-            може бути заповнена по бажанню при зустрічі.</div>
-          <div class="t-lar-x dark" *ngIf="currentStep === 5"><span class="bold">Перегляд та відправлення.</span>
-            Перевірте деталі угоди, якщо треба щось відкорегувати поверніться назад. Надіславши угоду орендару очікуйте
-            його підтвердження, після того як орендар ознайомиться з
-            умовами угоди він може погодитись або відхилити ці уомови.</div>
-        </div>
-
-        <div class="flex-box hide-mobile">
-          <a class="btn-next " [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'">МЕНЮ</a>
-          <button *ngIf="currentStep > 1" class="btn-next" (click)="changeStep(currentStep - 1)"
-            [disabled]="currentStep === 1">НАЗАД</button>
-          <button *ngIf="currentStep < 5" class="btn-next" (click)="changeStep(currentStep + 1)"
-            [disabled]="currentStep === 5">ДАЛІ</button>
+            <div class="t-min dark bold">Крок</div>
+          </button>
         </div>
 
       </div>
 
-      <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 1">
-        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
-          <div class="card">
+      <div class="container-card p-2 group col-12" *ngIf="currentStep === 1">
 
-            <div class="status-container">
-              <div class="status-box">
-                <div class="status-value">Допомога</div>
-              </div>
-              <div class="status-hover">
-                <div class="status-hover-label">Перший крок</div>
-                <div class="status-hover-text">
-                  <ul>
-                    <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати оселю. Та перевірити
-                      правильність заповнення даних. Редагувати цю інформаця можна в налаштуваннях оселі. Внесення документу на прово власності не обов'язкове, якщо Ви не бажаєте
-                      передавати цю інформацію до моменту фактичного підписання угоди, його можна буде внести при зустрічи в шаблон
-                      сформованої угоди</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <div class="img-fluid-house">
-                    <img
-                      [src]="houseData.imgs[0].img ? serverPathPhotoFlat + houseData.imgs[0].img : serverPathPhotoFlat + 'housing_default.svg'"
-                      alt="Flat Image" class="img-house">
-                  </div>
-
-                </div>
-                <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
-                  <div class="img-fluid-house">
-                    <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-house">
-                  </div>
-                </div>
-              </div>
-
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-
-            <div class="characteristics-group p-2">
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto">Назва оселі</mat-label>
-                <input matInput type="text" id="house_name" name="apartment-city"
-                  [ngModel]="houseData.flat.flat_name ? houseData.flat.flat_name : ''" placeholder="Назва оселі"
-                  [disabled]="isCityDisabled">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto">ID Оселі</mat-label>
-                <input matInput type="text" id="house_id" name="apartment-city"
-                  [ngModel]="houseData.flat.flat_id ? houseData.flat.flat_id : ''" placeholder="ID Оселі"
-                  [disabled]="isCityDisabled">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto">Місто</mat-label>
-                <input matInput type="text" id="city" name="apartment-city"
-                  [ngModel]="houseData.flat.city ? houseData.flat.city : ''" placeholder="Місто"
-                  [disabled]="isCityDisabled">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto">Вулиця</mat-label>
-                <input matInput type="text" id="street" name="apartment-address"
-                  [ngModel]="houseData.flat.street ? houseData.flat.street : ''" placeholder="Вулиця"
-                  [disabled]="isStreetDisabled">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto" for="house-number">Будинок:</mat-label>
-                <input matInput type="text" id="house-number" name="apartment-address"
-                  [ngModel]="houseData.flat.houseNumber ? houseData.flat.houseNumber : ''" placeholder="Номер будинку"
-                  [disabled]="isHouseNumberDisabled">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto" for="apartment-number">Квартира:</mat-label>
-                <input matInput type="text" id="apartment-number" name="apartment-address"
-                  [ngModel]="houseData.flat.apartment ? houseData.flat.apartment : ''" placeholder="Номер квартири"
-                  [disabled]="isApartmentNumberDisabled">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="input-mat w-50 p-1">
-                <mat-label class="label-auto" for="apartment-size">Площа м²:</mat-label>
-                <input matInput type="text" id="apartment-size" name="apartment-address"
-                  [ngModel]="houseData.param.area ? houseData.param.area : ''" placeholder="м²"
-                  [disabled]="isApartmentSizeDisabled">
-              </mat-form-field>
-
-              <mat-form-field class="input-mat w-50 p-1" appearance="outline">
-                <mat-label class="label-accent">Право власності:</mat-label>
-                <input type="text" name="ownership" matInput [(ngModel)]="ownership">
-              </mat-form-field>
-
+        <div class="status-container">
+          <div class="status-box">
+            <div class="status-value">Допомога</div>
+          </div>
+          <div class="status-hover">
+            <div class="status-hover-label">Перший крок</div>
+            <div class="status-hover-text">
+              <ul>
+                <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати оселю. Та перевірити
+                  правильність заповнення даних. Редагувати цю інформаця можна в налаштуваннях оселі. Внесення
+                  документу на прово власності не обов'язкове, якщо Ви не бажаєте
+                  передавати цю інформацію до моменту фактичного підписання угоди, його можна буде внести при
+                  зустрічи в шаблон
+                  сформованої угоди</li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
 
-      <div [@cardAnimation1] class="container-card group col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 2">
-        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+        <div [@cardAnimation6] id="carouselExampleControls" class="card-1 carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="img-fluid-h">
+                <img
+                  [src]="houseData.imgs[0].img ? serverPathPhotoFlat + houseData.imgs[0].img : serverPathPhotoFlat + 'housing_default.svg'"
+                  alt="Flat Image" class="img-h">
+              </div>
 
-          <div class="status-container">
-            <div class="status-box">
-              <div class="status-value">Допомога</div>
             </div>
-            <div class="status-hover">
-              <div class="status-hover-label">Другий крок</div>
-              <div class="status-hover-text">
-                <ul>
-                  <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати орендара. Та перевірити
-                    правильність
-                    заповнення
-                    даних. Без внесених даних пошти та телефону угода не сформується</li>
-                </ul>
+            <div class="carousel-item" *ngFor="let image of houseData.imgs?.slice(1)">
+              <div class="img-fluid-h">
+                <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-h">
               </div>
             </div>
           </div>
 
-          <div class="card-user mb-2">
-            <div class="img-fluid p-1">
-              <div class="w-30">
-                <img [src]="serverPathPhotoUser +
-              (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="User Image">
-              </div>
-              <div class="item-box w-70">
-                <div class="item-name">{{ userData.inf.lastName }}</div>
-                <div class="item-name">{{ userData.inf.firstName }} {{ userData.inf.surName }}</div>
-                <div class="item-description">іменований надалі </div>
-                <div class="item-description"><span class="bold accent">"Орендодавець"</span> User ID: {{
-                  userData.cont.user_id }}</div>
-              </div>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <div [@cardAnimation3] class="flex-column w-70 pl-4">
+
+          <div class="flex-group m-1">
+            <button class="link-t flex-box-row" [routerLink]="'/housing-parameters/host/'">
+              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Редагувати</span>
+            </button>
+          </div>
+
+          <div class="flex-column border-bottom">
+            <div class="t-min">Назва оселі</div>
+            <div class="t-lar-x bold"> {{houseData.flat.flat_name}} </div>
+          </div>
+
+          <div class="flex-column border-bottom">
+            <div class="t-min">ID Оселі</div>
+            <div class="t-lar-x bold"> {{houseData.flat.flat_id}} </div>
+          </div>
+
+          <div class="flex-column border-bottom">
+            <div class="t-min">Місто</div>
+            <div class="t-lar-x bold"> {{houseData.flat.city}} </div>
+          </div>
+
+          <div class="flex-column border-bottom">
+            <div class="t-min">Вулиця</div>
+            <div class="t-lar-x bold"> {{houseData.flat.street}} </div>
+          </div>
+
+          <div class="flex-box justify-content-start border-bottom">
+            <div class="flex-column">
+              <div class="t-min">Будинок:</div>
+              <div class="t-lar-x bold"> {{houseData.flat.houseNumber}} </div>
             </div>
-            <div class="item-wrapper mt-1">
-              <mat-form-field class="input-mat p-1" appearance="outline">
-                <mat-label class="label-accent">Телефон</mat-label>
+
+            <div class="pl-2 flex-column">
+              <div class="t-min">Квартира:</div>
+              <div class="t-lar-x bold"> {{houseData.flat.apartment}} </div>
+            </div>
+          </div>
+
+          <div class="flex-column border-bottom">
+            <div class="t-min">Площа м²:</div>
+            <div class="t-lar-x bold"> {{houseData.param.area}} </div>
+          </div>
+
+          <div class="t-min mt-2">Права на власність:</div>
+          <mat-form-field class="input-mat w-100 " appearance="outline">
+            <mat-label>Номер документу</mat-label>
+            <input type="text" name="ownership" matInput [(ngModel)]="ownership">
+          </mat-form-field>
+
+          <div [@cardAnimation4] class="btn-group">
+            <button class="btn" (click)="changeStep(currentStep + 1)">
+              <div class="t-med dark bold p-2">Далі</div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div [@cardAnimation2] class="container-card group p-2 col-12" *ngIf="currentStep === 2">
+
+        <div class="status-container">
+          <div class="status-box">
+            <div class="status-value">Допомога</div>
+          </div>
+          <div class="status-hover">
+            <div class="status-hover-label">Другий крок</div>
+            <div class="status-hover-text">
+              <ul>
+                <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати орендара. Та перевірити
+                  правильність
+                  заповнення
+                  даних. Без внесених даних пошти та телефону угода не сформується</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="box-1 w-100">
+          <div class="t-lar bold">{{ userData.inf.lastName }} {{ userData.inf.firstName }} {{ userData.inf.surName }}
+          </div>
+          <div class="t-min"><span class="bold accent">ID: {{ userData.cont.user_id }}</span> іменований надалі <span
+              class="bold accent">"Орендодавець"</span> </div>
+          <div class="card-2">
+            <div class="img-fluid-h w-30">
+              <img class="img-h" [src]="serverPathPhotoUser +
+              (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="img">
+            </div>
+            <div class="flex-column bg-w w-70">
+              <mat-form-field class="input-mat w-100 p-1" appearance="outline">
+                <mat-label>Телефон</mat-label>
                 <input type="tel" name="owner_tell" matInput [(ngModel)]="userData.cont.tell" [maxlength]="10"
-                  [pattern]="phonePattern">
+                  [pattern]="phonePattern" required>
+                <mat-icon matSuffix><i class="fa-solid fa-phone"></i></mat-icon>
               </mat-form-field>
-              <mat-form-field class="input-mat p-1" appearance="outline">
-                <mat-label class="label-accent">Email:</mat-label>
-                <input type="mail" name="owner_mail" matInput [(ngModel)]="userData.cont.mail">
+
+              <mat-form-field class="input-mat w-100 p-1" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="mail" name="owner_mail" matInput [(ngModel)]="userData.cont.mail" required>
+                <mat-icon matSuffix><i class="fa-solid fa-at"></i></mat-icon>
               </mat-form-field>
+
+
             </div>
           </div>
-
-          <div [@cardAnimation1] class="card-user">
-            <mat-form-field class="mat-form p-2" appearance="outline">
-              <mat-select class="list-select" [(value)]="selectedSubscriber" placeholder="Оберіть орендара">
-                <mat-option disabled value="">Виберіть підписника</mat-option>
-                <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
-                  {{ subscriber.firstName }} {{ subscriber.lastName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <div *ngIf="selectedSubscriber">
-              <div class="img-fluid p-1">
-                <div class="w-30">
-                  <img [src]="serverPathPhotoUser +
-                (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="User Image">
-                </div>
-
-                <div class="item-box w-70">
-                  <div class="item-name">{{ selectedSubscriber?.lastName }}</div>
-                  <div class="item-name">{{ selectedSubscriber?.firstName }} {{ selectedSubscriber?.surName }}</div>
-                  <div class="item-description">іменований надалі</div>
-                  <div class="item-description"><span class="bold accent">"Орендар"</span> User ID: {{
-                    selectedSubscriber?.user_id }}</div>
-                </div>
-              </div>
-
-              <div class="item-wrapper mt-1">
-                <mat-form-field class="input-mat p-1" appearance="outline">
-                  <mat-label class="label-accent">Телефон</mat-label>
-                  <input type="tel" name="subscriber_tell" matInput [(ngModel)]="selectedSubscriber.tell"
-                    [maxlength]="10" [pattern]="phonePattern">
-                </mat-form-field>
-                <mat-form-field class="input-mat p-1" appearance="outline">
-                  <mat-label class="label-accent">Email:</mat-label>
-                  <input type="mail" name="subscriber_mail" matInput [(ngModel)]="selectedSubscriber.mail">
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        <mat-form-field class="mat-form w-100 mt-2" appearance="outline">
+          <mat-select class="list-select" [(value)]="selectedSubscriber" placeholder="Орендар">
+            <mat-option class="list-option" *ngFor="let subscriber of subscribers" [value]="subscriber">
+              {{ subscriber.firstName }} {{ subscriber.lastName }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-person-walking-luggage"></i></mat-icon>
+          <mat-hint class="gray" align="start">Оберіть орендара з яким у вас дискусія</mat-hint>
+        </mat-form-field>
+
+        <div [@cardAnimation1] class="box-1 w-100" *ngIf="selectedSubscriber">
+          <div class="t-lar bold">{{ selectedSubscriber?.lastName }} {{ selectedSubscriber?.firstName }} {{
+            selectedSubscriber?.surName }}
+          </div>
+          <div class="t-min"><span class="bold accent">ID: {{ selectedSubscriber?.user_id }}</span> іменований надалі
+            <span class="bold accent">"Орендар"</span>
+          </div>
+          <div class="card-2">
+            <div class="img-fluid-h w-30">
+              <img class="img-h" [src]="serverPathPhotoUser +
+              (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="img">
+            </div>
+            <div class="flex-column bg-w w-70">
+              <mat-form-field class="input-mat w-100 p-1" appearance="outline">
+                <mat-label>Телефон</mat-label>
+                <input type="tel" name="owner_tell" matInput [(ngModel)]="selectedSubscriber.tell" [maxlength]="10"
+                  [pattern]="phonePattern" required>
+                <mat-icon matSuffix><i class="fa-solid fa-phone"></i></mat-icon>
+              </mat-form-field>
+
+              <mat-form-field class="input-mat w-100 p-1" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="mail" name="owner_mail" matInput [(ngModel)]="selectedSubscriber.mail" required>
+                <mat-icon matSuffix><i class="fa-solid fa-at"></i></mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group mt-2">
+          <button class="btn" (click)="changeStep(currentStep - 1)">
+            <i class="fa-solid fa-arrow-left"></i>
+            <div class="t-med dark bold p-2">Назад</div>
+          </button>
+
+          <button [disabled]="!selectedSubscriber" class="btn" (click)="changeStep(currentStep + 1)">
+            <div class="t-med dark bold p-2">Далі</div>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
       </div>
 
-      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 3">
+      <div [@cardAnimation1] class="container-card col-12" *ngIf="currentStep === 3">
         <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
           <div class="card mb-2 p-2 ">
 
@@ -367,11 +385,22 @@
             </div>
 
           </div>
+          <div class="btn-group mt-2">
+            <button class="btn" (click)="changeStep(currentStep - 1)">
+              <i class="fa-solid fa-arrow-left"></i>
+              <div class="t-med dark bold p-2">Назад</div>
+            </button>
+
+            <button class="btn" (click)="changeStep(currentStep + 1)">
+              <div class="t-med dark bold p-2">Далі</div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 4">
-        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation1] class="container-card col-12" *ngIf="currentStep === 4">
+        <div class="card-box p-2">
           <div class="card mb-2 p-2">
 
             <div class="status-container">
@@ -439,11 +468,22 @@
 
 
           </div>
+          <div class="btn-group mt-2">
+            <button class="btn" (click)="changeStep(currentStep - 1)">
+              <i class="fa-solid fa-arrow-left"></i>
+              <div class="t-med dark bold p-2">Назад</div>
+            </button>
+
+            <button class="btn" (click)="changeStep(currentStep + 1)">
+              <div class="t-med dark bold p-2">Далі</div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div [@cardAnimation1] class="container-card col-lg-5 col-md-5 col-sm-6 col-12" *ngIf="currentStep === 5">
-        <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
+      <div [@cardAnimation1] class="container-card col-12" *ngIf="currentStep === 5">
+        <div class="card-box p-2 col-lg-12">
           <div class="card mb-2">
 
             <div class="status-container">
@@ -473,22 +513,16 @@
               </div>
             </div>
 
-            <div class="param-box">
-              <div class="param-name">
-                <a class="param-name-text" [routerLink]="'/housing-parameters/host/'"><i
-                    class="fa-solid fa-arrow-right"></i><span class="ml-2">внести зміни в оселю</span></a>
+            <div class="flex-group p-2">
+              <button class="link-t flex-box-row" [routerLink]="['/house/agree-menu']" [queryParams]="{ indexPage: 1 }">
+                <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Як працює Discussio угода.</span>
+              </button>
+              <div class="t-min t-c">Покрокове пояснення як працює створення угоди та додавання до мешканців оселі.
               </div>
             </div>
 
-            <div class="param-box">
-              <div class="param-name">
-                <a class="param-name-text" [routerLink]="['/house/agree-menu']" [queryParams]="{ indexPage: 1 }">
-                  <i class="fa-solid fa-arrow-right"></i><span class="ml-2">як працює Discussio угода</span></a>
-              </div>
-            </div>
-
-            <div class="p-2 mt-2">
-              <div class="characteristics-group m-2 p-2">
+            <div class="p-2">
+              <div class="characteristics-group p-2">
                 <div class="t-min w-75 t-c">З деталями угоди ознайомлений. Угода сформована вірно.</div>
                 <div class="content w-25">
                   <label class="checkBox">
@@ -500,13 +534,21 @@
               </div>
 
               <div class="btn-group">
-                <button class="btn" matTooltip="Відхилити угоду" (click)="openContainer()">
-                  <i class="fa-solid fa-glasses"></i>Переглянути
+                <button class="btn" (click)="changeStep(currentStep - 1)">
+                  <i class="fa-solid fa-arrow-left"></i>
+                  <div class="t-med dark bold p-2">Назад</div>
                 </button>
 
-                <button class="btn" [ngClass]="{ 'active': isCheckboxChecked }" [disabled]="!isCheckboxChecked"
-                  (click)="createAgreement()">
-                  <i class="fa-solid fa-paper-plane"></i>Надіслати
+                <button class="btn" (click)="openContainer()">
+                  <i class="fa-solid fa-glasses"></i>
+                  <div class="t-med dark bold p-2">Переглянути</div>
+                </button>
+              </div>
+
+              <div class="btn-group mt-2">
+                <button class="btn" [disabled]="!isCheckboxChecked" (click)="createAgreement()">
+                  <i class="fa-solid fa-paper-plane"></i>
+                  <div class="t-med dark bold p-2">Надіслати</div>
                 </button>
               </div>
 

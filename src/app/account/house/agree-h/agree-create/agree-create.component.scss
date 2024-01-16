@@ -6,8 +6,8 @@
 
 .container-box {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .container-card {
@@ -16,63 +16,10 @@
   position: relative;
 }
 
-.container-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.indicator-box {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 30px;
-  @include s1-s3 {
-    margin-top: 10px;
-  }
-}
-
-.indicator {
-  cursor: pointer;
-  display: flex;
-  border-radius: 50%;
-  border: none;
-  background-color: $color-gray;
-  width: 60px;
-  height: 60px;
-  margin: 10px;
-  border-radius: 50%;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  justify-content: center;
-  align-items: center;
-  @include s1-s3 {
-    width: 30px;
-    height: 30px;
-    margin: 2px;
-  }
-}
-
 .margin-top {
   margin-top: 30px;
   @include s1-s3 {
     margin-top: 10px;
-  }
-}
-
-.active-step {
-  transition: 3s;
-  transform: scale(1.6);
-  background-color: $color-accent;
-}
-
-.fa-1,
-.fa-2,
-.fa-3,
-.fa-4,
-.material-symbols-outlined {
-  @include s1-s3 {
-    font-size: 14px;
   }
 }
 
@@ -95,35 +42,17 @@
   }
 }
 
-.btn-next {
-  width: 150px;
-  height: 60px;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: $color-accent;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 20px;
-  border: 2px solid $color-gray;
-  &:hover {
-    background-color: $color-dark;
-    color: $color-white;
-  }
-  @include s1-s3 {
-    height: 40px;
-    margin: 5px;
-    font-size: 16px;
-    width: 100px;
+.btn-group {
+  border-radius: 20px;
+  .btn {
+    @include flex-box-row;
+    background-color: $color-accent;
   }
 }
 
 .group {
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -131,18 +60,80 @@
 
 .card-box {
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
   justify-content: flex-start;
   flex-direction: column;
+}
+
+.carousel-item {
+  .img-fluid-h {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+  }
+
+  .img-h {
+    overflow: hidden;
+    height: 500px;
+    width: 100%;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.card-1 {
+  position: absolute;
+  left: -36%;
+  width: 250px;
+  height: auto;
+  @include box-shadow;
+  border-radius: 20px;
+}
+
+.card-2 {
+  height: 160px;
+  width: 100%;
+  @include flex-box-row;
+  @include box-shadow;
+  overflow: hidden;
+  border-radius: 10px;
+  .img-fluid-h {
+    height: 100%;
+    .img-h {
+      height: 100%;
+      border-radius: 0;
+      object-fit: cover;
+    }
+  }
+}
+
+.box-1 {
+  @include flex-box-column;
+  align-items: flex-end;
+}
+
+.bg-w {
+  background-color: $color-white;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .card {
   width: 100%;
   justify-content: space-between;
-  height: 600px;
-  @include s1-s3 {
-    height: auto;
-  }
+  height: auto;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .card-user {
@@ -157,55 +148,15 @@
     0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-img {
-  overflow: hidden;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  transition: transform 1s;
-  object-fit: cover;
-  transition: transform 1s;
-}
-
-.img-fluid-house {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 300px;
-  width: 100%;
-  position: relative;
-  border-radius: 10px;
-}
-
-.img-house {
-  overflow: hidden;
-  height: 300px;
-  width: 100%;
-  border-radius: 20px;
-  transition: transform 1s;
-  object-fit: cover;
-  position: relative;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.2);
-  }
-}
-
 .input-mat {
-  height: 70px !important;
+  height: 65px !important;
 }
 
-.item-name {
-  color: $color-dark;
-  font-size: 18px;
-  font-weight: 600;
-}
 .characteristics-group {
   display: flex;
   align-content: center;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   flex-wrap: wrap;
   // border-bottom: 1px solid $color-primary;
 }
@@ -349,6 +300,39 @@ textarea {
   height: auto;
   min-height: 150px;
   border-radius: 10px;
+}
+
+.img-fluid-house {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 300px;
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+}
+
+.flex-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.img-house {
+  overflow: hidden;
+  height: 300px;
+  width: 100%;
+  border-radius: 20px;
+  transition: transform 1s;
+  object-fit: cover;
+  position: relative;
+
+  &:hover {
+    transition: transform 1s;
+    transform: scale(1.2);
+  }
 }
 
 .blur {

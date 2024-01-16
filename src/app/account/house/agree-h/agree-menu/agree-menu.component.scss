@@ -1,8 +1,4 @@
 @use "../../../../style/agree/agree_about.scss";
+@use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
 
-.switch-box {
-  justify-content: center;
-  .switch-btn-group {
-    width: 70px;
-  }
-}

@@ -1,5 +1,14 @@
 <div class="container-card">
 
+  <div class="flex-column pl-2">
+    <div class="t-lar-xx bold dark t-s">
+      <div [@cardAnimation1] *ngIf="indexPage === 0">Меню угод</div>
+      <div [@cardAnimation1] *ngIf="indexPage === 1">Створення угод </div>
+      <div [@cardAnimation1] *ngIf="indexPage === 2">Пропозиції</div>
+      <div [@cardAnimation1] *ngIf="indexPage === 3">Ухвалені угоди</div>
+    </div>
+  </div>
+
   <div class="switch-box">
 
     <div class="switch-btn-group">
@@ -36,56 +45,35 @@
 
   </div>
 
-  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-
-    <div [@cardAnimation1] class="flex-column pl-2" *ngIf="indexPage === 0">
-      <div class="t-lar-xx bold dark t-s"><i class="fa-solid fa-business-time"></i> Меню угод</div>
-    </div>
-
-    <div [@cardAnimation1] class="flex-column pl-2" *ngIf="indexPage === 1">
-      <div class="t-lar-xx bold dark t-s"><i class="fa-solid fa-person-chalkboard"></i> Створення угод</div>
-    </div>
-
-    <div [@cardAnimation1] class="flex-column pl-2" *ngIf="indexPage === 2">
-      <div class="t-lar-xx bold dark t-s"><i class="fa-solid fa-person-chalkboard"></i> Пропозицій</div>
-    </div>
-
-    <div [@cardAnimation1] class="flex-column pl-2" *ngIf="indexPage === 3">
-      <div class="t-lar-xx bold dark t-s"><i class="fa-regular fa-circle-check"></i> Ухвалені угоди</div>
-    </div>
-
+  <div class="mt-2">
     <div [@cardAnimation2] class="flex-box p-2 card-animation" *ngIf="indexPage === 0">
       <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="param-box p-2">
 
-          <div class="item-group w-100 flex-column p-2">
+          <div class="flex-group border1">
             <button class="link-t flex-box-row" (click)="onClickMenu(1)">
               <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Як працює Discussio угода.</span>
             </button>
-            <div class="t-description bold">Покрокове пояснення як працює створення угоди та додавання вас до
-              мешканців
-              оселі.</div>
+            <div class="t-min t-c">Покрокове пояснення як працює створення угоди та додавання вас до
+              мешканців оселі.</div>
           </div>
 
-          <div class="item-group w-100 flex-column p-2">
+          <div class="flex-group border1 mt-2">
             <button [disabled]="numSendAgree === 0" class="link-t flex-box-row" (click)="onClickMenu(2)">
               <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Запропоновані угоди.</span>
+              <div class="t-min bold accent" *ngIf="numSendAgree === 0">Доступно коли вам надіслали угоду </div>
             </button>
-            <div class="t-description bold">Погодження або відхилення умов.
-              <span class="t-description bold accent" *ngIf="numSendAgree === 0">Доступно коли вам надіслали угоду.
-              </span>
-            </div>
+            <div class="t-min">Погодження або відхилення умов. </div>
           </div>
 
-          <div class="item-group w-100 flex-column p-2">
+          <div class="flex-group border1 mt-2">
             <button [disabled]="numConcludedAgree === 0" class="link-t flex-box-row" (click)="onClickMenu(3)">
               <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ухвалені угоди.</span>
+              <div class="t-min bold accent" *ngIf="numConcludedAgree === 0">Доступне коли є ухвалена угода </div>
             </button>
-            <div class="t-description bold">Перегляд/друк угод, актів.</div>
+            <div class="t-min">Перегляд/друк угод, актів.</div>
           </div>
-          <div class="t-description bold accent" *ngIf="numConcludedAgree === 0">Стає доступним коли є ухвалена
-            угода.
-          </div>
+
         </div>
         <div class="img-wrapper">
           <img class="img" src="../../../../../assets/example-agree/man_and_door4.jpg" alt="">
@@ -95,7 +83,7 @@
 
     <div class="flex-column card-animation" *ngIf="indexPage === 1">
 
-      <div [@cardAnimation1] class="flex-box">
+      <div [@cardAnimation1] class="flex-box m-2">
         <div class="t-lar bold">
           <p class="t-min ">Я орендар як отримати угоду?</p>
         </div>
@@ -169,7 +157,6 @@
     <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 3">
       <app-uagree-concluded></app-uagree-concluded>
     </div>
-
   </div>
 
 </div>
