@@ -1,11 +1,20 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-host',
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.scss'],
+  animations: [
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],
 })
 
 export class HostComponent implements OnInit {
@@ -17,14 +26,7 @@ export class HostComponent implements OnInit {
   selectedFlatId!: string | null;
   indexPage: number = 1;
 
-  onAddHouse() {
-    this.addHouse = !this.addHouse;
-  }
-
-  constructor(
-    private el: ElementRef,
-    private selectedFlatService: SelectedFlatService
-  ) { }
+  constructor(private selectedFlatService: SelectedFlatService) { }
 
   ngOnInit(): void {
     this.getSelectParam();

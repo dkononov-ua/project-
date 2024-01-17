@@ -4,27 +4,16 @@
 
 <ng-template #content>
   <div *ngIf="!isContainerVisible" class="container-box">
-    <div class="container-box col-12">
 
-      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 1">
-        <div class="t-lar-xx bold dark t-s">Формування угоди</div>
+    <div class="flex-column pl-2">
+      <div class="t-lar-xx bold dark t-s">
+        <div [@cardAnimation1] *ngIf="currentStep === 1">Формування угоди</div>
+        <div [@cardAnimation1] *ngIf="currentStep === 2">Вибір орендара</div>
+        <div [@cardAnimation1] *ngIf="currentStep === 3">Умови угоди</div>
+        <div [@cardAnimation1] *ngIf="currentStep === 4">Додаткові умови</div>
+        <div [@cardAnimation1] *ngIf="currentStep === 5">Відправлення угоди</div>
       </div>
-
-      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 2">
-        <div class="t-lar-xx bold dark t-s">Вибір орендара</div>
-      </div>
-
-      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 3">
-        <div class="t-lar-xx bold dark t-s">Умови угоди</div>
-      </div>
-
-      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 4">
-        <div class="t-lar-xx bold dark t-s">Додаткові умови</div>
-      </div>
-
-      <div [@cardAnimation1] class="flex-column pl-2" *ngIf="currentStep === 5">
-        <div class="t-lar-xx bold dark t-s">Відправлення угоди</div>
-      </div>
+    </div>
 
       <div class="switch-box mt-2">
 
@@ -62,7 +51,7 @@
           <button [disabled]="!selectedSubscriber" class="btn" (click)="changeStep(currentStep = 5)"
             [ngClass]="{ 'active': currentStep == 5}">
             <i class="fa-solid fa-feather-pointed"></i>
-            <div class="t-min dark bold">Крок</div>
+            <div class="t-min dark bold">Перевірка</div>
           </button>
         </div>
 
@@ -559,7 +548,6 @@
         </div>
       </div>
 
-    </div>
   </div>
 
   <div *ngIf="isContainerVisible" id="agreement-container">

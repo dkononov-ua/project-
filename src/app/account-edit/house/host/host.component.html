@@ -1,60 +1,56 @@
-<div class="container-fluid">
 
-  <div class="switch-box">
+<div class="switch-box">
 
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/instruction'"><span class="link-text">
-          <i class="fa-solid fa-shoe-prints"></i></span>
-        <div class="t-min dark bold">Кроки</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/address'"><span class="link-text">
-          <i class="fa-solid fa-location-dot"></i></span>
-        <div class="t-min dark bold">Розт.</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/param'"><span class="link-text">
-          <i class="fa-solid fa-trowel-bricks"></i></span>
-          <div class="t-min dark bold">Парам.</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
-          <i class="fa-solid fa-images"></i></span>
-        <div class="t-min dark bold">Фото</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/about'"><span class="link-text">
-          <i class="fa-solid fa-users-gear"></i></span>
-        <div class="t-min dark bold">Особл.</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
-        [routerLink]="'/housing-parameters/host/additional-info'"><span class="link-text">
-          <i class="fa-regular fa-address-book"></i></span>
-        <div class="t-min dark bold">Додат.</div>
-      </a>
-    </div>
-
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 1"
+      [routerLink]="'/housing-parameters/host/instruction'"><span class="link-text">
+        <i class="fa-solid fa-shoe-prints"></i></span>
+      <div class="t-min dark bold">Кроки</div>
+    </a>
   </div>
 
-  <div class="container-card">
-    <div class="col-lg-9 col-md-5 col-sm-6 col-12" *ngIf="!addHouse">
-      <router-outlet *ngIf="selectedFlatId"></router-outlet>
-    </div>
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 2"
+      [routerLink]="'/housing-parameters/host/address'"><span class="link-text">
+        <i class="fa-solid fa-location-dot"></i></span>
+      <div class="t-min dark bold">Розт.</div>
+    </a>
   </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 3"
+      [routerLink]="'/housing-parameters/host/param'"><span class="link-text">
+        <i class="fa-solid fa-trowel-bricks"></i></span>
+      <div class="t-min dark bold">Парам.</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 4"
+      [routerLink]="'/housing-parameters/host/photo'"><span class="link-text">
+        <i class="fa-solid fa-images"></i></span>
+      <div class="t-min dark bold">Фото</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 5"
+      [routerLink]="'/housing-parameters/host/about'"><span class="link-text">
+        <i class="fa-solid fa-users-gear"></i></span>
+      <div class="t-min dark bold">Особл.</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" (click)="indexPage = 6"
+      [routerLink]="'/housing-parameters/host/additional-info'"><span class="link-text">
+        <i class="fa-regular fa-address-book"></i></span>
+      <div class="t-min dark bold">Додат.</div>
+    </a>
+  </div>
+
+</div>
+
+<div class="container-card" *ngIf="!addHouse">
+  <router-outlet *ngIf="selectedFlatId"></router-outlet>
 </div>

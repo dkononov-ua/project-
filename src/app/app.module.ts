@@ -42,6 +42,9 @@ import { AboutProjectComponent } from './pages/about-project/about-project.compo
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinimaLight, MinimaDeepDark, MinimaDark } from '@alyle/ui/themes/minima';
+import {MatButtonModule} from '@angular/material/button';
+import {MatBadgeModule} from '@angular/material/badge';
+
 
 import { LY_THEME, LY_THEME_NAME, StyleRenderer, LyTheme2 } from '@alyle/ui';
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
@@ -102,7 +105,6 @@ import { DiscussioComponent } from './components/discussio/discussio.component';
     MatDialogModule,
     MatSliderModule,
     SharedModule,
-    MatIconModule,
     RouterModule,
     MatAutocompleteModule,
     MatTooltipModule,
@@ -114,13 +116,14 @@ import { DiscussioComponent } from './components/discussio/discussio.component';
     MatMenuModule,
     MatCheckboxModule,
     HammerModule,
-
+    MatBadgeModule,
+    MatButtonModule,
+    MatIconModule,
     LyImageCropperModule,
     LySliderModule,
     LyButtonModule,
     LyIconModule,
     LyDialogModule,
-
     MatInputModule,
     MatFormFieldModule,
     HousingParametersModule,

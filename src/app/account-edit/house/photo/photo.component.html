@@ -4,106 +4,103 @@
 
 <ng-template #content>
 
-  <div class="flex-column p-2">
+  <div class="flex-column pl-2">
     <div class="t-lar-xx bold dark">Фото оселі</div>
-    <div class="t-min gray mb-2">Тут можна додати фото вашої оселі</div>
+    <div class="t-min gray mb-1">Тут можна додати фото вашої оселі</div>
   </div>
 
-  <div class="container-card">
+  <div [@cardAnimation1] class="card-box-photo p-2">
 
-    <div [@cardAnimation1] class="card-box-photo p-2 col-lg-6 col-md-5 col-sm-6 col-12">
+    <div class="card">
+      <div class="mb-2" *ngIf="flatImg?.length > 0">
 
-      <div class="card">
-        <div class="mb-2" *ngIf="flatImg?.length > 0">
-
-          <div class="img-container shadow">
-            <div class="img-wrapper">
-              <img class="img-fluid"
-                [src]="flatImg && flatImg.length > 0 && flatImg[flatImg.length - 1].img ? serverPathPhotoFlat + flatImg[flatImg.length - 1].img : serverPathPhotoFlat + 'housing_default.svg'"
-                alt="Flat Image">
-            </div>
-
+        <div class="img-container shadow">
+          <div class="img-wrapper">
+            <img class="img-fluid"
+              [src]="flatImg && flatImg.length > 0 && flatImg[flatImg.length - 1].img ? serverPathPhotoFlat + flatImg[flatImg.length - 1].img : serverPathPhotoFlat + 'housing_default.svg'"
+              alt="Flat Image">
           </div>
 
         </div>
 
-        <div class="card-1 mb-2" *ngIf="flatImg[0].img !== 'housing_default.svg'">
-          <label class="label-1 w-70">Видалити головне фото вашої оселі</label>
-          <button class="input-div" (click)="deleteObject(flatImg[flatImg.length - 1].img)" matTooltip="Видалити">
-            <i class="fa-solid fa-circle-minus icon-up "></i>
+      </div>
+
+      <div class="card-1 mb-2" *ngIf="flatImg[0].img !== 'housing_default.svg'">
+        <label class="label-1 w-70">Видалити головне фото вашої оселі</label>
+        <button class="input-div" (click)="deleteObject(flatImg[flatImg.length - 1].img)" matTooltip="Видалити">
+          <i class="fa-solid fa-circle-minus icon-up "></i>
+        </button>
+      </div>
+
+      <div class="card-1">
+        <label class="label-1 w-70">Завантажити фото оселі. Завантажено {{flatImg.length}}/20 </label>
+        <div class="input-div">
+          <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+          <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+          <button class="input-up" ly-button (click)="_fileInput.click()">
+            <ly-icon [lyMf]="1">image</ly-icon>
+            <span>Select File</span>
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="card-1">
-          <label class="label-1 w-70">Завантажити фото оселі. Завантажено {{flatImg.length}}/20 </label>
-          <div class="input-div">
-            <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
-            <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
-            <button class="input-up" ly-button (click)="_fileInput.click()">
-              <ly-icon [lyMf]="1">image</ly-icon>
-              <span>Select File</span>
-            </button>
-          </div>
-        </div>
+  </div>
+
+  <div [@cardAnimation2] class="card-box col-lg-6">
+
+    <div class="flex-column m-2" *ngIf="flatImg.length <= 1">
+
+      <div class="param-box">
+        <div class="param-name">Додавання фото оселі </div>
+        <div class="t-lar bold accent t-c">Які фото можна завантажувати </div>
+      </div>
+
+      <div class="card-body-cast p-2">
+        <ul>
+          <li>Формат фото: img, jpg, png, jpeg, webp.</li>
+          <li>Максимальний розмір фото до 10 мб.</li>
+          <li>Максимальна кількість фото 20 шт.</li>
+          <li>Перше завантажене фото буде головним фото вашої оселі. Після видалення першого фото головним стане
+            наступне.</li>
+          <li>Фото видаляються разом з видаленням оселі.</li>
+          <li>Фото можна додавати по одному за раз.</li>
+        </ul>
+        <p class="t-min gray t-c">*Така кількість обмежень буде діяти на період запуску для можливості скоротити
+          використання пам'яті на сервері.
+        </p>
+
       </div>
 
     </div>
 
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
+    <div class="box-filling m-2" *ngIf="flatImg.length > 1">
 
-      <div class="flex-column m-2" *ngIf="flatImg.length <= 1">
-
-        <div class="param-box">
-          <div class="param-name">Додавання фото оселі </div>
-          <div class="t-lar bold accent t-c">Які фото можна завантажувати </div>
+      <div class="indicator-box">
+        <div *ngFor="let flat_photo of flatImg; let i = index"
+          [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }" (click)="selectPhoto(flat_photo.img)">
+          <div class="indicator-photo">{{ i + 1 }}</div>
         </div>
-
-        <div class="card-body-cast p-2">
-          <ul>
-            <li>Формат фото: img, jpg, png, jpeg, webp.</li>
-            <li>Максимальний розмір фото до 10 мб.</li>
-            <li>Максимальна кількість фото 20 шт.</li>
-            <li>Перше завантажене фото буде головним фото вашої оселі. Після видалення першого фото головним стане
-              наступне.</li>
-            <li>Фото видаляються разом з видаленням оселі.</li>
-            <li>Фото можна додавати по одному за раз.</li>
-          </ul>
-          <p class="t-min gray t-c">*Така кількість обмежень буде діяти на період запуску для можливості скоротити
-            використання пам'яті на сервері.
-          </p>
-
-        </div>
-
       </div>
 
-      <div class="box-filling m-2" *ngIf="flatImg.length > 1">
-
-        <div class="indicator-box">
-          <div *ngFor="let flat_photo of flatImg; let i = index"
-            [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }" (click)="selectPhoto(flat_photo.img)">
-            <div class="indicator-photo">{{ i + 1 }}</div>
-          </div>
+      <div *ngFor="let flat_photo of flatImg" class="card-filling p-2 mb-2" (click)="selectPhoto(flat_photo.img)">
+        <div class="box-img shadow" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
+          [attr.data-img]="flat_photo.img">
+          <img class="img-card " [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
+            [src]="flat_photo.img && flat_photo ? serverPathPhotoFlat + flat_photo.img : serverPathPhotoFlat + 'housing_default.svg'"
+            alt="Flat Image" alt="Flat Image">
         </div>
-
-        <div *ngFor="let flat_photo of flatImg" class="card-filling p-2 mb-2" (click)="selectPhoto(flat_photo.img)">
-          <div class="box-img shadow" [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
-            [attr.data-img]="flat_photo.img">
-            <img class="img-card " [ngClass]="{ 'selectedCard': flat_photo.img === selectedPhoto }"
-              [src]="flat_photo.img && flat_photo ? serverPathPhotoFlat + flat_photo.img : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" alt="Flat Image">
-          </div>
-          <button class="btn-delete" (click)="deleteObject(flat_photo.img)" matTooltip="Видалити"><i
-              class="fa-solid fa-circle-minus"></i></button>
-        </div>
-
-
-
-
+        <button class="btn-delete" (click)="deleteObject(flat_photo.img)" matTooltip="Видалити"><i
+            class="fa-solid fa-circle-minus"></i></button>
       </div>
+
+
+
 
     </div>
 
   </div>
+
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

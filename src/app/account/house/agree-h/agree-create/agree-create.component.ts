@@ -93,8 +93,8 @@ interface Subscribers {
 
     trigger('cardAnimation6', [
       transition('void => *', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(-230%)' }),
+        animate('1800ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
   ],

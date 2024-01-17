@@ -1,0 +1,21 @@
+@use "../../style/presets/" as *;
+
+.loader-overlay {
+  position: fixed;
+  z-index: 9999;
+  border-left: 100px solid $color-accent;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  // background-color: rgb(255, 255, 255);
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 20%, rgb(255, 255, 255) 80% , rgba(255, 255, 255, 0) 100%);
+}
+
+
+
+
+

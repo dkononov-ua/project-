@@ -36,6 +36,7 @@ import { MenuComponent } from '../components/menu/menu.component';
 import { GalleryComponent } from '../components/gallery/gallery.component';
 import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
 import { AddObjectsComponent } from '../account-edit/house/add-objects/add-objects.component';
+import { TransitionComponent } from '../components/transition/transition.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { AddObjectsComponent } from '../account-edit/house/add-objects/add-objec
     GalleryComponent,
     CropImg2Component,
     AddObjectsComponent,
+    TransitionComponent,
   ],
   exports: [
     NavbarComponent,
@@ -71,6 +73,7 @@ import { AddObjectsComponent } from '../account-edit/house/add-objects/add-objec
     GalleryComponent,
     CropImg2Component,
     AddObjectsComponent,
+    TransitionComponent,
   ],
   providers: [
     UpdateComponentService,

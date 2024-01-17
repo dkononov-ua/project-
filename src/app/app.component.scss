@@ -10,14 +10,6 @@
   background-color: $color-white;
 }
 
-.top {
-  position: sticky;
-  top: 0;
-  @media print {
-    display: none;
-  }
-}
-
 .menu {
   position: sticky;
   bottom: 0;
@@ -28,13 +20,13 @@
 }
 
 .container {
-  background-color: $color-white;
+  // background-color: $color-white;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   position: relative;
   padding: 0;
   margin: 0;

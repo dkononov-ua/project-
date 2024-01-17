@@ -1,17 +1,211 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { serverPath } from 'src/app/config/server-config';
+import { serverPath,  path_logo } from 'src/app/config/server-config';
 import { CounterService } from 'src/app/services/counter.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  animations: [
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation4', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation5', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 500ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+  ],
 })
 export class MenuComponent {
 
+  linkOpen1: boolean = false;
+  linkOpen2: boolean = false;
+  linkOpen3: boolean = false;
+  linkOpen4: boolean = false;
+  linkOpen5: boolean = false;
+  transition: boolean = false;
 
+  menu1: boolean = false;
+  menu2: boolean = false;
+  menu3: boolean = false;
+  menu4: boolean = false;
+  menu5: boolean = false;
+
+  toggleMenu(index: number) {
+    if (index === 1) {
+      this.linkOpen1 = !this.linkOpen1;
+      if (this.menu1) {
+        setTimeout(() => {
+          this.menu1 = !this.menu1;
+        }, 600);
+      } else {
+        this.menu1 = !this.menu1;
+      }
+    }
+    if (index === 2) {
+      this.linkOpen2 = !this.linkOpen2;
+      if (this.menu2) {
+        setTimeout(() => {
+          this.menu2 = !this.menu2;
+        }, 600);
+      } else {
+        this.menu2 = !this.menu2;
+      }
+    }
+
+    if (index === 3) {
+      this.linkOpen3 = !this.linkOpen3;
+      if (this.menu3) {
+        setTimeout(() => {
+          this.menu3 = !this.menu3;
+        }, 600);
+      } else {
+        this.menu3 = !this.menu3;
+      }
+    }
+
+    if (index === 4) {
+      this.linkOpen4 = !this.linkOpen4;
+      if (this.menu4) {
+        setTimeout(() => {
+          this.menu4 = !this.menu4;
+        }, 600);
+      } else {
+        this.menu4 = !this.menu4;
+      }
+    }
+
+    if (index === 5) {
+      this.linkOpen5 = !this.linkOpen5;
+      if (this.menu5) {
+        setTimeout(() => {
+          this.menu5 = !this.menu5;
+        }, 600);
+      } else {
+        this.menu5 = !this.menu5;
+      }
+    }
+  }
+
+  toggleAllMenu(index: number) {
+    if (index === 1) {
+      this.linkOpen1 = !this.linkOpen1;
+      if (this.menu1) {
+        setTimeout(() => {
+          this.menu1 = !this.menu1;
+        }, 600);
+      } else {
+        this.menu1 = !this.menu1;
+      }
+    }
+    if (index === 2) {
+      this.linkOpen2 = !this.linkOpen2;
+      if (this.menu2) {
+        setTimeout(() => {
+          this.menu2 = !this.menu2;
+        }, 600);
+      } else {
+        this.menu2 = !this.menu2;
+      }
+    }
+    if (index === 3) {
+      this.linkOpen3 = !this.linkOpen3;
+      if (this.menu3) {
+        setTimeout(() => {
+          this.menu3 = !this.menu3;
+        }, 600);
+      } else {
+        this.menu3 = !this.menu3;
+      }
+    }
+    if (index === 4) {
+      this.linkOpen4 = !this.linkOpen4;
+      if (this.menu4) {
+        setTimeout(() => {
+          this.menu4 = !this.menu4;
+        }, 600);
+      } else {
+        this.menu4 = !this.menu4;
+      }
+    }
+    if (index === 5) {
+      this.linkOpen5 = !this.linkOpen5;
+      if (this.menu5) {
+        setTimeout(() => {
+          this.menu5 = !this.menu5;
+        }, 600);
+      } else {
+        this.menu5 = !this.menu5;
+      }
+    }
+  }
+
+  transitionOn() {
+    this.linkOpen1 = false;
+    this.linkOpen2 = false;
+    this.linkOpen3 = false;
+    this.linkOpen4 = false;
+    this.linkOpen5 = false;
+    this.menu1 = false;
+    this.menu2 = false;
+    this.menu3 = false;
+    this.menu4 = false;
+    this.menu5 = false;
+    this.transition = true;
+    setTimeout(() => {
+      this.transition = false;
+    }, 1000);
+  }
+
+
+
+  path_logo = path_logo;
 
   selectedFlatId: any;
   counterSubs: any;
@@ -86,6 +280,7 @@ export class MenuComponent {
           await this.getHouseDiscussioCount();
           await this.getHouseNewMessage();
           await this.getUpdateHouseMessage();
+          this.loading = false;
         }
       } else {
         console.log('Оберіть оселю')

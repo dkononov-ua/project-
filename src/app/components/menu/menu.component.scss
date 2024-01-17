@@ -2,105 +2,90 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
-.switch-box {
-  justify-content: space-between;
-}
+.menu-container {
+  // padding: 0 10px 0 10px;
+  .menu-wrapper {
+    @include flex-box;
+    width: 100%;
+    // border-radius: 20px 20px 0 0;
+    @include box-shadow;
+    // background-color: tan;
+    .btn-menu {
+      flex: 1;
+      background-color: transparent;
+      position: relative;
+      // background-color: tan;
 
-.statusCount {
-  position: absolute;
-  right: 15px;
-  top: 0px;
-  z-index: 50;
-  .fa-solid {
-    color: $color-accent;
-    font-size: 15px;
-  }
-}
+      .t-min {
+        font-size: 9px;
+        text-transform: uppercase;
+        color: $color-gray;
+      }
 
-.dropdown {
-  @include flex-box-column;
-  left: 0;
-  top: 0;
-
-  .btn {
-    .fa-solid {
-      @include box-shadow;
-    }
-    .t-min {
-      font-size: 8px;
-      font-weight: 600;
-    }
-  }
-
-  .btn:active {
-    color: $color-accent;
-
-    .fa-solid {
-      color: $color-accent;
-    }
-    .t-min {
-      color: $color-accent;
-    }
-  }
-
-  .dropdown-menu {
-    background-color: transparent;
-    border: none;
-    left: 0;
-    top: 0;
-    // transition: 2s;
-    z-index: -1;
-    transform: translate3d(-200px, -70px, 0px);
-
-    .dropdown-item {
-      box-shadow:
-        15px 15px 20px rgba(36, 36, 36, 0.671),
-        5px 5px 20px rgba(57, 57, 57, 0.62);
-      @include flex-box;
-      width: 220px;
-      text-transform: capitalize;
-      color: $color-text;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 10px;
-      font-weight: 600;
-      height: 50px;
-      background-color: $color-white;
-
-      &.active {
+      .notification {
+        @include flex-box;
+        position: absolute;
+        right: 15px;
+        top: 0;
+        width: 15px;
+        height: 15px;
         background-color: $color-accent;
-        color: $color-white;
-
-        .fa-solid {
-          color: $color-white;
-        }
-      }
-
-      .fa-solid {
-        color: $color-text;
-        margin-right: 5px;
+        border-radius: 50%;
       }
     }
   }
 }
 
-.status {
-  display: flex;
+.menu {
+  @include flex-box-column;
+  justify-content: flex-end;
+  align-items: flex-end;
   position: absolute;
-  right: 0px;
-  top: 50%;
-  transform: translateY(-12px);
-  width: 25px;
-  height: 25px;
-  background-color: tomato;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  z-index: 50;
-  &:hover {
-    transform: translate(5px) scale(1.1);
+  height: 100vh;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  z-index: 500;
+  background-color: rgba(0, 0, 0, 0.736);
+  padding-bottom: 100px;
+
+  .link {
+    @include flex-box;
+    justify-content: space-between;
+    margin: 5px 0px 5px 5px;
+    position: relative;
+    background-color: white;
+    font-weight: 600;
+    text-transform: capitalize;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 2px 2px 2px 4px rgb(255, 255, 255);
+
+    .status {
+      @include flex-box;
+      position: absolute;
+      left: -15px;
+      top: 50%;
+      transform: translateY(-15px);
+      width: 30px;
+      height: 30px;
+      background-color: tomato;
+      color: white;
+      border-radius: 50%;
+
+      .fa-envelope-open-text {
+        color: $color-white;
+        font-size: 15px;
+      }
+    }
   }
 }
+
+.btn-logo {
+  .logo {
+    @include box-shadow;
+    width: 100%;
+    border-radius: 50%;
+    background-color: rgba(156, 156, 156, 0.656);
+  }
+}
+
