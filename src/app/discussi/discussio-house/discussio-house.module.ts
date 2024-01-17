@@ -22,33 +22,27 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ChatHouseComponent } from './chat-house/chat-house.component';
-import { SubscribersHouseComponent } from './subscribers-house/subscribers-house.component';
-import { SubscriptionsHouseComponent } from './subscriptions-house/subscriptions-house.component';
+import { SubscribersHouseComponent } from './subscribers/subscribers-house.component';
+import { SubscriptionsHouseComponent } from './subscriptions/subscriptions-house.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create/agree-create.component';
-import { DeleteSubComponent } from './delete-sub/delete-sub.component';
-import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
+import { DeleteSubComponent } from './delete/delete-sub.component';
+import { SubscribersDiscusComponent } from './discus/subscribers-discus.component';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
 import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
-import { SubscribersHostComponent } from './subscribers-host/subscribers-host.component';
-import { SendMessageComponent } from './send-message/send-message.component';
-import { ChatHostHouseComponent } from './chat-host-house/chat-host-house.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SubscribersHostComponent } from './host/subscribers-host.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
   declarations: [
     AgreeCreateComponent,
-    ChatHouseComponent,
     SubscribersHouseComponent,
     SubscriptionsHouseComponent,
     DeleteSubComponent,
     SubscribersDiscusComponent,
     SubscribersHostComponent,
-    SendMessageComponent,
-    ChatHostHouseComponent,
   ],
   providers: [
     SelectedFlatService,

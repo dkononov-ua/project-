@@ -37,6 +37,13 @@ import { GalleryComponent } from '../components/gallery/gallery.component';
 import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
 import { AddObjectsComponent } from '../account-edit/house/add-objects/add-objects.component';
 import { TransitionComponent } from '../components/transition/transition.component';
+import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
+import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
+import { SendMessageUserComponent } from '../chat/user/send-message-user/send-message-user.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-house.component';
+import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
+import { SendMessageComponent } from '../chat/house/send-message/send-message.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +63,12 @@ import { TransitionComponent } from '../components/transition/transition.compone
     CropImg2Component,
     AddObjectsComponent,
     TransitionComponent,
+    ChatUserComponent,
+    ChatHostComponent,
+    SendMessageUserComponent,
+    ChatHouseComponent,
+    ChatHostHouseComponent,
+    SendMessageComponent,
   ],
   exports: [
     NavbarComponent,
@@ -74,6 +87,12 @@ import { TransitionComponent } from '../components/transition/transition.compone
     CropImg2Component,
     AddObjectsComponent,
     TransitionComponent,
+    ChatUserComponent,
+    ChatHostComponent,
+    SendMessageUserComponent,
+    ChatHouseComponent,
+    ChatHostHouseComponent,
+    SendMessageComponent,
   ],
   providers: [
     UpdateComponentService,
@@ -99,6 +118,7 @@ import { TransitionComponent } from '../components/transition/transition.compone
     LyButtonModule,
     LyIconModule,
     LyDialogModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class SharedModule { }

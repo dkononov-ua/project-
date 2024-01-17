@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
+import { DeleteSubComponent } from '../delete/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
@@ -24,13 +24,19 @@ import { CounterService } from 'src/app/services/counter.service';
   animations: [
     trigger('cardAnimation2', [
       transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
-      ])
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
     ]),
   ],
 })
@@ -62,18 +68,16 @@ export class SubscriptionsHouseComponent implements OnInit {
   // показ карток
   card_info: boolean = false;
   indexPage: number = 0;
-  indexMenu: number = 0;
-  indexMenuMobile: number = 1;
   selectedUserID: any;
   counterHouseDiscussio: any;
   counterHouseSubscriptions: any;
   counterHouseSubscribers: any;
   counterHD: any;
-  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
-    this.indexMenu = indexMenu;
+
+  onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
-    this.indexMenuMobile = indexMenuMobile;
   }
+
   openInfoUser() { this.card_info = true; }
   // пагінатор
   offs = PaginationConfig.offs;
@@ -98,6 +102,11 @@ export class SubscriptionsHouseComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.getSelectedFlatID();
     await this.getCounterHouse();
+    if (this.counterFound !== 0) {
+      this.indexPage = 1;
+    } else {
+      this.indexPage = 0;
+    }
   }
 
   async getCounterHouse() {
@@ -151,8 +160,7 @@ export class SubscriptionsHouseComponent implements OnInit {
     if (this.selectedUserID) {
       const allHouseDiscussions = JSON.parse(localStorage.getItem('allHouseSubscriptions') || '[]');
       if (allHouseDiscussions) {
-        this.indexPage = 1;
-        this.indexMenuMobile = 0;
+        this.indexPage = 2;
         const selectedUser = allHouseDiscussions.find((user: any) => user.user_id === this.selectedUserID);
         if (selectedUser) {
           this.selectedUser = selectedUser;
@@ -180,6 +188,7 @@ export class SubscriptionsHouseComponent implements OnInit {
             this.statusMessage = 'Підписка видалена';
             setTimeout(() => { this.statusMessage = ''; }, 2000);
             // this.updateComponent.triggerUpdate();
+            this.indexPage = 1;
             this.selectedUser = undefined;
             this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
             this.getSubInfo(this.offs);

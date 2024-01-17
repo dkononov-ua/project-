@@ -2,7 +2,7 @@ import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { DeleteSubsComponent } from '../delete-subs/delete-subs.component';
+import { DeleteSubsComponent } from '../delete/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
@@ -48,7 +48,7 @@ interface chosenFlat {
 
 export class SubscriptionsUserComponent implements OnInit {
 
- // розшифровка пошукових параметрів
+  // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
   option_pay = option_pay;
