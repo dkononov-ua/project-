@@ -177,14 +177,10 @@
 .cards-container {
   @include flex-box;
   flex-wrap: wrap;
-  height: 55vh;
+  height: auto;
   overflow: auto;
   width: 100%;
   align-content: flex-start;
-  @include s1-s3 {
-    margin: 0;
-    height: 78vh;
-  }
 
   .card-mini {
     @include flex-box;
@@ -293,13 +289,17 @@ li {
   @include flex-box-column;
   align-items: stretch;
   position: relative;
+  height: 80vh;
+
+  .chat {
+    height: 90%;
+  }
   .send-message {
-    @include s1-s3 {
-      width: 100%;
-      position: fixed;
-      z-index: 200;
-      bottom: 0;
-    }
+    height: 10%;
+    width: 100%;
+    position: fixed;
+    z-index: 200;
+    bottom: 0;
   }
 }
 

@@ -3,11 +3,36 @@ import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Chat } from '../../../interface/info';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-chat-host',
   templateUrl: './chat-host.component.html',
   styleUrls: ['./chat-host.component.scss'],
+  animations: [
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('10ms 1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],
 })
 
 export class ChatHostComponent implements OnInit {
@@ -20,7 +45,8 @@ export class ChatHostComponent implements OnInit {
   offs: 0 | undefined;
   choseFlatId: any | null;
   selectedChat: Chat | undefined;
-  openChatCard: boolean = false;
+  indexPage: number = 0;
+  chatSelected: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -32,7 +58,7 @@ export class ChatHostComponent implements OnInit {
     this.loading = false;
   }
 
-  
+
 
   async getFlatChats(): Promise<any> {
     const url = serverPath + '/chat/get/userchats';
@@ -66,6 +92,7 @@ export class ChatHostComponent implements OnInit {
   }
 
   onFlatSelect(chat: Chat): void {
+    this.chatSelected = true;
     this.choseSubscribeService.setChosenFlatId(chat.flat_id);
   }
 
@@ -75,7 +102,7 @@ export class ChatHostComponent implements OnInit {
     }
     this.selectedChat = chat;
     chat.isSelected = true;
-    this.openChatCard = true;
+    this.indexPage = 1;
     this.onFlatSelect(chat);
   }
 }

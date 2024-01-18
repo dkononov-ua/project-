@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UserSearchComponent } from '../components/user-search/user-search.component';
 import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
-import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
-import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.component';
 import { SelectionAccountComponent } from '../components/selection-account/selection-account.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -44,15 +41,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-house.component';
 import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
 import { SendMessageComponent } from '../chat/house/send-message/send-message.component';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
-    NavbarComponent,
     FooterComponent,
     UserSearchComponent,
     LoaderComponent,
-    NavbarUserComponent,
-    NavbarHouseComponent,
     SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
@@ -71,12 +65,9 @@ import { SendMessageComponent } from '../chat/house/send-message/send-message.co
     SendMessageComponent,
   ],
   exports: [
-    NavbarComponent,
     FooterComponent,
     UserSearchComponent,
     LoaderComponent,
-    NavbarUserComponent,
-    NavbarHouseComponent,
     SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
@@ -93,6 +84,7 @@ import { SendMessageComponent } from '../chat/house/send-message/send-message.co
     ChatHouseComponent,
     ChatHostHouseComponent,
     SendMessageComponent,
+
   ],
   providers: [
     UpdateComponentService,
@@ -119,6 +111,7 @@ import { SendMessageComponent } from '../chat/house/send-message/send-message.co
     LyIconModule,
     LyDialogModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
   ]
 })
 export class SharedModule { }

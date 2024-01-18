@@ -1,6 +1,7 @@
 <ng-container *ngIf="loading; else content">
   <div class="container-loader-mini">
     <mat-spinner color="warn"></mat-spinner>
+    <div class="t-med mt-2">Завантаження повідомлень</div>
   </div>
 </ng-container>
 
@@ -9,9 +10,10 @@
     <img class="avatar-user1"
       [src]="serverPathPhotoFlat + (infoPublic[0].infFlat.imgs[0].img ? infoPublic[0].infFlat.imgs[0].img : 'housing_default.svg')"
       alt="Flat Image">
-    <div class="name-user1">
-      <div>{{ infoPublic[0].flat_name }} ID: {{ infoPublic[0].flat_id }} </div>
-      <div class="text-min">Chat ID: {{ infoPublic[0].chat_id }}</div>
+    <div class="pl-2">
+      <div class="t-min">Чат з оселею ID: {{ infoPublic[0].flat_id }}</div>
+      <div class="t-lar bold">{{ infoPublic[0].flat_name }} </div>
+      <div class="t-min">Chat ID: {{ infoPublic[0].chat_id }}</div>
     </div>
   </div>
 

@@ -272,8 +272,10 @@ export class MenuComponent {
       if (houseData) {
         const parsedHouseData = JSON.parse(houseData);
         this.houseData = parsedHouseData;
+        console.log(this.houseData)
         this.selectedFlatId = parsedHouseData.flat.flat_id;
         if (this.selectedFlatId) {
+          console.log(this.selectedFlatId)
           this.getHouseAcces();
           await this.getHouseSubscribersCount();
           await this.getHouseSubscriptionsCount();
@@ -298,7 +300,6 @@ export class MenuComponent {
       this.counterUserNewAgree = 0;
     }
   }
-
 
   // перевірка підписників оселі
   async getHouseSubscribersCount() {

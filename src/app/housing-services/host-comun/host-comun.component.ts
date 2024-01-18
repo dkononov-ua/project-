@@ -8,7 +8,7 @@ import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/config/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 
 @Component({
   selector: 'app-host-comun',
@@ -30,6 +30,7 @@ export class HostComunComponent implements OnInit {
     "Інтернет та телебачення",
     "Домофон",
   ];
+  path_logo = path_logo;
 
   loading = false;
   comunCreate!: FormGroup;
@@ -45,11 +46,11 @@ export class HostComunComponent implements OnInit {
   selectedView: string | null | undefined;
   selectedName: string | null | undefined;
   controlPanel: boolean = false;
+  statusMessage: any;
 
   showPanel() {
     this.controlPanel = !this.controlPanel;
   }
-
 
   // показ карток
   indexMenu: number = 0;
@@ -102,6 +103,15 @@ export class HostComunComponent implements OnInit {
     this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
       this.selectedComun = selectedComun || this.selectedComun;
     });
+  }
+
+  backToDiscus() {
+    localStorage.removeItem('selectedView');
+    localStorage.removeItem('selectedName');
+    this.statusMessage = 'Повертаємось до дискусії';
+    setTimeout(() => {
+      this.router.navigate(['/subscribers-host-user/subscribers-discuss']);
+    }, 2000);
   }
 
   createComunName() {

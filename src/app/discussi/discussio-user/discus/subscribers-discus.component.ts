@@ -146,7 +146,6 @@ export class SubscribersDiscusComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
@@ -160,6 +159,18 @@ export class SubscribersDiscusComponent implements OnInit {
     } else {
       this.indexPage = 0;
     }
+    this.getChoseFlatId();
+  }
+
+  // Отримання айді обраної оселі
+  getChoseFlatId() {
+    this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
+      this.choseFlatId = selectedFlatId;
+      if (this.choseFlatId) {
+        this.selectDiscussion();
+        this.indexPage = 2;
+      } else { console.log('Оберіть оселю'); }
+    });
   }
 
   // отримання, кількіст дискусій та запит на якій я сторінці
@@ -421,17 +432,18 @@ export class SubscribersDiscusComponent implements OnInit {
 
   // Перегляд статистики комунальних
   goToComun() {
-    localStorage.removeItem('selectedName');
-    localStorage.removeItem('house');
-    localStorage.removeItem('selectedComun');
-    localStorage.removeItem('chosenFlatId');
+    // localStorage.removeItem('selectedName');
+    // localStorage.removeItem('house');
+    // localStorage.removeItem('selectedComun');
     this.selectedView = this.chosenFlat?.flat.flat_id;
     this.selectedViewName = this.chosenFlat?.flat.flat_name;
     this.selectedViewComun.setSelectedView(this.selectedView);
     this.selectedViewComun.setSelectedName(this.selectedViewName);
-    this.statusMessage = 'Переходимо до статистики оселі';
     if (this.selectedView) {
-      setTimeout(() => { this.router.navigate(['/housing-services/host-comun/comun-stat-month']); }, 2000);
+      this.statusMessage = 'Переходимо до статистики оселі';
+      setTimeout(() => {
+        this.router.navigate(['/housing-services/host-comun/comun-stat-month'], { queryParams: { indexPage: 0 } });
+      }, 2000);
     }
   }
 

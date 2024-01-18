@@ -2,6 +2,10 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
+.pl-2 {
+  padding-left: 60px;
+}
+
 .chat-container-user {
   justify-content: flex-end;
 }
@@ -41,4 +45,3 @@
   right: 0px;
   justify-content: flex-end;
 }
-

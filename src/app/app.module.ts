@@ -1,10 +1,8 @@
 import { AppComponent } from './app.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
-import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
-import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 import { SearchRoutingModule } from './search/search-routing.module';
@@ -52,7 +50,6 @@ import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
-import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
@@ -64,14 +61,11 @@ import { DiscussioComponent } from './components/discussio/discussio.component';
     AppComponent,
     OurTeamComponent,
     RegistrationComponent,
-    UserPaymentComponent,
     InformationUserComponent,
     UserLicenceComponent,
-    ComunPageComponent,
     LookingComponent,
     FeedbackComponent,
     AboutProjectComponent,
-    AboutRatingComponent,
     OpportunitiesComponent,
     ReportsComponent,
     NotFoundComponent,

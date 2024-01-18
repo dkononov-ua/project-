@@ -4,11 +4,36 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { Chat } from '../../../interface/info';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-chat-host-house',
   templateUrl: './chat-host-house.component.html',
   styleUrls: ['./chat-host-house.component.scss'],
+  animations: [
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('10ms 1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],
 })
 
 export class ChatHostHouseComponent implements OnInit, AfterViewInit {
@@ -22,7 +47,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   selectedChat: Chat | undefined;
   houseData: any;
   userData: any;
-  openChatCard: boolean = false;
+  indexPage: number = 0;
+  chatSelected: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -74,6 +100,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   }
 
   onSubscriberSelect(chat: Chat): void {
+    this.chatSelected = true;
     this.choseSubscribersService.setSelectedSubscriber(chat.user_id);
   }
 
@@ -120,7 +147,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
     }
     this.selectedChat = chat;
     chat.isSelected = true;
-    this.openChatCard = true;
+    this.indexPage = 1;
     this.onSubscriberSelect(chat);
   }
 

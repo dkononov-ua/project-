@@ -1,12 +1,8 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
 
-<ng-template #content>
   <div class="body-container">
     <div class="container">
       <router-outlet class="content"></router-outlet>
     </div>
     <app-menu class="menu"></app-menu>
   </div>
-</ng-template>
+
