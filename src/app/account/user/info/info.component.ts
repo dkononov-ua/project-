@@ -81,7 +81,9 @@ export class InfoComponent implements OnInit {
     this.loading = true;
     this.getInfoUser()
     this.getInfo(),
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 200);
   }
 
   sendMenuOpen(closeMenu: boolean) {
@@ -136,7 +138,7 @@ export class InfoComponent implements OnInit {
             this.searchInfoUserData = JSON.parse(searchInfoUserData);
             // console.log(this.searchInfoUserData)
             this.userInfo.price_of = this.searchInfoUserData.price_of === "0.01" ? -1 : this.searchInfoUserData.price_of;
-            this.userInfo.price_to = this.searchInfoUserData.price_to  === "0.01" ? -1 : this.searchInfoUserData.price_to;
+            this.userInfo.price_to = this.searchInfoUserData.price_to === "0.01" ? -1 : this.searchInfoUserData.price_to;
             this.userInfo.region = this.searchInfoUserData.region;
             this.userInfo.city = this.searchInfoUserData.city;
             this.userInfo.rooms_of = this.searchInfoUserData.rooms_of;

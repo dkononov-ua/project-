@@ -2,11 +2,50 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
-.container-box {
-  @include flex-box-column;
-  overflow: auto;
-  margin: 0;
-  height: 100%;
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-end;
+}
+
+.card-1 {
+  position: absolute;
+  left: -40%;
+  width: 250px;
+  height: 75vh;
+  @include box-shadow;
+  border-radius: 20px;
+}
+
+.card-2 {
+  height: 75vh;
+  overflow-y: auto;
+}
+
+.card-1 {
+  .img-fluid-h {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+  }
+
+  .img-h {
+    overflow: hidden;
+    height: 75vh;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.2);
+    }
+  }
 }
 
 .flex-box {

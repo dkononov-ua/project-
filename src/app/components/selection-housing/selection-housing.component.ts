@@ -4,10 +4,51 @@ import { ChangeComunService } from 'src/app/housing-services/change-comun.servic
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
+import { trigger, transition, style, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-selection-housing',
   templateUrl: './selection-housing.component.html',
-  styleUrls: ['./selection-housing.component.scss']
+  styleUrls: ['./selection-housing.component.scss'],
+  animations: [
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation2', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1400ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation3', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation4', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('2000ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+    trigger('cardAnimation5', [
+      transition('void => *', [
+        style({ transform: 'translateX(230%)' }),
+        animate('2200ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+
+    trigger('cardAnimation6', [
+      transition('void => *', [
+        style({ transform: 'translateX(-230%)' }),
+        animate('1200ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+    ]),
+  ],
 })
 
 export class SelectionHousingComponent implements OnInit {
@@ -21,7 +62,7 @@ export class SelectionHousingComponent implements OnInit {
   selectedHouse: any;
   flatName: any | null;
   statusMessage: string | undefined;
-
+  indexPage: number = 0;
   chooseFlatID: any;
   houseData: any;
 
@@ -42,6 +83,11 @@ export class SelectionHousingComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.getFlatInfo();
     this.loadDataFlat();
+    if (this.allFlats && this.allFlatsTenant && this.allFlats.length > 0 || this.allFlatsTenant > 0) {
+      this.indexPage = 1;
+    } else {
+      this.indexPage = 0;
+    }
   }
 
   loadDataFlat(): void {
@@ -122,7 +168,7 @@ export class SelectionHousingComponent implements OnInit {
       this.statusMessage = 'Обираємо оселю ' + flat.flat_name;
       setTimeout(() => {
         this.loading = true;
-        this.statusMessage = 'Оновлюємо дані';
+        this.statusMessage = 'Оновлюємо дані дані по ' + flat.flat_name;
         this.selectedFlatService.setSelectedFlatId(flat.flat_id);
         this.selectedFlatService.setSelectedFlatName(flat.flat_name);
         this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);

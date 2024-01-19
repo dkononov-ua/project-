@@ -1,13 +1,11 @@
 
-<div class="flex-box" *ngIf="!houseData">
-  <div class="col-lg-9 col-sm-12 col-12">
-    <div class="p-2">
-      <div class="t-lar t-c">Для доступу до меню оселі створіть або оберіть вже існуючу оселю.</div>
-      <app-add-house></app-add-house>
-      <app-selection-housing></app-selection-housing>
-    </div>
-    <app-footer class="hide-mobile"></app-footer>
+
+<div class="w-100" *ngIf="!houseData">
+  <div [@cardAnimation1] class="dark t-s pl-2">
+    <div class="t-lar-xx bold">Вибір оселі</div>
+    <div class="t-med">Оберіть або створіть оселю</div>
   </div>
+  <app-selection-housing></app-selection-housing>
 </div>
 
 <div class="flex-box" *ngIf="houseData">

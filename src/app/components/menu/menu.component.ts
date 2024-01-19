@@ -4,6 +4,7 @@ import { UpdateComponentService } from 'src/app/services/update-component.servic
 import { serverPath,  path_logo } from 'src/app/config/server-config';
 import { CounterService } from 'src/app/services/counter.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -76,6 +77,7 @@ export class MenuComponent {
   menu3: boolean = false;
   menu4: boolean = false;
   menu5: boolean = false;
+  statusMessage: any;
 
   toggleMenu(index: number) {
     if (index === 1) {
@@ -90,9 +92,10 @@ export class MenuComponent {
     }
     if (index === 2) {
       this.linkOpen2 = !this.linkOpen2;
+      console.log(this.linkOpen2)
       if (this.menu2) {
         setTimeout(() => {
-          this.menu2 = !this.menu2;
+          this.menu2 = false;
         }, 600);
       } else {
         this.menu2 = !this.menu2;
@@ -203,8 +206,6 @@ export class MenuComponent {
     }, 1000);
   }
 
-
-
   path_logo = path_logo;
 
   selectedFlatId: any;
@@ -218,10 +219,9 @@ export class MenuComponent {
   userInf: any;
   agreeNum: number = 0;
 
-  loading: boolean = true;
+  loading: boolean = false;
   dataUpdated = false;
   houseData: any;
-
 
   acces_added: number = 1;
   acces_admin: number = 1;
@@ -255,7 +255,9 @@ export class MenuComponent {
   constructor(
     private http: HttpClient,
     private updateComponent: UpdateComponentService,
-    private counterService: CounterService
+    private counterService: CounterService,
+    private router: Router,
+
   ) {
   }
 
@@ -272,10 +274,8 @@ export class MenuComponent {
       if (houseData) {
         const parsedHouseData = JSON.parse(houseData);
         this.houseData = parsedHouseData;
-        console.log(this.houseData)
         this.selectedFlatId = parsedHouseData.flat.flat_id;
         if (this.selectedFlatId) {
-          console.log(this.selectedFlatId)
           this.getHouseAcces();
           await this.getHouseSubscribersCount();
           await this.getHouseSubscriptionsCount();
@@ -426,6 +426,25 @@ export class MenuComponent {
         this.counterUserNewMessage = 0;
       }
     });
+  }
+
+  logout() {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    this.statusMessage = 'Виходимо з аккаунту';
+    setTimeout(() => {
+      this.statusMessage = '';
+      this.loading = true;
+      setTimeout(() => {
+        this.router.navigate(['/registration']);
+        this.loading = false;
+      }, 1500);
+    }, 1500);
   }
 }
 

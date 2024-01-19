@@ -18,6 +18,8 @@ export class UserComponent implements OnInit {
     this.sendAccountIsOpen();
   }
 
+
+
   sendAccountIsOpen() {
     this.isAccountOpenStatus = true;
     this.isAccountOpenService.setIsAccountOpen(this.isAccountOpenStatus);

@@ -1,0 +1,12 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.btn-group {
+  .btn {
+    background-color: rgba(128, 128, 128, 0.321);
+    &:hover {
+      background-color: $color-accent;
+    }
+  }
+}

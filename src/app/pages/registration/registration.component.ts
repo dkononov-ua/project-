@@ -160,6 +160,7 @@ export class RegistrationComponent implements OnInit {
     localStorage.removeItem('user');
     this.initializeForm();
     this.openDialog();
+    this.loading = false;
   }
 
   openDialog() {
@@ -189,6 +190,9 @@ export class RegistrationComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(response));
             setTimeout(() => {
               this.router.navigate(['/user']);
+              setTimeout(() => {
+                location.reload();
+              }, 100);
             }, 1500);
           }, 1000);
         } else {

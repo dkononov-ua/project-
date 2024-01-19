@@ -42,6 +42,7 @@ import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-
 import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
 import { SendMessageComponent } from '../chat/house/send-message/send-message.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { DeleteHComponent } from '../components/delete-h/delete-h.component';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -63,6 +64,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     ChatHouseComponent,
     ChatHostHouseComponent,
     SendMessageComponent,
+    DeleteHComponent,
   ],
   exports: [
     FooterComponent,
@@ -84,6 +86,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     ChatHouseComponent,
     ChatHostHouseComponent,
     SendMessageComponent,
+    DeleteHComponent,
 
   ],
   providers: [

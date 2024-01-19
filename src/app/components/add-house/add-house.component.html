@@ -1,36 +1,44 @@
 <ng-template #content>
+  <div class="card-box">
+    <div class="card-menu">
+      <div class="param-box w-100 p-2">
 
-  <mat-form-field class="item-select w-100" appearance="outline" *ngIf="showInput">
-    <mat-label>Назва оселі</mat-label>
-    <input id="flat_name" name="flat_name" placeholder="Мінімум 4 символи" matInput [(ngModel)]="flat_name"
-      minlength="4" maxlength="20" #flatIdInput="ngModel" required>
-    <mat-hint align="end" class="t-min gray">Придумайте назву своєї оселі "Моя оселя"</mat-hint>
-  </mat-form-field>
+        <div class="t-lar-x bold t-c mt-2">Створення аккаунту оселі</div>
+        <div class="t-lar t-c">Перед початком налаштування та для доступу до функцій оселі, давайте її створимо.</div>
 
-  <div class="btn-group w-100">
+        <mat-form-field class="item-select w-100" appearance="outline" *ngIf="showInput">
+          <mat-label>Назва оселі</mat-label>
+          <input id="flat_name" name="flat_name" placeholder="Мінімум 4 символи" matInput [(ngModel)]="flat_name"
+            minlength="4" maxlength="20" #flatIdInput="ngModel" required>
+          <mat-hint align="end" class="t-min gray">Придумайте назву своєї оселі "Моя оселя"</mat-hint>
+        </mat-form-field>
 
-    <button class="btn" (click)="openBtn()" *ngIf="!showInput">
-      <i class="fa-solid fa-circle-check"></i>
-      <div class="t-min dark bold ml-2">Створити</div>
-    </button>
+        <div class="btn-group w-100">
 
-    <button class="btn" (click)="openBtn()" *ngIf="showInput">
-      <i class="fa-solid fa-circle-minus"></i>
-      <div class="t-min dark bold ml-2">Відмінити</div>
-    </button>
+          <button class="btn" (click)="openBtn()" *ngIf="!showInput">
+            <i class="fa-solid fa-circle-check"></i>
+            <div class="t-min dark bold ml-2">Створити</div>
+          </button>
 
-    <button class="btn" (click)="houseCreate()" *ngIf="showInput && flat_name.length > 3">
-      <i class="fa-solid fa-circle-check"></i>
-      <div class="t-min dark bold ml-2">Підтвердити</div>
-    </button>
+          <button class="btn" (click)="openBtn()" *ngIf="showInput">
+            <i class="fa-solid fa-circle-minus"></i>
+            <div class="t-min dark bold ml-2">Відмінити</div>
+          </button>
 
-    <button class="btn" (click)="openDialog()" *ngIf="selectedFlatId && !showInput">
-      <i class="fa-solid fa-circle-minus"></i>
-      <div class="t-min dark bold ml-2">Видалити {{selectedFlatName}}</div>
-    </button>
+          <button class="btn" (click)="houseCreate()" *ngIf="showInput && flat_name.length > 3">
+            <i class="fa-solid fa-circle-check"></i>
+            <div class="t-min dark bold ml-2">Підтвердити</div>
+          </button>
+
+        </div>
+      </div>
+
+      <div class="img-wrapper">
+        <img class="img" src="../../../../../assets/example-agree/people_yard3.jpg" alt="">
+      </div>
+    </div>
+
   </div>
-
-
 </ng-template>
 
 <ng-container *ngIf="loading; else content">

@@ -8,10 +8,20 @@ import { SharedService } from 'src/app/services/shared.service';
   templateUrl: './house.component.html',
   styleUrls: ['./house.component.scss'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardAnimation2', [
       transition('void => *', [
-        style({ transform: 'translateX(130%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0)' }),
+        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation1', [
+      transition('void => *', [
+        style({ transform: 'translateX(100%)' }),
+        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
     ]),
   ],
@@ -23,6 +33,9 @@ export class HouseComponent implements OnInit {
   path_logo = path_logo;
   statusMessage: string | undefined;
   houseData: any;
+  createHouse: boolean = true;
+  pickHouse: boolean = false;
+  indexPage: number = 1;
 
   constructor(private selectedFlatService: SelectedFlatService, private sharedService: SharedService,) { }
 

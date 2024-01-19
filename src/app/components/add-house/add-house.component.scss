@@ -1,5 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
 
 .btn-group {
   .btn {
@@ -8,4 +9,24 @@
       background-color: $color-accent;
     }
   }
+}
+
+.card-box {
+  @include flex-box-column;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  height: 75vh;
+
+  .card-menu {
+    @include flex-box;
+    height: 100%;
+    width: 95%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.card-animation::-webkit-scrollbar {
+  display: none;
 }
