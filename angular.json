@@ -33,6 +33,7 @@
               "src/styles.scss"
             ],
             "scripts": [
+              "./node_modules/hammerjs/hammer.min.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",

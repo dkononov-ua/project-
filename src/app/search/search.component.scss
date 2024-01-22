@@ -30,7 +30,6 @@
   border: none;
 }
 
-
 .card-container {
   @include flex-box-row;
   align-items: flex-start;
@@ -96,17 +95,26 @@
 }
 
 .card-selected {
-  width: 380px;
-  min-width: 100%;
+  position: absolute;
+  background-color: $color-white;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: flex-start;
-  position: relative;
+  align-items: flex-start;
   overflow: auto;
-  height: 600px;
-  @include s1-s3 {
-    height: auto;
+  height: auto;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  .cardDirection {
+    @include flex-box-column;
+    position: absolute;
     width: 100%;
-    overflow: visible;
+    padding-top: 30vh;
+    .logo {
+      width: 50%;
+    }
   }
 }
 
@@ -199,20 +207,6 @@
   color: white;
   background-color: $color-dark;
   transition: 1s;
-}
-
-.mob-100vh {
-  @include flex-box-column;
-  @include s1-s3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: $color-white;
-    height: 100vh;
-    overflow: auto;
-    padding-bottom: 10px;
-    z-index: 100;
-  }
 }
 
 .search-results {
@@ -325,21 +319,6 @@
   background-color: $color-accent;
 }
 
-// .price {
-//   height: 100%;
-//   width: 100%;
-//   position: absolute;
-//   z-index: 5;
-//   bottom: 0;
-//   left: 0;
-//   display: flex;
-//   align-items: flex-start;
-//   flex-direction: column;
-//   align-content: flex-start;
-//   justify-content: flex-end;
-//   background: linear-gradient(to top, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 30%);
-// }
-
 .price_m {
   font-size: 20px;
   color: $color-accent;
@@ -352,14 +331,9 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 650px;
   overflow: auto;
-  padding: 0;
-  margin: 0;
   width: 100%;
-  @include s1-s3 {
-    height: 80vh;
-  }
+  height: 76vh;
 }
 
 .btn-close {
@@ -407,7 +381,8 @@
       border-radius: 50%;
       border: none;
       width: 80px;
-      .fa-solid, .fa-regular {
+      .fa-solid,
+      .fa-regular {
         color: $color-dark;
         &:hover {
           color: $color-accent;
@@ -484,7 +459,8 @@
     }
   }
 
-  .fa-solid, .fa-regular {
+  .fa-solid,
+  .fa-regular {
     color: $color-white;
   }
 
@@ -500,22 +476,5 @@
     border-top: 1px solid gray;
     height: 30%;
     width: 100%;
-  }
-}
-
-// .btn-container-close {
-//   position: absolute;
-//   right: 0;
-// }
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
   }
 }

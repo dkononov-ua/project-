@@ -307,7 +307,7 @@ export class LookingComponent implements OnInit {
   }
 
   clearInfoCard3(): void {
-    this.userInfo.option_pay = 2;
+    this.userInfo.option_pay = 0;
     this.userInfo.price_of = undefined;
     this.userInfo.price_to = undefined;
     this.userInfo.day_counts = 0;

@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
-import { promises } from 'dns';
 import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
 import { serverPath, serverPathPhotoUser, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
@@ -34,6 +33,7 @@ export class AgreeReviewComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private selectedFlatIdService: SelectedFlatService,
+    private router: Router,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -58,8 +58,15 @@ export class AgreeReviewComponent implements OnInit {
     };
 
     try {
-      const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      this.agree = response;
+      const response: any = (await this.http.post(url, data).toPromise()) as Agree[];
+      if (response === false) {
+        this.statusMessage = 'Надісланих угод немає';
+        setTimeout(() => {
+          this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
+        }, 300);
+      } else {
+        this.agree = response;
+      }
       this.loading = false;
     } catch (error) {
       console.error(error);
@@ -90,11 +97,21 @@ export class AgreeReviewComponent implements OnInit {
           agreement_id: agree.flat.agreement_id,
         };
         try {
-          const response = await this.http.post(url, data).toPromise();
-          this.deletingFlatId = agree.flat.flat_id;
-          setTimeout(() => {
-            this.agree = this.agree.filter(item => item.flat.subscriber_id !== agree.flat.subscriber_id);
-          }, 0);
+          this.loading = true;
+          const response: any = await this.http.post(url, data).toPromise();
+          console.log()
+          if (response.status === true) {
+            this.statusMessage = 'Угода скасована';
+            this.deletingFlatId = agree.flat.flat_id;
+            setTimeout(() => {
+              location.reload();
+            }, 300);
+          } else {
+            this.statusMessage = 'Помилка скасування';
+            setTimeout(() => {
+              location.reload();
+            }, 300);
+          }
         } catch (error) {
           console.error(error);
         }

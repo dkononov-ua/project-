@@ -12,36 +12,49 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals, options, checkBox } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { GalleryComponent } from 'src/app/components/gallery/gallery.component';
+import { GestureService } from 'src/app/services/gesture.service';
+
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
   styleUrls: ['./house.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
+    GestureService
   ],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardSwipe', [
+
       transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateY(100%)' }),
+        animate('800ms 0ms ease-in-out', style({ transform: 'translateY(0%)' })),
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1400ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
+
+      transition('left => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' })),
+        transition('endRight => *', [
+          style({ transform: 'translateX(0%)' }),
+          animate('10ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' }))
+        ]),
       ]),
-    ]),
-    trigger('slideAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
-      ])
-    ]),
+
+      transition('right => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(100%)' })),
+        transition('endRight => *', [
+          style({ transform: 'translateX(0%)' }),
+          animate('10ms 0ms ease-in-out', style({ transform: 'translateX(100%)' }))
+        ]),
+      ]),
+
+
+    ])
   ]
 })
 
 export class HouseComponent implements OnInit {
+
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
@@ -80,13 +93,15 @@ export class HouseComponent implements OnInit {
   subscriptionStatus: any;
   statusMessage: any;
 
-  card_info: number = 0;
-  indexPage: number = 1;
+  indexPage: number = 0;
   reviews: any;
   numberOfReviews: any;
   ratingOwner: number | undefined;
   isCopiedMessage!: string;
 
+  startX = 0;
+  cardSwipeState: string = '';
+  cardDirection: string = 'Discussio';
 
   constructor(
     private filterService: FilterService,
@@ -100,14 +115,62 @@ export class HouseComponent implements OnInit {
     this.getSearchInfo()
   }
 
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  onPanMove(event: any): void {
+    this.startX = event.deltaX;
+  }
+
+  onPanEnd(event: any): void {
+    if (event.deltaX > 0) {
+      this.onSwipe('right');
+    } else {
+      this.onSwipe('left');
+    }
+  }
+
+  toggleIndexPage() {
+    if (this.indexPage === 1) {
+      this.indexPage = 2;
+    } else {
+      this.indexPage = 1;
+    }
+  }
+
+  onSwipe(direction: 'left' | 'right'): void {
+    if (direction === 'left') {
+      this.cardDirection = 'Наступна';
+      this.cardSwipeState = 'left';
+      setTimeout(() => {
+        this.cardSwipeState = 'endLeft';
+        setTimeout(() => {
+          this.onNextCard();
+          this.toggleIndexPage();
+          this.cardDirection = '';
+        }, 900);
+      }, 0);
+    } else {
+      this.cardDirection = 'Попередня';
+      this.cardSwipeState = 'right';
+      setTimeout(() => {
+        this.cardSwipeState = 'endRight';
+        setTimeout(() => {
+          this.onPrevCard();
+          this.toggleIndexPage();
+          this.cardDirection = '';
+        }, 900);
+      }, 0);
+    }
+  }
+
   async getSearchInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
-        this.card_info = this.filterService.getCardInfo();
-        this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
           this.getFilteredData(filterValue, optionsFound);
         } else {
@@ -137,8 +200,7 @@ export class HouseComponent implements OnInit {
 
   selectFlat(flat: HouseInfo) {
     this.currentPhotoIndex = 0;
-    this.indexPage = 2;
-    this.card_info = 1;
+    this.indexPage = 1;
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
     this.selectedFlat = flat;
     this.getRating(this.selectedFlat)

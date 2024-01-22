@@ -4,50 +4,19 @@ import { ChangeComunService } from 'src/app/housing-services/change-comun.servic
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { animations } from '../../interface/animation';
 
 @Component({
   selector: 'app-selection-housing',
   templateUrl: './selection-housing.component.html',
   styleUrls: ['./selection-housing.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1400ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('2000ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('2200ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-
-    trigger('cardAnimation6', [
-      transition('void => *', [
-        style({ transform: 'translateX(-230%)' }),
-        animate('1200ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 })
 

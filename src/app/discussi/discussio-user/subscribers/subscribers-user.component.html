@@ -35,35 +35,35 @@
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 0">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 0">
       <div class="t-lar-xx bold dark t-s"><i class="fa-solid fa-building-circle-arrow-right"></i> Запропоновані оселі
       </div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 1">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 1">
       <div class="t-lar-xx bold dark t-s">Всі пропозиції</div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 2">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 2">
       <div class="t-lar-xx bold dark t-s">Інфо про оселю</div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 3">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 3">
       <div class="t-lar-xx bold dark t-s">Інфо про власника</div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 4">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 4">
       <div class="t-lar-xx bold dark t-s">Чат з оселею</div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 5">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 5">
       <div class="t-lar-xx bold dark t-s">Відгуки про власника</div>
     </div>
 
   </div>
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 0">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 0">
 
       <div class="param-box">
         <div class="param-name">
@@ -92,7 +92,7 @@
     </div>
 
     <!-- всі картки -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 1">
 
       <div class="pl-2 t-lar" *ngIf="counterFound === 0">Пропозицій немає...</div>
 
@@ -136,7 +136,7 @@
     </div>
 
     <!-- інформація про оселю -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 2 && counterFound !== 0 &&  chosenFlat">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 2 && counterFound !== 0 &&  chosenFlat">
       <div class="btn-close-container">
         <div class="btn-close-box">
           <button class="btn-close" (click)="indexPage = 1"></button>
@@ -401,7 +401,7 @@
     </div>
 
     <!-- інформація про власника -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 3 && counterFound !== 0 && chosenFlat">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 3 && counterFound !== 0 && chosenFlat">
       <div class="btn-close-container">
         <div class="btn-close-box">
           <button class="btn-close" (click)="indexPage = 2"></button>
@@ -498,7 +498,7 @@
     </div>
 
     <!-- Відгуки -->
-    <div [@cardAnimation] class="card card-selected p-2" *ngIf="indexPage === 5 ">
+    <div [@swichCard] class="card card-selected p-2" *ngIf="indexPage === 5 ">
 
       <div class="btn-container-close">
         <div class="flex-box-column p-1">

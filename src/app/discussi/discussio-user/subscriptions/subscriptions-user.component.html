@@ -28,22 +28,22 @@
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 0">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 0">
       <div class="t-lar-xx bold dark t-s"><i class="fa-regular fa-heart"></i> Вподобані оселі</div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 1">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 1">
       <div class="t-lar-xx bold dark t-s">Всі вподобані оселі</div>
     </div>
 
-    <div [@cardAnimation3] class="flex-column pl-2" *ngIf="indexPage === 2">
+    <div [@left] class="flex-column pl-2" *ngIf="indexPage === 2">
       <div class="t-lar-xx bold dark t-s">Інфо про оселю</div>
     </div>
 
   </div>
 
   <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 0">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 0">
       <div class="param-box">
         <div class="param-name">
           <p class="t-min ">список оселей які вам сподобались і ви на них підписались.</p>
@@ -69,7 +69,7 @@
     </div>
 
     <!-- всі картки -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 1 && counterFound !== 0">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 1 && counterFound !== 0">
       <div class="paginator-container">
         <button class="paginator-btn" (click)="decrementOffset()">
           <i class="fa-solid fa-chevron-left"></i></button>
@@ -110,7 +110,7 @@
     </div>
 
     <!-- інформація про оселю -->
-    <div [@cardAnimation] class="card-animation" *ngIf="indexPage == 2 && counterFound !== 0 &&  chosenFlat">
+    <div [@swichCard] class="card-animation" *ngIf="indexPage == 2 && counterFound !== 0 &&  chosenFlat">
       <div class="btn-close-container">
         <div class="btn-close-box">
           <button class="btn-close" (click)="indexPage = 1"></button>

@@ -5,7 +5,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { objects } from '../../../../data/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Location } from '@angular/common';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
@@ -16,27 +15,6 @@ import { Agree } from '../../../../interface/info';
   styleUrls: ['./act-view.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
-  ],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1500ms 0ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1500ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1500ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-
   ],
 })
 

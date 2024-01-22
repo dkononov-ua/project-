@@ -9,11 +9,22 @@ import { serverPath } from 'src/app/config/server-config';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { UserConfig } from '../../interface/param-config'
 import { UserInfoSearch } from '../../interface/info'
+import { animations } from '../../interface/animation';
 
 @Component({
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
   styleUrls: ['./search-tenant.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
+  ],
 })
 
 export class SearchTenantComponent implements OnInit {
@@ -64,8 +75,9 @@ export class SearchTenantComponent implements OnInit {
   openUser: boolean = false;
 
   card_info: number = 0;
-  indexPage: number = 1;
+  indexPage: number = 2;
   shownCard: any;
+  myData: boolean = false;
 
   filterSwitchNext() {
     if (this.filter_group < 4) {
@@ -116,6 +128,7 @@ export class SearchTenantComponent implements OnInit {
   }
 
   clearFilter() {
+    this.searchQuery = '';
     this.userInfo.room = undefined;
     this.userInfo.price = undefined;
     this.userInfo.region = undefined;
@@ -152,6 +165,7 @@ export class SearchTenantComponent implements OnInit {
   }
 
   async loadDataFlat(): Promise<void> {
+    this.myData = true;
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.houseData = localStorage.getItem('houseData');
@@ -239,12 +253,15 @@ export class SearchTenantComponent implements OnInit {
     this.timer = setTimeout(() => {
       const userJson = localStorage.getItem('user');
       const userId = this.searchQuery;
-
       if (userJson && this.searchQuery) {
         this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
+            this.optionsFound = response.search_count;
             this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
+            if (response.search_count === 1) {
+              this.indexPage = 2;
+            }
           }, (error: any) => {
             console.error(error);
           });

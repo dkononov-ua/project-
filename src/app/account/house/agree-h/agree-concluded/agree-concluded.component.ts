@@ -70,8 +70,13 @@ export class AgreeConcludedComponent implements OnInit {
         const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
         this.agreementIds = agreementIds;
       } else {
-        this.agree = [];
+        this.loading = true;
+        this.statusMessage = 'Ухвалених угод немає';
         this.numConcludedAgree = 0;
+        setTimeout(() => {
+          this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
+          this.loading = false;
+        }, 300);
       }
     } catch (error) {
       console.error(error);
@@ -174,14 +179,15 @@ export class AgreeConcludedComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           if (response) {
-            this.agree = [];
             this.statusMessage = 'Угода видалена';
             setTimeout(() => {
-              this.getConcludedAgree();
-              this.statusMessage = '';
-            }, 2000);
+              location.reload();
+            }, 500);
           } else {
-            console.log('Помилка видалення')
+            this.statusMessage = 'Помилка видалення';
+            setTimeout(() => {
+              location.reload();
+            }, 500);
           }
 
         } catch (error) {

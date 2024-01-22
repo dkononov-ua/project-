@@ -1,4 +1,3 @@
-import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -18,6 +17,7 @@ const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { animations } from '../../../../interface/animation';
 
 export const MY_FORMATS = {
   parse: {
@@ -60,43 +60,16 @@ interface Subscribers {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1400ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1800ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('2000ms 800ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('2200ms 1000ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-
-    trigger('cardAnimation6', [
-      transition('void => *', [
-        style({ transform: 'translateX(-230%)' }),
-        animate('1800ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right,
+    animations.right1,
+    animations.right4,
+    animations.swichCard,
   ],
 })
 export class AgreeCreateComponent implements OnInit {

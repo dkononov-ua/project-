@@ -26,16 +26,16 @@
 </div>
 
 <div class="t-lar-xx bold dark t-s pl-2">
-  <div [@cardAnimation1] *ngIf="indexPage === 0">Підписки оселі</div>
-  <div [@cardAnimation1] *ngIf="indexPage === 1">Всі Підписки</div>
-  <div [@cardAnimation1] *ngIf="indexPage === 2">Інфо про орендара</div>
-  <div [@cardAnimation1] *ngIf="indexPage === 4">Відгуки про орендара</div>
+  <div [@left] *ngIf="indexPage === 0">Підписки оселі</div>
+  <div [@left] *ngIf="indexPage === 1">Всі Підписки</div>
+  <div [@left] *ngIf="indexPage === 2">Інфо про орендара</div>
+  <div [@left] *ngIf="indexPage === 4">Відгуки про орендара</div>
 </div>
 
 <div class="card-box">
 
   <!-- про меню -->
-  <div [@cardAnimation2] class="card-animation p-2" *ngIf="indexPage === 0">
+  <div [@swichCard] class="card-animation p-2" *ngIf="indexPage === 0">
 
     <div class="param-box">
       <div class="param-name"><i class="fa-solid fa-people-pulling"></i> Меню Підписки оселі
@@ -62,7 +62,7 @@
   </div>
 
   <!-- всі картки-->
-  <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 1 && counterFound && counterFound !== 0">
+  <div [@swichCard] class="card-animation" *ngIf="indexPage === 1 && counterFound && counterFound !== 0">
     <div class="paginator-container">
       <button class="paginator-btn" (click)="decrementOffset()">
         <i class="fa-solid fa-chevron-left"></i></button>
@@ -94,7 +94,7 @@
   </div>
 
   <!-- основна інформація користувача -->
-  <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 2 && counterFound !== 0 && selectedUser">
+  <div [@swichCard] class="card-animation" *ngIf="indexPage === 2 && counterFound !== 0 && selectedUser">
     <div class="btn-close-container">
       <div class="btn-close-box">
         <button class="btn-close" (click)="indexPage = 1"></button>
@@ -397,7 +397,7 @@
   </div>
 
   <!-- Чат -->
-  <div [@cardAnimation2] class="flex-column-chat" *ngIf="indexPage === 3 && counterFound !== 0 && selectedUser">
+  <div [@swichCard] class="flex-column-chat" *ngIf="indexPage === 3 && counterFound !== 0 && selectedUser">
     <div class="btn-close-container">
       <div class="btn-close-box">
         <button class="btn-close" (click)="indexPage = 2"></button>
@@ -408,7 +408,7 @@
   </div>
 
   <!-- Відгуки -->
-  <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 4 && counterFound !== 0  && selectedUser">
+  <div [@swichCard] class="card-animation" *ngIf="indexPage === 4 && counterFound !== 0  && selectedUser">
     <div class="card card-selected">
       <div class="t-lar-xx p-2">Відгуки власників</div>
 

@@ -7,8 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 export class FilterService {
   private filterValue: any;
   private optionsFound: number | undefined;
-  private card_info: number = 0;
-  private indexPage: number = 1;
   filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor() { }
@@ -27,12 +25,5 @@ export class FilterService {
     return this.optionsFound;
   }
 
-  getCardInfo() {
-    return this.card_info;
-  }
-
-  getIndexPage() {
-    return this.indexPage;
-  }
 
 }

@@ -14,6 +14,8 @@ import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
+import { animations } from '../../../interface/animation';
+
 @Component({
   selector: 'app-subscriptions-house',
   templateUrl: './subscriptions-house.component.html',
@@ -22,22 +24,13 @@ import { CounterService } from 'src/app/services/counter.service';
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 })
 

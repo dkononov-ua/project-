@@ -2,10 +2,10 @@
 
   <div class="flex-column pl-2">
     <div class="t-lar-xx bold dark t-s">
-      <div [@cardAnimation1] *ngIf="indexPage === 0">Меню угод</div>
-      <div [@cardAnimation1] *ngIf="indexPage === 1">Створення угод </div>
-      <div [@cardAnimation1] *ngIf="indexPage === 2">Пропозиції</div>
-      <div [@cardAnimation1] *ngIf="indexPage === 3">Ухвалені угоди</div>
+      <div [@left1] *ngIf="indexPage === 0">Меню угод</div>
+      <div [@left1] *ngIf="indexPage === 1">Створення угод </div>
+      <div [@left1] *ngIf="indexPage === 2">Пропозиції</div>
+      <div [@left1] *ngIf="indexPage === 3">Ухвалені угоди</div>
     </div>
   </div>
 
@@ -46,7 +46,7 @@
   </div>
 
   <div class="mt-2">
-    <div [@cardAnimation2] class="flex-box p-2 card-animation" *ngIf="indexPage === 0">
+    <div [@left2] class="flex-box p-2 card-animation" *ngIf="indexPage === 0">
       <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="param-box p-2">
 
@@ -83,13 +83,13 @@
 
     <div class="flex-column card-animation" *ngIf="indexPage === 1">
 
-      <div [@cardAnimation1] class="flex-box m-2">
+      <div [@left1] class="flex-box m-2">
         <div class="t-lar bold">
           <p class="t-min ">Я орендар як отримати угоду?</p>
         </div>
       </div>
 
-      <div [@cardAnimation2] class="item-box">
+      <div [@left2] class="item-box">
         <div class="item-d w-70">
           <div class="t-med gray bold">Крок 1 Створення угоди</div>
           <div class="t-min t-c p-1">Угоду створює власник оселі. Формування відбувається шляхом обрання орендара
@@ -103,7 +103,7 @@
         </button>
       </div>
 
-      <div [@cardAnimation3] class="item-box">
+      <div [@left3] class="item-box">
 
         <div class="item-d w-70">
           <div class="t-med gray bold">Крок 2 Пропозиція</div>
@@ -117,7 +117,7 @@
         </button>
       </div>
 
-      <div [@cardAnimation4] class="item-box">
+      <div [@left4] class="item-box">
 
         <div class="item-d w-70">
           <div class="t-med gray bold">Крок 3 Формування акту</div>
@@ -133,7 +133,7 @@
         </button>
       </div>
 
-      <div [@cardAnimation5] class="item-box mb-4">
+      <div [@left5] class="item-box mb-4">
 
         <div class="item-d w-70">
           <div class="t-med gray bold">Крок 4 Мешканець</div>
@@ -150,11 +150,11 @@
 
     </div>
 
-    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 2">
+    <div [@left2] class="card-animation" *ngIf="indexPage === 2">
       <app-uagree-review></app-uagree-review>
     </div>
 
-    <div [@cardAnimation2] class="card-animation" *ngIf="indexPage === 3">
+    <div [@left2] class="card-animation" *ngIf="indexPage === 3">
       <app-uagree-concluded></app-uagree-concluded>
     </div>
   </div>

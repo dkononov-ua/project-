@@ -12,6 +12,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
+import { GestureService } from 'src/app/services/gesture.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,30 +20,34 @@ import { UserInfo } from 'src/app/interface/info';
   styleUrls: ['./profile.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
+    GestureService
   ],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardSwipe', [
+
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'translateY(100%)' }),
+        animate('800ms 0ms ease-in-out', style({ transform: 'translateY(0%)' })),
       ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+
+      transition('left => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' })),
+        transition('endRight => *', [
+          style({ transform: 'translateX(0%)' }),
+          animate('10ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' }))
+        ]),
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1400ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
+
+      transition('right => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(100%)' })),
+        transition('endRight => *', [
+          style({ transform: 'translateX(0%)' }),
+          animate('10ms 0ms ease-in-out', style({ transform: 'translateX(100%)' }))
+        ]),
       ]),
-    ]),
-    trigger('slideAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
-      ])
-    ]),
+    ])
   ]
 })
 
@@ -81,10 +86,14 @@ export class ProfileComponent implements OnInit {
   optionsFound: number = 0;
 
   card_info: number = 0;
-  indexPage: number = 1;
+  indexPage: number = 0;
   numberOfReviews: any;
   totalDays: any;
   reviews: any;
+
+  startX = 0;
+  cardSwipeState: string = '';
+  cardDirection: string = 'Discussio';
 
   constructor(
     private filterService: FilterUserService,
@@ -92,16 +101,62 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
-  ) {
-    this.filterService.filterChange$.subscribe(async () => {
-      this.card_info = this.filterService.getCardInfo();
-      this.indexPage = this.filterService.getIndexPage();
-    })
-  }
+  ) {  }
 
   ngOnInit(): void {
     this.getSelectedFlat();
   }
+
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  onPanMove(event: any): void {
+    this.startX = event.deltaX;
+  }
+
+  onPanEnd(event: any): void {
+    if (event.deltaX > 0) {
+      this.onSwipe('right');
+    } else {
+      this.onSwipe('left');
+    }
+  }
+
+  toggleIndexPage() {
+    if (this.indexPage === 1) {
+      this.indexPage = 2;
+    } else {
+      this.indexPage = 1;
+    }
+  }
+
+  onSwipe(direction: 'left' | 'right'): void {
+    if (direction === 'left') {
+      this.cardDirection = 'Наступна';
+      this.cardSwipeState = 'left';
+      setTimeout(() => {
+        this.cardSwipeState = 'endLeft';
+        setTimeout(() => {
+          this.onNextCard();
+          this.toggleIndexPage();
+          this.cardDirection = '';
+        }, 900);
+      }, 0);
+    } else {
+      this.cardDirection = 'Попередня';
+      this.cardSwipeState = 'right';
+      setTimeout(() => {
+        this.cardSwipeState = 'endRight';
+        setTimeout(() => {
+          this.onPrevCard();
+          this.toggleIndexPage();
+          this.cardDirection = '';
+        }, 900);
+      }, 0);
+    }
+  }
+
 
   async getSelectedFlat() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
@@ -121,8 +176,6 @@ export class ProfileComponent implements OnInit {
       this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
-        this.card_info = this.filterService.getCardInfo();
-        this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
           this.getFilteredData(filterValue, optionsFound);
         } else {
@@ -149,11 +202,10 @@ export class ProfileComponent implements OnInit {
   }
 
   selectUser(user: UserInfo) {
-    this.indexPage = 2;
+    this.indexPage = 1;
     this.getRating(user)
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
-    this.passIndexPage();
     this.calculateTotalDays()
     this.updateSelectedUser();
   }
@@ -260,11 +312,6 @@ export class ProfileComponent implements OnInit {
         }, 2000);
       }
     });
-  }
-
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passIndexPage() {
-    this.filterService.updatePage(this.card_info, this.indexPage);
   }
 
   async getRating(selectedUser: any): Promise<any> {

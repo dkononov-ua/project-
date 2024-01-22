@@ -15,10 +15,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import { AppRoutingModule } from '../app-routing.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -31,6 +29,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProfileComponent } from './search-tenant/profile/profile.component';
 import { SearchHousingComponent } from './search-housing/search-housing.component';
 import { HouseComponent } from './search-housing/house/house.component';
+import { GestureService } from '../services/gesture.service';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     SearchComponent,
@@ -42,7 +42,9 @@ import { HouseComponent } from './search-housing/house/house.component';
   providers: [
     FilterService,
     FilterUserService,
-    { provide: MatPaginatorIntl }],
+    { provide: MatPaginatorIntl },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
+  ],
   imports: [
     // BrowserModule,
     // AppRoutingModule,
@@ -72,6 +74,7 @@ import { HouseComponent } from './search-housing/house/house.component';
     MatPaginatorModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatMenuModule,
   ]
 })
 export class SearchModule { }

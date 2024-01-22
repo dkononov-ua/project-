@@ -54,11 +54,11 @@
     justify-content: space-between;
     margin: 5px 0px 5px 5px;
     position: relative;
-    background-color: white;
+    background-color: $color-white;
     font-weight: 600;
     text-transform: capitalize;
     border-radius: 10px 0 0 10px;
-    box-shadow: 2px 2px 2px 4px rgb(255, 255, 255);
+    box-shadow: 2px 2px 2px 4px $color-white;
 
     .status {
       @include flex-box;
@@ -68,14 +68,23 @@
       transform: translateY(-15px);
       width: 30px;
       height: 30px;
-      background-color: tomato;
-      color: white;
+      background-color: $color-accent;
+      color: $color-white;
       border-radius: 50%;
 
       .fa-envelope-open-text {
         color: $color-white;
         font-size: 15px;
       }
+    }
+  }
+  .link.active {
+    background-color: $color-accent;
+    color: $color-white;
+    box-shadow: 2px 2px 2px 4px $color-accent;
+    .fa-solid,
+    .fa-regular {
+      color: $color-white;
     }
   }
 }
@@ -88,4 +97,3 @@
     background-color: rgba(156, 156, 156, 0.656);
   }
 }
-

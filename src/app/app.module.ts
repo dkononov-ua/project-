@@ -22,7 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
@@ -56,6 +56,7 @@ import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
 import { DiscussioComponent } from './components/discussio/discussio.component';
+import { GestureService } from './services/gesture.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,6 +82,7 @@ import { DiscussioComponent } from './components/discussio/discussio.component';
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -109,7 +111,6 @@ import { DiscussioComponent } from './components/discussio/discussio.component';
     MatRadioModule,
     MatMenuModule,
     MatCheckboxModule,
-    HammerModule,
     MatBadgeModule,
     MatButtonModule,
     MatIconModule,
@@ -126,6 +127,8 @@ import { DiscussioComponent } from './components/discussio/discussio.component';
     SearchRoutingModule,
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
+    HammerModule,
+    BrowserModule,
   ]
 })
 export class AppModule { }

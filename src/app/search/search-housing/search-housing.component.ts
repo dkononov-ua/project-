@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { serverPath } from 'src/app/config/server-config';
+import { animations } from '../../interface/animation';
 
 interface UserInfo {
   price_of: string | undefined;
@@ -54,6 +55,16 @@ interface SearchParams {
   selector: 'app-search-housing',
   templateUrl: './search-housing.component.html',
   styleUrls: ['./search-housing.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
+  ],
 })
 
 export class SearchHousingComponent implements OnInit {
@@ -130,6 +141,19 @@ export class SearchHousingComponent implements OnInit {
   card_info: number = 0;
   indexPage: number = 1;
   shownCard: string | undefined;
+  myData: boolean = false;
+
+  sortMenu: boolean = false;
+  searchInfoUserData: boolean = false;
+
+  toggleSortMenu() {
+    this.sortMenu = !this.sortMenu;
+  }
+
+  onSortSelected(value: string) {
+    this.userInfo.filterData = value;
+    this.onSubmitWithDelay(); // Викликаєте метод при зміні значення
+  }
 
   filterSwitchNext() {
     if (this.filter_group < 3) {
@@ -150,18 +174,14 @@ export class SearchHousingComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
-  ) {
-    this.filterService.filterChange$.subscribe(async () => {
-      this.card_info = this.filterService.getCardInfo();
-      this.indexPage = this.filterService.getIndexPage();
-    })
-   }
+  ) { }
 
   ngOnInit() {
     this.searchFilter();
   }
 
   loadDataUserSearch() {
+    this.myData = true;
     const searchInfoUserData = localStorage.getItem('searchInfoUserData');
     if (searchInfoUserData !== null) {
       this.userInfoSearch = JSON.parse(searchInfoUserData);
@@ -207,6 +227,14 @@ export class SearchHousingComponent implements OnInit {
   }
 
   clearFilter() {
+    this.myData = false;
+    this.indexPage = 0;
+    this.loading = true;
+    setTimeout(() => {
+      this.indexPage = 1;
+      this.loading = false;
+    }, 500);
+    this.searchQuery = '';
     this.userInfo = {
       country: '',
       price_of: '',
@@ -254,7 +282,7 @@ export class SearchHousingComponent implements OnInit {
 
   // завантаження бази міст
   loadCities() {
-    if (this.userInfo.region) {
+    if (this.userInfo.region || this.userInfo.region === '') {
       const searchTerm = this.userInfo.region.toLowerCase();
       this.filteredRegions = this.regions.filter(region =>
         region.name.toLowerCase().includes(searchTerm)
@@ -293,12 +321,17 @@ export class SearchHousingComponent implements OnInit {
   }
 
   // пошук оселі по ID
-  searchByID() {
+  async searchByID() {
     if (this.searchQuery) {
       const endpoint = serverPath + '/search/flat';
       const flatId = this.searchQuery;
       const url = `${endpoint}/?flat_id=${flatId}`;
-      this.getSearchData(url);
+      await this.getSearchData(url);
+      if (this.optionsFound === 1) {
+        setTimeout(() => {
+          this.indexPage = 2;
+        }, 500);
+      }
       return;
     }
     if (!this.searchQuery) {

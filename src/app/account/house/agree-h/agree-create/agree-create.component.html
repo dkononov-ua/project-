@@ -7,11 +7,11 @@
 
     <div class="flex-column pl-2">
       <div class="t-lar-xx bold dark t-s">
-        <div [@cardAnimation1] *ngIf="currentStep === 1">Формування угоди</div>
-        <div [@cardAnimation1] *ngIf="currentStep === 2">Вибір орендара</div>
-        <div [@cardAnimation1] *ngIf="currentStep === 3">Умови угоди</div>
-        <div [@cardAnimation1] *ngIf="currentStep === 4">Додаткові умови</div>
-        <div [@cardAnimation1] *ngIf="currentStep === 5">Відправлення угоди</div>
+        <div [@left] *ngIf="currentStep === 1">Формування угоди</div>
+        <div [@left] *ngIf="currentStep === 2">Вибір орендара</div>
+        <div [@left] *ngIf="currentStep === 3">Умови угоди</div>
+        <div [@left] *ngIf="currentStep === 4">Додаткові умови</div>
+        <div [@left] *ngIf="currentStep === 5">Відправлення угоди</div>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
 
       <div class="container-card p-2 group col-12" *ngIf="currentStep === 1">
 
-        <div class="status-container">
+        <div [@right4] class="status-container">
           <div class="status-box">
             <div class="status-value">Допомога</div>
           </div>
@@ -78,7 +78,7 @@
           </div>
         </div>
 
-        <div [@cardAnimation6] id="carouselExampleControls" class="card-1 carousel slide" data-bs-ride="carousel">
+        <div [@right1] id="carouselExampleControls" class="card-1 carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="img-fluid-h">
@@ -102,7 +102,7 @@
           </button>
         </div>
 
-        <div [@cardAnimation3] class="flex-column w-70 pl-4">
+        <div [@left1] class="flex-column w-70 pl-4">
 
           <div class="flex-group m-1">
             <button class="link-t flex-box-row" [routerLink]="'/housing-parameters/host/'">
@@ -153,7 +153,7 @@
             <input type="text" name="ownership" matInput [(ngModel)]="ownership">
           </mat-form-field>
 
-          <div [@cardAnimation4] class="btn-group">
+          <div [@left3] class="btn-group">
             <button class="btn" (click)="changeStep(currentStep + 1)">
               <div class="t-med dark bold p-2">Далі</div>
               <i class="fa-solid fa-arrow-right"></i>
@@ -163,7 +163,7 @@
         </div>
       </div>
 
-      <div [@cardAnimation2] class="container-card group p-2 col-12" *ngIf="currentStep === 2">
+      <div [@left2] class="container-card group p-2 col-12" *ngIf="currentStep === 2">
 
         <div class="status-container">
           <div class="status-box">
@@ -221,7 +221,7 @@
           <mat-hint class="gray" align="start">Оберіть орендара з яким у вас дискусія</mat-hint>
         </mat-form-field>
 
-        <div [@cardAnimation1] class="box-1 w-100" *ngIf="selectedSubscriber">
+        <div [@left] class="box-1 w-100" *ngIf="selectedSubscriber">
           <div class="t-lar bold">{{ selectedSubscriber?.lastName }} {{ selectedSubscriber?.firstName }} {{
             selectedSubscriber?.surName }}
           </div>
@@ -264,7 +264,7 @@
 
       </div>
 
-      <div [@cardAnimation1] class="container-card col-12" *ngIf="currentStep === 3">
+      <div [@left2] class="container-card col-12" *ngIf="currentStep === 3">
         <div class="card-box p-2 col-lg-12 col-md-5 col-sm-6 col-12">
           <div class="card mb-2 p-2 ">
 
@@ -388,7 +388,7 @@
         </div>
       </div>
 
-      <div [@cardAnimation1] class="container-card col-12" *ngIf="currentStep === 4">
+      <div [@left2] class="container-card col-12" *ngIf="currentStep === 4">
         <div class="card-box p-2">
           <div class="card mb-2 p-2">
 
@@ -471,7 +471,7 @@
         </div>
       </div>
 
-      <div [@cardAnimation1] class="container-card col-12" *ngIf="currentStep === 5">
+      <div [@left2] class="container-card col-12" *ngIf="currentStep === 5">
         <div class="card-box p-2 col-lg-12">
           <div class="card mb-2">
 
@@ -777,7 +777,6 @@
     </div>
 
   </div>
-
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

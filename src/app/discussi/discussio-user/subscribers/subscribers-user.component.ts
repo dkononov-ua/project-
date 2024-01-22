@@ -14,6 +14,7 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
+import { animations } from '../../../interface/animation';
 
 interface chosenFlat {
   flat: any;
@@ -29,22 +30,13 @@ interface chosenFlat {
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 })
 

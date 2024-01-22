@@ -14,13 +14,13 @@
   </div>
 </div>
 
-<div [@cardAnimation3] class="container-card col-12" *ngIf="indexPage === 0">
+<div [@swichCard] class="container-card col-12" *ngIf="indexPage === 0">
   <app-add-house></app-add-house>
 </div>
 
 <div class="container-card col-12" *ngIf="indexPage === 1">
 
-  <div class="status-container">
+  <div [@left1] class="status-container">
     <div class="status-box">
       <div class="status-value">Допомога</div>
     </div>
@@ -39,13 +39,13 @@
     </div>
   </div>
 
-  <div [@cardAnimation6] class="card-1">
+  <div [@left1] class="card-1">
     <div class="img-fluid-h">
       <img class="img-h" src="../../../../../assets/example-agree/people_yard3.jpg" alt="">
     </div>
   </div>
 
-  <div [@cardAnimation3] class="card-2 flex-column w-75 pl-4">
+  <div [@left1] class="card-2 flex-column w-75 pl-4">
     <app-delete-h class="p-1"></app-delete-h>
 
     <ng-container *ngIf="allFlats">
