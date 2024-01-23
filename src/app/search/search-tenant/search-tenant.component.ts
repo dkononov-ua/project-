@@ -75,7 +75,7 @@ export class SearchTenantComponent implements OnInit {
   openUser: boolean = false;
 
   card_info: number = 0;
-  indexPage: number = 2;
+  indexPage: number = 1;
   shownCard: any;
   myData: boolean = false;
 
@@ -116,23 +116,26 @@ export class SearchTenantComponent implements OnInit {
   constructor(
     private filterUserService: FilterUserService,
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) {
-    this.filterUserService.filterChange$.subscribe(async () => {
-      this.card_info = this.filterUserService.getCardInfo();
-      this.indexPage = this.filterUserService.getIndexPage();
-    })
-  }
+    private selectedFlatService: SelectedFlatService) {  }
 
   async ngOnInit(): Promise<void> {
     this.getSelectedFlatId();
+    this.loading = false;
   }
 
   clearFilter() {
+    this.loading = true;
+    this.myData = false;
+    setTimeout(() => {
+      this.indexPage = 1;
+      this.loading = false;
+    }, 500);
+    this.indexPage = 0;
     this.searchQuery = '';
     this.userInfo.room = undefined;
     this.userInfo.price = undefined;
-    this.userInfo.region = undefined;
-    this.userInfo.city = undefined;
+    this.userInfo.region = '';
+    this.userInfo.city = '';
     this.userInfo.rooms = undefined;
     this.userInfo.area = undefined;
     this.userInfo.repair_status = '';
@@ -149,6 +152,7 @@ export class SearchTenantComponent implements OnInit {
     this.userInfo.looking_woman = undefined;
     this.userInfo.looking_man = undefined;
     this.userInfo.students = 1;
+    this.userInfo.limit = 0;
     this.userInfo.woman = 1;
     this.userInfo.man = 1;
     this.userInfo.family = 1;
@@ -161,7 +165,6 @@ export class SearchTenantComponent implements OnInit {
     this.userInfo.flat = undefined;
     this.userInfo.kitchen_area = undefined;
     this.searchFilter()
-
   }
 
   async loadDataFlat(): Promise<void> {
@@ -228,22 +231,16 @@ export class SearchTenantComponent implements OnInit {
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
-            this.loading = false;
           } else {
             this.filteredUsers = [null];
             this.optionsFound = 0;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
-            this.loading = false;
           }
         }, (error: any) => {
           console.error(error);
-          this.loading = false;
-
         });
     } else {
       this.passInformationToService(this.filteredUsers, this.optionsFound)
-      console.log('user not found');
-      this.loading = false;
     }
   }
 
@@ -336,27 +333,6 @@ export class SearchTenantComponent implements OnInit {
       this.userInfo.limit = offs;
     }
     this.searchFilter();
-  }
-
-  changeOpenUser() {
-    this.openUser = !this.openUser;
-  }
-
-  changeIndexPage(indexPage: number) {
-    this.indexPage = indexPage;
-    this.openUser = true;
-    this.passIndexPage();
-  }
-
-  changeCardInfo(cardInfo: number) {
-    this.card_info = cardInfo;
-    this.openUser = true;
-    this.passIndexPage();
-  }
-
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passIndexPage() {
-    this.filterUserService.updatePage(this.card_info, this.indexPage);
   }
 
   calculatePaginatorInfo(): string {

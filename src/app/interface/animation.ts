@@ -58,6 +58,13 @@ export const animations = {
     ]),
   ]),
 
+  right2: trigger('right2', [
+    transition('void => *', [
+      style({ transform: 'translateX(-230%)' }),
+      animate('1400ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
+    ]),
+  ]),
+
   right4: trigger('right4', [
     transition('void => *', [
       style({ transform: 'translateX(-230%)' }),

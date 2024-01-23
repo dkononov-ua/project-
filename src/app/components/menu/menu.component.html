@@ -1,11 +1,12 @@
 <div class="menu-container">
   <div class="menu-wrapper">
 
-    <button (click)="toggleMenu(5)" class="btn btn-menu btn-logo">
-      <img class="logo" src="{{path_logo}}" alt="logo">
+    <button (click)="toggleMenu(5)" class="btn-logo">
+      <!-- <img class="logo" src="{{path_logo}}" alt="logo"> -->
+      <img class="logo" src="../../../assets/logo/discussio.png" alt="logo">
     </button>
 
-    <button (click)="toggleMenu(4)" class="btn btn-menu">
+    <button class="btn btn-menu" [routerLinkActive]="'active'" [routerLink]="'/search'">
       <i class="fa-solid fa-magnifying-glass"></i>
       <div class="t-min">Пошук</div>
     </button>
@@ -39,19 +40,27 @@
   <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'" [routerLink]="'/user/info'"
     *ngIf="linkOpen1">
     <i class="fa-solid fa-person-half-dress"></i>
-    <div class="t-lar-x t-e pl-2">Профіль</div>
+    <div class="t-lar-x t-e pl-2">Профіль користувача</div>
   </a>
 
-  <a [@cardAnimation2] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/subscribers-host-user/subscribers-user'" *ngIf="linkOpen1">
-    <div class="flex-box">
-      <i class="fa-solid fa-people-pulling"></i>
-      <div class="status" *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">
-        {{counterUserSubscribers}}</div>
-    </div>
-    <div class="t-lar-x t-e pl-2">Пропозиції</div>
+  <a [@cardAnimation2] class="link" (click)="transitionOn()" [routerLinkActive]="'active'" [routerLink]="'/looking'"
+    *ngIf="linkOpen1">
+    <i class="fa-solid fa-person-hiking"></i>
+    <div class="t-lar-x t-e pl-2">Профіль орендара</div>
   </a>
+
   <a [@cardAnimation3] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
+    [routerLink]="'/user/uagree-menu'" *ngIf="linkOpen1">
+    <div class="flex-box">
+      <i class="fa-solid fa-handshake-angle"></i>
+      <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">
+        <i class="fa-solid fa-envelope-open-text"></i>
+      </div>
+    </div>
+    <div class="t-lar-x t-e pl-2">Угоди орендара</div>
+  </a>
+
+  <a [@cardAnimation4] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
     [routerLink]="'/subscribers-host-user/subscriptions-user'" *ngIf="linkOpen1">
     <div class="flex-box">
       <i class="fa-regular fa-heart"></i>
@@ -60,7 +69,18 @@
     </div>
     <div class="t-lar-x t-e pl-2">Вподобання</div>
   </a>
-  <a [@cardAnimation4] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
+
+  <a [@cardAnimation5] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
+    [routerLink]="'/subscribers-host-user/subscribers-user'" *ngIf="linkOpen1">
+    <div class="flex-box">
+      <i class="fa-solid fa-people-pulling"></i>
+      <div class="status" *ngIf="counterUserSubscribers && counterUserSubscribers !== 0">
+        {{counterUserSubscribers}}</div>
+    </div>
+    <div class="t-lar-x t-e pl-2">Пропозиції</div>
+  </a>
+
+  <a [@cardAnimation6] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
     [routerLink]="'/subscribers-host-user/subscribers-discuss'" *ngIf="linkOpen1">
     <div class="flex-box">
       <i class="fa-solid fa-person-walking-luggage"></i>
@@ -70,30 +90,38 @@
     </div>
     <div class="t-lar-x t-e pl-2">Дискусії</div>
   </a>
-  <a [@cardAnimation5] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/user/uagree-menu'" *ngIf="linkOpen1">
-    <div class="flex-box">
-      <i class="fa-solid fa-handshake-angle"></i>
-      <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== 0">
-        <i class="fa-solid fa-envelope-open-text"></i>
-      </div>
-    </div>
-    <div class="t-lar-x t-e pl-2">Угоди</div>
-  </a>
 
 </div>
 
 <div class="menu" (click)="toggleAllMenu(2)" *ngIf="menu2">
 
-  <div [@cardAnimation5] class="t-lar-xx bold white t-e mr-2" *ngIf="linkOpen2">Меню оселі</div>
+  <div [@cardAnimation1] class="t-lar-xx bold white t-e mr-2" *ngIf="linkOpen2">Меню оселі</div>
 
-  <a [@cardAnimation5] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+  <a [@cardAnimation2] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
     [routerLink]="'/house/house-info'" *ngIf="linkOpen2">
     <i class="fa-solid fa-person-shelter"></i>
-    <div class="t-lar-x t-e pl-2">Профіль</div>
+    <div class="t-lar-x t-e pl-2">Профіль оселі</div>
+  </a>
+
+  <a [@cardAnimation3] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+    [routerLink]="'/house/filling'" *ngIf="selectedFlatId && acces_filling && linkOpen2">
+    <i class="fa-solid fa-boxes-packing"></i>
+    <div class="t-lar-x t-e pl-2">Наповнення</div>
   </a>
 
   <a [@cardAnimation4] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+    [routerLink]="'/house/agree-menu'" *ngIf="selectedFlatId && acces_agreement === 1 && linkOpen2">
+    <i class="fa-solid fa-handshake-angle"></i>
+    <div class="t-lar-x t-e pl-2">Угоди оселі</div>
+  </a>
+
+  <a [@cardAnimation5] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+    [routerLink]="'/housing-services/host-comun'" *ngIf="selectedFlatId && acces_comunal_indexes === 1 && linkOpen2">
+    <i class="fa-solid fa-chart-pie"></i>
+    <div class="t-lar-x t-e pl-2">Статистика</div>
+  </a>
+
+  <a [@cardAnimation6] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
     [routerLink]="'/subscribers-host/subscribers-house'" *ngIf="selectedFlatId && acces_subs === 1 && linkOpen2">
     <i class="fa-solid fa-child-reaching"></i>
     <div class="t-lar-x t-e pl-2">Підписники</div>
@@ -102,7 +130,13 @@
     </div>
   </a>
 
-  <a [@cardAnimation3] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+  <a [@cardAnimation7] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+    [routerLink]="'/house/resident'" *ngIf="selectedFlatId && linkOpen2">
+    <i class="fa-solid fa-people-roof"></i>
+    <div class="t-lar-x t-e pl-2">Мешканці</div>
+  </a>
+
+  <a [@cardAnimation7] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
     [routerLink]="'/subscribers-host/subscriptions-house'" *ngIf="selectedFlatId && acces_subs === 1 && linkOpen2">
     <i class="fa-solid fa-people-pulling"></i>
     <div class="t-lar-x t-e pl-2">Підписки</div>
@@ -111,7 +145,7 @@
     </div>
   </a>
 
-  <a [@cardAnimation2] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
+  <a [@cardAnimation7] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
     [routerLink]="'/subscribers-host/subscribers-discus'" *ngIf="selectedFlatId && acces_subs === 1 && linkOpen2">
     <i class="fa-solid fa-person-walking-luggage"></i>
     <div class="t-lar-x t-e pl-2">Дискусії </div>
@@ -120,29 +154,13 @@
     </div>
   </a>
 
-  <a [@cardAnimation1] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
-    [routerLink]="'/house/agree-menu'" *ngIf="selectedFlatId && acces_agreement === 1 && linkOpen2">
-    <i class="fa-solid fa-handshake-angle"></i>
-    <div class="t-lar-x t-e pl-2">Угоди оселі</div>
-  </a>
 
-  <a [@cardAnimation2] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
-    [routerLink]="'/house/filling'" *ngIf="selectedFlatId && acces_filling && linkOpen2">
-    <i class="fa-solid fa-boxes-packing"></i>
-    <div class="t-lar-x t-e pl-2">Наповнення</div>
-  </a>
 
-  <a [@cardAnimation3] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
-    [routerLink]="'/housing-services/host-comun'" *ngIf="selectedFlatId && acces_comunal_indexes === 1 && linkOpen2">
-    <i class="fa-solid fa-chart-pie"></i>
-    <div class="t-lar-x t-e pl-2">Статистика</div>
-  </a>
 
-  <a [@cardAnimation4] (click)="transitionOn()" class="link" [routerLinkActive]="'active'"
-    [routerLink]="'/house/resident'" *ngIf="selectedFlatId && linkOpen2">
-    <i class="fa-solid fa-people-roof"></i>
-    <div class="t-lar-x t-e pl-2">Мешканці</div>
-  </a>
+
+
+
+
 
 
 </div>
@@ -175,13 +193,13 @@
   <div [@cardAnimation1] class="t-lar-xx bold white t-e mr-2" *ngIf="linkOpen4">Пошук</div>
 
   <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/search/house'" *ngIf="linkOpen4">
+    [routerLink]="'/search-house'" *ngIf="linkOpen4">
     <i class="fa-solid fa-people-roof"></i>
     <div class="t-lar-x t-e pl-2">Оселі</div>
   </a>
 
   <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/search/tenants'" *ngIf="linkOpen4">
+    [routerLink]="'/search-tenants'" *ngIf="linkOpen4">
     <i class="fa-solid fa-people-pulling"></i>
     <div class="t-lar-x t-e pl-2">Орендара</div>
   </a>
@@ -191,46 +209,45 @@
   <div [@cardAnimation1] class="t-lar-xx bold white t-e mr-2" *ngIf="linkOpen5">Discussio</div>
 
   <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/about-project'" *ngIf="linkOpen5">
-    <i class="fa-solid fa-barcode"></i>
-    <div class="t-lar-x t-e pl-2">Про нас</div>
-  </a>
-
-  <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/opportunities'" *ngIf="linkOpen5">
-    <i class="fa-solid fa-people-carry-box"></i>
-    <div class="t-lar-x t-e pl-2">Функції Discussio</div>
-  </a>
-
-  <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'" [routerLink]="'/our-team'"
-    *ngIf="linkOpen5">
-    <i class="fa-solid fa-head-side-virus"></i>
-    <div class="t-lar-x t-e pl-2">Розробники</div>
-  </a>
-
-  <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
     [routerLink]="'/user-licence'" *ngIf="linkOpen5">
     <i class="fa-regular fa-file"></i>
     <div class="t-lar-x t-e pl-2">Угода користувача</div>
   </a>
 
-  <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'" [routerLink]="'/feedback'"
+  <a [@cardAnimation2] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
+    [routerLink]="'/opportunities'" *ngIf="linkOpen5">
+    <i class="fa-solid fa-toolbox"></i>
+    <div class="t-lar-x t-e pl-2">Функції Discussio</div>
+  </a>
+
+  <a [@cardAnimation3] class="link" (click)="transitionOn()" [routerLinkActive]="'active'" [routerLink]="'/feedback'"
     *ngIf="linkOpen5">
-    <i class="fa-regular fa-comment-dots"></i>
+    <i class="fa-solid fa-pen-clip"></i>
     <div class="t-lar-x t-e pl-2">Залишити відгук</div>
   </a>
 
-  <!-- <a [@cardAnimation1] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
-    [routerLink]="'/registration'" *ngIf="linkOpen5">
-    <i class="fa-regular fa-circle-user"></i>
-    <div class="t-lar-x t-e pl-2">Реєстрація</div>
-  </a> -->
-
-  <a [@cardAnimation1] class="link" (click)="logout()" *ngIf="linkOpen5">
-    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-    <div class="t-lar-x t-e pl-2">Вийти з аккаунту</div>
+  <a [@cardAnimation4] class="link" (click)="transitionOn()" [routerLinkActive]="'active'" [routerLink]="'/our-team'"
+    *ngIf="linkOpen5">
+    <i class="fa-solid fa-brain"></i>
+    <div class="t-lar-x t-e pl-2">Розробники</div>
   </a>
 
+  <a [@cardAnimation5] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
+    [routerLink]="'/about-project'" *ngIf="linkOpen5">
+    <i class="fa-solid fa-barcode"></i>
+    <div class="t-lar-x t-e pl-2">Про нас</div>
+  </a>
+
+  <a [@cardAnimation6] class="link" (click)="transitionOn()" [routerLinkActive]="'active'"
+    [routerLink]="'/registration'" *ngIf="linkOpen5 && !loginCheck">
+    <i class="fa-regular fa-circle-user"></i>
+    <div class="t-lar-x t-e pl-2">Реєстрація</div>
+  </a>
+
+  <a [@cardAnimation7] class="link" (click)="logout()" *ngIf="linkOpen5 && loginCheck">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    <div class="t-lar-x t-e pl-2">Вийти</div>
+  </a>
 
 </div>
 

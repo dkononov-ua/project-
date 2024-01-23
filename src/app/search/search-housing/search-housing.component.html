@@ -5,11 +5,18 @@
 <ng-template #content>
 <div class="t-lar-xx bold dark t-s pl-2">
   <div [@left] *ngIf="indexPage === 0">Інфо про пошук</div>
-  <div [@left] *ngIf="indexPage === 1">Пошукові фільтри</div>
+  <div [@left] *ngIf="indexPage === 1">Пошук оселі</div>
   <div [@left] *ngIf="indexPage === 2">Знайдені оселі</div>
 </div>
 
-<div class="switch-box">
+<div [@left1] class="switch-box">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLink]="'/search'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min dark bold">Назад</div>
+    </button>
+  </div>
 
   <div class="switch-btn-group">
     <button class="btn" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage == 1}">
@@ -77,7 +84,7 @@
 
 </div>
 
-<div class="switch-box" *ngIf="indexPage === 2">
+<div [@top] class="switch-box" *ngIf="indexPage === 2">
   <div class="switch-btn-group">
     <button class="btn" (click)="decrementOffset()">
       <i class="fa-solid fa-chevron-left"></i>
@@ -93,7 +100,7 @@
   </div>
 </div>
 
-<div [@left1] class="p-2" *ngIf="indexPage === 1">
+<div [@left2] class="p-2" *ngIf="indexPage === 1">
 
   <div class="box t-lar-x bold dark t-s">
     <button class="btn box-btn w-20" (click)="filterSwitchPrev()">

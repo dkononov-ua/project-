@@ -6,7 +6,8 @@
     <div class="t-min t-c">Створити ще одну нову оселю</div>
   </div>
 
-  <div class="flex-group border1" *ngIf="indexPage === 0 && allFlats && allFlatsTenant && allFlats.length > 0 || allFlatsTenant > 0">
+  <div class="flex-group border1"
+    *ngIf="indexPage === 0 && allFlats && allFlatsTenant && allFlats.length > 0 || allFlatsTenant > 0">
     <button class="link-t flex-box-row" (click)="indexPage = 1">
       <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Вибрати оселю</span>
     </button>
@@ -20,32 +21,28 @@
 
 <div class="container-card col-12" *ngIf="indexPage === 1">
 
-  <div [@left1] class="status-container">
+  <div [@right4] class="status-container">
     <div class="status-box">
       <div class="status-value">Допомога</div>
     </div>
     <div class="status-hover">
-      <div class="status-hover-label">Перший крок</div>
+      <div class="status-hover-label">Доступ до функцій оселі</div>
       <div class="status-hover-text">
         <ul>
-          <li class="status-hover-li mb-2">В цій картці обов'язково потрібно обрати оселю. Та перевірити
-            правильність заповнення даних. Редагувати цю інформаця можна в налаштуваннях оселі. Внесення
-            документу на прово власності не обов'язкове, якщо Ви не бажаєте
-            передавати цю інформацію до моменту фактичного підписання угоди, його можна буде внести при
-            зустрічи в шаблон
-            сформованої угоди</li>
+          <li class="status-hover-li">Оберіть оселю в списку для отримання доступу до функцій. Список формується із
+            ваших власних оселей які ви створили та з орендованих в яких ви маєте статус мешканця. </li>
         </ul>
       </div>
     </div>
   </div>
 
-  <div [@left1] class="card-1">
+  <div [@right2] class="card-1">
     <div class="img-fluid-h">
       <img class="img-h" src="../../../../../assets/example-agree/people_yard3.jpg" alt="">
     </div>
   </div>
 
-  <div [@left1] class="card-2 flex-column w-75 pl-4">
+  <div [@left3] class="card-2 flex-column w-75 pl-4">
     <app-delete-h class="p-1"></app-delete-h>
 
     <ng-container *ngIf="allFlats">

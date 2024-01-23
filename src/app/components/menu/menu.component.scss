@@ -14,6 +14,14 @@
       flex: 1;
       background-color: transparent;
       position: relative;
+      &.active {
+        .t-min {
+          color: $color-accent;
+        }
+        .fa-solid {
+          color: $color-accent;
+        }
+      }
       // background-color: tan;
 
       .t-min {
@@ -90,10 +98,13 @@
 }
 
 .btn-logo {
+  @include box-shadow;
+  border: none;
+  background-color: rgba(156, 156, 156, 0.656);
+  border-radius: 50%;
+  margin: 5px;
+  overflow: hidden;
   .logo {
-    @include box-shadow;
-    width: 100%;
-    border-radius: 50%;
-    background-color: rgba(156, 156, 156, 0.656);
+    width: 50px;
   }
 }

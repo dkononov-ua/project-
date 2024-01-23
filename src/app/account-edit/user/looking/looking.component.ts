@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { animations } from '../../../interface/animation';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -51,16 +52,15 @@ interface UserInfo {
   templateUrl: './looking.component.html',
   styleUrls: ['./looking.component.scss'],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(200%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)', opacity: 1 }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(200%)', opacity: 0 }))
-      ]),
-    ]),
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
+    animations.swichCard,
   ],
 
 })

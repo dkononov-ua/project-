@@ -16,6 +16,9 @@ import { animations } from '../../interface/animation';
     animations.left3,
     animations.left4,
     animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
     animations.swichCard,
   ],
 })
@@ -31,7 +34,7 @@ export class SelectionHousingComponent implements OnInit {
   selectedHouse: any;
   flatName: any | null;
   statusMessage: string | undefined;
-  indexPage: number = 0;
+  indexPage: number = 1;
   chooseFlatID: any;
   houseData: any;
 

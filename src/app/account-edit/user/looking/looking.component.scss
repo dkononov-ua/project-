@@ -3,19 +3,46 @@
 @use "../../../style/radio.scss";
 @use "../../../style/shared.scss" as *;
 
-.container-box {
-  @include flex-box;
-  align-items: flex-start;
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-end;
+}
+
+.card-1 {
+  position: absolute;
+  left: -30%;
+  width: 250px;
+  height: 75vh;
+  border-radius: 20px;
+  @include box-shadow;
+  .img-fluid-h {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+  }
+
+  .img-h {
+    overflow: hidden;
+    height: 75vh;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.2);
+    }
+  }
 }
 
 .fa-solid {
   color: $color-text;
-}
-
-.container-card {
-  @include flex-box;
-  justify-content: flex-start;
-  position: relative;
 }
 
 .btn-next {
@@ -49,7 +76,7 @@
 }
 
 .t-l {
-  text-align: left
+  text-align: left;
 }
 
 li {
@@ -81,13 +108,7 @@ li {
 
 .card-box {
   position: relative;
-  height: 650px;
-  @include s1-s3 {
-    position: absolute;
-    height: 600px;
-    width: 100%;
-    top: 120px;
-  }
+  width: 100%;
 }
 
 .card-animation {
@@ -96,19 +117,6 @@ li {
   position: absolute;
   top: 0;
   left: 0;
-}
-
-.card {
-  @include flex-box;
-  position: relative;
-  padding: 10px;
-  width: 400px;
-  height: 650px;
-  justify-content: space-evenly;
-  @include s1-s3 {
-    height: 600px;
-    width: 100%;
-  }
 }
 
 .icon {

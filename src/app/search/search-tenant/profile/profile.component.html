@@ -31,6 +31,12 @@
 <div class="search-results-detail" *ngIf="selectedUser ">
   <div class="card-selected p-2" *ngIf="indexPage === 1 || indexPage === 2 || indexPage === 3"
     (panstart)="onPanStart($event)" (panmove)="onPanMove($event)" (panend)="onPanEnd($event)">
+
+    <div class="cardDirection">
+      <img class="logo" src="{{path_logo}}" alt="logo">
+      <div class="t-lar-x t-c gray">{{cardDirection}} </div>
+    </div>
+
     <div class="card" [@cardSwipe]="cardSwipeState" *ngIf="indexPage === 1">
 
       <button class="btn-close" (click)="indexPage = 0"></button>
@@ -147,13 +153,13 @@
         </div>
 
         <div class="item-box m-1">
-          <button mat-raised-button class="btn link" (click)="onPrevCard()">
+          <button mat-raised-button class="btn link" (click)="onSwipe('right')">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
         </div>
 
         <div class="item-box m-1">
-          <button mat-raised-button class="btn link" (click)="onNextCard()">
+          <button mat-raised-button class="btn link" (click)="onSwipe('left')">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
@@ -350,7 +356,7 @@
 
       </div>
 
-      <button class="btn-navigator p-2 hide-pc" (click)="indexPage = 1">
+      <button class="btn-navigator p-2 hide-pc" (click)="indexPage = 0">
         <i class="fa-solid fa-arrow-right"></i>
         <span class="ml-2 t-med bold dark">повернутись до всіх карток</span>
       </button>
@@ -472,13 +478,13 @@
         </div>
 
         <div class="item-box m-1">
-          <button mat-raised-button class="btn link" (click)="onPrevCard()">
+          <button mat-raised-button class="btn link" (click)="onSwipe('right')">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
         </div>
 
         <div class="item-box m-1">
-          <button mat-raised-button class="btn link" (click)="onNextCard()">
+          <button mat-raised-button class="btn link" (click)="onSwipe('left')">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
@@ -675,7 +681,7 @@
 
       </div>
 
-      <button class="btn-navigator p-2 hide-pc" (click)="indexPage = 1">
+      <button class="btn-navigator p-2 hide-pc" (click)="indexPage = 0">
         <i class="fa-solid fa-arrow-right"></i>
         <span class="ml-2 t-med bold dark">повернутись до всіх карток</span>
       </button>
@@ -726,9 +732,10 @@
 
     </div>
   </div>
+</div>
 
-  <div *ngIf="statusMessage" class="status-message">
-    <div class="status-message-text">{{ statusMessage }}</div>
-    <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-    <div class="status-message-name">Discussio</div>
-  </div>
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

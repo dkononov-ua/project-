@@ -161,7 +161,7 @@ export class SubscribersDiscusComponent implements OnInit {
       if (this.choseFlatId) {
         this.selectDiscussion();
         this.indexPage = 2;
-      } else { console.log('Оберіть оселю'); }
+      } else {  }
     });
   }
 

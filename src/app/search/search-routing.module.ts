@@ -7,14 +7,10 @@ import { SearchHousingComponent } from './search-housing/search-housing.componen
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 const routes: Routes = [
-  {
-    path: 'search', component: SearchComponent, canActivate: [CanActivateGuard],
-    children: [
-      { path: '', redirectTo: 'house', pathMatch: 'full' },
-      { path: 'tenants', component: SearchTenantComponent, canActivate: [CanActivateGuard] },
-      { path: 'house', component: SearchHousingComponent, canActivate: [CanActivateGuard] },
-    ],
-  },
+  { path: 'search', component: SearchComponent },
+  { path: 'search-tenants', component: SearchTenantComponent, canActivate: [CanActivateGuard] },
+  { path: 'search-house', component: SearchHousingComponent, canActivate: [CanActivateGuard] },
+
 ];
 
 @NgModule({

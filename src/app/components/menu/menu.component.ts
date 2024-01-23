@@ -61,6 +61,27 @@ import { Router } from '@angular/router';
         animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
       ]),
     ]),
+
+    trigger('cardAnimation6', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    trigger('cardAnimation7', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('600ms 700ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
   ],
 })
 export class MenuComponent {
@@ -78,6 +99,7 @@ export class MenuComponent {
   menu4: boolean = false;
   menu5: boolean = false;
   statusMessage: any;
+  loginCheck: boolean = false;
 
   toggleMenu(index: number) {
     if (index === 1) {
@@ -92,7 +114,6 @@ export class MenuComponent {
     }
     if (index === 2) {
       this.linkOpen2 = !this.linkOpen2;
-      console.log(this.linkOpen2)
       if (this.menu2) {
         setTimeout(() => {
           this.menu2 = false;
@@ -264,6 +285,7 @@ export class MenuComponent {
   async ngOnInit(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
+      this.loginCheck = true;
       await this.getUserSubscribersCount();
       await this.getUserSubscriptionsCount();
       await this.getUserDiscussioCount();
