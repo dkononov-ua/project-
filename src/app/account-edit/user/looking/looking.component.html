@@ -571,7 +571,7 @@
             <div class="t-lar dark bold p-2">Зберегти</div>
           </button>
 
-          <button *ngIf="userInfo.region && userInfo.city && userInfo.agree_search === 0" class="btn"
+          <button *ngIf="userInfo.region && userInfo.city" class="btn"
             (click)="saveInfo(userInfo.agree_search = 1)">
             <i class="fa-regular fa-circle-check"></i>
             <div class="t-lar dark bold p-2">Активувати</div>

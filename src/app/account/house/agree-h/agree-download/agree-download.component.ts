@@ -67,7 +67,7 @@ export class AgreeDownloadComponent implements OnInit {
         const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedFlatAgree);
         console.log(selectedAgreement)
         return selectedAgreement || null;
-      } 
+      }
     } catch (error) {
       console.error(error);
       return null;
@@ -107,6 +107,5 @@ export class AgreeDownloadComponent implements OnInit {
     }
   }
 }
-
 
 
