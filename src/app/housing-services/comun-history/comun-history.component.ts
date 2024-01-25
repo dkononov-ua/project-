@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CropImg2Component } from 'src/app/components/crop-img2/crop-img2.component';
 import { auto } from '@popperjs/core';
+import { animations } from '../../interface/animation';
 
 
 
@@ -34,18 +35,16 @@ interface FlatInfo {
   templateUrl: './comun-history.component.html',
   styleUrls: ['./comun-history.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
+    animations.swichCard,
   ],
 })
 export class ComunHistoryComponent implements OnInit {
@@ -55,6 +54,25 @@ export class ComunHistoryComponent implements OnInit {
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   serverPathPhotoComunal = serverPathPhotoComunal;
+  isCopiedMessage: string = '';
+
+  comunalServicesPhoto = [
+    { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_cat3.jpg" },
+    { name: "Водопостачання", imageUrl: "../../../assets/example-comun/water.jfif" },
+    { name: "Вивіз сміття", imageUrl: "../../../assets/example-comun/car_scavenging3.jpg" },
+    { name: "Електроенергія", imageUrl: "../../../assets/example-comun/comun_rozetka1.jpg" },
+    { name: "Газопостачання", imageUrl: "../../../assets/example-comun/gas_station4.jpg" },
+    { name: "Комунальна плата за утримання будинку", imageUrl: "../../../assets/example-comun/default_services.svg" },
+    { name: "Охорона будинку", imageUrl: "../../../assets/example-comun/ohorona.jpg" },
+    { name: "Ремонт під'їзду", imageUrl: "../../../assets/example-comun/default_services.svg" },
+    { name: "Ліфт", imageUrl: "../../../assets/example-comun/default_services.svg" },
+    { name: "Інтернет та телебачення", imageUrl: "../../../assets/example-comun/internet.jpg" },
+  ];
+
+  selectedImageUrl: string | null | undefined;
+  defaultImageUrl: string = "../../../assets/example-comun/default_services.svg";
+
+
 
   comunalServices = [
     { name: "Опалення", unit: "Гкал" },
@@ -151,6 +169,19 @@ export class ComunHistoryComponent implements OnInit {
     this.loading = false;
   }
 
+  getDefaultData() {
+    const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
+    this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
+
+    const selectedServicePhoto = this.comunalServicesPhoto.find(service => service.name === this.selectedComun);
+    this.selectedImageUrl = selectedServicePhoto?.imageUrl ?? this.defaultImageUrl;
+  }
+
+  getComunalImg(): void {
+    const selectedService = this.comunalServicesPhoto.find(service => service.name === this.selectedComun);
+    this.selectedImageUrl = selectedService?.imageUrl || this.defaultImageUrl;
+  }
+
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
@@ -159,6 +190,7 @@ export class ComunHistoryComponent implements OnInit {
     this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
       this.selectedComun = selectedComun || this.selectedComun;
       this.selectComunInfo();
+      this.getDefaultData();
     });
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
@@ -270,7 +302,7 @@ export class ComunHistoryComponent implements OnInit {
           this.flatInfo.tariff = '',
           this.flatInfo.consumed = '',
           this.flatInfo.calc_howmuch_pay = '',
-          this.flatInfo.option_sendData = 0,
+          this.flatInfo.option_sendData = 1,
           this.flatInfo.user_id = '',
           console.log('No data found for selected month.');
       }
@@ -298,10 +330,7 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-  getDefaultData() {
-    const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
-    this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
-  }
+
 
   getInfoFlat() {
     const userJson = localStorage.getItem('user');

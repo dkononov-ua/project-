@@ -27,9 +27,9 @@ import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.compon
 import { ComunStatSeasonComponent } from './comun-stat-season/comun-stat-season.component';
 import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
-import { ComunAboutComponent } from './comun-about/comun-about.component';
 import { ComunAddComponent } from './comun-add/comun-add.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,6 @@ import { MatRadioModule } from '@angular/material/radio';
     ComunStatSeasonComponent,
     ComunStatMonthComponent,
     ComunStatComunComponent,
-    ComunAboutComponent,
     ComunAddComponent,
   ],
   imports: [
@@ -68,7 +67,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatTableModule,
     MatDialogModule,
     MatRadioModule,
-
+    MatMenuModule,
   ],
 })
 export class HousingServicesModule { }

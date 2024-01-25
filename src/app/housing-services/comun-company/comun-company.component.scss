@@ -1,63 +1,75 @@
 @use "../housing-services.component.scss";
-
-.flex-box-row {
-  justify-content: space-evenly;
-  flex-direction: row;
-  align-items: center;
-}
-
-.btn-name {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  font-size: 12px;
-}
-
-.btn-2 {
-  background-color: rgb(254, 254, 254);
-  border: none;
-  border-radius: 50%;
-  margin-left: 5px;
-  height: 40px;
-  width: 40px;
-  padding: 5px;
-  color: gray;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-
-  &:hover {
-    transform: scale(1.2);
-    transition: transform 0.5s;
-    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
-  }
-}
-
-.flex-column {
-  display: flex;
-  background-color: rgba(255, 255, 255, 0.73);
-  border-radius: 20px;
-}
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .flex-box {
   display: flex;
 }
 
-.img-fluid {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: 20px;
-  width: 100%;
+.w-80 {
+  width: 80%;
 }
 
-img {
-  width: 100%;
-  height: 550px;
-  object-fit: cover;
-  transition: transform 1s;
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-end;
+  height: 76vh;
+}
+
+.flex-column {
+  justify-content: flex-end;
+  height: 70vh;
+  overflow: auto;
+}
+
+.card-1 {
+  position: absolute;
+  left: -50%;
+  width: 250px;
+  height: auto;
+  @include box-shadow;
   border-radius: 20px;
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
+
+  .img-wpapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    align-items: flex-end;
   }
+
+  .img {
+    overflow: hidden;
+    height: 68vh;
+    width: 100%;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.item-select {
+  position: relative;
+}
+
+.btn-copy {
+  position: absolute;
+  font-size: 30px;
+  right: 0;
+  top: 15px;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  border-radius: 50%;
+  margin-left: 10px;
 }

@@ -1,53 +1,52 @@
+<div *ngIf="selectedName" class="flex-column">
+  <div class="text-min">Вам надано доступ на перегляд статистики по оселі:</div>
+  <div class="text-title">{{selectedName}}</div>
+</div>
 
-  <div class="card-menu w-100">
-    <div *ngIf="selectedName" class="flex-column">
-      <div class="text-min">Вам надано доступ на перегляд статистики по оселі:</div>
-      <div class="text-title">{{selectedName}}</div>
+<div *ngIf="discussio_view === false">
+  <div class="flex-box" *ngIf="!showInput">
+    <div class="flex-column">
+      <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
+          class="fa-regular fa-circle-xmark"></i></button>
+      <div class="t-min">Видалити</div>
     </div>
-    <div *ngIf="discussio_view === false">
-      <div class="btn-box" *ngIf="!showInput">
-        <div class="btn-name">
-          <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
-              class="fa-regular fa-circle-xmark"></i></button>
-          <mat-label>Видалити</mat-label>
-        </div>
-        <div class="btn-name">
-          <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
-            <i class="fa-solid fa-circle-plus"></i>
-          </button>
-          <mat-label>Створити</mat-label>
-        </div>
-      </div>
-
-      <div class="box" *ngIf="showInput">
-        <mat-form-field class="inputbox" appearance="outline">
-          <mat-label>Оберіть або створіть нову</mat-label>
-          <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
-              {{ name }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
-        <div class="btn-group">
-          <div class="btn-name">
-            <button mat-icon-button class="btn-2" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
-              <i class="fa-solid fa-circle-check"></i>
-            </button>
-            <mat-label>СТВОРИТИ</mat-label>
-          </div>
-
-          <div class="btn-name">
-            <button mat-icon-button class="btn-2" matTooltip="ВІДМІНА" (click)="showInput = false">
-              <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-            <mat-label>ВІДМІНА</mat-label>
-          </div>
-        </div>
-      </div>
+    <div class="flex-column">
+      <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
+        <i class="fa-solid fa-circle-plus"></i>
+      </button>
+      <div class="t-min">Створити</div>
     </div>
   </div>
 
+  <div class="flex-column" *ngIf="showInput">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Оберіть або створіть нову</mat-label>
+      <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
+          {{ name }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint align="end" class="gray t-min">Створення комунальної послуги</mat-hint>
+    </mat-form-field>
 
+    <div class="flex-box">
+      <button class="btn-2 flex-column" (click)="createComunName()">
+        <i class="fa-solid fa-circle-check"></i>
+        <div class="t-min">Створити</div>
+      </button>
 
+      <button class="btn-2 flex-column" (click)="showInput = false">
+        <i class="fa-solid fa-circle-xmark"></i>
+        <div class="t-min">Відміна</div>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

@@ -1,64 +1,160 @@
 <ng-template #content>
-  <div class="switch-box mb-3">
+
+  <div class="t-lar-xx bold dark t-s pl-2">
+    <div [@left] *ngIf="indexPage === 0">Меню статистика</div>
+    <div [@left] *ngIf="indexPage === 1">Створення послуги</div>
+    <div [@left] *ngIf="indexPage === 2">Внесення даних</div>
+    <div [@left] *ngIf="indexPage === 3">Звіт за місяць</div>
+    <div [@left] *ngIf="indexPage === 4">Звіт за сезон</div>
+    <div [@left] *ngIf="indexPage === 5">Звіт за рік</div>
+    <div [@left] *ngIf="indexPage === 6">Графік за рік</div>
+  </div>
+
+  <div [@left1] class="switch-box">
 
     <div class="switch-btn-group" *ngIf="selectedName">
       <button class="btn" (click)="backToDiscus()">
         <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min dark bold">Назад до Дискусії</div>
       </button>
-      <div class="t-min dark bold">Назад до Дискусії</div>
     </div>
 
     <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-about'">
+      <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
         <i class="fa-solid fa-circle-info"></i>
+        <div class="t-min dark bold">Про меню</div>
       </button>
-      <div class="t-min dark bold">Про меню</div>
     </div>
 
     <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-company'">
+      <button class="btn" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage === 1}">
         <i class="fa-solid fa-id-card"></i>
+        <div class="t-min dark bold">Послуга</div>
       </button>
-      <div class="t-min dark bold">Послуга</div>
     </div>
 
     <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-history'">
+      <button class="btn" (click)="indexPage = 2" [ngClass]="{ 'active': indexPage === 2}">
         <i class="fa-solid fa-pen-nib"></i>
+        <div class="t-min dark bold">Дані</div>
       </button>
-      <div class="t-min dark bold">Дані</div>
     </div>
 
-    <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-month'">
+    <div class="switch-btn-group">
+      <button class="btn" mat-button [matMenuTriggerFor]="menu"
+        *ngIf="indexPage === 0 || indexPage === 1 || indexPage === 2">
+        <i class="fa-solid fa-chart-area"></i>
+        <div class="t-min dark bold">Статистика</div>
+      </button>
+
+      <button class="btn" mat-button [matMenuTriggerFor]="menu" [ngClass]="{ 'active': indexPage === 3}"
+        *ngIf="indexPage === 3" [ngClass]="{ 'active': indexPage === 3}">
         <i class="fa-solid fa-calendar-day"></i>
+        <div class="t-min dark bold">Місяць</div>
       </button>
-      <div class="t-min dark bold">Місяць</div>
-    </div>
 
-    <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-comun'">
+      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 4"
+        [ngClass]="{ 'active': indexPage === 4}">
         <i class="fa-solid fa-chart-column"></i>
+        <div class="t-min dark bold">Сезон</div>
       </button>
-      <div class="t-min dark bold">Сезон</div>
-    </div>
 
-    <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-year'">
+      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 5"
+        [ngClass]="{ 'active': indexPage === 5}">
         <i class="fa-solid fa-chart-pie"></i>
+        <div class="t-min dark bold">Рік</div>
       </button>
-      <div class="t-min dark bold">Рік</div>
+
+      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 6"
+        [ngClass]="{ 'active': indexPage === 6}">
+        <i class="fa-solid fa-chart-bar"></i>
+        <div class="t-min dark bold">Графік</div>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="indexPage = 3" [ngClass]="{ 'active': indexPage === 3}">
+          <i class="fa-solid fa-calendar-day"></i> Місяць </button>
+        <button mat-menu-item (click)="indexPage = 4" [ngClass]="{ 'active': indexPage === 4}">
+          <i class="fa-solid fa-chart-column"></i> Сезон </button>
+        <button mat-menu-item (click)="indexPage = 5" [ngClass]="{ 'active': indexPage === 5}">
+          <i class="fa-solid fa-chart-pie"></i> Рік </button>
+        <button mat-menu-item (click)="indexPage = 6" [ngClass]="{ 'active': indexPage === 6}">
+          <i class="fa-solid fa-chart-bar"></i> Графік </button>
+      </mat-menu>
+
     </div>
 
-    <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-services/host-comun/comun-stat-season'">
-        <i class="fa-solid fa-chart-bar"></i>
-      </button>
-      <div class="t-min dark bold">Загальні</div>
-    </div>
   </div>
-  
-  <router-outlet></router-outlet>
+
+  <div class="p-2 card-box">
+    <div class="card-menu" *ngIf="indexPage === 0">
+
+      <div class="param-box p-2">
+        <div class="param-name"><i class="fa-solid fa-chart-line"></i>Статистика
+          <div class="t-min">Вносіть та діліться інформацією про статистичні дані комунальних послуг оселі. Переглядайте
+            стистику по споживанню та витратам </div>
+          <div class="t-med mt-2">Тут доступні такі функції</div>
+        </div>
+
+        <div class="flex-group border1 ">
+          <button class="link-t flex-box-row" (click)="indexPage = 1">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Створення послуг</span>
+          </button>
+          <div class="t-min t-c">Збереження реквізитів комунальних служб</div>
+        </div>
+
+        <div class="flex-group border1 mt-2">
+          <button class="link-t flex-box-row" (click)="indexPage = 2">
+            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Внесення показників</span>
+          </button>
+          <div class="t-min t-c">У вас будуть власні щомісячні та щорічні звіти.</div>
+        </div>
+
+        <div class="box mt-2 ">
+          <div class="flex-group p-2 w-50">
+            <button class="link-t flex-box-row" (click)="indexPage = 3">
+              <i class="fa-solid fa-calendar-day"></i><span class="ml-2">Місячний звіт</span>
+            </button>
+          </div>
+
+          <div class="flex-group p-2 w-50">
+            <button class="link-t flex-box-row" (click)="indexPage = 4">
+              <i class="fa-solid fa-chart-column"></i><span class="ml-2">Сезоний звіт</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="box mt-2">
+          <div class="flex-group p-2 w-50">
+            <button class="link-t flex-box-row " (click)="indexPage = 5">
+              <i class="fa-solid fa-chart-pie"></i><span class="ml-2">Річний звіт</span>
+            </button>
+          </div>
+
+          <div class="flex-group p-2 w-50">
+            <button class="link-t flex-box-row" (click)="indexPage = 6">
+              <i class="fa-solid fa-chart-bar"></i><span class="ml-2">Річний графік</span>
+            </button>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="img-wrapper">
+        <img class="img" src="../../../assets/example-agree/stats1.jpg" alt="">
+      </div>
+
+    </div>
+    <app-comun-company *ngIf="indexPage === 1"></app-comun-company>
+    <app-comun-history *ngIf="indexPage === 2"></app-comun-history>
+    <app-comun-stat-month *ngIf="indexPage === 3"></app-comun-stat-month>
+    <app-comun-stat-season *ngIf="indexPage === 4"></app-comun-stat-season>
+    <app-comun-stat-year *ngIf="indexPage === 5"></app-comun-stat-year>
+    <app-comun-stat-comun *ngIf="indexPage === 6"></app-comun-stat-comun>
+  </div>
+
 </ng-template>
 
 <ng-container *ngIf="loading; else content">

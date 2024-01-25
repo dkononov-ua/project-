@@ -390,14 +390,3 @@ textarea {
   font-weight: 600;
 }
 
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}

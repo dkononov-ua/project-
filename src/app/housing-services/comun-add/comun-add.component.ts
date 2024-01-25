@@ -8,7 +8,7 @@ import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
-import { serverPath } from 'src/app/config/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 
 @Component({
   selector: 'app-comun-add',
@@ -30,7 +30,8 @@ export class ComunAddComponent implements OnInit {
     "Інтернет та телебачення",
     "Домофон",
   ];
-
+  path_logo = path_logo;
+  serverPath = serverPath;
   loading = false;
   comunCreate!: FormGroup;
   showInput = false;
@@ -45,6 +46,7 @@ export class ComunAddComponent implements OnInit {
   selectedView: string | null | undefined;
   selectedName: string | null | undefined;
   controlPanel: boolean = false;
+  statusMessage: any;
 
   showPanel() {
     this.controlPanel = !this.controlPanel;
@@ -112,37 +114,61 @@ export class ComunAddComponent implements OnInit {
       if (newComun) {
         this.http.post(serverPath + '/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: newComun })
           .subscribe((response: any) => {
-          }, (error: any) => {
-            console.error(error);
+            if (response.status === 'Данні по комуналці успішно змінені') {
+              setTimeout(() => {
+                this.statusMessage = 'Послуга створена';
+                setTimeout(() => {
+                  this.statusMessage = '';
+                  location.reload();
+                }, 1500);
+              }, 200);
+            } else {
+              this.statusMessage = 'Помилка створення або можливо така назва вже існує';
+              setTimeout(() => {
+                this.statusMessage = '';
+                location.reload();
+              }, 2000);
+            }
           });
       } else {
-        console.log('Назва послуги не введена');
+        this.statusMessage = 'Назва послуги не введена';
+        setTimeout(() => {
+          this.statusMessage = '';
+        }, 1500);
       }
     } else {
-      console.log('user not found');
+      console.log('Авторизуйтесь');
     }
-    location.reload();
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DeleteComunComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const userJson = localStorage.getItem('user');
-        if (this.selectedFlatId && userJson && this.selectedComun) {
-          this.http.post(serverPath + '/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
-            .subscribe((response: any) => {
-            }, (error: any) => {
-              console.error(error);
-            });
-          setTimeout(() => {
-            location.reload();
-          }, 200);
-        } else {
-          console.log('house not found');
+  // Видалення послуги
+  async openDialog(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const dialogRef = this.dialog.open(DeleteComunComponent, {
+      // data: { user_id: subscriber.user_id, firstName: subscriber.firstName, lastName: subscriber.lastName, component_id: 3, }
+    });
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result === true && this.selectedFlatId && userJson && this.selectedComun) {
+        const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun };
+        console.log(data)
+        try {
+          const response: any = await this.http.post(serverPath + '/comunal/delete/button', data).toPromise();
+          console.log(response)
+          if (response.status === true) {
+            this.statusMessage = 'Послуга видалена';
+            setTimeout(() => { this.statusMessage = ''; location.reload() }, 2000);
+          } else {
+            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            setTimeout(() => {
+              this.statusMessage = ''; location.reload();
+            }, 2000);
+          }
+        } catch (error) {
+          console.error(error);
         }
       }
     });
   }
+
 }
 

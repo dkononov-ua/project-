@@ -9,11 +9,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { animations } from '../../interface/animation';
 
 @Component({
   selector: 'app-host-comun',
   templateUrl: './host-comun.component.html',
   styleUrls: ['./host-comun.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
+  ],
 })
 export class HostComunComponent implements OnInit {
 
@@ -48,25 +59,8 @@ export class HostComunComponent implements OnInit {
   controlPanel: boolean = false;
   statusMessage: any;
 
-  showPanel() {
-    this.controlPanel = !this.controlPanel;
-  }
-
   // показ карток
-  indexMenu: number = 0;
-  indexPage: number = -1;
-  indexCard: number = 0;
-
-  onClickMenu(indexPage: number, indexMenu: number,) {
-    this.indexPage = indexPage;
-    this.indexMenu = indexMenu;
-  }
-
-  onClickHost(indexPage: number, indexMenu: number,) {
-    this.indexPage = indexPage;
-    this.indexMenu = indexMenu;
-    this.router.navigate(['/housing-services/host-comun']);
-  }
+  indexPage: number = 2;
 
   constructor(
     private http: HttpClient,

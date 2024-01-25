@@ -38,6 +38,7 @@ export class SelectComunComponent implements OnInit {
 
   selectedView: any;
   selectedName: string | null | undefined;
+  checkComun: boolean = false;
 
   constructor(private fb: FormBuilder,
     private http: HttpClient,
@@ -101,11 +102,14 @@ export class SelectComunComponent implements OnInit {
     this.http.post(serverPath + '/comunal/get/button', requestData)
       .subscribe(
         (response: any) => {
+          console.log(response)
           if (response.status === false) {
+            this.checkComun = false;
             return;
           }
           const firstComunal = response.comunal[0];
           if (firstComunal && firstComunal.iban !== undefined) {
+            this.checkComun = true;
             this.discussio_view = false;
             this.discussioViewService.setDiscussioView(this.discussio_view);
             this.comunal_name = response.comunal;

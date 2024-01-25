@@ -3,6 +3,102 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.flex-box {
+  display: flex;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: flex-end;
+  .comun-card {
+    @include flex-box-column;
+    overflow: auto;
+    height: 70vh;
+  }
+}
+
+.card-1 {
+  position: absolute;
+  left: -50%;
+  width: 250px;
+  height: auto;
+  @include box-shadow;
+  border-radius: 20px;
+
+  .addPhoto {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+  }
+
+  .img-wpapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    align-items: flex-end;
+  }
+
+  .img {
+    overflow: hidden;
+    height: 68vh;
+    width: 100%;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.item-select {
+  position: relative;
+}
+
+.btn-copy {
+  position: absolute;
+  font-size: 30px;
+  right: 0;
+  top: 15px;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.btn-2 {
+  @include flex-box;
+  width: 50px;
+  height: 50px;
+  border: 1px solid gray;
+  border-radius: 50%;
+}
+
+mat-form-field {
+  flex-direction: column-reverse;
+}
+
+.flex-box {
+  justify-content: space-evenly;
+}
+
+.flex-column {
+  @include flex-box-column;
+}
+
 .img-comun-box {
   height: 200px;
   overflow: hidden;
@@ -22,16 +118,6 @@
     .cropped-text1 {
       color: $color-white;
     }
-  }
-}
-
-.flex-box,
-.flex-box-column {
-  justify-content: center;
-  align-items: flex-start;
-  align-content: flex-start;
-  .fa-solid, .fa-regular {
-    color: $color-text;
   }
 }
 

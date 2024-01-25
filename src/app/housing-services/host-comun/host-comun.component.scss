@@ -2,6 +2,40 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.card-box {
+  height: 80vh;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-box {
+  @include flex-box;
+  justify-content: flex-end;
+}
+
+.flex-box-row {
+  width: 100%;
+}
+
+.img-wrapper {
+  .img {
+    height: 550px;
+  }
+}
+
+.switch-btn-group {
+  .btn {
+    &.active {
+      .fa-solid {
+        color: $color-accent;
+      }
+    }
+  }
+}
+
 .container-box {
   display: flex;
   flex-wrap: wrap;
@@ -9,15 +43,4 @@
   align-content: stretch;
   align-items: stretch;
   min-height: 70vh;
-}
-
-.switch-box {
-  @include s1-s3 {
-    overflow-x: auto;
-  }
-  .switch-btn-group {
-    .btn {
-      width: 80px;
-    }
-  }
 }
