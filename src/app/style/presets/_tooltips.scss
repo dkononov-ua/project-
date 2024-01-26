@@ -31,18 +31,15 @@
   }
 
   .status-hover {
-    width: 90%;
-    min-width: 300px;
+    width: 300px;
     border: 1px solid $color-white;
-    border-left: 10px solid $color-white;
     position: absolute;
     top: 160%;
-    left: 20px;
+    left: 10px;
     display: none;
     background-color: rgba(26, 26, 26, 0.957);
     border-radius: 20px;
     padding: 8px;
-    box-shadow: 0px 10px 10px $color-dark;
 
     .status-hover-label {
       color: $color-accent;

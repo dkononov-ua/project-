@@ -2,6 +2,10 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss" as *;
 
+mat-form-field {
+  flex-direction: column-reverse;
+}
+
 .disabledNot {
   color: $color-accent !important;
   opacity: 1 !important;
@@ -273,7 +277,7 @@ mat-form-field {
 }
 
 .btn {
-  background-color: $color-accent;
+  // background-color: $color-accent;
   margin: 0;
   padding: 5px;
   border-radius: 10px;

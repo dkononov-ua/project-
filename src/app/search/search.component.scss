@@ -420,6 +420,10 @@
   height: 76vh;
 }
 
+.search-results2::-webkit-scrollbar {
+  display: none;
+}
+
 .btn-close {
   z-index: 99;
   position: absolute;

@@ -21,8 +21,16 @@
     overflow: auto;
     height: 70vh;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
-
+.container-card::-webkit-scrollbar {
+  display: none;
+}
+.comun-card::-webkit-scrollbar {
+  display: none;
+}
 .card-1 {
   position: absolute;
   left: -50%;
@@ -87,12 +95,11 @@
   border-radius: 50%;
 }
 
-mat-form-field {
-  flex-direction: column-reverse;
-}
-
 .flex-box {
   justify-content: space-evenly;
+  .fa-solid {
+    font-size: 15px;
+  }
 }
 
 .flex-column {

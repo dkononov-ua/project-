@@ -38,6 +38,10 @@
   }
 }
 
+.container::-webkit-scrollbar {
+  display: none;
+}
+
 @media print {
   .body-container {
     height: auto;

@@ -17,8 +17,6 @@ import { CropImg2Component } from 'src/app/components/crop-img2/crop-img2.compon
 import { auto } from '@popperjs/core';
 import { animations } from '../../interface/animation';
 
-
-
 interface FlatInfo {
   comunal_before: any;
   comunal_now: any;
@@ -47,8 +45,8 @@ interface FlatInfo {
     animations.swichCard,
   ],
 })
-export class ComunHistoryComponent implements OnInit {
 
+export class ComunHistoryComponent implements OnInit {
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -72,8 +70,6 @@ export class ComunHistoryComponent implements OnInit {
   selectedImageUrl: string | null | undefined;
   defaultImageUrl: string = "../../../assets/example-comun/default_services.svg";
 
-
-
   comunalServices = [
     { name: "Опалення", unit: "Гкал" },
     { name: "Водопостачання", unit: "м3" },
@@ -88,19 +84,21 @@ export class ComunHistoryComponent implements OnInit {
     { name: "Домофон", unit: "внесок" },
   ];
 
-  months: { id: string, name: string }[] = [
-    { id: '1', name: 'Січень' },
-    { id: '2', name: 'Лютий' },
-    { id: '3', name: 'Березень' },
-    { id: '4', name: 'Квітень' },
-    { id: '5', name: 'Травень' },
-    { id: '6', name: 'Червень' },
-    { id: '7', name: 'Липень' },
-    { id: '8', name: 'Серпень' },
-    { id: '9', name: 'Вересень' },
-    { id: '10', name: 'Жовтень' },
-    { id: '11', name: 'Листопад' },
-    { id: '12', name: 'Грудень' }
+
+
+  months: { id: number, name: string }[] = [
+    { id: 0, name: 'Січень' },
+    { id: 1, name: 'Лютий' },
+    { id: 2, name: 'Березень' },
+    { id: 3, name: 'Квітень' },
+    { id: 4, name: 'Травень' },
+    { id: 5, name: 'Червень' },
+    { id: 6, name: 'Липень' },
+    { id: 7, name: 'Серпень' },
+    { id: 8, name: 'Вересень' },
+    { id: 9, name: 'Жовтень' },
+    { id: 10, name: 'Листопад' },
+    { id: 11, name: 'Грудень' }
   ];
 
   flatInfo: FlatInfo = {
@@ -111,15 +109,13 @@ export class ComunHistoryComponent implements OnInit {
     tariff: '',
     consumed: '',
     calc_howmuch_pay: '',
-    option_sendData: 2,
+    option_sendData: 0,
     user_id: '',
   };
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   loading = false;
-  disabled: boolean = true;
-  disabledNot: boolean = true;
   area: any;
   selectedOption: any;
   tariff_square: any;
@@ -127,26 +123,19 @@ export class ComunHistoryComponent implements OnInit {
   defaultUnit: string = "Тариф/внесок";
   selectedUnit: string | null | undefined;
   noInformationMessage: boolean = false;
-
   selectedFlatId!: string | null;
   selectedComun: any;
   selectedYear: any;
   selectedMonth: any;
+  selectedMonthID: { id: number, name: string } = { id: 0, name: '' };
   statusMessage: string | undefined;
   comunImg: any;
   about: boolean = false;
-
   cropped?: string;
   photoData: any;
   selectedFile: any;
-
   showFullScreenImage = false;
   fullScreenImageUrl = '';
-
-  addAbout() {
-    this.about = !this.about;
-  }
-
   currentIndex: number = 0;
 
   constructor(
@@ -160,19 +149,23 @@ export class ComunHistoryComponent implements OnInit {
     private dialog: MatDialog,
     private _cd: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCurrentIndex();
     this.getInfoFlat();
     this.getSelectParam();
     this.loading = false;
   }
 
+  async getCurrentIndex() {
+    this.selectedMonthID = this.months.find(month => month.name === this.selectedMonth) || { id: 0, name: '' };
+    this.currentIndex = this.selectedMonthID.id;
+  }
+
   getDefaultData() {
     const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
     this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
-
     const selectedServicePhoto = this.comunalServicesPhoto.find(service => service.name === this.selectedComun);
     this.selectedImageUrl = selectedServicePhoto?.imageUrl ?? this.defaultImageUrl;
   }
@@ -204,8 +197,6 @@ export class ComunHistoryComponent implements OnInit {
         this.selectMonthInfo();
         this.getDefaultData();
         this.getInfoFlat();
-        // this.calculateConsumed();
-        // this.calculatePay();
       }
     });
   }
@@ -222,12 +213,9 @@ export class ComunHistoryComponent implements OnInit {
         comunal_name: this.selectedComun,
         when_pay_y: this.selectedYear
       }).toPromise() as any;
-
       if (response.status === false) {
-        console.log('Немає послуг');
         return;
       }
-
       if (response) {
         localStorage.setItem('comunal_inf', JSON.stringify(response.comunal));
         this.selectMonthInfo();
@@ -255,9 +243,7 @@ export class ComunHistoryComponent implements OnInit {
         }
       } else {
         this.noInformationMessage = true;
-        console.log('No data found for selected month.');
       }
-
     } else if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal !== undefined) {
       const selectedInfo = com_inf.comunal.find((selectMonth: any) => {
         return selectMonth.comunal_name === this.selectedComun
@@ -269,10 +255,8 @@ export class ComunHistoryComponent implements OnInit {
         this.flatInfo = selectedInfo;
       } else {
         this.noInformationMessage = true;
-        console.log('No data found for selected month.');
       }
     }
-
     if (!com_inf) {
       console.log('No data found in local storage.');
     }
@@ -295,16 +279,15 @@ export class ComunHistoryComponent implements OnInit {
         this.calculatePay();
       } else {
         this.noInformationMessage = true;
-        this.flatInfo.comunal_before = '',
-          this.flatInfo.comunal_now = '',
-          this.flatInfo.howmuch_pay = '',
-          this.flatInfo.about_pay = '',
-          this.flatInfo.tariff = '',
-          this.flatInfo.consumed = '',
-          this.flatInfo.calc_howmuch_pay = '',
-          this.flatInfo.option_sendData = 1,
-          this.flatInfo.user_id = '',
-          console.log('No data found for selected month.');
+        this.flatInfo.comunal_before = '';
+        this.flatInfo.comunal_now = '';
+        this.flatInfo.howmuch_pay = '';
+        this.flatInfo.about_pay = '';
+        this.flatInfo.tariff = '';
+        this.flatInfo.consumed = '';
+        this.flatInfo.calc_howmuch_pay = '';
+        this.flatInfo.option_sendData = 0;
+        this.flatInfo.user_id = '';
       }
     } else if (com_inf !== null && this.selectedComun !== null && this.selectedYear !== null && this.selectedMonth !== null && com_inf.comunal !== undefined) {
       const selectedInfo = com_inf.comunal.find((selectMonth: any) => {
@@ -321,7 +304,6 @@ export class ComunHistoryComponent implements OnInit {
         this.calculatePay();
       } else {
         this.noInformationMessage = true;
-        console.log('No data found for selected month.');
       }
     }
 
@@ -329,8 +311,6 @@ export class ComunHistoryComponent implements OnInit {
       console.log('No data found in local storage.');
     }
   }
-
-
 
   getInfoFlat() {
     const userJson = localStorage.getItem('user');
@@ -346,80 +326,47 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-  saveInfo(): void {
+  async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId !== undefined) {
-      this.saveObject()
-      this.http.post(serverPath + '/comunal/add/comunal', {
-        auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
-        comunal_name: this.selectedComun,
-        when_pay_y: this.selectedYear,
-        when_pay_m: this.selectedMonth,
-        comunal: this.flatInfo,
-      })
-        .subscribe((response: any) => {
-        }, (error: any) => {
-          console.error(error);
-        });
+    if (userJson && this.selectedFlatId) {
 
-      // const comunal_before = this.flatInfo.comunal_now;
-      const selectedMonthIndex = this.months.findIndex((month) => month.name === this.selectedMonth);
-      const nextMonthIndex = (selectedMonthIndex + 1) % this.months.length;
-      let nextYear = this.selectedYear;
-      let nextMonth = this.months[nextMonthIndex].name;
-
-      if (nextMonthIndex === 0) {
-        nextYear++;
-      }
-
-      const comunalNextMonthData = {
-        tariff: this.flatInfo.tariff,
-        comunal_before: '',
-        comunal_now: '',
-        howmuch_pay: '',
-        about_pay: '',
-        consumed: '',
-        calc_howmuch_pay: '',
-        calc_tariff_square: '',
-        option_sendData: this.flatInfo.option_sendData,
-      };
-
-      setTimeout(() => {
-        this.http.post(serverPath + '/comunal/add/comunal', {
+      try {
+        const response: any = await this.http.post(serverPath + '/comunal/add/comunal', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
           comunal_name: this.selectedComun,
-          when_pay_y: nextYear,
-          when_pay_m: nextMonth,
-          comunal: comunalNextMonthData,
-        }).subscribe((response: any) => {
-          if (response.status === 'Данні по комуналці успішно змінені') {
-            setTimeout(() => {
-              this.cropped = undefined;
-              this.statusMessage = 'Збережено';
-              setTimeout(() => {
-                this.statusMessage = '';
-                this.selectComunInfo();
-              }, 2500);
-            }, 200);
-          } else if (response.status === false) {
-            setTimeout(() => {
-              this.statusMessage = 'Не вдалось зберегти';
-              this.cropped = undefined;
-              setTimeout(() => {
-                this.statusMessage = '';
-                this.selectComunInfo();
-              }, 1500);
-            }, 500);
-          }
+          when_pay_y: this.selectedYear,
+          when_pay_m: this.selectedMonth,
+          comunal: this.flatInfo,
+        }).toPromise();
 
-        }, (error: any) => {
-          console.error(error);
-        });
-      }, 100);
+        if (response.status === 'Данні по комуналці успішно змінені') {
+          setTimeout(() => {
+            this.cropped = undefined;
+            this.statusMessage = 'Збережено';
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.selectComunInfo();
+            }, 2500);
+          }, 200);
+        } else if (response.status === false) {
+          setTimeout(() => {
+            this.statusMessage = 'Не вдалось зберегти';
+            this.cropped = undefined;
+            setTimeout(() => {
+              this.statusMessage = '';
+              this.selectComunInfo();
+            }, 1500);
+          }, 500);
+        }
+
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
     } else {
-      console.log('user not found, the form is blocked');
+      this.loading = false;
+      console.log('Авторизуйтесь');
     }
   }
 
@@ -483,17 +430,28 @@ export class ComunHistoryComponent implements OnInit {
 
   copy(): void {
     localStorage.setItem('copiedData', JSON.stringify(this.flatInfo));
-    console.log('Data copied successfully!');
+    setTimeout(() => {
+      this.statusMessage = 'Скопійовано';
+      setTimeout(() => {
+        this.statusMessage = '';
+      }, 2500);
+    })
   }
 
   paste(): void {
     const copiedData = localStorage.getItem('copiedData');
     if (copiedData) {
+      this.statusMessage = 'Заповнено';
       const parsedData: FlatInfo = JSON.parse(copiedData);
       this.flatInfo = { ...parsedData };
-      console.log('Data pasted successfully!');
+      setTimeout(() => {
+        this.statusMessage = '';
+      }, 2500);
     } else {
-      console.log('No data found to paste.');
+      this.statusMessage = 'Помилка';
+      setTimeout(() => {
+        this.statusMessage = '';
+      }, 1500);
     }
   }
 
@@ -504,52 +462,31 @@ export class ComunHistoryComponent implements OnInit {
   }
 
   clearInfo(): void {
+    this.comunImg = '';
     this.flatInfo = {
-      comunal_before: undefined,
-      comunal_now: undefined,
+      comunal_before: 0,
+      comunal_now: 0,
       howmuch_pay: 0,
-      about_pay: undefined,
-      tariff: undefined,
-      consumed: undefined,
+      about_pay: '',
+      tariff: 0,
+      consumed: 0,
       calc_howmuch_pay: 0,
-      option_sendData: 1,
-      user_id: undefined,
+      option_sendData: 0,
+      user_id: '',
     };
   }
 
-  prevMonth(): void {
 
-    this.currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
-    console.log(this.currentIndex)
-    if (this.currentIndex > 0) {
-      const previousMonth = this.months[this.currentIndex - 1].name;
-      console.log(previousMonth)
-      this.changeMonthService.setSelectedMonth(previousMonth);
-      this.selectComunInfo();
-    }
-  }
-
-  nextMonth() {
-    this.currentIndex = this.months.findIndex(month => month.name === this.selectedMonth);
-    console.log(this.currentIndex)
-    if (this.currentIndex < 11) {
-      const previousMonth = this.months[this.currentIndex + 1].name;
-      this.changeMonthService.setSelectedMonth(previousMonth);
-      this.selectComunInfo();
-    }
-  }
 
   openFullScreenImage(photos: string): void {
     const sanitizedPhotos: SafeUrl = (this.sanitizer.bypassSecurityTrustUrl(serverPathPhotoComunal + photos)
     );
-
     const dialogRef = this.dialog.open(GalleryComponent, {
       data: {
         photos: sanitizedPhotos,
         place: 'comun',
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => { });
   }
 
@@ -599,16 +536,12 @@ export class ComunHistoryComponent implements OnInit {
       when_pay_m: this.selectedMonth,
       flat_id: this.selectedFlatId,
     };
-
-    console.log(data)
     if (photoData && userJson && data) {
       photoData.append("inf", JSON.stringify(data));
       photoData.append('auth', userJson!);
-      console.log(photoData)
       const headers = { 'Accept': 'application/json' };
       this.http.post(serverPath + '/img/uploadcomunal', photoData, { headers }).subscribe(
         (uploadResponse: any) => {
-          console.log(uploadResponse)
           if (uploadResponse.status === 'Збережено') {
             setTimeout(() => {
               this.statusMessage = "Об'єкт додано до списку";
@@ -619,7 +552,6 @@ export class ComunHistoryComponent implements OnInit {
           } else {
             setTimeout(() => {
               this.statusMessage = 'Дані не збережено';
-              // this.reloadPageWithLoader()
             }, 2000);
           }
         },
@@ -630,8 +562,30 @@ export class ComunHistoryComponent implements OnInit {
     } else {
       console.log('Внесіть данні')
     }
-
   }
 
+  nextMonth() {
+    this.selectedMonthID = this.months.find(month => month.name === this.selectedMonth) || { id: 0, name: '' };
+    this.currentIndex = this.selectedMonthID.id;
+    if (this.currentIndex < 11) {
+      this.clearInfo();
+      const previousMonth = this.months[this.currentIndex + 1].name;
+      this.changeMonthService.setSelectedMonth(previousMonth);
+      this.selectComunInfo();
+      this.getDefaultData();
+    }
+  }
+
+  prevMonth(): void {
+    this.selectedMonthID = this.months.find(month => month.name === this.selectedMonth) || { id: 0, name: '' };
+    this.currentIndex = this.selectedMonthID.id;
+    if (this.currentIndex > 0) {
+      this.clearInfo();
+      const previousMonth = this.months[this.currentIndex - 1].name;
+      this.changeMonthService.setSelectedMonth(previousMonth);
+      this.selectComunInfo();
+      this.getDefaultData();
+    }
+  }
 }
 

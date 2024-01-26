@@ -20,7 +20,6 @@ export class ChangeComunService {
   }
 
   setSelectedComun(comun: string): void {
-    console.log(comun)
     localStorage.setItem('selectedComun', comun);
     this.selectedComunSubject.next(comun);
   }

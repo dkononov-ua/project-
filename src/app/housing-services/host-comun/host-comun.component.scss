@@ -3,9 +3,12 @@
 @use "../../style/shared.scss" as *;
 
 .card-box {
-  height: 80vh;
+  height: 78vh;
 }
 
+.card-menu {
+  height: 78vh;
+}
 .box {
   display: flex;
   flex-wrap: wrap;
@@ -22,7 +25,7 @@
 
 .img-wrapper {
   .img {
-    height: 550px;
+    height: 80vh;
   }
 }
 

@@ -105,7 +105,6 @@ export class ComunCompanyComponent implements OnInit {
     }
     else (!this.selectedFlatId); {
       this.loading = false;
-      console.log('Оберіть оселю')
     }
   };
 
@@ -147,9 +146,7 @@ export class ComunCompanyComponent implements OnInit {
       this.http.post(serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
         .subscribe(
           (response: any) => {
-            console.log(response)
             if (response.status === false) {
-              console.log('Немає послуг');
               return;
             }
             const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);

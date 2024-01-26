@@ -86,7 +86,7 @@
 
   </div>
 
-  <div class="p-2 card-box">
+  <div class="card-box p-1">
     <div class="card-menu" *ngIf="indexPage === 0">
 
       <div class="param-box p-2">
@@ -112,13 +112,13 @@
 
         <div class="box mt-2 ">
           <div class="flex-group p-2 w-50">
-            <button class="link-t flex-box-row" (click)="indexPage = 3">
+            <button class="link-t flex-column w-100" (click)="indexPage = 3">
               <i class="fa-solid fa-calendar-day"></i><span class="ml-2">Місячний звіт</span>
             </button>
           </div>
 
           <div class="flex-group p-2 w-50">
-            <button class="link-t flex-box-row" (click)="indexPage = 4">
+            <button class="link-t flex-column w-100" (click)="indexPage = 4">
               <i class="fa-solid fa-chart-column"></i><span class="ml-2">Сезоний звіт</span>
             </button>
           </div>
@@ -126,13 +126,13 @@
 
         <div class="box mt-2">
           <div class="flex-group p-2 w-50">
-            <button class="link-t flex-box-row " (click)="indexPage = 5">
+            <button class="link-t flex-column w-100" (click)="indexPage = 5">
               <i class="fa-solid fa-chart-pie"></i><span class="ml-2">Річний звіт</span>
             </button>
           </div>
 
           <div class="flex-group p-2 w-50">
-            <button class="link-t flex-box-row" (click)="indexPage = 6">
+            <button class="link-t flex-column w-100" (click)="indexPage = 6">
               <i class="fa-solid fa-chart-bar"></i><span class="ml-2">Річний графік</span>
             </button>
           </div>
