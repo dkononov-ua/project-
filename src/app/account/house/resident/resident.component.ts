@@ -12,6 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { AgreeDeleteComponent } from '../agree-h/agree-delete/agree-delete.component';
 import { MatDialog } from '@angular/material/dialog';
+import { animations } from '../../../interface/animation';
+
 // переклад календаря
 export class Rating {
   constructor(
@@ -59,21 +61,14 @@ interface Subscriber {
   // переклад календаря
 
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimationTop', [
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
-
-
 })
 
 export class ResidentComponent implements OnInit {
@@ -87,6 +82,7 @@ export class ResidentComponent implements OnInit {
   reviewsOwner: any;
   page: any;
   menu: any;
+  selectMyPage: boolean = false;
 
   openHelpMenu(helpInfoIndex: number) {
     this.helpInfo = helpInfoIndex;
@@ -97,12 +93,11 @@ export class ResidentComponent implements OnInit {
 
   // показ карток
   indexMenu: number = 0;
-  indexPage: number = -1;
+  indexPage: number = 2;
   indexCard: number = 0;
 
-  onClickMenu(indexPage: number, indexMenu: number,) {
+  onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
-    this.indexMenu = indexMenu;
   }
 
   path_logo = path_logo;
@@ -154,22 +149,24 @@ export class ResidentComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
     this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || -1;
+      this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
       this.menu = params['indexMenu'] || 0;
       this.indexMenu = Number(this.menu);
     });
-    this.selectFlat()
-    await this.selectSubscriber()
+    await this.selectFlat();
+    await this.selectSubscriber();
     this.getRatingOwner;
   }
 
-  selectFlat() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+  async selectFlat() {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
         const offs = 0;
+        await this.getOwner(selectedFlatId, offs)
         this.getSubs(selectedFlatId, offs).then(() => {
           if (this.subscribers.length > 0) {
             if (this.selectedSubscriber) {
@@ -180,19 +177,26 @@ export class ResidentComponent implements OnInit {
             }
           }
         });
-        this.getOwner(selectedFlatId, offs)
       }
     });
   }
 
   async selectSubscriber() {
     this.choseSubscribersService.selectedSubscriber$.subscribe(async subscriberId => {
-      if (subscriberId) {
+      const userData = localStorage.getItem('userData');
+      if (subscriberId && userData) {
+        const userObject = JSON.parse(userData);
+        const user_id = userObject.inf.user_id;
+        if (user_id === subscriberId) {
+          this.selectMyPage = true;
+        } else {
+          this.selectMyPage = false;
+        }
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
           await this.getRating(selectedSubscriber);
-          this.indexPage = 2;
+          this.indexCard = 1;
         }
       }
     });
@@ -250,10 +254,11 @@ export class ResidentComponent implements OnInit {
   }
 
   async getOwner(selectedFlatId: any, offs: number): Promise<any> {
+    const userData = localStorage.getItem('userData');
     const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const userObject = JSON.parse(userJson);
-      const user_id = userObject.user_id;
+    if (userJson && userData) {
+      const userObject = JSON.parse(userData);
+      const user_id = userObject.inf.user_id;
       const data = {
         auth: JSON.parse(userJson!),
         user_id: user_id,
@@ -264,9 +269,13 @@ export class ResidentComponent implements OnInit {
         const response = await this.http.post(serverPath + '/citizen/get/ycitizen', data).toPromise() as any[];
         const ownerInfo = response.find(item => item.flat.flat_id.toString() === selectedFlatId)?.owner;
         if (ownerInfo) {
-          this.ownerPage = true;
-          this.ownerInfo = ownerInfo;
-          this.getRatingOwner(this.ownerInfo.user_id)
+          if (user_id === ownerInfo.user_id) {
+            this.ownerPage = false;
+          } else {
+            this.ownerPage = true;
+            this.ownerInfo = ownerInfo;
+            this.getRatingOwner(this.ownerInfo.user_id)
+          }
         } else {
           this.ownerPage = false;
         }

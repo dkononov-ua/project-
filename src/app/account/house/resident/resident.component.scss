@@ -3,70 +3,22 @@
 @use "../../../style/shared.scss";
 @use "../../../style/discussi.scss";
 
-.tenant-card {
+.card-box {
+  position: relative;
+  width: 100%;
+}
+
+.card-animation {
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-.img-fluid {
-  border-radius: 0 0 20px 20px;
-  // height: 350px;
-}
-
-.panel-tenants {
-  @include box-shadow;
-  display: flex;
-  background-color: tan;
-  overflow-x: auto;
-  height: 90px;
-  padding: 5px;
-  border-radius: 20px 20px 0 0;
-  bottom: 0;
-  width: 100%;
+  justify-content: center;
+  position: absolute;
+  top: 0;
   left: 0;
-  z-index: 1;
-  justify-content: flex-start;
-
-  .wrapper {
-    @include flex-box;
-    justify-content: space-between;
-    .btn-panel {
-      @include flex-box-column;
-      justify-content: space-between;
-      .img-btn {
-        @include flex-box;
-        background-color: transparent;
-        border-radius: 50%;
-        border: none;
-        width: 80px;
-        .fa-solid,
-        .fa-regular {
-          color: $color-dark;
-          &:hover {
-            color: $color-accent;
-            @include box-shadow;
-          }
-        }
-      }
-    }
-  }
 }
 
-.card {
-  border-radius: 0 0 20px 20px;
-  height: auto;
-}
-
-.card-container {
-  @include flex-box;
-  justify-content: flex-start;
-  align-items: flex-start;
-  @include s1-s3 {
-    flex-direction: column;
-  }
+.card-animation::-webkit-scrollbar {
+  display: none;
 }
 
 .btn-panel {
@@ -76,14 +28,6 @@
     .fa-regular {
       color: $color-accent;
     }
-  }
-}
-
-.switch-box {
-  justify-content: flex-start;
-  align-items: center;
-  .switch-btn-group {
-    width: 80px;
   }
 }
 

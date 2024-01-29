@@ -1,6 +1,17 @@
-<div class="btn-group w-100 p-2" *ngIf="selectedFlatId">
-  <button class="btn" (click)="openDialog()">
-    <i class="fa-solid fa-circle-minus"></i>
-    <div class="t-min dark bold ml-2">Видалити {{selectedFlatName}}</div>
-  </button>
-</div>
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="btn-group w-100" *ngIf="selectedFlatId">
+    <button class="btn" (click)="openDialog()">
+      <i class="fa-solid fa-circle-minus"></i>
+      <div class="t-min dark bold ml-2">Видалити {{selectedFlatName}}</div>
+    </button>
+
+    <button class="btn" (click)="exitHouse()">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <div class="t-min dark bold ml-2">Вийти з {{selectedFlatName}}</div>
+    </button>
+  </div>
+</ng-template>

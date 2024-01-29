@@ -15,13 +15,11 @@
 
   <div class="switch-box">
 
-    <div class="hide-pc" *ngIf="houseData">
-      <div class="switch-btn-group">
-        <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
-          <i class="fa-solid fa-id-card-clip"></i>
-          <div class="t-min dark bold">Основна</div>
-        </button>
-      </div>
+    <div class="switch-btn-group" *ngIf="houseData">
+      <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
+        <i class="fa-solid fa-id-card-clip"></i>
+        <div class="t-min dark bold">Основна</div>
+      </button>
     </div>
 
     <div class="switch-btn-group" *ngIf="houseData">

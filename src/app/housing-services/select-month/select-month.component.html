@@ -1,14 +1,8 @@
-<div class="form-container mb-2">
-  <ng-container>
-    <div class="select-box">
-      <mat-label class="list-label-1">Обраний місяць</mat-label>
-      <mat-form-field class="list-form" appearance="outline">
-        <mat-select class="list-select" name="selectedMonth" [(ngModel)]="this.selectedMonth"
-          (selectionChange)="onSelectionChangeMonth(this.selectedMonth)">
-          <mat-option class="list-option" *ngFor="let month of months" [value]="month.name">{{month.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </ng-container>
-</div>
+<mat-form-field class="list-form" appearance="fill">
+  <mat-select class="list-select" name="selectedMonth" [(ngModel)]="this.selectedMonth"
+    (selectionChange)="onSelectionChangeMonth(this.selectedMonth)">
+    <mat-option class="list-option" *ngFor="let month of months" [value]="month.name">{{month.name}}
+    </mat-option>
+  </mat-select>
+  <mat-hint align="end" class="t-min gray">Місяць</mat-hint>
+</mat-form-field>

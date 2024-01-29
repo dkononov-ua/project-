@@ -512,6 +512,7 @@ export class ComunHistoryComponent implements OnInit {
         const photoData = new FormData();
         photoData.append('file', blob, result.name!);
         this.photoData = photoData;
+        this.saveObject();
       }
     });
   }
@@ -543,8 +544,9 @@ export class ComunHistoryComponent implements OnInit {
       this.http.post(serverPath + '/img/uploadcomunal', photoData, { headers }).subscribe(
         (uploadResponse: any) => {
           if (uploadResponse.status === 'Збережено') {
+            this.saveInfo();
             setTimeout(() => {
-              this.statusMessage = "Об'єкт додано до списку";
+              this.statusMessage = "Додано до показників";
               setTimeout(() => {
                 this.statusMessage = '';
               }, 1500);

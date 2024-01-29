@@ -82,22 +82,26 @@ export class HouseResidentsComponent implements OnInit {
     };
 
     try {
-      const response = await this.http.post(url, data).toPromise() as any[];
-      const newSubscribers: Subscriber[] = response
-        .filter(item => item !== null)
-        .map((item: any) => ({
-          user_id: item.user_id,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          surName: item.surName,
-          photo: item.img,
-          instagram: item.instagram,
-          telegram: item.telegram,
-          viber: item.viber,
-          facebook: item.facebook
-        }));
+      const response: any = await this.http.post(url, data).toPromise() as any[];
+      if (response && response.length !== 0) {
+        const newSubscribers: Subscriber[] = response
+          .filter((item: null) => item !== null)
+          .map((item: any) => ({
+            user_id: item.user_id,
+            firstName: item.firstName,
+            lastName: item.lastName,
+            surName: item.surName,
+            photo: item.img,
+            instagram: item.instagram,
+            telegram: item.telegram,
+            viber: item.viber,
+            facebook: item.facebook
+          }));
 
-      this.subscribers = newSubscribers;
+        this.subscribers = newSubscribers;
+      } else {
+        this.subscribers = [];
+      }
     } catch (error) {
       console.error(error);
     }

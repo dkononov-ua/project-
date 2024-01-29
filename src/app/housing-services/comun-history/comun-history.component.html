@@ -125,18 +125,17 @@
   </div>
 
   <div [@right1] class="card-1">
-    <div *ngIf="!comunImg && !cropped" class="img-wpapper">
+    <div *ngIf="!comunImg" class="img-wpapper">
       <img class="img" [src]="selectedImageUrl ? selectedImageUrl : defaultImageUrl" alt="...">
     </div>
 
-    <div *ngIf="comunImg && !cropped" class="img-wpapper" (click)="openFullScreenImage(comunImg)">
+    <div *ngIf="comunImg" class="img-wpapper" (click)="openFullScreenImage(comunImg)">
       <img class="img" [src]="serverPathPhotoComunal + (comunImg ? comunImg : 'default.png')">
     </div>
 
-    <div *ngIf="cropped" class="img-wpapper" (click)="openFullScreenImage(comunImg)">
+    <!-- <div *ngIf="cropped" class="img-wpapper" (click)="openFullScreenImage(comunImg)">
       <img class="img" [src]="cropped">
-    </div>
-
+    </div> -->
     <div class="addPhoto flex-column">
       <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
       <button class="btn-2" (click)="_fileInput.click()">

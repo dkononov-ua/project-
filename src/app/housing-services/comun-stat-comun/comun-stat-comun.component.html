@@ -3,187 +3,209 @@
 </ng-container>
 
 <ng-template #content>
-  <div class="container-card col-12">
-    <div class="flex-box w-100">
-      <app-select-year class="p-1 w-50"></app-select-year>
-      <app-select-comun class="p-1 w-50"></app-select-comun>
+  <div class="flex-box w-100">
+    <app-select-year class="p-1 w-50"></app-select-year>
+    <app-select-comun class="p-1 w-50"></app-select-comun>
+  </div>
+
+  <div [@left1] class="switch-box">
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage === 1}">
+        <i class="fa-solid fa-cash-register"></i>
+        <div class="t-min dark bold">Нараховано</div>
+      </button>
     </div>
 
-    <div class="group col-12">
-      <div class="btn-group">
-        <button class="btn w-30" [class.active]="option_stat === 2" (click)="option_stat = 2">
-          <span class="text-1">Нарахування</span>
-        </button>
-        <button class="btn w-30" [class.active]="option_stat === 3" (click)="option_stat = 3">
-          <span class="text-1">Споживання</span>
-        </button>
-        <button class="btn w-30" [class.active]="option_stat === 1" (click)="option_stat = 1">
-          <span class="text-1">Сплачено</span>
-        </button>
-      </div>
+    <div class="switch-btn-group">
+      <button class="btn" (click)="indexPage = 2" [ngClass]="{ 'active': indexPage === 2}">
+        <i class="fa-solid fa-cookie-bite"></i>
+        <div class="t-min dark bold">Спожити</div>
+      </button>
     </div>
 
-    <div class="container-card col-12">
+    <div class="switch-btn-group">
+      <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
+        <i class="fa-solid fa-check-to-slot"></i>
+        <div class="t-min dark bold">Сплачено</div>
+      </button>
+    </div>
 
-      <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-        <div class="box m-2">
-          <mat-label class="group-label">Загальна статистика</mat-label>
+    <div class="switch-btn-group">
+      <button class="btn" (click)="option_stat = 1" [ngClass]="{ 'active': option_stat === 1}">
+        <i class="fa-solid fa-chart-column"></i>
+        <div class="t-min dark bold">Графік</div>
+      </button>
+    </div>
 
-          <div class="statContainer p-1" *ngIf="option_stat === 1">
+    <div class="switch-btn-group">
+      <button class="btn" (click)="option_stat = 0" [ngClass]="{ 'active': option_stat === 0}">
+        <i class="fa-solid fa-grip"></i>
+        <div class="t-min dark bold">Підрахунки</div>
+      </button>
+    </div>
 
-            <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.totalPaid}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Сплачено загалом:</mat-label>
-            </div>
+  </div>
 
-            <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.monthAveragePaid}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Середнє по місяцю:</mat-label>
-            </div>
+  <div class="container-card w-100">
 
-            <div class="statBox winter">
-              <div class="statNum ">{{winter?.totalPaid}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Сплачено Зима:</mat-label>
-            </div>
+    <div class="card-box w-100" *ngIf="option_stat === 0">
+      <div class="box m-2">
 
-            <div class="statBox spring">
-              <div class="statNum ">{{spring?.totalPaid}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Сплачено Весна:</mat-label>
-            </div>
+        <div class="flex-box p-1" *ngIf="indexPage === 0">
 
-            <div class="statBox summer">
-              <div class="statNum ">{{summer?.totalPaid}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Сплачено Літо:</mat-label>
-            </div>
-
-            <div class="statBox autumn">
-              <div class="statNum ">{{autumn?.totalPaid}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Сплачено Осінь:</mat-label>
-            </div>
-
+          <div class="statBox mb-2">
+            <div class="statNum accent">{{totalYearStats?.totalPaid}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Сплачено загалом:</mat-label>
           </div>
 
-          <div class="statContainer p-1" *ngIf="option_stat === 2">
-
-            <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.totalNeedPay}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Нараховано загалом:</mat-label>
-            </div>
-
-            <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.monthAverageNeedPay}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Середнє по місяцю:</mat-label>
-            </div>
-
-            <div class="statBox winter">
-              <div class="statNum ">{{winter?.totalNeedPay}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Нараховано Зима:</mat-label>
-            </div>
-
-            <div class="statBox spring">
-              <div class="statNum ">{{spring?.totalNeedPay}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Нараховано Весна:</mat-label>
-            </div>
-
-            <div class="statBox summer">
-              <div class="statNum ">{{summer?.totalNeedPay}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Нараховано Літо:</mat-label>
-            </div>
-
-            <div class="statBox autumn">
-              <div class="statNum ">{{autumn?.totalNeedPay}}<span class="unit"> ₴ </span></div>
-              <mat-label class="statNumName">Нараховано Осінь:</mat-label>
-            </div>
-
+          <div class="statBox mb-2">
+            <div class="statNum accent">{{totalYearStats?.monthAveragePaid}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Середнє по місяцю:</mat-label>
           </div>
 
-          <div class="statContainer p-1" *ngIf="option_stat === 3">
+          <div class="statBox winter mb-2">
+            <div class="statNum ">{{winter?.totalPaid}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Сплачено Зима:</mat-label>
+          </div>
 
-            <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.totalConsumption}} <span class="unit">{{ selectedUnit
-                  }}</span></div>
-              <mat-label class="statNumName">Спожито загалом/рік:</mat-label>
-            </div>
+          <div class="statBox spring mb-2">
+            <div class="statNum ">{{spring?.totalPaid}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Сплачено Весна:</mat-label>
+          </div>
 
-            <div class="statBox">
-              <div class="statNum accent">{{totalYearStats?.monthAverageConsumption}} <span class="unit">{{ selectedUnit
-                  }}</span></div>
-              <mat-label class="statNumName">Середнє по місяцю:</mat-label>
-            </div>
+          <div class="statBox summer ">
+            <div class="statNum ">{{summer?.totalPaid}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Сплачено Літо:</mat-label>
+          </div>
 
-            <div class="statBox winter">
-              <div class="statNum ">{{winter?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
-              <mat-label class="statNumName">Спожито Зима:</mat-label>
-            </div>
-
-            <div class="statBox spring">
-              <div class="statNum ">{{spring?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
-              <mat-label class="statNumName">Спожито Весна:</mat-label>
-            </div>
-
-            <div class="statBox summer">
-              <div class="statNum ">{{summer?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
-              <mat-label class="statNumName">Спожито Літо:</mat-label>
-            </div>
-
-            <div class="statBox autumn">
-              <div class="statNum ">{{autumn?.totalConsumption}} <span class="unit"><span class="unit">{{ selectedUnit
-                    }}</span></span></div>
-              <mat-label class="statNumName">Спожито Осінь:</mat-label>
-            </div>
-
+          <div class="statBox autumn ">
+            <div class="statNum ">{{autumn?.totalPaid}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Сплачено Осінь:</mat-label>
           </div>
 
         </div>
+
+        <div class="flex-box p-1" *ngIf="indexPage === 1">
+
+          <div class="statBox">
+            <div class="statNum accent">{{totalYearStats?.totalNeedPay}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Нараховано загалом:</mat-label>
+          </div>
+
+          <div class="statBox">
+            <div class="statNum accent">{{totalYearStats?.monthAverageNeedPay}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Середнє по місяцю:</mat-label>
+          </div>
+
+          <div class="statBox winter">
+            <div class="statNum ">{{winter?.totalNeedPay}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Нараховано Зима:</mat-label>
+          </div>
+
+          <div class="statBox spring">
+            <div class="statNum ">{{spring?.totalNeedPay}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Нараховано Весна:</mat-label>
+          </div>
+
+          <div class="statBox summer">
+            <div class="statNum ">{{summer?.totalNeedPay}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Нараховано Літо:</mat-label>
+          </div>
+
+          <div class="statBox autumn">
+            <div class="statNum ">{{autumn?.totalNeedPay}}<span class="unit"> ₴ </span></div>
+            <mat-label class="t-min ">Нараховано Осінь:</mat-label>
+          </div>
+
+        </div>
+
+        <div class="flex-box p-1" *ngIf="indexPage === 2">
+
+          <div class="statBox">
+            <div class="statNum accent">{{totalYearStats?.totalConsumption}} <span class="unit">{{ selectedUnit
+                }}</span></div>
+            <mat-label class="t-min ">Спожито загалом:</mat-label>
+          </div>
+
+          <div class="statBox">
+            <div class="statNum accent">{{totalYearStats?.monthAverageConsumption}} <span class="unit">{{ selectedUnit
+                }}</span></div>
+            <mat-label class="t-min ">Середнє по місяцю:</mat-label>
+          </div>
+
+          <div class="statBox winter">
+            <div class="statNum ">{{winter?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+            <mat-label class="t-min ">Спожито Зима:</mat-label>
+          </div>
+
+          <div class="statBox spring">
+            <div class="statNum ">{{spring?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+            <mat-label class="t-min ">Спожито Весна:</mat-label>
+          </div>
+
+          <div class="statBox summer">
+            <div class="statNum ">{{summer?.totalConsumption}} <span class="unit">{{ selectedUnit }}</span></div>
+            <mat-label class="t-min ">Спожито Літо:</mat-label>
+          </div>
+
+          <div class="statBox autumn">
+            <div class="statNum ">{{autumn?.totalConsumption}} <span class="unit"><span class="unit">{{ selectedUnit
+                  }}</span></span></div>
+            <mat-label class="t-min ">Спожито Осінь:</mat-label>
+          </div>
+
+        </div>
+
       </div>
+    </div>
 
-      <div class="card-box col-lg-6 col-md-12 col-sm-12 col-12">
-        <div class="box m-2">
-          <mat-label class="group-label">Графік по сезонах</mat-label>
+    <div class="card-box w-100" *ngIf="option_stat === 1">
+      <div class="box m-2">
+        <mat-label class="group-label">Графік по сезонах</mat-label>
 
-          <div class="box p-1" *ngIf="option_stat === 1">
-            <div class="progress-container">
-              <div [@columnAnimation] *ngFor="let season of seasonPayments" class="progress" role="progressbar"
-                [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
-                <div class="progress-bar" [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
-                  {{ season.payment }}
-                </div>
-                <div class="month-label">{{ season.season }}</div>
+        <div class="box p-1" *ngIf="indexPage === 0">
+          <div class="progress-container">
+            <div [@columnAnimation] *ngFor="let season of seasonPayments" class="progress" role="progressbar"
+              [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
+              <div class="progress-bar" [ngStyle]="{ 'height': (season.payment / maxPaymentsValue) * 100 + '%' }">
+                {{ season.payment }}
               </div>
+              <div class="month-label">{{ season.season }}</div>
             </div>
-            <mat-label class="group-label">Сплачено грн:</mat-label>
           </div>
+          <mat-label class="group-label">Сплачено грн:</mat-label>
+        </div>
 
-          <div class="box p-1" *ngIf="option_stat === 2">
-            <div class="progress-container">
-              <div [@columnAnimation] *ngFor="let season of seasonNeedPay" class="progress" role="progressbar"
-                [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
-                <div class="progress-bar" [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
-                  {{ season.needPay }}
-                </div>
-                <div class="month-label">{{ season.season }}</div>
+        <div class="box p-1" *ngIf="indexPage === 1">
+          <div class="progress-container">
+            <div [@columnAnimation] *ngFor="let season of seasonNeedPay" class="progress" role="progressbar"
+              [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
+              <div class="progress-bar" [ngStyle]="{ 'height': (season.needPay / maxNeedPayValue) * 100 + '%' }">
+                {{ season.needPay }}
               </div>
+              <div class="month-label">{{ season.season }}</div>
             </div>
-            <mat-label class="group-label">Нараховано грн:</mat-label>
           </div>
+          <mat-label class="group-label">Нараховано грн:</mat-label>
+        </div>
 
-          <div class="box p-1" *ngIf="option_stat === 3">
-            <div class="progress-container">
-              <div [@columnAnimation] *ngFor="let season of seasonConsumptions" class="progress" role="progressbar"
+        <div class="box p-1" *ngIf="indexPage === 2">
+          <div class="progress-container">
+            <div [@columnAnimation] *ngFor="let season of seasonConsumptions" class="progress" role="progressbar"
+              [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
+              <div class="progress-bar"
                 [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
-                <div class="progress-bar"
-                  [ngStyle]="{ 'height': (season.consumptions / maxConsumptionsValue) * 100 + '%' }">
-                  {{ season.consumptions }}
-                </div>
-                <div class="month-label">{{ season.season }}</div>
+                {{ season.consumptions }}
               </div>
+              <div class="month-label">{{ season.season }}</div>
             </div>
-            <mat-label class="group-label">Спожито <span class="unit">{{ selectedUnit }}</span></mat-label>
           </div>
-
+          <mat-label class="group-label">Спожито <span class="unit">{{ selectedUnit }}</span></mat-label>
         </div>
-      </div>
 
+      </div>
     </div>
+
   </div>
 </ng-template>

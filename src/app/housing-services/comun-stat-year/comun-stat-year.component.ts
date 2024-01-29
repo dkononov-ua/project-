@@ -8,31 +8,21 @@ import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject, Subject, map } from 'rxjs';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
-
+import { animations } from '../../interface/animation';
 
 @Component({
   selector: 'app-comun-stat-year',
   templateUrl: './comun-stat-year.component.html',
   styleUrls: ['./comun-stat-year.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('columnAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateY(80%)', opacity: 0 }),
-        animate('800ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
-      ]),
-    ]),
-    trigger('columnAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('2000ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
   ],
 })
 export class ComunStatYearComponent implements OnInit {
@@ -71,6 +61,7 @@ export class ComunStatYearComponent implements OnInit {
 
   selectedView: any;
   selectedName: string | null | undefined;
+  overpaymentText: string | undefined;
 
   constructor(
     private http: HttpClient,
@@ -190,6 +181,11 @@ export class ComunStatYearComponent implements OnInit {
       this.totalСonsumed = totalСonsumed;
       this.totalDifference = totalDifference;
       this.monthlySumData$.next(monthlySum);
+      if (this.totalDifference < 0) {
+        this.overpaymentText = 'Борг';
+      } else {
+        this.overpaymentText = 'Переплата';
+      }
     }
   }
 

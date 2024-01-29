@@ -109,4 +109,18 @@ export class DeleteHComponent implements OnInit {
     });
   }
 
+  async exitHouse(): Promise<void> {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('houseData');
+    this.statusMessage = 'Виходимо з оселі';
+    this.sharedService.setStatusMessage('Виходимо з оселі');
+    setTimeout(() => {
+      this.reloadPageWithLoader()
+      this.statusMessage = '';
+    }, 2000);
+  }
+
 }

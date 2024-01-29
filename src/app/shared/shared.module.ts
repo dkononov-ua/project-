@@ -14,7 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UserSearchComponent } from '../components/user-search/user-search.component';
 import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
-import { SelectionAccountComponent } from '../components/selection-account/selection-account.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
@@ -48,7 +47,6 @@ import { DeleteHComponent } from '../components/delete-h/delete-h.component';
     FooterComponent,
     UserSearchComponent,
     LoaderComponent,
-    SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,
@@ -70,7 +68,6 @@ import { DeleteHComponent } from '../components/delete-h/delete-h.component';
     FooterComponent,
     UserSearchComponent,
     LoaderComponent,
-    SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,

@@ -2,10 +2,6 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss" as *;
 
-mat-form-field {
-  flex-direction: column-reverse;
-}
-
 .disabledNot {
   color: $color-accent !important;
   opacity: 1 !important;
@@ -188,6 +184,7 @@ mat-form-field {
   position: relative;
   box-sizing: border-box;
   height: 60px;
+  flex-direction: column-reverse;
 }
 
 
@@ -283,24 +280,16 @@ mat-form-field {
   border-radius: 10px;
 }
 
-.statContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 .statBox {
-  width: 100%;
   display: flex;
+  width: 45%;
   justify-content: center;
   align-items: flex-end;
   flex-direction: column;
   border: 1px solid $color-primary;
   border-radius: 10px;
-  margin: 5px;
   padding: 0 10px;
+  margin: 5px;
   box-shadow:
     0 5px 10px rgba(0, 0, 0, 0.107),
     0 5px 10px rgba(0, 0, 0, 0.101);
@@ -309,10 +298,6 @@ mat-form-field {
 .statNum {
   font-size: 30px;
   font-weight: 600;
-}
-
-.statNumName {
-  font-size: 16px;
 }
 
 .form-floating {

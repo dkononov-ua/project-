@@ -8,8 +8,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject } from 'rxjs';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
-
-
+import { animations } from '../../interface/animation';
 interface FlatStat {
   totalNeedPay: any;
   totalPaid: number | undefined;
@@ -42,12 +41,14 @@ interface FlatInfo {
   templateUrl: './comun-stat-season.component.html',
   styleUrls: ['./comun-stat-season.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
     trigger('columnAnimation', [
       transition('void => *', [
         style({ transform: 'translateX(-100%)', opacity: 0 }),
@@ -161,6 +162,8 @@ export class ComunStatSeasonComponent implements OnInit {
 
   selectedView: any;
   selectedName: string | null | undefined;
+  indexPage: number = 0;
+  noData: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -174,24 +177,12 @@ export class ComunStatSeasonComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (this.selectedFlatId !== null) {
-      this.getSelectParam()
       if (this.selectedComun !== null && this.selectedYear !== null) {
-        await this.getInfoComunYear()
-          .then(() => {
-            this.getDefaultData();
-            this.loading = false;
-          })
-          .catch((error) => {
-            console.error('Error', error);
-            this.loading = false;
-          });
-      } else {
-        console.log('Не обрані комунальні або рік')
-        this.loading = false;
-      }
-    } else {
-      this.loading = false;
-    }
+        this.getSelectParam()
+        this.getDefaultData();
+      } else {      }
+    } else {    }
+    this.loading = false;
   }
 
   getDefaultData() {
@@ -223,6 +214,7 @@ export class ComunStatSeasonComponent implements OnInit {
 
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
+      this.getInfoComunYear();
       this.getDefaultData();
     });
   }
@@ -252,8 +244,7 @@ export class ComunStatSeasonComponent implements OnInit {
           when_pay_y: this.selectedYear,
           when_pay_m: e.name,
         }).toPromise() as any;
-
-        if (response.comunal !== null && response.comunal !== undefined) {
+        if (response.comunal.length !== 0 && response.comunal !== null && response.comunal !== undefined) {
           for (const comunalData of response.comunal) {
             const key = comunalData.comunal_name;
             if (!monthlySum[key]) {
@@ -278,8 +269,9 @@ export class ComunStatSeasonComponent implements OnInit {
             });
 
           }
+          this.noData = false;
         } else {
-          console.log('No data found for selected month.');
+          this.noData = true;
         }
       }
 

@@ -60,7 +60,7 @@ export class HostComunComponent implements OnInit {
   statusMessage: any;
 
   // показ карток
-  indexPage: number = 2;
+  indexPage: number = 0;
 
   constructor(
     private http: HttpClient,

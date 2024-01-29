@@ -97,4 +97,12 @@ export const animations = {
   ]),
 
 
+  bot: trigger('bot', [
+    transition('void => *', [
+      style({ transform: 'translateY(-100%)' }),
+      animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
+    ]),
+  ]),
+
+
 };

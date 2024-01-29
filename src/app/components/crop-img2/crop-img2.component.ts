@@ -95,11 +95,9 @@ export class CropImg2Component implements WithStyles, AfterViewInit {
   }
 
   onCropped(e: ImgCropperEvent) {
-    console.log('cropped img: ', e);
   }
 
   onLoaded(e: ImgCropperEvent) {
-    console.log('img loaded', e);
   }
 
   onError(e: ImgCropperErrorEvent) {

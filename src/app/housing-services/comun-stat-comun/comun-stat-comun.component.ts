@@ -7,6 +7,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { ActivatedRoute } from '@angular/router';
 import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
+import { animations } from '../../interface/animation';
 
 interface FlatStat {
   totalNeedPay: any;
@@ -40,12 +41,14 @@ interface FlatInfo {
   templateUrl: './comun-stat-comun.component.html',
   styleUrls: ['./comun-stat-comun.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
     trigger('columnAnimation', [
       transition('void => *', [
         style({ transform: 'translateY(50%)', opacity: 0 }),
@@ -88,7 +91,7 @@ export class ComunStatComunComponent implements OnInit {
   summer: FlatStat | undefined;
   autumn: FlatStat | undefined;
   totalYearStats: FlatStat | undefined;
-  option_stat: number = 2;
+  option_stat: number = 0;
   activeOption: number = 1;
 
   maxPaymentsValue: number = 0;
@@ -136,7 +139,7 @@ export class ComunStatComunComponent implements OnInit {
 
   selectedView: any;
   selectedName: string | null | undefined;
-
+  indexPage: number = 0;
 
   constructor(
     private http: HttpClient,

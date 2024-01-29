@@ -5,9 +5,9 @@
     <div [@left] *ngIf="indexPage === 1">Створення послуги</div>
     <div [@left] *ngIf="indexPage === 2">Внесення даних</div>
     <div [@left] *ngIf="indexPage === 3">Звіт за місяць</div>
-    <div [@left] *ngIf="indexPage === 4">Звіт за сезон</div>
+    <div [@left] *ngIf="indexPage === 6">Звіт за сезон</div>
     <div [@left] *ngIf="indexPage === 5">Звіт за рік</div>
-    <div [@left] *ngIf="indexPage === 6">Графік за рік</div>
+    <div [@left] *ngIf="indexPage === 4">Графік за рік</div>
   </div>
 
   <div [@left1] class="switch-box">
@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="!selectedName">
+    <div class="switch-btn-group">
       <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
         <i class="fa-solid fa-circle-info"></i>
         <div class="t-min dark bold">Про меню</div>
@@ -53,8 +53,8 @@
         <div class="t-min dark bold">Місяць</div>
       </button>
 
-      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 4"
-        [ngClass]="{ 'active': indexPage === 4}">
+      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 6"
+        [ngClass]="{ 'active': indexPage === 6}">
         <i class="fa-solid fa-chart-column"></i>
         <div class="t-min dark bold">Сезон</div>
       </button>
@@ -65,8 +65,8 @@
         <div class="t-min dark bold">Рік</div>
       </button>
 
-      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 6"
-        [ngClass]="{ 'active': indexPage === 6}">
+      <button class="btn" mat-button [matMenuTriggerFor]="menu" *ngIf="indexPage === 4"
+        [ngClass]="{ 'active': indexPage === 4}">
         <i class="fa-solid fa-chart-bar"></i>
         <div class="t-min dark bold">Графік</div>
       </button>
@@ -74,11 +74,11 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="indexPage = 3" [ngClass]="{ 'active': indexPage === 3}">
           <i class="fa-solid fa-calendar-day"></i> Місяць </button>
-        <button mat-menu-item (click)="indexPage = 4" [ngClass]="{ 'active': indexPage === 4}">
+        <button mat-menu-item (click)="indexPage = 6" [ngClass]="{ 'active': indexPage === 6}">
           <i class="fa-solid fa-chart-column"></i> Сезон </button>
         <button mat-menu-item (click)="indexPage = 5" [ngClass]="{ 'active': indexPage === 5}">
           <i class="fa-solid fa-chart-pie"></i> Рік </button>
-        <button mat-menu-item (click)="indexPage = 6" [ngClass]="{ 'active': indexPage === 6}">
+        <button mat-menu-item (click)="indexPage = 4" [ngClass]="{ 'active': indexPage === 4}">
           <i class="fa-solid fa-chart-bar"></i> Графік </button>
       </mat-menu>
 
@@ -97,14 +97,14 @@
         </div>
 
         <div class="flex-group border1 ">
-          <button class="link-t flex-box-row" (click)="indexPage = 1">
+          <button [disabled]="selectedName" class="link-t flex-box-row" (click)="indexPage = 1">
             <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Створення послуг</span>
           </button>
           <div class="t-min t-c">Збереження реквізитів комунальних служб</div>
         </div>
 
         <div class="flex-group border1 mt-2">
-          <button class="link-t flex-box-row" (click)="indexPage = 2">
+          <button [disabled]="selectedName" class="link-t flex-box-row" (click)="indexPage = 2">
             <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Внесення показників</span>
           </button>
           <div class="t-min t-c">У вас будуть власні щомісячні та щорічні звіти.</div>
@@ -118,7 +118,7 @@
           </div>
 
           <div class="flex-group p-2 w-50">
-            <button class="link-t flex-column w-100" (click)="indexPage = 4">
+            <button class="link-t flex-column w-100" (click)="indexPage = 6">
               <i class="fa-solid fa-chart-column"></i><span class="ml-2">Сезоний звіт</span>
             </button>
           </div>
@@ -132,7 +132,7 @@
           </div>
 
           <div class="flex-group p-2 w-50">
-            <button class="link-t flex-column w-100" (click)="indexPage = 6">
+            <button class="link-t flex-column w-100" (click)="indexPage = 4">
               <i class="fa-solid fa-chart-bar"></i><span class="ml-2">Річний графік</span>
             </button>
           </div>
