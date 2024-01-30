@@ -153,8 +153,6 @@ export class ResidentComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
-      this.menu = params['indexMenu'] || 0;
-      this.indexMenu = Number(this.menu);
     });
     await this.selectFlat();
     await this.selectSubscriber();

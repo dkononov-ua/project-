@@ -20,7 +20,7 @@ import { SelectionHousingComponent } from '../components/selection-housing/selec
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { UpdateComponentService } from '../services/update-component.service';
 import { MatMenuModule } from '@angular/material/menu';
-import { AddHouseComponent } from '../components/add-house/add-house.component';
+import { AddHouseComponent } from '../components/house/add-house/add-house.component';
 
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
@@ -32,7 +32,6 @@ import { MenuComponent } from '../components/menu/menu.component';
 import { GalleryComponent } from '../components/gallery/gallery.component';
 import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
 import { AddObjectsComponent } from '../account-edit/house/add-objects/add-objects.component';
-import { TransitionComponent } from '../components/transition/transition.component';
 import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
 import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
 import { SendMessageUserComponent } from '../chat/user/send-message-user/send-message-user.component';
@@ -40,8 +39,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-house.component';
 import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
 import { SendMessageComponent } from '../chat/house/send-message/send-message.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { DeleteHComponent } from '../components/delete-h/delete-h.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DeleteHComponent } from '../components/house/delete-h/delete-h.component';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -55,7 +54,6 @@ import { DeleteHComponent } from '../components/delete-h/delete-h.component';
     GalleryComponent,
     CropImg2Component,
     AddObjectsComponent,
-    TransitionComponent,
     ChatUserComponent,
     ChatHostComponent,
     SendMessageUserComponent,
@@ -76,7 +74,6 @@ import { DeleteHComponent } from '../components/delete-h/delete-h.component';
     GalleryComponent,
     CropImg2Component,
     AddObjectsComponent,
-    TransitionComponent,
     ChatUserComponent,
     ChatHostComponent,
     SendMessageUserComponent,

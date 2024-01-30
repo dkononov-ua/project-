@@ -32,7 +32,6 @@ const routes: Routes = [
   { path: 'act-view/:selectedFlatAgree', component: ActViewComponent, canActivate: [CanActivateGuard] },
   { path: 'agree-download/:selectedFlatAgree', component: AgreeDownloadComponent, canActivate: [CanActivateGuard] },
   { path: 'agree-send/:selectedFlatAgree', component: AgreeSendComponent, canActivate: [CanActivateGuard] },
-
 ];
 
 @NgModule({

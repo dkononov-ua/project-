@@ -1,3 +1,12 @@
+<div class="t-lar-xx bold dark t-s pl-2">
+  <div [@left] *ngIf="indexPage === 0">Дискусії користувача</div>
+  <div [@left] *ngIf="indexPage === 1">Всі Дискусії</div>
+  <div [@left] *ngIf="indexPage === 2">Інфо про оселю</div>
+  <div [@left] *ngIf="indexPage === 3">Інфо про власника</div>
+  <div [@left] *ngIf="indexPage === 4">Чат з оселею</div>
+  <div [@left] *ngIf="indexPage === 5">Відгуки про власника</div>
+</div>
+
 <div class="switch-box">
 
   <div class="switch-btn-group">
@@ -31,21 +40,13 @@
 
 </div>
 
-<div class="t-lar-xx bold dark t-s pl-2">
-  <div [@left] *ngIf="indexPage === 0">Дискусії користувача</div>
-  <div [@left] *ngIf="indexPage === 1">Всі Дискусії</div>
-  <div [@left] *ngIf="indexPage === 2">Інфо про оселю</div>
-  <div [@left] *ngIf="indexPage === 3">Інфо про власника</div>
-  <div [@left] *ngIf="indexPage === 4">Чат з оселею</div>
-  <div [@left] *ngIf="indexPage === 5">Відгуки про власника</div>
-</div>
-
 <div class="card-box">
 
   <!-- про меню -->
-  <div [@swichCard] class="card-animation" *ngIf="indexPage == 0">
+  <div [@swichCard] class="card-animation p-2 mt-2" *ngIf="indexPage == 0">
+
     <div class="param-box">
-      <div class="param-name">
+      <div class="param-name"><i class="fa-solid fa-child-reaching"></i> Меню дискусії користувача
         <p class="t-min ">Оселі які ви ухвалили або вони вас. З ними доступні додаткові можливості.</p>
       </div>
     </div>

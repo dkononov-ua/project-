@@ -6,7 +6,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject } from 'rxjs';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
 interface FlatStat {
@@ -180,8 +180,8 @@ export class ComunStatSeasonComponent implements OnInit {
       if (this.selectedComun !== null && this.selectedYear !== null) {
         this.getSelectParam()
         this.getDefaultData();
-      } else {      }
-    } else {    }
+      } else { }
+    } else { }
     this.loading = false;
   }
 

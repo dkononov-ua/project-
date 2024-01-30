@@ -293,6 +293,7 @@ export class SubscribersHouseComponent implements OnInit {
     if (userJson && subscriber) {
       const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
       const response: any = await this.http.post(serverPath + '/subs/accept', data).toPromise();
+      console.log(response)
       if (response.status == true) {
         this.statusMessage = 'Ухвалено до дискусії'
         this.selectedUser = null;
@@ -307,8 +308,19 @@ export class SubscribersHouseComponent implements OnInit {
           }, 1000);
         }, 2000);
 
-      } else { this.statusMessage = 'Помилка', this.reloadPage; }
-      (error: any) => { this.statusMessage = 'Помилка', setTimeout(() => { this.reloadPage }, 2000); console.error(error); }
+      } else if (response.status === 'Ви в дискусії') {
+        this.statusMessage = 'З цим користувачем вже є дискусія',
+          setTimeout(() => {
+            this.router.navigate(['/subscribers-host/subscribers-discus'], { queryParams: { indexPage: 1 } });
+          }, 2000);
+      }
+      else {
+        this.statusMessage = 'Помилка',
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+      }
+      (error: any) => { this.statusMessage = 'Помилка', setTimeout(() => { location.reload(); }, 2000); console.error(error); }
     } else { console.log('Авторизуйтесь'); }
   }
 

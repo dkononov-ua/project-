@@ -1,7 +1,6 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
-@use "../../style/navbar.scss";
 
 .navbar {
   justify-content: flex-start;

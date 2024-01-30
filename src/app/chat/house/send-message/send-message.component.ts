@@ -3,7 +3,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SMILEYS } from '../../../data/data-smile'
-import { SendMessageService } from 'src/app/services/send-message.service';
+import { SendMessageService } from 'src/app/chat/send-message.service';
 
 @Component({
   selector: 'app-send-message',

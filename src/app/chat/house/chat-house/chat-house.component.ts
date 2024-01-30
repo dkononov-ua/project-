@@ -4,7 +4,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { EMPTY, Subject, switchMap, take } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { SendMessageService } from 'src/app/services/send-message.service';
+import { SendMessageService } from 'src/app/chat/send-message.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 interface User {

@@ -55,7 +55,6 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
-import { DiscussioComponent } from './components/discussio/discussio.component';
 import { GestureService } from './services/gesture.service';
 @NgModule({
   declarations: [
@@ -71,7 +70,6 @@ import { GestureService } from './services/gesture.service';
     ReportsComponent,
     NotFoundComponent,
     NewsComponent,
-    DiscussioComponent,
   ],
   providers: [
     SelectedFlatService,

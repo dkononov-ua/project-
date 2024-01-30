@@ -1,18 +1,10 @@
-
-
-<div class="w-100" *ngIf="!houseData">
-  <div [@cardAnimation1] class="dark t-s pl-2">
-    <div class="t-lar-xx bold">Вибір оселі</div>
-    <div class="t-med">Оберіть або створіть оселю</div>
-  </div>
+<div *ngIf="!houseData">
+  <div class="t-lar-xx bold t-s pl-2">Вибір оселі</div>
+  <div class="t-med t-s pl-2">Оберіть або створіть оселю</div>
   <app-selection-housing></app-selection-housing>
 </div>
 
-<div class="flex-box" *ngIf="houseData">
-  <div class="col-lg-9 col-md-9 col-sm-12 col-12">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<router-outlet *ngIf="houseData"></router-outlet>
 
 <div *ngIf="statusMessage" class="status-message">
   <div class="status-message-text">{{ statusMessage }}</div>

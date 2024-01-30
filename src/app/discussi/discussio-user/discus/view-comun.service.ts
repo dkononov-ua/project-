@@ -40,26 +40,17 @@ export class ViewComunService {
   setSelectedName(Name: string): void {
     console.log(Name)
     localStorage.removeItem('selectedView');
-    // localStorage.removeItem('selectedFlatId');
-    // localStorage.removeItem('house');
-    // localStorage.removeItem('selectedComun');
     localStorage.setItem('selectedName', Name);
     this.selectedNameSubject.next(Name);
   }
 
   clearSelectedView(): void {
     localStorage.removeItem('selectedView');
-    // localStorage.removeItem('selectedFlatId');
-    // localStorage.removeItem('house');
-    // localStorage.removeItem('selectedComun');
     this.selectedViewSubject.next(null);
   }
 
   clearSelectedName(): void {
     localStorage.removeItem('selectedName');
-    // localStorage.removeItem('selectedFlatId');
-    // localStorage.removeItem('house');
-    // localStorage.removeItem('selectedComun');
     this.selectedNameSubject.next(null);
   }
 }

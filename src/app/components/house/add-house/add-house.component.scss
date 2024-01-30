@@ -2,11 +2,3 @@
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss";
 
-.switch-box {
-  .switch-btn-group {
-    .btn {
-      width: 50px;
-    }
-  }
-}
-

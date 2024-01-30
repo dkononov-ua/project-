@@ -27,12 +27,12 @@ import { GestureService } from 'src/app/services/gesture.service';
 
       transition('void => *', [
         style({ transform: 'translateY(100%)' }),
-        animate('800ms 0ms ease-in-out', style({ transform: 'translateY(0%)' })),
+        animate('400ms 0ms ease-in-out', style({ transform: 'translateY(0%)' })),
       ]),
 
       transition('left => *', [
         style({ transform: 'translateX(0%)' }),
-        animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' })),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' })),
         transition('endRight => *', [
           style({ transform: 'translateX(0%)' }),
           animate('10ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' }))
@@ -41,7 +41,7 @@ import { GestureService } from 'src/app/services/gesture.service';
 
       transition('right => *', [
         style({ transform: 'translateX(0%)' }),
-        animate('1200ms 0ms ease-in-out', style({ transform: 'translateX(100%)' })),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(100%)' })),
         transition('endRight => *', [
           style({ transform: 'translateX(0%)' }),
           animate('10ms 0ms ease-in-out', style({ transform: 'translateX(100%)' }))
@@ -149,7 +149,7 @@ export class HouseComponent implements OnInit {
           this.onNextCard();
           this.toggleIndexPage();
           this.cardDirection = '';
-        }, 900);
+        }, 500);
       }, 0);
     } else {
       this.cardDirection = 'Попередня';
@@ -160,7 +160,7 @@ export class HouseComponent implements OnInit {
           this.onPrevCard();
           this.toggleIndexPage();
           this.cardDirection = '';
-        }, 900);
+        }, 500);
       }, 0);
     }
   }

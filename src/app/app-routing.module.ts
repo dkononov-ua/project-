@@ -13,7 +13,7 @@ import { AboutProjectComponent } from './pages/about-project/about-project.compo
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'registration', pathMatch: 'full' },
+  { path: '', redirectTo: 'user', pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'our-team', component: OurTeamComponent},
@@ -26,9 +26,8 @@ const routes: Routes = [
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
-  // { path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule), canActivate: [CanActivateGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
-  { path: 'opportunities', component: OpportunitiesComponent, canActivate: [CanActivateGuard] },
+  { path: 'opportunities', component: OpportunitiesComponent},
 ];
 
 @NgModule({

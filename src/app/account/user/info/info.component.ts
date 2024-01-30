@@ -4,7 +4,6 @@ import { DataService } from 'src/app/services/data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { forkJoin } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { CloseMenuService } from 'src/app/services/close-menu.service';
 import { UserInfo } from '../../../interface/info';
 import { UsereSearchConfig } from '../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox, OptionPay, Purpose } from '../../../interface/name';
@@ -74,7 +73,6 @@ export class InfoComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private http: HttpClient,
-    private closeMenuService: CloseMenuService,
   ) { }
 
   ngOnInit(): void {
@@ -84,10 +82,6 @@ export class InfoComponent implements OnInit {
       setTimeout(() => {
         this.loading = false;
       }, 200);
-  }
-
-  sendMenuOpen(closeMenu: boolean) {
-    this.closeMenuService.setCloseMenu(closeMenu);
   }
 
   getInfoUser() {

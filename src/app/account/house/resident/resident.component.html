@@ -801,7 +801,7 @@
         Це може бути корисним якщо ви захочете додати і членів вашої сім'ї до оселі щоб вони могли також керувати або
         переглядати інформацію про оселю.</div>
       <div class="item-group w-100 flex-column p-2">
-        <button class="link-toMenu not-allowed flex-box-row" [routerLink]="'/information-user'">
+        <button class="link-toMenu not-allowed flex-box-row" [routerLink]="'/information-user'" [queryParams]="{ indexPage: 2 }">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold">Увімкнути дозвіл тут.</span>
         </button>
       </div>

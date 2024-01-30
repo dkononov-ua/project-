@@ -30,6 +30,7 @@ export class SearchComponent implements OnInit {
   indexPage: number = 0;
   selectedFlatId!: string | null;
   openSearchHouse: boolean = false;
+  loading: boolean = false;
 
   constructor(private selectedFlatService: SelectedFlatService) { }
 

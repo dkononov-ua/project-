@@ -4,7 +4,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { DeleteSubsComponent } from '../delete/delete-subs.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -142,16 +142,14 @@ export class SubscribersDiscusComponent implements OnInit {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-
     this.getSubInfo(this.offs);
     await this.getCounterUser();
-
+    this.getChoseFlatId();
     if (this.counterFound !== 0) {
       this.indexPage = 1;
     } else {
       this.indexPage = 0;
     }
-    this.getChoseFlatId();
   }
 
   // Отримання айді обраної оселі
@@ -161,7 +159,7 @@ export class SubscribersDiscusComponent implements OnInit {
       if (this.choseFlatId) {
         this.selectDiscussion();
         this.indexPage = 2;
-      } else {  }
+      } else { }
     });
   }
 

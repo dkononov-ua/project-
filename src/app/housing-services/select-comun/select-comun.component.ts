@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { DiscussioViewService } from 'src/app/services/discussio-view.service';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { DiscussioViewService } from 'src/app/discussi/discussio-user/discus/discussio-view.service';
 import { serverPath } from 'src/app/config/server-config';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 
 @Component({
   selector: 'app-select-comun',

@@ -24,7 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DeleteHouseComponent } from './delete-house/delete-house.component';
+import { DeleteHouseComponent } from '../../components/house/delete-house/delete-house.component';
 
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { LySliderModule } from '@alyle/ui/slider';

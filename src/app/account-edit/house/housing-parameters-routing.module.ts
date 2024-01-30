@@ -8,7 +8,7 @@ import { CanActivateGuard } from '../../services/auth.guard';
 import { HousingParametersComponent } from './housing-parameters.component';
 import { HostComponent } from './host/host.component';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
-import { AddHouseComponent } from '../../components/add-house/add-house.component';
+import { AddHouseComponent } from '../../components/house/add-house/add-house.component';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { InstructionComponent } from './instruction/instruction.component';
 

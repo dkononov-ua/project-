@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { serverPath,  path_logo } from 'src/app/config/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 import { CounterService } from 'src/app/services/counter.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
@@ -278,9 +278,7 @@ export class MenuComponent {
     private updateComponent: UpdateComponentService,
     private counterService: CounterService,
     private router: Router,
-
-  ) {
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     const userJson = localStorage.getItem('user');

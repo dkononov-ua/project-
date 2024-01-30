@@ -4,9 +4,8 @@ import { Subject } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
@@ -96,6 +95,7 @@ interface UserParam {
 })
 
 export class InformationUserComponent implements OnInit {
+  page: any;
 
 
 
@@ -221,19 +221,17 @@ export class InformationUserComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private isAccountOpenService: IsAccountOpenService,
     private router: Router,
     private _dialog: LyDialog,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.sendAccountIsOpen();
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 0;
+      this.indexPage = Number(this.page);
+    });
     this.getInfo();
-  }
-
-  sendAccountIsOpen() {
-    this.isAccountOpenStatus = true;
-    this.isAccountOpenService.setIsAccountOpen(this.isAccountOpenStatus);
   }
 
   async getInfo(): Promise<any> {

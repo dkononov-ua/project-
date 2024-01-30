@@ -1,38 +1,46 @@
-<div class="flex-box card-animation" *ngIf="indexPage === 0">
-  <div class="card-menu1 col-lg-6 col-md-6 col-sm-12 col-12">
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
 
-    <div [@right2]  class="img-wrapper1">
-      <img class="img1" src="../../../../../assets/example-agree/menu-search1.jpg" alt="">
-      <div class="param-box">
-        <div class="flex-group">
-          <button [disabled]="!openSearchHouse" class="link-t flex-box-row" [routerLinkActive]="'active'" [routerLink]="'/search-house'">
-            <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Пошук оселі</span>
-            <div class="t-min t-c" *ngIf="!openSearchHouse">Доступний після реєстрації</div>
-            <div class="t-min t-c" *ngIf="openSearchHouse">знайдемо оселю за вашими побажаннями</div>
-          </button>
+<ng-template #content>
+  <div class="flex-box card-animation" *ngIf="indexPage === 0">
+    <div class="card-menu1 col-lg-6 col-md-6 col-sm-12 col-12">
+
+      <div [@right] class="img-wrapper1">
+        <img class="img1" src="../../../../../assets/example-agree/menu-search1.jpg" alt="">
+        <div class="param-box">
+          <div class="flex-group">
+            <button [disabled]="!openSearchHouse" class="link-t flex-box-row" [routerLinkActive]="'active'"
+              [routerLink]="'/search-house'">
+              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Пошук оселі</span>
+              <div class="t-min t-c" *ngIf="!openSearchHouse">Доступний після реєстрації</div>
+              <div class="t-min t-c" *ngIf="openSearchHouse">знайдемо оселю за вашими побажаннями</div>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div [@left2]  class="img-wrapper2">
+      <div [@left1] class="img-wrapper2">
 
-      <div [@right1] class="pageName w-20 pb-2">
-        <img class="logo" src="{{path_logo}}" alt="logo">
-        <div class="t-lar-xx gray">Discussio</div>
-        <div class="t-lar-xx">Пошук</div>
-      </div>
-
-      <div class="param-box">
-        <div class="flex-group">
-          <button [disabled]="!selectedFlatId" class="link-t flex-box-row" [routerLinkActive]="'active'" [routerLink]="'/search-tenants'">
-            <i class="fa-solid fa-arrow-left"></i><span class="ml-2">Пошук орендара</span>
-            <div class="t-min t-c" *ngIf="!selectedFlatId">Доступний після входу в аккаунт оселі</div>
-            <div class="t-min t-c" *ngIf="selectedFlatId">Знайдемо орендара для вашої оселі</div>
-          </button>
+        <div [@right1] class="pageName w-20 pb-2">
+          <img class="logo" src="{{path_logo}}" alt="logo">
+          <div class="t-lar-xx gray">Discussio</div>
+          <div class="t-lar-xx">Пошук</div>
         </div>
-      </div>
-      <img class="img2" src="../../../../../assets/example-agree/search6.jpg" alt="">
-    </div>
 
+        <div class="param-box">
+          <div class="flex-group">
+            <button [disabled]="!selectedFlatId" class="link-t flex-box-row" [routerLinkActive]="'active'"
+              [routerLink]="'/search-tenants'">
+              <i class="fa-solid fa-arrow-left"></i><span class="ml-2">Пошук орендара</span>
+              <div class="t-min t-c" *ngIf="!selectedFlatId">Доступний після входу в аккаунт оселі</div>
+              <div class="t-min t-c" *ngIf="selectedFlatId">Знайдемо орендара для вашої оселі</div>
+            </button>
+          </div>
+        </div>
+        <img class="img2" src="../../../../../assets/example-agree/search6.jpg" alt="">
+      </div>
+
+    </div>
   </div>
-</div>
+</ng-template>

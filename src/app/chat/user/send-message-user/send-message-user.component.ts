@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { SMILEYS } from '../../../data/data-smile'
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { SendMessageService } from 'src/app/services/send-message.service';
+import { SendMessageService } from 'src/app/chat/send-message.service';
 
 @Component({
   selector: 'app-send-message-user',

@@ -9,6 +9,11 @@
   justify-content: flex-end;
 }
 
+.card-2 {
+  height: 75vh;
+  overflow-y: auto;
+}
+
 .card-1 {
   position: absolute;
   left: -40%;
@@ -16,14 +21,7 @@
   height: 75vh;
   @include box-shadow;
   border-radius: 20px;
-}
 
-.card-2 {
-  height: 75vh;
-  overflow-y: auto;
-}
-
-.card-1 {
   .img-fluid-h {
     display: flex;
     flex-direction: column;
@@ -106,14 +104,3 @@
   }
 }
 
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}

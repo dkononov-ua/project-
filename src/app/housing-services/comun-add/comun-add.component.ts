@@ -6,9 +6,9 @@ import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DiscussioViewService } from 'src/app/services/discussio-view.service';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { DiscussioViewService } from 'src/app/discussi/discussio-user/discus/discussio-view.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 
 @Component({
   selector: 'app-comun-add',
