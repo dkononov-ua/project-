@@ -11,71 +11,10 @@ import { Router } from '@angular/router';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
+    trigger('cardAnimation', [
       transition('void => *', [
         style({ transform: 'translateX(120%)' }),
-        animate('600ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(120%)' }),
-        animate('600ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(120%)' }),
-        animate('600ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation4', [
-      transition('void => *', [
-        style({ transform: 'translateX(120%)' }),
-        animate('600ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation5', [
-      transition('void => *', [
-        style({ transform: 'translateX(120%)' }),
-        animate('600ms 500ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
-      ]),
-    ]),
-
-    trigger('cardAnimation6', [
-      transition('void => *', [
-        style({ transform: 'translateX(120%)' }),
-        animate('600ms 600ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation7', [
-      transition('void => *', [
-        style({ transform: 'translateX(120%)' }),
-        animate('600ms 700ms ease-in-out', style({ transform: 'translateX(0)' }))
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0%)' }),
@@ -84,166 +23,43 @@ import { Router } from '@angular/router';
     ]),
   ],
 })
+
 export class MenuComponent {
 
-  linkOpen1: boolean = false;
-  linkOpen2: boolean = false;
-  linkOpen3: boolean = false;
-  linkOpen4: boolean = false;
-  linkOpen5: boolean = false;
-  transition: boolean = false;
+  animationDelay(index: number): string {
+    return (600 + 100 * index).toString();
+  }
 
-  menu1: boolean = false;
-  menu2: boolean = false;
-  menu3: boolean = false;
-  menu4: boolean = false;
-  menu5: boolean = false;
   statusMessage: any;
   loginCheck: boolean = false;
 
-  toggleMenu(index: number) {
-    if (index === 1) {
-      this.linkOpen1 = !this.linkOpen1;
-      if (this.menu1) {
-        setTimeout(() => {
-          this.menu1 = !this.menu1;
-        }, 600);
-      } else {
-        this.menu1 = !this.menu1;
-      }
-    }
-    if (index === 2) {
-      this.linkOpen2 = !this.linkOpen2;
-      if (this.menu2) {
-        setTimeout(() => {
-          this.menu2 = false;
-        }, 600);
-      } else {
-        this.menu2 = !this.menu2;
-      }
-    }
-
-    if (index === 3) {
-      this.linkOpen3 = !this.linkOpen3;
-      if (this.menu3) {
-        setTimeout(() => {
-          this.menu3 = !this.menu3;
-        }, 600);
-      } else {
-        this.menu3 = !this.menu3;
-      }
-    }
-
-    if (index === 4) {
-      this.linkOpen4 = !this.linkOpen4;
-      if (this.menu4) {
-        setTimeout(() => {
-          this.menu4 = !this.menu4;
-        }, 600);
-      } else {
-        this.menu4 = !this.menu4;
-      }
-    }
-
-    if (index === 5) {
-      this.linkOpen5 = !this.linkOpen5;
-      if (this.menu5) {
-        setTimeout(() => {
-          this.menu5 = !this.menu5;
-        }, 600);
-      } else {
-        this.menu5 = !this.menu5;
-      }
-    }
-  }
+  linkOpen: boolean[] = [false, false, false, false, false];
+  menu: boolean[] = [false, false, false, false, false];
 
   toggleAllMenu(index: number) {
-    if (index === 1) {
-      this.linkOpen1 = !this.linkOpen1;
-      if (this.menu1) {
-        setTimeout(() => {
-          this.menu1 = !this.menu1;
-        }, 600);
-      } else {
-        this.menu1 = !this.menu1;
-      }
+    this.linkOpen[index] = !this.linkOpen[index];
+    if (this.menu[index]) {
+      setTimeout(() => {
+        this.menu[index] = !this.menu[index];
+      }, 600);
+    } else {
+      this.menu[index] = !this.menu[index];
     }
-    if (index === 2) {
-      this.linkOpen2 = !this.linkOpen2;
-      if (this.menu2) {
-        setTimeout(() => {
-          this.menu2 = !this.menu2;
-        }, 600);
-      } else {
-        this.menu2 = !this.menu2;
-      }
-    }
-    if (index === 3) {
-      this.linkOpen3 = !this.linkOpen3;
-      if (this.menu3) {
-        setTimeout(() => {
-          this.menu3 = !this.menu3;
-        }, 600);
-      } else {
-        this.menu3 = !this.menu3;
-      }
-    }
-    if (index === 4) {
-      this.linkOpen4 = !this.linkOpen4;
-      if (this.menu4) {
-        setTimeout(() => {
-          this.menu4 = !this.menu4;
-        }, 600);
-      } else {
-        this.menu4 = !this.menu4;
-      }
-    }
-    if (index === 5) {
-      this.linkOpen5 = !this.linkOpen5;
-      if (this.menu5) {
-        setTimeout(() => {
-          this.menu5 = !this.menu5;
-        }, 600);
-      } else {
-        this.menu5 = !this.menu5;
-      }
-    }
-  }
-
-  transitionOn() {
-    this.linkOpen1 = false;
-    this.linkOpen2 = false;
-    this.linkOpen3 = false;
-    this.linkOpen4 = false;
-    this.linkOpen5 = false;
-    this.menu1 = false;
-    this.menu2 = false;
-    this.menu3 = false;
-    this.menu4 = false;
-    this.menu5 = false;
-    this.transition = true;
-    setTimeout(() => {
-      this.transition = false;
-    }, 1000);
   }
 
   path_logo = path_logo;
-
   selectedFlatId: any;
   counterSubs: any;
   counterSubscriptions: any;
   counterAcceptSubs: any;
-
   counterUserSubs: any;
   counterUserDiscuss: any;
   numSendAgree: number = 0;
   userInf: any;
   agreeNum: number = 0;
-
   loading: boolean = false;
   dataUpdated = false;
   houseData: any;
-
   acces_added: number = 1;
   acces_admin: number = 1;
   acces_agent: number = 1;
@@ -272,6 +88,7 @@ export class MenuComponent {
   counterUserNewMessage: any;
   iReadUserMessage: boolean = false;
   counterUserNewAgree: any;
+  authorization: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -284,6 +101,7 @@ export class MenuComponent {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.loginCheck = true;
+      this.authorization = true;
       await this.getUserSubscribersCount();
       await this.getUserSubscriptionsCount();
       await this.getUserDiscussioCount();
@@ -308,6 +126,7 @@ export class MenuComponent {
         console.log('Оберіть оселю')
       }
     } else {
+      this.authorization = false;
       console.log('Авторизуйтесь')
     }
   }
@@ -349,7 +168,11 @@ export class MenuComponent {
     await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
     this.counterService.counterHouseDiscussio$.subscribe(data => {
       const counterHouseDiscussio: any = data;
-      this.counterHouseDiscussio = counterHouseDiscussio.status;
+      if (counterHouseDiscussio.status === 'Немає доступу' ) {
+        this.counterHouseDiscussio = null;
+      } else {
+        this.counterHouseDiscussio = counterHouseDiscussio.status;
+      }
       // console.log('кількість дискусій', this.counterHouseDiscussio)
     });
   }
@@ -360,7 +183,11 @@ export class MenuComponent {
     await this.counterService.getUserSubscribersCount();
     this.counterService.counterUserSubscribers$.subscribe(data => {
       const counterUserSubscribers: any = data;
-      this.counterUserSubscribers = counterUserSubscribers.status;
+      if (counterUserSubscribers.status === 'Немає доступу' ) {
+        this.counterUserSubscribers = null;
+      } else {
+        this.counterUserSubscribers = counterUserSubscribers.status;
+      }
       // console.log('кількість підписників', this.counterUserSubscribers)
     });
   }
@@ -371,7 +198,11 @@ export class MenuComponent {
     await this.counterService.getUserSubscriptionsCount();
     this.counterService.counterUserSubscriptions$.subscribe(data => {
       const counterUserSubscriptions: any = data;
-      this.counterUserSubscriptions = counterUserSubscriptions.status;
+      if (counterUserSubscriptions.status === 'Немає доступу' ) {
+        this.counterUserSubscriptions = null;
+      } else {
+        this.counterUserSubscriptions = counterUserSubscriptions.status;
+      }
       // console.log('кількість підписників', this.counterUserSubscriptions)
     });
   }
@@ -390,6 +221,7 @@ export class MenuComponent {
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
   getHouseAcces(): void {
     if (this.houseData.acces) {
+      console.log(this.houseData.acces)
       this.acces_added = this.houseData.acces.acces_added;
       this.acces_admin = this.houseData.acces.acces_admin;
       this.acces_agent = this.houseData.acces.acces_agent;
@@ -461,8 +293,7 @@ export class MenuComponent {
       this.statusMessage = '';
       this.loading = true;
       setTimeout(() => {
-        this.router.navigate(['/registration']);
-        this.loading = false;
+        location.reload();
       }, 1500);
     }, 1500);
   }

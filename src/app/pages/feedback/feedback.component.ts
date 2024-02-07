@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 export class Feedback {
   constructor(
-    public optionDevice: string = '',
+    public optionDevice: string = '0',
     public menuName: string = '',
     public optionComfort: string = '',
     public optionDesign: string = '',
@@ -86,6 +86,7 @@ export class FeedbackComponent implements OnInit {
   async saveFeedback(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const formData = this.feedbackForm.value;
+    console.log(formData)
     if (userJson && this.feedbackForm.valid) {
       try {
         const response: any = await this.http.post(serverPath + '/feedback/add', {
@@ -93,6 +94,7 @@ export class FeedbackComponent implements OnInit {
           user_id: JSON.parse(userJson).user_id,
           formData
         }).toPromise();
+        console.log(response)
         if (response) {
           setTimeout(() => {
             this.statusMessage = 'Дякуємо за ваш відгук';
@@ -124,7 +126,7 @@ export class FeedbackComponent implements OnInit {
     this.menu.menuComment = '';
     this.menu.optionRating = '';
     this.menu.optionFunctional = '';
-    this.menu.optionDevice = '';
+    this.menu.optionDevice = '0';
   }
 
   async getFeedback() {

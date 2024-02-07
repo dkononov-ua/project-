@@ -3,13 +3,8 @@
 @use "../../style/shared.scss";
 
 .menu-container {
-  // padding: 0 10px 0 10px;
-  .menu-wrapper {
     @include flex-box;
     width: 100%;
-    // border-radius: 20px 20px 0 0;
-    @include box-shadow;
-    // background-color: tan;
     .btn-menu {
       flex: 1;
       background-color: transparent;
@@ -22,8 +17,6 @@
           color: $color-accent;
         }
       }
-      // background-color: tan;
-
       .t-min {
         font-size: 9px;
         text-transform: uppercase;
@@ -41,7 +34,6 @@
         border-radius: 50%;
       }
     }
-  }
 }
 
 .menu {
@@ -56,9 +48,20 @@
   z-index: 500;
   background-color: rgba(0, 0, 0, 0.736);
   padding-bottom: 100px;
-
   .link {
+    &:disabled {
+      background-color: $color-gray;
+      box-shadow: 2px 2px 2px 4px $color-gray;
+      color: rgb(82, 82, 82);
+      .fa-solid,
+      .fa-regular {
+        color: rgb(82, 82, 82);
+      }
+    }
     @include flex-box;
+    border: none;
+    height: 40px;
+    padding: 5px;
     justify-content: space-between;
     margin: 5px 0px 5px 5px;
     position: relative;
@@ -67,11 +70,10 @@
     text-transform: capitalize;
     border-radius: 10px 0 0 10px;
     box-shadow: 2px 2px 2px 4px $color-white;
-
     .status {
       @include flex-box;
       position: absolute;
-      left: -15px;
+      left: -20px;
       top: 50%;
       transform: translateY(-15px);
       width: 30px;

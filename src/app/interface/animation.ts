@@ -90,6 +90,13 @@ export const animations = {
     ]),
   ]),
 
+  top1: trigger('top1', [
+    transition(':enter', [
+      style({ transform: 'translateY(100%)', opacity: 1 }),
+      animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+    ]),
+  ]),
+
   cardSwipeAnimation: trigger('cardSwipe', [
     state('notSwiped', style({ transform: 'translateX(0)' })),
     state('swiped', style({ transform: 'translateX(100%)' })),

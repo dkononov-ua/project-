@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChi
 import { objects } from '../../../data/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { animations } from '../../../interface/animation';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
@@ -20,20 +20,8 @@ interface ObjectInfo {
   selector: 'app-add-objects',
   templateUrl: './add-objects.component.html',
   styleUrls: ['./add-objects.component.scss'],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1300ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ],
+  animations: [animations.left, animations.left1, animations.left2,],
+
 })
 
 export class AddObjectsComponent implements OnInit {

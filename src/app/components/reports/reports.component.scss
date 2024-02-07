@@ -2,14 +2,22 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+mat-dialog-content {
+  padding: 5px !important;
+  font-family: $font-main;
+}
+
 .message-box {
   display: flex;
-  width: 40vh;
   flex-direction: column;
   align-items: stretch;
-  @include s1-s3 {
-    width: 35vh;
-  }
+}
+
+.t-min {
+  font-size: 11px;
+  line-height: 12px;
+  color: $color-gray;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.294);
 }
 
 h3 {
@@ -37,6 +45,7 @@ h3 {
 }
 
 .box {
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
@@ -48,6 +57,14 @@ h3 {
   color: $color-accent;
   font-weight: 600;
   font-size: 22px;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-70 {
+  width: 70%;
 }
 
 .description {

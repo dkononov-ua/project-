@@ -11,6 +11,8 @@ import moment from 'moment';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { MatDialog } from '@angular/material/dialog';
 import { NewsComponent } from 'src/app/components/news/news.component';
+import { animations } from '../../interface/animation';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -26,16 +28,13 @@ import { NewsComponent } from 'src/app/components/news/news.component';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)', zIndex: 2 }), // Початкове значення zIndex
-        animate('1600ms 200ms ease-in-out', style({ transform: 'translateX(0)', zIndex: 2 })) // Значення zIndex під час анімації
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)', zIndex: 1 }), // Початкове значення zIndex
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(230%)', zIndex: 1 })) // Значення zIndex під час анімації
-      ])
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 
 })
@@ -60,7 +59,6 @@ export class RegistrationComponent implements OnInit {
   isCopied = false;
   discussio!: string;
   disabledEmail: boolean = false;
-  indexBtn: number = 1;
   passMatch: any;
   passMatchMessage: any;
   changePassword1: any;
@@ -128,7 +126,8 @@ export class RegistrationComponent implements OnInit {
     },
   };
 
-  indexCard: number = 1;
+  indexCard: number = 3;
+  indexBtn: number = 1;
 
   togglePasswordVisibility1() {
     this.passwordType1 = this.passwordType1 === 'password' ? 'text' : 'password';
@@ -159,31 +158,13 @@ export class RegistrationComponent implements OnInit {
     localStorage.removeItem('userData');
     localStorage.removeItem('user');
     this.initializeForm();
-    this.openDialog();
     this.loading = false;
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(NewsComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
-    });
-  }
-
   login(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('selectedHouse');
-    localStorage.removeItem('selectedFlatId');
-    localStorage.removeItem('selectedFlatName');
-    localStorage.removeItem('houseData');
-    // console.log(this.loginForm.value);
     this.loading = true;
-
     this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
-        // console.log(response)
         if (response.status) {
           setTimeout(() => {
             this.statusMessage = 'З поверненням!';
@@ -192,23 +173,19 @@ export class RegistrationComponent implements OnInit {
               this.router.navigate(['/user']);
               setTimeout(() => {
                 location.reload();
-              }, 100);
+              }, 500);
             }, 1500);
           }, 1000);
         } else {
           setTimeout(() => {
-            this.errorMessage$.next('Неправильний логін або пароль');
             this.statusMessage = 'Неправильний логін або пароль.';
             setTimeout(() => {
               location.reload();
             }, 1000);
           }, 1000);
         }
-
       }, (error: any) => {
-        console.error(error);
         this.loading = false;
-        this.errorMessage$.next('Сталася помилка на сервері');
         this.statusMessage = 'Сталася помилка на сервері.';
         setTimeout(() => {
           location.reload();
@@ -217,12 +194,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   registrationCheck(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('selectedHouse');
-    localStorage.removeItem('selectedFlatId');
-    localStorage.removeItem('selectedFlatName');
-    localStorage.removeItem('houseData');
     if (this.registrationForm.valid && this.agreementAccepted) {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
@@ -277,7 +248,6 @@ export class RegistrationComponent implements OnInit {
           dob: dob,
           passCode: this.emailCheckCode,
         };
-        // console.log(data);
         this.http.post(serverPath + '/registration/second', data).subscribe(
           (response: any) => {
             // console.log(response);
@@ -308,12 +278,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   sendCodeForChangePass() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('selectedHouse');
-    localStorage.removeItem('selectedFlatId');
-    localStorage.removeItem('selectedFlatName');
-    localStorage.removeItem('houseData');
     this.emailAcc = this.loginForm.get('email')?.value;
     this.loading = true;
 
@@ -498,12 +462,6 @@ export class RegistrationComponent implements OnInit {
         );
       }
     });
-
-
-
-
-
-
   }
 
   checkPassword() {

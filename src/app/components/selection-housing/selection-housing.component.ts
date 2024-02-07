@@ -132,15 +132,15 @@ export class SelectionHousingComponent implements OnInit {
   selectFlat(flat: any): void {
     const userJson = localStorage.getItem('user');
     if (userJson && flat) {
+      this.loading = true;
       localStorage.removeItem('selectedComun');
       localStorage.removeItem('selectedHouse');
       localStorage.removeItem('selectedFlatId');
       localStorage.removeItem('selectedFlatName');
       localStorage.removeItem('houseData');
-      this.statusMessage = 'Обираємо оселю ' + flat.flat_name;
+      this.statusMessage = 'Обираємо ' + flat.flat_name;
       setTimeout(() => {
-        this.loading = true;
-        this.statusMessage = 'Оновлюємо дані дані по ' + flat.flat_name;
+        this.statusMessage = 'Оновлюємо дані';
         this.selectedFlatService.setSelectedFlatId(flat.flat_id);
         this.selectedFlatService.setSelectedFlatName(flat.flat_name);
         this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);

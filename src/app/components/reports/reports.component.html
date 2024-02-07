@@ -1,11 +1,10 @@
 <div class="message-box">
   <mat-dialog-content>
 
-    <div class="t-lar bold t-c" *ngIf="data.object === 'house'">Оберіть причину скарги на оселю {{data.flatName}}</div>
-    <div class="t-lar bold t-c" *ngIf="data.object === 'user'">
-      Оберіть причину скарги на користувача {{data.firstName}} {{data.lastName}}</div>
+    <div class="t-lar bold t-c mb-2" *ngIf="data.object === 'house'">Скарга на оселю {{data.flatName}}</div>
+    <div class="t-lar bold t-c mb-2" *ngIf="data.object === 'user'"> Скарга на користувача {{data.firstName}}</div>
 
-    <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="selectedReport">
+    <mat-radio-group class="w-100 mt-2" aria-label="Select an option" [(ngModel)]="selectedReport">
       <mat-radio-button color="warn" [value]="1">Неправдиве оголошення</mat-radio-button>
       <div class="t-min">Містить неправдиву або маніпулятивну інформацію.</div>
 
@@ -27,16 +26,17 @@
       <mat-radio-button color="warn" [value]="6">Неправомірні операції</mat-radio-button>
       <div class="t-min">Сумнівні операції або обман, які можуть завдати шкоди користувачам.</div>
 
-      <mat-form-field class="w-100 mt-2">
-        <mat-label>Детальний опис скарги</mat-label>
-        <textarea #textArea id="floatingTextarea" [(ngModel)]="aboutReport" matInput
-          placeholder="Введіть детальний опис скарги."></textarea>
-      </mat-form-field>
+
     </mat-radio-group>
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Детальний опис скарги</mat-label>
+      <textarea #textArea id="floatingTextarea" [(ngModel)]="aboutReport" matInput
+        placeholder="Введіть детальний опис скарги."></textarea>
+    </mat-form-field>
 
   </mat-dialog-content>
   <mat-dialog-actions class="box" align="end">
-    <button class="btn m-2" mat-button [mat-dialog-close]="0">Відмінити</button>
-    <button class="btn m-2" mat-button [mat-dialog-close]="{selectedReport, aboutReport}">Поскаржитись</button>
+    <button class="btn w-20" mat-button [mat-dialog-close]="0"><i class="fa-solid fa-xmark"></i></button>
+    <button class="btn w-70" mat-button [mat-dialog-close]="{selectedReport, aboutReport}">Поскаржитись</button>
   </mat-dialog-actions>
 </div>

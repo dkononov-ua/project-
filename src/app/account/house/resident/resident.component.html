@@ -46,8 +46,8 @@
       </div>
 
       <div class="info-help-text" *ngIf="helpInfo == 8">
-        <span class="accent bold">Редагування оселі</span> - дозволити редагувати інформацію по
-        оселю.
+        <span class="accent bold">Редагування оселі</span> - дозволити частично редагувати інформацію оселі, а саме
+        коригування інформації яка не стосується її параметрів та локації, потрібно якщо орендар шукатиме сусіда в оселю.
       </div>
 
       <div class="info-help-text" *ngIf="helpInfo == 9">
@@ -72,8 +72,8 @@
       </div>
 
       <div class="info-help-text" *ngIf="helpInfo == 13">
-        <span class="accent bold">Адміністрування</span> - якщо надати доступ до "Дозволити
-        додавати людей" та "Адміністрування" то мешканець отримає можливість надавати дозволи.
+        <span class="accent bold">Надавати дозволи</span> - мешканець отримує можливість надавати дозволи до оселі іншим
+        користувачам.
       </div>
 
       <button class="btn" (click)="openHelpMenu(0)">Зрозуміло</button>
@@ -682,11 +682,7 @@
           <div class="t-lar-x t-c p-1">{{ selectedSubscriber.surName }}</div>
         </div>
 
-        <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal">
-            <span class="checkbox-name">Комунальні</span></mat-checkbox>
-          <button class="checkbox-btn w-30" (click)="openHelpMenu(1)"><i class="fa-solid fa-question"></i></button>
-        </div>
+
         <div class="checkbox-group">
           <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_filling">
             <span class="checkbox-name">Наповнення оселі</span></mat-checkbox>
@@ -702,20 +698,23 @@
             <span class="checkbox-name">Управління Discussiєю</span></mat-checkbox>
           <button class="checkbox-btn w-30" (click)="openHelpMenu(4)"><i class="fa-solid fa-question"></i></button>
         </div>
-        <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_agreement">
-            <span class="checkbox-name">Управління угодами</span></mat-checkbox>
-          <button class="checkbox-btn w-30" (click)="openHelpMenu(5)"><i class="fa-solid fa-question"></i></button>
-        </div>
+
         <div class="checkbox-group">
           <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_citizen">
             <span class="checkbox-name">Мешканці оселі</span></mat-checkbox>
           <button class="checkbox-btn w-30" (click)="openHelpMenu(6)"><i class="fa-solid fa-question"></i></button>
         </div>
         <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal_indexes">
+          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal_indexes"
+            (ngModelChange)="accesCheck()">
             <span class="checkbox-name">Додавання показників</span></mat-checkbox>
           <button class="checkbox-btn w-30" (click)="openHelpMenu(7)"><i class="fa-solid fa-question"></i></button>
+        </div>
+        <div class="checkbox-group">
+          <mat-checkbox [disabled]="!selectedSubscriber.acces_comunal_indexes" color="warn"
+            [(ngModel)]="selectedSubscriber.acces_comunal">
+            <span class="checkbox-name">Комунальні</span></mat-checkbox>
+          <button class="checkbox-btn w-30" (click)="openHelpMenu(1)"><i class="fa-solid fa-question"></i></button>
         </div>
         <div class="checkbox-group">
           <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_flat_features">
@@ -728,19 +727,30 @@
             <span class="checkbox-name">Чат оселі</span></mat-checkbox>
           <button class="checkbox-btn w-30" (click)="openHelpMenu(10)"><i class="fa-solid fa-question"></i></button>
         </div>
+
         <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_added">
-            <span class="checkbox-name">Додавати користувачів</span></mat-checkbox>
-          <button class="checkbox-btn w-30" (click)="openHelpMenu(11)"><i class="fa-solid fa-question"></i></button>
-        </div>
-        <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_agent">
+          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_agent" (ngModelChange)="accesCheck()">
             <span class="checkbox-name">Представник оселі</span></mat-checkbox>
           <button class="checkbox-btn w-30" (click)="openHelpMenu(12)"><i class="fa-solid fa-question"></i></button>
         </div>
+
         <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_admin">
-            <span class="checkbox-name">Адміністрування</span></mat-checkbox>
+          <mat-checkbox [disabled]="!selectedSubscriber.acces_agent" color="warn"
+            [(ngModel)]="selectedSubscriber.acces_agreement">
+            <span class="checkbox-name">Управління угодами</span></mat-checkbox>
+          <button class="checkbox-btn w-30" (click)="openHelpMenu(5)"><i class="fa-solid fa-question"></i></button>
+        </div>
+
+        <div class="checkbox-group">
+          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_added" (ngModelChange)="accesCheck()">
+            <span class="checkbox-name">Додавати користувачів</span></mat-checkbox>
+          <button class="checkbox-btn w-30" (click)="openHelpMenu(11)"><i class="fa-solid fa-question"></i></button>
+        </div>
+
+        <div class="checkbox-group">
+          <mat-checkbox [disabled]="!selectedSubscriber.acces_added" color="warn"
+            [(ngModel)]="selectedSubscriber.acces_admin">
+            <span class="checkbox-name">Надавати дозволи</span></mat-checkbox>
           <button class="checkbox-btn w-30" (click)="openHelpMenu(13)"><i class="fa-solid fa-question"></i></button>
         </div>
 
@@ -801,7 +811,8 @@
         Це може бути корисним якщо ви захочете додати і членів вашої сім'ї до оселі щоб вони могли також керувати або
         переглядати інформацію про оселю.</div>
       <div class="item-group w-100 flex-column p-2">
-        <button class="link-toMenu not-allowed flex-box-row" [routerLink]="'/information-user'" [queryParams]="{ indexPage: 2 }">
+        <button class="link-toMenu not-allowed flex-box-row" [routerLink]="'/information-user'"
+          [queryParams]="{ indexPage: 2 }">
           <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold">Увімкнути дозвіл тут.</span>
         </button>
       </div>

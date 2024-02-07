@@ -17,7 +17,6 @@ import { LoaderComponent } from '../components/loader/loader.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
-import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { UpdateComponentService } from '../services/update-component.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddHouseComponent } from '../components/house/add-house/add-house.component';
@@ -47,7 +46,6 @@ import { DeleteHComponent } from '../components/house/delete-h/delete-h.componen
     UserSearchComponent,
     LoaderComponent,
     SelectionHousingComponent,
-    SelectionDiscussioComponent,
     AddHouseComponent,
     CropImgComponent,
     MenuComponent,
@@ -67,7 +65,6 @@ import { DeleteHComponent } from '../components/house/delete-h/delete-h.componen
     UserSearchComponent,
     LoaderComponent,
     SelectionHousingComponent,
-    SelectionDiscussioComponent,
     AddHouseComponent,
     CropImgComponent,
     MenuComponent,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animations } from '../../../interface/animation';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
@@ -20,20 +20,8 @@ interface FlatInfo {
   selector: 'app-param',
   templateUrl: './param.component.html',
   styleUrls: ['./param.component.scss'],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ],
+  animations: [animations.left, animations.left1, animations.left2,],
+
 })
 
 export class ParamComponent {

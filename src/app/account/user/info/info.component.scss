@@ -18,12 +18,6 @@
   justify-content: flex-start;
 }
 
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}
-
 .card-box {
   display: flex;
   align-items: stretch;

@@ -4,7 +4,7 @@
 
 <ng-template #content>
 
-  <div class="flex-column pl-2">
+  <div class="flex-column pl-2" *ngIf="houseData">
     <div class="t-lar-xx bold dark t-s">
       <div [@cardAnimation1] *ngIf="indexCard === 0">Керування оселею</div>
       <div [@cardAnimation1] *ngIf="indexCard === 1">Профіль оселі</div>
@@ -13,40 +13,33 @@
     </div>
   </div>
 
-  <div class="switch-box">
+  <div class="switch-box" *ngIf="houseData">
 
-    <div class="switch-btn-group" *ngIf="houseData">
+    <div class="switch-btn-group">
       <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
         <i class="fa-solid fa-id-card-clip"></i>
         <div class="t-min dark bold">Основна</div>
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="houseData">
+    <div class="switch-btn-group">
       <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
         <i class="fa-solid fa-indent"></i>
         <div class="t-min dark bold">Парам.</div>
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="houseData">
+    <div class="switch-btn-group">
       <button class="btn" [ngClass]="{'active': indexCard === 3}" (click)="indexCard = 3">
         <i class="fa-regular fa-address-book"></i>
         <div class="t-min dark bold">Допом.</div>
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="houseData">
-      <button class="btn" [ngClass]="{'active': indexCard === 0}" (click)="indexCard = 0">
-        <i class="fa-solid fa-plus"></i>
-        <div class="t-min dark bold">Керув.</div>
-      </button>
-    </div>
-
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/housing-parameters/host/'">
-        <i class="fa-solid fa-gear"></i>
-        <div class="t-min dark bold">Налашт.</div>
+      <button class="btn" [ngClass]="{'active': indexCard === 0}" (click)="indexCard = 0">
+        <i class="fa-solid fa-door-closed"></i>
+        <div class="t-min dark bold">Керування</div>
       </button>
     </div>
 
@@ -54,25 +47,25 @@
 
   <div class="card-box" *ngIf="houseData">
 
-    <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 0">
+    <div class="flex-box" *ngIf="indexCard === 0">
       <div [@cardAnimation2] class="w-100">
         <app-selection-housing></app-selection-housing>
       </div>
     </div>
 
-    <div class="flex-box p-2 hide-pc col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 1 && houseData">
+    <div class="flex-box p-2" *ngIf="indexCard === 1 && houseData">
       <div [@cardAnimation2] class="card w-100">
         <app-main-info></app-main-info>
       </div>
     </div>
 
-    <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 2 && houseData">
+    <div class="flex-box p-2" *ngIf="indexCard === 2 && houseData">
       <div [@cardAnimation2] class="card w-100 p-2">
         <app-parameters></app-parameters>
       </div>
     </div>
 
-    <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 3 && houseData">
+    <div class="flex-box p-2" *ngIf="indexCard === 3 && houseData">
       <div [@cardAnimation2] class="card w-100 p-2">
         <app-house-share></app-house-share>
       </div>

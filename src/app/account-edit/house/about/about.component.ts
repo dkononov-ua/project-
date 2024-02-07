@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { DataService } from 'src/app/services/data.service';
+import { animations } from '../../../interface/animation';
 
 interface FlatInfo {
   students: boolean;
@@ -26,20 +27,7 @@ interface FlatInfo {
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ],
+  animations: [animations.left, animations.left1, animations.left2,],
 })
 
 export class AboutComponent implements OnInit {

@@ -3,11 +3,10 @@
 </ng-container>
 
 <ng-template #content>
-
   <div class="flex-column pl-2">
     <div class="t-lar-xx bold dark t-s">
-      <div [@cardAnimation1] *ngIf="indexCard === 1">Профіль користувача</div>
-      <div [@cardAnimation1] *ngIf="indexCard === 2">Пошукові параметри</div>
+      <div [@left] *ngIf="indexCard === 1">Профіль користувача</div>
+      <div [@left] *ngIf="indexCard === 2">Пошукові параметри</div>
     </div>
   </div>
 
@@ -36,7 +35,7 @@
 
   </div>
 
-  <div class="card-box p-2" *ngIf="indexCard === 1" [@cardAnimation2]>
+  <div class="card-box p-2" *ngIf="indexCard === 1" [@left1]>
     <div class="card">
       <div class="copyMessage-box" *ngIf="isCopiedMessage">
         <div class="copyMessage-text">{{isCopiedMessage}}</div>
@@ -129,7 +128,7 @@
     </div>
   </div>
 
-  <div class="card-box p-2" *ngIf="indexCard === 2" [@cardAnimation2]>
+  <div class="card-box p-2" *ngIf="indexCard === 2" [@left1]>
     <div class="card" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
 
       <div class="status-container">
@@ -345,6 +344,4 @@
         Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли. </p>
     </div>
   </div>
-
-
 </ng-template>

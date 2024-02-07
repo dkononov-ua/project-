@@ -23,15 +23,21 @@ export class Rating {
   ) { }
 }
 interface Subscriber {
-  acces_flat_chats: any;
-  acces_flat_features: any;
-  acces_agent: any;
-  acces_comunal_indexes: any;
-  acces_citizen: any;
-  acces_agreement: any;
-  acces_discuss: any;
-  acces_subs: any;
-  acces_filling: any;
+
+  acces_flat_chats: boolean;
+  acces_flat_features: boolean;
+  acces_agent: boolean;
+  acces_comunal_indexes: boolean;
+  acces_citizen: boolean;
+  acces_agreement: boolean;
+  acces_discuss: boolean;
+  acces_subs: boolean;
+  acces_filling: boolean;
+  acces_services: boolean;
+  acces_admin: boolean;
+  acces_comunal: boolean;
+  acces_added: boolean;
+
   user_id: string;
   firstName: string;
   lastName: string;
@@ -42,10 +48,7 @@ interface Subscriber {
   telegram: string;
   viber: string;
   facebook: string;
-  acces_services: any;
-  acces_admin: any;
-  acces_comunal: any;
-  acces_added: any;
+
   mail: string;
 }
 @Component({
@@ -157,6 +160,20 @@ export class ResidentComponent implements OnInit {
     await this.selectFlat();
     await this.selectSubscriber();
     this.getRatingOwner;
+  }
+
+  accesCheck() {
+    if (this.selectedSubscriber) {
+      if (!this.selectedSubscriber.acces_added) {
+        this.selectedSubscriber.acces_admin = false;
+      }
+      if (!this.selectedSubscriber.acces_comunal_indexes) {
+        this.selectedSubscriber.acces_comunal = false;
+      }
+      if (!this.selectedSubscriber.acces_agent) {
+        this.selectedSubscriber.acces_agreement = false;
+      }
+    }
   }
 
   async selectFlat() {
@@ -323,10 +340,16 @@ export class ResidentComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && subscriber) {
 
+      if (!this.selectedSubscriber?.acces_added) {
+        this.selectedSubscriber!.acces_admin = false;
+      }
+
+
       const data = {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         user_id: subscriber.user_id,
+
         acces_added: this.selectedSubscriber?.acces_added,
         acces_admin: this.selectedSubscriber?.acces_admin,
         acces_services: this.selectedSubscriber?.acces_services,
@@ -340,6 +363,7 @@ export class ResidentComponent implements OnInit {
         acces_agent: this.selectedSubscriber?.acces_agent,
         acces_flat_features: this.selectedSubscriber?.acces_flat_features,
         acces_flat_chats: this.selectedSubscriber?.acces_flat_chats,
+
       };
 
       this.http.post(serverPath + '/citizen/add/access', data).subscribe(

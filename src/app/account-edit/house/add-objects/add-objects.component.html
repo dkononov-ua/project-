@@ -22,10 +22,10 @@
 
   <div class="flex-column pl-2">
     <div class="t-lar-xx bold dark t-s">
-      <div [@cardAnimation1] *ngIf="indexPage === 0">Меню наповнення</div>
-      <div [@cardAnimation1] *ngIf="indexPage === 1">Додавання об'єктів </div>
-      <div [@cardAnimation1] *ngIf="indexPage === 2">Огляд об'єктів </div>
-      <div [@cardAnimation1] *ngIf="indexPage === 3">Видалення об'єктів</div>
+      <div [@left] *ngIf="indexPage === 0">Меню наповнення</div>
+      <div [@left] *ngIf="indexPage === 1">Додавання об'єктів </div>
+      <div [@left] *ngIf="indexPage === 2">Огляд об'єктів </div>
+      <div [@left] *ngIf="indexPage === 3">Видалення об'єктів</div>
     </div>
   </div>
 
@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <div [@cardAnimation1] class="card-box p-2" *ngIf="indexPage === 1">
+    <div [@left] class="card-box p-2" *ngIf="indexPage === 1">
 
       <button class="info-btn mr-2" (click)="openHelp()">Допомога</button>
 

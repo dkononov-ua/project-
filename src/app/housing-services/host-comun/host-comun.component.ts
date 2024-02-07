@@ -136,6 +136,7 @@ export class HostComunComponent implements OnInit {
         if (this.selectedFlatId && userJson && this.selectedComun) {
           this.http.post(serverPath + '/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
             .subscribe((response: any) => {
+              console.log(response)
             }, (error: any) => {
               console.error(error);
             });

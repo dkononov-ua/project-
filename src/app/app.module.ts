@@ -56,6 +56,7 @@ import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
 import { GestureService } from './services/gesture.service';
+import { SupportUsComponent } from './pages/support-us/support-us.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +71,7 @@ import { GestureService } from './services/gesture.service';
     ReportsComponent,
     NotFoundComponent,
     NewsComponent,
+    SupportUsComponent,
   ],
   providers: [
     SelectedFlatService,

@@ -11,12 +11,14 @@ import { LookingComponent } from './account-edit/user/looking/looking.component'
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
+import { SupportUsComponent } from './pages/support-us/support-us.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'our-team', component: OurTeamComponent},
+  { path: 'support-us', component: SupportUsComponent},
   { path: 'about-project', component: AboutProjectComponent },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },

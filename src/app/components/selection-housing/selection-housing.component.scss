@@ -12,6 +12,9 @@
 .card-2 {
   height: 75vh;
   overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .card-1 {

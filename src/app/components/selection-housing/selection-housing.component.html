@@ -49,9 +49,9 @@
       <app-delete-h class="p-1"></app-delete-h>
 
       <ng-container *ngIf="allFlats">
-        <div class="t-lar bold t-c" *ngIf="allFlats > 0">Власні оселі</div>
-        <div class="cards-container p-2">
-          <div class="card-mini mb-3" *ngFor="let flat of allFlats" (click)="selectFlat(flat)"
+        <div class="t-lar bold t-c">Власні оселі</div>
+        <div class="cards-container">
+          <div class="card-mini mb-2" *ngFor="let flat of allFlats" (click)="selectFlat(flat)"
             [ngClass]="{ 'selected': chooseFlatID === flat.flat_id }">
             <div class="card-mini-img-container">
               <img class="card-mini-img"
@@ -72,8 +72,8 @@
 
       <ng-container>
         <div class="t-lar bold t-c" *ngIf="allFlatsTenant && allFlatsTenant.length > 0">Орендовані оселі</div>
-        <div class="cards-container p-2" *ngIf="allFlatsTenant">
-          <div class="card-mini mb-3" *ngFor="let flat of allFlatsTenant" (click)="selectFlat(flat)"
+        <div class="cards-container" *ngIf="allFlatsTenant">
+          <div class="card-mini mb-2" *ngFor="let flat of allFlatsTenant" (click)="selectFlat(flat)"
             [ngClass]="{ 'selected': chooseFlatID === flat.flat_id  }">
 
             <div class="status-container"

@@ -61,7 +61,7 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.442);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.291);
 }
 
 mat-label {
@@ -72,6 +72,10 @@ mat-label {
 
 .btn {
   width: 100%;
+  background-color: $color-accent;
+  &:disabled {
+    background-color: rgba(128, 128, 128, 0.619);
+  }
 }
 
 .content-name {
