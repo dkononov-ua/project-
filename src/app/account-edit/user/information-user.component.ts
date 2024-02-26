@@ -91,7 +91,9 @@ interface UserParam {
 
 export class InformationUserComponent implements OnInit {
 
-
+  emailCheckCode: any;
+  agreeToDel: boolean = false;
+  sentCode: boolean = false;
 
   extractUsernameFromUrl(url: string): string {
     // Ваш регулярний вираз для витягування імені користувача
@@ -445,4 +447,81 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
+
+  async deleteAcc(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    this.loading = true;
+    if (userJson) {
+      try {
+        const data = this.userCont;
+        const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
+        // console.log(response)
+        if (response.status === true) {
+          this.statusMessage = 'Аккаунт видалено';
+          localStorage.removeItem('selectedComun');
+          localStorage.removeItem('selectedFlatId');
+          localStorage.removeItem('selectedFlatName');
+          localStorage.removeItem('selectedHouse');
+          localStorage.removeItem('houseData');
+          localStorage.removeItem('userData');
+          localStorage.removeItem('user');
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+            this.router.navigate(['/registration']);
+          }, 2000);
+        } else {
+          this.statusMessage = 'Помилка збереження';
+          setTimeout(() => {
+            this.statusMessage = '';
+            this.loading = false;
+          }, 2000);
+        }
+      } catch (error) {
+        console.error(error);
+        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        setTimeout(() => { location.reload }, 2000);
+      }
+    } else {
+      console.log('Авторизуйтесь');
+    }
+  }
+
+
+  sendCodeForDelAcc() {
+    // this.loading = true;
+    const data = {
+      email: this.userInfo.user_mail,
+    };
+    this.sentCode = true;
+
+    // try {
+    //   // console.log(data);
+    //   this.http.post(serverPath + '/registration/', data)
+    //     .subscribe((response: any) => {
+    //       // console.log(response)
+    //       if (response.status === 'На вашу пошту було надіслано код безпеки') {
+    //         this.sentCode = true;
+    //         this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
+    //         setTimeout(() => {
+    //           this.statusMessage = '';
+    //           this.loading = false;
+    //         }, 2000);
+    //       } else {
+    //         this.sentCode = false;
+    //         this.statusMessage = 'Помилка надсилання коду безпеки.';
+    //         setTimeout(() => {
+    //           location.reload();
+    //         }, 2000);
+    //       }
+    //     });
+    // } catch (error) {
+    //   this.sentCode = false;
+    //   this.errorMessage$.next('Сталася помилка на сервері');
+    //   this.statusMessage = 'Сталася помилка на сервері.';
+    //   setTimeout(() => {
+    //     location.reload();
+    //   }, 2000);
+    // }
+  }
 };

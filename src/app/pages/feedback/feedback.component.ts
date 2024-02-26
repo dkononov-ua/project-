@@ -1,18 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { serverPath, path_logo } from 'src/app/config/server-config';
-export class Feedback {
-  constructor(
-    public optionDevice: string = '',
-    public menuName: string = '',
-    public optionComfort: string = '',
-    public optionDesign: string = '',
-    public optionImpression: string = '',
-    public menuComment: string = '',
-    public optionRating: string = '',
-    public optionFunctional: string = ''
-  ) { }
+
+interface Option {
+  label: string;
+  icon: string;
 }
 @Component({
   selector: 'app-feedback',
@@ -21,78 +14,76 @@ export class Feedback {
 })
 export class FeedbackComponent implements OnInit {
 
-  @ViewChild('feedbackForm') feedbackForm!: NgForm;
-  menu: Feedback = new Feedback();
-  menuName: string | undefined;
   statusMessage: string | undefined;
   path_logo = path_logo;
-  allFeedback: boolean = false;
-  allFeedbackRead: any;
-  checkAllFeedback() {
-    this.allFeedback = !this.allFeedback;
-  }
-
-  optionName = [
-    'Чат',
-    'Підписки',
-    'Дискусія',
-    'Налаштування',
-    'Комуналка',
-    'Пошук оселі',
-    'Пошук орендара',
-    'Угоди',
-    'Наповнення',
-    'Мешканці',
+  evaluations: any;
+  optionDevice: string = '';
+  menuName: any;
+  optionComfort: string = '';
+  optionDesign: string = '';
+  optionImpression: string = '';
+  menuComment: string = '';
+  optionRating: string = '';
+  optionFunctional: string = '';
+  optionName: Option[] = [
+    { label: 'Чат', icon: 'fa-solid fa-message' },
+    { label: 'Підписки', icon: 'fa-solid fa-people-pulling' },
+    { label: 'Підписники', icon: 'fa-solid fa-child-reaching' },
+    { label: 'Дискусії', icon: 'fa-solid fa-person-walking-luggage' },
+    { label: 'Статистика', icon: 'fa-solid fa-chart-pie' },
+    { label: 'Налаштування оселі', icon: 'fa-solid fa-gear' },
+    { label: 'Налаштування користувача', icon: 'fa-solid fa-user-gear' },
+    { label: 'Пошук оселі', icon: 'fa-solid fa-magnifying-glass' },
+    { label: 'Пошук орендаря', icon: 'fa-solid fa-person-circle-plus' },
+    { label: 'Угоди', icon: 'fa-solid fa-handshake-angle' },
+    { label: 'Акт прийому-передачі', icon: 'fa-solid fa-file-contract' },
+    { label: 'Мешканці', icon: 'fa-solid fa-people-roof' },
+    { label: 'Наповнення', icon: 'fa-solid fa-boxes-packing' },
+    { label: 'Пріорітетні категорії', icon: 'fa-solid fa-restroom' },
+    { label: 'Профіль користувача', icon: 'fa-regular fa-circle-user' },
+    { label: 'Профіль оселі', icon: 'fa-solid fa-person-shelter' },
+    { label: 'Профіль орендаря', icon: 'fa-solid fa-person-hiking' },
+    { label: 'Керування оселею', icon: 'fa-solid fa-house-circle-check' },
+    { label: 'Пропоную', icon: 'fa-solid fa-puzzle-piece' },
   ]
-
-  optionComfort = [
-    'Не зручно',
-    'Скоріше не зручно',
-    'Скоріше зручно',
-    'Зручно',
-  ]
-
-  optionDesign = [
-    'Погано',
-    'Нормально',
-    'Добре',
-    'Гарно',
-  ]
-
-  optionImpression = [
-    'Переробити повністью',
-    'Підправити трошки',
-    'Все ок',
-  ]
-
-  optionFunctional = [
-    'Мало, треба додати ще',
-    'Все що треба є',
-    'Багато непотрібного',
-  ]
-
-  openPassword: boolean = false;
-  getOpen() {
-    this.openPassword = !this.openPassword;
-  }
-
+  category: any;
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    this.getFeedback();
+    this.route.queryParams.subscribe(params => {
+      this.category = params['category'] || '';
+      const selectedCategory = this.optionName!.find(option => option.label === this.category);
+      this.menuName = selectedCategory;
+      if (this.menuName) {
+        this.getFeedback()
+      }
+    });
   }
 
   async saveFeedback(): Promise<void> {
+    console.log(this.menuName.label)
     const userJson = localStorage.getItem('user');
-    const formData = this.feedbackForm.value;
-    if (userJson && this.feedbackForm.valid) {
+    const formData = {
+      menuComment: this.menuComment || '',
+      menuName: this.menuName.label,
+      optionComfort: this.optionComfort || '',
+      optionDesign: this.optionDesign || '',
+      optionDevice: this.optionDevice || '1',
+      optionFunctional: this.optionFunctional || '',
+      optionImpression: this.optionImpression || '',
+    };
+    console.log(formData)
+    if (userJson && this.menuName) {
       try {
         const response: any = await this.http.post(serverPath + '/feedback/add', {
           auth: JSON.parse(userJson),
           user_id: JSON.parse(userJson).user_id,
           formData
         }).toPromise();
+        console.log(response)
         if (response) {
           setTimeout(() => {
             this.statusMessage = 'Дякуємо за ваш відгук';
@@ -118,13 +109,13 @@ export class FeedbackComponent implements OnInit {
   }
 
   clearForm() {
-    this.menu.optionComfort = '';
-    this.menu.optionDesign = '';
-    this.menu.optionImpression = '';
-    this.menu.menuComment = '';
-    this.menu.optionRating = '';
-    this.menu.optionFunctional = '';
-    this.menu.optionDevice = '';
+    this.optionComfort = '50';
+    this.optionDesign = '50';
+    this.optionImpression = '50';
+    this.menuComment = '';
+    this.optionRating = '50';
+    this.optionFunctional = '50';
+    this.optionDevice = '1';
   }
 
   async getFeedback() {
@@ -133,46 +124,26 @@ export class FeedbackComponent implements OnInit {
       try {
         const response = await this.http.post(serverPath + '/feedback/get/user', {
           auth: JSON.parse(userJson),
-          menuName: this.menu.menuName,
+          menuName: this.menuName.label,
         }).toPromise();
-
         if (Array.isArray(response) && response.length > 0) {
-          this.menu = response[0];
-          console.log(this.menu);
+          console.log(response[0])
+          this.evaluations = response[0];
+          this.optionComfort = this.evaluations.optionComfort.toString();
+          this.optionDesign = this.evaluations.optionDesign.toString();
+          this.optionImpression = this.evaluations.optionImpression.toString();
+          this.menuComment = this.evaluations.menuComment;
+          this.optionRating = this.evaluations.optionRating;
+          this.optionFunctional = this.evaluations.optionFunctional.toString();
+          this.optionDevice = this.evaluations.optionDevice;
         } else {
-          console.log('Меню з такою назвою не знайдено');
           this.clearForm();
         }
       } catch (error) {
-        this.menu = new Feedback();
-        console.error(error);
+        console.log(error);
       }
     } else {
-      console.log('user not found');
-    }
-  }
-
-  async getAllFeedback(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      console.log(123)
-      try {
-        const response2: any = await this.http.post(serverPath + '/feedback/get/admin', {
-          auth: { password: 123456, email: "discAdm321" },
-          menuName: this.menuName,
-        }).toPromise();
-
-        if (response2) {
-          this.allFeedbackRead = response2
-        } else {
-          console.log('Немає відгуків')
-        }
-      }
-      catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.log('user not found');
+      console.log('Авторизуйтесь');
     }
   }
 }

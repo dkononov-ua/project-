@@ -35,6 +35,13 @@
         <div class="t-min dark bold">Доступи</div>
       </div>
 
+      <div class="btn-menu">
+        <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">
+          <i class="fa-solid fa-user-xmark"></i>
+        </button>
+        <div class="t-min dark bold">Видалення</div>
+      </div>
+
     </div>
 
     <div class="info-container">
@@ -74,6 +81,11 @@
         <a class="link-menu" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
           <span class="link-text">Доступи</span>
           <div class="link-icon"> <i class="fa-solid fa-sliders"></i> </div>
+        </a>
+
+        <a class="link-menu" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">
+          <span class="link-text">Видалення</span>
+          <div class="link-icon"> <i class="fa-solid fa-user-xmark"></i> </div>
         </a>
 
       </nav>
@@ -329,6 +341,73 @@
           </div>
 
         </div>
+
+        <div class="flex-column w-100" *ngIf="indexPage === 3">
+
+          <div class="flex-column p-2">
+            <div class="t-lar-xx bold dark">Видалення аккаунту</div>
+            <div class="t-min gray mb-2">Тут можна повністью видалити аккаунт</div>
+          </div>
+          <div class="card-box">
+
+            <div [@cardAnimation2] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
+              <div class="card p-2">
+
+                <div class="flex-box-column">
+                  <p class="t-lar-x bold t-c p-2">При видаленні аккаунту видаляються:</p>
+                  <ul class="t-lar">
+                    <li>Дані користувача</li>
+                    <li>Дані оселі</li>
+                    <li>Наповнення оселі</li>
+                    <li>Фото оселі</li>
+                    <li>Оцінки, відгуки та рейтинг оселі</li>
+                    <li>Оцінки, відгуки та рейтинг користувача</li>
+                    <li>Угоди користувача</li>
+                    <li>Угоди оселі</li>
+                  </ul>
+
+                  <div class="flex-box-column">
+                    <label class="checkBox">
+                      <input type="checkbox" [(ngModel)]="agreeToDel">
+                      <div class="transition"></div>
+                    </label>
+                    <div class="mt-2 t-min t-c p-2">Погоджуюсь на видалення аккаунту та розумію наслідки</div>
+                  </div>
+
+                  <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
+                    <mat-label>Код підтвердження пошти</mat-label>
+                    <div class="mat-input-container">
+                      <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+                        placeholder="Введіть код підтвердження">
+                    </div>
+                  </mat-form-field>
+
+                  <p class="t-min t-c p-2" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам було
+                    надіслано на пошту</p>
+                </div>
+                <div class="btn-group">
+
+                  <button [disabled]="!agreeToDel" class="btn" (click)="sendCodeForDelAcc()" *ngIf="!sentCode">
+                    <div class="t-min">Видалити</div>
+                    <i class="fa-solid fa-user-xmark pl-2"></i>
+                  </button>
+
+                  <button [disabled]="!agreeToDel && !emailCheckCode" class="btn" (click)="deleteAcc()" *ngIf="sentCode">
+                    <div class="t-min">Підтвердити видалення</div>
+                    <i class="fa-solid fa-user-xmark pl-2"></i>
+                  </button>
+
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
 
       </div>
 

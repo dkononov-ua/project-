@@ -3,6 +3,18 @@
 @use "../../style/shared.scss";
 @use "../../style/navbar.scss";
 
+.switch-box {
+  .switch-btn-group {
+    width: 50px;
+  }
+
+  @include s1-s3 {
+    .btn-menu {
+      width: 50px;
+    }
+  }
+}
+
 .navbar {
   justify-content: flex-start;
   align-items: flex-start;
