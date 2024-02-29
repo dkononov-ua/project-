@@ -25,6 +25,7 @@ import { Options, Distance, Animals, CheckBox } from '../../../interface/name';
 
 export class MainInfoComponent implements OnInit {
 
+  isLoading: boolean = false;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;

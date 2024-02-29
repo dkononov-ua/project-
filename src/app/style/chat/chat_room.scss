@@ -47,6 +47,7 @@
       transform: scale(1.05);
     }
     .card-mini-img-container {
+      @include flex-box-center;
       position: relative;
       width: 50%;
       height: 100%;

@@ -3,3 +3,7 @@
 @use "../../../style/mixins/" as *;
 @use "../../../style/chat/chat_room.scss" as *;
 
+.wrapper-img {
+  @include flex-box-center;
+}
+

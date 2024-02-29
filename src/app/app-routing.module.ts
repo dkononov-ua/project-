@@ -14,12 +14,14 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
+import { SupportUsComponent } from './pages/support-us/support-us.component';
+import { DiscussioComponent } from './discussio/discussio.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
   { path: 'user-licence', component: UserLicenceComponent, },
-  { path: 'our-team', component: OurTeamComponent},
+  { path: 'our-team', component: OurTeamComponent },
   { path: 'about-project', component: AboutProjectComponent },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
@@ -27,14 +29,20 @@ const routes: Routes = [
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
   { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
-  { path: 'discussio', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
+  { path: 'discus', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
-  // { path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule), canActivate: [CanActivateGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
   { path: 'rating', component: AboutRatingComponent, canActivate: [CanActivateGuard] },
   { path: 'opportunities', component: OpportunitiesComponent, canActivate: [CanActivateGuard] },
+  {
+    path: 'discussio', component: DiscussioComponent, canActivate: [CanActivateGuard],
+    children: [
+      { path: '', redirectTo: 'support-us', pathMatch: 'full' },
+      { path: 'support-us', component: SupportUsComponent },
+    ],
+  },
 ];
 
 @NgModule({

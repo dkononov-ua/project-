@@ -1,8 +1,10 @@
 <ng-container *ngIf="loading; else content">
   <div class="container-loader-mini">
     <mat-spinner color="warn"></mat-spinner>
+    <div class="t-med mt-2">Завантаження повідомлень</div>
   </div>
 </ng-container>
+
 
 <ng-template #content>
   <div class="group1" *ngIf="infoPublic">

@@ -91,7 +91,7 @@ interface UserParam {
 
 export class InformationUserComponent implements OnInit {
 
-  emailCheckCode: any;
+  emailCheckCode: string = '';
   agreeToDel: boolean = false;
   sentCode: boolean = false;
 
@@ -168,7 +168,7 @@ export class InformationUserComponent implements OnInit {
   checkCode: any;
   statusMessage: string | undefined;
   indexPage: number = 0;
-
+  isLoading: boolean = false;
   sendCodeEmail() {
     this.emailCheck = 1;
     // відправити код для підтвердження
@@ -447,16 +447,14 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
-
   async deleteAcc(): Promise<void> {
     const userJson = localStorage.getItem('user');
     this.loading = true;
     if (userJson) {
       try {
-        const data = this.userCont;
-        const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
+        const response: any = await this.http.post(serverPath + '/userinfo/delete/finaly', { auth: JSON.parse(userJson), code: this.emailCheckCode }).toPromise();
         // console.log(response)
-        if (response.status === true) {
+        if (response.status === 'Видалено') {
           this.statusMessage = 'Аккаунт видалено';
           localStorage.removeItem('selectedComun');
           localStorage.removeItem('selectedFlatId');
@@ -471,7 +469,7 @@ export class InformationUserComponent implements OnInit {
             this.router.navigate(['/registration']);
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка збереження';
+          this.statusMessage = 'Помилка видалення';
           setTimeout(() => {
             this.statusMessage = '';
             this.loading = false;
@@ -487,41 +485,44 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
-
   sendCodeForDelAcc() {
-    // this.loading = true;
+    const userJson = localStorage.getItem('user');
+    this.loading = true;
     const data = {
       email: this.userInfo.user_mail,
     };
     this.sentCode = true;
+    if (userJson) {
+      try {
+        // console.log(data);
+        this.http.post(serverPath + '/userinfo/delete/first', { auth: JSON.parse(userJson) })
+          .subscribe((response: any) => {
+            // console.log(response)
+            if (response.status === 'На вашу пошту було надіслано код безпеки') {
+              this.sentCode = true;
+              this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.loading = false;
+              }, 2000);
+            } else {
+              this.sentCode = false;
+              this.statusMessage = 'Помилка надсилання коду безпеки.';
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
+            }
+          });
+      } catch (error) {
+        this.sentCode = false;
+        this.errorMessage$.next('Сталася помилка на сервері');
+        this.statusMessage = 'Сталася помилка на сервері.';
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      }
+    }
 
-    // try {
-    //   // console.log(data);
-    //   this.http.post(serverPath + '/registration/', data)
-    //     .subscribe((response: any) => {
-    //       // console.log(response)
-    //       if (response.status === 'На вашу пошту було надіслано код безпеки') {
-    //         this.sentCode = true;
-    //         this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
-    //         setTimeout(() => {
-    //           this.statusMessage = '';
-    //           this.loading = false;
-    //         }, 2000);
-    //       } else {
-    //         this.sentCode = false;
-    //         this.statusMessage = 'Помилка надсилання коду безпеки.';
-    //         setTimeout(() => {
-    //           location.reload();
-    //         }, 2000);
-    //       }
-    //     });
-    // } catch (error) {
-    //   this.sentCode = false;
-    //   this.errorMessage$.next('Сталася помилка на сервері');
-    //   this.statusMessage = 'Сталася помилка на сервері.';
-    //   setTimeout(() => {
-    //     location.reload();
-    //   }, 2000);
-    // }
   }
+
 };

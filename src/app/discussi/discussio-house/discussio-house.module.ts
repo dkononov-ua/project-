@@ -81,7 +81,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatPaginatorModule,
     MatStepperModule,
     MatProgressSpinnerModule,
-
     HouseRoutingModule,
     UserRoutingModule,
   ]

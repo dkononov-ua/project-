@@ -10,6 +10,15 @@
   justify-content: space-evenly;
 }
 
+.wrapper-img {
+  @include flex-box-center;
+}
+
+.container-loader-mini {
+  @include flex-box-center;
+  flex-direction: column;
+}
+
 .panel-container {
   background-color: rgba(255, 255, 255, 0.588);
 }

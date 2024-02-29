@@ -55,9 +55,12 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
+import { SupportUsComponent } from './pages/support-us/support-us.component';
 // import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 // import { environment } from '../environments/environment';
 // import { provideAuth,getAuth } from '@angular/fire/auth';
+import { DiscussioComponent } from './discussio/discussio.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +78,9 @@ import { NewsComponent } from './components/news/news.component';
     ReportsComponent,
     NotFoundComponent,
     NewsComponent,
-  ],
+    SupportUsComponent,
+      DiscussioComponent
+   ],
   providers: [
     SelectedFlatService,
     DatePipe,
@@ -115,6 +120,7 @@ import { NewsComponent } from './components/news/news.component';
     MatMenuModule,
     MatCheckboxModule,
     HammerModule,
+    MatProgressSpinnerModule,
 
     LyImageCropperModule,
     LySliderModule,

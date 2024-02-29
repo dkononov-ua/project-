@@ -19,7 +19,7 @@
         </div>
 
         <div class="switch-btn-group">
-          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+          <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
           <div class="t-min dark bold">Назад</div>
@@ -61,10 +61,23 @@
               </div>
 
               <div class="card-mini-img-container">
-                <img class="card-mini-img"
-                  [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')"
-                  alt="img">
+
+                <ng-container *ngIf="chat.infUser.img[0].img && isLoading">
+                  <img class="card-mini-img"
+                    [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
+                </ng-container>
+
+                <ng-container *ngIf="chat.infUser.img[0].img && !isLoading">
+                  <mat-spinner color="warn"></mat-spinner>
+                  <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoading = true" hidden>
+                </ng-container>
+
+                <ng-container *ngIf="!chat.infUser.img[0].img">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
+                </ng-container>
+
               </div>
+
               <div class="card-body p-1">
                 <div class="t-min bold name p-2">{{ chat.infUser.inf.firstName }} {{ chat.infUser.inf.surName }} {{
                   chat.infUser.inf.lastName }} <span class="t-min bold accent">ID:{{ chat.user_id }}</span></div>

@@ -23,6 +23,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   houseData: any;
   userData: any;
   openChatCard: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,

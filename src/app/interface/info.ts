@@ -48,10 +48,6 @@ export interface UserInfo {
   mounths: number | undefined;
   years: number | undefined;
   about: string | undefined;
-
-
-
-
 }
 
 export interface UserInfoSearch {

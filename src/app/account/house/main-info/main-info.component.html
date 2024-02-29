@@ -26,9 +26,29 @@
 <div class="container-img">
   <div class="wrapper-img">
 
-    <img class="img-fluid"
-      [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
-      alt="img">
+    <ng-container *ngIf="HouseInfo.photos && isLoading">
+      <div class="img-fluid">
+        <img
+          [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+          alt="img">
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="HouseInfo.photos && !isLoading">
+      <div class="container-loader-mini">
+        <mat-spinner color="warn"></mat-spinner>
+        <img
+        [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+        alt="img" (load)="isLoading = true" hidden>
+        <div class="t-med mt-2">Завантаження фото</div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!HouseInfo.photos">
+      <div class="img-fluid">
+        <img src="../../../../assets/housing_default.svg" alt="img">
+      </div>
+    </ng-container>
 
     <div *ngIf="HouseInfo.photos.length > 1">
       <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
@@ -135,4 +155,3 @@
         class="ml-2">перейти до редагування</span></a>
   </div>
 </div>
-

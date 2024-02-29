@@ -24,6 +24,7 @@ import { Options, Distance, Animals, CheckBox, OptionPay, Purpose } from '../../
 })
 export class InfoComponent implements OnInit {
 
+  isLoading: boolean = false;
   indexPage: number = 1;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -36,27 +37,27 @@ export class InfoComponent implements OnInit {
   ratingTenant: number | undefined;
   ratingOwner: number | undefined;
   isCopiedMessage!: string;
-
   userInfo: UserInfo = UsereSearchConfig;
   options: { [key: number]: string } = Options;
   aboutDistance: { [key: number]: string } = Distance;
   animals: { [key: string]: string } = Animals;
   option_pay: { [key: number]: string } = OptionPay;
   purpose: { [key: number]: string } = Purpose;
-
   agreeNum: number = 0;
 
   constructor(
     private dataService: DataService,
     private http: HttpClient,
     private closeMenuService: CloseMenuService,
-  ) { }
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.loading = true;
     this.getInfoUser()
     this.getInfo(),
-      this.loading = false;
+    this.loading = false;
   }
 
   sendMenuOpen(closeMenu: boolean) {
@@ -111,7 +112,7 @@ export class InfoComponent implements OnInit {
             this.searchInfoUserData = JSON.parse(searchInfoUserData);
             // console.log(this.searchInfoUserData)
             this.userInfo.price_of = this.searchInfoUserData.price_of === "0.01" ? -1 : this.searchInfoUserData.price_of;
-            this.userInfo.price_to = this.searchInfoUserData.price_to  === "0.01" ? -1 : this.searchInfoUserData.price_to;
+            this.userInfo.price_to = this.searchInfoUserData.price_to === "0.01" ? -1 : this.searchInfoUserData.price_to;
             this.userInfo.region = this.searchInfoUserData.region;
             this.userInfo.city = this.searchInfoUserData.city;
             this.userInfo.rooms_of = this.searchInfoUserData.rooms_of;

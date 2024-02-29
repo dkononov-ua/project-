@@ -64,8 +64,8 @@
       <nav class="navbar hide-mobile col-lg-3 col-md-5 col-sm-6 col-12">
 
         <a class="link-menu" [routerLink]="'/user/info'">
-          <span class="link-text ">Назад</span>
           <div class="link-icon"><i class="fa-solid fa-arrow-left"></i></div>
+          <span class="link-text ">Назад</span>
         </a>
 
         <a class="link-menu" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
@@ -102,8 +102,28 @@
           <div class="card-box">
             <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
               <div class="card">
-                <div class="img-fluid">
-                  <img [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')">
+
+                <div class="wrapper-img">
+
+                  <ng-container *ngIf="userImg && isLoading">
+                    <div class="img-fluid">
+                      <img [src]="serverPathPhotoUser + userImg">
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="userImg && !isLoading">
+                    <div class="container-loader-mini">
+                      <mat-spinner color="warn"></mat-spinner>
+                      <img [src]="serverPathPhotoUser + userImg" (load)="isLoading = true" hidden>
+                      <div class="t-med mt-2">Завантаження фото</div>
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="!userImg">
+                    <div class="img-fluid">
+                      <img src="../../../../assets/user_default.svg" alt="img">
+                    </div>
+                  </ng-container>
                 </div>
 
                 <div class="card-1 mb-2">
@@ -377,12 +397,13 @@
                   <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
                     <mat-label>Код підтвердження пошти</mat-label>
                     <div class="mat-input-container">
-                      <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
-                        placeholder="Введіть код підтвердження">
+                      <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode"
+                        name="passwordCheck" placeholder="Введіть код підтвердження">
                     </div>
                   </mat-form-field>
 
-                  <p class="t-min t-c p-2" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам було
+                  <p class="t-min t-c p-2" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам
+                    було
                     надіслано на пошту</p>
                 </div>
                 <div class="btn-group">
@@ -392,25 +413,17 @@
                     <i class="fa-solid fa-user-xmark pl-2"></i>
                   </button>
 
-                  <button [disabled]="!agreeToDel && !emailCheckCode" class="btn" (click)="deleteAcc()" *ngIf="sentCode">
+                  <button [disabled]="!agreeToDel || emailCheckCode === '' " class="btn" (click)="deleteAcc()"
+                    *ngIf="sentCode">
                     <div class="t-min">Підтвердити видалення</div>
                     <i class="fa-solid fa-user-xmark pl-2"></i>
                   </button>
-
                 </div>
-
-
-
               </div>
             </div>
           </div>
-
         </div>
-
-
-
       </div>
-
     </div>
   </div>
 

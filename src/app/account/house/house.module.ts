@@ -36,6 +36,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './resident/resident.component';
 import { AgreeSendComponent } from './agree-h/agree-send/agree-send.component';
 import { MainInfoComponent } from './main-info/main-info.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -80,6 +81,7 @@ import { MainInfoComponent } from './main-info/main-info.component';
     RouterModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class HouseModule { }

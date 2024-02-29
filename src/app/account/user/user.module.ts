@@ -27,6 +27,7 @@ import { UagreeDetailsComponent } from './agree-u/uagree-details/uagree-details.
 import { UagreeDownloadComponent } from './agree-u/uagree-download/uagree-download.component';
 import { UserComponent } from './user.component';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { RouterModule } from '@angular/router';
     MatStepperModule,
     MatNativeDateModule,
     RouterModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class UserModule { }

@@ -144,10 +144,21 @@ export class RegistrationComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
   ) {
-    // Set the minimum to January 1st 20 years in the past and December 31st a year in the future.
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date(currentYear - 80, 0, 1);
-    this.maxDate = new Date(currentYear - 16, 11, 31);
+    // Отримання поточної дати
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const currentDay = currentDate.getDate();
+
+    // Вирахування дати 18 років тому
+    const minYear = currentYear - 80;
+    const maxYear = currentYear - 18;
+    const maxMonth = currentMonth;
+    const maxDay = currentDay;
+
+    // Створення об'єктів дати
+    this.minDate = new Date(minYear, 0, 1);
+    this.maxDate = new Date(maxYear, maxMonth, maxDay);
   }
 
   ngOnInit(): void {
@@ -245,10 +256,14 @@ export class RegistrationComponent implements OnInit {
                 location.reload();
               }, 2000);
             } else {
-              this.indexBtn = 2;
+              this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
+              setTimeout(() => {
+                this.statusMessage = '';
+                this.loading = false;
+                this.indexBtn = 2;
+              }, 2000);
             }
             this.loading = false;
-
           },
           (error: any) => {
             console.error(error);
@@ -312,7 +327,6 @@ export class RegistrationComponent implements OnInit {
     localStorage.removeItem('houseData');
     this.emailAcc = this.loginForm.get('email')?.value;
     this.loading = true;
-
     const data = {
       email: this.loginForm.get('email')?.value,
     };
@@ -494,12 +508,6 @@ export class RegistrationComponent implements OnInit {
         );
       }
     });
-
-
-
-
-
-
   }
 
   checkPassword() {

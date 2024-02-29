@@ -14,6 +14,18 @@
   align-items: center;
 }
 
+@mixin flex-box-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-box-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 @mixin flex-box-column {
   display: flex;
   justify-content: flex-start;
@@ -69,4 +81,12 @@
 
 @mixin box-shadow {
   box-shadow: -3px 3px 20px -10px darken($color-gray, 40%);
+}
+
+@mixin box-shadow-a {
+  box-shadow: -3px 3px 20px -10px darken($color-accent, 40%);
+}
+
+@mixin box-shadow-i {
+  box-shadow: inset -3px 3px 20px -10px darken($color-gray, 40%);
 }
