@@ -29,7 +29,6 @@ import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-dis
 import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
 import { DeleteSubsComponent } from './delete-subs/delete-subs.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SubscriberHostComponent } from './subscriber-host/subscriber-host.component';
 import { SendMessageUserComponent } from './send-message-user/send-message-user.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
@@ -41,7 +40,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     SubscribersDiscusComponent,
     SubscriptionsUserComponent,
     DeleteSubsComponent,
-    SubscriberHostComponent,
     SendMessageUserComponent,
   ],
   providers: [ChoseSubscribeService],
@@ -71,8 +69,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatProgressSpinnerModule,
     HouseRoutingModule,
     UserRoutingModule,
-
-
   ]
 })
 export class DiscussioModule { }

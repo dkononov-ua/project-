@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-support-us',
@@ -23,9 +24,14 @@ import { animations } from '../../interface/animation';
 export class SupportUsComponent implements OnInit {
   path_logo = path_logo;
 
-  constructor() { }
+  constructor(
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit() {
   }
 
+  goBack(): void {
+    this.sharedService.goBack();
+  }
 }

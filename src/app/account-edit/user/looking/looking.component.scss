@@ -1,77 +1,90 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
-@use "../../../style/radio.scss";
 @use "../../../style/shared.scss" as *;
 
-.container-box {
-  @include flex-box;
+.card-content {
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.btn-help {
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
+  background-color: $color-accent;
+}
+
+.first-card {
+  height: calc(100% - 10px);
+  position: relative;
+  overflow: hidden;
+  @include flex-box-center;
+  flex-direction: column;
   align-items: flex-start;
+}
+
+.left-card {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  border-radius: 20px;
+  height: 100%;
+  overflow: hidden;
+  .img-fluid-h {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+  }
+
+  .img-h {
+    height: 100%;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+  }
+}
+
+.right-card {
+  @include flex-box-center;
+  background-image: linear-gradient(to right, $color-primary 60%, rgba(0, 0, 0, 0) 100%);
+  flex-direction: column;
+  height: 100%;
+  border-radius: 20px;
+  z-index: 2;
+  @include s1-s3 {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0), $color-white 40%);
+  }
+}
+
+.card-animation {
+  height: calc(100% - 20px) !important;
+  @include s1-s3 {
+    height: 100% !important;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .fa-solid {
   color: $color-text;
 }
 
-.container-card {
-  @include flex-box;
-  justify-content: flex-start;
-  position: relative;
-}
-
-.btn-next {
-  width: 150px;
-  height: 60px;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: $color-accent;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 20px;
-  border: 2px solid $color-gray;
-  &:hover {
-    background-color: $color-dark;
-    color: $color-white;
-  }
-  @include s1-s3 {
-    height: 40px;
-    margin: 5px;
-    font-size: 16px;
-    width: 100px;
-  }
-}
-
 .btn-group {
   justify-content: center;
+  border-radius: 20px;
 }
 
 .t-l {
-  text-align: left
+  text-align: left;
 }
 
 li {
   padding: 3px;
-}
-
-.link-toMenu {
-  transition: 1s;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.095);
-    border-radius: 20px;
-    letter-spacing: 3px;
-    font-weight: 600;
-  }
-}
-
-.switch-box {
-  @include flex-box;
-  justify-content: flex-start;
-  .switch-btn-group {
-    width: 80px;
-  }
 }
 
 .flex-box {
@@ -87,36 +100,14 @@ li {
   align-items: flex-start;
 }
 
-.card-box {
-  position: relative;
-  height: 650px;
-  @include s1-s3 {
-    position: absolute;
-    height: 600px;
-    width: 100%;
-    top: 120px;
-  }
-}
-
-.card-animation {
+.card-img {
+  overflow: visible;
   display: flex;
   justify-content: center;
   position: absolute;
+  height: 100%;
   top: 0;
   left: 0;
-}
-
-.card {
-  @include flex-box;
-  position: relative;
-  padding: 10px;
-  width: 400px;
-  height: 650px;
-  justify-content: space-evenly;
-  @include s1-s3 {
-    height: 600px;
-    width: 100%;
-  }
 }
 
 .icon {

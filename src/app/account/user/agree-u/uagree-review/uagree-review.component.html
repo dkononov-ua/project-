@@ -8,7 +8,8 @@
       <div class="flex-box-row">
         <div class="p-2">
           <div class="img-wrapper">
-            <img class="img-fluid " [src]="serverPathPhotoFlat + agreement.img[0] " alt="img" (error)="useDefaultImage($event)">
+            <img class="img-fluid " [src]="serverPathPhotoFlat + agreement.img[0] " alt="img"
+              (error)="useDefaultImage($event)">
             <div class="card-body w-60 p-2">
               <div class="t-min"> Оселя ID: {{ agreement.flat.flat_id}} </div>
               <div class="t-med bold">місто: {{agreement.flat.city}} </div>
@@ -31,18 +32,18 @@
           <div class="card-btn m-1">
             <div class="t-min bold">Угода оренди</div>
             <div class="btn-group">
-              <button class="btn" matTooltip="Переглянути Угоду"
-                [routerLink]="['/user/uagree-details', agreement.flat.agreement_id]">
-                <i class="fa-solid fa-file-circle-check"></i>
-                <div class="t-min bold">Переглянути</div>
-              </button>
+              <button class="btn" matTooltip="Переглянути Угоду" [routerLink]="['/rental-agree']"
+              [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 1, indexUser: 1 }">
+              <i class="fa-solid fa-file-circle-check"></i>
+              <div class="t-min bold">Переглянути</div>
+            </button>
             </div>
           </div>
 
           <div class="card-btn m-1">
             <div class="t-min bold">Угода оренди</div>
             <div class="btn-group">
-              <button class="btn" matTooltip="Переглянути Угоду" (click)="openDialog(agreement)">
+              <button class="btn" matTooltip="Переглянути Угоду" (click)="confirmActions(agreement)">
                 <i class="fa-solid fa-person-circle-xmark"></i>
                 <div class="t-min bold">Відхилити</div>
               </button>

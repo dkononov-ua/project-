@@ -1,15 +1,78 @@
-<app-navbar></app-navbar>
-<div class="container-box">
+<div class="content-component">
 
-  <div class="card-box col-lg-3 col-md-3 col-sm-12 col-12">
-    <div class="m-2" class="hide-mobile">
-      <app-navbar-user></app-navbar-user>
+  <div class="switch-container">
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home'">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
     </div>
+
+    <div class="menu-box hide-mobile">
+      <div class="menu-lable">Меню</div>
+      <div class="menu-name">Профіль Користувача</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
+        <i class="fa-regular fa-comments"></i>
+        <div class="t-min bold">Повідом. Орендаря</div>
+        <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">
+          {{counterUserNewMessage}}
+        </div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLink]="'/subscriptions-user'">
+        <i class="fa-regular fa-heart"></i>
+        <div class="t-min bold">Вподобані Оселі</div>
+        <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
+          {{counterUserSubscriptions}} </div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLink]="'/subscribers-user'">
+        <i class="fa-solid fa-people-pulling"></i>
+        <div class="t-min bold">Пропозиції Оселі</div>
+        <div class="status" *ngIf="counterUserSubscribers && counterUserSubscribers !== '0'">
+          {{counterUserSubscribers}}</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLink]="'/subscribers-discuss'">
+        <i class="fa-solid fa-person-walking-luggage"></i>
+        <div class="t-min bold">Дискусії Орендаря</div>
+        <div class="status" *ngIf="counterUserDiscussio && counterUserDiscussio !== '0'">
+          {{counterUserDiscussio}}
+        </div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLink]="'/user/agree'">
+        <i class="fa-solid fa-envelope-open-text"></i>
+        <div class="t-min bold">Угоди Орендаря</div>
+        <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== '0'">
+          {{counterUserNewAgree}} </div>
+      </button>
+    </div>
+
   </div>
 
-  <div class="card-box col-lg-9 col-md-9 col-sm-12 col-12">
-    <router-outlet></router-outlet>
+  <div class="main-container">
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+      <app-navbar-user></app-navbar-user>
+    </div>
+
+    <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+      <router-outlet></router-outlet>
+    </div>
+
   </div>
 
 </div>
-

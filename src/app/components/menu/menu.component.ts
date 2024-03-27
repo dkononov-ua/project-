@@ -1,34 +1,79 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { serverPath } from 'src/app/config/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 import { CounterService } from 'src/app/services/counter.service';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { Router } from '@angular/router';
+import { animations } from '../../interface/animation';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    animations.top,
+    animations.top1,
+    animations.top2,
+    animations.top3,
+    animations.top4,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+  ],
 })
+
 export class MenuComponent {
+  disabledBtn: boolean = false;
+  animationDelay(index: number): string {
+    return (600 + 100 * index).toString();
+  }
 
+  statusMessage: any;
+  loginCheck: boolean = false;
 
+  linkOpen: boolean[] = [false, false, false, false, false];
+  menu: boolean[] = [false, false, false, false, false];
 
+  toggleAllMenu(index: number) {
+    this.linkOpen[index] = !this.linkOpen[index];
+    this.disabledBtn = true;
+    if (this.menu[index]) {
+      setTimeout(() => {
+        this.menu[index] = !this.menu[index];
+        this.disabledBtn = false;
+      }, 600);
+    } else {
+      this.menu[index] = !this.menu[index];
+      this.disabledBtn = false;
+    }
+  }
+
+  path_logo = path_logo;
   selectedFlatId: any;
   counterSubs: any;
   counterSubscriptions: any;
   counterAcceptSubs: any;
-
   counterUserSubs: any;
   counterUserDiscuss: any;
   numSendAgree: number = 0;
   userInf: any;
   agreeNum: number = 0;
-
-  loading: boolean = true;
+  loading: boolean = false;
   dataUpdated = false;
   houseData: any;
-
-
   acces_added: number = 1;
   acces_admin: number = 1;
   acces_agent: number = 1;
@@ -57,17 +102,20 @@ export class MenuComponent {
   counterUserNewMessage: any;
   iReadUserMessage: boolean = false;
   counterUserNewAgree: any;
+  authorization: boolean = false;
 
   constructor(
     private http: HttpClient,
     private updateComponent: UpdateComponentService,
-    private counterService: CounterService
-  ) {
-  }
+    private counterService: CounterService,
+    private router: Router,
+  ) { }
 
   async ngOnInit(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
+      this.loginCheck = true;
+      this.authorization = true;
       await this.getUserSubscribersCount();
       await this.getUserSubscriptionsCount();
       await this.getUserDiscussioCount();
@@ -86,12 +134,13 @@ export class MenuComponent {
           await this.getHouseDiscussioCount();
           await this.getHouseNewMessage();
           await this.getUpdateHouseMessage();
+          this.loading = false;
         }
       } else {
-        console.log('Оберіть оселю')
+        // console.log('Оберіть оселю')
       }
     } else {
-      console.log('Авторизуйтесь')
+      this.authorization = false;
     }
   }
 
@@ -103,7 +152,6 @@ export class MenuComponent {
       this.counterUserNewAgree = 0;
     }
   }
-
 
   // перевірка підписників оселі
   async getHouseSubscribersCount() {
@@ -133,7 +181,11 @@ export class MenuComponent {
     await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
     this.counterService.counterHouseDiscussio$.subscribe(data => {
       const counterHouseDiscussio: any = data;
-      this.counterHouseDiscussio = counterHouseDiscussio.status;
+      if (counterHouseDiscussio.status === 'Немає доступу') {
+        this.counterHouseDiscussio = null;
+      } else {
+        this.counterHouseDiscussio = counterHouseDiscussio.status;
+      }
       // console.log('кількість дискусій', this.counterHouseDiscussio)
     });
   }
@@ -144,7 +196,11 @@ export class MenuComponent {
     await this.counterService.getUserSubscribersCount();
     this.counterService.counterUserSubscribers$.subscribe(data => {
       const counterUserSubscribers: any = data;
-      this.counterUserSubscribers = counterUserSubscribers.status;
+      if (counterUserSubscribers.status === 'Немає доступу') {
+        this.counterUserSubscribers = null;
+      } else {
+        this.counterUserSubscribers = counterUserSubscribers;
+      }
       // console.log('кількість підписників', this.counterUserSubscribers)
     });
   }
@@ -155,7 +211,11 @@ export class MenuComponent {
     await this.counterService.getUserSubscriptionsCount();
     this.counterService.counterUserSubscriptions$.subscribe(data => {
       const counterUserSubscriptions: any = data;
-      this.counterUserSubscriptions = counterUserSubscriptions.status;
+      if (counterUserSubscriptions.status === 'Немає доступу') {
+        this.counterUserSubscriptions = null;
+      } else {
+        this.counterUserSubscriptions = counterUserSubscriptions;
+      }
       // console.log('кількість підписників', this.counterUserSubscriptions)
     });
   }
@@ -166,7 +226,7 @@ export class MenuComponent {
     await this.counterService.getUserDiscussioCount();
     this.counterService.counterUserDiscussio$.subscribe(data => {
       const counterUserDiscussio: any = data;
-      this.counterUserDiscussio = counterUserDiscussio.status;
+      this.counterUserDiscussio = counterUserDiscussio;
       // console.log('кількість дискусій', this.counterUserDiscussio)
     });
   }
@@ -230,6 +290,24 @@ export class MenuComponent {
         this.counterUserNewMessage = 0;
       }
     });
+  }
+
+  logout() {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    this.statusMessage = 'Виходимо з аккаунту';
+    setTimeout(() => {
+      this.statusMessage = '';
+      this.loading = true;
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
+    }, 1500);
   }
 }
 

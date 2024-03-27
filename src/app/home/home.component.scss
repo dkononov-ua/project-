@@ -1,0 +1,10 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/shared.scss";
+
+.main-container {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+

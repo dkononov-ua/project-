@@ -32,23 +32,24 @@
           <div class="card-btn m-1">
             <div class="t-min bold">Угода оренди</div>
             <div class="btn-group">
-              <button class="btn" matTooltip="Переглянути Угоду"
-                [routerLink]="['/user/uagree-download', agreement.flat.agreement_id]">
-                <i class="fa-solid fa-file-circle-check"></i>
-                <div class="t-min bold">Переглянути</div>
-              </button>
+              <button class="btn" matTooltip="Переглянути Угоду" [routerLink]="['/rental-agree']"
+              [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 2, indexUser: 1 }">
+              <i class="fa-solid fa-file-circle-check"></i>
+              <div class="t-min bold">Переглянути</div>
+            </button>
             </div>
           </div>
 
           <div class="card-btn m-1" >
             <div class="t-min bold">Акт прийому-передачі</div>
             <div class="btn-group">
-              <button class="btn" matTooltip="Переглянути Акт"
-                [routerLink]="['/user/uact-view', agreement.flat.agreement_id]" [disabled]="!agreement.exists">
-                <i class="fa-solid fa-file-circle-check"></i>
-                <div class="t-min bold" *ngIf="!agreement.exists">Відсутній</div>
-                <div class="t-min bold" *ngIf="agreement.exists">Переглянути</div>
-              </button>
+              <button class="btn" matTooltip="Переглянути Акт" [routerLink]="['/act-transfer']"
+              [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 1, indexUser: 1 }"
+              [disabled]="!agreement.exists">
+              <i class="fa-solid fa-file-circle-check"></i>
+              <div class="t-min bold" *ngIf="!agreement.exists">Відсутній</div>
+              <div class="t-min bold" *ngIf="agreement.exists">Переглянути</div>
+            </button>
             </div>
           </div>
 

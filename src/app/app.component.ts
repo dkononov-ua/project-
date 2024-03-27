@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
   closeMenuStatus: boolean = true;
   isMenuOpen = true;
   hideMenu = false;
-
+  indexPage: number = 0;
+  
   onToggleMenu() {
     if (this.isMenuOpen) {
       this.openMenu();

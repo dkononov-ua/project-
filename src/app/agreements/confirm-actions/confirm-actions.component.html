@@ -1,0 +1,26 @@
+<div class="message-box">
+  <mat-dialog-content>
+
+    <div *ngIf="data.actions === 'reject'" class="t-c">
+      <div class="t-lar-x gray">Відхилити умови угоди?</div>
+      <i class="fa-regular fa-thumbs-down mt-2"></i>
+      <div class="t-min gray">Від користувача</div>
+      <div class="t-lar-x accent">ID оселі: {{data.flat_id}}</div>
+      <div class="t-lar-x accent">{{data.owner_firstName}} {{data.owner_lastName}}?</div>
+    </div>
+
+    <div *ngIf="data.actions === 'accept'" class="t-c">
+      <div class="t-lar-x gray">Прийняти умови угоди?</div>
+      <i class="fa-regular fa-handshake"></i>
+      <div class="t-min gray">Від користувача</div>
+      <div class="t-lar-x accent">ID оселі: {{data.flat_id}}</div>
+      <div class="t-lar-x accent">{{data.owner_firstName}} {{data.owner_lastName}}?</div>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions class="box" align="end">
+    <button class="btn m-2" mat-button [mat-dialog-close]="false">Ні</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true">Так</button>
+  </mat-dialog-actions>
+</div>
+

@@ -83,11 +83,11 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserSubscribers = await this.http.post(serverPath + '/usersubs/get/CountYUserSubs', data).toPromise() as any[];
+      const counterUserSubscribers: any = await this.http.post(serverPath + '/usersubs/get/CountYUserSubs', data).toPromise() as any[];
       if (counterUserSubscribers) {
-        this.counterUserSubscribersSubject.next(counterUserSubscribers);
+        this.counterUserSubscribersSubject.next(counterUserSubscribers.status);
         // console.log('Запит на сервер Підписники користувача', counterUserSubscribers)
-        localStorage.setItem('counterUserSubscribers', JSON.stringify(counterUserSubscribers));
+        localStorage.setItem('counterUserSubscribers', JSON.stringify(counterUserSubscribers.status));
       }
     }
     catch (error) { console.error(error) }
@@ -98,11 +98,11 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserSubscriptions = await this.http.post(serverPath + '/subs/get/countYSubs', data).toPromise() as any[];
+      const counterUserSubscriptions: any = await this.http.post(serverPath + '/subs/get/countYSubs', data).toPromise() as any[];
       if (counterUserSubscriptions) {
         // console.log('Запит на сервер Підписки користувача', counterUserSubscriptions)
-        this.counterUserSubscriptionsSubject.next(counterUserSubscriptions);
-        localStorage.setItem('counterUserSubscriptions', JSON.stringify(counterUserSubscriptions));
+        this.counterUserSubscriptionsSubject.next(counterUserSubscriptions.status);
+        localStorage.setItem('counterUserSubscriptions', JSON.stringify(counterUserSubscriptions.status));
       }
 
     }
@@ -114,11 +114,11 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserDiscussio = await this.http.post(serverPath + '/acceptsubs/get/CountYsubs', data).toPromise() as any[];
+      const counterUserDiscussio: any = await this.http.post(serverPath + '/acceptsubs/get/CountYsubs', data).toPromise() as any[];
       if (counterUserDiscussio) {
-        this.counterUserDiscussioSubject.next(counterUserDiscussio);
+        this.counterUserDiscussioSubject.next(counterUserDiscussio.status);
         // console.log('Запит на сервер Дискусії користувача', counterUserDiscussio)
-        localStorage.setItem('counterUserDiscussio', JSON.stringify(counterUserDiscussio));
+        localStorage.setItem('counterUserDiscussio', JSON.stringify(counterUserDiscussio.status));
       }
     }
     catch (error) { console.error(error) }

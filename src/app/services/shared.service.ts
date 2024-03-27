@@ -5,6 +5,7 @@ import { ReportsComponent } from '../components/reports/reports.component';
 import { serverPath } from 'src/app/config/server-config';
 import { SelectedFlatService } from './selected-flat.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class SharedService {
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private location: Location,
   ) { }
 
   getSelectedFlatId() {
@@ -108,6 +110,11 @@ export class SharedService {
     setTimeout(() => {
       location.reload();
     }, 500);
+  }
+
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

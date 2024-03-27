@@ -74,12 +74,12 @@ export const animations = {
 
   swichCard: trigger('swichCard', [
     transition('void => *', [
-      style({ transform: 'translateX(100%)' }),
+      style({ transform: 'translateX(130%)' }),
       animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
     ]),
     transition('* => void', [
       style({ transform: 'translateX(0)' }),
-      animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      animate('1200ms ease-in-out', style({ transform: 'translateX(130%)' }))
     ]),
   ]),
 

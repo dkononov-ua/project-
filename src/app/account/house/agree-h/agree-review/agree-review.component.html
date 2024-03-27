@@ -38,16 +38,16 @@
             <div class="card-btn m-1">
               <div class="t-min bold">Угода оренди</div>
               <div class="btn-group">
-                <button class="btn" matTooltip="Переглянути Угоду"
-                  [routerLink]="['/house/agree-send', agreement.flat.agreement_id]">
-                  <i class="fa-solid fa-file-circle-check"></i>
-                  <div class="t-min bold">Переглянути</div>
-                </button>
+                <button class="btn" matTooltip="Переглянути Угоду" [routerLink]="['/rental-agree']"
+                [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 1, indexUser: 2 }">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <div class="t-min bold">Переглянути</div>
+              </button>
 
-                <button class="btn" matTooltip="Видалити Угоду" (click)="openDialog(agreement)">
-                  <i class="fa-solid fa-circle-minus"></i>
-                  <div class="t-min bold">Видалити</div>
-                </button>
+              <button class="btn" matTooltip="Видалити Угоду" (click)="openDialog(agreement)">
+                <i class="fa-solid fa-circle-minus"></i>
+                <div class="t-min bold">Видалити</div>
+              </button>
               </div>
             </div>
           </div>

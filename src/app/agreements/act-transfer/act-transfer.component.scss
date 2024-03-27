@@ -1,0 +1,348 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+
+li {
+  border-bottom: 1px solid $color-text;
+  height: 30px;
+}
+
+.agreement-container {
+  position: relative;
+}
+
+.control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-group {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.749);
+  .btn {
+    @include flex-box-center;
+    font-size: $t-min;
+    background-color: $color-accent;
+    color: $color-dark;
+    font-weight: 600;
+    text-transform: uppercase;
+    height: 50px;
+
+    &:disabled {
+      background-color: rgba(128, 128, 128, 0.67);
+    }
+
+    .fa-regular,
+    .fa-solid {
+      font-size: $t-max;
+      color: $color-dark;
+    }
+  }
+}
+
+.btn {
+  width: 200px;
+  display: flex;
+  font-size: 14px;
+  background-color: white;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+
+  .fa-solid,
+  .fa-regular {
+    color: $color-dark;
+  }
+
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.link-text {
+  text-align: center;
+  font-size: 10px;
+}
+
+.agree {
+  position: relative;
+  width: 100%;
+  background-color: $color-white;
+  padding: 10px;
+  height: 100vh;
+  overflow: auto;
+}
+
+.title-box {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.title-text {
+  font-size: 14px;
+  @include s1-s3 {
+    font-size: 12px;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  @include s1-s3 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.logo {
+  width: 150px;
+}
+
+.text {
+  font-size: 12px;
+}
+
+.wrapper-group {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.agree-wrapper {
+  width: 50%;
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.container-box {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.input-box {
+  display: flex;
+  width: 100%;
+  height: 60px !important;
+  align-items: flex-end;
+  border-bottom: 1px solid $color-gray;
+  padding: 0px 10px;
+  position: relative;
+}
+
+.signature {
+  color: rgb(54, 54, 54);
+  width: 30%;
+  height: 30px;
+  padding: 0px 10px;
+  font-size: 8px;
+  margin-left: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.box-filling {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+.box-filling-img {
+  display: flex;
+}
+.card-filling {
+  display: flex;
+  width: 100%;
+  border: 1px solid $color-gray;
+  border-radius: 10px;
+  position: relative;
+}
+
+.card-name {
+  font-size: 8px;
+}
+
+.card-body {
+  display: flex;
+  position: relative;
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
+.card-name {
+  width: 100%;
+  display: flex;
+  position: absolute;
+  top: -16px;
+  right: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  justify-content: flex-end;
+}
+
+.icon {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  width: 35px;
+  height: 35px;
+  background-color: $color-white;
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid $color-gray;
+}
+
+.text-about {
+  font-size: 10px;
+}
+
+.page-number {
+  display: none;
+}
+
+.meter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
+}
+
+.meter_name {
+  display: flex;
+  font-size: 12px;
+  color: $color-accent;
+}
+
+.meter-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.meter_reading {
+  width: 200px;
+  height: 50px;
+  border: 1px solid rgba(18, 17, 17, 0.8078431373);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: $color-accent;
+  font-weight: 600;
+}
+
+@media print {
+  .page-number {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 12px;
+  }
+
+  .meter-container {
+    flex-wrap: wrap;
+  }
+
+  .page {
+    position: relative;
+    page-break-inside: avoid;
+    overflow: visible;
+    box-sizing: border-box;
+    background-color: $color-white;
+    height: 94vh;
+  }
+
+  .page2 {
+    margin-top: 1cm;
+  }
+
+  .page + .page {
+    page-break-before: always;
+  }
+
+  .agree {
+    box-shadow: none !important;
+    color: $color-text;
+    min-width: 800px;
+    padding: 0px;
+    box-shadow: none !important;
+    color: $color-text;
+    min-width: 800px;
+    background-color: $color-white;
+    overflow: visible;
+    height: auto;
+    .btn-group {
+      display: none;
+    }
+  }
+
+  .card-filling {
+    max-width: 30%;
+  }
+
+  .group-box {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .logo {
+    width: 120px;
+    height: 100px;
+  }
+
+  ul,
+  li {
+    font-size: 10px;
+  }
+
+  .text-about {
+    font-size: 8px;
+  }
+
+  .title-text {
+    font-size: 10px;
+  }
+
+  .card-name {
+    font-size: 9px;
+  }
+
+  .btn,
+  .btn-close {
+    display: none !important;
+  }
+
+  .control {
+    display: none;
+  }
+}

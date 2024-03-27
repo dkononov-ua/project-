@@ -1,0 +1,62 @@
+<div [@left1] class="t-lar t-c ">
+  <p class="bold">Покроково як створити <br> Discussio угоду</p>
+  <p class="t-min gray">Я орендар і хочу отримати угоду з орендодавцем в Discussio </p>
+</div>
+
+<div [@left2] class="item-box">
+  <div class="item-d w-70">
+    <div class="t-med gray bold">Крок 1 Створення угоди</div>
+    <div class="t-min t-c p-1">Угоду створює власник оселі. Формування відбувається шляхом обрання орендаря
+      зі списку Дискусій.</div>
+  </div>
+
+  <button [disabled]="counterDiscussi === 0 || !counterDiscussi" class="link-t w-30 flex-column"
+    [routerLink]="'/subscribers-discuss'">
+    <span class="ml-2 t-min">Дискусії <br> у вас {{counterDiscussi}}</span>
+    <i class="fa-solid fa-person-walking-luggage"></i>
+  </button>
+</div>
+
+<div [@left3] class="item-box">
+
+  <div class="item-d w-70">
+    <div class="t-med gray bold">Крок 2 Пропозиція</div>
+    <div class="t-min t-c p-1">Після формування угода надходить орендару на розгляд.</div>
+  </div>
+
+  <button [disabled]="numSendAgree === 0 || !numSendAgree" class="link-t w-30 flex-column" (click)="onClickMenu(2)">
+    <span class="ml-2 t-min">Пропозицій <br> у вас {{numSendAgree}}</span>
+    <i class="fa-solid fa-hourglass-half"></i>
+  </button>
+</div>
+
+<div [@left4] class="item-box">
+
+  <div class="item-d w-70">
+    <div class="t-med gray bold">Крок 3 Формування акту</div>
+    <div class="t-min t-c p-1">Після підтвердження, вона з'являється в ухвалених угодах. Тепер власник може
+      сформувати
+      акт прийому-передачі оселі.</div>
+  </div>
+
+  <button [disabled]="numConcludedAgree === 0 || !numConcludedAgree" class="link-t w-30 flex-column"
+    (click)="onClickMenu(3)">
+    <span class="ml-2 t-min">Ухвалені <br> у вас {{numConcludedAgree}}</span>
+    <i class="fa-solid fa-file-circle-check"></i>
+  </button>
+</div>
+
+<div [@left5] class="item-box mb-4">
+
+  <div class="item-d w-70">
+    <div class="t-med gray bold">Крок 4 Мешканець</div>
+    <div class="t-min t-c p-1">Після формування акту власник може додати вас до мешканців, тим самим надати доступ
+      до інформації про оселю</div>
+  </div>
+
+  <button [disabled]="countTrueExists === 0 || !countTrueExists" class="link-t w-30 flex-column"
+    (click)="onClickMenu(3)">
+    <span class="ml-2 t-min">Акти сформовані <br> у вас {{countTrueExists}}</span>
+    <i class="fa-solid fa-people-roof"></i>
+  </button>
+</div>

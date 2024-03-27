@@ -8,6 +8,10 @@ $font-size-menu: 20px;
 $font-link: 'Roboto Condensed', sans-serif, 10px;
 $font-size-link: 12px;
 
+$t-min: 12px;
+$t-med: 16px;
+$t-max: 20px;
+
 $s6: 1340px;
 $s5: 1200px;
 $s4: 992px;
@@ -16,6 +20,11 @@ $s2: 576px;
 $s1: 1px;
 
 $gap: 20px;
+$pad-1: 10px;
+$pad-2: 20px;
+$rounding-1: 10px;
+$rounding-2: 20px;
+$border: 1px solid rgba(128, 128, 128, 0.629);
 
 $gap-sm: math.div($gap, 2);
 $gap-lg: $gap * 1.5;

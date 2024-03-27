@@ -12,9 +12,8 @@
         <div class="flex-box-row">
           <div class="p-2">
             <div class="img-wrapper">
-              <img class="img-fluid"
-                [src]="serverPathPhotoUser + agreement.flat.subscriber_img"
-                alt="img" (error)="useDefaultImage($event)">
+              <img class="img-fluid" [src]="serverPathPhotoUser + agreement.flat.subscriber_img" alt="img"
+                (error)="useDefaultImage($event)">
               <div class="card-body w-60 p-2">
                 <div class="t-min"> Орендар ID: {{ agreement.flat.subscriber_id}} </div>
                 <div class="t-med bold"> {{agreement.flat.subscriber_lastName}} </div>
@@ -37,8 +36,9 @@
             <div class="card-btn m-1">
               <div class="t-min bold">Угода оренди</div>
               <div class="btn-group">
-                <button class="btn" matTooltip="Переглянути Угоду"
-                  [routerLink]="['/house/agree-download', agreement.flat.agreement_id]">
+
+                <button class="btn" matTooltip="Переглянути Угоду" [routerLink]="['/rental-agree']"
+                  [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 2, indexUser: 2 }">
                   <i class="fa-solid fa-file-circle-check"></i>
                   <div class="t-min bold">Переглянути</div>
                 </button>
@@ -47,6 +47,7 @@
                   <i class="fa-solid fa-circle-minus"></i>
                   <div class="t-min bold">Видалити</div>
                 </button>
+
               </div>
             </div>
 
@@ -55,13 +56,14 @@
               <div class="btn-group">
 
                 <button class="btn accent-bg" matTooltip="Сформувати Акт"
-                  [routerLink]="['/house/act-create', agreement.flat.agreement_id]" *ngIf="!agreement.exists">
+                  [routerLink]="['/act-create', agreement.flat.agreement_id]" *ngIf="!agreement.exists">
                   <i class="fa-solid fa-file-circle-check"></i>
                   <div class="t-min bold">Сформувати</div>
                 </button>
 
-                <button class="btn" matTooltip="Переглянути Акт"
-                  [routerLink]="['/house/act-view', agreement.flat.agreement_id]" *ngIf="agreement.exists">
+                <button class="btn" [routerLink]="['/act-transfer']"
+                  [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 1, indexUser: 2 }"
+                  *ngIf="agreement.exists">
                   <i class="fa-solid fa-file-circle-check"></i>
                   <div class="t-min bold">Переглянути</div>
                 </button>

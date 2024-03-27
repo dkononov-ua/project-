@@ -193,7 +193,7 @@ export class RegistrationComponent implements OnInit {
 
     this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
-        // console.log(response)
+        console.log(response)
         if (response.status) {
           setTimeout(() => {
             this.statusMessage = 'З поверненням!';

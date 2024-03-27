@@ -1,51 +1,43 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
-
+import { animations } from '../../../../interface/animation';
 @Component({
   selector: 'app-agree-menu',
   templateUrl: './agree-menu.component.html',
   styleUrls: ['./agree-menu.component.scss'],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
-      ])
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 })
+
 export class AgreeMenuComponent implements OnInit {
   numSendAgree: number = 0;
   offs: number = 0;
-
-
   // показ карток
   card_info: boolean = false;
   indexPage: number = 0;
-  indexMenu: number = 0;
-  indexMenuMobile: number = 1;
   numConcludedAgree: any;
   selectedAgree: any;
   page: any;
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   selectedFlatId: string | any;
   counterFound: number = 0;
   agreementIds: any
-
+  startX = 0;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -55,12 +47,50 @@ export class AgreeMenuComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
-      console.log(params['indexPage'])
-
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
     this.getSelectedFlatID();
+  }
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    // console.log(direction)
+    if (direction === 'right') {
+      if (this.indexPage === 0) {
+        this.router.navigate(['/house/house-info']);
+      } else if (this.indexPage === 3 && this.numSendAgree === 0) {
+        this.indexPage = 1;
+      } else {
+        this.indexPage--;
+      }
+    } else {
+      if (this.indexPage === 0) {
+        this.indexPage++;
+      } else if (this.indexPage === 1 && this.numSendAgree !== 0) {
+        this.indexPage++;
+      } else if (this.indexPage === 1 && this.numSendAgree === 0) {
+        this.indexPage = 3;
+      } else if (this.indexPage === 2 && this.numConcludedAgree !== 0) {
+        this.indexPage++;
+      }
+    }
   }
 
   getSelectedFlatID() {

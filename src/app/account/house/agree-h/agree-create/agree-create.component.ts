@@ -1,4 +1,3 @@
-import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -18,6 +17,8 @@ const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { animations } from '../../../../interface/animation';
+import { cities } from 'src/app/data/data-city';
 
 export const MY_FORMATS = {
   parse: {
@@ -44,6 +45,8 @@ interface Subscribers {
   facebook: string;
   tell: number;
   mail: string;
+  id: string;
+  img: string;
 }
 @Component({
   selector: 'app-agree-create',
@@ -60,12 +63,16 @@ interface Subscribers {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right,
+    animations.right1,
+    animations.right4,
+    animations.swichCard,
   ],
 })
 export class AgreeCreateComponent implements OnInit {
@@ -153,6 +160,8 @@ export class AgreeCreateComponent implements OnInit {
     end: new FormControl(new Date(year, month, 16)),
   });
 
+  offs: number = 0;
+  startX = 0;
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -180,6 +189,7 @@ export class AgreeCreateComponent implements OnInit {
           await this.getAgent();
           await this.getHouse();
           await this.getSubs();
+          await this.getCitizen();
           this.route.params.subscribe(params => {
             this.selectedSubscriber = params['selectedSubscriber?.user_id'] || null;
             this.foundSubscriber(this.selectedSubscriber);
@@ -192,6 +202,40 @@ export class AgreeCreateComponent implements OnInit {
       }
     });
   }
+
+    // відправляю event початок свайпу
+    onPanStart(event: any): void {
+      this.startX = 0;
+    }
+
+    // Реалізація обробки завершення панорамування
+    onPanEnd(event: any): void {
+      const minDeltaX = 100;
+      if (Math.abs(event.deltaX) > minDeltaX) {
+        if (event.deltaX > 0) {
+          this.onSwiped('right');
+        } else {
+          this.onSwiped('left');
+        }
+      }
+    }
+    // оброблюю свайп
+    onSwiped(direction: string | undefined) {
+      // console.log(direction)
+      if (direction === 'right') {
+        if (this.currentStep !== 1) {
+          this.currentStep--;
+        } else {
+          this.router.navigate(['/house/agree-menu']);
+        }
+      } else {
+        if (this.currentStep !== 2 && !this.selectedSubscriber) {
+          this.currentStep++;
+        } else if (this.selectedSubscriber && this.currentStep <= 2) {
+          this.currentStep++;
+        }
+      }
+    }
 
   updateRentPrice(newValue: number) {
     if (!newValue) {
@@ -234,14 +278,48 @@ export class AgreeCreateComponent implements OnInit {
 
   async getSubs(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: 0, };
+    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: this.offs, };
     try {
       const response = await this.http.post(serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
-      if (response) { this.subscribers = response; }
+      // console.log(response)
+      if (response) {
+        this.subscribers = response;
+      }
       else { this.subscribers = []; }
     } catch (error) { console.error(error); }
   }
 
+  async getCitizen(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: this.offs };
+    try {
+      const response = await this.http.post(serverPath + '/citizen/get/citizen', data).toPromise() as any[];
+      // console.log(response);
+      if (response) {
+        response.forEach((e) => {
+          const subscriber: Subscribers = {
+            user_id: e.user_id,
+            firstName: e.firstName,
+            lastName: e.lastName,
+            surName: e.surName,
+            tell: e.tell,
+            mail: e.mail,
+            img: e.img,
+            instagram: e.instagram,
+            telegram: e.telegram,
+            viber: e.viber,
+            facebook: e.facebook,
+            id: 'citizen',
+            photo: undefined,
+          };
+          this.subscribers.push(subscriber);
+        });
+      }
+      // console.log(this.subscribers);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   foundSubscriber(selectedSubscriber: string): void {
     if (selectedSubscriber) {
       // Перетворюємо selectedSubscriber в числове значення
@@ -340,12 +418,14 @@ export class AgreeCreateComponent implements OnInit {
         // console.log(response)
         this.loading = true;
         if (response.status === 'Данні введено не правильно') {
-          this.statusMessage = 'Щось пішло не так, перевірте дані та повторіть спробу'; setTimeout(() => {
-            this.statusMessage = ''; this.loading = false;
+          this.statusMessage = 'Дублювання угод'; setTimeout(() => {
+            this.statusMessage = 'Скасуйте попередню угоду'; setTimeout(() => {
+              this.statusMessage = ''; this.loading = false;
+            }, 2000);
           }, 2000);
         } else {
           this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
-          setTimeout(() => { this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 2 } }); }, 3000);
+          setTimeout(() => { this.router.navigate(['/house/agree-menu'], { queryParams: { currentStep: 2 } }); }, 3000);
         }
       } catch (error) {
         console.error(error);
@@ -357,8 +437,8 @@ export class AgreeCreateComponent implements OnInit {
     }
   }
 
-  goToHelp () {
-    this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
+  goToHelp() {
+    this.router.navigate(['/house/agree-menu'], { queryParams: { currentStep: 1 } });
   }
 
   showMessage(msg: string): void {

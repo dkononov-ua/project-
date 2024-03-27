@@ -1,0 +1,124 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/shared.scss";
+
+.counterNum {
+  @include flex-box;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 30px;
+  height: 30px;
+  background-color: $color-gray;
+  border-radius: 50%;
+  color: $color-white;
+}
+
+.img-fluid {
+  display: flex;
+  height: 400px;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  border: 1px solid $color-primary;
+
+  img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 1s;
+    &:hover {
+      transition: transform 1s;
+      transform: scale(1.4);
+    }
+  }
+}
+
+
+
+.btn-group {
+  @include flex-box;
+  padding: 10px;
+  width: 100%;
+  .btn-navigation {
+    @include flex-box;
+    height: 60px;
+    .fa-solid {
+      padding-left: 10px;
+      color: $color-dark;
+    }
+  }
+}
+
+.container-img {
+  width: 100%;
+}
+
+.card-animation::-webkit-scrollbar,
+.cards-container::-webkit-scrollbar,
+.card-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.panel-container {
+  bottom: 0;
+  display: flex;
+  background-color: $color-white;
+  border-radius: 20px 20px 0 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  justify-content: flex-start;
+  .wrapper {
+    @include flex-box;
+    justify-content: space-between;
+    width: 100%;
+    .btn-panel {
+      @include flex-box-column;
+      height: 60px;
+      border: none;
+      background-color: transparent;
+      flex: 1;
+      justify-content: space-between;
+      .panel-icon {
+        height: 100%;
+        @include flex-box-center;
+        .fa-solid,
+        .fa-regular {
+          font-size: 25px;
+          color: $color-dark;
+        }
+        .fa-star {
+          font-size: 15px;
+        }
+      }
+      .t-min {
+        font-size: 10px;
+      }
+      .img-btn {
+        @include flex-box;
+        background-color: transparent;
+        border-radius: 50%;
+        border: none;
+        width: 80px;
+        .fa-solid,
+        .fa-regular {
+          color: $color-dark;
+        }
+      }
+    }
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}

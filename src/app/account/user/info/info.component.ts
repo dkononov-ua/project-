@@ -1,30 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { forkJoin } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { CloseMenuService } from 'src/app/services/close-menu.service';
 import { UserInfo } from '../../../interface/info';
 import { UsereSearchConfig } from '../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox, OptionPay, Purpose } from '../../../interface/name';
+import { animations } from '../../../interface/animation';
+import { ActivatedRoute } from '@angular/router';
+import { CounterService } from 'src/app/services/counter.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss'],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(130%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ])
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 })
 export class InfoComponent implements OnInit {
 
-  isLoading: boolean = false;
   indexPage: number = 1;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -43,25 +44,92 @@ export class InfoComponent implements OnInit {
   animals: { [key: string]: string } = Animals;
   option_pay: { [key: number]: string } = OptionPay;
   purpose: { [key: number]: string } = Purpose;
+  statusMessage: string | undefined;
+
   agreeNum: number = 0;
+  page: any;
+  counterUserSubscribers: string = '0';
+  counterUserDiscussio: string = '0';
+  counterUserSubscriptions: string = '0';
+  counterUserNewAgree: string = '0';
+  counterUserNewMessage: any;
+  userMenu: boolean = false;
+  isLoadingImg: boolean = false;
+  numberOfReviews: any;
+
+  openUserMenu() {
+    if (this.userMenu) {
+      setTimeout(() => {
+        this.userMenu = false;
+      }, 600);
+    } else {
+      this.userMenu = true;
+    }
+  }
+
+  changeIndexPage(index: number) {
+    setTimeout(() => {
+      this.indexPage = index
+    }, 1000);
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
 
   constructor(
     private dataService: DataService,
     private http: HttpClient,
-    private closeMenuService: CloseMenuService,
-  ) {
+    private route: ActivatedRoute,
+    private counterService: CounterService,
+    private location: Location,
 
-  }
+  ) { }
 
   ngOnInit(): void {
     this.loading = true;
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 1;
+      this.indexPage = Number(this.page);
+    });
     this.getInfoUser()
     this.getInfo(),
-    this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 200);
+
+    const counterUserSubscribers = localStorage.getItem('counterUserSubscribers')
+    if (counterUserSubscribers) {
+      this.counterUserSubscribers = counterUserSubscribers;
+    }
+    const counterUserDiscussio = localStorage.getItem('counterUserDiscussio')
+    if (counterUserDiscussio) {
+      this.counterUserDiscussio = counterUserDiscussio;
+    }
+    const counterUserSubscriptions = localStorage.getItem('counterUserSubscriptions')
+    if (counterUserSubscriptions) {
+      this.counterUserSubscriptions = counterUserSubscriptions;
+    }
+
+    const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
+    if (counterUserNewAgree) {
+      this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
+    } else {
+      this.counterUserNewAgree = '0';
+    }
+
+    this.getUserNewMessage();
   }
 
-  sendMenuOpen(closeMenu: boolean) {
-    this.closeMenuService.setCloseMenu(closeMenu);
+  // перевірка на нові повідомлення користувача
+  async getUserNewMessage() {
+    // console.log('Відправляю запит на сервіс кількість дискусій',)
+    await this.counterService.getUserNewMessage();
+    this.counterService.counterUserNewMessage$.subscribe(data => {
+      const counterUserNewMessage: any = data;
+      this.counterUserNewMessage = counterUserNewMessage.status;
+      // console.log('кількість повідомлень користувача', this.counterUserNewMessage)
+    });
   }
 
   getInfoUser() {
@@ -173,20 +241,26 @@ export class InfoComponent implements OnInit {
     try {
       const response = await this.http.post(url, data).toPromise() as any;
       if (response && Array.isArray(response.status)) {
-        let totalMarkTenant = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            totalMarkTenant += item.mark;
-            this.ratingTenant = totalMarkTenant;
+        let ratingTenant = 0;
+        this.numberOfReviews = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info && item.info.mark) {
+            ratingTenant += item.info.mark;
           }
         });
+        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
+        if (this.numberOfReviews > 0) {
+          this.ratingTenant = ratingTenant / this.numberOfReviews;
+        } else {
+          this.ratingTenant = 0;
+        }
       } else {
         this.ratingTenant = 0;
-        // console.log('Орендар не містить оцінок.');
       }
     } catch (error) {
-      console.error(error);
+      // Обробка помилок
     }
+
   }
 
   // рейтинг власника
@@ -201,13 +275,18 @@ export class InfoComponent implements OnInit {
     try {
       const response = await this.http.post(url, data).toPromise() as any;
       if (response && Array.isArray(response.status)) {
-        let totalMarkOwner = 0;
+        let ratingOwner = 0;
         response.status.forEach((item: { mark: number; }) => {
           if (item.mark) {
-            totalMarkOwner += item.mark;
-            this.ratingOwner = totalMarkOwner;
+            ratingOwner += item.mark;
           }
         });
+        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
+        if (this.numberOfReviews > 0) {
+          this.ratingOwner = ratingOwner / this.numberOfReviews;
+        } else {
+          this.ratingOwner = 0;
+        }
       } else {
         this.ratingOwner = 0;
         // console.log('Власник не містить оцінок.');
@@ -228,6 +307,24 @@ export class InfoComponent implements OnInit {
         .then(() => { this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000); })
         .catch((error) => { this.isCopiedMessage = ''; });
     }
+  }
+
+  logout() {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    this.statusMessage = 'Виходимо з аккаунту';
+    setTimeout(() => {
+      this.statusMessage = '';
+      this.loading = true;
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
+    }, 1500);
   }
 
 }

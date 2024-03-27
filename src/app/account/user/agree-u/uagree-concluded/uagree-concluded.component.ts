@@ -44,10 +44,13 @@ export class UagreeConcludedComponent implements OnInit {
     };
     try {
       const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
-      this.agreementIds = agreementIds;
-      this.agree = response;
-      await this.getActAgree();
+      if (response) {
+        const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
+        this.agreementIds = agreementIds;
+        this.agree = response;
+        // console.log(this.agree)
+        await this.getActAgree();
+      }
     } catch (error) {
       console.error(error);
     }

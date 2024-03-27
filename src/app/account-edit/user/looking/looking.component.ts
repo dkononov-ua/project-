@@ -1,12 +1,11 @@
-import { FormBuilder } from '@angular/forms';
 import { regions } from '../../../data/data-city';
 import { cities } from '../../../data/data-city';
 import { subway } from '../../../data/subway';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { animations } from '../../../interface/animation';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -51,18 +50,16 @@ interface UserInfo {
   templateUrl: './looking.component.html',
   styleUrls: ['./looking.component.scss'],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(200%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)', opacity: 1 }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(200%)', opacity: 0 }))
-      ]),
-    ]),
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
+    animations.swichCard,
   ],
-
 })
 
 export class LookingComponent implements OnInit {
@@ -147,6 +144,7 @@ export class LookingComponent implements OnInit {
   numConcludedAgree: any;
   selectedAgree: any;
   page: any;
+  startX = 0;
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
@@ -169,13 +167,51 @@ export class LookingComponent implements OnInit {
     this.saveDayCounts();
   }
 
+  help: number = 0;
+  toggleHelp(index: number) {
+    this.help = index;
+  }
+
   constructor(
     private http: HttpClient,
-    private router: Router) { }
+    private router: Router,
+  ) { }
+
 
   ngOnInit(): void {
     this.getInfo();
     this.loading = false;
+  }
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'right') {
+      if (this.indexPage !== 0) {
+        this.indexPage--;
+      } else {
+        this.router.navigate(['/user/info']);
+      }
+    } else {
+      if (this.indexPage <= 2) {
+        this.indexPage++;
+      }
+    }
   }
 
   async getInfo(): Promise<any> {
@@ -245,21 +281,21 @@ export class LookingComponent implements OnInit {
         // console.log(response)
         if (this.userInfo && this.userInfo.agree_search === 0) {
           setTimeout(() => {
-            this.statusMessage = 'Дані збережено. Огололення НЕ опубліковується!';
+            this.statusMessage = 'Деактивовано!';
             setTimeout(() => {
-              this.router.navigate(['/user/info']);
+              this.router.navigate(['/user/info'], { queryParams: { indexPage: 2 } });
             }, 3000);
           }, 1000);
         } else if (this.userInfo && this.userInfo.agree_search === 1) {
           setTimeout(() => {
-            this.statusMessage = 'Оголошення опубліковане!';
+            this.statusMessage = 'Пошуковий профіль активовано!';
             setTimeout(() => {
-              this.router.navigate(['/user/info']);
+              this.router.navigate(['/user/info'], { queryParams: { indexPage: 2 } });
             }, 3000);
           }, 1000);
         } else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка формування оголошення.';
+            this.statusMessage = 'Помилка формування.';
             setTimeout(() => {
               location.reload();
             }, 3000);
@@ -307,7 +343,7 @@ export class LookingComponent implements OnInit {
   }
 
   clearInfoCard3(): void {
-    this.userInfo.option_pay = 2;
+    this.userInfo.option_pay = 0;
     this.userInfo.price_of = undefined;
     this.userInfo.price_to = undefined;
     this.userInfo.day_counts = 0;

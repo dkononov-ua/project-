@@ -64,14 +64,21 @@ export class AgreeConcludedComponent implements OnInit {
     };
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as any;
+      // console.log(response)
       if (response) {
         this.agree = response;
         this.numConcludedAgree = response.length;
         const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
         this.agreementIds = agreementIds;
+
       } else {
-        this.agree = [];
+        this.loading = true;
+        this.statusMessage = 'Ухвалених угод немає';
         this.numConcludedAgree = 0;
+        setTimeout(() => {
+          this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
+          this.loading = false;
+        }, 300);
       }
     } catch (error) {
       console.error(error);
@@ -93,6 +100,7 @@ export class AgreeConcludedComponent implements OnInit {
 
         // Виконуємо запит для кожного agreement_id
         const response = await this.http.post(url, data).toPromise() as any[];
+        // console.log(response)
 
         // Шукаємо угоду за agreement_id у масиві this.agree
         const agreement = this.agree.find((agreement) => agreement.flat.agreement_id === agreementId);
@@ -174,14 +182,15 @@ export class AgreeConcludedComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           if (response) {
-            this.agree = [];
             this.statusMessage = 'Угода видалена';
             setTimeout(() => {
-              this.getConcludedAgree();
-              this.statusMessage = '';
-            }, 2000);
+              location.reload();
+            }, 500);
           } else {
-            console.log('Помилка видалення')
+            this.statusMessage = 'Помилка видалення';
+            setTimeout(() => {
+              location.reload();
+            }, 500);
           }
 
         } catch (error) {
@@ -222,7 +231,7 @@ export class AgreeConcludedComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = 'Переходимо до мешканців оселі';
             setTimeout(() => {
-              this.router.navigate(['/house/resident'], { queryParams: { indexPage: 0, indexMenu: 1 } });
+              this.router.navigate(['/house/resident'], { queryParams: { indexPage: 2, indexCard: 0 } });
             }, 2000);
           }, 2000);
           // setTimeout(() => {

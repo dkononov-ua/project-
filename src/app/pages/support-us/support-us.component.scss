@@ -2,6 +2,19 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.flex-box-column {
+  height: 100%;
+  overflow: auto;
+  justify-content: center;
+  @include s1-s3 {
+    justify-content: space-between;
+  }
+}
+
+.flex-box-column::-webkit-scrollbar {
+  display: none;
+}
+
 .wrapper {
   position: absolute;
   overflow: hidden;
@@ -13,6 +26,10 @@
     width: 100%;
     height: 100%;
   }
+}
+
+.banka {
+  height: 300px;
 }
 
 .bg-white {
@@ -38,9 +55,7 @@
 .btn-group {
   position: sticky;
   bottom: 0;
-  height: 60px;
   background-color: transparent;
-  overflow: hidden;
   border-radius: 20px;
   .icon {
     @include flex-box;
@@ -48,7 +63,7 @@
   .btn {
     @include flex-box;
     font-size: 12px;
-    height: 100%;
+    height: 60px;
     margin: 0px;
     padding: 0px;
   }

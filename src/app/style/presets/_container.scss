@@ -7,6 +7,10 @@
   font-family: $font-main;
 }
 
+.container::-webkit-scrollbar {
+  display: none;
+}
+
 .container-fluid {
   display: flex;
   justify-content: space-between;

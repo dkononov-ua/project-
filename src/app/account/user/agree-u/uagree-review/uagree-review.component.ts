@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { UagreeDeleteComponent } from '../uagree-delete/uagree-delete.component';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
+import { ConfirmActionsComponent } from 'src/app/agreements/confirm-actions/confirm-actions.component';
 @Component({
   selector: 'app-uagree-review',
   templateUrl: './uagree-review.component.html',
@@ -42,10 +42,12 @@ export class UagreeReviewComponent implements OnInit {
     this.getSendAgree();
   }
 
-  openDialog(agreement: any): void {
-    const dialogRef = this.dialog.open(UagreeDeleteComponent);
+  confirmActions(agreement: any) {
+    const dialogRef = this.dialog.open(ConfirmActionsComponent, {
+      data: { actions: 'reject', flat_id: agreement.flat.flat_id, owner_firstName: agreement.flat.owner_firstName, owner_lastName: agreement.flat.owner_lastName }
+    });
     dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
+      if (result === true) {
         await this.removeAgreement(agreement);
       }
     });
@@ -88,8 +90,7 @@ export class UagreeReviewComponent implements OnInit {
       if (response) {
         this.statusMessage = 'Угода видалена';
         setTimeout(() => {
-          this.getSendAgree();
-          this.statusMessage = '';
+          location.reload();
         }, 2000);
       } else {
         console.log('Помилка видалення')

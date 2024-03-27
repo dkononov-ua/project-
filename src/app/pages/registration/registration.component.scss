@@ -160,6 +160,14 @@ a {
     width: 100%;
     // flex-direction: row;
   }
+  .logo {
+    height: 120px;
+    width: 100%;
+    @include s1-s3 {
+      height: 80px;
+    }
+  }
+
 }
 
 .center {
@@ -183,13 +191,6 @@ a {
   }
 }
 
-.logo {
-  height: 120px;
-  width: 100%;
-  @include s1-s3 {
-    height: 80px;
-  }
-}
 
 p {
   text-align: center;

@@ -2,15 +2,9 @@
 @use "style/presets/" as *;
 
 .body-container {
-  display: flex;
+  height: 100vh;
   width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  @include s1-s3 {
-    width: 100%;
-    height: 100vh;
-    background-color: $color-white;
-  }
+  overflow: hidden;
 }
 
 .container {
@@ -21,101 +15,21 @@
   @include s1-s3 {
     padding: 0;
     margin: 0;
-  }
-}
-
-.mobile {
-  @include s1-s3 {
     background-color: $color-white;
     width: 100%;
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
   }
-
   @media print {
     height: auto;
     overflow-x: visible;
     overflow-y: visible;
   }
-}
-
-.btn-menu {
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  border-radius: 10px 0 0 10px;
-  width: 40px;
-  height: 60px;
-  padding: 5px;
-  top: 75%;
-  right: 0;
-  z-index: 200;
-  font-size: 14px;
-  transition: 1s;
-  background-color: rgba(0, 0, 0, 0.334);
-  .fa-solid {
-    color: $color-white;
-  }
-}
-
-.account {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  flex-direction: column;
-
-  @include s1-s3 {
-    width: 100%;
-    flex-direction: column;
-    z-index: 150;
-    position: absolute;
-    top: -100%;
-    transition: top 1s ease;
-  }
-}
-
-.account.open {
-  @include s1-s3 {
-    width: 100%;
-    height: 10vh;
-    background-color: $color-white;
-    top: 0;
-    align-items: flex-start;
-  }
-}
-
-.account.hide {
-  @include s1-s3 {
+  &::-webkit-scrollbar {
     display: none;
   }
 }
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}
-
-@media print {
-  .body-container {
-    height: auto;
-    overflow-x: visible;
-  }
-
-  .hide-print {
-    display: none;
-  }
-
-  .mobile::-webkit-scrollbar {
-    display: none;
-  }
+.container::-webkit-scrollbar {
+  display: none;
 }

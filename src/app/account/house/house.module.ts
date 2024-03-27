@@ -23,9 +23,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ParametersComponent } from './parameters/parameters.component';
 import { HouseShareComponent } from './house-share/house-share.component';
-import { ActReceptionTransmissionComponent } from './agree-h/act-reception-transmission/act-reception-transmission.component';
-import { ActViewComponent } from './agree-h/act-view/act-view.component';
-import { AgreeDownloadComponent } from './agree-h/agree-download/agree-download.component';
 import { HouseResidentsComponent } from './house-residents/house-residents.component';
 import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
@@ -34,9 +31,9 @@ import { HouseInfoComponent } from './house-info/house-info.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './resident/resident.component';
-import { AgreeSendComponent } from './agree-h/agree-send/agree-send.component';
 import { MainInfoComponent } from './main-info/main-info.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActCreateComponent } from './agree-h/act-create/act-create.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -48,13 +45,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ParametersComponent,
     HouseShareComponent,
     HouseResidentsComponent,
-    AgreeDownloadComponent,
-    ActReceptionTransmissionComponent,
-    ActViewComponent,
     HouseInfoComponent,
     ResidentComponent,
-    AgreeSendComponent,
     MainInfoComponent,
+    ActCreateComponent,
   ],
   providers: [
     DatePipe

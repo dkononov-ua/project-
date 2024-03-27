@@ -1,7 +1,6 @@
 import { AppComponent } from './app.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
-import { UserPaymentComponent } from './pages/user-payment/user-payment.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { ComunPageComponent } from './pages/comun-page/comun-page.component';
@@ -49,38 +48,40 @@ import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
-import { AboutRatingComponent } from './pages/about-rating/about-rating.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
 import { SupportUsComponent } from './pages/support-us/support-us.component';
-// import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-// import { environment } from '../environments/environment';
-// import { provideAuth,getAuth } from '@angular/fire/auth';
-import { DiscussioComponent } from './discussio/discussio.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActTransferComponent } from './agreements/act-transfer/act-transfer.component';
+import { RentalAgreementComponent } from './agreements/rental-agreement/rental-agreement.component';
+import { ConfirmActionsComponent } from './agreements/confirm-actions/confirm-actions.component';
+import { HomeComponent } from './home/home.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 @NgModule({
   declarations: [
     AppComponent,
     OurTeamComponent,
     RegistrationComponent,
-    UserPaymentComponent,
     InformationUserComponent,
     UserLicenceComponent,
     ComunPageComponent,
     LookingComponent,
     FeedbackComponent,
     AboutProjectComponent,
-    AboutRatingComponent,
     OpportunitiesComponent,
     ReportsComponent,
     NotFoundComponent,
     NewsComponent,
     SupportUsComponent,
-      DiscussioComponent
-   ],
+    ActTransferComponent,
+    RentalAgreementComponent,
+    ConfirmActionsComponent,
+    HomeComponent,
+    HomePageComponent,
+  ],
   providers: [
     SelectedFlatService,
     DatePipe,
@@ -136,8 +137,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SearchRoutingModule,
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideAuth(() => getAuth()),
   ]
 })
 export class AppModule { }

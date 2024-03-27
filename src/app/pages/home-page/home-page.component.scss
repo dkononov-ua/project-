@@ -1,0 +1,86 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.flex-box {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-box-1 {
+  @include flex-box;
+  overflow: hidden;
+  height: 400px;
+  justify-content: space-between;
+  border-radius: 20px;
+
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
+
+  .item-description {
+    @include flex-box;
+    text-align: center;
+    padding: 10px;
+    flex-direction: column;
+    width: 50%;
+    @include s1-s3 {
+      width: 100%;
+    }
+    .fa-solid {
+      color: $color-text;
+    }
+  }
+  .item-img-container {
+    @include flex-box-center;
+    position: relative;
+    height: 100%;
+    width: 50%;
+    .item-img {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.link-toMenu {
+  transition: 1s;
+  color: $color-accent;
+  border-radius: 20px;
+  background-color: transparent;
+  border: none;
+  padding: 3px 5px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.095);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  .fa-solid {
+    color: $color-accent;
+  }
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include s1-s3 {
+    width: 100%;
+  }
+  .logo {
+    height: 120px;
+    width: 120px;
+    @include s1-s3 {
+      height: 80px;
+    }
+  }
+}
+
+.logo-name {
+  font-size: 6rem;
+}
