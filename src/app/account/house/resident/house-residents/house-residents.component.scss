@@ -1,0 +1,8 @@
+@use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
+@use "../../../../discussi/discussi.scss";
+
+.cards-container {
+  height: 85vh;
+  overflow: auto;
+}

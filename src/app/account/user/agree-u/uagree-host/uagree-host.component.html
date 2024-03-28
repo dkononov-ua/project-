@@ -1,5 +1,4 @@
 <div class="content-component">
-
   <div class="switch-container">
 
     <div class="switch-btn-group">
@@ -15,19 +14,19 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'"
-        [routerLink]="'/user/agree/menu'">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/menu'">
         <i class="fa-solid fa-circle-info"></i>
         <div class="t-min bold">Про Меню</div>
       </button>
     </div>
 
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'"
-        [routerLink]="'/user/agree/step'">
-        <i class="fa-solid fa-shoe-prints"></i>
-        <div class="t-min bold">Пояснення Кроки</div>
-      </button>
+    <div class="hide-pc">
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="t-min bold">Пояснення Кроки</div>
+        </button>
+      </div>
     </div>
 
     <div class="switch-btn-group">
@@ -55,7 +54,6 @@
     </div>
 
   </div>
-
   <div class="main-container">
     <router-outlet></router-outlet>
   </div>

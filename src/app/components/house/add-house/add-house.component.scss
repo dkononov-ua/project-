@@ -1,0 +1,8 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.card-menu {
+  height: 85vh;
+  border-radius: 0;
+}

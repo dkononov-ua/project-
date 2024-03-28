@@ -1,215 +1,63 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
-@use "../../style/navbar.scss";
 
-.switch-box {
-  .switch-btn-group {
-    width: 50px;
-  }
-
-  @include s1-s3 {
-    .btn-menu {
-      width: 50px;
-    }
-  }
-}
-
-.wrapper-img {
-  @include flex-box-center;
-  height: 400px;
-  width: 100%;
-  @include s1-s3 {
-    height: 300px;
-  }
-}
-
-.container-loader-mini {
-  @include flex-box-center;
-  flex-direction: column;
-}
-
-.navbar {
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.flex-box {
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
+}
+
+.card-content {
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.card-group {
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+}
+.card-content-static {
+  background-color: $color-primary !important;
+}
+.item-select {
+  flex-direction: column-reverse;
+  width: 100%;
+  padding: 0 10px 0 10px;
 }
 
 .card-box {
-  @include flex-box;
-  justify-content: flex-start;
+  @include flex-box-center;
+  position: relative;
+  flex-direction: column;
   align-items: stretch;
-  @include s1-s3 {
-    flex-direction: column;
-  }
-}
-
-.card {
-  // height: 600px;
-  overflow: auto;
   width: 100%;
-  @include s1-s3 {
-    height: auto;
-  }
+  height: 85vh;
 }
 
-.item-select {
-  flex-direction: column-reverse;
-}
-
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  margin: 0;
-  padding: 0;
-  @include s1-s3 {
-    align-content: flex-start;
-  }
-}
-
-.navigation {
-  display: flex;
-  justify-content: flex-end;
+.img-wrapper {
   width: 100%;
-  align-items: baseline;
-  .navigation-link {
-    &:hover {
-      color: $color-accent;
-      transform: scale(1.2);
-      .fa-solid {
-        color: $color-accent;
-      }
-    }
-  }
-}
-
-.fa-brands,
-.fa-solid {
-  font-size: 24px;
-  color: $color-dark;
-  margin: 0 5px;
-}
-
-.container-card {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: center;
-  @include s1-s3 {
-    height: 75vh;
-  }
-}
-
-.img-fluid {
-  display: flex;
-  height: 400px;
-  width: 100%;
-  overflow: hidden;
-  margin-bottom: 10px;
-  justify-content: center;
-  align-items: center;
-  @include s1-s3 {
+  position: relative;
+  @include flex-box-center;
+  .img {
+    width: 100%;
     height: 300px;
-  }
-}
-img {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  object-fit: cover;
-  transition: transform 1s;
-  border-radius: 10px;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
+    border-radius: 20px;
+    object-fit: cover;
   }
 }
 
 .card-1 {
+  @include flex-box-center;
+  flex-direction: column;
+  position: absolute;
   width: 100%;
-  display: flex;
-  color: $color-dark;
-  padding: 10px;
-  border-radius: 10px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.label-1 {
-  font-size: 15px;
-  color: $color-accent;
-  font-weight: 600;
-}
-.description {
-  font-size: 12px;
+  height: 100%;
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 50%, $color-white);
+  z-index: 10;
 }
 
 .content-group {
-  width: 100%;
-  display: flex;
-  padding: 3px;
+  @include flex-box-center;
   justify-content: space-evenly;
 }
 
-mat-label {
-  font-family: $font-main;
-  font-size: 13px;
-  font-weight: 400;
-  color: $color-dark;
-}
-
-.label {
-  cursor: pointer;
-  font-size: 15px;
-  color: $color-accent;
-  font-weight: 600;
-}
-
-.btn-group {
-  display: flex;
-  width: 100%;
-  .btn {
-    @include flex-box;
-    background-color: $color-accent;
-  }
-}
-
-.card-animation {
-  @include flex-box-column;
-  align-items: stretch;
-  position: absolute;
-  margin: 10px;
-  height: 65vh;
-  width: 380px;
-
-  @include s1-s3 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0px;
-    width: 95%;
-    height: 74vh;
-  }
-}
-
-.card-animation::-webkit-scrollbar {
-  display: none;
-}
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
-}

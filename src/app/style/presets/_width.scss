@@ -63,11 +63,19 @@
 }
 
 .al-fs {
-  align-items: flex-start;
+  align-items: flex-start !important;
+}
+
+.al-c {
+  align-items: center !important;
 }
 
 .al-fe {
-  align-items: flex-end;
+  align-items: flex-end !important;
+}
+
+.alc-sa {
+  align-content: space-around
 }
 
 .d-flex {
@@ -76,6 +84,10 @@
 
 .jc-sa {
   justify-content: space-around;
+}
+
+.jc-c {
+  justify-content: center !important;
 }
 
 .jc-sb {

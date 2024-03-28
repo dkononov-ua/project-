@@ -7,6 +7,8 @@
 
 .flex-column {
   @include flex-box-column;
+  overflow: auto;
+  height: calc(100% - 20px);
   align-items: center;
   @include box-shadow;
   background-color: $color-white;
@@ -20,6 +22,6 @@
 }
 
 img {
-  width: 300px;
+  width: 100px;
   object-fit: cover;
 }

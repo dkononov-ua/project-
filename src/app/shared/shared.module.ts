@@ -20,12 +20,9 @@ import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.co
 import { SelectionAccountComponent } from '../components/selection-account/selection-account.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { SelectionHousingComponent } from '../components/selection-housing/selection-housing.component';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
 import { UpdateComponentService } from '../services/update-component.service';
 import { MatMenuModule } from '@angular/material/menu';
-import { AddHouseComponent } from '../components/add-house/add-house.component';
-
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
@@ -35,6 +32,11 @@ import { CropImgComponent } from '../components/crop-img/crop-img.component';
 import { MenuComponent } from '../components/menu/menu.component';
 import { GalleryComponent } from '../components/gallery/gallery.component';
 import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
+import { SelectionHousingComponent } from '../components/house/selection-housing/selection-housing.component';
+import { AddHouseComponent } from '../components/house/add-house/add-house.component';
+import { DeleteHComponent } from '../components/house/delete-h/delete-h.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
     MenuComponent,
     GalleryComponent,
     CropImg2Component,
+    DeleteHComponent,
   ],
   exports: [
     NavbarComponent,
@@ -68,6 +71,7 @@ import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
     MenuComponent,
     GalleryComponent,
     CropImg2Component,
+    DeleteHComponent,
   ],
   providers: [
     UpdateComponentService,
@@ -93,6 +97,8 @@ import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
     LyButtonModule,
     LyIconModule,
     LyDialogModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
   ]
 })
 export class SharedModule { }

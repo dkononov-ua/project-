@@ -6,6 +6,8 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
 import { OpportunitiesComponent } from '../pages/opportunities/opportunities.component';
 import { OurTeamComponent } from '../pages/our-team/our-team.component';
 import { HomePageComponent } from '../pages/home-page/home-page.component';
+import { UserLicenceComponent } from '../pages/user-licence/user-licence.component';
+import { RegistrationComponent } from '../pages/registration/registration.component';
 
 const routes: Routes = [
   {
@@ -19,6 +21,8 @@ const routes: Routes = [
       { path: 'about-project', component: AboutProjectComponent },
       { path: 'opportunities', component: OpportunitiesComponent},
       { path: 'our-team', component: OurTeamComponent },
+      { path: 'user-licence', component: UserLicenceComponent, },
+      { path: 'registration', component: RegistrationComponent },
     ],
   },
 ];

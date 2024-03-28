@@ -1,0 +1,36 @@
+<div class="content-component">
+
+  <div class="switch-container">
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
+    </div>
+
+    <div class="menu-box hide-mobile">
+      <div class="menu-lable">Меню</div>
+      <div class="menu-name">Дискусії Користувача</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage === 1}">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="t-min bold">Інфо</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-wrapper">
+        <div [@swichCard] class="card-animation" *ngIf="indexPage === 0">
+          <div class="card-content">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

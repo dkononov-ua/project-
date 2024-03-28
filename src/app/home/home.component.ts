@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  loginCheck: boolean = false;
+  authorization: boolean = false;
   indexPage: number = 1;
   isAccountOpenStatus: boolean = true;
   onClickMenu(indexPage: number) {
@@ -16,6 +17,12 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
 }

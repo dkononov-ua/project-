@@ -39,6 +39,18 @@ textarea::-webkit-scrollbar {
   display: none;
 }
 
+.bg-accent {
+  background-color: $color-accent !important;
+}
+
+.bg-white {
+  background-color: $color-white !important;
+}
+
+.bg-dark {
+  background-color: $color-dark !important;
+}
+
 .accent {
   color: $color-accent;
 }

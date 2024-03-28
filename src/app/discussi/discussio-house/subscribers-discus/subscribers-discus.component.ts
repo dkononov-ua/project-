@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
@@ -14,6 +13,10 @@ import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { Chat } from '../../../interface/info';
+import { animations } from '../../../interface/animation';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { DeleteSubComponent } from '../delete-sub/delete-sub.component';
 
 @Component({
   selector: 'app-subscribers-discus',
@@ -23,16 +26,13 @@ import { Chat } from '../../../interface/info';
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms 200ms ease-in-out', style({ transform: 'translateX(230%)' }))
-      ])
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
   ],
 })
 
@@ -61,21 +61,18 @@ export class SubscribersDiscusComponent implements OnInit {
   chatExists = false;
   isCopiedMessage!: string;
   // показ карток
-  card_info: boolean = false;
   indexPage: number = 0;
-  indexMenu: number = 0;
-  indexMenuMobile: number = 1;
   selectedUserID: any;
   counterHouseDiscussio: any;
   counterHouseSubscriptions: any;
   counterHouseSubscribers: any;
   counterHD: any;
-  onClickMenu(indexMenu: number, indexPage: number, indexMenuMobile: number,) {
-    this.indexMenu = indexMenu;
+  page: any;
+
+  onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
-    this.indexMenuMobile = indexMenuMobile;
   }
-  openInfoUser() { this.card_info = true; }
+
   // пагінатор
   offs = PaginationConfig.offs;
   counterFound = PaginationConfig.counterFound;
@@ -86,7 +83,10 @@ export class SubscribersDiscusComponent implements OnInit {
   totalDays: any;
   reviews: any;
   chats: Chat[] = [];
-
+  startX = 0;
+  goBack(): void {
+    this.location.back();
+  }
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -94,12 +94,58 @@ export class SubscribersDiscusComponent implements OnInit {
     private choseSubscribersService: ChoseSubscribersService,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
-    private counterService: CounterService
+    private counterService: CounterService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 0;
+      this.indexPage = Number(this.page);
+    });
     this.getSelectedFlatID();
     await this.getCounterHouse();
+    if (this.counterFound !== 0) {
+      this.indexPage = 1;
+    } else {
+      this.indexPage = 0;
+    }
+  }
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'right') {
+      if (this.indexPage !== 0) {
+        this.indexPage--;
+      } else {
+        this.router.navigate(['/house/house-info']);
+      }
+    } else {
+      if (this.indexPage !== 1 && !this.selectedUser) {
+        this.indexPage++;
+      } else if (this.selectedUser && this.indexPage <= 2) {
+        this.indexPage++;
+      }
+    }
   }
 
   // отримання, кількіст дискусій та запит на якій я сторінці
@@ -153,8 +199,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (this.selectedUserID) {
       const allHouseDiscussions = JSON.parse(localStorage.getItem('allHouseDiscussions') || '[]');
       if (allHouseDiscussions) {
-        this.indexPage = 1;
-        this.indexMenuMobile = 0;
+        this.indexPage = 2;
         const selectedUser = allHouseDiscussions.find((user: any) => user.user_id === this.selectedUserID);
         if (selectedUser) {
           this.selectedUser = selectedUser;
@@ -185,7 +230,12 @@ export class SubscribersDiscusComponent implements OnInit {
             this.updateComponent.triggerUpdate();
             this.selectedUser = undefined;
             this.counterService.getHouseDiscussioCount(this.selectedFlatId);
-            this.getSubInfo(this.offs);
+            await this.getSubInfo(this.offs);
+            if (this.subscribers.length > 0) {
+              this.indexPage = 1;
+            } else {
+              this.indexPage = 0;
+            }
           } else {
             this.statusMessage = 'Щось пішло не так, повторіть спробу';
             setTimeout(() => {
@@ -201,13 +251,12 @@ export class SubscribersDiscusComponent implements OnInit {
 
   // Відкриваю чат
   async openChat() {
-    console.log(1111)
     try {
       this.statusMessage = 'Завантажуємо чат...';
       const result = await this.getFlatChats();
       if (result === 1) {
         this.statusMessage = 'Відкриваємо чат';
-        setTimeout(() => { this.statusMessage = ''; this.indexPage = 2; }, 1000);
+        setTimeout(() => { this.statusMessage = ''; this.indexPage = 4; }, 1000);
       } else if (result === 0) {
         this.statusMessage = 'Щось пішло не так, повторіть спробу';
         setTimeout(() => { this.statusMessage = ''; }, 1000);
@@ -293,25 +342,41 @@ export class SubscribersDiscusComponent implements OnInit {
   // Отримання рейтингу
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const data = { auth: JSON.parse(userJson!), user_id: selectedUser.user_id, };
+    const url = serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: selectedUser.user_id,
+    };
+
     try {
-      const response = await this.http.post(serverPath + '/rating/get/userMarks', data).toPromise() as any;
-      this.reviews = response.status;
+      const response = await this.http.post(url, data).toPromise() as any;
+
       if (response && Array.isArray(response.status)) {
+        this.reviews = response.status;
         let totalMarkTenant = 0;
         this.numberOfReviews = response.status.length;
+
         response.status.forEach((item: any) => {
           if (item.info.mark) {
             totalMarkTenant += item.info.mark;
-            this.ratingTenant = totalMarkTenant;
           }
         });
-      } else if (response.status === false) {
+
+        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
+        if (this.numberOfReviews > 0) {
+          this.ratingTenant = totalMarkTenant / this.numberOfReviews;
+        } else {
+          this.ratingTenant = 0;
+        }
+
+        // console.log('Кількість відгуків:', this.numberOfReviews);
+      } else {
+        this.reviews = undefined;
         this.ratingTenant = 0;
-        // this.ratingTenant = 5;
-        // this.numberOfReviews = 5;
       }
-    } catch (error) { console.error(error); }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // наступна сторінка з картками

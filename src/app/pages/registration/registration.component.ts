@@ -162,22 +162,13 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('selectedComun');
-    localStorage.removeItem('selectedFlatId');
-    localStorage.removeItem('selectedFlatName');
-    localStorage.removeItem('selectedHouse');
-    localStorage.removeItem('houseData');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('user');
     this.initializeForm();
-    this.openDialog();
+    // this.openDialog();
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(NewsComponent);
-
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
     });
   }
 

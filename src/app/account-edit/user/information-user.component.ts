@@ -4,13 +4,13 @@ import { Subject } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { Router } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
+import { animations } from '../../interface/animation';
+import { Location } from '@angular/common';
 
 export const MY_FORMATS = {
   parse: {
@@ -63,37 +63,23 @@ interface UserParam {
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
-      ]),
-
-    ]),
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ]
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.swichCard,
+  ],
 })
 
 export class InformationUserComponent implements OnInit {
-
-  emailCheckCode: string = '';
+  page: any;
+  emailCheckCode: any;
   agreeToDel: boolean = false;
   sentCode: boolean = false;
+  isLoadingImg: boolean = false;
 
   extractUsernameFromUrl(url: string): string {
     // Ваш регулярний вираз для витягування імені користувача
@@ -106,7 +92,12 @@ export class InformationUserComponent implements OnInit {
     return match ? match[1] : '';
   }
 
-
+  goBack(): void {
+    this.location.back();
+  }
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
+  }
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -168,7 +159,7 @@ export class InformationUserComponent implements OnInit {
   checkCode: any;
   statusMessage: string | undefined;
   indexPage: number = 0;
-  isLoading: boolean = false;
+
   sendCodeEmail() {
     this.emailCheck = 1;
     // відправити код для підтвердження
@@ -212,24 +203,54 @@ export class InformationUserComponent implements OnInit {
   openHelpAdd() {
     this.helpAdd = !this.helpAdd;
   }
-
   phonePattern = '^[0-9]{10}$';
+  startX = 0;
 
   constructor(
     private http: HttpClient,
-    private isAccountOpenService: IsAccountOpenService,
     private router: Router,
     private _dialog: LyDialog,
+    private route: ActivatedRoute,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
-    this.sendAccountIsOpen();
+    this.route.queryParams.subscribe(params => {
+      this.page = params['indexPage'] || 0;
+      this.indexPage = Number(this.page);
+    });
     this.getInfo();
   }
 
-  sendAccountIsOpen() {
-    this.isAccountOpenStatus = true;
-    this.isAccountOpenService.setIsAccountOpen(this.isAccountOpenStatus);
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'right') {
+      if (this.indexPage !== 0) {
+        this.indexPage--;
+      } else {
+        this.router.navigate(['/user/info']);
+      }
+    } else {
+      if (this.indexPage <= 2) {
+        this.indexPage++;
+      }
+    }
   }
 
   async getInfo(): Promise<any> {
@@ -383,7 +404,7 @@ export class InformationUserComponent implements OnInit {
       this.statusMessage = '';
       this.reloadPageWithLoader();
       setTimeout(() => {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['home']);
       }, 1500);
     }, 1500);
   }
@@ -423,6 +444,7 @@ export class InformationUserComponent implements OnInit {
       const headers = { 'Accept': 'application/json' };
       try {
         const response: any = await this.http.post(serverPath + '/img/uploaduser', formData, { headers }).toPromise();
+        console.log(response)
         if (response.status === 'Збережено') {
           this.statusMessage = 'Фото додано';
           this.getInfo();
@@ -485,14 +507,17 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
+
   sendCodeForDelAcc() {
     const userJson = localStorage.getItem('user');
-    this.loading = true;
+
+    // this.loading = true;
     const data = {
       email: this.userInfo.user_mail,
     };
     this.sentCode = true;
     if (userJson) {
+
       try {
         // console.log(data);
         this.http.post(serverPath + '/userinfo/delete/first', { auth: JSON.parse(userJson) })
@@ -524,5 +549,6 @@ export class InformationUserComponent implements OnInit {
     }
 
   }
+
 
 };

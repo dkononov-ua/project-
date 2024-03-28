@@ -17,7 +17,7 @@
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
         <i class="fa-regular fa-comments"></i>
-        <div class="t-min bold">Повідом. Орендаря</div>
+        <div class="t-min bold">Повід.</div>
         <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">
           {{counterUserNewMessage}}
         </div>
@@ -27,7 +27,7 @@
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/subscriptions-user'">
         <i class="fa-regular fa-heart"></i>
-        <div class="t-min bold">Вподобані Оселі</div>
+        <div class="t-min bold">Вподоб.</div>
         <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
           {{counterUserSubscriptions}} </div>
       </button>
@@ -36,7 +36,7 @@
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/subscribers-user'">
         <i class="fa-solid fa-people-pulling"></i>
-        <div class="t-min bold">Пропозиції Оселі</div>
+        <div class="t-min bold">Пропоз.</div>
         <div class="status" *ngIf="counterUserSubscribers && counterUserSubscribers !== '0'">
           {{counterUserSubscribers}}</div>
       </button>
@@ -45,7 +45,7 @@
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/subscribers-discuss'">
         <i class="fa-solid fa-person-walking-luggage"></i>
-        <div class="t-min bold">Дискусії Орендаря</div>
+        <div class="t-min bold">Дискусії</div>
         <div class="status" *ngIf="counterUserDiscussio && counterUserDiscussio !== '0'">
           {{counterUserDiscussio}}
         </div>
@@ -55,7 +55,7 @@
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/user/agree'">
         <i class="fa-solid fa-envelope-open-text"></i>
-        <div class="t-min bold">Угоди Орендаря</div>
+        <div class="t-min bold">Угоди</div>
         <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== '0'">
           {{counterUserNewAgree}} </div>
       </button>
@@ -66,7 +66,31 @@
   <div class="main-container">
 
     <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
-      <app-navbar-user></app-navbar-user>
+      <div class="card-wrapper">
+        <div [@right1] class="card-content-static w-100">
+          <div class="card-group">
+            <div class="flex-box-center t-c p-2 mt-2 w-100">
+              <i class="fa-regular fa-circle-user"></i>
+              <p class="t-lar-xx bold mb-2 t-c">Профіль Користувача</p>
+              <p class="t-min bold mb-2">Головна сторінка профілю.
+              </p>
+              <p class="t-min mb-2">Тут ви можете бачити доступний функціонал. Інформацію по вашому профілю.
+                Інформацію по вашому профілю орендаря. Сповіщення про повідомлення, дискусії та угоди.</p>
+            </div>
+
+            <div class="btn-group mt-2">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль користувача' }">
+                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                <i class="fa-regular fa-lightbulb"></i>
+              </button>
+            </div>
+
+          </div>
+          <!-- <div class="card-background">
+            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
+          </div> -->
+        </div>
+      </div>
     </div>
 
     <div class="col-lg-9 col-md-9 col-sm-12 col-12">

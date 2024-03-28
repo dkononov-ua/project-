@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { FillingComponent } from './filling/filling.component';
 import { AgreeConcludedComponent } from './agree-h/agree-concluded/agree-concluded.component';
 import { AgreeDeleteComponent } from './agree-h/agree-delete/agree-delete.component';
 import { AgreeMenuComponent } from './agree-h/agree-menu/agree-menu.component';
@@ -21,9 +20,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
-import { ParametersComponent } from './parameters/parameters.component';
-import { HouseShareComponent } from './house-share/house-share.component';
-import { HouseResidentsComponent } from './house-residents/house-residents.component';
 import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { HouseRoutingModule } from './house-routing.module';
@@ -31,13 +27,18 @@ import { HouseInfoComponent } from './house-info/house-info.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './resident/resident.component';
-import { MainInfoComponent } from './main-info/main-info.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActCreateComponent } from './agree-h/act-create/act-create.component';
+import { ParametersComponent } from './house-info/parameters/parameters.component';
+import { HouseShareComponent } from './house-info/house-share/house-share.component';
+import { HouseResidentsComponent } from './resident/house-residents/house-residents.component';
+import { MainInfoComponent } from './house-info/main-info/main-info.component';
+import { ResidentAccessComponent } from './resident/resident-access/resident-access.component';
+import { ResidentOwnerComponent } from './resident/resident-owner/resident-owner.component';
+import { ResidentPageComponent } from './resident/resident-page/resident-page.component';
 @NgModule({
   declarations: [
     HouseComponent,
-    FillingComponent,
     AgreeConcludedComponent,
     AgreeDeleteComponent,
     AgreeMenuComponent,
@@ -49,6 +50,9 @@ import { ActCreateComponent } from './agree-h/act-create/act-create.component';
     ResidentComponent,
     MainInfoComponent,
     ActCreateComponent,
+    ResidentAccessComponent,
+    ResidentOwnerComponent,
+    ResidentPageComponent,
   ],
   providers: [
     DatePipe

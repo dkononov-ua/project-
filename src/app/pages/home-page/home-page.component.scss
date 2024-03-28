@@ -2,6 +2,15 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.footer {
+  position: sticky;
+  bottom: 0;
+}
+
+.content-child {
+  align-content: space-around;
+}
+
 .flex-box {
   flex-wrap: wrap;
   justify-content: space-between;

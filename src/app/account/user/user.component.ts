@@ -2,10 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { CounterService } from 'src/app/services/counter.service';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
+import { animations } from '../../interface/animation';
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.top1,
+    animations.swichCard,
+  ],
 })
 
 
@@ -37,7 +50,7 @@ export class UserComponent implements OnInit {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-  
+
   constructor(
     private isAccountOpenService: IsAccountOpenService,
     private counterService: CounterService,

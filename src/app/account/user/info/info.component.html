@@ -3,9 +3,9 @@
 </ng-container>
 
 <ng-template #content>
-  <div class="main-container">
+  <div class="content-child">
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div [@left1] *ngIf="indexPage === 1" class="card-animation">
+      <div class="card-animation" [@swichCard] *ngIf="indexPage === 0">
         <div class="card-content">
 
           <div class="copyMessage-box" *ngIf="isCopiedMessage">
@@ -13,6 +13,7 @@
             <i class="fa-regular fa-copy"></i>
             <div class="t-lar">Discussio</div>
           </div>
+
           <div class="container-img">
             <div class="wrapper-img">
 
@@ -161,109 +162,112 @@
             </div>
           </div>
 
-          <div class="caruesel-content">
-            <div class="flex-box w-100 border-bottom ">
-              <div class="t-med t-s bold pl-2">Функції користувача</div>
+          <div class="flex-box">
+            <div class="flex-column p-2">
+              <div class="t-lar bold">{{ userInfo.lastName }}</div>
+              <div class="t-min gray">Прізвище</div>
             </div>
-            <div class="caruesel-house">
-              <div class="caruesel-box">
-
-                <button [ngClass]="{'active': userInfo.agree_search === 1}" class="caruesel-card"
-                  [routerLink]="'/looking'">
-                  <div class="caruesel-icon">
-                    <i class="fa-solid fa-person-hiking"></i>
-                  </div>
-                  <div class="caruesel-name">Профіль <br> орендаря <br> <span *ngIf="userInfo.agree_search === 1">
-                      активовано</span></div>
-                </button>
-
-                <button class="caruesel-card" (click)="changeIndexPage(2)">
-                  <div class="caruesel-icon">
-                    <i class="fa-solid fa-address-card"></i>
-                  </div>
-                  <div class="caruesel-name">Пошукові <br> параметри</div>
-                </button>
-
-                <button class="caruesel-card" [routerLink]="'/search-house'">
-                  <div class="caruesel-icon">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                  </div>
-                  <div class="caruesel-name">Пошук <br> оселі</div>
-                </button>
-
-                <button class="caruesel-card" [routerLink]="'/selection-housing'" [queryParams]="{ indexPage: 0 }">
-                  <div class="caruesel-icon">
-                    <i class="fa-solid fa-house-chimney-medical"></i>
-                  </div>
-                  <div class="caruesel-name">Створити <br> оселю</div>
-                </button>
-
-                <button class="caruesel-card" [routerLink]="'/information-user'">
-                  <div class="caruesel-icon">
-                    <i class="fa-solid fa-user-gear"></i>
-                  </div>
-                  <div class="caruesel-name">Налашт. <br> профілю</div>
-                </button>
-              </div>
+            <div class="flex-column p-2">
+              <div class="t-lar bold">{{ userInfo.firstName }}</div>
+              <div class="t-min gray">ім'я</div>
+            </div>
+            <div class="flex-column p-2">
+              <div class="t-lar bold">{{ userInfo.surName }}</div>
+              <div class="t-min gray">По батькові</div>
             </div>
           </div>
 
-          <div class="panel-menu p-2">
-
-            <button class="btn-panel" [routerLink]="'/user/uagree-menu'">
-              <div class="panel-icon">
-                <i class="fa-solid fa-envelope-open-text"></i>
-              </div>
-              <div class="t-min">Угоди</div>
-              <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== '0'">
-                {{counterUserNewAgree}} </div>
-            </button>
-
-            <button class="btn-panel" [routerLink]="'/subscriptions-user'">
-              <div class="panel-icon">
-                <i class="fa-regular fa-heart"></i>
-              </div>
-              <div class="t-min">Вподоб.</div>
-              <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
-                {{counterUserSubscriptions}} </div>
-            </button>
-
-            <button class="btn-panel" [routerLink]="'/subscribers-user'">
-              <div class="panel-icon">
-                <i class="fa-solid fa-people-pulling"></i>
-              </div>
-              <div class="t-min">Пропоз.</div>
-              <div class="status" *ngIf="counterUserSubscribers && counterUserSubscribers !== '0'">
-                {{counterUserSubscribers}}</div>
-            </button>
-
-            <button class="btn-panel" [routerLink]="'/subscribers-discuss'">
-              <div class="panel-icon">
-                <i class="fa-solid fa-person-walking-luggage"></i>
-              </div>
-              <div class="t-min">Дискусії</div>
-              <div class="status" *ngIf="counterUserDiscussio && counterUserDiscussio !== '0'">
-                {{counterUserDiscussio}}
-              </div>
-            </button>
-
-            <button class="btn-panel" [routerLink]="'/chat-host'">
-              <div class="panel-icon">
-                <i class="fa-regular fa-message"></i>
-              </div>
-              <div class="t-min">Повід.</div>
-              <div class="status" *ngIf="counterUserNewMessage && counterUserNewMessage !== false">
-                {{counterUserNewMessage}}
-              </div>
-            </button>
-
+          <div class="flex-box w-100 border-bottom ">
+            <div class="t-med t-s bold pl-2">Функції користувача</div>
           </div>
+
+          <nav class="navbar">
+
+            <a class="link-menu" [routerLink]="'/search/house'">
+              <div class="flex-column w-80">
+                <p class="t-med bold">Пошук</p>
+                <p class="t-min">Оселі</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-magnifying-glass"></i></div>
+            </a>
+
+            <a class="hide-pc link-menu" (click)="onClickMenu(1)">
+              <div class="flex-column w-80">
+                <p class="t-med bold">Профіль</p>
+                <p class="t-min">Орендаря</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-address-card"></i></div>
+            </a>
+
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'">
+              <div class="flex-column w-80">
+                <p class="t-med bold">Редагувати</p>
+                <p class="t-min">Профіль Орендаря</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-person-hiking"></i></div>
+            </a>
+
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
+              <div class="flex-column w-80">
+                <p class="t-med bold">Редагувати</p>
+                <p class="t-min">Профіль</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-gears"></i></div>
+            </a>
+
+          </nav>
+
+
+
+          <!-- <div class="hide-pc">
+            <div class="caruesel-content">
+              <div class="caruesel-house">
+                <div class="caruesel-box">
+
+                  <button [ngClass]="{'active': userInfo.agree_search === 1}" class="caruesel-card"
+                    [routerLink]="'/looking'">
+                    <div class="caruesel-icon">
+                      <i class="fa-solid fa-person-hiking"></i>
+                    </div>
+                    <div class="caruesel-name">Профіль <br> орендаря <br> <span *ngIf="userInfo.agree_search === 1">
+                        активовано</span></div>
+                  </button>
+
+                  <button class="caruesel-card" (click)="onClickMenu(1)">
+                    <div class="caruesel-icon">
+                      <i class="fa-solid fa-address-card"></i>
+                    </div>
+                    <div class="caruesel-name">Пошукові <br> параметри</div>
+                  </button>
+
+                  <button class="caruesel-card" [routerLink]="'/search-house'">
+                    <div class="caruesel-icon">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="caruesel-name">Пошук <br> оселі</div>
+                  </button>
+
+                  <button class="caruesel-card" [routerLink]="'/selection-housing'" [queryParams]="{ indexPage: 0 }">
+                    <div class="caruesel-icon">
+                      <i class="fa-solid fa-house-chimney-medical"></i>
+                    </div>
+                    <div class="caruesel-name">Створити <br> оселю</div>
+                  </button>
+
+                  <button class="caruesel-card" [routerLink]="'/information-user'">
+                    <div class="caruesel-icon">
+                      <i class="fa-solid fa-user-gear"></i>
+                    </div>
+                    <div class="caruesel-name">Налашт. <br> профілю</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
         </div>
       </div>
-    </div>
-
-    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div [@left2] *ngIf="indexPage === 1" class="card-animation">
+      <div class="card-animation hide-pc" [@swichCard] *ngIf="indexPage === 1">
         <div class="card-content" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
           <div class="status-container">
             <div class="status-box">
@@ -313,18 +317,18 @@
             </div>
           </div>
 
-          <div class="param-box mt-5" *ngIf="userInfo.price_of || userInfo.price_to">
-
-            <div class="param-name">Мої пошукові параметри
-              <p class="t-min">за якими мене знайдуть в пошуку</p>
+          <div class="param-box mt-5">
+            <div class="param-name">Профіль Орендаря
+              <p class="t-min">параметри за якими шукаю оселю</p>
             </div>
-
-            <div class="flex-group m-1 w-100">
-              <button class="link-t flex-box-row" [routerLink]="'/looking'">
-                <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off"></i>
+            <div class="flex-group p-2">
+              <button class="link-t" [routerLink]="'/looking'">
+                <span class="m-2">Налаштувати</span><i class="fa-solid fa-gear"></i>
               </button>
             </div>
+          </div>
 
+          <div class="param-box" *ngIf="userInfo.price_of || userInfo.price_to">
             <div class="param-label" *ngIf="userInfo.price_of !== -1">Бюджет в грн:</div>
             <div class="param-group p-1" *ngIf="userInfo.price_of !== -1">
               <div class="param-field" *ngIf="userInfo.price_of">Від :
@@ -348,13 +352,14 @@
             </div>
           </div>
 
-          <div class="param-box">
+          <div class="param-box"
+            *ngIf="userInfo.area_of || userInfo.area_to || userInfo.rooms_of || userInfo.rooms_to || userInfo.repair_status || userInfo.balcony">
             <div class="param-label">Параметри оселі:</div>
 
             <div class="param-group p-1">
 
               <div class="param-field">
-                <div *ngIf="userInfo?.area_of || userInfo.area_to"> Площа:
+                <div *ngIf="userInfo.area_of || userInfo.area_to"> Площа:
                   <span class="param-value" *ngIf="userInfo.area_of">від {{ userInfo.area_of || '?' }}м²</span>
                   <span class="param-value" *ngIf="userInfo.area_to">до {{ userInfo.area_to || '?' }}м²</span>
                 </div>
@@ -373,7 +378,7 @@
                 </div>
               </div>
 
-              <div class="param-field" *ngIf="userInfo?.repair_status">Стан оселі:
+              <div class="param-field" *ngIf="userInfo.repair_status">Стан оселі:
                 <span class="param-value">{{ userInfo.repair_status }}</span>
               </div>
 
@@ -473,20 +478,250 @@
             <div class="t-min ">{{userInfo.about}}</div>
           </div>
           <div class="btn-group p-2">
-            <button class="btn" (click)="indexPage = 1">Назад</button>
+            <button class="btn" (click)="onClickMenu(0)">Назад</button>
           </div>
         </div>
-        <div class="card-content stub-card" *ngIf="!userInfo.agree_search">
-          <a class="stub-card-link" [routerLink]="'/looking'">
-            <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
-            <p class="t-lar accent bold t-c">"Пошуковий профіль" </p>
-            <p class="t-min bold t-c">Вимкнено <br> натисніть сюди для його налаштування</p>
-          </a>
-          <p class="t-lar gray t-c mt-3">Тут будуть Ваші параметри пошуку оселі і те як їх бачуть користувачі в
-            Discussio.
-            Заповніть форму та чекайте коли на Вас підпишеться оселя яку Ви давно хотіли. </p>
+        <div class="card-content al-c jc-c" *ngIf="!userInfo.agree_search">
+          <i class="fa-solid fa-person-hiking t-c accent"></i>
+          <p class="t-lar accent bold t-c">"Профіль Орендаря" <br> Вимкнено</p>
+          <div class="flex-group">
+            <button class="link-t" [routerLink]="'/looking'">
+              <span class="m-2">Налаштувати</span><i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+          <p class="t-med gray t-c mt-3">Тут буде інформація <br> про параметри пошуку
+            оселі, яку ви <br> заповните та активуєте в <br> "Профілі Орендаря".</p>
+          <div class="btn-group p-2">
+            <button class="btn" (click)="onClickMenu(0)">Назад</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-wrapper hide-mobile col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-animation" [@left2]>
+        <div class="card-content" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
+          <div class="status-container">
+            <div class="status-box">
+              <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
+              <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
+              <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>
+              <div class="status-value" *ngIf="userInfo.room === 1">К</div>
+              <div class="status-value" *ngIf="userInfo.woman === 1">W</div>
+              <div class="status-value" *ngIf="userInfo.man === 1">M</div>
+              <div class="status-value" *ngIf="userInfo.students === 1">S</div>
+              <div class="status-value" *ngIf="userInfo.family === 1">F</div>
+            </div>
+            <div class="status-hover">
+              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-text">
+                <ul
+                  *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
+                  Пошук оселі для:
+                  <li *ngIf="userInfo.woman === 1" class="status-hover-li">
+                    <div class="status-value">W</div> - жінки
+                  </li>
+                  <li *ngIf="userInfo.man === 1" class="status-hover-li">
+                    <div class="status-value">M</div> - чоловіка
+                  </li>
+                  <li *ngIf="userInfo.students === 1" class="status-hover-li">
+                    <div class="status-value">S</div> - студента
+                  </li>
+                  <li *ngIf="userInfo.family === 1" class="status-hover-li">
+                    <div class="status-value">F</div> - сім'ї
+                  </li>
+                </ul>
+
+                <ul *ngIf="userInfo.house === 1 || userInfo.flat === 1 || userInfo.room === 1">
+                  Пошук по типу оселі:
+                  <li *ngIf="userInfo.house === 1" class="status-hover-li">
+                    <div class="status-value">Б</div> - Будинок
+                  </li>
+                  <li *ngIf="userInfo.flat === 1" class="status-hover-li">
+                    <div class="status-value">Кв</div> - Квартира
+                  </li>
+                  <li *ngIf="userInfo.room === 1" class="status-hover-li">
+                    <div class="status-value">К</div> - Підійде кімната
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="param-box mt-5">
+            <div class="param-name">Профіль Орендаря
+              <p class="t-min">параметри за якими шукаю оселю</p>
+            </div>
+            <div class="flex-group p-2">
+              <button class="link-t" [routerLink]="'/looking'">
+                <span class="m-2">Налаштувати</span><i class="fa-solid fa-gear"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo.price_of || userInfo.price_to">
+            <div class="param-label" *ngIf="userInfo.price_of !== -1">Бюджет в грн:</div>
+            <div class="param-group p-1" *ngIf="userInfo.price_of !== -1">
+              <div class="param-field" *ngIf="userInfo.price_of">Від :
+                <span class="param-value">{{ userInfo.price_of }} ₴</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.price_to">До:
+                <span class="param-value">{{ userInfo.price_to }} ₴</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo.region || userInfo.city">
+            <div class="param-label">Локація, шукаю оселю в :</div>
+            <div class="param-group p-1">
+              <div class="param-field" *ngIf="userInfo.region">Область :
+                <span class="param-value">{{ userInfo.region }}</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.city">Місто :
+                <span class="param-value">{{ userInfo.city }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="param-box"
+            *ngIf="userInfo.area_of || userInfo.area_to || userInfo.rooms_of || userInfo.rooms_to || userInfo.repair_status || userInfo.balcony">
+            <div class="param-label">Параметри оселі:</div>
+
+            <div class="param-group p-1">
+
+              <div class="param-field">
+                <div *ngIf="userInfo.area_of || userInfo.area_to"> Площа:
+                  <span class="param-value" *ngIf="userInfo.area_of">від {{ userInfo.area_of || '?' }}м²</span>
+                  <span class="param-value" *ngIf="userInfo.area_to">до {{ userInfo.area_to || '?' }}м²</span>
+                </div>
+                <div *ngIf="userInfo?.area_of === '' && userInfo.area_to === ''">Площа: <span class="param-value">
+                    Неважливо </span></div>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.rooms_of || userInfo.rooms_to">
+                <div *ngIf="userInfo.rooms_of !== 0 || userInfo.rooms_to !== 6 "> Кіл. кімнат:
+                  <span class="param-value" *ngIf="userInfo.rooms_of !== 0 && userInfo.rooms_of !== null">від {{
+                    userInfo.rooms_of}}</span>
+                  <span class="param-value" *ngIf="userInfo.rooms_to !== 6">до {{ userInfo.rooms_to}}</span>
+                </div>
+                <div *ngIf="userInfo.rooms_of === 0 && userInfo.rooms_to === 6"> Кіл. кімнат:
+                  <span class="param-value">Неважливо</span>
+                </div>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.repair_status">Стан оселі:
+                <span class="param-value">{{ userInfo.repair_status }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.balcony">
+                Тип балкону:<span class="param-value">{{ userInfo.balcony }}</span> </div>
+            </div>
+          </div>
+
+          <div class="param-box"
+            *ngIf="userInfo.distance_metro || userInfo.distance_stop || userInfo.distance_shop || userInfo.distance_green || userInfo.distance_parking">
+            <div class="param-label">Інфраструктура в доступі:</div>
+
+            <div class="param-group p-1">
+              <div class="param-field" *ngIf="userInfo?.distance_metro !== 0 && userInfo?.distance_metro !== null">
+                Метро до:<span class="param-value">{{ aboutDistance[userInfo.distance_metro] }}</span> </div>
+              <div class="param-field" *ngIf="userInfo?.distance_stop !== 0 && userInfo?.distance_stop !== null">
+                Зупинка до:<span class="param-value">{{ aboutDistance[userInfo.distance_stop] }}</span> </div>
+              <div class="param-field" *ngIf="userInfo?.distance_shop !== 0 && userInfo?.distance_shop !== null">
+                Маркет до:<span class="param-value">{{ aboutDistance[userInfo.distance_shop] }}</span> </div>
+              <div class="param-field" *ngIf="userInfo?.distance_green !== 0 && userInfo?.distance_green !== null">
+                Парк до:<span class="param-value">{{ aboutDistance[userInfo.distance_green] }}</span> </div>
+              <div class="param-field" *ngIf="userInfo?.distance_parking !== 0 && userInfo?.distance_parking !== null">
+                Паркінг:<span class="param-value">{{ aboutDistance[userInfo.distance_parking] }}</span> </div>
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo.bunker || userInfo.animals || userInfo.purpose_rent">
+            <div class="param-label">Особливості:</div>
+            <div class="param-group p-1">
+
+              <div class="param-field" *ngIf="userInfo.purpose_rent">
+                Мета оренди:<span class="param-value" *ngIf="userInfo.purpose_rent !== 'Неважливо'">{{
+                  purpose[userInfo.purpose_rent] }}</span>
+                <span class="param-value" *ngIf="userInfo.purpose_rent === 'Неважливо'">Неважливо</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.bunker">
+                Наявність укриття:<span class="param-value">{{ userInfo.bunker }}</span> </div>
+
+              <div class="param-field" *ngIf="userInfo.animals">
+                <div *ngIf="userInfo.animals !== 'Неважливо'">
+                  Домашні улюбленці: <span class="param-value">{{ animals[userInfo.animals] }} </span> </div>
+                <div *ngIf="userInfo.animals === 'Неважливо'">Домашні улюбленці: <span class="param-value">
+                    Наявність чи відсутність тварин не вказано.</span></div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo.flat || userInfo.house || userInfo.room">
+            <div class="param-label">Розглядаю тип оселі:</div>
+            <div class="param-group p-1">
+              <div class="param-field" *ngIf="userInfo?.flat && userInfo?.flat !== null"><span
+                  class="param-value">Квартира</span> </div>
+              <div class="param-field" *ngIf="userInfo?.house && userInfo?.house !== null"><span
+                  class="param-value">Будинок</span> </div>
+              <div class="param-field" *ngIf="userInfo?.room && userInfo?.room !== null"><span
+                  class="param-value">Кімната</span> </div>
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo.room !== 0">
+            <div class="param-label">Розглядаю сусіда по оселі:</div>
+            <div class="param-group p-1">
+              <div class="param-field" *ngIf="userInfo.looking_man">
+                <span class="param-value">Чоловік</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.looking_woman"><span class="param-value">Жінка</span> </div>
+              <div class="param-field" *ngIf="!userInfo.looking_woman && !userInfo.looking_man"><span
+                  class="param-value">Неважливо який сусід по оселі</span> </div>
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo?.years || userInfo?.mounths || userInfo?.weeks || userInfo?.days">
+            <div class="param-label">Орієнтовний термін оренди:</div>
+            <div class="param-group p-1">
+
+              <div class="param-field" *ngIf="userInfo?.years && userInfo?.years !== null">Роки:<span
+                  class="param-value">{{
+                  userInfo.years }}</span></div>
+
+              <div class="param-field" *ngIf="userInfo?.mounths && userInfo?.mounths !== null">Місяці:
+                <span class="param-value">{{ userInfo.mounths }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo?.weeks && userInfo?.weeks !== null">Тижні:<span
+                  class="param-value">{{ userInfo.weeks }}</span></div>
+
+              <div class="param-field" *ngIf="userInfo?.days && userInfo?.days !== null">Дні:<span
+                  class="param-value">{{
+                  userInfo.days }}</span></div>
+            </div>
+          </div>
+
+          <div class="p-2" *ngIf="userInfo.about">
+            <div class="t-lar">Додаткова інформація:</div>
+            <div class="t-min ">{{userInfo.about}}</div>
+          </div>
+
         </div>
 
+        <div class="card-content al-c jc-c" *ngIf="!userInfo.agree_search">
+          <i class="fa-solid fa-person-hiking t-c accent"></i>
+          <p class="t-lar accent bold t-c">"Профіль Орендаря" <br> Вимкнено</p>
+          <div class="flex-group">
+            <button class="link-t" [routerLink]="'/looking'">
+              <span class="m-2">Налаштувати</span><i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+          <p class="t-med gray t-c mt-3">Тут буде інформація <br> про параметри пошуку
+            оселі, яку ви <br> заповните та активуєте в <br> "Профілі Орендаря".</p>
+        </div>
       </div>
     </div>
   </div>

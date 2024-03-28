@@ -1,800 +1,103 @@
-<ng-container *ngIf="loading; else content">copyTell
+<ng-container *ngIf="loading; else content">
   <app-loader></app-loader>
 </ng-container>
 
 <ng-template #content>
 
-  <div class="info-container" *ngIf="helpMenu">
-    <div class="info-help-box">
+  <div class="switch-content">
+    <div class="t-lar-xx bold dark t-s pl-2">
+      <div [@left] *ngIf="indexPage === 0">Меню мешканці оселі</div>
+      <div [@left] *ngIf="indexPage === 1">Додати мешканця</div>
+    </div>
+    <div [@left1] class="switch-box">
 
-      <div class="info-help-text" *ngIf="helpInfo == 1">
-        <span class="accent bold">Комунальні</span>
-        - повний доступ до меню комунальні послуги,
-        створення/видалення послуг, додавання/видалення показників.
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+          <i class="fa-solid fa-arrow-left"></i>
+          <div class="t-min dark bold">Назад</div>
+        </button>
       </div>
 
-      <div class="info-help-text" *ngIf="helpInfo == 2">
-        <span class="accent bold">Наповнення оселі</span> - додавання/видаляти, коригування
-        наповнення оселі (меблі, обладнання)
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 0}" (click)="indexPage = 0">
+          <i class="fa-solid fa-circle-info"></i>
+          <div class="t-min dark bold">Інфо</div>
+        </button>
       </div>
 
-      <div class="info-help-text" *ngIf="helpInfo == 3">
-        <span class="accent bold">Управління підписниками</span> - дозвіл видаляти або
-        підтверджувати до Discusiї підписників.
+      <div class="switch-btn-group" *ngIf="iResident === 'true'">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/owner'">
+          <i class="fa-solid fa-id-card-clip"></i>
+          <div class="t-min dark bold">Власник.</div>
+        </button>
       </div>
 
-      <div class="info-help-text" *ngIf="helpInfo == 4">
-        <span class="accent bold">Управління Discussiєю</span>
-        - дозвіл до меню Discusiї, можливість
-        видаляти підписників з меню Discusiї,
-        спілкуватись з підписниками від імені оселі.
+      <div class="switch-btn-group" >
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/resident-page'">
+          <i class="fa-solid fa-people-roof"></i>
+          <div class="t-min dark bold">Мешканці</div>
+        </button>
       </div>
 
-      <div class="info-help-text" *ngIf="helpInfo == 5">
-        <span class="accent bold">Управління угодами</span> - дозвіл на укладання та перегляд угод
-        від імені оселі.
+      <div class="switch-btn-group" *ngIf="iResident === 'false'">
+        <button class="btn" [ngClass]="{'active': indexPage === 3}" (click)="indexPage = 1">
+          <i class="fa-solid fa-user-plus"></i>
+          <div class="t-min dark bold">Додати</div>
+        </button>
       </div>
 
-      <div class="info-help-text" *ngIf="helpInfo == 6">
-        <span class="accent bold">Мешканці оселі</span> - дозвіл на перегляд та спілкування з
-        вже доданими мешканцями оселі.
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 7">
-        <span class="accent bold">Додавання показників</span> - можна вносити дані по комунальним
-        послугам без можливості їх створення або видалення.
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 8">
-        <span class="accent bold">Редагування оселі</span> - дозволити редагувати інформацію по
-        оселю.
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 9">
-        <span class="accent bold">Замовлення послуг</span> - замовляти послуги з меню послуг.
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 10">
-        <span class="accent bold">Чат оселі</span> - дозвіл на перегляд та користування чатом від
-        імені оселі.
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 11">
-        <span class="accent bold">Додавати користувачів</span> - дозволити додавання нових
-        користувачів до оселі
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 12">
-        <span class="accent bold">Представник оселі</span> - тільки одна особа може бути
-        представником, вона буде відображатись від імені оселі при
-        веденні Discusiї з підписниками та укладанні угоди.
-        (якщо треба змінити представника то потрібно видалити з оселі попереднього представника).
-      </div>
-
-      <div class="info-help-text" *ngIf="helpInfo == 13">
-        <span class="accent bold">Адміністрування</span> - якщо надати доступ до "Дозволити
-        додавати людей" та "Адміністрування" то мешканець отримає можливість надавати дозволи.
-      </div>
-
-      <button class="btn" (click)="openHelpMenu(0)">Зрозуміло</button>
     </div>
   </div>
 
-  <div class="card-container col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card-box">
+    <!-- меню мешканці -->
+    <div [@left2] class="card-box2" *ngIf="indexPage === 0">
+      <div class="card-menu">
+        <div class="param-box p-2">
 
-    <div class="flex-column w-100">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="switch-box mb-3">
-
-          <div class="switch-btn-group">
-            <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-              <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <div class="t-min dark bold">Назад</div>
+          <div class="param-name">
+            <div class="t-med t-c">В цьому меню знаходяться мешканці оселі яким можна надавати різні доступи,
+              з'являється можливіть оцінювати та залишати відгуки на орендарів та власника. Доступ до швидкого
+              копіювання
+              контактних даних, створення чату або перестворення угоди.</div>
+            <div class="t-min t-c gray"></div>
           </div>
 
-          <div class="switch-btn-group">
-            <button class="btn" [ngClass]="{ 'active': indexMenu == 0}" (click)="onClickMenu(-1,0)">
-              <i class="fa-solid fa-circle-info"></i>
+          <div class="flex-group border1 ">
+            <button class="link-t flex-box-row" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'"
+              [disabled]="iResident === 'true'">
+              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Додати мешканців з меню угод</span>
             </button>
-            <div class="t-min dark bold">Про меню</div>
+            <div class="t-min t-c">Мешканців можна додати після підтвердження ними угоди оренди та створення акту
+              передачі</div>
           </div>
 
-          <div class="switch-btn-group" *ngIf="ownerPage">
-            <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="onClickMenu(1,1)">
-              <i class="fa-solid fa-id-card-clip"></i>
+          <div class="flex-group border1 mt-2">
+            <button class="link-t flex-box-row" (click)="indexPage = 3" [disabled]="iResident === 'true'">
+              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Додати мешканців без угод</span>
             </button>
-            <div class="t-min dark bold">Власник</div>
+            <div class="t-min t-c">Мешканців можна додати напряму по їх ID, в такому випадку оцінювати одне одного
+              ви не зможете</div>
           </div>
 
-          <div class="switch-btn-group">
-            <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="onClickMenu(0,1)">
-              <i class="fa-solid fa-users"></i>
+          <div class="feedback-box p-2">
+            <button class="feedback-box-btn p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
+              <div class="t-med bold mr-2 white">Запропонувати зміни</div>
+              <i class="fa-solid fa-arrow-right white"></i>
             </button>
-            <div class="t-min dark bold">Мешканці</div>
           </div>
 
-          <!-- <div class="switch-btn-group">
-            <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="onClickMenu(2,1)">
-              <i class="fa-solid fa-user-gear"></i>
-            </button>
-            <div class="t-min dark bold">Інформація</div>
-          </div> -->
-
-          <div class="switch-btn-group" *ngIf="!ownerPage">
-            <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="onClickMenu(3,1)">
-              <i class="fa-solid fa-user-plus"></i>
-            </button>
-            <div class="t-min dark bold">Додати</div>
-          </div>
         </div>
 
-        <div class="hide-mobile" *ngIf="indexMenu === 1 && indexPage !== 1">
-          <app-house-residents></app-house-residents>
-        </div>
-      </div>
-
-      <div class="flex-box-row col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="indexMenu === 0">
-        <div class="card-menu col-lg-6 col-md-6 col-sm-12 col-12">
-          <div class="param-box p-2">
-            <div class="param-name"><i class="fa-solid fa-people-roof"></i> Меню мешканців оселі
-              <div class="t-med t-c">тут знаходиться мешканці оселі яким можна надавати різні доступи і з'являється
-                можливіть залишати відгуки на орендарів та власника.
-              </div>
-              <div class="t-min t-c gray">Також доступний доступ до швидкого копіювання контактних даних. Відновлення
-                чату
-                або
-                перестворення угоди.</div>
-            </div>
-          </div>
-          <div class="img-wrapper">
-            <img class="img" src="../../../../assets/example-agree/people_yard3.jpg" alt="">
-          </div>
-        </div>
-
-        <div class="p-2 col-lg-6 col-md-6 col-sm-12 col-12">
-          <div class="t-lar bold">Тут доступні такі можливості:</div>
-
-          <div class="item-group w-100 flex-column p-2">
-            <div class="link-toMenu not-allowed flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold dark">Перегляд інформації.</span>
-            </div>
-            <div class="t-min dark">У вас є завжди під рукою інформація про власника чи орендара.</div>
-          </div>
-
-          <div class="item-group w-100 flex-column p-2">
-            <div class="link-toMenu not-allowed flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold dark">Надання дозволів.</span>
-            </div>
-            <div class="t-min dark">Деталі про кожен дозвіл описані на картці.</div>
-          </div>
-
-          <div class="item-group w-100 flex-column p-2">
-            <div class="link-toMenu not-allowed flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold dark">Додавання в мешканці.</span>
-            </div>
-            <div class="t-min">Додавання в список мешканців без створення угоди. Доступне якщо ви власник або маєте
-              необхідний доступ.</div>
-          </div>
-
-          <div class="item-group w-100 flex-column p-2">
-            <div class="link-toMenu not-allowed flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold dark">Написання відгуків.</span>
-            </div>
-            <div class="t-min dark">Кожен місяць проживання ви можете залишати відгуки про власника або орендара.</div>
-          </div>
-
-          <div class="item-group w-100 flex-column p-2">
-            <div class="link-toMenu not-allowed flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold dark">Створення чату та угоди.</span>
-            </div>
-          </div>
-
-          <div class="item-group w-100 flex-column p-2">
-            <div class="link-toMenu not-allowed flex-box-row">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold dark">Видалення з оселі.</span>
-            </div>
-          </div>
-
+        <div class="img-wrapper">
+          <img class="img" src="../../../../assets/example-agree/people_yard3.jpg" alt="">
         </div>
       </div>
     </div>
-
-    <div class="col-lg-6 col-md-5 col-sm-6 col-12" *ngIf="indexMenu === 1">
-
-      <!-- список мешканців -->
-      <div class="p-2 hide-pc" *ngIf="indexPage === 0">
-        <div class="p-2">
-          <app-house-residents></app-house-residents>
-        </div>
-      </div>
-
-      <!-- картка власник -->
-      <div class="card" *ngIf="indexPage === 1">
-        <div class="img-fluid">
-          <img [src]="serverPathPhotoUser + (ownerInfo?.img ? ownerInfo?.img : 'user_default.svg')" alt="User Image">
-
-          <div class="btn-container">
-
-            <div class="img-btn-box" *ngIf="ratingOwner">
-              <button class="img-btn" (click)="indexPage = 5"><i class="fa-regular fa-star"></i>
-              </button>
-              <div><span class="t-med bold">{{ratingOwner}} </span><span class="t-min">({{numberOfReviewsOwner}})</span>
-              </div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="createChat(ownerInfo)"><i class="fa-solid fa-message"></i></button>
-              <div class="t-min">Написати</div>
-              <div class="t-min" *ngIf="statusMessageChat === true">Чат створено!</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="indexCard = 0" [ngClass]="{ 'active': indexCard === 0 }">
-                <i class="fa-solid fa-person-half-dress"></i></button>
-              <div class="t-min">Профіль</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" (click)="indexCard = 1" [ngClass]="{ 'active': indexCard === 1 }">
-                <i class="fa-regular fa-comment-dots"></i></button>
-              <div class="t-min">Відгук</div>
-            </div>
-          </div>
-
-        </div>
-        <!-- власник інформація -->
-        <div *ngIf="ownerInfo && indexCard === 0">
-          <div class="btn-container2">
-            <div class="img-btn-box" *ngIf="ownerInfo.tell">
-              <button class="img-btn" (click)="copyTell(ownerInfo.tell)"><i class="fa-solid fa-phone"></i></button>
-              <div class="t-min">Телефон</div>
-              <div class="t-min bold accent">{{ ownerInfo.tell }}</div>
-            </div>
-
-            <div class="img-btn-box">
-              <button class="img-btn" matTooltip="Копіювати" (click)="copyId(ownerInfo.user_id)"><i
-                  class="fa-solid fa-info"></i><i class="fa-solid fa-d"></i></button>
-              <div class="t-min">ID власника:</div>
-              <div class="t-min bold accent">{{ ownerInfo.user_id }}</div>
-            </div>
-
-            <div class="img-btn-box" *ngIf="ownerInfo.mail">
-              <button class="img-btn" (click)="copyMail(ownerInfo.mail)"><i class="fa-solid fa-at"></i></button>
-              <div class="t-min">Пошта</div>
-              <div class="t-min bold accent">{{ (ownerInfo.mail | slice:0:10)}}</div>
-            </div>
-
-            <div class="img-btn-box" *ngIf="ratingOwner">
-              <button class="img-btn"><i class="fa-solid fa-medal"></i></button>
-              <div class="t-min">Рейтинг власника</div>
-              <div class="t-min bold accent">{{ ratingOwner }}</div>
-            </div>
-
-          </div>
-
-          <div class="item-wrapper p-3">
-            <div class="item-name">{{ ownerInfo.lastName }}</div>
-            <div class="item-name">{{ ownerInfo.firstName }}</div>
-            <div class="item-name">{{ ownerInfo.surName }}</div>
-          </div>
-
-          <div class="social-link-container">
-            <div class="social-link-box" *ngIf="!ownerInfo.instagram && !ownerInfo.facebook && !ownerInfo.telegram">
-              <p class="text">Посилання відсутні.</p>
-              <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
-                інформаці</p>
-            </div>
-
-            <div class="social-link-box" *ngIf="ownerInfo.instagram">
-              <a class="social-link-icon" target="_blank" href="https://www.instagram.com/{{  ownerInfo.instagram }}"><i
-                  class="fab fa-brands fa-instagram"></i></a>
-              <div class="social-link-name">instagram</div>
-            </div>
-
-            <div class="social-link-box" *ngIf="ownerInfo.facebook">
-              <a class="social-link-icon" target="_blank" href="https://www.facebook.com/{{ ownerInfo.facebook }}"><i
-                  class="fab fa-brands fa-facebook"></i></a>
-              <div class="social-link-name">facebook</div>
-            </div>
-
-            <div class="social-link-box" *ngIf="ownerInfo.telegram">
-              <a class="social-link-icon" target="_blank" href="https://t.me/{{ ownerInfo.telegram }}"><i
-                  class="fab fa-brands fa-telegram"></i></a>
-              <div class="social-link-name">telegram</div>
-            </div>
-
-            <div class="social-link-box" *ngIf="ownerInfo.viber">
-              <a class="social-link-icon" (click)="copyViber(ownerInfo.viber)"><i
-                  class="fab fa-brands fa-viber"></i></a>
-              <div class="social-link-name">viber</div>
-            </div>
-
-          </div>
-        </div>
-        <!-- власник рейтинг -->
-        <div *ngIf="indexCard === 1">
-          <div class="status-container ">
-            <div class="status-box">
-              <div class="status-value">Допомога</div>
-            </div>
-            <div class="status-hover">
-              <div class="status-hover-label">Забезпечення Зручності та Довіри</div>
-              <div class="status-hover-text">Система <span class="accent bold">"Рейтинг
-                  орендодавця"</span>дозволяє орендарам оцінювати орендодавців раз на місяць. Вони можуть
-                редагувати свої оцінки протягом 45 днів після їх поставлення. Ця система допомагає створити довіру з
-                самого початку до власника або застерегти орендарів від можливих проблем.
-                <span class="accent bold">Оцінити орендодавця може лише орендар з яким був сформований акт-прийому
-                  передачі оселі.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="group-rating p-2">
-            <mat-form-field class="w-100">
-              <mat-label>Дата відгуку</mat-label>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
-                name="ratingDate">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-label class="t-med bold">Ваша оцінка орендодавцю</mat-label>
-            <mat-radio-group class="radio-group w-100 p-2" aria-label="Select an option"
-              [(ngModel)]="rating.ratingValue">
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="-10">
-                  <i class="fa-regular fa-face-angry abs" [ngClass]="{ 'active': rating.ratingValue === '1' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="-5">
-                  <i class="fa-regular fa-face-frown abs" [ngClass]="{ 'active': rating.ratingValue === '2' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="3">
-                  <i class="fa-regular fa-face-meh abs" [ngClass]="{ 'active': rating.ratingValue === '3' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="5">
-                  <i class="fa-regular fa-face-grin abs" [ngClass]="{ 'active': rating.ratingValue === '4' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="10">
-                  <i class="fa-regular fa-face-smile-beam abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
-                </mat-radio-button>
-              </div>
-
-            </mat-radio-group>
-
-            <mat-form-field class="form-field w-100">
-              <mat-label>Відгук</mat-label>
-              <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
-                placeholder="Опишіть що вплинуло на вашу оцінку."></textarea>
-            </mat-form-field>
-          </div>
-          <div class="btn-group p-1 w-100">
-            <button class="btn w-100" (click)="sendRatingOwner(selectedSubscriber)">
-              <i class="fa-solid fa-check-double"></i>Відправити
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- картка орендар -->
-      <div class="tenant-card" *ngIf="indexPage === 2 && selectedSubscriber">
-        <div class="copyMessage-box" *ngIf="isCopiedMessage">
-          <div class="copyMessage-text">{{isCopiedMessage}}</div>
-          <i class="fa-regular fa-copy"></i>
-          <div class="t-lar dark bold">Discussio</div>
-        </div>
-
-        <div class="panel-tenants">
-          <div class="wrapper">
-
-            <button class="btn-panel" (click)="indexCard = 0" [ngClass]="{ 'active': indexCard === 0 }">
-              <i class="fa-regular fa-user"></i>
-              <div class="t-min">Профіль</div>
-            </button>
-
-            <button class="btn-panel" (click)="indexCard = 1" [ngClass]="{ 'active': indexCard === 1 }">
-              <i class="fa-solid fa-ranking-star"></i>
-              <div class="t-min">Відгук</div>
-            </button>
-
-            <button class="btn-panel" (click)="indexCard = 2" [ngClass]="{ 'active': indexCard === 2 }">
-              <i class="fa-solid fa-user-gear"></i>
-              <div class="t-min">Дозволи</div>
-            </button>
-
-            <button class="btn-panel" (click)="indexCard = 3" [ngClass]="{ 'active': indexCard === 3 }">
-              <div class="flex-box btn-rating">
-                <i class="fa-solid fa-star"></i>
-                <div class="t-lar bold accent abs" *ngIf="ratingTenant">{{ratingTenant}}</div>
-                <div class="t-min bold accent abs-1" *ngIf="ratingTenant">({{numberOfReviews}})</div>
-              </div>
-              <div class="t-min">Рейтинг</div>
-            </button>
-
-            <button class="btn-panel" (click)="removeUser(selectedSubscriber)">
-              <i class="fa-solid fa-user-xmark"></i>
-              <div class="t-min">Видалити</div>
-            </button>
-
-          </div>
-        </div>
-
-        <!-- орендар інформація -->
-        <div [@cardAnimationTop] class="card" *ngIf="indexCard === 0">
-
-          <!-- орендар фото -->
-          <div class="img-fluid">
-            <div class="img-wrapper" *ngIf="indexCard === 0">
-              <img
-                [src]="serverPathPhotoUser + (selectedSubscriber.photo ? selectedSubscriber.photo : 'user_default.svg')"
-                alt="User Image">
-            </div>
-            <div class="panel-container">
-              <div class="wrapper">
-
-                <button class="btn-panel" (click)="createChat(selectedSubscriber)"><i class="fa-solid fa-message"></i>
-                  <div class="t-min">Повід.</div>
-                  <div class="t-min" *ngIf="statusMessageChat === true">Чат створено!</div>
-                </button>
-
-                <button class="btn-panel" [routerLink]="['/agree-create', selectedSubscriber.user_id]">
-                  <i class="fa-solid fa-file-contract"></i>
-                  <div class="t-min">Угода</div>
-                </button>
-
-                <button class="btn-panel" (click)="reportUser(selectedSubscriber)"><i
-                    class="fa-solid fa-masks-theater"></i>
-                  <div class="t-min">Скарга</div>
-                </button>
-
-                <button class="btn-panel" (click)="copyTell(selectedSubscriber.tell)" *ngIf="selectedSubscriber.tell"><i
-                    class="fa-solid fa-phone"></i>
-                  <div class="t-min">Телефон</div>
-                </button>
-
-                <button class="btn-panel" (click)="copyId(selectedSubscriber.user_id)"><i
-                    class="fa-solid fa-fingerprint"></i>
-                  <div class="t-min">ID</div>
-                </button>
-
-                <button class="btn-panel" (click)="copyMail(selectedSubscriber.mail)" *ngIf="selectedSubscriber.mail"><i
-                    class="fa-solid fa-at"></i>
-                  <div class="t-min">Пошта</div>
-                </button>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="flex-box p-2">
-            <div class="t-lar-xx t-c bold p-1">{{ selectedSubscriber.lastName }} </div>
-            <div class="t-lar-xx t-c bold p-1">{{ selectedSubscriber.firstName }}</div>
-            <div class="t-lar-x t-c p-1">{{ selectedSubscriber.surName }}</div>
-          </div>
-
-          <div class="social-link-container">
-            <div class="social-link-box"
-              *ngIf="!selectedSubscriber.instagram && !selectedSubscriber.facebook && !selectedSubscriber.telegram">
-              <p class="text">Посилання відсутні.</p>
-              <p class="text">Додайте їх в налаштуваннях, так власники оселі зможуть дізнатись про вас більше
-                інформаці</p>
-            </div>
-
-            <div class="social-link-box" *ngIf="selectedSubscriber.instagram">
-              <a class="social-link-icon" target="_blank"
-                href="https://www.instagram.com/{{  selectedSubscriber.instagram }}"><i
-                  class="fab fa-brands fa-instagram"></i></a>
-              <div class="social-link-name">instagram</div>
-            </div>
-
-            <div class="social-link-box" *ngIf="selectedSubscriber.facebook">
-              <a class="social-link-icon" target="_blank"
-                href="https://www.facebook.com/{{ selectedSubscriber.facebook }}"><i
-                  class="fab fa-brands fa-facebook"></i></a>
-              <div class="social-link-name">facebook</div>
-            </div>
-
-            <div class="social-link-box" *ngIf="selectedSubscriber.telegram">
-              <a class="social-link-icon" target="_blank" href="https://t.me/{{ selectedSubscriber.telegram }}"><i
-                  class="fab fa-brands fa-telegram"></i></a>
-              <div class="social-link-name">telegram</div>
-            </div>
-
-            <div class="social-link-box" *ngIf="selectedSubscriber.viber">
-              <a class="social-link-icon" (click)="copyViber(selectedSubscriber.viber)"><i
-                  class="fab fa-brands fa-viber"></i></a>
-              <div class="social-link-name">viber</div>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- орендар рейтинг -->
-        <div [@cardAnimationTop] class="card p-2" *ngIf="indexCard === 1">
-          <div class="status-container ">
-            <div class="status-box">
-              <div class="status-value">Допомога</div>
-            </div>
-            <div class="status-hover">
-              <div class="status-hover-label">Забезпечення Зручності та Довіри</div>
-              <div class="status-hover-text">Система <span class="accent bold">"Рейтинг
-                  орендара"</span>дозволяє власникам нерухомості оцінювати орендарів раз на місяць. Вони можуть
-                редагувати свої оцінки протягом 45 днів після їх поставлення. Ця система допомагає створити довіру
-                з самого початку до орендара або застерегти власників від можливих проблем.
-                <span class="accent bold">Оцінити можна лише того орендара з яким у вас є акт-прийому передачі
-                  оселі.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="t-lar t-e bold p-1 accent">Відгук про мешканця</div>
-
-          <div class="group-rating p-2">
-            <mat-form-field class="w-100">
-              <mat-label>Дата відгуку</mat-label>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
-                name="ratingDate">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-label class="t-med bold">Ваша оцінка орендару</mat-label>
-            <mat-radio-group class="radio-group w-100 p-2" aria-label="Select an option"
-              [(ngModel)]="rating.ratingValue">
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="-10">
-                  <i class="fa-regular fa-face-angry abs" [ngClass]="{ 'active': rating.ratingValue === '-10' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="-5">
-                  <i class="fa-regular fa-face-frown abs" [ngClass]="{ 'active': rating.ratingValue === '-5' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="3">
-                  <i class="fa-regular fa-face-meh abs" [ngClass]="{ 'active': rating.ratingValue === '3' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="5">
-                  <i class="fa-regular fa-face-grin abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
-                </mat-radio-button>
-              </div>
-
-              <div class="radio-btn">
-                <mat-radio-button color="warn" value="10">
-                  <i class="fa-regular fa-face-smile-beam abs"
-                    [ngClass]="{ 'active': rating.ratingValue === '10' }"></i>
-                </mat-radio-button>
-              </div>
-
-            </mat-radio-group>
-
-            <mat-form-field class="form-field w-100">
-              <mat-label>Відгук</mat-label>
-              <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
-                placeholder="Опишіть що вплинуло на вашу оцінку."></textarea>
-            </mat-form-field>
-          </div>
-          <div class="btn-group p-1 w-100">
-            <button class="btn w-100" (click)="sendRating(selectedSubscriber)">
-              <i class="fa-solid fa-check-double"></i>Відправити
-            </button>
-          </div>
-        </div>
-
-        <!-- орендар доступ -->
-        <div [@cardAnimationTop] class="card checkbox-container" *ngIf="indexCard === 2">
-
-          <div class="status-container ">
-            <div class="status-box">
-              <div class="status-value">Допомога</div>
-            </div>
-            <div class="status-hover">
-              <div class="status-hover-label">Дозволи оселі</div>
-              <div class="status-hover-text">
-                Орендар не може сам надавати собі дозволи тільки власник або андміністратор може надавати всі необхідні
-                дозволи, детально про кожен описано поряд з дозволом.
-              </div>
-            </div>
-          </div>
-
-          <div class="t-lar t-e bold p-1 accent">Надати дозволи мешканцю</div>
-
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal">
-              <span class="checkbox-name">Комунальні</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(1)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_filling">
-              <span class="checkbox-name">Наповнення оселі</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(2)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_subs">
-              <span class="checkbox-name">Управління підписниками</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(3)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_discuss">
-              <span class="checkbox-name">Управління Discussiєю</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(4)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_agreement">
-              <span class="checkbox-name">Управління угодами</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(5)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_citizen">
-              <span class="checkbox-name">Мешканці оселі</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(6)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal_indexes">
-              <span class="checkbox-name">Додавання показників</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(7)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_flat_features">
-              <span class="checkbox-name">Редагування оселі</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(8)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <!-- <div class="checkbox-group">
-          <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_services">
-            <span class="checkbox-name">Замовлення послуг</span></mat-checkbox>
-          <button class="checkbox-btn w-30" (click)="openHelpMenu(9)"><i class="fa-solid fa-question"></i></button>
-        </div> -->
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_flat_chats">
-              <span class="checkbox-name">Чат оселі</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(10)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_added">
-              <span class="checkbox-name">Додавати користувачів</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(11)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_agent">
-              <span class="checkbox-name">Представник оселі</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(12)"><i class="fa-solid fa-question"></i></button>
-          </div>
-          <div class="checkbox-group">
-            <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_admin">
-              <span class="checkbox-name">Адміністрування</span></mat-checkbox>
-            <button class="checkbox-btn w-30" (click)="openHelpMenu(13)"><i class="fa-solid fa-question"></i></button>
-          </div>
-
-          <div class="btn-group p-1 w-100">
-            <button class="btn w-100" (click)="addAccess(selectedSubscriber)">
-              <i class="fa-solid fa-check-double"></i>Підтвердити
-            </button>
-          </div>
-
-
-        </div>
-
-        <!-- орендар відгуки -->
-        <div [@cardAnimationTop] class="card p-2" *ngIf="indexCard === 3">
-          <div class="t-lar-x bold accent">Відгуки власників</div>
-
-          <div *ngIf="reviews">
-            <div class="card-reviews p-2 m-2" *ngFor="let review of reviews">
-              <div class="flex-box">
-
-                <div class="img-review-wrapper">
-                  <img class="img-review-fluid"
-                    [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
-                    alt="img">
-                </div>
-
-                <div class="flex-box">
-                  <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
-                    {{review.reporter.surName}}</div>
-                </div>
-
-                <div class="flex-box">
-                  <div class="t-min">ID відправника:{{review.info.appraiser}}</div>
-                </div>
-              </div>
-              <div class="flex-column">
-                <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
-                    class="accent"> {{review.info.mark}}</span></div>
-                <div class="t-min">{{review.info.about}}</div>
-              </div>
-            </div>
-          </div>
-
-          <div *ngIf="!reviews">
-            <div class="t-lar">Відгуків ще немає...</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- власник відгуки -->
-      <div class="card p-2" *ngIf="indexPage === 5">
-        <div class="t-lar-xx">Відгуки орендарів</div>
-
-        <div class="btn-container-close">
-          <div class="flex-box-column p-1">
-            <button class="btn-close" (click)="indexPage = 2"></button>
-            <div class="t-min">Назад</div>
-          </div>
-        </div>
-
-        <div *ngIf="reviewsOwner">
-          <div class="card-reviews p-2 m-2" *ngFor="let review of reviewsOwner">
-            <div class="flex-box">
-
-              <div class="img-review-wrapper">
-                <img class="img-review-fluid"
-                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
-                  alt="img">
-              </div>
-
-              <div class="flex-box">
-                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
-                  {{review.reporter.surName}}</div>
-              </div>
-
-              <div class="flex-box">
-                <div class="t-min">ID відправника:{{review.info.appraiser}}</div>
-              </div>
-            </div>
-            <div class="flex-column">
-              <div class="t-min">Дата відгуку: <span class="accent"> {{review.info.data |date}}</span> Оцінка: <span
-                  class="accent"> {{review.info.mark}}</span></div>
-              <div class="t-min">{{review.info.about}}</div>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="!reviewsOwner">
-          <div class="t-lar-xx">Відгуків ще немає</div>
-        </div>
-      </div>
-
-      <!-- додавання мешканців -->
-      <div class="p-2" *ngIf="indexPage === 3">
-        <div class="t-lar bold mb-2">Через цю форму можна додавати мешканців без створення угод.</div>
-        <app-user-search class="w-100"></app-user-search>
-        <div class="t-min dark">Важливо що перед додаванням у майбутнього мешканця має бути ввімкнено в налаштуваннях
-          його
-          аккаунту "Дозвіл на додавання в оселю" це дає можливість обійти створення угоди.
-          Це може бути корисним якщо ви захочете додати і членів вашої сім'ї до оселі щоб вони могли також керувати або
-          переглядати інформацію про оселю.</div>
-        <div class="item-group w-100 flex-column p-2">
-          <button class="link-toMenu not-allowed flex-box-row" [routerLink]="'/information-user'">
-            <i class="fa-solid fa-arrow-right"></i><span class="ml-2 bold">Увімкнути дозвіл тут.</span>
-          </button>
-        </div>
-      </div>
-
-
+    <!-- додавання мешканців -->
+    <div [@left2] class="card-box2 p-2" *ngIf="indexPage === 1">
+      <app-user-search></app-user-search>
     </div>
-
   </div>
 
 </ng-template>

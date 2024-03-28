@@ -1,0 +1,154 @@
+<div class="card-box">
+  <div class="info-container" *ngIf="helpMenu">
+    <div class="info-help-box t-c">
+      <i class="fa-solid fa-info"></i>
+      <div class="info-help-text" *ngIf="helpInfo == 1">
+        <span class="accent bold">Комунальні</span>
+        - повний доступ до меню комунальні послуги,
+        створення/видалення послуг, додавання/видалення показників.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 2">
+        <span class="accent bold">Наповнення оселі</span> - додавання/видаляти, коригування
+        наповнення оселі (меблі, обладнання)
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 3">
+        <span class="accent bold">Управління підписниками</span> - дозвіл видаляти або
+        підтверджувати до Discusiї підписників.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 4">
+        <span class="accent bold">Управління Discussiєю</span>
+        - дозвіл до меню Discusiї, можливість
+        видаляти підписників з меню Discusiї,
+        спілкуватись з підписниками від імені оселі.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 5">
+        <span class="accent bold">Управління угодами</span> - дозвіл на укладання та перегляд угод
+        від імені оселі.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 6">
+        <span class="accent bold">Мешканці оселі</span> - дозвіл на перегляд та спілкування з
+        вже доданими мешканцями оселі.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 7">
+        <span class="accent bold">Додавання показників</span> - можна вносити дані по комунальним
+        послугам без можливості їх створення або видалення.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 8">
+        <span class="accent bold">Редагування оселі</span> - дозволити частично редагувати інформацію оселі, а саме
+        коригування інформації яка не стосується її параметрів та локації, потрібно якщо орендарь шукатиме сусіда в
+        оселю.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 9">
+        <span class="accent bold">Замовлення послуг</span> - замовляти послуги з меню послуг.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 10">
+        <span class="accent bold">Чат оселі</span> - дозвіл на перегляд та користування чатом від
+        імені оселі.
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 11">
+        <span class="accent bold">Додавати користувачів</span> - дозволити додавання нових
+        користувачів до оселі
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 12">
+        <span class="accent bold">Представник оселі</span> - тільки одна особа може бути
+        представником, вона буде відображатись від імені оселі при
+        веденні Discusiї з підписниками та укладанні угоди.
+        (якщо треба змінити представника то потрібно видалити з оселі попереднього представника).
+      </div>
+      <div class="info-help-text" *ngIf="helpInfo == 13">
+        <span class="accent bold">Надавати дозволи</span> - мешканець отримує можливість надавати дозволи до оселі
+        іншим
+        користувачам.
+      </div>
+      <button class="btn mt-3" (click)="openHelpMenu(0)">Зрозуміло</button>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="user-id-box mt-2 w-100">
+      <div class="flex-box t-lar-xx bold t-s">
+        <div>{{ selectedSubscriber.lastName }}</div>
+        <div class="pl-2">{{ selectedSubscriber.firstName }}</div>
+      </div>
+    </div>
+    <div class="t-min gray t-c p-2">
+      Дозволи може надавати власник або адміністратор, деталі описані поряд з дозволом.
+    </div>
+
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_filling">
+        <span class="checkbox-name">Наповнення оселі</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(2)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_subs">
+        <span class="checkbox-name">Управління підписниками</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(3)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_discuss">
+        <span class="checkbox-name">Управління Discussiєю</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(4)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_citizen">
+        <span class="checkbox-name">Мешканці оселі</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(6)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_comunal_indexes" (ngModelChange)="accesCheck()">
+        <span class="checkbox-name">Додавання показників</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(7)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox [disabled]="!selectedSubscriber.acces_comunal_indexes" color="warn"
+        [(ngModel)]="selectedSubscriber.acces_comunal">
+        <span class="checkbox-name">Комунальні</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(1)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_flat_features">
+        <span class="checkbox-name">Редагування оселі</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(8)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_flat_chats">
+        <span class="checkbox-name">Чат оселі</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(10)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_agent" (ngModelChange)="accesCheck()">
+        <span class="checkbox-name">Представник оселі</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(12)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox [disabled]="!selectedSubscriber.acces_agent" color="warn"
+        [(ngModel)]="selectedSubscriber.acces_agreement">
+        <span class="checkbox-name">Управління угодами</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(5)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox color="warn" [(ngModel)]="selectedSubscriber.acces_added" (ngModelChange)="accesCheck()">
+        <span class="checkbox-name">Додавати користувачів</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(11)"><i class="fa-solid fa-question"></i></button>
+    </div>
+    <div class="checkbox-group">
+      <mat-checkbox [disabled]="!selectedSubscriber.acces_added" color="warn"
+        [(ngModel)]="selectedSubscriber.acces_admin">
+        <span class="checkbox-name">Надавати дозволи</span></mat-checkbox>
+      <button class="checkbox-btn w-30" (click)="openHelpMenu(13)"><i class="fa-solid fa-question"></i></button>
+    </div>
+  </div>
+
+  <div class="btn-group p-1 w-100">
+    <button class="btn w-100" (click)="addAccess(selectedSubscriber)">
+      <i class="fa-solid fa-check-double"></i>Підтвердити
+    </button>
+  </div>
+</div>
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

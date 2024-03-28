@@ -1,0 +1,22 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="btn-group" *ngIf="selectedFlatId">
+    <button class="btn" (click)="openDialog()" *ngIf="acces_admin === 1">
+      <i class="fa-solid fa-circle-minus"></i>
+      <div class="t-min dark">Видалити <br> {{selectedFlatName}}</div>
+    </button>
+
+    <button class="btn" (click)="exitHouse()">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <div class="t-min dark">Вийти з <br> {{selectedFlatName}}</div>
+    </button>
+
+    <button class="btn" [routerLink]="'/house/house-info'">
+      <i class="fa-solid fa-house"></i>
+      <div class="t-min dark">Перейти до <br> {{selectedFlatName}}</div>
+    </button>
+  </div>
+</ng-template>

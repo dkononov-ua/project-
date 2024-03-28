@@ -1,0 +1,137 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="card-animation" *ngIf="indexPage === 1" [@swichCard]>
+    <div class="card">
+
+      <ng-container *ngIf="allFlats || allFlatsTenant">
+
+        <div class="p-2 w-100" *ngIf="selectedFlatId">
+          <div class="pick-house pick">
+            <div class="t-med bold">Ви обрали оселю {{selectedFlatName}}</div>
+            <div class="t-med">ID оселі: {{selectedFlatId}}</div>
+          </div>
+        </div>
+
+        <div class="p-2 w-100" *ngIf="!selectedFlatId">
+          <div class="pick-house">
+            <div class="t-lar bold">Ви не обрали оселю</div>
+            <div class="t-med bold">Виберіть оселю </div>
+          </div>
+        </div>
+
+        <div class="cards-container p-2" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
+          <div class="flatsOwn w-100 border-bottom" *ngIf="allFlats && allFlats.length > 0">
+            <div class="t-lar bold t-c">Власні оселі</div>
+            <div class="card-mini mb-2" *ngFor="let flat of allFlats" (click)="selectFlat(flat)"
+              [ngClass]="{ 'selected': chooseFlatID === flat.flat_id }">
+
+              <div class="card-mini-body p-2">
+                <div class="t-med  bold t-s accent" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
+                <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
+                <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
+              </div>
+
+              <ng-container *ngIf="flat.flat_img && isLoadingImg">
+                <div class="card-mini-img">
+                  <img
+                    [src]="flat.flat_img ? serverPathPhotoFlat + flat.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+                    alt="img">
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="flat.flat_img && !isLoadingImg">
+                <div class="card-mini-img">
+                  <div class="container-loader-mini">
+                    <mat-spinner color="warn"></mat-spinner>
+                    <img
+                      [src]="flat.flat_img && flat.flat_img ? serverPathPhotoFlat + flat.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+                      alt="img" (load)="isLoadingImg = true" hidden>
+                    <div class="t-min gray mt-2">Завантаження фото</div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="!flat.flat_img">
+                <div class="card-mini-img">
+                  <img src="../../../../assets/housing_default.svg" alt="img">
+                </div>
+              </ng-container>
+
+            </div>
+          </div>
+          <div class="flatsTenant w-100 border-bottom" *ngIf="allFlatsTenant && allFlatsTenant.length > 0">
+            <div class="t-lar bold t-c">Орендовані оселі</div>
+            <div class="card-mini mb-2" *ngFor="let flat of allFlatsTenant" (click)="selectFlat(flat)"
+              [ngClass]="{ 'selected': chooseFlatID === flat.flat_id  }">
+
+              <div class="status-container m-2"
+                *ngIf="flat.acces_discuss === 1 || flat.acces_admin === 1 || flat.acces_agent === 1 || flat.acces_agreement === 1 || flat.acces_citizen === 1 || flat.acces_comunal === 1 || flat.acces_comunal_indexes === 1 || flat.acces_discuss === 1 || flat.acces_filling === 1 || flat.acces_flat_chats === 1 || flat.acces_flat_features === 1 || flat.acces_services === 1 || flat.acces_subs === 1">
+                <div class="status-box">
+                  <div class="status-value" *ngIf="flat.acces_discuss === 1">Дискусія</div>
+                  <div class="status-value" *ngIf="flat.acces_admin === 1">Адмінстратор</div>
+                  <div class="status-value" *ngIf="flat.acces_agent === 1">Представник</div>
+                  <div class="status-value" *ngIf="flat.acces_agreement === 1">Угоди</div>
+                  <div class="status-value" *ngIf="flat.acces_citizen === 1">Мешканці</div>
+                  <div class="status-value" *ngIf="flat.acces_comunal === 1">Комунальні</div>
+                  <div class="status-value" *ngIf="flat.acces_comunal_indexes === 1">Лічильник</div>
+                  <div class="status-value" *ngIf="flat.acces_filling === 1">Наповнення</div>
+                  <div class="status-value" *ngIf="flat.acces_flat_chats === 1">Чат</div>
+                  <div class="status-value" *ngIf="flat.acces_flat_features === 1">Пошук</div>
+                  <div class="status-value" *ngIf="flat.acces_subs === 1">Підписки</div>
+                  <!-- <div class="status-value" *ngIf="flat.acces_services === 1">Послуги</div> -->
+                </div>
+              </div>
+
+              <div class="card-mini-body p-2">
+                <div class="t-med  bold t-s accent" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
+                <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
+                <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
+              </div>
+
+              <ng-container *ngIf="flat.flat_img && isLoadingImg">
+                <div class="card-mini-img">
+                  <img
+                    [src]="flat.flat_img ? serverPathPhotoFlat + flat.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+                    alt="img">
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="flat.flat_img && !isLoadingImg">
+                <div class="card-mini-img">
+                  <div class="container-loader-mini">
+                    <mat-spinner color="warn"></mat-spinner>
+                    <img
+                      [src]="flat.flat_img && flat.flat_img ? serverPathPhotoFlat + flat.flat_img : serverPathPhotoFlat + 'housing_default.svg'"
+                      alt="img" (load)="isLoadingImg = true" hidden>
+                    <div class="t-min gray mt-2">Завантаження фото</div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="!flat.flat_img">
+                <div class="card-mini-img">
+                  <img src="../../../../assets/housing_default.svg" alt="img">
+                </div>
+              </ng-container>
+
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="sticky-bottom p-2 w-100" *ngIf="selectedFlatId">
+        <app-delete-h></app-delete-h>
+      </div>
+
+    </div>
+  </div>
+</ng-template>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

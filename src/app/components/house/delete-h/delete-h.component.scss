@@ -1,0 +1,40 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.btn-group {
+  position: sticky;
+  bottom: 0;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.749);
+  border-radius: 20px;
+  overflow: hidden;
+  .btn {
+    @include flex-box-center;
+    flex-direction: column;
+    flex: 1;
+    background-color: $color-accent;
+    color: $color-dark;
+    font-weight: 600;
+    text-transform: uppercase;
+    height: 70px;
+    margin: 0px;
+    padding: 0px;
+
+    .t-min {
+      font-size: 10px;
+    }
+
+    &:disabled {
+      background-color: rgba(128, 128, 128, 0.67);
+    }
+
+    .fa-regular,
+    .fa-solid {
+      font-size: $t-max;
+      color: $color-dark;
+    }
+  }
+}

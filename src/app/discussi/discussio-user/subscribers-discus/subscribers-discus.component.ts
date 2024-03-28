@@ -148,7 +148,6 @@ export class SubscribersDiscusComponent implements OnInit {
     private counterService: CounterService,
     private route: ActivatedRoute,
     private location: Location,
-
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -295,7 +294,7 @@ export class SubscribersDiscusComponent implements OnInit {
     await this.counterService.getUserDiscussioCount();
     this.counterService.counterUserDiscussio$.subscribe(async data => {
       this.counterUserDiscussio = data;
-      this.counterFound = this.counterUserDiscussio.status;
+      this.counterFound = this.counterUserDiscussio;
       if (this.counterFound) {
         await this.getCurrentPageInfo();
       }

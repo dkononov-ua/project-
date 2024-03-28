@@ -14,8 +14,8 @@ import { ActTransferComponent } from './agreements/act-transfer/act-transfer.com
 import { ActCreateComponent } from './account/house/agree-h/act-create/act-create.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'registration', pathMatch: 'full' },
-  { path: 'registration', component: RegistrationComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', loadChildren: () => import('./home/home-routing.module').then(m => m.HomeRoutingModule) },
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
@@ -26,7 +26,6 @@ const routes: Routes = [
   { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
-  { path: 'home', loadChildren: () => import('./home/home-routing.module').then(m => m.HomeRoutingModule), canActivate: [CanActivateGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
   { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard]},
   { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard]},

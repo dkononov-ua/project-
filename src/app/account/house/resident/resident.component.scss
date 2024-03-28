@@ -1,95 +1,105 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss";
-@use "../../../style/discussi.scss";
 
-.tenant-card {
+.card-box {
   display: flex;
-  flex-direction: column;
   position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-.img-fluid {
-  border-radius: 0 0 20px 20px;
-  // height: 350px;
-}
-
-.panel-tenants {
-  @include box-shadow;
-  display: flex;
-  background-color: tan;
-  overflow-x: auto;
-  height: 90px;
-  padding: 5px;
-  border-radius: 20px 20px 0 0;
-  bottom: 0;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
-  left: 0;
-  z-index: 1;
-  justify-content: flex-start;
-
-  .wrapper {
-    @include flex-box;
-    justify-content: space-between;
-    .btn-panel {
-      @include flex-box-column;
-      justify-content: space-between;
-      .img-btn {
-        @include flex-box;
-        background-color: transparent;
-        border-radius: 50%;
-        border: none;
-        width: 80px;
-        .fa-solid,
-        .fa-regular {
-          color: $color-dark;
-          &:hover {
-            color: $color-accent;
-            @include box-shadow;
-          }
-        }
-      }
+  height: 85vh;
+  .card-box2 {
+    height: 100%;
+    position: relative;
+  }
+  .card-animation {
+    height: 100%;
+    .card {
+      height: 100%;
+      overflow: auto;
+      justify-content: flex-start;
+      position: relative;
     }
   }
 }
 
-.card {
-  border-radius: 0 0 20px 20px;
-  height: auto;
+.user-id-box {
+  @include flex-box-center;
+  padding: 0 5px 0 5px;
 }
 
-.card-container {
-  @include flex-box;
-  justify-content: flex-start;
-  align-items: flex-start;
-  @include s1-s3 {
-    flex-direction: column;
-  }
+.panel-menu {
+  display: flex;
+  flex-direction: row;
+  position: sticky;
+  bottom: 0;
+  background-color: $color-white;
+  border-radius: 20px;
+  width: 100%;
+  z-index: 100;
 }
 
 .btn-panel {
-  &.active {
-    color: $color-accent;
+  @include flex-box-column;
+  height: 50px;
+  border: none;
+  background-color: transparent;
+  flex: 1;
+  justify-content: space-between;
+  position: relative;
+  .panel-icon {
+    height: 100%;
+    @include flex-box-center;
+    .fa-solid,
+    .fa-regular,
+    .fa-brands {
+      font-size: 25px;
+      color: $color-dark;
+    }
+    .fa-star {
+      font-size: 15px;
+    }
+  }
+  .t-min {
+    font-size: 10px;
+  }
+  .img-btn {
+    @include flex-box;
+    background-color: transparent;
+    border-radius: 50%;
+    border: none;
+    width: 80px;
     .fa-solid,
     .fa-regular {
-      color: $color-accent;
+      color: $color-dark;
     }
   }
 }
 
-.switch-box {
-  justify-content: flex-start;
-  align-items: center;
-  .switch-btn-group {
-    width: 80px;
+.switch-content {
+  height: 15vh;
+}
+
+.img-wrapper2 {
+  width: 100%;
+  height: 30vh;
+  .img2 {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
+}
+
+.card-menu {
+  height: 100%;
+  width: 100%;
 }
 
 .radio-group {
   @include flex-box;
   justify-content: space-evenly;
+  padding: 10px 0 10px 0;
   .radio-btn {
     @include flex-box;
     position: relative;
@@ -105,30 +115,11 @@
   font-size: 30px;
   transition: 0.5s;
   cursor: pointer;
-  &:hover {
-    transform: scale(1.1);
-    color: $color-accent;
-  }
 }
 
 .abs.active {
   color: $color-accent;
   transform: scale(1.5);
-}
-
-.checkbox-container {
-  font-family: $font-main;
-  .checkbox-group {
-    @include flex-box;
-    padding: 0 10px;
-    justify-content: space-between;
-    .checkbox-btn {
-      width: 35px;
-      border-radius: 50%;
-      border: 1px solid $color-primary;
-      background-color: transparent;
-    }
-  }
 }
 
 .img-btn.active {
@@ -138,4 +129,144 @@
 
 .not-allowed {
   cursor: not-allowed;
+}
+
+.btn-close-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 50;
+  .btn-close-box {
+    @include flex-box-column;
+    align-items: flex-end;
+    padding: 10px;
+    .btn-close {
+      border: 1px solid $color-gray;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.card-reviews {
+  @include box-shadow;
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  min-height: 80px;
+  flex-direction: column;
+  align-items: flex-start;
+  .flex-box {
+    .img-review-wrapper {
+      overflow: hidden;
+      border-radius: 50%;
+      .img-review-fluid {
+        object-fit: cover;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+.panel-container {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.carousel {
+  position: relative;
+  height: 100px;
+  @include flex-box-center;
+  justify-content: flex-start;
+  border-radius: 20px 20px 0 0;
+  background-color: $color-white;
+  overflow: hidden;
+}
+
+.slide-group {
+  @include flex-box;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.slide {
+  display: flex;
+  align-items: center;
+  height: inherit;
+  animation: slideshow 15s linear infinite;
+}
+
+.price {
+  min-width: 50px;
+}
+
+.slide-item {
+  @include flex-box-center;
+  border: none;
+  border-radius: 10px;
+  flex-direction: column;
+  margin: 0 5px;
+  width: auto;
+  .param-g {
+    @include box-shadow;
+    border: none;
+  }
+}
+
+button {
+  background-color: transparent;
+}
+
+.carousel:hover .slide {
+  animation-play-state: paused;
+}
+
+@keyframes slideshow {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.caruesel-content {
+  display: flex;
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+
+.statusUserBox {
+  @include flex-box-column;
+  .statusBox {
+    @include flex-box-column;
+    @include box-shadow;
+    position: relative;
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 100%;
+    .statusValue {
+      @include flex-box-center;
+      padding: 5px;
+      width: 100%;
+    }
+    .statusMsg {
+      font-size: $t-min;
+      color: $color-dark;
+      text-transform: uppercase;
+    }
+  }
 }

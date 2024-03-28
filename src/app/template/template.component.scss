@@ -1,0 +1,15 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/media.scss" as *;
+
+.hide-mobile {
+  @include s1-s3 {
+    display: none;
+  }
+}
+
+.hide-pc {
+  @include s3-s6-max {
+    display: none;
+  }
+}

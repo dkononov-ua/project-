@@ -3,9 +3,30 @@
   <div class="switch-container">
 
     <button class="menu-box hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/home/home-page'">
-      <div class="menu-lable">Discussio</div>
-      <div class="menu-name">Головна сторінка</div>
+      <div class="menu-lable">Головна</div>
+      <div class="menu-name">Сторінка</div>
     </button>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/registration'">
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+        <div class="t-min">Вхід & Реєстрація</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
+        <i class="fa-regular fa-circle-user"></i>
+        <div class="t-min">Профіль Користувача</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/house'">
+        <i class="fa-solid fa-house"></i>
+        <div class="t-min">Профіль Оселі</div>
+      </button>
+    </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
@@ -15,23 +36,16 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-        <i class="fa-regular fa-circle-user"></i>
-        <div class="t-min">Профіль Користувача</div>
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
+        <i class="fa-solid fa-brain"></i>
+        <div class="t-min">Розробники Проекту</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-        <i class="fa-solid fa-house"></i>
-        <div class="t-min">Профіль Оселі</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/search/house'">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="t-min">Discussio Пошук</div>
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">
+        <i class="fa-solid fa-book-open-reader"></i>
+        <div class="t-min">Угода Користувача</div>
       </button>
     </div>
 
@@ -43,20 +57,6 @@
     </div>
 
 
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
-        <i class="fa-solid fa-brain"></i>
-        <div class="t-min">Розробники Проекту</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/registration'">
-        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="t-min">Сторінка Реєстрації</div>
-      </button>
-    </div>
 
   </div>
 

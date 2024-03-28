@@ -1,26 +1,24 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { HouseInfo } from '../../../interface/info';
 import { HouseConfig } from '../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox } from '../../../interface/name';
+import { animations } from '../../../interface/animation';
+
 @Component({
   selector: 'app-house-info',
   templateUrl: './house-info.component.html',
   styleUrls: ['./house-info.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
+    animations.swichCard,
   ],
 })
 
@@ -32,9 +30,23 @@ export class HouseInfoComponent implements OnInit {
   path_logo = path_logo;
   isOpen = true;
   isCopied = false;
-  indexCard: number = 1;
+  indexPage: number = 1;
   loading: boolean = false;
   houseData: any;
+
+  acces_added: number = 1;
+  acces_admin: number = 1;
+  acces_agent: number = 1;
+  acces_agreement: number = 1;
+  acces_citizen: number = 1;
+  acces_comunal: number = 1;
+  acces_comunal_indexes: number = 1;
+  acces_discuss: number = 1;
+  acces_filling: number = 1;
+  acces_flat_chats: number = 1;
+  acces_flat_features: number = 1;
+  acces_services: number = 1;
+  acces_subs: number = 1;
 
   HouseInfo: HouseInfo = HouseConfig;
   options: { [key: number]: string } = Options;
@@ -54,7 +66,7 @@ export class HouseInfoComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
-    this.updateIndexCardBasedOnWindowSize();
+    this.updateindexPageBasedOnWindowSize();
   }
 
   constructor() { }
@@ -62,7 +74,7 @@ export class HouseInfoComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loadDataFlat();
     await this.cardParam();
-    this.updateIndexCardBasedOnWindowSize();
+    this.updateindexPageBasedOnWindowSize();
   }
 
   cardParam() {
@@ -74,12 +86,12 @@ export class HouseInfoComponent implements OnInit {
   }
 
   // перевірка ширини екрану
-  private updateIndexCardBasedOnWindowSize(): void {
+  private updateindexPageBasedOnWindowSize(): void {
     const windowWidth = window.innerWidth;
     if (windowWidth >= 768) {
-      this.indexCard = 2;
+      this.indexPage = 2;
     } else {
-      this.indexCard = 1;
+      this.indexPage = 1;
     }
   }
 
@@ -89,6 +101,10 @@ export class HouseInfoComponent implements OnInit {
       this.houseData = localStorage.getItem('houseData');
       if (this.houseData) {
         const parsedHouseData = JSON.parse(this.houseData);
+        this.houseData = parsedHouseData;
+        if (this.houseData) {
+          this.getHouseAcces();
+        }
         this.HouseInfo.region = parsedHouseData.flat.region;
         this.HouseInfo.flat_id = parsedHouseData.flat.flat_id;
         this.HouseInfo.country = parsedHouseData.flat.country;
@@ -127,7 +143,7 @@ export class HouseInfoComponent implements OnInit {
         }
         this.generateLocationUrl();
       } else {
-        console.log('Немає інформації про оселю')
+        // console.log('Немає інформації про оселю')
       }
     } else {
       console.log('Авторизуйтесь')
@@ -175,6 +191,25 @@ export class HouseInfoComponent implements OnInit {
 
   copyFlatId() {
     this.copyToClipboard(this.HouseInfo.flat_id, 'ID оселі скопійовано');
+  }
+
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  getHouseAcces(): void {
+    if (this.houseData.acces) {
+      this.acces_added = this.houseData.acces.acces_added;
+      this.acces_admin = this.houseData.acces.acces_admin;
+      this.acces_agent = this.houseData.acces.acces_agent;
+      this.acces_agreement = this.houseData.acces.acces_agreement;
+      this.acces_citizen = this.houseData.acces.acces_citizen;
+      this.acces_comunal = this.houseData.acces.acces_comunal;
+      this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+      this.acces_discuss = this.houseData.acces.acces_discuss;
+      this.acces_filling = this.houseData.acces.acces_filling;
+      this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+      this.acces_flat_features = this.houseData.acces.acces_flat_features;
+      this.acces_services = this.houseData.acces.acces_services;
+      this.acces_subs = this.houseData.acces.acces_subs;
+    }
   }
 
 }

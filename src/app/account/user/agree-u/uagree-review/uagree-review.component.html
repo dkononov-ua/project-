@@ -1,62 +1,58 @@
-<div class="container-card col-lg-12 col-md-12 col-sm-12 col-12">
-  <div class="card-wrapper">
-    <div class="card-agree m-2 p-2" *ngFor="let agreement of agree">
-      <div class="t-lar gray">Запропонована угода. ID угоди:
-        <span class="t-lar bold"> {{agreement.flat.agreement_id}} </span>
-      </div>
+<div [@top2] class="content-child">
+  <div class="card-agree m-2 p-2" *ngFor="let agreement of agree">
+    <div class="t-lar gray">ID угоди:
+      <span class="t-lar bold accent"> {{agreement.flat.agreement_id}} </span>
+    </div>
 
-      <div class="flex-box-row">
-        <div class="p-2">
-          <div class="img-wrapper">
-            <img class="img-fluid " [src]="serverPathPhotoFlat + agreement.img[0] " alt="img"
-              (error)="useDefaultImage($event)">
-            <div class="card-body w-60 p-2">
-              <div class="t-min"> Оселя ID: {{ agreement.flat.flat_id}} </div>
-              <div class="t-med bold">місто: {{agreement.flat.city}} </div>
-              <div class="t-med bold">буд. {{agreement.flat.houseNumber }} кв. {{agreement.flat.apartment }}</div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="t-min">Початок оренди: <span class="t-med bold">
-                {{agreement.flat.dateAgreeStart| date }} </span></div>
-            <div class="t-min">Закінчення оренди: <span class="t-med bold">
-                {{agreement.flat.dateAgreeEnd| date }} </span></div>
-            <div class="t-min" *ngIf="agreement.flat.price">Сума оплати:
-              <span class="t-med bold"> {{agreement.flat.price }} ₴/міс</span>.
-            </div>
+    <div class="flex-box-row">
+      <div class="p-2">
+        <div class="img-wrapper">
+          <img class="img-fluid " [src]="serverPathPhotoFlat + agreement.img[0] " alt="img"
+            (error)="useDefaultImage($event)">
+          <div class="card-body w-60 p-2">
+            <div class="t-min"> Оселя ID: {{ agreement.flat.flat_id}} </div>
+            <div class="t-med bold">місто: {{agreement.flat.city}} </div>
+            <div class="t-med bold">буд. {{agreement.flat.houseNumber }} кв. {{agreement.flat.apartment }}</div>
           </div>
         </div>
+        <div class="card-body">
+          <div class="t-min">Початок оренди: <span class="t-med bold">
+              {{agreement.flat.dateAgreeStart| date }} </span></div>
+          <div class="t-min">Закінчення оренди: <span class="t-med bold">
+              {{agreement.flat.dateAgreeEnd| date }} </span></div>
+          <div class="t-min" *ngIf="agreement.flat.price">Сума оплати:
+            <span class="t-med bold"> {{agreement.flat.price }} ₴/міс</span>.
+          </div>
+        </div>
+      </div>
 
-        <div class="p-2">
+      <div class="p-2">
 
-          <div class="card-btn m-1">
-            <div class="t-min bold">Угода оренди</div>
-            <div class="btn-group">
-              <button class="btn" matTooltip="Переглянути Угоду" [routerLink]="['/rental-agree']"
+        <div class="card-btn m-1">
+          <div class="t-min bold">Угода оренди</div>
+          <div class="btn-group">
+            <button class="btn" matTooltip="Переглянути Угоду" [routerLink]="['/rental-agree']"
               [queryParams]="{ agreement_id: agreement.flat.agreement_id, indexPage: 1, indexUser: 1 }">
               <i class="fa-solid fa-file-circle-check"></i>
               <div class="t-min bold">Переглянути</div>
             </button>
-            </div>
           </div>
-
-          <div class="card-btn m-1">
-            <div class="t-min bold">Угода оренди</div>
-            <div class="btn-group">
-              <button class="btn" matTooltip="Переглянути Угоду" (click)="confirmActions(agreement)">
-                <i class="fa-solid fa-person-circle-xmark"></i>
-                <div class="t-min bold">Відхилити</div>
-              </button>
-            </div>
-          </div>
-
         </div>
+
+        <div class="card-btn m-1">
+          <div class="t-min bold">Угода оренди</div>
+          <div class="btn-group">
+            <button class="btn" matTooltip="Переглянути Угоду" (click)="confirmActions(agreement)">
+              <i class="fa-solid fa-person-circle-xmark"></i>
+              <div class="t-min bold">Відхилити</div>
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
 </div>
-
 
 <div *ngIf="statusMessage" class="status-message">
   <div class="status-message-text">{{ statusMessage }}</div>

@@ -3,10 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
+import { animations } from '../../../../interface/animation';
+
 @Component({
   selector: 'app-uagree-concluded',
   templateUrl: './uagree-concluded.component.html',
   styleUrls: ['./uagree-concluded.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.top2,
+  ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],

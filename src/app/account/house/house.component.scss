@@ -2,22 +2,27 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
-.flex-column {
-  @include flex-box-column;
-  align-items: stretch;
-}
-
-.noFlat {
-  @include flex-box-column;
-
-  width: 50%;
-  @include s1-s3 {
-    width: 100%;
+.switch-container {
+  .switch-btn-group {
+    .btn {
+      width: 50px;
+    }
   }
 }
 
-.flex-box {
-  @include flex-box;
-  justify-content: center;
-  align-items: flex-start;
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+  }
+}
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-primary !important;
+  }
 }

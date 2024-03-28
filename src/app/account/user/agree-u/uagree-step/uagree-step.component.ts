@@ -10,12 +10,11 @@ import { animations } from '../../../../interface/animation';
   templateUrl: './uagree-step.component.html',
   styleUrls: ['./uagree-step.component.scss'],
   animations: [
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
+    animations.right,
+    animations.right1,
+    animations.right2,
+    animations.right3,
+    animations.right4,
     animations.swichCard,
   ],
 })

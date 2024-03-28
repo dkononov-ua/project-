@@ -128,7 +128,7 @@ export class SubscribersUserComponent implements OnInit {
     await this.counterService.getUserDiscussioCount();
     this.counterService.counterUserSubscribers$.subscribe(async data => {
       this.counterUserSubscribers = data;
-      this.counterFound = this.counterUserSubscribers.status;
+      this.counterFound = this.counterUserSubscribers;
       if (this.counterFound) {
         await this.getCurrentPageInfo();
       }

@@ -8,3 +8,18 @@
   justify-content: flex-start;
 }
 
+.logo-name {
+  font-size: 6rem;
+}
+
+.switch-container {
+  background-image: none !important;
+}
+
+.btn {
+  &:disabled {
+    .fa-regular, .fa-solid {
+      color: $color-gray;
+    }
+  }
+}

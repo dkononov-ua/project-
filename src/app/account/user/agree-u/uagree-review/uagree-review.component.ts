@@ -5,10 +5,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
 import { ConfirmActionsComponent } from 'src/app/agreements/confirm-actions/confirm-actions.component';
+import { animations } from '../../../../interface/animation';
+
 @Component({
   selector: 'app-uagree-review',
   templateUrl: './uagree-review.component.html',
   styleUrls: ['./uagree-review.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.top2,
+  ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],

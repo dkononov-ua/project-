@@ -26,7 +26,7 @@ import { Location } from '@angular/common';
 })
 export class InfoComponent implements OnInit {
 
-  indexPage: number = 1;
+  indexPage: number = 0;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -67,10 +67,8 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  changeIndexPage(index: number) {
-    setTimeout(() => {
-      this.indexPage = index
-    }, 1000);
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
   }
 
   goBack(): void {
@@ -89,7 +87,7 @@ export class InfoComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 1;
+      this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
     this.getInfoUser()

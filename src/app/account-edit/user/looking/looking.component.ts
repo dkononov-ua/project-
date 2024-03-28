@@ -50,6 +50,7 @@ interface UserInfo {
   templateUrl: './looking.component.html',
   styleUrls: ['./looking.component.scss'],
   animations: [
+    animations.left,
     animations.left1,
     animations.left2,
     animations.left3,
@@ -283,14 +284,14 @@ export class LookingComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = 'Деактивовано!';
             setTimeout(() => {
-              this.router.navigate(['/user/info'], { queryParams: { indexPage: 2 } });
+              this.router.navigate(['/user/info'], { queryParams: { indexPage: 0 } });
             }, 3000);
           }, 1000);
         } else if (this.userInfo && this.userInfo.agree_search === 1) {
           setTimeout(() => {
-            this.statusMessage = 'Пошуковий профіль активовано!';
+            this.statusMessage = 'Активовано!';
             setTimeout(() => {
-              this.router.navigate(['/user/info'], { queryParams: { indexPage: 2 } });
+              this.router.navigate(['/user/info'], { queryParams: { indexPage: 0 } });
             }, 3000);
           }, 1000);
         } else {

@@ -123,45 +123,55 @@
     </div>
 
     <div class="main-container">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
-        <div [@right1] class="card-wrapper">
-          <div class="first-card">
-            <div class="status-container m-2" (click)="toggleHelp(1)">
-              <div class="status-value">Допомога</div>
-            </div>
+      <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
+        <div [@right1] class="card-content-static w-100">
+          <div class="card-group">
+            <div class="flex-box-center t-c p-2 mt-2 w-100">
+              <i class="fa-solid fa-person-hiking"></i>
+              <p class="t-lar-xx bold mb-2 t-c">Пошуковий Профіль Орендаря</p>
 
-            <div class="left-card">
-              <div class="img-fluid-h">
-                <img class="img-h" src="../../../../../assets/example-agree/search7.jpg" alt="">
-              </div>
-            </div>
-
-            <div class="right-card w-60 p-2">
-
-              <div class="flex-group m-1">
-                <button class="link-t flex-box-row" (click)="saveInfo(userInfo.agree_search = 0)"
-                  *ngIf="userInfo.agree_search === 1">
-                  <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off"></i>
+              <div class="flex-group m-1" *ngIf="userInfo.agree_search === 1">
+                <button class="link-t" (click)="saveInfo(userInfo.agree_search = 0)">
+                  <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off p-2"></i>
                 </button>
               </div>
 
-              <div class="flex-column border-bottom mt-2">
-                <div class="t-lar-xx bold mb-2 t-c">Надання вашому профілю статусу орендаря. </div>
-                <div class="t-lar t-c"><span class="bold">Лише три кроки. </span>Вкажіть параметри оселі яку ви
-                  бажаєте,
-                  активуйте
-                  профіль і чекайте пропозиції від власників осель. </div>
-              </div>
-
-              <div [@left3] class="btn-group w-100 mt-2">
-                <button class="btn" (click)="indexPage = 1">
-                  <div class="t-med dark bold p-2">Почати</div>
-                  <i class="fa-solid fa-arrow-right"></i>
+              <div class="flex-group m-1" *ngIf="userInfo.region && userInfo.city && userInfo.agree_search === 0">
+                <button class="link-t bg-accent" (click)="saveInfo(userInfo.agree_search = 1)">
+                  <span class="m-2">Активувати</span><i class="fa-solid fa-power-off p-2"></i>
                 </button>
               </div>
 
+              <p class="t-min bold mb-2">Вибір іншого житла - це легко та зручно завдяки "Пошуковому профілю орендаря".
+              </p>
+              <p class="t-min">Лише три
+                кроки розділяють вас від ідеального житла. Крок перший: Опишіть свої потреби та бажання щодо оселі,
+                вказавши для кого і який формат вам потрібен. Крок другий: Встановіть параметри оселі, оцініть
+                інфраструктуру та особливості, які вам важливі. Крок третій: Зазначте терміни, бюджет та додаткову
+                інформацію. Після активації вашого пошукового профілю, власники нерухомості зможуть надсилати вам
+                пропозиції, які відповідають вашим потребам. Це швидкий та ефективний спосіб знайти ідеальне житло для
+                вас.
+                .</p>
             </div>
+
+            <div [@left3] class="btn-group w-100 mt-2 hide-pc">
+              <button class="btn" (click)="indexPage = 1">
+                <div class="t-med dark bold p-2">Почати</div>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="btn-group mt-2">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
+                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                <i class="fa-regular fa-lightbulb"></i>
+              </button>
+            </div>
+
           </div>
+          <!-- <div class="card-background">
+            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
+          </div> -->
         </div>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -169,42 +179,50 @@
         <div class="card-wrapper">
 
           <div [@swichCard] *ngIf="indexPage === 0" class="card-animation hide-pc">
-            <div class="first-card">
-
-              <div class="status-container m-2" (click)="toggleHelp(1)">
-                <div class="status-value">Допомога</div>
-              </div>
-
-              <div class="left-card">
-                <div class="img-fluid-h">
-                  <img class="img-h" src="../../../../../assets/example-agree/search7.jpg" alt="">
-                </div>
-              </div>
-
-              <div class="right-card w-70 p-2">
-
-                <div class="flex-group m-1">
-                  <button class="link-t flex-box-row" (click)="saveInfo(userInfo.agree_search = 0)"
-                    *ngIf="userInfo.agree_search === 1">
-                    <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off"></i>
-                  </button>
+            <div [@left1] class="card-content-static">
+              <div class="card-group">
+                <div class="flex-box-center t-c p-2 mt-2 w-100">
+                  <i class="fa-solid fa-person-hiking"></i>
+                  <p class="t-lar-xx bold mb-2 t-c">Надання вашому профілю статусу орендаря. </p>
+                  <div class="flex-group m-1">
+                    <button class="link-t" (click)="saveInfo(userInfo.agree_search = 0)"
+                      *ngIf="userInfo.agree_search === 1">
+                      <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off p-2"></i>
+                    </button>
+                  </div>
+                  <p class="t-min bold mb-2">Вибір іншого житла - це легко та зручно завдяки "Пошуковому профілю
+                    орендаря".</p>
+                  <p class="t-min">Лише три
+                    кроки розділяють вас від ідеального житла. Крок перший: Опишіть свої потреби та бажання щодо оселі,
+                    вказавши для кого і який формат вам потрібен. Крок другий: Встановіть параметри оселі, оцініть
+                    інфраструктуру та особливості, які вам важливі. Крок третій: Зазначте терміни, бюджет та додаткову
+                    інформацію. Після активації вашого пошукового профілю, власники нерухомості зможуть надсилати вам
+                    пропозиції, які відповідають вашим потребам. Це швидкий та ефективний спосіб знайти ідеальне житло
+                    для
+                    вас.
+                    .</p>
                 </div>
 
                 <div class="flex-column border-bottom mt-2">
-                  <div class="t-lar-xx bold mb-2 t-c">Надання вашому профілю статусу орендаря. </div>
-                  <div class="t-lar t-c"><span class="bold">Лише три кроки. </span>Вкажіть параметри оселі яку ви
-                    бажаєте,
-                    активуйте
-                    профіль і чекайте пропозиції від власників осель. </div>
                 </div>
 
-                <div [@left3] class="btn-group w-100 mt-2">
+                <div [@left3] class="btn-group w-100 mt-2 hide-pc">
                   <button class="btn" (click)="indexPage = 1">
                     <div class="t-med dark bold p-2">Почати</div>
                     <i class="fa-solid fa-arrow-right"></i>
                   </button>
                 </div>
 
+                <div class="btn-group mt-2">
+                  <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
+                    <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                    <i class="fa-regular fa-lightbulb"></i>
+                  </button>
+                </div>
+
+              </div>
+              <div class="card-background">
+                <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
               </div>
             </div>
           </div>

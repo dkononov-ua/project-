@@ -15,6 +15,8 @@ export class SharedService {
   selectedFlatId!: string | null;
   private statusMessageSubject = new BehaviorSubject<string>('');
   private reportResultSubject = new Subject<any>();
+  private checkOwnerPageSubject = new BehaviorSubject<string>('');
+  public checkOwnerPage$ = this.checkOwnerPageSubject.asObservable();
   loading: boolean | undefined;
 
   constructor(
@@ -22,17 +24,30 @@ export class SharedService {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private location: Location,
-  ) { }
+
+  ) {
+    const storedCheckOwner = localStorage.getItem('checkOwnerPage');
+    if (storedCheckOwner) {
+      this.checkOwnerPageSubject.next(storedCheckOwner);
+    }
+   }
 
   getSelectedFlatId() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      console.log(this.selectedFlatId)
+      // console.log(this.selectedFlatId)
     });
   }
 
   getReportResultSubject() {
     return this.reportResultSubject.asObservable();
+  }
+
+  setCheckOwnerPage(ownerPage: string): void {
+    localStorage.setItem('checkOwnerPage', ownerPage);
+    if (this.checkOwnerPageSubject.value !== ownerPage) {
+      this.checkOwnerPageSubject.next(ownerPage);
+    }
   }
 
   // скарга на оселю
@@ -111,7 +126,6 @@ export class SharedService {
       location.reload();
     }, 500);
   }
-
 
   goBack(): void {
     this.location.back();

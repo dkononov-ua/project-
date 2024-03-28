@@ -60,6 +60,9 @@ import { RentalAgreementComponent } from './agreements/rental-agreement/rental-a
 import { ConfirmActionsComponent } from './agreements/confirm-actions/confirm-actions.component';
 import { HomeComponent } from './home/home.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { TemplateComponent } from './template/template.component';
+import { HouseModule } from './account/house/house.module';
+import { HouseRoutingModule } from './account/house/house-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +84,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
     ConfirmActionsComponent,
     HomeComponent,
     HomePageComponent,
-  ],
+      TemplateComponent
+   ],
   providers: [
     SelectedFlatService,
     DatePipe,

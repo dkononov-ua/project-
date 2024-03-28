@@ -3,97 +3,23 @@
 </ng-container>
 
 <ng-template #content>
+  <div class="content-child">
 
-  <div class="switch-box">
-
-    <div class="flex-column" *ngIf="houseData">
-      <div class="t-lar-xx bold dark hide-mobile">Інформація про оселю</div>
-      <div class="t-min gray hide-mobile">Тут знаходиться вся інформація про оселю</div>
-    </div>
-
-    <div class="hide-pc" *ngIf="houseData">
-      <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="t-min dark bold">Назад</div>
+    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-animation" [@left2]>
+        <div class="card-content">
+          <app-main-info></app-main-info>
+        </div>
       </div>
     </div>
 
-    <div class="hide-pc" *ngIf="houseData">
-      <div class="switch-btn-group">
-        <button class="btn" [ngClass]="{'active': indexCard === 1}" (click)="indexCard = 1">
-          <i class="fa-solid fa-id-card-clip"></i>
-        </button>
-        <div class="t-min dark bold">Основна</div>
-      </div>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="houseData">
-      <button class="btn" [ngClass]="{'active': indexCard === 2}" (click)="indexCard = 2">
-        <i class="fa-solid fa-indent"></i>
-      </button>
-      <div class="t-min dark bold">Парам.</div>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="houseData">
-      <button class="btn" [ngClass]="{'active': indexCard === 3}" (click)="indexCard = 3">
-        <i class="fa-regular fa-address-book"></i>
-      </button>
-      <div class="t-min dark bold">Допом.</div>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="houseData">
-      <button class="btn" [ngClass]="{'active': indexCard === 0}" (click)="indexCard = 0">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-      <div class="t-min dark bold">Керув.</div>
-    </div>
-
-  </div>
-
-  <div class="card-box" *ngIf="houseData">
-
-    <div class="flex-box hide-mobile p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="houseData">
-      <div [@cardAnimation1] class="card w-100">
-        <app-main-info></app-main-info>
-      </div>
-    </div>
-
-    <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 0">
-      <div [@cardAnimation1] class="w-100">
-        <app-add-house class="mt-2"></app-add-house>
-        <app-selection-housing></app-selection-housing>
-      </div>
-    </div>
-
-    <div class="flex-box p-2 hide-pc col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 1 && houseData">
-      <div [@cardAnimation1] class="card w-100">
-        <app-main-info></app-main-info>
-      </div>
-    </div>
-
-    <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 2 && houseData">
-      <div [@cardAnimation2] class="card w-100 p-2">
-        <app-parameters></app-parameters>
-      </div>
-    </div>
-
-    <div class="flex-box p-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 3 && houseData">
-      <div [@cardAnimation1] class="card w-100 p-2">
-        <app-house-share></app-house-share>
+    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-animation" [@left2]>
+        <div class="card-content">
+          <app-parameters></app-parameters>
+        </div>
       </div>
     </div>
 
   </div>
-
-  <app-footer></app-footer>
-
-
 </ng-template>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
-</div>

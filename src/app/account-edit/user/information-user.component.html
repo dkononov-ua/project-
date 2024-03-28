@@ -3,133 +3,129 @@
 </ng-container>
 
 <ng-template #content>
-  <app-navbar></app-navbar>
 
-  <div class="container-fluid">
+  <div class="info-container" *ngIf="helpAdd">
+    <div class="info-help-box">
+      <div class="info-help-text">
+        <ul>
+          <li>
+            <div class="bold">Дозвіл на додавання в оселю</div> - він дозволяє власнику оселі додати вас до
+            мешканців
+            напряму без формування угоди.
+          </li>
+        </ul>
+      </div>
+      <button class="btn" (click)="openHelpAdd()">Зрозуміло</button>
+    </div>
+  </div>
 
-    <div class="switch-box p-2 hide-pc">
+  <div class="content-component">
+
+    <div class="switch-container">
 
       <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+        <button class="btn" (click)="goBack()">
           <i class="fa-solid fa-arrow-left"></i>
+          <div class="t-min white">Назад</div>
         </button>
-        <div class="t-min dark bold">Назад</div>
       </div>
 
-      <div class="btn-menu hide-pc">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
-          <i class="fa-regular fa-circle-user"></i></button>
-        <div class="t-min dark bold">Перс. дані</div>
+      <div class="menu-box hide-mobile">
+        <div class="menu-lable">Меню</div>
+        <div class="menu-name">Редагування Профілю</div>
       </div>
 
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
-          <i class="fa-solid fa-share-nodes"></i></button>
-        <div class="t-min dark bold">Контакти</div>
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 0}" (click)="onClickMenu(0)">
+          <i class="fa-regular fa-circle-user"></i>
+          <div class="t-min">Профіль</div>
+        </button>
       </div>
-
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 1}" (click)="onClickMenu(1)">
+          <i class="fa-solid fa-share-nodes"></i>
+          <div class="t-min">Контакти</div>
+        </button>
+      </div>
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 2}" (click)="onClickMenu(2)">
           <i class="fa-solid fa-sliders"></i>
+          <div class="t-min">Доступи</div>
         </button>
-        <div class="t-min dark bold">Доступи</div>
+      </div>
+      <div class="switch-btn-group">
+        <button class="btn" [ngClass]="{'active': indexPage === 3}" (click)="onClickMenu(3)">
+          <i class="fa-solid fa-user-xmark pl-2"></i>
+          <div class="t-min">Видалення</div>
+        </button>
       </div>
 
-      <div class="btn-menu">
-        <button class="btn" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">
-          <i class="fa-solid fa-user-xmark"></i>
-        </button>
-        <div class="t-min dark bold">Видалення</div>
-      </div>
+
 
     </div>
 
-    <div class="info-container">
-      <div class="info-help-box" *ngIf="helpAdd">
-        <div class="info-help-text">
-          <ul>
-            <li>
-              <div class="bold">Дозвіл на додавання в оселю</div> - він дозволяє власнику оселі додати вас до
-              мешканців
-              напряму без формування угоди.
-            </li>
-          </ul>
-        </div>
-        <button class="btn" (click)="openHelpAdd()">Зрозуміло</button>
-      </div>
-    </div>
+    <div class="main-container">
+      <div class="col-lg-6 col-md-6 col-2 col-12 hide-mobile">
+        <div class="card-wrapper ">
+          <div [@right1] class="card-content-static">
 
-    <div class="container-card mt-2 ">
+            <div class="card-group">
+              <div class="flex-box-center t-c p-2 mt-2 w-100">
+                <i class="fa-solid fa-gear"></i>
+                <p class="t-lar-xx bold mb-2 t-c">Редагування профілю.</p>
+                <div class="flex-group">
+                  <button class="link-t" (click)="logout()">
+                    <span class="m-2">ВИЙТИ З АККАУНТУ</span><i class="icon-up fa-solid fa-door-open p-2"></i>
+                  </button>
+                </div>
+                <p class="t-min bold mb-2">Налаштуйте ваш профіль.
+                </p>
+                <p class="t-min">Вкажіть контактну інформацію, вона допоможе при створенні угод. Надавайте доступи та
+                  переглядайте аналітику вашого аккаунту.</p>
+              </div>
 
-      <nav class="navbar hide-mobile col-lg-3 col-md-5 col-sm-6 col-12">
+              <div class="btn-group mt-2">
+                <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Налаштування користувача' }">
+                  <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                  <i class="fa-regular fa-lightbulb"></i>
+                </button>
+              </div>
 
-        <a class="link-menu" [routerLink]="'/user/info'">
-          <div class="link-icon"><i class="fa-solid fa-arrow-left"></i></div>
-          <span class="link-text ">Назад</span>
-        </a>
+            </div>
 
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 0}" (click)="indexPage = 0">
-          <span class="link-text">Персональні дані</span>
-          <div class="link-icon"><i class="fa-regular fa-circle-user"></i></div>
-        </a>
-
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 1}" (click)="indexPage = 1">
-          <span class="link-text">Контактні дані</span>
-          <div class="link-icon"> <i class="fa-solid fa-share-nodes"></i> </div>
-        </a>
-
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 2}" (click)="indexPage = 2">
-          <span class="link-text">Доступи</span>
-          <div class="link-icon"> <i class="fa-solid fa-sliders"></i> </div>
-        </a>
-
-        <a class="link-menu" [ngClass]="{ 'active': indexPage == 3}" (click)="indexPage = 3">
-          <span class="link-text">Видалення</span>
-          <div class="link-icon"> <i class="fa-solid fa-user-xmark"></i> </div>
-        </a>
-
-      </nav>
-
-      <div class="card-box col-lg-9 col-md-5 col-sm-6 col-12">
-
-        <div class="flex-column w-100" *ngIf="indexPage === 0">
-
-          <div class="flex-column p-2">
-            <div class="t-lar-xx bold dark">Персональні дані користувача</div>
-            <div class="t-min gray mb-2">Тут можна вказати вашу інформаці та завантажити фото</div>
+            <!-- <div class="card-background">
+              <img class="img" src="../../../assets/example-agree/geer.jpg" alt="">
+            </div> -->
           </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-2 col-12">
+        <div class="card-wrapper">
+          <div [@swichCard] *ngIf="indexPage === 0" class="card-animation">
+            <div class="card-content">
+              <div class="img-wrapper">
+                <ng-container *ngIf="userImg && isLoadingImg">
+                  <img class="img-fluid" [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')"
+                    alt="img">
+                </ng-container>
 
-          <div class="card-box">
-            <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card">
-
-                <div class="wrapper-img">
-
-                  <ng-container *ngIf="userImg && isLoading">
-                    <div class="img-fluid">
-                      <img [src]="serverPathPhotoUser + userImg">
-                    </div>
-                  </ng-container>
-
-                  <ng-container *ngIf="userImg && !isLoading">
+                <ng-container *ngIf="userImg && !isLoadingImg">
+                  <div class="img-fluid">
                     <div class="container-loader-mini">
                       <mat-spinner color="warn"></mat-spinner>
-                      <img [src]="serverPathPhotoUser + userImg" (load)="isLoading = true" hidden>
-                      <div class="t-med mt-2">Завантаження фото</div>
+                      <img [src]="serverPathPhotoUser + userImg" (load)="isLoadingImg = true" hidden>
+                      <div class="t-min bold gray mt-2">Завантаження фото</div>
                     </div>
-                  </ng-container>
+                  </div>
+                </ng-container>
 
-                  <ng-container *ngIf="!userImg">
-                    <div class="img-fluid">
-                      <img src="../../../../assets/user_default.svg" alt="img">
-                    </div>
-                  </ng-container>
-                </div>
-
-                <div class="card-1 mb-2">
-                  <div class="flex-column w-70">
-                    <label class="label-1">ЗАВАНТАЖИТИ ФОТО</label>
-                    <div class="description">Додайте або оновіть фото вашого аккаунту</div>
+                <ng-container *ngIf="!userImg">
+                  <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
+                </ng-container>
+                <div class="card-1">
+                  <div class="flex-column t-c">
+                    <p class="t-lar bold accent">ЗАВАНТАЖИТИ ФОТО</p>
+                    <p class="t-min dark">Додайте або оновіть фото вашого аккаунту</p>
                   </div>
                   <div class="input-div">
                     <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
@@ -137,297 +133,200 @@
                     <button class="input-up" (click)="_fileInput.click()"> </button>
                   </div>
                 </div>
-
-
               </div>
-            </div>
-
-            <div [@cardAnimation2] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card p-2">
-
-                <mat-label class="t-c t-lar bold accent">Персональні дані</mat-label>
-
-                <div class="w-100 flex-column">
-                  <div class="t-min t-c">Дата народження</div>
-                  <div class="t-lar-x bold t-c">{{userInfo.dob | date}}</div>
-                </div>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label>Прізвище</mat-label>
-                  <input name="userInfo.lastName" matInput [(ngModel)]="userInfo.lastName">
-                </mat-form-field>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label>Ім'я</mat-label>
-                  <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
-                </mat-form-field>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label>По батькові</mat-label>
-                  <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
-                </mat-form-field>
-
-                <div class="btn-group">
-                  <button class="btn w-100 t-med bold" (click)="saveInfoUser()">ЗБЕРЕГТИ <i
-                      class="fa-regular fa-circle-check ml-2"></i></button>
-                </div>
-
+              <mat-label class="t-c t-lar bold accent">Персональні дані</mat-label>
+              <div class="w-100 flex-column">
+                <div class="t-min t-c">Дата народження</div>
+                <div class="t-lar-x bold t-c">{{userInfo.dob | date}}</div>
+              </div>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label>Прізвище</mat-label>
+                <input name="userInfo.lastName" matInput [(ngModel)]="userInfo.lastName">
+              </mat-form-field>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label>Ім'я</mat-label>
+                <input name="userInfo.firstName" matInput [(ngModel)]="userInfo.firstName">
+              </mat-form-field>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label>По батькові</mat-label>
+                <input name="userInfo.surName" matInput [(ngModel)]="userInfo.surName">
+              </mat-form-field>
+              <div class="btn-group p-2">
+                <button class="btn" (click)="saveInfoUser()">
+                  <div class="t-min">ЗБЕРЕГТИ</div>
+                  <i class="fa-regular fa-circle-check ml-2"></i>
+                </button>
               </div>
             </div>
           </div>
 
-        </div>
-
-        <div class="flex-column w-100" *ngIf="indexPage === 1">
-
-          <div class="flex-column p-2">
-            <div class="t-lar-xx bold dark">Контактні дані користувача</div>
-            <div class="t-min gray mb-2">Тут можна вказати як з вами можна зв'язатись та посилання на ваші сторінки
-            </div>
-          </div>
-
-          <div class="card-box">
-
-            <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card p-2">
-
-                <mat-label class="t-c t-lar bold accent">Контактні дані</mat-label>
-
-                <div class="w-100 flex-column">
-                  <div class="t-min t-c">Пошта при реєстрації</div>
-                  <div class="t-med bold t-c">{{userInfo.user_mail}}</div>
-                </div>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label class="flex-box"><i class="fa-solid fa-at"></i><span class="accent"> Контактна
-                      пошта*</span></mat-label>
-                  <input name="userCont.mail" matInput [(ngModel)]="userCont.mail">
-                  <mat-hint align="end" class="t-min gray">Для формування угод</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label class="flex-box"><i class="fa-solid fa-phone"></i><span class="accent">
-                      Телефон*</span></mat-label>
-                  <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell" [maxlength]="10"
-                    [pattern]="phonePattern">
-                  <mat-hint align="end" class="t-min gray">Для формування угод</mat-hint>
-                </mat-form-field>
-
-                <mat-label class="label"></mat-label>
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label><i class="fa-solid fa-plus"><i class="fa-solid fa-phone"></i></i>Додатковий
-                    телефон</mat-label>
-                  <input type="tel" name="userCont.phone_alt" matInput [(ngModel)]="userCont.phone_alt" [maxlength]="10"
-                    [pattern]="phonePattern">
-                </mat-form-field>
-
+          <div [@swichCard] *ngIf="indexPage === 1" class="card-animation p-2">
+            <div class="card-content">
+              <mat-label class="t-c t-lar bold accent">Контактні дані</mat-label>
+              <div class="w-100 flex-column">
+                <div class="t-min t-c">Пошта при реєстрації</div>
+                <div class="t-med bold t-c">{{userInfo.user_mail}}</div>
               </div>
-            </div>
-
-            <div [@cardAnimation2] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card p-2">
-
-                <mat-label class="t-c t-lar bold accent">Посилання на мене</mat-label>
-
-                <div class="t-min gray">Соцільні мережі допоможуть користувачам у прийнятті рішень, та для зручного
-                  спілкування.</div>
-
-                <mat-form-field class="item-select m-1 mt-2" appearance="outline">
-                  <mat-label class="flex-box"><i class="fa-brands fa-telegram"></i><span class=""> https://t.me/</span>
-                  </mat-label>
-                  <input name="userCont.telegram" matInput [(ngModel)]="userCont.telegram">
-                </mat-form-field>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label class="flex-box"><i class="fa-brands fa-facebook"></i><span class="">
-                      https://www.facebook.com/</span></mat-label>
-                  <input name="userCont.facebook" matInput [(ngModel)]="userCont.facebook">
-                </mat-form-field>
-
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label class="flex-box"><i class="fa-brands fa-instagram"></i><span class="">
-                      https://www.instagram.com/</span></mat-label>
-                  <input name="userCont.instagram" matInput [(ngModel)]="userCont.instagram">
-                </mat-form-field>
-
-                <mat-label class="label"></mat-label>
-                <mat-form-field class="item-select m-1" appearance="outline">
-                  <mat-label><i class="fa-brands fa-viber"></i>Viber номер телефону</mat-label>
-                  <input type="tel" name="userCont.phone_alt" matInput [(ngModel)]="userCont.viber" [maxlength]="10"
-                    [pattern]="phonePattern">
-                </mat-form-field>
-
-                <div class="btn-group">
-                  <button class="btn w-100 t-med bold" (click)="saveInfoCont()">ЗБЕРЕГТИ <i
-                      class="fa-regular fa-circle-check ml-2"></i></button>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="flex-column w-100" *ngIf="indexPage === 2">
-
-          <div class="flex-column p-2">
-            <div class="t-lar-xx bold dark">Доступи та аналітика</div>
-            <div class="t-min gray mb-2">Тут можна надати доступи або дивитись аналітику</div>
-          </div>
-          <div class="card-box">
-
-            <div [@cardAnimation1] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card p-2">
-
-                <mat-label class="t-c t-lar bold accent">Статуси аккаунту</mat-label>
-
-                <div class="w-100 flex-column border mb-2">
-                  <div class="t-min t-c">Дата створення аккаунту</div>
-                  <div class="t-lar-x bold t-c">{{userInfo.data_create | date}}</div>
-                </div>
-
-                <div class="t-min gray" *ngIf="userInfo.banned === 0">У вас все добре</div>
-                <div class="t-min gray" *ngIf="userInfo.banned === 1">Ваш аккаунт забанено</div>
-                <div class="w-100 flex-column border mb-2">
-                  <div class="t-min t-c">Статус блокування</div>
-                  <div class="t-lar-x bold t-c" *ngIf="userInfo.banned === 0">Блокування немає</div>
-                  <div class="t-lar-x bold t-c" *ngIf="userInfo.banned === 1">Заблокований</div>
-                </div>
-
-                <div class="w-100 flex-column border mb-2" *ngIf="userInfo.data_unban">
-                  <div class="t-min t-c">Дата розблокування</div>
-                  <div class="t-lar-x bold t-c">{{userInfo.data_unban | date}}</div>
-                </div>
-
-                <div class="t-min gray">Кількість аккаунтів власних оселей</div>
-
-                <div class="w-100 flex-column border mb-2">
-                  <div class="t-min t-c">Оселей створено</div>
-                  <div class="t-lar-x bold t-c">{{userInfo.owner}}</div>
-                </div>
-
-                <div class="t-min gray">Надає статус підтвердженої особи. В розробці*</div>
-
-                <div class="w-100 flex-column border mb-2">
-                  <div class="t-min t-c">Стату підтвердження</div>
-                  <div class="t-lar-x bold t-c" *ngIf="userInfo.checked === 0">Не підтверджений</div>
-                  <div class="t-lar-x bold t-c" *ngIf="userInfo.checked === 1">Підтверджений</div>
-                </div>
-
-                <div class="card-1 mb-2">
-                  <div class="flex-column w-70">
-                    <label class="label-1">ВИЙТИ З АККАУНТУ</label>
-                    <div class="description">Створіть новий або увійдіть в інший аккаунт</div>
-                  </div>
-                  <button class="input-div" (click)="logout()">
-                    <i class="icon-up fa-solid fa-door-open"></i>
-                  </button>
-                </div>
-
-
-              </div>
-            </div>
-
-            <div [@cardAnimation2] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card p-2">
-
-
-
-                <div class="flex-column">
-                  <mat-label class="t-c t-lar bold accent">Доступи аккаунта</mat-label>
-
-                  <div class="t-med gray">Тут будуть доступи для налаштування аккаунту та його взаємодії з іншими
-                    користувачами
-                    та оселями</div>
-
-                  <div>
-                    <div class="content-group">
-                      <label class="checkBox">
-                        <input type="checkbox" [(ngModel)]="userParam.add_in_flat">
-                        <div class="transition"></div>
-                      </label>
-                      <div class="ml-2">Додавати в оселю</div>
-                      <button class="btn" (click)="openHelpAdd()"><i class="fa-solid fa-question"></i></button>
-                    </div>
-                  </div>
-                </div>
-                <div class="btn-group">
-                  <button class="btn w-100 t-med bold" (click)="saveParamsUser()">ЗБЕРЕГТИ <i
-                      class="fa-regular fa-circle-check ml-2"></i></button>
-                </div>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label class="flex-box"><i class="fa-solid fa-at"></i><span class="accent"> Контактна
+                    пошта*</span></mat-label>
+                <input name="userCont.mail" matInput [(ngModel)]="userCont.mail">
+                <mat-hint align="end" class="t-min gray">Для формування угод</mat-hint>
+              </mat-form-field>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label class="flex-box"><i class="fa-solid fa-phone"></i><span class="accent">
+                    Телефон*</span></mat-label>
+                <input type="tel" name="userCont.tell" matInput [(ngModel)]="userCont.tell" [maxlength]="10"
+                  [pattern]="phonePattern">
+                <mat-hint align="end" class="t-min gray">Для формування угод</mat-hint>
+              </mat-form-field>
+              <mat-label class="label"></mat-label>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label><i class="fa-solid fa-plus"><i class="fa-solid fa-phone"></i></i>Додатковий
+                  телефон</mat-label>
+                <input type="tel" name="userCont.phone_alt" matInput [(ngModel)]="userCont.phone_alt" [maxlength]="10"
+                  [pattern]="phonePattern">
+              </mat-form-field>
+              <mat-label class="t-c t-lar bold accent">Посилання на мене</mat-label>
+              <div class="t-min gray">Соцільні мережі допоможуть користувачам у прийнятті рішень, та для зручного
+                спілкування.</div>
+              <mat-form-field class="item-select mt-2" appearance="outline">
+                <mat-label class="flex-box"><i class="fa-brands fa-telegram"></i><span class="">
+                    https://t.me/</span>
+                </mat-label>
+                <input name="userCont.telegram" matInput [(ngModel)]="userCont.telegram">
+              </mat-form-field>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label class="flex-box"><i class="fa-brands fa-facebook"></i><span class="">
+                    https://www.facebook.com/</span></mat-label>
+                <input name="userCont.facebook" matInput [(ngModel)]="userCont.facebook">
+              </mat-form-field>
+              <mat-form-field class="item-select" appearance="outline">
+                <mat-label class="flex-box"><i class="fa-brands fa-instagram"></i><span class="">
+                    https://www.instagram.com/</span></mat-label>
+                <input name="userCont.instagram" matInput [(ngModel)]="userCont.instagram">
+              </mat-form-field>
+              <mat-label class="label"></mat-label>
+              <mat-form-field class="item-select mb-2" appearance="outline">
+                <mat-label><i class="fa-brands fa-viber"></i>Viber номер телефону</mat-label>
+                <input type="tel" name="userCont.phone_alt" matInput [(ngModel)]="userCont.viber" [maxlength]="10"
+                  [pattern]="phonePattern">
+              </mat-form-field>
+              <div class="btn-group">
+                <button class="btn" (click)="saveInfoCont()">
+                  <div class="t-min">ЗБЕРЕГТИ</div>
+                  <i class="fa-regular fa-circle-check ml-2"></i>
+                </button>
               </div>
             </div>
           </div>
 
-        </div>
+          <div [@swichCard] *ngIf="indexPage === 2" class="card-animation p-2">
+            <div class="card-content">
+              <div class="flex-column">
+                <mat-label class="t-lar bold accent">Доступи аккаунта</mat-label>
+                <div class="t-min gray">Тут будуть доступи для налаштування аккаунту та його взаємодії з іншими
+                  користувачами
+                  та оселями</div>
+                <div class="content-group">
+                  <label class="checkBox">
+                    <input type="checkbox" [(ngModel)]="userParam.add_in_flat">
+                    <div class="transition"></div>
+                  </label>
+                  <div class="ml-2">Додавати в оселю</div>
+                  <button class="btn" (click)="openHelpAdd()"><i class="fa-solid fa-question"></i></button>
+                </div>
+              </div>
+              <mat-label class="t-s t-lar bold accent">Статуси аккаунту</mat-label>
+              <div class="w-100 flex-column border mb-2">
+                <div class="t-min t-c">Дата створення аккаунту</div>
+                <div class="t-lar-x bold t-c">{{userInfo.data_create | date}}</div>
+              </div>
+              <div class="t-min gray" *ngIf="userInfo.banned === 0">У вас все добре</div>
+              <div class="t-min gray" *ngIf="userInfo.banned === 1">Ваш аккаунт забанено</div>
+              <div class="w-100 flex-column border mb-2">
+                <div class="t-min t-c">Статус блокування</div>
+                <div class="t-lar-x bold t-c" *ngIf="userInfo.banned === 0">Блокування немає</div>
+                <div class="t-lar-x bold t-c" *ngIf="userInfo.banned === 1">Заблокований</div>
+              </div>
+              <div class="w-100 flex-column border mb-2" *ngIf="userInfo.data_unban">
+                <div class="t-min t-c">Дата розблокування</div>
+                <div class="t-lar-x bold t-c">{{userInfo.data_unban | date}}</div>
+              </div>
+              <div class="t-min gray">Надає статус підтвердженої особи. В розробці*</div>
+              <div class="w-100 flex-column border mb-2">
+                <div class="t-min t-c">Стату підтвердження</div>
+                <div class="t-lar-x bold t-c" *ngIf="userInfo.checked === 0">Не підтверджений</div>
+                <div class="t-lar-x bold t-c" *ngIf="userInfo.checked === 1">Підтверджений</div>
+              </div>
 
-        <div class="flex-column w-100" *ngIf="indexPage === 3">
-
-          <div class="flex-column p-2">
-            <div class="t-lar-xx bold dark">Видалення аккаунту</div>
-            <div class="t-min gray mb-2">Тут можна повністью видалити аккаунт</div>
+              <div class="btn-group">
+                <button class="btn" (click)="saveParamsUser()">
+                  <div class="t-min">ЗБЕРЕГТИ</div>
+                  <i class="fa-regular fa-circle-check ml-2"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="card-box">
 
-            <div [@cardAnimation2] class="flex-box col-lg-6 col-sm-12 col-12 p-2">
-              <div class="card p-2">
+          <div [@swichCard] *ngIf="indexPage === 3" class="card-animation p-2">
+            <div class="card-content">
+              <div class="flex-box-column">
+                <p class="t-lar-x bold t-c p-2">При видаленні аккаунту видаляються:</p>
+                <ul class="t-lar">
+                  <li>Дані користувача</li>
+                  <li>Дані оселі</li>
+                  <li>Наповнення оселі</li>
+                  <li>Фото оселі</li>
+                  <li>Оцінки, відгуки та рейтинг оселі</li>
+                  <li>Оцінки, відгуки та рейтинг користувача</li>
+                  <li>Угоди користувача</li>
+                  <li>Угоди оселі</li>
+                </ul>
 
                 <div class="flex-box-column">
-                  <p class="t-lar-x bold t-c p-2">При видаленні аккаунту видаляються:</p>
-                  <ul class="t-lar">
-                    <li>Дані користувача</li>
-                    <li>Дані оселі</li>
-                    <li>Наповнення оселі</li>
-                    <li>Фото оселі</li>
-                    <li>Оцінки, відгуки та рейтинг оселі</li>
-                    <li>Оцінки, відгуки та рейтинг користувача</li>
-                    <li>Угоди користувача</li>
-                    <li>Угоди оселі</li>
-                  </ul>
+                  <label class="checkBox">
+                    <input type="checkbox" [(ngModel)]="agreeToDel">
+                    <div class="transition"></div>
+                  </label>
+                  <div class="mt-2 t-min t-c">Погоджуюсь на видалення аккаунту та розумію наслідки</div>
+                </div>
 
-                  <div class="flex-box-column">
-                    <label class="checkBox">
-                      <input type="checkbox" [(ngModel)]="agreeToDel">
-                      <div class="transition"></div>
-                    </label>
-                    <div class="mt-2 t-min t-c p-2">Погоджуюсь на видалення аккаунту та розумію наслідки</div>
+                <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
+                  <mat-label>Код підтвердження пошти</mat-label>
+                  <div class="mat-input-container">
+                    <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+                      placeholder="Введіть код підтвердження">
                   </div>
+                </mat-form-field>
 
-                  <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
-                    <mat-label>Код підтвердження пошти</mat-label>
-                    <div class="mat-input-container">
-                      <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode"
-                        name="passwordCheck" placeholder="Введіть код підтвердження">
-                    </div>
-                  </mat-form-field>
-
-                  <p class="t-min t-c p-2" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам
-                    було
-                    надіслано на пошту</p>
-                </div>
-                <div class="btn-group">
-
-                  <button [disabled]="!agreeToDel" class="btn" (click)="sendCodeForDelAcc()" *ngIf="!sentCode">
-                    <div class="t-min">Видалити</div>
-                    <i class="fa-solid fa-user-xmark pl-2"></i>
-                  </button>
-
-                  <button [disabled]="!agreeToDel || emailCheckCode === '' " class="btn" (click)="deleteAcc()"
-                    *ngIf="sentCode">
-                    <div class="t-min">Підтвердити видалення</div>
-                    <i class="fa-solid fa-user-xmark pl-2"></i>
-                  </button>
-                </div>
+                <p class="t-min t-c" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам
+                  було
+                  надіслано на пошту</p>
               </div>
+              <div class="btn-group">
+
+                <button [disabled]="!agreeToDel" class="btn" (click)="sendCodeForDelAcc()" *ngIf="!sentCode">
+                  <div class="t-min">Видалити</div>
+                  <i class="fa-solid fa-user-xmark pl-2"></i>
+                </button>
+
+                <button [disabled]="!agreeToDel && !emailCheckCode" class="btn" (click)="deleteAcc()" *ngIf="sentCode">
+                  <div class="t-min">Підтвердити видалення</div>
+                  <i class="fa-solid fa-user-xmark pl-2"></i>
+                </button>
+
+              </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </div>
+
   </div>
 
-  <app-footer class="hide-mobile"></app-footer>
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

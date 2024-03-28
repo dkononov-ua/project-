@@ -2,6 +2,12 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .container-reg {
   position: absolute;
   top: 0;
@@ -167,7 +173,6 @@ a {
       height: 80px;
     }
   }
-
 }
 
 .center {
@@ -191,13 +196,10 @@ a {
   }
 }
 
-
 p {
   text-align: center;
   font-size: 12px;
 }
-
-
 
 .btn {
   height: 50px;
@@ -285,7 +287,8 @@ h1 {
   width: 100%;
 }
 
-.fa-solid, .fa-regular {
+.fa-solid,
+.fa-regular {
   font-size: 18px;
   color: $color-dark;
 }

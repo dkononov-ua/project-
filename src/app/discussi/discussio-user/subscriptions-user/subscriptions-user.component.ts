@@ -135,7 +135,7 @@ export class SubscriptionsUserComponent implements OnInit {
     await this.counterService.getUserDiscussioCount();
     this.counterService.counterUserSubscriptions$.subscribe(async data => {
       this.counterUserSubscriptions = data;
-      this.counterFound = this.counterUserSubscriptions.status;
+      this.counterFound = this.counterUserSubscriptions;
       if (this.counterFound) { await this.getCurrentPageInfo(); }
     })
   }

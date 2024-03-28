@@ -2,6 +2,12 @@
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss" as *;
 
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
 .card-content {
   align-items: center !important;
   justify-content: space-between !important;
@@ -142,6 +148,17 @@ mat-label {
 
 .right-align {
   text-align: right;
+}
+
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+  }
+}
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-primary !important;
+  }
 }
 
 .hide-mobile {

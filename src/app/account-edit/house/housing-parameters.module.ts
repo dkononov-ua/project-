@@ -25,8 +25,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
-import { DeleteHouseComponent } from './delete-house/delete-house.component';
-
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
@@ -34,6 +32,7 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { InstructionComponent } from './instruction/instruction.component';
+import { DeleteHouseComponent } from 'src/app/components/house/delete-house/delete-house.component';
 
 @NgModule({
   declarations: [

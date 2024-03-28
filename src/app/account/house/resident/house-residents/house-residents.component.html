@@ -1,0 +1,23 @@
+<div class="cards-container" *ngIf="subscribers && subscribers.length !== 0">
+  <div class="t-min gray">Кількість мешканців які мають доступ до оселі: <span class="accent">{{
+      subscribers.length }} </span></div>
+  <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="onSubscriberSelect(subscriber)"
+    [class.selected]="selectedSubscriber === subscriber">
+    <div class="card-mini-img-container">
+      <img class="card-mini-img"
+        [src]="serverPathPhotoUser + (subscriber.photo ? subscriber.photo : 'user_default.svg')" alt="img">
+    </div>
+    <div class="card-body">
+      <div class="p-1">
+        <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
+        <div class="t-lar bold">{{ subscriber.lastName }}</div>
+        <div class="t-lar-xx bold">{{ subscriber.firstName }}</div>
+        <div class="t-med thin">{{ subscriber.surName }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="subscribers && subscribers.length === 0">
+  <div class="t-lar-xx">В цій оселі мешканці відсутні...</div>
+</div>

@@ -1,74 +1,33 @@
-<div class="card-menu">
-  <div class="param-box p-2">
-    <div class="flex-group border1">
-      <button class="link-t flex-box-row" (click)="onClickMenu(1)">
-        <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Як працює Discussio угода.</span>
-      </button>
-      <div class="t-min t-c">Покрокове пояснення як працює створення угоди та додавання вас до
-        мешканців оселі.</div>
-    </div>
-
-    <div class="flex-group border1 mt-2">
-      <button [disabled]="numSendAgree === 0" class="link-t flex-box-row" (click)="onClickMenu(2)">
-        <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Запропоновані угоди.</span>
-        <div class="t-min bold accent" *ngIf="numSendAgree === 0">Доступно коли вам надіслали угоду </div>
-      </button>
-      <div class="t-min">Погодження або відхилення умов. </div>
-    </div>
-
-    <div class="flex-group border1 mt-2">
-      <button [disabled]="numConcludedAgree === 0" class="link-t flex-box-row" (click)="onClickMenu(3)">
-        <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Ухвалені угоди.</span>
-        <div class="t-min bold accent" *ngIf="numConcludedAgree === 0">Доступне коли є ухвалена угода </div>
-      </button>
-      <div class="t-min">Перегляд/друк угод, актів.</div>
-    </div>
-
-  </div>
-  <div class="img-wrapper">
-    <img class="img" src="../../../../../assets/example-agree/man_and_door4.jpg" alt="">
-  </div>
-</div>
-
 <!-- про меню -->
-<div [@swichCard] class="card-animation">
-  <div class="card-content">
+<div class="content-child">
+  <div class="card-wrapper hide-mobile col-lg-6 col-md-6 col-sm-12 col-12">
+    <app-uagree-step></app-uagree-step>
+  </div>
+  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
+    <div [@left1] class="card-content-static">
+      <div class="card-group">
+        <div class="flex-box-center t-c p-2 mt-2 w-100">
+          <i class="fa-solid fa-handshake-simple"></i>
+          <p class="t-lar-x bold mb-2">Меню Угоди Орендаря</p>
+          <p class="t-min bold mb-2">Тут будуть угоди які вам пропонують або які вже ухвалені.</p>
+          <p class="t-min">Наша платформа дозволяє легко та швидко створювати угоди між орендарем та орендодавцем всього за кілька
+            хвилин. Згенерувати стандартні умови оренди нерухомого майна або додавати власні додаткові умови.
+            Після створення угоди, вона направляється орендарю для розгляду та погодження, щоб він міг докладно з
+            нею ознайомитись та прийняти рішення. Після погодження умов угоди, її можна легко роздрукувати та підписати
+            на місці.</p>
+        </div>
 
-    <div class="flex-box-center t-c p-2 mt-2 w-100">
-      <i class="fa-solid fa-child-reaching"></i>
-      <p class="t-lar-x bold">Меню дискусії користувача</p>
-      <p class="t-min">Оселі які ви ухвалили або вони вас. З ними доступні додаткові можливості.</p>
+        <div class="btn-group mt-2">
+          <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
+            <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+            <i class="fa-regular fa-lightbulb"></i>
+          </button>
+        </div>
+
+      </div>
+      <div class="card-background">
+        <img class="img" src="../../../../../assets/example-agree/man_and_door4.jpg" alt="">
+      </div>
     </div>
-
-    <ul class="t-med mt-2 t-s">
-      <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-      <li>Перегляд контактної інформації.</li>
-      <li>Рейтинг власника.</li>
-      <li>Соціальні мережі власника.</li>
-      <li>Статистичні дані по комунальним.</li>
-      <li>Створення чату.</li>
-      <li>Створення шаблону угоди.</li>
-    </ul>
-
-    <div class="flex-box-center t-c p-2 mt-2">
-      <p class="t-med bold">Отримати Дискусії можна ухваливши користувача з пропозицій</p>
-      <p class="t-med bold">Або якщо ви підписались на оселю і вас ухвалили.</p>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn btn-navigation" [routerLink]="'/subscribers-user'">
-        <div class="t-med bold mr-2">Меню пропозицій</div>
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Підписники' }">
-        <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-        <i class="fa-regular fa-lightbulb"></i>
-      </button>
-    </div>
-
-
   </div>
 </div>

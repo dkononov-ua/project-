@@ -19,11 +19,12 @@ const routes: Routes = [
     path: 'subscribers-host', component: SubscribersHostComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'subscribers-house', pathMatch: 'full' },
-      { path: 'subscribers-house', component: SubscribersHouseComponent, canActivate: [CanActivateGuard] },
-      { path: 'subscribers-discus', component: SubscribersDiscusComponent, canActivate: [CanActivateGuard] },
-      { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard] },
     ],
   },
+
+  { path: 'subscribers-house', component: SubscribersHouseComponent, canActivate: [CanActivateGuard] },
+  { path: 'subscribers-discus', component: SubscribersDiscusComponent, canActivate: [CanActivateGuard] },
+  { path: 'subscriptions-house', component: SubscriptionsHouseComponent, canActivate: [CanActivateGuard] },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }, // Перенаправлення для будь-якого іншого URL
 
