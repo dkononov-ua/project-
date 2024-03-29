@@ -1,0 +1,64 @@
+@use "../../chat.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../send.scss";
+
+.message-content-user {
+  background-color: rgba(19, 19, 19, 0.856);
+  border-radius: 20px 20px 0px 20px;
+}
+
+.message-content-owner {
+  justify-content: flex-end;
+  background-color: rgba(93, 90, 90, 0.856);
+  border-radius: 20px 20px 20px 0px;
+}
+
+.unread {
+  background-color: $color-accent;
+  transform: 1s;
+}
+
+.pl-2 {
+  padding-left: 60px;
+}
+
+.chat-container-user {
+  justify-content: flex-end;
+}
+
+.chat-container-owner {
+  justify-content: flex-start;
+}
+
+.user-message {
+  border-radius: 10px 10px 0px 10px;
+}
+
+.owner-message {
+  border-radius: 10px 10px 10px 0px;
+}
+
+.message-content-owner {
+  justify-content: flex-start;
+}
+
+.avatar-wrapper-user {
+  right: 0;
+}
+
+.avatar-wrapper-owner {
+  left: 0;
+}
+
+.name-owner {
+  justify-content: flex-start;
+  left: 0px;
+  top: 0;
+}
+
+.name-user {
+  top: 0;
+  right: 0px;
+  justify-content: flex-end;
+}

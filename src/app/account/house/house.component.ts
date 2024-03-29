@@ -5,6 +5,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { CounterService } from 'src/app/services/counter.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { animations } from '../../interface/animation';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-house',
@@ -23,7 +24,9 @@ import { animations } from '../../interface/animation';
 })
 
 export class HouseComponent implements OnInit {
-
+  goBack(): void {
+    this.location.back();
+  }
   selectedFlatId!: string | null;
   path_logo = path_logo;
   statusMessage: string | undefined;
@@ -57,6 +60,7 @@ export class HouseComponent implements OnInit {
     private sharedService: SharedService,
     private counterService: CounterService,
     private updateComponent: UpdateComponentService,
+    private location: Location,
   ) {
     this.sharedService.getStatusMessage().subscribe((message: string) => {
       this.statusMessage = message;

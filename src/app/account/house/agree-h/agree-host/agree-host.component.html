@@ -1,0 +1,67 @@
+<div class="content-component">
+  <div class="switch-container">
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
+    </div>
+
+    <div class="menu-box hide-mobile">
+      <div class="menu-lable">Меню</div>
+      <div class="menu-name">Угод Оселі</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/agree/menu'">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="t-min bold">Про Меню</div>
+      </button>
+    </div>
+
+    <div class="hide-pc">
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/agree/step'">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="t-min bold">Пояснення Кроки</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [disabled]="counterFound === 0" (click)="goToAgreeCreate()">
+        <i class="fa-solid fa-feather-pointed"></i>
+        <div class="t-min bold">Формувати Угоду</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="numSendAgree === 0" class="btn" [routerLinkActive]="'active'"
+        [routerLink]="'/house/agree/rewiew'">
+        <i class="fa-solid fa-hourglass-half"></i>
+        <div class="t-min bold">Надіслані Угоди</div>
+        <div class="status" *ngIf="numSendAgree !== 0">
+          {{numSendAgree}}
+        </div>
+      </button>
+    </div>
+
+
+
+    <div class="switch-btn-group">
+      <button [disabled]="numConcludedAgree === 0" class="btn" [routerLinkActive]="'active'"
+        [routerLink]="'/house/agree/concluded'">
+        <i class="fa-solid fa-file-circle-check"></i>
+        <div class="t-min bold">Ухвалені Угоди</div>
+        <div class="status" *ngIf="numConcludedAgree !== 0">
+          {{numConcludedAgree}}
+        </div>
+      </button>
+    </div>
+
+  </div>
+  <div class="main-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

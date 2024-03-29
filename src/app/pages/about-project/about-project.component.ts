@@ -1,39 +1,61 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { path_logo } from 'src/app/config/server-config';
+import { animations } from '../../interface/animation';
+import { ViewportScroller } from '@angular/common';
+
 @Component({
   selector: 'app-about-project',
   templateUrl: './about-project.component.html',
   styleUrls: ['./about-project.component.scss'],
   animations: [
-    trigger('cardAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateX(200%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)', opacity: 1 }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(200%)', opacity: 0 }))
-      ]),
-    ]),
+    animations.bot,
+    animations.bot3,
+    animations.top2,
+    animations.top4,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.swichCard,
 
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'scale(0.5)', opacity: 0 }),
-        animate('1200ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'scale(1)', opacity: 1 }),
-        animate('1200ms ease-in-out', style({ transform: 'scale(0.5)', opacity: 0 }))
-      ]),
-    ]),
   ],
 })
-export class AboutProjectComponent {
+export class AboutProjectComponent implements OnInit {
   path_logo = path_logo;
   currentStep: number = 0;
   currentScenario: number = 1;
   statusMessage: string | undefined;
+
+  containers: { [key: string]: boolean } = {
+    container1: false,
+    container2: false,
+    container3: false,
+    container4: false
+  };
+
+  scrollToAnchor(anchor: string): void {
+    // Встановлюємо статус активності для вибраного контейнера
+    this.containers[anchor] = true;
+
+    setTimeout(() => {
+      const element = this.el.nativeElement.querySelector(`#${anchor}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 30);
+  }
+
+  constructor(
+    private el: ElementRef,
+    private viewportScroller: ViewportScroller) { }
+
+  ngOnInit() {
+
+  }
 
   changeStep(step: number): void {
     this.currentStep = step;

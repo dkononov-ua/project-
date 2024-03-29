@@ -1,4 +1,4 @@
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animations } from '../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { regions } from '../../../data/data-city';
@@ -30,20 +30,8 @@ interface FlatInfo {
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ],
+  animations: [animations.left, animations.left1, animations.left2,],
+
 })
 
 export class AddressComponent implements OnInit {
@@ -213,9 +201,11 @@ export class AddressComponent implements OnInit {
             this.statusMessage = 'Параметри успішно додані';
             setTimeout(() => {
               this.statusMessage = '';
-              this.router.navigate(['/housing-parameters/host/param']);
+              setTimeout(() => {
+                this.router.navigate(['/housing-parameters'], { queryParams: { indexPage: 2 } });
+              }, 200);
             }, 1500);
-          }, 500);
+          }, 300);
         } else {
           setTimeout(() => {
             this.statusMessage = 'Помилка збереження';

@@ -1,0 +1,90 @@
+<div class="content-component">
+  <div class="switch-container">
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLink]="'/home/home-page'">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
+    </div>
+
+    <div class="menu-box hide-mobile">
+      <div class="menu-lable">Меню</div>
+      <div class="menu-name">Управління Оселею</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/add-house'">
+        <i class="fa-solid fa-house-chimney-medical"></i>
+        <div class="t-min bold">Створення</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
+        <i class="fa-solid fa-house-circle-check"></i>
+        <div class="t-min bold">Вибір</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!selectedFlatId" class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
+        <i class="fa-solid fa-house"></i>
+        <div class="t-min bold">Оселя</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="acces_admin === 1">
+      <button [disabled]="!selectedFlatId" class="btn" (click)="openDialog()">
+        <i class="fa-solid fa-circle-minus"></i>
+        <div class="t-min bold">Видалити</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="acces_admin === 1">
+      <button [disabled]="!selectedFlatId" class="btn" (click)="exitHouse()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <div class="t-min bold">Вийти</div>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="main-container">
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+      <div class="card-wrapper">
+        <div [@right1] class="card-content-static w-100">
+          <div class="card-group">
+            <div class="flex-box-center t-c p-2 mt-2 w-100">
+              <i class="fa-solid fa-house-lock"></i>
+              <p class="t-lar-xx bold mb-2 t-c">Управління Оселею</p>
+              <p class="t-min mb-2">Тут ви можете: Створити оселю, обрати оселю вийти або її видалити.</p>
+            </div>
+
+            <div class="btn-group mt-2">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'"
+                [queryParams]="{ category: 'Профіль оселі' }">
+                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                <i class="fa-regular fa-lightbulb"></i>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
+</div>

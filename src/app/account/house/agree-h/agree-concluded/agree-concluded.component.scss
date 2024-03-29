@@ -1,1 +1,7 @@
 @use "../../../../style/agree/agree_menu.scss";
+@use "../../../../style/shared.scss";
+
+.content-child {
+  height: calc(100vh - 100px - 1rem);
+  overflow: auto;
+}

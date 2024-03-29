@@ -2,12 +2,14 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChi
 import { objects } from '../../../data/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { animations } from '../../../interface/animation';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 interface ObjectInfo {
   name: string | undefined;
@@ -21,24 +23,35 @@ interface ObjectInfo {
   templateUrl: './add-objects.component.html',
   styleUrls: ['./add-objects.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
+    animations.swichCard,
   ],
 })
 
 export class AddObjectsComponent implements OnInit {
+
+  indexPage: number = 1;
+
+  goBack(): void {
+    this.location.back();
+  }
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
+  }
+
+  acces_filling: number = 1;
+  houseData: any;
   path_logo = path_logo;
   loading = false;
+  checkObj: any;
+  infoObjects: any;
 
   reloadPageWithLoader() {
     this.loading = true;
@@ -76,18 +89,17 @@ export class AddObjectsComponent implements OnInit {
   fillingImg: any;
   selectedIconUrl: string = '';
   selectedCard: boolean = false;
-  indexPage: number = 0;
-  indexCard: number = 0;
-
   minValue: number = 0;
   maxValue: number = 99;
   defaultIcon = '../../../assets/icon-objects/add_circle.png';
   statusMessage: string | undefined;
-
   helpInfo: boolean = false;
   photoData: any;
   cropped?: string;
   about: boolean = false;
+  startX = 0;
+  selectedSortOption: any;
+
   addAbout() {
     this.about = !this.about;
   }
@@ -95,42 +107,64 @@ export class AddObjectsComponent implements OnInit {
     this.helpInfo = !this.helpInfo;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
-    this.updateIndexCardBasedOnWindowSize();
-  }
-
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private _dialog: LyDialog,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
+    private router: Router,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
-    this.updateIndexCardBasedOnWindowSize();
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
         this.loadObjects();
         this.getInfo();
+        this.getHouseAcces();
       }
     });
   }
 
-    // перевірка ширини екрану
-    private updateIndexCardBasedOnWindowSize(): void {
-      const windowWidth = window.innerWidth;
-      if (windowWidth >= 768) {
-        this.indexCard = 1;
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
       } else {
-        this.indexCard = 0;
+        this.onSwiped('left');
       }
     }
+  }
+
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'right') {
+      if (this.indexPage !== 0) {
+        this.indexPage--;
+      } else {
+        this.router.navigate(['/house/house-info']);
+      }
+    } else {
+      if (this.acces_filling === 1 && this.indexPage !== 3) {
+        this.indexPage++;
+      }
+      if (this.acces_filling === 0 && this.indexPage !== 1) {
+        this.indexPage++;
+      }
+    }
+  }
 
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
-
     if (this.selectedFlatId && userJson) {
       const response = await this.http.post(serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
@@ -138,6 +172,9 @@ export class AddObjectsComponent implements OnInit {
       }).toPromise() as any;
       if (response) {
         this.flat_objects = response.status;
+        localStorage.setItem('flat_objects', JSON.stringify(this.flat_objects));
+      } else {
+        localStorage.removeItem('flat_objects');
       }
     }
   }
@@ -216,6 +253,14 @@ export class AddObjectsComponent implements OnInit {
       ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: mimeString });
+  }
+
+  checkObject() {
+    if (this.selectedType && this.selectedObject || this.customObject) {
+      this.checkObj = true;
+    } else {
+      this.checkObj = false;
+    }
   }
 
   async saveObject(): Promise<void> {
@@ -305,6 +350,30 @@ export class AddObjectsComponent implements OnInit {
     }
   }
 
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseAcces(): Promise<void> {
+    this.houseData = localStorage.getItem('houseData');
+    if (this.houseData) {
+      const parsedHouseData = JSON.parse(this.houseData);
+      this.houseData = parsedHouseData;
+      if (this.houseData.acces) {
+        this.acces_filling = this.houseData.acces.acces_filling;
+      }
+    }
+  }
 
+  // сортування за типом
+  sortData() {
+    const infoObjects = localStorage.getItem('flat_objects');
+    if (infoObjects) {
+      this.infoObjects = JSON.parse(infoObjects);
+      if (this.selectedSortOption !== '') {
+        const filteredData = this.infoObjects.filter((item: any) => item.type_filling === this.selectedSortOption);
+        this.flat_objects = filteredData;
+      } else {
+        this.flat_objects = this.infoObjects;
+      }
+    }
+  }
 
 }

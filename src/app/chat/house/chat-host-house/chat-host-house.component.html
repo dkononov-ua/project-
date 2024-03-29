@@ -1,0 +1,94 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <div class="switch-content" *ngIf="indexPage !== 1">
+    <div class="switch-name">
+      <div [@cardAnimation1] *ngIf="indexPage === 0">Чати оселі</div>
+    </div>
+
+    <div class="switch-box" *ngIf="indexPage !== 1">
+
+      <div class="switch-btn-group">
+        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"><span class="link-text">
+            <i class="fa-solid fa-arrow-left"></i></span>
+          <div class="t-min dark bold">Назад</div>
+        </a>
+      </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
+          <i class="fa-solid fa-list"></i>
+          <div class="t-min dark bold">Всі чати</div>
+        </button>
+      </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" [disabled]="!chatSelected" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage === 1}">
+          <i class="fa-regular fa-message"></i>
+          <div class="t-min dark bold">Чат</div>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="flex-column-chat" *ngIf="indexPage === 1 && chatSelected">
+    <div class="btn-close-container">
+      <div class="btn-close-box">
+        <button class="btn-close" (click)="indexPage = 0"></button>
+      </div>
+    </div>
+    <app-chat-house class="chat"></app-chat-house>
+  </div>
+
+  <div class="card-box" *ngIf="indexPage === 0">
+    <div class="feedback-box p-2">
+      <button class="feedback-box-btn" [routerLink]="'/feedback'" [queryParams]="{ category: 'Чат' }">
+        <div class="t-med bold mr-2">Запропонувати зміни</div>
+        <i class="fa-solid fa-arrow-right gray"></i>
+      </button>
+    </div>
+    <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)"  class="cards-container p-2" *ngIf="chats.length !== 0">
+      <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
+        [ngClass]="{ 'selected': chat.isSelected}">
+
+        <div class="notification-box" *ngIf="chat.unread !== 0">
+          <div class="notification-num">{{chat.unread}}</div>
+        </div>
+
+        <div class="card-mini-img-container w-30">
+          <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
+            <img class="card-mini-img"
+              [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
+          </ng-container>
+
+          <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+            <mat-spinner color="warn"></mat-spinner>
+            <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
+          </ng-container>
+
+          <ng-container *ngIf="!chat.infUser.img[0].img">
+            <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
+          </ng-container>
+        </div>
+
+        <div class="flex-box p-1 w-70">
+          <div class="t-min bold">{{ chat.infUser.inf.firstName }} {{ chat.infUser.inf.lastName }} </div>
+          <div class="accent bold"> ID:{{ chat.user_id }} </div>
+          <div class="t-min gray">{{ chat.lastMessage }}</div>
+        </div>
+
+
+      </div>
+    </div>
+    <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-container" *ngIf="chats.length === 0">
+      <div class="flex-column p-2">
+        <h3>Тут будуть чати</h3>
+        <p>У вас поки немає чатів...</p>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

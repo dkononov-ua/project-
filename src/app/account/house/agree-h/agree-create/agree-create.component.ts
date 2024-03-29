@@ -19,6 +19,7 @@ const year = today.getFullYear();
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../../interface/animation';
 import { cities } from 'src/app/data/data-city';
+import { Location } from '@angular/common';
 
 export const MY_FORMATS = {
   parse: {
@@ -76,6 +77,12 @@ interface Subscribers {
   ],
 })
 export class AgreeCreateComponent implements OnInit {
+
+  goBack(): void {
+    this.location.back();
+  }
+
+
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -162,6 +169,7 @@ export class AgreeCreateComponent implements OnInit {
 
   offs: number = 0;
   startX = 0;
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -170,7 +178,8 @@ export class AgreeCreateComponent implements OnInit {
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private location: Location,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -178,10 +187,8 @@ export class AgreeCreateComponent implements OnInit {
       start: new FormControl(new Date(year, month)),
       end: new FormControl(new Date(year, month))
     });
-
     const currentDate = new Date();
     this.rentDueDate = currentDate.getDate();
-
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {

@@ -1,48 +1,49 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
+<div class="content-child">
+  <div class="card-wrapper col-lg-8 col-md-8 col-sm-12 col-12">
+    <div [@top2] class="card-content-static">
+      <div class="card-group w-100">
+        <div class="flex-box-center t-c p-2 mt-2 w-100">
+          <i class="fa-solid fa-plus"></i> <i class="fa-solid fa-house pl-2"></i>
+          <p class="t-lar-x bold mb-2">Створення Профілю <br> Оселі</p>
+          <p class="t-min bold mb-2">Тут можна створити новий профіль оселі.</p>
+          <p class="t-min">Придумайте назву вашої оселі, її будуть бачити орендарі, мінімальна назва має містити 4
+            символи. Кількість створення профілів оселі на момент бета-тесту необмежена.</p>
+        </div>
 
-<ng-template #content>
-  <div class="card-menu">
-    <div class="param-box p-2">
+        <div class="param-box w-100">
 
-      <div class="t-lar-x bold t-c mt-2">Створення аккаунту оселі</div>
-      <div class="t-lar t-c">Перед початком налаштування та для доступу до функцій оселі, давайте її створимо.</div>
+          <mat-form-field class="w-100" appearance="outline" *ngIf="showInput">
+            <mat-label>Назва оселі</mat-label>
+            <input id="flat_name" name="flat_name" placeholder="Мінімум 4 символи" matInput [(ngModel)]="flat_name"
+              minlength="4" maxlength="20" #flatIdInput="ngModel" required>
+            <mat-hint align="end" class="t-min gray">Придумайте назву своєї оселі "Моя оселя"</mat-hint>
+          </mat-form-field>
 
-      <mat-form-field class="w-100" appearance="outline" *ngIf="showInput">
-        <mat-label>Назва оселі</mat-label>
-        <input id="flat_name" name="flat_name" placeholder="Мінімум 4 символи" matInput [(ngModel)]="flat_name"
-          minlength="4" maxlength="20" #flatIdInput="ngModel" required>
-        <mat-hint align="end" class="t-min gray">Придумайте назву своєї оселі "Моя оселя"</mat-hint>
-      </mat-form-field>
+          <div class="btn-group w-100">
 
-      <div class="btn-group w-100">
+            <button class="btn" (click)="openBtn()" *ngIf="!showInput">
+              <i class="fa-solid fa-circle-check"></i>
+              <div class="t-min dark bold ml-2">Створити</div>
+            </button>
 
-        <button class="btn" (click)="openBtn()" *ngIf="!showInput">
-          <i class="fa-solid fa-circle-check"></i>
-          <div class="t-min dark bold ml-2">Створити</div>
-        </button>
+            <button class="btn" (click)="openBtn()" *ngIf="showInput">
+              <i class="fa-solid fa-circle-minus"></i>
+              <div class="t-min dark bold ml-2">Відмінити</div>
+            </button>
 
-        <button class="btn" (click)="openBtn()" *ngIf="showInput">
-          <i class="fa-solid fa-circle-minus"></i>
-          <div class="t-min dark bold ml-2">Відмінити</div>
-        </button>
+            <button class="btn" (click)="houseCreate()" *ngIf="showInput && flat_name.length > 3">
+              <i class="fa-solid fa-circle-check"></i>
+              <div class="t-min dark bold ml-2">Підтвердити</div>
+            </button>
 
-        <button class="btn" (click)="houseCreate()" *ngIf="showInput && flat_name.length > 3">
-          <i class="fa-solid fa-circle-check"></i>
-          <div class="t-min dark bold ml-2">Підтвердити</div>
-        </button>
+          </div>
+        </div>
 
       </div>
-    </div>
-    <div class="img-wrapper">
-      <img class="img" src="../../../../../assets/example-agree/people_yard3.jpg" alt="img">
+
+      <div class="card-background">
+        <img class="img" src="../../../../../assets/example-agree/people_yard3.jpg" alt="">
+      </div>
     </div>
   </div>
-</ng-template>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>

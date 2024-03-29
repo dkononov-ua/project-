@@ -141,6 +141,7 @@ import { HouseRoutingModule } from './account/house/house-routing.module';
     SearchRoutingModule,
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
+
   ]
 })
 export class AppModule { }

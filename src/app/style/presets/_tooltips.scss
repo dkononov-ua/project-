@@ -1,5 +1,14 @@
 @use "skin" as *;
 
+.container-loader-mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
 .status-container {
   position: absolute;
   top: 0;
@@ -31,16 +40,17 @@
   }
 
   .status-hover {
-    width: 90%;
-    min-width: 300px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    top: 160%;
-    left: 20px;
+    top: 170%;
+    left: 10px;
     display: none;
-    background-color: rgba(0, 0, 0, 0.905);
+    background-color: rgba(26, 26, 26, 0.957);
     border-radius: 20px;
     padding: 8px;
-    box-shadow: 0px 10px 10px $color-dark;
 
     .status-hover-label {
       color: $color-accent;

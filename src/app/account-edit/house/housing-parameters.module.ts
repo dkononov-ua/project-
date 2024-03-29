@@ -33,6 +33,7 @@ import { LyDialogModule } from '@alyle/ui/dialog';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { InstructionComponent } from './instruction/instruction.component';
 import { DeleteHouseComponent } from 'src/app/components/house/delete-house/delete-house.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,8 @@ import { DeleteHouseComponent } from 'src/app/components/house/delete-house/dele
     LyButtonModule,
     LyIconModule,
     LyDialogModule,
+    MatProgressSpinnerModule,
+
   ],
 })
 export class HousingParametersModule { }

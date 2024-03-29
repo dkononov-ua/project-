@@ -5,11 +5,23 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { animations } from '../../../interface/animation';
 
 @Component({
   selector: 'app-add-house',
   templateUrl: './add-house.component.html',
   styleUrls: ['./add-house.component.scss'],
+  animations: [
+    animations.top2,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.swichCard,
+  ],
 })
 
 export class AddHouseComponent implements OnInit {

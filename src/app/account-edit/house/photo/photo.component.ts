@@ -1,4 +1,4 @@
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animations } from '../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,20 +13,8 @@ import { DataService } from 'src/app/services/data.service';
   selector: 'app-photo',
   templateUrl: './photo.component.html',
   styleUrls: ['./photo.component.scss'],
-  animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-  ],
+  animations: [animations.left, animations.left1, animations.left2,],
+
 })
 
 export class PhotoComponent implements OnInit {
@@ -34,6 +22,7 @@ export class PhotoComponent implements OnInit {
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
+  isLoadingImg: boolean = false;
 
   loading = true;
   filename: string | undefined;
@@ -44,6 +33,7 @@ export class PhotoComponent implements OnInit {
   currentPhotoIndex: number = 0;
   statusMessage: string | undefined;
   selectedPhoto: boolean = false;
+  reloadImg: boolean = false;
 
   selectPhoto(photo: any): void {
     if (this.selectedPhoto === photo) {
@@ -82,7 +72,7 @@ export class PhotoComponent implements OnInit {
     this.loading = false;
   }
 
-  updateFlatInfo () {
+  updateFlatInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
@@ -113,6 +103,12 @@ export class PhotoComponent implements OnInit {
             if (Array.isArray(response.imgs) && response.imgs.length > 0) {
               this.flatImg = response.imgs;
               this.flatImg.reverse();
+              if (this.reloadImg) {
+                setTimeout(() => {
+                  this.statusMessage = '';
+                  this.reloadImg = false;
+                }, 1500);
+              }
             } else {
               this.flatImg = [{ img: "housing_default.svg" }];
             }
@@ -160,24 +156,16 @@ export class PhotoComponent implements OnInit {
     }
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
     formData.append('flat_id', this.selectedFlatId);
-
     const headers = { 'Accept': 'application/json' };
-    console.log(formData)
     this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
-      (data: any) => {
+      async (data: any) => {
         this.images.push(serverPath + '/img/flat/' + data.filename);
         this.loading = false;
         if (data.status === 'Збережено') {
-          // this.statusMessage = 'Фото додано';
-          // setTimeout(() => {
-            this.statusMessage = 'Фото додано';
-            setTimeout(() => {
-              this.statusMessage = '';
-              this.updateFlatInfo();
-              this.reloadPageWithLoader();
-              // this.router.navigate(['/housing-parameters/host/address']);
-            }, 1500);
-          // }, 1000);
+          this.reloadImg = true;
+          this.flatImg = [];
+          this.statusMessage = 'Фото додано';
+          await this.getInfo();
         } else {
           setTimeout(() => {
             this.statusMessage = 'Помилка завантаження';
@@ -219,8 +207,8 @@ export class PhotoComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response.status == 'Видалення було успішне') {
+              this.statusMessage = 'Видалено';
               setTimeout(() => {
-                this.statusMessage = 'Видалено';
                 const deletedIndex = this.flatImg.findIndex((item: { img: any; }) => item.img === selectImg);
                 this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg);
                 if (this.currentPhotoIndex > deletedIndex) {
@@ -230,7 +218,7 @@ export class PhotoComponent implements OnInit {
                 setTimeout(() => {
                   this.statusMessage = '';
                 }, 1500);
-              }, 500);
+              }, 1500);
             } else {
               setTimeout(() => {
                 this.statusMessage = 'Помилка видалення';

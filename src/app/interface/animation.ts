@@ -126,19 +126,24 @@ export const animations = {
     ]),
   ]),
 
+  bot: trigger('bot', [
+    transition(':enter', [
+      style({ transform: 'translateY(-120%)', opacity: 0 }),
+      animate('300ms 0ms', style({ transform: 'translateY(0)', opacity: 1 }))
+    ]),
+  ]),
+
+  bot3: trigger('bot3', [
+    transition(':enter', [
+      style({ transform: 'translateY(-120%)', opacity: 0 }),
+      animate('600ms 300ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+    ]),
+  ]),
+
   cardSwipeAnimation: trigger('cardSwipe', [
     state('notSwiped', style({ transform: 'translateX(0)' })),
     state('swiped', style({ transform: 'translateX(100%)' })),
     transition('notSwiped <=> swiped', animate('1200ms ease-in-out')),
   ]),
-
-
-  bot: trigger('bot', [
-    transition('void => *', [
-      style({ transform: 'translateY(-100%)' }),
-      animate('1200ms 0ms ease-in-out', style({ transform: 'translateY(0)' }))
-    ]),
-  ]),
-
 
 };

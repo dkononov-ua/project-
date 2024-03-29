@@ -8,15 +8,11 @@
 
 .checkBox {
   position: relative;
-
   display: block;
   overflow: hidden;
-
   width: 30px;
   height: 30px;
-
   cursor: pointer;
-
   border: 1px solid $color-gray;
   box-shadow: 0px 0px 0px 0px #000000;
   border-radius: 10px;
@@ -24,15 +20,11 @@
 
 .checkBox div {
   position: absolute;
-  z-index: 1;
   top: -52px;
   left: -52px;
-
   width: 60px;
   height: 60px;
-
   transform: rotateZ(45deg);
-
   background-color: $color-accent;
 }
 
@@ -44,7 +36,6 @@
 .checkBox input[type="checkbox"] {
   position: absolute;
   left: 50px;
-
   visibility: hidden;
 }
 

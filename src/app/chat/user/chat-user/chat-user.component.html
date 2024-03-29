@@ -1,0 +1,125 @@
+<ng-container *ngIf="loading; else content">
+  <div class="container-loader-mini">
+    <mat-spinner color="warn"></mat-spinner>
+    <div class="t-med mt-2">Завантаження повідомлень</div>
+  </div>
+</ng-container>
+
+<ng-template #content>
+
+  <div class="chat-info-container p-1" *ngIf="infoPublic">
+    <img class="avatar-user1 w-30"
+      [src]="serverPathPhotoFlat + (infoPublic[0].infFlat.imgs[0].img ? infoPublic[0].infFlat.imgs[0].img : 'housing_default.svg')"
+      alt="Flat Image">
+    <div class="name-user1 w-70">
+      <div class="t-min">Чат з оселею ID: {{ infoPublic[0].flat_id }}</div>
+      <div class="t-lar bold">{{ infoPublic[0].flat_name }} </div>
+      <div class="t-min">Chat ID: {{ infoPublic[0].chat_id }}</div>
+    </div>
+  </div>
+
+  <div class="chat-container" id="chatContainer" #chatContainer>
+    <div class="chat">
+      <div class="btn-more-box">
+        <button class="btn btn-more" (click)="loadPreviousMessages()" *ngIf="messageALL.length > 49">
+          <i class="fa-solid fa-chevron-up"></i>
+        </button>
+      </div>
+      <div class="chat-messages-read" *ngIf="allMessages.length !== 0">
+        <div class="chat" *ngFor="let message of allMessages">
+          <ng-container *ngIf="infoPublic && message.user_id !== null && message.is_read === 1">
+            <div class="chat-container-user">
+              <div class="user-message" [ngClass]="{ 'read': message.is_read === 1 }">
+                <div class="wrapper-user w-100">
+                  <div class="name-user">
+                    <div><i class="fa-solid fa-check-double"></i>
+                      {{ message.time }} | {{ message.data | date: 'dd.MM.yy' }}
+                    </div>
+                  </div>
+                </div>
+                <div class="message-content-user">
+                  <div class="message-text-user">{{ message.message }}</div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="infoPublic && message.flat_id && message.is_read === 1">
+            <div class="chat-container-owner">
+              <div class="owner-message" [ngClass]="{ 'read': message.is_read === 1 }">
+                <div class="wrapper-owner w-100">
+                  <div class="name-owner">
+                    <div>{{infoPublic[0].flat_name}} {{ message.time }} | {{ message.data | date:
+                      'dd.MM.yy' }}<i class="fa-solid fa-check-double"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="message-content-owner">
+                  <div class="message-text-owner">{{ message.message }}<i class="fa-solid fa-check-double"></i></div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="chat-messages-unread" *ngIf="allMessagesNotRead.length !== 0">
+        <div class="chat" *ngFor="let messagesNotRead of allMessagesNotRead">
+          <ng-container *ngIf="infoPublic && messagesNotRead.user_id && messagesNotRead.is_read === 0">
+            <div class="chat-container-user">
+              <div class="user-message">
+                <div class="wrapper-user w-100">
+                  <div class="name-user">
+                    <div><i class="fa-solid fa-check"></i> {{ messagesNotRead.time }} | {{ messagesNotRead.data | date:
+                      'dd.MM.yy' }}
+                    </div>
+                  </div>
+                </div>
+                <div class="message-content-user" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
+                  <div class="message-text-user">{{ messagesNotRead.message }}</div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="infoPublic && messagesNotRead.flat_id && messagesNotRead.is_read == 0">
+            <div class="chat-container-owner">
+              <div class="owner-message">
+                <div class="wrapper-owner w-100">
+                  <div class="name-owner">
+                    <div>{{ infoPublic[0].flat_name }} {{ messagesNotRead.time }} | {{ messagesNotRead.data | date:
+                      'dd.MM.yy' }}<i class="fa-solid fa-check"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="message-content-owner" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
+                  <div class="message-text-owner">{{ messagesNotRead.message }}</div>
+                </div>
+              </div>
+            </div>
+
+
+          </ng-container>
+        </div>
+      </div>
+      <div *ngIf="allMessages.length === 0 && allMessagesNotRead.length === 0">
+        <p class="t-lar gray t-c p-3">Повідомлення відсутні...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-send-container p-1">
+    <div class="smiley-panel" *ngIf="isSmileyPanelOpen">
+      <div class="smiley-button" *ngFor="let smiley of smileys" (click)="addSmiley(smiley)">{{ smiley }}</div>
+    </div>
+    <div class="chat-box">
+      <div class="chat-box-footer">
+        <button class="btn-more" (click)="toggleSmileyPanel()">
+          <i class="fa-regular fa-face-smile-beam"></i>
+        </button>
+        <textarea id="chat_input" [(ngModel)]="messageText" name="chat_input"
+          placeholder="Напишіть повідомлення..."></textarea>
+        <button [disabled]="!messageText" class="btn-send" id="send" (click)="sendMessage(selectedFlat)"> <i
+            class="fa-solid fa-paper-plane fa-2xl"></i> </button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

@@ -2,10 +2,12 @@
 
   <div class="switch-container">
 
-    <button class="menu-box hide-mobile" [routerLinkActive]="'active'" [routerLink]="'/home/home-page'">
-      <div class="menu-lable">Головна</div>
-      <div class="menu-name">Сторінка</div>
-    </button>
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="t-min">Про Проект</div>
+      </button>
+    </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/registration'">
@@ -22,18 +24,14 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/house'">
+      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'"
+        [routerLink]="'/house/house-control'">
         <i class="fa-solid fa-house"></i>
         <div class="t-min">Профіль Оселі</div>
       </button>
     </div>
 
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-        <i class="fa-solid fa-barcode"></i>
-        <div class="t-min">Про Проект</div>
-      </button>
-    </div>
+
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
@@ -62,6 +60,7 @@
 
   <div class="main-container w-100">
     <router-outlet></router-outlet>
+    <app-footer class="footer"></app-footer>
   </div>
 
 </div>

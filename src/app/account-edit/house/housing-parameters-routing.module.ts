@@ -14,26 +14,19 @@ import { AddHouseComponent } from 'src/app/components/house/add-house/add-house.
 
 const routes: Routes = [
   {
-    path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard],
+    path: 'edit-house', component: HousingParametersComponent, canActivate: [CanActivateGuard],
     children: [
-      {
-        path: 'host',
-        component: HostComponent, canActivate: [CanActivateGuard],
-        children: [
-          { path: '', redirectTo: 'instruction', pathMatch: 'full' },
-          { path: 'address', component: AddressComponent, data: { animation: 'address' }, canActivate: [CanActivateGuard] },
-          { path: 'param', component: ParamComponent, data: { animation: 'param' }, canActivate: [CanActivateGuard] },
-          { path: 'photo', component: PhotoComponent, data: { animation: 'photo' }, canActivate: [CanActivateGuard] },
-          { path: 'about', component: AboutComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
-          { path: 'add-objects', component: AddObjectsComponent, data: { animation: 'about' }, canActivate: [CanActivateGuard] },
-          { path: 'add-house', component: AddHouseComponent, canActivate: [CanActivateGuard] },
-          { path: 'additional-info', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
-          { path: 'instruction', component: InstructionComponent, canActivate: [CanActivateGuard] },
-        ]
-      },
-      { path: '', redirectTo: 'host', pathMatch: 'full' },
+      { path: '', redirectTo: 'address', pathMatch: 'full' },
+      { path: 'address', component: AddressComponent, canActivate: [CanActivateGuard] },
+      { path: 'param', component: ParamComponent, canActivate: [CanActivateGuard] },
+      { path: 'photo', component: PhotoComponent, canActivate: [CanActivateGuard] },
+      { path: 'about', component: AboutComponent, canActivate: [CanActivateGuard] },
+      { path: 'add-house', component: AddHouseComponent, canActivate: [CanActivateGuard] },
+      { path: 'additional-info', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
+      { path: 'instruction', component: InstructionComponent, canActivate: [CanActivateGuard] },
     ]
-  }
+  },
+  { path: 'add-objects', component: AddObjectsComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

@@ -1,0 +1,247 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.chat-info-container {
+  @include flex-box-center;
+  justify-content: space-evenly;
+  height: 80px;
+  width: 100%;
+  background-color: tan;
+}
+
+.chat-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column-reverse;
+  background-color: $color-white;
+  overflow: auto;
+  height: calc(100vh - 80px - 70px);
+  box-shadow: inset 0px 10px 15px rgba(107, 107, 107, 0.531);
+}
+
+.chat-send-container {
+  @include flex-box-center;
+  height: 70px;
+}
+
+.container-loader-mini {
+  @include flex-box-column;
+  height: 100vh;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat {
+  display: flex;
+  width: 100%;
+  height: inherit;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.img-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+}
+.img-fluid {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 250px;
+}
+
+.group-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  font-size: 22px;
+  text-align: center;
+}
+
+.text-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.container-chat-messages {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: auto;
+}
+
+.avatar-user1 {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(93, 90, 90, 0.856);
+}
+
+.name-user1 {
+  display: flex;
+  font-size: 20px;
+  justify-content: flex-start;
+  font-weight: 600;
+  flex-direction: column;
+}
+
+.text-min {
+  font-size: 12px;
+}
+
+.chat-messages-read,
+.chat-messages-unread {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0px 5px 0px 5px;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.chat-container-user,
+.chat-container-owner {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+.chat-container-user {
+  justify-content: flex-start;
+}
+
+.chat-container-owner {
+  justify-content: flex-end;
+}
+
+.user-message {
+  flex-direction: column;
+  display: flex;
+  min-width: 100px;
+}
+
+.owner-message {
+  flex-direction: column;
+  display: flex;
+  min-width: 100px;
+}
+
+.message-content {
+  width: 100%;
+}
+
+.message-content-owner,
+.message-content-user {
+  display: flex;
+  overflow: hidden;
+  width: auto;
+  max-width: 300px;
+  padding: 10px;
+  margin: 5px;
+}
+
+.message-text-user,
+.message-text-owner {
+  color: $color-white;
+  font-size: 16px;
+}
+
+.wrapper-user,
+.wrapper-owner {
+  height: 12px;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.wrapper-user {
+  left: 0;
+  flex-direction: row-reverse;
+}
+
+.wrapper-owner {
+  right: 0;
+}
+
+.name-user,
+.name-owner {
+  width: 300px;
+  font-size: 10px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  position: absolute;
+  color: rgb(174, 174, 174);
+}
+
+.name-owner {
+  justify-content: flex-end;
+  right: 0px;
+  top: 0;
+}
+
+.time {
+  font-weight: 300;
+}
+
+img {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.fab {
+  transition: 0.4s;
+  font-size: 25px;
+}
+
+.fa-check-double,
+.fa-check {
+  color: $color-gray;
+  font-size: 12px;
+}
+
+input {
+  height: 60px;
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(245, 222, 179, 0);
+}
+
+.btn-more-box {
+  @include flex-box;
+  .btn-more {
+    width: 200px;
+    margin: 5px;
+    background-color: transparent;
+  }
+}

@@ -37,6 +37,10 @@ import { AddHouseComponent } from '../components/house/add-house/add-house.compo
 import { DeleteHComponent } from '../components/house/delete-h/delete-h.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-house.component';
+import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
+import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
+import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +59,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     GalleryComponent,
     CropImg2Component,
     DeleteHComponent,
+
+    ChatUserComponent,
+    ChatHostComponent,
+    ChatHouseComponent,
+    ChatHostHouseComponent,
   ],
   exports: [
     NavbarComponent,
@@ -72,6 +81,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     GalleryComponent,
     CropImg2Component,
     DeleteHComponent,
+
+    ChatUserComponent,
+    ChatHostComponent,
+    ChatHouseComponent,
+    ChatHostHouseComponent,
+
   ],
   providers: [
     UpdateComponentService,

@@ -3,28 +3,20 @@
 </ng-container>
 
 <ng-template #content>
+  <div [@left1] class="content-child">
+    <div class="card-wrapper">
+      <div class="card-content-static p-2 w-100">
 
-  <div class="flex-column p-2">
-    <div class="t-lar-xx bold dark">Допоміжна інформація </div>
-    <div class="t-min gray mb-2">Додайте інформацію про налаштування або важливі події оселі.</div>
-  </div>
-
-  <div class="container-card">
-
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card mb-2">
-        <div class="param-box ">
-          <div class="param-name  mt-4">Те що треба під рукою
+        <div class="param-box">
+          <div class="t-med t-c dark bold">Те що треба під рукою
             <p class="t-min ">додаткова інформація про оселю та її налаштування</p>
           </div>
         </div>
-
         <div class="box" *ngIf="selectedFlatId">
-          <mat-label class="t-min gray t-c">Додайте ім'я та контакти представника будинку для того щоб можна було вирішити
-            питання
-            які
-            виникнуть стосовно будинку</mat-label>
-          <mat-label class="group-label">Управління будинком/ОСББ</mat-label>
+          <mat-label class="t-min gray t-c">Додайте ім'я та контакти представника будинку для того щоб можна було
+            вирішити
+            питання які виникнуть стосовно будинку</mat-label>
+          <mat-label class="group-label mt-2">Управління будинком/ОСББ</mat-label>
 
           <div class="inputbox-group">
             <mat-form-field class="item-select w-50 p-1" appearance="outline">
@@ -53,20 +45,11 @@
           </mat-form-field>
 
         </div>
-
-      </div>
-
-    </div>
-
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card mb-2">
-
-        <div class="param-box ">
-          <div class="param-name  mt-4">Додаткова інформація
+        <div class="param-box m-2">
+          <div class="t-med t-c dark bold">Додаткова інформація
             <p class="t-min gray">вкажіть ваші застереження, інструкції абощо для ваших орендарів</p>
           </div>
         </div>
-
         <div class="form-floating p-1">
           <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
             [(ngModel)]="flatInfo.info_about" name="info_about" (input)="onInput()"></textarea>
@@ -74,16 +57,12 @@
             <p>Додаткова інформація про оселю:</p>
           </label>
         </div>
-
         <div class="btn-group">
           <button class="btn flex-box" (click)="clearInfo()">ОЧИСТИТИ<i
               class="icon fa-solid fa-eraser ml-2"></i></button>
           <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
               class="icon fa-regular fa-circle-check ml-2"></i></button>
         </div>
-
-
-
       </div>
     </div>
   </div>

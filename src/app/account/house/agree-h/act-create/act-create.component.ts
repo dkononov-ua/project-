@@ -28,6 +28,11 @@ import { Agree } from '../../../../interface/info';
 })
 
 export class ActCreateComponent implements OnInit {
+
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
+  }
+  
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -35,7 +40,7 @@ export class ActCreateComponent implements OnInit {
 
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
-  currentStep: number = 1;
+  indexPage: number = 1;
   message: string = '';
   statusMessage: string | undefined;
   agree: any;

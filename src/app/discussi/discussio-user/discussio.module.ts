@@ -19,28 +19,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ChatUserComponent } from './chat-user/chat-user.component';
-import { ChatHostComponent } from './chat-host/chat-host.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
 import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
-import { SubscribersUserComponent } from './subscribers-user/subscribers-user.component';
-import { SubscribersDiscusComponent } from './subscribers-discus/subscribers-discus.component';
-import { SubscriptionsUserComponent } from './subscriptions-user/subscriptions-user.component';
-import { DeleteSubsComponent } from './delete-subs/delete-subs.component';
+import { SubscribersUserComponent } from './subscribers/subscribers-user.component';
+import { SubscribersDiscusComponent } from './discus/subscribers-discus.component';
+import { SubscriptionsUserComponent } from './subscriptions/subscriptions-user.component';
+import { DeleteSubsComponent } from './delete/delete-subs.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SendMessageUserComponent } from './send-message-user/send-message-user.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    ChatUserComponent,
-    ChatHostComponent,
     SubscribersUserComponent,
     SubscribersDiscusComponent,
     SubscriptionsUserComponent,
     DeleteSubsComponent,
-    SendMessageUserComponent,
   ],
   providers: [ChoseSubscribeService],
   imports: [

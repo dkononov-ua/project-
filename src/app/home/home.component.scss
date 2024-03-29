@@ -14,12 +14,12 @@
 
 .switch-container {
   background-image: none !important;
+  justify-content: center !important;
 }
 
-.btn {
-  &:disabled {
-    .fa-regular, .fa-solid {
-      color: $color-gray;
-    }
-  }
+.footer {
+  width: 100%;
+  position: sticky;
+  bottom: 10px;
 }
+

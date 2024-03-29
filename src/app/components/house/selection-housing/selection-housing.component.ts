@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './selection-housing.component.html',
   styleUrls: ['./selection-housing.component.scss'],
   animations: [
+    animations.top2,
     animations.left1,
     animations.left2,
     animations.left3,

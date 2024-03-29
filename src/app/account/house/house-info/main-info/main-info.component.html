@@ -274,7 +274,7 @@
     <div class="link-icon w-20"><i class="fa-solid fa-address-card"></i></div>
   </a>
 
-  <a class="link-menu" [routerLink]="'/housing-parameters'"
+  <a class="link-menu" [routerLink]="'/edit-house'"
     *ngIf="acces_flat_features === 1 && acces_admin === 1 && acces_added === 1">
     <div class="flex-column w-80">
       <p class="t-med bold">Редагувати</p>
@@ -315,7 +315,7 @@
     <div class="link-icon w-20"><i class="fa-solid fa-location-dot"></i></div>
   </button>
 
-  <a class="link-menu" [routerLink]="'/house/resident'">
+  <a class="link-menu" [routerLink]="'/house/residents'">
     <div class="flex-column w-80">
       <p class="t-med bold">Мешканці</p>
       <p class="t-min">Оселі</p>
@@ -323,7 +323,7 @@
     <div class="link-icon w-20"><i class="fa-solid fa-people-roof"></i></div>
   </a>
 
-  <a class="link-menu" [routerLink]="'/house/filling'" *ngIf="authorization && selectedFlatId">
+  <a class="link-menu" [routerLink]="'/add-objects'" *ngIf="authorization && selectedFlatId">
     <div class="flex-column w-80">
       <p class="t-med bold">Наповнення</p>
       <p class="t-min">Оселі</p>

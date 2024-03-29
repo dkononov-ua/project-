@@ -8,17 +8,27 @@
   align-items: center;
 }
 
-.container-reg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  // overflow: hidden;
+.card-wrapper {
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+}
 
-  @include s1-s3 {
-    background-color: $color-white;
-  }
+.card-animation {
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.card-content {
+  justify-content: space-evenly !important;
+  height: auto !important;
+  min-height: 650px;
+  width: 94% !important;
+  background-color: $color-white;
+  @include box-shadow;
 }
 
 .inputbox {

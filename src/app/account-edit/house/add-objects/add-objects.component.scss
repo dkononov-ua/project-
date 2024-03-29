@@ -2,22 +2,46 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.card-content {
+  justify-content: space-between !important;
+}
+
+.card-menu1 {
+  height: 100%;
+  overflow: hidden;
+}
+
+.counterNum {
+  @include flex-box;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 30px;
+  height: 30px;
+  background-color: $color-gray;
+  border-radius: 50%;
+  color: $color-white;
+}
+
+.img-wrapper {
+  .img {
+    height: 85vh;
+  }
+}
+
 .textarea-form {
-  max-height: 150px;
+  height: 150px;
 }
 
 .box-top {
   display: flex;
-  @include s1-s3 {
-    flex-direction: column;
-  }
-}
-
-.card-box {
-  display: flex;
-  @include s1-s3 {
-    flex-direction: column;
-  }
+  flex-direction: column;
 }
 
 .add-photo-group {
@@ -87,12 +111,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   width: 100%;
 
-  .box-add-btn {
-    width: 40px;
-    height: 40px;
-    background-color: transparent;
+  .btn-close-container {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    z-index: 300;
+    .btn-close-box {
+      @include flex-box-column;
+      align-items: flex-end;
+      padding: 10px;
+      .btn-close {
+        border: 1px solid $color-gray;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+      }
+    }
   }
 }
 
@@ -102,7 +139,7 @@ li {
 }
 
 .item-select {
-  height: 60px;
+  flex-direction: column-reverse;
 }
 
 .cropped {
@@ -124,13 +161,11 @@ li {
 .box-filling {
   display: flex;
   flex-wrap: wrap;
-  height: 60vh;
+  height: 100%;
+  width: 100%;
   overflow: auto;
   align-content: flex-start;
   justify-content: center;
-  @include s1-s3 {
-    height: 70vh;
-  }
 }
 
 .box-filling::-webkit-scrollbar {
@@ -138,6 +173,7 @@ li {
 }
 
 .card-filling {
+  @include box-shadow;
   cursor: pointer;
   width: 97%;
   height: 130px;
@@ -146,19 +182,31 @@ li {
   justify-content: space-between;
   transition: 1s;
   position: relative;
-
-  &:hover {
-    transform: scale(1.05);
-    background-color: rgba(255, 255, 255, 0.665);
+  .box-img {
+    @include flex-box;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    justify-content: flex-start;
+    .card-img {
+      width: auto;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
-  @include s1-s3 {
-    width: 94%;
+  .box-img.selectedCard {
+    display: none;
   }
 }
 
 .card-filling.selectedCard {
   background-color: $color-accent;
+}
+
+.flex-column {
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .card-add {
@@ -170,25 +218,10 @@ li {
   align-items: center;
 }
 
-.box-img {
-  @include flex-box;
-  width: 50%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.box-img.selectedCard {
-  display: none;
-}
-
-.card-img {
-  width: 100%;
-}
-
 .icon {
+  @include box-shadow;
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.665);
+  background-color: $color-accent;
   top: 35%;
   left: 0px;
   width: 40px;
@@ -197,20 +230,6 @@ li {
   border: 1px solid $color-accent;
   padding: 5px;
   z-index: 20;
-}
-
-.card-body {
-  display: flex;
-  padding: 5px 10px 5px 5px;
-  width: 60%;
-  flex-direction: column;
-  align-items: stretch;
-  position: relative;
-  overflow: auto;
-}
-
-.card-title {
-  font-size: 12px;
 }
 
 .btn-delete {
@@ -228,35 +247,10 @@ li {
   .fa-solid {
     color: $color-text;
   }
-  &:hover {
-    background-color: $color-accent;
-  }
 }
 
 .flex-start {
   justify-content: flex-start;
-}
-
-.switch-box {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 60px;
-  z-index: 50;
-  flex: 0;
-  @include s1-s3 {
-    background-color: $color-white;
-  }
-
-  .btn-menu {
-    .btn {
-      height: 60px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  }
 }
 
 .btn.active {
@@ -264,17 +258,5 @@ li {
   .fa-solid,
   .fa-regular {
     color: $color-accent;
-  }
-}
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
   }
 }

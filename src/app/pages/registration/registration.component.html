@@ -4,207 +4,217 @@
 
 <ng-template #content>
   <div class="main-container">
-    <div class="card-box-logo col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="logo-box">
-        <img class="logo" src="{{path_logo}}" alt="logo">
-        <div class="flex-column">
-          <h1 class="bold dark t-c"><strong>Discussio</strong> <span class="t-min bold">Beta</span></h1>
-          <h2 class="t-min t-c hide-pc p-2 bold"><strong>Діскусіо</strong> - об'єднуємо орендодавців та орендарів!</h2>
-        </div>
-        <h2 class="t-min t-c hide-mobile bold"><strong>Діскусіо</strong> - об'єднуємо орендодавців та орендарів!</h2>
-        <div class="t-min t-c hide-mobile">Надаємо інструменти для зручного знаходження, оренди та керування оселею.
+    <div [@right2] class="col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-wrapper">
+        <div class="logo-box">
+          <img class="logo" src="{{path_logo}}" alt="logo">
+          <div class="flex-column">
+            <h1 class="bold dark t-c"><strong>Discussio</strong> <span class="t-min bold">Beta</span></h1>
+            <h2 class="t-min t-c hide-pc p-2 bold"><strong>Діскусіо</strong> - об'єднуємо орендодавців та орендарів!
+            </h2>
+          </div>
+          <h2 class="t-min t-c hide-mobile bold"><strong>Діскусіо</strong> - об'єднуємо орендодавців та орендарів!</h2>
+          <div class="t-min t-c hide-mobile">Надаємо інструменти для зручного знаходження, оренди та керування оселею.
+          </div>
         </div>
       </div>
-
-      <app-footer class="hide-mobile"></app-footer>
     </div>
-    <div class="card-box col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card m-2 p-2" *ngIf="indexCard === 0" [@cardAnimation2]>
 
-        <div class="text-box border-bottom">
-          <div class="t-lar-xx bold dark">Зареєструватись</div>
-        </div>
+    <div [@left2] class="col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-wrapper">
+        <div class="card-animation" *ngIf="indexCard === 0" [@swichCard]>
+          <div class="card-content p-2" >
 
-        <div class="text-box">
-          <div class="t-med bold dark">Якщо у вас вже є обліковий запис</div>
-          <button (click)="indexCard = 1" class="btn-none t-lar">увійдіть в аккаунт тут</button>
-        </div>
-
-        <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
-
-          <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
-            <mat-label>Дата народження</mat-label>
-            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
-              placeholder="Оберіть дату з календаря" id="dob" formControlName="dob">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
-          </mat-form-field>
-
-          <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
-            <mat-label>Вкажіть ваш Email</mat-label>
-            <input matInput id="regEmail" type="email" formControlName="regEmail" minlength="7" maxlength="30" required
-              class="input-field">
-            <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
-          </mat-form-field>
-
-          <mat-form-field class="inputbox " appearance="outline" *ngIf="indexBtn === 1">
-            <mat-label>Придумайте пароль</mat-label>
-            <input matInput id="regPassword" type="password" formControlName="regPassword" minlength="7" maxlength="25"
-              required class="input-field" [type]="passwordType">
-            <button type="button" (click)="togglePasswordVisibility()" class="see">
-              <i class="icon"
-                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-            </button>
-            <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
-          </mat-form-field>
-
-        </form>
-
-        <button class="btn"
-          [disabled]="formErrors.regEmail || !registrationForm.valid || !agreementAccepted || !validateAgeDate"
-          [ngClass]="{'disabled-button': formErrors.regEmail || !registrationForm.valid || !agreementAccepted || !validateAgeDate}"
-          (click)="registrationCheck()" *ngIf="indexBtn === 1">
-          Зареєструватись
-        </button>
-
-        <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="indexBtn === 2">
-          <mat-label>Код підтвердження пошти</mat-label>
-          <div class="mat-input-container">
-            <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
-              placeholder="Введіть код який прийшов вам на email">
-          </div>
-        </mat-form-field>
-
-        <button class="btn" [disabled]="!emailCheckCode" *ngIf="indexBtn === 2" (click)="registration()">
-          Підтвердити
-        </button>
-
-        <div class="box-agree p-2">
-          <label class="checkBox">
-            <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
-            <div class="transition"></div>
-          </label>
-          <p class="w-75 p-2">Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
-              [routerLink]="'/user-licence'">угодою користувача</a></p>
-        </div>
-      </div>
-
-      <div class="card m-2 p-2" *ngIf="indexCard === 1" [@cardAnimation2]>
-
-        <div class="text-box border-bottom">
-          <div class="t-lar-xx bold dark">Увійти</div>
-        </div>
-
-        <div class="text-box">
-          <div class="t-med bold dark">Якщо у вас ще немає облікового запису</div>
-          <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
-        </div>
-
-        <form class="form" [formGroup]="loginForm">
-
-          <mat-form-field class="inputbox" appearance="outline">
-            <mat-label>Введіть Email</mat-label>
-            <input matInput class="input-field" id="email" type="text" formControlName="email" placeholder="email"
-              required>
-            <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
-          </mat-form-field>
-
-          <mat-form-field class="inputbox" appearance="outline">
-            <mat-label>Введіть пароль</mat-label>
-            <input matInput class="input-field" id="password" [type]="passwordType" name="password"
-              formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
-            <button type="button" (click)="togglePasswordVisibility()" class="see">
-              <i class="icon"
-                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-            </button>
-            <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
-          </mat-form-field>
-
-          <button class="btn" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
-            (click)="login()">Увійти</button>
-
-          <!-- <button class="btn" (click)="login()">Увійти</button> -->
-
-        </form>
-
-        <div class="text-box">
-          <div class="t-min t-c">Якщо забули пароль введіть пошту на яку ви реєструвалисвій аккаунт та натисніть на
-            посилання </div>
-          <button [disabled]="formErrors.email" (click)="sendCodeForChangePass()" class="btn-none"
-            [ngClass]="{'disabled-button': formErrors.email}">забули пароль</button>
-        </div>
-
-      </div>
-
-      <div class="card m-2 p-2" *ngIf="indexCard === 2" [@cardAnimation2]>
-
-        <div class="text-box border-bottom">
-          <div class="t-lar-xx bold dark">Зміна паролю</div>
-          <div class="t-med bold dark t-c">Код відправлений на пошту:</div>
-          <div class="t-med bold accent t-c">{{emailAcc}}</div>
-        </div>
-
-        <div class="text-box">
-          <div class="t-med bold dark">Якщо треба новий обліковий запис</div>
-          <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
-        </div>
-
-        <form class="form" (ngSubmit)="onChangePassword()" [formGroup]="changePassForm">
-
-          <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
-            <mat-label>Новий пароль</mat-label>
-            <input matInput id="changePassword" type="password" formControlName="changePassword" minlength="7"
-              maxlength="25" required class="input-field" [type]="passwordType">
-            <button type="button" (click)="togglePasswordVisibility()" class="see">
-              <i class="icon"
-                [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-            </button>
-            <div *ngIf="passStrengthMessage && passStrengthMessage !== 'ok'" class="error-message">
-              {{passStrengthMessage}}</div>
-          </mat-form-field>
-
-          <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
-            <mat-label>Повторіть пароль</mat-label>
-            <input matInput id="changePassword1" type="password" formControlName="changePassword1" minlength="7"
-              maxlength="25" required class="input-field" [type]="passwordType1" aria-disabled="false">
-            <button type="button" (click)="togglePasswordVisibility1()" class="see">
-              <i class="icon"
-                [class]="passwordType1 === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-            </button>
-            <div *ngIf="passMatchMessage && passMatchMessage !== 'ok' " class="error-message">{{passMatchMessage}}
+            <div class="text-box border-bottom">
+              <div class="t-lar-xx bold dark">Зареєструватись</div>
             </div>
-            <div *ngIf="formErrors.changePassword1" class="alert alert-danger">{{formErrors.changePassword1}}</div>
-          </mat-form-field>
-        </form>
 
-        <!-- <mat-form-field class="form-field item-select w-100" appearance="outline">
-          <mat-label>Код підтвердження пошти</mat-label>
-          <div class="mat-input-container">
-            <input matInput type="text" minlength="6" maxlength="6" id="changePassCode" [(ngModel)]="changePassCode"
-              name="changePassCode" placeholder="Введіть код який прийшов вам на email">
+            <div class="text-box">
+              <div class="t-med bold dark">Якщо у вас вже є обліковий запис</div>
+              <button (click)="indexCard = 1" class="btn-none t-lar">увійдіть в аккаунт тут</button>
+            </div>
+
+            <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
+
+              <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
+                <mat-label>Дата народження</mat-label>
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
+                  placeholder="Оберіть дату з календаря" id="dob" formControlName="dob">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
+              </mat-form-field>
+
+              <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
+                <mat-label>Вкажіть ваш Email</mat-label>
+                <input matInput id="regEmail" type="email" formControlName="regEmail" minlength="7" maxlength="30" required
+                  class="input-field">
+                <div *ngIf="formErrors.regEmail" class="alert alert-danger">{{formErrors.regEmail}}</div>
+              </mat-form-field>
+
+              <mat-form-field class="inputbox " appearance="outline" *ngIf="indexBtn === 1">
+                <mat-label>Придумайте пароль</mat-label>
+                <input matInput id="regPassword" type="password" formControlName="regPassword" minlength="7" maxlength="25"
+                  required class="input-field" [type]="passwordType">
+                <button type="button" (click)="togglePasswordVisibility()" class="see">
+                  <i class="icon"
+                    [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                </button>
+                <div *ngIf="formErrors.regPassword" class="alert alert-danger">{{formErrors.regPassword}}</div>
+              </mat-form-field>
+
+            </form>
+
+            <button class="btn"
+              [disabled]="formErrors.regEmail || !registrationForm.valid || !agreementAccepted || !validateAgeDate"
+              [ngClass]="{'disabled-button': formErrors.regEmail || !registrationForm.valid || !agreementAccepted || !validateAgeDate}"
+              (click)="registrationCheck()" *ngIf="indexBtn === 1">
+              Зареєструватись
+            </button>
+
+            <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="indexBtn === 2">
+              <mat-label>Код підтвердження пошти</mat-label>
+              <div class="mat-input-container">
+                <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+                  placeholder="Введіть код який прийшов вам на email">
+              </div>
+            </mat-form-field>
+
+            <button class="btn" [disabled]="!emailCheckCode" *ngIf="indexBtn === 2" (click)="registration()">
+              Підтвердити
+            </button>
+
+            <div class="box-agree p-2">
+              <label class="checkBox">
+                <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+                <div class="transition"></div>
+              </label>
+              <p class="w-75 p-2">Реєструючись на цьому сайті я погоджуюсь з <a [routerLinkActive]="'active'"
+                  [routerLink]="'/user-licence'">угодою користувача</a></p>
+            </div>
           </div>
-        </mat-form-field> -->
+        </div>
 
-        <mat-form-field class="form-field item-select w-100" appearance="outline">
-          <mat-label>Код підтвердження пошти</mat-label>
-          <div class="mat-input-container">
-            <input matInput type="text" id="changePassCode" [(ngModel)]="changePassCode" name="changePassCode"
-              placeholder="Введіть код який прийшов вам на email">
+        <div class="card-animation"  *ngIf="indexCard === 1" [@swichCard]>
+          <div class="card-content p-2">
+
+            <div class="text-box border-bottom">
+              <div class="t-lar-xx bold dark">Увійти</div>
+            </div>
+
+            <div class="text-box">
+              <div class="t-med bold dark">Якщо у вас ще немає облікового запису</div>
+              <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
+            </div>
+
+            <form class="form" [formGroup]="loginForm">
+
+              <mat-form-field class="inputbox" appearance="outline">
+                <mat-label>Введіть Email</mat-label>
+                <input matInput class="input-field" id="email" type="text" formControlName="email" placeholder="email"
+                  required>
+                <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+              </mat-form-field>
+
+              <mat-form-field class="inputbox" appearance="outline">
+                <mat-label>Введіть пароль</mat-label>
+                <input matInput class="input-field" id="password" [type]="passwordType" name="password"
+                  formControlName="password" placeholder="Пароль" required maxlength="25" minlength="7">
+                <button type="button" (click)="togglePasswordVisibility()" class="see">
+                  <i class="icon"
+                    [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                </button>
+                <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+              </mat-form-field>
+
+              <button class="btn" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
+                (click)="login()">Увійти</button>
+
+              <!-- <button class="btn" (click)="login()">Увійти</button> -->
+
+            </form>
+
+            <div class="text-box">
+              <div class="t-min t-c">Якщо забули пароль введіть пошту на яку ви реєструвалисвій аккаунт та натисніть на
+                посилання </div>
+              <button [disabled]="formErrors.email" (click)="sendCodeForChangePass()" class="btn-none"
+                [ngClass]="{'disabled-button': formErrors.email}">забули пароль</button>
+            </div>
+
           </div>
-        </mat-form-field>
+        </div>
 
-        <!-- <button class="btn"
-          [disabled]="!changePassCode || changePassCode.length < 6 || passMatchMessage !== 'ok' || passStrengthMessage !== 'ok'"
-          (click)="onChangePassword()">
-          Підтвердити
-        </button> -->
+        <div class="card-animation" *ngIf="indexCard === 2" [@swichCard]>
+          <div class="card-content p-2" >
 
-        <button class="btn" [disabled]="!changePassCode || passMatchMessage !== 'ok' || passStrengthMessage !== 'ok'"
-          (click)="onChangePassword()">
-          Підтвердити
-        </button>
+            <div class="text-box border-bottom">
+              <div class="t-lar-xx bold dark">Зміна паролю</div>
+              <div class="t-med bold dark t-c">Код відправлений на пошту:</div>
+              <div class="t-med bold accent t-c">{{emailAcc}}</div>
+            </div>
 
+            <div class="text-box">
+              <div class="t-med bold dark">Якщо треба новий обліковий запис</div>
+              <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
+            </div>
+
+            <form class="form" (ngSubmit)="onChangePassword()" [formGroup]="changePassForm">
+
+              <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
+                <mat-label>Новий пароль</mat-label>
+                <input matInput id="changePassword" type="password" formControlName="changePassword" minlength="7"
+                  maxlength="25" required class="input-field" [type]="passwordType">
+                <button type="button" (click)="togglePasswordVisibility()" class="see">
+                  <i class="icon"
+                    [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                </button>
+                <div *ngIf="passStrengthMessage && passStrengthMessage !== 'ok'" class="error-message">
+                  {{passStrengthMessage}}</div>
+              </mat-form-field>
+
+              <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
+                <mat-label>Повторіть пароль</mat-label>
+                <input matInput id="changePassword1" type="password" formControlName="changePassword1" minlength="7"
+                  maxlength="25" required class="input-field" [type]="passwordType1" aria-disabled="false">
+                <button type="button" (click)="togglePasswordVisibility1()" class="see">
+                  <i class="icon"
+                    [class]="passwordType1 === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                </button>
+                <div *ngIf="passMatchMessage && passMatchMessage !== 'ok' " class="error-message">{{passMatchMessage}}
+                </div>
+                <div *ngIf="formErrors.changePassword1" class="alert alert-danger">{{formErrors.changePassword1}}</div>
+              </mat-form-field>
+            </form>
+
+            <!-- <mat-form-field class="form-field item-select w-100" appearance="outline">
+              <mat-label>Код підтвердження пошти</mat-label>
+              <div class="mat-input-container">
+                <input matInput type="text" minlength="6" maxlength="6" id="changePassCode" [(ngModel)]="changePassCode"
+                  name="changePassCode" placeholder="Введіть код який прийшов вам на email">
+              </div>
+            </mat-form-field> -->
+
+            <mat-form-field class="form-field item-select w-100" appearance="outline">
+              <mat-label>Код підтвердження пошти</mat-label>
+              <div class="mat-input-container">
+                <input matInput type="text" id="changePassCode" [(ngModel)]="changePassCode" name="changePassCode"
+                  placeholder="Введіть код який прийшов вам на email">
+              </div>
+            </mat-form-field>
+
+            <!-- <button class="btn"
+              [disabled]="!changePassCode || changePassCode.length < 6 || passMatchMessage !== 'ok' || passStrengthMessage !== 'ok'"
+              (click)="onChangePassword()">
+              Підтвердити
+            </button> -->
+
+            <button class="btn" [disabled]="!changePassCode || passMatchMessage !== 'ok' || passStrengthMessage !== 'ok'"
+              (click)="onChangePassword()">
+              Підтвердити
+            </button>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>

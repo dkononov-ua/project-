@@ -36,6 +36,9 @@ import { MainInfoComponent } from './house-info/main-info/main-info.component';
 import { ResidentAccessComponent } from './resident/resident-access/resident-access.component';
 import { ResidentOwnerComponent } from './resident/resident-owner/resident-owner.component';
 import { ResidentPageComponent } from './resident/resident-page/resident-page.component';
+import { HouseControlComponent } from './house-control/house-control.component';
+import { AgreeHostComponent } from './agree-h/agree-host/agree-host.component';
+import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -53,6 +56,9 @@ import { ResidentPageComponent } from './resident/resident-page/resident-page.co
     ResidentAccessComponent,
     ResidentOwnerComponent,
     ResidentPageComponent,
+    HouseControlComponent,
+    AgreeHostComponent,
+    AgreeStepComponent,
   ],
   providers: [
     DatePipe

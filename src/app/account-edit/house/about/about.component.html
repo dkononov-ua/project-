@@ -4,78 +4,72 @@
 
 <ng-template #content>
 
-  <div class="flex-column p-2">
-    <div class="t-lar-xx bold dark">Особливості оселі</div>
-    <div class="t-min gray mb-2">Тут можна вказати пріорітети, вартість та активувати оголошення</div>
-  </div>
+  <div class="info-container" *ngIf="helpRoom || helpPriority">
+    <div class="info-help-box" *ngIf="helpRoom">
+      <i class="fa-solid fa-info"></i>
 
-  <div class="container-card">
-
-    <div class="info-container">
-      <div class="info-help-box" *ngIf="helpRoom">
-        <div class="info-help-name">Оберіть формат здачі:</div>
-        <div class="info-help-text">
-          <ul>Варіанти здачі:
-            <li>
-              <div class="bold">Оселя</div> - якщо здаю в оренду квартиру/будинок повністью.
-            </li>
-            <li>
-              <div class="bold"> Кімната</div> - якщо здаю квартиру/будинок частково або окрему кімнату. Якщо
-              шукаю сусіда в
-              квартиру/будинок або окрему кімнату.
-            </li>
-          </ul>
-        </div>
-        <button class="btn" (click)="openHelpRoom()">Зрозуміло</button>
+      <div class="info-help-name">Оберіть формат здачі:</div>
+      <div class="info-help-text">
+        <ul>Варіанти здачі:
+          <li>
+            <div class="bold">Оселя</div> - якщо здаю в оренду квартиру/будинок повністью.
+          </li>
+          <li>
+            <div class="bold"> Кімната</div> - якщо здаю квартиру/будинок частково або окрему кімнату. Якщо
+            шукаю сусіда в
+            квартиру/будинок або окрему кімнату.
+          </li>
+        </ul>
       </div>
-
-      <div class="info-help-box" *ngIf="helpPriority">
-        <div class="info-help-name">Оберіть пріоритетність здачі:</div>
-        <div class="info-help-text">
-          <ul>Варіанти:
-            <li><span class="bold">W</span> - Пріорітетно на поселення в оселю шукаю жінок.</li>
-            <li><span class="bold">M</span> - Пріорітетно на поселення в оселю шукаю чоловіків.</li>
-            <li><span class="bold">S</span> - Пріорітетно на поселення в оселю шукаю студентів.</li>
-            <li><span class="bold">F</span> - Пріорітетно на поселення в оселю шукаю сім'ї.</li>
-          </ul>
-        </div>
-        <button class="btn" (click)="openHelpPriority()">Зрозуміло</button>
-      </div>
-
-      <div class="info-help-box" *ngIf="helpRent">
-        <div class="info-help-text">
-          <ul>
-            <li>
-              <div class="bold">Приховати</div> - зберігаємо всі параметри але оголошення не опубліковуємо.
-            </li>
-            <li>
-              <div class="bold">Розмістити</div> - опубліковуємо оголошення. Опубліковується після того як ви
-              внесете всі обов'язкові параметри такі як (меню: характеристики "Тип оселі" меню: особливості
-              "Формат оплати", "Формат здачі оселі" меню: фото "Додати фото оселі")
-            </li>
-          </ul>
-
-        </div>
-        <button class="btn" (click)="openHelpRent()">Зрозуміло</button>
-      </div>
+      <button class="btn" (click)="openHelpRoom()">Зрозуміло</button>
     </div>
 
-    <div [@cardAnimation1] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card mb-2">
+    <div class="info-help-box" *ngIf="helpPriority">
+      <i class="fa-solid fa-info"></i>
 
-        <mat-label class="group-label  border-top">Пріорітет орендарів</mat-label>
+      <div class="info-help-name">Оберіть пріоритетність здачі:</div>
+      <div class="info-help-text">
+        <ul>Варіанти:
+          <li><span class="bold">W</span> - Пріорітетно на поселення в оселю шукаю жінок.</li>
+          <li><span class="bold">M</span> - Пріорітетно на поселення в оселю шукаю чоловіків.</li>
+          <li><span class="bold">S</span> - Пріорітетно на поселення в оселю шукаю студентів.</li>
+          <li><span class="bold">F</span> - Пріорітетно на поселення в оселю шукаю сім'ї.</li>
+        </ul>
+      </div>
+      <div class="t-min gray t-c">Це можна комбінувати між собою</div>
+      <div class="t-min gray t-c">Також можете пропонувати ваші варіанти в меню "Залишити відгук" обравши
+        "Пріорітетні
+        категорії" ті категорії які ви хотіли би бачити</div>
+
+      <div class="feedback-box m-2">
+        <button class="feedback-box-btn" [routerLink]="'/feedback'"
+          [queryParams]="{ category: 'Пріорітетні категорії' }">
+          <div class="t-med bold mr-2">Запропонувати категорії</div>
+          <i class="fa-solid fa-arrow-right gray"></i>
+        </button>
+      </div>
+
+      <button class="btn t-c mt-2" (click)="openHelpPriority()">Зрозуміло</button>
+    </div>
+  </div>
+
+  <div [@left1] class="content-child">
+    <div class="card-wrapper">
+      <div class="card-content-static p-2 w-100">
+        <div class="t-med bold t-c mb-1">Тут можна вказати пріорітети, вартість та активувати оголошення</div>
+        <mat-label class="t-med t-c accent bold">Оберіть пріорітет орендарів* </mat-label>
+        <div class="t-min gray">Кого ви розглядаєте як своїх потенційних орендарів?</div>
         <!-- оселя -->
         <div class="inputbox-group">
-          <button class="info-btn" (click)="openHelpPriority()">Допомога</button>
-
           <div class="inputbox-group">
+            <button class="info-btn" (click)="openHelpPriority()">Допомога</button>
             <div class="content-group">
               <label class="checkBox">
                 <input type="checkbox" id="students" name="students" [(ngModel)]="flatInfo.students">
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status">S</div>
+                <div class="status-static">S</div>
                 <div class="ml-2">Студенти</div>
               </div>
             </div>
@@ -88,7 +82,7 @@
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status">W</div>
+                <div class="status-static">W</div>
                 <div class="ml-2">Жінки</div>
               </div>
             </div>
@@ -101,7 +95,7 @@
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status">M</div>
+                <div class="status-static">M</div>
                 <div class="ml-2">Чоловіки</div>
               </div>
             </div>
@@ -114,26 +108,24 @@
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status">F</div>
+                <div class="status-static">F</div>
                 <div class="ml-2">Сім'ї</div>
               </div>
             </div>
           </div>
-
         </div>
 
-        <mat-form-field class="item-select mt-2" appearance="outline">
-          <div class="list-label-1">Наявність укриття</div>
+        <mat-form-field class="item-select" appearance="outline">
           <mat-select [(ngModel)]="flatInfo.bunker" name="bunker" placeholder="Наявність укриття">
             <mat-option [value]="''">Приховати</mat-option>
             <mat-option value="Паркінг">Підземний паркінг</mat-option>
             <mat-option value="В будинку">Укриття в будинку</mat-option>
             <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
           </mat-select>
+          <mat-hint align="start" class="t-min gray">Наявність укриття</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="item-select" appearance="outline">
-          <div class="list-label-1">Орендар може мати тварин?</div>
           <mat-select [(ngModel)]="flatInfo.animals" name="animals" placeholder="Дозвіл на тварин">
             <mat-option value='Неважливо'>Неважливо</mat-option>
             <mat-option value="0">Без тварин</mat-option>
@@ -141,27 +133,12 @@
             <mat-option value="2">Тільки котики</mat-option>
             <mat-option value="3">Тільки песики</mat-option>
           </mat-select>
+          <mat-hint align="start" class="t-min gray">Орендар може мати тварин?</mat-hint>
         </mat-form-field>
 
-        <div class="form-floating p-1">
-          <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-            [(ngModel)]="flatInfo.about" name="about" (input)="onInput()"></textarea>
-          <label for="floatingTextarea">
-            <p>Опис оселі:</p>
-          </label>
-        </div>
-
-      </div>
-    </div>
-
-    <div [@cardAnimation2] class="card-box col-lg-6 col-md-5 col-sm-6 col-12">
-      <div class="card mb-2">
-
-        <div class="flex-column">
-          <mat-label class="t-med t-s w-70 accent bold">Варіанти оплати*</mat-label>
-          <div class="t-min t-c">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
-          <button class="info-btn" (click)="openHelpRoom()">Допомога</button>
-
+        <div class="flex-column mt-2">
+          <mat-label class="t-med t-c accent bold">Оберіть варіант оплати* </mat-label>
+          <div class="t-min gray">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
           <div class="inputbox-group">
 
             <div class="content">
@@ -190,92 +167,87 @@
               <span class="checkBox-span">Безкоштовно</span>
               <i></i>
             </div>
-
           </div>
-
         </div>
 
-        <div class="flex-column w-100">
-          <mat-label class="t-med t-s w-70 accent bold">Ціна за термін в грн*</mat-label>
+        <div class="flex-column">
           <div class="inputbox-group mt-2">
-            <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 1">
-              <mat-label class="mat-form-field-label">ОПЛАТА ЗА ДЕНЬ</mat-label>
-              <div class="mat-input-container">
-                <input matInput type="number" id="inputPriceD" [(ngModel)]="flatInfo.price_d" name="price_d"
-                  pattern="[0-9]*" [min]="minValue" [max]="maxValue">
-                <span class="mat-input-suffix">₴</span>
-              </div>
+            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 1">
+              <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
+                [(ngModel)]="flatInfo.price_d" name="price_d" pattern="[0-9]*" id="inputPriceD">
+              <mat-hint align="start" class="bold">ОПЛАТА ЗА ДЕНЬ, ЦІНА В ГРН*</mat-hint>
+              <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
             </mat-form-field>
 
-            <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 0">
-              <mat-label class="mat-form-field-label">ОПЛАТА ЗА МІСЯЦЬ</mat-label>
-              <div class="mat-input-container">
-                <input matInput type="number" id="inputPriceM" [(ngModel)]="flatInfo.price_m" name="price_m"
-                  pattern="[0-9]*" [min]="minValue" [max]="maxValue">
-                <span class="mat-input-suffix">₴</span>
-              </div>
+            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 0">
+              <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
+                [(ngModel)]="flatInfo.price_m" name="price_m" pattern="[0-9]*" id="inputPriceM">
+              <mat-hint align="start" class="bold">ОПЛАТА ЗА МІСЯЦЬ, ЦІНА В ГРН*</mat-hint>
+              <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
             </mat-form-field>
 
-            <mat-form-field class="form-field item-select p-1" appearance="outline" *ngIf="flatInfo.option_pay === 2">
-              <mat-label class="mat-form-field-label">Безкоштовно</mat-label>
-              <div class="mat-input-container">
-                <input matInput type="number" disabled id="inputPriceF" [(ngModel)]="flatInfo.price_f" name="price_f"
-                  pattern="[0-9]*">
-                <span class="mat-input-suffix">₴</span>
-              </div>
+            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 2">
+              <input matInput class="right-align" type="number" [(ngModel)]="flatInfo.price_f" name="price_f" disabled
+                id="inputPriceF" placeholder="Безкоштовно">
             </mat-form-field>
-
           </div>
         </div>
 
-        <mat-label class="group-label  border-top">Формат здачі оселі*</mat-label>
-        <!-- оселя -->
-        <div class="inputbox-group mt-2">
+        <div class="flex-column">
+
+          <mat-label class="t-med accent bold p-2 pr-2">Формат здачі оселі*</mat-label>
           <button class="info-btn" (click)="openHelpRoom()">Допомога</button>
-
-          <div class="content-group">
-            <label class="checkBox">
-              <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="0">
-              <div class="transition"></div>
-            </label>
-            <div class="ml-2">Оселя (Вся оселя)</div>
+          <div class="inputbox-group">
+            <div class="content">
+              <label class="checkBox">
+                <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="0">
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Оселя</span>
+              <i></i>
+            </div>
+            <div class="content">
+              <label class="checkBox">
+                <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Кімната</span>
+              <i></i>
+            </div>
           </div>
         </div>
-        <!-- кімната -->
-        <div class="inputbox-group mt-2">
-          <div class="content-group">
-            <label class="checkBox">
-              <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
-              <div class="transition"></div>
-            </label>
-            <div class="ml-2">Кімната (Частина оселі)</div>
-          </div>
-        </div>
 
-        <div class="btn-group mt-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Опис вашого оголошення</mat-label>
+          <textarea #textArea matInput id="floatingTextarea" placeholder="Опишіть особливості оселі або оголошення"
+            [(ngModel)]="flatInfo.about" (input)="onInput()"></textarea>
+        </mat-form-field>
+
+
+        <div class="btn-group mt-2">
+
           <button class="btn" (click)="clearInfo()">
-            <i class="icon fa-solid fa-eraser"></i>
-            <div class="t-min dark bold p-2" >ОЧИТИТИ</div>
+            <i class="icon fa-solid fa-eraser"></i> Очистити
           </button>
 
-          <button [disabled]="flatInfo.option_pay === 0 && !flatInfo.price_m || flatInfo.option_pay === 1 && !flatInfo.price_d" class="btn"
-            (click)="saveInfo(flatInfo.rent = 1)">
+          <button class="btn"
+            [disabled]="flatInfo.option_pay === 0 && !flatInfo.price_m || flatInfo.option_pay === 1 && !flatInfo.price_d"
+            class="btn" (click)="saveInfo(flatInfo.rent = 1)">
             <i class="fa-regular fa-circle-check"></i>
-            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 1">ЗБЕРЕГТИ</div>
-            <div class="t-min dark bold p-2" *ngIf="flatInfo.rent === 0">АКТИВУВАТИ</div>
+            <span *ngIf="flatInfo.rent === 1">Зберегти</span>
+            <span *ngIf="flatInfo.rent === 0">Активувати</span>
           </button>
-        </div>
 
-        <div class="btn-group " *ngIf="flatInfo.rent === 1">
-          <button class="btn" (click)="saveInfo(flatInfo.rent = 0)">
-            <i class="fa-solid fa-power-off"></i>
-            <div class="t-med dark bold ml-2">ДЕАКТИВУВАТИ</div>
+          <button class="btn" (click)="saveInfo(flatInfo.rent = 0)" *ngIf="flatInfo.rent === 1">
+            <i class="fa-solid fa-power-off"></i>Деактивувати
           </button>
+
         </div>
 
       </div>
     </div>
   </div>
+
 </ng-template>
 
 <div *ngIf="statusMessage" class="status-message">

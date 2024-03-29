@@ -1,148 +1,112 @@
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
-@use "../../../../style/agree/agree.doc.scss";
 @use "../../../../style/radio.scss";
 @use "../../../../style/shared.scss";
 
-.container-box {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-.container-card {
+.main-container {
   display: flex;
   flex-wrap: wrap;
-  position: relative;
+  align-items: stretch;
 }
 
-.container-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.indicator-box {
-  display: flex;
-  justify-content: space-around;
+.switch-content {
+  height: 15vh;
   width: 100%;
-  margin-top: 30px;
-  @include s1-s3 {
-    margin-top: 10px;
+}
+
+.card-content {
+  justify-content: space-between !important;
+  position: relative;
+  .flex-column {
+    width: 100%;
   }
 }
 
-.indicator {
-  cursor: pointer;
-  display: flex;
-  border-radius: 50%;
-  border: none;
-  background-color: $color-gray;
-  width: 60px;
-  height: 60px;
-  margin: 10px;
-  border-radius: 50%;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  justify-content: center;
-  align-items: center;
-  @include s1-s3 {
-    width: 30px;
-    height: 30px;
-    margin: 2px;
-  }
-}
-
-.margin-top {
-  margin-top: 30px;
-  @include s1-s3 {
-    margin-top: 10px;
-  }
-}
-
-.active-step {
-  transition: 3s;
-  transform: scale(1.6);
-  background-color: $color-accent;
-}
-
-.fa-1,
-.fa-2,
-.fa-3,
-.fa-4,
-.material-symbols-outlined {
-  @include s1-s3 {
-    font-size: 14px;
-  }
-}
-
-.fa-solid {
-  color: $color-dark;
-}
-
-.material-symbols-outlined {
-  color: $color-white;
-  font-size: 35px;
-  @include s1-s3 {
-    font-size: 25px;
-  }
-}
-
-.description {
-  font-size: 20px;
-  @include s1-s3 {
-    font-size: 14px;
-  }
-}
-
-.btn-next {
-  width: 150px;
-  height: 60px;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: $color-accent;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 20px;
-  border: 2px solid $color-gray;
-  &:hover {
-    background-color: $color-dark;
-    color: $color-white;
-  }
-  @include s1-s3 {
-    height: 40px;
-    margin: 5px;
-    font-size: 16px;
-    width: 100px;
-  }
+.btn-group {
+  bottom: 10px;
 }
 
 .group {
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
   flex-direction: column;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.card-box {
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
-  flex-direction: column;
+.carousel-inner {
+  @include s1-s3 {
+    border-radius: 0px;
+  }
+}
+
+.carousel-item {
+  .img-fluid-h {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .img-h {
+    overflow: hidden;
+    height: calc(100vh - 100px - 1rem - 20px);
+    width: 100%;
+    border-radius: 20px;
+    transition: transform 1s;
+    object-fit: cover;
+    position: relative;
+    @include s1-s3 {
+      border-radius: 0px;
+      height: calc(100vh - 100px - 1rem);
+    }
+  }
+}
+
+.card-1 {
+  position: absolute;
+  left: -36%;
+  width: 250px;
+  height: auto;
+  @include box-shadow;
+  border-radius: 20px;
+}
+
+.card-2 {
+  height: 160px;
+  width: 100%;
+  @include flex-box-row;
+  @include box-shadow;
+  overflow: hidden;
+  border-radius: 10px;
+  .img-fluid-h {
+    height: 100%;
+    .img-h {
+      height: 100%;
+      border-radius: 0;
+      object-fit: cover;
+    }
+  }
+}
+
+.box-1 {
+  @include flex-box-column;
+  align-items: flex-end;
+}
+
+.bg-w {
+  background-color: $color-white;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .card {
   width: 100%;
-  justify-content: space-between;
-  height: 600px;
-  @include s1-s3 {
-    height: auto;
-  }
+  justify-content: flex-start;
+  height: 100%;
+  overflow: auto;
+  border-radius: 20px;
+  height: 100%;
 }
 
 .card-user {
@@ -157,57 +121,16 @@
     0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-img {
-  overflow: hidden;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  transition: transform 1s;
-  object-fit: cover;
-  transition: transform 1s;
-}
-
-.img-fluid-house {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 300px;
-  width: 100%;
-  position: relative;
-  border-radius: 10px;
-}
-
-.img-house {
-  overflow: hidden;
-  height: 300px;
-  width: 100%;
-  border-radius: 20px;
-  transition: transform 1s;
-  object-fit: cover;
-  position: relative;
-
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.2);
-  }
-}
-
 .input-mat {
-  height: 70px !important;
+  height: 65px !important;
 }
 
-.item-name {
-  color: $color-dark;
-  font-size: 18px;
-  font-weight: 600;
-}
 .characteristics-group {
   display: flex;
   align-content: center;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  // border-bottom: 1px solid $color-primary;
 }
 
 .label-auto {
@@ -249,84 +172,13 @@ img {
   font-size: 14px;
 }
 
-.accent {
-  font-weight: 600;
-  color: $color-accent;
-}
-
 .list-select {
   border: none;
   font-family: $font-main;
   font-size: $font-size;
   font-weight: bold;
 }
-.list-option {
-  border: none;
-  background-color: none;
 
-  font-family: $font-main;
-  font-size: $font-size;
-  font-weight: bold;
-}
-
-.btn-container {
-  position: relative;
-  margin: 0 20px;
-  position: absolute;
-  right: 0;
-  top: -20px;
-  background-color: $color-accent;
-  @include s1-s3 {
-    top: -5px;
-    z-index: 50;
-  }
-}
-
-.btn-info {
-  display: block;
-  background-color: $color-accent;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  height: 30px;
-  width: 100px;
-  font-size: 14px;
-}
-
-.btn-container:hover .info-menu {
-  display: block;
-}
-
-.info-menu {
-  width: 300px;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  display: none;
-  background-color: $color-dark;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
-.info-menu-text {
-  color: $color-white;
-}
-
-.info-menu p {
-  margin: 4px 0;
-}
-
-.group-select {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
 .content {
   margin: 0;
   display: flex;
@@ -351,52 +203,12 @@ textarea {
   border-radius: 10px;
 }
 
-.blur {
-  position: absolute;
+.flex-group {
   width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.754);
-  z-index: 5;
-  border-radius: 20px;
-}
-
-.logo-wrapper {
-  width: 100%;
-  height: 100%;
   display: flex;
-  position: absolute;
-  z-index: 5;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
-  border-radius: 20px;
-}
-
-.logo-name {
-  font-size: 30px;
-  color: $color-text;
-}
-
-.logo-a {
-  width: 200px;
-  height: 200px;
-}
-
-.btn-agree {
-  width: 100%;
-  height: 100px;
-}
-
-.btn-agree.active {
-  width: 100%;
-  height: 100px;
-  background-color: $color-accent;
-  transition: 1s;
-  &:hover {
-    color: $color-white;
-    font-size: 20px;
-    background-color: $color-dark;
-  }
 }
 
 .error-message {

@@ -11,10 +11,22 @@ import moment from 'moment';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { MatDialog } from '@angular/material/dialog';
 import { NewsComponent } from 'src/app/components/news/news.component';
+import { animations } from '../../interface/animation';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
+  animations: [
+    animations.right2,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+  ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
@@ -25,19 +37,6 @@ import { NewsComponent } from 'src/app/components/news/news.component';
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
-  animations: [
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)', zIndex: 2 }), // Початкове значення zIndex
-        animate('1600ms 200ms ease-in-out', style({ transform: 'translateX(0)', zIndex: 2 })) // Значення zIndex під час анімації
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)', zIndex: 1 }), // Початкове значення zIndex
-        animate('2000ms 200ms ease-in-out', style({ transform: 'translateX(230%)', zIndex: 1 })) // Значення zIndex під час анімації
-      ])
-    ]),
-  ],
-
 })
 
 export class RegistrationComponent implements OnInit {

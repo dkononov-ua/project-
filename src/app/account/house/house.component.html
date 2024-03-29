@@ -3,7 +3,7 @@
   <div class="switch-container">
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home'">
+      <button class="btn" [routerLink]="'/house/house-control'">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min white">Назад</div>
       </button>
@@ -12,27 +12,6 @@
     <div class="menu-box hide-mobile">
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Профіль Оселі</div>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/add-house'">
-        <i class="fa-solid fa-house-chimney-medical"></i>
-        <div class="t-min bold">Створення</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/selection-house'">
-        <i class="fa-solid fa-house-circle-check"></i>
-        <div class="t-min bold">Вибір</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-        <i class="fa-solid fa-house"></i>
-        <div class="t-min bold">Оселя</div>
-      </button>
     </div>
 
     <div class="switch-btn-group">
@@ -46,18 +25,18 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscriptions-user'">
-        <i class="fa-regular fa-heart"></i>
-        <div class="t-min bold">Вподоб.</div>
+      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscriptions-house'">
+        <i class="fa-solid fa-people-pulling"></i>
+        <div class="t-min bold">Підписки</div>
         <div class="status" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== '0'">
           {{counterHouseSubscriptions}} </div>
       </button>
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscribers-user'">
-        <i class="fa-solid fa-people-pulling"></i>
-        <div class="t-min bold">Пропоз.</div>
+      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscribers-house'">
+        <i class="fa-solid fa-child-reaching"></i>
+        <div class="t-min bold">Підписники</div>
         <div class="status" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== '0'">
           {{counterHouseSubscribers}}</div>
       </button>
@@ -74,7 +53,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/user/agree'">
+      <button [disabled]="!houseData" class="btn" [routerLink]="'/house/agree'">
         <i class="fa-solid fa-envelope-open-text"></i>
         <div class="t-min bold">Угоди</div>
       </button>
