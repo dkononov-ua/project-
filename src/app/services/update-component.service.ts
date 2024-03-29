@@ -24,12 +24,12 @@ export class UpdateComponentService {
   }
 
   iReadHouseMessage() {
-    console.log('iReadHouseMessage')
+    // console.log('iReadHouseMessage')
     this.iReadHouseMessageSubjec.next();
   }
 
   iReadUserMessage() {
-    console.log('iReadUserMessage')
+    // console.log('iReadUserMessage')
     this.iReadUserMessageSubjec.next();
   }
 }

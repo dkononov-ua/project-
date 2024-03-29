@@ -1,5 +1,35 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
+@use "../style/shared.scss";
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.card-animation {
+  @include s3-s6-max {
+    width: 98% !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+  }
+}
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-primary !important;
+  }
+}
+
+.card-content {
+  position: relative;
+}
 
 .switch-content {
   height: 15vh;
@@ -23,7 +53,7 @@
 }
 
 .btn-close-container {
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
   z-index: 300;
@@ -49,23 +79,23 @@
 
 .notification-box {
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   top: 0;
   right: 0;
   .notification-num {
     @include flex-box;
     margin: 5px;
     padding: 5px;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: $color-accent;
     color: $color-white;
-    font-size: 14px;
+    font-size: 20px;
   }
 }
 
-.cards-container {
+.cards-chat-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,7 +108,9 @@
   align-items: stretch;
   justify-content: flex-start;
   flex-wrap: wrap;
-
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .card-mini {
     @include box-shadow;
     display: flex;
@@ -90,29 +122,44 @@
     height: 130px;
     overflow: hidden;
     border-radius: 20px;
-    .card-body {
-      @include flex-box-column;
+    .card-mini-body {
+      @include flex-box-center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      align-items: flex-start;
+    }
+    .card-mini-bg {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background-image: linear-gradient(to left, transparent 20%, rgb(255, 255, 255) 80%);
+      z-index: 2;
     }
 
     .card-mini-img-container {
       @include flex-box-center;
-      position: relative;
-      width: 50%;
+      position: absolute;
+      width: 100%;
       height: 100%;
       overflow: hidden;
+      z-index: 1;
       .card-mini-img {
         height: 100%;
         width: 100%;
         object-fit: cover;
         transition: all 0.3s ease;
-        clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
       }
     }
   }
   .card-mini.selected {
     transition: 1s;
     color: $color-white;
-    background-color: $color-dark;
+    .card-mini-bg {
+      background-image: linear-gradient(to left, transparent 20%, $color-accent 80%);
+    }
   }
 }
 
@@ -177,19 +224,11 @@
   @include flex-box-column;
   align-items: stretch;
   position: relative;
-  height: 100vh;
-
+  height: 100%;
   .chat {
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    padding-bottom: 10px;
     position: relative;
-  }
-  .send-message {
-    @include flex-box;
-    width: 100%;
-    height: 10vh;
-    background-color: $color-white;
   }
 }
 
@@ -206,6 +245,3 @@
     height: 30px;
   }
 }
-
-
-

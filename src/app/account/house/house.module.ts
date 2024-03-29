@@ -23,7 +23,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { HouseRoutingModule } from './house-routing.module';
-import { HouseInfoComponent } from './house-info/house-info.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './resident/resident.component';
@@ -49,7 +48,6 @@ import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
     ParametersComponent,
     HouseShareComponent,
     HouseResidentsComponent,
-    HouseInfoComponent,
     ResidentComponent,
     MainInfoComponent,
     ActCreateComponent,

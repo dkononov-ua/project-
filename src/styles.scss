@@ -13,6 +13,10 @@ body {
   scroll-behavior: smooth;
 }
 
+button {
+  border: none;
+}
+
 body {
   background-color: $color-primary;
 }
@@ -26,7 +30,6 @@ a {
   color: $color-text;
   text-decoration: none;
   display: block;
-  border-radius: 10px;
   transition: 0.3s ease;
 
   &.active {

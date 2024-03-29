@@ -4,7 +4,6 @@ import { HouseComponent } from './house.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { AgreeDeleteComponent } from './agree-h/agree-delete/agree-delete.component';
 import { AgreeMenuComponent } from './agree-h/agree-menu/agree-menu.component';
-import { HouseInfoComponent } from './house-info/house-info.component';
 import { SelectionHousingComponent } from 'src/app/components/house/selection-housing/selection-housing.component';
 import { AddHouseComponent } from 'src/app/components/house/add-house/add-house.component';
 import { HouseResidentsComponent } from './resident/house-residents/house-residents.component';
@@ -14,6 +13,7 @@ import { AgreeHostComponent } from './agree-h/agree-host/agree-host.component';
 import { AgreeConcludedComponent } from './agree-h/agree-concluded/agree-concluded.component';
 import { AgreeReviewComponent } from './agree-h/agree-review/agree-review.component';
 import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
+import { MainInfoComponent } from './house-info/main-info/main-info.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: HouseComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'house-info', pathMatch: 'full' },
-      { path: 'house-info', component: HouseInfoComponent, canActivate: [CanActivateGuard] },
+      { path: 'house-info', component: MainInfoComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
     ],
   },
@@ -33,10 +33,7 @@ const routes: Routes = [
       { path: 'selection-house', component: SelectionHousingComponent, canActivate: [CanActivateGuard] },
       { path: 'add-house', component: AddHouseComponent, canActivate: [CanActivateGuard] },
     ],
-
   },
-  { path: 'agree-menu', component: AgreeMenuComponent, canActivate: [CanActivateGuard] },
-
   {
     path: 'agree', component: AgreeHostComponent, canActivate: [CanActivateGuard],
     children: [
@@ -47,8 +44,6 @@ const routes: Routes = [
       { path: 'step', component: AgreeStepComponent, canActivate: [CanActivateGuard] },
     ],
   },
-
-
 ];
 
 @NgModule({

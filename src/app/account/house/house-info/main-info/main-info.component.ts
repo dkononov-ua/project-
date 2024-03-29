@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './main-info.component.html',
   styleUrls: ['./main-info.component.scss'],
   animations: [
+    animations.top2,
     animations.left1,
     animations.left2,
     animations.left3,
@@ -38,7 +39,7 @@ export class MainInfoComponent implements OnInit {
   isCopied = false;
   indexCard: number = 2;
   loading: boolean = false;
-  indexPage: number = 1;
+  indexPage: number = 0;
   counterHouseSubscribers: any;
   counterHouseSubscriptions: any;
   counterHouseDiscussio: any;

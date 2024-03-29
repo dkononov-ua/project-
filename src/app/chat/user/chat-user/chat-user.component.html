@@ -116,7 +116,7 @@
         </button>
         <textarea id="chat_input" [(ngModel)]="messageText" name="chat_input"
           placeholder="Напишіть повідомлення..."></textarea>
-        <button [disabled]="!messageText" class="btn-send" id="send" (click)="sendMessage(selectedFlat)"> <i
+        <button [disabled]="!messageText" class="btn-send" id="send" (click)="sendMessage()"> <i
             class="fa-solid fa-paper-plane fa-2xl"></i> </button>
       </div>
     </div>

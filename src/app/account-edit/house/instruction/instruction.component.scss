@@ -24,10 +24,12 @@
     border: none;
     color: $color-white;
     height: 100%;
-    background-color: $color-accent;
     .fa-solid {
       color: $color-white;
       filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+    }
+    &.active {
+      background-color: $color-accent;
     }
   }
 

@@ -11,7 +11,7 @@
       <div class="t-min t-c p-1">Після створення оселі заповніть форму в меню "Розтушування".</div>
     </div>
 
-    <button class="link-t w-30 flex-column">
+    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/address'">
       <span class="ml-2 t-min">Розтушування</span>
       <i class="fa-solid fa-location-dot ml-2 ml-2"></i>
     </button>
@@ -24,7 +24,7 @@
         вказати тип оселі*</div>
     </div>
 
-    <button class="link-t w-30 flex-column">
+    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/param'">
       <span class="ml-2 t-min">Параметри</span>
       <i class="fa-solid fa-trowel-bricks ml-2"></i>
     </button>
@@ -37,7 +37,7 @@
         обов'язкове*</div>
     </div>
 
-    <button class="link-t w-30 flex-column">
+    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
       <span class="ml-2 t-min">Додати фото</span>
       <i class="fa-solid fa-images ml-2"></i>
     </button>
@@ -50,7 +50,7 @@
         варіанти оплати, ціну, формат здачі* та "Активувати".</div>
     </div>
 
-    <button class="link-t w-30 flex-column">
+    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/about'">
       <span class="ml-2 t-min">Особливості</span>
       <i class="fa-solid fa-users-gear ml-2"></i>
     </button>

@@ -16,13 +16,17 @@
   flex-direction: column-reverse;
   background-color: $color-white;
   overflow: auto;
-  height: calc(100vh - 80px - 70px);
+  height: calc(100vh - 100px - 1rem - 80px - 70px);
+  @include s3-s6-max {
+    height: calc(100vh - 100px - 1rem - 80px - 70px - 20px);
+  }
   box-shadow: inset 0px 10px 15px rgba(107, 107, 107, 0.531);
 }
 
 .chat-send-container {
   @include flex-box-center;
   height: 70px;
+  background-color: $color-white;
 }
 
 .container-loader-mini {

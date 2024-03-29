@@ -3,67 +3,68 @@
   <i class="fa-regular fa-copy"></i>
   <div class="t-lar dark bold">Discussio</div>
 </div>
+<div class="container-box p-2">
+  <div class="t-lar bold t-c">Допоміжня інформація по оселі</div>
+  <div class="t-med t-c gray">Інформація яка може знадобитись під рукою</div>
 
-<div class="t-lar bold t-c">Допоміжня інформація по оселі</div>
-<div class="t-med t-c gray">Інформація яка може знадобитись під рукою</div>
-
-<div class="param-box w-100 mt-2">
-  <div class="param-group mb-2 flex-column">
-    <div class="param-label"><i class="fa-solid fa-wifi"></i> Пароль від WiFi </div>
-    <div class="flex-box">
-      <div class="param-field">
-        Пароль:<span class="param-value" *ngIf="flatInfo.wifi">{{ flatInfo.wifi }} </span>
+  <div class="param-box w-100 mt-2">
+    <div class="param-group mb-2 flex-column">
+      <div class="param-label"><i class="fa-solid fa-wifi"></i> Пароль від WiFi </div>
+      <div class="flex-box">
+        <div class="param-field">
+          Пароль:<span class="param-value" *ngIf="flatInfo.wifi">{{ flatInfo.wifi }} </span>
+        </div>
+        <button class="btn-copy" (click)="copyWiFi()"><i class="fa-regular fa-clone"></i> </button>
       </div>
-      <button class="btn-copy" (click)="copyWiFi()"><i class="fa-regular fa-clone"></i> </button>
     </div>
-  </div>
 
-  <div class="param-group mb-2 flex-column">
-    <div class="param-label"><i class="fa-solid fa-person-chalkboard"></i> Ім'я представника ОСББ </div>
-    <div class="param-field">
-      Ім'я:<span class="param-value" *ngIf="flatInfo.osbb_name">{{ flatInfo.osbb_name }}</span>
-    </div>
-  </div>
-
-  <div class="param-group mb-2 flex-column">
-    <div class="param-label"><i class="fa-solid fa-phone"></i> Номер телефону ОСББ </div>
-    <div class="flex-box">
+    <div class="param-group mb-2 flex-column">
+      <div class="param-label"><i class="fa-solid fa-person-chalkboard"></i> Ім'я представника ОСББ </div>
       <div class="param-field">
-        Номер телефону:<span class="param-value" *ngIf="flatInfo.osbb_phone">{{ flatInfo.osbb_phone }}</span>
+        Ім'я:<span class="param-value" *ngIf="flatInfo.osbb_name">{{ flatInfo.osbb_name }}</span>
       </div>
-      <button class="btn-copy" (click)="copyOsbbPhone()"><i class="fa-regular fa-clone"></i> </button>
     </div>
-  </div>
 
-  <div class="param-group mb-2 flex-column">
-    <div class="param-label"><i class="fa-regular fa-credit-card"></i> Картка власника оселі для оплати </div>
-    <div class="flex-box">
-      <div class="param-field">
-        Картка:<span class="param-value" *ngIf="flatInfo.pay_card">{{ flatInfo.pay_card }}</span>
+    <div class="param-group mb-2 flex-column">
+      <div class="param-label"><i class="fa-solid fa-phone"></i> Номер телефону ОСББ </div>
+      <div class="flex-box">
+        <div class="param-field">
+          Номер телефону:<span class="param-value" *ngIf="flatInfo.osbb_phone">{{ flatInfo.osbb_phone }}</span>
+        </div>
+        <button class="btn-copy" (click)="copyOsbbPhone()"><i class="fa-regular fa-clone"></i> </button>
       </div>
-      <button class="btn-copy" (click)="copyPayCard()"><i class="fa-regular fa-clone"></i> </button>
     </div>
-  </div>
 
-  <div class="param-group mb-2 flex-column">
-    <div class="param-label"><i class="fa-solid fa-info"></i> Додаткова інформація </div>
-    <div class="t-min " *ngIf="flatInfo.info_about">{{ flatInfo.info_about }}</div>
-  </div>
+    <div class="param-group mb-2 flex-column">
+      <div class="param-label"><i class="fa-regular fa-credit-card"></i> Картка власника оселі для оплати </div>
+      <div class="flex-box">
+        <div class="param-field">
+          Картка:<span class="param-value" *ngIf="flatInfo.pay_card">{{ flatInfo.pay_card }}</span>
+        </div>
+        <button class="btn-copy" (click)="copyPayCard()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+    </div>
 
-  <div class="t-med t-c gray" *ngIf="acces_filling !== 1">
-    Редагувати інформацію можна буде коли вам нададуть дозвіл "Редагування оселі" в меню мешканці.
-  </div>
+    <div class="param-group mb-2 flex-column">
+      <div class="param-label"><i class="fa-solid fa-info"></i> Додаткова інформація </div>
+      <div class="t-min " *ngIf="flatInfo.info_about">{{ flatInfo.info_about }}</div>
+    </div>
 
-  <div class="flex-group mt-2" *ngIf="acces_filling !== 1">
-    <button class="link-t flex-box-row" [routerLink]="'/house/resident'" [queryParams]="{ indexPage: 2, indexCard: 3 }">
-      <span class="m-2">Дозволи мешканців</span><i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </div>
+    <div class="t-med t-c gray" *ngIf="acces_filling !== 1">
+      Редагувати інформацію можна буде коли вам нададуть дозвіл "Редагування оселі" в меню мешканці.
+    </div>
 
-  <div class="flex-group m-1 mt-2" *ngIf="acces_filling === 1">
-    <button class="link-t flex-box-row" [routerLink]="'/housing-parameters'" [queryParams]="{ indexPage: 5 }">
-      <span class="m-2">Налаштувати</span><i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </div>
+    <div class="flex-group p-2" *ngIf="acces_filling !== 1">
+      <button class="link-t" [routerLink]="'/house/resident'">
+        <span>Дозволи мешканців</span><i class="fa-solid fa-lock p-2"></i>
+      </button>
+    </div>
 
+    <div class="flex-group p-2" *ngIf="acces_filling === 1">
+      <button class="link-t" [routerLink]="'/edit-house/additional-info'">
+        <span>Налаштувати</span><i class="fa-solid fa-gear p-2"></i>
+      </button>
+    </div>
+
+  </div>
 </div>

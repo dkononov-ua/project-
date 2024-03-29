@@ -24,14 +24,11 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'"
-        [routerLink]="'/house/house-control'">
+      <button [disabled]="!authorization" class="btn" (click)="goToHouse()">
         <i class="fa-solid fa-house"></i>
         <div class="t-min">Профіль Оселі</div>
       </button>
     </div>
-
-
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
@@ -63,4 +60,10 @@
     <app-footer class="footer"></app-footer>
   </div>
 
+</div>
+
+<div *ngIf="statusMessage" class="status-message">
+  <div class="status-message-text">{{ statusMessage }}</div>
+  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+  <div class="status-message-name">Discussio</div>
 </div>

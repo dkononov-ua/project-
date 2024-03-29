@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { EMPTY, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { EMPTY, Subject, Subscription, switchMap, take, takeUntil } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
@@ -38,26 +38,30 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   textArea!: ElementRef;
   isSmileyPanelOpen = false;
   smileys: string[] = SMILEYS;
+  getSelectedFlatId: string | null | undefined;
+  choseFlatID: any;
+
+  private getMessagesSubscription: Subscription | null = null;
 
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
     private sendMessageService: SendMessageService,
     private updateComponent: UpdateComponentService,
-  ) { }
+  ) { this.pushMessageText(); }
 
   async ngOnInit(): Promise<any> {
     await this.loadData();
-    this.scrollDown();
+    await this.getSelectFlatInfo()
   }
 
   async loadData(): Promise<void> {
+    // console.log('loadData')
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const userData = localStorage.getItem('userData');
       if (userData) {
         this.userData = JSON.parse(userData);
-        this.getSelectFlatInfo();
       } else {
         console.log('Інформація користувача відсутня')
       }
@@ -66,27 +70,20 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  // отримуємо обрану оселю, та беремо інформацію по ній з локального сховища userChats який ми записали в chat-Host,
+  // отримуємо айді оселі обраний чат
   async getSelectFlatInfo(): Promise<any> {
-    this.selectedFlatIdSubscription = this.choseSubscribeService.selectedFlatId$
-      .pipe(take(1)) // take(1) гарантує, що після одного виникнення події обробник буде автоматично відписаний від observable.
-      .subscribe(async flatId => {
-        this.sendMessageService.messageTextUser$.subscribe(text => {
-          this.messageText = text;
-          this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
-          this.scrollDown();
-          this.messageText = '';
-        });
-        this.selectedFlat = flatId;
-        if (this.selectedFlat) {
-          const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
-          const selectChat = userAllChats.filter((item: any) => item.flat_id === this.selectedFlat);
-          this.infoPublic = selectChat.length > 0 ? selectChat : undefined;
-          await this.getMessages(this.selectedFlat);
-        } else {
-          this.selectedFlat = undefined;
-        }
-      });
+    // console.log('getSelectFlatInfo')
+    this.choseSubscribeService.selectedFlatId$.subscribe(async choseFlatID => {
+      this.choseFlatID = choseFlatID;
+      if (this.choseFlatID) {
+        const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
+        const selectChat = userAllChats.filter((item: any) => item.flat_id === this.choseFlatID);
+        this.infoPublic = selectChat.length > 0 ? selectChat : undefined;
+        await this.getMessages(this.choseFlatID);
+      } else {
+        this.choseFlatID = undefined;
+      }
+    });
   }
 
   async getMessages(selectedFlat: any): Promise<any> {
@@ -135,9 +132,10 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   async getNewMessages(selectedFlat: any): Promise<void> {
+    // console.log('getNewMessages')
     const userJson = localStorage.getItem('user');
-    if (userJson && selectedFlat && this.chatExist) {
-      this.http.post(serverPath + '/chat/get/NewMessageUser', {
+    if (userJson && selectedFlat) {
+      this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageUser', {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
         offs: 0,
@@ -165,15 +163,11 @@ export class ChatUserComponent implements OnInit, OnDestroy {
                 }
               }))
               this.allMessagesNotRead = c;
-              // Перевірка чиє повідомлення непрочитане
               const iHaveMessages = this.allMessagesNotRead.every(message => message.is_read === 1 || message.user_id === null);
-              // console.log(iHaveMessages)
               if (iHaveMessages) {
                 this.scrollDown();
-                // console.log('Маю повідомлення опускаюсь до низу')
                 setTimeout(() => {
                   if (iHaveMessages) {
-                    // console.log('Читаю')
                     this.readMessage(selectedFlat);
                   }
                 }, 500);
@@ -190,6 +184,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   async loadPreviousMessages(): Promise<void> {
+    // console.log('loadPreviousMessages')
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlat) {
       const info = {
@@ -232,18 +227,22 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // console.log('ngOnDestroy')
+    if (this.getMessagesSubscription) {
+      this.getMessagesSubscription.unsubscribe();
+    }
     if (this.interval) {
       clearInterval(this.interval);
     }
   }
 
   scrollDown() {
+    // console.log('scrollDown')
     const chatContainer = document.getElementById('chatContainer');
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   }
-
 
   addSmiley(smiley: string) {
     this.messageText += smiley;
@@ -264,9 +263,9 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
-  sendMessage(selectedFlat: any): void {
-    if (this.messageText.trim() !== '' && selectedFlat) {
-      this.sendMessageService.sendMessageUser(this.messageText, selectedFlat)
+  sendMessage(): void {
+    if (this.messageText.trim() !== '' && this.choseFlatID) {
+      this.sendMessageService.sendMessageUser(this.messageText, this.choseFlatID)
         .subscribe(response => { },
           error => { console.error(error); }
         );
@@ -276,4 +275,18 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       textArea.focus();
     }
   }
+
+  // пушимо текст відправленого повідомлення в контейнер та опускаємось вниз
+  pushMessageText() {
+    // console.log('pushMessageText')
+    this.sendMessageService.messageTextUser$.subscribe(text => {
+      this.messageText = text;
+      if (this.messageText) {
+        this.messageText = '';
+        this.allMessagesNotRead.unshift({ is_read: 0, user_id: this.userData.inf.user_id, message: text });
+        this.scrollDown();
+      }
+    });
+  }
+
 }

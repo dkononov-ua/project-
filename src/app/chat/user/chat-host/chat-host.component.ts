@@ -3,35 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Chat } from '../../../interface/info';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animations } from '../../../interface/animation';
 
 @Component({
   selector: 'app-chat-host',
   templateUrl: './chat-host.component.html',
   styleUrls: ['./chat-host.component.scss'],
   animations: [
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('10ms 1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.top2,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.swichCard,
   ],
 })
 
@@ -59,8 +46,6 @@ export class ChatHostComponent implements OnInit {
     this.loading = false;
   }
 
-
-
   async getFlatChats(): Promise<any> {
     const url = serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
@@ -80,6 +65,7 @@ export class ChatHostComponent implements OnInit {
               }
             }))
             this.chats = chat;
+            // console.log(this.chats)
             localStorage.setItem('userChats', JSON.stringify(this.chats));
           } else {
             console.log('Немає чатів');
@@ -107,3 +93,6 @@ export class ChatHostComponent implements OnInit {
     this.onFlatSelect(chat);
   }
 }
+
+
+

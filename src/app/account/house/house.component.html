@@ -3,7 +3,7 @@
   <div class="switch-container">
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/house/house-control'">
+      <button class="btn" [routerLink]="'/home'">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min white">Назад</div>
       </button>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-host'">
+      <button [disabled]="!houseData" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-house'">
         <i class="fa-regular fa-comments"></i>
         <div class="t-min bold">Повід.</div>
         <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
@@ -92,10 +92,21 @@
       </div>
     </div>
 
-    <div class="col-lg-9 col-md-9 col-sm-12 col-12">
-      <router-outlet></router-outlet>
+    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12">
+      <div class="card-animation" [@left2]>
+        <div class="card-content">
+          <app-main-info></app-main-info>
+        </div>
+      </div>
     </div>
 
+    <div class="card-wrapper hide-mobile col-lg-4 col-md-5 col-sm-12 col-12">
+      <div class="card-animation" [@left2]>
+        <div class="card-content">
+          <app-parameters></app-parameters>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

@@ -3,23 +3,24 @@
 </ng-container>
 
 <ng-template #content>
-  <div class="switch-content" *ngIf="indexPage !== 1">
-    <div class="switch-name">
-      <div [@cardAnimation1]>Чати користувача</div>
-    </div>
-    <div class="switch-box">
-
+  <div class="content-component">
+    <div class="switch-container">
       <div class="switch-btn-group">
-        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'"><span class="link-text">
-            <i class="fa-solid fa-arrow-left"></i></span>
-          <div class="t-min dark bold">Назад</div>
-        </a>
+        <button class="btn" [routerLink]="'/home'">
+          <i class="fa-solid fa-arrow-left"></i>
+          <div class="t-min white">Назад</div>
+        </button>
+      </div>
+
+      <div class="menu-box hide-mobile">
+        <div class="menu-lable">Меню</div>
+        <div class="menu-name">Чат Орендаря</div>
       </div>
 
       <div class="switch-btn-group">
         <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
           <i class="fa-solid fa-list"></i>
-          <div class="t-min dark bold">Всі чати</div>
+          <div class="t-min dark bold">Чати</div>
         </button>
       </div>
 
@@ -30,63 +31,132 @@
         </button>
       </div>
 
-    </div>
-  </div>
-
-  <div class="flex-column-chat" *ngIf="indexPage === 1 && chatSelected">
-    <div class="btn-close-container">
-      <div class="btn-close-box">
-        <button class="btn-close" (click)="indexPage = 0"></button>
+      <div class="menu-box hide-mobile" *ngIf="selectedChat">
+        <div class="menu-name">Чат з оселею</div>
+        <div class="menu-lable">{{ selectedChat.flat_name }}</div>
       </div>
     </div>
-    <app-chat-user class="chat"></app-chat-user>
-  </div>
+    <div class="main-container">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+        <div class="card-wrapper">
+          <div [@right1] class="card-content-static w-100">
+            <div class="card-group">
+              <div class="flex-box-center t-c p-2 mt-2 w-100">
+                <i class="fa-regular fa-comments"></i>
+                <p class="t-lar-xx bold mb-2 t-c">Чат Орендаря</p>
+                <p class="t-min mb-2">Тут будуть всі створені чати з оселями.</p>
+              </div>
 
-  <div class="card-box" *ngIf="indexPage === 0">
+              <div class="btn-group mt-2">
+                <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Чат' }">
+                  <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                  <i class="fa-regular fa-lightbulb"></i>
+                </button>
+              </div>
 
-    <div class="feedback-box p-2">
-      <button class="feedback-box-btn" [routerLink]="'/feedback'" [queryParams]="{ category: 'Чат' }">
-        <div class="t-med bold mr-2">Запропонувати зміни</div>
-        <i class="fa-solid fa-arrow-right gray"></i>
-      </button>
-    </div>
-
-    <div class="cards-container" *ngIf="chats.length !== 0">
-      <div class="card-mini m-1" *ngFor="let chat of chats" (click)="selectChat(chat)"
-        [ngClass]="{ 'selected': chat.isSelected}">
-
-        <div class="notification-box" *ngIf="chat.unread !== 0">
-          <div class="notification-num">{{chat.unread}}</div>
+            </div>
+            <!-- <div class="card-background">
+              <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
+            </div> -->
+          </div>
         </div>
-
-        <div class="card-mini-img-container w-30">
-          <ng-container *ngIf="chat.infFlat.imgs[0].img && isLoadingImg">
-            <img class="card-mini-img"
-              [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
-          </ng-container>
-
-          <ng-container *ngIf="chat.infFlat.imgs[0].img && !isLoadingImg">
-            <mat-spinner color="warn"></mat-spinner>
-            <img [src]="serverPathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
-          </ng-container>
-
-          <ng-container *ngIf="!chat.infFlat.imgs[0].img">
-            <img class="card-mini-img" src="../../../../assets/housing_default.svg" alt="img">
-          </ng-container>
-        </div>
-
-        <div class="flex-box p-1 w-70">
-          <div class="t-med bold">Оселя: {{ chat.flat_name }}</div>
-          <div class="accent bold">ID оселі: {{ chat.flat_id }}</div>
-          <div class="t-min">{{ chat.lastMessage }}</div>
-        </div>
-
       </div>
-    </div>
-    <div class="cards-container" *ngIf="chats.length === 0">
-      <div class="flex-column p-2">
-        <h3>Тут будуть чати</h3>
-        <p>У вас поки немає чатів...</p>
+
+      <div class="card-wrapper hide-mobile col-lg-4 col-md-5 col-sm-12 col-12">
+        <div [@top2] class="card-animation">
+          <div class="cards-chat-container p-2" *ngIf="chats.length !== 0">
+            <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
+              [ngClass]="{ 'selected': chat.isSelected}">
+
+              <div class="notification-box" *ngIf="chat.unread !== 0">
+                <div class="notification-num">{{chat.unread}}</div>
+              </div>
+
+              <div class="card-mini-img-container">
+                <ng-container *ngIf="chat.infFlat.imgs[0].img && isLoadingImg">
+                  <img class="card-mini-img"
+                    [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
+                </ng-container>
+
+                <ng-container *ngIf="chat.infFlat.imgs[0].img && !isLoadingImg">
+                  <mat-spinner color="warn"></mat-spinner>
+                  <img [src]="serverPathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
+                </ng-container>
+
+                <ng-container *ngIf="!chat.infFlat.imgs[0].img">
+                  <img class="card-mini-img" src="../../../../assets/housing_default.svg" alt="img">
+                </ng-container>
+              </div>
+
+              <div class="card-mini-bg"></div>
+              <div class="card-mini-body p-1">
+                <div class="t-lar-x bold">{{ chat.flat_name }}</div>
+                <div class="t-lar accent t-s">{{ chat.lastMessage }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="cards-chat-container" *ngIf="chats.length === 0">
+            <div class="flex-column p-2">
+              <h3>Тут будуть чати</h3>
+              <p>У вас поки немає чатів...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12">
+        <div [@top2] class="card-animation hide-pc" *ngIf="indexPage === 0">
+          <div class="cards-chat-container p-2" *ngIf="chats.length !== 0">
+            <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
+              [ngClass]="{ 'selected': chat.isSelected}">
+
+              <div class="notification-box" *ngIf="chat.unread !== 0">
+                <div class="notification-num">{{chat.unread}}</div>
+              </div>
+
+              <div class="card-mini-img-container">
+                <ng-container *ngIf="chat.infFlat.imgs[0].img && isLoadingImg">
+                  <img class="card-mini-img"
+                    [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
+                </ng-container>
+
+                <ng-container *ngIf="chat.infFlat.imgs[0].img && !isLoadingImg">
+                  <mat-spinner color="warn"></mat-spinner>
+                  <img [src]="serverPathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
+                </ng-container>
+
+                <ng-container *ngIf="!chat.infFlat.imgs[0].img">
+                  <img class="card-mini-img" src="../../../../assets/housing_default.svg" alt="img">
+                </ng-container>
+              </div>
+
+              <div class="card-mini-bg"></div>
+              <div class="card-mini-body p-1">
+                <div class="t-lar-x bold">{{ chat.flat_name }}</div>
+                <div class="t-lar accent t-s">{{ chat.lastMessage }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="cards-chat-container" *ngIf="chats.length === 0">
+            <div class="flex-column p-2">
+              <h3>Тут будуть чати</h3>
+              <p>У вас поки немає чатів...</p>
+            </div>
+          </div>
+        </div>
+
+        <div [@top2] class="card-animation" *ngIf="indexPage === 1 && chatSelected">
+          <div class="card-content">
+            <div class="flex-column-chat w-100">
+              <div class="btn-close-container">
+                <div class="btn-close-box">
+                  <button class="btn-close" (click)="indexPage = 0"></button>
+                </div>
+              </div>
+              <app-chat-user class="chat"></app-chat-user>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

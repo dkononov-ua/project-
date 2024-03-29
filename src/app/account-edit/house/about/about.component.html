@@ -21,7 +21,10 @@
           </li>
         </ul>
       </div>
-      <button class="btn" (click)="openHelpRoom()">Зрозуміло</button>
+      <button class="btn w-100  t-c mt-2" (click)="openHelpRoom()">
+        <div class="t-med bold mr-2">Зрозуміло</div>
+        <i class="fa-regular fa-square-check"></i>
+      </button>
     </div>
 
     <div class="info-help-box" *ngIf="helpPriority">
@@ -41,15 +44,16 @@
         "Пріорітетні
         категорії" ті категорії які ви хотіли би бачити</div>
 
-      <div class="feedback-box m-2">
-        <button class="feedback-box-btn" [routerLink]="'/feedback'"
-          [queryParams]="{ category: 'Пріорітетні категорії' }">
-          <div class="t-med bold mr-2">Запропонувати категорії</div>
-          <i class="fa-solid fa-arrow-right gray"></i>
-        </button>
-      </div>
+      <button class="btn w-100 btn-navigation" [routerLink]="'/feedback'"
+        [queryParams]="{ category: 'Пріорітетні категорії' }">
+        <div class="t-med bold mr-2">Запропонувати категорії</div>
+        <i class="fa-regular fa-lightbulb"></i>
+      </button>
 
-      <button class="btn t-c mt-2" (click)="openHelpPriority()">Зрозуміло</button>
+      <button class="btn w-100  t-c mt-2" (click)="openHelpPriority()">
+        <div class="t-med bold mr-2">Зрозуміло</div>
+        <i class="fa-regular fa-square-check"></i>
+      </button>
     </div>
   </div>
 

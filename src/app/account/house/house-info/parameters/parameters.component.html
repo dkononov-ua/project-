@@ -1,4 +1,7 @@
-<div *ngIf="rent">
+<div class="container-box p-2" *ngIf="rent">
+
+  <div class="t-lar bold t-c pt-5">Оголошення активне</div>
+  <div class="t-med t-c gray">Параметри вашої оселі які бачать орендарі в пошуку</div>
 
   <div class="status-container">
     <div class="status-box">
@@ -46,7 +49,7 @@
     </div>
   </div>
 
-  <div class="param-box pt-5">
+  <div class="param-box ">
     <div class="param-label">Параметри оселі:</div>
     <div class="param-group">
       <div class="param-field" *ngIf="HouseInfo.option_flat">
@@ -124,25 +127,18 @@
     користувачів" + "Надавати дозволи" в меню мешканці.
   </div>
 
-  <div class="flex-group mt-2" *ngIf="acces_admin !== 1 || acces_flat_features !== 1 || acces_added !== 1">
-    <button class="link-t flex-box-row" [routerLink]="'/house/resident'" [queryParams]="{ indexPage: 2, indexCard: 3 }">
-      <span class="m-2">Дозволи мешканців</span><i class="fa-solid fa-arrow-right"></i>
+  <div class="flex-group p-2" *ngIf="acces_admin === 1 && acces_flat_features === 1 && acces_added === 1">
+    <button class="link-t" [routerLink]="'/edit-house/additional-info'">
+      <span>Налаштувати</span><i class="fa-solid fa-lock p-2"></i>
     </button>
   </div>
 
-  <div class="flex-group mt-3" *ngIf="acces_admin === 1 && acces_flat_features === 1 && acces_added === 1">
-    <button class="link-t flex-box-row" [routerLink]="'/housing-parameters'" [queryParams]="{ indexPage: 2 }">
-      <span class="m-2">Налаштувати</span><i class="fa-solid fa-arrow-right"></i>
+  <div class="flex-group p-2" *ngIf="acces_admin !== 1 || acces_flat_features !== 1 || acces_added !== 1">
+    <button class="link-t" [routerLink]="'/edit-house/additional-info'">
+      <span>Дозволи мешканців</span><i class="fa-solid fa-lock p-2"></i>
     </button>
   </div>
+
 </div>
 
-<div *ngIf="!rent">
-  <a class="stub-card-link" [routerLink]="'/housing-parameters'" [queryParams]="{ indexPage: 4 }">
-    <img class="stub-card-logo" src="{{path_logo}}" alt="logo">
-    <p class="t-lar accent bold t-c">"Пошуковий профіль оселі"</p>
-    <p class="t-min bold t-c">Вимкнено, натисніть сюди для його активації</p>
-  </a>
-  <p class="t-lar gray mt-3 t-c">Тут будуть параметри вашої оселі і те як їх бачать орендарі в Discussio.
-    Заповніть форму та чекайте коли на Вас підпишуться орендарі.</p>
-</div>
+<app-house-share></app-house-share>

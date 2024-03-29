@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
-import { EMPTY, Subject, switchMap, take } from 'rxjs';
+import { EMPTY, Subject, Subscription, switchMap, take } from 'rxjs';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
@@ -51,6 +51,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   uniqueDates: string[] = [];
   messageALL: any[] = [];
   isSmileyPanelOpen = false;
+  private getMessagesSubscription: Subscription | null = null;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -58,15 +59,19 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     private choseSubscribersService: ChoseSubscribersService,
     private sendMessageService: SendMessageService,
     private updateComponent: UpdateComponentService,
-  ) { this.iSendMessage(); }
+  ) {
+    this.pushMessageText();
+  }
 
   async ngOnInit(): Promise<any> {
+    // console.log('ngOnInit')
     await this.loadData();
     this.scrollDown();
   }
 
   // Підвантажуємо інформацію про користвача та оселю з локального сховища
   async loadData(): Promise<void> {
+    // console.log('loadData')
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const userData = localStorage.getItem('userData');
@@ -91,51 +96,52 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
 
   // беремо обраний id оселі з сервісу
   getSelectedFlatId() {
+    // console.log('getSelectedFlatId')
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
-        this.getSelectUserInfo();
+        this.getSelectedSub();
       } else { console.log('Оберіть оселю') }
     });
   }
 
-  iSendMessage() {
-    this.sendMessageService.messageText$.subscribe(text => {
-      this.messageText = text;
-      this.allMessagesNotRead.unshift({ is_read: 0, message: text });
-      this.messageText = '';
-      this.scrollDown();
+  // беремо обраний id оселі з сервісу
+  getSelectedSub() {
+    // console.log('getSelectedSub')
+    this.choseSubscribersService.selectedSubscriber$.subscribe(async selectedSubscriber => {
+      this.getSelectedUser = selectedSubscriber;
+      if (this.getSelectedUser) {
+        this.getSelectUserInfo(this.getSelectedUser);
+      } else { console.log('Оберіть оселю') }
     });
   }
 
   // отримуємо обраного орендара, та беремо інформацію по ньому з локального сховища flatChats який ми записали в chat-host-house,
-  async getSelectUserInfo(): Promise<any> {
-    this.getSelectedUser = this.choseSubscribersService.selectedSubscriber$
-      .pipe(take(1)) // take(1) гарантує, що після одного виникнення події обробник буде автоматично відписаний від observable.
-      .subscribe(async subscriberId => {
-        this.selectedSubscriberID = subscriberId;
-        if (this.selectedSubscriberID) {
-          const flatAllChats = JSON.parse(localStorage.getItem('flatChats') || '[]');
-          const findSelectedUser = flatAllChats.filter((item: any) => item.user_id === this.selectedSubscriberID);
-          const selectedUser: User[] = findSelectedUser
-            .filter((user_id: any) => user_id !== null)
-            .map((user_id: any) => ({
-              user_id: user_id.user_id,
-              chat_id: user_id.chat_id,
-              photoUser: user_id.infUser.img[0].img,
-              firstName: user_id.infUser.inf.firstName,
-              lastName: user_id.infUser.inf.lastName,
-              surName: user_id.infUser.inf.surName,
-            }));
-          this.selectedUser = selectedUser[0];
-          await this.getMessages();
-        } else {
-          this.selectedUser = undefined;
-        }
-      });
+  async getSelectUserInfo(subscriberId: string): Promise<any> {
+    // console.log('getSelectUserInfo')
+    this.selectedSubscriberID = subscriberId;
+    if (this.selectedSubscriberID) {
+      const flatAllChats = JSON.parse(localStorage.getItem('flatChats') || '[]');
+      const findSelectedUser = flatAllChats.filter((item: any) => item.user_id === this.selectedSubscriberID);
+      const selectedUser: User[] = findSelectedUser
+        .filter((user_id: any) => user_id !== null)
+        .map((user_id: any) => ({
+          user_id: user_id.user_id,
+          chat_id: user_id.chat_id,
+          photoUser: user_id.infUser.img[0].img,
+          firstName: user_id.infUser.inf.firstName,
+          lastName: user_id.infUser.inf.lastName,
+          surName: user_id.infUser.inf.surName,
+        }));
+      this.selectedUser = selectedUser[0];
+      await this.getMessages();
+    } else {
+      this.selectedUser = undefined;
+    }
   }
 
   async getMessages(): Promise<any> {
+    // console.log('getMessages')
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
     this.allMessages = [];
@@ -174,6 +180,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   async getNewMessages(): Promise<void> {
+    // console.log('getNewMessages')
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId && this.selectedSubscriberID) {
       const requestData = {
@@ -183,7 +190,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         offs: 0,
         data: this.allMessages[0]?.data,
       };
-      this.http.post(serverPath + '/chat/get/NewMessageFlat', requestData)
+      this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageFlat', requestData)
         .subscribe(
           async (response: any) => {
             if (Array.isArray(response.status)) {
@@ -207,15 +214,11 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
               }))
               this.allMessagesNotRead = unreadMessages;
               this.selectedUser = this.selectedUser;
-              // Перевірка чиє повідомлення непрочитане
               const iHaveMessages = this.allMessagesNotRead.every(message => message.is_read === 1 || message.user_id !== null);
-              // console.log(iHaveMessages)
               if (iHaveMessages) {
                 this.scrollDown();
-                // console.log('Маю повідомлення опускаюсь до низу')
                 setTimeout(() => {
                   if (iHaveMessages) {
-                    // console.log('Читаю')
                     this.readMessage();
                   }
                 }, 500);
@@ -278,6 +281,10 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // відписуюсь від запитів на нові сповіщення
+    if (this.getMessagesSubscription) {
+      this.getMessagesSubscription.unsubscribe();
+    }
     if (this.interval) {
       clearInterval(this.interval);
     }
@@ -322,5 +329,16 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  // пушимо текст відправленого повідомлення в контейнер та опускаємось вниз
+  pushMessageText() {
+    // console.log('pushMessageText');
+    this.sendMessageService.messageText$.subscribe(text => {
+      this.messageText = text;
+      if (this.messageText) {
+        this.messageText = '';
+        this.allMessagesNotRead.unshift({ is_read: 0, message: text });
+        this.scrollDown();
+      }
+    });
+  }
 }

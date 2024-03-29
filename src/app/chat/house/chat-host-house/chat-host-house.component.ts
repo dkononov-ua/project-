@@ -4,36 +4,23 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { Chat } from '../../../interface/info';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
+import { animations } from '../../../interface/animation';
 
 @Component({
   selector: 'app-chat-host-house',
   templateUrl: './chat-host-house.component.html',
   styleUrls: ['../../chat_host.scss'],
   animations: [
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
-      ]),
-    ]),
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('800ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation3', [
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('10ms 1200ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.top2,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.swichCard,
   ],
 })
 
@@ -143,7 +130,6 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   }
 
   onSubscriberSelect(user_id: any): void {
-    console.log(user_id)
     this.chatSelected = true;
     this.indexPage = 1;
     this.choseSubscribersService.setSelectedSubscriber(user_id);
@@ -179,7 +165,6 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
             console.error(error);
           });
       } catch (error) {
-
       }
     } else {
       console.log('chat not found');
@@ -187,10 +172,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   }
 
   selectChat(chat: Chat): void {
-    console.log(chat)
-    if (this.selectedChat) {
-      this.selectedChat.isSelected = false;
-    }
+    if (this.selectedChat) { this.selectedChat.isSelected = false; }
     this.selectedChat = chat;
     chat.isSelected = true;
     this.indexPage = 1;
