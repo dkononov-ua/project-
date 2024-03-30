@@ -1,0 +1,169 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/shared.scss" as *;
+
+.flex-box {
+  flex-wrap: wrap;
+}
+
+.card-wrapper {
+  border-radius: 0px !important;
+}
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+  }
+}
+.card-content-static {
+  flex-direction: column !important;
+  border-radius: 0px !important;
+  @include s3-s6-max {
+    background-color: $color-primary !important;
+  }
+}
+
+.users-switch {
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-animation {
+  justify-content: space-evenly;
+  height: auto;
+}
+
+.users {
+  height: 80vh;
+}
+
+.switch-content {
+  height: 12vh;
+}
+
+.card-box {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  height: 88vh;
+  .card-box-filter {
+    @include flex-box-column;
+    height: 100%;
+    justify-content: space-between;
+  }
+}
+
+.box {
+  @include flex-box;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: $t-max;
+  font-weight: 600;
+  .box-btn {
+    background-color: transparent;
+    &:active {
+      background-color: $color-accent;
+    }
+  }
+}
+
+.switch-box {
+  position: relative;
+  .switch-btn-group {
+    .btn {
+      .flex-box {
+        position: relative;
+        align-items: center;
+        .fa-house-chimney-window {
+          font-size: 35px;
+          z-index: 90;
+        }
+        .t-lar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          background-color: $color-accent;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          z-index: 100;
+          color: $color-white;
+        }
+      }
+      &:active {
+        .t-min,
+        .t-lar-xx,
+        .fa-solid {
+          color: $color-accent;
+        }
+      }
+      .active {
+        color: $color-accent;
+      }
+    }
+  }
+}
+
+mat-radio-group {
+  display: flex;
+  justify-content: center;
+}
+
+mat-label {
+  font-size: 12px;
+  color: $color-text;
+}
+
+mat-hint {
+  font-size: 12px;
+  color: $color-accent;
+}
+
+.item-disabled {
+  color: $color-gray;
+}
+
+.mat-icon.mat-icon {
+  width: 25px;
+  height: 25px;
+  padding: 4px;
+  margin-right: 5px;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.icon {
+  width: 10px;
+  margin-right: 10px;
+  height: 15px;
+}
+
+.item-select {
+  width: 95%;
+  font-size: 16px;
+  flex-direction: column-reverse;
+  @include s1-s3 {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+.fa-solid,
+.fa-regular {
+  color: $color-text;
+}

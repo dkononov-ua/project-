@@ -8,7 +8,7 @@ export const PaginationConfig = {
   totalPages: 1,
   pageEvent: {
     length: 0,
-    pageSize: 5, // Встановлюємо кількісь яку пропускаємо
+    pageSize: 2, // Встановлюємо кількісь яку пропускаємо
     pageIndex: 0,
   } as PageEvent, // Встановлюємо тип PageEvent
 };

@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss'],
   animations: [
+    animations.right2,
     animations.left,
     animations.left1,
     animations.left2,

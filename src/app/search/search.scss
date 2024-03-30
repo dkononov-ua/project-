@@ -2,34 +2,96 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
-.container-img {
+.card-box {
+  display: flex;
+  height: 100vh;
+  width: 100%;
   position: relative;
-  .wrapper-img {
-    height: 350px;
-    border-radius: 20px;
+  .menu-img-wrapper {
+    @include flex-box-center;
+    flex-direction: column;
     position: relative;
-    .img-box {
-      border-radius: 0px;
+    height: 100vh;
+    width: 100%;
+
+    .btn-group2 {
+      z-index: 10;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      margin-top: 20px;
+      background-color: transparent;
       overflow: hidden;
-      height: 350px !important;
-      .img-box-img {
-        border-radius: 20px;
-        height: 350px !important;
-        width: 100%;
-        overflow: hidden;
-        object-fit: cover;
+      .btn2 {
+        @include flex-box-center;
+        font-size: $t-med;
+        background-color: $color-accent;
+        color: $color-dark;
+        font-weight: 600;
+        text-transform: uppercase;
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+        &:disabled {
+          background-color: rgba(128, 128, 128, 0.67);
+        }
+
+        .fa-regular,
+        .fa-solid {
+          font-size: $t-max;
+          color: $color-white;
+        }
       }
+    }
+
+    .flex-box-logo {
+      @include flex-box-center;
+      flex-direction: column;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(
+        circle at center,
+        rgba(0, 0, 0, 0.741) 0%,
+        rgba(255, 255, 255, 0) 65%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      border-radius: 50%;
+
+      z-index: 10;
+      .logo {
+        width: 100px;
+      }
+    }
+    .param-box {
+      z-index: 10;
+    }
+    .menu-img {
+      z-index: 5;
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      height: 100vh;
+      width: 100%;
     }
   }
 }
 
-.img-fluid {
-  height: 350px;
-  border-radius: 20px;
-  width: 100%;
-  border: none;
+.card {
+  justify-content: flex-start;
 }
 
+.container-img {
+  position: relative;
+  .wrapper-img {
+    position: relative;
+    .img-fluid {
+      width: 100%;
+      border: none;
+      border-radius: 0;
+    }
+  }
+}
 
 .card-container {
   @include flex-box-row;
@@ -96,18 +158,43 @@
 }
 
 .card-selected {
-  width: 380px;
-  min-width: 100%;
+  background-color: $color-white;
   display: flex;
-  justify-content: flex-start;
-  position: relative;
-  overflow: auto;
-  height: 600px;
-  @include s1-s3 {
-    height: auto;
+  position: absolute;
+  top: -12vh;
+  left: 0;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  .cardDirection {
+    @include flex-box-column;
+    height: 100vh;
+    background-color: $color-accent;
+    position: absolute;
     width: 100%;
-    overflow: visible;
+    padding-top: 30vh;
+    .logo {
+      width: 50%;
+    }
   }
+}
+
+.search-card {
+  @include flex-box-center;
+  flex-direction: column;
+  position: absolute;
+  justify-content: flex-start;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  height: 100vh;
+  background-color: $color-white;
+  z-index: 500;
+  width: 100%;
+  align-items: stretch;
 }
 
 .user-group {
@@ -195,23 +282,62 @@
   color: $color-white;
 }
 
-.card-mini.selected {
-  color: white;
-  background-color: $color-dark;
+.card-mini {
+  @include flex-box;
+  margin-bottom: 10px;
+  background-color: $color-white;
   transition: 1s;
-}
-
-.mob-100vh {
-  @include flex-box-column;
-  @include s1-s3 {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.629);
+  .card-mini-body {
+    display: flex;
+    flex-direction: column;
+    z-index: 105;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.538);
+    width: 100%;
+    height: 100%;
+  }
+  .card-mini-img {
     position: absolute;
-    top: 0;
     left: 0;
-    background-color: $color-white;
-    height: 100vh;
-    overflow: auto;
-    padding-bottom: 10px;
-    z-index: 100;
+    z-index: 1;
+    width: 100%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      object-fit: scale-down;
+    }
+  }
+  .card-mini-user {
+    @include flex-box;
+    justify-content: flex-start;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+    background-color: rgba(43, 43, 43, 0.57);
+    width: 100%;
+    img {
+      width: 70%;
+      object-fit: cover;
+      clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+    }
+  }
+  &.selected {
+    transition: 1s;
+    color: $color-white;
+    font-weight: 600;
+
+    .card-mini-body {
+      background-color: transparent;
+      background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, $color-accent 100%) !important;
+    }
   }
 }
 
@@ -229,44 +355,6 @@
     overflow: visible;
     width: 100%;
     height: auto;
-  }
-}
-
-.card-wrapper {
-  padding: 2px;
-  display: flex;
-  flex-wrap: wrap;
-  transition: all 0.3s ease;
-  align-items: center;
-  justify-content: center;
-
-  width: 300px;
-  height: 130px;
-  @include s1-s3 {
-    width: 100%;
-  }
-}
-
-.card-mini {
-  position: relative;
-  background-color: $color-white;
-  padding: 0;
-  width: 100%;
-  height: 120px;
-  box-shadow:
-    10px 2px 15px rgba(0, 0, 0, 0.25),
-    10px 3px 10px rgba(0, 0, 0, 0.22);
-  border-radius: 10px;
-  transition: 1s;
-  &:hover {
-    color: $color-white;
-    background-color: $color-dark;
-  }
-}
-
-.search-results-detail {
-  @include s1-s3 {
-    width: 100%;
   }
 }
 
@@ -290,13 +378,6 @@
     color: $color-text;
     transition: all 0.4s ease;
     letter-spacing: 1px;
-
-    &:hover {
-      background-color: $color-gray;
-      box-shadow:
-        10px 10px 40px rgba(0, 0, 0, 0.105),
-        10px 20px 40px rgba(0, 0, 0, 0.162);
-    }
 
     &:active {
       transform: scale(0.8);
@@ -325,21 +406,6 @@
   background-color: $color-accent;
 }
 
-// .price {
-//   height: 100%;
-//   width: 100%;
-//   position: absolute;
-//   z-index: 5;
-//   bottom: 0;
-//   left: 0;
-//   display: flex;
-//   align-items: flex-start;
-//   flex-direction: column;
-//   align-content: flex-start;
-//   justify-content: flex-end;
-//   background: linear-gradient(to top, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 30%);
-// }
-
 .price_m {
   font-size: 20px;
   color: $color-accent;
@@ -352,14 +418,12 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 650px;
   overflow: auto;
-  padding: 0;
-  margin: 0;
   width: 100%;
-  @include s1-s3 {
-    height: 80vh;
-  }
+}
+
+.search-results2::-webkit-scrollbar {
+  display: none;
 }
 
 .btn-close {
@@ -372,17 +436,6 @@
   background-color: $color-white;
   border-radius: 50%;
   padding: 5px;
-}
-
-.btn-navigator {
-  @include flex-box;
-  border: none;
-  border-radius: 0 0 20px 20px;
-
-  .fa-solid {
-    font-size: 20px;
-    color: $color-dark;
-  }
 }
 
 .btn-container {
@@ -407,8 +460,9 @@
       border-radius: 50%;
       border: none;
       width: 80px;
-      .fa-solid, .fa-regular {
-        color: $color-dark;
+      .fa-solid,
+      .fa-regular {
+        color: $color-white;
         &:hover {
           color: $color-accent;
           @include box-shadow;
@@ -454,13 +508,18 @@
   justify-content: flex-start;
 }
 
-.img-review-wrapper {
-  overflow: hidden;
-  border-radius: 50%;
-  .img-review-fluid {
-    object-fit: cover;
-    width: 30px;
-    height: 30px;
+.link-t {
+  background-color: rgba(128, 128, 128, 0.905);
+}
+
+.feedback-box {
+  .feedback-box-btn {
+    background-color: rgba(128, 128, 128, 0.905);
+    color: $color-white;
+    &:disabled {
+      color: rgba(128, 128, 128, 0.905);
+      background-color: transparent;
+    }
   }
 }
 
@@ -484,7 +543,8 @@
     }
   }
 
-  .fa-solid, .fa-regular {
+  .fa-solid,
+  .fa-regular {
     color: $color-white;
   }
 
@@ -500,22 +560,5 @@
     border-top: 1px solid gray;
     height: 30%;
     width: 100%;
-  }
-}
-
-// .btn-container-close {
-//   position: absolute;
-//   right: 0;
-// }
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
   }
 }

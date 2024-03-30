@@ -17,6 +17,7 @@ import { animations } from '../../interface/animation';
     animations.left5,
     animations.right1,
     animations.top1,
+    animations.right2,
     animations.swichCard,
   ],
 })

@@ -2,6 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath } from 'src/app/config/server-config';
+import { HouseInfo } from '../../../../interface/info';
+import { HouseConfig } from 'src/app/interface/param-config';
+import { SharedService } from 'src/app/services/shared.service';
+
 interface FlatInfo {
   osbb_name: string | undefined;
   osbb_phone: any;
@@ -18,6 +22,7 @@ interface FlatInfo {
 
 export class HouseShareComponent implements OnInit {
   serverPath = serverPath;
+  statusMessage: any;
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
@@ -42,6 +47,8 @@ export class HouseShareComponent implements OnInit {
   disabled: boolean = true;
   selectedFlatId!: string | null;
   phonePattern = '^[0-9]{10}$';
+  HouseInfo: HouseInfo = HouseConfig;
+  public locationLink: string = '';
 
   acces_added: number = 1;
   acces_admin: number = 1;
@@ -77,7 +84,9 @@ export class HouseShareComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) {
+    private sharedService: SharedService,
+    private selectedFlatService: SelectedFlatService,
+  ) {
   }
 
   ngOnInit(): void {
@@ -93,11 +102,10 @@ export class HouseShareComponent implements OnInit {
         if (houseData) {
           const parsedHouseData = JSON.parse(houseData);
           this.houseData = parsedHouseData;
-          if (this.houseData) {
-            this.getHouseAcces();
-          }
+          this.getHouseAcces();
+          this.generateLocationUrl();
         } else {
-          console.log('Оберіть оселю')
+          console.log('Немає інформації про оселю')
         }
       }
     });
@@ -181,6 +189,7 @@ export class HouseShareComponent implements OnInit {
   copyWiFi() { this.copyToClipboard(this.flatInfo.wifi, 'WiFi пароль скопійовано'); }
   copyOsbbPhone() { this.copyToClipboard(this.flatInfo.osbb_phone, 'Номер телефону скопійовано'); }
   copyPayCard() { this.copyToClipboard(this.flatInfo.pay_card, 'Номер картки скопійовано'); }
+  copyLocation() { this.copyToClipboard(this.locationLink, 'Локацію скопійовано'); }
 
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
   async getHouseAcces(): Promise<void> {
@@ -199,5 +208,32 @@ export class HouseShareComponent implements OnInit {
       this.acces_services = this.houseData.acces.acces_services;
       this.acces_subs = this.houseData.acces.acces_subs;
     }
+  }
+
+  // Генерую локацію оселі
+  generateLocationUrl() {
+    // console.log(this.houseData)
+    const baseUrl = 'https://www.google.com/maps/place/';
+    const region = this.houseData.flat.region || '';
+    const city = this.houseData.flat.city || '';
+    const street = this.houseData.flat.street || '';
+    const houseNumber = this.houseData.flat.houseNumber || '';
+    const flatIndex = this.houseData.flat.flat_index || '';
+    const encodedRegion = encodeURIComponent(region);
+    const encodedCity = encodeURIComponent(city);
+    const encodedStreet = encodeURIComponent(street);
+    const encodedHouseNumber = encodeURIComponent(houseNumber);
+    const encodedFlatIndex = encodeURIComponent(flatIndex);
+    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
+    this.locationLink = locationUrl;
+    return this.locationLink;
+  }
+
+  // Відкриваю локацію на мапі
+  openMap() {
+    this.statusMessage = 'Відкриваємо локацію на мапі';
+    this.sharedService.setStatusMessage(this.statusMessage);
+    // console.log(this.locationLink)
+    setTimeout(() => { this.sharedService.setStatusMessage(''); window.open(this.locationLink, '_blank'); }, 2000);
   }
 }

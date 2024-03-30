@@ -2,9 +2,10 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, HostListen
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
-import { serverPath } from 'src/app/config/server-config';
+import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { CloseMenuService } from './services/close-menu.service';
+import { SharedService } from './services/shared.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +13,8 @@ import { CloseMenuService } from './services/close-menu.service';
 })
 
 export class AppComponent implements OnInit {
-
+  path_logo = path_logo;
+  statusMessage: string = '';
   @ViewChild('locationElement') locationElement!: ElementRef;
   loginForm: any;
   loggedInAccount: boolean = true;
@@ -55,7 +57,13 @@ export class AppComponent implements OnInit {
     private location: Location,
     private router: Router,
     private el: ElementRef,
-    private isCloseMenu: CloseMenuService) { }
+    private isCloseMenu: CloseMenuService,
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.getStatusMessage().subscribe((message: string) => {
+      this.statusMessage = message;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     const currentLocation = this.location.path();

@@ -9,11 +9,22 @@ import { serverPath } from 'src/app/config/server-config';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { UserConfig } from '../../interface/param-config'
 import { UserInfoSearch } from '../../interface/info'
-
+import { animations } from '../../interface/animation';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
-  styleUrls: ['./search-tenant.component.scss'],
+  styleUrls: ['../search.term.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
+  ],
 })
 
 export class SearchTenantComponent implements OnInit {
@@ -66,7 +77,8 @@ export class SearchTenantComponent implements OnInit {
   card_info: number = 0;
   indexPage: number = 1;
   shownCard: any;
-
+  myData: boolean = false;
+  startX = 0;
   filterSwitchNext() {
     if (this.filter_group < 4) {
       this.filter_group++;
@@ -104,22 +116,59 @@ export class SearchTenantComponent implements OnInit {
   constructor(
     private filterUserService: FilterUserService,
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) {
-    this.filterUserService.filterChange$.subscribe(async () => {
-      this.card_info = this.filterUserService.getCardInfo();
-      this.indexPage = this.filterUserService.getIndexPage();
-    })
-  }
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.getSelectedFlatId();
+    this.loading = false;
+  }
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'right' && this.indexPage === 1) {
+      if (this.filter_group !== 1) {
+        this.filter_group--;
+      } else {
+        this.router.navigate(['/house/house-info']);
+      }
+    } else {
+      if (this.filter_group <= 3 && this.indexPage === 1) {
+        this.filter_group++;
+      }
+    }
   }
 
   clearFilter() {
+    this.loading = true;
+    this.myData = false;
+    setTimeout(() => {
+      this.indexPage = 1;
+      this.loading = false;
+    }, 500);
+    this.indexPage = 0;
+    this.searchQuery = '';
     this.userInfo.room = undefined;
     this.userInfo.price = undefined;
-    this.userInfo.region = undefined;
-    this.userInfo.city = undefined;
+    this.userInfo.region = '';
+    this.userInfo.city = '';
     this.userInfo.rooms = undefined;
     this.userInfo.area = undefined;
     this.userInfo.repair_status = '';
@@ -136,6 +185,7 @@ export class SearchTenantComponent implements OnInit {
     this.userInfo.looking_woman = undefined;
     this.userInfo.looking_man = undefined;
     this.userInfo.students = 1;
+    this.userInfo.limit = 0;
     this.userInfo.woman = 1;
     this.userInfo.man = 1;
     this.userInfo.family = 1;
@@ -148,10 +198,10 @@ export class SearchTenantComponent implements OnInit {
     this.userInfo.flat = undefined;
     this.userInfo.kitchen_area = undefined;
     this.searchFilter()
-
   }
 
   async loadDataFlat(): Promise<void> {
+    this.myData = true;
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.houseData = localStorage.getItem('houseData');
@@ -214,22 +264,16 @@ export class SearchTenantComponent implements OnInit {
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
-            this.loading = false;
           } else {
             this.filteredUsers = [null];
             this.optionsFound = 0;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
-            this.loading = false;
           }
         }, (error: any) => {
           console.error(error);
-          this.loading = false;
-
         });
     } else {
       this.passInformationToService(this.filteredUsers, this.optionsFound)
-      console.log('user not found');
-      this.loading = false;
     }
   }
 
@@ -239,12 +283,15 @@ export class SearchTenantComponent implements OnInit {
     this.timer = setTimeout(() => {
       const userJson = localStorage.getItem('user');
       const userId = this.searchQuery;
-
       if (userJson && this.searchQuery) {
         this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
+            this.optionsFound = response.search_count;
             this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
+            if (response.search_count === 1) {
+              this.indexPage = 2;
+            }
           }, (error: any) => {
             console.error(error);
           });
@@ -319,27 +366,6 @@ export class SearchTenantComponent implements OnInit {
       this.userInfo.limit = offs;
     }
     this.searchFilter();
-  }
-
-  changeOpenUser() {
-    this.openUser = !this.openUser;
-  }
-
-  changeIndexPage(indexPage: number) {
-    this.indexPage = indexPage;
-    this.openUser = true;
-    this.passIndexPage();
-  }
-
-  changeCardInfo(cardInfo: number) {
-    this.card_info = cardInfo;
-    this.openUser = true;
-    this.passIndexPage();
-  }
-
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passIndexPage() {
-    this.filterUserService.updatePage(this.card_info, this.indexPage);
   }
 
   calculatePaginatorInfo(): string {

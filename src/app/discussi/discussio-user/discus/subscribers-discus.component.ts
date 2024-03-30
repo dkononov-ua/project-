@@ -611,6 +611,7 @@ export class SubscribersDiscusComponent implements OnInit {
       const response: any = await this.http.post(serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
       this.numberOfReviews = response.status.length;
       this.reviews = response.status;
+      console.log(response.status)
       if (this.reviews && Array.isArray(this.reviews)) {
         let totalMarkOwner = 0;
         this.reviews.forEach((item: any) => {

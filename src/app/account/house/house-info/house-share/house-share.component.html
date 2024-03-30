@@ -1,13 +1,27 @@
-<div class="copyMessage-box" *ngIf="isCopiedMessage">
-  <div class="copyMessage-text">{{isCopiedMessage}}</div>
-  <i class="fa-regular fa-copy"></i>
-  <div class="t-lar dark bold">Discussio</div>
-</div>
+
 <div class="container-box p-2">
+
+  <div class="copyMessage-box" *ngIf="isCopiedMessage">
+    <div class="copyMessage-text">{{isCopiedMessage}}</div>
+    <i class="fa-regular fa-copy"></i>
+    <div class="t-lar dark bold">Discussio</div>
+  </div>
+
   <div class="t-lar bold t-c">Допоміжня інформація по оселі</div>
   <div class="t-med t-c gray">Інформація яка може знадобитись під рукою</div>
 
   <div class="param-box w-100 mt-2">
+
+    <div class="param-group mb-2 flex-column">
+      <div class="param-label"><i class="fa-solid fa-location-dot"></i> Локація </div>
+      <div class="flex-box">
+        <button class="btn param-field" (click)="openMap()">
+          Розташування на:<span class="param-value" *ngIf="flatInfo.wifi">Google Maps</span>
+        </button>
+        <button class="btn-copy" (click)="copyLocation()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+    </div>
+
     <div class="param-group mb-2 flex-column">
       <div class="param-label"><i class="fa-solid fa-wifi"></i> Пароль від WiFi </div>
       <div class="flex-box">

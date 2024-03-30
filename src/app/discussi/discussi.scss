@@ -32,55 +32,7 @@
   display: none;
 }
 
-.panel-container {
-  bottom: 0;
-  display: flex;
-  background-color: $color-white;
-  border-radius: 20px 20px 0 0;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  justify-content: flex-start;
-  .wrapper {
-    @include flex-box;
-    justify-content: space-between;
-    width: 100%;
-    .btn-panel {
-      @include flex-box-column;
-      height: 60px;
-      border: none;
-      background-color: transparent;
-      flex: 1;
-      justify-content: space-between;
-      .panel-icon {
-        height: 100%;
-        @include flex-box-center;
-        .fa-solid,
-        .fa-regular {
-          font-size: 25px;
-          color: $color-dark;
-        }
-        .fa-star {
-          font-size: 15px;
-        }
-      }
-      .t-min {
-        font-size: 10px;
-      }
-      .img-btn {
-        @include flex-box;
-        background-color: transparent;
-        border-radius: 50%;
-        border: none;
-        width: 80px;
-        .fa-solid,
-        .fa-regular {
-          color: $color-dark;
-        }
-      }
-    }
-  }
-}
+
 
 .flex-box {
   justify-content: center;

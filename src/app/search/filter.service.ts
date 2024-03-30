@@ -7,9 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 export class FilterService {
   private filterValue: any;
   private optionsFound: number | undefined;
-  private card_info: number = 0;
-  private indexPage: number = 1;
+  private loadNextCards: boolean = false;
   filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  loadNextCards$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  house$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
+  sortValue$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor() { }
 
@@ -27,12 +30,29 @@ export class FilterService {
     return this.optionsFound;
   }
 
-  getCardInfo() {
-    return this.card_info;
+  getMoreCards() {
+    return this.loadNextCards;
   }
 
-  getIndexPage() {
-    return this.indexPage;
+  loadMoreCards(loadNextCards: boolean) {
+    // console.log(loadNextCards);
+    this.loadNextCards = loadNextCards
+    this.loadNextCards$.next(loadNextCards);
   }
+
+  pickHouse(house: any) {
+    // console.log(house);
+    if (house) {
+      this.house$.next(house);
+    }
+  }
+
+  sortHouse(sortValue: any) {
+    console.log('sortHouse')
+    this.sortValue$.next(sortValue);
+  }
+
+
+
 
 }

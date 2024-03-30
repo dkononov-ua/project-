@@ -1,0 +1,24 @@
+@use "../../../style/mixins/" as *;
+@use "../../../style/presets/" as *;
+@use "../../../style/shared.scss";
+@use "../../search.scss";
+
+.find-cards {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.card-wrapper {
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+.card-animation {
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+  @include s3-s6-max {
+    width: 98% !important;
+  }
+}

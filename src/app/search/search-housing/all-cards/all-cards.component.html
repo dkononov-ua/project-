@@ -1,0 +1,53 @@
+<div class="card-wrapper" *ngIf="filteredFlats">
+  <div [@swichCard] #findCards class="find-cards card-animation p-2">
+    <button class="card-mini" *ngFor="let flat of filteredFlats; let i = index" (click)="selectFlat(flat)"
+      [class.selected]="selectedFlat === flat">
+
+      <div class="card-mini-body p-2">
+        <div class="item-box" *ngIf="flat.option_pay === 0 && selectedFlat !== flat">
+          <div mat-raised-button class="param-g flex-column">
+            <div class="bg-g t-lar-xx bold accent">{{ flat.price_m}}</div>
+            <div class="t-min bg-w accent">Ціна ₴/міс</div>
+          </div>
+        </div>
+        <div class="item-box" *ngIf="flat.option_pay !== 0 && selectedFlat !== flat">
+          <div mat-raised-button class="param-g flex-column">
+            <div class="bg-g t-lar-xx bold accent">{{ flat.price_d}}</div>
+            <div class="t-min bg-w accent">Ціна ₴/добу</div>
+          </div>
+        </div>
+        <div class="t-lar-x bold white">{{ flat.city }}</div>
+        <div class="t-med bold white">{{ flat.street }} {{ flat.houseNumber }}
+          <span *ngIf="flat.area">| {{ flat.area }} м²</span>
+        </div>
+      </div>
+
+      <ng-container *ngIf="flat.img && isLoadingImg">
+        <div class="card-mini-img">
+          <img
+            [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+            alt="img">
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="flat.img && !isLoadingImg">
+        <div class="card-mini-img">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <img
+              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+              alt="img" (load)="isLoadingImg = true" hidden>
+            <div class="t-min gray mt-2">Завантаження фото</div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!flat.img">
+        <div class="card-mini-img">
+          <img src="../../../../assets/housing_default.svg" alt="img">
+        </div>
+      </ng-container>
+
+    </button>
+  </div>
+</div>

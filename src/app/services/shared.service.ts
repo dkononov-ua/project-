@@ -24,7 +24,6 @@ export class SharedService {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private location: Location,
-
   ) {
     const storedCheckOwner = localStorage.getItem('checkOwnerPage');
     if (storedCheckOwner) {
@@ -116,6 +115,7 @@ export class SharedService {
   }
 
   setStatusMessage(message: string): void {
+    console.log(message)
     this.statusMessageSubject.next(message);
     console.log(message)
   }

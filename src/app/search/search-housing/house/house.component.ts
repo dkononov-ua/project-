@@ -1,9 +1,6 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FilterService } from '../../filter.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HouseInfo } from 'src/app/interface/info';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -11,7 +8,9 @@ import { SharedService } from 'src/app/services/shared.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals, options, checkBox } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
-import { GalleryComponent } from 'src/app/components/gallery/gallery.component';
+import { GestureService } from 'src/app/services/gesture.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -20,28 +19,25 @@ import { GalleryComponent } from 'src/app/components/gallery/gallery.component';
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardSwipe', [
       transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'scale(0.8)', opacity: 0 }),
+        animate('600ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1400ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
+      transition('left => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(-100%)', opacity: 0 })),
       ]),
-    ]),
-    trigger('slideAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
-      ])
+      transition('right => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(100%)', opacity: 0 })),
+      ]),
     ]),
   ]
 })
 
 export class HouseComponent implements OnInit {
+
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
@@ -49,29 +45,23 @@ export class HouseComponent implements OnInit {
   animals = animals;
   options = options;
   checkBox = checkBox;
-
   // шляхи до серверу
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
-
   // пагінатор
   offs = PaginationConfig.offs;
   optionsFound = PaginationConfig.counterFound;
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
-
   // параметри оселі
   filteredFlats: HouseInfo[] | undefined;
   selectedFlat: HouseInfo | any;
-  showFullScreenImage = false;
-  fullScreenImageUrl = '';
   locationLink: any = '';
   currentCardIndex: number = 0;
   currentPhotoIndex: number = 0;
-
   // статуси
   loading = true;
   showSubscriptionMessage: boolean = false;
@@ -79,25 +69,125 @@ export class HouseComponent implements OnInit {
   statusSubscriptionMessage: boolean | undefined;
   subscriptionStatus: any;
   statusMessage: any;
-
-  card_info: number = 0;
   indexPage: number = 1;
   reviews: any;
   numberOfReviews: any;
   ratingOwner: number | undefined;
   isCopiedMessage!: string;
-
+  cardSwipeState: string = '';
+  cardDirection: string = 'Discussio';
+  card1: boolean = true;
+  card2: boolean = false;
+  startX = 0;
+  photoViewing: boolean = false;
+  isLoadingImg: boolean = false;
 
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
-    private dialog: MatDialog,
-    private sanitizer: DomSanitizer,
     private sharedService: SharedService,
-  ) { }
+  ) {  }
 
   ngOnInit(): void {
-    this.getSearchInfo()
+    this.getSearchInfo();
+    this.getHouse()
+  }
+
+  getHouse() {
+    this.filterService.house$.subscribe(house => {
+      // console.log(house);
+      if (house) {
+        this.selectFlat(house);
+      }
+    });
+  }
+
+  selectFlat(flat: HouseInfo) {
+    this.reviews = [];
+    this.currentPhotoIndex = 0;
+    this.indexPage = 1;
+    this.currentCardIndex = this.filteredFlats!.indexOf(flat);
+    this.selectedFlat = flat;
+    this.getRating(this.selectedFlat)
+    this.checkSubscribe();
+    this.generateLocationUrl();
+  }
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  onPanStartImg(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+
+  onPanEndImg(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwipedImg('right');
+      } else {
+        this.onSwipedImg('left');
+      }
+    }
+  }
+
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'left') {
+      this.cardDirection = 'Наступна';
+      this.cardSwipeState = 'left';
+      setTimeout(() => {
+        this.card1 = !this.card1;
+        this.card2 = !this.card2;
+        this.onNextCard();
+        this.cardSwipeState = 'endLeft';
+        setTimeout(() => {
+          this.cardDirection = '';
+        }, 590);
+      }, 10);
+    } else {
+      this.cardDirection = 'Попередня';
+      this.cardSwipeState = 'right';
+      setTimeout(() => {
+        this.card1 = !this.card1;
+        this.card2 = !this.card2;
+        this.onPrevCard();
+        this.cardSwipeState = 'endRight';
+        setTimeout(() => {
+          this.cardDirection = '';
+        }, 590);
+      }, 10);
+    }
+  }
+  // оброблюю свайп фото
+  onSwipedImg(direction: string | undefined): void {
+    if (direction === 'right') {
+      this.prevPhoto();
+    } else {
+      this.nextPhoto();
+    }
+  }
+
+  toggleIndexPage() {
+    if (this.indexPage === 1) {
+      this.indexPage = 2;
+    } else {
+      this.indexPage = 1;
+    }
   }
 
   async getSearchInfo() {
@@ -106,8 +196,6 @@ export class HouseComponent implements OnInit {
       this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
-        this.card_info = this.filterService.getCardInfo();
-        this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
           this.getFilteredData(filterValue, optionsFound);
         } else {
@@ -123,9 +211,9 @@ export class HouseComponent implements OnInit {
     if (filterValue) {
       this.filteredFlats = filterValue;
       this.optionsFound = optionsFound;
-      this.selectedFlat = this.filteredFlats![0];
-      this.locationLink = this.generateLocationUrl();
-      this.checkSubscribe();
+      // this.selectedFlat = this.filteredFlats![0];
+      // this.locationLink = this.generateLocationUrl();
+      // this.checkSubscribe();
       this.loading = false;
     } else {
       this.optionsFound = 0;
@@ -135,18 +223,8 @@ export class HouseComponent implements OnInit {
     }
   }
 
-  selectFlat(flat: HouseInfo) {
-    this.currentPhotoIndex = 0;
-    this.indexPage = 2;
-    this.card_info = 1;
-    this.currentCardIndex = this.filteredFlats!.indexOf(flat);
-    this.selectedFlat = flat;
-    this.getRating(this.selectedFlat)
-    this.checkSubscribe();
-    this.generateLocationUrl();
-  }
-
   onPrevCard() {
+    this.reviews = [];
     this.currentPhotoIndex = 0;
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
@@ -156,6 +234,7 @@ export class HouseComponent implements OnInit {
   }
 
   onNextCard() {
+    this.reviews = [];
     this.currentPhotoIndex = 0;
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
@@ -165,35 +244,22 @@ export class HouseComponent implements OnInit {
   }
 
   prevPhoto() {
-    this.currentPhotoIndex--;
+    const length = this.selectedFlat.img?.length || 0;
+    if (this.currentPhotoIndex !== 0) {
+      this.currentPhotoIndex--;
+    }
   }
 
   nextPhoto() {
-    this.currentPhotoIndex++;
+    const length = this.selectedFlat.img?.length || 0;
+    if (this.currentPhotoIndex < length) {
+      this.currentPhotoIndex++;
+    }
   }
 
   calculateCardIndex(index: number): number {
     const length = this.filteredFlats?.length || 0;
     return (index + length) % length;
-  }
-
-  openFullScreenImage(photos: string[]): void {
-    const sanitizedPhotos: SafeUrl[] = photos.map(photo =>
-      this.sanitizer.bypassSecurityTrustUrl(serverPath + '/img/flat/' + photo)
-    );
-
-    const dialogRef = this.dialog.open(GalleryComponent, {
-      data: {
-        photos: sanitizedPhotos,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => { });
-  }
-
-  closeFullScreenImage(): void {
-    this.showFullScreenImage = false;
-    this.fullScreenImageUrl = '';
   }
 
   async generateLocationUrl() {
@@ -292,20 +358,26 @@ export class HouseComponent implements OnInit {
 
   // отримую рейтинг власника оселі
   async getRating(selectedFlat: any): Promise<any> {
+    console.log(selectedFlat);
     if (selectedFlat && Array.isArray(selectedFlat.rating)) {
-      let totalMarkTenant = 0;
+      let totalMarkOwner = 0;
       this.numberOfReviews = selectedFlat.rating.length;
       selectedFlat.rating.forEach((item: { mark: number }) => {
         if (item.mark) {
-          totalMarkTenant += item.mark;
-          this.ratingOwner = totalMarkTenant;
+          this.reviews = selectedFlat.rating;
+          totalMarkOwner += item.mark;
+          this.ratingOwner = totalMarkOwner;
         }
       });
-
-    } else if (selectedFlat.rating === false) {
+      if (this.numberOfReviews > 0) {
+        this.ratingOwner = totalMarkOwner / this.numberOfReviews;
+      } else {
+        this.ratingOwner = 0;
+      }
+    } else {
       this.ratingOwner = 0;
+      this.numberOfReviews = 0;
     }
   }
-
 }
 

@@ -7,41 +7,31 @@ import { Subject } from 'rxjs';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedService } from 'src/app/services/shared.service';
-
 // власні імпорти інформації
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
+import { GestureService } from 'src/app/services/gesture.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'uk-UA' },
-  ],
+  providers: [{ provide: LOCALE_ID, useValue: 'uk-UA' },],
   animations: [
-    trigger('cardAnimation', [
+    trigger('cardSwipe', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(0)' }))
+        style({ transform: 'scale(0.8)', opacity: 0 }),
+        animate('600ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
       ]),
-      transition('* => void', [
-        style({ transform: 'translateX(0)' }),
-        animate('1200ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      transition('left => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' })),
       ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(300%)' }),
-        animate('1400ms 300ms ease-in-out', style({ transform: 'translateX(0)' }))
+      transition('right => *', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(100%)' })),
       ]),
-    ]),
-    trigger('slideAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
-      ])
     ]),
   ]
 })
@@ -53,38 +43,38 @@ export class ProfileComponent implements OnInit {
   aboutDistance = aboutDistance;
   option_pay = option_pay;
   animals = animals;
-
   // шляхи до серверу
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
-
   // рейтинг орендара
   ratingTenant: number | undefined;
-
   // параметри користувача
   isSubscribed: boolean = false;
   subscriptionMessage: string | undefined;
   userInfo: UserInfo[] = [];
   filteredUsers: UserInfo[] | undefined;
   selectedUser: UserInfo | any;
-
   // параметри оселі
   selectedFlatId!: string | null;
-
   // статуси
   currentCardIndex: number = 0;
   subscriptionStatus: any;
   statusMessage: any;
   loading = true;
   optionsFound: number = 0;
-
   card_info: number = 0;
-  indexPage: number = 1;
+  indexPage: number = 0;
   numberOfReviews: any;
   totalDays: any;
   reviews: any;
+  cardSwipeState: string = '';
+  cardDirection: string = 'Discussio';
+  card1: boolean = true;
+  card2: boolean = false;
+  startX = 0;
+  isLoadingImg: boolean = false;
 
   constructor(
     private filterService: FilterUserService,
@@ -92,15 +82,64 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
-  ) {
-    this.filterService.filterChange$.subscribe(async () => {
-      this.card_info = this.filterService.getCardInfo();
-      this.indexPage = this.filterService.getIndexPage();
-    })
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getSelectedFlat();
+  }
+
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
+
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
+      } else {
+        this.onSwiped('left');
+      }
+    }
+  }
+
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    if (direction === 'left') {
+      this.cardDirection = 'Наступна';
+      this.cardSwipeState = 'left';
+      setTimeout(() => {
+        this.card1 = !this.card1;
+        this.card2 = !this.card2;
+        this.onNextCard();
+        this.cardSwipeState = 'endLeft';
+        setTimeout(() => {
+          this.cardDirection = '';
+        }, 590);
+      }, 10);
+    } else {
+      this.cardDirection = 'Попередня';
+      this.cardSwipeState = 'right';
+      setTimeout(() => {
+        this.card1 = !this.card1;
+        this.card2 = !this.card2;
+        this.onPrevCard();
+        this.cardSwipeState = 'endRight';
+        setTimeout(() => {
+          this.cardDirection = '';
+        }, 590);
+      }, 10);
+    }
+  }
+
+  toggleIndexPage() {
+    if (this.indexPage === 1) {
+      this.indexPage = 2;
+    } else {
+      this.indexPage = 1;
+    }
   }
 
   async getSelectedFlat() {
@@ -121,8 +160,6 @@ export class ProfileComponent implements OnInit {
       this.filterService.filterChange$.subscribe(async () => {
         const filterValue = this.filterService.getFilterValue();
         const optionsFound = this.filterService.getOptionsFound();
-        this.card_info = this.filterService.getCardInfo();
-        this.indexPage = this.filterService.getIndexPage();
         if (filterValue && optionsFound && optionsFound !== 0) {
           this.getFilteredData(filterValue, optionsFound);
         } else {
@@ -149,11 +186,10 @@ export class ProfileComponent implements OnInit {
   }
 
   selectUser(user: UserInfo) {
-    this.indexPage = 2;
+    this.indexPage = 1;
     this.getRating(user)
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
-    this.passIndexPage();
     this.calculateTotalDays()
     this.updateSelectedUser();
   }
@@ -262,11 +298,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passIndexPage() {
-    this.filterService.updatePage(this.card_info, this.indexPage);
-  }
-
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/rating/get/userMarks';
@@ -277,24 +308,32 @@ export class ProfileComponent implements OnInit {
 
     try {
       const response = await this.http.post(url, data).toPromise() as any;
-      this.reviews = response.status;
       if (response && Array.isArray(response.status)) {
+        this.reviews = response.status;
         let totalMarkTenant = 0;
         this.numberOfReviews = response.status.length;
         response.status.forEach((item: any) => {
           if (item.info.mark) {
             totalMarkTenant += item.info.mark;
-            this.ratingTenant = totalMarkTenant;
           }
         });
+        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
+        if (this.numberOfReviews > 0) {
+          this.ratingTenant = totalMarkTenant / this.numberOfReviews;
+        } else {
+          this.ratingTenant = 0;
+        }
+
         // console.log('Кількість відгуків:', this.numberOfReviews);
-      } else if (response.status === false) {
+      } else {
+        this.reviews = undefined;
         this.ratingTenant = 0;
       }
     } catch (error) {
       console.error(error);
     }
   }
+
 
 }
 

@@ -1,171 +1,138 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
+<div class="card-wrapper" *ngIf="selectedFlat">
 
-<ng-template #content>
-  <div class="card-container">
+  <div class="card-animation" [@cardSwipe]="cardSwipeState" *ngIf="indexPage === 1 && card1">
+    <div class="card-content">
 
-    <aside class="hide-mobile search-results" cdkScrollable *ngIf="filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index" (click)="selectFlat(flat)">
-        <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
-
-          <div class="card-img-container">
-            <img
-              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" class="card-img-top">
-          </div>
-          <div class="card-title">
-            <div class="accent t-med bold">{{ flat.price_m }} грн/міс</div>
-            <div class="t-min">{{ flat.street }} <span class="accent"> {{ flat.houseNumber }}</span></div>
-            <div class="t-min">{{ flat.city }}</div>
-            <div class="t-min accent">{{ flat.area }} м²</div>
-          </div>
-        </a>
+      <div class="hide-pc  btn-close-container m-2">
+        <div class="btn-close-box">
+          <button class="btn-close" [routerLink]="'/search-house/all-cards'"></button>
+        </div>
       </div>
-    </aside>
 
-    <aside class="hide-pc search-results2 col-lg-6 col-md-6 col-sm-12 col-12" cdkScrollable
-      *ngIf="indexPage === 1 && filteredFlats">
-      <div class="card-wrapper" *ngFor="let flat of filteredFlats; let i = index" (click)="selectFlat(flat)">
-        <a class="card-mini m-2" [class.selected]="selectedFlat === flat" [@slideAnimation]>
+      <div class="status-container">
+        <div class="status-box">
+          <div class="status-value" *ngIf="subscriptionStatus === 1">Sub</div>
+          <div class="status-value" *ngIf="subscriptionStatus === 2">Dis</div>
+          <div class="status-value" *ngIf="selectedFlat.room === 1">К</div>
+          <div class="status-value" *ngIf="selectedFlat.option_flat === 1">Буд</div>
+          <div class="status-value" *ngIf="selectedFlat.option_flat === 2">Кв</div>
+          <div class="status-value" *ngIf="selectedFlat.woman === 1">W</div>
+          <div class="status-value" *ngIf="selectedFlat.man === 1">M</div>
+          <div class="status-value" *ngIf="selectedFlat.students === 1">S</div>
+          <div class="status-value" *ngIf="selectedFlat.family === 1">F</div>
+        </div>
+        <div class="status-hover">
+          <div class="status-hover-label">Допомога</div>
+          <div class="status-hover-text">
+            <ul *ngIf="subscriptionStatus">
 
-          <div class="card-img-container">
-            <img
-              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
-              alt="Flat Image" class="card-img-top">
-          </div>
-          <div class="card-title">
-            <div class="accent t-med bold">{{ flat.price_m }} грн/міс</div>
-            <div class="t-min">{{ flat.street }} <span class="accent"> {{ flat.houseNumber }}</span></div>
-            <div class="t-min">{{ flat.city }}</div>
-            <div class="t-min accent">{{ flat.area }} м²</div>
-          </div>
-        </a>
-      </div>
-    </aside>
+              <li *ngIf="selectedFlat?.data" class="status-hover-li">
+                Дата останього оновлення оголошення {{selectedFlat?.data | date}}
+                час {{selectedFlat?.data | date: 'HH:mm:ss'}}
+              </li>
 
-    <div class="search-results-detail" *ngIf="indexPage === 2 && selectedFlat">
+              <li *ngIf="subscriptionStatus === 1" class="status-hover-li">
+                <div class="status-value">Підписані</div> - Ви вже підписані на цю оселю.
+              </li>
 
-      <div class="card card-selected" *ngIf="card_info === 1">
+              <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
+                <div class="status-value">Discussiя</div> - Ви вже в Дискусії з цією оселю.
+              </li>
+            </ul>
 
-        <button class="btn-close" (click)="indexPage = 1"></button>
+            <ul
+              *ngIf="selectedFlat.woman === 1 || selectedFlat.man === 1 || selectedFlat.students === 1 || selectedFlat.family === 1">
+              Пошук орендаря:
+              <li *ngIf="selectedFlat.woman === 1" class="status-hover-li">
+                <div class="status-value">W</div> - жінки
+              </li>
+              <li *ngIf="selectedFlat.man === 1" class="status-hover-li">
+                <div class="status-value">M</div> - чоловіка
+              </li>
+              <li *ngIf="selectedFlat.students === 1" class="status-hover-li">
+                <div class="status-value">S</div> - студента
+              </li>
+              <li *ngIf="selectedFlat.family === 1" class="status-hover-li">
+                <div class="status-value">F</div> - сім'ї
+              </li>
+            </ul>
 
-        <div class="status-container">
-          <div class="status-box">
-            <div class="status-value" *ngIf="subscriptionStatus === 1">Sub</div>
-            <div class="status-value" *ngIf="subscriptionStatus === 2">Dis</div>
-            <div class="status-value" *ngIf="selectedFlat.room === 1">К</div>
-            <div class="status-value" *ngIf="selectedFlat.option_flat === 1">Буд</div>
-            <div class="status-value" *ngIf="selectedFlat.option_flat === 2">Кв</div>
-            <div class="status-value" *ngIf="selectedFlat.woman === 1">W</div>
-            <div class="status-value" *ngIf="selectedFlat.man === 1">M</div>
-            <div class="status-value" *ngIf="selectedFlat.students === 1">S</div>
-            <div class="status-value" *ngIf="selectedFlat.family === 1">F</div>
-          </div>
-          <div class="status-hover">
-            <div class="status-hover-label">Допомога</div>
-            <div class="status-hover-text">
-              <ul *ngIf="subscriptionStatus">
+            <ul *ngIf="selectedFlat.option_flat || selectedFlat.room === 1">
+              Здаю оселю, тип оселі:
+              <li *ngIf="selectedFlat.option_flat === 1" class="status-hover-li">
+                <div class="status-value">Б</div> - Будинок
+              </li>
+              <li *ngIf="selectedFlat.option_flat === 2" class="status-hover-li">
+                <div class="status-value">Кв</div> - Квартира
+              </li>
+              <li *ngIf="selectedFlat.room === 1" class="status-hover-li">
+                <div class="status-value">К</div> - Кімната
+              </li>
+            </ul>
 
-                <li *ngIf="selectedFlat?.data" class="status-hover-li">
-                  Дата останього оновлення оголошення {{selectedFlat?.data | date}}
-                  час {{selectedFlat?.data | date: 'HH:mm:ss'}}
-                </li>
-
-                <li *ngIf="subscriptionStatus === 1" class="status-hover-li">
-                  <div class="status-value">Підписані</div> - Ви вже підписані на цю оселю.
-                </li>
-
-                <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
-                  <div class="status-value">Discussiя</div> - Ви вже в Дискусії з цією оселю.
-                </li>
-              </ul>
-
-              <ul
-                *ngIf="selectedFlat.woman === 1 || selectedFlat.man === 1 || selectedFlat.students === 1 || selectedFlat.family === 1">
-                Пошук орендара:
-                <li *ngIf="selectedFlat.woman === 1" class="status-hover-li">
-                  <div class="status-value">W</div> - жінки
-                </li>
-                <li *ngIf="selectedFlat.man === 1" class="status-hover-li">
-                  <div class="status-value">M</div> - чоловіка
-                </li>
-                <li *ngIf="selectedFlat.students === 1" class="status-hover-li">
-                  <div class="status-value">S</div> - студента
-                </li>
-                <li *ngIf="selectedFlat.family === 1" class="status-hover-li">
-                  <div class="status-value">F</div> - сім'ї
-                </li>
-              </ul>
-
-              <ul *ngIf="selectedFlat.option_flat || selectedFlat.room === 1">
-                Здаю оселю, тип оселі:
-                <li *ngIf="selectedFlat.option_flat === 1" class="status-hover-li">
-                  <div class="status-value">Б</div> - Будинок
-                </li>
-                <li *ngIf="selectedFlat.option_flat === 2" class="status-hover-li">
-                  <div class="status-value">Кв</div> - Квартира
-                </li>
-                <li *ngIf="selectedFlat.room === 1" class="status-hover-li">
-                  <div class="status-value">К</div> - Кімната
-                </li>
-              </ul>
-
-            </div>
           </div>
         </div>
+      </div>
 
-        <div *ngIf="!selectedFlat">
-          <div class="img-container">
-            <div class="img-wrapper">
-              <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
-            </div>
+      <div *ngIf="!selectedFlat">
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
           </div>
         </div>
+      </div>
 
-        <div class="container-img">
-          <div class="wrapper-img">
-            <img class="img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
-                ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
-                serverPathPhotoFlat + 'housing_default.svg'" alt="img">
+      <div class="container-img" (panstart)="onPanStartImg($event)" (panend)="onPanEndImg($event)">
+        <div class="wrapper-img">
+          <img class="img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
+                      ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
+                      serverPathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
 
-            <div *ngIf="selectedFlat?.img.length > 1">
-              <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
-                  class="fa-solid fa-chevron-left"></i></button>
-              <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img"
-                (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
+          <div *ngIf="selectedFlat?.img.length > 1">
+            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img" (click)="nextPhoto()"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
 
-            <div class="btn-container">
+          <div class="panel-container">
+            <div class="wrapper">
 
-              <button class="btn-panel" *ngIf="ratingOwner" (click)="card_info = 2">
-                <div class="flex-box">
-                  <div class="t-lar bold">{{ratingOwner}}</div>
-                  <div class="t-min">({{numberOfReviews}})</div>
+              <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="indexPage = 2">
+                <div class="panel-icon">
+                  <div class="t-lar-xx bold">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>
 
-              <button class="btn-panel" (click)="openFullScreenImage(selectedFlat?.img)">
-                <i class="fa-regular fa-image"></i>
+              <button [disabled]="selectedFlat.img.length === 0" class="btn-panel" (click)="photoViewing = true">
+                <div class="panel-icon">
+                  <div class="t-lar-xx bold">{{selectedFlat.img.length}}<i class="fa-regular fa-image"></i></div>
+                </div>
                 <div class="t-min">Фото</div>
               </button>
 
-
-              <button class="btn-panel" (click)="reportHouse(selectedFlat)">
-                <i class="fa-solid fa-masks-theater"></i>
-                <div class="t-min">Скарга</div>
-              </button>
-
               <button class="btn-panel" (click)="openMap()" *ngIf="locationLink">
-                <i class="fa-solid fa-location-dot"></i>
+                <div class="panel-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
                 <div class="t-min">Локація</div>
               </button>
 
-            </div>
+              <button class="btn-panel" (click)="reportHouse(selectedFlat)">
+                <div class="panel-icon">
+                  <i class="fa-solid fa-masks-theater"></i>
+                </div>
+                <div class="t-min">Скарга</div>
+              </button>
 
+            </div>
           </div>
+
         </div>
+      </div>
+
+      <div class="p-2" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
 
         <div class="card-btn-container p-2">
 
@@ -180,13 +147,13 @@
           </div>
 
           <div class="item-box">
-            <button mat-raised-button class="btn link" (click)="onPrevCard()">
+            <button mat-raised-button class="btn link" (click)="onSwiped('right')">
               <i class="fa-solid fa-chevron-left"></i>
             </button>
           </div>
 
           <div class="item-box">
-            <button mat-raised-button class="btn link" (click)="onNextCard()">
+            <button mat-raised-button class="btn link" (click)="onSwiped('left')">
               <i class="fa-solid fa-chevron-right"></i>
             </button>
           </div>
@@ -290,8 +257,8 @@
             <div class="param-field" *ngIf="selectedFlat.rooms !== 'Приховати' && selectedFlat.rooms !== null">
               Кімнат:<span class="param-value">{{ selectedFlat.rooms }}</span> </div>
 
-            <div class="param-field" *ngIf="selectedFlat.floor !== 0 && selectedFlat.floor !== null">Поверх:<span
-                class="param-value">{{
+            <div class="param-field" *ngIf="selectedFlat.floor !== 0 && selectedFlat.floor !== null">
+              Поверх:<span class="param-value">{{
                 selectedFlat.floor }}</span> </div>
 
             <div class="param-field" *ngIf="selectedFlat.balcony">Тип
@@ -322,7 +289,8 @@
               до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_green] }}</span> </div>
             <div class="param-field"
               *ngIf="selectedFlat.distance_parking !== 0 && selectedFlat.distance_parking !== null">
-              Паркінг до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_parking] }}</span> </div>
+              Паркінг до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_parking] }}</span>
+            </div>
           </div>
         </div>
 
@@ -347,65 +315,386 @@
           <div class="param-label">Додаткова інформація:</div>
           <div class="param-value">{{ selectedFlat.about }}</div>
         </div>
-
-        <button class="btn-navigator p-2 hide-pc" (click)="indexPage = 1">
-          <i class="fa-solid fa-arrow-right"></i>
-          <span class="ml-2 t-med bold dark">повернутись до всіх карток</span>
-        </button>
-
-      </div>
-
-      <div class="card card-selected p-2" *ngIf="card_info === 2">
-
-        <div class="t-lar-xx">Відгуки орендарів</div>
-
-        <div class="btn-container-close">
-          <div class="flex-box-column p-1">
-            <button class="btn-close" (click)="card_info = 0"></button>
-            <div class="t-min">Назад</div>
-          </div>
-        </div>
-
-        <div *ngIf="selectedFlat.rating">
-          <div class="card p-2 m-2" *ngFor="let review of selectedFlat.rating">
-            <div class="flex-box">
-              <div class="img-review-wrapper">
-                <img class="img-review-fluid"
-                  [src]="review.reporter.img && review.reporter.img ? serverPathPhotoUser + review.reporter.img : serverPathPhotoFlat + 'user_default.svg'"
-                  alt="img" (click)="openFullScreenImage(selectedFlat?.img)">
-              </div>
-              <div class="flex-box">
-                <div class="t-min">{{review.reporter.firstName}} {{review.reporter.lastName}}
-                  {{review.reporter.surName}}</div>
-              </div>
-            </div>
-            <div class="flex-column">
-              <div class="t-min">Дата відгуку: <span class="accent"> {{review.data |date}}</span> Оцінка: <span
-                  class="accent"> {{review.mark}}</span></div>
-              <div class="t-min">{{review.about}}</div>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="!selectedFlat.rating">
-          <div class="t-lar-xx">Відгуків ще немає</div>
-        </div>
-
-
       </div>
 
     </div>
-
   </div>
 
-  <div class="full-screen-overlay" *ngIf="showFullScreenImage" (click)="closeFullScreenImage()">
-    <img [src]="fullScreenImageUrl" alt="Full Screen Image" class="full-screen-image">
+  <div class="card-animation" [@cardSwipe]="cardSwipeState" *ngIf="indexPage === 1 && card2">
+    <div class="card-content">
+
+      <div class="hide-pc btn-close-container m-2">
+        <div class="btn-close-box">
+          <button class="btn-close" [routerLink]="'/search-house/all-cards'"></button>
+        </div>
+      </div>
+
+      <div class="status-container">
+        <div class="status-box">
+          <div class="status-value" *ngIf="subscriptionStatus === 1">Sub</div>
+          <div class="status-value" *ngIf="subscriptionStatus === 2">Dis</div>
+          <div class="status-value" *ngIf="selectedFlat.room === 1">К</div>
+          <div class="status-value" *ngIf="selectedFlat.option_flat === 1">Буд</div>
+          <div class="status-value" *ngIf="selectedFlat.option_flat === 2">Кв</div>
+          <div class="status-value" *ngIf="selectedFlat.woman === 1">W</div>
+          <div class="status-value" *ngIf="selectedFlat.man === 1">M</div>
+          <div class="status-value" *ngIf="selectedFlat.students === 1">S</div>
+          <div class="status-value" *ngIf="selectedFlat.family === 1">F</div>
+        </div>
+        <div class="status-hover">
+          <div class="status-hover-label">Допомога</div>
+          <div class="status-hover-text">
+            <ul *ngIf="subscriptionStatus">
+
+              <li *ngIf="selectedFlat?.data" class="status-hover-li">
+                Дата останього оновлення оголошення {{selectedFlat?.data | date}}
+                час {{selectedFlat?.data | date: 'HH:mm:ss'}}
+              </li>
+
+              <li *ngIf="subscriptionStatus === 1" class="status-hover-li">
+                <div class="status-value">Підписані</div> - Ви вже підписані на цю оселю.
+              </li>
+
+              <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
+                <div class="status-value">Discussiя</div> - Ви вже в Дискусії з цією оселю.
+              </li>
+            </ul>
+
+            <ul
+              *ngIf="selectedFlat.woman === 1 || selectedFlat.man === 1 || selectedFlat.students === 1 || selectedFlat.family === 1">
+              Пошук орендаря:
+              <li *ngIf="selectedFlat.woman === 1" class="status-hover-li">
+                <div class="status-value">W</div> - жінки
+              </li>
+              <li *ngIf="selectedFlat.man === 1" class="status-hover-li">
+                <div class="status-value">M</div> - чоловіка
+              </li>
+              <li *ngIf="selectedFlat.students === 1" class="status-hover-li">
+                <div class="status-value">S</div> - студента
+              </li>
+              <li *ngIf="selectedFlat.family === 1" class="status-hover-li">
+                <div class="status-value">F</div> - сім'ї
+              </li>
+            </ul>
+
+            <ul *ngIf="selectedFlat.option_flat || selectedFlat.room === 1">
+              Здаю оселю, тип оселі:
+              <li *ngIf="selectedFlat.option_flat === 1" class="status-hover-li">
+                <div class="status-value">Б</div> - Будинок
+              </li>
+              <li *ngIf="selectedFlat.option_flat === 2" class="status-hover-li">
+                <div class="status-value">Кв</div> - Квартира
+              </li>
+              <li *ngIf="selectedFlat.room === 1" class="status-hover-li">
+                <div class="status-value">К</div> - Кімната
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!selectedFlat">
+        <div class="img-container">
+          <div class="img-wrapper">
+            <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
+          </div>
+        </div>
+      </div>
+
+      <div class="container-img" (panstart)="onPanStartImg($event)" (panend)="onPanEndImg($event)">
+        <div class="wrapper-img">
+          <img class="img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
+                      ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
+                      serverPathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
+
+          <div *ngIf="selectedFlat?.img.length > 1">
+            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img" (click)="nextPhoto()"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
+
+          <div class="panel-container">
+            <div class="wrapper">
+
+              <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="indexPage = 2">
+                <div class="panel-icon">
+                  <div class="t-lar-xx bold">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
+                </div>
+                <div class="t-min">Рейтинг</div>
+              </button>
+
+              <button [disabled]="selectedFlat.img.length === 0" class="btn-panel" (click)="photoViewing = true">
+                <div class="panel-icon">
+                  <div class="t-lar-xx bold">{{selectedFlat.img.length}}<i class="fa-regular fa-image"></i></div>
+                </div>
+                <div class="t-min">Фото</div>
+              </button>
+
+              <button class="btn-panel" (click)="openMap()" *ngIf="locationLink">
+                <div class="panel-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="t-min">Локація</div>
+              </button>
+
+              <button class="btn-panel" (click)="reportHouse(selectedFlat)">
+                <div class="panel-icon">
+                  <i class="fa-solid fa-masks-theater"></i>
+                </div>
+                <div class="t-min">Скарга</div>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="p-2" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
+
+        <div class="card-btn-container p-2">
+
+          <div class="item-box">
+            <button mat-raised-button class="btn link"
+              [ngClass]="{'unSubscribed': subscriptionStatus === 0, 'subscribed': subscriptionStatus === 1, 'discussion': subscriptionStatus === 2}"
+              (click)="getSubscribe()" [disabled]="subscriptionStatus === 2">
+              <i class="fa-regular fa-heart" *ngIf="subscriptionStatus === 0"></i>
+              <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 1"></i>
+              <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 2"></i>
+            </button>
+          </div>
+
+          <div class="item-box">
+            <button mat-raised-button class="btn link" (click)="onSwiped('right')">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+          </div>
+
+          <div class="item-box">
+            <button mat-raised-button class="btn link" (click)="onSwiped('left')">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <div class="p-2">
+
+          <div class="flex-box">
+
+            <div class="item-box" *ngIf="selectedFlat.region">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold">{{ selectedFlat.region }}</div>
+                <div class="t-min">Область</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedFlat.city">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold">{{ selectedFlat.city }}</div>
+                <div class="t-min">Місто</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedFlat.street">
+              <div mat-raised-button class="flex-column">
+                <div class="t-lar bold">{{ selectedFlat.street }} {{ selectedFlat.houseNumber }}</div>
+                <div class="t-min">Вулиця</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="flex-box">
+            <div class="item-box" *ngIf="selectedFlat.rooms">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar-x bold">{{ selectedFlat.rooms }}</div>
+                <div class="t-min bg-w">Кімнат</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedFlat.area">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar-x bold">{{ selectedFlat.area | number:'1.0-0' }}</div>
+                <div class="t-min bg-w">Площа</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedFlat.floor">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar-x bold">{{ selectedFlat.floor }}</div>
+                <div class="t-min bg-w">Поверх</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedFlat.option_pay === 0">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar-xx bold accent">{{ selectedFlat.price_m | number:'1.0-0' }}</div>
+                <div class="t-min bg-w accent">Ціна ₴/міс</div>
+              </div>
+            </div>
+
+            <div class="item-box" *ngIf="selectedFlat.option_pay !== 0">
+              <div mat-raised-button class="param-g flex-column">
+                <div class="bg-g t-lar-xx bold accent">{{ selectedFlat.price_d | number:'1.0-0' }}</div>
+                <div class="t-min bg-w accent">Ціна ₴/добу</div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+
+        <div class="param-box">
+          <div class="param-label">Параметри оселі:</div>
+          <div class="param-group">
+            <div class="param-field" *ngIf="selectedFlat.option_flat">
+              <div *ngIf="selectedFlat.room === 1">
+                Здаю:<span class="param-value"> Кімнату </span>
+              </div>
+
+              <div *ngIf="selectedFlat.option_flat === 1">
+                Тип оселі:<span class="param-value"> Будинок </span>
+              </div>
+
+              <div *ngIf="selectedFlat.option_flat === 2">
+                Тип оселі:<span class="param-value"> Квартира </span>
+              </div>
+            </div>
+
+
+            <div class="param-field" *ngIf="selectedFlat.area !== 'Приховати' && selectedFlat.area !== null">
+              Площа:<span class="param-value">{{ selectedFlat.area }}м²</span> </div>
+
+            <div class="param-field"
+              *ngIf="selectedFlat.repair_status !== 'Приховати' && selectedFlat.repair_status !== null">Стан
+              оселі:<span class="param-value">{{ selectedFlat.repair_status }}</span> </div>
+
+            <div class="param-field" *ngIf="selectedFlat.rooms !== 'Приховати' && selectedFlat.rooms !== null">
+              Кімнат:<span class="param-value">{{ selectedFlat.rooms }}</span> </div>
+
+            <div class="param-field" *ngIf="selectedFlat.floor !== 0 && selectedFlat.floor !== null">
+              Поверх:<span class="param-value">{{
+                selectedFlat.floor }}</span> </div>
+
+            <div class="param-field" *ngIf="selectedFlat.balcony">Тип
+              балкону:<span class="param-value">{{ selectedFlat.balcony }}</span> </div>
+
+            <div class="param-field"
+              *ngIf="selectedFlat.kitchen_area !== 'Приховати' && selectedFlat.kitchen_area !== null">Площа
+              кухні:<span class="param-value">{{ selectedFlat.kitchen_area }}м²</span> </div>
+
+          </div>
+        </div>
+
+        <div class="param-box"
+          *ngIf="selectedFlat.distance_metro || selectedFlat.distance_stop || selectedFlat.distance_shop || selectedFlat.distance_green || selectedFlat.distance_parking">
+          <div class="param-label">Інфраструктура:</div>
+          <div class="param-group">
+            <div class="param-field" *ngIf="selectedFlat.distance_metro !== 0 && selectedFlat.distance_metro !== null">
+              Метро
+              до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_metro] }}</span> </div>
+            <div class="param-field" *ngIf="selectedFlat.distance_stop !== 0 && selectedFlat.distance_stop !== null">
+              Зупинка
+              до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_stop] }}</span> </div>
+            <div class="param-field" *ngIf="selectedFlat.distance_shop !== 0 && selectedFlat.distance_shop !== null">
+              Маркет
+              до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_shop] }}</span> </div>
+            <div class="param-field" *ngIf="selectedFlat.distance_green !== 0 && selectedFlat.distance_green !== null">
+              Парк
+              до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_green] }}</span> </div>
+            <div class="param-field"
+              *ngIf="selectedFlat.distance_parking !== 0 && selectedFlat.distance_parking !== null">
+              Паркінг до:<span class="param-value">{{ aboutDistance[selectedFlat.distance_parking] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="param-box">
+          <div class="param-label">Особливості:</div>
+          <div class="param-group">
+
+            <div class="param-field" *ngIf="selectedFlat.option_pay !== null">Оплата:<span class="param-value">{{
+                option_pay[selectedFlat.option_pay] }}</span> </div>
+
+            <div class="param-field" *ngIf="selectedFlat.bunker !== 'Приховати' && selectedFlat.bunker !== null">
+              Наявність
+              укриття:<span class="param-value">{{ selectedFlat.bunker }}</span> </div>
+            <div class="param-field"
+              *ngIf="selectedFlat.animals !== 0 && selectedFlat.animals !== null && selectedFlat.animals !== 'Неважливо'">
+              Дозвіл на тварин: <span class="param-value">{{ animals[selectedFlat.animals] }} </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="param-box" *ngIf="selectedFlat.about">
+          <div class="param-label">Додаткова інформація:</div>
+          <div class="param-value">{{ selectedFlat.about }}</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-</ng-template>
+  <div class="card-animation" [@cardSwipe]="cardSwipeState" *ngIf="indexPage === 2">
+    <div class="card-content p-2">
+      <div class="btn-close-container m-2">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
+      <div class="t-lar bold gray t-c m-2">Відгуки орендарів</div>
+      <div class="reviews-card" *ngFor="let review of reviews">
+        <div class="reviews-group">
+          <div class="reviews-person w-70">
+            <div class="reviews-person-img">
+              <div *ngIf="review.reporter && review.reporter.img">
+                <img [src]="serverPathPhotoUser + review.reporter.img" alt="img">
+              </div>
+              <div *ngIf="!review.reporter || !review.reporter.img">
+                <img src="../../../../assets/user_default.svg" alt="img">
+              </div>
+            </div>
 
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
+            <div class="reviews-person-info">
+              <p class="bold" *ngIf="review.reporter">{{review.reporter.lastName}}
+                {{review.reporter.firstName}} {{review.reporter.surName}}</p>
+              <p *ngIf="!review.reporter">Аккаунт видалено</p>
+              <p class="t-min gray">Дата відгуку: {{review.data |date}}</p>
+            </div>
+
+          </div>
+          <div class="review-mark w-30" *ngIf="review.mark">
+            <p class="review-mark-number">{{review.mark}} </p>
+            <i class="fa-regular fa-star"></i>
+          </div>
+        </div>
+        <div class="t-med bold mt-2" *ngIf="review.about">"{{review.about}}"</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="full-container-img" *ngIf="selectedFlat && photoViewing">
+  <div class="full-wrapper-img">
+    <div class="btn-close-container close-container">
+      <div class="btn-close-box">
+        <button class="btn-close" (click)="photoViewing = false"></button>
+      </div>
+    </div>
+    <img class="full-img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
+          ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
+          serverPathPhotoFlat + 'housing_default.svg'" alt="img">
+    <div *ngIf="selectedFlat?.img.length > 1">
+      <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+          class="fa-solid fa-chevron-left"></i></button>
+      <button *ngIf="currentPhotoIndex !== selectedFlat?.img.length - 1" class="next-img" (click)="nextPhoto()"><i
+          class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
 </div>

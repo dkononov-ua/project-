@@ -1,6 +1,14 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
-@use "../../search.component.scss";
+@use "../../search.scss";
+
+.search-results2 {
+  height: 81vh;
+}
+
+.card {
+  overflow: hidden;
+}
 
 .btn-container {
   height: 80px;
@@ -60,8 +68,6 @@
   }
 }
 
-
-
 .data-box {
   margin-top: 5px;
   .bg-gray {
@@ -70,7 +76,6 @@
     width: 40px;
     font-weight: 600;
     border-radius: 0 5px 5px 0;
-
   }
 
   .bg-white {

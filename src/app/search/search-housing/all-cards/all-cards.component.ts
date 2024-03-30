@@ -1,0 +1,135 @@
+import { AfterViewInit, Component, ElementRef, HostListener, LOCALE_ID, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FilterService } from '../../filter.service';
+import { HouseInfo } from 'src/app/interface/info';
+import { SharedService } from 'src/app/services/shared.service';
+
+// власні імпорти інформації
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { PaginationConfig } from 'src/app/config/paginator';
+import { GestureService } from 'src/app/services/gesture.service';
+import { animations } from '../../../interface/animation';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-all-cards',
+  templateUrl: './all-cards.component.html',
+  styleUrls: ['./all-cards.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
+  ],
+  animations: [
+    animations.right2,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
+  ],
+})
+
+export class AllCardsComponent implements OnInit, AfterViewInit {
+
+  // шляхи до серверу
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
+  path_logo = path_logo;
+  // пагінатор
+  offs = PaginationConfig.offs;
+  optionsFound = PaginationConfig.counterFound;
+  currentPage = PaginationConfig.currentPage;
+  totalPages = PaginationConfig.totalPages;
+  pageEvent = PaginationConfig.pageEvent;
+  // параметри оселі
+  filteredFlats: HouseInfo[] | undefined;
+  selectedFlat: HouseInfo | any;
+  // статуси
+  loading = true;
+  statusMessage: any;
+  indexPage: number = 0;
+  isLoadingImg: boolean = false;
+
+  @ViewChild('findCards', { static: false }) findCards?: ElementRef;
+
+  constructor(
+    private filterService: FilterService,
+    private sharedService: SharedService,
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private router: Router,
+  ) { }
+
+  ngOnInit(): void {
+    this.getSearchInfo();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.findCards) {
+      this.renderer.listen(this.findCards.nativeElement, 'scroll', () => {
+        this.checkScrollPosition();
+      });
+    }
+  }
+
+  checkScrollPosition(): void {
+    if (this.findCards && this.findCards.nativeElement) {
+      const element = this.findCards.nativeElement;
+      const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+      if (atBottom) {
+        this.loadMoreCards(); // Викликаємо функцію, коли досягаємо низу контейнера
+      }
+    }
+  }
+
+  loadMoreCards(): void {
+    // Ваш код для завантаження додаткових карток
+    this.filterService.loadMoreCards(true)
+    // console.log('Reached the end of container. Loading more cards...');
+  }
+
+  async getSearchInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.filterService.filterChange$.subscribe(async () => {
+        const filterValue = this.filterService.getFilterValue();
+        const optionsFound = this.filterService.getOptionsFound();
+        if (filterValue && optionsFound && optionsFound !== 0) {
+          this.getFilteredData(filterValue, optionsFound);
+        } else {
+          this.getFilteredData(undefined, 0);
+        }
+      })
+    } else {
+      console.log('Авторизуйтесь')
+    }
+  }
+
+  getFilteredData(filterValue: any, optionsFound: number) {
+    if (filterValue) {
+      this.filteredFlats = filterValue;
+      this.optionsFound = optionsFound;
+      this.loading = false;
+    } else {
+      this.optionsFound = 0;
+      this.filteredFlats = undefined;
+      this.selectedFlat = undefined;
+      this.loading = false;
+    }
+  }
+
+  selectFlat(flat: HouseInfo) {
+    this.selectedFlat = flat;
+    this.filterService.pickHouse(flat);
+    this.router.navigate(['/search-house/house']);
+  }
+
+  calculateCardIndex(index: number): number {
+    const length = this.filteredFlats?.length || 0;
+    return (index + length) % length;
+  }
+}
+
+

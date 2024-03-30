@@ -28,9 +28,11 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class MainInfoComponent implements OnInit {
+
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
+  
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
