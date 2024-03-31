@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
   loading = true;
   optionsFound: number = 0;
   card_info: number = 0;
-  indexPage: number = 0;
+  indexPage: number = 1;
   numberOfReviews: any;
   totalDays: any;
   reviews: any;
@@ -86,6 +86,16 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectedFlat();
+    this.getUser();
+  }
+
+  getUser() {
+    this.filterService.user$.subscribe(user => {
+      // console.log(house);
+      if (user) {
+        this.selectUser(user);
+      }
+    });
   }
 
   // відправляю event початок свайпу
@@ -175,7 +185,7 @@ export class ProfileComponent implements OnInit {
     if (filterValue) {
       this.filteredUsers = filterValue;
       this.optionsFound = optionsFound;
-      this.selectedUser = this.filteredUsers![0];
+      // this.selectedUser = this.filteredUsers![0];
       this.loading = false;
     } else {
       this.optionsFound = 0;
@@ -186,34 +196,34 @@ export class ProfileComponent implements OnInit {
   }
 
   selectUser(user: UserInfo) {
+    this.reviews = [];
     this.indexPage = 1;
-    this.getRating(user)
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
-    this.calculateTotalDays()
-    this.updateSelectedUser();
-  }
-
-  private updateSelectedUser() {
-    this.selectedUser = this.filteredUsers![this.currentCardIndex];
+    this.getRating(this.selectedUser)
     this.checkSubscribe();
     this.calculateTotalDays()
-    this.getRating(this.selectedUser)
   }
 
   onPrevCard() {
+    this.reviews = [];
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
+    this.selectedUser = this.filteredUsers![this.currentCardIndex];
+    this.getRating(this.selectedUser)
     this.checkSubscribe();
     this.calculateTotalDays()
-    this.updateSelectedUser();
   }
 
   onNextCard() {
+    this.reviews = [];
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
+    this.selectedUser = this.filteredUsers![this.currentCardIndex];
+    this.getRating(this.selectedUser)
     this.checkSubscribe();
     this.calculateTotalDays()
-    this.updateSelectedUser();
   }
+
+
 
   private calculateCardIndex(index: number): number {
     const length = this.filteredUsers?.length || 0;
@@ -323,10 +333,10 @@ export class ProfileComponent implements OnInit {
         } else {
           this.ratingTenant = 0;
         }
-
         // console.log('Кількість відгуків:', this.numberOfReviews);
       } else {
         this.reviews = undefined;
+        this.numberOfReviews = 0;
         this.ratingTenant = 0;
       }
     } catch (error) {

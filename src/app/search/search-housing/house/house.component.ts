@@ -358,7 +358,6 @@ export class HouseComponent implements OnInit {
 
   // отримую рейтинг власника оселі
   async getRating(selectedFlat: any): Promise<any> {
-    console.log(selectedFlat);
     if (selectedFlat && Array.isArray(selectedFlat.rating)) {
       let totalMarkOwner = 0;
       this.numberOfReviews = selectedFlat.rating.length;

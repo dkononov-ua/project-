@@ -141,7 +141,7 @@ export class ParamComponent {
             setTimeout(() => {
               this.statusMessage = '';
               setTimeout(() => {
-                this.router.navigate(['/housing-parameters'], { queryParams: { indexPage: 4 } });
+                this.router.navigate(['/edit-house/about']);
               }, 200);
             }, 1500);
           }, 500);

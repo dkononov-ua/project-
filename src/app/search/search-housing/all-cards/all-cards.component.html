@@ -1,5 +1,8 @@
 <div class="card-wrapper" *ngIf="filteredFlats">
-  <div [@swichCard] #findCards class="find-cards card-animation p-2">
+  <div [@swichCard] #findCards class="find-cards card-animation" (scroll)="onScroll($event)">
+    <div class="position-sticky">
+      <div class="t-lar bold gray">Показано {{shownCard}}/{{optionsFound}}</div>
+    </div>
     <button class="card-mini" *ngFor="let flat of filteredFlats; let i = index" (click)="selectFlat(flat)"
       [class.selected]="selectedFlat === flat">
 

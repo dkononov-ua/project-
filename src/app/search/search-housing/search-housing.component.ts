@@ -149,6 +149,7 @@ export class SearchHousingComponent implements OnInit {
   startX = 0;
   sortMenu: boolean = false;
   searchInfoUserData: boolean = false;
+  filterValue: string = '';
 
   toggleSortMenu() {
     this.sortMenu = !this.sortMenu;
@@ -170,9 +171,6 @@ export class SearchHousingComponent implements OnInit {
     this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
   }
 
-  isSmallScreen = false;
-  isMediumScreen = false;
-  isLargeScreen = false;
   isMobile = false;
 
   constructor(
@@ -183,16 +181,14 @@ export class SearchHousingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // перевірка який пристрій
     this.breakpointObserver.observe([
       Breakpoints.Handset
     ]).subscribe(result => {
       this.isMobile = result.matches;
-
-      console.log('Is mobile:', this.isMobile);
     });
-
-
     this.getSearchInfo();
+    this.getShowedCards();
   }
 
   async getSearchInfo() {
@@ -211,8 +207,16 @@ export class SearchHousingComponent implements OnInit {
     }
   }
 
+  getShowedCards() {
+    this.filterService.showedCards$.subscribe(showedCards => {
+      if (showedCards !== '') {
+        this.shownCard = showedCards;
+      }
+    });
+  }
+
   onSortSelected(value: string) {
-    console.log('onSortSelected')
+    this.filterValue = value;
     this.router.navigate(['/search-house/all-cards']);
     this.filterService.sortHouse(value)
   }

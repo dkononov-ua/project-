@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, LOCALE_ID, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, LOCALE_ID, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FilterService } from '../../filter.service';
 import { HouseInfo } from 'src/app/interface/info';
 import { SharedService } from 'src/app/services/shared.service';
@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
   ],
 })
 
-export class AllCardsComponent implements OnInit, AfterViewInit {
+export class AllCardsComponent implements OnInit {
 
   // шляхи до серверу
   serverPath = serverPath;
@@ -52,7 +52,11 @@ export class AllCardsComponent implements OnInit, AfterViewInit {
   indexPage: number = 0;
   isLoadingImg: boolean = false;
 
-  @ViewChild('findCards', { static: false }) findCards?: ElementRef;
+  lastScrollTop = 0;
+  shownCard: string | undefined;
+
+  @ViewChild('findCards') findCardsElement!: ElementRef;
+
 
   constructor(
     private filterService: FilterService,
@@ -64,30 +68,28 @@ export class AllCardsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getSearchInfo();
+    this.getShowedCards();
   }
 
-  ngAfterViewInit(): void {
-    if (this.findCards) {
-      this.renderer.listen(this.findCards.nativeElement, 'scroll', () => {
-        this.checkScrollPosition();
-      });
-    }
-  }
-
-  checkScrollPosition(): void {
-    if (this.findCards && this.findCards.nativeElement) {
-      const element = this.findCards.nativeElement;
-      const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
-      if (atBottom) {
-        this.loadMoreCards(); // Викликаємо функцію, коли досягаємо низу контейнера
+  getShowedCards() {
+    this.filterService.showedCards$.subscribe(showedCards => {
+      if (showedCards !== '') {
+        this.shownCard = showedCards;
       }
-    }
+    });
   }
 
-  loadMoreCards(): void {
-    // Ваш код для завантаження додаткових карток
-    this.filterService.loadMoreCards(true)
-    // console.log('Reached the end of container. Loading more cards...');
+  onScroll(event: Event): void {
+    const element = this.findCardsElement.nativeElement;
+    const atTop = element.scrollTop === 0;
+    const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    if (atTop) {
+      // console.log(atTop)
+      // this.filterService.loadCards('prev')
+    } else if (atBottom) {
+      // console.log(atBottom)
+      this.filterService.loadCards('next')
+    }
   }
 
   async getSearchInfo() {

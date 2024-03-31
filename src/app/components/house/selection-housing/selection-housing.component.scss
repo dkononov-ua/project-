@@ -4,7 +4,6 @@
 
 .content-child {
   height: calc(100vh - 100px - 1rem);
-  overflow: auto;
   &::-webkit-scrollbar {
     display: none !important;
   }
@@ -12,12 +11,15 @@
 
 .flatsTenant,
 .flatsOwn {
-  @include flex-box-center;
   flex-direction: column;
   overflow: auto;
   justify-content: flex-start;
   padding: 10px;
   width: 50%;
+  height: 100%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @include s1-s3 {
     width: 100%;
   }

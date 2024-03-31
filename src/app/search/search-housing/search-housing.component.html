@@ -46,22 +46,22 @@
 
     <div class="switch-btn-group">
       <button [disabled]="optionsFound < 2" class="btn" mat-button [matMenuTriggerFor]="menu">
-        <div *ngIf="this.userInfo.filterData === ''">
+        <div *ngIf="this.filterValue === ''">
           <i class="fa-solid fa-shuffle"></i>
           <div class="t-min dark bold">Довільно</div>
         </div>
 
-        <div *ngIf="this.userInfo.filterData === '1'">
+        <div *ngIf="this.filterValue === '1'">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
           <div class="t-min dark bold">Дешевші</div>
         </div>
 
-        <div *ngIf="this.userInfo.filterData === '2'">
+        <div *ngIf="this.filterValue === '2'">
           <i class="fa-solid fa-arrow-down-wide-short"></i>
           <div class="t-min dark bold">Дорожчі</div>
         </div>
 
-        <div *ngIf="this.userInfo.filterData === '3'">
+        <div *ngIf="this.filterValue === '3'">
           <i class="fa-solid fa-arrow-down-9-1"></i>
           <div class="t-min dark bold">Новіші</div>
         </div>
@@ -78,21 +78,10 @@
       </mat-menu>
     </div>
 
-    <!-- <div class="flex-box">
-      <div class="switch-btn-group">
-        <button class="btn" (click)="decrementOffset()">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-      </div>
-
-      <div class="t-min bold gray">Показано {{shownCard}} з {{optionsFound}}</div>
-
-      <div class="switch-btn-group">
-        <button class="btn" (click)="incrementOffset()">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
-    </div> -->
+    <div class="hide-mobile flex-box flex-column">
+      <div class="t-lar bold gray">Показані картки</div>
+      <div class="t-lar-x bold gray">{{shownCard}} з {{optionsFound}}</div>
+    </div>
 
   </div>
 

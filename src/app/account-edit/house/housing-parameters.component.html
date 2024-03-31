@@ -36,13 +36,6 @@
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
-        <i class="fa-solid fa-images"></i>
-        <div class="t-min">Фото</div>
-      </button>
-    </div>
-
     <div class="switch-btn-group" *ngIf="acces_flat_features === 1">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/edit-house/about'">
         <i class="fa-solid fa-users-gear"></i>
@@ -56,8 +49,16 @@
         <div class="t-min">Додат.</div>
       </button>
     </div>
+
+    <!-- <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
+        <i class="fa-solid fa-images"></i>
+        <div class="t-min">Фото</div>
+      </button>
+    </div> -->
+
   </div>
-  
+
   <div class="main-container">
     <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
       <div class="card-wrapper">

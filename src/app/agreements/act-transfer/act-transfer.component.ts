@@ -84,11 +84,7 @@ export class ActTransferComponent implements OnInit {
   }
 
   goBack(): void {
-    if (this.indexUser === 1) {
-      this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 3 } });
-    } else if (this.indexUser === 2) {
-      this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 3 } });
-    }
+    this.location.back();
   }
 
   async getParams(): Promise<void> {

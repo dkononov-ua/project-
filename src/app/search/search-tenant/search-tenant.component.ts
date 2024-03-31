@@ -11,11 +11,14 @@ import { UserConfig } from '../../interface/param-config'
 import { UserInfoSearch } from '../../interface/info'
 import { animations } from '../../interface/animation';
 import { Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
   styleUrls: ['../search.term.scss'],
   animations: [
+    animations.right2,
     animations.left,
     animations.left1,
     animations.left2,
@@ -112,267 +115,58 @@ export class SearchTenantComponent implements OnInit {
   toggleSearchTerm() {
     this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
   }
+  isMobile = false;
+  filterValue: string = '';
 
   constructor(
     private filterUserService: FilterUserService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
+    private breakpointObserver: BreakpointObserver,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getSelectedFlatId();
+    // перевірка який пристрій
+    this.breakpointObserver.observe([
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isMobile = result.matches;
+    });
+    this.getSearchInfo();
+    this.getShowedCards();
     this.loading = false;
   }
 
-  // відправляю event початок свайпу
-  onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  // Реалізація обробки завершення панорамування
-  onPanEnd(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwiped('right');
-      } else {
-        this.onSwiped('left');
-      }
-    }
-  }
-  // оброблюю свайп
-  onSwiped(direction: string | undefined) {
-    if (direction === 'right' && this.indexPage === 1) {
-      if (this.filter_group !== 1) {
-        this.filter_group--;
-      } else {
-        this.router.navigate(['/house/house-info']);
-      }
-    } else {
-      if (this.filter_group <= 3 && this.indexPage === 1) {
-        this.filter_group++;
-      }
-    }
-  }
-
-  clearFilter() {
-    this.loading = true;
-    this.myData = false;
-    setTimeout(() => {
-      this.indexPage = 1;
-      this.loading = false;
-    }, 500);
-    this.indexPage = 0;
-    this.searchQuery = '';
-    this.userInfo.room = undefined;
-    this.userInfo.price = undefined;
-    this.userInfo.region = '';
-    this.userInfo.city = '';
-    this.userInfo.rooms = undefined;
-    this.userInfo.area = undefined;
-    this.userInfo.repair_status = '';
-    this.userInfo.bunker = '';
-    this.userInfo.balcony = '';
-    this.userInfo.animals = '';
-    this.userInfo.distance_metro = '';
-    this.userInfo.distance_stop = '';
-    this.userInfo.distance_green = '';
-    this.userInfo.distance_shop = '';
-    this.userInfo.distance_parking = '';
-    this.userInfo.option_pay = 0;
-    this.userInfo.purpose_rent = '';
-    this.userInfo.looking_woman = undefined;
-    this.userInfo.looking_man = undefined;
-    this.userInfo.students = 1;
-    this.userInfo.limit = 0;
-    this.userInfo.woman = 1;
-    this.userInfo.man = 1;
-    this.userInfo.family = 1;
-    this.userInfo.days = undefined;
-    this.userInfo.weeks = undefined;
-    this.userInfo.months = undefined;
-    this.userInfo.years = undefined;
-    this.userInfo.day_counts = undefined;
-    this.userInfo.house = undefined;
-    this.userInfo.flat = undefined;
-    this.userInfo.kitchen_area = undefined;
-    this.searchFilter()
-  }
-
-  async loadDataFlat(): Promise<void> {
-    this.myData = true;
+  async getSearchInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.houseData = localStorage.getItem('houseData');
-      if (this.houseData) {
-        const parsedHouseData = JSON.parse(this.houseData);
-        this.userInfo.region = parsedHouseData.flat.region;
-        this.userInfo.city = parsedHouseData.flat.city;
-        this.userInfo.rooms = parsedHouseData.param.rooms;
-        this.userInfo.repair_status = parsedHouseData.param.repair_status || 'Неважливо';
-        this.userInfo.area = parsedHouseData.param.area;
-        this.userInfo.kitchen_area = parsedHouseData.param.kitchen_area;
-        this.userInfo.balcony = parsedHouseData.param.balcony || 'Неважливо';
-        // this.userInfo.floor = parsedHouseData.param.floor;
-        this.userInfo.distance_metro = parsedHouseData.flat.distance_metro.toString();
-        this.userInfo.distance_stop = parsedHouseData.flat.distance_stop.toString();
-        this.userInfo.distance_shop = parsedHouseData.flat.distance_shop.toString();
-        this.userInfo.distance_green = parsedHouseData.flat.distance_green.toString();
-        this.userInfo.distance_parking = parsedHouseData.flat.distance_parking.toString();
-        this.userInfo.woman = parsedHouseData.about.woman;
-        this.userInfo.man = parsedHouseData.about.man;
-        this.userInfo.family = parsedHouseData.about.family;
-        this.userInfo.students = parsedHouseData.about.students;
-        this.userInfo.option_pay = parsedHouseData.about.option_pay;
-        this.userInfo.room = parsedHouseData.about.room;
-        this.userInfo.animals = parsedHouseData.about.animals || 'Неважливо';
-        this.userInfo.price = parsedHouseData.about.price_m ? parsedHouseData.about.price_m : parsedHouseData.about.price_d;
-        this.userInfo.bunker = parsedHouseData.about.bunker || 'Неважливо';
-        if (parsedHouseData.param.option_flat === 1) {
-          this.userInfo.house = 1;
-          this.userInfo.flat = 0;
-        } else if (parsedHouseData.param.option_flat === 2) {
-          this.userInfo.house = 0;
-          this.userInfo.flat = 1;
+      this.filterUserService.filterChange$.subscribe(async () => {
+        const optionsFound = this.filterUserService.getOptionsFound();
+        if (optionsFound && optionsFound !== 0) {
+          this.optionsFound = optionsFound;
+        } else {
+          this.optionsFound = 0;
         }
-        this.searchFilter()
-      } else {
-        console.log('Немає інформації про оселю')
-      }
+      })
     } else {
       console.log('Авторизуйтесь')
     }
   }
 
-  getSelectedFlatId() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.searchFilter();
+  getShowedCards() {
+    this.filterUserService.showedCards$.subscribe(showedCards => {
+      if (showedCards !== '') {
+        this.shownCard = showedCards;
       }
     });
   }
 
-  // пошук
-  searchFilter(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
-            this.filteredUsers = response.user_inf;
-            this.optionsFound = response.search_count;
-            this.passInformationToService(this.filteredUsers, this.optionsFound);
-          } else {
-            this.filteredUsers = [null];
-            this.optionsFound = 0;
-            this.passInformationToService(this.filteredUsers, this.optionsFound);
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
-    } else {
-      this.passInformationToService(this.filteredUsers, this.optionsFound)
-    }
-  }
-
-  // пошук юзера по ID
-  searchByUserID(): void {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      const userJson = localStorage.getItem('user');
-      const userId = this.searchQuery;
-      if (userJson && this.searchQuery) {
-        this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
-          .subscribe((response: any) => {
-            this.filteredUsers = response.user_inf;
-            this.optionsFound = response.search_count;
-            this.filterUserService.updateFilter(this.filteredUsers, this.optionsFound);
-            if (response.search_count === 1) {
-              this.indexPage = 2;
-            }
-          }, (error: any) => {
-            console.error(error);
-          });
-      } else {
-        this.searchFilter();
-        console.log('user not found');
-      }
-    }, 1000);
-  }
-
-  // додавання затримки на відправку запиту
-  onSubmitWithDelay() {
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer);
-    }
-    this.searchTimer = setTimeout(() => {
-      this.searchFilter();
-    }, 2000);
-  }
-
-  // передача отриманих даних до сервісу а потім виведення на картки карток
-  passInformationToService(filteredFlats: any, optionsFound: number) {
-    this.calculatePaginatorInfo()
-    this.filterUserService.updateFilter(filteredFlats, optionsFound);
-  }
-
-  // завантаження бази міст
-  loadCities() {
-    const searchTerm = this.userInfo.region!.toLowerCase();
-    this.filteredRegions = this.regions.filter(region =>
-      region.name.toLowerCase().includes(searchTerm)
-    );
-    const selectedRegionObj = this.filteredRegions.find(region =>
-      region.name === this.userInfo.region
-    );
-    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-    this.userInfo.city = '';
-  }
-
-  // завантаження бази областей
-  loadRegions() {
-    const searchTerm = this.userInfo.city!.toLowerCase();
-    const selectedRegionObj = this.regions.find(region =>
-      region.name === this.userInfo.region
-    );
-    this.filteredCities = selectedRegionObj
-      ? selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase().includes(searchTerm)
-      )
-      : [];
-
-    const selectedCityObj = this.filteredCities.find(city =>
-      city.name === this.userInfo.city
-    );
-  }
-
-  // наступна сторінка
-  incrementOffset() {
-    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
-      this.pageEvent.pageIndex++;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.userInfo.limit = offs;
-    }
-    this.searchFilter();
-  }
-
-  // попередня сторінка
-  decrementOffset() {
-    if (this.pageEvent.pageIndex > 0) {
-      this.pageEvent.pageIndex--;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.userInfo.limit = offs;
-    }
-    this.searchFilter();
-  }
-
-  calculatePaginatorInfo(): string {
-    const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
-    const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
-    this.shownCard = `${startIndex} - ${endIndex}`;
-    return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
+  onSortSelected(value: string) {
+    this.filterValue = value;
+    this.router.navigate(['/search-tenants/all-cards']);
+    this.filterUserService.sortTenants(value)
   }
 
 }

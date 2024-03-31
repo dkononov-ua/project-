@@ -4,7 +4,7 @@
 
 <ng-template #content>
 
-  <div class="info-container" *ngIf="helpRoom || helpPriority">
+  <div class="info-container" *ngIf="helpRoom || helpPriority || helpPhoto">
     <div class="info-help-box" *ngIf="helpRoom">
       <i class="fa-solid fa-info"></i>
 
@@ -51,6 +51,28 @@
       </button>
 
       <button class="btn w-100  t-c mt-2" (click)="openHelpPriority()">
+        <div class="t-med bold mr-2">Зрозуміло</div>
+        <i class="fa-regular fa-square-check"></i>
+      </button>
+    </div>
+
+    <div class="info-help-box" *ngIf="helpPhoto">
+      <i class="fa-solid fa-info"></i>
+
+      <div class="info-help-name">Які фото можна завантажувати </div>
+      <ul class="info-help-text">
+        <li>Формат фото: img, jpg, png, jpeg, webp.</li>
+        <li>Максимальний розмір фото до 10 мб.</li>
+        <li>Максимальна кількість фото 20 шт.</li>
+        <li>Перше завантажене фото буде головним фото вашої оселі. Після видалення першого фото головним стане
+          наступне.</li>
+        <li>Фото видаляються разом з видаленням оселі.</li>
+        <li>Фото можна додавати по одному за раз.</li>
+      </ul>
+      <p class="t-min gray t-c">*Така кількість обмежень буде діяти на період запуску для можливості скоротити
+        використання пам'яті на сервері.
+      </p>
+      <button class="btn w-100  t-c mt-2" (click)="openHelpPhoto()">
         <div class="t-med bold mr-2">Зрозуміло</div>
         <i class="fa-regular fa-square-check"></i>
       </button>
@@ -221,12 +243,79 @@
           </div>
         </div>
 
-        <mat-form-field class="example-full-width">
+        <div class="img-wrapper" *ngIf="reloadImg">
+          <ng-container>
+            <div class="img-fluid">
+              <div class="container-loader-mini">
+                <mat-spinner color="warn"></mat-spinner>
+                <div class="t-med mt-2 gray">Завантаження фото</div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="flex-column m-2">
+          <button class="info-btn" (click)="openHelpPhoto()">Допомога</button>
+          <div class="t-lar-xx bold t-c mb-2">Додавання фото оселі </div>
+        </div>
+
+        <div class="img-wrapper" *ngIf="!reloadImg">
+
+          <button class="btn btn-delete m-2" (click)="deleteObject(flatImg[currentPhotoIndex].img)"
+            matTooltip="Видалити" *ngIf="flatImg[currentPhotoIndex].img !== 'housing_default.svg' ">
+            <i class="fa-solid fa-trash-can-arrow-up gray"></i></button>
+
+          <ng-container *ngIf="flatImg && isLoadingImg">
+            <div class="img-fluid">
+              <img
+                [src]="flatImg && flatImg[currentPhotoIndex].img ? serverPathPhotoFlat + flatImg[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+                alt="img">
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="flatImg && !isLoadingImg">
+            <div class="img-fluid">
+              <div class="container-loader-mini">
+                <mat-spinner color="warn"></mat-spinner>
+                <img
+                  [src]="flatImg && flatImg[currentPhotoIndex].img ? serverPathPhotoFlat + flatImg[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+                  alt="img" (load)="isLoadingImg = true" hidden>
+                <div class="t-med mt-2">Завантаження фото</div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="!flatImg">
+            <div class="img-fluid">
+              <img src="../../../../assets/housing_default.svg" alt="img">
+            </div>
+          </ng-container>
+
+          <div class="btn-control" *ngIf="flatImg.length > 1">
+            <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button *ngIf="currentPhotoIndex !== flatImg.length - 1" class="next-img" (click)="nextPhoto()"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
+
+          <div class="card-1">
+            <div class="flex-column t-c">
+              <p class="t-lar bold accent">ЗАВАНТАЖИТИ ФОТО</p>
+              <p class="t-min dark">Додайте або оновіть фото вашого аккаунту</p>
+            </div>
+            <div class="input-div">
+              <i class="icon-up fa-solid fa-cloud-arrow-up" for="upload"></i>
+              <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+              <button class="input-up" (click)="_fileInput.click()"> </button>
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field class="example-full-width mt-2">
           <mat-label>Опис вашого оголошення</mat-label>
           <textarea #textArea matInput id="floatingTextarea" placeholder="Опишіть особливості оселі або оголошення"
             [(ngModel)]="flatInfo.about" (input)="onInput()"></textarea>
         </mat-form-field>
-
 
         <div class="btn-group mt-2">
 
@@ -239,7 +328,7 @@
             class="btn" (click)="saveInfo(flatInfo.rent = 1)">
             <i class="fa-regular fa-circle-check"></i>
             <span *ngIf="flatInfo.rent === 1">Зберегти</span>
-            <span *ngIf="flatInfo.rent === 0">Активувати</span>
+            <span *ngIf="!flatInfo.rent || flatInfo.rent === 0">Активувати</span>
           </button>
 
           <button class="btn" (click)="saveInfo(flatInfo.rent = 0)" *ngIf="flatInfo.rent === 1">

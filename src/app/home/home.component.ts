@@ -66,10 +66,10 @@ export class HomeComponent implements OnInit {
   // Перегляд статистики комунальних
   goToHouse() {
     if (this.authorizationHouse) {
-      this.statusMessage = 'Переходимо до оселі';
+      // this.statusMessage = 'Переходимо до оселі';
       setTimeout(() => {
         this.router.navigate(['/house/house-info']);
-      }, 2000);
+      }, 100);
     } else {
       this.statusMessage = 'Переходимо до вибору оселі';
       setTimeout(() => {

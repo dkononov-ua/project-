@@ -128,7 +128,7 @@ export class SearchTermHouseComponent implements OnInit {
   cities = cities;
 
   isSearchTermCollapsed: boolean = false;
-  filteredFlats?: any;
+  filteredFlats: any[] = [];
   minValue: number = 0;
   maxValue: number = 100000;
   searchQuery: any;
@@ -176,6 +176,7 @@ export class SearchTermHouseComponent implements OnInit {
   ngOnInit() {
     this.searchFilter();
     this.getSortValue();
+    this.getLoadCards();
     const searchInfoUserData = localStorage.getItem('searchInfoUserData');
     if (searchInfoUserData !== null) {
       this.myDataExist = true;
@@ -188,20 +189,13 @@ export class SearchTermHouseComponent implements OnInit {
     // console.log('getSortValue')
     this.filterService.sortValue$.subscribe(sortValue => {
       if (sortValue !== '') {
+        this.limit = 0;
+        this.filteredFlats = [];
         this.userInfo.filterData = sortValue;
-        this.onSubmitWithDelay();
+        this.onSubmitWithDelay()
       }
     });
   }
-
-  // nextCard() {
-  //   this.filterService.loadNextCards$.subscribe(download => {
-  //     console.log(download);
-  //     if (download === true) {
-  //       this.incrementOffset();
-  //     }
-  //   });
-  // }
 
   // відправляю event початок свайпу
   onPanStart(event: any): void {
@@ -369,8 +363,7 @@ export class SearchTermHouseComponent implements OnInit {
 
   // додавання затримки на відправку запиту
   onSubmitWithDelay() {
-    console.log('onSubmitWithDelay')
-
+    // console.log('onSubmitWithDelay')
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
     }
@@ -401,8 +394,6 @@ export class SearchTermHouseComponent implements OnInit {
 
   // збір пошукових параметрів
   async searchFilter() {
-    console.log('searchFilter')
-
     const params: UserInfo = {
       price_of: this.userInfo.price_of || '',
       price_to: this.userInfo.price_to || '',
@@ -434,7 +425,6 @@ export class SearchTermHouseComponent implements OnInit {
       looking_woman: this.userInfo.looking_woman ? '1' : '0',
       looking_man: this.userInfo.looking_man ? '1' : '0',
       filterData: this.userInfo.filterData || '',
-
       purpose_rent: undefined,
       days: undefined,
       weeks: undefined,
@@ -450,8 +440,6 @@ export class SearchTermHouseComponent implements OnInit {
 
   // побудова URL пошукового запиту
   buildSearchURL(params: any): string {
-    console.log('buildSearchURL')
-
     const endpoint = serverPath + '/search/flat';
     const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
     return `${endpoint}?${paramsString}`;
@@ -459,11 +447,14 @@ export class SearchTermHouseComponent implements OnInit {
 
   // передача пошукових фільтрів та отримання результатів пошуку
   async getSearchData(url: string) {
-    console.log('getSearchData')
     const response: any = await this.http.get(url).toPromise();
     if (response) {
       this.optionsFound = response.count;
-      this.filteredFlats = response.img;
+      if (this.userInfo.filterData) {
+        this.filteredFlats = response.img;
+      } else {
+        this.filteredFlats.push(...response.img);
+      }
       this.calculatePaginatorInfo()
       this.passInformationToService(this.filteredFlats, this.optionsFound);
     }
@@ -472,8 +463,6 @@ export class SearchTermHouseComponent implements OnInit {
 
   // передача отриманих даних до сервісу а потім виведення на картки карток
   passInformationToService(filteredFlats: any, optionsFound: number) {
-    console.log('passInformationToService')
-
     if (filteredFlats && optionsFound) {
       this.filterService.updateFilter(filteredFlats, optionsFound);
       this.loading = false;
@@ -485,16 +474,20 @@ export class SearchTermHouseComponent implements OnInit {
 
   // наступна сторінка
   incrementOffset() {
+    // console.log('Incrementing offset');
     if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
       this.pageEvent.pageIndex++;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.limit = offs;
+      this.limit = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
+      // console.log('New limit:', this.limit);
+      this.searchFilter();
+    } else {
+      console.log('No more data to load');
     }
-    this.searchFilter();
   }
 
   // попередня сторінка
   decrementOffset() {
+    // console.log('попередня сторінка')
     if (this.pageEvent.pageIndex > 0) {
       this.pageEvent.pageIndex--;
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
@@ -503,11 +496,24 @@ export class SearchTermHouseComponent implements OnInit {
     this.searchFilter();
   }
 
+  getLoadCards() {
+    this.filterService.loadCards$.subscribe(loadValue => {
+      if (loadValue !== '') {
+        if (loadValue === 'prev') {
+          this.decrementOffset();
+        } else if (loadValue === 'next') {
+          this.incrementOffset();
+        }
+      }
+    });
+  }
+
   calculatePaginatorInfo(): string {
     const startIndex = (this.pageEvent.pageIndex * this.pageEvent.pageSize) + 1;
     const endIndex = Math.min((this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize, this.optionsFound);
     this.shownCard = `${startIndex} - ${endIndex}`;
-    // console.log(this.shownCard)
+    // console.log(this.shownCard);
+    this.filterService.showedCards(this.shownCard)
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 }

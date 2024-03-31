@@ -32,6 +32,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AllCardsComponent } from './search-housing/all-cards/all-cards.component';
 import { SearchTermHouseComponent } from './search-housing/search-term-house/search-term-house.component';
+import { AllCardsTenantsComponent } from './search-tenant/all-cards-tenants/all-cards-tenants.component';
+import { SearchTermTenantsComponent } from './search-tenant/search-term-tenants/search-term-tenants.component';
 @NgModule({
   declarations: [
     SearchTenantComponent,
@@ -39,6 +41,8 @@ import { SearchTermHouseComponent } from './search-housing/search-term-house/sea
     SearchHousingComponent,
     HouseComponent,
     AllCardsComponent,
+    AllCardsTenantsComponent,
+    SearchTermTenantsComponent,
     SearchTermHouseComponent,
   ],
   providers: [

@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../interface/animation';
+import { Router } from '@angular/router';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -81,7 +82,9 @@ export class AdditionalInfoComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService) {
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,
+  ) {
   }
 
   ngOnInit(): void {
@@ -133,14 +136,14 @@ export class AdditionalInfoComponent implements OnInit {
           new: this.flatInfo,
           flat_id: this.selectedFlatId,
         }).toPromise();
-        console.log(response.status)
         // if (response.status === 'Збережено') {
         if (response.status) {
           this.statusMessage = "Допоміжна інформація збережена";
           setTimeout(() => {
             this.statusMessage = '';
-            this.getInfo();
-            this.loading = false;
+            this.router.navigate(['/house/house-info']);
+            // this.getInfo();
+            // this.loading = false;
           }, 2000);
         } else {
           this.statusMessage = "Помилка збереження";

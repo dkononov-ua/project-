@@ -6,9 +6,20 @@ import { SearchHousingComponent } from './search-housing/search-housing.componen
 import { HouseComponent } from './search-housing/house/house.component';
 import { AllCardsComponent } from './search-housing/all-cards/all-cards.component';
 import { SearchTermHouseComponent } from './search-housing/search-term-house/search-term-house.component';
+import { SearchTermTenantsComponent } from './search-tenant/search-term-tenants/search-term-tenants.component';
+import { AllCardsTenantsComponent } from './search-tenant/all-cards-tenants/all-cards-tenants.component';
+import { ProfileComponent } from './search-tenant/profile/profile.component';
 
 const routes: Routes = [
-  { path: 'search-tenants', component: SearchTenantComponent, canActivate: [CanActivateGuard] },
+  {
+    path: 'search-tenants', component: SearchTenantComponent, canActivate: [CanActivateGuard],
+    children: [
+      { path: '', redirectTo: 'filter', pathMatch: 'full' },
+      { path: 'tenants', component: ProfileComponent, canActivate: [CanActivateGuard] },
+      { path: 'all-cards', component: AllCardsTenantsComponent, canActivate: [CanActivateGuard] },
+      { path: 'filter', component: SearchTermTenantsComponent, canActivate: [CanActivateGuard] },
+    ]
+  },
   {
     path: 'search-house', component: SearchHousingComponent, canActivate: [CanActivateGuard],
     children: [

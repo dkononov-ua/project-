@@ -202,7 +202,7 @@ export class AddressComponent implements OnInit {
             setTimeout(() => {
               this.statusMessage = '';
               setTimeout(() => {
-                this.router.navigate(['/housing-parameters'], { queryParams: { indexPage: 2 } });
+                this.router.navigate(['/edit-house/param']);
               }, 200);
             }, 1500);
           }, 300);

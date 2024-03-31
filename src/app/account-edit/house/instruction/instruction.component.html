@@ -1,8 +1,9 @@
 <div class="content-child p-3">
 
   <div [@right] class="t-lar t-c ">
-    <p class="bold">Шлях по кроках <br> як розмістити оголошення.</p>
-    <div class="t-min gray t-c bold">Після цих кроків оголошення буде розміщено в меню "пошук оселі"</div>
+    <p class="bold">Шлях по кроках <br> як налаштувати оселю.</p>
+    <div class="t-min gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено в меню
+      "пошук оселі" та доступне для перегляду та підписки.</div>
   </div>
 
   <div [@right1] class="item-box">
@@ -33,21 +34,8 @@
   <div [@right3] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 3</div>
-      <div class="t-min t-c p-1">Додайте фото оселі в меню "Додати фото", для розміщення оголошення оселі. Фото
-        обов'язкове*</div>
-    </div>
-
-    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
-      <span class="ml-2 t-min">Додати фото</span>
-      <i class="fa-solid fa-images ml-2"></i>
-    </button>
-  </div>
-
-  <div [@right4] class="item-box">
-    <div class="item-d w-70">
-      <div class="t-med gray bold">Крок 4</div>
       <div class="t-min t-c p-1">Меню "Особливості" обов'язково вказати
-        варіанти оплати, ціну, формат здачі* та "Активувати".</div>
+        варіанти оплати*, ціну*, формат здачі*, додати фото* та "Активувати"</div>
     </div>
 
     <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/about'">
@@ -56,6 +44,16 @@
     </button>
   </div>
 
+  <div [@right4] class="item-box">
+    <div class="item-d w-70">
+      <div class="t-min t-c p-1">Це меню призначено для швидкого доступу та копіювання до часто потрібної інформації. З часом воно
+        буде поповнюватись новими параметрами</div>
+    </div>
+
+    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/additional-info'">
+      <span class="ml-2 t-min">Додаткова інформація</span>
+      <i class="fa-regular fa-address-book"></i>
+    </button>
+  </div>
+
 </div>
-
-

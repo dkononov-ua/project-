@@ -3,9 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { DataService } from 'src/app/services/data.service';
 import { animations } from '../../../interface/animation';
+import { LyDialog } from '@alyle/ui/dialog';
+import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
+import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 
 interface FlatInfo {
   students: boolean;
@@ -36,6 +39,9 @@ export class AboutComponent implements OnInit {
   minValue: number = 0;
   maxValue: number = 1000000;
   loading = false;
+  serverPath = serverPath;
+  serverPathPhotoUser = serverPathPhotoUser;
+  serverPathPhotoFlat = serverPathPhotoFlat;
   path_logo = path_logo;
 
   flatInfo: FlatInfo = {
@@ -66,6 +72,7 @@ export class AboutComponent implements OnInit {
 
   helpRent: boolean = false;
   helpRoom: boolean = false;
+  helpPhoto: boolean = false;
   helpPriority: boolean = false;
   statusMessage: string | undefined;
   openHelpRent() {
@@ -80,11 +87,26 @@ export class AboutComponent implements OnInit {
     this.helpPriority = !this.helpPriority;
   }
 
+  openHelpPhoto() {
+    this.helpPhoto = !this.helpPhoto;
+  }
+
+  isLoadingImg: boolean = false;
+
+  filename: string | undefined;
+  selectedFile: any;
+  flatImg: any = [{ img: "housing_default.svg" }];
+  images: string[] = [];
+  currentPhotoIndex: number = 0;
+  selectedPhoto: boolean = false;
+  reloadImg: boolean = false;
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private dataService: DataService,
+    private _dialog: LyDialog,
   ) { }
 
   ngOnInit(): void {
@@ -100,48 +122,13 @@ export class AboutComponent implements OnInit {
     });
   }
 
-  updateFlatInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId) {
-      this.dataService.getInfoFlat().subscribe((response: any) => {
-        if (response) {
-          localStorage.setItem('houseData', JSON.stringify(response));
-        } else {
-          console.log('Немає оселі')
-        }
-      });
-    }
-  }
-
-
-  async getInfo(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          this.flatInfo = response.about;
-          this.loading = false;
-        }, (error: any) => {
-          console.error(error);
-          this.loading = false;
-        });
-    } else {
-      console.log('user not found');
-      this.loading = false;
-    }
-  };
-
   async saveInfo(rent: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
-
       if (this.flatInfo.option_pay === 2) {
         this.flatInfo.price_m = 1;
         this.flatInfo.price_d = 1;
       }
-
-      console.log(this.flatInfo.price_m)
-
       const data = {
         students: this.flatInfo.students || undefined,
         woman: this.flatInfo.woman || undefined,
@@ -157,23 +144,19 @@ export class AboutComponent implements OnInit {
         rent: rent,
         room: this.flatInfo.room || 0,
       }
-      console.log(data)
       try {
         const response: any = await this.http.post(serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
           flat: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
-
         if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
-          console.log(response)
           this.updateFlatInfo();
           setTimeout(() => {
             this.statusMessage = 'Оголошення розміщено';
             setTimeout(() => {
               this.statusMessage = 'Оновлюємо інформацію';
-              this.reloadPageWithLoader()
-              // this.router.navigate(['/house/house-info']);
+              this.router.navigate(['/edit-house/additional-info']);
             }, 1500);
           }, 500);
         } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
@@ -182,9 +165,7 @@ export class AboutComponent implements OnInit {
             this.statusMessage = 'Параметри успішно додані, оголошення НЕ активне';
             setTimeout(() => {
               this.statusMessage = 'Оновлюємо інформацію';
-              this.reloadPageWithLoader()
-
-              // this.router.navigate(['/house/house-info']);
+              this.router.navigate(['/house/house-info']);
             }, 1500);
           }, 500);
         } else {
@@ -242,5 +223,172 @@ export class AboutComponent implements OnInit {
       room: 0,
 
     };
+  }
+
+  updateFlatInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+        } else {
+          console.log('Немає оселі')
+        }
+      });
+    }
+  }
+
+  getSelectedFlat() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (this.selectedFlatId !== null) {
+        this.getInfo();
+      }
+    });
+  }
+
+  async getInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId !== null) {
+      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+        .subscribe(
+          (response: any) => {
+            this.flatInfo = response.about;
+
+            if (Array.isArray(response.imgs) && response.imgs.length > 0) {
+              this.flatImg = response.imgs;
+              this.flatImg.reverse();
+              if (this.reloadImg) {
+                setTimeout(() => {
+                  this.statusMessage = '';
+                  this.reloadImg = false;
+                }, 1500);
+              }
+            } else {
+              this.flatImg = [{ img: "housing_default.svg" }];
+            }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user not found');
+    }
+  };
+
+  openCropperDialog(event: Event) {
+    this._dialog.open<CropImgComponent, Event>(CropImgComponent, {
+      data: event,
+      width: 400,
+      disableClose: true
+    }).afterClosed.subscribe((result?: ImgCropperEvent) => {
+      if (result) {
+        const blob = this.dataURItoBlob(result.dataURL!);
+        const formData = new FormData();
+        formData.append('file', blob, result.name!);
+        this.onUpload(formData);
+      }
+    });
+  }
+
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+  onUpload(formData: any): void {
+    const userJson = localStorage.getItem('user');
+    if (!formData) {
+      console.log('Файл не обраний. Завантаження не відбудеться.');
+      return;
+    }
+    formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
+    formData.append('flat_id', this.selectedFlatId);
+    const headers = { 'Accept': 'application/json' };
+    this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
+      async (data: any) => {
+        this.images.push(serverPath + '/img/flat/' + data.filename);
+        this.loading = false;
+        if (data.status === 'Збережено') {
+          this.reloadImg = true;
+          this.flatImg = [];
+          this.statusMessage = 'Фото додано';
+          await this.getInfo();
+        } else {
+          setTimeout(() => {
+            this.statusMessage = 'Помилка завантаження';
+            setTimeout(() => {
+              this.statusMessage = '';
+            }, 1500);
+          }, 500);
+        }
+      },
+      (error: any) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
+  }
+
+  prevPhoto() {
+    if (this.currentPhotoIndex > 0) {
+      this.currentPhotoIndex--;
+    }
+  }
+
+  nextPhoto() {
+    if (this.currentPhotoIndex < this.flatImg.length - 1) {
+      this.currentPhotoIndex++;
+    }
+  }
+
+  deleteObject(selectImg: any): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson && selectImg && selectImg !== "housing_default.svg" && this.selectedFlatId) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: this.selectedFlatId,
+        img: selectImg,
+      };
+
+      this.http.post(serverPath + '/flatinfo/deleteFlatImg', data)
+        .subscribe(
+          (response: any) => {
+            if (response.status == 'Видалення було успішне') {
+              this.statusMessage = 'Видалено';
+              setTimeout(() => {
+                const deletedIndex = this.flatImg.findIndex((item: { img: any; }) => item.img === selectImg);
+                this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg);
+                if (this.currentPhotoIndex > deletedIndex) {
+                  this.currentPhotoIndex--;
+                }
+                this.getInfo();
+                setTimeout(() => {
+                  this.statusMessage = '';
+                }, 1500);
+              }, 1500);
+            } else {
+              setTimeout(() => {
+                this.statusMessage = 'Помилка видалення';
+                setTimeout(() => {
+                  this.statusMessage = '';
+                }, 1500);
+              }, 500);
+            }
+          },
+          (error: any) => {
+            console.error(error);
+          }
+        );
+    } else {
+      console.log('user or subscriber not found');
+    }
   }
 }
