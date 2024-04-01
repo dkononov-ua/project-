@@ -12,6 +12,8 @@ import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.co
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -86,8 +88,6 @@ export class ResidentPageComponent implements OnInit {
   selectedSubAgree: any;
   timeToOpenRating: number = 0;
   isCopiedMessage!: string;
-  indexPage: number = 0;
-  indexCard: number = 0;
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -115,17 +115,9 @@ export class ResidentPageComponent implements OnInit {
   statusPermitStartMsg: string = '';
   statusPermitEndMsg: string = '';
 
+  indexPage: number = 1;
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
-  }
-
-  // Перевірка на можливість надіслати відгук
-  setMinMaxDate(daysBeforeToday: number) {
-    const today = new Date();
-    const minDate = new Date(today);
-    minDate.setDate(today.getDate() - daysBeforeToday);
-    this.minDate = this.formatDate(minDate);
-    this.maxDate = this.formatDate(today);
   }
 
   formatDate(date: Date): string {
@@ -135,6 +127,7 @@ export class ResidentPageComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  isMobile = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -146,15 +139,19 @@ export class ResidentPageComponent implements OnInit {
     private sharedService: SharedService,
     private dialog: MatDialog,
     private location: Location,
+    private breakpointObserver: BreakpointObserver,
 
-  ) { this.selectResidents(); }
+  ) {
+    this.setMinMaxDate(35);
+    this.rating.ratingDate = this.formatDate(new Date());
+  }
 
   async ngOnInit(): Promise<void> {
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 0;
-      this.indexPage = Number(this.page);
-      this.card = params['indexCard'] || 0;
-      this.indexCard = Number(this.card);
+    // перевірка який пристрій
+    this.breakpointObserver.observe([
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isMobile = result.matches;
     });
     await this.getSelectedFlat();
     this.getOwnerPage();
@@ -162,6 +159,7 @@ export class ResidentPageComponent implements OnInit {
 
   // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
   async getSelectedFlat() {
+    // console.log('getSelectedFlat')
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
@@ -186,6 +184,7 @@ export class ResidentPageComponent implements OnInit {
 
   // Отримую мешканців
   async getResidents(selectedFlatId: string | any, offs: number): Promise<any> {
+    // console.log('getResidents')
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, offs: offs, };
     try {
@@ -193,6 +192,7 @@ export class ResidentPageComponent implements OnInit {
       if (response) {
         this.subscribers = response;
         localStorage.setItem('allResidents', JSON.stringify(response));
+        await this.selectResidents();
       } else {
         localStorage.removeItem('allResidents');
       }
@@ -204,19 +204,20 @@ export class ResidentPageComponent implements OnInit {
     this.choseSubscribersService.selectedSubscriber$.subscribe(async subscriberId => {
       const userData = localStorage.getItem('userData');
       if (subscriberId && userData) {
+        const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id.toString() === String(subscriberId));
+        if (selectedSubscriber) {
+          this.selectedSubscriber = selectedSubscriber;
+          await this.getRating(selectedSubscriber);
+          await this.getConcludedAgree(selectedSubscriber);
+        }
         const userObject = JSON.parse(userData);
         const user_id = userObject.inf.user_id;
         // перевіряю чи я обрав свою сторінку
         if (user_id === subscriberId) {
           this.selectMyPage = true;
           // якщо так то закриваю деякі функції
-        } else { this.selectMyPage = false; }
-        const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id === subscriberId);
-        if (selectedSubscriber) {
-          this.selectedSubscriber = selectedSubscriber;
-          await this.getRating(selectedSubscriber);
-          await this.getConcludedAgree(selectedSubscriber);
-          this.indexCard = 1;
+        } else {
+          this.selectMyPage = false;
         }
       }
     });
@@ -230,31 +231,33 @@ export class ResidentPageComponent implements OnInit {
       try {
         const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
-          this.statusMessage = 'Створюємо чат';
+          this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {
             this.router.navigate(['/chat']);
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
           }, 2000);
         } else if (response.status === 'Чат вже існує') {
-          this.statusMessage = 'Чат вже існує';
+          this.sharedService.setStatusMessage('Чат вже існує');
           setTimeout(() => {
-            this.statusMessage = 'Переходимо до чату';
+            this.sharedService.setStatusMessage('Переходимо до чату');
             this.choseSubscribersService.setSelectedSubscriber(selectedPerson.user_id);
             setTimeout(() => {
-              this.statusMessage = '';
-              this.router.navigate(['/chat'], { queryParams: { user_id: selectedPerson.user_id } });
+              this.sharedService.setStatusMessage('');
+              this.router.navigate(['/chat-house'], { queryParams: { user_id: selectedPerson.user_id } });
             }, 2000);
           }, 2000);
         } else {
-          this.statusMessage = 'Немає доступу';
+          this.sharedService.setStatusMessage('Немає доступу');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+        }, 2000);
       }
     } else {
       console.log('Авторизуйтесь');
@@ -263,6 +266,7 @@ export class ResidentPageComponent implements OnInit {
 
   // Надсилаю оцінку орендарю
   sendRating(selectedSubscriber: any) {
+    // console.log('sendRating')
     const userJson = localStorage.getItem('user');
     const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
     if (userJson && selectedSubscriber) {
@@ -274,16 +278,15 @@ export class ResidentPageComponent implements OnInit {
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue,
       };
-
       this.http.post(serverPath + '/rating/add/userRating', data).subscribe((response: any) => {
         let setMark = this.rating.ratingValue.toString();
         if (response.status === true && setMark === '5') {
           setTimeout(() => {
-            this.statusMessage = 'Дякуємо за підтримку гарних людей';
+            this.sharedService.setStatusMessage('Дякуємо за підтримку гарних людей');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено!';
+              this.sharedService.setStatusMessage('Відгук збережено!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -291,11 +294,11 @@ export class ResidentPageComponent implements OnInit {
 
         else if (response.status === true && setMark === '4') {
           setTimeout(() => {
-            this.statusMessage = 'Добрі стосунки це важливо';
+            this.sharedService.setStatusMessage('Добрі стосунки це важливо');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено, дякуємо!';
+              this.sharedService.setStatusMessage('Відгук збережено, дякуємо!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -303,11 +306,11 @@ export class ResidentPageComponent implements OnInit {
 
         else if (response.status === true && setMark === '3') {
           setTimeout(() => {
-            this.statusMessage = 'Стабільність це добре';
+            this.sharedService.setStatusMessage('Стабільність це добре');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено, дякуємо!';
+              this.sharedService.setStatusMessage('Відгук збережено, дякуємо!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -315,11 +318,11 @@ export class ResidentPageComponent implements OnInit {
 
         else if (response.status === true && setMark === '2') {
           setTimeout(() => {
-            this.statusMessage = 'Йой, сподіваємось все налагодиться';
+            this.sharedService.setStatusMessage('Йой, сподіваємось все налагодиться');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено!';
+              this.sharedService.setStatusMessage('Відгук збережено!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -327,11 +330,23 @@ export class ResidentPageComponent implements OnInit {
 
         else if (response.status === true && setMark === '1') {
           setTimeout(() => {
-            this.statusMessage = 'Напевно є не закриті питання';
+            this.sharedService.setStatusMessage('Напевно є не закриті питання');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено!';
+              this.sharedService.setStatusMessage('Відгук збережено!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
+              }, 2000);
+            }, 2000);
+          }, 200);
+        }
+
+        else if (response.status === 'Нажаль данну оцінку не змінити') {
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Відгук за обраною датою закритий');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Оберіть іншу дату');
+              setTimeout(() => {
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -341,11 +356,15 @@ export class ResidentPageComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = 'Помилка збереження';
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 2000);
           }, 200);
         }
 
+        this.getRating(selectedSubscriber);
+        setTimeout(() => {
+          this.indexPage = 4;
+        }, 4000);
         this.indexPersonMenu = 0;
         this.rating.ratingComment = '';
 
@@ -389,6 +408,7 @@ export class ResidentPageComponent implements OnInit {
 
         // console.log('Кількість відгуків:', this.numberOfReviews);
       } else {
+        this.numberOfReviews = 0;
         this.reviews = undefined;
         this.ratingTenant = 0;
       }
@@ -421,8 +441,14 @@ export class ResidentPageComponent implements OnInit {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
-      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+        this.sharedService.setStatusMessage('Скаргу надіслано'); setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+        }, 2000);
+      } else {
+        this.sharedService.setStatusMessage('Помилка'); setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+        }, 2000);
+      }
     });
   }
   // Видаляю з оселі
@@ -458,37 +484,54 @@ export class ResidentPageComponent implements OnInit {
   }
   // Видаляю мешканця
   removeResident(data: any): void {
-    this.statusMessage = 'Видаляємо мешканця';
+    this.sharedService.setStatusMessage('Видаляємо мешканця');
     this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(() => { this.updateSubscriberList(); },
       (error: any) => { console.error('Error deleting subscriber:', error); });
   }
   // Видаляюсь з оселі
-  leaveHouse(data: any): void {
-    this.statusMessage = 'Видаляємось з оселі';
-    this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(
-      () => { },
-      (error: any) => {
-        console.error('Error deleting user:', error);
+  async leaveHouse(data: any): Promise<void> {
+    try {
+      const response = await this.http.post(serverPath + '/citizen/delete/citizen', data).toPromise() as any;
+      // console.log(response)
+      if (response) {
+        this.sharedService.setStatusMessage('Виходимо з оселі');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('Очищуємо дані');
+          this.selectedFlatIdService.clearSelectedFlatId();
+          localStorage.removeItem('selectedComun');
+          localStorage.removeItem('selectedHouse');
+          localStorage.removeItem('selectedFlatId');
+          localStorage.removeItem('selectedFlatName');
+          localStorage.removeItem('houseData');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Очищено');
+            setTimeout(() => {
+              this.router.navigate(['/house/house-control/selection-house']);
+              this.sharedService.setStatusMessage('');
+            }, 500);
+          }, 1000);
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('Помилка видалення');
+          setTimeout(() => {
+            location.reload();
+          }, 500);
+        }, 1000);
       }
-    );
-    setTimeout(() => {
-      this.statusMessage = 'Видаляємо дані оселі';
-      this.clearLocalStorage();
-      location.reload();
-      setTimeout(() => {
-        this.selectedFlatIdService.clearSelectedFlatId();
-        this.router.navigate(['/user/info']);
-      }, 2000);
-    }, 1500);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
   // Оновлюю список мешканців
   updateSubscriberList(): void {
     setTimeout(() => {
-      this.statusMessage = 'Оновлюємо список мешканців';
+      this.sharedService.setStatusMessage('Оновлюємо список мешканців');
       this.selectedSubscriber = undefined;
       setTimeout(() => {
         this.getResidents(this.selectedFlatId, 0);
-        this.statusMessage = '';
+        this.sharedService.setStatusMessage('');
         this.loading = false;
       }, 1000);
     }, 1000);
@@ -552,8 +595,6 @@ export class ResidentPageComponent implements OnInit {
               this.statusPermitEnd = true;
               this.statusPermitEndMsg = 'Оцінювання дозволено';
             }
-
-
           }
         } else {
           this.selectedSubAgree = [];
@@ -565,6 +606,15 @@ export class ResidentPageComponent implements OnInit {
       console.error(error);
     }
 
+  }
+
+  // Перевірка на можливість надіслати відгук
+  setMinMaxDate(daysBeforeToday: number) {
+    const today = new Date();
+    const minDate = new Date(today);
+    minDate.setDate(today.getDate() - daysBeforeToday);
+    this.minDate = this.formatDate(minDate);
+    this.maxDate = this.formatDate(today);
   }
 }
 

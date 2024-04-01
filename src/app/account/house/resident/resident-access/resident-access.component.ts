@@ -114,7 +114,7 @@ export class ResidentAccessComponent implements OnInit {
       const allResidents = localStorage.getItem('allResidents');
       if (subscriberId && allResidents) {
         this.allResidents = JSON.parse(allResidents);
-        const selectedResidents = this.allResidents.find((subscriber: { user_id: string; }) => subscriber.user_id === subscriberId);
+        const selectedResidents = this.allResidents.find((subscriber: { user_id: string; }) => subscriber.user_id.toString() === String(subscriberId));
         if (selectedResidents) {
           this.selectedSubscriber = selectedResidents;
         } else {

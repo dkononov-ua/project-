@@ -12,6 +12,8 @@ import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.co
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -88,7 +90,7 @@ export class ResidentOwnerComponent implements OnInit {
   timeToOpenRating: number = 0;
   isCopiedMessage!: string;
   indexMenu: number = 0;
-  indexPage: number = 0;
+  indexPage: number = 1;
   indexCard: number = 0;
   path_logo = path_logo;
   serverPath = serverPath;
@@ -142,6 +144,8 @@ export class ResidentOwnerComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  isMobile = false;
+  iResident: string = '';
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -153,16 +157,21 @@ export class ResidentOwnerComponent implements OnInit {
     private sharedService: SharedService,
     private dialog: MatDialog,
     private location: Location,
-  ) { }
+    private breakpointObserver: BreakpointObserver,
+
+  ) {
+    this.setMinMaxDate(35);
+    this.rating.ratingDate = this.formatDate(new Date());
+  }
 
   async ngOnInit(): Promise<void> {
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 0;
-      this.indexPage = Number(this.page);
-      this.card = params['indexCard'] || 0;
-      this.indexCard = Number(this.card);
+    // перевірка який пристрій
+    this.breakpointObserver.observe([
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isMobile = result.matches;
     });
-    this.getSelectedFlat();
+    this.getOwnerPage();
   }
 
   // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
@@ -173,6 +182,18 @@ export class ResidentOwnerComponent implements OnInit {
         await this.getOwner();
       } else {
         console.log('Оберіть оселю')
+      }
+    });
+  }
+
+  // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
+  async getOwnerPage() {
+    this.sharedService.checkOwnerPage$.subscribe(checkOwnerPage => {
+      if (checkOwnerPage === 'true') {
+        this.iResident = checkOwnerPage;
+        this.getSelectedFlat();
+      } else {
+        this.iResident = 'false';
       }
     });
   }
@@ -199,31 +220,31 @@ export class ResidentOwnerComponent implements OnInit {
       try {
         const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
-          this.statusMessage = 'Створюємо чат';
+          this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {
             this.router.navigate(['/chat']);
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
           }, 2000);
         } else if (response.status === 'Чат вже існує') {
-          this.statusMessage = 'Чат вже існує';
+          this.sharedService.setStatusMessage('Чат вже існує');
           setTimeout(() => {
-            this.statusMessage = 'Переходимо до чату';
+            this.sharedService.setStatusMessage('Переходимо до чату');
             this.choseSubscribersService.setSelectedSubscriber(selectedPerson.user_id);
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
               this.router.navigate(['/chat'], { queryParams: { user_id: selectedPerson.user_id } });
             }, 2000);
           }, 2000);
         } else {
-          this.statusMessage = 'Немає доступу';
+          this.sharedService.setStatusMessage('Немає доступу');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
       }
     } else {
       console.log('Авторизуйтесь');
@@ -231,7 +252,7 @@ export class ResidentOwnerComponent implements OnInit {
   }
 
   // Надсилаю оцінку власнику
-  sendRatingOwner() {
+  sendRating() {
     // console.log(this.ownerInfo)
     const userJson = localStorage.getItem('user');
     const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
@@ -251,11 +272,11 @@ export class ResidentOwnerComponent implements OnInit {
         if (response.status === true && setMark === '5') {
 
           setTimeout(() => {
-            this.statusMessage = 'Дякуємо за підтримку гарних людей';
+            this.sharedService.setStatusMessage('Дякуємо за підтримку гарних людей');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено!';
+              this.sharedService.setStatusMessage('Відгук збережено!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -263,11 +284,11 @@ export class ResidentOwnerComponent implements OnInit {
 
         else if (response.status === true && setMark === '4') {
           setTimeout(() => {
-            this.statusMessage = 'Добрі стосунки це важливо';
+            this.sharedService.setStatusMessage('Добрі стосунки це важливо');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено, дякуємо!';
+              this.sharedService.setStatusMessage('Відгук збережено, дякуємо!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -275,11 +296,11 @@ export class ResidentOwnerComponent implements OnInit {
 
         else if (response.status === true && setMark === '3') {
           setTimeout(() => {
-            this.statusMessage = 'Стабільність це добре';
+            this.sharedService.setStatusMessage('Стабільність це добре');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено, дякуємо!';
+              this.sharedService.setStatusMessage('Відгук збережено, дякуємо!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -287,11 +308,11 @@ export class ResidentOwnerComponent implements OnInit {
 
         else if (response.status === true && setMark === '2') {
           setTimeout(() => {
-            this.statusMessage = 'Йой, сподіваємось все налагодиться';
+            this.sharedService.setStatusMessage('Йой, сподіваємось все налагодиться');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено!';
+              this.sharedService.setStatusMessage('Відгук збережено!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -299,11 +320,11 @@ export class ResidentOwnerComponent implements OnInit {
 
         else if (response.status === true && setMark === '1') {
           setTimeout(() => {
-            this.statusMessage = 'Напевно є не закриті питання';
+            this.sharedService.setStatusMessage('Напевно є не закриті питання');
             setTimeout(() => {
-              this.statusMessage = 'Відгук збережено!';
+              this.sharedService.setStatusMessage('Відгук збережено!');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -311,12 +332,12 @@ export class ResidentOwnerComponent implements OnInit {
 
         else if (response.status === 'Ви не підпадаєте під дати договору') {
           setTimeout(() => {
-            this.statusMessage = 'Час оцінювання закритий';
+            this.sharedService.setStatusMessage('Час оцінювання закритий');
             setTimeout(() => {
-              // this.statusMessage = 'Термін дії угоди вийшов';
-              this.statusMessage = 'Перевірте дати угоди';
+              // this.sharedService.setStatusMessage'Термін дії угоди вийшов';
+              this.sharedService.setStatusMessage('Перевірте дати угоди');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 2000);
             }, 2000);
           }, 200);
@@ -324,16 +345,18 @@ export class ResidentOwnerComponent implements OnInit {
 
         else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка збереження';
+            this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 2000);
           }, 200);
         }
-
+        this.getRatingOwner(this.ownerInfo.user_id);
+        setTimeout(() => {
+          this.indexPage = 3;
+        }, 4000);
         this.indexPersonMenu = 0;
         this.rating.ratingComment = '';
-
       }, (error: any) => {
         console.error(error);
       });
@@ -458,8 +481,8 @@ export class ResidentOwnerComponent implements OnInit {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
-      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+        this.sharedService.setStatusMessage('Скаргу надіслано'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      } else { this.sharedService.setStatusMessage('Помилка'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000); }
     });
   }
 }

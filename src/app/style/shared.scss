@@ -877,9 +877,9 @@
   text-transform: uppercase;
   margin: 0 0 5px 0;
   padding: 10px;
-  background-color: transparent;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.237);
-  border-top: 1px solid rgba(128, 128, 128, 0.237);
+  border-radius: 20px;
+  background-color: rgba(128, 128, 128, 0.154);
+  border: 1px solid rgba(128, 128, 128, 0.237);
   .link-menu-t1 {
     font-size: $t-med;
   }
@@ -901,6 +901,7 @@
   }
   &:hover {
     transform: scale(1.1);
+    border-radius: 0px;
     color: $color-accent;
     transition: 1s;
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
@@ -923,12 +924,24 @@
     }
   }
   &.active {
+    transform: scale(1.1);
     color: $color-accent;
-    font-weight: 600;
+    transition: 1s;
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    .link-menu-t2,
+    .link-menu-t1 {
+      color: $color-accent;
+    }
     .fa-solid,
     .fa-regular {
       color: $color-accent;
+      transition: 1s;
     }
+  }
+  &:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: transparent;
   }
 }
 

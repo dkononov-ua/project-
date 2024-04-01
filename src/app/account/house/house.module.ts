@@ -38,6 +38,8 @@ import { ResidentPageComponent } from './resident/resident-page/resident-page.co
 import { HouseControlComponent } from './house-control/house-control.component';
 import { AgreeHostComponent } from './agree-h/agree-host/agree-host.component';
 import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
+import { ResidentMenuComponent } from './resident/resident-menu/resident-menu.component';
+import { UserSearchComponent } from './resident/user-search/user-search.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -57,6 +59,8 @@ import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
     HouseControlComponent,
     AgreeHostComponent,
     AgreeStepComponent,
+    ResidentMenuComponent,
+    UserSearchComponent,
   ],
   providers: [
     DatePipe

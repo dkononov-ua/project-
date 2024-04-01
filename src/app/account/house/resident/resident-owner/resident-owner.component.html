@@ -1,477 +1,376 @@
-<div class="switch-content">
-  <div class="t-lar-xx bold dark t-s pl-2">
-    <div [@left] *ngIf="indexCard === 0">Картка власника</div>
-    <div [@left] *ngIf="indexCard === 1">Оцінити власника</div>
-    <div [@left] *ngIf="indexCard === 2">Відгуки про власника</div>
-  </div>
-  <div class="switch-box">
-    <div class="switch-btn-group">
-      <button class="btn" (click)="goBack()">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min dark bold">Назад</div>
-      </button>
-    </div>
-    <div class="switch-btn-group">
-      <button class="btn" (click)="indexCard = 0" [ngClass]="{ 'active': indexCard === 0 }">
-        <i class="fa-regular fa-user"></i>
-        <div class="t-min dark bold">Профіль</div>
-      </button>
-    </div>
-    <div class="switch-btn-group">
-      <button [disabled]="!statusPermitCreate || !statusPermitStart || !statusPermitEnd" class="btn"
-        (click)="indexCard = 1" [ngClass]="{ 'active': indexCard === 1 }">
-        <i class="fa-solid fa-ranking-star"></i>
-        <div class="t-min dark bold">Оцінити</div>
-      </button>
-    </div>
-    <div class="switch-btn-group">
-      <button class="btn" (click)="indexCard = 2" [ngClass]="{ 'active': indexCard === 2 }">
-        <div class="flex-box btn-rating">
-          <i class="fa-solid fa-user-pen"></i>
-        </div>
-        <div class="t-min dark bold">Відгуки</div>
-      </button>
-    </div>
-  </div>
-</div>
+<div class="content-child" *ngIf="iResident === 'true'">
 
-<div class="card-box" *ngIf="ownerInfo">
-  <!-- власник інформація -->
-  <div [@swichCard] class="card-animation" *ngIf="indexCard === 0">
-    <div class="card">
-      <div class="container-img">
-        <div class="wrapper-img">
-          <img class="img-fluid" [src]="serverPathPhotoUser + (ownerInfo?.img ? ownerInfo?.img : 'user_default.svg')"
+  <!-- інформація -->
+  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12"
+    *ngIf="indexPage === 1 || !isMobile && indexPage === 2 || !isMobile && indexPage === 3">
+    <div class="card-animation" [@left2]>
+      <div class="card-content">
+
+        <div class="btn-close-container" *ngIf="isMobile">
+          <div class="btn-close-box">
+            <button class="btn-close" (click)="indexPage = 1"></button>
+          </div>
+        </div>
+
+        <div class="copyMessage-box" *ngIf="isCopiedMessage">
+          <div class="copyMessage-text">{{isCopiedMessage}}</div>
+          <i class="fa-regular fa-copy"></i>
+          <div class="t-lar dark bold">Discussio</div>
+        </div>
+
+        <div class="container-img">
+          <div class="wrapper-img">
+
+            <img class="img-fluid" [src]="serverPathPhotoUser + (ownerInfo?.img ? ownerInfo?.img : 'user_default.svg')"
+              alt="img">
+
+            <div class="panel-container">
+              <div class="caruesel-container w-100">
+                <div class="carousel w-100">
+                  <div class="slide">
+
+                    <button class="slide-item" (click)="copyId(ownerInfo.user_id)">
+                      <div class="slide-item-box">
+                        <div class="bold">{{ownerInfo.user_id}}</div>
+                        <i class="fa-solid fa-fingerprint pl-2"></i>
+                      </div>
+                      <div class="slide-name">ID<br>орендаря</div>
+                    </button>
+
+                    <button class="slide-item">
+                      <div class="slide-item-box">
+                        <div class="bold">{{ratingOwner}}</div>
+                        <i class="fa-regular fa-star"></i>
+                      </div>
+                      <div class="slide-name">Рейтинг <br> Орендодавця</div>
+                    </button>
+
+                    <button class="slide-item" (click)="copyMail(ownerInfo.mail)" *ngIf="ownerInfo.mail">
+                      <i class="fa-solid fa-at"></i>
+                      <div class="slide-name">Пошта</div>
+                    </button>
+
+                    <button class="slide-item" (click)="copyTell(ownerInfo.tell)" *ngIf="ownerInfo.tell">
+                      <i class="fa-solid fa-phone"></i>
+                      <div class="slide-name">Номер</div>
+                    </button>
+
+                    <a class="slide-item" href="https://www.instagram.com/{{  ownerInfo.instagram }}"
+                      *ngIf="ownerInfo.instagram">
+                      <i class="fa-brands fa-instagram"></i>
+                      <div class="slide-name">instagram</div>
+                    </a>
+
+                    <a class="slide-item" href="https://www.facebook.com//{{  ownerInfo.facebook }}"
+                      *ngIf="ownerInfo.facebook">
+                      <i class="fa-brands fa-facebook"></i>
+                      <div class="slide-name">facebook</div>
+                    </a>
+
+                    <a class="slide-item" href="https://t.me/{{  ownerInfo.telegram }}" *ngIf="ownerInfo.telegram">
+                      <i class="fa-brands fa-telegram"></i>
+                      <div class="slide-name">telegram</div>
+                    </a>
+
+                    <button class="slide-item" (click)="copyViber(ownerInfo.viber)" *ngIf="ownerInfo.viber">
+                      <i class="fa-brands fa-viber"></i>
+                      <div class="slide-name">viber</div>
+                    </button>
+
+                  </div>
+
+                  <div class="slide">
+
+                    <button class="slide-item" (click)="copyId(ownerInfo.user_id)">
+                      <div class="slide-item-box">
+                        <div class="bold">{{ownerInfo.user_id}}</div>
+                        <i class="fa-solid fa-fingerprint pl-2"></i>
+                      </div>
+                      <div class="slide-name">ID<br>орендаря</div>
+                    </button>
+
+                    <button class="slide-item">
+                      <div class="slide-item-box">
+                        <div class="bold">{{ratingOwner}}</div>
+                        <i class="fa-regular fa-star"></i>
+                      </div>
+                      <div class="slide-name">Рейтинг <br> Орендодавця</div>
+                    </button>
+
+                    <button class="slide-item" (click)="copyMail(ownerInfo.mail)" *ngIf="ownerInfo.mail">
+                      <i class="fa-solid fa-at"></i>
+                      <div class="slide-name">Пошта</div>
+                    </button>
+
+                    <button class="slide-item" (click)="copyTell(ownerInfo.tell)" *ngIf="ownerInfo.tell">
+                      <i class="fa-solid fa-phone"></i>
+                      <div class="slide-name">Номер</div>
+                    </button>
+
+                    <a class="slide-item" href="https://www.instagram.com/{{  ownerInfo.instagram }}"
+                      *ngIf="ownerInfo.instagram">
+                      <i class="fa-brands fa-instagram"></i>
+                      <div class="slide-name">instagram</div>
+                    </a>
+
+                    <a class="slide-item" href="https://www.facebook.com//{{  ownerInfo.facebook }}"
+                      *ngIf="ownerInfo.facebook">
+                      <i class="fa-brands fa-facebook"></i>
+                      <div class="slide-name">facebook</div>
+                    </a>
+
+                    <a class="slide-item" href="https://t.me/{{  ownerInfo.telegram }}" *ngIf="ownerInfo.telegram">
+                      <i class="fa-brands fa-telegram"></i>
+                      <div class="slide-name">telegram</div>
+                    </a>
+
+                    <button class="slide-item" (click)="copyViber(ownerInfo.viber)" *ngIf="ownerInfo.viber">
+                      <i class="fa-brands fa-viber"></i>
+                      <div class="slide-name">viber</div>
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="flex-box">
+          <div class="flex-column p-2">
+            <div class="t-lar bold">{{ ownerInfo.lastName }}</div>
+            <div class="t-min gray">Прізвище</div>
+          </div>
+          <div class="flex-column p-2">
+            <div class="t-lar bold">{{ ownerInfo.firstName }}</div>
+            <div class="t-min gray">ім'я</div>
+          </div>
+          <div class="flex-column p-2">
+            <div class="t-lar bold">{{ ownerInfo.surName }}</div>
+            <div class="t-min gray">По батькові</div>
+          </div>
+        </div>
+
+        <nav class="navbar">
+
+          <button *ngIf="!selectMyPage" class="link-menu" (click)="reportUser(ownerInfo)">
+            <div class="flex-column pl-4 w-80">
+              <p class="link-menu-t1">Відправити</p>
+              <p class="link-menu-t2">Скаргу</p>
+            </div>
+            <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
+          </button>
+
+          <button class="link-menu" (click)="createChat(ownerInfo)">
+            <div class="flex-column pl-4 w-80">
+              <p class="link-menu-t1">Створити</p>
+              <p class="link-menu-t2">Чат</p>
+            </div>
+            <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
+          </button>
+
+          <button [disabled]="numberOfReviews === 0" class="link-menu" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage === 3 }">
+            <div class="flex-column pl-4 w-80">
+              <p class="link-menu-t1">Відгуки</p>
+              <p class="link-menu-t2">Орендарів</p>
+            </div>
+            <div class="link-icon w-20"><i class="fa-solid fa-star-half-stroke"></i></div>
+          </button>
+
+          <div class="flex-column ranking-box w-100">
+            <button disabled *ngIf="!statusPermitCreate || !statusPermitStart || !statusPermitEnd"
+              class="link-menu bg-warning">
+              <div class="flex-column pl-4 w-80">
+                <p class="link-menu-t1">Оцінювання</p>
+                <p class="link-menu-t2">закрито</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-ranking-star"></i></div>
+            </button>
+
+            <button *ngIf="statusPermitCreate && statusPermitStart && statusPermitEnd" class="link-menu"
+              (click)="onClickMenu(2)" [disabled]="iResident !== 'true'" [ngClass]="{ 'active': indexPage === 2 }">
+              <div class="flex-column pl-4 w-80">
+                <p class="link-menu-t1">Залишити</p>
+                <p class="link-menu-t2">Відгук</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-ranking-star"></i></div>
+            </button>
+
+            <button *ngIf="!selectMyPage && timeToOpenRating > 0" class="link-menu" (click)="reportUser(ownerInfo)">
+              <div class="flex-column pl-4 w-80">
+                <p class="link-menu-t1">Відгук</p>
+                <p class="link-menu-t2">через {{timeToOpenRating}} дн.</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-regular fa-calendar"></i></div>
+            </button>
+
+            <div class="statusUserBox p-2" *ngIf="selectedSubAgree">
+
+              <div class="statusBox" *ngIf="selectedSubAgree.data">
+                <div class="statusValue">Дата створення угоди: <span class="bold"> {{selectedSubAgree.data | date:
+                    'dd-MM-yy'}}</span></div>
+                <div class="flex-box">
+                  <div *ngIf="statusPermitCreate"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+                  </div>
+                  <div *ngIf="!statusPermitCreate"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+                  </div>
+                  <div *ngIf="statusPermitCreateMsg" class="statusMsg pl-2">{{statusPermitCreateMsg}}</div>
+                </div>
+              </div>
+
+              <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeStart">
+                <div class="statusValue">Дія угоди з: <span class="bold">{{selectedSubAgree.dateAgreeStart | date:
+                    'dd-MM-yy'}}</span> </div>
+                <div class="flex-box">
+                  <div *ngIf="statusPermitStart"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+                  </div>
+                  <div *ngIf="!statusPermitStart"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+                  </div>
+                  <div *ngIf="statusPermitStartMsg" class="statusMsg pl-2">{{statusPermitStartMsg}}</div>
+                </div>
+              </div>
+
+              <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeEnd">
+                <div class="statusValue">Дія угоди до: <span class="bold">{{selectedSubAgree.dateAgreeEnd | date:
+                    'dd-MM-yy'}}</span> </div>
+                <div class="flex-box">
+                  <div *ngIf="statusPermitEnd"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+                  </div>
+                  <div *ngIf="!statusPermitEnd"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+                  </div>
+                  <div *ngIf="statusPermitEndMsg" class="statusMsg pl-2">{{statusPermitEndMsg}}</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </nav>
+
+        <div class="p-2" *ngIf="ownerInfo.about">
+          <div class="t-lar dark bold">Додаткова інформація:</div>
+          <div class="t-min ">{{ownerInfo.about}}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- оцінити -->
+  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile && indexPage === 1 || !isMobile && indexPage === 2 || indexPage === 2">
+    <div [@left1] class="card-animation t-c">
+      <div class="btn-close-container" *ngIf="isMobile">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="indexPage = 1"></button>
+        </div>
+      </div>
+      <div class="card-content">
+
+        <div class="img-wrapper2" *ngIf="isMobile">
+          <img class="img2" [src]="serverPathPhotoUser + (ownerInfo.img ? ownerInfo.img : 'user_default.svg')"
             alt="img">
-          <div class="panel-container">
-            <div class="caruesel-house w-100">
-              <div class="carousel w-100">
-                <div class="slide">
+        </div>
 
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold accent">Інформація</div>
-                      <div class="t-med accent">Власника</div>
-                    </div>
-                  </div>
+        <div class="flex-column bold t-c p-2 mt-3">
+          <div class="t-lar bold gray t-с">Оцінити <br> Орендодавця <i class="fa-solid fa-ranking-star pl-2 gray"></i>
+          </div>
+          <div class="t-lar-x bold t-с">{{ ownerInfo.lastName }} {{ ownerInfo.firstName }}</div>
+        </div>
 
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold">{{ ownerInfo.lastName }}</div>
-                      <div class="t-med gray">Прізвище</div>
-                    </div>
-                  </div>
+        <div class="flex-column p-2">
+          <div class="t-lar bold t-c"> Забезпечення Зручності та Довіри </div>
+          <div class="t-med"><span class="accent bold">"Рейтинг орендодавця"</span> Ця система допомагає створити довіру
+            з
+            самого початку до власника або застерегти орендарів
+            від можливих проблем. Вона дозволяє орендарям оцінювати орендодавців раз на
+            місяць. На коригування відгуку є 35 днів, після чого відгук більше змінити не можна.
+            <span class="accent bold">Оцінити орендодавця може лише орендарь з яким був сформований акт-прийому передачі
+              оселі.</span>
+          </div>
+        </div>
 
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold">{{ ownerInfo.firstName }}</div>
-                      <div class="t-med gray">Ім'я</div>
-                    </div>
-                  </div>
+        <div class="flex-column t-c p-2">
+          <mat-form-field class="w-100">
+            <mat-label>Дата відгуку</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
+              name="ratingDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold">{{ ownerInfo.surName }}</div>
-                      <div class="t-med gray">По бат.</div>
-                    </div>
-                  </div>
+          <mat-label class="t-med t-c accent bold">Ваша оцінка орендарю</mat-label>
+          <mat-radio-group class="radio-group w-100 p-2" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
 
-                  <button class="slide-item" (click)="copyId(ownerInfo.user_id)">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fa-solid fa-fingerprint"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">ID - {{ownerInfo.user_id}}</div>
-                    </div>
-                  </button>
-
-                  <button class="slide-item" (click)="indexCard = 2">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <div class="t-lar-xx bold">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Рейтинг</div>
-                    </div>
-                  </button>
-
-                  <button class="slide-item" (click)="copyMail(ownerInfo.mail)" *ngIf="ownerInfo.mail">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fa-solid fa-at"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Пошта</div>
-                    </div>
-                  </button>
-
-                  <button class="slide-item" (click)="copyTell(ownerInfo.tell)" *ngIf="ownerInfo.tell">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fa-solid fa-phone"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Номер</div>
-                    </div>
-                  </button>
-
-                  <a class="slide-item" href="https://www.instagram.com/{{  ownerInfo.instagram }}">
-                    <div mat-raised-button class="param-g flex-column" *ngIf="ownerInfo.instagram">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-instagram"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Insta.</div>
-                    </div>
-                  </a>
-
-                  <a class="slide-item" href="https://www.facebook.com//{{  ownerInfo.facebook }}">
-                    <div mat-raised-button class="param-g flex-column" *ngIf="ownerInfo.facebook">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-facebook"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">face.</div>
-                    </div>
-                  </a>
-
-                  <a class="slide-item" href="https://t.me/{{  ownerInfo.telegram }}">
-                    <div mat-raised-button class="param-g flex-column" *ngIf="ownerInfo.telegram">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-telegram"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">tele.</div>
-                    </div>
-                  </a>
-
-                  <button class="slide-item" (click)="copyViber(ownerInfo.viber)" *ngIf="ownerInfo.viber">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-viber"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Viber</div>
-                    </div>
-                  </button>
-
-                </div>
-                <div class="slide">
-
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold accent">Інформація</div>
-                      <div class="t-med accent">Власника</div>
-                    </div>
-                  </div>
-
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold">{{ ownerInfo.lastName }}</div>
-                      <div class="t-med gray">Прізвище</div>
-                    </div>
-                  </div>
-
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold">{{ ownerInfo.firstName }}</div>
-                      <div class="t-med gray">Ім'я</div>
-                    </div>
-                  </div>
-
-                  <div class="slide-item m-1">
-                    <div mat-raised-button class="flex-column">
-                      <div class="t-lar bold">{{ ownerInfo.surName }}</div>
-                      <div class="t-med gray">По бат.</div>
-                    </div>
-                  </div>
-
-                  <button class="slide-item" (click)="copyId(ownerInfo.user_id)">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fa-solid fa-fingerprint"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">ID - {{ownerInfo.user_id}}</div>
-                    </div>
-                  </button>
-
-                  <button class="slide-item" (click)="indexCard = 2">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <div class="t-lar-xx bold">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Рейтинг</div>
-                    </div>
-                  </button>
-
-                  <button class="slide-item" (click)="copyMail(ownerInfo.mail)" *ngIf="ownerInfo.mail">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fa-solid fa-at"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Пошта</div>
-                    </div>
-                  </button>
-
-                  <button class="slide-item" (click)="copyTell(ownerInfo.tell)" *ngIf="ownerInfo.tell">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fa-solid fa-phone"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Номер</div>
-                    </div>
-                  </button>
-
-                  <a class="slide-item" href="https://www.instagram.com/{{  ownerInfo.instagram }}">
-                    <div mat-raised-button class="param-g flex-column" *ngIf="ownerInfo.instagram">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-instagram"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Insta.</div>
-                    </div>
-                  </a>
-
-                  <a class="slide-item" href="https://www.facebook.com//{{  ownerInfo.facebook }}">
-                    <div mat-raised-button class="param-g flex-column" *ngIf="ownerInfo.facebook">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-facebook"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">face.</div>
-                    </div>
-                  </a>
-
-                  <a class="slide-item" href="https://t.me/{{  ownerInfo.telegram }}">
-                    <div mat-raised-button class="param-g flex-column" *ngIf="ownerInfo.telegram">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-telegram"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">tele.</div>
-                    </div>
-                  </a>
-
-                  <button class="slide-item" (click)="copyViber(ownerInfo.viber)" *ngIf="ownerInfo.viber">
-                    <div mat-raised-button class="param-g flex-column">
-                      <div class="btn-panel">
-                        <div class="panel-icon">
-                          <i class="fab fa-brands fa-viber"></i>
-                        </div>
-                      </div>
-                      <div class="t-min gray">Viber</div>
-                    </div>
-                  </button>
-
-                </div>
-              </div>
+            <div class="radio-btn">
+              <label class="radio-label">
+                <input type="radio" name="ratingValue" value="1" [(ngModel)]="rating.ratingValue" hidden>
+                <i class="fa-regular fa-face-angry abs" [ngClass]="{ 'active': rating.ratingValue === '1' }"></i>
+              </label>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="caruesel-content">
-        <div class="flex-box w-100 border-bottom ">
-          <div class="t-med t-s bold pl-2">Доступні функції</div>
-          <i class="fa-solid fa-left-right gray pl-2"></i>
-        </div>
-        <div class="caruesel-house">
-          <div class="caruesel-box">
-
-            <button class="caruesel-card active" *ngIf="!statusPermitCreate || !statusPermitStart || !statusPermitEnd">
-              <div class="caruesel-icon">
-                <i class="fa-solid fa-ranking-star"></i>
-              </div>
-              <div class="caruesel-name">Оцінювання<br>закрито</div>
-            </button>
-
-            <button class="caruesel-card" *ngIf="statusPermitCreate && statusPermitStart && statusPermitEnd"
-              (click)="indexCard = 2" [disabled]="!selectedSubAgree">
-              <div class="caruesel-icon">
-                <i class="fa-solid fa-ranking-star"></i>
-              </div>
-              <div class="caruesel-name">Оцінювання<br>доступне</div>
-            </button>
-
-            <button class="caruesel-card active" *ngIf="timeToOpenRating > 0">
-              <div class="caruesel-icon">
-                <i class="fa-regular fa-calendar"></i>
-                <div class="caruesel-icon-num">{{timeToOpenRating}}</div>
-              </div>
-              <div class="caruesel-name">Оцін. через<br> днів</div>
-            </button>
-
-            <button class="caruesel-card" (click)="createChat(ownerInfo)">
-              <div class="caruesel-icon">
-                <i class="fa-solid fa-message"></i>
-              </div>
-              <div class="caruesel-name">Створити <br> чат</div>
-            </button>
-
-            <button class="caruesel-card" (click)="reportUser(ownerInfo)" [disabled]="!selectedSubAgree">
-              <div class="caruesel-icon">
-                <i class="fa-solid fa-masks-theater"></i>
-              </div>
-              <div class="caruesel-name">Відправити <br> скаргу</div>
-            </button>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="statusUserBox m-2" *ngIf="selectedSubAgree">
-
-        <div class="statusBox" *ngIf="selectedSubAgree.data">
-          <div class="statusValue">Дата створення угоди: {{selectedSubAgree.data | date: 'dd-MM-yy'}}</div>
-          <div class="flex-box">
-            <div *ngIf="statusPermitCreate"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+            <div class="radio-btn">
+              <label class="radio-label">
+                <input type="radio" name="ratingValue" value="2" [(ngModel)]="rating.ratingValue" hidden>
+                <i class="fa-regular fa-face-frown abs" [ngClass]="{ 'active': rating.ratingValue === '2' }"></i>
+              </label>
             </div>
-            <div *ngIf="!statusPermitCreate"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+
+            <div class="radio-btn">
+              <label class="radio-label">
+                <input type="radio" name="ratingValue" value="3" [(ngModel)]="rating.ratingValue" hidden>
+                <i class="fa-regular fa-face-meh abs" [ngClass]="{ 'active': rating.ratingValue === '3' }"></i>
+              </label>
             </div>
-            <div *ngIf="statusPermitCreateMsg" class="statusMsg pl-2">{{statusPermitCreateMsg}}</div>
-          </div>
-        </div>
 
-        <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeStart">
-          <div class="statusValue">Дія угоди з: {{selectedSubAgree.dateAgreeStart | date: 'dd-MM-yy'}}</div>
-          <div class="flex-box">
-            <div *ngIf="statusPermitStart"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+            <div class="radio-btn">
+              <label class="radio-label">
+                <input type="radio" name="ratingValue" value="4" [(ngModel)]="rating.ratingValue" hidden>
+                <i class="fa-regular fa-face-grin abs" [ngClass]="{ 'active': rating.ratingValue === '4' }"></i>
+              </label>
             </div>
-            <div *ngIf="!statusPermitStart"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+
+            <div class="radio-btn">
+              <label class="radio-label">
+                <input type="radio" name="ratingValue" value="5" [(ngModel)]="rating.ratingValue" hidden>
+                <i class="fa-regular fa-face-smile-beam abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
+              </label>
             </div>
-            <div *ngIf="statusPermitStartMsg" class="statusMsg pl-2">{{statusPermitStartMsg}}</div>
-          </div>
+          </mat-radio-group>
         </div>
 
-        <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeEnd">
-          <div class="statusValue">Дія угоди по: {{selectedSubAgree.dateAgreeEnd | date: 'dd-MM-yy'}}</div>
-          <div class="flex-box">
-            <div *ngIf="statusPermitEnd"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-            </div>
-            <div *ngIf="!statusPermitEnd"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-            </div>
-            <div *ngIf="statusPermitEndMsg" class="statusMsg pl-2">{{statusPermitEndMsg}}</div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-  <!-- власник рейтинг -->
-  <div [@swichCard] class="card-animation" *ngIf="indexCard === 1">
-    <div class="card">
-
-      <div class="user-id-box mt-2 w-100">
-        <div class="flex-box t-lar-xx bold t-s">
-          <div>{{ ownerInfo.lastName }}</div>
-          <div class="pl-2">{{ ownerInfo.firstName }}</div>
-        </div>
-      </div>
-      <div class="t-min gray t-c p-2">
-        <div class="t-med accent bold">Рейтинг орендодавця</div>
-        <div class="t-min">Ця система допомагає створити довіру з самого початку до власника або застерегти орендарів
-          від можливих проблем. Вона дозволяє орендарям оцінювати орендодавців раз на
-          місяць. На коригування відгуку є 45 днів, після чого відгук більше змінити не можна.
-          Оцінити орендодавця може лише орендарь з яким був сформований акт-прийому передачі оселі.
-        </div>
-      </div>
-
-      <div class="flex-column t-c p-2">
-        <mat-form-field class="w-100">
-          <mat-label>Дата відгуку</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
-            name="ratingDate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <mat-label class="t-med accent bold t-c">Ваша оцінка орендодавцю</mat-label>
-        <mat-radio-group class="radio-group w-100" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
-          <div class="radio-btn">
-            <mat-radio-button color="warn" value="1">
-              <i class="fa-regular fa-face-angry abs" [ngClass]="{ 'active': rating.ratingValue === '1' }"></i>
-            </mat-radio-button>
-          </div>
-          <div class="radio-btn">
-            <mat-radio-button color="warn" value="2">
-              <i class="fa-regular fa-face-frown abs" [ngClass]="{ 'active': rating.ratingValue === '2' }"></i>
-            </mat-radio-button>
-          </div>
-          <div class="radio-btn">
-            <mat-radio-button color="warn" value="3">
-              <i class="fa-regular fa-face-meh abs" [ngClass]="{ 'active': rating.ratingValue === '3' }"></i>
-            </mat-radio-button>
-          </div>
-          <div class="radio-btn">
-            <mat-radio-button color="warn" value="4">
-              <i class="fa-regular fa-face-grin abs" [ngClass]="{ 'active': rating.ratingValue === '4' }"></i>
-            </mat-radio-button>
-          </div>
-          <div class="radio-btn">
-            <mat-radio-button color="warn" value="5">
-              <i class="fa-regular fa-face-smile-beam abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
-            </mat-radio-button>
-          </div>
-        </mat-radio-group>
-        <div class="d-flex jc-sb">
-          <div class="t-min gray">Дуже погано</div>
-          <div class="t-min gray">Дуже добре</div>
-        </div>
-        <mat-form-field class="form-field w-100">
-          <mat-label>Залишити відгук</mat-label>
+        <mat-label class="t-med t-c accent bold">Розширений відгук</mat-label>
+        <mat-form-field class="form-field w-100 p-2">
+          <mat-label>Відгук</mat-label>
           <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
-            placeholder="Опишіть що вплинуло на вашу оцінку"></textarea>
+            placeholder="Опишіть що вплинуло на вашу оцінку."></textarea>
         </mat-form-field>
-      </div>
 
-    </div>
-    <div class="btn-group p-1 w-100">
-      <button class="btn w-100" (click)="sendRatingOwner()">
-        <i class="fa-solid fa-check-double"></i>Відправити
-      </button>
+        <div class="btn-group p-1 w-100">
+          <button [disabled]="!rating.ratingDate || !rating.ratingValue" class="btn w-100" (click)="sendRating()">
+            <i class="fa-solid fa-check-double"></i>Відправити
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- власник відгуки -->
-  <div [@swichCard] class="card-animation p-2" *ngIf="indexCard === 2">
-    <div class="card p-2">
+  <!-- відгуки -->
+  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexPage === 3">
+    <div [@swichCard] class="card-animation p-2">
       <div class="btn-close-container">
         <div class="btn-close-box">
-          <button class="btn-close" (click)="indexCard = 1"></button>
+          <button class="btn-close" (click)="indexPage = 1"></button>
         </div>
       </div>
-
       <div class="user-id-box mt-2 w-100">
         <div class="flex-box t-lar-xx bold t-s">
           <div>{{ ownerInfo.lastName }}</div>
           <div class="pl-2">{{ ownerInfo.firstName }}</div>
         </div>
       </div>
-
-      <div class="t-lar-x bold accent mb-2">Відгуки орендарів</div>
-
-      <div *ngIf="reviewsOwner">
-        <div class="reviews-card" *ngFor="let review of reviewsOwner">
-          <div class="reviews-person">
+      <div class="t-lar bold gray t-c m-2">Відгуки орендарів</div>
+      <div class="reviews-card" *ngFor="let review of reviews">
+        <div class="reviews-group">
+          <div class="reviews-person w-70">
             <div class="reviews-person-img">
               <div *ngIf="review.reporter && review.reporter.img">
                 <img [src]="serverPathPhotoUser + review.reporter.img" alt="img">
@@ -480,40 +379,25 @@
                 <img src="../../../../assets/user_default.svg" alt="img">
               </div>
             </div>
+
             <div class="reviews-person-info">
-              <div class="flex-box" *ngIf="review.reporter">
-                <div class="t-min">{{review.reporter.lastName}}</div>
-                <div class="t-min pl-2">{{review.reporter.firstName}}</div>
-                <div class="t-min pl-2">{{review.reporter.surName}}</div>
-              </div>
-              <div class="t-min gray" *ngIf="!review.reporter">Аккаунт видалено</div>
-              <div class="t-min gray">ID відправника: <span class="accent">{{review.info.appraiser}}</span></div>
-              <div class="t-min gray">Дата відгуку: <span class="accent">{{review.info.data |date}}</span></div>
+              <p class="bold" *ngIf="review.reporter">{{review.reporter.lastName}}
+                {{review.reporter.firstName}} {{review.reporter.surName}}</p>
+              <p *ngIf="!review.reporter">Аккаунт видалено</p>
+              <p class="t-min gray">Дата відгуку: {{review.info.data |date}}</p>
             </div>
+
           </div>
-          <div class="reviews-mark-info">
-            <div class="review-mark" *ngIf="review.info.mark">{{review.info.mark}} <i class="fa-regular fa-star"></i>
-            </div>
-            <div class="t-min accent" *ngIf="review.info.about">"{{review.info.about}}"</div>
+          <div class="review-mark w-30" *ngIf="review.info.mark">
+            <p class="review-mark-number">{{review.info.mark}} </p>
+            <i class="fa-regular fa-star"></i>
           </div>
         </div>
+        <div class="t-med bold mt-2" *ngIf="review.info.about">"{{review.info.about}}"</div>
       </div>
-
-      <div *ngIf="!reviewsOwner">
+      <div *ngIf="!reviews">
         <div class="t-lar">Відгуків ще немає...</div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="copyMessage-box" *ngIf="isCopiedMessage">
-  <div class="copyMessage-text">{{isCopiedMessage}}</div>
-  <i class="fa-regular fa-copy"></i>
-  <div class="t-lar dark bold">Discussio</div>
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>

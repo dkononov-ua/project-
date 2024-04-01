@@ -1,4 +1,4 @@
-<div class="card-box">
+<div class="content-child">
   <div class="info-container" *ngIf="helpMenu">
     <div class="info-help-box t-c">
       <i class="fa-solid fa-info"></i>
@@ -64,13 +64,11 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="flex-column">
 
-    <div class="user-id-box mt-2 w-100">
-      <div class="flex-box t-lar-xx bold t-s">
-        <div>{{ selectedSubscriber.lastName }}</div>
-        <div class="pl-2">{{ selectedSubscriber.firstName }}</div>
-      </div>
+    <div class="flex-column bold t-c p-2 mt-3">
+      <div class="t-lar bold gray t-с">Налаштування дозволів <br> мешканця <i class="fa-solid fa-unlock-keyhole gray"></i></div>
+      <div class="t-lar-x bold t-с">{{ selectedSubscriber.lastName }} {{ selectedSubscriber.firstName }}</div>
     </div>
     <div class="t-min gray t-c p-2">
       Дозволи може надавати власник або адміністратор, деталі описані поряд з дозволом.

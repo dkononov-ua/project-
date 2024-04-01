@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.component';
 import { Router } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
-
+import { animations } from '../../../../interface/animation';
 interface Subscriber {
   user_id: string;
   firstName: string;
@@ -21,7 +21,16 @@ interface Subscriber {
 @Component({
   selector: 'app-house-residents',
   templateUrl: './house-residents.component.html',
-  styleUrls: ['./house-residents.component.scss']
+  styleUrls: ['./house-residents.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+  ],
 })
 export class HouseResidentsComponent implements OnInit {
   serverPath = serverPath;
@@ -48,16 +57,16 @@ export class HouseResidentsComponent implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit(): void {
-    this.getSelectedFlat();
+  async ngOnInit(): Promise<any> {
+    await this.getSelectedFlat();
   }
 
-  getSelectedFlat() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
+  async getSelectedFlat() {
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       if (this.selectedFlatId) {
         const offs = 0;
-        this.getSubscribers(this.selectedFlatId, offs);
+        await this.getSubscribers(this.selectedFlatId, offs);
       }
     });
 
@@ -70,6 +79,7 @@ export class HouseResidentsComponent implements OnInit {
     this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
     this.selectedSubscriber = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
+    this.router.navigate(['/house/residents/resident']);
   }
 
   async getSubscribers(selectedFlatId: string, offs: number): Promise<void> {

@@ -1,0 +1,59 @@
+<div class="content-child">
+  <div [@top1] class="card-wrapper col-lg-8 col-md-8 col-sm-12 col-12">
+    <div class="card-content-static p-2">
+
+      <div class="flex-column bold t-c p-2 mt-3">
+        <div class="t-lar bold gray t-с">Додати мешканця по ID <i class="fa-solid fa-person-circle-plus pl-2 gray"></i>
+        </div>
+      </div>
+
+      <div class="box-search">
+        <div class="item">
+          <mat-form-field class="search-id" appearance="outline">
+            <mat-label>Додати по UserID</mat-label>
+            <input matInput type="text" [(ngModel)]="searchQuery" placeholder="UserID" />
+          </mat-form-field>
+        </div>
+        <div *ngIf="acces_added !== 1" class="t-min bold accent t-c">У вас немає доступу на додавання мешкнців</div>
+
+      </div>
+
+      <div class="btn-group mt-2">
+        <button class="btn btn-navigation" (click)="onSubmit()" [disabled]="!isValidSearchQuery() || acces_added !== 1">
+          <div class="t-med bold mr-2">Додати</div>
+          <i class="fa-solid fa-user-plus"></i>
+        </button>
+      </div>
+
+      <div class="flex-column bold t-c p-2">
+        <div class="t-med bold gray t-с">В цьому полі можна додавати до оселі мешканців напряму без створення угоду. Це
+          потрібно для того аби ви додавали членів своєї родини або довірених осіб для керування або перегляду
+          інформації
+          по
+          оселі.
+        </div>
+        <div class="t-min bold gray t-с">Важливо. Для додавання в оселю по ID треба щоб у користувача був ввімкнений
+          дозвіл
+          на це в меню налаштування користувача
+        </div>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button class="btn btn-navigation" [routerLink]="'/information-user'" [queryParams]="{ indexPage: 2 }">
+          <div class="t-med bold mr-2">Надати дозвіл тут</div>
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+
+      <div class="total-card" *ngIf="subscribers">
+        <p class="count">Знайдено {{ subscribers.length }}</p>
+      </div>
+
+      <div *ngIf="statusMessage" class="status-message">
+        <div class="status-message-text">{{ statusMessage }}</div>
+        <img class="status-message-logo" src="{{path_logo}}" alt="logo">
+        <div class="status-message-name">Discussio</div>
+      </div>
+    </div>
+  </div>
+</div>

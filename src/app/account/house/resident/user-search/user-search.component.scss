@@ -1,4 +1,10 @@
-@use "../../style/presets/" as *;
+@use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
+@use "../../../../style/shared.scss";
+
+.content-child {
+  justify-content: flex-start;
+}
 
 .box-search {
   width: 100%;

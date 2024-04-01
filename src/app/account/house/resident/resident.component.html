@@ -1,109 +1,98 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
+<div class="content-component">
 
-<ng-template #content>
+  <div class="switch-container">
 
-  <div class="switch-content">
-    <div class="t-lar-xx bold dark t-s pl-2">
-      <div [@left] *ngIf="indexPage === 0">Меню мешканці оселі</div>
-      <div [@left] *ngIf="indexPage === 1">Додати мешканця</div>
+    <div class="switch-btn-group">
+      <button class="btn" [routerLink]="'/house/house-info'">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
     </div>
-    <div [@left1] class="switch-box">
 
-      <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">
-          <i class="fa-solid fa-arrow-left"></i>
-          <div class="t-min dark bold">Назад</div>
-        </button>
-      </div>
-
-      <div class="switch-btn-group">
-        <button class="btn" [ngClass]="{'active': indexPage === 0}" (click)="indexPage = 0">
-          <i class="fa-solid fa-circle-info"></i>
-          <div class="t-min dark bold">Інфо</div>
-        </button>
-      </div>
-
-      <div class="switch-btn-group" *ngIf="iResident === 'true'">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/owner'">
-          <i class="fa-solid fa-id-card-clip"></i>
-          <div class="t-min dark bold">Власник.</div>
-        </button>
-      </div>
-
-      <div class="switch-btn-group" >
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/resident-page'">
-          <i class="fa-solid fa-people-roof"></i>
-          <div class="t-min dark bold">Мешканці</div>
-        </button>
-      </div>
-
-      <div class="switch-btn-group" *ngIf="iResident === 'false'">
-        <button class="btn" [ngClass]="{'active': indexPage === 3}" (click)="indexPage = 1">
-          <i class="fa-solid fa-user-plus"></i>
-          <div class="t-min dark bold">Додати</div>
-        </button>
-      </div>
-
+    <div class="menu-box hide-mobile">
+      <div class="menu-lable">Меню</div>
+      <div class="menu-name">Мешканці Оселі</div>
     </div>
-  </div>
 
-  <div class="card-box">
-    <!-- меню мешканці -->
-    <div [@left2] class="card-box2" *ngIf="indexPage === 0">
-      <div class="card-menu">
-        <div class="param-box p-2">
-
-          <div class="param-name">
-            <div class="t-med t-c">В цьому меню знаходяться мешканці оселі яким можна надавати різні доступи,
-              з'являється можливіть оцінювати та залишати відгуки на орендарів та власника. Доступ до швидкого
-              копіювання
-              контактних даних, створення чату або перестворення угоди.</div>
-            <div class="t-min t-c gray"></div>
-          </div>
-
-          <div class="flex-group border1 ">
-            <button class="link-t flex-box-row" [routerLinkActive]="'active'" [routerLink]="'/house/agree-menu'"
-              [disabled]="iResident === 'true'">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Додати мешканців з меню угод</span>
-            </button>
-            <div class="t-min t-c">Мешканців можна додати після підтвердження ними угоди оренди та створення акту
-              передачі</div>
-          </div>
-
-          <div class="flex-group border1 mt-2">
-            <button class="link-t flex-box-row" (click)="indexPage = 3" [disabled]="iResident === 'true'">
-              <i class="fa-solid fa-arrow-right"></i><span class="ml-2">Додати мешканців без угод</span>
-            </button>
-            <div class="t-min t-c">Мешканців можна додати напряму по їх ID, в такому випадку оцінювати одне одного
-              ви не зможете</div>
-          </div>
-
-          <div class="feedback-box p-2">
-            <button class="feedback-box-btn p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
-              <div class="t-med bold mr-2 white">Запропонувати зміни</div>
-              <i class="fa-solid fa-arrow-right white"></i>
-            </button>
-          </div>
-
-        </div>
-
-        <div class="img-wrapper">
-          <img class="img" src="../../../../assets/example-agree/people_yard3.jpg" alt="">
-        </div>
-      </div>
+    <div class="switch-btn-group" *ngIf="isMobile">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/menu'">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="t-min dark bold">Інфо</div>
+      </button>
     </div>
-    <!-- додавання мешканців -->
-    <div [@left2] class="card-box2 p-2" *ngIf="indexPage === 1">
-      <app-user-search></app-user-search>
+
+    <div class="switch-btn-group" *ngIf="iResident === 'true'">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'">
+        <i class="fa-solid fa-id-card-clip"></i>
+        <div class="t-min dark bold">Власник.</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/all-residents'">
+        <i class="fa-solid fa-people-roof"></i>
+        <div class="t-min dark bold">Мешканці</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!iPickUser" class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'">
+        <i class="fa-solid fa-person"></i>
+        <div class="t-min dark bold">Мешканець</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'">
+        <i class="fa-solid fa-user-plus"></i>
+        <div class="t-min dark bold">Додати</div>
+      </button>
     </div>
   </div>
 
-</ng-template>
+  <div class="main-container">
 
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+      <div class="card-wrapper">
+        <div [@right1] class="card-content-static w-100">
+          <div class="card-group">
+            <div class="flex-box-center t-c p-2 mt-2 w-100">
+              <i class="fa-solid fa-people-roof"></i>
+              <p class="t-lar-xx bold mb-2 t-c">Мешканці Оселі</p>
+              <p class="t-min bold mb-2">Користувачі які мають доступ до оселі. </p>
+            </div>
+
+            <ul class="t-med mt-2 t-s">
+              <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
+              <li class="mt-2">Перегляд контактної інформації.</li>
+              <li>Перегляд рейтингу та відгуків.</li>
+              <li>Можливість залишити відгук та оцінку.</li>
+              <li>Створення чату.</li>
+              <li>Створення шаблону угоди.</li>
+              <li>Перегляд інформації по угоді.</li>
+              <li>Надання доступів.</li>
+              <li>Додавання мешканців по ID.</li>
+            </ul>
+
+            <div class="btn-group mt-2">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
+                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+                <i class="fa-regular fa-lightbulb"></i>
+              </button>
+            </div>
+
+          </div>
+          <!-- <div class="card-background">
+            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
 </div>

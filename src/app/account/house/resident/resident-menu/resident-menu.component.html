@@ -1,0 +1,38 @@
+<!-- про меню -->
+<div class="content-child">
+  <div [@top1] class="card-wrapper col-12">
+    <div class="card-content-static">
+      <div class="card-group w-100">
+
+        <div class="flex-box-center t-c p-2 mt-2 w-100">
+          <i class="fa-solid fa-people-roof"></i>
+          <p class="t-lar-x bold">Меню Мешканці Оселі</p>
+          <p class="link-menu-t2">Користувачі які мають доступ до оселі.</p>
+        </div>
+
+        <ul class="t-med mt-2 t-s">
+          <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
+          <li>Перегляд контактної інформації.</li>
+          <li>Перегляд рейтингу та відгуків.</li>
+          <li>Можливість залишити відгук та оцінку.</li>
+          <li>Створення чату.</li>
+          <li>Створення шаблону угоди.</li>
+          <li>Перегляд інформації по угоді.</li>
+          <li>Надання доступів.</li>
+          <li>Додавання мешканців по ID.</li>
+        </ul>
+
+        <div class="btn-group mt-2">
+          <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
+            <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+            <i class="fa-regular fa-lightbulb"></i>
+          </button>
+        </div>
+
+      </div>
+      <div class="card-background">
+        <img class="img" src="../../../../../assets/example-agree/man_and_agree1.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</div>

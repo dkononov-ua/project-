@@ -2,14 +2,21 @@
 @use "../../../../style/mixins/" as *;
 @use "../../../../style/shared.scss";
 
-.card-box {
-  display: flex;
-  flex-direction: column;
-  height: 85vh;
+.content-child {
+  height: calc(100vh - 100px - 1rem);
+  @include s3-s6-max {
+    height: calc(100vh - 100px - 1rem - 20px);
+  }
+  flex-wrap: nowrap !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.card {
-  justify-content: flex-start;
+.checkbox-name {
+  font-family: $font-main !important;
 }
 
 .checkbox-group {

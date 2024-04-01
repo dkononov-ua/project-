@@ -14,6 +14,10 @@ import { AgreeConcludedComponent } from './agree-h/agree-concluded/agree-conclud
 import { AgreeReviewComponent } from './agree-h/agree-review/agree-review.component';
 import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
 import { MainInfoComponent } from './house-info/main-info/main-info.component';
+import { ResidentOwnerComponent } from './resident/resident-owner/resident-owner.component';
+import { ResidentMenuComponent } from './resident/resident-menu/resident-menu.component';
+import { ResidentPageComponent } from './resident/resident-page/resident-page.component';
+import { UserSearchComponent } from 'src/app/account/house/resident/user-search/user-search.component';
 
 const routes: Routes = [
   {
@@ -25,7 +29,17 @@ const routes: Routes = [
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
     ],
   },
-  { path: 'residents', component: ResidentComponent, canActivate: [CanActivateGuard] },
+  {
+    path: 'residents', component: ResidentComponent, canActivate: [CanActivateGuard],
+    children: [
+      { path: '', redirectTo: 'all-residents', pathMatch: 'full' },
+      { path: 'all-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
+      { path: 'resident', component: ResidentPageComponent, canActivate: [CanActivateGuard] },
+      { path: 'owner', component: ResidentOwnerComponent, canActivate: [CanActivateGuard] },
+      { path: 'menu', component: ResidentMenuComponent, canActivate: [CanActivateGuard] },
+      { path: 'add', component: UserSearchComponent, canActivate: [CanActivateGuard] },
+    ],
+  },
   {
     path: 'house-control', component: HouseControlComponent, canActivate: [CanActivateGuard],
     children: [

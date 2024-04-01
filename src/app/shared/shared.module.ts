@@ -12,7 +12,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UserSearchComponent } from '../components/user-search/user-search.component';
 import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
@@ -46,7 +45,6 @@ import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
   declarations: [
     NavbarComponent,
     FooterComponent,
-    UserSearchComponent,
     LoaderComponent,
     NavbarUserComponent,
     NavbarHouseComponent,
@@ -68,7 +66,6 @@ import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
   exports: [
     NavbarComponent,
     FooterComponent,
-    UserSearchComponent,
     LoaderComponent,
     NavbarUserComponent,
     NavbarHouseComponent,
