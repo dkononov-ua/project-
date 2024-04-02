@@ -519,6 +519,7 @@
       @include flex-box-center;
       height: inherit;
       animation: slideshow 15s linear infinite;
+      flex: 1;
       .slide-item {
         @include flex-box-center;
         transition: 0.2s;
@@ -621,7 +622,7 @@
 
 // кнопка навігації
 .btn-navigation {
-  background-color: rgba(128, 128, 128, 0.317) !important;
+  background-color: $color-light !important;
 }
 
 // кнопка закриття

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animations } from '../../../../interface/animation';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-resident-menu',
@@ -21,16 +20,17 @@ import { map } from 'rxjs/operators';
 export class ResidentMenuComponent implements OnInit {
   isMobile = false;
 
-  constructor(private breakpointObserver: BreakpointObserver,
-  ) { }
+  constructor(
+    private sharedService: SharedService
+     ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   ngOnInit() {
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
+
   }
 
 }

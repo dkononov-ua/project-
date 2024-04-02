@@ -9,7 +9,7 @@
         <div class="card-mini" [class.selected]="selectedComun === comunal.comunal_name">
 
           <div class="card-mini-body  p-2">
-            <button [disabled]="selectedName" class="item-box t-s" (click)="goToHistory(comunal.comunal_name)">
+            <button class="item-box t-s" (click)="goToHistory(comunal.comunal_name)">
               <div class="t-med bold" *ngIf="selectedComun === comunal.comunal_name">Обрана послуга</div>
               <div class="t-lar-xx bold">{{ comunal.comunal_name}}</div>
               <div class="t-med bold" *ngIf="comunal.comunal_company">{{ comunal.comunal_company}} </div>

@@ -12,8 +12,6 @@ import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.co
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -157,20 +155,16 @@ export class ResidentOwnerComponent implements OnInit {
     private sharedService: SharedService,
     private dialog: MatDialog,
     private location: Location,
-    private breakpointObserver: BreakpointObserver,
-
   ) {
     this.setMinMaxDate(35);
     this.rating.ratingDate = this.formatDate(new Date());
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
   }
 
   async ngOnInit(): Promise<void> {
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
     this.getOwnerPage();
   }
 

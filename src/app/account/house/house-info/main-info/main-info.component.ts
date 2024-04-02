@@ -8,6 +8,8 @@ import { CounterService } from 'src/app/services/counter.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { animations } from '../../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
+import { SharedService } from 'src/app/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-info',
@@ -32,7 +34,7 @@ export class MainInfoComponent implements OnInit {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-  
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -79,17 +81,42 @@ export class MainInfoComponent implements OnInit {
   selectedSubAgree: any;
   timeToOpenRating: number = 0;
   numConcludedAgree: any;
+  isMobile: boolean = false;
+
   constructor(
     private http: HttpClient,
     private counterService: CounterService,
     private selectedFlatService: SelectedFlatService,
-  ) { }
+    private sharedService: SharedService,
+    private router: Router,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.getSelectParam();
     this.cardParam();
     await this.getHouseAcces();
     await this.getConcludedAgree();
+  }
+
+  goToEdit() {
+    if (this.isMobile) {
+      this.router.navigate(['/edit-house/instruction']);
+    } else {
+      this.router.navigate(['/edit-house/address']);
+    }
+  }
+
+  goToComun() {
+    if (this.isMobile) {
+      this.router.navigate(['/communal/about']);
+    } else {
+      this.router.navigate(['/communal/history']);
+    }
   }
 
   // відправляю event початок свайпу

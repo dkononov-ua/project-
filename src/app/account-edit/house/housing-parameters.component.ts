@@ -3,6 +3,9 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+import { SharedService } from 'src/app/services/shared.service';
+
 @Component({
   selector: 'app-housing-parameters',
   templateUrl: './housing-parameters.component.html',
@@ -44,19 +47,44 @@ export class HousingParametersComponent implements OnInit {
   acces_services: number = 1;
   acces_subs: number = 1;
   startX = 0;
+  isMobile = false;
 
   constructor(
     private selectedFlatService: SelectedFlatService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+    private dataService: DataService,
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
+    if (this.isMobile) {
+      this.router.navigate(['/edit-house/instruction']);
+    }
     this.getSelectParam();
+    this.updateFlatInfo();
+  }
+
+  updateFlatInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          localStorage.setItem('houseData', JSON.stringify(response));
+        } else {
+          console.log('Немає оселі')
+        }
+      });
+    }
   }
 
   // відправляю event початок свайпу

@@ -260,6 +260,10 @@ export class InformationUserComponent implements OnInit {
         .subscribe((response: any) => {
           // console.log(response)
           this.userImg = response.img[0].img;
+          console.log(this.userImg)
+          if (!this.userImg || this.userImg === 'user_default.svg') {
+            this.isLoadingImg = false
+          }
           this.userInfo = response.inf;
           this.userCont = response.cont;
           this.userParam = response.parametrs;
@@ -488,7 +492,7 @@ export class InformationUserComponent implements OnInit {
           setTimeout(() => {
             this.statusMessage = '';
             this.loading = false;
-            this.router.navigate(['/registration']);
+            this.router.navigate(['/home/registration']);
           }, 2000);
         } else {
           this.statusMessage = 'Помилка видалення';

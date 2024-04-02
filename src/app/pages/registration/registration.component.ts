@@ -183,6 +183,13 @@ export class RegistrationComponent implements OnInit {
     this.http.post(serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
         if (response.status) {
+          localStorage.removeItem('selectedComun');
+          localStorage.removeItem('selectedFlatId');
+          localStorage.removeItem('selectedFlatName');
+          localStorage.removeItem('selectedHouse');
+          localStorage.removeItem('houseData');
+          localStorage.removeItem('userData');
+          localStorage.removeItem('user');
           setTimeout(() => {
             this.statusMessage = 'З поверненням!';
             localStorage.setItem('user', JSON.stringify(response));
@@ -280,11 +287,21 @@ export class RegistrationComponent implements OnInit {
                 location.reload();
               }, 1000);
             } else {
+              localStorage.removeItem('selectedComun');
+              localStorage.removeItem('selectedFlatId');
+              localStorage.removeItem('selectedFlatName');
+              localStorage.removeItem('selectedHouse');
+              localStorage.removeItem('houseData');
+              localStorage.removeItem('userData');
+              localStorage.removeItem('user');
               this.statusMessage = 'Вітаємо в Discussio!';
-              localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
-                this.router.navigate(['/about-project']);
-              }, 2000);
+                this.statusMessage = 'Переходимо до налаштування профілю!';
+                localStorage.setItem('user', JSON.stringify(response));
+                setTimeout(() => {
+                  this.router.navigate(['/information-user']);
+                }, 2000);
+              }, 1000);
             }
           },
           (error: any) => {

@@ -11,23 +11,19 @@
           <div class="card-mini mb-2" *ngFor="let flat of allFlats"
             [ngClass]="{ 'selected': chooseFlatID === flat.flat_id }">
 
-            <div class="card-mini-body p-2" *ngIf="chooseFlatID === flat.flat_id">
-              <div class="flex-column w-60 p-2">
+            <div class="card-mini-body p-2">
+              <button class="btn-pick" (click)="selectFlat(flat)">
                 <div class="t-med  bold t-s white" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
                 <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
                 <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
-              </div>
-              <button class="btn btn-pick w-40 bg-accent" *ngIf="chooseFlatID === flat.flat_id"
-                [routerLink]="'/house/house-info'">Перейти до оселі <br>
-                <i class="fa-solid fa-unlock-keyhole"></i></button>
-            </div>
+              </button>
 
-            <div class="card-mini-body p-2" (click)="selectFlat(flat)"  *ngIf="chooseFlatID !== flat.flat_id">
-              <div class="flex-column p-2">
-                <div class="t-med  bold t-s white" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
-                <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
-                <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
+              <div class="btn-group-comun w-20">
+                <button class="btn-delete flex-box" (click)="deleteHouse(flat)">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
               </div>
+
             </div>
 
             <ng-container *ngIf="flat.flat_img && isLoadingImg">
@@ -81,18 +77,7 @@
               </div>
             </div>
 
-            <div class="card-mini-body p-2" *ngIf="chooseFlatID === flat.flat_id">
-              <div class="flex-column w-60 p-2">
-                <div class="t-med  bold t-s white" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
-                <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
-                <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
-              </div>
-              <button class="btn btn-pick w-40 bg-accent" *ngIf="chooseFlatID === flat.flat_id"
-                [routerLink]="'/house/house-info'">Перейти до оселі <br>
-                <i class="fa-solid fa-unlock-keyhole"></i></button>
-            </div>
-
-            <div class="card-mini-body p-2" (click)="selectFlat(flat)"  *ngIf="chooseFlatID !== flat.flat_id">
+            <div class="card-mini-body p-2" (click)="selectFlat(flat)">
               <div class="flex-column p-2">
                 <div class="t-med  bold t-s white" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
                 <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>

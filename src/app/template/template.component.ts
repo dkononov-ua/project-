@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-template',
@@ -8,15 +9,25 @@ import { Location } from '@angular/common';
 })
 export class TemplateComponent implements OnInit {
   indexPage: number = 1;
+  isMobile: boolean = false;
 
   goBack(): void {
     this.location.back();
   }
+
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-  constructor(private location: Location,
-  ) { }
+
+  constructor(
+    private location: Location,
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   ngOnInit() {
   }

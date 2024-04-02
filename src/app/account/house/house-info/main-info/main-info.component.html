@@ -272,7 +272,7 @@
       <div class="link-icon w-20"><i class="fa-solid fa-magnifying-glass"></i></div>
     </a>
 
-    <a class="link-menu" [routerLink]="'/edit-house'"
+    <a class="link-menu" (click)="goToEdit()"
       *ngIf="acces_flat_features === 1 && acces_admin === 1 && acces_added === 1">
       <div class="flex-column w-80">
         <p class="link-menu-t1">Профіль Оселі</p>
@@ -313,7 +313,7 @@
       <div class="link-icon w-20"><i class="fa-solid fa-boxes-packing"></i></div>
     </a>
 
-    <a class="link-menu" [routerLink]="'/communal'"
+    <a class="link-menu" (click)="goToComun()"
       *ngIf="authorization && selectedFlatId && acces_comunal_indexes === 1">
       <div class="flex-column w-80">
         <p class="link-menu-t2">Статистика</p>

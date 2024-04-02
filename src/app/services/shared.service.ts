@@ -6,6 +6,8 @@ import { serverPath } from 'src/app/config/server-config';
 import { SelectedFlatService } from './selected-flat.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +19,34 @@ export class SharedService {
   private reportResultSubject = new Subject<any>();
   private checkOwnerPageSubject = new BehaviorSubject<string>('');
   public checkOwnerPage$ = this.checkOwnerPageSubject.asObservable();
+
+  private checkIsMobileSubject = new BehaviorSubject<boolean>(false);
+  public isMobile$ = this.checkIsMobileSubject.asObservable();
   loading: boolean | undefined;
+
 
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private location: Location,
+    private breakpointObserver: BreakpointObserver,
+
   ) {
     const storedCheckOwner = localStorage.getItem('checkOwnerPage');
     if (storedCheckOwner) {
       this.checkOwnerPageSubject.next(storedCheckOwner);
     }
-   }
+    this.checkIsMobile();
+  }
+
+  checkIsMobile() {
+    this.breakpointObserver.observe([
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.checkIsMobileSubject.next(result.matches);
+    });
+  }
 
   getSelectedFlatId() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
@@ -80,7 +97,6 @@ export class SharedService {
 
   // скарга на користувача
   async reportUser(user: any): Promise<void> {
-    console.log(user)
     const userJson = localStorage.getItem('user');
     const url = serverPath + '/reports/user';
     const dialogRef = this.dialog.open(ReportsComponent, {
@@ -115,9 +131,7 @@ export class SharedService {
   }
 
   setStatusMessage(message: string): void {
-    console.log(message)
     this.statusMessageSubject.next(message);
-    console.log(message)
   }
 
   reloadPage() {

@@ -6,6 +6,9 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { animations } from '../../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
+import { DeleteHouseComponent } from '../delete-house/delete-house.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-selection-housing',
@@ -26,6 +29,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class SelectionHousingComponent implements OnInit {
+
+  goToSettingHouse(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
+  goToHouse(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
+
   allFlats: any;
   allFlatsTenant: any;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -57,6 +68,8 @@ export class SelectionHousingComponent implements OnInit {
     private dataService: DataService,
     private route: ActivatedRoute,
     private router: Router,
+    private sharedService: SharedService,
+    private dialog: MatDialog,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -73,6 +86,7 @@ export class SelectionHousingComponent implements OnInit {
       }
     } else {
       this.indexPage = 0;
+      this.router.navigate(['/house/house-control/add-house']);
     }
   }
 
@@ -176,8 +190,14 @@ export class SelectionHousingComponent implements OnInit {
 
   // обираємо іншу оселю
   selectFlat(flat: any): void {
+    console.log(flat)
     const userJson = localStorage.getItem('user');
     if (userJson && flat) {
+      localStorage.removeItem('selectedComun');
+      localStorage.removeItem('selectedHouse');
+      localStorage.removeItem('selectedFlatId');
+      localStorage.removeItem('selectedFlatName');
+      localStorage.removeItem('houseData');
       this.loading = true;
       this.statusMessage = 'Обираємо ' + flat.flat_name;
       setTimeout(() => {
@@ -195,7 +215,7 @@ export class SelectionHousingComponent implements OnInit {
               this.houseData = localStorage.getItem('houseData');
               if (this.houseData) {
                 setTimeout(() => {
-                  location.reload();
+                  this.router.navigate(['/house/house-info']);
                 }, 1500);
               }
             }, 1500);
@@ -209,4 +229,48 @@ export class SelectionHousingComponent implements OnInit {
     }
     this.chooseFlatID = flat.flat_id;
   }
+
+  async deleteHouse(flat: any): Promise<void> {
+    console.log(flat)
+
+    const dialogRef = this.dialog.open(DeleteHouseComponent, {
+      data: { flat_name: flat.flat_name, }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result) {
+        const userJson = localStorage.getItem('user');
+        if (flat.flat_id && userJson) {
+          this.http
+            .post(serverPath + '/flatinfo/deleteflat', {
+              auth: JSON.parse(userJson),
+              flat_id: flat.flat_id,
+            })
+            .subscribe(
+              (response: any) => {
+                localStorage.removeItem('selectedComun');
+                localStorage.removeItem('selectedHouse');
+                localStorage.removeItem('selectedFlatId');
+                localStorage.removeItem('selectedFlatName');
+                localStorage.removeItem('houseData');
+                this.statusMessage = 'Оселя видалена';
+                this.sharedService.setStatusMessage('Оселя видалена');
+                setTimeout(() => {
+                  this.statusMessage = '';
+                  this.reloadPageWithLoader()
+                }, 1500);
+              },
+              (error: any) => {
+                console.error(error);
+              }
+            );
+        } else {
+          console.log('house not found');
+          this.reloadPageWithLoader()
+        }
+      }
+    });
+  }
+
+
 }

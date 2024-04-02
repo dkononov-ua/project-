@@ -568,7 +568,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (this.selectedView) {
       this.statusMessage = 'Переходимо до статистики оселі';
       setTimeout(() => {
-        this.router.navigate(['/housing-services/host-comun/comun-stat-month'], { queryParams: { indexPage: 0 } });
+        this.router.navigate(['/communal'], { queryParams: { indexPage: 0 } });
       }, 2000);
     }
   }

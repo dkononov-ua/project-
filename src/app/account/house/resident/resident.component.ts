@@ -6,8 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 
 @Component({
@@ -59,18 +57,16 @@ export class ResidentComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private sharedService: SharedService,
-    private breakpointObserver: BreakpointObserver,
     private choseSubscribersService: ChoseSubscribersService,
 
-  ) { }
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
     this.getSelectedFlat();
   }
 

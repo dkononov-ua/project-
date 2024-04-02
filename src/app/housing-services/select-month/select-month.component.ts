@@ -31,7 +31,7 @@ export class SelectMonthComponent implements OnInit {
 
   ngOnInit(): void {
     const storedMonth = localStorage.getItem('selectedMonth');
-    if (storedMonth === 'undefined') {
+    if (storedMonth === 'undefined' || !storedMonth) {
       this.getMonthCurrent();
     } else {
       this.selectedMonth = storedMonth;

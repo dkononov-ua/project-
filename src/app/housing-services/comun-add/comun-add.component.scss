@@ -70,15 +70,15 @@
       object-fit: cover;
     }
   }
-}
-.card-mini.selected {
-  transition: 1s;
-  color: $color-white;
-  font-weight: 600;
-  .card-mini-body {
-    background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, $color-accent 100%) !important;
-    .item-box {
-      color: $color-white;
+  &.selected {
+    transition: 1s;
+    color: $color-white;
+    font-weight: 600;
+    .card-mini-body {
+      background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, $color-accent 100%) !important;
+      .item-box {
+        color: $color-white;
+      }
     }
   }
 }

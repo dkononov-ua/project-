@@ -6,6 +6,8 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { animations } from '../../../interface/animation';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-house',
@@ -38,14 +40,24 @@ export class AddHouseComponent implements OnInit {
   selectedFlatId!: string | null;
   statusMessage: string | undefined;
 
+
+  isMobile = false;
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private breakpointObserver: BreakpointObserver,
   ) { }
 
   ngOnInit(): void {
+    // перевірка який пристрій
+    this.breakpointObserver.observe([
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isMobile = result.matches;
+    });
     this.getSelectParam();
   }
 
@@ -111,7 +123,11 @@ export class AddHouseComponent implements OnInit {
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
               this.statusMessage = '';
-              this.router.navigate(['/housing-parameters/']);
+              if (this.isMobile){
+                this.router.navigate(['/edit-house/instruction']);
+              } else {
+                this.router.navigate(['/edit-house/address']);
+              }
             }, 2500);
           }
         }

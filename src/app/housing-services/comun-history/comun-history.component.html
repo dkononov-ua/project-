@@ -1,4 +1,3 @@
-
 <div [@top1] class="card-wrapper">
   <div class="info-container" *ngIf="helpInfo">
     <div class="info-help-box">
@@ -127,7 +126,6 @@
       <button class="btn-2 center" (click)="onSwiped('left')">
         <i class="fa-solid fa-chevron-right"></i>
       </button>
-      <app-select-month hidden></app-select-month>
     </div>
 
     <div class="wrapper-comun" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
@@ -155,25 +153,33 @@
 
         </div>
 
-        <mat-radio-group class="flex-box w-100 mb-2" [(ngModel)]="flatInfo.option_sendData">
-          <div class="flex-column">
-            <mat-radio-button color="warn" [value]="1"></mat-radio-button>
-            <div class="t-min">Лічильник</div>
-          </div>
-          <div class="flex-column">
-            <mat-radio-button color="warn" [value]="2"></mat-radio-button>
-            <div class="t-min">Площа</div>
-          </div>
-          <div class="flex-column">
-            <mat-radio-button color="warn" [value]="3"></mat-radio-button>
-            <div class="t-min">Вартість</div>
-          </div>
-          <div class="flex-column" *ngIf="flatInfo.calc_howmuch_pay && flatInfo.tariff">
-            <button class="btn-calc btn" (click)="openHelp()">
-              <i class="fa-solid fa-square-root-variable"></i>
-            </button>
-            <div class="t-min">Розрахунок</div>
-          </div>
+        <mat-label class="t-med t-c accent bold">Спосіб розрахунку</mat-label>
+        <mat-radio-group class="flex-box w-100 p-2" [(ngModel)]="flatInfo.option_sendData">
+
+          <button class="radio-btn" [ngClass]="{ 'active': flatInfo.option_sendData === 1 }">
+            <label class="radio-label">
+              <input type="radio" name="ratingValue" [value]="1" [(ngModel)]="flatInfo.option_sendData" hidden>
+              <i class="fa-solid fa-stopwatch-20"></i>
+              <div class="t-min">Лічильник</div>
+            </label>
+          </button>
+
+          <button class="radio-btn" [ngClass]="{ 'active': flatInfo.option_sendData === 2 }">
+            <label class="radio-label">
+              <input type="radio" name="ratingValue" [value]="2" [(ngModel)]="flatInfo.option_sendData" hidden>
+              <i class="fa-solid fa-s"></i>
+              <div class="t-min">Площа</div>
+            </label>
+          </button>
+
+          <button class="radio-btn" [ngClass]="{ 'active': flatInfo.option_sendData === 3 }">
+            <label class="radio-label">
+              <input type="radio" name="ratingValue" [value]="3" [(ngModel)]="flatInfo.option_sendData" hidden>
+              <i class="fa-solid fa-coins"></i>
+              <div class="t-min">Вартість</div>
+            </label>
+          </button>
+
         </mat-radio-group>
 
         <div class="input-group w-100 mt-2" *ngIf="flatInfo.option_sendData === 1">

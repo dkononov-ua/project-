@@ -11,8 +11,7 @@ import { Location } from '@angular/common';
 import { ChangeComunService } from './change-comun.service';
 import { DiscussioViewService } from '../services/discussio-view.service';
 import { DeleteComunComponent } from './delete-comun/delete-comun.component';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-housing-services',
@@ -79,17 +78,16 @@ export class HousingServicesComponent implements OnInit {
     private discussioViewService: DiscussioViewService,
     private selectedViewComun: ViewComunService,
     private router: Router,
-    private breakpointObserver: BreakpointObserver,
-  ) { }
-
-  ngOnInit(): void {
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
     });
 
+  }
+
+  ngOnInit(): void {
     this.getSelectParam();
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
@@ -159,8 +157,9 @@ export class HousingServicesComponent implements OnInit {
     localStorage.removeItem('selectedName');
     this.selectedViewComun.clearSelectedView();
     this.selectedViewComun.clearSelectedName();
-    this.statusMessage = 'Повертаємось до дискусії';
+    this.sharedService.setStatusMessage('Повертаємось до дискусії');
     setTimeout(() => {
+      this.sharedService.setStatusMessage('');
       this.router.navigate(['/subscribers-discuss']);
     }, 2000);
   }

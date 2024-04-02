@@ -241,42 +241,42 @@ export class ComunAddComponent implements OnInit {
     this.changeComunService.setSelectedComun(comunal_name);
   }
 
-  getComunalName(): void {
+  async getComunalName(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (!userJson) { return; }
-    const requestData = {
+    const data = {
       auth: JSON.parse(userJson),
       flat_id: this.selectedFlatId,
     };
-    this.http.post(serverPath + '/comunal/get/button', requestData)
-      .subscribe(
-        (response: any) => {
-          if (response.comunal === false) {
-            this.checkComun = false;
-            return;
-          }
-          const firstComunal = response.comunal[0];
-          if (firstComunal && firstComunal.iban !== undefined) {
-            this.checkComun = true;
-            this.discussio_view = false;
-            this.discussioViewService.setDiscussioView(this.discussio_view);
-          } else if (firstComunal && firstComunal.iban === undefined) {
-            this.discussio_view = true;
-            this.discussioViewService.setDiscussioView(this.discussio_view);
-          }
-          this.comunal_name = response.comunal.map((item: any) => {
-            const matchedService = this.comunalServicesPhoto.find(service => service.name === item.comunal_name);
-            if (matchedService) {
-              return { ...item, imageUrl: matchedService.imageUrl };
-            } else {
-              return { ...item, imageUrl: '' }; // або встановіть шлях до за замовчуванням
-            }
-          });
-        },
-        (error: any) => {
-          console.error('Помилка при отриманні даних: ', error);
+    try {
+      const response: any = await this.http.post(serverPath + '/comunal/get/button', data).toPromise();
+      if (response.comunal === false) {
+        this.checkComun = false;
+        return;
+      }
+      const firstComunal = response.comunal[0];
+      if (firstComunal && firstComunal.iban !== undefined) {
+        this.checkComun = true;
+        this.discussio_view = false;
+        this.discussioViewService.setDiscussioView(this.discussio_view);
+      } else if (firstComunal && firstComunal.iban === undefined) {
+        this.discussio_view = true;
+        this.discussioViewService.setDiscussioView(this.discussio_view);
+      }
+      this.comunal_name = response.comunal.map((item: any) => {
+        const matchedService = this.comunalServicesPhoto.find(service => service.name === item.comunal_name);
+        if (matchedService) {
+          return { ...item, imageUrl: matchedService.imageUrl };
+        } else {
+          return { ...item, imageUrl: '' }; // або встановіть шлях до за замовчуванням
         }
-      );
+      });
+      (error: any) => {
+        console.error('Помилка при отриманні даних: ', error);
+      }
+    } catch (error) {
+      console.log('Комунальні послуги відсутні')
+    }
   }
 
   goToSetting(comunal_name: any) {
@@ -290,20 +290,16 @@ export class ComunAddComponent implements OnInit {
 
   goToHistory(comunal_name: any) {
     this.changeComunService.setSelectedComun(comunal_name);
-    // this.sharedService.setStatusMessage('Переходимо до внесення даних');
-    // setTimeout(() => {
-    //   this.router.navigate(['/communal/history']);
-    //   this.sharedService.setStatusMessage('');
-    // }, 2000);
+    this.router.navigate(['/communal/stat-season']);
   }
 
   goToStatSeason(comunal_name: any) {
     this.changeComunService.setSelectedComun(comunal_name);
-    this.sharedService.setStatusMessage('Сезонна статистика');
+    this.sharedService.setStatusMessage('Сезонна статистика ' + comunal_name);
     setTimeout(() => {
       this.router.navigate(['/communal/stat-season']);
       this.sharedService.setStatusMessage('');
-    }, 2000);
+    }, 1500);
   }
 
 

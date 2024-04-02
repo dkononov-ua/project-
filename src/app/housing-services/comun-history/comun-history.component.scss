@@ -20,6 +20,39 @@
   }
 }
 
+.radio-btn {
+  @include flex-box-center;
+  border-radius: 5px;
+  background-color: transparent;
+  .radio-label {
+    transition: 1s;
+    padding: 10px;
+    @include flex-box-center;
+    .fa-solid {
+      font-size: 30px;
+      padding-right: 10px;
+    }
+  }
+  &:hover,
+  &.active {
+    cursor: pointer;
+    .radio-label {
+      transform: scale(1.2);
+      transition: 1s;
+      @include flex-box-center;
+      .fa-solid {
+        color: $color-accent;
+        font-size: 30px;
+        padding-right: 10px;
+      }
+      .t-min {
+        color: $color-accent;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
 .card-content-static {
   @include s3-s6-max {
     background-color: $color-white !important;

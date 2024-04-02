@@ -2,8 +2,15 @@
 
   <div class="switch-container">
 
-    <div class="switch-btn-group">
+    <div class="switch-btn-group" *ngIf="!selectedName">
       <button class="btn" [routerLink]="'/house/house-info'">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="selectedName">
+      <button class="btn" (click)="backToDiscus()">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min white">Назад</div>
       </button>
@@ -21,13 +28,6 @@
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="selectedName">
-      <button class="btn" (click)="backToDiscus()">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min dark bold">Назад до Дискусії</div>
-      </button>
-    </div>
-
     <div class="switch-btn-group" *ngIf="isMobile">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/add'">
         <i class="fa-solid fa-id-card"></i>
@@ -35,7 +35,7 @@
       </button>
     </div>
 
-    <div class="switch-btn-group">
+    <div class="switch-btn-group" *ngIf="!selectedName">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/history'">
         <i class="fa-solid fa-pen"></i>
         <div class="t-min dark bold">Дані</div>
@@ -56,6 +56,9 @@
         <div class="t-min dark bold">Рік</div>
       </button>
     </div>
+
+    <app-select-month hiden class="hide-pc hide-mobile"></app-select-month>
+    <app-select-year hiden class="hide-pc hide-mobile"></app-select-year>
 
   </div>
 

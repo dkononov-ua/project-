@@ -54,6 +54,7 @@ export class HouseComponent implements OnInit {
   unreadHouseMessage: any;
   iReadHouseMessage: boolean = false;
   counterHouseNewMessage: any;
+  isMobile: boolean = false;
 
   constructor(
     private selectedFlatService: SelectedFlatService,
@@ -64,6 +65,9 @@ export class HouseComponent implements OnInit {
   ) {
     this.sharedService.getStatusMessage().subscribe((message: string) => {
       this.statusMessage = message;
+    });
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
     });
   }
 

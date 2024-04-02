@@ -17,11 +17,11 @@
           <div class="container-img">
             <div class="wrapper-img">
 
-              <ng-container *ngIf="userImg && isLoadingImg">
-                <img class="img-fluid" [src]="serverPathPhotoUser + (userImg ? userImg : 'user_default.svg')" alt="img">
+              <ng-container *ngIf="userImg !== 'user_default.svg' && isLoadingImg">
+                <img class="img-fluid" [src]="serverPathPhotoUser + userImg" alt="img">
               </ng-container>
 
-              <ng-container *ngIf="userImg && !isLoadingImg">
+              <ng-container *ngIf="userImg !== 'user_default.svg' && !isLoadingImg">
                 <div class="img-fluid">
                   <div class="container-loader-mini">
                     <mat-spinner color="warn"></mat-spinner>
@@ -31,8 +31,8 @@
                 </div>
               </ng-container>
 
-              <ng-container *ngIf="!userImg">
-                <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
+              <ng-container *ngIf="!userImg || userImg === 'user_default.svg'">
+                <img class="img-fluid"  src="../../../../assets/user_default.svg" alt="img">
               </ng-container>
 
               <div class="panel-container">
@@ -44,7 +44,7 @@
                           <div class="bold">{{userInfo.user_id}}</div>
                           <i class="fa-solid fa-fingerprint pl-2"></i>
                         </div>
-                        <div class="slide-name">ID<br>власника</div>
+                        <div class="slide-name">ID<br>користувача</div>
                       </button>
 
                       <button class="slide-item">
@@ -103,7 +103,7 @@
                           <div class="bold">{{userInfo.user_id}}</div>
                           <i class="fa-solid fa-fingerprint pl-2"></i>
                         </div>
-                        <div class="slide-name">ID<br>власника</div>
+                        <div class="slide-name">ID<br>користувача</div>
                       </button>
 
                       <button class="slide-item">
@@ -214,6 +214,15 @@
               </div>
               <div class="link-icon w-20"><i class="fa-solid fa-gears"></i></div>
             </a>
+
+            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
+              <div class="flex-column w-80">
+                <p class="link-menu-t1">Профіль</p>
+                <p class="link-menu-t2">Оселі</p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-house"></i></div>
+            </a>
+
           </nav>
 
         </div>
