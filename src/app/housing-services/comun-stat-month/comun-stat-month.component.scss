@@ -1,4 +1,6 @@
 @use "../housing-table.scss";
 @use "../../style/shared.scss" as *;
 
-
+.flex-box {
+  justify-content: flex-end;
+}

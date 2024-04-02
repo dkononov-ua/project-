@@ -1,5 +1,4 @@
 <div class="content-component">
-
   <div class="switch-container">
 
     <div class="switch-btn-group">
@@ -30,19 +29,7 @@
       </button>
     </div>
 
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
-        <i class="fa-solid fa-brain"></i>
-        <div class="t-min">Розробники Проекту</div>
-      </button>
-    </div>
 
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">
-        <i class="fa-solid fa-book-open-reader"></i>
-        <div class="t-min">Угода Користувача</div>
-      </button>
-    </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
@@ -54,13 +41,21 @@
 
 
   </div>
-
   <div class="main-container w-100">
-    <router-outlet></router-outlet>
-    <app-footer class="footer"></app-footer>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+      <div class="bg-home"></div>
+    </main>
+    <div class="footer">
+      <app-footer></app-footer>
+    </div>
   </div>
-
 </div>
+
+
+
+
+
 
 <div *ngIf="statusMessage" class="status-message">
   <div class="status-message-text">{{ statusMessage }}</div>

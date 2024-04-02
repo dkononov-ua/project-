@@ -1,63 +1,45 @@
 @use "../housing-services.component.scss";
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
-.flex-box-row {
-  justify-content: space-evenly;
-  flex-direction: row;
-  align-items: center;
-}
-
-.btn-name {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  font-size: 12px;
-}
-
-.btn-2 {
-  background-color: rgb(254, 254, 254);
-  border: none;
-  border-radius: 50%;
-  margin-left: 5px;
-  height: 40px;
-  width: 40px;
-  padding: 5px;
-  color: gray;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-
-  &:hover {
-    transform: scale(1.2);
-    transition: transform 0.5s;
-    filter: drop-shadow(0px 0px 40px rgba(255, 0, 0, 0.733));
+.card-content-static {
+  justify-content: space-between !important;
+  @include s3-s6-max {
+    background-color: $color-white !important;
   }
-}
-
-.flex-column {
-  display: flex;
-  background-color: rgba(255, 255, 255, 0.73);
-  border-radius: 20px;
 }
 
 .flex-box {
   display: flex;
-}
-
-.img-fluid {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: 20px;
   width: 100%;
 }
 
-img {
-  width: 100%;
-  height: 550px;
-  object-fit: cover;
-  transition: transform 1s;
-  border-radius: 20px;
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
+.btn-group {
+  position: sticky;
+  bottom: 0;
+  margin: 0;
+  .btn {
+    height: 60px;
   }
+}
+
+.status-box {
+  border: none;
+  background-color: transparent;
+}
+
+.flex-column::-webkit-scrollbar {
+  display: none;
+}
+
+.item-select {
+  position: relative;
+}
+
+.btn-copy {
+  font-size: 30px;
+  background-color: $color-white;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
 }

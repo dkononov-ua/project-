@@ -12,15 +12,11 @@ export class ChangeMonthService {
   constructor() {
     const storedMonth = localStorage.getItem('selectedMonth');
     if (storedMonth) {
-      console.log(storedMonth)
-
       this.selectedMonthSubject.next(storedMonth);
     }
   }
 
   setSelectedMonth(selectedMonth: string): void {
-    console.log(selectedMonth)
-
     this.selectedMonthSubject.next(selectedMonth);
     localStorage.setItem('selectedMonth', selectedMonth);
   }

@@ -4,6 +4,7 @@
 
 .content-child {
   align-content: space-around;
+  position: relative;
 }
 
 .flex-box {
@@ -16,12 +17,14 @@
 .item-box-1 {
   @include flex-box;
   overflow: hidden;
-  height: 400px;
+  height: 450px;
   justify-content: space-between;
   border-radius: 20px;
+  position: relative;
 
   @include s1-s3 {
     flex-wrap: wrap;
+    height: auto;
   }
 
   .item-description {
@@ -30,8 +33,10 @@
     padding: 10px;
     flex-direction: column;
     width: 50%;
+    z-index: 2;
     @include s1-s3 {
       width: 100%;
+      background-image: linear-gradient(to top, white, transparent);
     }
     .fa-solid {
       color: $color-text;
@@ -42,6 +47,11 @@
     position: relative;
     height: 100%;
     width: 50%;
+    @include s1-s3 {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
     .item-img {
       overflow: hidden;
       height: 100%;
@@ -49,6 +59,13 @@
       object-fit: cover;
     }
   }
+}
+
+.carousel-control-prev,
+.carousel-control-next,
+.carousel-indicators {
+  z-index: 10;
+  color: $color-dark;
 }
 
 .link-toMenu {

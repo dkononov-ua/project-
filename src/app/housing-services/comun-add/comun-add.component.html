@@ -1,26 +1,58 @@
+<div [@top1] class="card-wrapper">
+  <div class="card-content-static p-2 w-100">
+    <div class="flex-column">
+      <div *ngIf="selectedName" class="flex-column p-2">
+        <div class="text-min t-c gray">Вам надано доступ на перегляд статистики по оселі <span
+            class="accent t-lar">{{selectedName}}</span></div>
+      </div>
+      <div class="flex-box" *ngFor="let comunal of comunal_name; let i = index">
+        <div class="card-mini" [class.selected]="selectedComun === comunal.comunal_name">
 
-  <div class="card-menu w-100">
-    <div *ngIf="selectedName" class="flex-column">
-      <div class="text-min">Вам надано доступ на перегляд статистики по оселі:</div>
-      <div class="text-title">{{selectedName}}</div>
-    </div>
-    <div *ngIf="discussio_view === false">
-      <div class="btn-box" *ngIf="!showInput">
-        <div class="btn-name">
-          <button class="btn-2" matTooltip="ВИДАЛИТИ ПОСЛУГУ" color="warn" (click)="openDialog()"><i
-              class="fa-regular fa-circle-xmark"></i></button>
-          <mat-label>Видалити</mat-label>
+          <div class="card-mini-body  p-2">
+            <button [disabled]="selectedName" class="item-box t-s" (click)="goToHistory(comunal.comunal_name)">
+              <div class="t-med bold" *ngIf="selectedComun === comunal.comunal_name">Обрана послуга</div>
+              <div class="t-lar-xx bold">{{ comunal.comunal_name}}</div>
+              <div class="t-med bold" *ngIf="comunal.comunal_company">{{ comunal.comunal_company}} </div>
+            </button>
+
+            <div class="btn-group-comun w-20">
+              <button class="btn-delete flex-box" (click)="deleteComun(comunal.comunal_name)" *ngIf="!selectedName">
+                <i class="fa-solid fa-xmark"></i></button>
+
+              <button class="btn-delete flex-box" (click)="goToSetting(comunal.comunal_name)" *ngIf="!selectedName">
+                <i class="fa-solid fa-gear"></i></button>
+
+              <button class="btn-delete flex-box" (click)="goToStatSeason(comunal.comunal_name)">
+                <i class="fa-solid fa-chart-column"></i></button>
+            </div>
+
+          </div>
+
+          <ng-container>
+            <div class="card-mini-img">
+              <img class="img" [src]="comunal.imageUrl ? comunal.imageUrl : defaultImageUrl" alt="img">
+            </div>
+          </ng-container>
+
         </div>
-        <div class="btn-name">
+      </div>
+      <div *ngIf="!comunal_name && !selectedName" class="t-lar gray p-2 t-c">Послуги відсутні...</div>
+    </div>
+
+    <div class="sticky-bottom w-100" *ngIf="!selectedName">
+      <div class="flex-box" *ngIf="!showInput">
+        <div class="flex-column p-2">
           <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
             <i class="fa-solid fa-circle-plus"></i>
           </button>
-          <mat-label>Створити</mat-label>
+          <div class="t-min gray">Створити</div>
         </div>
       </div>
 
-      <div class="box" *ngIf="showInput">
-        <mat-form-field class="inputbox" appearance="outline">
+      <div *ngIf="selectedName && !checkComun">Послуги відсутні...</div>
+
+      <div class="addComun flex-column p-3" *ngIf="showInput">
+        <mat-form-field class="w-100 mb-3" appearance="outline">
           <mat-label>Оберіть або створіть нову</mat-label>
           <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
@@ -28,26 +60,22 @@
               {{ name }}
             </mat-option>
           </mat-autocomplete>
+          <mat-hint align="end" class="gray t-min">Створення комунальної послуги</mat-hint>
         </mat-form-field>
 
-        <div class="btn-group">
-          <div class="btn-name">
-            <button mat-icon-button class="btn-2" matTooltip="ПІДТВЕРДИТИ" (click)="createComunName()">
-              <i class="fa-solid fa-circle-check"></i>
-            </button>
-            <mat-label>СТВОРИТИ</mat-label>
-          </div>
+        <div class="flex-box p-2">
+          <button class="btn-2 flex-column" (click)="createComunName()">
+            <i class="fa-solid fa-circle-check"></i>
+            <div class="t-min gray">Створити</div>
+          </button>
 
-          <div class="btn-name">
-            <button mat-icon-button class="btn-2" matTooltip="ВІДМІНА" (click)="showInput = false">
-              <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-            <mat-label>ВІДМІНА</mat-label>
-          </div>
+          <button class="btn-2 flex-column" (click)="showInput = false">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <div class="t-min gray">Відміна</div>
+          </button>
         </div>
+
       </div>
     </div>
   </div>
-
-
-
+</div>

@@ -3,34 +3,44 @@
 </ng-container>
 
 <ng-template #content>
-  <div class="container-card col-12">
+  <div class="content-child w-100">
 
-    <div class="flex-box mb-2 w-100">
-      <div class="p-1 w-50">
-        <h3 class="text">Графік за <span class="accent">{{selectedYear}} </span> рік</h3>
-      </div>
-      <app-select-year class="p-1 w-50"></app-select-year>
+    <div class="monthChange w-100 mb-2 mt-2">
+      <button class="btn-2 center" (click)="prevYear()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div class="bold accent t-lar-xx">{{ selectedYear }} рік</div>
+      <button class="btn-2 center" (click)="nextYear()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
 
+    <div [@left1] class="switch-box w-100 mt-2">
 
-
-
-    <div class="group col-12">
-      <div class="btn-group">
-        <button class="btn w-30" [class.active]="option_stat === 2" (click)="option_stat = 2">
-          <span class="text-1">Нарахування</span>
-        </button>
-        <button class="btn w-30" [class.active]="option_stat === 3" (click)="option_stat = 3">
-          <span class="text-1">Споживання</span>
-        </button>
-        <button class="btn w-30" [class.active]="option_stat === 1" (click)="option_stat = 1">
-          <span class="text-1">Сплачено</span>
+      <div class="switch-btn-group">
+        <button class="btn" (click)="option_stat = 2" [ngClass]="{ 'active': option_stat === 2}">
+          <i class="fa-solid fa-cash-register"></i>
+          <div class="t-min dark bold">Нараховано</div>
         </button>
       </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="option_stat = 3" [ngClass]="{ 'active': option_stat === 3}">
+          <i class="fa-solid fa-cookie-bite"></i>
+          <div class="t-min dark bold">Спожити</div>
+        </button>
+      </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="option_stat = 1" [ngClass]="{ 'active': option_stat === 1}">
+          <i class="fa-solid fa-check-to-slot"></i>
+          <div class="t-min dark bold">Сплачено</div>
+        </button>
+      </div>
+
     </div>
 
-
-    <div class="container-box">
+    <div class="container-box w-100 mt-2" *ngIf="!noData">
       <div class="box" *ngIf="option_stat === 2">
         <div class="progress-container">
           <div class="progress m-1" [@columnAnimation] *ngFor="let season of dataForGraph" role="progressbar">
@@ -61,7 +71,8 @@
           <div class="progress m-1" [@columnAnimation] *ngFor="let season of dataForGraph" role="progressbar">
             <div class="month-label">{{ season.comunal_name }}</div>
             <div class="progress-bar"
-              [ngStyle]="{ 'width': (season.total_consumed / maxConsumptionsValue) * 100 + '%' }">
+              [ngStyle]="{ 'width': (season.total_consumed / maxConsumptionsValue) * 100 + '%' }"
+              *ngIf="season.total_consumed">
               <span class="num-label">{{season.total_consumed }}</span>
             </div>
 
@@ -71,7 +82,9 @@
 
     </div>
 
+    <div [@left3] class="table-container" *ngIf="noData">
+      <h4 class="p-2 mt-3">Статистики за цей час немає...</h4>
+    </div>
 
   </div>
-
 </ng-template>

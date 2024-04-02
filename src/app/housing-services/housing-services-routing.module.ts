@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HostComunComponent } from './host-comun/host-comun.component';
 import { HousingServicesComponent } from './housing-services.component';
 import { CanActivateGuard } from './../services/auth.guard';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
@@ -10,33 +9,26 @@ import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.com
 import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.component';
 import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
 import { ComunAboutComponent } from './comun-about/comun-about.component';
+import { ComunAddComponent } from './comun-add/comun-add.component';
 
 const routes: Routes = [
   {
-    path: 'housing-services',
+    path: 'communal',
     component: HousingServicesComponent, canActivate: [CanActivateGuard],
     children: [
-      {
-        path: 'host-comun',
-        component: HostComunComponent, canActivate: [CanActivateGuard],
-
-        children: [
-          { path: '', redirectTo: 'comun-about', pathMatch: 'full' },
-          { path: 'comun-about', component: ComunAboutComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-stat-season', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-stat-comun', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-stat-month', component: ComunStatMonthComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-stat-year', component: ComunStatYearComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-company', component: ComunCompanyComponent, canActivate: [CanActivateGuard] },
-          { path: 'comun-stat-season', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
-        ]
-      },
-      { path: '', redirectTo: 'host-comun', pathMatch: 'full' },
+      { path: '', redirectTo: 'history', pathMatch: 'full' },
+      { path: 'add', component: ComunAddComponent, canActivate: [CanActivateGuard] },
+      { path: 'about', component: ComunAboutComponent, canActivate: [CanActivateGuard] },
+      { path: 'history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
+      { path: 'all-yaers-stat', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
+      { path: 'stat-comun', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
+      { path: 'stat-month', component: ComunStatMonthComponent, canActivate: [CanActivateGuard] },
+      { path: 'stat-year', component: ComunStatYearComponent, canActivate: [CanActivateGuard] },
+      { path: 'company', component: ComunCompanyComponent, canActivate: [CanActivateGuard] },
+      { path: 'stat-season', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
     ]
   }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

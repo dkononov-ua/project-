@@ -7,7 +7,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
-import { HostComunComponent } from './host-comun/host-comun.component';
 import { SharedModule } from '../shared/shared.module';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -30,11 +29,12 @@ import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.com
 import { ComunAboutComponent } from './comun-about/comun-about.component';
 import { ComunAddComponent } from './comun-add/comun-add.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
     HousingServicesComponent,
-    HostComunComponent,
     ComunCompanyComponent,
     SelectYearComponent,
     SelectMonthComponent,
@@ -68,7 +68,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatTableModule,
     MatDialogModule,
     MatRadioModule,
-
+    MatMenuModule,
+    MatSlideToggleModule,
   ],
 })
 export class HousingServicesModule { }

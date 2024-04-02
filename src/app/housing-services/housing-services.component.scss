@@ -2,6 +2,49 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss" as *;
 
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.card-animation {
+  @include s3-s6-max {
+    width: 98% !important;
+  }
+}
+
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+  }
+}
+
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-primary !important;
+  }
+}
+
+.btn-close-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 50;
+  .btn-close-box {
+    @include flex-box-column;
+    align-items: flex-end;
+    padding: 10px;
+    .btn-close {
+      border: 1px solid $color-gray;
+      background-color: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
 .disabledNot {
   color: $color-accent !important;
   opacity: 1 !important;
@@ -42,10 +85,6 @@ img {
   object-fit: cover;
   transition: transform 1s;
   border-radius: 20px;
-  &:hover {
-    transition: transform 1s;
-    transform: scale(1.4);
-  }
 }
 
 .container-card {
@@ -58,8 +97,7 @@ img {
 }
 
 .card {
-  width: 96%;
-  height: 550px;
+  width: 100%;
   display: flex;
   background-color: white;
   color: rgba(0, 0, 0, 0.8117647059);
@@ -69,11 +107,7 @@ img {
   align-content: flex-start;
   justify-content: space-between;
   overflow: hidden;
-
-  @include s1-s3 {
-    height: auto;
-  }
-
+  height: auto;
 }
 
 .accent {
@@ -103,7 +137,6 @@ img {
 
 .item-select {
   width: 100%;
-  height: 60px !important;
   padding: 5px;
 }
 
@@ -135,9 +168,7 @@ img {
 .card-box {
   display: flex;
   justify-content: space-between;
-  @include s1-s3 {
-    justify-content: center;
-  }
+  justify-content: center;
 }
 
 .boxSelect {
@@ -150,19 +181,6 @@ img {
   display: flex;
 }
 
-.btn-group {
-  display: flex;
-  width: 100%;
-  padding: 0 5px 0 5px;
-}
-
-.btn {
-  margin: 5px 0 5px 0;
-  color: $color-light;
-  height: 60px;
-  font-size: 12px;
-}
-
 textarea {
   min-height: 100px;
 }
@@ -170,14 +188,6 @@ textarea {
 .group-label {
   font-weight: 600;
   text-align: center;
-}
-
-.box {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
 }
 
 .checkBox input[type="radio"] {
@@ -202,12 +212,6 @@ mat-form-field {
   position: relative;
   box-sizing: border-box;
   height: 60px;
-}
-
-.item-select {
-  padding: 5px;
-  height: 70px;
-  width: 100%;
 }
 
 .item-width-50 {
@@ -236,32 +240,7 @@ mat-form-field {
   font-size: 14px;
 }
 
-.progress-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  height: 50vh;
-  overflow: hidden;
-}
 
-.progress {
-  max-height: 90%;
-  min-height: 40px;
-  width: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: $color-primary;
-  border: 1px solid #ccc;
-  margin: 5px;
-}
-
-.progress-bar {
-  color: $color-dark;
-  width: 100%;
-  flex-grow: 1;
-  background-image: linear-gradient(to top, #4caf50, #ffffff);
-}
 
 .group {
   display: flex;
@@ -294,53 +273,21 @@ mat-form-field {
   font-weight: 600;
 }
 
-.btn {
-  color: $color-dark;
-  font-size: 18px;
-
-  &:active {
-    color: $color-accent;
-    transform: scale(0.8);
-    box-shadow: 0px 0px 10px $color-accent;
-  }
-
-  &.active {
-    color: $color-white;
-    box-shadow: 0px 0px 10px $color-accent;
-    border-color: $color-accent;
-  }
-}
-
-.statContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 .statBox {
-  width: 100%;
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: flex-end;
   flex-direction: column;
   border: 1px solid $color-primary;
   border-radius: 10px;
-  margin: 5px;
   padding: 0 10px;
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.107),
-    0 5px 10px rgba(0, 0, 0, 0.101);
+  margin: 5px;
 }
 
 .statNum {
   font-size: 30px;
   font-weight: 600;
-}
-
-.statNumName {
-  font-size: 16px;
 }
 
 .form-floating {
@@ -397,14 +344,18 @@ mat-form-field {
   border-radius: 10px;
 }
 
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
+.monthChange {
+  @include flex-box-center;
+  justify-content: space-evenly;
 }
 
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
+.btn-2 {
+  @include flex-box;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
 }
+
+

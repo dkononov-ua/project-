@@ -6,33 +6,13 @@ html {
   scroll-behavior: smooth;
 }
 
-
-.conteiner-box {
-  height: calc(100vh - 100px - 1rem);
-  width: 100%;
+.flex-column {
   overflow: auto;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: flex-start;
-  // align-items: center;
+  height: 100%;
+  width: 100%;
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-.first {
-  transform: translateY(-100px);
-}
-
-.home-img {
-  width: 600px;
-  filter: drop-shadow(2px 2px 8px $color-dark);
-
-}
-
-.home-img2 {
-  width: 350px;
-  filter: drop-shadow(2px 2px 8px $color-dark);
 }
 
 .btn-home {
@@ -58,6 +38,39 @@ html {
 
 .flex-box {
   @include flex-box-center;
+  justify-content: space-between;
+  .gif-box {
+    @include flex-box-center;
+    width: 50%;
+    .home-img {
+      width: 100%;
+      filter: drop-shadow(2px 2px 8px $color-dark);
+    }
+
+    .home-img2 {
+      width: 350px;
+      filter: drop-shadow(2px 2px 8px $color-dark);
+    }
+  }
+  .flex-column {
+    width: 40%;
+    @include flex-box-center;
+    flex-direction: column;
+  }
+  @include s1-s3 {
+    flex-wrap: wrap;
+    flex-direction: column;
+    .gif-box {
+      width: 100%;
+      .home-img,
+      .home-img2 {
+        width: 100%;
+      }
+    }
+    .flex-column {
+      width: 100%;
+    }
+  }
 }
 
 .conteiner-content {
@@ -66,7 +79,13 @@ html {
   justify-content: center;
   flex-direction: column;
   border-bottom: 1px solid rgba(128, 128, 128, 0.115);
-  // overflow-y: scroll;
+  @include s1-s3 {
+    height: auto;
+    justify-content: flex-start;
+  }
+  .text {
+    text-align: center;
+  }
 }
 
 .logoImg {

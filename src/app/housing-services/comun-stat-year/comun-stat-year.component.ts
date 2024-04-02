@@ -6,33 +6,24 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject, Subject, map } from 'rxjs';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
-
+import { animations } from '../../interface/animation';
 
 @Component({
   selector: 'app-comun-stat-year',
   templateUrl: './comun-stat-year.component.html',
   styleUrls: ['./comun-stat-year.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('columnAnimation', [
-      transition('void => *', [
-        style({ transform: 'translateY(80%)', opacity: 0 }),
-        animate('800ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
-      ]),
-    ]),
-    trigger('columnAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('2000ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 })),
-      ]),
-    ]),
+    animations.top1,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
   ],
 })
 export class ComunStatYearComponent implements OnInit {
@@ -61,7 +52,7 @@ export class ComunStatYearComponent implements OnInit {
   noInformationMessage: boolean = false;
   selectedFlatId!: string | null;
   selectedComun!: string | null;
-  selectedYear!: string | null;
+  selectedYear: any;
   monthlySum: { [key: string]: any } = {};
   dataLoaded: boolean = false;
   sortField: string = 'id';
@@ -71,6 +62,11 @@ export class ComunStatYearComponent implements OnInit {
 
   selectedView: any;
   selectedName: string | null | undefined;
+  overpaymentText: string | undefined;
+  option_stat: boolean = false;
+  toggleOptionStat() {
+    this.option_stat = !this.option_stat;
+  }
 
   constructor(
     private http: HttpClient,
@@ -190,6 +186,11 @@ export class ComunStatYearComponent implements OnInit {
       this.totalСonsumed = totalСonsumed;
       this.totalDifference = totalDifference;
       this.monthlySumData$.next(monthlySum);
+      if (this.totalDifference < 0) {
+        this.overpaymentText = 'Борг';
+      } else {
+        this.overpaymentText = 'Переплата';
+      }
     }
   }
 
@@ -219,5 +220,20 @@ export class ComunStatYearComponent implements OnInit {
     this.sortField = field;
     this.sortData();
   }
+
+  nextYear() {
+    if (this.selectedYear) {
+      const yearChange = Number(this.selectedYear) + 1;
+      this.changeYearService.setSelectedYear((yearChange).toString());
+    }
+  }
+
+  prevYear() {
+    if (this.selectedYear) {
+      const yearChange = Number(this.selectedYear) - 1;
+      this.changeYearService.setSelectedYear((yearChange).toString());
+    }
+  }
+
 }
 

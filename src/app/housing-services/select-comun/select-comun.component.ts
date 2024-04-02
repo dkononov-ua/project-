@@ -1,19 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { DiscussioViewService } from 'src/app/services/discussio-view.service';
-import { ViewComunService } from 'src/app/services/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
+import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 
 @Component({
   selector: 'app-select-comun',
   templateUrl: './select-comun.component.html',
   styleUrls: ['./select-comun.component.scss'],
 })
-export class SelectComunComponent implements OnInit {
 
+export class SelectComunComponent implements OnInit {
   popular_comunal_names = [
     "Опалення",
     "Водопостачання",
@@ -30,16 +29,15 @@ export class SelectComunComponent implements OnInit {
 
   loading = false;
   showInput = false;
-
   selectedComun: any;
   selectedFlatId!: string | null;
   comunal_name!: string | any;
   discussio_view: boolean = false;
-
   selectedView: any;
   selectedName: string | null | undefined;
+  checkComun: boolean = false;
 
-  constructor(private fb: FormBuilder,
+  constructor(
     private http: HttpClient,
     private changeComunService: ChangeComunService,
     private selectedFlatService: SelectedFlatService,
@@ -88,12 +86,7 @@ export class SelectComunComponent implements OnInit {
 
   getComunalName(): void {
     const userJson = localStorage.getItem('user');
-
-    if (!userJson) {
-      console.error('LocalStorage не містить дані користувача');
-      return;
-    }
-
+    if (!userJson) { return; }
     const requestData = {
       auth: JSON.parse(userJson),
       flat_id: this.selectedFlatId,
@@ -102,10 +95,12 @@ export class SelectComunComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.status === false) {
+            this.checkComun = false;
             return;
           }
           const firstComunal = response.comunal[0];
           if (firstComunal && firstComunal.iban !== undefined) {
+            this.checkComun = true;
             this.discussio_view = false;
             this.discussioViewService.setDiscussioView(this.discussio_view);
             this.comunal_name = response.comunal;

@@ -338,7 +338,9 @@
           color: $color-accent;
           font-size: 36px;
         }
-        color: $color-accent;
+        .t-min {
+          color: $color-accent;
+        }
         font-weight: bold;
         filter: drop-shadow(0px 0px 2px $color-accent);
       }

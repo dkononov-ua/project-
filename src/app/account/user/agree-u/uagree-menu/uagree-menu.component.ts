@@ -11,6 +11,7 @@ import { animations } from '../../../../interface/animation';
   templateUrl: './uagree-menu.component.html',
   styleUrls: ['./uagree-menu.component.scss'],
   animations: [
+    animations.top1,
     animations.left,
     animations.left1,
     animations.left2,

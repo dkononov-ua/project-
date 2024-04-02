@@ -57,6 +57,7 @@ export class InfoComponent implements OnInit {
   userMenu: boolean = false;
   isLoadingImg: boolean = false;
   numberOfReviews: any;
+  numberOfReviewsOwner: any;
 
   openUserMenu() {
     if (this.userMenu) {
@@ -275,14 +276,15 @@ export class InfoComponent implements OnInit {
       const response = await this.http.post(url, data).toPromise() as any;
       if (response && Array.isArray(response.status)) {
         let ratingOwner = 0;
-        response.status.forEach((item: { mark: number; }) => {
-          if (item.mark) {
-            ratingOwner += item.mark;
+        this.numberOfReviewsOwner = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info && item.info.mark) {
+            ratingOwner += item.info.mark;
           }
         });
         // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
-        if (this.numberOfReviews > 0) {
-          this.ratingOwner = ratingOwner / this.numberOfReviews;
+        if (this.numberOfReviewsOwner > 0) {
+          this.ratingOwner = ratingOwner / this.numberOfReviewsOwner;
         } else {
           this.ratingOwner = 0;
         }

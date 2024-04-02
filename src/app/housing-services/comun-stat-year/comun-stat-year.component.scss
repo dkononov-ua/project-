@@ -1,6 +1,11 @@
 @use "../housing-table.scss";
 @use "../../style/shared.scss" as *;
 
+.card-content {
+  justify-content: space-between !important;
+  align-items: stretch !important;
+}
+
 .mat-form-field {
   height: 58px;
   border-radius: 5px;
@@ -8,4 +13,7 @@
 
 .flex-box {
   align-items: stretch;
+  justify-content: flex-end;
 }
+
+

@@ -3,47 +3,47 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { DataService } from 'src/app/services/data.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { HostComunComponent } from '../host-comun/host-comun.component';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { animations } from '../../interface/animation';
 
 interface ComunInfo {
-  comunal_company: string | undefined;
-  comunal_name: string | undefined;
-  comunal_address: string | undefined;
-  comunal_site: string | undefined;
-  comunal_phone: string | undefined;
-  iban: string | undefined;
-  edrpo: string | undefined;
-  personalAccount: string | undefined;
-  about_comun: string | undefined;
+  comunal_company: string;
+  comunal_name: string;
+  comunal_address: string;
+  comunal_site: string;
+  comunal_phone: string;
+  iban: string;
+  edrpo: string;
+  personalAccount: string;
+  about_comun: string;
 }
 @Component({
   selector: 'app-comun-company',
   templateUrl: './comun-company.component.html',
   styleUrls: ['./comun-company.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
-    trigger('cardAnimation2', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1200ms 400ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.right2,
+    animations.right4,
+    animations.top1,
+    animations.swichCard,
   ],
 })
 export class ComunCompanyComponent implements OnInit {
 
   showInput = false;
+  isCopiedMessage: string = '';
   clickShowInput() {
     this.showInput = !this.showInput;
   }
@@ -87,6 +87,16 @@ export class ComunCompanyComponent implements OnInit {
   loading: boolean = true;
   statusMessage: string | undefined;
 
+  field: boolean = true;
+  toggleField() {
+    this.field = !this.field;
+  }
+
+  help: boolean = false;
+  openHelp() {
+    this.help = !this.help;
+  }
+
   constructor(
     private dataService: DataService,
     private http: HttpClient,
@@ -105,7 +115,6 @@ export class ComunCompanyComponent implements OnInit {
     }
     else (!this.selectedFlatId); {
       this.loading = false;
-      console.log('Оберіть оселю')
     }
   };
 
@@ -148,7 +157,6 @@ export class ComunCompanyComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response.status === false) {
-              console.log('Немає послуг');
               return;
             }
             const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
@@ -179,6 +187,7 @@ export class ComunCompanyComponent implements OnInit {
     if (userJson && this.selectedFlatId !== undefined) {
       this.http.post(serverPath + '/comunal/add/comunalCompany', data)
         .subscribe((response: any) => {
+          console.log(response)
           if (response.status === 'Данні по комуналці успішно змінені') {
             setTimeout(() => {
               this.statusMessage = 'Дані збережено';
@@ -203,7 +212,7 @@ export class ComunCompanyComponent implements OnInit {
   }
 
   clearInfo(): void {
-    if (this.disabled === false)
+    if (!this.field)
       this.comunInfo = {
         about_comun: '',
         comunal_company: '',
@@ -216,5 +225,29 @@ export class ComunCompanyComponent implements OnInit {
         personalAccount: '',
       };
   }
+
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.isCopiedMessage = message;
+          setTimeout(() => {
+            this.isCopiedMessage = '';
+          }, 2000);
+        })
+        .catch((error) => {
+          this.isCopiedMessage = '';
+        });
+    }
+  }
+
+  copyCompany() { this.copyToClipboard(this.comunInfo.comunal_company, 'Назва компанії скопійовано'); }
+  copyAccount() { this.copyToClipboard(this.comunInfo.personalAccount, 'Особистий рахунок скопійовано'); }
+  copyAddress() { this.copyToClipboard(this.comunInfo.comunal_address, 'Адреса компанії скопійовано'); }
+  copySite() { this.copyToClipboard(this.comunInfo.comunal_site, 'Оплата/сайт скопійовано'); }
+  copyPhone() { this.copyToClipboard(this.comunInfo.comunal_phone, 'Номер телефону скопійовано'); }
+  copyIban() { this.copyToClipboard(this.comunInfo.iban, 'IBAN скопійовано'); }
+  copyEdrpo() { this.copyToClipboard(this.comunInfo.edrpo, 'ЄДРПОУ скопійовано'); }
 
 }

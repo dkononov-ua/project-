@@ -5,8 +5,9 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ActivatedRoute } from '@angular/router';
-import { ViewComunService } from 'src/app/services/view-comun.service';
+import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
+import { animations } from '../../interface/animation';
 
 interface FlatStat {
   totalNeedPay: any;
@@ -40,12 +41,15 @@ interface FlatInfo {
   templateUrl: './comun-stat-comun.component.html',
   styleUrls: ['./comun-stat-comun.component.scss'],
   animations: [
-    trigger('cardAnimation1', [
-      transition('void => *', [
-        style({ transform: 'translateX(230%)' }),
-        animate('1000ms 100ms ease-in-out', style({ transform: 'translateX(0)' }))
-      ]),
-    ]),
+    animations.top1,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.swichCard,
+    animations.top,
     trigger('columnAnimation', [
       transition('void => *', [
         style({ transform: 'translateY(50%)', opacity: 0 }),
@@ -69,11 +73,9 @@ export class ComunStatComunComponent implements OnInit {
     { name: "Інтернет та телебачення", unit: "Тариф/внесок" },
     { name: "Домофон", unit: "Тариф/внесок" },
   ];
-
   seasonPayments: { season: string; payment: number }[] = [];
   seasonNeedPay: { season: string; needPay: number }[] = [];
   seasonConsumptions: { season: string; consumptions: number }[] = [];
-
   flatStat: FlatStat = {
     totalNeedPay: 0,
     totalPaid: 0,
@@ -82,15 +84,13 @@ export class ComunStatComunComponent implements OnInit {
     monthAverageConsumption: 0,
     monthAverageNeedPay: 0,
   };
-
   winter: FlatStat | undefined;
   spring: FlatStat | undefined;
   summer: FlatStat | undefined;
   autumn: FlatStat | undefined;
   totalYearStats: FlatStat | undefined;
-  option_stat: number = 2;
+  option_stat: boolean = false;
   activeOption: number = 1;
-
   maxPaymentsValue: number = 0;
   maxNeedPayValue: number = 0;
   maxConsumptionsValue: number = 0;
@@ -121,22 +121,18 @@ export class ComunStatComunComponent implements OnInit {
   selectedOption: any;
   tariff_square: any;
   selectSeason: FlatStat | undefined;
-
   public selectedComunal: any | null;
   loading: boolean = true;
   myChart: any;
-
   selectedFlatId!: string | null;
   selectedComun!: any;
   selectedYear!: any;
   selectedMonth!: any;
-
   defaultUnit: string = "Тариф/внесок";
   selectedUnit: string | null | undefined;
-
   selectedView: any;
   selectedName: string | null | undefined;
-
+  indexPage: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -151,11 +147,11 @@ export class ComunStatComunComponent implements OnInit {
     this.getSelectParam()
     if (this.selectedFlatId && this.selectedComun && this.selectedYear && this.selectedComun !== 'undefined') {
       this.getInfoComun()
-        .then(() => {
-          this.getDefaultData();
-          this.updateMaxPaymentsValue();
-          this.updateMaxNeedPayValue();
-          this.updateMaxConsumptionsValue();
+        .then(async () => {
+          await this.getDefaultData();
+          await this.updateMaxPaymentsValue();
+          await this.updateMaxNeedPayValue();
+          await this.updateMaxConsumptionsValue();
           this.loading = false;
         })
         .catch((error) => {
@@ -168,13 +164,12 @@ export class ComunStatComunComponent implements OnInit {
     }
   }
 
-  getDefaultData() {
+  async getDefaultData() {
     const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
     this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
   }
 
   getSelectParam() {
-
     this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
       this.selectedView = selectedView;
       if (this.selectedView) {
@@ -205,7 +200,6 @@ export class ComunStatComunComponent implements OnInit {
     this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
       this.selectedName = selectedName;
     });
-
     this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
       this.selectedYear = selectedYear || this.selectedYear;
       if (this.selectedFlatId && this.selectedComun && this.selectedYear) {
@@ -213,22 +207,21 @@ export class ComunStatComunComponent implements OnInit {
         this.getDefaultData();
       }
     });
-
   }
 
-  updateMaxPaymentsValue(): void {
+  async updateMaxPaymentsValue(): Promise<void> {
     if (this.seasonPayments.length > 0) {
       this.maxPaymentsValue = Math.max(...this.seasonPayments.map(season => season.payment));
     }
   }
 
-  updateMaxNeedPayValue(): void {
+  async updateMaxNeedPayValue(): Promise<void> {
     if (this.seasonNeedPay.length > 0) {
       this.maxNeedPayValue = Math.max(...this.seasonNeedPay.map(season => season.needPay));
     }
   }
 
-  updateMaxConsumptionsValue(): void {
+  async updateMaxConsumptionsValue(): Promise<void> {
     if (this.seasonConsumptions.length > 0) {
       this.maxConsumptionsValue = Math.max(...this.seasonConsumptions.map(season => season.consumptions));
     }
@@ -269,7 +262,6 @@ export class ComunStatComunComponent implements OnInit {
             { season: 'Літо', payment: this.summer?.totalPaid! },
             { season: 'Осінь', payment: this.autumn?.totalPaid! },
           ];
-
           this.seasonNeedPay = [
             { season: 'Зима', needPay: this.winter?.totalNeedPay! },
             { season: 'Весна', needPay: this.spring?.totalNeedPay! },
@@ -376,6 +368,24 @@ export class ComunStatComunComponent implements OnInit {
       monthAverageNeedPay,
     };
     return seasonStats;
+  }
+
+  nextYear() {
+    if (this.selectedYear) {
+      const yearChange = Number(this.selectedYear) + 1;
+      this.changeYearService.setSelectedYear((yearChange).toString());
+    }
+  }
+
+  prevYear() {
+    if (this.selectedYear) {
+      const yearChange = Number(this.selectedYear) - 1;
+      this.changeYearService.setSelectedYear((yearChange).toString());
+    }
+  }
+
+  toggleOptionStat() {
+    this.option_stat = !this.option_stat;
   }
 
 }

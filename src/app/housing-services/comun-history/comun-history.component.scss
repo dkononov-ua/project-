@@ -3,6 +3,153 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.info-container {
+  top: 30%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 50;
+  flex-direction: column;
+  align-items: center;
+  .info-help-box {
+    color: $color-white;
+    width: 100%;
+    .fa-solid {
+      color: $color-white;
+    }
+  }
+}
+
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-white !important;
+  }
+}
+
+.full-container-img {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 500;
+  overflow: auto;
+  .full-wrapper-img {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: auto;
+    justify-content: flex-start;
+    background-color: rgba(0, 0, 0, 0.377);
+    .full-img-fluid {
+      @include box-shadow;
+      border-radius: 20px;
+      height: 100%;
+      width: auto;
+    }
+  }
+}
+
+.switch-content {
+  height: 8vh;
+  justify-content: space-evenly;
+}
+.btn-calc {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.card-box {
+  height: 92vh;
+  overflow: auto;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.flex-box {
+  display: flex;
+}
+
+.comun-card {
+  @include flex-box-column;
+  position: relative;
+  width: 100%;
+}
+
+.btn-group {
+  margin: 0;
+  .btn {
+    height: 60px;
+  }
+}
+
+.card-1 {
+  width: 100%;
+  position: relative;
+  border-radius: 20px;
+  .addText {
+    @include flex-box-center;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.789);
+    border: none;
+  }
+  .img-wpapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    align-items: flex-end;
+  }
+
+  .img {
+    overflow: hidden;
+    height: 300px;
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    position: relative;
+  }
+}
+
+.item-select {
+  position: relative;
+}
+
+.btn-copy {
+  position: absolute;
+  font-size: 30px;
+  right: 0;
+  top: 15px;
+  border: none;
+  border-radius: 5px;
+  padding: 2px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.flex-box {
+  justify-content: space-evenly;
+  .fa-solid {
+    font-size: 15px;
+  }
+}
+
+.flex-column {
+  @include flex-box-column;
+}
+
 .img-comun-box {
   height: 200px;
   overflow: hidden;
@@ -22,16 +169,6 @@
     .cropped-text1 {
       color: $color-white;
     }
-  }
-}
-
-.flex-box,
-.flex-box-column {
-  justify-content: center;
-  align-items: flex-start;
-  align-content: flex-start;
-  .fa-solid, .fa-regular {
-    color: $color-text;
   }
 }
 
@@ -144,13 +281,33 @@
 .item {
   @include flex-box;
   margin: 2px;
-  // background-color: $color-primary;
   border-radius: 10px;
-  // border: 1px solid $color-gray;
   padding: 2px;
 }
 
-.btn-group {
-  position: sticky;
-  bottom: 0;
+.wrapper-comun {
+  width: 100%;
+  height: 82vh;
+  z-index: 5;
+  position: relative;
+  border-radius: 20px;
+
+  .comun-card {
+    @include flex-box-center;
+    overflow: auto;
+    flex-direction: column;
+    position: absolute;
+    justify-content: flex-start;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: $color-white;
+    border-radius: 20px;
+    z-index: 100;
+    width: 100%;
+    align-items: stretch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
