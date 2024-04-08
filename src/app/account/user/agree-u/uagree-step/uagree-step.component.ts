@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from 'src/app/interface/info';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-uagree-step',
@@ -50,6 +51,7 @@ export class UagreeStepComponent {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<any> {

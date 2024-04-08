@@ -7,6 +7,7 @@ import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
 import { serverPath, serverPathPhotoUser, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-agree-concluded',
@@ -49,6 +50,7 @@ export class AgreeConcludedComponent implements OnInit {
     private selectedFlatIdService: SelectedFlatService,
     private dialog: MatDialog,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -82,13 +84,13 @@ export class AgreeConcludedComponent implements OnInit {
         this.numConcludedAgree = response.length;
         const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
         this.agreementIds = agreementIds;
-
       } else {
         this.loading = true;
-        this.statusMessage = 'Ухвалених угод немає';
+        this.sharedService.setStatusMessage('Ухвалених угод немає');
         this.numConcludedAgree = 0;
         setTimeout(() => {
-          this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
+          this.router.navigate(['/house/agree-menu']);
+          this.sharedService.setStatusMessage('');
           this.loading = false;
         }, 300);
       }
@@ -153,10 +155,10 @@ export class AgreeConcludedComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           if (response) {
-            this.statusMessage = 'Акт видалений';
+            this.sharedService.setStatusMessage('Акт видалений');
             setTimeout(() => {
               this.getActAgree();
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 2000);
           } else {
             console.log('Помилка видалення')
@@ -194,12 +196,12 @@ export class AgreeConcludedComponent implements OnInit {
         try {
           const response = await this.http.post(url, data).toPromise();
           if (response) {
-            this.statusMessage = 'Угода видалена';
+            this.sharedService.setStatusMessage('Угода видалена');
             setTimeout(() => {
               location.reload();
             }, 500);
           } else {
-            this.statusMessage = 'Помилка видалення';
+            this.sharedService.setStatusMessage('Помилка видалення');
             setTimeout(() => {
               location.reload();
             }, 500);
@@ -239,11 +241,12 @@ export class AgreeConcludedComponent implements OnInit {
           this.loading = true;
           const response = await this.http.post(url, data).toPromise();
           console.log(response)
-          this.statusMessage = 'Мешканець доданий до оселі';
+          this.sharedService.setStatusMessage('Мешканець доданий до оселі');
           setTimeout(() => {
-            this.statusMessage = 'Переходимо до мешканців оселі';
+            this.sharedService.setStatusMessage('Переходимо до мешканців оселі');
             setTimeout(() => {
-              this.router.navigate(['/house/resident'], { queryParams: { indexPage: 2, indexCard: 0 } });
+              this.router.navigate(['/house/resident']);
+              this.sharedService.setStatusMessage('');
             }, 2000);
           }, 2000);
           // setTimeout(() => {

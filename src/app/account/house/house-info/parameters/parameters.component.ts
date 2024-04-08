@@ -4,6 +4,7 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 import { HouseInfo } from '../../../../interface/info';
 import { HouseConfig } from '../../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox, OptionPay } from '../../../../interface/name';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-parameters',
   templateUrl: './parameters.component.html',
@@ -44,7 +45,9 @@ export class ParametersComponent implements OnInit {
   authorization: boolean = false;
   houseData: any;
 
-  constructor() { }
+  constructor(
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit(): void { this.loadDataFlat(); }
 

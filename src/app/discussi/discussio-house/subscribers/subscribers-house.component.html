@@ -39,7 +39,8 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [disabled]="!selectedUser || !reviews" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
+      <button class="btn" [disabled]="!selectedUser || !reviews" (click)="onClickMenu(3)"
+        [ngClass]="{ 'active': indexPage == 3}">
         <i class="fa-regular fa-star"></i>
         <div class="t-min bold">Відгуки</div>
       </button>
@@ -65,8 +66,21 @@
         <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="selectDiscussion(subscriber)"
           [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
           <div class="card-mini-img-container">
-            <img class="card-mini-img"
-              [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')" alt="img">
+            <!-- якщо фото немає -->
+            <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
+              *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+            <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+            <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
+              <div class="container-loader-mini">
+                <mat-spinner color="warn"></mat-spinner>
+                <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+                  (load)="isLoadingImg = true" hidden>
+                <div class="t-min gray mt-2">Завантаження фото</div>
+              </div>
+            </div>
+            <!-- якщо фото користувача завантажилось показуємо фото -->
+            <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+              *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
           </div>
           <div class="card-body">
             <div class="p-1">
@@ -100,8 +114,21 @@
               <div class="card-mini mb-3" *ngFor="let subscriber of subscribers" (click)="selectDiscussion(subscriber)"
                 [ngClass]="{ 'selected': subscriber.user_id == selectedUser?.user_id }">
                 <div class="card-mini-img-container">
-                  <img class="card-mini-img"
-                    [src]="serverPathPhotoUser + (subscriber.img ? subscriber.img : 'user_default.svg')" alt="img">
+                  <!-- якщо фото немає -->
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
+                    *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+                  <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+                  <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
+                    <div class="container-loader-mini">
+                      <mat-spinner color="warn"></mat-spinner>
+                      <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+                        (load)="isLoadingImg = true" hidden>
+                      <div class="t-min gray mt-2">Завантаження фото</div>
+                    </div>
+                  </div>
+                  <!-- якщо фото користувача завантажилось показуємо фото -->
+                  <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+                    *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
                 </div>
                 <div class="card-body">
                   <div class="p-1">
@@ -133,7 +160,8 @@
             </ul>
 
             <div class="flex-box-center t-c p-2 mt-2">
-              <p class="link-menu-t1">Підписники формуються із тих користувачів які вподобали вашу оселю в "Пошуку оселі".</p>
+              <p class="link-menu-t1">Підписники формуються із тих користувачів які вподобали вашу оселю в "Пошуку
+                оселі".</p>
               <p class="link-menu-t1">Після ухвалення орендаря він з'явиться в меню "Дискусії оселі".</p>
             </div>
 
@@ -220,8 +248,30 @@
             <div class="container-img">
               <div class="wrapper-img">
 
-                <img class="img-fluid"
-                  [src]="serverPathPhotoUser + (selectedUser?.img ? selectedUser?.img : 'user_default.svg')" alt="img">
+                <!-- якщо фото немає -->
+                <ng-container *ngIf="!selectedUser.img || selectedUser.img === 'user_default.svg'">
+                  <div class="img-fluid">
+                    <img src="../../../../assets/user_default.svg" alt="img">
+                  </div>
+                </ng-container>
+
+                <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+                <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && !isLoadingImg">
+                  <div class="img-fluid">
+                    <div class="container-loader-mini">
+                      <mat-spinner color="warn"></mat-spinner>
+                      <img [src]="serverPathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true" hidden>
+                      <div class="t-min gray mt-2">Завантаження фото</div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- фото користувача -->
+                <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && isLoadingImg">
+                  <div class="img-fluid">
+                    <img [src]="serverPathPhotoUser + selectedUser.img" alt="img">
+                  </div>
+                </ng-container>
 
                 <div class="panel-container">
                   <div class="caruesel-container w-100">
@@ -584,10 +634,4 @@
     </div>
 
   </div>
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>

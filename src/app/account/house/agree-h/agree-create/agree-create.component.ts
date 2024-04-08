@@ -20,6 +20,7 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { animations } from '../../../../interface/animation';
 import { cities } from 'src/app/data/data-city';
 import { Location } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -180,6 +181,7 @@ export class AgreeCreateComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private location: Location,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -210,39 +212,39 @@ export class AgreeCreateComponent implements OnInit {
     });
   }
 
-    // відправляю event початок свайпу
-    onPanStart(event: any): void {
-      this.startX = 0;
-    }
+  // відправляю event початок свайпу
+  onPanStart(event: any): void {
+    this.startX = 0;
+  }
 
-    // Реалізація обробки завершення панорамування
-    onPanEnd(event: any): void {
-      const minDeltaX = 100;
-      if (Math.abs(event.deltaX) > minDeltaX) {
-        if (event.deltaX > 0) {
-          this.onSwiped('right');
-        } else {
-          this.onSwiped('left');
-        }
-      }
-    }
-    // оброблюю свайп
-    onSwiped(direction: string | undefined) {
-      // console.log(direction)
-      if (direction === 'right') {
-        if (this.currentStep !== 1) {
-          this.currentStep--;
-        } else {
-          this.router.navigate(['/house/agree-menu']);
-        }
+  // Реалізація обробки завершення панорамування
+  onPanEnd(event: any): void {
+    const minDeltaX = 100;
+    if (Math.abs(event.deltaX) > minDeltaX) {
+      if (event.deltaX > 0) {
+        this.onSwiped('right');
       } else {
-        if (this.currentStep !== 2 && !this.selectedSubscriber) {
-          this.currentStep++;
-        } else if (this.selectedSubscriber && this.currentStep <= 2) {
-          this.currentStep++;
-        }
+        this.onSwiped('left');
       }
     }
+  }
+  // оброблюю свайп
+  onSwiped(direction: string | undefined) {
+    // console.log(direction)
+    if (direction === 'right') {
+      if (this.currentStep !== 1) {
+        this.currentStep--;
+      } else {
+        this.router.navigate(['/house/agree-menu']);
+      }
+    } else {
+      if (this.currentStep !== 2 && !this.selectedSubscriber) {
+        this.currentStep++;
+      } else if (this.selectedSubscriber && this.currentStep <= 2) {
+        this.currentStep++;
+      }
+    }
+  }
 
   updateRentPrice(newValue: number) {
     if (!newValue) {
@@ -425,18 +427,21 @@ export class AgreeCreateComponent implements OnInit {
         // console.log(response)
         this.loading = true;
         if (response.status === 'Данні введено не правильно') {
-          this.statusMessage = 'Дублювання угод'; setTimeout(() => {
-            this.statusMessage = 'Скасуйте попередню угоду'; setTimeout(() => {
-              this.statusMessage = ''; this.loading = false;
+          this.sharedService.setStatusMessage('Дублювання угод'); setTimeout(() => {
+            this.sharedService.setStatusMessage('Скасуйте попередню угоду'); setTimeout(() => {
+              this.sharedService.setStatusMessage(''); this.loading = false;
             }, 2000);
           }, 2000);
         } else {
-          this.statusMessage = 'Умови угоди надіслані на розгляд орендарю!';
-          setTimeout(() => { this.router.navigate(['/house/agree-menu'], { queryParams: { currentStep: 2 } }); }, 3000);
+          this.sharedService.setStatusMessage('Умови угоди надіслані на розгляд орендарю!');
+          setTimeout(() => {
+            this.router.navigate(['/house/agree/rewiew']);
+            this.sharedService.setStatusMessage('');
+          }, 3000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload(); }, 2000);
       }
     } else {

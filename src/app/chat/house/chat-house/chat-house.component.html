@@ -5,7 +5,7 @@
 </ng-container>
 
 <ng-template #content>
-  <div class="chat-info-container p-1" *ngIf="selectedUser">
+  <!-- <div class="chat-info-container p-1" *ngIf="selectedUser">
     <img class="avatar-user1 w-30"
       [src]="serverPathPhotoUser + (selectedUser.photoUser ? selectedUser.photoUser : 'user_default.svg')"
       alt="User Image">
@@ -13,7 +13,7 @@
       <div>{{ selectedUser.lastName }} {{ selectedUser.firstName }} </div>
       <div class="text-min">{{ selectedUser.surName }} Chat ID: {{ selectedUser.chat_id }}</div>
     </div>
-  </div>
+  </div> -->
 
   <div class="chat-container" *ngIf="selectedUser" id="chatContainer" #chatContainer>
     <div class="chat">

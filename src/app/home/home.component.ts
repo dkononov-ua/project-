@@ -3,6 +3,7 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../interface/animation';
 import { SelectedFlatService } from '../services/selected-flat.service';
 import { Router } from '@angular/router';
+import { SharedService } from '../services/shared.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private selectedFlatService: SelectedFlatService,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -66,14 +68,14 @@ export class HomeComponent implements OnInit {
   // Перегляд статистики комунальних
   goToHouse() {
     if (this.authorizationHouse) {
-      // this.statusMessage = 'Переходимо до оселі';
       setTimeout(() => {
         this.router.navigate(['/house/house-info']);
       }, 100);
     } else {
-      this.statusMessage = 'Переходимо до вибору оселі';
+      this.sharedService.setStatusMessage('Переходимо до вибору оселі');
       setTimeout(() => {
         this.router.navigate(['/house/house-control/selection-house']);
+        this.sharedService.setStatusMessage('');
       }, 2000);
     }
   }

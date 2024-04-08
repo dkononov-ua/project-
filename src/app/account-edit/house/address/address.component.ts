@@ -7,6 +7,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface FlatInfo {
   flat_id: string | undefined;
@@ -78,6 +79,7 @@ export class AddressComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private dataService: DataService,
+    private sharedService: SharedService,
   ) {
     this.filteredRegions = [];
   }
@@ -198,9 +200,9 @@ export class AddressComponent implements OnInit {
         if (response && response.status === 'Параметри успішно додані') {
           setTimeout(() => {
             this.updateFlatInfo();
-            this.statusMessage = 'Параметри успішно додані';
+            this.sharedService.setStatusMessage('Параметри успішно додані');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
               setTimeout(() => {
                 this.router.navigate(['/edit-house/param']);
               }, 200);
@@ -208,9 +210,9 @@ export class AddressComponent implements OnInit {
           }, 300);
         } else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка збереження';
+            this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 1500);
           }, 500);
         }

@@ -3,6 +3,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-delete-comun',
@@ -20,7 +21,8 @@ export class DeleteComunComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeMonthService: ChangeMonthService,
-    private changeYearService: ChangeYearService
+    private changeYearService: ChangeYearService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {

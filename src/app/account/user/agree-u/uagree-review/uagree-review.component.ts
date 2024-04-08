@@ -6,6 +6,7 @@ import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 
 import { Agree } from '../../../../interface/info';
 import { ConfirmActionsComponent } from 'src/app/agreements/confirm-actions/confirm-actions.component';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-uagree-review',
@@ -45,6 +46,7 @@ export class UagreeReviewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -100,7 +102,7 @@ export class UagreeReviewComponent implements OnInit {
     try {
       const response = await this.http.post(url, data).toPromise();
       if (response) {
-        this.statusMessage = 'Угода видалена';
+        this.sharedService.setStatusMessage('Угода видалена');
         setTimeout(() => {
           location.reload();
         }, 2000);

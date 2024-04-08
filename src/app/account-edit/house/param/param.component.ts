@@ -5,6 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { SharedService } from 'src/app/services/shared.service';
 interface FlatInfo {
   rooms: number;
   repair_status: string | undefined;
@@ -67,6 +68,7 @@ export class ParamComponent {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private dataService: DataService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -82,7 +84,7 @@ export class ParamComponent {
     });
   }
 
-  updateFlatInfo () {
+  updateFlatInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
@@ -137,9 +139,9 @@ export class ParamComponent {
         if (response.status == 'Параметри успішно додані') {
           this.updateFlatInfo();
           setTimeout(() => {
-            this.statusMessage = 'Параметри успішно додані';
+            this.sharedService.setStatusMessage('Параметри успішно додані');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
               setTimeout(() => {
                 this.router.navigate(['/edit-house/about']);
               }, 200);
@@ -147,9 +149,9 @@ export class ParamComponent {
           }, 500);
         } else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка видалення';
+            this.sharedService.setStatusMessage('Помилка видалення');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 1500);
           }, 500);
         }

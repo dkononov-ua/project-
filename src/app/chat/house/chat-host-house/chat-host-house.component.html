@@ -8,35 +8,47 @@
 
     <div class="switch-container">
 
-      <div class="switch-btn-group">
+      <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" [routerLink]="'/house/house-info'">
           <i class="fa-solid fa-arrow-left"></i>
           <div class="t-min white">Назад</div>
         </button>
       </div>
 
-      <div class="menu-box hide-mobile">
+      <div class="switch-btn-group" *ngIf="indexPage === 1">
+        <button class="btn" (click)="indexPage = 0">
+          <i class="fa-solid fa-arrow-left"></i>
+          <div class="t-min white">Назад</div>
+        </button>
+      </div>
+
+      <div class="menu-box hide-mobile" *ngIf="indexPage === 0">
         <div class="menu-lable">Меню</div>
         <div class="menu-name">Чат Оселі</div>
       </div>
 
-      <div class="switch-btn-group">
+      <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
           <i class="fa-solid fa-list"></i>
           <div class="t-min dark bold">Чати</div>
         </button>
       </div>
 
-      <div class="switch-btn-group">
-        <button class="btn" [disabled]="!chatSelected" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage === 1}">
+      <div class="switch-btn-group" *ngIf="indexPage === 0">
+        <button class="btn" [disabled]="!chatSelected" (click)="indexPage = 1">
           <i class="fa-regular fa-message"></i>
           <div class="t-min dark bold">Чат</div>
         </button>
       </div>
 
-      <div class="menu-box hide-mobile" *ngIf="selectedChat">
-        <div class="menu-name">Чат з орендарем</div>
-        <div class="menu-lable">{{ selectedChat.infUser.inf.firstName }} {{ selectedChat.infUser.inf.lastName }}</div>
+      <div class="chat-info-container p-1" *ngIf="selectedChat && indexPage === 1">
+        <img class="avatar-user1 w-30"
+          [src]="serverPathPhotoUser + (selectedChat.infUser.img[0].img ? selectedChat.infUser.img[0].img : 'user_default.svg')"
+          alt="User Image">
+        <div class="t-med bold w-70">
+          <div>{{ selectedChat.infUser.inf.lastName }} {{ selectedChat.infUser.inf.firstName }} </div>
+          <div class="text-min">{{ selectedChat.infUser.inf.surName }} Chat ID: {{ selectedChat.chat_id }}</div>
+        </div>
       </div>
 
     </div>
@@ -74,12 +86,26 @@
             *ngIf="chats.length !== 0">
             <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
               [ngClass]="{ 'selected': chat.isSelected}">
-
               <div class="notification-box" *ngIf="chat.unread !== 0">
                 <div class="notification-num">{{chat.unread}}</div>
               </div>
 
-              <div class="card-mini-img-container">
+              <div class="card-mini-img-container" *ngIf="chat.unread !== 0">
+                <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
+                  <img class="card-mini-img"
+                    [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
+                </ng-container>
+
+                <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+                  <mat-spinner color="warn"></mat-spinner>
+                  <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
+                </ng-container>
+
+                <ng-container *ngIf="!chat.infUser.img[0].img">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
+                </ng-container>
+              </div>
+              <div class="card-mini-img-container unread" *ngIf="chat.unread === 0">
                 <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
                   <img class="card-mini-img"
                     [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
@@ -96,11 +122,21 @@
               </div>
 
               <div class="card-mini-bg"></div>
+
               <div class="card-mini-body p-1">
-                <div class="t-lar-x bold">{{ chat.infUser.inf.firstName }}</div>
-                <div class="t-lar gray bold">{{ chat.infUser.inf.lastName }}</div>
-                <div class="t-lar accent t-s">{{ chat.lastMessage }}</div>
+                <div class="flex-column w-50" *ngIf="chat.unread === 0">
+                  <div class="t-med bold">{{ chat.infUser.inf.firstName }}</div>
+                  <div class="t-med bold">{{ chat.infUser.inf.lastName }}</div>
+                </div>
+                <div class="flex-column w-50" *ngIf="chat.unread !== 0">
+                  <div class="t-med bold">{{ chat.infUser.inf.firstName }}</div>
+                  <div class="t-med bold">{{ chat.infUser.inf.lastName }}</div>
+                  <div class="stringBox">
+                    <div class="string"><i class="fa-solid fa-comment-sms pr-2"></i> {{ chat.lastMessage }}</div>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
           <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container"
@@ -117,14 +153,13 @@
         <div [@top2] class="card-animation hide-pc" *ngIf="indexPage === 0">
           <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container p-2"
             *ngIf="chats.length !== 0">
+
             <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
               [ngClass]="{ 'selected': chat.isSelected}">
-
               <div class="notification-box" *ngIf="chat.unread !== 0">
                 <div class="notification-num">{{chat.unread}}</div>
               </div>
-
-              <div class="card-mini-img-container">
+              <div class="card-mini-img-container" *ngIf="chat.unread !== 0">
                 <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
                   <img class="card-mini-img"
                     [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
@@ -139,14 +174,39 @@
                   <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
                 </ng-container>
               </div>
+              <div class="card-mini-img-container unread" *ngIf="chat.unread === 0">
+                <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
+                  <img class="card-mini-img"
+                    [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
+                </ng-container>
 
+                <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+                  <mat-spinner color="warn"></mat-spinner>
+                  <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
+                </ng-container>
+
+                <ng-container *ngIf="!chat.infUser.img[0].img">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
+                </ng-container>
+              </div>
               <div class="card-mini-bg"></div>
+
               <div class="card-mini-body p-1">
-                <div class="t-lar-x bold">{{ chat.infUser.inf.firstName }}</div>
-                <div class="t-lar gray bold">{{ chat.infUser.inf.lastName }}</div>
-                <div class="t-lar accent t-s">{{ chat.lastMessage }}</div>
+                <div class="flex-column w-50" *ngIf="chat.unread === 0">
+                  <div class="t-med bold">{{ chat.infUser.inf.firstName }}</div>
+                  <div class="t-med bold">{{ chat.infUser.inf.lastName }}</div>
+                </div>
+                <div class="flex-column w-50" *ngIf="chat.unread !== 0">
+                  <div class="t-med bold">{{ chat.infUser.inf.firstName }}</div>
+                  <div class="t-med bold">{{ chat.infUser.inf.lastName }}</div>
+                  <div class="stringBox">
+                    <div class="string"><i class="fa-solid fa-comment-sms pr-2"></i> {{ chat.lastMessage }}</div>
+                  </div>
+                </div>
+                
               </div>
             </div>
+
           </div>
           <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container"
             *ngIf="chats.length === 0">
@@ -156,15 +216,9 @@
             </div>
           </div>
         </div>
-
         <div [@top2] class="card-animation" *ngIf="indexPage === 1 && chatSelected">
           <div class="card-content">
             <div class="flex-column-chat w-100">
-              <div class="btn-close-container">
-                <div class="btn-close-box">
-                  <button class="btn-close" (click)="indexPage = 0"></button>
-                </div>
-              </div>
               <app-chat-house class="chat"></app-chat-house>
             </div>
           </div>

@@ -36,6 +36,9 @@ textarea::-webkit-scrollbar {
   align-items: center;
   justify-content: flex-start;
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 ul {
@@ -234,30 +237,12 @@ ul {
     position: relative;
     width: 100%;
     background-color: $color-white;
-    padding: 10px 30px;
     box-shadow: none !important;
     color: $color-text;
     padding: 0px;
     margin: 0;
-    min-width: 800px;
     overflow: visible;
     height: auto;
-    @include s1-s3 {
-      position: relative;
-      width: 100%;
-      background-color: $color-white;
-      padding: 10px 30px;
-      box-shadow: none !important;
-      color: $color-text;
-      padding: 0px;
-      margin: 0;
-      min-width: 800px;
-    }
-  }
-
-  .agree {
-    box-shadow: none !important;
-    color: $color-text;
   }
 
   .logo {
@@ -287,7 +272,7 @@ ul {
 
   .first-page {
     position: relative;
-    height: 95vh;
+    height: calc(100% - 100px);
   }
 
   .btn-group {
@@ -297,16 +282,13 @@ ul {
   .second-page {
     position: relative;
     page-break-before: always !important;
-    margin-top: 1cm;
-    height: 95vh;
+    height: calc(100% - 100px);
   }
 
   .page-number {
     display: block;
-    position: absolute;
-    bottom: 0;
-    right: 0;
     font-size: 12px;
+    color: $color-text;
   }
 
   .control {

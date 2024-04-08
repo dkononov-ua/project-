@@ -2,6 +2,30 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.chat-info-container {
+  @include flex-box-center;
+  justify-content: space-evenly;
+  height: 80px;
+  width: 100%;
+  background-color: transparent;
+}
+
+.avatar-user1 {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(93, 90, 90, 0.856);
+}
+
+.name-user1 {
+  display: flex;
+  font-size: 20px;
+  justify-content: flex-start;
+  font-weight: 600;
+  flex-direction: column;
+}
+
 .main-container {
   display: flex;
   flex-wrap: wrap;
@@ -124,21 +148,26 @@
     border-radius: 20px;
     .card-mini-body {
       @include flex-box-center;
-      flex-direction: column;
+      position: relative;
+      justify-content: flex-end;
       width: 100%;
       height: 100%;
       z-index: 3;
       align-items: flex-start;
+      .flex-column {
+        @include flex-box-center;
+        height: 100%;
+        flex-direction: column;
+      }
     }
     .card-mini-bg {
       position: absolute;
       top: 0;
       height: 100%;
       width: 100%;
-      background-image: linear-gradient(to left, transparent 20%, rgb(255, 255, 255) 80%);
+      background-image: linear-gradient(to right, transparent 20%, rgb(255, 255, 255) 80%);
       z-index: 2;
     }
-
     .card-mini-img-container {
       @include flex-box-center;
       position: absolute;
@@ -245,3 +274,42 @@
     height: 30px;
   }
 }
+
+.stringBox {
+  @include flex-box-center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.772);
+  justify-content: flex-start;
+  height: 40px;
+  overflow: hidden;
+  &:hover .slide {
+    animation-play-state: paused;
+  }
+  .string {
+    @include flex-box-center;
+    justify-content: flex-start;
+    color: $color-white;
+    font-size: $t-med;
+    font-weight: 600;
+    height: inherit;
+    animation: slideshow 10s linear infinite;
+    width: 100%;
+    .fa-solid {
+      color: $color-white;
+    }
+  }
+}
+
+@keyframes slideshow {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+

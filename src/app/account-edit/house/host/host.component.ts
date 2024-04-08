@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-host',
@@ -23,9 +24,9 @@ export class HostComponent implements OnInit {
 
   constructor(
     private el: ElementRef,
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private sharedService: SharedService,
   ) { }
-
   ngOnInit(): void {
     this.getSelectParam();
   }

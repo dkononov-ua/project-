@@ -7,6 +7,7 @@ import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.co
 import { Router } from '@angular/router';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 interface Subscriber {
   user_id: string;
   firstName: string;
@@ -55,6 +56,7 @@ export class HouseResidentsComponent implements OnInit {
     private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<any> {

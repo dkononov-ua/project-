@@ -68,6 +68,7 @@ export class SubscribersHouseComponent implements OnInit {
   counterHouseSubscriptions: any;
   counterHouseSubscribers: any;
   counterHD: any;
+  isLoadingImg: boolean = false;
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -215,8 +216,8 @@ export class SubscribersHouseComponent implements OnInit {
         try {
           const response: any = await this.http.post(serverPath + '/subs/delete/subs', data).toPromise();
           if (response.status === true) {
-            this.statusMessage = 'Підписник видалений';
-            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.sharedService.setStatusMessage('Підписник видалений');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
             this.updateComponent.triggerUpdate();
             this.selectedUser = undefined;
             this.counterService.getHouseSubscribersCount(this.selectedFlatId);
@@ -227,8 +228,8 @@ export class SubscribersHouseComponent implements OnInit {
               this.indexPage = 0;
             }
           } else {
-            this.statusMessage = 'Щось пішло не так, повторіть спробу';
-            setTimeout(() => { this.statusMessage = ''; this.reloadPage(); }, 2000);
+            this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); this.reloadPage(); }, 2000);
           }
         } catch (error) {
           console.error(error);
@@ -336,8 +337,8 @@ export class SubscribersHouseComponent implements OnInit {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
-      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+        this.sharedService.setStatusMessage('Скаргу надіслано'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      } else { this.sharedService.setStatusMessage('Помилка'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000); }
     });
   }
 
@@ -348,28 +349,28 @@ export class SubscribersHouseComponent implements OnInit {
       const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
       const response: any = await this.http.post(serverPath + '/subs/accept', data).toPromise();
       if (response.status == true) {
-        this.statusMessage = 'Ухвалено'
+        this.sharedService.setStatusMessage('Ухвалено')
         this.counterService.getHouseSubscribersCount(this.selectedFlatId);
         this.counterService.getHouseDiscussioCount(this.selectedFlatId);
         setTimeout(() => {
-          this.statusMessage = 'Переходимо до Дискусії';
+          this.sharedService.setStatusMessage('Переходимо до Дискусії');
           setTimeout(() => {
             this.router.navigate(['/subscribers-discus'], { queryParams: { indexPage: 1 } });
           }, 1000);
         }, 2000);
       } else if (response.status === 'Ви в дискусії') {
-        this.statusMessage = 'З цим користувачем вже є дискусія',
+        this.sharedService.setStatusMessage('З цим користувачем вже є дискусія'),
           setTimeout(() => {
             this.router.navigate(['/subscribers-discus'], { queryParams: { indexPage: 1 } });
           }, 2000);
       }
       else {
-        this.statusMessage = 'Помилка',
+        this.sharedService.setStatusMessage('Помилка'),
           setTimeout(() => {
             location.reload();
           }, 1000);
       }
-      (error: any) => { this.statusMessage = 'Помилка', setTimeout(() => { location.reload(); }, 2000); console.error(error); }
+      (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { location.reload(); }, 2000); console.error(error); }
     } else { console.log('Авторизуйтесь'); }
   }
 

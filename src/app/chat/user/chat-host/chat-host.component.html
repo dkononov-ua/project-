@@ -5,36 +5,50 @@
 <ng-template #content>
   <div class="content-component">
     <div class="switch-container">
-      <div class="switch-btn-group">
+
+      <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" [routerLink]="'/user/info'">
           <i class="fa-solid fa-arrow-left"></i>
           <div class="t-min white">Назад</div>
         </button>
       </div>
 
-      <div class="menu-box hide-mobile">
+      <div class="switch-btn-group" *ngIf="indexPage === 1">
+        <button class="btn" (click)="indexPage = 0">
+          <i class="fa-solid fa-arrow-left"></i>
+          <div class="t-min white">Назад</div>
+        </button>
+      </div>
+
+      <div class="menu-box hide-mobile" *ngIf="indexPage === 0">
         <div class="menu-lable">Меню</div>
         <div class="menu-name">Чат Орендаря</div>
       </div>
 
-      <div class="switch-btn-group">
+      <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" (click)="indexPage = 0" [ngClass]="{ 'active': indexPage === 0}">
           <i class="fa-solid fa-list"></i>
           <div class="t-min dark bold">Чати</div>
         </button>
       </div>
 
-      <div class="switch-btn-group">
-        <button class="btn" [disabled]="!chatSelected" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage === 1}">
+      <div class="switch-btn-group" *ngIf="indexPage === 0">
+        <button class="btn" [disabled]="!chatSelected" (click)="indexPage = 1">
           <i class="fa-regular fa-message"></i>
           <div class="t-min dark bold">Чат</div>
         </button>
       </div>
 
-      <div class="menu-box hide-mobile" *ngIf="selectedChat">
-        <div class="menu-name">Чат з оселею</div>
-        <div class="menu-lable">{{ selectedChat.flat_name }}</div>
+      <div class="chat-info-container p-1" *ngIf="selectedChat && indexPage === 1">
+        <img class="avatar-user1 w-30"
+          [src]="serverPathPhotoFlat + (selectedChat.infFlat.imgs[0].img ? selectedChat.infFlat.imgs[0].img : 'housing_default.svg')"
+          alt="User Image">
+        <div class="t-med bold w-70">
+          <div>{{ selectedChat.flat_name }}</div>
+          <div class="text-min">Chat ID: {{ selectedChat.chat_id }}</div>
+        </div>
       </div>
+
     </div>
     <div class="main-container">
       <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
@@ -89,10 +103,21 @@
               </div>
 
               <div class="card-mini-bg"></div>
+
               <div class="card-mini-body p-1">
-                <div class="t-lar-x bold">{{ chat.flat_name }}</div>
-                <div class="t-lar accent t-s">{{ chat.lastMessage }}</div>
+                <div class="flex-column w-50" *ngIf="chat.unread === 0">
+                  <div class="t-med bold">{{ chat.flat_name }}</div>
+                </div>
+                <div class="flex-column w-50" *ngIf="chat.unread !== 0">
+                  <div class="t-med bold">{{ chat.flat_name }}</div>
+                  <div class="stringBox">
+                    <div class="string"><i class="fa-solid fa-comment-sms pr-2"></i> {{ chat.lastMessage }}</div>
+                  </div>
+                </div>
+
               </div>
+
+
             </div>
           </div>
           <div class="cards-chat-container" *ngIf="chats.length === 0">
@@ -132,8 +157,16 @@
 
               <div class="card-mini-bg"></div>
               <div class="card-mini-body p-1">
-                <div class="t-lar-x bold">{{ chat.flat_name }}</div>
-                <div class="t-lar accent t-s">{{ chat.lastMessage }}</div>
+                <div class="flex-column w-50" *ngIf="chat.unread === 0">
+                  <div class="t-med bold">{{ chat.flat_name }}</div>
+                </div>
+                <div class="flex-column w-50" *ngIf="chat.unread !== 0">
+                  <div class="t-med bold">{{ chat.flat_name }}</div>
+                  <div class="stringBox">
+                    <div class="string"><i class="fa-solid fa-comment-sms pr-2"></i> {{ chat.lastMessage }}</div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -148,11 +181,6 @@
         <div [@top2] class="card-animation" *ngIf="indexPage === 1 && chatSelected">
           <div class="card-content">
             <div class="flex-column-chat w-100">
-              <div class="btn-close-container">
-                <div class="btn-close-box">
-                  <button class="btn-close" (click)="indexPage = 0"></button>
-                </div>
-              </div>
               <app-chat-user class="chat"></app-chat-user>
             </div>
           </div>

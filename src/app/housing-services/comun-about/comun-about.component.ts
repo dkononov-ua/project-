@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-comun-about',
@@ -13,5 +14,7 @@ import { animations } from '../../interface/animation';
   ],
 })
 export class ComunAboutComponent {
-
+  constructor(
+    private sharedService: SharedService,
+  ) {}
 }

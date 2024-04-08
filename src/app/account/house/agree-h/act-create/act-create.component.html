@@ -3,35 +3,197 @@
   <div class="switch-container">
 
     <div class="switch-btn-group">
-      <button class="btn" (click)="goBack()">
+      <button class="btn" [routerLink]="'/house/agree/concluded'">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min white">Назад</div>
       </button>
     </div>
 
     <div class="menu-box hide-mobile">
-      <div class="menu-lable">Меню</div>
-      <div class="menu-name">Дискусії Користувача</div>
+      <div class="menu-lable">Формування</div>
+      <div class="menu-name">Акту прийому-передачі</div>
     </div>
 
-    <div class="switch-btn-group">
+    <div class="switch-btn-group hide-pc" *ngIf="isMobile">
       <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage === 1}">
         <i class="fa-solid fa-circle-info"></i>
         <div class="t-min bold">Інфо</div>
       </button>
     </div>
-    
+
+    <div class="switch-btn-group">
+      <button class="btn" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage === 2}">
+        <i class="fa-solid fa-feather"></i>
+        <div class="t-min bold">Формув.</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLink]="'/add-objects'">
+        <i class="fa-solid fa-boxes-packing"></i>
+        <div class="t-min bold">Наповнення</div>
+      </button>
+    </div>
+
   </div>
 
   <div class="main-container">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
       <div class="card-wrapper">
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 0">
-          <div class="card-content">
+        <div [@right1] class="card-content-static w-100">
+          <div class="card-group">
+            <div class="flex-box-center t-c p-2 mt-2 w-100">
+              <i class="fa-solid fa-people-carry-box"></i>
+              <p class="t-lar-xx bold mb-2 t-c">
+                Акт прийому-передачі оселі
+              <p>
+              <p class="t-min mb-2">Тут ви можете сформувати акт в якому буде вказано також наповнення оселі. Після
+                цього орендаря з яким ви сформували акт прийома-передачі оселі можна додати до мешканців</p>
+            </div>
+
+            <div class="btn-group mt-2">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'"
+                [queryParams]="{ category: 'Акт прийому-передачі' }">
+                <div class="t-min bold mr-2">Є ідея як зробити краще?</div>
+                <i class="fa-regular fa-lightbulb"></i>
+              </button>
+            </div>
+
+          </div>
+          <!-- <div class="card-background">
+            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12 hide-pc" *ngIf="indexPage === 1">
+      <div [@left1] class="card-content-static">
+        <div class="card-group">
+          <div class="flex-box-center t-c p-2 mt-2 w-100">
+            <i class="fa-solid fa-people-carry-box"></i>
+            <p class="t-lar-x bold mb-2">Акт прийому-передачі оселі</p>
+            <p class="t-med bold mb-2">Тут ви можете сформувати акт в якому буде вказано також наповнення оселі. Після
+              цього орендаря з яким ви сформували акт прийома-передачі оселі можна додати до мешканців.</p>
+          </div>
+
+          <div class="btn-group mt-2">
+            <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Акт прийому-передачі' }">
+              <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+              <i class="fa-regular fa-lightbulb"></i>
+            </button>
+          </div>
+
+        </div>
+        <div class="card-background">
+          <img class="img" src="../../../../../assets/example-agree/man_and_agree6.jpg" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="indexPage === 2">
+      <div class="card-wrapper p-2">
+
+        <div class="t-lar-xx hide-pc"> <i class="fa-solid fa-people-carry-box pr-2"></i>
+          Формування акту</div>
+        <div class="t-med hide-pc">прийому-передачі оселі</div>
+
+
+        <div class="flex-column w-100 mt-2">
+          <div class="t-med bold t-c dark ml-2">Оберіть ID вже створеної угоди</div>
+          <mat-form-field class="mb-2" appearance="outline">
+            <mat-select class="list-select" [(ngModel)]="selectedAgreement" placeholder="Оберіть ID угоди">
+              <mat-option [value]="null" disabled selected>Оберіть угоду</mat-option>
+              <mat-option *ngFor="let agreement of agree" [value]="agreement">
+                {{ agreement.flat.agreement_id }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="card-box p-2 w-100 t-c" *ngIf="selectedAgreement">
+
+          <div [@left1] class="flex-box">
+            <div class="flex-box-column col-lg-6 col-md-6 col-sm-12 col-12 p-2">
+              <div class="card-user">
+                <div class="img-wrapper w-100">
+                  <img class="img-fluid" [src]="selectedAgreement?.img[0] ? serverPathPhotoFlat + selectedAgreement?.img[0] :
+                      serverPathPhotoFlat + 'housing_default.svg'" alt="img">
+
+                  <div class="card-body w-60 p-2">
+                    <div class="t-min bold accent">Передача оселі:</div>
+                    <div class="t-min">Оселя ID: {{ selectedAgreement?.flat?.flat_id }}</div>
+                    <div class="t-med bold" *ngIf="selectedAgreement?.flat?.city">
+                      {{ selectedAgreement?.flat?.city }},</div>
+                    <div class="t-med bold" *ngIf="selectedAgreement?.flat?.street">
+                      вул. {{ selectedAgreement?.flat?.street }},</div>
+                    <div class="t-med bold" *ngIf="selectedAgreement?.flat?.houseNumber">
+                      буд. {{ selectedAgreement?.flat?.houseNumber}}, кв. {{selectedAgreement?.flat?.apartment }}.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div [@left2] class="flex-box-column col-lg-6 col-md-6 col-sm-12 col-12 p-2">
+              <div class="card-user">
+                <div class="img-wrapper w-100">
+                  <img class="img-fluid" [src]="serverPathPhotoUser + (selectedAgreement?.flat?.subscriber_img
+                                  ? selectedAgreement?.flat?.subscriber_img : 'user_default.svg')" alt="img">
+                  <div class="card-body w-60 p-2">
+                    <div class="t-min bold accent">Орендарю:</div>
+                    <div class="t-min">Орендарь ID: {{ selectedAgreement?.flat.subscriber_id}} </div>
+                    <div class="t-med bold"> {{selectedAgreement?.flat.subscriber_lastName}} </div>
+                    <div class="t-med bold"> {{selectedAgreement?.flat.subscriber_firstName}} </div>
+                    <div class="t-med bold"> {{selectedAgreement?.flat.subscriber_surName }} </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div [@left2] class="flex-column p-2">
+            <div class="t-med bold">Показання лічильників на момент передачі</div>
+          </div>
+
+          <div [@left3] class="flex-box">
+            <mat-form-field class="input-mat p-1" appearance="outline">
+              <mat-label class="label-accent">Газ</mat-label>
+              <input type="number" name="gas" matInput [(ngModel)]="gas">
+            </mat-form-field>
+            <mat-form-field class="input-mat p-1" appearance="outline">
+              <mat-label class="label-accent">Вода холодна</mat-label>
+              <input type="number" name="cold_water" matInput [(ngModel)]="cold_water">
+            </mat-form-field>
+            <mat-form-field class="input-mat p-1" appearance="outline">
+              <mat-label class="label-accent">Вода гаряча</mat-label>
+              <input type="number" name="hot_water" matInput [(ngModel)]="hot_water">
+            </mat-form-field>
+            <mat-form-field class="input-mat p-1" appearance="outline">
+              <mat-label class="label-accent">Електрика</mat-label>
+              <input type="number" name="electro" matInput [(ngModel)]="electro">
+            </mat-form-field>
+          </div>
+
+          <div [@left4] class="t-med bold t-c">Я перевірив, дані внесено вірно.</div>
+          <div [@left4] class="content">
+            <label class="checkBox">
+              <input type="checkbox" [(ngModel)]="isCheckboxChecked">
+              <div class="transition"></div>
+            </label>
+            <i></i>
+          </div>
+
+          <div [@top] class="btn-group">
+            <button class="btn" [disabled]="!selectedAgreement || !isCheckboxChecked" (click)="sendFormAgreement()"
+              [ngClass]="{ 'active': isCheckboxChecked }">
+              <i class="fa-regular fa-circle-check pr-2"></i>Сформувати
+            </button>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 
 </div>

@@ -68,6 +68,7 @@ export class SubscribersDiscusComponent implements OnInit {
   counterHouseSubscribers: any;
   counterHD: any;
   page: any;
+  isLoadingImg: boolean = false;
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -219,8 +220,8 @@ export class SubscribersDiscusComponent implements OnInit {
         try {
           const response: any = await this.http.post(serverPath + '/acceptsubs/delete/subs', data).toPromise();
           if (response.status === true) {
-            this.statusMessage = 'Дискусія видалена';
-            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.sharedService.setStatusMessage('Дискусія видалена');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
             this.updateComponent.triggerUpdate();
             this.selectedUser = undefined;
             this.counterService.getHouseDiscussioCount(this.selectedFlatId);
@@ -231,9 +232,9 @@ export class SubscribersDiscusComponent implements OnInit {
               this.indexPage = 0;
             }
           } else {
-            this.statusMessage = 'Щось пішло не так, повторіть спробу';
+            this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
             setTimeout(() => {
-              this.statusMessage = ''; this.sharedService.reloadPage();
+              this.sharedService.setStatusMessage(''); this.sharedService.reloadPage();
             }, 2000);
           }
         } catch (error) {
@@ -246,19 +247,19 @@ export class SubscribersDiscusComponent implements OnInit {
   // Відкриваю чат
   async openChat() {
     try {
-      this.statusMessage = 'Завантажуємо чат...';
+      this.sharedService.setStatusMessage('Завантажуємо чат...');
       const result = await this.getFlatChats();
       if (result === 1) {
-        this.statusMessage = 'Відкриваємо чат';
-        setTimeout(() => { this.statusMessage = ''; this.indexPage = 4; }, 1000);
+        this.sharedService.setStatusMessage('Відкриваємо чат');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); this.indexPage = 4; }, 1000);
       } else if (result === 0) {
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 1000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 1000);
       }
     } catch (error) {
       console.error('Помилка при завантаженні чату:', error);
-      this.statusMessage = 'Помилка на сервері, спробуйте пізніше';
-      setTimeout(() => { this.statusMessage = ''; }, 2000);
+      this.sharedService.setStatusMessage('Помилка на сервері, спробуйте пізніше');
+      setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
     }
   }
 
@@ -270,19 +271,19 @@ export class SubscribersDiscusComponent implements OnInit {
       try {
         const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
-          this.statusMessage = 'Створюємо чат';
+          this.sharedService.setStatusMessage('Створюємо чат');
           const result = await this.getFlatChats();
           if (result === 1) {
             setTimeout(() => { this.openChat(); }, 2000);
           } else if (result === 0) {
-            this.statusMessage = 'Щось пішло не так, повторіть спробу';
-            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
           }
         } else { this.statusMessageChat = true; }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
       }
     } else {
       console.log('Авторизуйтесь');
@@ -424,8 +425,8 @@ export class SubscribersDiscusComponent implements OnInit {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
-      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+        this.sharedService.setStatusMessage('Скаргу надіслано'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      } else { this.sharedService.setStatusMessage('Помилка'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000); }
     });
   }
 

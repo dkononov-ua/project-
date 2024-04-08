@@ -10,6 +10,7 @@ import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface ObjectInfo {
   name: string | undefined;
@@ -114,6 +115,7 @@ export class AddObjectsComponent implements OnInit {
     private _cd: ChangeDetectorRef,
     private router: Router,
     private location: Location,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -283,7 +285,7 @@ export class AddObjectsComponent implements OnInit {
         this.loading = true;
         const response: any = await this.http.post(serverPath + '/img/uploadFilling', photoData, { headers }).toPromise();
         if (response.status === 'Збережено') {
-          this.statusMessage = "Об'єкт додано до списку";
+          this.sharedService.setStatusMessage("Об'єкт додано до списку");
           this.selectedObject = '';
           this.objectInfo.number = 1;
           this.customObject = '';
@@ -291,12 +293,12 @@ export class AddObjectsComponent implements OnInit {
           this.cropped = '';
           this.selectedFile = null;
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.getInfo();
             this.loading = false;
           }, 1500);
         } else {
-          this.statusMessage = 'Дані не збережено';
+          this.sharedService.setStatusMessage('Дані не збережено');
           setTimeout(() => { this.reloadPageWithLoader() }, 1500);
         }
       } catch (error) { this.loading = false; console.error(error); }
@@ -316,11 +318,11 @@ export class AddObjectsComponent implements OnInit {
           this.selectedObject = '';
           this.objectInfo.number = 1;
           this.objectInfo.about = '';
-          this.statusMessage = "Об'єкт додано до списку";
+          this.sharedService.setStatusMessage("Об'єкт додано до списку");
           setTimeout(() => {
-            this.statusMessage = ''; this.getInfo(); this.loading = false;
+            this.sharedService.setStatusMessage(''); this.getInfo(); this.loading = false;
           }, 1500);
-        } else { setTimeout(() => { this.statusMessage = 'Дані не збережено'; this.reloadPageWithLoader() }, 2000); }
+        } else { setTimeout(() => { this.sharedService.setStatusMessage('Дані не збережено'); this.reloadPageWithLoader() }, 2000); }
       } catch (error) { this.loading = false; console.error(error); }
     } else { console.log('Внесіть данні') }
   }

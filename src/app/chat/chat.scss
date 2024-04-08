@@ -1,13 +1,13 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
 
-.chat-info-container {
-  @include flex-box-center;
-  justify-content: space-evenly;
-  height: 80px;
-  width: 100%;
-  background-color: tan;
-}
+// .chat-info-container {
+//   @include flex-box-center;
+//   justify-content: space-evenly;
+//   height: 80px;
+//   width: 100%;
+//   background-color: transparent;
+// }
 
 .chat-container {
   position: relative;
@@ -16,17 +16,17 @@
   flex-direction: column-reverse;
   background-color: $color-white;
   overflow: auto;
-  height: calc(100vh - 100px - 1rem - 80px - 70px);
+  height: calc(100vh - 100px - 1rem - 70px);
   @include s3-s6-max {
-    height: calc(100vh - 100px - 1rem - 80px - 70px - 20px);
+    height: calc(100vh - 100px - 1rem - 70px - 20px);
   }
-  box-shadow: inset 0px 10px 15px rgba(107, 107, 107, 0.531);
+  // box-shadow: inset 0px 10px 15px rgba(107, 107, 107, 0.531);
 }
 
 .chat-send-container {
   @include flex-box-center;
   height: 70px;
-  background-color: $color-white;
+  background-color: $color-light;
 }
 
 .container-loader-mini {

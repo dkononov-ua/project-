@@ -8,6 +8,7 @@ import { OurTeamComponent } from '../pages/our-team/our-team.component';
 import { HomePageComponent } from '../pages/home-page/home-page.component';
 import { UserLicenceComponent } from '../pages/user-licence/user-licence.component';
 import { RegistrationComponent } from '../pages/registration/registration.component';
+import { FeedbackComponent } from '../pages/feedback/feedback.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'our-team', component: OurTeamComponent },
       { path: 'user-licence', component: UserLicenceComponent, },
       { path: 'registration', component: RegistrationComponent },
+      { path: 'feedback', component: FeedbackComponent },
     ],
   },
 ];

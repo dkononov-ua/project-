@@ -4,6 +4,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -18,8 +19,6 @@ interface FlatInfo {
   templateUrl: './additional-info.component.html',
   styleUrls: ['./additional-info.component.scss'],
   animations: [animations.left, animations.left1, animations.left2,],
-
-
 })
 
 export class AdditionalInfoComponent implements OnInit {
@@ -84,8 +83,8 @@ export class AdditionalInfoComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
-  ) {
-  }
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit(): void {
     this.getSelectedFlatId();
@@ -138,15 +137,15 @@ export class AdditionalInfoComponent implements OnInit {
         }).toPromise();
         // if (response.status === 'Збережено') {
         if (response.status) {
-          this.statusMessage = "Допоміжна інформація збережена";
+          this.sharedService.setStatusMessage("Допоміжна інформація збережена");
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.router.navigate(['/house/house-info']);
             // this.getInfo();
             // this.loading = false;
           }, 2000);
         } else {
-          this.statusMessage = "Помилка збереження";
+          this.sharedService.setStatusMessage("Помилка збереження");
           this.reloadPageWithLoader()
         }
       } catch (error) {

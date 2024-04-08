@@ -281,7 +281,7 @@ export class SearchTermTenantsComponent implements OnInit {
   }
 
   // пошук
-  searchFilter(): void {
+  async searchFilter(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
@@ -289,13 +289,12 @@ export class SearchTermTenantsComponent implements OnInit {
           if (!this.filteredUsers) {
             this.filteredUsers = [];
           }
-
           if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
             this.filteredUsers.push(...response.user_inf);
             this.optionsFound = response.search_count;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
           } else {
-            this.filteredUsers = [null];
+            this.filteredUsers = [];
             this.optionsFound = 0;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
           }
@@ -306,7 +305,6 @@ export class SearchTermTenantsComponent implements OnInit {
       this.passInformationToService(this.filteredUsers, this.optionsFound)
     }
   }
-
 
   // пошук юзера по ID
   searchByUserID(): void {

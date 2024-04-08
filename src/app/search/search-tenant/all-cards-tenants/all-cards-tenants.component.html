@@ -34,29 +34,26 @@
 
       </div>
 
-      <ng-container *ngIf="user.img && isLoadingImg">
+      <!-- завантажуємо дефолтне фото користувача якщо фото відсутнє -->
+      <ng-container *ngIf="!user.img || user.img === 'user_default.svg'">
         <div class="card-mini-user">
-          <img
-            [src]="user.img && user.img ? serverPathPhotoUser + user.img : serverPathPhotoUser + 'housing_default.svg'"
-            alt="img">
+          <img src="../../../../assets/user_default.svg" alt="img">
         </div>
       </ng-container>
-
-      <ng-container *ngIf="user.img && !isLoadingImg">
+      <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+      <ng-container *ngIf="user.img && user.img !== 'user_default.svg' && !isLoadingImg">
         <div class="card-mini-img">
           <div class="container-loader-mini">
             <mat-spinner color="warn"></mat-spinner>
-            <img
-              [src]="user.img && user.img ? serverPathPhotoUser + user.img : serverPathPhotoUser + 'user_default.svg'"
-              alt="img" (load)="isLoadingImg = true" hidden>
+            <img [src]="serverPathPhotoUser + user.img" alt="img" (load)="isLoadingImg = true" hidden>
             <div class="t-min gray mt-2">Завантаження фото</div>
           </div>
         </div>
       </ng-container>
-
-      <ng-container *ngIf="!user.img">
-        <div class="card-mini-img">
-          <img src="../../../../assets/user_default.svg" alt="img">
+      <!-- якщо фото користувача завантажилось показуємо фото -->
+      <ng-container *ngIf="user.img && user.img !== 'user_default.svg' && isLoadingImg">
+        <div class="card-mini-user">
+          <img [src]="serverPathPhotoUser + user.img" alt="img">
         </div>
       </ng-container>
 

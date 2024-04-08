@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-agree-host',
   templateUrl: './agree-host.component.html',
@@ -43,6 +44,7 @@ export class AgreeHostComponent implements OnInit {
     private router: Router,
     private selectedFlatIdService: SelectedFlatService,
     private route: ActivatedRoute,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {

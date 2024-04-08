@@ -58,7 +58,6 @@ export class ResidentComponent implements OnInit {
     private location: Location,
     private sharedService: SharedService,
     private choseSubscribersService: ChoseSubscribersService,
-
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;

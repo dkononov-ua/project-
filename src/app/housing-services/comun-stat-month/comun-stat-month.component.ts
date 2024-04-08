@@ -7,6 +7,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-comun-stat-month',
   templateUrl: './comun-stat-month.component.html',
@@ -69,7 +70,7 @@ export class ComunStatMonthComponent implements OnInit {
     private changeMonthService: ChangeMonthService,
     private changeYearService: ChangeYearService,
     private selectedViewComun: ViewComunService,
-
+    private sharedService: SharedService,
   ) { this.flatInfo = []; }
 
   ngOnInit(): void {

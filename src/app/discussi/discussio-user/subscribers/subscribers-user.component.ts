@@ -250,19 +250,19 @@ export class SubscribersUserComponent implements OnInit {
       const data = { auth: JSON.parse(userJson!), flat_id: choseFlatId, };
       const response: any = await this.http.post(serverPath + '/usersubs/accept', data).toPromise();
       if (response.status == true) {
-        this.statusMessage = 'Ухвалено'
+        this.sharedService.setStatusMessage('Ухвалено');
         this.chosenFlat = null;
         this.counterService.getUserDiscussioCount();
         this.counterService.getUserSubscribersCount();
         this.getSubInfo(this.offs);
         setTimeout(() => {
-          this.statusMessage = 'Переходимо до Дискусії';
+          this.sharedService.setStatusMessage('Переходимо до Дискусії');
           setTimeout(() => {
             this.router.navigate(['/subscribers-discuss'], { queryParams: { indexPage: 1 } });
           }, 1000);
         }, 2000);
-      } else { this.statusMessage = 'Помилка', this.reloadPage; }
-      (error: any) => { this.statusMessage = 'Помилка', setTimeout(() => { this.reloadPage }, 2000); console.error(error); }
+      } else { this.sharedService.setStatusMessage('Помилка'), this.reloadPage; }
+      (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { this.reloadPage }, 2000); console.error(error); }
     } else { console.log('Авторизуйтесь'); }
   }
 
@@ -279,7 +279,7 @@ export class SubscribersUserComponent implements OnInit {
         try {
           const response: any = await this.http.post(serverPath + '/usersubs/delete/ysubs', data).toPromise();
           if (response.status === true) {
-            this.statusMessage = 'Підписника видалено'
+            this.sharedService.setStatusMessage('Підписника видалено');
             this.chosenFlat = null;
             this.counterService.getUserSubscribersCount();
             await this.getSubInfo(this.offs);
@@ -288,20 +288,20 @@ export class SubscribersUserComponent implements OnInit {
             } else {
               this.indexPage = 0;
             }
-            setTimeout(() => { this.statusMessage = ''; }, 2000);
-          } else { this.statusMessage = 'Помилка', this.reloadPage; }
-        } catch (error) { this.statusMessage = 'Помилка на сервері', this.reloadPage; console.error(error); }
+            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+          } else { this.sharedService.setStatusMessage('Помилка'), this.reloadPage; }
+        } catch (error) { this.sharedService.setStatusMessage('Помилка на сервері'), this.reloadPage; console.error(error); }
       }
     });
   }
 
   openOwner(index: number) {
     if (index === 0) {
-      this.statusMessage = 'Оселя';
-      setTimeout(() => { this.statusMessage = ''; this.onClickMenu(2) }, 1000);
+      this.sharedService.setStatusMessage('Оселя');
+      setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(2) }, 1000);
     } else {
-      this.statusMessage = 'Представник оселі';
-      setTimeout(() => { this.statusMessage = ''; this.onClickMenu(4) }, 1000);
+      this.sharedService.setStatusMessage('Представник оселі');
+      setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(4) }, 1000);
     }
   }
 
@@ -325,8 +325,8 @@ export class SubscribersUserComponent implements OnInit {
 
   // Відкриваю локацію на мапі
   openMap() {
-    this.statusMessage = 'Відкриваємо локаці на мапі';
-    setTimeout(() => { this.statusMessage = ''; window.open(this.locationLink, '_blank'); }, 2000);
+    this.sharedService.setStatusMessage('Відкриваємо локаці на мапі');
+    setTimeout(() => { this.sharedService.setStatusMessage(''); window.open(this.locationLink, '_blank'); }, 2000);
   }
 
   // пагінатор наступна сторінка з картками
@@ -393,11 +393,11 @@ export class SubscribersUserComponent implements OnInit {
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => { this.statusMessage = '' }, 2000);
+        this.sharedService.setStatusMessage('Скаргу надіслано');
+        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       } else {
-        this.statusMessage = 'Помилка';
-        setTimeout(() => { this.statusMessage = '' }, 2000);
+        this.sharedService.setStatusMessage('Помилка');
+        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       }
     });
   }

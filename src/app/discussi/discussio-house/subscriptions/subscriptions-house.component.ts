@@ -68,6 +68,7 @@ export class SubscriptionsHouseComponent implements OnInit {
   counterHouseSubscriptions: any;
   counterHouseSubscribers: any;
   counterHD: any;
+  isLoadingImg: boolean = false;
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -216,8 +217,8 @@ export class SubscriptionsHouseComponent implements OnInit {
         try {
           const response: any = await this.http.post(serverPath + '/usersubs/delete/subs', data).toPromise();
           if (response.status === true) {
-            this.statusMessage = 'Підписка видалена';
-            setTimeout(() => { this.statusMessage = ''; }, 2000);
+            this.sharedService.setStatusMessage('Підписка видалена');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
             this.updateComponent.triggerUpdate();
             this.selectedUser = undefined;
             this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
@@ -228,8 +229,8 @@ export class SubscriptionsHouseComponent implements OnInit {
               this.indexPage = 0;
             }
           } else {
-            this.statusMessage = 'Щось пішло не так, повторіть спробу';
-            setTimeout(() => { this.statusMessage = ''; this.reloadPage(); }, 2000);
+            this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); this.reloadPage(); }, 2000);
           }
         } catch (error) {
           console.error(error);
@@ -317,8 +318,8 @@ export class SubscriptionsHouseComponent implements OnInit {
     this.sharedService.reportUser(user);
     this.sharedService.getReportResultSubject().subscribe(result => {
       if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано'; setTimeout(() => { this.statusMessage = ''; }, 2000);
-      } else { this.statusMessage = 'Помилка'; setTimeout(() => { this.statusMessage = ''; }, 2000); }
+        this.sharedService.setStatusMessage('Скаргу надіслано'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      } else { this.sharedService.setStatusMessage('Помилка'); setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000); }
     });
   }
 

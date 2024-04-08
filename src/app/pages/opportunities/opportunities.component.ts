@@ -1,5 +1,6 @@
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { Component, ElementRef } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-opportunities',
@@ -24,7 +25,7 @@ import { Component, ElementRef } from '@angular/core';
   ],
 })
 
-export class OpportunitiesComponent  {
+export class OpportunitiesComponent {
   indexPage: number = 0;
   togglePageNext() {
     if (this.indexPage !== 8) {
@@ -40,8 +41,10 @@ export class OpportunitiesComponent  {
     }
   }
 
-
-  constructor(private el: ElementRef) { }
+  constructor(
+    private el: ElementRef,
+    private sharedService: SharedService,
+  ) { }
 
   scrollToAnchor(anchor: string): void {
     const element = this.el.nativeElement.querySelector(`#${anchor}`);

@@ -3,59 +3,20 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
-.card-box {
+.main-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  flex-direction: column;
-  position: relative;
-  min-height: 650px;
-  .card {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-height: 650px;
-    position: relative;
-    justify-content: space-between;
-    border: none;
-  }
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 
-.flex-content {
-  @include flex-box;
-  @include s1-s3 {
-    flex-direction: column;
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
   }
 }
-
-.fa-solid {
-  font-size: 30px;
-}
-
-.card-menu {
-  min-height: 650px;
-  overflow: hidden;
-  border-radius: 20px;
-  @include flex-box;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  position: relative;
-
-  .param-box {
-    z-index: 10;
-    background-color: rgba(255, 255, 255, 0.831);
-  }
-
-  .img-wrapper {
-    position: absolute;
-    overflow: hidden;
-    border-radius: 20px;
-    .img {
-      width: 100%;
-      object-fit: cover;
-    }
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-primary !important;
   }
 }
 

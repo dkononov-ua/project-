@@ -7,6 +7,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { animations } from '../../../../interface/animation';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-act-create',
@@ -16,6 +17,7 @@ import { Agree } from '../../../../interface/info';
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
+    animations.right1,
     animations.left,
     animations.left1,
     animations.left2,
@@ -32,7 +34,7 @@ export class ActCreateComponent implements OnInit {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-  
+
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
   serverPathPhotoFlat = serverPathPhotoFlat;
@@ -40,7 +42,7 @@ export class ActCreateComponent implements OnInit {
 
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
-  indexPage: number = 1;
+  indexPage: number = 2;
   message: string = '';
   statusMessage: string | undefined;
   agree: any;
@@ -82,12 +84,19 @@ export class ActCreateComponent implements OnInit {
   closeContainer() {
     this.isContainerVisible = false;
   }
+  isMobile: boolean = false;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private selectedFlatIdService: SelectedFlatService,
     private router: Router,
-  ) { }
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   async ngOnInit(): Promise<any> {
     this.getSelectedFlatID();
@@ -183,14 +192,12 @@ export class ActCreateComponent implements OnInit {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
           agreement_id: this.selectedAgreement.flat.agreement_id,
-
           counter: {
             gas: this.gas || '',
             electro: this.electro || '',
             hot_water: this.hot_water || '',
             cold_water: this.cold_water || '',
           },
-
           filling: this.flat_objects,
         };
 
@@ -201,16 +208,17 @@ export class ActCreateComponent implements OnInit {
               if (response.status === 'Данні введено не правильно') {
                 console.error(response.status);
                 setTimeout(() => {
-                  this.statusMessage = 'Помилка формування акту.';
+                  this.sharedService.setStatusMessage('Помилка формування акту');
                   setTimeout(() => {
                     location.reload();
                   }, 2000);
                 }, 2000);
               } else {
                 setTimeout(() => {
-                  this.statusMessage = 'Акт сформовано успішно!';
+                  this.sharedService.setStatusMessage('Акт сформовано успішно!');
                   setTimeout(() => {
-                    this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 3 } });
+                    this.router.navigate(['/house/agree-menu']);
+                    this.sharedService.setStatusMessage('');
                   }, 2000);
                 }, 1000);
               }
@@ -218,7 +226,7 @@ export class ActCreateComponent implements OnInit {
             (error: any) => {
               console.error(error);
               setTimeout(() => {
-                this.statusMessage = 'Помилка формування акту.';
+                this.sharedService.setStatusMessage('Помилка формування акту.');
                 setTimeout(() => {
                   location.reload();
                 }, 2000);
@@ -227,7 +235,6 @@ export class ActCreateComponent implements OnInit {
           );
         this.loading = false;
       } else {
-        console.log('User, flat, or subscriber not found');
         this.loading = false;
       }
     }

@@ -281,8 +281,8 @@ export class MainInfoComponent implements OnInit {
 
   // Відкриваю локацію на мапі
   openMap() {
-    this.statusMessage = 'Відкриваємо локацію на мапі';
-    setTimeout(() => { this.statusMessage = ''; window.open(this.locationLink, '_blank'); }, 2000);
+    this.sharedService.setStatusMessage('Відкриваємо локацію на мапі');
+    setTimeout(() => { this.sharedService.setStatusMessage(''); window.open(this.locationLink, '_blank'); }, 2000);
   }
 
   // Копіювання параметрів

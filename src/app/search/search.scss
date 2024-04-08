@@ -2,6 +2,15 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.card-animation {
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+  @include s3-s6-max {
+    width: 98% !important;
+  }
+}
+
 .card-content {
   align-items: stretch !important;
 }

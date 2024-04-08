@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface Subscriber {
   acces_flat_chats: boolean;
@@ -92,6 +93,7 @@ export class ResidentAccessComponent implements OnInit {
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
     private choseSubscribersService: ChoseSubscribersService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit() {
@@ -153,22 +155,22 @@ export class ResidentAccessComponent implements OnInit {
       this.http.post(serverPath + '/citizen/add/access', data).subscribe(
         (response: any) => {
           if (response.status == ')') {
-            this.statusMessage = 'Зміни внесено';
+            this.sharedService.setStatusMessage('Зміни внесено');
             setTimeout(() => {
-              this.statusMessage = 'Орендар має перезайти в оселю';
+              this.sharedService.setStatusMessage('Орендар має перезайти в оселю');
               setTimeout(() => {
-                this.statusMessage = 'Після цього зміни втуплять в силу';
+                this.sharedService.setStatusMessage('Після цього зміни втуплять в силу');
                 setTimeout(() => {
-                  this.statusMessage = '';
+                  this.sharedService.setStatusMessage('');
                   this.loading = false;
                 }, 1500);
               }, 1500);
             }, 1500);
           } else {
             setTimeout(() => {
-              this.statusMessage = 'Помилка збереження';
+              this.sharedService.setStatusMessage('Помилка збереження');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
                 location.reload();
               }, 1500);
             }, 500);

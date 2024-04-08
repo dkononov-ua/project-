@@ -231,8 +231,7 @@ export class HouseShareComponent implements OnInit {
 
   // Відкриваю локацію на мапі
   openMap() {
-    this.statusMessage = 'Відкриваємо локацію на мапі';
-    this.sharedService.setStatusMessage(this.statusMessage);
+    this.sharedService.setStatusMessage('Відкриваємо локацію на мапі');
     // console.log(this.locationLink)
     setTimeout(() => { this.sharedService.setStatusMessage(''); window.open(this.locationLink, '_blank'); }, 2000);
   }

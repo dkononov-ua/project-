@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionsComponent } from '../confirm-actions/confirm-actions.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-rental-agreement',
@@ -44,6 +45,7 @@ export class RentalAgreementComponent implements OnInit {
     private location: Location,
     private router: Router,
     private dialog: MatDialog,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -117,19 +119,20 @@ export class RentalAgreementComponent implements OnInit {
       if (response) {
         const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedAgreeID);
         if (selectedAgreement) {
-          this.selectedAgreement = selectedAgreement
+          this.selectedAgreement = selectedAgreement;
+          console.log(this.selectedAgreement)
         } else {
-          this.statusMessage = 'Угода не знайдена';
+          this.sharedService.setStatusMessage('Угода не знайдена');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.router.navigate(['/house/agree-menu']);
           }, 2000);
         }
       } else {
-        this.statusMessage = 'Помилка отримання даних';
+        this.sharedService.setStatusMessage('Помилка отримання даних');
         setTimeout(() => {
-          this.statusMessage = '';
           this.router.navigate(['/house/agree-menu']);
+          this.sharedService.setStatusMessage('');
         }, 2000);
       }
     } catch (error) {
@@ -165,13 +168,13 @@ export class RentalAgreementComponent implements OnInit {
     try {
       const response = await this.http.post(url, data).toPromise();
       if (response) {
-        this.statusMessage = 'Умови угоди відхилено';
+        this.sharedService.setStatusMessage('Умови угоди відхилено');
         setTimeout(() => {
-          this.statusMessage = '';
-          this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 2 } });
+          this.router.navigate(['/user/agree/menu']);
+          this.sharedService.setStatusMessage('');
         }, 2000);
       } else {
-        this.statusMessage = 'Помилка ивдалення';
+        this.sharedService.setStatusMessage('Помилка ивдалення');
         setTimeout(() => {
           location.reload();
         }, 2000);
@@ -195,17 +198,18 @@ export class RentalAgreementComponent implements OnInit {
       try {
         const response = (await this.http.post(serverPath + '/agreement/accept/agreement', data).toPromise()) as any;
         if (response.status === 'Договір погоджено') {
-          this.statusMessage = 'Умови угоди ухвалені!';
+          this.sharedService.setStatusMessage('Умови угоди ухвалені!');
           setTimeout(() => {
-            this.router.navigate(['/user/uagree-menu'], { queryParams: { indexPage: 3 } });
+            this.router.navigate(['/user/agree/concluded']);
+            this.sharedService.setStatusMessage('');
           }, 3000);
         } else {
-          this.statusMessage = 'Помилка ухвалення умов угоди угоди.';
-          setTimeout(() => { this.loading = false; this.statusMessage = ''; }, 2000);
+          this.sharedService.setStatusMessage('Помилка ухвалення умов угоди угоди');
+          setTimeout(() => { this.loading = false; this.sharedService.setStatusMessage(''); }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, спробуйте пізніше.';
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте пізніше');
         setTimeout(() => { location.reload }, 2000);
       }
     }

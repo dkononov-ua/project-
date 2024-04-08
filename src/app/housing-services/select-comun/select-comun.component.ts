@@ -5,6 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath } from 'src/app/config/server-config';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-select-comun',
@@ -43,6 +44,7 @@ export class SelectComunComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private discussioViewService: DiscussioViewService,
     private selectedViewComun: ViewComunService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {

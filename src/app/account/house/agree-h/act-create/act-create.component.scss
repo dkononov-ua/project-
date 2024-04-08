@@ -3,9 +3,31 @@
 @use "../../../../style/agree/act.doc.scss";
 @use "../agree-menu/agree-menu.component.scss";
 
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+.card-wrapper {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start !important;
+}
 .container-box {
   @include flex-box;
   align-items: flex-start;
+}
+
+.card-group {
+  @include s3-s6-max {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+  }
+}
+.card-content-static {
+  @include s3-s6-max {
+    background-color: $color-primary !important;
+  }
 }
 
 .flex-box {
@@ -15,27 +37,32 @@
   }
 }
 
-.img-wrapper {
-  @include flex-box;
-  overflow: hidden;
-  .img-fluid {
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-}
+
 
 .checkbox-section {
   background-color: $color-white;
 }
 
 .card-user {
-  // border: 1px solid $color-gray;
   border-radius: 20px;
-  padding: 10px;
+  height: 130px;
+  width: 100%;
   background-color: $color-white;
+  overflow: hidden;
   @include box-shadow;
+  .img-wrapper {
+    @include flex-box;
+    height: 100%;
+    .img-fluid {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.flex-column {
+  display: flex;
+  justify-content: center;
 }
 
 .btn-box-btn {
@@ -62,14 +89,4 @@
   @include flex-box-column;
   justify-content: flex-start;
   align-items: flex-start;
-}
-
-.card-wrapper {
-  @include flex-box-column;
-  .card {
-    width: 50%;
-    @include s1-s3 {
-      width: 100%;
-    }
-  }
 }

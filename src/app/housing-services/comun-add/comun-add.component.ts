@@ -109,35 +109,12 @@ export class ComunAddComponent implements OnInit {
   ngOnInit(): void {
     this.getSelectParam();
     this.getDefaultData();
-
   }
 
   getDefaultData() {
     const selectedServicePhoto = this.comunalServicesPhoto.find(service => service.name === this.selectedComun);
     this.selectedImageUrl = selectedServicePhoto?.imageUrl ?? this.defaultImageUrl;
   }
-
-  // getSelectParam() {
-  //   this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-  //     this.selectedFlatId = flatId || this.selectedFlatId;
-  //   });
-
-  //   this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
-  //     this.selectedView = selectedView;
-  //   });
-
-  //   this.selectedViewComun.selectedName$.subscribe((selectedName: string | null) => {
-  //     this.selectedName = selectedName;
-  //   });
-
-  //   this.discussioViewService.discussioView$.subscribe((discussio_view: boolean) => {
-  //     this.discussio_view = discussio_view;
-  //   });
-
-  //   this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
-  //     this.selectedComun = selectedComun || this.selectedComun;
-  //   });
-  // }
 
   createComunName() {
     this.loading = true;
@@ -150,7 +127,7 @@ export class ComunAddComponent implements OnInit {
             if (response.status === 'Данні по комуналці успішно змінені') {
               setTimeout(() => {
                 this.sharedService.setStatusMessage('Послуга створена');
-                this.router.navigate(['/housing-services/host-comun'], { queryParams: { indexPage: 1 } });
+                this.router.navigate(['/communal']);
                 setTimeout(() => {
                   this.sharedService.setStatusMessage('');
                   location.reload();
@@ -158,7 +135,6 @@ export class ComunAddComponent implements OnInit {
               }, 200);
             } else {
               this.sharedService.setStatusMessage('Помилка створення або можливо така назва вже існує');
-              this.router.navigate(['/housing-services/host-comun'], { queryParams: { indexPage: 1 } });
               setTimeout(() => {
                 this.sharedService.setStatusMessage('');
                 location.reload();
@@ -184,17 +160,13 @@ export class ComunAddComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && this.selectedFlatId && userJson && this.selectedComun) {
         const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: comunal_name };
-        console.log(data)
         try {
           const response: any = await this.http.post(serverPath + '/comunal/delete/button', data).toPromise();
-          console.log(response)
           if (response.status === true) {
             this.sharedService.setStatusMessage('Послуга видалена');
-            this.router.navigate(['/housing-services/host-comun'], { queryParams: { indexPage: 1 } });
             setTimeout(() => { this.sharedService.setStatusMessage(''); location.reload() }, 2000);
           } else {
             this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
-            this.router.navigate(['/housing-services/host-comun'], { queryParams: { indexPage: 1 } });
             setTimeout(() => {
               this.sharedService.setStatusMessage(''); location.reload();
             }, 2000);
@@ -293,6 +265,10 @@ export class ComunAddComponent implements OnInit {
     this.router.navigate(['/communal/stat-season']);
   }
 
+  selectComun(comunal_name: any) {
+    this.changeComunService.setSelectedComun(comunal_name);
+  }
+
   goToStatSeason(comunal_name: any) {
     this.changeComunService.setSelectedComun(comunal_name);
     this.sharedService.setStatusMessage('Сезонна статистика ' + comunal_name);
@@ -301,7 +277,5 @@ export class ComunAddComponent implements OnInit {
       this.sharedService.setStatusMessage('');
     }, 1500);
   }
-
-
 }
 

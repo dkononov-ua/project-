@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface Subscriber {
   user_id: string;
@@ -38,7 +39,6 @@ export class UserSearchComponent implements OnInit {
   loading = false;
   searchQuery: string | undefined;
   subscribers: Subscriber[] | undefined;
-  timer: NodeJS.Timeout | undefined;
   selectedSubscriber: Subscriber | undefined;
   selectedFlatId: any;
   statusMessage: string | undefined;
@@ -64,6 +64,7 @@ export class UserSearchComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private selectedFlatIdService: SelectedFlatService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -137,14 +138,14 @@ export class UserSearchComponent implements OnInit {
         try {
           const response: any = await this.http.post<Subscriber[]>(url, data).toPromise();
           if (response.status === false) {
-            this.statusMessage = 'Немає доступу або не існує такого ID';
+            this.sharedService.setStatusMessage('Немає доступу або не існує такого ID');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 2500);
           } else {
-            this.statusMessage = 'Додаємо користувача з ID:' + this.searchQuery;
+            this.sharedService.setStatusMessage('Додаємо користувача з ID:') + this.searchQuery;
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
               this.reloadPageWithLoader()
             }, 1500);
           }

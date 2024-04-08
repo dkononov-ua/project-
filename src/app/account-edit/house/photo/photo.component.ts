@@ -9,6 +9,7 @@ import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { DataService } from 'src/app/services/data.service';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-photo',
   templateUrl: './photo.component.html',
@@ -65,6 +66,7 @@ export class PhotoComponent implements OnInit {
     private _dialog: LyDialog,
     private elementRef: ElementRef,
     private dataService: DataService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -105,7 +107,7 @@ export class PhotoComponent implements OnInit {
               this.flatImg.reverse();
               if (this.reloadImg) {
                 setTimeout(() => {
-                  this.statusMessage = '';
+                  this.sharedService.setStatusMessage('');
                   this.reloadImg = false;
                 }, 1500);
               }
@@ -164,13 +166,13 @@ export class PhotoComponent implements OnInit {
         if (data.status === 'Збережено') {
           this.reloadImg = true;
           this.flatImg = [];
-          this.statusMessage = 'Фото додано';
+          this.sharedService.setStatusMessage('Фото додано');
           await this.getInfo();
         } else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка завантаження';
+            this.sharedService.setStatusMessage('Помилка завантаження');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 1500);
           }, 500);
         }
@@ -207,7 +209,7 @@ export class PhotoComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response.status == 'Видалення було успішне') {
-              this.statusMessage = 'Видалено';
+              this.sharedService.setStatusMessage('Видалено');
               setTimeout(() => {
                 const deletedIndex = this.flatImg.findIndex((item: { img: any; }) => item.img === selectImg);
                 this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg);
@@ -216,14 +218,14 @@ export class PhotoComponent implements OnInit {
                 }
                 this.getInfo();
                 setTimeout(() => {
-                  this.statusMessage = '';
+                  this.sharedService.setStatusMessage('');
                 }, 1500);
               }, 1500);
             } else {
               setTimeout(() => {
-                this.statusMessage = 'Помилка видалення';
+                this.sharedService.setStatusMessage('Помилка видалення');
                 setTimeout(() => {
-                  this.statusMessage = '';
+                  this.sharedService.setStatusMessage('');
                 }, 1500);
               }, 500);
             }

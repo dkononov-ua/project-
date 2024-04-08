@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { animations } from '../../../interface/animation';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-instruction',
@@ -16,5 +18,8 @@ import { animations } from '../../../interface/animation';
 
 })
 export class InstructionComponent {
-
+  constructor(
+    private selectedFlatService: SelectedFlatService,
+    private sharedService: SharedService,
+  ) { }
 }

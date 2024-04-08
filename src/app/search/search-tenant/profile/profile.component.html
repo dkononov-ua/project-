@@ -76,7 +76,32 @@
 
       <div class="container-img">
         <div class="wrapper-img">
-          <img class="img-fluid" [src]="serverPathPhotoUser + (selectedUser?.img || 'user_default.svg')" alt="img">
+
+          <!-- якщо фото немає -->
+          <ng-container *ngIf="!selectedUser.img || selectedUser.img === 'user_default.svg'">
+            <div class="img-fluid">
+              <img src="../../../../assets/user_default.svg" alt="img">
+            </div>
+          </ng-container>
+
+          <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+          <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && !isLoadingImg">
+            <div class="img-fluid">
+              <div class="container-loader-mini">
+                <mat-spinner color="warn"></mat-spinner>
+                <img [src]="serverPathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true" hidden>
+                <div class="t-min gray mt-2">Завантаження фото</div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- фото користувача -->
+          <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && isLoadingImg">
+            <div class="img-fluid">
+              <img [src]="serverPathPhotoUser + selectedUser.img" alt="img">
+            </div>
+          </ng-container>
+
           <div class="panel-container">
             <div class="wrapper">
 
@@ -689,11 +714,10 @@
               <i class="fa-regular fa-star"></i>
             </div>
           </div>
-          <div class="t-med bold mt-2" *ngIf="review.info.about">"{{review.info.about}}"</div>
+          <div class="t-med bold mt-2" *ngIf="review.info.about">{{review.info.about}}</div>
         </div>
       </div>
     </div>
   </div>
 
 </div>
-

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-uagree-concluded',
@@ -39,6 +40,7 @@ export class UagreeConcludedComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<any> {

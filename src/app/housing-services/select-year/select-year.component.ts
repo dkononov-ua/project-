@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChangeYearService } from '../change-year.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-select-year',
@@ -14,7 +15,10 @@ export class SelectYearComponent implements OnInit {
   selectedYear!: any;
   serviceYear: any;
 
-  constructor(private changeYearService: ChangeYearService) {  }
+  constructor(
+    private changeYearService: ChangeYearService,
+    private sharedService: SharedService,
+  ) {  }
 
   ngOnInit(): void {
     this.getYearService();

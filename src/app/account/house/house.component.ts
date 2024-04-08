@@ -63,9 +63,6 @@ export class HouseComponent implements OnInit {
     private updateComponent: UpdateComponentService,
     private location: Location,
   ) {
-    this.sharedService.getStatusMessage().subscribe((message: string) => {
-      this.statusMessage = message;
-    });
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
     });

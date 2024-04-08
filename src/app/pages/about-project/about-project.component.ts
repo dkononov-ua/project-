@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { path_logo } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
 import { ViewportScroller } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-about-project',
@@ -51,10 +52,11 @@ export class AboutProjectComponent implements OnInit {
 
   constructor(
     private el: ElementRef,
-    private viewportScroller: ViewportScroller) { }
+    private viewportScroller: ViewportScroller,
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit() {
-
   }
 
   changeStep(step: number): void {

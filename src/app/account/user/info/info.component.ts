@@ -9,6 +9,7 @@ import { animations } from '../../../interface/animation';
 import { ActivatedRoute } from '@angular/router';
 import { CounterService } from 'src/app/services/counter.service';
 import { Location } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-info',
@@ -83,7 +84,7 @@ export class InfoComponent implements OnInit {
     private route: ActivatedRoute,
     private counterService: CounterService,
     private location: Location,
-
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -318,10 +319,10 @@ export class InfoComponent implements OnInit {
     localStorage.removeItem('houseData');
     localStorage.removeItem('userData');
     localStorage.removeItem('user');
-    this.statusMessage = 'Виходимо з аккаунту';
+    this.sharedService.setStatusMessage('Виходимо з аккаунту');
     setTimeout(() => {
-      this.statusMessage = '';
       this.loading = true;
+      this.sharedService.setStatusMessage('');
       setTimeout(() => {
         location.reload();
       }, 1500);

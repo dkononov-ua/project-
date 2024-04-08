@@ -9,6 +9,7 @@ import { BehaviorSubject, Subject, map } from 'rxjs';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-comun-stat-year',
@@ -75,7 +76,7 @@ export class ComunStatYearComponent implements OnInit {
     private changeMonthService: ChangeMonthService,
     private changeYearService: ChangeYearService,
     private selectedViewComun: ViewComunService,
-
+    private sharedService: SharedService,
   ) {
     this.flatInfo = [];
   }

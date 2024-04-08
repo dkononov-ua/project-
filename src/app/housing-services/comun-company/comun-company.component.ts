@@ -10,6 +10,7 @@ import { ChangeYearService } from '../change-year.service';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface ComunInfo {
   comunal_company: string;
@@ -104,6 +105,7 @@ export class ComunCompanyComponent implements OnInit {
     private changeComunService: ChangeComunService,
     private changeMonthService: ChangeMonthService,
     private changeYearService: ChangeYearService,
+    private sharedService: SharedService,
   ) {
   }
 
@@ -190,15 +192,15 @@ export class ComunCompanyComponent implements OnInit {
           console.log(response)
           if (response.status === 'Данні по комуналці успішно змінені') {
             setTimeout(() => {
-              this.statusMessage = 'Дані збережено';
+              this.sharedService.setStatusMessage('Дані збережено');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 1500);
             }, 200);
           } else {
-            this.statusMessage = 'Помилка збереження';
+            this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 1500);
           }
         });

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-home-page',
@@ -9,7 +10,9 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 export class HomePageComponent implements OnInit {
   path_logo = path_logo;
 
-  constructor() { }
+  constructor(
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit() {
   }

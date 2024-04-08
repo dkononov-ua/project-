@@ -27,11 +27,4 @@
   }
 }
 
-.card-animation {
-  &::-webkit-scrollbar {
-    display: none !important;
-  }
-  @include s3-s6-max {
-    width: 98% !important;
-  }
-}
+

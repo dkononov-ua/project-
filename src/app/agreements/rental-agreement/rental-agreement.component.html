@@ -5,14 +5,16 @@
 <ng-template #content>
   <div *ngIf="selectedAgreement && selectedAgreement.flat" id="agreement-container">
     <div class="agree">
-      
+
       <div class="print-only page">
         <div class="first-page">
           <div class="title-box m-2">
             <div class="title-group w-70">
               <div class="title">Угода оренди нерухомого майна</div>
               <div>Місце укладання угоди:<span class="accent">{{ selectedAgreement.flat.city }}</span></div>
-              <div>Дата:<span class="accent">{{selectedAgreement.flat.agreementDate | date}}</span></div>
+              <div>Дата:<span class="accent">{{selectedAgreement.flat.agreementDate | date}} <span class="page-number">
+                    Сторінка 1/2</span>
+                </span></div>
             </div>
             <div class="title-group w-30">
               <div class="box">
@@ -194,10 +196,10 @@
             </ul>
 
           </div>
-          <div class="page-number">Сторінка 1/2</div>
         </div>
 
         <div class="second-page">
+          <div class="page-number">Сторінка 2/2</div>
           <div class="container-box">
 
 
@@ -260,7 +262,6 @@
             </ul>
 
           </div>
-
           <div class="container-box" *ngIf="selectedAgreement.flat.about_agree">
             <ul>7. Додаткові умови від власника.
             </ul>
@@ -323,8 +324,6 @@
               </div>
             </div>
           </div>
-          <div class="page-number">Сторінка 2/2</div>
-
         </div>
       </div>
 
@@ -348,11 +347,13 @@
           <i class="fa-regular fa-file-pdf"></i>Друкувати
         </button>
 
-        <button class="btn" matTooltip="Відхилити угоду" (click)="confirmActions('reject')" *ngIf="indexUser === 1 && indexPage === 1">
+        <button class="btn" matTooltip="Відхилити угоду" (click)="confirmActions('reject')"
+          *ngIf="indexUser === 1 && indexPage === 1">
           <i class="fa-regular fa-thumbs-down"></i>Відхилити
         </button>
 
-        <button class="btn" matTooltip="Підтвердити угоду" [disabled]="!isCheckboxChecked" (click)="confirmActions('accept')" *ngIf="indexUser === 1 && indexPage === 1">
+        <button class="btn" matTooltip="Підтвердити угоду" [disabled]="!isCheckboxChecked"
+          (click)="confirmActions('accept')" *ngIf="indexUser === 1 && indexPage === 1">
           <i class="fa-regular fa-handshake"></i>Підтвердити
         </button>
 
@@ -361,9 +362,3 @@
     </div>
   </div>
 </ng-template>
-
-<div *ngIf="statusMessage" class="status-message p-2">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
-</div>

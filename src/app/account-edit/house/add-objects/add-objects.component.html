@@ -70,6 +70,12 @@
         </button>
       </div>
 
+      <div class="switch-btn-group">
+        <button class="btn" [routerLink]="'/house/agree/concluded'">
+          <i class="fa-solid fa-people-carry-box"></i>
+          <div class="t-min dark bold">Акт</div>
+        </button>
+      </div>
 
     </div>
 
@@ -344,8 +350,3 @@
 
 </ng-template>
 
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
-</div>

@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { serverPath, path_logo } from 'src/app/config/server-config';
+import { SharedService } from 'src/app/services/shared.service';
+import { animations } from '../../interface/animation';
+import { Location } from '@angular/common';
 
 interface Option {
   label: string;
@@ -11,6 +14,18 @@ interface Option {
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.top1,
+    animations.right2,
+    animations.swichCard,
+  ],
 })
 export class FeedbackComponent implements OnInit {
 
@@ -47,10 +62,18 @@ export class FeedbackComponent implements OnInit {
     { label: 'Пропоную', icon: 'fa-solid fa-puzzle-piece' },
   ]
   category: any;
+  isMobile: boolean = false;
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-  ) { }
+    private sharedService: SharedService,
+    private location: Location,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+    });
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -61,6 +84,10 @@ export class FeedbackComponent implements OnInit {
         this.getFeedback()
       }
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   async saveFeedback(): Promise<void> {
@@ -83,19 +110,18 @@ export class FeedbackComponent implements OnInit {
           user_id: JSON.parse(userJson).user_id,
           formData
         }).toPromise();
-        console.log(response)
         if (response) {
           setTimeout(() => {
-            this.statusMessage = 'Дякуємо за ваш відгук';
+            this.sharedService.setStatusMessage('Дякуємо за ваш відгук');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 1500);
           }, 500);
         } else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка';
+            this.sharedService.setStatusMessage('Помилка');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
             }, 1500);
           }, 500);
         }
@@ -127,7 +153,6 @@ export class FeedbackComponent implements OnInit {
           menuName: this.menuName.label,
         }).toPromise();
         if (Array.isArray(response) && response.length > 0) {
-          console.log(response[0])
           this.evaluations = response[0];
           this.optionComfort = this.evaluations.optionComfort.toString();
           this.optionDesign = this.evaluations.optionDesign.toString();

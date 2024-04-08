@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface FlatStat {
   totalNeedPay: any;
@@ -141,6 +142,7 @@ export class ComunStatComunComponent implements OnInit {
     private changeYearService: ChangeYearService,
     private route: ActivatedRoute,
     private selectedViewComun: ViewComunService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {

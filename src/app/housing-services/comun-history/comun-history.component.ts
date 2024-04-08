@@ -15,6 +15,7 @@ import { CropImg2Component } from 'src/app/components/crop-img2/crop-img2.compon
 import { auto } from '@popperjs/core';
 import { animations } from '../../interface/animation';
 import { Location, NgIf } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface FlatInfo {
   comunal_before: any;
@@ -176,6 +177,7 @@ export class ComunHistoryComponent implements OnInit {
     private _dialog: LyDialog,
     private _cd: ChangeDetectorRef,
     private location: Location,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -422,18 +424,18 @@ export class ComunHistoryComponent implements OnInit {
         if (response.status === 'Данні по комуналці успішно змінені') {
           setTimeout(() => {
             this.cropped = undefined;
-            this.statusMessage = 'Збережено';
+            this.sharedService.setStatusMessage('Збережено');
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
               this.selectComunInfo();
             }, 2500);
           }, 200);
         } else if (response.status === false) {
           setTimeout(() => {
-            this.statusMessage = 'Не вдалось зберегти';
+            this.sharedService.setStatusMessage('Не вдалось зберегти');
             this.cropped = undefined;
             setTimeout(() => {
-              this.statusMessage = '';
+              this.sharedService.setStatusMessage('');
               this.selectComunInfo();
             }, 1500);
           }, 500);
@@ -510,10 +512,10 @@ export class ComunHistoryComponent implements OnInit {
   copy(): void {
     localStorage.setItem('copiedData', JSON.stringify(this.flatInfo));
     setTimeout(() => {
-      this.statusMessage = 'Скопійовано';
+      this.sharedService.setStatusMessage('Скопійовано');
       this.copiedData = true;
       setTimeout(() => {
-        this.statusMessage = '';
+        this.sharedService.setStatusMessage('');
       }, 2500);
     })
   }
@@ -521,16 +523,16 @@ export class ComunHistoryComponent implements OnInit {
   paste(): void {
     const copiedData = localStorage.getItem('copiedData');
     if (copiedData) {
-      this.statusMessage = 'Заповнено';
+      this.sharedService.setStatusMessage('Заповнено');
       const parsedData: FlatInfo = JSON.parse(copiedData);
       this.flatInfo = { ...parsedData };
       setTimeout(() => {
-        this.statusMessage = '';
+        this.sharedService.setStatusMessage('');
       }, 2500);
     } else {
-      this.statusMessage = 'Помилка';
+      this.sharedService.setStatusMessage('Помилка');
       setTimeout(() => {
-        this.statusMessage = '';
+        this.sharedService.setStatusMessage('');
       }, 1500);
     }
   }
@@ -607,14 +609,14 @@ export class ComunHistoryComponent implements OnInit {
           if (uploadResponse.status === 'Збережено') {
             this.saveInfo();
             setTimeout(() => {
-              this.statusMessage = "Додано до показників";
+              this.sharedService.setStatusMessage("Додано до показників");
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
               }, 1500);
             }, 1000);
           } else {
             setTimeout(() => {
-              this.statusMessage = 'Дані не збережено';
+              this.sharedService.setStatusMessage('Дані не збережено');
             }, 2000);
           }
         },

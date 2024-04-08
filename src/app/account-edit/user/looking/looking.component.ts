@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -176,8 +177,8 @@ export class LookingComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
-
 
   ngOnInit(): void {
     this.getInfo();
@@ -282,21 +283,23 @@ export class LookingComponent implements OnInit {
         // console.log(response)
         if (this.userInfo && this.userInfo.agree_search === 0) {
           setTimeout(() => {
-            this.statusMessage = 'Деактивовано!';
+            this.sharedService.setStatusMessage('Деактивовано!');
             setTimeout(() => {
-              this.router.navigate(['/user/info'], { queryParams: { indexPage: 0 } });
+              this.router.navigate(['/user/info']);
+              this.sharedService.setStatusMessage('');
             }, 3000);
           }, 1000);
         } else if (this.userInfo && this.userInfo.agree_search === 1) {
           setTimeout(() => {
-            this.statusMessage = 'Активовано!';
+            this.sharedService.setStatusMessage('Активовано!');
             setTimeout(() => {
-              this.router.navigate(['/user/info'], { queryParams: { indexPage: 0 } });
+              this.router.navigate(['/user/info']);
+              this.sharedService.setStatusMessage('');
             }, 3000);
           }, 1000);
         } else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка формування.';
+            this.sharedService.setStatusMessage('Помилка формування');
             setTimeout(() => {
               location.reload();
             }, 3000);
@@ -304,7 +307,7 @@ export class LookingComponent implements OnInit {
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload }, 2000);
       }
     } else {

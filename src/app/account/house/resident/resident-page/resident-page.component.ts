@@ -348,7 +348,7 @@ export class ResidentPageComponent implements OnInit {
 
         else {
           setTimeout(() => {
-            this.statusMessage = 'Помилка збереження';
+            this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
             }, 2000);

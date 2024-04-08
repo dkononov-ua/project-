@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChangeMonthService } from '../change-month.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-select-month',
@@ -27,7 +28,10 @@ export class SelectMonthComponent implements OnInit {
   currentMonth: any;
   serviceMonth: any;
 
-  constructor(private changeMonthService: ChangeMonthService) { }
+  constructor(
+    private changeMonthService: ChangeMonthService,
+    private sharedService: SharedService,
+  ) { }
 
   ngOnInit(): void {
     const storedMonth = localStorage.getItem('selectedMonth');

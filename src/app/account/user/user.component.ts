@@ -3,6 +3,7 @@ import { CounterService } from 'src/app/services/counter.service';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-user',
@@ -56,6 +57,7 @@ export class UserComponent implements OnInit {
     private isAccountOpenService: IsAccountOpenService,
     private counterService: CounterService,
     private updateComponent: UpdateComponentService,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {

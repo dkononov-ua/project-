@@ -7,6 +7,7 @@ import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
 import { serverPath, serverPathPhotoUser, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
 import { Agree } from '../../../../interface/info';
 import { animations } from '../../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-agree-review',
@@ -46,6 +47,7 @@ export class AgreeReviewComponent implements OnInit {
     private dialog: MatDialog,
     private selectedFlatIdService: SelectedFlatService,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -72,9 +74,10 @@ export class AgreeReviewComponent implements OnInit {
     try {
       const response: any = (await this.http.post(url, data).toPromise()) as Agree[];
       if (response === false) {
-        this.statusMessage = 'Надісланих угод немає';
+        this.sharedService.setStatusMessage('Надісланих угод немає');
         setTimeout(() => {
-          this.router.navigate(['/house/agree-menu'], { queryParams: { indexPage: 1 } });
+          this.router.navigate(['/house/agree-menu']);
+          this.sharedService.setStatusMessage('');
         }, 300);
       } else {
         this.agree = response;
@@ -113,13 +116,13 @@ export class AgreeReviewComponent implements OnInit {
           const response: any = await this.http.post(url, data).toPromise();
           console.log()
           if (response.status === true) {
-            this.statusMessage = 'Угода скасована';
+            this.sharedService.setStatusMessage('Угода скасована');
             this.deletingFlatId = agree.flat.flat_id;
             setTimeout(() => {
               location.reload();
             }, 300);
           } else {
-            this.statusMessage = 'Помилка скасування';
+            this.sharedService.setStatusMessage('Помилка скасування');
             setTimeout(() => {
               location.reload();
             }, 300);

@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { serverPath } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 interface FlatStat {
   totalNeedPay: any;
   totalPaid: number | undefined;
@@ -173,7 +174,7 @@ export class ComunStatSeasonComponent implements OnInit {
     private changeComunService: ChangeComunService,
     private changeYearService: ChangeYearService,
     private selectedViewComun: ViewComunService,
-
+    private sharedService: SharedService,
   ) { this.onChangeYear(); }
 
   async ngOnInit(): Promise<void> {

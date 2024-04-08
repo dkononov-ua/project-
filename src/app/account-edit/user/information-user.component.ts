@@ -11,6 +11,7 @@ import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { animations } from '../../interface/animation';
 import { Location } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -148,7 +149,6 @@ export class InformationUserComponent implements OnInit {
     }, 1000);
   }
 
-  errorMessage$ = new Subject<string>();
   selectedFile!: File;
   selectedFlatId: any;
   userImg: any;
@@ -212,6 +212,7 @@ export class InformationUserComponent implements OnInit {
     private _dialog: LyDialog,
     private route: ActivatedRoute,
     private location: Location,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -284,21 +285,21 @@ export class InformationUserComponent implements OnInit {
         const response: any = await this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat }).toPromise();
         // console.log(response)
         if (response.status === true) {
-          this.statusMessage = 'Налаштування збережено';
+          this.sharedService.setStatusMessage('Налаштування збережено');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка збереження';
+          this.sharedService.setStatusMessage('Помилка збереження');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload }, 2000);
       }
     } else {
@@ -316,22 +317,22 @@ export class InformationUserComponent implements OnInit {
         const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
-          this.statusMessage = 'Персональні дані збережено';
+          this.sharedService.setStatusMessage('Персональні дані збережено');
           setTimeout(() => {
             this.indexPage = 1;
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка збереження';
+          this.sharedService.setStatusMessage('Помилка збереження');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload }, 2000);
       }
     } else {
@@ -349,22 +350,22 @@ export class InformationUserComponent implements OnInit {
         const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
-          this.statusMessage = 'Контактні дані збережено';
+          this.sharedService.setStatusMessage('Контактні дані збережено');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
             this.router.navigate(['/user']);
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка збереження';
+          this.sharedService.setStatusMessage('Помилка збереження');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload }, 2000);
       }
     } else {
@@ -403,9 +404,9 @@ export class InformationUserComponent implements OnInit {
     localStorage.removeItem('houseData');
     localStorage.removeItem('userData');
     localStorage.removeItem('user');
-    this.statusMessage = 'Виходимо з аккаунту';
+    this.sharedService.setStatusMessage('Виходимо з аккаунту');
     setTimeout(() => {
-      this.statusMessage = '';
+      this.sharedService.setStatusMessage('');
       this.reloadPageWithLoader();
       setTimeout(() => {
         this.router.navigate(['home']);
@@ -450,22 +451,22 @@ export class InformationUserComponent implements OnInit {
         const response: any = await this.http.post(serverPath + '/img/uploaduser', formData, { headers }).toPromise();
         console.log(response)
         if (response.status === 'Збережено') {
-          this.statusMessage = 'Фото додано';
+          this.sharedService.setStatusMessage('Фото додано');
           this.getInfo();
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка завантаження';
+          this.sharedService.setStatusMessage('Помилка завантаження');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload }, 2000);
       }
     } else {
@@ -481,7 +482,7 @@ export class InformationUserComponent implements OnInit {
         const response: any = await this.http.post(serverPath + '/userinfo/delete/finaly', { auth: JSON.parse(userJson), code: this.emailCheckCode }).toPromise();
         // console.log(response)
         if (response.status === 'Видалено') {
-          this.statusMessage = 'Аккаунт видалено';
+          this.sharedService.setStatusMessage('Аккаунт видалено');
           localStorage.removeItem('selectedComun');
           localStorage.removeItem('selectedFlatId');
           localStorage.removeItem('selectedFlatName');
@@ -490,20 +491,20 @@ export class InformationUserComponent implements OnInit {
           localStorage.removeItem('userData');
           localStorage.removeItem('user');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
             this.router.navigate(['/home/registration']);
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка видалення';
+          this.sharedService.setStatusMessage('Помилка видалення');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.loading = false;
           }, 2000);
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Помилка на сервері, повторіть спробу';
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
         setTimeout(() => { location.reload }, 2000);
       }
     } else {
@@ -529,14 +530,14 @@ export class InformationUserComponent implements OnInit {
             // console.log(response)
             if (response.status === 'На вашу пошту було надіслано код безпеки') {
               this.sentCode = true;
-              this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
+              this.sharedService.setStatusMessage('На вашу пошту було надіслано код безпеки');
               setTimeout(() => {
-                this.statusMessage = '';
+                this.sharedService.setStatusMessage('');
                 this.loading = false;
               }, 2000);
             } else {
               this.sentCode = false;
-              this.statusMessage = 'Помилка надсилання коду безпеки.';
+              this.sharedService.setStatusMessage('Помилка надсилання коду безпеки');
               setTimeout(() => {
                 location.reload();
               }, 2000);
@@ -544,8 +545,7 @@ export class InformationUserComponent implements OnInit {
           });
       } catch (error) {
         this.sentCode = false;
-        this.errorMessage$.next('Сталася помилка на сервері');
-        this.statusMessage = 'Сталася помилка на сервері.';
+        this.sharedService.setStatusMessage('Сталася помилка на сервері');
         setTimeout(() => {
           location.reload();
         }, 2000);

@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Agree } from '../../interface/info';
 import { MatDialog } from '@angular/material/dialog';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-act-transfer',
@@ -76,6 +77,7 @@ export class ActTransferComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private dataService: DataService,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -151,16 +153,16 @@ export class ActTransferComponent implements OnInit {
         if (selectedAgreement) {
           this.selectedAgreement = selectedAgreement
         } else {
-          this.statusMessage = 'Угода не знайдена';
+          this.sharedService.setStatusMessage('Угода не знайдена');
           setTimeout(() => {
-            this.statusMessage = '';
+            this.sharedService.setStatusMessage('');
             this.router.navigate(['/house/agree-menu']);
           }, 2000);
         }
       } else {
-        this.statusMessage = 'Помилка отримання даних';
+        this.sharedService.setStatusMessage('Помилка отримання даних');
         setTimeout(() => {
-          this.statusMessage = '';
+          this.sharedService.setStatusMessage('');
           this.router.navigate(['/house/agree-menu']);
         }, 2000);
       }

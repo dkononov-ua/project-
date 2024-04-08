@@ -264,7 +264,7 @@
       <div class="link-icon w-20"><i class="fa-solid fa-outdent"></i></div>
     </button>
 
-    <a class="link-menu" [routerLink]="'/search-tenants/tenants'" *ngIf="acces_flat_features === 1">
+    <a class="link-menu" [routerLink]="'/search-tenants'" *ngIf="acces_flat_features === 1">
       <div class="flex-column w-80">
         <p class="link-menu-t1">Пошук</p>
         <p class="link-menu-t2">Орендаря</p>
@@ -332,10 +332,4 @@
     </div>
   </div>
   <app-parameters></app-parameters>
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>
