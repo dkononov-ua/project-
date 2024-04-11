@@ -25,7 +25,7 @@
         <button class="btn" [disabled]="!subscriptions" (click)="onClickMenu(0)"
           [ngClass]="{ 'active': indexPage === 0}">
           <i class="fa-solid fa-people-group"></i>
-          <div class="t-min bold">Дискусії</div>
+          <div class="t-min bold">Пропозиції</div>
           <div class="status"> {{counterFound}} </div>
         </button>
       </div>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
+      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage === 3}">
         <i class="fa-solid fa-child-reaching"></i>
         <div class="t-min bold">Власник</div>
       </button>
@@ -142,24 +142,18 @@
               <p class="t-min">Власники які підписались на вас і пропонують вам свою оселю.</p>
             </div>
 
-            <ul class="t-med mt-2 t-s">
-              <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-              <li>Перегляд інформації про оселю.</li>
-              <li>Перегляд локації оселі.</li>
-              <li>Видаленння підписки.</li>
-              <li>Ухвалення до дискусії.</li>
+            <span class="t-lar t-c bold p-3">Тут доступні такі можливості:</span>
+            <ul class="t-med mt-2 gray t-s">
+              <li><i class="fa-regular fa-building p-2"></i>Перегляд інформації про оселю. </li>
+              <li><i class="fa-solid fa-child-reaching p-2"></i>Перегляд вудгуків та рейтингу власника. </li>
+              <li><i class="fa-solid fa-location-dot p-2"></i>Перегляд локації оселі.</li>
+              <li><i class="fa-solid fa-user-xmark p-2"></i>Відхилення пропозиції. </li>
+              <li><i class="fa-regular fa-thumbs-up p-2"></i>Ухвалення до дискусії. </li>
             </ul>
 
             <div class="flex-box-center t-c p-2 mt-2">
               <p class="t-med bold">Отримати пропозицію можна коли на вас підпишуться оселі в меню "Пошук орендаря".</p>
               <p class="t-med bold">Після вашого ухвалення, оселя з'явиться в меню Дискусії.</p>
-            </div>
-
-            <div class="btn-group">
-              <button class="btn btn-navigation" [routerLink]="'/search/tenants'">
-                <div class="t-med bold mr-2">Пошук орендаря</div>
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
             </div>
 
             <div class="btn-group">
@@ -286,13 +280,6 @@
                         <i class="fa-solid fa-location-dot"></i>
                       </div>
                       <div class="t-min">Локація</div>
-                    </button>
-
-                    <button class="btn-panel" (click)="openOwner(1)">
-                      <div class="panel-icon">
-                        <i class="fa-solid fa-building-user"></i>
-                      </div>
-                      <div class="t-min">Власник</div>
                     </button>
 
                     <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">

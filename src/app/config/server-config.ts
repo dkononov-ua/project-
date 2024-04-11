@@ -2,6 +2,8 @@
 // export const serverPath = 'http://localhost:3000'
 // export const serverPath = 'https://sky.syrykh.com:8000'
 // export const serverPath = 'https://backend.discussio.space:8000'
+
+
 export const serverPath = 'https://backend.discussio.site:8000'
 
 export const path_logo = '../../../assets/logo/logo.svg'

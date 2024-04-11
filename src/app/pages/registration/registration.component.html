@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 3 && isMobile">
+    <main class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexCard === 3 && isMobile">
       <div [@top1] class="card-animation ">
         <div class="t-lar-xx dark bold">Вас вітає!</div>
         <div class="card-box-logo">
@@ -34,8 +34,8 @@
             <div class="flex-column">
               <h1 class="dark t-c"><strong>Discussio</strong></h1>
               <h2 class="t-lar t-c p-2"><strong>Ми об'єднуємо орендодавців та орендарів!</strong></h2>
-              <div class="t-med t-c p-2">Надаємо інструменти для зручного <strong>пошуку оселі, оренди та
-                  керування.</strong></div>
+              <div class="t-med t-c p-2">Надаємо інструменти для зручного <strong>пошуку оселі, орендарів та
+                  керування оселею.</strong></div>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@
           <button class="btn m-2" (click)="indexCard = 1">ВХІД</button>
         </div>
       </div>
-    </div>
+    </main>
 
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12"
       *ngIf="indexCard === 2 || indexCard === 1 || indexCard === 0">
@@ -58,7 +58,7 @@
 
           <div *ngIf="indexBtn === 1">
             <div class="t-lar-xx bold t-c dark border-bottom w-100">Реєстрація</div>
-            <div class="t-med gray mt-2">Якщо у вас вже є обліковий запис</div>
+            <div class="t-med gray mt-2 t-c">Якщо у вас вже є обліковий запис</div>
             <button (click)="indexCard = 1" class="btn-none t-lar mb-2">вхід в аккаунт тут</button>
           </div>
 
@@ -71,6 +71,11 @@
           </div>
 
           <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
+
+            <div *ngIf="timeLeft > 0" class="accent t-c t-med">
+              Ви перевисили ліміт введення неправильного коду!
+              Форма буде розблокована через {{ timeLeft }} секунд
+            </div>
 
             <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
               <mat-label>Дата народження</mat-label>
@@ -113,7 +118,7 @@
           <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="indexBtn === 2">
             <mat-label>Код підтвердження пошти</mat-label>
             <div class="mat-input-container">
-              <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+              <input matInput [disabled]="timeLeft > 0" type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
                 placeholder="Введіть код який прийшов вам на email">
             </div>
           </mat-form-field>
@@ -125,11 +130,11 @@
 
           <div class="box-agree p-2" *ngIf="indexBtn === 1">
             <label class="checkBox">
-              <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+              <input type="checkbox" [disabled]="timeLeft > 0" [(ngModel)]="agreementAccepted" name="agreementAccepted">
               <div class="transition"></div>
             </label>
             <p class="t-min w-75 p-2 t-c">Реєструючись я погоджуюсь з <a class="bold" [routerLinkActive]="'active'"
-                [routerLink]="'/user-licence'">угодою користувача</a></p>
+                [routerLink]="'/home/user-licence'">угодою користувача</a></p>
           </div>
 
         </div>
@@ -143,10 +148,15 @@
           </div>
 
           <div class="t-lar-xx bold t-c dark border-bottom w-100">Вхід в аккаунт</div>
-          <div class="t-med gray dark mt-2">Якщо у вас ще немає облікового запису</div>
+          <div class="t-med gray dark mt-2 t-c">Якщо у вас ще немає облікового запису</div>
           <button (click)="indexCard = 0" class="btn-none t-lar mb-2">зареєструйтесь тут</button>
 
           <form class="form" [formGroup]="loginForm">
+
+            <div *ngIf="timeLeft > 0" class="accent t-c t-med">
+              Ви перевисили ліміт введення неправильного коду!
+              Форма буде розблокована через {{ timeLeft }} секунд
+            </div>
 
             <mat-form-field class="inputbox" appearance="fill">
               <mat-label>Введіть Email</mat-label>
@@ -174,7 +184,7 @@
           </form>
 
           <div class="t-min t-c mt-2">Якщо забули пароль введіть пошту на яку
-            ви реєстрували свій аккаунт та перейдіть за посиланням <button [disabled]="formErrors.email"
+            ви реєстрували свій аккаунт та перейдіть за посиланням <button [disabled]="formErrors.email || timeLeft > 0"
               (click)="sendCodeForChangePass()" class="btn-none mt-2"
               [ngClass]="{'disabled-button': formErrors.email}">Відновити пароль
             </button></div>
@@ -194,11 +204,16 @@
             <div class="t-med bold accent t-c">{{emailAcc}}</div>
           </div>
 
-          <div class="t-med bold dark mt-2">Якщо треба новий обліковий запис</div>
+          <div class="t-med bold dark mt-2 t-c">Якщо треба новий обліковий запис</div>
           <button (click)="indexCard = 0" class="btn-none t-lar">зареєструйтесь тут</button>
 
           <form class="form mt-2" (ngSubmit)="onChangePassword()" [formGroup]="changePassForm">
 
+            <div *ngIf="timeLeft > 0" class="accent t-c t-med">
+              Ви перевисили ліміт введення неправильного коду!
+              Форма буде розблокована через {{ timeLeft }} секунд
+            </div>
+            
             <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
               <mat-label>Новий пароль</mat-label>
               <input matInput id="changePassword" type="password" formControlName="changePassword" minlength="7"
@@ -225,27 +240,13 @@
             </mat-form-field>
           </form>
 
-          <!-- <mat-form-field class="form-field item-select w-100" appearance="outline">
-          <mat-label>Код підтвердження пошти</mat-label>
-          <div class="mat-input-container">
-            <input matInput type="text" minlength="6" maxlength="6" id="changePassCode" [(ngModel)]="changePassCode"
-              name="changePassCode" placeholder="Введіть код який прийшов вам на email">
-          </div>
-        </mat-form-field> -->
-
           <mat-form-field class="form-field item-select w-100" appearance="outline">
             <mat-label>Код підтвердження пошти</mat-label>
             <div class="mat-input-container">
-              <input matInput type="text" id="changePassCode" [(ngModel)]="changePassCode" name="changePassCode"
+              <input matInput [disabled]="timeLeft > 0" type="text" id="changePassCode" [(ngModel)]="changePassCode" name="changePassCode"
                 placeholder="Введіть код який прийшов вам на email">
             </div>
           </mat-form-field>
-
-          <!-- <button class="btn"
-          [disabled]="!changePassCode || changePassCode.length < 6 || passMatchMessage !== 'ok' || passStrengthMessage !== 'ok'"
-          (click)="onChangePassword()">
-          Підтвердити
-        </button> -->
 
           <button class="btn" [disabled]="!changePassCode || passMatchMessage !== 'ok' || passStrengthMessage !== 'ok'"
             (click)="onChangePassword()">

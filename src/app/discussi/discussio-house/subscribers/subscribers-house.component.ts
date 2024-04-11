@@ -355,13 +355,15 @@ export class SubscribersHouseComponent implements OnInit {
         setTimeout(() => {
           this.sharedService.setStatusMessage('Переходимо до Дискусії');
           setTimeout(() => {
-            this.router.navigate(['/subscribers-discus'], { queryParams: { indexPage: 1 } });
+            this.router.navigate(['/subscribers-discus']);
+            this.sharedService.setStatusMessage('');
           }, 1000);
         }, 2000);
       } else if (response.status === 'Ви в дискусії') {
         this.sharedService.setStatusMessage('З цим користувачем вже є дискусія'),
           setTimeout(() => {
-            this.router.navigate(['/subscribers-discus'], { queryParams: { indexPage: 1 } });
+            this.router.navigate(['/subscribers-discus']);
+            this.sharedService.setStatusMessage('');
           }, 2000);
       }
       else {

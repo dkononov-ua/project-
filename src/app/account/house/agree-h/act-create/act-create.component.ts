@@ -217,7 +217,7 @@ export class ActCreateComponent implements OnInit {
                 setTimeout(() => {
                   this.sharedService.setStatusMessage('Акт сформовано успішно!');
                   setTimeout(() => {
-                    this.router.navigate(['/house/agree-menu']);
+                    this.router.navigate(['/house/agree/concluded']);
                     this.sharedService.setStatusMessage('');
                   }, 2000);
                 }, 1000);

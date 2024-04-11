@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { CounterService } from './counter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,14 @@ export class ChoseSubscribeService {
   selectedFlat: { flat_id: any; flatImg: any; price_m: any; } | undefined;
   selectedFlatId: string | null = null;
 
-  setChosenFlatId(flatId: string) {
+  constructor(
+    private counterService: CounterService,
+  ) { }
+
+  async setChosenFlatId(flatId: string) {
     this.chosenFlatIdSubject.next(flatId);
+    setTimeout(async () => {
+      await this.counterService.getUserNewMessage();
+    }, 500);
   }
 }

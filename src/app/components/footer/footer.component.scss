@@ -76,6 +76,22 @@ span {
         color: $color-gray;
         padding-left: 5px;
       }
+      &.active {
+        .fa-solid,
+        .fa-regular,
+        .fa-brands,
+        .t-min {
+          color: $color-accent;
+        }
+      }
+      &:disabled {
+        .fa-solid,
+        .fa-regular,
+        .fa-brands,
+        .t-min {
+          color: $color-gray;
+        }
+      }
     }
     &:hover {
       color: $color-accent;
@@ -91,7 +107,18 @@ span {
         .t-min {
           color: $color-accent;
         }
+        &:disabled {
+          .fa-solid,
+          .fa-regular,
+          .fa-brands,
+          .t-min {
+            color: $color-gray;
+          }
+        }
       }
+    }
+    &:disabled {
+      color: $color-gray;
     }
   }
 }

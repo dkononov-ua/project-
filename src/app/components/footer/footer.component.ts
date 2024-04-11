@@ -7,8 +7,18 @@ import { ServerKeepAliveService } from 'src/app/services/server-keep-alive.servi
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  constructor(private serverKeepAliveService: ServerKeepAliveService) {}
+
+  gmail: string = 'discussio.inc@gmail.com';
+  authorization: boolean = false;
+
+  constructor() { }
+
   ngOnInit() {
-    this.serverKeepAliveService.startKeepAlive();
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 }

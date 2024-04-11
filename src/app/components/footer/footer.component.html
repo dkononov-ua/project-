@@ -41,12 +41,19 @@
     </div>
 
     <div class="social-link-box">
-      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/feedback'">
+      <button [disabled]="!authorization" class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/feedback'">
         <i class="fa-solid fa-bug"></i>
         <div class="t-min pl-2">Відгук</div>
       </button>
     </div>
 
+    <div class="social-link-box">
+      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/update'">
+        <i class="fa-regular fa-circle-up"></i>
+        <div class="t-min pl-2">Оновлення</div>
+      </button>
+    </div>
+
   </div>
-  <div class="t-min t-c gray">© Discussio. Developed by Discussio team 2024.</div>
+  <div class="t-min t-c gray">© Discussio. Developed by Discussio team 2024. {{gmail}}</div>
 </div>

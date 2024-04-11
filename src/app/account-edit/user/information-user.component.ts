@@ -261,7 +261,6 @@ export class InformationUserComponent implements OnInit {
         .subscribe((response: any) => {
           // console.log(response)
           this.userImg = response.img[0].img;
-          console.log(this.userImg)
           if (!this.userImg || this.userImg === 'user_default.svg') {
             this.isLoadingImg = false
           }
@@ -449,7 +448,6 @@ export class InformationUserComponent implements OnInit {
       const headers = { 'Accept': 'application/json' };
       try {
         const response: any = await this.http.post(serverPath + '/img/uploaduser', formData, { headers }).toPromise();
-        console.log(response)
         if (response.status === 'Збережено') {
           this.sharedService.setStatusMessage('Фото додано');
           this.getInfo();

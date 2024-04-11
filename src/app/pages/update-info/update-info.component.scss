@@ -1,0 +1,54 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.t-min {
+  text-align: start;
+}
+
+.news-title {
+  font-size: 30px;
+  font-weight: 600;
+  padding: 10px;
+  color: $color-text;
+}
+.news {
+  @include flex-box-center;
+  width: 100%;
+  flex-direction: column;
+  background-color: rgba(221, 221, 221, 0.708);
+  margin-bottom: 20px;
+  // border: 1px solid $color-gray;
+  @include box-shadow;
+  padding: 20px;
+  border-radius: 10px;
+  .news_link {
+    text-transform: capitalize;
+    padding: 3px;
+  }
+  .news-list {
+    @include flex-box-center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
+.flex-column {
+  @include flex-box-column;
+  overflow: auto;
+  height: calc(100% - 20px);
+  align-items: center;
+}
+
+.logo-wrapper {
+  transition: 0.2s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+img {
+  width: 100px;
+  object-fit: cover;
+}

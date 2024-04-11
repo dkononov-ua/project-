@@ -63,6 +63,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { TemplateComponent } from './template/template.component';
 import { HouseModule } from './account/house/house.module';
 import { HouseRoutingModule } from './account/house/house-routing.module';
+import { UpdateInfoComponent } from './pages/update-info/update-info.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,8 +85,9 @@ import { HouseRoutingModule } from './account/house/house-routing.module';
     ConfirmActionsComponent,
     HomeComponent,
     HomePageComponent,
-      TemplateComponent
-   ],
+    TemplateComponent,
+    UpdateInfoComponent,
+  ],
   providers: [
     SelectedFlatService,
     DatePipe,

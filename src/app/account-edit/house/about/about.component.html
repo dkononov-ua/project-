@@ -162,63 +162,6 @@
           <mat-hint align="start" class="t-min gray">Орендар може мати тварин?</mat-hint>
         </mat-form-field>
 
-        <div class="flex-column mt-2">
-          <mat-label class="t-med t-c accent bold">Оберіть варіант оплати* </mat-label>
-          <div class="t-min gray">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
-          <div class="inputbox-group">
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="daily" type="radio" [(ngModel)]="flatInfo.option_pay" name="daily" [value]=1>
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Подобово</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="monthly" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=0>
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Щомісяця</span>
-              <i></i>
-            </div>
-
-            <div class="content">
-              <label class="checkBox">
-                <input id="free" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=2>
-                <div class="transition"></div>
-              </label>
-              <span class="checkBox-span">Безкоштовно</span>
-              <i></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex-column">
-          <div class="inputbox-group mt-2">
-            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 1">
-              <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
-                [(ngModel)]="flatInfo.price_d" name="price_d" pattern="[0-9]*" id="inputPriceD">
-              <mat-hint align="start" class="bold">ОПЛАТА ЗА ДЕНЬ, ЦІНА В ГРН*</mat-hint>
-              <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-            </mat-form-field>
-
-            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 0">
-              <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
-                [(ngModel)]="flatInfo.price_m" name="price_m" pattern="[0-9]*" id="inputPriceM">
-              <mat-hint align="start" class="bold">ОПЛАТА ЗА МІСЯЦЬ, ЦІНА В ГРН*</mat-hint>
-              <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-            </mat-form-field>
-
-            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 2">
-              <input matInput class="right-align" type="number" [(ngModel)]="flatInfo.price_f" name="price_f" disabled
-                id="inputPriceF" placeholder="Безкоштовно">
-            </mat-form-field>
-          </div>
-        </div>
-
         <div class="flex-column">
 
           <mat-label class="t-med accent bold p-2 pr-2">Формат здачі оселі*</mat-label>
@@ -316,6 +259,63 @@
           <textarea #textArea matInput id="floatingTextarea" placeholder="Опишіть особливості оселі або оголошення"
             [(ngModel)]="flatInfo.about" (input)="onInput()"></textarea>
         </mat-form-field>
+
+        <div class="flex-column mt-2">
+          <mat-label class="t-med t-c accent bold">Оберіть варіант оплати* </mat-label>
+          <div class="t-min gray">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
+          <div class="inputbox-group">
+
+            <div class="content">
+              <label class="checkBox">
+                <input id="daily" type="radio" [(ngModel)]="flatInfo.option_pay" name="daily" [value]=1>
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Подобово</span>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <label class="checkBox">
+                <input id="monthly" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=0>
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Щомісяця</span>
+              <i></i>
+            </div>
+
+            <div class="content">
+              <label class="checkBox">
+                <input id="free" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=2>
+                <div class="transition"></div>
+              </label>
+              <span class="checkBox-span">Безкоштовно</span>
+              <i></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-column">
+          <div class="inputbox-group mt-2">
+            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 1">
+              <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
+                [(ngModel)]="flatInfo.price_d" name="price_d" pattern="[0-9]*" id="inputPriceD">
+              <mat-hint align="start" class="bold">ОПЛАТА ЗА ДЕНЬ, ЦІНА В ГРН*</mat-hint>
+              <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
+            </mat-form-field>
+
+            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 0">
+              <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
+                [(ngModel)]="flatInfo.price_m" name="price_m" pattern="[0-9]*" id="inputPriceM">
+              <mat-hint align="start" class="bold">ОПЛАТА ЗА МІСЯЦЬ, ЦІНА В ГРН*</mat-hint>
+              <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
+            </mat-form-field>
+
+            <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 2">
+              <input matInput class="right-align" type="number" [(ngModel)]="flatInfo.price_f" name="price_f" disabled
+                id="inputPriceF" placeholder="Безкоштовно">
+            </mat-form-field>
+          </div>
+        </div>
 
         <div class="btn-group mt-2">
 

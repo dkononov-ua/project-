@@ -258,7 +258,8 @@ export class SubscribersUserComponent implements OnInit {
         setTimeout(() => {
           this.sharedService.setStatusMessage('Переходимо до Дискусії');
           setTimeout(() => {
-            this.router.navigate(['/subscribers-discuss'], { queryParams: { indexPage: 1 } });
+            this.router.navigate(['/subscribers-discuss']);
+            this.sharedService.setStatusMessage('');
           }, 1000);
         }, 2000);
       } else { this.sharedService.setStatusMessage('Помилка'), this.reloadPage; }
@@ -301,7 +302,7 @@ export class SubscribersUserComponent implements OnInit {
       setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(2) }, 1000);
     } else {
       this.sharedService.setStatusMessage('Представник оселі');
-      setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(4) }, 1000);
+      setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(3) }, 1000);
     }
   }
 

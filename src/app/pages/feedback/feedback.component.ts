@@ -63,6 +63,7 @@ export class FeedbackComponent implements OnInit {
   ]
   category: any;
   isMobile: boolean = false;
+  indexPage: number = 0;
 
   constructor(
     private http: HttpClient,

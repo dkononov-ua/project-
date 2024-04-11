@@ -190,7 +190,6 @@ export class SelectionHousingComponent implements OnInit {
 
   // обираємо іншу оселю
   selectFlat(flat: any): void {
-    console.log(flat)
     const userJson = localStorage.getItem('user');
     if (userJson && flat) {
       localStorage.removeItem('selectedComun');
@@ -231,8 +230,6 @@ export class SelectionHousingComponent implements OnInit {
   }
 
   async deleteHouse(flat: any): Promise<void> {
-    console.log(flat)
-
     const dialogRef = this.dialog.open(DeleteHouseComponent, {
       data: { flat_name: flat.flat_name, }
     });
@@ -265,7 +262,6 @@ export class SelectionHousingComponent implements OnInit {
               }
             );
         } else {
-          console.log('house not found');
           this.reloadPageWithLoader()
         }
       }

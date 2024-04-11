@@ -140,13 +140,11 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Отримання повідомлень
   async getMessages(): Promise<any> {
-    // console.log('getMessages')
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
     this.allMessages = [];
-    this.getNewMessages();
-
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedSubscriberID) {
       const info = {
@@ -155,25 +153,25 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         user_id: this.selectedSubscriberID,
         offs: 0,
       };
-      this.http.post(serverPath + '/chat/get/flatmessage', info)
-        .pipe(
-          switchMap((response: any) => {
-            this.messageALL = response.status
-            if (Array.isArray(response.status)) {
-              this.allMessages = response.status.map((message: any) => {
-                const dateTime = new Date(message.data);
-                const time = dateTime.toLocaleTimeString();
-                return { ...message, time };
-              });
-            } else {
-              this.allMessages = [];
-            }
-            return EMPTY;
-          }),
-        )
-        .subscribe(async () => {
-          await this.getNewMessages();
-        });
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/get/flatmessage', info).toPromise() as any[];
+        // перевіряю скільки повідомлень якщо більше 49 то показую кнопку підвантажити повідомлення
+        this.messageALL = response.status;
+        if (Array.isArray(response.status)) {
+          this.allMessages = response.status.map((message: any) => {
+            const dateTime = new Date(message.data);
+            const time = dateTime.toLocaleTimeString();
+            return { ...message, time };
+          });
+        } else {
+          this.allMessages = [];
+        }
+        // console.log(this.allMessages);
+        await this.getNewMessages();
+        this.loading = false;
+      } catch (error) {
+        console.log('Помилка отримання повідомлень');
+      }
     } else {
       console.log('Оберіть чат');
     }
@@ -190,6 +188,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         offs: 0,
         data: this.allMessages[0]?.data,
       };
+      // це підписка на запит кожні 3 секунди інтервал запитує нові повідомлення вона відміняється після закриття компоненту
       this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageFlat', requestData)
         .subscribe(
           async (response: any) => {
@@ -246,7 +245,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
       };
       try {
         const response: any = await this.http.post(serverPath + '/chat/get/flatmessage', info).toPromise();
-        this.messageALL = response.status
+        this.messageALL = response.status;
         if (Array.isArray(response.status)) {
           const newMessages = response.status.map((message: any) => {
             const dateTime = new Date(message.data);

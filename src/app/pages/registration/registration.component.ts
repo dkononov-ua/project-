@@ -3,19 +3,16 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/account-edit/user/information-user.component';
 import moment from 'moment';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { MatDialog } from '@angular/material/dialog';
-import { NewsComponent } from 'src/app/components/news/news.component';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -74,6 +71,8 @@ export class RegistrationComponent implements OnInit {
   validateAgeDate: boolean = false;
   emailAcc: any;
   loading = false;
+  counterPass: number = 5;
+  counterWrongEnteredPass: number = 5;
 
   nextBtn(indexBtn: number) {
     if (indexBtn)
@@ -134,7 +133,7 @@ export class RegistrationComponent implements OnInit {
   indexCard: number = 3;
   indexBtn: number = 1;
   isMobile = false;
-
+  timeLeft: number = 0;
   togglePasswordVisibility1() {
     this.passwordType1 = this.passwordType1 === 'password' ? 'text' : 'password';
   }
@@ -176,6 +175,7 @@ export class RegistrationComponent implements OnInit {
     });
     this.initializeForm();
     this.loading = false;
+    this.calcWrongPass();
   }
 
   login(): void {
@@ -227,13 +227,10 @@ export class RegistrationComponent implements OnInit {
           regPassword: this.registrationForm.get('regPassword')?.value,
           dob: dob,
         };
-        // console.log(data)
         this.loading = true;
         this.http.post(serverPath + '/registration/first', data).subscribe(
           (response: any) => {
-            // console.log(response);
             if (response.status === 'Не правильно передані данні') {
-              console.error(response.status);
               this.statusMessage = 'Помилка реєстрації.';
               setTimeout(() => {
                 location.reload();
@@ -279,13 +276,14 @@ export class RegistrationComponent implements OnInit {
         };
         this.http.post(serverPath + '/registration/second', data).subscribe(
           (response: any) => {
-            // console.log(response);
             if (response.status === 'Не правильно передані данні') {
               console.error(response.status);
               this.statusMessage = 'Помилка реєстрації.';
               setTimeout(() => {
                 location.reload();
               }, 1000);
+            } else if (response.status === "Не правильний код") {
+              this.invalidСodeCheck();
             } else {
               localStorage.removeItem('selectedComun');
               localStorage.removeItem('selectedFlatId');
@@ -316,21 +314,118 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  invalidСodeCheck() {
+    const counterEnteredPass = localStorage.getItem('counterWrongEnteredPass');
+    this.counterWrongEnteredPass = Number(counterEnteredPass);
+    if (this.counterWrongEnteredPass !== 0) {
+      this.statusMessage = 'Помилковий код!';
+      this.counterPass--;
+      localStorage.setItem('counterWrongEnteredPass', JSON.stringify(this.counterPass));
+      setTimeout(() => {
+        this.statusMessage = `Лишилось спроб - ${this.counterPass}`;
+        setTimeout(() => {
+          this.statusMessage = ``;
+          this.loading = false;
+        }, 2000);
+      }, 1000);
+    } else {
+      this.statusMessage = 'Спроби введення коду вичерпані!';
+      setTimeout(() => {
+        this.statusMessage = 'Форми заблоковані на 5хв!';
+        setTimeout(() => {
+          this.statusMessage = '';
+          this.loading = false;
+          this.indexBtn = 1;
+          this.calcWrongPass();
+          setTimeout(() => {
+            location.reload();
+          }, 100);
+        }, 2000);
+      }, 2000);
+    }
+  }
+
+  calcWrongPass(): void {
+    const counterEnteredPass = localStorage.getItem('counterWrongEnteredPass');
+    this.counterWrongEnteredPass = Number(counterEnteredPass);
+    const savedEndTime = localStorage.getItem('blockEndTime');
+    if (counterEnteredPass === '0' && !savedEndTime) {
+      const timeout = 5 * 60 * 1000; // 5 хвилин в мілісекундах
+      const endTime = Date.now() + timeout;
+      this.blockAllForms(); // Блокуємо форми
+      const timerInterval = setInterval(() => {
+        const currentTime = Date.now();
+        this.timeLeft = Math.round((endTime - currentTime) / 1000);
+        // Збереження часу до розблокування в localStorage
+        localStorage.setItem('blockEndTime', endTime.toString());
+        if (this.timeLeft <= 0) {
+          clearInterval(timerInterval); // Зупиняємо таймер
+          this.unblockAllForms(); // Розблоковуємо форми
+          localStorage.removeItem('blockEndTime'); // Видаляємо час зберігання з localStorage
+        }
+      }, 1000); // Оновлюємо кожну секунду
+    } else if (savedEndTime) {
+      const endTime = parseInt(savedEndTime, 10);
+      const currentTime = Date.now();
+      this.timeLeft = Math.round((endTime - currentTime) / 1000);
+      if (this.timeLeft > 0) {
+        this.blockAllForms(); // Блокуємо форми
+        this.startTimer(); // Запускаємо таймер
+      } else {
+        localStorage.removeItem('blockEndTime'); // Видаляємо старий час зберігання з localStorage
+      }
+    }
+  }
+
+  private startTimer(): void {
+    const timerInterval = setInterval(() => {
+      this.timeLeft--;
+      if (this.timeLeft <= 0) {
+        clearInterval(timerInterval); // Зупиняємо таймер
+        this.unblockAllForms(); // Розблоковуємо форми
+        localStorage.removeItem('blockEndTime'); // Видаляємо час зберігання з localStorage
+      }
+    }, 1000); // Оновлюємо кожну секунду
+  }
+
+  private blockAllForms(): void {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    this.registrationForm.disable();
+    this.loginForm.disable();
+    this.changePassForm.disable();
+  }
+
+  private unblockAllForms(): void {
+    this.registrationForm.enable();
+    this.loginForm.enable();
+    this.changePassForm.enable();
+    localStorage.setItem('counterWrongEnteredPass', JSON.stringify(5));
+  }
+
   sendCodeForChangePass() {
     this.emailAcc = this.loginForm.get('email')?.value;
     this.loading = true;
-
     const data = {
       email: this.loginForm.get('email')?.value,
     };
-
-    // console.log(data);
     this.http.post(serverPath + '/registration/forgotpass1', data)
       .subscribe((response: any) => {
-        // console.log(response)
         if (response.status === 'На вашу пошту було надіслано код безпеки') {
           this.indexCard = 2;
           this.statusMessage = 'На вашу пошту було надіслано код безпеки.';
+          localStorage.removeItem('selectedComun');
+          localStorage.removeItem('selectedFlatId');
+          localStorage.removeItem('selectedFlatName');
+          localStorage.removeItem('selectedHouse');
+          localStorage.removeItem('houseData');
+          localStorage.removeItem('userData');
+          localStorage.removeItem('user');
           setTimeout(() => {
             this.statusMessage = '';
             this.loading = false;
@@ -353,22 +448,21 @@ export class RegistrationComponent implements OnInit {
 
   onChangePassword() {
     this.loading = true;
-
     const data = {
       email: this.loginForm.get('email')?.value,
       password: this.changePassForm.get('changePassword')?.value,
       passCode: this.changePassCode,
     };
-    // console.log(data);
     this.http.post(serverPath + '/registration/forgotpass2', data).subscribe(
       (response: any) => {
-        // console.log(response);
         if (response.status === 'Не правильно передані данні') {
           console.error(response.status);
           this.statusMessage = 'Помилка реєстрації.';
           setTimeout(() => {
             location.reload();
           }, 1000);
+        } else if (response.status === "Не правильний код") {
+          this.invalidСodeCheck();
         } else {
           localStorage.setItem('user', JSON.stringify(response));
           this.statusMessage = 'Пароль змінено, Вітаємо в Discussio!';

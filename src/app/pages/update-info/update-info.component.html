@@ -1,0 +1,37 @@
+<div class="flex-column p-5 mt-2">
+
+  <div class="logo-wrapper">
+    <img class="logo" src="../../../assets/logo/logo.svg" alt="">
+  </div>
+
+  <h1 class="t-lar bold">Discussio</h1>
+  <div class="news-title">Інформація про оновлення сайту</div>
+  <div class="news">
+    <i class="fa-solid fa-info"> </i>
+    <p class="t-lar accent bold">11.04.24</p>
+    <ol class="news-list t-lar bold">Оновлення:
+      <li class="news-item"> Оновлено систему шифрування паролю. Змініть ваш пароль! (Вхід/Відновити пароль). </li>
+      <li class="news-item"> Додано перевірку на кількість спроб введення коду безпеки.</li>
+    </ol>
+  </div>
+
+  <div class="news">
+    <i class="fa-solid fa-info"> </i>
+    <p class="t-lar accent bold">09.04.24</p>
+    <ol class="news-list t-lar bold">Оновлення:
+      <li class="news-item"> Всі аккаунти користувачів та оселей які було створено до 10.04.24 було очищено. Якщо у
+        вас був аккаунт натисніть <button class="news_link btn" (click)="logout()">очистити дані кешу</button> та
+        зареєструйтесь заново. Ми запускаємо сайт в роботу в тестовому режимі. </li>
+    </ol>
+    <p class="t-min t-c">Можна користуватись функціоналом нашого сайту за призначенням. За фейкові
+      аккаунти і
+      неправдивість оголошень відбувається бан. Про всі негаразти та збої пишіть сюди
+      <button class="news_link btn" [routerLink]="'/feedback'">Відгук <i class="fa-solid fa-bug pl-2"></i></button>
+      Біля кожної сторінки з профілями є
+      примітка скарга. Всі скарги будуть розглянуті. Питання стосовно співпраці, пропозицій пишіть на пошту <span
+        class="accent">{{gmail}}</span> або в
+      наших соціальних мережах. Дякую за увагу та приємного користування!
+    </p>
+  </div>
+
+</div>

@@ -20,6 +20,19 @@
   }
 }
 
+.card-content {
+  @include flex-box;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  height: calc(100vh - 100px - 1rem);
+  width: 100%;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .form-field {
   width: 100%;
 }

@@ -86,16 +86,14 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Отримання повідомлень
   async getMessages(selectedFlat: any): Promise<any> {
     clearTimeout(this.interval);
     this.allMessagesNotRead = [];
     this.allMessages = [];
-    this.getNewMessages(selectedFlat);
-
     if (this.currentSubscription) {
       this.currentSubscription.next(undefined);
     }
-
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat && this.chatExist) {
       const info = {
@@ -103,32 +101,28 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         flat_id: selectedFlat,
         offs: 0,
       };
-      const destroy$ = new Subject();
-      this.http.post(serverPath + '/chat/get/usermessage', info)
-        .pipe(
-          switchMap((response: any) => {
-            if (Array.isArray(response.status)) {
-              this.messageALL = response.status
-              this.allMessages = response.status.map((message: any) => {
-                const dateTime = new Date(message.data);
-                const time = dateTime.toLocaleTimeString();
-                return { ...message, time };
-              });
-            } else {
-              this.allMessages = [];
-            }
-            this.loading = false;
-            return EMPTY;
-          }),
-          takeUntil(destroy$)
-        )
-        .subscribe(() => {
-          this.getNewMessages(selectedFlat);
-        });
-      this.currentSubscription = destroy$;
-      destroy$.subscribe(() => {
-      });
-    } else { console.log('Авторизуйтесь'); this.loading = false; }
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/get/usermessage', info).toPromise() as any[];
+        // перевіряю скільки повідомлень якщо більше 49 то показую кнопку підвантажити повідомлення
+        this.messageALL = response.status;
+        if (Array.isArray(response.status)) {
+          this.allMessages = response.status.map((message: any) => {
+            const dateTime = new Date(message.data);
+            const time = dateTime.toLocaleTimeString();
+            return { ...message, time };
+          });
+        } else {
+          this.allMessages = [];
+        }
+        // console.log(this.allMessages);
+        await this.getNewMessages(selectedFlat);
+        this.loading = false;
+      } catch (error) {
+        console.log('Помилка отримання повідомлень');
+      }
+    } else {
+      console.log('Оберіть чат');
+    }
   }
 
   async getNewMessages(selectedFlat: any): Promise<void> {
@@ -143,17 +137,18 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       })
         .subscribe(
           async (response: any) => {
+            // console.log(response)
             if (Array.isArray(response.status)) {
               let c: any = []
               await Promise.all(response.status.map((i: any, index: any) => {
                 const reverseIndex = response.status.length - 1 - index;
                 let b = response.status[reverseIndex]
-                if (b.is_read == 1) {
+                if (b.is_read === 1) {
                   let dateTime = new Date(b.data);
                   let time = dateTime.toLocaleTimeString();
                   this.allMessages.unshift({ ...b, time })
                   return 1
-                } else if (b.is_read == 0) {
+                } else if (b.is_read === 0) {
                   let dateTime = new Date(b.data);
                   let time = dateTime.toLocaleTimeString();
                   c.unshift({ ...b, time })

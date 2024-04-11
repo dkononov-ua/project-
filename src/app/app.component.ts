@@ -89,7 +89,6 @@ export class AppComponent implements OnInit {
           this.router.navigate(['/registration']);
         });
     } else {
-      console.log('user not found');
     }
   }
 

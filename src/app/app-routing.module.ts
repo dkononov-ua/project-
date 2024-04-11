@@ -14,7 +14,7 @@ import { ActTransferComponent } from './agreements/act-transfer/act-transfer.com
 import { ActCreateComponent } from './account/house/agree-h/act-create/act-create.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home/update', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home-routing.module').then(m => m.HomeRoutingModule) },
   { path: 'user-licence', component: UserLicenceComponent, },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },

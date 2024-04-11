@@ -83,6 +83,7 @@ export class SearchTermTenantsComponent implements OnInit {
   myData: boolean = false;
   startX = 0;
   myDataExist: boolean = false;
+  addСardsToArray: boolean = false;
 
   filterSwitchNext() {
     if (this.filter_group < 4) {
@@ -286,10 +287,11 @@ export class SearchTermTenantsComponent implements OnInit {
     if (userJson) {
       this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
-          if (!this.filteredUsers) {
-            this.filteredUsers = [];
-          }
-          if (Array.isArray(response.user_inf) && response.user_inf.length > 0) {
+          if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && !this.addСardsToArray) {
+            this.filteredUsers = response.user_inf;
+            this.optionsFound = response.search_count;
+            this.passInformationToService(this.filteredUsers, this.optionsFound);
+          } else if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && this.addСardsToArray) {
             this.filteredUsers.push(...response.user_inf);
             this.optionsFound = response.search_count;
             this.passInformationToService(this.filteredUsers, this.optionsFound);
@@ -403,8 +405,10 @@ export class SearchTermTenantsComponent implements OnInit {
     this.filterUserService.loadCards$.subscribe(loadValue => {
       if (loadValue !== '') {
         if (loadValue === 'prev') {
+          this.addСardsToArray = true;
           this.decrementOffset();
         } else if (loadValue === 'next') {
+          this.addСardsToArray = true;
           this.incrementOffset();
         }
       }

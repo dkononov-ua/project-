@@ -149,6 +149,7 @@ export class SearchTermHouseComponent implements OnInit {
   sortMenu: boolean = false;
   searchInfoUserData: boolean = false;
   myDataExist: boolean = false;
+  addСardsToArray: boolean = false;
 
   filterSwitchNext() {
     if (this.filter_group < 3) {
@@ -452,8 +453,13 @@ export class SearchTermHouseComponent implements OnInit {
       this.optionsFound = response.count;
       if (this.userInfo.filterData) {
         this.filteredFlats = response.img;
-      } else {
+      } else if (!this.addСardsToArray) {
+        this.filteredFlats = response.img;
+      } else if (this.addСardsToArray) {
         this.filteredFlats.push(...response.img);
+        setTimeout(() => {
+          this.addСardsToArray = false;
+        }, 100);
       }
       this.calculatePaginatorInfo()
       this.passInformationToService(this.filteredFlats, this.optionsFound);
@@ -500,8 +506,10 @@ export class SearchTermHouseComponent implements OnInit {
     this.filterService.loadCards$.subscribe(loadValue => {
       if (loadValue !== '') {
         if (loadValue === 'prev') {
+          this.addСardsToArray = true;
           this.decrementOffset();
         } else if (loadValue === 'next') {
+          this.addСardsToArray = true;
           this.incrementOffset();
         }
       }

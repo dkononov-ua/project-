@@ -268,20 +268,24 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedUserID) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: this.selectedUserID, };
+      console.log(data)
       try {
         const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        console.log(response)
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           const result = await this.getFlatChats();
           if (result === 1) {
             setTimeout(() => { this.openChat(); }, 2000);
           } else if (result === 0) {
+            console.log(111111111)
             this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
             setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
           }
         } else { this.statusMessageChat = true; }
       } catch (error) {
         console.error(error);
+        console.log(22222222222)
         this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
         setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
       }

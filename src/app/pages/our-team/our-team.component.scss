@@ -18,6 +18,10 @@ img {
     // animation: bounce-in 1s;
   }
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   .container-card {
     display: flex;
     flex-direction: column;

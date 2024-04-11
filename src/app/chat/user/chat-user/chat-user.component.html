@@ -114,7 +114,7 @@
         <button class="btn-more" (click)="toggleSmileyPanel()">
           <i class="fa-regular fa-face-smile-beam"></i>
         </button>
-        <textarea id="chat_input" [(ngModel)]="messageText" name="chat_input"
+        <textarea id="chat_input" (keyup.enter)="sendMessage()" [(ngModel)]="messageText" name="chat_input"
           placeholder="Напишіть повідомлення..."></textarea>
         <button [disabled]="!messageText" class="btn-send" id="send" (click)="sendMessage()"> <i
             class="fa-solid fa-paper-plane fa-2xl"></i> </button>

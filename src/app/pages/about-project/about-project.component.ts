@@ -30,6 +30,7 @@ export class AboutProjectComponent implements OnInit {
   currentStep: number = 0;
   currentScenario: number = 1;
   statusMessage: string | undefined;
+  gmail: string = 'discussio.inc@gmail.com';
 
   containers: { [key: string]: boolean } = {
     container1: false,
@@ -61,6 +62,21 @@ export class AboutProjectComponent implements OnInit {
 
   changeStep(step: number): void {
     this.currentStep = step;
+  }
+
+  logout() {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    this.sharedService.setStatusMessage('Дані кукі та кешу очищені');
+    setTimeout(() => {
+      this.sharedService.setStatusMessage('');
+      location.reload();
+    }, 1500);
   }
 
   changeScenario(step: number): void {
