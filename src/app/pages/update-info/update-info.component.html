@@ -1,11 +1,27 @@
-<div class="flex-column p-5 mt-2">
+<div class="flex-column p-2 mt-2">
 
   <div class="logo-wrapper">
     <img class="logo" src="../../../assets/logo/logo.svg" alt="">
   </div>
 
   <h1 class="t-lar bold">Discussio</h1>
-  <div class="news-title">Інформація про оновлення сайту</div>
+  <h3 class="t-c">Інформація про оновлення сайту</h3>
+
+  <div class="news">
+    <i class="fa-solid fa-info"> </i>
+    <p class="t-lar accent bold">15.04.24</p>
+    <ol class="news-list t-lar bold">Заохочення:
+      <li class="news-item"> Перші 1000 аккаунтів отримають статус підтвердженого аккаунту <i
+          class="fa-solid fa-person-circle-check accent p-2"></i> від Discussio БЕЗКОШТОВНО! </li>
+      <div class="t-min gray">При умові що профіль користувача буде заповнений відповідним чином для можливості
+        перевірки
+      </div>
+    </ol>
+    <div class="t-med gray">Пропонуйте також свої варіанти як можемо привабити першу аудиторію? Запропонувати їх можна тут <button
+        class="news_link btn p-2" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пропоную' }">Відгук <i
+          class="fa-solid fa-bug pl-2"></i></button></div>
+  </div>
+
   <div class="news">
     <i class="fa-solid fa-info"> </i>
     <p class="t-lar accent bold">11.04.24</p>

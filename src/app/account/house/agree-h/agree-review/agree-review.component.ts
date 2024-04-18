@@ -76,7 +76,7 @@ export class AgreeReviewComponent implements OnInit {
       if (response === false) {
         this.sharedService.setStatusMessage('Надісланих угод немає');
         setTimeout(() => {
-          this.router.navigate(['/house/agree-menu']);
+          this.router.navigate(['/house/agree/menu']);
           this.sharedService.setStatusMessage('');
         }, 300);
       } else {

@@ -15,6 +15,11 @@
   left: 0;
   z-index: 20;
   height: 20px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: -3px 3px 20px -10px darken($color-accent, 40%);
+  }
 
   .status-box {
     display: flex;
@@ -76,4 +81,3 @@
 .status-container:hover .status-hover {
   display: block;
 }
-

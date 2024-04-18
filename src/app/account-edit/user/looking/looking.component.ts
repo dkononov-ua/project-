@@ -15,8 +15,8 @@ interface UserInfo {
   city: string | undefined;
   rooms_of: number | undefined;
   rooms_to: number | undefined;
-  area_of: string | undefined;
-  area_to: string | undefined;
+  area_of: string;
+  area_to: string;
   repair_status: string | undefined;
   bunker: string | undefined;
   balcony: string | undefined;
@@ -57,6 +57,7 @@ interface UserInfo {
     animations.left3,
     animations.left4,
     animations.left5,
+    animations.right,
     animations.right1,
     animations.right2,
     animations.right4,
@@ -110,7 +111,7 @@ export class LookingComponent implements OnInit {
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
   selectedRegion!: string;
-  selectedCity!: string;
+  selectedCity!: string | undefined;
   regions = regions;
   cities = cities;
   subway = subway;
@@ -133,6 +134,7 @@ export class LookingComponent implements OnInit {
 
   currentStep: number = 1;
   statusMessage: string | undefined;
+  errorMessage: string | undefined;
 
   changeStep(step: number): void {
     this.indexPage = step;
@@ -150,6 +152,19 @@ export class LookingComponent implements OnInit {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
+
+  onKeyPress(event: KeyboardEvent, maxLength: number) {
+    // Отримайте введене значення
+    const input = event.target as HTMLInputElement;
+    const inputValue = input.value;
+
+    // Перевірте, чи введене значення більше заданої довжини
+    if (inputValue.length >= maxLength) {
+      // Скасуйте подію, якщо введено більше символів, ніж дозволено
+      event.preventDefault();
+    }
+  }
+
 
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;
@@ -173,16 +188,29 @@ export class LookingComponent implements OnInit {
   toggleHelp(index: number) {
     this.help = index;
   }
+  isMobile: boolean = false;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private sharedService: SharedService,
-  ) { }
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   ngOnInit(): void {
     this.getInfo();
     this.loading = false;
+  }
+
+  checkRooms() {
+    if (this.userInfo.room) {
+      this.userInfo.looking_woman = 0;
+      this.userInfo.looking_man = 0;
+    }
   }
 
   // відправляю event початок свайпу
@@ -283,7 +311,7 @@ export class LookingComponent implements OnInit {
         // console.log(response)
         if (this.userInfo && this.userInfo.agree_search === 0) {
           setTimeout(() => {
-            this.sharedService.setStatusMessage('Деактивовано!');
+            this.sharedService.setStatusMessage('Збережено, оголошення не активне!');
             setTimeout(() => {
               this.router.navigate(['/user/info']);
               this.sharedService.setStatusMessage('');
@@ -359,34 +387,49 @@ export class LookingComponent implements OnInit {
     this.userInfo.metro = '';
   }
 
-  // завантаження бази міст
-  loadCities() {
-    const searchTerm = this.userInfo.region!.toLowerCase();
-    this.filteredRegions = this.regions.filter(region =>
-      region.name.toLowerCase().includes(searchTerm)
-    );
-    const selectedRegionObj = this.filteredRegions.find(region =>
-      region.name === this.userInfo.region
-    );
-    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-    this.userInfo.city = '';
-  }
-
   // завантаження бази областей
   loadRegions() {
+    if (this.userInfo.region) {
+      const searchTerm = this.userInfo.region!.toLowerCase();
+      this.filteredRegions = this.regions.filter(region =>
+        region.name.toLowerCase().includes(searchTerm)
+      );
+      const selectedRegionObj = this.filteredRegions.find(region =>
+        region.name === this.userInfo.region
+      );
+      this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
+      this.userInfo.city = '';
+      if (this.userInfo.region) {
+        this.loadCities();
+      }
+    }
+  }
+
+  // завантаження бази міст
+  loadCities() {
     const searchTerm = this.userInfo.city!.toLowerCase();
     const selectedRegionObj = this.regions.find(region =>
       region.name === this.userInfo.region
     );
-    this.filteredCities = selectedRegionObj
-      ? selectedRegionObj.cities.filter(city =>
+    if (selectedRegionObj) {
+      this.filteredCities = selectedRegionObj.cities.filter(city =>
         city.name.toLowerCase().includes(searchTerm)
-      )
-      : [];
-
+      );
+      this.errorMessage = 'Оберіть місто';
+      console.log(this.errorMessage)
+    } else {
+      // Якщо область не знайдена, показати повідомлення про помилку
+      this.errorMessage = 'Оберіть правильну область';
+      return;
+    }
     const selectedCityObj = this.filteredCities.find(city =>
       city.name === this.userInfo.city
     );
+    if (!selectedCityObj) {
+      // Якщо місто не знайдено у вибраній області, показати повідомлення про помилку
+      this.errorMessage = 'Оберіть місто';
+      return;
+    }
   }
 
   loadStations() {

@@ -1,9 +1,14 @@
 <div class="message-box">
   <mat-dialog-content>
 
-    <div class="t-lar bold t-c" *ngIf="data.object === 'house'">Оберіть причину скарги на оселю {{data.flatName}}</div>
-    <div class="t-lar bold t-c" *ngIf="data.object === 'user'">
-      Оберіть причину скарги на користувача {{data.firstName}} {{data.lastName}}</div>
+    <div class="t-med bold t-c" *ngIf="data.object === 'house'">Оберіть причину скарги на оселю <br>
+      <span class="t-med bold accent">{{data.flatName}}</span>
+    </div>
+
+    <div class="t-med bold t-c" *ngIf="data.object === 'user'">
+      Оберіть причину скарги на користувача <br>
+      <span class="t-med bold t-c accent">{{data.firstName}} {{data.lastName}}</span>
+    </div>
 
     <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="selectedReport">
       <mat-radio-button color="warn" [value]="1">Неправдиве оголошення</mat-radio-button>

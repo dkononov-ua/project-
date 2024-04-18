@@ -7,74 +7,57 @@
 
     <div class="info-container" *ngIf="help > 0">
 
-      <div class="info-help-box t-c">
+      <div class="info-help-box" *ngIf="help === 1">
+        <i class="fa-solid fa-info white"></i>
+        <div class="info-help-name">Перший крок</div>
+        <div class="info-help-text">
+          <ul>
+            <li class="bold">Оберіть для кого шукаєте оселю, обирайте лише ту категорію яка
+              вам підійде так вас швидше знайдуть.</li>
+            <li class="bold">Оберіть область та місто це обов'язково.</li>
+            <li class="bold">Оберіть причину оренди, стан оселі, формат. Якщо треба опишіть
+              сусіда по оселі який вам треба</li>
+          </ul>
+        </div>
+        <button class="btn w-100" (click)="toggleHelp(0)">Зрозуміло</button>
+      </div>
 
-        <div *ngIf="help === 1">
-          <i class="fa-solid fa-info"></i>
-          <div class="info-help-name">Профіль орендаря</div>
-          <div class="t-min t-c white p-2">
-            Вибір іншого житла - це легко та зручно завдяки "Пошуковому профілю
-            орендаря". Лише три кроки
-            розділяють вас від ідеального житла.
-            Крок перший: Опишіть свої потреби та бажання щодо оселі, вказавши для кого і який формат вам потрібен.
-            Крок другий: Встановіть параметри оселі, оцініть інфраструктуру та особливості, які вам важливі.
-            Крок третій: Зазначте терміни, бюджет та додаткову інформацію.
-            Після активації вашого пошукового профілю, власники нерухомості зможуть надсилати вам пропозиції, які
-            відповідають вашим потребам. Це швидкий та ефективний спосіб знайти ідеальне житло для вас.
-          </div>
-        </div>
-        <div *ngIf="help === 2">
-          <i class="fa-solid fa-info"></i>
-          <div class="info-help-name accent">Перший крок</div>
-          <ul class="t-min white m-2">
-            <li class="mb-2"> - Оберіть для кого шукаєте оселю, обирайте лише ту категорію яка
-              вам
-              підійде
-              так вас швидше знайдуть.</li>
-            <li class="mb-2"> - Оберіть область та місто це обов'язково.</li>
-            <li class="mb-2"> - Оберіть причину оренди, стан оселі, формат. Якщо треба опишіть
-              сусіда по
-              оселі який вам треба</li>
+      <div class="info-help-box" *ngIf="help === 2">
+        <i class="fa-solid fa-info white"></i>
+        <div class="info-help-name">Другий крок</div>
+        <div class="info-help-text">
+          <ul>
+            <li class="bold">Опишіть детальніше параметри оселі.</li>
+            <li class="bold">Опишіть доступність інфраструктури.</li>
+            <li class="bold">Оберіть чи важливо вам знайти оселі з укриттям</li>
+            <li class="bold">Вкажіть чи є у вас домашні улюбленці</li>
           </ul>
         </div>
-        <div *ngIf="help === 3">
-          <i class="fa-solid fa-info"></i>
-          <div class="info-help-name accent">Другий крок</div>
-          <ul class="t-min white m-2">
-            <li class="mb-2"> - Опишіть детальніше параметри оселі.</li>
-            <li class="mb-2"> - Опишіть доступність інфраструктури.</li>
-            <li class="mb-2"> - Оберіть чи важливо вам знайти оселі з укриттям</li>
-            <li class="mb-2"> - Вкажіть чи є у вас домашні улюбленці</li>
-          </ul>
-        </div>
-        <div *ngIf="help === 4">
-          <i class="fa-solid fa-info"></i>
-          <div class="info-help-name accent">Третій крок</div>
-          <ul class="t-min white m-2">
-            <li class="mb-2"> - Оберіть тип оренди, подобово чи на тривалий термін.</li>
-            <li class="mb-2"> - Вкажіть термін на який би ви хотіли знайти оселю, це не
+        <button class="btn w-100" (click)="toggleHelp(0)">Зрозуміло</button>
+      </div>
+
+      <div class="info-help-box" *ngIf="help === 3">
+        <i class="fa-solid fa-info white"></i>
+        <div class="info-help-name">Третій крок</div>
+        <div class="info-help-text">
+
+          <ul>
+            <li class="bold">Оберіть тип оренди, подобово чи на тривалий термін.</li>
+            <li class="bold">Вкажіть термін на який би ви хотіли знайти оселю, це не
               обов'язково але власники оселі будуть розуміти на що орієнтуватись.</li>
-            <li class="mb-2"> - Визначте свій бюджет.</li>
-            <li class="mb-2"> - Якщо потрібно опишіть себе або ваші додаткові побажання.</li>
+            <li class="bold">Визначте свій бюджет.</li>
+            <li class="bold">Якщо потрібно опишіть себе або ваші додаткові побажання.</li>
           </ul>
-          <div class="info-help-name accent">Варіант оплати Безкоштовно</div>
-          <ul class="t-min white m-2">
-            <li class="mb-2">Ми додали цей варіант для людей які потребають житла але не мають
+
+          <ul class="t-min accent m-2">Варіант оплати Безкоштовно
+            <li class="bold">Ми додали цей варіант для людей які потребають житла але не мають
               змоги за нього заплатити. Власники оселей можуть допомогти переселенцям або людям в скрутній
               ситуації. </li>
           </ul>
         </div>
-
-        <div class="feedback-box m-2">
-          <button class="feedback-box-btn" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль орендаря' }">
-            <div class="t-med bold mr-2">Запропонувати зміни</div>
-            <i class="fa-solid fa-arrow-right gray"></i>
-          </button>
-        </div>
-
-        <button class="btn-help" (click)="toggleHelp(0)">Зрозуміло</button>
-
+        <button class="btn w-100" (click)="toggleHelp(0)">Зрозуміло</button>
       </div>
+
     </div>
 
     <div class="switch-container">
@@ -97,6 +80,13 @@
             <div class="t-min bold">Інфо</div>
           </button>
         </div>
+      </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="onClickMenu(4)" [ngClass]="{ 'active': indexPage == 4}">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="t-min bold">Кроки</div>
+        </button>
       </div>
 
       <div class="switch-btn-group">
@@ -123,7 +113,8 @@
     </div>
 
     <div class="main-container">
-      <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
+
+      <div class="card-wrapper col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile" *ngIf="!isMobile">
         <div [@right1] class="card-content-static w-100">
           <div class="card-group">
             <div class="flex-box-center t-c p-2 mt-2 w-100">
@@ -144,14 +135,6 @@
 
               <p class="t-min bold mb-2">Вибір іншого житла - це легко та зручно завдяки "Пошуковому профілю орендаря".
               </p>
-              <p class="t-min">Лише три
-                кроки розділяють вас від ідеального житла. Крок перший: Опишіть свої потреби та бажання щодо оселі,
-                вказавши для кого і який формат вам потрібен. Крок другий: Встановіть параметри оселі, оцініть
-                інфраструктуру та особливості, які вам важливі. Крок третій: Зазначте терміни, бюджет та додаткову
-                інформацію. Після активації вашого пошукового профілю, власники нерухомості зможуть надсилати вам
-                пропозиції, які відповідають вашим потребам. Це швидкий та ефективний спосіб знайти ідеальне житло для
-                вас.
-                .</p>
             </div>
 
             <div [@left3] class="btn-group w-100 mt-2 hide-pc">
@@ -174,11 +157,67 @@
           </div> -->
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12 col-12">
 
-        <div class="card-wrapper">
+      <div class="col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
+        <div class="card-wrapper w-100">
+          <div class="card-content-static w-100 p-2">
+            <div [@right] class="t-lar t-c ">
+              <p class="bold">Шлях по кроках. <br> Як активувати профіль орендаря.</p>
+              <div class="t-min gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено в
+                меню "пошук орендаря" та доступне для перегляду та підписки.</div>
+            </div>
 
-          <div [@swichCard] *ngIf="indexPage === 0" class="card-animation hide-pc">
+            <div [@right] class="item-box">
+              <div class="item-d w-70">
+                <div class="t-med gray bold">Крок 1</div>
+                <div class="t-min t-c p-1">Оберіть для кого шукаєте оселю.
+                  Область та місто це обов'язково*.
+                  Оберіть причину оренди, стан оселі, формат. Опишіть сусіда по оселі.</div>
+              </div>
+
+              <button class="link-t w-30 flex-column" [ngClass]="{ 'active': indexPage === 1}" (click)="changeStep(1)">
+                <span class="ml-2 t-min">Мета & Локація</span>
+                <i class="fa-solid fa-tree-city ml-2"></i>
+              </button>
+            </div>
+
+            <div [@right1] class="item-box">
+              <div class="item-d w-70">
+                <div class="t-med gray bold">Крок 2</div>
+                <div class="t-min t-c p-1">Опишіть параметри оселі.
+                  Доступність інфраструктури.
+                  Чи важливо вам знайти оселі з укриттям
+                  Вкажіть чи є у вас домашні улюбленці</div>
+              </div>
+
+              <button class="link-t w-30 flex-column" [ngClass]="{ 'active': indexPage === 2}" (click)="changeStep(2)">
+                <span class="ml-2 t-min">Параметри & Особливості</span>
+                <i class="fa-solid fa-street-view ml-2"></i>
+              </button>
+            </div>
+
+            <div [@right2] class="item-box">
+              <div class="item-d w-70">
+                <div class="t-med gray bold">Крок 3</div>
+                <div class="t-min t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
+                  Вкажіть термін. Визначте свій бюджет. Додаткові побажання.</div>
+              </div>
+
+              <button class="link-t w-30 flex-column" [ngClass]="{ 'active': indexPage === 3}" (click)="changeStep(3)">
+                <span class="ml-2 t-min">Оплата & терміни</span>
+                <i class="fa-solid fa-magnifying-glass-dollar ml-2"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 col-md-5 col-sm-12 col-12">
+
+        <div class="card-wrapper w-100">
+
+          <div [@swichCard] *ngIf="indexPage === 0 && isMobile" class="card-animation w-100 hide-pc">
             <div [@left1] class="card-content-static">
               <div class="card-group">
                 <div class="flex-box-center t-c p-2 mt-2 w-100">
@@ -227,91 +266,223 @@
             </div>
           </div>
 
-          <div [@swichCard] *ngIf="indexPage === 1" class="card-animation">
-            <div class="card-content p-2">
+          <div [@swichCard] *ngIf="indexPage === 1" class="card-animation w-100">
+            <div class="card-content">
 
-              <div [@right4] class="status-container" (click)="toggleHelp(2)">
+              <div [@right4] class="status-container m-2" (click)="toggleHelp(1)">
                 <div class="status-value">Допомога</div>
               </div>
 
-              <div class="bold t-med accent t-e">Шукаю оселю для</div>
-              <section class="checkbox-section">
-                <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.students">Студент</mat-checkbox>
-                <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.woman">Жінка</mat-checkbox>
-                <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.man">Чоловік</mat-checkbox>
-                <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.family">Сім'я</mat-checkbox>
-              </section>
+              <div class="flex-column t-c mt-2 p-2">
+                <mat-label class="t-med t-c accent bold">Шукаю оселю для* </mat-label>
+                <div class="t-min gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
+                  варіант
+                  який
+                  вас більше всього характеризує. Можна комбінувати.</div>
+                <div class="inputbox-group pl-2">
+                  <div class="inputbox-group pl-2">
 
-              <mat-form-field class="item-select" appearance="outline" (click)="loadCities()">
-                <input name="flatInfo.region" matInput placeholder="Область" [(ngModel)]="userInfo.region"
-                  placeholder="Виберіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
-                <mat-autocomplete #autoRegion="matAutocomplete">
-                  <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
-                    {{ region.name }}
-                  </mat-option>
-                </mat-autocomplete>
-                <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
-                <mat-hint align="end">Оберіть область де шукаєте оселю</mat-hint>
-              </mat-form-field>
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" id="students" name="students" [(ngModel)]="userInfo.students">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.students}">S</div>
+                        <div class="ml-2">Студент <span class="gray checkBox-text" *ngIf="userInfo.students">(Я
+                            студент/студентка)</span></div>
+                      </div>
+                    </div>
+                  </div>
 
-              <mat-form-field class="item-select" appearance="outline" (click)="loadRegions()">
-                <input [disabled]="!userInfo.region" name="flatInfo.city" matInput placeholder="Місто"
-                  [(ngModel)]="userInfo.city" placeholder="Виберіть місто" (ngModelChange)="loadRegions()"
-                  [matAutocomplete]="autoCity">
-                <mat-autocomplete #autoCity="matAutocomplete">
-                  <mat-option *ngFor="let city of filteredCities" [value]="city.name">
-                    {{ city.name }}
-                  </mat-option>
-                </mat-autocomplete>
-                <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
-                <mat-hint align="end">Оберіть місто де шукаєте оселю</mat-hint>
-              </mat-form-field>
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" id="woman" name="woman" [(ngModel)]="userInfo.woman">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.woman}">W</div>
+                        <div class="ml-2">Жінка <span class="gray checkBox-text" *ngIf="userInfo.woman">(Буде
+                            проживати жінка)</span></div>
+                      </div>
+                    </div>
+                  </div>
 
-              <div>
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select placeholder="Мета оренди" [(ngModel)]="userInfo.purpose_rent" name="purpose_rent">
-                    <mat-option value="Неважливо">Неважливо</mat-option>
-                    <mat-option value="0">Переїзд</mat-option>
-                    <mat-option value="1">Відряджання</mat-option>
-                    <mat-option value="2">Подорож</mat-option>
-                    <mat-option value="3">Навчання</mat-option>
-                    <mat-option value="4">Особисті причини</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-head-side-virus"></i></mat-icon>
-                  <mat-hint align="end">Причина пошуку</mat-hint>
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" id="man" name="man" [(ngModel)]="userInfo.man">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.man}">M</div>
+                        <div class="ml-2">Чоловік <span class="gray checkBox-text" *ngIf="userInfo.man">(Буде
+                            проживати чоловік)</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" id="family" name="family" [(ngModel)]="userInfo.family">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.family}">F</div>
+                        <div class="ml-2">Сім'я <span class="gray checkBox-text" *ngIf="userInfo.family">(Буде
+                            проживати сім'я)</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <mat-label class="t-med t-c accent bold w-100">Область та місто</mat-label>
+                <mat-form-field class="item-select" appearance="outline" (click)="loadRegions()"
+                  [ngClass]="{ 'error': !userInfo.region && userInfo.region !== '' }">
+                  <input name="flatInfo.region" matInput placeholder="Почніть вводити область"
+                    [(ngModel)]="userInfo.region" (ngModelChange)="loadRegions()" [matAutocomplete]="autoRegion">
+                  <mat-autocomplete #autoRegion="matAutocomplete">
+                    <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
+                      {{ region.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
+                  <mat-hint class="gray" align="end" *ngIf="errorMessage === 'Оберіть місто'">
+                    <i class="fa-regular fa-circle-check green"></i>Область вказана вірно</mat-hint>
+                  <mat-hint align="end" *ngIf="errorMessage && errorMessage !== 'Оберіть місто'">
+                    <i class="fa-solid fa-ban red"></i><span class="red">Область вказана невірно</span></mat-hint>
                 </mat-form-field>
 
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select placeholder="Стан оселі" [(ngModel)]="userInfo.repair_status" name="repair_status">
-                    <mat-option value="Неважливо">Неважливо</mat-option>
-                    <mat-option value="Новий">Новий</mat-option>
-                    <mat-option value="Добрий">Добрий</mat-option>
-                    <mat-option value="Задовільний">Задовільний</mat-option>
-                    <mat-option value="Поганий">Поганий</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
-                  <mat-hint align="end">Стан оселі</mat-hint>
+                <mat-form-field class="item-select" appearance="outline" (click)="loadCities()">
+                  <input [disabled]="!userInfo.region || errorMessage === 'Оберіть правильну область'"
+                    name="flatInfo.city" matInput placeholder="Місто" [(ngModel)]="userInfo.city"
+                    placeholder="Почніть вводити місто" (ngModelChange)="loadCities()" [matAutocomplete]="autoCity">
+                  <mat-autocomplete #autoCity="matAutocomplete">
+                    <mat-option *ngFor="let city of filteredCities" [value]="city.name">
+                      {{ city.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+                  <mat-hint class="gray" align="end" *ngIf="errorMessage">{{ errorMessage }}</mat-hint>
                 </mat-form-field>
+
+                <div>
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Мета оренди" [(ngModel)]="userInfo.purpose_rent" name="purpose_rent">
+                      <mat-option value="Неважливо">Неважливо</mat-option>
+                      <mat-option value="0">Переїзд</mat-option>
+                      <mat-option value="1">Відряджання</mat-option>
+                      <mat-option value="2">Подорож</mat-option>
+                      <mat-option value="3">Навчання</mat-option>
+                      <mat-option value="4">Особисті причини</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-head-side-virus"></i></mat-icon>
+                    <mat-hint align="end">Причина пошуку</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Стан оселі" [(ngModel)]="userInfo.repair_status" name="repair_status">
+                      <mat-option value="Неважливо">Неважливо</mat-option>
+                      <mat-option value="Новий">Новий</mat-option>
+                      <mat-option value="Добрий">Добрий</mat-option>
+                      <mat-option value="Задовільний">Задовільний</mat-option>
+                      <mat-option value="Поганий">Поганий</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
+                    <mat-hint align="end">Стан оселі</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <mat-label class="t-med t-c accent bold">Формат оселі* </mat-label>
+                <div class="t-min gray t-c">Оберіть що ви хочете знайти, якщо обрати параметр кімната це буде означати
+                  що ви шукаєте тільки кімнату в будинку чи квартирі.</div>
+                <div class="inputbox-group pl-2">
+
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" [(ngModel)]="userInfo.house">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.house}">Б</div>
+                        <div class="ml-2">Будинок
+                          <span class="gray checkBox-text" *ngIf="userInfo.house">(Шукаю будинок)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" [(ngModel)]="userInfo.flat">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.flat}">Кв</div>
+                        <div class="ml-2">Квартира
+                          <span class="gray checkBox-text" *ngIf="userInfo.flat">(Шукаю квартиру)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input type="checkbox" [(ngModel)]="userInfo.room" (click)="checkRooms()">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.room}">К</div>
+                        <div class="ml-2">Кімната
+                          <span class="gray checkBox-text" *ngIf="userInfo.room">(Потрібна тільки кімната)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <mat-label class="t-med t-c accent bold">Сусідство</mat-label>
+                <div class="t-min gray t-c">Якщо ви обираєте формат оселі параметр кімната. То оберіть сусіда.
+                </div>
+                <div class="inputbox-group pl-2">
+
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox" *ngIf="userInfo.room">
+                        <input [disabled]="!userInfo.room" type="checkbox" [(ngModel)]="userInfo.looking_woman">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.looking_woman}"><i
+                            class="fa-solid fa-person-dress"></i></div>
+                        <div class="ml-2">Жінка
+                          <span class="gray checkBox-text" *ngIf="userInfo.looking_woman">(Сусід тільки жінка)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="content-group">
+                      <label class="checkBox" *ngIf="userInfo.room">
+                        <input [disabled]="!userInfo.room" type="checkbox" [(ngModel)]="userInfo.looking_man">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.looking_man}"><i
+                            class="fa-solid fa-person"></i></div>
+                        <div class="ml-2">Чоловік
+                          <span class="gray checkBox-text" *ngIf="userInfo.looking_man">(Сусід тільки чоловік)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
               </div>
 
-              <div class="bold t-med accent t-s mt-2">Формат оселі</div>
-              <div>
-                <section class="checkbox-section">
-                  <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.house">Будинок</mat-checkbox>
-                  <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.flat">Квартира</mat-checkbox>
-                  <mat-checkbox color="warn" class="example-margin" [(ngModel)]="userInfo.room">Кімната</mat-checkbox>
-                </section>
-              </div>
-
-              <div class="bold t-med accent t-s mt-2">Розглядаєте сусіда по оселі?</div>
-              <section class="checkbox-section">
-                <mat-checkbox color="warn" class="example-margin"
-                  [(ngModel)]="userInfo.looking_woman">Жінку</mat-checkbox>
-                <mat-checkbox color="warn" class="example-margin"
-                  [(ngModel)]="userInfo.looking_man">Чоловіка</mat-checkbox>
-              </section>
-
-              <div class="btn-group w-100">
+              <div class="btn-group w-100 p-2">
 
                 <button class="btn w-30" (click)="indexPage = 0">
                   <i class="fa-solid fa-arrow-left"></i>
@@ -332,188 +503,190 @@
             </div>
           </div>
 
-          <div [@swichCard] *ngIf="indexPage === 2" class="card-animation">
+          <div [@swichCard] *ngIf="indexPage === 2" class="card-animation w-100">
             <div class="card-content p-2">
 
-              <div [@right4] class="status-container" (click)="toggleHelp(3)">
+              <div [@right4] class="status-container m-2" (click)="toggleHelp(2)">
                 <div class="status-value">Допомога</div>
               </div>
+              <div class="flex-column p-2">
 
-              <div class="mt-2">
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select [(ngModel)]="userInfo.area_of" name="area_of">
-                    <mat-option value='0.00'>Неважливо</mat-option>
-                    <mat-option value="10.00">10м²</mat-option>
-                    <mat-option value="20.00">20м²</mat-option>
-                    <mat-option value="30.00">30м²</mat-option>
-                    <mat-option value="40.00">40м²</mat-option>
-                    <mat-option value="50.00">50м²</mat-option>
-                    <mat-option value="60.00">60м²</mat-option>
-                    <mat-option value="70.00">70м²</mat-option>
-                    <mat-option value="80.00">80м²</mat-option>
-                    <mat-option value="90.00">90м²</mat-option>
-                    <mat-option value="100.00">100м²</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-compass-drafting"></i></mat-icon>
-                  <mat-hint align="end">Площа від</mat-hint>
-                </mat-form-field>
+                <div class="mt-2">
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Площа від" [(ngModel)]="userInfo.area_of" name="area_of">
+                      <mat-option value='0.00'>Неважливо</mat-option>
+                      <mat-option value="10.00">10м²</mat-option>
+                      <mat-option value="20.00">20м²</mat-option>
+                      <mat-option value="30.00">30м²</mat-option>
+                      <mat-option value="40.00">40м²</mat-option>
+                      <mat-option value="50.00">50м²</mat-option>
+                      <mat-option value="60.00">60м²</mat-option>
+                      <mat-option value="70.00">70м²</mat-option>
+                      <mat-option value="80.00">80м²</mat-option>
+                      <mat-option value="90.00">90м²</mat-option>
+                      <mat-option value="100.00">100м²</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-compass-drafting"></i></mat-icon>
+                    <mat-hint align="end">Площа від</mat-hint>
+                  </mat-form-field>
 
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select [(ngModel)]="userInfo.area_to" name="area_to">
-                    <mat-option value='100000.00'>Неважливо</mat-option>
-                    <mat-option value="10.00">10м²</mat-option>
-                    <mat-option value="20.00">20м²</mat-option>
-                    <mat-option value="30.00">30м²</mat-option>
-                    <mat-option value="40.00">40м²</mat-option>
-                    <mat-option value="50.00">50м²</mat-option>
-                    <mat-option value="60.00">60м²</mat-option>
-                    <mat-option value="70.00">70м²</mat-option>
-                    <mat-option value="80.00">80м²</mat-option>
-                    <mat-option value="90.00">90м²</mat-option>
-                    <mat-option value="100.00">100м²</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-compass-drafting"></i></mat-icon>
-                  <mat-hint align="end">Площа оселі до</mat-hint>
-                </mat-form-field>
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Площа до" [(ngModel)]="userInfo.area_to" name="area_to">
+                      <mat-option value='100000.00'>Неважливо</mat-option>
+                      <mat-option value="10.00">10м²</mat-option>
+                      <mat-option value="20.00">20м²</mat-option>
+                      <mat-option value="30.00">30м²</mat-option>
+                      <mat-option value="40.00">40м²</mat-option>
+                      <mat-option value="50.00">50м²</mat-option>
+                      <mat-option value="60.00">60м²</mat-option>
+                      <mat-option value="70.00">70м²</mat-option>
+                      <mat-option value="80.00">80м²</mat-option>
+                      <mat-option value="90.00">90м²</mat-option>
+                      <mat-option value="100.00">100м²</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-compass-drafting"></i></mat-icon>
+                    <mat-hint align="end">Площа оселі до</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Кімнат від" [(ngModel)]="userInfo.rooms_of" name="rooms_of">
+                      <mat-option [value]="0">Неважливо</mat-option>
+                      <mat-option [value]="1">1</mat-option>
+                      <mat-option [value]="2">2</mat-option>
+                      <mat-option [value]="3">3</mat-option>
+                      <mat-option [value]="4">4</mat-option>
+                      <mat-option [value]="5">5</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
+                    <mat-hint align="end">Кількість кімнат від</mat-hint>
+
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Кімнат до" [(ngModel)]="userInfo.rooms_to" name="rooms_to">
+                      <mat-option [value]="6">Неважливо</mat-option>
+                      <mat-option [value]="1">1</mat-option>
+                      <mat-option [value]="2">2</mat-option>
+                      <mat-option [value]="3">3</mat-option>
+                      <mat-option [value]="4">4</mat-option>
+                      <mat-option [value]="5">5</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
+                    <mat-hint align="end">Кількість кімнат до</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Парк" [(ngModel)]="userInfo.distance_green" name="distance_green">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="100">до 100м</mat-option>
+                      <mat-option value="300">до 300м</mat-option>
+                      <mat-option value="500">до 500м</mat-option>
+                      <mat-option value="1000">до 1км</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-tree"></i></mat-icon>
+                    <mat-hint align="end">Відстань до парку</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Маркет" [(ngModel)]="userInfo.distance_shop" name="distance_shop">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="100">до 100м</mat-option>
+                      <mat-option value="300">до 300м</mat-option>
+                      <mat-option value="500">до 500м</mat-option>
+                      <mat-option value="1000">до 1км</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-basket-shopping"></i></mat-icon>
+                    <mat-hint align="end">Відстань до маркету</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Паркінг" [(ngModel)]="userInfo.distance_parking" name="distance_parking">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="1">на території</mat-option>
+                      <mat-option value="100">до 100м</mat-option>
+                      <mat-option value="300">до 300м</mat-option>
+                      <mat-option value="500">до 500м</mat-option>
+                      <mat-option value="1000">до 1км</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-car-side"></i></mat-icon>
+                    <mat-hint align="end">До паркінгу</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Зупинки" [(ngModel)]="userInfo.distance_stop" name="distance_stop">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="100">до 100м</mat-option>
+                      <mat-option value="300">до 300м</mat-option>
+                      <mat-option value="500">до 500м</mat-option>
+                      <mat-option value="1000">до 1км</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-bus"></i></mat-icon>
+                    <mat-hint align="end">Відстань до зупинки</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Метро" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="100">до 100м</mat-option>
+                      <mat-option value="300">до 300м</mat-option>
+                      <mat-option value="500">до 500м</mat-option>
+                      <mat-option value="1000">до 1км</mat-option>
+                      <mat-option value="2000">до 2км</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-train"></i></mat-icon>
+                    <mat-hint align="end">Відстань до метро</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Балкон" [(ngModel)]="userInfo.balcony" name="balcony">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="Неважливо">Неважливо</mat-option>
+                      <mat-option value="Класичний">Класичний</mat-option>
+                      <mat-option value="Французький">Французький</mat-option>
+                      <mat-option value="Лоджія">Лоджія</mat-option>
+                      <mat-option value="Тераса">Тераса</mat-option>
+                      <mat-option value="Веранда">Веранда</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
+                    <mat-hint align="end">Тип балкону</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <mat-select placeholder="Укриття" [(ngModel)]="userInfo.bunker" name="bunker">
+                      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+                      <mat-option value="Неважливо">Неважливо</mat-option>
+                      <mat-option value="Паркінг">Паркінг</mat-option>
+                      <mat-option value="В будинку">В будинку</mat-option>
+                      <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-shield-heart"></i></mat-icon>
+                    <mat-hint align="end">Наявність укриття</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <mat-select placeholder="Тварини" [(ngModel)]="userInfo.animals" name="animals">
+                      <mat-option value="Неважливо">Неважливо</mat-option>
+                      <mat-option value="0">Без тварин</mat-option>
+                      <mat-option value="1">Можна з тваринами</mat-option>
+                      <mat-option value="2">Тільки котики</mat-option>
+                      <mat-option value="3">Тільки песики</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix><i class="fa-solid fa-paw"></i></mat-icon>
+                    <mat-hint align="end">Домашні улюбленці</mat-hint>
+                  </mat-form-field>
+                </div>
+
               </div>
-
-              <div>
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select [(ngModel)]="userInfo.rooms_of" name="rooms_of">
-                    <mat-option [value]="0">Неважливо</mat-option>
-                    <mat-option [value]="1">1</mat-option>
-                    <mat-option [value]="2">2</mat-option>
-                    <mat-option [value]="3">3</mat-option>
-                    <mat-option [value]="4">4</mat-option>
-                    <mat-option [value]="5">5</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
-                  <mat-hint align="end">Кількість кімнат від</mat-hint>
-
-                </mat-form-field>
-
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select [(ngModel)]="userInfo.rooms_to" name="rooms_to">
-                    <mat-option [value]="6">Неважливо</mat-option>
-                    <mat-option [value]="1">1</mat-option>
-                    <mat-option [value]="2">2</mat-option>
-                    <mat-option [value]="3">3</mat-option>
-                    <mat-option [value]="4">4</mat-option>
-                    <mat-option [value]="5">5</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
-                  <mat-hint align="end">Кількість кімнат до</mat-hint>
-                </mat-form-field>
-              </div>
-
-              <div>
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select placeholder="Парк" [(ngModel)]="userInfo.distance_green" name="distance_green">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="100">до 100м</mat-option>
-                    <mat-option value="300">до 300м</mat-option>
-                    <mat-option value="500">до 500м</mat-option>
-                    <mat-option value="1000">до 1км</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-tree"></i></mat-icon>
-                  <mat-hint align="end">Відстань до парку</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select placeholder="Маркет" [(ngModel)]="userInfo.distance_shop" name="distance_shop">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="100">до 100м</mat-option>
-                    <mat-option value="300">до 300м</mat-option>
-                    <mat-option value="500">до 500м</mat-option>
-                    <mat-option value="1000">до 1км</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-basket-shopping"></i></mat-icon>
-                  <mat-hint align="end">Відстань до маркету</mat-hint>
-                </mat-form-field>
-              </div>
-
-              <div>
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select placeholder="Паркінг" [(ngModel)]="userInfo.distance_parking" name="distance_parking">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="1">на території</mat-option>
-                    <mat-option value="100">до 100м</mat-option>
-                    <mat-option value="300">до 300м</mat-option>
-                    <mat-option value="500">до 500м</mat-option>
-                    <mat-option value="1000">до 1км</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-car-side"></i></mat-icon>
-                  <mat-hint align="end">До паркінгу</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select placeholder="Зупинки" [(ngModel)]="userInfo.distance_stop" name="distance_stop">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="100">до 100м</mat-option>
-                    <mat-option value="300">до 300м</mat-option>
-                    <mat-option value="500">до 500м</mat-option>
-                    <mat-option value="1000">до 1км</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-bus"></i></mat-icon>
-                  <mat-hint align="end">Відстань до зупинки</mat-hint>
-                </mat-form-field>
-              </div>
-
-              <div>
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select placeholder="Метро" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="100">до 100м</mat-option>
-                    <mat-option value="300">до 300м</mat-option>
-                    <mat-option value="500">до 500м</mat-option>
-                    <mat-option value="1000">до 1км</mat-option>
-                    <mat-option value="2000">до 2км</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-train"></i></mat-icon>
-                  <mat-hint align="end">Відстань до метро</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select placeholder="Балкон" [(ngModel)]="userInfo.balcony" name="balcony">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="Неважливо">Неважливо</mat-option>
-                    <mat-option value="Класичний">Класичний</mat-option>
-                    <mat-option value="Французький">Французький</mat-option>
-                    <mat-option value="Лоджія">Лоджія</mat-option>
-                    <mat-option value="Тераса">Тераса</mat-option>
-                    <mat-option value="Веранда">Веранда</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
-                  <mat-hint align="end">Тип балкону</mat-hint>
-                </mat-form-field>
-              </div>
-
-              <div>
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <mat-select placeholder="Укриття" [(ngModel)]="userInfo.bunker" name="bunker">
-                    <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-                    <mat-option value="Неважливо">Неважливо</mat-option>
-                    <mat-option value="Паркінг">Паркінг</mat-option>
-                    <mat-option value="В будинку">В будинку</mat-option>
-                    <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-shield-heart"></i></mat-icon>
-                  <mat-hint align="end">Наявність укриття</mat-hint>
-                </mat-form-field>
-
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <mat-select placeholder="Тварини" [(ngModel)]="userInfo.animals" name="animals">
-                    <mat-option value="Неважливо">Неважливо</mat-option>
-                    <mat-option value="0">Без тварин</mat-option>
-                    <mat-option value="1">Можна з тваринами</mat-option>
-                    <mat-option value="2">Тільки котики</mat-option>
-                    <mat-option value="3">Тільки песики</mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix><i class="fa-solid fa-paw"></i></mat-icon>
-                  <mat-hint align="end">Домашні улюбленці</mat-hint>
-                </mat-form-field>
-              </div>
-
               <div class="btn-group w-100 mt-2">
                 <button class="btn w-30" (click)="indexPage = 1">
                   <i class="fa-solid fa-arrow-left"></i>
@@ -532,129 +705,225 @@
             </div>
           </div>
 
-          <div [@swichCard] *ngIf="indexPage === 3" class="card-animation">
-            <div class="card-content p-2">
+          <div [@swichCard] *ngIf="indexPage === 3" class="card-animation w-100">
+            <div class="card-content">
 
-              <div [@right4] class="status-container" (click)="toggleHelp(4)">
+              <div [@right4] class="status-container m-2" (click)="toggleHelp(3)">
                 <div class="status-value">Допомога</div>
               </div>
 
-              <div class="bold t-med accent t-e mt-2">Варінти оплати*</div>
-              <mat-radio-group class="w-100" aria-label="Select an option" [(ngModel)]="userInfo.option_pay">
-                <mat-radio-button color="warn" [value]="1">Доба</mat-radio-button>
-                <mat-radio-button color="warn" [value]="0">Місяць</mat-radio-button>
-                <mat-radio-button color="warn" [value]="2">Безкоштовно</mat-radio-button>
-              </mat-radio-group>
+              <div class="flex-column t-c mt-2 p-2">
 
-              <div class="bold t-med accent t-s">Вкажіть термін оренди</div>
-              <div>
-                <mat-form-field class="item-select w-25 p-1" appearance="outline">
-                  <input type="number" name="days" placeholder="Дні" (click)="onDayCountsChange()"
-                    [(ngModel)]="userInfo.days" [min]="minValueDays" [max]="maxValueDays" matInput>
-                  <mat-hint>Дні</mat-hint>
-                </mat-form-field>
+                <mat-label class="t-med t-c accent bold">Варінти оплати* </mat-label>
+                <div class="t-min gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
+                  варіант який вас більше всього характеризує. Можна комбінувати.</div>
+                <div class="inputbox-group pl-2">
+                  <div class="inputbox-group pl-2">
 
-                <mat-form-field class="item-select w-25 p-1" appearance="outline">
-                  <input type="number" name="weeks" placeholder="Тиж." (click)="onDayCountsChange()"
-                    [(ngModel)]="userInfo.weeks" [min]="minValueWeeks" [max]="maxValueWeeks" matInput>
-                  <mat-hint>Тижні</mat-hint>
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input id="day" type="radio" [(ngModel)]="userInfo.option_pay" name="day" [value]="1">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.option_pay === 1}"><i
+                            class="fa-solid fa-calendar-day"></i></div>
+                        <div class="ml-2">Доба <span class="gray checkBox-text"
+                            *ngIf="userInfo.option_pay === 1">(Оплачую подобово)</span></div>
+                      </div>
+                    </div>
+                  </div>
 
-                </mat-form-field>
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input id="month" type="radio" [(ngModel)]="userInfo.option_pay" name="month" [value]="0">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.option_pay === 0}"><i
+                            class="fa-regular fa-calendar-days"></i></div>
+                        <div class="ml-2">Місяць <span class="gray checkBox-text" *ngIf="userInfo.option_pay === 0">
+                            (Оплачую щомісяця)</span></div>
+                      </div>
+                    </div>
+                  </div>
 
-                <mat-form-field class="item-select w-25 p-1" appearance="outline">
-                  <input type="number" name="months" placeholder="Міс." (click)="onDayCountsChange()"
-                    [(ngModel)]="userInfo.mounths" [maxLength]="2" [min]="minValueMounths" [max]="maxValueMounths"
-                    matInput>
-                  <mat-hint>Місяці</mat-hint>
+                  <div class="inputbox-group pl-2">
+                    <div class="content-group">
+                      <label class="checkBox">
+                        <input id="free" type="radio" [(ngModel)]="userInfo.option_pay" name="free" [value]="2">
+                        <div class="transition"></div>
+                      </label>
+                      <div class="content-group ml-2">
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.option_pay === 2}"><i
+                            class="fa-solid fa-hand-holding-hand"></i></div>
+                        <div class="ml-2">Безкоштовно <span class="gray checkBox-text"
+                            *ngIf="userInfo.option_pay === 2">(Переселенець)</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                </mat-form-field>
+                <mat-label class="t-med t-c accent bold">Вкажіть термін оренди</mat-label>
+                <div class="t-min gray t-c">Не обов'язково детально щось вираховувати. Дні, тижні, місяці та роки додаті
+                  для зручності, в пошуку буде виводитись сумарна кількість днів, тому це все можна комбінувати.</div>
+                <div>
 
-                <mat-form-field class="item-select w-25 p-1" appearance="outline">
-                  <input type="number" name="years" placeholder="Роки" (click)="onDayCountsChange()"
-                    [(ngModel)]="userInfo.years" [min]="minValueYears" [max]="maxValueYears" matInput>
-                  <mat-hint>Роки</mat-hint>
+                  <mat-form-field class="item-select w-25 p-1" appearance="outline">
+                    <input type="number" name="days" placeholder="Дні" [maxLength]="2"
+                      (keypress)="onKeyPress($event, 2)" [(ngModel)]="userInfo.days" [min]="minValueDays"
+                      [max]="maxValueDays" matInput>
+                    <mat-hint>Дні</mat-hint>
+                  </mat-form-field>
 
+                  <mat-form-field class="item-select w-25 p-1" appearance="outline">
+                    <input type="number" name="weeks" placeholder="Тиж." [maxLength]="1"
+                      (keypress)="onKeyPress($event, 1)" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks"
+                      [max]="maxValueWeeks" matInput>
+                    <mat-hint>Тижні</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-25 p-1" appearance="outline">
+                    <input type="number" name="months" placeholder="Міс." [maxLength]="2"
+                      (keypress)="onKeyPress($event, 2)" [(ngModel)]="userInfo.mounths" [min]="minValueMounths"
+                      [max]="maxValueMounths" matInput>
+                    <mat-hint>Місяці</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-25 p-1" appearance="outline">
+                    <input type="number" name="years" placeholder="Роки" [maxLength]="1"
+                      (keypress)="onKeyPress($event, 1)" [(ngModel)]="userInfo.years" [min]="minValueYears"
+                      [max]="maxValueYears" matInput>
+                    <mat-hint>Роки</mat-hint>
+                  </mat-form-field>
+
+
+
+                </div>
+
+                <div class="bold t-med accent t-с" *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">
+                  Визначить
+                  ваш бюджет</div>
+                <div class="bold t-min accent t-с" *ngIf="userInfo.option_pay === 2">Вкажіть обов'язково причину чому ви
+                  потребуєте житло, для того щоб власники могли розуміти ваші потреби та допомогти вам, або вкажіть чим
+                  би
+                  ви могли допомогти взамін. Будь ласка, не зловживайте довірою людей!</div>
+                <div *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">
+                  <mat-form-field class="item-select w-50 pr-2" appearance="outline">
+                    <input class="right-align" matInput type="number" step="1000" [min]="minValue" [max]="maxValue"
+                      [(ngModel)]="userInfo.price_of" name="price_of" placeholder="0">
+                    <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
+                    <mat-hint align="end" *ngIf="userInfo.option_pay === 0">Ціна за місяць від</mat-hint>
+                    <mat-hint align="end" *ngIf="userInfo.option_pay === 1">Ціна за добу від</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field class="item-select w-50" appearance="outline">
+                    <input class="right-align" matInput type="number" step="1000" [min]="minValue" [max]="maxValue"
+                      [(ngModel)]="userInfo.price_to" name="price_to" placeholder="0">
+                    <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
+                    <mat-hint align="start" *ngIf="userInfo.option_pay === 0">до</mat-hint>
+                    <mat-hint align="start" *ngIf="userInfo.option_pay === 1">до</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field class="w-100 mt-2">
+                  <mat-label>Додаткова інформація</mat-label>
+                  <textarea #textArea id="floatingTextarea" [(ngModel)]="userInfo.about" matInput
+                    placeholder="Введіть додаткову інформацію."></textarea>
                 </mat-form-field>
 
               </div>
 
-              <div class="bold t-med accent t-s" *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">
-                Визначить
-                ваш бюджет</div>
-              <div class="bold t-min accent t-s" *ngIf="userInfo.option_pay === 2">Вкажіть обов'язково причину чому ви
-                потребуєте житло, для того щоб власники могли розуміти ваші потреби та допомогти вам, або вкажіть чим би
-                ви могли допомогти взамін. Не зловживайте довірою людей.</div>
-              <div *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">
-                <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-                  <input class="right-align" matInput type="number" step="1000" [min]="minValue" [max]="maxValue"
-                    [(ngModel)]="userInfo.price_of" name="price_of" placeholder="0">
-                  <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-                  <mat-hint align="end" *ngIf="userInfo.option_pay === 0">Ціна за місяць від</mat-hint>
-                  <mat-hint align="end" *ngIf="userInfo.option_pay === 1">Ціна за добу від</mat-hint>
-                </mat-form-field>
+              <div class="btn-group mt-2 p-2">
 
-                <mat-form-field class="item-select w-50" appearance="outline">
-                  <input class="right-align" matInput type="number" step="1000" [min]="minValue" [max]="maxValue"
-                    [(ngModel)]="userInfo.price_to" name="price_to" placeholder="0">
-                  <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-                  <mat-hint align="start" *ngIf="userInfo.option_pay === 0">до</mat-hint>
-                  <mat-hint align="start" *ngIf="userInfo.option_pay === 1">до</mat-hint>
-                </mat-form-field>
-              </div>
-
-              <mat-form-field class="w-100 mt-2">
-                <mat-label>Додаткова інформація</mat-label>
-                <textarea #textArea id="floatingTextarea" [(ngModel)]="userInfo.about" matInput
-                  placeholder="Введіть додаткову інформацію."></textarea>
-              </mat-form-field>
-
-              <div class="btn-group w-100">
-
-                <button class="btn" (click)="indexPage = 2">
+                <button class="btn w-30" (click)="indexPage = 2">
                   <i class="fa-solid fa-arrow-left"></i>
                   <div class="t-med dark bold p-2">Назад</div>
                 </button>
 
-                <button class="btn" (click)="clearInfoCard3()">
-                  <i class="icon fa-solid fa-eraser"></i>
-                  <div class="t-lar dark bold p-2">Очистити</div>
-                </button>
-              </div>
+                <!-- <button class="btn" (click)="clearInfoCard3()">
+                  <i class="icon fa-solid fa-eraser pr-2"></i> Очистити
+                </button> -->
 
-              <div class="btn-group w-100 mt-2">
-
-                <button *ngIf="userInfo.agree_search === 1 && !userInfo.region && !userInfo.city" class="btn"
-                  (click)="saveInfo(userInfo.agree_search = 0)">
-                  <i class="fa-regular fa-circle-check"></i>
-                  <div class="t-lar dark bold p-2">Зберегти</div>
+                <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
+                  <i class="fa-regular fa-circle-check pr-2"></i> Зберегти
                 </button>
 
-                <button *ngIf="userInfo.agree_search === 1 && userInfo.region && userInfo.city" class="btn"
-                  (click)="saveInfo(userInfo.agree_search = 1)">
-                  <i class="fa-regular fa-circle-check"></i>
-                  <div class="t-lar dark bold p-2">Зберегти</div>
+                <button [disabled]="!userInfo.region || !userInfo.city" class="btn" class="btn"
+                  (click)="saveInfo(userInfo.agree_search = 1)" *ngIf="userInfo.agree_search === 0">
+                  <i class="fa-solid fa-sign-hanging pr-2"></i>
+                  Активувати
                 </button>
 
-                <button *ngIf="userInfo.agree_search === 0" class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
-                  <i class="fa-regular fa-circle-check"></i>
-                  <div class="t-lar dark bold p-2">Зберегти</div>
+                <button class="btn" class="btn" (click)="saveInfo(userInfo.agree_search = 0)"
+                  *ngIf="userInfo.agree_search === 1">
+                  <i class="fa-solid fa-power-off pr-2"></i>
+                  Деактивувати
                 </button>
-
-                <button *ngIf="userInfo.region && userInfo.city" class="btn"
-                  (click)="saveInfo(userInfo.agree_search = 1)">
-                  <i class="fa-regular fa-circle-check"></i>
-                  <div class="t-lar dark bold p-2">Активувати</div>
-                </button>
-
-                <!-- <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)" *ngIf="userInfo.agree_search === 1">
-            <i class="fa-solid fa-power-off"></i>
-            <div class="t-lar dark bold p-2">Деактивувати</div>
-          </button> -->
 
               </div>
 
             </div>
           </div>
+
+          <div [@swichCard] *ngIf="indexPage === 4 && isMobile" class="card-animation w-100 hide-pc">
+            <div class="card-content-static w-100 p-2">
+              <div [@right] class="t-lar t-c ">
+                <p class="bold">Шлях по кроках. <br> Як активувати профіль орендаря.</p>
+                <div class="t-min gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено
+                  в
+                  меню "пошук орендаря" та доступне для перегляду та підписки.</div>
+              </div>
+
+              <div [@right] class="item-box">
+                <div class="item-d w-70">
+                  <div class="t-med gray bold">Крок 1</div>
+                  <div class="t-min t-c p-1">Оберіть для кого шукаєте оселю.
+                    Область та місто це обов'язково*.
+                    Оберіть причину оренди, стан оселі, формат. Опишіть сусіда по оселі.</div>
+                </div>
+
+                <button class="link-t w-30 flex-column"
+                  (click)="changeStep(1)">
+                  <span class="ml-2 t-min">Мета & Локація</span>
+                  <i class="fa-solid fa-tree-city ml-2"></i>
+                </button>
+              </div>
+
+              <div [@right1] class="item-box">
+                <div class="item-d w-70">
+                  <div class="t-med gray bold">Крок 2</div>
+                  <div class="t-min t-c p-1">Опишіть параметри оселі.
+                    Доступність інфраструктури.
+                    Чи важливо вам знайти оселі з укриттям
+                    Вкажіть чи є у вас домашні улюбленці</div>
+                </div>
+
+                <button class="link-t w-30 flex-column"
+                  (click)="changeStep(2)">
+                  <span class="ml-2 t-min">Параметри & Особливості</span>
+                  <i class="fa-solid fa-street-view ml-2"></i>
+                </button>
+              </div>
+
+              <div [@right2] class="item-box">
+                <div class="item-d w-70">
+                  <div class="t-med gray bold">Крок 3</div>
+                  <div class="t-min t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
+                    Вкажіть термін. Визначте свій бюджет. Додаткові побажання.</div>
+                </div>
+
+                <button class="link-t w-30 flex-column"
+                  (click)="changeStep(3)">
+                  <span class="ml-2 t-min">Оплата & терміни</span>
+                  <i class="fa-solid fa-magnifying-glass-dollar ml-2"></i>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

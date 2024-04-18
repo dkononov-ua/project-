@@ -21,7 +21,7 @@ const routes: Routes = [
       { path: 'support-us', component: SupportUsComponent },
       { path: 'home', component: HomeComponent },
       { path: 'about-project', component: AboutProjectComponent },
-      { path: 'opportunities', component: OpportunitiesComponent},
+      { path: 'opportunities', component: HomePageComponent},
       { path: 'our-team', component: OurTeamComponent },
       { path: 'user-licence', component: UserLicenceComponent, },
       { path: 'registration', component: RegistrationComponent },

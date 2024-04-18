@@ -176,16 +176,17 @@
 textarea {
   height: 65px !important;
   min-height: 50px !important;
+  overflow: auto;
 }
 
 @keyframes typing {
   0% {
     transform: translateY(0px);
   }
-  33.3333% {
+  33% {
     transform: translateY(-5px);
   }
-  66.6667% {
+  66% {
     transform: translateY(5px);
   }
   100% {

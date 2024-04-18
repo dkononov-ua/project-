@@ -6,6 +6,10 @@
   align-items: stretch !important;
 }
 
+.bg-blue {
+  background-color: blue !important;
+}
+
 .status {
   @include flex-box-center;
   position: absolute;

@@ -6,6 +6,9 @@
 
 .content-child {
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .item-box {

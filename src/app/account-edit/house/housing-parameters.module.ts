@@ -15,7 +15,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HostComponent } from './host/host.component';
 import { RouterModule } from '@angular/router';
 import { HousingParametersRoutingModule } from './housing-parameters-routing.module';
 import { MatInputModule } from '@angular/material/input';
@@ -42,7 +41,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AddressComponent,
     ParamComponent,
     PhotoComponent,
-    HostComponent,
     AddObjectsComponent,
     DeleteHouseComponent,
     AdditionalInfoComponent,

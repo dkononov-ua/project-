@@ -8,6 +8,23 @@
       <div class="card-animation" [@swichCard] *ngIf="indexPage === 0">
         <div class="card-content">
 
+          <div class="status-container">
+            <div class="status-box m-2">
+              <i class="fa-solid fa-person-circle-check accent" *ngIf="userInfo.checked === 1"></i>
+              <i class="fa-solid fa-person-circle-exclamation gray" *ngIf="userInfo.checked === 0"></i>
+            </div>
+            <div class="status-hover">
+              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-text t-c">
+                <div class="t-med bold" *ngIf="userInfo.checked === 1">Ваш аккаунт перевірений Адміністрацією</div>
+                <div class="t-min" *ngIf="userInfo.checked === 0">Не перевірено адміністрацією. Для того щоб ваш аккаунт
+                  був підтверджений надайте
+                  посилання на ваші соціальні мережі та очікуйте підтвердження. Перші 1000 аккаунтів отримають галочку
+                  безкоштовно!</div>
+              </div>
+            </div>
+          </div>
+
           <div class="copyMessage-box" *ngIf="isCopiedMessage">
             <div class="copyMessage-text">{{isCopiedMessage}}</div>
             <i class="fa-regular fa-copy"></i>
@@ -32,7 +49,7 @@
               </ng-container>
 
               <ng-container *ngIf="!userImg || userImg === 'user_default.svg'">
-                <img class="img-fluid"  src="../../../../assets/user_default.svg" alt="img">
+                <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
               </ng-container>
 
               <div class="panel-container">
@@ -215,13 +232,13 @@
               <div class="link-icon w-20"><i class="fa-solid fa-gears"></i></div>
             </a>
 
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
+            <!-- <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
               <div class="flex-column w-80">
                 <p class="link-menu-t1">Профіль</p>
                 <p class="link-menu-t2">Оселі</p>
               </div>
               <div class="link-icon w-20"><i class="fa-solid fa-house"></i></div>
-            </a>
+            </a> -->
 
           </nav>
 
@@ -230,7 +247,7 @@
       <div class="card-animation hide-pc" [@swichCard] *ngIf="indexPage === 1">
         <div class="card-content" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
           <div class="status-container">
-            <div class="status-box">
+            <div class="status-box m-2">
               <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
               <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
               <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>
@@ -461,7 +478,7 @@
       <div class="card-animation" [@left2]>
         <div class="card-content" *ngIf="userInfo.agree_search !== 0 && userInfo.agree_search !== null">
           <div class="status-container">
-            <div class="status-box">
+            <div class="status-box m-2">
               <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
               <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
               <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>

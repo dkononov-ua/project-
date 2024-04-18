@@ -1,5 +1,6 @@
 // параметри користувача
 export interface UserInfo {
+  checked: number | 0;
   tell: any;
   dob: any;
   country: string | undefined;

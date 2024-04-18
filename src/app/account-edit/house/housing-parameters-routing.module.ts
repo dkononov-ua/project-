@@ -6,7 +6,6 @@ import { ParamComponent } from './param/param.component';
 import { PhotoComponent } from './photo/photo.component';
 import { CanActivateGuard } from '../../services/auth.guard';
 import { HousingParametersComponent } from './housing-parameters.component';
-import { HostComponent } from './host/host.component';
 import { AddObjectsComponent } from './add-objects/add-objects.component';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { InstructionComponent } from './instruction/instruction.component';

@@ -1,31 +1,96 @@
 <div class="flex-column">
-  <div class="conteiner-content al-c p-2">
 
-    <div class="flex-box">
-      <div class="img-box">
-        <img class="logoImg" src="{{path_logo}}" alt="logo">
+  <div id="container0" class="conteiner-content al-c">
+    <div class="flex-box w-100">
+      <div class="flex-column p-3 t-c">
+
+        <button class="btn update m-2" [routerLink]="'/home/update'">
+          <i class="fa-regular fa-circle-up pr-2"></i>Останні Оновлення
+        </button>
+
+        <h1><strong>Discussio</strong></h1>
+        <!-- <h2 class="text mb-4">Це перша Українська соціальні мережа для нерухомості!</h2> -->
+        <h3><strong>Оренда & здача оселі.</strong></h3>
+        <h5 class="text t-c">Ми хочемо створити спільноту орендодавців та орендарів, <strong>без ріелторів!</strong>
+          Спростити процеси співпраці, беручи формат соціальної мережі та додавши
+          інструменти для управління нерухомістю.
+        </h5>
+
+        <button class="btn update m-2" [routerLink]="'/home/registration'">
+          <i class="fa-solid fa-right-to-bracket pr-2"></i>
+          Зареєструватись
+        </button>
+
+        <p class="t-min mt-2 gray">
+          Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям в пошуку або здачі житла без
+          ріелторів. Проект наразі є цілком безкоштовний!
+        </p>
+
+        <h4>Приєднуйтесь до нас!</h4>
+        <div class="social-link-container p-2">
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://t.me/discussio_inc">
+              <i class="fab fa-brands fa-telegram"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/discussio.inc/">
+              <i class="fab fa-brands fa-instagram"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.inc">
+              <i class="fab fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank"
+              href="https://www.facebook.com/profile.php?id=61554505683668&locale=uk_UA">
+              <i class="fab fa-brands fa-facebook"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.youtube.com/@DiscussioUA">
+              <i class="fab fa-brands fa-youtube"></i>
+            </a>
+          </div>
+
+        </div>
+
       </div>
-      <h1>Вітаємо Вас в <strong>Discussio</strong>!</h1>
+
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/discussio1.gif" alt="">
+      </div>
     </div>
-    <h2 class="text mb-4">Це перша Українська <strong>соціальні мережа для нерухомості</strong>.</h2>
-    <h3 class="text">Тут ми розповімо про проєкт та наші плани.</h3>
-    <p class="text t-c">Ми сподіваємось, що реалізація нашої ідеї зможе допомогти облегшити питання пов'язані з
-      організацією пошуку оселі, комунікацію між орендодавцем та орендарем та питаннями які стосуються
-      керування оселею. Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям і наразі є
-      цілком безкоштовний.</p>
     <button *ngIf="!containers['container1']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container1')"><i
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container1" class="conteiner-content al-c" *ngIf="containers['container1']">
-    <div class="flex-box">
+  <div id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
+    <div class="flex-box w-100">
       <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/home1.png" alt="">
+        <img class="home-img" src="../../../assets/gif/search.gif" alt="">
       </div>
       <div class="flex-column p-3 t-c">
-        <h3 class="bg-mob"><span class="bold"> Discussio - це не лише пошук оселі та орендарів. </span></h3>
-        <p class="t-lar-x">Ми забезпечимо не лише новий підхід до пошуку житла та
-          орендарів, але й інструменти для легкого управління оселею.
+        <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
+          </span></h3>
+        <p class="text t-c">
+          Надаємо вам можливість легко <strong>знайти житло</strong> <i class="fa-solid fa-house-laptop pl-2"></i>, яке
+          відповідає вашим вимогам та вподобанням. Ви
+          можете вибирати оселі з врахуванням різних критеріїв та багато
+          іншого. Наша система робить <strong>пошук оселі</strong> максимально <strong>простим та зручним</strong>. <br>
+          <i class="fa-solid fa-people-pulling pr-2"></i> Можливість <strong>знаходити орендарів</strong>, які
+          відповідають
+          вашим особистим критеріям. Ви можете
+          використовувати різні фільтри, такі як бюджет, мета переїзду та термін оренди, для <strong>пошуку
+            орендарів</strong>, які вам
+          підходять.
         </p>
       </div>
     </div>
@@ -36,38 +101,92 @@
   <div id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
     <div class="flex-box w-100">
       <div class="flex-column p-3 t-c">
-        <h3 class="bg-mob"><span class="bold"> Discussio угода оренди нерухомого майна. </span></h3>
-        <p class="t-lar-x">
-          Наша платформа дозволяє легко та швидко створювати угоди між орендарем та орендодавцем всього за кілька
+        <h3 class="bg-mob"><span class="bold"> Створення автоматичних угод & та актів. </span></h3>
+        <p class="text t-c">
+          Наша платформа дозволяє легко та швидко <strong>створити угоду оренди</strong> <i
+            class="fa-regular fa-file-pdf pl-2 pr-2"></i> між орендарем
+          та орендодавцем всього за кілька
           хвилин. Ви можете згенерувати стандартні умови оренди нерухомого майна або додавати власні додаткові умови.
+          Після чого вам стане доступним <strong>створення акту прийома-передачі оселі</strong> <i
+            class="fa-solid fa-file-invoice-dollar pl-2 pr-2"></i>. Вам залишається лише зустрітись та
+          підписати цю угоду.
         </p>
       </div>
       <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/home4.png" alt="">
+        <img class="home-img" src="../../../assets/gif/agree.gif" alt="">
       </div>
     </div>
     <button *ngIf="!containers['container3']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container3')"><i
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container3" class="conteiner-content al-c" *ngIf="containers['container3']">
+  <div id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
     <div class="flex-box w-100">
-      <div class="gif-box">
-        <img class="home-img2" src="../../../assets/home5.png" alt="">
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
       </div>
       <div class="flex-column p-3 t-c">
-        <h3 class="bg-mob"><span class="bold"> Discussio - соціальна мережа для нерухомості. </span></h3>
-        <p class="t-lar-x">Discussio допоможе створити спільноту власників нерухомості та орендарів,
-          спростить процеси ведення нерухомості та співпраці , інтегруючи функціональність соціальної мережі та
-          інструменти для оптимізації управління нерухомістю.
-        </p>
+        <h3 class="bg-mob"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
+              class="fa-regular fa-face-frown  pl-2 pr-2"></i> орендодавця & орендаря. </span></h3>
+        <p class="text t-c">
+          Для власників оселі вибір надійного орендаря може стати великим завданням. Щоб допомогти власникам обирати
+          порядних та надійних орендарів, ми впроваджуємо систему <strong>"Рейтинг орендаря"</strong>.
+          Власники також можуть бути оцінені та рецензовані, але в контексті <strong>"Рейтингу власника оселі"</strong>.
+          Орендарі
+          висловлюють свою думку про власників нерухомості, з якими вони мали справу. Цей рейтинг базується на досвіді
+          орендарів та допомагає іншим потенційним орендарям зрозуміти, яким власникам можна довіряти.</p>
       </div>
     </div>
     <button *ngIf="!containers['container4']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container4')"><i
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container4" [@top2] class="conteiner-content" *ngIf="containers['container4']">
-    <app-home-page></app-home-page>
+  <div id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
+    <div class="flex-box w-100">
+      <div class="flex-column p-3 t-c">
+        <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
+        <p class="text t-c">
+          Ви можете <strong>створювати комунальні послуги</strong> та вибирати різні варіанти розрахунку
+          витрат. Ви маєте можливість <strong>вести свою власну статистику</strong>, проводячи детальний розрахунок
+          використання
+          комунальних ресурсів. Ця функція сприяє обміну даними між орендарем
+          та орендодавцем, дозволяючи точно відслідковувати витрати та встановлювати звіти про споживання ресурсів
+          щомісяця. Це робить процес обліку комунальних послуг більш прозорим та допомагає уникнути спорів між
+          сторонами.
+        </p>
+      </div>
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
+      </div>
+    </div>
+    <button *ngIf="!containers['container5']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container5')"><i
+        class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
+
+  <div id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
+    <div class="flex-box w-100">
+      <div class="flex-column p-3 t-c">
+        <h3 class="bg-mob"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
+        </h3>
+        <p class="text t-c">
+          Можливість детально описувати та <strong>документувати всі об'єкти та предмети</strong>, які знаходяться в
+          місці
+          проживання. Ця функція надає користувачам доступ до попередньо розроблених шаблонів та універсальної форми,
+          яка полегшує процес внесення інформації про речі та їх стан, а також інструкцій щодо використання. Завдяки цій
+          можливості, ви зможете докладно <strong>описати кожен предмет</strong>, його поточний стан та навіть надати
+          фотографії для
+          кращого візуального представлення. Ця інформація є надзвичайно важливою для формування акту прийому-передачі
+          оселі.
+        </p>
+      </div>
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
+      </div>
+    </div>
+    <button class="btn update m-2" (click)="scrollToAnchor('container0')"> <i class="fa-solid fa-arrow-up pr-2"></i>
+      На початок</button>
+    <button class="btn update m-2" [routerLink]="'/home/opportunities'"> <i class="fa-solid fa-circle-info pr-2"></i>
+      Детальніше про наші функції</button>
+  </div>
+
 </div>

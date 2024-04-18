@@ -10,6 +10,7 @@ import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { SharedService } from 'src/app/services/shared.service';
+import { MissingParamsService } from '../missing-params.service';
 
 interface FlatInfo {
   students: boolean;
@@ -109,6 +110,8 @@ export class AboutComponent implements OnInit {
     private dataService: DataService,
     private _dialog: LyDialog,
     private sharedService: SharedService,
+    private missingParamsService: MissingParamsService,
+
   ) { }
 
   ngOnInit(): void {
@@ -154,25 +157,31 @@ export class AboutComponent implements OnInit {
         }).toPromise();
         if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
           this.updateFlatInfo();
-          setTimeout(() => {
+          this.missingParamsService.checkResponse(response);
+          // якщо ми хочемо активувати але в нас не заповненні обов'язкові параметри
+          if (response && response.rent) {
+            this.flatInfo.rent = 0;
+          } else {
+            // якщо ми хочемо активувати і є всі параметри
             this.sharedService.setStatusMessage('Оголошення розміщено');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оновлюємо інформацію');
-              setTimeout(() => {
-                this.router.navigate(['/edit-house/additional-info']);
-                this.sharedService.setStatusMessage('');
-              }, 1000);
-            }, 1500);
-          }, 500);
-        } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
-          this.updateFlatInfo();
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Параметри успішно додані, оголошення НЕ активне');
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оновлюємо інформацію');
               setTimeout(() => {
                 this.router.navigate(['/house/house-info']);
                 this.sharedService.setStatusMessage('');
+              }, 1000);
+            }, 1500);
+          }
+        } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
+          this.updateFlatInfo();
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Параметри успішно збережені');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Оновлюємо інформацію');
+              setTimeout(() => {
+                // this.router.navigate(['/house/house-info']);
+                this.sharedService.setStatusMessage('');
+                location.reload();
               }, 1000);
             }, 1500);
           }, 500);
@@ -181,6 +190,7 @@ export class AboutComponent implements OnInit {
             this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
+              location.reload();
             }, 1500);
           }, 500);
         }
@@ -262,7 +272,6 @@ export class AboutComponent implements OnInit {
         .subscribe(
           (response: any) => {
             this.flatInfo = response.about;
-
             if (Array.isArray(response.imgs) && response.imgs.length > 0) {
               this.flatImg = response.imgs;
               this.flatImg.reverse();

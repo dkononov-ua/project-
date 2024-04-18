@@ -8,6 +8,7 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { MissingParamsService } from '../missing-params.service';
 
 interface FlatInfo {
   flat_id: string | undefined;
@@ -32,7 +33,6 @@ interface FlatInfo {
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
   animations: [animations.left, animations.left1, animations.left2,],
-
 })
 
 export class AddressComponent implements OnInit {
@@ -80,6 +80,7 @@ export class AddressComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private sharedService: SharedService,
+    private missingParamsService: MissingParamsService,
   ) {
     this.filteredRegions = [];
   }
@@ -165,7 +166,6 @@ export class AddressComponent implements OnInit {
 
   generateLocationUrl() {
     if (this.flatInfo.region && this.flatInfo.city && this.flatInfo.street) {
-
       const baseUrl = 'https://www.google.com/maps/place/';
       const region = this.flatInfo.region || '';
       const city = this.flatInfo.city || '';
@@ -179,53 +179,69 @@ export class AddressComponent implements OnInit {
       const encodedFlatIndex = encodeURIComponent(flatIndex);
       const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
       this.locationLink = locationUrl;
-
       return this.locationLink;
     } else {
       return '';
     }
-
   }
 
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
+      const data = {
+        country: this.flatInfo.country || undefined,
+        region: this.flatInfo.region || undefined,
+        city: this.flatInfo.city || undefined,
+        street: this.flatInfo.street || undefined,
+        houseNumber: this.flatInfo.houseNumber || undefined,
+        apartment: this.flatInfo.apartment || undefined,
+        flat_index: this.flatInfo.flat_index || undefined,
+        distance_parking: this.flatInfo.distance_parking || undefined,
+        distance_metro: this.flatInfo.distance_metro || undefined,
+        distance_stop: this.flatInfo.distance_stop || undefined,
+        distance_green: this.flatInfo.distance_green || undefined,
+        distance_shop: this.flatInfo.distance_shop || undefined,
+      }
       try {
         const response: any = await this.http.post(serverPath + '/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
-          new: this.flatInfo,
+          new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
-
         if (response && response.status === 'Параметри успішно додані') {
-          setTimeout(() => {
-            this.updateFlatInfo();
-            this.sharedService.setStatusMessage('Параметри успішно додані');
+          this.updateFlatInfo();
+          if (response && response.rent) {
+            this.sharedService.setStatusMessage('Параметри успішно збережено');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('');
+              this.missingParamsService.checkResponse(response);
+            }, 1000);
+          } else {
+            this.sharedService.setStatusMessage('Параметри успішно збережено');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Оголошення можна активувати!');
               setTimeout(() => {
-                this.router.navigate(['/edit-house/param']);
-              }, 200);
+                this.router.navigate(['/edit-house/about']);
+                this.sharedService.setStatusMessage('');
+              }, 1000);
             }, 1500);
-          }, 300);
+          }
         } else {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('');
+              location.reload();
             }, 1500);
           }, 500);
         }
       } catch (error) {
         this.loading = false;
         console.error(error);
+        location.reload();
       }
     } else {
       this.loading = false;
-      console.log('user not found, the form is blocked');
     }
   }
-
 
   clearInfo(): void {
     this.flatInfo = {

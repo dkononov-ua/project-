@@ -46,7 +46,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(4)" [ngClass]="{ 'active': indexPage === 4}">
+      <button class="btn" [disabled]="!chosenFlat || !chatExists" (click)="onClickMenu(4)" [ngClass]="{ 'active': indexPage === 4}">
         <i class="fa-regular fa-message"></i>
         <div class="t-min bold">Чат</div>
       </button>

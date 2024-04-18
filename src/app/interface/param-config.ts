@@ -31,8 +31,6 @@ export const UserConfig = {
   flat: undefined,
   limit: 0,
   kitchen_area: undefined,
-
-
 };
 
 export const UsereSearchConfig = {
@@ -83,10 +81,9 @@ export const UsereSearchConfig = {
   facebook: '',
   mail: '',
   tell: undefined,
-  dob: undefined
-
+  dob: undefined,
+  checked: 0,
 }
-
 
 export const HouseConfig = {
   flat_id: '',

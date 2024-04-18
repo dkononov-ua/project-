@@ -43,19 +43,19 @@
       </button>
     </div>
 
+    <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
+        <i class="fa-solid fa-images"></i>
+        <div class="t-min">Фото</div>
+      </button>
+    </div>
+
     <div class="switch-btn-group" *ngIf="acces_flat_features === 1">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/edit-house/additional-info'">
         <i class="fa-regular fa-address-book"></i>
         <div class="t-min">Додат.</div>
       </button>
     </div>
-
-    <!-- <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
-        <i class="fa-solid fa-images"></i>
-        <div class="t-min">Фото</div>
-      </button>
-    </div> -->
 
   </div>
 

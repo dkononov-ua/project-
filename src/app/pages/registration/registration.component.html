@@ -19,8 +19,8 @@
               орендаря</strong>. Інструменти для <strong> управління нерухомістью</strong></div>
         </div>
         <div [@top2] class="btn-group" *ngIf="indexCard === 3">
-          <button class="btn m-2" (click)="indexCard = 0">РЕЄСТРАЦІЯ</button>
-          <button class="btn m-2" (click)="indexCard = 1">ВХІД</button>
+          <button class="btn m-2 update" (click)="indexCard = 0">РЕЄСТРАЦІЯ</button>
+          <button class="btn m-2 update" (click)="indexCard = 1">ВХІД</button>
         </div>
       </div>
     </div>
@@ -213,7 +213,7 @@
               Ви перевисили ліміт введення неправильного коду!
               Форма буде розблокована через {{ timeLeft }} секунд
             </div>
-            
+
             <mat-form-field class="inputbox" appearance="outline" *ngIf="indexBtn === 1">
               <mat-label>Новий пароль</mat-label>
               <input matInput id="changePassword" type="password" formControlName="changePassword" minlength="7"

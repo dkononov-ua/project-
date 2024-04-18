@@ -128,7 +128,6 @@ import { UpdateInfoComponent } from './pages/update-info/update-info.component';
     MatCheckboxModule,
     HammerModule,
     MatProgressSpinnerModule,
-
     LyImageCropperModule,
     LySliderModule,
     LyButtonModule,

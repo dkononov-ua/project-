@@ -245,7 +245,7 @@ export class AgreeConcludedComponent implements OnInit {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Переходимо до мешканців оселі');
             setTimeout(() => {
-              this.router.navigate(['/house/resident']);
+              this.router.navigate(['/house/residents/all-residents']);
               this.sharedService.setStatusMessage('');
             }, 2000);
           }, 2000);

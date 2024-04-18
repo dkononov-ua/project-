@@ -6,7 +6,7 @@
       "пошук оселі" та доступне для перегляду та підписки.</div>
   </div>
 
-  <div [@right1] class="item-box">
+  <div [@right] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 1</div>
       <div class="t-min t-c p-1">Після створення оселі заповніть форму в меню "Розтушування".</div>
@@ -18,7 +18,7 @@
     </button>
   </div>
 
-  <div [@right2] class="item-box">
+  <div [@right1] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 2</div>
       <div class="t-min t-c p-1">Заповнюємо форму в меню "Параметри" в якому треба обов'язково
@@ -31,7 +31,7 @@
     </button>
   </div>
 
-  <div [@right3] class="item-box">
+  <div [@right2] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 3</div>
       <div class="t-min t-c p-1">Меню "Особливості" обов'язково вказати
@@ -44,9 +44,23 @@
     </button>
   </div>
 
+  <div [@right3] class="item-box">
+    <div class="item-d w-70">
+      <div class="t-med gray bold">Крок 4</div>
+      <div class="t-min t-c p-1">Обов'язково треба додати як мінімум два фото після чого активувати оголошення в меню
+        "Особливості"</div>
+    </div>
+
+    <button class="link-t w-30 flex-column" [routerLinkActive]="'active'" [routerLink]="'/edit-house/photo'">
+      <span class="ml-2 t-min">Додати фото</span>
+      <i class="fa-solid fa-images"></i>
+    </button>
+  </div>
+
   <div [@right4] class="item-box">
     <div class="item-d w-70">
-      <div class="t-min t-c p-1">Це меню призначено для швидкого доступу та копіювання до часто потрібної інформації. З часом воно
+      <div class="t-min t-c p-1">Це меню призначено для швидкого доступу та копіювання до часто потрібної інформації. З
+        часом воно
         буде поповнюватись новими параметрами</div>
     </div>
 

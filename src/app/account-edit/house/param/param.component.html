@@ -99,8 +99,7 @@
         </div>
 
         <mat-form-field class="item-select" appearance="outline">
-          <mat-select [(ngModel)]="flatInfo.rooms" name="rooms">
-            <mat-option [value]="0">Приховати</mat-option>
+          <mat-select [(ngModel)]="flatInfo.rooms" name="rooms" placeholder="Вкажіть кількість кімнат">
             <mat-option [value]="1">Однокімнатна</mat-option>
             <mat-option [value]="2">Двокімнатна</mat-option>
             <mat-option [value]="3">Трикімнатна</mat-option>
@@ -150,4 +149,3 @@
   </div>
 
 </ng-template>
-

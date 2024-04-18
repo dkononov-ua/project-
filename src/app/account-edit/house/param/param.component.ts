@@ -6,13 +6,14 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { MissingParamsService } from '../missing-params.service';
 interface FlatInfo {
-  rooms: number;
+  rooms: number | null;
   repair_status: string | undefined;
-  area: number;
-  kitchen_area: number;
+  area: number | null;
+  kitchen_area: number | null;
   balcony: string | undefined;
-  floor: number;
+  floor: number | null;
   option_flat: number;
 }
 @Component({
@@ -33,12 +34,12 @@ export class ParamComponent {
   }
 
   flatInfo: FlatInfo = {
-    rooms: 0,
+    rooms: null,
     repair_status: '',
-    area: 0,
-    kitchen_area: 0,
+    area: null,
+    kitchen_area: null,
     balcony: '',
-    floor: 0,
+    floor: null,
     option_flat: 2,
   };
 
@@ -69,6 +70,8 @@ export class ParamComponent {
     private router: Router,
     private dataService: DataService,
     private sharedService: SharedService,
+    private missingParamsService: MissingParamsService,
+
   ) { }
 
   ngOnInit(): void {
@@ -135,45 +138,42 @@ export class ParamComponent {
           new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
-
         if (response.status == 'Параметри успішно додані') {
           this.updateFlatInfo();
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Параметри успішно додані');
+          if (response && response.rent) {
+            this.sharedService.setStatusMessage('Параметри успішно збережено');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('');
+              this.missingParamsService.checkResponse(response);
+            }, 1000);
+          } else {
+            this.sharedService.setStatusMessage('Параметри успішно збережено');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Оголошення можна активувати!');
               setTimeout(() => {
                 this.router.navigate(['/edit-house/about']);
-              }, 200);
+                this.sharedService.setStatusMessage('');
+              }, 1000);
             }, 1500);
-          }, 500);
-        } else {
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Помилка видалення');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('');
-            }, 1500);
-          }, 500);
+          }
         }
-
       } catch (error) {
         this.loading = false;
         console.error(error);
+        location.reload();
       }
     } else {
       this.loading = false;
-      console.log('user not found, the form is blocked');
     }
   }
 
   clearInfo(): void {
     this.flatInfo = {
-      rooms: 0,
+      rooms: null,
       repair_status: '',
-      area: 0,
-      kitchen_area: 0,
+      area: null,
+      kitchen_area: null,
       balcony: '',
-      floor: 0,
+      floor: null,
       option_flat: 2,
     };
   }

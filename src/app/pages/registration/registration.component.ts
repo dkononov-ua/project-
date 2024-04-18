@@ -165,6 +165,8 @@ export class RegistrationComponent implements OnInit {
     // Створення об'єктів дати
     this.minDate = new Date(minYear, 0, 1);
     this.maxDate = new Date(maxYear, maxMonth, maxDay);
+
+    this.counterWrongEnteredPass = 5;
   }
 
   ngOnInit(): void {
@@ -314,7 +316,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  invalidСodeCheck() {
+  async invalidСodeCheck(): Promise<void> {
     const counterEnteredPass = localStorage.getItem('counterWrongEnteredPass');
     this.counterWrongEnteredPass = Number(counterEnteredPass);
     if (this.counterWrongEnteredPass !== 0) {
@@ -328,15 +330,15 @@ export class RegistrationComponent implements OnInit {
           this.loading = false;
         }, 2000);
       }, 1000);
-    } else {
+    } else if (this.counterWrongEnteredPass === 0) {
       this.statusMessage = 'Спроби введення коду вичерпані!';
       setTimeout(() => {
         this.statusMessage = 'Форми заблоковані на 5хв!';
-        setTimeout(() => {
+        setTimeout(async () => {
           this.statusMessage = '';
           this.loading = false;
           this.indexBtn = 1;
-          this.calcWrongPass();
+          await this.calcWrongPass();
           setTimeout(() => {
             location.reload();
           }, 100);
@@ -345,11 +347,14 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  calcWrongPass(): void {
+  async calcWrongPass(): Promise<void> {
     const counterEnteredPass = localStorage.getItem('counterWrongEnteredPass');
-    this.counterWrongEnteredPass = Number(counterEnteredPass);
+    if (counterEnteredPass) {
+      this.counterWrongEnteredPass = Number(counterEnteredPass);
+    }
+    // console.log(this.counterWrongEnteredPass)
     const savedEndTime = localStorage.getItem('blockEndTime');
-    if (counterEnteredPass === '0' && !savedEndTime) {
+    if (this.counterWrongEnteredPass === 0 && !savedEndTime) {
       const timeout = 5 * 60 * 1000; // 5 хвилин в мілісекундах
       const endTime = Date.now() + timeout;
       this.blockAllForms(); // Блокуємо форми

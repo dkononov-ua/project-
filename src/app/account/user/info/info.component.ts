@@ -153,6 +153,7 @@ export class InfoComponent implements OnInit {
           this.userInfo.facebook = response.cont?.facebook || '';
           this.userInfo.instagram = response.cont?.instagram || '';
           this.userInfo.viber = response.cont?.viber || '';
+          this.userInfo.checked = response.inf?.checked || 0;
           if (response.img && response.img.length > 0) {
             this.userImg = response.img[0].img;
           }
@@ -222,7 +223,7 @@ export class InfoComponent implements OnInit {
           console.error(error);
         });
     } else {
-      console.log('user not found');
+      // console.log('user not found');
     }
   }
 
