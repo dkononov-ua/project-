@@ -1,5 +1,19 @@
 @use "../housing-services.component.scss";
+@use "../../style/shared.scss" as *;
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
 .list-form {
   height: 70px !important;
+}
+
+.list-select {
+  @include flex-box-center;
+  color: $color-dark;
+  font-size: 30px;
+}
+
+.list-option {
+  color: $color-gray;
+  font-size: 30px;
 }

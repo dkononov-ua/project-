@@ -1,8 +1,19 @@
-<mat-form-field class="w-100" appearance="outline">
+<!-- <mat-form-field class="w-100" appearance="outline">
   <mat-select class="list-select" name="selectedYear" [(ngModel)]="selectedYear"
-    (selectionChange)="onSelectionChangeYear()">
+    (selectionChange)="onSelectionChangeYear(selectedYear)">
     <mat-option class="list-option" *ngFor="let year of years" [value]="year">{{year}}
     </mat-option>
   </mat-select>
   <mat-hint align="end" class="t-min gray">Рік</mat-hint>
-</mat-form-field>
+</mat-form-field> -->
+
+<div class="flex-box">
+  <button (click)="prevYear()" class="btnYear"><i class="fa-regular fa-circle-left"></i></button>
+  <div class="t-lar-xx">
+    <span *ngIf="selectedYear >= 2000">20</span>
+    <span *ngIf="selectedYear < 2000">19</span>
+    <span [@top1] class="year" *ngIf="year1">{{ (selectedYear.toString()).slice(-2)}}</span>
+    <span [@top1] class="year" *ngIf="year2">{{ (selectedYear.toString()).slice(-2)}}</span>
+  </div>
+  <button (click)="nextYear()" class="btnYear"><i class="fa-regular fa-circle-right"></i></button>
+</div>

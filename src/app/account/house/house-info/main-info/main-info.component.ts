@@ -115,7 +115,7 @@ export class MainInfoComponent implements OnInit {
     if (this.isMobile) {
       this.router.navigate(['/communal/about']);
     } else {
-      this.router.navigate(['/communal/history']);
+      this.router.navigate(['/communal/about']);
     }
   }
 

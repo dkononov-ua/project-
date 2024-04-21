@@ -1,134 +1,166 @@
-<div [@top1] class="card-wrapper w-100">
-  <div class="card-animation w-100" [@swichCard] *ngIf="!option_stat">
-    <div class="card-content">
-      
-      <div class="monthChange w-100 mb-2 mt-2">
-        <button class="btn-2 center" (click)="prevYear()">
-          <i class="fa-solid fa-chevron-left"></i>
+<div class="table-content w-100">
+  <div class="sticky-top p-2">
+    <div class="t-lar t-c bold">Статистика за рік</div>
+    <div class="app"><app-select-year></app-select-year></div>
+    <div class="switch-container jc-fs p-2">
+
+      <div class="switch-btn-group">
+        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/all-yaers-stat'">
+          <i class="fa-solid fa-chart-bar"></i>
+          <div class="t-min dark bold">Графік</div>
         </button>
-        <div class="bold accent t-lar-xx">{{ selectedYear }} рік</div>
-        <button class="btn-2 center" (click)="nextYear()">
-          <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="openConsumed()" [ngClass]="{ 'active': open_consumed}">
+          <i class="fa-solid fa-cookie-bite"></i>
+          <div class="t-min dark bold">Спожито</div>
         </button>
       </div>
 
-      <mat-form-field class="list-form w-100 p-2" appearance="outline">
-        <mat-select id="sortSelect" [(ngModel)]="selectedSortOption" (selectionChange)="sortData()"
-          placeholder="Сортувати за">
-          <mat-option value="id">Порядком</mat-option>
-          <mat-option value="comunal_name">Назва послуги</mat-option>
-          <mat-option value="total_howmuch_pay">Найбільше сплачено ₴</mat-option>
-          <mat-option value="total_calc_howmuch_pay">Найбільше нараховано ₴</mat-option>
-          <mat-option value="total_difference">Найбільша заборгованість ₴</mat-option>
-        </mat-select>
-        <mat-hint align="end" class="t-min gray">Сортування</mat-hint>
-      </mat-form-field>
-
-      <div class="table-container" *ngIf="dataLoaded && !noInformationMessage">
-        <div class="wrapper">
-          <table class="table-box">
-            <thead class="table-head fixed-table-head mb-2">
-              <tr class="table-row">
-                <th (click)="sortBy('id')">
-                  <div class="table-cell name wi-30">№</div>
-                </th>
-                <th (click)="sortBy('comunal_name')">
-                  <div class="table-cell name wi-150">Назва послуги</div>
-                </th>
-
-                <th>
-                  <div class="table-cell name wi-100">Спожито</div>
-                </th>
-
-                <th (click)="sortBy('total_calc_howmuch_pay')">
-                  <div class="table-cell name wi-100">Нараховано ₴</div>
-                </th>
-
-                <th (click)="sortBy('total_howmuch_pay')">
-                  <div class="table-cell name wi-100">Сплатив</div>
-                </th>
-                <th (click)="sortBy('total_difference')">
-                  <div class="table-cell name wi-100">Різниця</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="table-row" *ngFor="let entry of sortedMonthlySumData$ | async">
-                <td>
-                  <div class="table-cell name-1 wi-30">
-                    {{ entry['id'] }}
-                  </div>
-                </td>
-                <td>
-                  <div class="table-cell name-1 wi-150">
-                    {{ entry['comunal_name'] }}
-                  </div>
-                </td>
-
-                <td>
-                  <div class="table-cell name-2 wi-100">
-                    {{ entry['total_consumed'] | number: '1.1-1' }}
-                  </div>
-                </td>
-
-                <td>
-                  <div class="table-cell name-2 wi-100">
-                    {{ entry['total_calc_howmuch_pay'] | number: '1.1-1' }}
-                  </div>
-                </td>
-
-                <td>
-                  <div class="table-cell name-2 wi-100">
-                    {{ entry['total_howmuch_pay'] | number: '1.1-1' }}
-                  </div>
-                </td>
-                <td>
-                  <div class="table-cell name-2 wi-100">
-                    {{ entry['total_difference'] | number: '1.1-1' }}
-                  </div>
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-
-        <div class="flex-column">
-          <div [@left3] class="flex-box border-bottom">
-            <div class="t-min">Загалом нараховано</div>
-            <div class="t-lar-xx bold ml-2">{{ totalNeedPay }}<span class="t-med bold"> ₴</span></div>
-          </div>
-          <div [@left4] class="flex-box border-bottom">
-            <div class="t-min">Загалом сплачено</div>
-            <div class="t-lar-xx bold ml-2">{{ totalPaid }}<span class="t-med bold"> ₴</span></div>
-          </div>
-          <div [@left5] class="border-bottom">
-            <div class="flex-box" *ngIf="overpaymentText === 'Борг'">
-              <div class="t-min accent">{{overpaymentText}}</div>
-              <div class="t-lar-xx bold ml-2 accent">{{ totalDifference }}<span class="t-med bold"> ₴</span></div>
-            </div>
-            <div class="flex-box" *ngIf="overpaymentText === 'Переплата'">
-              <div class="t-min">{{overpaymentText}}</div>
-              <div class="t-lar-xx bold ml-2">{{ totalDifference }}<span class="t-med bold"> ₴</span></div>
-            </div>
-          </div>
-        </div>
+      <div class="switch-btn-group">
+        <button class="btn" (click)="openHowmuchPay()" [ngClass]="{ 'active': open_howmuch_pay}">
+          <i class="fa-solid fa-cash-register"></i>
+          <div class="t-min dark bold">Нараховано</div>
+        </button>
       </div>
 
-      <div [@left3] class="table-container" *ngIf="dataLoaded && noInformationMessage">
-        <h4 class="p-2 mt-3">Статистики за цей час немає...</h4>
+      <div class="switch-btn-group">
+        <button class="btn" (click)="openPayed()" [ngClass]="{ 'active': open_payed}">
+          <i class="fa-solid fa-check-to-slot"></i>
+          <div class="t-min dark bold">Сплачено</div>
+        </button>
       </div>
-    </div>
-    <div class="btn-group p-2">
-      <button class="btn w-100" (click)="toggleOptionStat()">Графік</button>
+
+      <div class="switch-btn-group">
+        <button class="btn" (click)="openDifference()" [ngClass]="{ 'active': open_difference}">
+          <i class="fa-solid fa-plus-minus"></i>
+          <div class="t-min dark bold">Різниця</div>
+        </button>
+      </div>
+
+
     </div>
   </div>
-  <div class="card-animation w-100" [@swichCard] *ngIf="option_stat">
-    <div class="card-content">
-      <app-comun-stat-season></app-comun-stat-season>
-      <div class="btn-group p-2">
-        <button class="btn w-100" (click)="toggleOptionStat()">Підрахунки</button>
+
+  <section class="table-info">
+    <mat-form-field class="list-form p-2" appearance="outline">
+      <mat-select id="sortSelect" [(ngModel)]="selectedSortOption" (selectionChange)="sortData()"
+        placeholder="Сортувати за">
+        <mat-option value="id">Порядком</mat-option>
+        <mat-option value="comunal_name">Назва послуги</mat-option>
+        <mat-option value="total_howmuch_pay">Найбільше сплачено ₴</mat-option>
+        <mat-option value="total_calc_howmuch_pay">Найбільше нараховано ₴</mat-option>
+        <mat-option value="total_difference">Найбільша заборгованість ₴</mat-option>
+      </mat-select>
+      <mat-hint align="end" class="t-min gray">Сортування</mat-hint>
+    </mat-form-field>
+
+    <div [@top1] class="table-container p-2" *ngIf="dataLoaded && !noInformationMessage">
+      <div class="wrapper">
+        <table class="table-box">
+          <thead class="table-head fixed-table-head mb-2">
+            <tr class="table-row">
+
+              <th class="wi-30" (click)="sortBy('id')">
+                <div class="table-cell name ">№</div>
+              </th>
+
+              <th class="wi-100" (click)="sortBy('comunal_name')">
+                <div class="table-cell name ">Назва</div>
+              </th>
+
+              <th class="th-grid" *ngIf="open_consumed" (click)="openConsumed()">
+                <div class="table-cell name consumed">Спожито</div>
+              </th>
+
+              <th class="th-grid" *ngIf="open_howmuch_pay" (click)="openHowmuchPay()">
+                <div class="table-cell name howmuch_pay">Нарах.</div>
+              </th>
+
+              <th class="th-grid" *ngIf="open_payed" (click)="openPayed()">
+                <div class="table-cell name payed">Сплатив</div>
+              </th>
+              <th class="th-grid" *ngIf="open_difference" (click)="openDifference()">
+                <div class="table-cell name differenceOK">Різниця</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-row" *ngFor="let entry of sortedMonthlySumData$ | async">
+              <td class="wi-30">
+                <div class="table-cell name-1 p-2">
+                  {{ entry['id'] }}
+                </div>
+              </td>
+
+              <td class="wi-100">
+                <div class="table-cell name-1 ">
+                  {{ entry['comunal_name'].length > 10 ? (entry['comunal_name'] | slice:0:10) + '...' :
+                  entry['comunal_name'] }}
+                </div>
+              </td>
+
+              <td class="th-grid" *ngIf="open_consumed">
+                <div class="table-cell name-2 consumed">
+                  {{ entry['total_consumed'] | number: '1.1-1' }}
+                </div>
+              </td>
+
+              <td class="th-grid" *ngIf="open_howmuch_pay">
+                <div class="table-cell name-2 howmuch_pay">
+                  {{ entry['total_calc_howmuch_pay'] | number: '1.1-1' }}
+                </div>
+              </td>
+
+              <td class="th-grid" *ngIf="open_payed">
+                <div class="table-cell name-2 payed">
+                  {{ entry['total_howmuch_pay'] | number: '1.1-1' }}
+                </div>
+              </td>
+              <td class="th-grid" *ngIf="open_difference">
+                <div class="table-cell name-2"
+                  [ngClass]="{ 'differenceOK': entry['total_difference'] > 0, 'difference': entry['total_difference'] < 0}">
+                  {{ entry['total_difference'] | number: '1.1-1' }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+
+    <div [@left3] class="table-container" *ngIf="dataLoaded && noInformationMessage">
+      <h4 class="p-2 mt-3">Статистики за цей час немає...</h4>
+    </div>
+  </section>
+
+  <div class="sticky-bottom p-2" *ngIf="dataLoaded && !noInformationMessage">
+    <div [@left1] class="jc-fe flex-box border-bottom">
+      Заг. нарах.
+      <i class="fa-solid fa-cash-register p-2"></i>
+      <span class="t-lar-xx bold">{{ totalNeedPay?.toFixed(2) }}</span> ₴
+    </div>
+
+    <div [@left2] class="jc-fe flex-box border-bottom">
+      Заг. сплач.
+      <i class="fa-solid fa-check-to-slot p-2"></i>
+      <span class="t-lar-xx bold"> {{ totalPaid?.toFixed(2) }}</span> ₴
+    </div>
+
+    <div [@left3] class="jc-fe flex-box border-bottom"
+      [ngClass]="{ 'accent': overpaymentText === 'Борг', 'green': overpaymentText === 'Переплата'}"
+      *ngIf="totalPaid && totalNeedPay">
+      <i class="fa-solid fa-cash-register p-2"></i>
+      <i class="fa-solid fa-minus p-2"></i>
+      <i class="fa-solid fa-check-to-slot p-2"></i>
+      <i class="fa-solid fa-equals p-2"></i>
+      <span class="t-lar-xx bold">{{ totalDifference?.toFixed(2) }}</span> ₴
+    </div>
+
+    <div [@left4] class="jc-fe flex-box border-bottom" *ngIf="totalPaid && totalNeedPay">
+      За цей рік {{overpaymentText}}
+    </div>
+
   </div>
 </div>

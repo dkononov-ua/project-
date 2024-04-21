@@ -4,8 +4,11 @@
 
 .card-content-static {
   justify-content: space-between !important;
+  width: 100% !important;
+  overflow: auto;
   @include s3-s6-max {
     background-color: $color-white !important;
+    @include box-shadow;
   }
 }
 

@@ -44,6 +44,23 @@ export class ComunStatYearComponent implements OnInit {
     { id: 11, name: 'Грудень' }
   ];
 
+  open_consumed: boolean = true;
+  openConsumed() {
+    this.open_consumed = !this.open_consumed;
+  }
+  open_howmuch_pay: boolean = true;
+  openHowmuchPay() {
+    this.open_howmuch_pay = !this.open_howmuch_pay;
+  }
+  open_difference: boolean = true;
+  openDifference() {
+    this.open_difference = !this.open_difference;
+  }
+  open_payed: boolean = true;
+  openPayed() {
+    this.open_payed = !this.open_payed;
+  }
+
   flatInfo: any;
   loading: boolean = true;
   totalNeedPay: number | undefined;
@@ -161,7 +178,6 @@ export class ComunStatYearComponent implements OnInit {
                 total_difference: 0,
               };
             }
-
             monthlySum[key].total_howmuch_pay += parseFloat(comunalData.howmuch_pay);
             monthlySum[key].total_consumed += parseFloat(comunalData.consumed);
             monthlySum[key].total_calc_howmuch_pay += parseFloat(comunalData.calc_howmuch_pay);
@@ -187,10 +203,13 @@ export class ComunStatYearComponent implements OnInit {
       this.totalСonsumed = totalСonsumed;
       this.totalDifference = totalDifference;
       this.monthlySumData$.next(monthlySum);
-      if (this.totalDifference < 0) {
+      if (this.totalDifference > 0) {
         this.overpaymentText = 'Борг';
+        this.totalDifference = Math.abs(totalDifference);
       } else {
         this.overpaymentText = 'Переплата';
+        this.totalDifference = Math.abs(totalDifference);
+
       }
     }
   }

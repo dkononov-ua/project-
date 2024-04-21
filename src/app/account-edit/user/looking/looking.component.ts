@@ -60,6 +60,7 @@ interface UserInfo {
     animations.right,
     animations.right1,
     animations.right2,
+    animations.right3,
     animations.right4,
     animations.swichCard,
   ],
@@ -142,7 +143,7 @@ export class LookingComponent implements OnInit {
 
   // показ карток
   card_info: boolean = false;
-  indexPage: number = 1;
+  indexPage: number = 0;
   indexMenu: number = 0;
   indexMenuMobile: number = 1;
   numConcludedAgree: any;
@@ -164,7 +165,6 @@ export class LookingComponent implements OnInit {
       event.preventDefault();
     }
   }
-
 
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;
@@ -204,6 +204,11 @@ export class LookingComponent implements OnInit {
   ngOnInit(): void {
     this.getInfo();
     this.loading = false;
+    if (this.isMobile) {
+      this.indexPage = 0;
+    } else {
+      this.indexPage = 1;
+    }
   }
 
   checkRooms() {

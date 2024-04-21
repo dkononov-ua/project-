@@ -31,6 +31,7 @@ import { ComunAddComponent } from './comun-add/comun-add.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatRadioModule,
     MatMenuModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class HousingServicesModule { }

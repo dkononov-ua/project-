@@ -21,26 +21,26 @@
       <div class="menu-name">Статистика Оселі</div>
     </div>
 
-    <div class="switch-btn-group" *ngIf="isMobile">
+    <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/about'">
         <i class="fa-solid fa-circle-info"></i>
         <div class="t-min dark bold">Інфо</div>
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="isMobile">
+    <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/add'">
-        <i class="fa-solid fa-id-card"></i>
-        <div class="t-min dark bold">Обрати</div>
+        <i class="fa-solid fa-sliders"></i>
+        <div class="t-min dark bold">Керув.</div>
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="!selectedName">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/history'">
+    <!-- <div class="switch-btn-group" *ngIf="!selectedName">
+      <button [disabled]="!selectedComun" class="btn" [routerLinkActive]="'active'" [routerLink]="'/communal/history'">
         <i class="fa-solid fa-pen"></i>
-        <div class="t-min dark bold">Дані</div>
+        <div class="t-min dark bold">Внесен.</div>
       </button>
-    </div>
+    </div> -->
 
 
     <div class="switch-btn-group">
@@ -64,7 +64,7 @@
 
   <div class="main-container">
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile" *ngIf="!isMobile">
+    <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile" *ngIf="!isMobile">
       <div class="card-wrapper">
         <div [@right1] class="card-content-static w-100">
           <div class="card-group">
@@ -94,18 +94,15 @@
             </div>
 
           </div>
-          <!-- <div class="card-background">
-            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
-          </div> -->
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
+    <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
       <app-comun-add></app-comun-add>
-    </div>
+    </div> -->
 
-    <div class="col-lg-5 col-md-5 col-sm-12 col-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
       <router-outlet></router-outlet>
     </div>
 

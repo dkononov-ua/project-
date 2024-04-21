@@ -108,7 +108,7 @@ export class ParametersComponent implements OnInit {
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
   async getHouseAcces(): Promise<void> {
     if (this.houseData.acces) {
-      console.log(this.houseData.acces)
+      // console.log(this.houseData.acces)
       this.acces_added = this.houseData.acces.acces_added;
       this.acces_admin = this.houseData.acces.acces_admin;
       this.acces_agent = this.houseData.acces.acces_agent;

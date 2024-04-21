@@ -154,6 +154,7 @@ export class ComunAddComponent implements OnInit {
 
   // Видалення послуги
   async deleteComun(comunal_name: string): Promise<void> {
+    this.changeComunService.setSelectedComun(comunal_name);
     const userJson = localStorage.getItem('user');
     const dialogRef = this.dialog.open(DeleteComunComponent, {
     });
@@ -253,16 +254,22 @@ export class ComunAddComponent implements OnInit {
 
   goToSetting(comunal_name: any) {
     this.changeComunService.setSelectedComun(comunal_name);
-    this.sharedService.setStatusMessage('Налаштування послуги ') + comunal_name;
+    this.sharedService.setStatusMessage('Налаштування послуги ' + comunal_name);
     setTimeout(() => {
       this.router.navigate(['/communal/company']);
       this.sharedService.setStatusMessage('');
-    }, 2000);
+    }, 1000);
   }
 
-  goToHistory(comunal_name: any) {
+  async goToHistory(comunal_name: string): Promise<void> {
+    this.sharedService.setStatusMessage('Внесення даних ' + comunal_name);
     this.changeComunService.setSelectedComun(comunal_name);
-    this.router.navigate(['/communal/stat-season']);
+    if (comunal_name) {
+      setTimeout(() => {
+        this.router.navigate(['/communal/history']);
+        this.sharedService.setStatusMessage('');
+      }, 1000);
+    }
   }
 
   selectComun(comunal_name: any) {
@@ -275,7 +282,7 @@ export class ComunAddComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/communal/stat-season']);
       this.sharedService.setStatusMessage('');
-    }, 1500);
+    }, 1000);
   }
 }
 

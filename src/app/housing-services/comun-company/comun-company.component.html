@@ -1,106 +1,114 @@
-<div [@top1] class="card-wrapper">
-  <div class="card-content-static p-2 w-100">
+<div [@top1] class="content-child w-100">
 
-    <div class="copyMessage-box" *ngIf="isCopiedMessage">
-      <div class="copyMessage-text">{{isCopiedMessage}}</div>
-      <i class="fa-regular fa-copy"></i>
-      <div class="t-lar dark bold">Discussio</div>
+  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12 p-2" *ngIf="!isMobile">
+    <app-comun-add></app-comun-add>
+  </div>
+
+  <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12">
+    <div class="card-content-static p-2">
+
+      <div class="copyMessage-box" *ngIf="isCopiedMessage">
+        <div class="copyMessage-text">{{isCopiedMessage}}</div>
+        <i class="fa-regular fa-copy"></i>
+        <div class="t-lar dark bold">Discussio</div>
+      </div>
+
+      <div class="p-2 w-100"> <app-select-comun></app-select-comun> </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>Назва компанії</mat-label>
+          <input [disabled]="field" name="comunal_company" matInput [(ngModel)]="comunInfo.comunal_company">
+        </mat-form-field>
+        <button class="btn-copy" (click)="copyCompany()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>Особистий рахунок</mat-label>
+          <input [disabled]="field" name="personalAccount" matInput [(ngModel)]="comunInfo.personalAccount">
+          <mat-hint align="end" class="t-min gray">Особистий рахунок оселі</mat-hint>
+        </mat-form-field>
+        <button class="btn-copy" (click)="copyAccount()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>ЄДРПОУ</mat-label>
+          <input [disabled]="field" name="edrpo" matInput [(ngModel)]="comunInfo.edrpo" [maxlength]="8"
+            pattern="^[0-9]{8}$">
+          <mat-error>ЄДРПОУ повинен містити 8 цифр.</mat-error>
+          <mat-hint align="end" class="t-min gray">Код ЄДРПОУ 8 символів</mat-hint>
+        </mat-form-field>
+        <button class="btn-copy" (click)="copyEdrpo()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>IBAN</mat-label>
+          <input [disabled]="field" name="iban" matInput [(ngModel)]="comunInfo.iban" [maxlength]="29"
+            pattern="^[A-Za-z0-9]{29}$">
+          <mat-error>29 символів.</mat-error>
+          <mat-hint align="end" class="t-min gray">IBAN 29 символів</mat-hint>
+        </mat-form-field>
+        <button class="btn-copy" (click)="copyIban()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>Оплата/сайт</mat-label>
+          <input [disabled]="field" name="comunal_site" matInput [(ngModel)]="comunInfo.comunal_site">
+          <mat-hint align="end" class="t-min gray">Посилання на чатбот або сайт</mat-hint>
+        </mat-form-field>
+        <button class="btn-copy" (click)="copySite()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>Телефон</mat-label>
+          <input [disabled]="field" type="tel" name="comunal_phone" matInput [(ngModel)]="comunInfo.comunal_phone"
+            [maxlength]="10" pattern="^[0-9]{10}$">
+          <mat-error>Телефон повинен містити 10 цифр.</mat-error>
+          <mat-hint align="end" class="t-min gray">Для передачі показників</mat-hint>
+        </mat-form-field>
+        <button class="btn-copy" (click)="copyPhone()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="flex-box">
+        <mat-form-field class="item-select w-90" appearance="outline">
+          <mat-label>Адреса</mat-label>
+          <input [disabled]="field" name="comunal_address" matInput [(ngModel)]="comunInfo.comunal_address">
+          <mat-hint align="end" class="t-min gray">Адреса компанії</mat-hint>
+        </mat-form-field>
+        <button class="btn-copy" (click)="copyAddress()"><i class="fa-regular fa-clone"></i> </button>
+      </div>
+
+      <div class="form-floating p-1 mt-2 w-100">
+        <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
+          [(ngModel)]="comunInfo.about_comun" name="about_comun" (input)="onInput()"
+          placeholder="Enter description here"></textarea>
+        <label for="floatingTextarea">
+          <p class="t-med">Додаткова інформація:</p>
+        </label>
+      </div>
+
+      <div [@top1] class="btn-group">
+        <button [disabled]="field" class="btn flex-column" (click)="clearInfo()">
+          <i class="icon fa-solid fa-eraser"></i>
+          <div class="pl-2 t-min">Очистити</div>
+        </button>
+
+        <button class="btn flex-column" (click)="toggleField()">
+          <i class="fa-solid fa-pen"></i>
+          <div class="pl-2 t-min">Редагувати</div>
+        </button>
+
+        <button [disabled]="field" class="btn flex-column" (click)="saveInfo()">
+          <i class="icon fa-regular fa-circle-check"></i>
+          <div class="pl-2 t-min">Зберегти</div>
+        </button>
+      </div>
     </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>Назва компанії</mat-label>
-        <input [disabled]="field" name="comunal_company" matInput [(ngModel)]="comunInfo.comunal_company">
-      </mat-form-field>
-      <button class="btn-copy" (click)="copyCompany()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>Особистий рахунок</mat-label>
-        <input [disabled]="field" name="personalAccount" matInput [(ngModel)]="comunInfo.personalAccount">
-        <mat-hint align="end" class="t-min gray">Особистий рахунок оселі</mat-hint>
-      </mat-form-field>
-      <button class="btn-copy" (click)="copyAccount()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>ЄДРПОУ</mat-label>
-        <input [disabled]="field" name="edrpo" matInput [(ngModel)]="comunInfo.edrpo" [maxlength]="8"
-          pattern="^[0-9]{8}$">
-        <mat-error>ЄДРПОУ повинен містити 8 цифр.</mat-error>
-        <mat-hint align="end" class="t-min gray">Код ЄДРПОУ 8 символів</mat-hint>
-      </mat-form-field>
-      <button class="btn-copy" (click)="copyEdrpo()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>IBAN</mat-label>
-        <input [disabled]="field" name="iban" matInput [(ngModel)]="comunInfo.iban" [maxlength]="29"
-          pattern="^[A-Za-z0-9]{29}$">
-        <mat-error>29 символів.</mat-error>
-        <mat-hint align="end" class="t-min gray">IBAN 29 символів</mat-hint>
-      </mat-form-field>
-      <button class="btn-copy" (click)="copyIban()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>Оплата/сайт</mat-label>
-        <input [disabled]="field" name="comunal_site" matInput [(ngModel)]="comunInfo.comunal_site">
-        <mat-hint align="end" class="t-min gray">Посилання на чатбот або сайт</mat-hint>
-      </mat-form-field>
-      <button class="btn-copy" (click)="copySite()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>Телефон</mat-label>
-        <input [disabled]="field" type="tel" name="comunal_phone" matInput [(ngModel)]="comunInfo.comunal_phone"
-          [maxlength]="10" pattern="^[0-9]{10}$">
-        <mat-error>Телефон повинен містити 10 цифр.</mat-error>
-        <mat-hint align="end" class="t-min gray">Для передачі показників</mat-hint>
-      </mat-form-field>
-      <button class="btn-copy" (click)="copyPhone()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="flex-box mt-3">
-      <mat-form-field class="item-select w-90" appearance="outline">
-        <mat-label>Адреса</mat-label>
-        <input [disabled]="field" name="comunal_address" matInput [(ngModel)]="comunInfo.comunal_address">
-        <mat-hint align="end" class="t-min gray">Адреса компанії</mat-hint>
-      </mat-form-field>
-      <button class="btn-copy" (click)="copyAddress()"><i class="fa-regular fa-clone"></i> </button>
-    </div>
-
-    <div class="form-floating p-1 mt-4">
-      <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-        [(ngModel)]="comunInfo.about_comun" name="about_comun" (input)="onInput()"
-        placeholder="Enter description here"></textarea>
-      <label for="floatingTextarea">
-        <p class="t-med">Додаткова інформація:</p>
-      </label>
-    </div>
-
-    <div [@top1] class="btn-group">
-      <button [disabled]="field" class="btn flex-column" (click)="clearInfo()">
-        <i class="icon fa-solid fa-eraser"></i>
-        <div class="pl-2 t-min">Очистити</div>
-      </button>
-
-      <button class="btn flex-column" (click)="toggleField()">
-        <i class="fa-solid fa-pen"></i>
-        <div class="pl-2 t-min">Редагувати</div>
-      </button>
-
-      <button [disabled]="field" class="btn flex-column" (click)="saveInfo()">
-        <i class="icon fa-regular fa-circle-check"></i>
-        <div class="pl-2 t-min">Зберегти</div>
-      </button>
-    </div>
-
   </div>
 
 </div>

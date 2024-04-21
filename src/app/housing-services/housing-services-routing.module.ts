@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'communal',
     component: HousingServicesComponent, canActivate: [CanActivateGuard],
     children: [
-      { path: '', redirectTo: 'history', pathMatch: 'full' },
+      { path: '', redirectTo: 'about', pathMatch: 'full' },
       { path: 'add', component: ComunAddComponent, canActivate: [CanActivateGuard] },
       { path: 'about', component: ComunAboutComponent, canActivate: [CanActivateGuard] },
       { path: 'history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },

@@ -1,33 +1,53 @@
-<!-- <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12"> -->
 <div class="card-wrapper col-12">
-  <div [@top1] class="card-content-static">
-    <div class="card-group">
-      <div class="flex-box-center t-c p-2 mt-2 w-100">
-        <i class="fa-solid fa-chart-line"></i>
-        <p class="t-lar-x bold mb-2">Меню Статистика Оселі</p>
-        <p class="t-med bold mb-2">Вносіть та діліться інформацією про статистичні дані оселі.
-          Переглядайте стистику по споживанню та витратам</p>
-        <ul class="t-med mt-2 t-s">
-          <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-          <li class="mt-2">Створення послуг.</li>
-          <li>Внесення показників.</li>
-          <li>Місячний звіт.</li>
-          <li>Сезоний звіт.</li>
-          <li>Річний звіт.</li>
-          <li>Річний графік.</li>
-        </ul>
-      </div>
+  <div [@top1] class="col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="card-content-static box-shadow">
+      <div class="card-group">
+        <div class="flex-box-center t-c p-2 mt-2 w-100">
+          <i class="fa-solid fa-chart-line"></i>
+          <p class="t-lar-x bold mb-2">Меню Статистика Оселі</p>
+          <p class="t-med bold mb-2">Вносіть та діліться інформацією про статистичні дані оселі.
+            Переглядайте стистику по споживанню та витратам</p>
+          <ul class="t-med mt-2 t-s">
+            <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
+            <li class="mt-2">Створення послуг.</li>
+            <li>Внесення показників.</li>
+            <li>Місячний звіт.</li>
+            <li>Сезоний звіт.</li>
+            <li>Річний звіт.</li>
+            <li>Річний графік.</li>
+          </ul>
+        </div>
 
-      <div class="btn-group mt-2">
-        <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
-          <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-          <i class="fa-regular fa-lightbulb"></i>
-        </button>
-      </div>
+        <div class="btn-group mt-2">
+          <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
+            <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
+            <i class="fa-regular fa-lightbulb"></i>
+          </button>
+        </div>
 
+      </div>
+      <div class="card-background">
+        <img class="img" src="../../../assets/example-agree/stats1.jpg" alt="">
+      </div>
     </div>
-    <div class="card-background">
-      <img class="img" src="../../../assets/example-agree/stats1.jpg" alt="">
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
+    <div class="card-content-static">
+      <div class="p-3 t-c">
+        <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
+        <p class="text t-c">
+          Ви можете <strong>створювати комунальні послуги</strong> та вибирати різні варіанти розрахунку
+          витрат. Ви маєте можливість <strong>вести свою власну статистику</strong>, проводячи детальний розрахунок
+          використання
+          комунальних ресурсів. Ця функція сприяє обміну даними між орендарем
+          та орендодавцем, дозволяючи точно відслідковувати витрати та встановлювати звіти про споживання ресурсів
+          щомісяця. Це робить процес обліку комунальних послуг більш прозорим та допомагає уникнути спорів між
+          сторонами.
+        </p>
+      </div>
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
+      </div>
     </div>
   </div>
 </div>

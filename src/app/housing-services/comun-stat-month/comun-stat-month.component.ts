@@ -26,6 +26,32 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class ComunStatMonthComponent implements OnInit {
 
+  open_consumed: boolean = false;
+  openConsumed() {
+    this.open_consumed = !this.open_consumed;
+  }
+  open_tariff: boolean = false;
+  openTariff() {
+    this.open_tariff = !this.open_tariff;
+  }
+  open_howmuch_pay: boolean = true;
+  openHowmuchPay() {
+    this.open_howmuch_pay = !this.open_howmuch_pay;
+  }
+  open_difference: boolean = true;
+  openDifference() {
+    this.open_difference = !this.open_difference;
+  }
+  open_payed: boolean = true;
+  openPayed() {
+    this.open_payed = !this.open_payed;
+  }
+
+  open_table: boolean = true;
+  openTable() {
+    this.open_table = !this.open_table;
+  }
+
   months = [
     { id: 0, name: 'Січень' },
     { id: 1, name: 'Лютий' },
@@ -101,7 +127,7 @@ export class ComunStatMonthComponent implements OnInit {
             this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
               this.selectedComun = selectedComun || this.selectedComun;
               this.getInfoComun();
-            });
+            }); this.selectedComun
           } else {
             this.selectedComun = null;
           }
@@ -178,14 +204,16 @@ export class ComunStatMonthComponent implements OnInit {
         this.totalPaid += paid;
       }
 
-      utility.difference = (needPay - paid).toFixed(2);
+      utility.difference = (paid - needPay).toFixed(2);
     }
 
-    this.difference = (this.totalNeedPay - this.totalPaid).toFixed(1);
-    if (this.difference < 0) {
+    this.difference = (this.totalNeedPay - this.totalPaid).toFixed(2);
+    if (this.difference > 0) {
       this.overpaymentText = 'Борг';
+      this.difference = Math.abs(this.difference);
     } else {
       this.overpaymentText = 'Переплата';
+      this.difference = Math.abs(this.difference);
     }
   }
 

@@ -109,7 +109,7 @@ export class ComunStatSeasonComponent implements OnInit {
   summer: FlatStat | undefined;
   autumn: FlatStat | undefined;
   totalYearStats: FlatStat | undefined;
-  option_stat: number = 2;
+  option_stat: number = 1;
   activeOption: number = 1;
 
   maxPaymentsValue: number = 0;

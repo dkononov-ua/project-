@@ -1,6 +1,18 @@
 @use "../housing-services.component.scss";
+@use "../../style/shared.scss" as *;
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
 
-.list-form {
-  height: 70px !important;
+.year {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.btnYear {
+  background-color: transparent;
+  padding: 5px;
+  .fa-regular {
+    color: $color-gray;
+  }
 }
 

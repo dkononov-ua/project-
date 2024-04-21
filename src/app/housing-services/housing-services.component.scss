@@ -211,7 +211,6 @@ mat-form-field {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  height: 60px;
 }
 
 .item-width-50 {
@@ -290,7 +289,9 @@ mat-form-field {
   font-weight: 600;
 }
 
-.form-floating {
+.form-control {
+  border-radius: 20px;
+  border: 1px solid $color-light;
   width: 100%;
 }
 
@@ -346,7 +347,11 @@ mat-form-field {
 
 .monthChange {
   @include flex-box-center;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  .monthName {
+    @include flex-box-center;
+    flex-direction: column;
+  }
 }
 
 .btn-2 {
@@ -357,5 +362,7 @@ mat-form-field {
   border-radius: 50%;
   background-color: transparent;
 }
+
+
 
 

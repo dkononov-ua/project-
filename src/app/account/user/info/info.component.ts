@@ -77,6 +77,7 @@ export class InfoComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  isMobile: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -85,7 +86,12 @@ export class InfoComponent implements OnInit {
     private counterService: CounterService,
     private location: Location,
     private sharedService: SharedService,
-  ) { }
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   ngOnInit(): void {
     this.loading = true;

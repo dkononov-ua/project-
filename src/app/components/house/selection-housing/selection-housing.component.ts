@@ -78,16 +78,16 @@ export class SelectionHousingComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 1;
     });
-    if (this.allFlats && this.allFlatsTenant && this.allFlats.length > 0 || this.allFlatsTenant > 0) {
-      if (this.page === '0') {
-        this.indexPage = 0;
-      } else {
-        this.indexPage = 1;
-      }
-    } else {
-      this.indexPage = 0;
-      this.router.navigate(['/house/house-control/add-house']);
-    }
+    // if (this.allFlats && this.allFlats.length > 0 || this.allFlatsTenant && this.allFlatsTenant > 0) {
+    //   if (this.page === '0') {
+    //     this.indexPage = 0;
+    //   } else {
+    //     this.indexPage = 1;
+    //   }
+    // } else {
+    //   this.indexPage = 0;
+    //   this.router.navigate(['/house/house-control/add-house']);
+    // }
   }
 
   // відправляю event початок свайпу
@@ -149,7 +149,7 @@ export class SelectionHousingComponent implements OnInit {
             return { flat_id: value.flat_id, flat_name: value.flat_name, flat_img: infFlat.imgs[0].img }
           }))
           this.allFlats = allFlatsInfo;
-          // localStorage.setItem('allFlats', JSON.stringify(this.allFlats));
+          localStorage.setItem('allFlats', JSON.stringify(this.allFlats));
         } else {
           this.allFlats = [];
         }
@@ -178,7 +178,7 @@ export class SelectionHousingComponent implements OnInit {
           this.allFlatsTenant = allFlatsTenant;
           this.chooseFlatID = this.chooseFlatID;
           // console.log(this.allFlatsTenant)
-          // localStorage.setItem('allFlatsTenant', JSON.stringify(this.allFlatsTenant));
+          localStorage.setItem('allFlatsTenant', JSON.stringify(this.allFlatsTenant));
         } else {
           this.allFlatsTenant = [];
         }

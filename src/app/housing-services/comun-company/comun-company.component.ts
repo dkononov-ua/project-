@@ -97,6 +97,7 @@ export class ComunCompanyComponent implements OnInit {
   openHelp() {
     this.help = !this.help;
   }
+  isMobile: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -107,6 +108,10 @@ export class ComunCompanyComponent implements OnInit {
     private changeYearService: ChangeYearService,
     private sharedService: SharedService,
   ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
   }
 
   ngOnInit(): void {

@@ -8,22 +8,79 @@
       <div class="card-animation" [@swichCard] *ngIf="indexPage === 0">
         <div class="card-content">
 
-          <div class="status-container">
+          <button class="status-container">
             <div class="status-box m-2">
               <i class="fa-solid fa-person-circle-check accent" *ngIf="userInfo.checked === 1"></i>
               <i class="fa-solid fa-person-circle-exclamation gray" *ngIf="userInfo.checked === 0"></i>
+              <div class="status-value" *ngIf="userInfo.agree_search === 1 && isMobile">Активне</div>
+              <div class="status-value" *ngIf="!userInfo.agree_search || userInfo.agree_search === 0">Не активне</div>
+              <div class="status-value" *ngIf="userInfo.house === 1 && userInfo.agree_search === 1 && isMobile">Б</div>
+              <div class="status-value" *ngIf="userInfo.flat === 1 && userInfo.agree_search === 1 && isMobile">Кв</div>
+              <div class="status-value" *ngIf="userInfo.room === 1 && userInfo.agree_search === 1 && isMobile">К</div>
+              <div class="status-value" *ngIf="userInfo.woman === 1 && userInfo.agree_search === 1 && isMobile">W</div>
+              <div class="status-value" *ngIf="userInfo.man === 1 && userInfo.agree_search === 1 && isMobile">M</div>
+              <div class="status-value" *ngIf="userInfo.students === 1 && userInfo.agree_search === 1 && isMobile">S
+              </div>
+              <div class="status-value" *ngIf="userInfo.family === 1 && userInfo.agree_search === 1 && isMobile">F</div>
             </div>
             <div class="status-hover">
               <div class="status-hover-label">Допомога</div>
               <div class="status-hover-text t-c">
-                <div class="t-med bold" *ngIf="userInfo.checked === 1">Ваш аккаунт перевірений Адміністрацією</div>
-                <div class="t-min" *ngIf="userInfo.checked === 0">Не перевірено адміністрацією. Для того щоб ваш аккаунт
-                  був підтверджений надайте
-                  посилання на ваші соціальні мережі та очікуйте підтвердження. Перші 1000 аккаунтів отримають галочку
-                  безкоштовно!</div>
+
+                <ul>
+                  <li *ngIf="userInfo.checked === 1" class="status-hover-li">
+                    <i class="fa-solid fa-person-circle-check accent"></i> - Ваш аккаунт
+                    перевірений Адміністрацією
+                  </li>
+                  <li *ngIf="userInfo.checked === 0" class="status-hover-li">
+                    <div class="status-value"><i class="fa-solid fa-person-circle-exclamation"></i></div> - Не
+                    перевірено адміністрацією. Для того щоб ваш аккаунт
+                    був підтверджений надайте посилання на ваші соціальні мережі та очікуйте підтвердження. Перші 1000
+                    аккаунтів отримають галочку
+                    безкоштовно!
+                  </li>
+                  <li *ngIf="userInfo.agree_search !== 1" class="status-hover-li">
+                    <div class="status-value"><i class="fa-solid fa-person-hiking"></i></div> - Профіль орендаря
+                    не активовано
+                    <button class="btn bg-accent m-2" [routerLinkActive]="'active'"
+                      [routerLink]="'/looking'">Налаштувати</button>
+                  </li>
+                </ul>
+
+                <div *ngIf="userInfo.agree_search === 1">
+                  <ul
+                    *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
+                    Пошук оселі для:
+                    <li *ngIf="userInfo.woman === 1" class="status-hover-li">
+                      <div class="status-value">W</div> - жінки
+                    </li>
+                    <li *ngIf="userInfo.man === 1" class="status-hover-li">
+                      <div class="status-value">M</div> - чоловіка
+                    </li>
+                    <li *ngIf="userInfo.students === 1" class="status-hover-li">
+                      <div class="status-value">S</div> - студента
+                    </li>
+                    <li *ngIf="userInfo.family === 1" class="status-hover-li">
+                      <div class="status-value">F</div> - сім'ї
+                    </li>
+                  </ul>
+
+                  <ul *ngIf="userInfo.house === 1 || userInfo.flat === 1 || userInfo.room === 1">
+                    Пошук по типу оселі:
+                    <li *ngIf="userInfo.house === 1" class="status-hover-li">
+                      <div class="status-value">Б</div> - Будинок
+                    </li>
+                    <li *ngIf="userInfo.flat === 1" class="status-hover-li">
+                      <div class="status-value">Кв</div> - Квартира
+                    </li>
+                    <li *ngIf="userInfo.room === 1" class="status-hover-li">
+                      <div class="status-value">К</div> - Підійде кімната
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
+          </button>
 
           <div class="copyMessage-box" *ngIf="isCopiedMessage">
             <div class="copyMessage-text">{{isCopiedMessage}}</div>

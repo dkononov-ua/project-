@@ -353,7 +353,7 @@ export class InformationUserComponent implements OnInit {
           setTimeout(() => {
             this.sharedService.setStatusMessage('');
             this.loading = false;
-            this.router.navigate(['/user']);
+            this.router.navigate(['/looking']);
           }, 2000);
         } else {
           this.sharedService.setStatusMessage('Помилка збереження');

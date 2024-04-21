@@ -43,6 +43,7 @@ interface FlatInfo {
     animations.right2,
     animations.right4,
     animations.top1,
+    animations.bot,
     animations.swichCard,
     trigger('cardSwipe', [
       transition('void => *', [
@@ -62,6 +63,21 @@ interface FlatInfo {
 })
 
 export class ComunHistoryComponent implements OnInit {
+
+  month1: boolean = true;
+  month2: boolean = false;
+
+
+  coment: boolean = false;
+  allInfoComunal: any;
+  toogleComent() {
+    this.coment = !this.coment
+  }
+
+  deleteComunImg() {
+    throw new Error('Method not implemented.');
+  }
+
   path_logo = path_logo;
   serverPath = serverPath;
   serverPathPhotoUser = serverPathPhotoUser;
@@ -166,6 +182,10 @@ export class ComunHistoryComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  isMobile: boolean = false;
+
+  isLoadingImg: boolean = false;
+  reloadImg: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -178,18 +198,38 @@ export class ComunHistoryComponent implements OnInit {
     private _cd: ChangeDetectorRef,
     private location: Location,
     private sharedService: SharedService,
-  ) { }
-
-  async ngOnInit(): Promise<void> {
-    await this.getCurrentIndex();
-    this.getInfoFlat();
-    this.getSelectParam();
-    this.loading = false;
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+    });
+    this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
+      this.selectedYear = selectedYear || this.selectedYear;
+      this.selectComunInfo();
+    });
+    this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
+      this.selectedMonth = selectedMonth || this.selectedMonth;
+      if (this.selectedFlatId && this.selectedYear && this.selectedMonth && this.selectedComun !== 'undefined' && this.selectedComun) {
+        this.selectMonthInfo();
+      }
+    });
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId || this.selectedFlatId;
+    });
+    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+      this.selectedComun = selectedComun || this.selectedComun;
+      this.selectComunInfo();
+      this.getDefaultData();
+    });
     localStorage.removeItem('copiedData');
     const copiedData = localStorage.getItem('copiedData');
     if (copiedData) {
       this.copiedData = true;
     }
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.getInfoFlat();
+    this.loading = false;
   }
 
   // відправляю event початок свайпу
@@ -217,7 +257,7 @@ export class ComunHistoryComponent implements OnInit {
       setTimeout(() => {
         this.card1 = !this.card1;
         this.card2 = !this.card2;
-        this.nextMonth();
+        // this.nextMonth();
         this.cardSwipeState = 'endLeft';
         setTimeout(() => {
           this.cardDirection = '';
@@ -229,7 +269,7 @@ export class ComunHistoryComponent implements OnInit {
       setTimeout(() => {
         this.card1 = !this.card1;
         this.card2 = !this.card2;
-        this.prevMonth();
+        // this.prevMonth();
         this.cardSwipeState = 'endRight';
         setTimeout(() => {
           this.cardDirection = '';
@@ -238,48 +278,11 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-
-  async getCurrentIndex() {
-    this.selectedMonthID = this.months.find(month => month.name === this.selectedMonth) || { id: 0, name: '' };
-    this.currentIndex = this.selectedMonthID.id;
-  }
-
   getDefaultData() {
     const selectedService = this.comunalServices.find(service => service.name === this.selectedComun);
     this.selectedUnit = selectedService?.unit ?? this.defaultUnit;
     const selectedServicePhoto = this.comunalServicesPhoto.find(service => service.name === this.selectedComun);
     this.selectedImageUrl = selectedServicePhoto?.imageUrl ?? this.defaultImageUrl;
-  }
-
-  getComunalImg(): void {
-    const selectedService = this.comunalServicesPhoto.find(service => service.name === this.selectedComun);
-    this.selectedImageUrl = selectedService?.imageUrl || this.defaultImageUrl;
-  }
-
-  getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-    });
-
-    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
-      this.selectedComun = selectedComun || this.selectedComun;
-      this.selectComunInfo();
-      this.getDefaultData();
-    });
-
-    this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
-      this.selectedYear = selectedYear || this.selectedYear;
-      this.getComunalYearInfo();
-    });
-
-    this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
-      this.selectedMonth = selectedMonth || this.selectedMonth;
-      if (this.selectedFlatId && this.selectedYear && this.selectedMonth && this.selectedComun !== 'undefined' && this.selectedComun) {
-        this.selectMonthInfo();
-        this.getDefaultData();
-        this.getInfoFlat();
-      }
-    });
   }
 
   async getComunalYearInfo(): Promise<any> {
@@ -304,9 +307,26 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
+  // Додаю айді до місяця та сотрую їх по порядку
+  async sortMonth(): Promise<void> {
+    // Додавання ID місяця до allInfoComunal
+    for (let i = 0; i < this.allInfoComunal.length; i++) {
+      const item = this.allInfoComunal[i];
+      const month = this.months.find(m => m.name === item.when_pay_m);
+      if (month) {
+        item.month_id = month.id + 1; // Додаємо 1 до айді місяця
+      }
+    }
+    // Сортування за айді місяця
+    this.allInfoComunal.sort((a: { month_id: number; }, b: { month_id: number; }) => a.month_id - b.month_id);
+  }
+
   async selectComunInfo(): Promise<void> {
     await this.getComunalYearInfo()
     const com_inf = JSON.parse(localStorage.getItem('comunal_inf')!);
+    this.allInfoComunal = com_inf;
+    // Додаю айді до місяця та сотрую їх по порядку
+    await this.sortMonth();
     this.selectMonthInfo();
     if (com_inf && this.selectedComun && this.selectedComun !== 'undefined' && this.selectedYear && this.selectedMonth && com_inf.comunal === undefined) {
       const selectedInfo = com_inf.find((selectMonth: any) => {
@@ -393,7 +413,7 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-  getInfoFlat() {
+  async getInfoFlat(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const houseData = localStorage.getItem('houseData');
@@ -428,7 +448,7 @@ export class ComunHistoryComponent implements OnInit {
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
               this.selectComunInfo();
-            }, 2500);
+            }, 1500);
           }, 200);
         } else if (response.status === false) {
           setTimeout(() => {
@@ -516,7 +536,7 @@ export class ComunHistoryComponent implements OnInit {
       this.copiedData = true;
       setTimeout(() => {
         this.sharedService.setStatusMessage('');
-      }, 2500);
+      }, 1000);
     })
   }
 
@@ -528,12 +548,12 @@ export class ComunHistoryComponent implements OnInit {
       this.flatInfo = { ...parsedData };
       setTimeout(() => {
         this.sharedService.setStatusMessage('');
-      }, 2500);
+      }, 1000);
     } else {
       this.sharedService.setStatusMessage('Помилка');
       setTimeout(() => {
         this.sharedService.setStatusMessage('');
-      }, 1500);
+      }, 1000);
     }
   }
 
@@ -629,39 +649,10 @@ export class ComunHistoryComponent implements OnInit {
     }
   }
 
-  nextMonth() {
-    this.selectedMonthID = this.months.find(month => month.name === this.selectedMonth) || { id: 0, name: '' };
-    this.currentIndex = this.selectedMonthID.id;
-    if (this.currentIndex < 11) {
-      this.clearInfo();
-      const previousMonth = this.months[this.currentIndex + 1].name;
-      this.changeMonthService.setSelectedMonth(previousMonth);
-      this.selectComunInfo();
-      this.getDefaultData();
-    } else if (this.currentIndex === 11) {
-      this.clearInfo();
-      this.currentIndex = 0;
-      this.changeMonthService.setSelectedMonth('Січень');
-      const yearChange = Number(this.selectedYear) + 1;
-      this.changeYearService.setSelectedYear((yearChange).toString());
-    }
-  }
-
-  prevMonth(): void {
-    this.selectedMonthID = this.months.find(month => month.name === this.selectedMonth) || { id: 0, name: '' };
-    this.currentIndex = this.selectedMonthID.id;
-    if (this.currentIndex > 0) {
-      this.clearInfo();
-      const previousMonth = this.months[this.currentIndex - 1].name;
-      this.changeMonthService.setSelectedMonth(previousMonth);
-      this.selectComunInfo();
-      this.getDefaultData();
-    } else if (this.currentIndex === 0) {
-      this.clearInfo();
-      this.currentIndex = 11;
-      this.changeMonthService.setSelectedMonth('Грудень');
-      const yearChange = Number(this.selectedYear) - 1;
-      this.changeYearService.setSelectedYear((yearChange).toString());
+  pickMonth(month: string, year: string) {
+    this.changeYearService.setSelectedYear((year).toString());
+    if (year) {
+      this.changeMonthService.setSelectedMonth(month);
     }
   }
 }

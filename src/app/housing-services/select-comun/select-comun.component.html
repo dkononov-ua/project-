@@ -1,5 +1,5 @@
 <div *ngIf="checkComun">
-  <mat-form-field class="list-form" appearance="fill">
+  <mat-form-field class="list-form" appearance="outline">
     <mat-select class="list-select" name="selectedComun" [(ngModel)]="selectedComun"
       (selectionChange)="onSelectionChangeComun()">
       <mat-option class="list-option" *ngFor="let name of comunal_name"

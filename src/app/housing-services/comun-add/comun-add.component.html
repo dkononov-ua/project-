@@ -1,29 +1,39 @@
-<div [@top1] class="card-wrapper">
+<div [@top1] class="card-wrapper w-100">
   <div class="card-content-static p-2 w-100">
-    <div class="flex-column">
+    <div class="flex-column w-100">
       <div *ngIf="selectedName" class="flex-column p-2">
         <div class="text-min t-c gray">Вам надано доступ на перегляд статистики по оселі <span
             class="accent t-lar">{{selectedName}}</span></div>
       </div>
-      <div class="flex-box" *ngFor="let comunal of comunal_name; let i = index">
-        <div class="card-mini" [class.selected]="selectedComun === comunal.comunal_name">
+      <div class="card-mini-box">
+        <div class="card-mini" [class.selected]="selectedComun === comunal.comunal_name"
+          *ngFor="let comunal of comunal_name; let i = index">
 
           <div class="card-mini-body  p-2">
-            <button class="item-box t-s" (click)="selectComun(comunal.comunal_name)">
+            <button class="item-box t-s w-50" (click)="selectComun(comunal.comunal_name)">
               <div class="t-med bold" *ngIf="selectedComun === comunal.comunal_name">Обрана послуга</div>
-              <div class="t-lar-xx bold">{{ comunal.comunal_name}}</div>
-              <div class="t-med bold" *ngIf="comunal.comunal_company">{{ comunal.comunal_company}} </div>
+              <div class="t-lar bold">{{ comunal.comunal_name}}</div>
+              <div class="t-med" *ngIf="comunal.comunal_company">{{ comunal.comunal_company}} </div>
             </button>
 
-            <div class="btn-group-comun w-20">
-              <button class="btn-delete flex-box" (click)="deleteComun(comunal.comunal_name)" *ngIf="!selectedName">
-                <i class="fa-solid fa-xmark"></i></button>
-
-              <button class="btn-delete flex-box" (click)="goToSetting(comunal.comunal_name)" *ngIf="!selectedName">
-                <i class="fa-solid fa-gear"></i></button>
+            <div class="btn-group-comun w-50">
 
               <button class="btn-delete flex-box" (click)="goToStatSeason(comunal.comunal_name)">
-                <i class="fa-solid fa-chart-column"></i></button>
+                <i class="fa-solid fa-chart-column"></i>
+              </button>
+
+              <button class="btn-delete flex-box" (click)="goToHistory(comunal.comunal_name)" *ngIf="!selectedName">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+
+              <button class="btn-delete flex-box" (click)="deleteComun(comunal.comunal_name)" *ngIf="!selectedName">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+
+              <button class="btn-delete flex-box" (click)="goToSetting(comunal.comunal_name)" *ngIf="!selectedName">
+                <i class="fa-solid fa-gear"></i>
+              </button>
+
             </div>
 
           </div>

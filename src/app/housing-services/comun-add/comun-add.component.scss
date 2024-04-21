@@ -29,19 +29,31 @@
   transition: transform 0.5s;
 }
 
+.card-mini-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .card-mini {
   @include flex-box-center;
   margin-bottom: 10px;
   background-color: $color-white;
   position: relative;
   width: 100%;
-  height: 150px;
+  height: 140px;
   overflow: hidden;
   transition: all 0.5s ease;
   border-radius: 20px;
   border: none;
+
   box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.792);
   transition: 1s;
+  @include s3-s6-max {
+    min-width: 350px;
+    max-width: 46%;
+    margin: 10px;
+  }
   .card-mini-body {
     @include flex-box-center;
     z-index: 105;
@@ -72,13 +84,14 @@
   }
   &.selected {
     transition: 1s;
-    color: $color-white;
+    // color: $color-white;
     font-weight: 600;
     .card-mini-body {
-      background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, $color-accent 100%) !important;
-      .item-box {
-        color: $color-white;
-      }
+      background-color: $color-accent;
+      // background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, $color-accent 100%) !important;
+      // .item-box {
+      //   color: $color-white;
+      // }
     }
   }
 }
@@ -91,21 +104,21 @@
 
 .btn-group-comun {
   display: flex;
-  align-items: flex-end;
   height: 100%;
-  justify-content: space-around;
   flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: flex-end;
 }
 
 .btn-delete {
-  margin-left: 5px;
-  background-color: transparent;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   padding: 5px;
   z-index: 20;
   border: none;
+  margin: 5px;
   background-color: rgba(255, 255, 255, 0.37);
 
   .fa-solid {
