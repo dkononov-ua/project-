@@ -78,6 +78,7 @@ export class SelectionHousingComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 1;
     });
+    this.loading = false;
     // if (this.allFlats && this.allFlats.length > 0 || this.allFlatsTenant && this.allFlatsTenant > 0) {
     //   if (this.page === '0') {
     //     this.indexPage = 0;
@@ -142,7 +143,6 @@ export class SelectionHousingComponent implements OnInit {
     if (userJson) {
       try {
         const allFlats: any = await this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise() as any[];
-        // console.log(allFlats)
         if (Array.isArray(allFlats.ids) && allFlats.ids) {
           let allFlatsInfo = await Promise.all(allFlats.ids.map(async (value: any) => {
             let infFlat: any = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
@@ -151,8 +151,9 @@ export class SelectionHousingComponent implements OnInit {
           this.allFlats = allFlatsInfo;
           localStorage.setItem('allFlats', JSON.stringify(this.allFlats));
         } else {
-          this.allFlats = [];
+          this.allFlats = undefined;
         }
+        // console.log(this.allFlats)
         if (Array.isArray(allFlats.citizen_ids) && allFlats.citizen_ids) {
           let allFlatsTenant = await Promise.all(allFlats.citizen_ids.map(async (value: any) => {
             let infFlat: any = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
@@ -177,11 +178,11 @@ export class SelectionHousingComponent implements OnInit {
           }))
           this.allFlatsTenant = allFlatsTenant;
           this.chooseFlatID = this.chooseFlatID;
-          // console.log(this.allFlatsTenant)
           localStorage.setItem('allFlatsTenant', JSON.stringify(this.allFlatsTenant));
         } else {
-          this.allFlatsTenant = [];
+          this.allFlatsTenant = undefined;
         }
+        // console.log(this.allFlatsTenant)
       } catch (error) {
         console.error(error);
       }
@@ -190,42 +191,48 @@ export class SelectionHousingComponent implements OnInit {
 
   // обираємо іншу оселю
   selectFlat(flat: any): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson && flat) {
-      localStorage.removeItem('selectedComun');
-      localStorage.removeItem('selectedHouse');
-      localStorage.removeItem('selectedFlatId');
-      localStorage.removeItem('selectedFlatName');
-      localStorage.removeItem('houseData');
-      this.loading = true;
-      this.statusMessage = 'Обираємо ' + flat.flat_name;
-      setTimeout(() => {
-        this.statusMessage = 'Оновлюємо дані';
-        this.selectedFlatService.setSelectedFlatId(flat.flat_id);
-        this.selectedFlatService.setSelectedFlatName(flat.flat_name);
-        this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
-        this.dataService.getInfoFlat().subscribe((response: any) => {
-          if (response) {
-            setTimeout(() => {
-              this.statusMessage = 'Оновлено';
-              localStorage.setItem('houseData', JSON.stringify(response));
-              this.selectedFlatName = flat.flat_name;
-              this.selectedFlatId = flat.flat_id;
-              this.houseData = localStorage.getItem('houseData');
-              if (this.houseData) {
-                setTimeout(() => {
-                  this.router.navigate(['/house/house-info']);
-                }, 1500);
-              }
-            }, 1500);
-          } else {
-            location.reload();
-          }
-        })
-      }, 1500);
+    const houseData = localStorage.getItem('houseData');
+    if (houseData && this.chooseFlatID === flat.flat_id) {
+      this.router.navigate(['/house/house-info']);
     } else {
-      console.log('Авторизуйтесь')
+      const userJson = localStorage.getItem('user');
+      if (userJson && flat) {
+        localStorage.removeItem('selectedComun');
+        localStorage.removeItem('selectedHouse');
+        localStorage.removeItem('selectedFlatId');
+        localStorage.removeItem('selectedFlatName');
+        localStorage.removeItem('houseData');
+        this.loading = true;
+        this.statusMessage = 'Обираємо ' + flat.flat_name;
+        setTimeout(() => {
+          this.statusMessage = 'Оновлюємо дані';
+          this.selectedFlatService.setSelectedFlatId(flat.flat_id);
+          this.selectedFlatService.setSelectedFlatName(flat.flat_name);
+          this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
+          this.dataService.getInfoFlat().subscribe((response: any) => {
+            if (response) {
+              setTimeout(() => {
+                this.statusMessage = 'Оновлено';
+                localStorage.setItem('houseData', JSON.stringify(response));
+                this.selectedFlatName = flat.flat_name;
+                this.selectedFlatId = flat.flat_id;
+                this.houseData = localStorage.getItem('houseData');
+                if (this.houseData) {
+                  setTimeout(() => {
+                    this.router.navigate(['/house/house-info']);
+                  }, 1500);
+                }
+              }, 1500);
+            } else {
+              location.reload();
+            }
+          })
+        }, 1500);
+      } else {
+        console.log('Авторизуйтесь')
+      }
     }
+
     this.chooseFlatID = flat.flat_id;
   }
 

@@ -10,6 +10,7 @@ import { purpose, aboutDistance, option_pay, animals, options, checkBox } from '
 import { PaginationConfig } from 'src/app/config/paginator';
 import { GestureService } from 'src/app/services/gesture.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-house',
@@ -81,12 +82,14 @@ export class HouseComponent implements OnInit {
   startX = 0;
   photoViewing: boolean = false;
   isLoadingImg: boolean = false;
+  authorization: boolean = true;
 
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
     private sharedService: SharedService,
-  ) {  }
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.getSearchInfo();
@@ -191,20 +194,20 @@ export class HouseComponent implements OnInit {
   }
 
   async getSearchInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.filterService.filterChange$.subscribe(async () => {
-        const filterValue = this.filterService.getFilterValue();
-        const optionsFound = this.filterService.getOptionsFound();
-        if (filterValue && optionsFound && optionsFound !== 0) {
-          this.getFilteredData(filterValue, optionsFound);
-        } else {
-          this.getFilteredData(undefined, 0);
-        }
-      })
-    } else {
-      console.log('Авторизуйтесь')
-    }
+    // const userJson = localStorage.getItem('user');
+    // if (userJson) {
+    this.filterService.filterChange$.subscribe(async () => {
+      const filterValue = this.filterService.getFilterValue();
+      const optionsFound = this.filterService.getOptionsFound();
+      if (filterValue && optionsFound && optionsFound !== 0) {
+        this.getFilteredData(filterValue, optionsFound);
+      } else {
+        this.getFilteredData(undefined, 0);
+      }
+    })
+    // } else {
+    //   console.log('Авторизуйтесь')
+    // }
   }
 
   getFilteredData(filterValue: any, optionsFound: number) {
@@ -244,16 +247,24 @@ export class HouseComponent implements OnInit {
   }
 
   prevPhoto() {
-    const length = this.selectedFlat.img?.length || 0;
-    if (this.currentPhotoIndex !== 0) {
-      this.currentPhotoIndex--;
+    if (!this.authorization) {
+      this.sharedService.getAuthorization();
+    } else {
+      const length = this.selectedFlat.img?.length || 0;
+      if (this.currentPhotoIndex !== 0) {
+        this.currentPhotoIndex--;
+      }
     }
   }
 
   nextPhoto() {
-    const length = this.selectedFlat.img?.length || 0;
-    if (this.currentPhotoIndex < length) {
-      this.currentPhotoIndex++;
+    if (!this.authorization) {
+      this.sharedService.getAuthorization();
+    } else {
+      const length = this.selectedFlat.img?.length || 0;
+      if (this.currentPhotoIndex < length) {
+        this.currentPhotoIndex++;
+      }
     }
   }
 
@@ -302,20 +313,27 @@ export class HouseComponent implements OnInit {
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
       }
     } else {
       console.log('Авторизуйтесь');
     }
   }
 
-  openMap() { window.open(this.locationLink, '_blank'); }
+  openMap() {
+    if (!this.authorization) {
+      this.sharedService.getAuthorization();
+    } else {
+      window.open(this.locationLink, '_blank');
+    }
+  }
 
   // Перевіряю підписку
   async checkSubscribe(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlat.flat_id) {
+      this.authorization = true;
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
       try {
         const response: any = await this.http.post(serverPath + '/subs/checkSubscribe', data).toPromise();
@@ -329,31 +347,36 @@ export class HouseComponent implements OnInit {
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
       }
     } else {
+      this.authorization = false;
       console.log('Авторизуйтесь');
     }
   }
 
   // скарга на оселю
   async reportHouse(flat: any): Promise<void> {
-    this.sharedService.reportHouse(flat);
-    this.sharedService.getReportResultSubject().subscribe(result => {
-      // Обробка результату в компоненті
-      if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      } else {
-        this.statusMessage = 'Помилка';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      }
-    });
+    if (!this.authorization) {
+      this.sharedService.getAuthorization();
+    } else {
+      this.sharedService.reportHouse(flat);
+      this.sharedService.getReportResultSubject().subscribe(result => {
+        // Обробка результату в компоненті
+        if (result.status === true) {
+          this.sharedService.setStatusMessage('Скаргу надіслано');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('');
+          }, 2000);
+        } else {
+          this.sharedService.setStatusMessage('Помилка');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('');
+          }, 2000);
+        }
+      });
+    }
   }
 
   // отримую рейтинг власника оселі
@@ -378,5 +401,10 @@ export class HouseComponent implements OnInit {
       this.numberOfReviews = 0;
     }
   }
+
+  getLogin() {
+    this.sharedService.getAuthorization();
+  }
+
 }
 

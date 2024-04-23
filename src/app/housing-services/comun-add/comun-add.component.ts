@@ -264,6 +264,7 @@ export class ComunAddComponent implements OnInit {
   async goToHistory(comunal_name: string): Promise<void> {
     this.sharedService.setStatusMessage('Внесення даних ' + comunal_name);
     this.changeComunService.setSelectedComun(comunal_name);
+    // console.log(comunal_name)
     if (comunal_name) {
       setTimeout(() => {
         this.router.navigate(['/communal/history']);

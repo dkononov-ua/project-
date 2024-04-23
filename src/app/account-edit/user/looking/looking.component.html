@@ -62,15 +62,15 @@
 
     <div class="switch-container">
       <div class="switch-btn-group">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
+        <button class="btn" (click)="goBack()">
           <i class="fa-solid fa-arrow-left"></i>
           <div class="t-min white">Назад</div>
         </button>
       </div>
 
       <div class="menu-box hide-mobile">
-        <div class="menu-lable">Пошуковий</div>
-        <div class="menu-name">Профіль Орендаря</div>
+        <div class="menu-lable">Орендаря</div>
+        <div class="menu-name">Профіль</div>
       </div>
 
       <div class="switch-btn-group" *ngIf="isMobile">
@@ -224,9 +224,9 @@
             </div>
           </div>
 
-          <div [@swichCard] *ngIf="indexPage === 1" class="card-animation w-100">
+          <div [@swichCard] *ngIf="indexPage === 1" class="card-animation bg-none w-100">
             <div class="card-content-static w-100 p-2">
-              <div [@right] class="t-lar t-c ">
+              <div [@right] class="t-lar t-c p-2">
                 <p class="bold">Шлях по кроках. <br> Як активувати профіль орендаря.</p>
                 <div class="t-min gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено
                   в
@@ -262,7 +262,7 @@
                 </button>
               </div>
 
-              <div [@right2] class="item-box">
+              <div [@right2] class="item-box mb-2">
                 <div class="item-d w-70">
                   <div class="t-med gray bold">Крок 3</div>
                   <div class="t-min t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
@@ -283,6 +283,12 @@
                 </button>
               </div>
 
+              <div class="btn-group w-100">
+                <button class="btn" (click)="indexPage = 2">
+                  <div class="t-med dark bold p-2">Почати!</div>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
             </div>
           </div>
 

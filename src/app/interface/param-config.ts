@@ -83,6 +83,7 @@ export const UsereSearchConfig = {
   tell: undefined,
   dob: undefined,
   checked: 0,
+  date: undefined,
 }
 
 export const HouseConfig = {

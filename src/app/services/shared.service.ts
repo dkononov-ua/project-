@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class SharedService {
     private selectedFlatService: SelectedFlatService,
     private location: Location,
     private breakpointObserver: BreakpointObserver,
-
+    private router: Router,
   ) {
     const storedCheckOwner = localStorage.getItem('checkOwnerPage');
     if (storedCheckOwner) {
@@ -144,5 +145,22 @@ export class SharedService {
   goBack(): void {
     this.location.back();
   }
+
+  getAuthorization() {
+    this.setStatusMessage('Для цього потрібно бути авторизованим');
+    setTimeout(() => {
+      this.router.navigate(['/house/house-info']);
+      this.setStatusMessage('');
+    }, 3000);
+  }
+
+  getAuthorizationHouse() {
+    this.setStatusMessage('Для цього потрібно створити або обрати оселю');
+    setTimeout(() => {
+      this.router.navigate(['/house/house-control/add-house']);
+      this.setStatusMessage('');
+    }, 3000);
+  }
+
 
 }

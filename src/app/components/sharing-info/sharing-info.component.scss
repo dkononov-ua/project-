@@ -1,0 +1,31 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.text {
+  font-family: $font-main;
+}
+
+button {
+  font-family: $font-main;
+}
+
+mat-dialog-title {
+  font-family: $font-main;
+}
+
+.user-box {
+  @include flex-box-center;
+  flex-direction: column;
+  .flex-box {
+    @include flex-box-center;
+    padding: 10px;
+    border-radius: 10px;
+    .img-fluid {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      object-fit: cover;
+    }
+  }
+}

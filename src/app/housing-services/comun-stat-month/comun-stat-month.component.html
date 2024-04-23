@@ -127,30 +127,39 @@
     </div>
   </section>
   <div class="sticky-bottom p-2" *ngIf="!noInformationMessage">
-    <div [@left1] class="jc-fe flex-box border-bottom">
-      Заг. нарах.
-      <i class="fa-solid fa-cash-register p-2"></i>
-      <span class="t-lar-xx bold">{{ totalNeedPay?.toFixed(2) }}</span> ₴
+
+    <div class="flex-column">
+      <div [@left1] class="jc-fe flex-box border-bottom">
+        Заг. нарах.
+        <i class="fa-solid fa-cash-register p-2"></i>
+        <span class="t-lar-xx bold">{{ totalNeedPay?.toFixed(2) }}</span> ₴
+      </div>
+
+      <div [@left2] class="jc-fe flex-box border-bottom">
+        Заг. сплач.
+        <i class="fa-solid fa-check-to-slot p-2"></i>
+        <span class="t-lar-xx bold"> {{ totalPaid?.toFixed(2) }}</span> ₴
+      </div>
+
+      <div [@left3] class="jc-fe flex-box border-bottom"
+        [ngClass]="{ 'accent': overpaymentText === 'Борг', 'green': overpaymentText === 'Переплата'}"
+        *ngIf="totalPaid && totalNeedPay">
+        <i class="fa-solid fa-cash-register p-2"></i>
+        <i class="fa-solid fa-minus p-2"></i>
+        <i class="fa-solid fa-check-to-slot p-2"></i>
+        <i class="fa-solid fa-equals p-2"></i>
+        <span class="t-lar-xx bold">{{ difference }}</span> ₴
+      </div>
+
+      <div [@left4] class="jc-fe flex-box border-bottom" *ngIf="totalPaid && totalNeedPay">
+        В цьому місяці {{overpaymentText}}
+      </div>
     </div>
 
-    <div [@left2] class="jc-fe flex-box border-bottom">
-      Заг. сплач.
-      <i class="fa-solid fa-check-to-slot p-2"></i>
-      <span class="t-lar-xx bold"> {{ totalPaid?.toFixed(2) }}</span> ₴
-    </div>
-
-    <div [@left3] class="jc-fe flex-box border-bottom"
-      [ngClass]="{ 'accent': overpaymentText === 'Борг', 'green': overpaymentText === 'Переплата'}"
-      *ngIf="totalPaid && totalNeedPay">
-      <i class="fa-solid fa-cash-register p-2"></i>
-      <i class="fa-solid fa-minus p-2"></i>
-      <i class="fa-solid fa-check-to-slot p-2"></i>
-      <i class="fa-solid fa-equals p-2"></i>
-      <span class="t-lar-xx bold">{{ difference }}</span> ₴
-    </div>
-
-    <div [@left4] class="jc-fe flex-box border-bottom" *ngIf="totalPaid && totalNeedPay">
-      В цьому місяці {{overpaymentText}}
+    <div [@left4] class="m-2">
+      <button class="btn" mat-raised-button (click)="openDialog(residents)">
+        <div>Поділитись <i class="fa-solid fa-up-right-from-square"></i></div>
+      </button>
     </div>
 
   </div>

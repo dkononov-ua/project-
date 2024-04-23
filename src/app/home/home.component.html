@@ -22,10 +22,17 @@
       </button>
     </div>
 
-    <div class="switch-btn-group">
+    <!-- <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" (click)="goToHouse()">
         <i class="fa-solid fa-house"></i>
         <div class="t-min">Профіль Оселі</div>
+      </button>
+    </div> -->
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLink]="'/discussio-search'">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min">Пошук Discussio</div>
       </button>
     </div>
 

@@ -8,6 +8,13 @@ import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-co
 import { serverPath } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { SendMessageService } from 'src/app/chat/send-message.service';
+import { Subscriber } from 'src/app/interface/info';
+import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { SharingInfoComponent } from 'src/app/components/sharing-info/sharing-info.component';
+
 @Component({
   selector: 'app-comun-stat-month',
   templateUrl: './comun-stat-month.component.html',
@@ -25,8 +32,13 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 export class ComunStatMonthComponent implements OnInit {
+  messageText: string = '';
+  residents: Subscriber[] = [];
+  selectedSubscriberID: any;
+  selectedSubscriber: Subscriber[] | any;
 
   open_consumed: boolean = false;
+  chatExists: any;
   openConsumed() {
     this.open_consumed = !this.open_consumed;
   }
@@ -51,6 +63,7 @@ export class ComunStatMonthComponent implements OnInit {
   openTable() {
     this.open_table = !this.open_table;
   }
+
 
   months = [
     { id: 0, name: 'Січень' },
@@ -89,6 +102,11 @@ export class ComunStatMonthComponent implements OnInit {
   overpaymentText: any;
   currentIndex: number = 0;
 
+
+  animal!: string;
+  name!: string;
+
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
@@ -97,6 +115,11 @@ export class ComunStatMonthComponent implements OnInit {
     private changeYearService: ChangeYearService,
     private selectedViewComun: ViewComunService,
     private sharedService: SharedService,
+    private sendMessageService: SendMessageService,
+    private choseSubscribersService: ChoseSubscribersService,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog
   ) { this.flatInfo = []; }
 
   ngOnInit(): void {
@@ -108,13 +131,16 @@ export class ComunStatMonthComponent implements OnInit {
       } else {
         console.error('Some are missing.');
       }
-    } else {
-      console.log('Оберіть оселю і комуналку')
+    } else if (!this.selectedFlatId) {
+      this.sharedService.setStatusMessage('Для перегляду статистики треба спочатку обрати оселю');
+      setTimeout(() => {
+        this.router.navigate(['/house/house-control/selection-house']);
+        this.sharedService.setStatusMessage('');
+      }, 2000);
     }
   }
 
   getSelectParam() {
-
     this.selectedViewComun.selectedView$.subscribe((selectedView: string | null) => {
       this.selectedView = selectedView;
       if (this.selectedView) {
@@ -127,6 +153,7 @@ export class ComunStatMonthComponent implements OnInit {
             this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
               this.selectedComun = selectedComun || this.selectedComun;
               this.getInfoComun();
+              this.getResidents(this.selectedFlatId, 0);
             }); this.selectedComun
           } else {
             this.selectedComun = null;
@@ -242,6 +269,136 @@ export class ComunStatMonthComponent implements OnInit {
       this.changeMonthService.setSelectedMonth('Грудень');
       const yearChange = Number(this.selectedYear) - 1;
       this.changeYearService.setSelectedYear((yearChange).toString());
+    }
+  }
+
+  // Отримую мешканців
+  async getResidents(selectedFlatId: string | any, offs: number): Promise<any> {
+    // console.log('getResidents')
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, offs: offs, };
+    try {
+      const response = await this.http.post(serverPath + '/citizen/get/citizen', data).toPromise() as any[];
+      if (response) {
+        this.residents = response;
+        localStorage.setItem('allResidents', JSON.stringify(response));
+      } else {
+        localStorage.removeItem('allResidents');
+      }
+    } catch (error) { console.error(error); }
+  }
+
+  openDialog(residents: any): void {
+    const dialogRef = this.dialog.open(SharingInfoComponent, {
+      data: { residents },
+    });
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result && result.resident.user_id) {
+        this.checkChatExistence(result.resident.user_id);
+      } else {
+
+      }
+    });
+  }
+
+  // Виводимо інформацію з локального сховища про обрану оселю
+  async selectResident(resident: any) {
+    this.choseSubscribersService.setSelectedSubscriber(resident.user_id);
+    if (resident.user_id) {
+      this.checkChatExistence(resident.user_id);
+    }
+  }
+
+  // Перевірка на існування чату
+  async checkChatExistence(resident_id: string): Promise<any> {
+    // console.log('checkChatExistence')
+
+    const userJson = localStorage.getItem('user');
+    if (userJson && resident_id) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: 0 };
+      try {
+        const response = await this.http.post(serverPath + '/chat/get/flatchats', data).toPromise() as any;
+        if (resident_id && Array.isArray(response.status)) {
+          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === resident_id);
+          this.chatExists = chatExists;
+          if (this.chatExists) {
+            this.sendMessage(resident_id)
+          } else {
+            this.createChat(resident_id);
+          }
+        }
+        else {
+          this.createChat(resident_id);
+          // console.log('чат не існує');
+        }
+      } catch (error) { console.error(error); }
+    } else { console.log('Авторизуйтесь'); }
+  }
+
+  // Створюю чат
+  async createChat(resident_id: string): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && resident_id) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: resident_id, };
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        if (response.status === true) {
+          this.sharedService.setStatusMessage('Створюємо чат');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Відправляємо повідомлення');
+            this.sendMessage(resident_id);
+            // this.router.navigate(['/chat']);
+            this.sharedService.setStatusMessage('');
+          }, 2000);
+        } else if (response.status === 'Чат вже існує') {
+          this.sharedService.setStatusMessage('Чат вже існує');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Відправляємо повідомлення');
+            this.sendMessage(resident_id);
+            // this.sharedService.setStatusMessage('Переходимо до чату');
+            // this.choseSubscribersService.setSelectedSubscriber(resident_id);
+            // setTimeout(() => {
+            //   this.sharedService.setStatusMessage('');
+            //   this.router.navigate(['/chat-house'], { queryParams: { user_id: resident_id } });
+            // }, 2000);
+          }, 2000);
+        } else {
+          this.sharedService.setStatusMessage('Немає доступу');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('');
+          }, 2000);
+        }
+      } catch (error) {
+        console.error(error);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+        }, 2000);
+      }
+    } else {
+      console.log('Авторизуйтесь');
+    }
+  }
+
+  sendMessage(resident_id: string): void {
+    // console.log('sendMessage')
+    if (this.selectedFlatId && resident_id) {
+      this.messageText = `#Статистика#${this.selectedMonth}#${this.selectedYear}# Перегляньте будь ласка. Нараховано загалом: ${this.totalNeedPay?.toFixed(2)}₴  Сплачено загалом: ${this.totalPaid?.toFixed(2)}₴`
+      this.sharedService.setStatusMessage('Відправляємо повідомлення');
+      this.sendMessageService.sendMessage(this.messageText, this.selectedFlatId, resident_id)
+        .subscribe(response => {
+          if (response.status === true) {
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Повідомлення відправлено');
+              setTimeout(() => {
+                this.sharedService.setStatusMessage('');
+              }, 1500);
+            }, 1000);
+          }
+        },
+          error => { console.error(error); }
+        );
+      this.messageText = '';
     }
   }
 }

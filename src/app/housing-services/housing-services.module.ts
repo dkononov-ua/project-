@@ -24,7 +24,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SelectComunComponent } from './select-comun/select-comun.component';
 import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.component';
 import { ComunStatSeasonComponent } from './comun-stat-season/comun-stat-season.component';
-import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
 import { ComunAboutComponent } from './comun-about/comun-about.component';
 import { ComunAddComponent } from './comun-add/comun-add.component';
@@ -32,6 +31,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 
 @NgModule({
   declarations: [

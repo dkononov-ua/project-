@@ -9,6 +9,7 @@ import { UagreeConcludedComponent } from './agree-u/uagree-concluded/uagree-conc
 import { UagreeReviewComponent } from './agree-u/uagree-review/uagree-review.component';
 import { UagreeHostComponent } from './agree-u/uagree-host/uagree-host.component';
 import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component';
+import { PreviewInfoComponent } from './preview-info/preview-info.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: InfoComponent, canActivate: [CanActivateGuard] },
+      { path: 'preview', component: PreviewInfoComponent, canActivate: [CanActivateGuard] },
     ],
   },
   {

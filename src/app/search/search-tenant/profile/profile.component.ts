@@ -223,8 +223,6 @@ export class ProfileComponent implements OnInit {
     this.calculateTotalDays()
   }
 
-
-
   private calculateCardIndex(index: number): number {
     const length = this.filteredUsers?.length || 0;
     return (index + length) % length;

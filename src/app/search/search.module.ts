@@ -34,6 +34,7 @@ import { AllCardsComponent } from './search-housing/all-cards/all-cards.componen
 import { SearchTermHouseComponent } from './search-housing/search-term-house/search-term-house.component';
 import { AllCardsTenantsComponent } from './search-tenant/all-cards-tenants/all-cards-tenants.component';
 import { SearchTermTenantsComponent } from './search-tenant/search-term-tenants/search-term-tenants.component';
+import { SearchComponent } from './search/search.component';
 @NgModule({
   declarations: [
     SearchTenantComponent,
@@ -44,6 +45,7 @@ import { SearchTermTenantsComponent } from './search-tenant/search-term-tenants/
     AllCardsTenantsComponent,
     SearchTermTenantsComponent,
     SearchTermHouseComponent,
+    SearchComponent,
   ],
   providers: [
     FilterService,

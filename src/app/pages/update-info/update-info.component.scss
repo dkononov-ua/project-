@@ -23,8 +23,9 @@
   padding: 20px;
   border-radius: 10px;
   .news_link {
+    @include flex-box-center;
     text-transform: capitalize;
-    padding: 3px;
+    padding: 5px;
   }
   .news-list {
     @include flex-box-center;

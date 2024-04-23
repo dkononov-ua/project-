@@ -48,6 +48,13 @@
   text-overflow: ellipsis;
 }
 
+@mixin hover {
+  &:hover {
+    background-color: $color-accent;
+    box-shadow: -3px 3px 20px -10px darken($color-accent, 40%);
+  }
+}
+
 @mixin visually-hidden {
   position: absolute;
   overflow: hidden;

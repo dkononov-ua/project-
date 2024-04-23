@@ -31,6 +31,8 @@ export class TemplateComponent implements OnInit {
 
   ngOnInit() {
     // this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
+    // this.sharedService.setStatusMessage('Дискусія видалена');
+
   }
 
 }

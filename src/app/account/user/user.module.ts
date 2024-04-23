@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UagreeHostComponent } from './agree-u/uagree-host/uagree-host.component';
 import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component';
-
+import { PreviewInfoComponent } from './preview-info/preview-info.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -35,6 +35,7 @@ import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component
     UagreeReviewComponent,
     UagreeHostComponent,
     UagreeStepComponent,
+    PreviewInfoComponent,
   ],
   providers: [
     DatePipe

@@ -35,7 +35,11 @@
                   </div>
                 </div>
                 <div class="message-content-user">
-                  <div class="message-text-user">{{ message.message }}</div>
+                  <div class="message-text-user">{{ message.message }} <br>
+                    <button *ngIf="message.message && isStatisticsMessage(message.message)" class="btn w-100"
+                      (click)="openStat(message.message)">Переглянути <i class="fa-solid fa-chart-pie"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,7 +56,11 @@
                   </div>
                 </div>
                 <div class="message-content-owner">
-                  <div class="message-text-owner">{{ message.message }}</div>
+                  <div class="message-text-owner">{{ message.message }} <br>
+                    <button *ngIf="message.message && isStatisticsMessage(message.message)" class="btn w-100"
+                      (click)="openStat(message.message)">Переглянути <i class="fa-solid fa-chart-pie"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,7 +81,11 @@
                   </div>
                 </div>
                 <div class="message-content-user" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
-                  <div class="message-text-user">{{ messagesNotRead.message }}</div>
+                  <div class="message-text-user">{{ messagesNotRead.message }} <br>
+                    <button *ngIf="messagesNotRead.message && messagesNotRead.message.includes('#Статистика#')"
+                      class="btn w-100">Переглянути <i class="fa-solid fa-chart-pie"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -89,7 +101,12 @@
                   </div>
                 </div>
                 <div class="message-content-owner" [ngClass]="{ 'unread': messagesNotRead.is_read === 0 }">
-                  <div class="message-text-owner">{{ messagesNotRead.message }}</div>
+                  <div class="message-text-owner">{{ messagesNotRead.message }} <br>
+                    <button *ngIf="messagesNotRead.message && isStatisticsMessage(messagesNotRead.message)"
+                      class="btn w-100" (click)="openStat(messagesNotRead.message)">Переглянути <i
+                        class="fa-solid fa-chart-pie"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,7 +131,7 @@
         </button>
         <textarea id="chat_input" (keyup.enter)="sendMessage()" [(ngModel)]="messageText" name="chat_input"
           placeholder="Напишіть повідомлення..."></textarea>
-        <button [disabled]="!messageText"  class="btn-send" id="send" (click)="sendMessage()"> <i
+        <button [disabled]="!messageText" class="btn-send" id="send" (click)="sendMessage()"> <i
             class="fa-solid fa-paper-plane fa-2xl"></i> </button>
       </div>
     </div>

@@ -6,6 +6,10 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SMILEYS } from '../../../data/data-smile'
+import { Router } from '@angular/router';
+import { ChangeMonthService } from 'src/app/housing-services/change-month.service';
+import { ChangeYearService } from 'src/app/housing-services/change-year.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-chat-user',
@@ -13,6 +17,10 @@ import { SMILEYS } from '../../../data/data-smile'
   styleUrls: ['./chat-user.component.scss']
 })
 export class ChatUserComponent implements OnInit, OnDestroy {
+
+  isStatisticsMessage(message: string): boolean {
+    return /#Статистика#(?:Січень|Лютий|Березень|Квітень|Травень|Червень|Липень|Серпень|Вересень|Жовтень|Листопад|Грудень)#(?:20[1-3]\d|2040)#/.test(message);
+  }
 
   @ViewChild('chatContainer', { static: true }) chatContainer!: ElementRef;
   private isScrolledDown = false;
@@ -48,6 +56,10 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     private choseSubscribeService: ChoseSubscribeService,
     private sendMessageService: SendMessageService,
     private updateComponent: UpdateComponentService,
+    private router: Router,
+    private changeMonthService: ChangeMonthService,
+    private changeYearService: ChangeYearService,
+    private sharedService: SharedService,
   ) { this.pushMessageText(); }
 
   async ngOnInit(): Promise<any> {
@@ -126,7 +138,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   async getNewMessages(selectedFlat: any): Promise<void> {
-    // console.log('getNewMessages')
+    console.log('getNewMessages')
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
       this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageUser', {
@@ -221,8 +233,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    // console.log('ngOnDestroy')
+  async ngOnDestroy(): Promise<void> {
     if (this.getMessagesSubscription) {
       this.getMessagesSubscription.unsubscribe();
     }
@@ -283,5 +294,25 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  openStat(message: string) {
+    // Розбиття рядка повідомлення на окремі елементи за допомогою регулярного виразу
+    const match = /#Статистика#(.+?)#(\d{4})?#/.exec(message);
+    if (match && match.length > 1) {
+      const month = match[1];
+      let year = match[2] ? parseInt(match[2]) : null;
+      if (!year || year < 2015 || year > 2040) {
+        year = new Date().getFullYear();
+      }
+      this.changeMonthService.setSelectedMonth(month);
+      this.changeYearService.setSelectedYear(year.toString());
+      this.sharedService.setStatusMessage(`Відкриваємо статистику за ${month} ${year}`);
+      setTimeout(() => {
+        this.router.navigate(['/communal/stat-month']);
+        this.sharedService.setStatusMessage('');
+      }, 2000);
+    }
+  }
+
 
 }

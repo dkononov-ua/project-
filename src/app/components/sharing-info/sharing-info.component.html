@@ -1,0 +1,25 @@
+<i class="fa-solid fa-chart-pie pr-2 gray mt-2 t-c"></i>
+<p class="flex-box t-med t-c gray">Відправити статистику <br> мешканцю</p>
+
+<mat-dialog-content>
+
+  <div *ngIf="residents">
+    <div *ngFor="let resident of residents" class="user-box w-100 mb-2">
+      <button mat-button class="flex-box w-100"
+        [mat-dialog-close]="{resident}">{{resident.firstName}} {{resident.lastName}}
+        <ng-container *ngIf="resident.img !== 'user_default.svg'">
+          <img class="img-fluid" [src]="serverPathPhotoUser + resident.img" alt="img">
+        </ng-container>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!residents">
+    <div class="t-lar">Мешканці відсутні</div>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex-box">
+  <button mat-button [mat-dialog-close]="" class="btn w-100">Відмінити</button>
+</mat-dialog-actions>

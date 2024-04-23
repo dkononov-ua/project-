@@ -215,7 +215,8 @@
   padding: 5px;
   background-color: rgba(128, 128, 128, 0.683);
   border-radius: 20px;
-  .fa-solid {
+  .fa-solid,
+  .fa-regular {
     color: $color-white;
     filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
   }
@@ -732,7 +733,8 @@
     padding: 8px;
   }
 
-  .fa-solid, .fa-regular {
+  .fa-solid,
+  .fa-regular {
     color: $color-white;
   }
 
@@ -1031,6 +1033,11 @@
     height: 30%;
     width: 100%;
   }
+}
+
+.bg-none {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
 // медіа запити

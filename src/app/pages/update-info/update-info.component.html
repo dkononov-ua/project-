@@ -9,6 +9,22 @@
 
   <div class="news">
     <i class="fa-solid fa-info"> </i>
+    <p class="t-lar accent bold">24.04.24</p>
+    <ol class="news-list t-lar bold">Оновлення:
+      <li class="news-item"> Додана можливість переглянути як виглядає ваш профіль орендаря в пошуку та в дискусії.
+        <button class="news_link btn bg-accent" [routerLink]="'/user/preview'">Переглянути <i
+            class="fa-solid fa-arrow-right pl-2"></i></button>
+      </li>
+      <li class="news-item"> Створена сторінка пошуку. <button class="news_link btn bg-accent"
+          [routerLink]="'/discussio-search'">Переглянути <i class="fa-solid fa-arrow-right pl-2"></i></button>
+      </li>
+      <li class="news-item"> Відкритий доступ до перегляду пошуку оселі без реєстрації.
+      </li>
+    </ol>
+  </div>
+
+  <div class="news">
+    <i class="fa-solid fa-info"> </i>
     <p class="t-lar accent bold">15.04.24</p>
     <ol class="news-list t-lar bold">Заохочення:
       <li class="news-item"> Перші 1000 аккаунтів отримають статус підтвердженого аккаунту <i
@@ -17,9 +33,10 @@
         перевірки
       </div>
     </ol>
-    <div class="t-med gray">Пропонуйте також свої варіанти як можемо привабити першу аудиторію? Запропонувати їх можна тут <button
-        class="news_link btn p-2" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пропоную' }">Відгук <i
-          class="fa-solid fa-bug pl-2"></i></button></div>
+    <div class="t-med gray">Пропонуйте також свої варіанти як можемо привабити першу аудиторію? Запропонувати їх можна
+      тут <button class="news_link btn p-2 bg-accent" [routerLink]="'/feedback'"
+        [queryParams]="{ category: 'Пропоную' }">Відгук
+        <i class="fa-regular fa-lightbulb pl-2"></i></button></div>
   </div>
 
   <div class="news">
@@ -36,13 +53,15 @@
     <p class="t-lar accent bold">09.04.24</p>
     <ol class="news-list t-lar bold">Оновлення:
       <li class="news-item"> Всі аккаунти користувачів та оселей які було створено до 10.04.24 було очищено. Якщо у
-        вас був аккаунт натисніть <button class="news_link btn" (click)="logout()">очистити дані кешу</button> та
+        вас був аккаунт натисніть <button class="news_link btn bg-accent" (click)="logout()">очистити дані кешу</button>
+        та
         зареєструйтесь заново. Ми запускаємо сайт в роботу в тестовому режимі. </li>
     </ol>
     <p class="t-min t-c">Можна користуватись функціоналом нашого сайту за призначенням. За фейкові
       аккаунти і
       неправдивість оголошень відбувається бан. Про всі негаразти та збої пишіть сюди
-      <button class="news_link btn" [routerLink]="'/feedback'">Відгук <i class="fa-solid fa-bug pl-2"></i></button>
+      <button class="news_link btn bg-accent" [routerLink]="'/feedback'">Відгук <i
+          class="fa-solid fa-bug pl-2"></i></button>
       Біля кожної сторінки з профілями є
       примітка скарга. Всі скарги будуть розглянуті. Питання стосовно співпраці, пропозицій пишіть на пошту <span
         class="accent">{{gmail}}</span> або в

@@ -9,6 +9,7 @@ import { animations } from '../../interface/animation';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 interface UserInfo {
   price_of: string | undefined;
@@ -173,11 +174,17 @@ export class SearchHousingComponent implements OnInit {
 
   isMobile = false;
 
+  goBack(): void {
+    this.location.back();
+  }
+
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
     private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private location: Location,
+
   ) { }
 
   ngOnInit() {
@@ -192,19 +199,19 @@ export class SearchHousingComponent implements OnInit {
   }
 
   async getSearchInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.filterService.filterChange$.subscribe(async () => {
-        const optionsFound = this.filterService.getOptionsFound();
-        if (optionsFound && optionsFound !== 0) {
-          this.optionsFound = optionsFound;
-        } else {
-          this.optionsFound = 0;
-        }
-      })
-    } else {
-      console.log('Авторизуйтесь')
-    }
+    // const userJson = localStorage.getItem('user');
+    // if (userJson) {
+    this.filterService.filterChange$.subscribe(async () => {
+      const optionsFound = this.filterService.getOptionsFound();
+      if (optionsFound && optionsFound !== 0) {
+        this.optionsFound = optionsFound;
+      } else {
+        this.optionsFound = 0;
+      }
+    })
+    // } else {
+    //   console.log('Авторизуйтесь')
+    // }
   }
 
   getShowedCards() {

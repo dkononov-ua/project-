@@ -64,6 +64,8 @@ import { TemplateComponent } from './template/template.component';
 import { HouseModule } from './account/house/house.module';
 import { HouseRoutingModule } from './account/house/house-routing.module';
 import { UpdateInfoComponent } from './pages/update-info/update-info.component';
+import { SharingInfoComponent } from './components/sharing-info/sharing-info.component';
+import { PreviewInfoComponent } from './account/user/preview-info/preview-info.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,6 +89,7 @@ import { UpdateInfoComponent } from './pages/update-info/update-info.component';
     HomePageComponent,
     TemplateComponent,
     UpdateInfoComponent,
+    SharingInfoComponent,
   ],
   providers: [
     SelectedFlatService,

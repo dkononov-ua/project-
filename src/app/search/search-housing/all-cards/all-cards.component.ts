@@ -93,20 +93,20 @@ export class AllCardsComponent implements OnInit {
   }
 
   async getSearchInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.filterService.filterChange$.subscribe(async () => {
-        const filterValue = this.filterService.getFilterValue();
-        const optionsFound = this.filterService.getOptionsFound();
-        if (filterValue && optionsFound && optionsFound !== 0) {
-          this.getFilteredData(filterValue, optionsFound);
-        } else {
-          this.getFilteredData(undefined, 0);
-        }
-      })
-    } else {
-      console.log('Авторизуйтесь')
-    }
+    // const userJson = localStorage.getItem('user');
+    // if (userJson) {
+    this.filterService.filterChange$.subscribe(async () => {
+      const filterValue = this.filterService.getFilterValue();
+      const optionsFound = this.filterService.getOptionsFound();
+      if (filterValue && optionsFound && optionsFound !== 0) {
+        this.getFilteredData(filterValue, optionsFound);
+      } else {
+        this.getFilteredData(undefined, 0);
+      }
+    })
+    // } else {
+    //   console.log('Авторизуйтесь')
+    // }
   }
 
   getFilteredData(filterValue: any, optionsFound: number) {

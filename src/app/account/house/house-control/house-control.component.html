@@ -1,8 +1,15 @@
 <div class="content-component">
   <div class="switch-container">
 
+    <!-- <div class="switch-btn-group">
+      <button class="btn" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">Назад</div>
+      </button>
+    </div> -->
+
     <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/home'">
+      <button class="btn" [routerLink]="'/user/info'">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min white">Назад</div>
       </button>
@@ -12,6 +19,13 @@
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Управління Оселею</div>
     </div>
+
+    <!-- <div class="switch-btn-group">
+      <button class="btn" [routerLink]="'/user/info'">
+        <i class="fa-regular fa-circle-user"></i>
+        <div class="t-min bold">Профіль</div>
+      </button>
+    </div> -->
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/add-house'">
@@ -39,7 +53,7 @@
       </button>
     </div>
 
-    <div class="switch-btn-group" *ngIf="acces_admin === 1">
+    <div class="switch-btn-group">
       <button [disabled]="!selectedFlatId" class="btn" (click)="exitHouse()">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
         <div class="t-min bold">Вийти</div>

@@ -95,6 +95,7 @@ export class HouseResidentsComponent implements OnInit {
 
     try {
       const response: any = await this.http.post(url, data).toPromise() as any[];
+      console.log(response)
       if (response && response.length !== 0) {
         const newSubscribers: Subscriber[] = response
           .filter((item: null) => item !== null)

@@ -5,11 +5,11 @@ import { CanActivateGuard } from './../services/auth.guard';
 import { ComunCompanyComponent } from './comun-company/comun-company.component';
 import { ComunHistoryComponent } from './comun-history/comun-history.component';
 import { ComunStatSeasonComponent } from './comun-stat-season/comun-stat-season.component';
-import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 import { ComunStatYearComponent } from './comun-stat-year/comun-stat-year.component';
 import { ComunStatComunComponent } from './comun-stat-comun/comun-stat-comun.component';
 import { ComunAboutComponent } from './comun-about/comun-about.component';
 import { ComunAddComponent } from './comun-add/comun-add.component';
+import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 
 const routes: Routes = [
   {

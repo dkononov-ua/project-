@@ -13,6 +13,8 @@ import { animations } from '../../interface/animation';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
@@ -117,13 +119,16 @@ export class SearchTenantComponent implements OnInit {
   }
   isMobile = false;
   filterValue: string = '';
-
+  goBack(): void {
+    this.location.back();
+  }
   constructor(
     private filterUserService: FilterUserService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
+    private location: Location,
 
   ) { }
 

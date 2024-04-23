@@ -49,6 +49,7 @@ export interface UserInfo {
   mounths: number | undefined;
   years: number | undefined;
   about: string | undefined;
+  date: any;
 }
 
 export interface UserInfoSearch {
@@ -193,6 +194,34 @@ export interface Agree {
   };
   img: string[];
   exists: any;
+}
+
+export interface Subscriber {
+  acces_flat_chats: boolean;
+  acces_flat_features: boolean;
+  acces_agent: boolean;
+  acces_comunal_indexes: boolean;
+  acces_citizen: boolean;
+  acces_agreement: boolean;
+  acces_discuss: boolean;
+  acces_subs: boolean;
+  acces_filling: boolean;
+  acces_services: boolean;
+  acces_admin: boolean;
+  acces_comunal: boolean;
+  acces_added: boolean;
+  user_id: string;
+  firstName: string;
+  lastName: string;
+  surName: string;
+  tell: number;
+  photo: string;
+  img: string;
+  instagram: string;
+  telegram: string;
+  viber: string;
+  facebook: string;
+  mail: string;
 }
 
 

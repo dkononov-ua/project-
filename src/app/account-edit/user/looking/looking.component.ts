@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { Location } from '@angular/common';
 
 interface UserInfo {
   price_of: number | undefined;
@@ -166,6 +167,10 @@ export class LookingComponent implements OnInit {
     }
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   calculateTotalDays(): number {
     const days = this.userInfo.days || 0;
     const weeks = this.userInfo.weeks || 0;
@@ -194,6 +199,7 @@ export class LookingComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private sharedService: SharedService,
+    private location: Location,
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;

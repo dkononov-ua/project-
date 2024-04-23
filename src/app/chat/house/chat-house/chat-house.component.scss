@@ -3,6 +3,13 @@
 @use "../../../style/mixins/" as *;
 @use "../../send.scss";
 
+.btn {
+  @include flex-box-center;
+  .fa-solid {
+    color: $color-gray;
+  }
+}
+
 .border-date {
   border-top: 1px solid $color-gray;
 }
@@ -31,5 +38,3 @@
   background-color: $color-accent;
   transform: 1s;
 }
-
-

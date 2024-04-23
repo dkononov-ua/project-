@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
@@ -12,10 +12,9 @@ import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
-  selector: 'app-info',
-  templateUrl: './info.component.html',
-  providers: [{ provide: LOCALE_ID, useValue: 'uk-UA' },],
-  styleUrls: ['./info.component.scss'],
+  selector: 'app-preview-info',
+  templateUrl: './preview-info.component.html',
+  styleUrls: ['./preview-info.component.scss'],
   animations: [
     animations.right2,
     animations.left,
@@ -24,10 +23,11 @@ import { SharedService } from 'src/app/services/shared.service';
     animations.left3,
     animations.left4,
     animations.left5,
+    animations.top1,
     animations.swichCard,
   ],
 })
-export class InfoComponent implements OnInit {
+export class PreviewInfoComponent implements OnInit {
 
   indexPage: number = 0;
   serverPath = serverPath;
@@ -60,6 +60,8 @@ export class InfoComponent implements OnInit {
   isLoadingImg: boolean = false;
   numberOfReviews: any;
   numberOfReviewsOwner: any;
+
+  totalDays: any;
 
   openUserMenu() {
     if (this.userMenu) {
@@ -94,7 +96,7 @@ export class InfoComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loading = true;
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
@@ -140,6 +142,16 @@ export class InfoComponent implements OnInit {
     });
   }
 
+  async calculateTotalDays(): Promise<number> {
+    const days = this.userInfo.days || 0;
+    const weeks = this.userInfo.weeks || 0;
+    const months = this.userInfo.mounths || 0;
+    const years = this.userInfo.years !== undefined ? this.userInfo.years : 0;
+    const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    this.totalDays = totalDays;
+    return totalDays;
+  }
+
   getInfoUser() {
     this.loading = true;
     const userJson = localStorage.getItem('user');
@@ -182,7 +194,7 @@ export class InfoComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
-        .subscribe((response: any) => {
+        .subscribe(async (response: any) => {
           localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
           if (searchInfoUserData !== null) {
@@ -223,7 +235,7 @@ export class InfoComponent implements OnInit {
             this.userInfo.mounths = this.searchInfoUserData.mounths;
             this.userInfo.years = this.searchInfoUserData.years;
             this.userInfo.about = this.searchInfoUserData.about;
-            this.userInfo.date = this.searchInfoUserData.data;
+            await this.calculateTotalDays()
           } else {
             this.searchInfoUserData = {};
           }
