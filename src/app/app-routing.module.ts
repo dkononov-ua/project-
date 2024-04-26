@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
-import { RegistrationComponent } from './pages/registration/registration.component';
 import { CanActivateGuard } from './services/auth.guard';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
@@ -16,7 +15,9 @@ import { ActCreateComponent } from './account/house/agree-h/act-create/act-creat
 const routes: Routes = [
   { path: '', redirectTo: 'home/about-project', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home-routing.module').then(m => m.HomeRoutingModule) },
+  { path: 'auth', loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule) },
   { path: 'user-licence', component: UserLicenceComponent, },
+  { path: 'home', component: UserLicenceComponent, },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
@@ -27,9 +28,9 @@ const routes: Routes = [
   { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
   { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
-  { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard]},
-  { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard]},
-  { path: 'act-create/:selectedFlatAgree', component: ActCreateComponent, canActivate: [CanActivateGuard]},
+  { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard] },
+  { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard] },
+  { path: 'act-create/:selectedFlatAgree', component: ActCreateComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

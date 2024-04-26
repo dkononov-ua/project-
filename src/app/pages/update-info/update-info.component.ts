@@ -20,13 +20,7 @@ export class UpdateInfoComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('selectedComun');
-    localStorage.removeItem('selectedFlatId');
-    localStorage.removeItem('selectedFlatName');
-    localStorage.removeItem('selectedHouse');
-    localStorage.removeItem('houseData');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('user');
+    this.sharedService.clearCache();
     this.sharedService.setStatusMessage('Дані кукі та кешу очищені');
     setTimeout(() => {
       this.sharedService.setStatusMessage('');

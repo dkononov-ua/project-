@@ -123,11 +123,7 @@ export class HouseControlComponent implements OnInit {
             })
             .subscribe(
               (response: any) => {
-                localStorage.removeItem('selectedComun');
-                localStorage.removeItem('selectedHouse');
-                localStorage.removeItem('selectedFlatId');
-                localStorage.removeItem('selectedFlatName');
-                localStorage.removeItem('houseData');
+                this.sharedService.clearCacheHouse();
                 this.statusMessage = 'Оселя видалена';
                 this.sharedService.setStatusMessage('Оселя видалена');
                 setTimeout(() => {
@@ -152,11 +148,7 @@ export class HouseControlComponent implements OnInit {
     this.sharedService.setStatusMessage('Виходимо з оселі');
     setTimeout(() => {
       this.sharedService.setStatusMessage('Очищуємо дані');
-      localStorage.removeItem('selectedComun');
-      localStorage.removeItem('selectedHouse');
-      localStorage.removeItem('selectedFlatId');
-      localStorage.removeItem('selectedFlatName');
-      localStorage.removeItem('houseData');
+      this.sharedService.clearCacheHouse();
       setTimeout(() => {
         this.sharedService.setStatusMessage('Очищено');
         setTimeout(() => {

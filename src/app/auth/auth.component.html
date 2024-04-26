@@ -2,46 +2,51 @@
   <div class="switch-container">
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-        <i class="fa-solid fa-barcode"></i>
-        <div class="t-min">Про Проект</div>
+      <button class="btn" [routerLink]="'/home/about-project'">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min white">На головну</div>
+      </button>
+    </div>
+
+    <div class="menu-box hide-mobile">
+      <div class="menu-lable">Меню</div>
+      <div class="menu-name">Авторизації</div>
+    </div>
+
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <div class="t-min">Вхід в аккаунт</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
         <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="t-min">Вхід & Реєстрація</div>
+        <div class="t-min">Реєстрація аккаунту</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/change-password'">
+        <i class="fa-solid fa-user-secret"></i>
+        <div class="t-min">Зміна паролю</div>
+      </button>
+    </div>
+
+    <!-- <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
         <i class="fa-regular fa-circle-user"></i>
         <div class="t-min">Профіль Користувача</div>
       </button>
     </div>
 
-    <!-- <div class="switch-btn-group">
+    <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" (click)="goToHouse()">
         <i class="fa-solid fa-house"></i>
         <div class="t-min">Профіль Оселі</div>
       </button>
     </div> -->
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/discussio-search'">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="t-min">Пошук Discussio</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
-        <i class="fa-solid fa-hands-holding-child"></i>
-        <div class="t-min">Підтримати проект</div>
-      </button>
-    </div>
 
   </div>
 
@@ -55,10 +60,4 @@
     </div>
   </div>
 
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>

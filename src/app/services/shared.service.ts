@@ -162,5 +162,27 @@ export class SharedService {
     }, 3000);
   }
 
+  //повна очистка кешу від попередніх даних
+  clearCache() {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    // console.log('кеш очищено повністю')
+  }
+
+  //очистка кешу від попередніх даних оселі
+  clearCacheHouse() {
+    localStorage.removeItem('selectedComun');
+    localStorage.removeItem('selectedFlatId');
+    localStorage.removeItem('selectedFlatName');
+    localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('houseData');
+    // console.log('кеш оселі очищено')
+  }
+
 
 }

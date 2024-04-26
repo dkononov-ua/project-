@@ -1,9 +1,5 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
@@ -12,6 +8,12 @@ import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component
 import { animations } from '../../interface/animation';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
   parse: {
@@ -25,7 +27,6 @@ export const MY_FORMATS = {
   },
 };
 
-registerLocaleData(localeUk);
 interface UserInfo {
   firstName: string | undefined;
   lastName: string | undefined;
@@ -62,6 +63,13 @@ interface UserParam {
   styleUrls: ['./information-user.component.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
     animations.left,
@@ -81,6 +89,7 @@ export class InformationUserComponent implements OnInit {
   agreeToDel: boolean = false;
   sentCode: boolean = false;
   isLoadingImg: boolean = false;
+  registrationGoogleInfo: any;
 
   extractUsernameFromUrl(url: string): string {
     // Ваш регулярний вираз для витягування імені користувача
@@ -215,12 +224,68 @@ export class InformationUserComponent implements OnInit {
     private sharedService: SharedService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-    this.getInfo();
+    await this.getInfo();
+  }
+
+  async registrationGoogle(): Promise<any> {
+    const registrationGoogleInfo = localStorage.getItem('registrationGoogleInfo');
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      if (!this.userInfo.firstName && registrationGoogleInfo) {
+        this.registrationGoogleInfo = JSON.parse(registrationGoogleInfo);
+        this.userInfo.firstName = this.registrationGoogleInfo.firstName || '';
+        this.userInfo.lastName = this.registrationGoogleInfo.lastName || '';
+        this.userInfo.user_mail = this.registrationGoogleInfo.email || '';
+        try {
+          const data = { ...this.userInfo };
+          console.log(data)
+          const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
+          console.log(response)
+          if (response.status === true) {
+
+          } else {
+
+          }
+        } catch (error) {
+
+        }
+      } else {
+        localStorage.removeItem('registrationGoogleInfo');
+        this.registrationGoogleInfo = undefined;
+      }
+      if (!this.userCont.mail && registrationGoogleInfo) {
+        this.registrationGoogleInfo = JSON.parse(registrationGoogleInfo);
+        this.userCont.mail = this.registrationGoogleInfo.email;
+        try {
+          const data = { ...this.userInfo };
+          console.log(data)
+          const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
+          console.log(response)
+          if (response.status === true) {
+
+          } else {
+            localStorage.removeItem('registrationGoogleInfo');
+            this.registrationGoogleInfo = undefined;
+
+          }
+        } catch (error) {
+
+        }
+      } else {
+        localStorage.removeItem('registrationGoogleInfo');
+        this.registrationGoogleInfo = undefined;
+      }
+      // console.log(this.registrationGoogleInfo)
+      // console.log(localStorage.getItem('registrationGoogleInfo'))
+    } else {
+      localStorage.removeItem('registrationGoogleInfo');
+      this.registrationGoogleInfo = undefined;
+    }
   }
 
   // відправляю event початок свайпу
@@ -267,6 +332,7 @@ export class InformationUserComponent implements OnInit {
           this.userInfo = response.inf;
           this.userCont = response.cont;
           this.userParam = response.parametrs;
+          this.registrationGoogle();
         }, (error: any) => {
           console.error(error);
         });
@@ -306,13 +372,15 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
-
   async saveInfoUser(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
         this.loading = true;
+        const dob = moment(this.userInfo.dob).format('YYYY-MM-DD');
+        this.userInfo.dob = dob;
         const data = { ...this.userInfo };
+        // console.log(data)
         const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
@@ -345,7 +413,7 @@ export class InformationUserComponent implements OnInit {
       try {
         this.loading = true;
         const data = this.userCont;
-        // console.log(data)
+        console.log(data)
         const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
@@ -396,19 +464,12 @@ export class InformationUserComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('selectedComun');
-    localStorage.removeItem('selectedFlatId');
-    localStorage.removeItem('selectedFlatName');
-    localStorage.removeItem('selectedHouse');
-    localStorage.removeItem('houseData');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('user');
+    this.sharedService.clearCache();
     this.sharedService.setStatusMessage('Виходимо з аккаунту');
     setTimeout(() => {
       this.sharedService.setStatusMessage('');
-      this.reloadPageWithLoader();
       setTimeout(() => {
-        this.router.navigate(['home']);
+        this.router.navigate(['/auth/login']);
       }, 1500);
     }, 1500);
   }
@@ -481,17 +542,11 @@ export class InformationUserComponent implements OnInit {
         // console.log(response)
         if (response.status === 'Видалено') {
           this.sharedService.setStatusMessage('Аккаунт видалено');
-          localStorage.removeItem('selectedComun');
-          localStorage.removeItem('selectedFlatId');
-          localStorage.removeItem('selectedFlatName');
-          localStorage.removeItem('selectedHouse');
-          localStorage.removeItem('houseData');
-          localStorage.removeItem('userData');
-          localStorage.removeItem('user');
+          this.sharedService.clearCache();
           setTimeout(() => {
             this.sharedService.setStatusMessage('');
             this.loading = false;
-            this.router.navigate(['/home/registration']);
+            this.router.navigate(['/auth/registration']);
           }, 2000);
         } else {
           this.sharedService.setStatusMessage('Помилка видалення');
@@ -510,17 +565,14 @@ export class InformationUserComponent implements OnInit {
     }
   }
 
-
   sendCodeForDelAcc() {
     const userJson = localStorage.getItem('user');
-
     // this.loading = true;
     const data = {
       email: this.userInfo.user_mail,
     };
     this.sentCode = true;
     if (userJson) {
-
       try {
         // console.log(data);
         this.http.post(serverPath + '/userinfo/delete/first', { auth: JSON.parse(userJson) })

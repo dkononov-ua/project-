@@ -1,6 +1,104 @@
-@use "../../style/presets/" as *;
-@use "../../style/mixins/" as *;
-@use "../../style/shared.scss" as *;
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/shared.scss" as *;
+
+.btn-primary {
+  background-color: $color-accent;
+  height: 50px;
+  width: 100%;
+  color: white;
+  .fa-solid {
+    color: $color-white;
+  }
+  &:disabled {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  height: 50px;
+  width: 250px;
+  color: white;
+  background-color: $color-accent;
+  .fa-solid {
+    color: $color-white;
+  }
+  &:disabled {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+  }
+}
+
+.content-component {
+  height: auto !important;
+
+  @include s1-s3 {
+    height: auto;
+  }
+
+  .switch-container {
+    height: 100px;
+    @include s1-s3 {
+      position: relative !important;
+    }
+  }
+
+  .main-container {
+    // height: auto !important;
+    // height: calc(100vh - 100px - 1rem);
+    // overflow: auto;
+    position: relative;
+    height: calc(100vh - 100px);
+
+    @include s1-s3 {
+      height: 100vh;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .main-content {
+      height: calc(100% - 100px);
+      position: relative;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .footer {
+      @include flex-box-center;
+      // position: sticky;
+      // z-index: 100;
+      // bottom: 0;
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      @include s1-s3 {
+        background-image: linear-gradient(
+          to top,
+          rgb(255, 255, 255) 0%,
+          rgba(255, 255, 255, 0.928) 60%,
+          rgba(255, 255, 255, 0.315)
+        );
+      }
+    }
+  }
+}
+
+.logo-name {
+  font-size: 6rem;
+}
+
+.switch-container {
+  @include s1-s3 {
+    justify-content: space-evenly !important;
+    margin-top: 0 !important;
+  }
+}
 
 .card-box {
   @include flex-box-center;
@@ -24,7 +122,7 @@
       background-color: $color-white !important;
       @include s1-s3 {
         flex-direction: column;
-        justify-content: flex-start;
+        // justify-content: flex-start;
       }
       .card-content {
         height: 100%;
@@ -121,23 +219,17 @@ a {
   filter: drop-shadow(0px 10px 25px rgb(41, 41, 41));
 }
 
-.btn {
-  height: 50px;
-  font-size: 16px;
-  color: $color-white;
-  background-color: $color-gray;
-  border-radius: 5px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  width: 100%;
-  background-color: $color-accent;
-}
-
-.disabled-button {
-  background-color: gray;
-  color: white;
-  cursor: not-allowed;
-}
+// .btn {
+//   height: 50px;
+//   font-size: 16px;
+//   color: $color-white;
+//   background-color: $color-gray;
+//   border-radius: 5px;
+//   font-weight: 600;
+//   letter-spacing: 0.2em;
+//   width: 100%;
+//   background-color: $color-accent;
+// }
 
 .box-agree {
   display: flex;

@@ -1,5 +1,4 @@
 import { AppComponent } from './app.component';
-import { RegistrationComponent } from './pages/registration/registration.component';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
 import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
@@ -41,7 +40,6 @@ import { AboutProjectComponent } from './pages/about-project/about-project.compo
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinimaLight, MinimaDeepDark, MinimaDark } from '@alyle/ui/themes/minima';
-
 import { LY_THEME, LY_THEME_NAME, StyleRenderer, LyTheme2 } from '@alyle/ui';
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { LySliderModule } from '@alyle/ui/slider';
@@ -61,16 +59,15 @@ import { ConfirmActionsComponent } from './agreements/confirm-actions/confirm-ac
 import { HomeComponent } from './home/home.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { TemplateComponent } from './template/template.component';
-import { HouseModule } from './account/house/house.module';
-import { HouseRoutingModule } from './account/house/house-routing.module';
 import { UpdateInfoComponent } from './pages/update-info/update-info.component';
 import { SharingInfoComponent } from './components/sharing-info/sharing-info.component';
-import { PreviewInfoComponent } from './account/user/preview-info/preview-info.component';
+import { AuthModule } from './auth/auth.module';
+import { AuthRoutingModule } from './auth/auth-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
     OurTeamComponent,
-    RegistrationComponent,
     InformationUserComponent,
     UserLicenceComponent,
     ComunPageComponent,
@@ -146,6 +143,8 @@ import { PreviewInfoComponent } from './account/user/preview-info/preview-info.c
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
 
+    AuthModule,
+    AuthRoutingModule,
   ]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 <div class="flex-column">
 
-  <div id="container0" class="conteiner-content al-c">
+  <div [@bot] id="container0" class="conteiner-content al-c">
     <div class="flex-box w-100">
       <div class="flex-column p-3 t-c">
 
@@ -16,9 +16,13 @@
           інструменти для управління нерухомістю.
         </h5>
 
-        <button class="btn update m-2" [routerLink]="'/home/registration'">
+        <button class="btn update m-2" [routerLink]="'/auth/registration'">
           <i class="fa-solid fa-right-to-bracket pr-2"></i>
           Зареєструватись
+        </button>
+
+        <button class="btn update m-2" (click)="openGoogleAuth()">
+          Увійти з <i class="fa-brands fa-google pl-2"></i>
         </button>
 
         <p class="t-min mt-2 gray">
@@ -72,7 +76,7 @@
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
+  <div [@bot] id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
     <div class="flex-box w-100">
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/search.gif" alt="">
@@ -98,8 +102,13 @@
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
+  <div [@bot] id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
     <div class="flex-box w-100">
+
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/agree.gif" alt="">
+      </div>
+
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Створення автоматичних угод & та актів. </span></h3>
         <p class="text t-c">
@@ -112,15 +121,13 @@
           підписати цю угоду.
         </p>
       </div>
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/agree.gif" alt="">
-      </div>
+
     </div>
     <button *ngIf="!containers['container3']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container3')"><i
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
+  <div [@bot] id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
     <div class="flex-box w-100">
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
@@ -141,8 +148,11 @@
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
+  <div [@bot] id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
     <div class="flex-box w-100">
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
+      </div>
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
         <p class="text t-c">
@@ -155,16 +165,16 @@
           сторонами.
         </p>
       </div>
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
-      </div>
     </div>
     <button *ngIf="!containers['container5']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container5')"><i
         class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
   </div>
 
-  <div id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
+  <div [@bot] id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
     <div class="flex-box w-100">
+      <div class="gif-box t-c">
+        <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
+      </div>
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
         </h3>
@@ -178,9 +188,6 @@
           кращого візуального представлення. Ця інформація є надзвичайно важливою для формування акту прийому-передачі
           оселі.
         </p>
-      </div>
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
       </div>
     </div>
     <button class="btn update m-2" (click)="scrollToAnchor('container0')"> <i class="fa-solid fa-arrow-up pr-2"></i>

@@ -7,7 +7,6 @@ import { OpportunitiesComponent } from '../pages/opportunities/opportunities.com
 import { OurTeamComponent } from '../pages/our-team/our-team.component';
 import { HomePageComponent } from '../pages/home-page/home-page.component';
 import { UserLicenceComponent } from '../pages/user-licence/user-licence.component';
-import { RegistrationComponent } from '../pages/registration/registration.component';
 import { FeedbackComponent } from '../pages/feedback/feedback.component';
 import { UpdateInfoComponent } from '../pages/update-info/update-info.component';
 
@@ -21,10 +20,9 @@ const routes: Routes = [
       { path: 'support-us', component: SupportUsComponent },
       { path: 'home', component: HomeComponent },
       { path: 'about-project', component: AboutProjectComponent },
-      { path: 'opportunities', component: HomePageComponent},
+      { path: 'opportunities', component: HomePageComponent },
       { path: 'our-team', component: OurTeamComponent },
       { path: 'user-licence', component: UserLicenceComponent, },
-      { path: 'registration', component: RegistrationComponent },
       { path: 'update', component: UpdateInfoComponent },
     ],
   },

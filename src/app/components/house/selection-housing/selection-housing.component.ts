@@ -197,11 +197,7 @@ export class SelectionHousingComponent implements OnInit {
     } else {
       const userJson = localStorage.getItem('user');
       if (userJson && flat) {
-        localStorage.removeItem('selectedComun');
-        localStorage.removeItem('selectedHouse');
-        localStorage.removeItem('selectedFlatId');
-        localStorage.removeItem('selectedFlatName');
-        localStorage.removeItem('houseData');
+        this.sharedService.clearCacheHouse();
         this.loading = true;
         this.statusMessage = 'Обираємо ' + flat.flat_name;
         setTimeout(() => {
@@ -252,11 +248,7 @@ export class SelectionHousingComponent implements OnInit {
             })
             .subscribe(
               (response: any) => {
-                localStorage.removeItem('selectedComun');
-                localStorage.removeItem('selectedHouse');
-                localStorage.removeItem('selectedFlatId');
-                localStorage.removeItem('selectedFlatName');
-                localStorage.removeItem('houseData');
+                this.sharedService.clearCacheHouse();
                 this.statusMessage = 'Оселя видалена';
                 this.sharedService.setStatusMessage('Оселя видалена');
                 setTimeout(() => {

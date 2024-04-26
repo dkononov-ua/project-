@@ -4,6 +4,7 @@ import { path_logo } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
 import { ViewportScroller } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 
 @Component({
   selector: 'app-about-project',
@@ -12,6 +13,8 @@ import { SharedService } from 'src/app/services/shared.service';
   animations: [
     animations.bot,
     animations.bot3,
+    animations.top,
+    animations.top1,
     animations.top2,
     animations.top4,
     animations.left,
@@ -46,15 +49,19 @@ export class AboutProjectComponent implements OnInit {
     setTimeout(() => {
       const element = this.el.nativeElement.querySelector(`#${anchor}`);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const container = element.parentElement;
+        const scrollTop = element.offsetTop - container.offsetTop; // Відстань від верху контейнера до елемента
+        container.scrollTop = scrollTop;
       }
     }, 30);
   }
+
 
   constructor(
     private el: ElementRef,
     private viewportScroller: ViewportScroller,
     private sharedService: SharedService,
+    private authGoogleService: AuthGoogleService,
   ) { }
 
   ngOnInit() {
@@ -62,6 +69,10 @@ export class AboutProjectComponent implements OnInit {
 
   changeStep(step: number): void {
     this.currentStep = step;
+  }
+
+  openGoogleAuth() {
+    this.authGoogleService.singAuthGoogle('login');
   }
 
   logout() {
