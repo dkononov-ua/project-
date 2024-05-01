@@ -10,16 +10,20 @@
 
         <h1><strong>Discussio</strong></h1>
         <!-- <h2 class="text mb-4">Це перша Українська соціальні мережа для нерухомості!</h2> -->
-        <h3><strong>Оренда & здача оселі.</strong></h3>
-        <h5 class="text t-c">Ми хочемо створити спільноту орендодавців та орендарів, <strong>без ріелторів!</strong>
-          Спростити процеси співпраці, беручи формат соціальної мережі та додавши
-          інструменти для управління нерухомістю.
+        <h3><strong>Оренда & здача оселі</strong></h3>
+        <h5 class="text t-c m-2">Ми створюємо спільноту орендодавців та орендарів <br> <strong>без ріелторів!</strong>
+          Спрощуємо процеси їх співпраці, в форматі соціальної мережі та з
+          інструментами для управління оселею.
         </h5>
 
         <button class="btn update m-2" [routerLink]="'/auth/registration'">
           <i class="fa-solid fa-right-to-bracket pr-2"></i>
           Зареєструватись
         </button>
+
+        <p class="t-min mt-2 gray">
+          Вже зареєстровані у нас?
+        </p>
 
         <button class="btn update m-2" (click)="openGoogleAuth()">
           Увійти з <i class="fa-brands fa-google pl-2"></i>
@@ -30,7 +34,7 @@
           ріелторів. Проект наразі є цілком безкоштовний!
         </p>
 
-        <h4>Приєднуйтесь до нас!</h4>
+        <h4 class="mt-2">Приєднуйтесь до нас!</h4>
         <div class="social-link-container p-2">
 
           <div class="social-link-box">
@@ -46,7 +50,7 @@
           </div>
 
           <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.inc">
+            <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.site">
               <i class="fab fa-brands fa-tiktok"></i>
             </a>
           </div>
@@ -59,7 +63,7 @@
           </div>
 
           <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="https://www.youtube.com/@DiscussioUA">
+            <a class="social-link-icon" target="_blank" href="https://www.youtube.com/@discussio.ukraine">
               <i class="fab fa-brands fa-youtube"></i>
             </a>
           </div>
@@ -84,6 +88,11 @@
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
           </span></h3>
+
+        <button class="btn update m-2" [routerLink]="'/discussio-search'">
+          Пошук Discussio<i class="fa-solid fa-magnifying-glass pl-2"></i>
+        </button>
+
         <p class="text t-c">
           Надаємо вам можливість легко <strong>знайти житло</strong> <i class="fa-solid fa-house-laptop pl-2"></i>, яке
           відповідає вашим вимогам та вподобанням. Ви

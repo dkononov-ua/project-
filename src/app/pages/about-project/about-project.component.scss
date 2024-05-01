@@ -117,7 +117,8 @@ html {
 .conteiner-content {
   display: flex;
   height: 100%;
-  justify-content: center;
+  // justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   border-bottom: 1px solid rgba(128, 128, 128, 0.115);
   padding: 20px;
