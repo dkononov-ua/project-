@@ -83,6 +83,10 @@
             </div>
           </button>
 
+          <button class="techSupport" matTooltip="Задати питання" (click)="checkChatExistAndOpen()">
+            <p class="white">Тех-підтримка</p>
+          </button>
+
           <div class="copyMessage-box" *ngIf="isCopiedMessage">
             <div class="copyMessage-text">{{isCopiedMessage}}</div>
             <i class="fa-regular fa-copy"></i>
@@ -98,7 +102,7 @@
                 <img class="img-fluid" [src]="serverPathPhotoUser + userImg" alt="img">
               </ng-container>
 
-              <ng-container *ngIf="userImg !== 'user_default.svg' && !isLoadingImg">
+              <ng-container *ngIf="userImg && userImg !== 'user_default.svg' && !isLoadingImg">
                 <div class="img-fluid">
                   <div class="container-loader-mini">
                     <mat-spinner color="warn"></mat-spinner>

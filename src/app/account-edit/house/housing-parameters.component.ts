@@ -3,8 +3,8 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from 'src/app/services/data.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-housing-parameters',

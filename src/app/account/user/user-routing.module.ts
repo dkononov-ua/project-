@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserComponent } from './user.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { UagreeMenuComponent } from './agree-u/uagree-menu/uagree-menu.component';
 import { InfoComponent } from './info/info.component';
@@ -10,6 +9,7 @@ import { UagreeReviewComponent } from './agree-u/uagree-review/uagree-review.com
 import { UagreeHostComponent } from './agree-u/uagree-host/uagree-host.component';
 import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component';
 import { PreviewInfoComponent } from './preview-info/preview-info.component';
+import { UserComponent } from './user.component';
 
 const routes: Routes = [
   {

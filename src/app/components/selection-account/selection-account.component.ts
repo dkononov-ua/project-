@@ -63,7 +63,7 @@ export class SelectionAccountComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.userData) {
-      this.onLoginCheckUser()
+      // this.onLoginCheckUser()
     } else {
       this.loadDataUser();
     }
@@ -100,19 +100,19 @@ export class SelectionAccountComponent implements OnInit {
     }
   }
 
-  onLoginCheckUser(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.dataService.getInfoUser().subscribe((response: any) => {
-        if (response) {
-          localStorage.setItem('userData', JSON.stringify(response));
-          this.loadDataUser()
-        } else {
-          console.log('Немає інформації')
-        }
-      });
-    }
-  }
+  // async onLoginCheckUser(): Promise<void> {
+  //   const userJson = localStorage.getItem('user');
+  //   if (userJson) {
+  //     await this.dataService.getInfoUser().subscribe((response: any) => {
+  //       if (response) {
+  //         localStorage.setItem('userData', JSON.stringify(response));
+  //         this.loadDataUser()
+  //       } else {
+  //         console.log('Немає інформації')
+  //       }
+  //     });
+  //   }
+  // }
 
   async getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {

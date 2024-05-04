@@ -120,7 +120,7 @@ export class RentalAgreementComponent implements OnInit {
         const selectedAgreement = response.find((agreement) => agreement.flat.agreement_id === this.selectedAgreeID);
         if (selectedAgreement) {
           this.selectedAgreement = selectedAgreement;
-          console.log(this.selectedAgreement)
+          // console.log(this.selectedAgreement)
         } else {
           this.sharedService.setStatusMessage('Угода не знайдена');
           setTimeout(() => {
@@ -142,8 +142,9 @@ export class RentalAgreementComponent implements OnInit {
   }
 
   confirmActions(actions: string) {
+    // console.log(this.selectedAgreement)
     const dialogRef = this.dialog.open(ConfirmActionsComponent, {
-      data: { actions: actions, flat_id: this.selectedAgreement.flat.flat_id, owner_firstName: this.selectedAgreement.flat.owner_firstName, owner_lastName: this.selectedAgreement.flat.owner_lastName }
+      data: { actions: actions, flat_id: this.selectedAgreement.flat.flat_id, owner_firstName: this.selectedAgreement.flat.owner_firstName, owner_lastName: this.selectedAgreement.flat.owner_lastName, city: this.selectedAgreement.flat.city, street: this.selectedAgreement.flat.street, houseNumber: this.selectedAgreement.flat.houseNumber }
     });
     dialogRef.afterClosed().subscribe(async (result) => {
       if (actions === 'reject' && result === true) {
@@ -163,7 +164,7 @@ export class RentalAgreementComponent implements OnInit {
       auth: JSON.parse(userJson!),
       user_id: user_id,
       flat_id: this.selectedAgreement.flat.flat_id,
-      agreement_id: this.selectedAgreement.flat.agreement_id
+      agreement_id: this.selectedAgreement.flat.agreement_id,
     };
     try {
       const response = await this.http.post(url, data).toPromise();
@@ -174,7 +175,7 @@ export class RentalAgreementComponent implements OnInit {
           this.sharedService.setStatusMessage('');
         }, 2000);
       } else {
-        this.sharedService.setStatusMessage('Помилка ивдалення');
+        this.sharedService.setStatusMessage('Помилка видалення');
         setTimeout(() => {
           location.reload();
         }, 2000);

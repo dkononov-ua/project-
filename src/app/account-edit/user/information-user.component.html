@@ -127,7 +127,7 @@
                   <img class="img-fluid" [src]="serverPathPhotoUser + userImg" alt="img">
                 </ng-container>
 
-                <ng-container *ngIf="userImg !== 'user_default.svg' && !isLoadingImg">
+                <ng-container *ngIf="userImg && userImg !== 'user_default.svg' && !isLoadingImg">
                   <div class="img-fluid">
                     <div class="container-loader-mini">
                       <mat-spinner color="warn"></mat-spinner>

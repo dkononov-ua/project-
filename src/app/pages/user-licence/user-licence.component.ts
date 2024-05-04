@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-licence',
@@ -6,5 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-licence.component.scss']
 })
 
+
+
 export class UserLicenceComponent {
+  goBack(): void {
+    this.location.back();
+  }
+
+  constructor(
+    private location: Location,
+    private sharedService: SharedService,
+  ) {
+  }
+
 }

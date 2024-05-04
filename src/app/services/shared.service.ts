@@ -162,6 +162,15 @@ export class SharedService {
     }, 3000);
   }
 
+  logout() {
+    this.setStatusMessage('Потрібно авторизуватись');
+    this.clearCache();
+    setTimeout(() => {
+      this.router.navigate(['/auth/login']);
+      this.setStatusMessage('');
+    }, 1500);
+  }
+
   //повна очистка кешу від попередніх даних
   clearCache() {
     localStorage.removeItem('selectedComun');
@@ -183,6 +192,4 @@ export class SharedService {
     localStorage.removeItem('houseData');
     // console.log('кеш оселі очищено')
   }
-
-
 }

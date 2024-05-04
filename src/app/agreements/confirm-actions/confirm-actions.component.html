@@ -7,6 +7,7 @@
       <div class="t-min gray">Від користувача</div>
       <div class="t-lar-x accent">ID оселі: {{data.flat_id}}</div>
       <div class="t-lar-x accent">{{data.owner_firstName}} {{data.owner_lastName}}?</div>
+      <div class="t-lar-x gray m-2">Вкажіть що вам не підійшло</div>
     </div>
 
     <div *ngIf="data.actions === 'accept'" class="t-c">
@@ -17,10 +18,29 @@
       <div class="t-lar-x accent">{{data.owner_firstName}} {{data.owner_lastName}}?</div>
     </div>
 
+    <div class="mt-2" *ngIf="data.actions === 'reject'">
+      <mat-checkbox [(ngModel)]="reasonPay" [value]="'Сума оплати'">Сума оплати</mat-checkbox>
+      <div class="t-min">Оберіть цей варіант якщо вас не влаштовує в угоді сума.</div>
+
+      <mat-checkbox [(ngModel)]="reasonDatePay" [value]="'Дата оплати'">Дата оплати</mat-checkbox>
+      <div class="t-min">Оберіть цей варіант якщо вас не влаштовує число оплати.</div>
+
+      <mat-checkbox [(ngModel)]="reasonPledgePay" [value]="'Сума залогу'">Сума залогу</mat-checkbox>
+      <div class="t-min">Оберіть цей варіант якщо ви не згодні з сумою залогу.</div>
+
+      <mat-checkbox [(ngModel)]="reasonValidity" [value]="'Термін дії'">Термін дії</mat-checkbox>
+      <div class="t-min">Оберіть цей варіант якщо ви не згодні з термінами угоди.</div>
+
+      <mat-form-field class="w-100 mt-2">
+        <mat-label>Що вас не влаштовує?</mat-label>
+        <textarea #textArea id="floatingTextarea" [(ngModel)]="aboutReject" matInput
+          placeholder="Введіть свій варіант чому вам не підходить угода."></textarea>
+      </mat-form-field>
+    </div>
+
   </mat-dialog-content>
   <mat-dialog-actions class="box" align="end">
     <button class="btn m-2" mat-button [mat-dialog-close]="false">Ні</button>
-    <button class="btn m-2" mat-button [mat-dialog-close]="true">Так</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true" (click)="sendMessage()">Так</button>
   </mat-dialog-actions>
 </div>
-

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth, analytics } from '../config/auth';
 import { SharedService } from '../services/shared.service';
-import { DataService } from '../services/data.service';
+import { DataService } from 'src/app/services/data.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CounterService } from '../services/counter.service';

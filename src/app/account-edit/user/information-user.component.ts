@@ -243,17 +243,13 @@ export class InformationUserComponent implements OnInit {
         this.userInfo.user_mail = this.registrationGoogleInfo.email || '';
         try {
           const data = { ...this.userInfo };
-          console.log(data)
+          // console.log(data)
           const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
-          console.log(response)
+          // console.log(response)
           if (response.status === true) {
-
           } else {
-
           }
-        } catch (error) {
-
-        }
+        } catch (error) { console.log(error) }
       } else {
         localStorage.removeItem('registrationGoogleInfo');
         this.registrationGoogleInfo = undefined;
@@ -263,15 +259,13 @@ export class InformationUserComponent implements OnInit {
         this.userCont.mail = this.registrationGoogleInfo.email;
         try {
           const data = { ...this.userInfo };
-          console.log(data)
+          // console.log(data)
           const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
-          console.log(response)
+          // console.log(response)
           if (response.status === true) {
-
           } else {
             localStorage.removeItem('registrationGoogleInfo');
             this.registrationGoogleInfo = undefined;
-
           }
         } catch (error) {
 

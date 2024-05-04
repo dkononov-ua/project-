@@ -25,6 +25,7 @@
           <i class="fa-solid fa-chevron-up"></i>
         </button>
       </div>
+
       <div class="chat-messages-read" *ngIf="allMessages.length !== 0">
         <div class="chat" *ngFor="let message of allMessages">
           <ng-container *ngIf="infoPublic && message.user_id !== null && message.is_read === 1">
@@ -112,14 +113,35 @@
                 </div>
               </div>
             </div>
-
-
           </ng-container>
         </div>
       </div>
+
       <div *ngIf="allMessages.length === 0 && allMessagesNotRead.length === 0">
+        <div *ngIf="selectedChat[0].flat_id === 1">
+          <div class="chat-container-owner">
+            <div class="owner-message">
+              <div class="wrapper-owner w-100">
+                <div class="name-owner pl-2">
+                  <div>Discussio Підтримка<i class="fa-solid fa-check"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="message-content-owner unread">
+                <div class="message-text-owner">Вітаємо! Це
+                  підтримка користувачів Discussio! <i class="fa-solid fa-headset"></i>
+                  Якщо у
+                  вас виникли якісь складнощі чи питання
+                  ми вам допоможемо!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <p class="t-lar gray t-c p-3">Повідомлення відсутні...</p>
       </div>
+
     </div>
   </div>
 
@@ -134,6 +156,7 @@
         </button>
         <textarea id="chat_input" (keyup.enter)="sendMessage()" [(ngModel)]="messageText" name="chat_input"
           placeholder="Напишіть повідомлення..."></textarea>
+        <!-- <button (click)="sendMessageAndCheck"></button> -->
         <button [disabled]="!messageText" class="btn-send" id="send" (click)="sendMessage()"> <i
             class="fa-solid fa-paper-plane fa-2xl"></i> </button>
       </div>

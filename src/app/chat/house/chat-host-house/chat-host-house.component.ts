@@ -6,6 +6,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { Chat } from '../../../interface/info';
 import { ActivatedRoute, Router } from '@angular/router';
 import { animations } from '../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-chat-host-house',
@@ -48,6 +49,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
     private choseSubscribersService: ChoseSubscribersService,
     private router: Router,
     private route: ActivatedRoute,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -150,6 +152,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
       try {
         this.http.post(url, data)
           .subscribe(async (response: any) => {
+            // console.log(response)
             if (Array.isArray(response.status) && response.status) {
               let chat = await Promise.all(response.status.map(async (value: any) => {
                 let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
@@ -158,8 +161,14 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
               }))
               this.chats = chat;
               localStorage.setItem('flatChats', JSON.stringify(this.chats));
+            } else if (response.status === 'Немає доступу') {
+              this.sharedService.setStatusMessage('Немає доступу');
+              setTimeout(() => {
+                this.router.navigate(['/house/house-info']);
+                this.sharedService.setStatusMessage('');
+              }, 1500);
             } else {
-              console.log('chat not found');
+              console.log('Жодного чату');
             }
           }, (error: any) => {
             console.error(error);

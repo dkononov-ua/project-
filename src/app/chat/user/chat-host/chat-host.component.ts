@@ -35,6 +35,7 @@ export class ChatHostComponent implements OnInit {
   indexPage: number = 0;
   chatSelected: boolean = false;
   isLoadingImg: boolean = false;
+  choseFlatID: any;
 
   constructor(
     private http: HttpClient,
@@ -42,10 +43,11 @@ export class ChatHostComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getFlatChats();
+    await this.getFlatChats();
     this.loading = false;
   }
 
+  // отримуємо всі чати які в нас є
   async getFlatChats(): Promise<any> {
     const url = serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
@@ -67,6 +69,8 @@ export class ChatHostComponent implements OnInit {
             this.chats = chat;
             // console.log(this.chats)
             localStorage.setItem('userChats', JSON.stringify(this.chats));
+            // перевіряємо чи є в нас автоматично обраний чат
+            this.getSelectFlatInfo();
           } else {
             console.log('Немає чатів');
           }
@@ -78,12 +82,47 @@ export class ChatHostComponent implements OnInit {
     }
   }
 
+  // отримуємо автоматично з сервісу айді оселі обраний чат
+  async getSelectFlatInfo(): Promise<any> {
+    // console.log('getSelectFlatInfo')
+    this.choseSubscribeService.selectedFlatId$.subscribe(async choseFlatID => {
+      this.choseFlatID = choseFlatID;
+      if (this.choseFlatID) {
+        this.onAutoFlatSelect();
+      } else {
+        this.choseFlatID = undefined;
+      }
+    });
+  }
+
+  // дії при існуванні вибраного айді оселі
+  async onAutoFlatSelect(): Promise<void> {
+    // шукаємо по адйі оселі обраний чат
+    const chat: any = this.chats.find(chat => chat.flat_id === 1);
+    // якщо він є то
+    if (chat) {
+      // скидаємо те що в нас було обрано візуально
+      if (this.selectedChat) {
+        this.selectedChat.isSelected = false;
+      }
+      // вносимо нову інформацію по чату
+      this.selectedChat = chat;
+      // візуально обираємо чат
+      chat.isSelected = true;
+      // повідомляємо що ми обрали чат
+      this.chatSelected = true;
+      // переходимо до повідомлень
+      this.indexPage = 1;
+    }
+  }
+
   onFlatSelect(chat: Chat): void {
     this.chatSelected = true;
     this.choseSubscribeService.setChosenFlatId(chat.flat_id);
   }
 
   selectChat(chat: Chat): void {
+    // console.log(chat)
     if (this.selectedChat) {
       this.selectedChat.isSelected = false;
     }

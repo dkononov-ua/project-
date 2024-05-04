@@ -16,6 +16,7 @@ export class ChoseSubscribeService {
   ) { }
 
   async setChosenFlatId(flatId: string) {
+    // console.log(flatId)
     this.chosenFlatIdSubject.next(flatId);
     setTimeout(async () => {
       await this.counterService.getUserNewMessage();

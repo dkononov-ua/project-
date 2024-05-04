@@ -72,9 +72,11 @@ html {
   justify-content: space-between;
   .gif-box {
     @include flex-box-center;
+    flex-direction: column;
     width: 50%;
     height: 100%;
-    overflow: hidden;
+    // overflow: hidden;
+    position: relative;
     .home-img {
       width: 100%;
       filter: drop-shadow(2px 2px 8px $color-dark);
@@ -85,6 +87,36 @@ html {
       width: 100%;
       object-fit: cover;
       filter: drop-shadow(2px 2px 8px $color-dark);
+    }
+    .btn-next {
+      @include flex-box-center;
+      // background-color: $color-accent;
+      // @include box-shadow;
+      background-color: transparent;
+      color: $color-white;
+      width: 250px;
+      border-radius: 20px;
+      padding: 5px;
+      .fa-regular,
+      .fa-solid {
+        font-size: 40px;
+        color: $color-accent;
+        transition: 1s;
+      }
+      transition: 1s;
+      &:hover {
+        background-color: $color-white;
+        font-weight: 600;
+        transition: 0.4s;
+        transform: scale(1.05);
+        filter: drop-shadow(0px 0px 10px $color-accent);
+        .fa-regular,
+        .fa-solid {
+          transform: scale(1.6);
+          filter: drop-shadow(0px 0px 10px $color-accent);
+          padding-right: 30px;
+        }
+      }
     }
   }
   .flex-column {

@@ -144,19 +144,27 @@ export class SubscriptionsUserComponent implements OnInit {
   async getSubInfo(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
-    try {
-      const allSubscriptions = await this.http.post(serverPath + '/subs/get/ysubs', data).toPromise() as any[];
-      if (allSubscriptions) {
-        localStorage.setItem('allSubscriptions', JSON.stringify(allSubscriptions));
-        const getAllSubscriptions = JSON.parse(localStorage.getItem('allSubscriptions') || '[]');
-        if (getAllSubscriptions) {
-          this.subscriptions = getAllSubscriptions;
+    if (userJson) {
+      try {
+        const allSubscriptions: any = await this.http.post(serverPath + '/subs/get/ysubs', data).toPromise() as any[];
+        // console.log(allSubscriptions)
+        if (allSubscriptions && allSubscriptions.status !== false) {
+          localStorage.setItem('allSubscriptions', JSON.stringify(allSubscriptions));
+          const getAllSubscriptions = JSON.parse(localStorage.getItem('allSubscriptions') || '[]');
+          if (getAllSubscriptions) {
+            this.subscriptions = getAllSubscriptions;
+          } else {
+            this.subscriptions = []
+          }
         } else {
-          this.subscriptions = []
+          console.log('Авторизуйтесь')
+          this.sharedService.logout();
         }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      console.log('Авторизуйтесь')
     }
   }
 

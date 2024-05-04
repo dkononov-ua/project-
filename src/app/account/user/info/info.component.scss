@@ -6,6 +6,20 @@
   background-color: transparent;
 }
 
+.techSupport {
+  position: absolute;
+  left: -50px;
+  top: 130px;
+  z-index: 200;
+  transform: rotate(-90deg);
+  background-color: $color-accent;
+  padding: 5px;
+  border-radius: 5px;
+  .white {
+    color: $color-white;
+  }
+}
+
 .active {
   color: $color-accent !important;
 }
@@ -313,7 +327,7 @@
   z-index: 550 !important;
   position: sticky;
   top: 0;
-    margin-top: 1rem;
+  margin-top: 1rem;
   border-bottom: 1px solid rgba(128, 128, 128, 0.197);
   border-top: 1px solid rgba(128, 128, 128, 0.197);
   background-image: linear-gradient(

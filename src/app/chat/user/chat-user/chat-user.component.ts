@@ -17,6 +17,7 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./chat-user.component.scss']
 })
 export class ChatUserComponent implements OnInit, OnDestroy {
+  selectedChat: any;
 
   isStatisticsMessage(message: string): boolean {
     return /#Статистика#(?:Січень|Лютий|Березень|Квітень|Травень|Червень|Липень|Серпень|Вересень|Жовтень|Листопад|Грудень)#(?:20[1-3]\d|2040)#/.test(message);
@@ -86,10 +87,12 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   async getSelectFlatInfo(): Promise<any> {
     // console.log('getSelectFlatInfo')
     this.choseSubscribeService.selectedFlatId$.subscribe(async choseFlatID => {
-      this.choseFlatID = choseFlatID;
+      this.choseFlatID = Number(choseFlatID);
+      // console.log(this.choseFlatID)
       if (this.choseFlatID) {
         const userAllChats = JSON.parse(localStorage.getItem('userChats') || '[]');
         const selectChat = userAllChats.filter((item: any) => item.flat_id === this.choseFlatID);
+        this.selectedChat = selectChat;
         this.infoPublic = selectChat.length > 0 ? selectChat : undefined;
         await this.getMessages(this.choseFlatID);
       } else {
@@ -138,7 +141,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   async getNewMessages(selectedFlat: any): Promise<void> {
-    console.log('getNewMessages')
+    // console.log('getNewMessages')
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
       this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageUser', {

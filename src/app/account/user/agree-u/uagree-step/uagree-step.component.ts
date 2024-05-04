@@ -134,8 +134,9 @@ export class UagreeStepComponent {
       offs: 0
     };
     try {
-      const response = (await this.http.post(url, data).toPromise()) as Agree[];
-      if (response) {
+      const response:any = (await this.http.post(url, data).toPromise()) as Agree[];
+      // console.log(response)
+      if (response && response[0].status !== 'Авторизуйтесь') {
         const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
         this.agreementIds = agreementIds;
         this.agree = response;
@@ -144,6 +145,8 @@ export class UagreeStepComponent {
       }
       else {
         this.numConcludedAgree = 0;
+        console.log('Авторизуйтесь')
+        this.sharedService.logout();
       }
     } catch (error) {
       console.error(error);

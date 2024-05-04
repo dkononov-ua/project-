@@ -170,8 +170,8 @@ export class SubscriptionsHouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
     try {
-      const allDiscussions = await this.http.post(serverPath + '/usersubs/get/ysubs', data).toPromise() as any[];
-      if (allDiscussions) {
+      const allDiscussions: any = await this.http.post(serverPath + '/usersubs/get/ysubs', data).toPromise() as any[];
+      if (allDiscussions && allDiscussions.status !== 'Немає доступу' && allDiscussions.status !== false) {
         localStorage.setItem('allHouseSubscriptions', JSON.stringify(allDiscussions));
         const getAllDiscussions = JSON.parse(localStorage.getItem('allHouseSubscriptions') || '[]');
         if (getAllDiscussions) {
@@ -179,6 +179,12 @@ export class SubscriptionsHouseComponent implements OnInit {
         } else {
           this.subscribers = []
         }
+      } else {
+        this.sharedService.setStatusMessage('Немає доступу');
+        setTimeout(() => {
+          this.router.navigate(['/house/house-info']);
+          this.sharedService.setStatusMessage('');
+        }, 1500);
       }
     } catch (error) {
       console.error(error);

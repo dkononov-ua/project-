@@ -136,7 +136,7 @@ export interface HouseInfo {
 export interface Chat {
   user_id: string;
   chat_id: string;
-  flat_id: string;
+  flat_id: any;
   flat_name: string;
   isSelected?: boolean;
   lastMessage: string;

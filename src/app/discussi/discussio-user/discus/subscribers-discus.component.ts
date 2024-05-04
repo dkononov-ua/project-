@@ -306,8 +306,9 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
-      const allDiscussions = await this.http.post(serverPath + '/acceptsubs/get/ysubs', data).toPromise() as any[];
-      if (allDiscussions) {
+      const allDiscussions: any = await this.http.post(serverPath + '/acceptsubs/get/ysubs', data).toPromise() as any[];
+      // console.log(allDiscussions)
+      if (allDiscussions && allDiscussions.status !== 'Авторизуйтесь') {
         localStorage.setItem('allDiscussions', JSON.stringify(allDiscussions));
         const getAllDiscussions = JSON.parse(localStorage.getItem('allDiscussions') || '[]');
         if (getAllDiscussions) {
@@ -315,6 +316,9 @@ export class SubscribersDiscusComponent implements OnInit {
         } else {
           this.subscriptions = []
         }
+      } else {
+        console.log('Авторизуйтесь')
+        this.sharedService.logout();
       }
     } catch (error) {
       console.error(error);

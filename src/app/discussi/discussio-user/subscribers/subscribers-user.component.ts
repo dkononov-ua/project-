@@ -140,8 +140,9 @@ export class SubscribersUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
-      const allSubscribers = await this.http.post(serverPath + '/usersubs/get/subs', data).toPromise() as any[];
-      if (allSubscribers) {
+      const allSubscribers: any = await this.http.post(serverPath + '/usersubs/get/subs', data).toPromise() as any[];
+      console.log(allSubscribers)
+      if (allSubscribers && allSubscribers.status !== false) {
         localStorage.setItem('allSubscribers', JSON.stringify(allSubscribers));
         const getAllSubscribers = JSON.parse(localStorage.getItem('allSubscribers') || '[]');
         if (getAllSubscribers) {
@@ -149,6 +150,9 @@ export class SubscribersUserComponent implements OnInit {
         } else {
           this.subscriptions = []
         }
+      } else {
+        console.log('Авторизуйтесь')
+        // this.sharedService.logout();
       }
     } catch (error) {
       console.error(error);

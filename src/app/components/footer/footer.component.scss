@@ -64,6 +64,7 @@ span {
     margin: 10px;
     .social-link-icon {
       @include flex-box-center;
+      // flex-direction: column;
       margin: 0;
       padding: 0 5px 0 5px;
       background-color: transparent;

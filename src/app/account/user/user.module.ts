@@ -20,12 +20,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { UserComponent } from './user.component';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UagreeHostComponent } from './agree-u/uagree-host/uagree-host.component';
 import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component';
 import { PreviewInfoComponent } from './preview-info/preview-info.component';
+import { UserComponent } from './user.component';
 @NgModule({
   declarations: [
     UserComponent,

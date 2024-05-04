@@ -86,6 +86,11 @@
                 <div class="notification-num">{{chat.unread}}</div>
               </div>
 
+              <div class="support" *ngIf="chat.flat_id === 1">
+                <p class="support-text">Підтримка</p>
+                <i class="fa-solid fa-headset pl-2"></i>
+              </div>
+
               <div class="card-mini-img-container">
                 <ng-container *ngIf="chat.infFlat.imgs[0].img && isLoadingImg">
                   <img class="card-mini-img"
@@ -137,6 +142,11 @@
 
               <div class="notification-box" *ngIf="chat.unread !== 0">
                 <div class="notification-num">{{chat.unread}}</div>
+              </div>
+
+              <div class="support" *ngIf="chat.flat_id === 1">
+                <p class="support-text">Підтримка</p>
+                <i class="fa-solid fa-headset pl-2"></i>
               </div>
 
               <div class="card-mini-img-container">

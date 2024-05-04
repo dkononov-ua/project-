@@ -74,16 +74,24 @@
 
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/discussio1.gif" alt="">
+        <button *ngIf="!containers['container1']" class="btn-next t-c" (click)="scrollToAnchor('container1')">
+          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+          <p>Наші функції</p>
+        </button>
       </div>
     </div>
-    <button *ngIf="!containers['container1']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container1')"><i
-        class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
+    <!-- <button *ngIf="!containers['container1']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container1')"><i
+        class="fa-solid fa-chevron-down fa-beat-fade"></i></button> -->
   </div>
 
   <div [@bot] id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
     <div class="flex-box w-100">
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/search.gif" alt="">
+        <button *ngIf="!containers['container2']" class="btn-next t-c" (click)="scrollToAnchor('container2')">
+          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+          <p>Інші функції</p>
+        </button>
       </div>
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
@@ -116,6 +124,10 @@
 
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/agree.gif" alt="">
+        <button *ngIf="!containers['container3']" class="btn-next t-c" (click)="scrollToAnchor('container3')">
+          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+          <p>Інші функції</p>
+        </button>
       </div>
 
       <div class="flex-column p-3 t-c">
@@ -140,6 +152,10 @@
     <div class="flex-box w-100">
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
+        <button *ngIf="!containers['container4']" class="btn-next t-c" (click)="scrollToAnchor('container4')">
+          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+          <p>Інші функції</p>
+        </button>
       </div>
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
@@ -161,6 +177,10 @@
     <div class="flex-box w-100">
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
+        <button *ngIf="!containers['container5']" class="btn-next t-c" (click)="scrollToAnchor('container5')">
+          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+          <p>Інші функції</p>
+        </button>
       </div>
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
@@ -183,6 +203,10 @@
     <div class="flex-box w-100">
       <div class="gif-box t-c">
         <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
+        <button class="btn-next t-c" [routerLink]="'/home/opportunities'">
+          <i class="fa-solid fa-circle-info pr-2"></i>
+          <p>Детальніше про функції</p>
+        </button>
       </div>
       <div class="flex-column p-3 t-c">
         <h3 class="bg-mob"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
@@ -201,8 +225,6 @@
     </div>
     <button class="btn update m-2" (click)="scrollToAnchor('container0')"> <i class="fa-solid fa-arrow-up pr-2"></i>
       На початок</button>
-    <button class="btn update m-2" [routerLink]="'/home/opportunities'"> <i class="fa-solid fa-circle-info pr-2"></i>
-      Детальніше про наші функції</button>
   </div>
 
 </div>

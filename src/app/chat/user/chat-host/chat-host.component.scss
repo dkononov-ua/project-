@@ -2,3 +2,19 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
+.support {
+  @include flex-box-center;
+  @include box-shadow-a;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 5px;
+  z-index: 20;
+  background-color: $color-white;
+  padding: 10px;
+  border-radius: 20px;
+  .support-text {
+    color: $color-dark;
+    font-weight: 600;
+  }
+}

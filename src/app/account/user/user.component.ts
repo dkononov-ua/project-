@@ -78,9 +78,16 @@ export class UserComponent implements OnInit {
   }
 
   getCounterAgree() {
-    const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
-    if (counterUserNewAgree) {
-      this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
+    const userJson = localStorage.getItem('user');
+    // console.log(localStorage.getItem('user'))
+    if (userJson) {
+      const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
+      if (counterUserNewAgree) {
+        this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
+        // console.log(counterUserNewAgree)
+      } else {
+        this.counterUserNewAgree = 0;
+      }
     } else {
       this.counterUserNewAgree = 0;
     }

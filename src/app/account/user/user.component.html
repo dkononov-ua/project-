@@ -47,8 +47,7 @@
         <i class="fa-solid fa-person-walking-luggage"></i>
         <div class="t-min bold">Дискусії</div>
         <div class="status" *ngIf="counterUserDiscussio && counterUserDiscussio !== '0'">
-          {{counterUserDiscussio}}
-        </div>
+          {{counterUserDiscussio}} </div>
       </button>
     </div>
 
@@ -79,7 +78,8 @@
             </div>
 
             <div class="btn-group mt-2">
-              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль користувача' }">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'"
+                [queryParams]="{ category: 'Профіль користувача' }">
                 <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
                 <i class="fa-regular fa-lightbulb"></i>
               </button>

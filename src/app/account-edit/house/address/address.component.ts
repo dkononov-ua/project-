@@ -6,9 +6,9 @@ import { cities } from '../../../data/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/services/data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
+import { DataService } from 'src/app/services/data.service';
 
 interface FlatInfo {
   flat_id: string | undefined;

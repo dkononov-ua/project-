@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ServerKeepAliveService } from 'src/app/services/server-keep-alive.service';
 
 @Component({
   selector: 'app-footer',

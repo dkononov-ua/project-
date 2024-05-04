@@ -4,13 +4,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
-import { DataService } from 'src/app/services/data.service';
 import { animations } from '../../../interface/animation';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
+import { DataService } from 'src/app/services/data.service';
 
 interface FlatInfo {
   students: boolean;
@@ -111,7 +111,6 @@ export class AboutComponent implements OnInit {
     private _dialog: LyDialog,
     private sharedService: SharedService,
     private missingParamsService: MissingParamsService,
-
   ) { }
 
   ngOnInit(): void {

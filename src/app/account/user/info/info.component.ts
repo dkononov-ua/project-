@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CounterService } from 'src/app/services/counter.service';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { SendMessageService } from 'src/app/chat/send-message.service';
 
 @Component({
   selector: 'app-info',
@@ -87,6 +88,7 @@ export class InfoComponent implements OnInit {
     private counterService: CounterService,
     private location: Location,
     private sharedService: SharedService,
+    private sendMessageService: SendMessageService,
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
@@ -100,7 +102,7 @@ export class InfoComponent implements OnInit {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-    this.getInfoUser()
+    this.getInfoUser();
     this.getInfo(),
       setTimeout(() => {
         this.loading = false;
@@ -145,27 +147,32 @@ export class InfoComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.dataService.getInfoUser().subscribe(
-        (response: any) => {
-          // console.log(response)
-          this.agreeNum = response.agree;
-          localStorage.setItem('counterUserNewAgree', JSON.stringify(this.agreeNum));
-          this.userInfo.user_id = response.inf?.user_id || '';
-          this.userInfo.firstName = response.inf?.firstName || '';
-          this.userInfo.lastName = response.inf?.lastName || '';
-          this.userInfo.surName = response.inf?.surName || '';
-          this.userInfo.mail = response.cont.mail || '';
-          this.userInfo.dob = response.inf?.dob || '';
-          this.userInfo.tell = response.cont?.tell || '';
-          this.userInfo.telegram = response.cont?.telegram || '';
-          this.userInfo.facebook = response.cont?.facebook || '';
-          this.userInfo.instagram = response.cont?.instagram || '';
-          this.userInfo.viber = response.cont?.viber || '';
-          this.userInfo.checked = response.inf?.checked || 0;
-          if (response.img && response.img.length > 0) {
-            this.userImg = response.img[0].img;
+        (response) => {
+          if (response.status === true) {
+            // console.log(response)
+            this.agreeNum = response.agree;
+            localStorage.setItem('counterUserNewAgree', JSON.stringify(this.agreeNum));
+            this.userInfo.user_id = response.inf?.user_id || '';
+            this.userInfo.firstName = response.inf?.firstName || '';
+            this.userInfo.lastName = response.inf?.lastName || '';
+            this.userInfo.surName = response.inf?.surName || '';
+            this.userInfo.mail = response.cont.mail || '';
+            this.userInfo.dob = response.inf?.dob || '';
+            this.userInfo.tell = response.cont?.tell || '';
+            this.userInfo.telegram = response.cont?.telegram || '';
+            this.userInfo.facebook = response.cont?.facebook || '';
+            this.userInfo.instagram = response.cont?.instagram || '';
+            this.userInfo.viber = response.cont?.viber || '';
+            this.userInfo.checked = response.inf?.checked || 0;
+            if (response.img && response.img.length > 0) {
+              this.userImg = response.img[0].img;
+            }
+            this.getRating();
+            this.getRatingOwner();
+          } else {
+            console.log('Авторизуйтесь')
+            this.sharedService.logout();
           }
-          this.getRating();
-          this.getRatingOwner();
         },
         (error) => {
           console.error(error);
@@ -177,7 +184,6 @@ export class InfoComponent implements OnInit {
   // пошукові параметри орендара
   async getInfo(): Promise<any> {
     this.loading = true;
-
     localStorage.removeItem('searchInfoUserData')
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -185,7 +191,7 @@ export class InfoComponent implements OnInit {
         .subscribe((response: any) => {
           localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
-          if (searchInfoUserData !== null) {
+          if (response.status !== false && searchInfoUserData) {
             this.searchInfoUserData = JSON.parse(searchInfoUserData);
             // console.log(this.searchInfoUserData)
             this.userInfo.price_of = this.searchInfoUserData.price_of === "0.01" ? -1 : this.searchInfoUserData.price_of;
@@ -337,5 +343,19 @@ export class InfoComponent implements OnInit {
       }, 1500);
     }, 1500);
   }
+
+  async checkChatExistAndOpen(): Promise<void> {
+    try {
+      const chatExists = await this.sendMessageService.checkChatExistence(1);
+      if (chatExists) {
+        this.sendMessageService.openChat();
+      } else {
+        this.sendMessageService.createChat();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
 }
