@@ -171,6 +171,15 @@ export class SharedService {
     }, 1500);
   }
 
+  logoutHouse() {
+    this.setStatusMessage('Потрібно обрати оселю');
+    this.clearCacheHouse();
+    setTimeout(() => {
+      this.router.navigate(['/house/house-control/selection-house']);
+      this.setStatusMessage('');
+    }, 1500);
+  }
+
   //повна очистка кешу від попередніх даних
   clearCache() {
     localStorage.removeItem('selectedComun');

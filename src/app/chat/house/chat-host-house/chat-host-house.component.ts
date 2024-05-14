@@ -7,6 +7,7 @@ import { Chat } from '../../../interface/info';
 import { ActivatedRoute, Router } from '@angular/router';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
 
 @Component({
   selector: 'app-chat-host-house',
@@ -50,6 +51,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private sharedService: SharedService,
+    private updateComponent: UpdateComponentService,
   ) { }
 
   async ngOnInit(): Promise<any> {
@@ -160,6 +162,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
                 return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message }
               }))
               this.chats = chat;
+              // console.log(this.chats)
               localStorage.setItem('flatChats', JSON.stringify(this.chats));
             } else if (response.status === 'Немає доступу') {
               this.sharedService.setStatusMessage('Немає доступу');
@@ -183,8 +186,32 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   selectChat(chat: Chat): void {
     if (this.selectedChat) { this.selectedChat.isSelected = false; }
     this.selectedChat = chat;
+    // console.log(this.selectedChat)
     chat.isSelected = true;
     this.indexPage = 1;
     this.onSubscriberSelect(chat.user_id);
+    this.readMessage(this.selectedChat);
+  }
+
+  // Читаємо нові повідомлення
+  async readMessage(chat: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && chat.flat_id && chat.user_id) {
+      const data = {
+        auth: JSON.parse(userJson),
+        flat_id: chat.flat_id,
+        user_id: chat.user_id,
+      };
+      // console.log(data)
+      try {
+        const response: any = await this.http.post(serverPath + '/chat/readMessageFlat', data).toPromise();
+        // console.log(response)
+        if (response.status === true) {
+          this.updateComponent.iReadHouseMessage();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 }

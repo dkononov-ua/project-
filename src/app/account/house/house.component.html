@@ -22,7 +22,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-house'">
+      <button [disabled]="!houseData || acces_flat_chats !== 1" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-house'">
         <i class="fa-regular fa-comments"></i>
         <div class="t-min bold">Повід.</div>
         <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
@@ -32,7 +32,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscriptions-house'">
+      <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscriptions-house'">
         <i class="fa-solid fa-people-pulling"></i>
         <div class="t-min bold">Підписки</div>
         <div class="status" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== '0'">
@@ -41,7 +41,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscribers-house'">
+      <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscribers-house'">
         <i class="fa-solid fa-child-reaching"></i>
         <div class="t-min bold">Підписники</div>
         <div class="status" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== '0'">
@@ -50,7 +50,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/subscribers-discus'">
+      <button [disabled]="!houseData || acces_discuss !== 1" class="btn" [routerLink]="'/subscribers-discus'">
         <i class="fa-solid fa-person-walking-luggage"></i>
         <div class="t-min bold">Дискусії</div>
         <div class="status" *ngIf="counterHouseDiscussio && counterHouseDiscussio !== '0'">
@@ -60,7 +60,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!houseData" class="btn" [routerLink]="'/house/agree'">
+      <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn" [routerLink]="'/house/agree'">
         <i class="fa-solid fa-envelope-open-text"></i>
         <div class="t-min bold">Угоди</div>
       </button>

@@ -120,15 +120,20 @@ export class HouseShareComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
-      this.http.post(serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (response)
-            this.flatInfo = response[0];
-          this.loading = false;
-        }, (error: any) => {
-          console.error(error);
-          this.loading = false;
-        });
+      try {
+        const response: any = await this.http.post(serverPath + '/flatinfo/get/flatinf', {
+          auth: JSON.parse(userJson),
+          flat_id: this.selectedFlatId,
+        }).toPromise();
+        // console.log(response)
+        if (response && response.status !== 'Не співпало ID квартири з користувачем') {
+          this.flatInfo = response[0];
+        } else {
+          this.clearInfo();
+        }
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       console.log('house not found');
       this.loading = false;

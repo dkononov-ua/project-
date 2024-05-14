@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
 import { serverPath, path_logo } from 'src/app/config/server-config';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CloseMenuService } from './services/close-menu.service';
 import { SharedService } from './services/shared.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
   isMenuOpen = true;
   hideMenu = false;
   indexPage: number = 0;
+  shouldBeVisible: boolean = true;
 
   onToggleMenu() {
     if (this.isMenuOpen) {
@@ -49,6 +51,7 @@ export class AppComponent implements OnInit {
       this.hideMenu = true;
     }, 500);
   }
+  private routerSubscription: Subscription | undefined;
 
   constructor(
     private http: HttpClient,
@@ -66,6 +69,12 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.handleRouteChange(this.router.url);
+      }
+    });
+
     const currentLocation = this.location.path();
     await this.compareLocationWithCondition(currentLocation);
     if (this.loggedInAccount === false) {
@@ -76,6 +85,21 @@ export class AppComponent implements OnInit {
       await this.getMenuIsOpen();
       await this.getUserInfo();
       this.loading = false;
+    }
+
+  }
+
+  handleRouteChange(currentRoute: string): void {
+    if (currentRoute.includes('/home/about-project')) {
+      this.shouldBeVisible = true;
+
+      // Ваш потрібний роут (/home/about-project)
+      // Додайте тут код для виконання дій, якщо поточний роут співпадає з /home/about-project
+    } else {
+      this.shouldBeVisible = false;
+
+      // Інші роути
+      // Додайте тут код для виконання дій, якщо поточний роут не співпадає з /home/about-project
     }
   }
 

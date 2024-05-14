@@ -199,24 +199,40 @@ export class SelectionHousingComponent implements OnInit {
       if (userJson && flat) {
         this.sharedService.clearCacheHouse();
         this.loading = true;
-        this.statusMessage = 'Обираємо ' + flat.flat_name;
+        this.sharedService.setStatusMessage('Обираємо ' + flat.flat_name);
         setTimeout(() => {
-          this.statusMessage = 'Оновлюємо дані';
+          this.sharedService.setStatusMessage('Оновлюємо дані');
           this.selectedFlatService.setSelectedFlatId(flat.flat_id);
           this.selectedFlatService.setSelectedFlatName(flat.flat_name);
           this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
           this.dataService.getInfoFlat().subscribe((response: any) => {
             if (response) {
               setTimeout(() => {
-                this.statusMessage = 'Оновлено';
+                this.sharedService.setStatusMessage('Оновлено');
                 localStorage.setItem('houseData', JSON.stringify(response));
                 this.selectedFlatName = flat.flat_name;
                 this.selectedFlatId = flat.flat_id;
-                this.houseData = localStorage.getItem('houseData');
-                if (this.houseData) {
+                const houseData = localStorage.getItem('houseData');
+                if (houseData ) {
+                  const parsedHouseData = JSON.parse(houseData);
+                  this.houseData = parsedHouseData;
+                }
+                // console.log(this.houseData)
+                if (this.houseData && this.houseData.status === true) {
                   setTimeout(() => {
                     this.router.navigate(['/house/house-info']);
+                    this.sharedService.setStatusMessage('');
                   }, 1500);
+                } else {
+                  this.sharedService.setStatusMessage('У вас немає доступу до оселі ID ' + this.selectedFlatId + ' або можливо її було забанено');
+                  setTimeout(() => {
+                    this.sharedService.setStatusMessage('Зверніться до техпідтримки Discussio');
+                    setTimeout(() => {
+                      this.sharedService.clearCacheHouse();
+                      this.sharedService.setStatusMessage('');
+                      location.reload();
+                    }, 2000);
+                  }, 2000);
                 }
               }, 1500);
             } else {
@@ -249,10 +265,9 @@ export class SelectionHousingComponent implements OnInit {
             .subscribe(
               (response: any) => {
                 this.sharedService.clearCacheHouse();
-                this.statusMessage = 'Оселя видалена';
                 this.sharedService.setStatusMessage('Оселя видалена');
                 setTimeout(() => {
-                  this.statusMessage = '';
+                  this.sharedService.setStatusMessage('');
                   this.reloadPageWithLoader()
                 }, 1500);
               },

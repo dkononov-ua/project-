@@ -13,6 +13,18 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 import { checkPasswordStrength, onValueChanged, formErrors, validationMessages } from '../validation';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'dd/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -25,6 +37,7 @@ import { checkPasswordStrength, onValueChanged, formErrors, validationMessages }
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   animations: [
     animations.top1,

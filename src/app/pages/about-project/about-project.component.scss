@@ -1,15 +1,44 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 
+.tiktok {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  border-radius: 20px;
+  overflow: hidden;
+  @include box-shadow;
+}
+
+.link-licence {
+  background-color: transparent;
+  &:disabled {
+    color: $color-gray;
+  }
+}
+
+.box-agree {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 html {
   transition: 5s;
   scroll-behavior: smooth;
 }
 
+a {
+  text-transform: capitalize;
+  padding: 0;
+  margin: 0;
+}
+
 .flex-column {
   overflow: auto;
   height: 100%;
-  width: 100%;
+  // width: 100%;
   @include s3-s6-max {
     padding: 20px;
   }
@@ -44,6 +73,12 @@ html {
       padding-right: 20px;
     }
   }
+  &:disabled {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+  }
+
 }
 
 .btn-home {
@@ -73,12 +108,13 @@ html {
   .gif-box {
     @include flex-box-center;
     flex-direction: column;
-    width: 50%;
+    // width: 50%;
     height: 100%;
     // overflow: hidden;
     position: relative;
     .home-img {
       width: 100%;
+      padding: 10px;
       filter: drop-shadow(2px 2px 8px $color-dark);
       object-fit: cover;
     }
@@ -120,7 +156,7 @@ html {
     }
   }
   .flex-column {
-    width: 40%;
+    // width: 40%;
     @include flex-box-center;
     flex-direction: column;
   }
@@ -148,11 +184,11 @@ html {
 
 .conteiner-content {
   display: flex;
-  height: 100%;
+  // height: 100%;
   // justify-content: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.115);
+  // border-bottom: 1px solid rgba(128, 128, 128, 0.115);
   padding: 20px;
   // margin-bottom: 20px;
 

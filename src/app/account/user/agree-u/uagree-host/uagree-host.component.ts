@@ -146,8 +146,8 @@ export class UagreeHostComponent {
       }
       else {
         this.numConcludedAgree = 0;
-        console.log('Авторизуйтесь')
-        this.sharedService.logout();
+        // console.log('Авторизуйтесь')
+        // this.sharedService.logout();
       }
     } catch (error) {
       console.error(error);

@@ -2,7 +2,7 @@
 
   <div [@bot] id="container0" class="conteiner-content al-c">
     <div class="flex-box w-100">
-      <div class="flex-column p-3 t-c">
+      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
 
         <button class="btn update m-2" [routerLink]="'/home/update'">
           <i class="fa-regular fa-circle-up pr-2"></i>Останні Оновлення
@@ -11,23 +11,42 @@
         <h1><strong>Discussio</strong></h1>
         <!-- <h2 class="text mb-4">Це перша Українська соціальні мережа для нерухомості!</h2> -->
         <h3><strong>Оренда & здача оселі</strong></h3>
-        <h5 class="text t-c m-2">Ми створюємо спільноту орендодавців та орендарів <br> <strong>без ріелторів!</strong>
+        <h5 class="text t-c m-2"><strong>Ми створюємо спільноту орендодавців та орендарів!</strong>
           Спрощуємо процеси їх співпраці, в форматі соціальної мережі та з
           інструментами для управління оселею.
         </h5>
 
-        <button class="btn update m-2" [routerLink]="'/auth/registration'">
+        <!-- <button class="btn update m-2" [routerLink]="'/auth/registration'">
           <i class="fa-solid fa-right-to-bracket pr-2"></i>
           Зареєструватись
+        </button> -->
+
+        <div class="box-agree">
+          <label class="checkBox">
+            <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+            <div class="transition"></div>
+          </label>
+          <p class="t-min w-75 t-c">Реєструючись я погоджуюсь з <button [disabled]="agreementAccepted" class="link-licence accent"
+              [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">угодою
+              користувача</button>
+          </p>
+        </div>
+
+        <button [disabled]="!agreementAccepted" class="btn update m-2" (click)="openGoogleRegistration()">
+          Зареєструватись з <i class="fa-brands fa-google pl-2"></i>
         </button>
 
         <p class="t-min mt-2 gray">
           Вже зареєстровані у нас?
         </p>
 
-        <button class="btn update m-2" (click)="openGoogleAuth()">
-          Увійти з <i class="fa-brands fa-google pl-2"></i>
+        <button class="btn update m-2" [routerLink]="'/auth/login'">
+          Увійти в аккаунт  <i class="fa-solid fa-right-to-bracket pl-2"></i>
         </button>
+
+        <!-- <button class="btn update m-2" (click)="openGoogleAuth()">
+          Увійти з <i class="fa-brands fa-google pl-2"></i>
+        </button> -->
 
         <p class="t-min mt-2 gray">
           Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям в пошуку або здачі житла без
@@ -72,8 +91,8 @@
 
       </div>
 
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/discussio1.gif" alt="">
+      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
+        <img class="home-img" src="../../../assets/gif/discussio.gif" alt="">
         <button *ngIf="!containers['container1']" class="btn-next t-c" (click)="scrollToAnchor('container1')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
           <p>Наші функції</p>
@@ -86,14 +105,18 @@
 
   <div [@bot] id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
     <div class="flex-box w-100">
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/search.gif" alt="">
+      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
+        <iframe class="tiktok" src="https://www.tiktok.com/embed/v2/7364325880501374209" width="320" height="560" frameborder="0"></iframe>
+
         <button *ngIf="!containers['container2']" class="btn-next t-c" (click)="scrollToAnchor('container2')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
           <p>Інші функції</p>
         </button>
       </div>
-      <div class="flex-column p-3 t-c">
+      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
+
+        <img class="home-img" width="320" src="../../../assets/gif/search.gif" alt="">
+
         <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
           </span></h3>
 
@@ -122,15 +145,16 @@
   <div [@bot] id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
     <div class="flex-box w-100">
 
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/agree.gif" alt="">
-        <button *ngIf="!containers['container3']" class="btn-next t-c" (click)="scrollToAnchor('container3')">
+      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
+        <iframe class="tiktok" src="https://www.tiktok.com/embed/v2/7365979982872546561" width="320" height="560" frameborder="0"></iframe>
+        <button *ngIf="!containers['container3']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container3')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
           <p>Інші функції</p>
         </button>
       </div>
 
-      <div class="flex-column p-3 t-c">
+      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
+        <img class="home-img" width="320" src="../../../assets/gif/agree.gif" alt="">
         <h3 class="bg-mob"><span class="bold"> Створення автоматичних угод & та актів. </span></h3>
         <p class="text t-c">
           Наша платформа дозволяє легко та швидко <strong>створити угоду оренди</strong> <i
@@ -150,14 +174,14 @@
 
   <div [@bot] id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
     <div class="flex-box w-100">
-      <div class="gif-box t-c">
+      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
         <button *ngIf="!containers['container4']" class="btn-next t-c" (click)="scrollToAnchor('container4')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
           <p>Інші функції</p>
         </button>
       </div>
-      <div class="flex-column p-3 t-c">
+      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
         <h3 class="bg-mob"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
               class="fa-regular fa-face-frown  pl-2 pr-2"></i> орендодавця & орендаря. </span></h3>
         <p class="text t-c">
@@ -175,14 +199,14 @@
 
   <div [@bot] id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
     <div class="flex-box w-100">
-      <div class="gif-box t-c">
+      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
         <button *ngIf="!containers['container5']" class="btn-next t-c" (click)="scrollToAnchor('container5')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
           <p>Інші функції</p>
         </button>
       </div>
-      <div class="flex-column p-3 t-c">
+      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
         <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
         <p class="text t-c">
           Ви можете <strong>створювати комунальні послуги</strong> та вибирати різні варіанти розрахунку
@@ -201,14 +225,14 @@
 
   <div [@bot] id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
     <div class="flex-box w-100">
-      <div class="gif-box t-c">
+      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
         <button class="btn-next t-c" [routerLink]="'/home/opportunities'">
           <i class="fa-solid fa-circle-info pr-2"></i>
           <p>Детальніше про функції</p>
         </button>
       </div>
-      <div class="flex-column p-3 t-c">
+      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
         <h3 class="bg-mob"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
         </h3>
         <p class="text t-c">

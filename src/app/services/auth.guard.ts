@@ -16,7 +16,7 @@ export class CanActivateGuard implements CanActivate {
     }
 
     // користувач не увійшов в свій аккаунт, перенаправляємо на сторінку входу
-    this.router.navigate(['home/registration']);
+    this.router.navigate(['/auth/login']);
     return false;
   }
 }

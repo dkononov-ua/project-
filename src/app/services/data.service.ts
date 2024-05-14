@@ -26,9 +26,9 @@ export class DataService {
             if (response && response.status === true) {
               localStorage.setItem('userData', JSON.stringify(response));
             }
-            // else {
-            //   this.sharedService.logout();
-            // }
+            else {
+              this.sharedService.logout();
+            }
           }),
           catchError((error: any) => {
             localStorage.removeItem('userData');

@@ -200,10 +200,12 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         offs: 0,
         data: this.allMessages[0]?.data,
       };
+      // console.log(requestData)
       // це підписка на запит кожні 3 секунди інтервал запитує нові повідомлення вона відміняється після закриття компоненту
       this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageFlat', requestData)
         .subscribe(
           async (response: any) => {
+            // console.log(response)
             if (Array.isArray(response.status)) {
               let unreadMessages: any = []
               await Promise.all(response.status.map((serverMessage: any, index: any) => {

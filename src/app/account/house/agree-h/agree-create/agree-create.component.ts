@@ -278,8 +278,10 @@ export class AgreeCreateComponent implements OnInit {
   async getAgent(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, };
+    console.log(data)
     try {
       const response = await this.http.post(serverPath + '/userinfo/agent', data).toPromise() as any[];
+      console.log(response)
       if (response) { this.userData = response; }
       else { this.userData = undefined; }
     } catch (error) { console.error(error); }

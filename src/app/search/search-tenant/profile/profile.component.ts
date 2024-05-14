@@ -195,32 +195,32 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  selectUser(user: UserInfo) {
+  async selectUser(user: UserInfo) {
     this.reviews = [];
     this.indexPage = 1;
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
-    this.getRating(this.selectedUser)
-    this.checkSubscribe();
-    this.calculateTotalDays()
+    await this.getRating(this.selectedUser)
+    await this.checkSubscribe();
+    await this.calculateTotalDays()
   }
 
-  onPrevCard() {
+  async onPrevCard() {
     this.reviews = [];
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
-    this.getRating(this.selectedUser)
-    this.checkSubscribe();
-    this.calculateTotalDays()
+    await this.getRating(this.selectedUser)
+    await this.checkSubscribe();
+    await this.calculateTotalDays()
   }
 
-  onNextCard() {
+  async onNextCard() {
     this.reviews = [];
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
-    this.getRating(this.selectedUser)
-    this.checkSubscribe();
-    this.calculateTotalDays()
+    await this.getRating(this.selectedUser)
+    await this.checkSubscribe();
+    await this.calculateTotalDays()
   }
 
   private calculateCardIndex(index: number): number {
@@ -228,7 +228,7 @@ export class ProfileComponent implements OnInit {
     return (index + length) % length;
   }
 
-  calculateTotalDays(): number {
+  async calculateTotalDays(): Promise<number> {
     const days = this.selectedUser.days || 0;
     const weeks = this.selectedUser.weeks || 0;
     const months = this.selectedUser.months || 0;
@@ -244,6 +244,7 @@ export class ProfileComponent implements OnInit {
     if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
       const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
       try {
+
         const response: any = await this.http.post(serverPath + '/usersubs/subscribe', data).toPromise();
         // console.log(response)
         if (response.status === 'Ви успішно відписались') {
@@ -253,6 +254,7 @@ export class ProfileComponent implements OnInit {
         } else {
           this.subscriptionStatus = 1;
         }
+        this.checkSubscribe();
       } catch (error) {
         console.error(error);
         this.statusMessage = 'Щось пішло не так, повторіть спробу';

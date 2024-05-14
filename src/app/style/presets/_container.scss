@@ -3,8 +3,10 @@
 
 .container {
   display: grid;
-  max-width: 1050px;
+  // max-width: 1050px;
   font-family: $font-main;
+  margin: 0;
+  padding: 0;
 }
 
 .container::-webkit-scrollbar {

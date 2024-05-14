@@ -34,6 +34,7 @@ export class AboutProjectComponent implements OnInit {
   currentScenario: number = 1;
   statusMessage: string | undefined;
   gmail: string = 'discussio.inc@gmail.com';
+  agreementAccepted: boolean = false;
 
   containers: { [key: string]: boolean } = {
     container1: false,
@@ -69,6 +70,17 @@ export class AboutProjectComponent implements OnInit {
 
   changeStep(step: number): void {
     this.currentStep = step;
+  }
+
+  openGoogleRegistration() {
+    if (!this.agreementAccepted) {
+      this.sharedService.setStatusMessage('Треба ознайомитись з угодою користувача');
+      setTimeout(() => {
+        this.sharedService.setStatusMessage('');
+      }, 1000);
+    } else {
+      this.authGoogleService.singAuthGoogle('registration');
+    }
   }
 
   openGoogleAuth() {

@@ -95,7 +95,7 @@
           </form>
 
           <button class="btn btn-primary"
-            [disabled]="formErrors.email || !registrationForm.valid || !agreementAccepted || !validateAgeDate"
+            
             [ngClass]="{'disabled-button': formErrors.email || !registrationForm.valid || !agreementAccepted || !validateAgeDate}"
             (click)="registrationCheck()" *ngIf="indexBtn === 1">
             Зареєструватись <i class="fa-solid fa-person-walking-dashed-line-arrow-right pl-2"></i>

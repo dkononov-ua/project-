@@ -311,6 +311,7 @@ export class MainInfoComponent implements OnInit {
     if (this.houseData) {
       const parsedHouseData = JSON.parse(this.houseData);
       this.houseData = parsedHouseData;
+      // console.log(this.houseData)
       if (this.houseData.acces) {
         this.acces_added = this.houseData.acces.acces_added;
         this.acces_admin = this.houseData.acces.acces_admin;
@@ -368,7 +369,8 @@ export class MainInfoComponent implements OnInit {
       const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: 0, };
       try {
         const response: any = (await this.http.post(serverPath + '/agreement/get/saveagreements', data).toPromise()) as any;
-        if (response) {
+        // console.log(response)
+        if (response && response[0].status !== 'Немає доступу') {
           const agreeData = response.filter((item: { flat: { subscriber_id: any; }; }) =>
             item.flat.subscriber_id === user_id);
           if (agreeData && agreeData.length !== 0) {
@@ -387,6 +389,10 @@ export class MainInfoComponent implements OnInit {
           }
         } else {
           this.numConcludedAgree = 0;
+          // this.sharedService.setStatusMessage('У вас немає доступу до оселі ID ' + this.selectedFlatId + 'Можливо її було забанено');
+          // setTimeout(() => {
+          //   this.sharedService.logoutHouse();
+          // }, 2000);
         }
       } catch (error) {
         console.error(error);

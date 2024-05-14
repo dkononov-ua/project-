@@ -137,10 +137,10 @@
 
         <div class="item-box">
           <button mat-raised-button class="btn link"
-            [ngClass]="{'unSubscribed': subscriptionStatus === 0, 'subscribed': subscriptionStatus === 1, 'discussion': subscriptionStatus === 2}"
+            [ngClass]="{'unSubscribed': subscriptionStatus === 1, 'subscribed': subscriptionStatus === 0, 'discussion': subscriptionStatus === 2}"
             (click)="getSubscribe()" [disabled]="subscriptionStatus === 2">
-            <i class="fa-regular fa-heart" *ngIf="subscriptionStatus === 0"></i>
-            <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 1"></i>
+            <i class="fa-regular fa-heart" *ngIf="subscriptionStatus === 1"></i>
+            <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 0"></i>
             <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 2"></i>
           </button>
         </div>

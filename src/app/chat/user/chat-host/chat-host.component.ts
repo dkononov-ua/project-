@@ -87,8 +87,9 @@ export class ChatHostComponent implements OnInit {
     // console.log('getSelectFlatInfo')
     this.choseSubscribeService.selectedFlatId$.subscribe(async choseFlatID => {
       this.choseFlatID = choseFlatID;
+      // console.log(this.choseFlatID)
       if (this.choseFlatID) {
-        this.onAutoFlatSelect();
+        this.onAutoFlatSelect(Number(this.choseFlatID));
       } else {
         this.choseFlatID = undefined;
       }
@@ -96,9 +97,9 @@ export class ChatHostComponent implements OnInit {
   }
 
   // дії при існуванні вибраного айді оселі
-  async onAutoFlatSelect(): Promise<void> {
+  async onAutoFlatSelect(choseFlatID: number): Promise<void> {
     // шукаємо по адйі оселі обраний чат
-    const chat: any = this.chats.find(chat => chat.flat_id === 1);
+    const chat: any = this.chats.find(chat => chat.flat_id === choseFlatID);
     // якщо він є то
     if (chat) {
       // скидаємо те що в нас було обрано візуально
