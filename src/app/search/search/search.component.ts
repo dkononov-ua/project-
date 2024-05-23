@@ -101,12 +101,15 @@ export class SearchComponent implements OnInit {
   }
 
   goToSearchTenants() {
-    if (this.selectedFlatId) {
-      this.authorizationHouse = true;
-      this.router.navigate(['/search-tenants/filter']);
-    } else {
-      this.authorizationHouse = false;
-      this.sharedService.getAuthorizationHouse();
-    }
+    this.router.navigate(['/search-tenants/filter']);
+
+
+    // if (this.selectedFlatId) {
+    //   this.authorizationHouse = true;
+    //   this.router.navigate(['/search-tenants/filter']);
+    // } else {
+    //   this.authorizationHouse = false;
+    //   this.sharedService.getAuthorizationHouse();
+    // }
   }
 }

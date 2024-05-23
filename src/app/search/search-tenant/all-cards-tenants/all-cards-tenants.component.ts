@@ -75,6 +75,7 @@ export class AllCardsTenantsComponent implements OnInit {
   startX = 0;
   isLoadingImg: boolean = false;
   @ViewChild('findCards') findCardsElement!: ElementRef;
+  authorizationHouse: boolean = false;
 
   constructor(
     private filterService: FilterUserService,
@@ -116,12 +117,12 @@ export class AllCardsTenantsComponent implements OnInit {
   async getSelectedFlat() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.getSearchInfo();
+      if (!this.selectedFlatId) {
+        this.authorizationHouse = false;
       } else {
-        console.log('Немає обраної оселі')
-        this.loading = false;
+        this.authorizationHouse = true;
       }
+      this.getSearchInfo();
     });
   }
 
@@ -145,8 +146,11 @@ export class AllCardsTenantsComponent implements OnInit {
   getFilteredData(filterValue: any, optionsFound: number) {
     if (filterValue) {
       this.filteredUsers = filterValue;
+      // console.log(this.filteredUsers)
       this.optionsFound = optionsFound;
-      this.selectedUser = this.filteredUsers![0];
+      if (!this.selectedUser) {
+        this.selectedUser = this.filteredUsers![0];
+      }
       this.loading = false;
     } else {
       this.optionsFound = 0;
@@ -158,6 +162,7 @@ export class AllCardsTenantsComponent implements OnInit {
 
   selectUser(user: UserInfo) {
     this.selectedUser = user;
+    // console.log(user)
     this.filterService.pickUser(user);
     this.router.navigate(['/search-tenants/tenants']);
   }

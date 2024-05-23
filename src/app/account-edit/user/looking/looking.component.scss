@@ -107,6 +107,14 @@
   }
 }
 
+.text {
+  text-transform: capitalize;
+}
+
+.bg-red {
+  background-color: rgba(255, 0, 0, 0.692);
+}
+
 .main-container {
   display: flex;
   flex-wrap: wrap;
@@ -187,6 +195,26 @@ li {
   flex-direction: column-reverse;
   @include s1-s3 {
     font-size: 16px;
+  }
+  &.error {
+    animation: flash 0.5s linear 3;
+  }
+}
+
+.error {
+  animation: flash 0.5s linear 3;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    background-color: rgba(255, 0, 0, 0.52);
+    border: 2px rgba(0, 0, 0, 0.452) solid;
+    border-radius: 10px;
+  }
+  50% {
+    background-color: transparent;
+    border-color: transparent;
   }
 }
 

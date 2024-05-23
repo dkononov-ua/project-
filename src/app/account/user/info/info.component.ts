@@ -127,7 +127,6 @@ export class InfoComponent implements OnInit {
     } else {
       this.counterUserNewAgree = '0';
     }
-
     this.getUserNewMessage();
   }
 

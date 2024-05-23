@@ -3,6 +3,10 @@
 @use "../../../style/shared.scss";
 @use "../../search.scss";
 
+.card-mini-body {
+  background-color: rgba(0, 0, 0, 0.471);
+}
+
 .position-sticky {
   @include flex-box-center;
   top: 0;

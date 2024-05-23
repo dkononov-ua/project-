@@ -146,4 +146,17 @@ export const animations = {
     transition('notSwiped <=> swiped', animate('1200ms ease-in-out')),
   ]),
 
+  errorFlash: trigger('errorFlash', [
+    state('normal', style({})),
+    state('error', style({})),
+    transition('normal => error', [
+      animate('0.5s', style({ backgroundColor: 'red', borderColor: 'red' })),
+      animate('0.5s', style({ backgroundColor: 'transparent', borderColor: 'transparent' })),
+      animate('0.5s', style({ backgroundColor: 'red', borderColor: 'red' })),
+      animate('0.5s', style({ backgroundColor: 'transparent', borderColor: 'transparent' })),
+      animate('0.5s', style({ backgroundColor: 'red', borderColor: 'red' })),
+      animate('0.5s', style({ backgroundColor: 'transparent', borderColor: 'transparent' }))
+    ])
+  ])
+
 };

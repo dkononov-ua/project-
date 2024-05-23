@@ -42,15 +42,11 @@
       </div>
 
       <div class="chat-info-container p-1" *ngIf="selectedChat && indexPage === 1">
-
         <img *ngIf="selectedChat.infUser.img[0].img !== 'user_default.svg'" class="avatar-user1 w-30"
           [src]="serverPathPhotoUser + (selectedChat.infUser.img[0].img ? selectedChat.infUser.img[0].img : 'user_default.svg')"
           alt="User Image">
-
         <img *ngIf="selectedChat.infUser.img[0].img === 'user_default.svg'" class="avatar-user1 w-30"
           src="../../../../assets/user_default.svg" alt="img">
-
-
         <div class="t-med bold w-70">
           <div>{{ selectedChat.infUser.inf.lastName }} {{ selectedChat.infUser.inf.firstName }} </div>
           <div class="text-min">{{ selectedChat.infUser.inf.surName }} Chat ID: {{ selectedChat.chat_id }}</div>
@@ -97,35 +93,39 @@
               </div>
 
               <div class="card-mini-img-container" *ngIf="chat.unread !== 0">
+
+                <ng-container *ngIf="chat.infUser.img[0].img === 'user_default.svg' && isLoadingImg">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
+                </ng-container>
+
                 <ng-container
                   *ngIf="chat.infUser.img[0].img !== 'user_default.svg' && chat.infUser.img[0].img && isLoadingImg">
                   <img class="card-mini-img" [src]="serverPathPhotoUser + chat.infUser.img[0].img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img === 'user_default.svg' && isLoadingImg">
-                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
-                </ng-container>
               </div>
 
               <div class="card-mini-img-container unread" *ngIf="chat.unread === 0">
+
+                <ng-container *ngIf="chat.infUser.img[0].img === 'user_default.svg' && isLoadingImg">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
+                </ng-container>
+
                 <ng-container
                   *ngIf="chat.infUser.img[0].img !== 'user_default.svg' && chat.infUser.img[0].img && isLoadingImg">
                   <img class="card-mini-img" [src]="serverPathPhotoUser + chat.infUser.img[0].img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img === 'user_default.svg' && isLoadingImg">
-                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
-                </ng-container>
               </div>
 
               <div class="card-mini-bg"></div>
@@ -167,34 +167,39 @@
                 <div class="notification-num">{{chat.unread}}</div>
               </div>
               <div class="card-mini-img-container" *ngIf="chat.unread !== 0">
-                <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
-                  <img class="card-mini-img"
-                    [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
+
+                <ng-container *ngIf="chat.infUser.img[0].img === 'user_default.svg' && isLoadingImg">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+                <ng-container
+                  *ngIf="chat.infUser.img[0].img !== 'user_default.svg' && chat.infUser.img[0].img && isLoadingImg">
+                  <img class="card-mini-img" [src]="serverPathPhotoUser + chat.infUser.img[0].img">
+                </ng-container>
+
+                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
 
-                <ng-container *ngIf="!chat.infUser.img[0].img">
-                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
-                </ng-container>
               </div>
+
               <div class="card-mini-img-container unread" *ngIf="chat.unread === 0">
-                <ng-container *ngIf="chat.infUser.img[0].img && isLoadingImg">
-                  <img class="card-mini-img"
-                    [src]="serverPathPhotoUser + (chat.infUser.img[0].img ? chat.infUser.img[0].img : 'user_default.svg')">
+
+                <ng-container *ngIf="chat.infUser.img[0].img === 'user_default.svg' && isLoadingImg">
+                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && !isLoadingImg">
+                <ng-container
+                  *ngIf="chat.infUser.img[0].img !== 'user_default.svg' && chat.infUser.img[0].img && isLoadingImg">
+                  <img class="card-mini-img" [src]="serverPathPhotoUser + chat.infUser.img[0].img">
+                </ng-container>
+
+                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
 
-                <ng-container *ngIf="!chat.infUser.img[0].img">
-                  <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img">
-                </ng-container>
               </div>
               <div class="card-mini-bg"></div>
 

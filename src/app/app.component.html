@@ -1,54 +1,7 @@
 <div class="body-container">
-  <section class="left p-3 col-lg-2 col-md-2 col-sm-12 col-12 hide-mobile" *ngIf="shouldBeVisible">
-    <div class="caruesel-container2 w-100">
-      <div class="carousel w-100">
-
-        <div class="slide">
-          <button class="slide-item">
-            <img src="../assets/advertising/1.png" alt="">
-          </button>
-
-          <button class="slide-item">
-            <img src="../assets/advertising/2.png" alt="">
-          </button>
-
-          <button class="slide-item">
-            <img src="../assets/advertising/3.png" alt="">
-          </button>
-
-          <button class="slide-item">
-            <img src="../assets/advertising/4.png" alt="">
-          </button>
-        </div>
-
-        <div class="slide">
-          <button class="slide-item">
-            <img src="../assets/advertising/5.png" alt="">
-          </button>
-
-          <button class="slide-item">
-            <img src="../assets/advertising/6.png" alt="">
-          </button>
-
-          <button class="slide-item">
-            <img src="../assets/advertising/7.png" alt="">
-          </button>
-
-          <button class="slide-item">
-            <img src="../assets/advertising/8.png" alt="">
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </section>
-  <div class="container  col-lg-7 col-md-7 col-sm-12 col-12">
+  <div class="container">
     <router-outlet></router-outlet>
   </div>
-  <section class="left p-2 col-lg-2 col-md-2 col-sm-12 col-12 hide-mobile" *ngIf="shouldBeVisible">
-    <!-- <iframe class="tiktok" src="https://www.tiktok.com/embed/v2/7364325880501374209" width="320" height="560"
-      frameborder="0"></iframe> -->
-  </section>
   <div *ngIf="statusMessage" class="status-message">
     <div class="status-message-text">{{ statusMessage }}</div>
     <img class="status-message-logo" src="{{path_logo}}" alt="logo">

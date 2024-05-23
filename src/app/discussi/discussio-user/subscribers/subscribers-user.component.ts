@@ -141,7 +141,7 @@ export class SubscribersUserComponent implements OnInit {
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
       const allSubscribers: any = await this.http.post(serverPath + '/usersubs/get/subs', data).toPromise() as any[];
-      console.log(allSubscribers)
+      // console.log(allSubscribers)
       if (allSubscribers && allSubscribers.status !== false) {
         localStorage.setItem('allSubscribers', JSON.stringify(allSubscribers));
         const getAllSubscribers = JSON.parse(localStorage.getItem('allSubscribers') || '[]');

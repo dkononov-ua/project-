@@ -28,7 +28,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/house/house-info'">
+      <button [disabled]="!authorizationHouse" class="btn" [routerLink]="'/house/house-info'">
         <i class="fa-solid fa-house"></i>
         <div class="t-min">Профіль Оселі</div>
       </button>
@@ -77,8 +77,7 @@
             </div>
 
             <div class="btn-group mt-2">
-              <button class="btn btn-navigation" [routerLink]="'/feedback'"
-                [queryParams]="{ category: 'Пошук оселі' }">
+              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук оселі' }">
                 <div class="t-med bold mr-2">Є ідея як зробити краще пошук оселі?</div>
                 <i class="fa-regular fa-lightbulb"></i>
               </button>

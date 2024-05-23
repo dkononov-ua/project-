@@ -56,6 +56,7 @@ export class AllCardsComponent implements OnInit {
   shownCard: string | undefined;
 
   @ViewChild('findCards') findCardsElement!: ElementRef;
+  authorization: boolean = false;
 
 
   constructor(
@@ -93,8 +94,12 @@ export class AllCardsComponent implements OnInit {
   }
 
   async getSearchInfo() {
-    // const userJson = localStorage.getItem('user');
-    // if (userJson) {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
     this.filterService.filterChange$.subscribe(async () => {
       const filterValue = this.filterService.getFilterValue();
       const optionsFound = this.filterService.getOptionsFound();
@@ -104,9 +109,6 @@ export class AllCardsComponent implements OnInit {
         this.getFilteredData(undefined, 0);
       }
     })
-    // } else {
-    //   console.log('Авторизуйтесь')
-    // }
   }
 
   getFilteredData(filterValue: any, optionsFound: number) {

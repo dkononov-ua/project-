@@ -13,6 +13,7 @@ import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-search-term-tenants',
   templateUrl: './search-term-tenants.component.html',
@@ -126,7 +127,8 @@ export class SearchTermTenantsComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -224,7 +226,7 @@ export class SearchTermTenantsComponent implements OnInit {
     this.userInfo.house = undefined;
     this.userInfo.flat = undefined;
     this.userInfo.kitchen_area = undefined;
-    this.searchFilter()
+    this.onSubmitWithDelay();
   }
 
   async loadDataFlat(): Promise<void> {
@@ -263,7 +265,7 @@ export class SearchTermTenantsComponent implements OnInit {
           this.userInfo.house = 0;
           this.userInfo.flat = 1;
         }
-        this.searchFilter()
+        this.onSubmitWithDelay();
       } else {
         console.log('Немає інформації про оселю')
       }
@@ -275,7 +277,10 @@ export class SearchTermTenantsComponent implements OnInit {
   getSelectedFlatId() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
+      if (!this.selectedFlatId) {
+        this.selectedFlatId = '1';
+        this.searchFilter();
+      } else {
         this.searchFilter();
       }
     });
@@ -285,24 +290,31 @@ export class SearchTermTenantsComponent implements OnInit {
   async searchFilter(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && !this.addСardsToArray) {
-            this.filteredUsers = response.user_inf;
-            this.optionsFound = response.search_count;
-            this.passInformationToService(this.filteredUsers, this.optionsFound);
-          } else if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && this.addСardsToArray) {
-            this.filteredUsers.push(...response.user_inf);
-            this.optionsFound = response.search_count;
-            this.passInformationToService(this.filteredUsers, this.optionsFound);
-          } else {
-            this.filteredUsers = [];
-            this.optionsFound = 0;
-            this.passInformationToService(this.filteredUsers, this.optionsFound);
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+      try {
+        const response: any = await this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId }).toPromise();
+        // console.log(response.user_inf)
+        // console.log(this.filteredUsers)
+        if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && !this.addСardsToArray) {
+          // console.log('Запит на нові оголошення')
+          this.filteredUsers = response.user_inf;
+          this.optionsFound = response.search_count;
+          this.passInformationToService(this.filteredUsers, this.optionsFound);
+        } else if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && this.addСardsToArray) {
+          // console.log('Додавання нових оголошень до попередніх')
+          // this.filteredUsers.push(...response.user_inf);
+          this.filteredUsers = response.user_inf;
+          this.optionsFound = response.search_count;
+          this.passInformationToService(this.filteredUsers, this.optionsFound);
+        } else {
+          this.filteredUsers = [];
+          this.optionsFound = 0;
+          this.passInformationToService(this.filteredUsers, this.optionsFound);
+        }
+      } catch (error) {
+        console.error(error);
+        this.sharedService.setStatusMessage('Помилка пошуку');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      }
     } else {
       this.passInformationToService(this.filteredUsers, this.optionsFound)
     }
@@ -335,6 +347,8 @@ export class SearchTermTenantsComponent implements OnInit {
 
   // додавання затримки на відправку запиту
   onSubmitWithDelay() {
+    this.filterUserService.blockBtn(true);
+    this.passInformationToService([], 0);
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
     }
@@ -384,10 +398,14 @@ export class SearchTermTenantsComponent implements OnInit {
     if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.optionsFound) {
       this.pageEvent.pageIndex++;
       this.userInfo.limit = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      // console.log('New limit:', this.limit);
+      // console.log('Передаю на сервер збільшений ліміт', this.userInfo.limit);
       this.searchFilter();
     } else {
-      console.log('No more data to load');
+      // console.log('Нових оголошень немає');
+      this.sharedService.setStatusMessage('Більше оголошень немає...');
+      setTimeout(() => {
+        this.sharedService.setStatusMessage('');
+      }, 1500);
     }
   }
 
@@ -405,9 +423,10 @@ export class SearchTermTenantsComponent implements OnInit {
     this.filterUserService.loadCards$.subscribe(loadValue => {
       if (loadValue !== '') {
         if (loadValue === 'prev') {
-          this.addСardsToArray = true;
-          this.decrementOffset();
+          // this.addСardsToArray = true;
+          // this.decrementOffset();
         } else if (loadValue === 'next') {
+          // console.log('Знаходжусь внузу контейнера')
           this.addСardsToArray = true;
           this.incrementOffset();
         }

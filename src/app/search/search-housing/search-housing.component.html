@@ -25,7 +25,16 @@
     <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/user/info'">
         <i class="fa-regular fa-circle-user"></i>
-        <div class="t-min bold">Профіль Користувача</div>
+        <div class="t-min bold">Мій Профіль</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!authorization" class="btn" [routerLink]="'/subscriptions-user'">
+        <i class="fa-regular fa-heart"></i>
+        <div class="t-min bold">Вподоб. Оселі</div>
+        <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
+          {{counterUserSubscriptions}} </div>
       </button>
     </div>
 
@@ -33,7 +42,7 @@
       <div>
         <button class="btn" [routerLink]="'/search-house/filter'">
           <i class="fa-solid fa-filter"></i>
-          <div class="t-min dark bold">Налаштувати Фільтри</div>
+          <div class="t-min dark bold">Налашт. Фільтри</div>
         </button>
       </div>
     </div>

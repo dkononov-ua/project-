@@ -9,7 +9,8 @@
   color: $color-white;
   width: 250px;
   .fa-regular,
-  .fa-solid {
+  .fa-solid,
+  .fa-brands {
     color: $color-white;
     transition: 1s;
   }
@@ -19,7 +20,8 @@
     transform: scale(1.05);
     filter: drop-shadow(0px 0px 10px $color-accent);
     .fa-regular,
-    .fa-solid {
+    .fa-solid,
+    .fa-brands {
       transform: scale(1.6);
       filter: drop-shadow(0px 0px 10px $color-accent);
       padding-right: 20px;
@@ -501,7 +503,8 @@
     position: absolute;
     overflow: auto;
     width: 85%;
-    height: calc(100% - 20px);
+    min-height: 650px;
+    max-height: calc(100% - 20px);
     border-radius: 20px;
     background-color: $color-white;
     &::-webkit-scrollbar {

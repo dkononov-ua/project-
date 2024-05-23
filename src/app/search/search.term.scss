@@ -2,6 +2,12 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss" as *;
 
+.switch-container {
+  @include s1-s3 {
+    justify-content: space-around !important;
+  }
+}
+
 .flex-box {
   flex-wrap: wrap;
 }
@@ -19,6 +25,7 @@
   flex-wrap: wrap;
   align-items: stretch;
   flex-direction: column;
+  
 }
 
 .card-group {

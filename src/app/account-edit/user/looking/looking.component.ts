@@ -2,13 +2,12 @@ import { regions } from '../../../data/data-city';
 import { cities } from '../../../data/data-city';
 import { subway } from '../../../data/subway';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { serverPath, path_logo } from 'src/app/config/server-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { Location } from '@angular/common';
-
 interface UserInfo {
   price_of: number | undefined;
   price_to: number | undefined;
@@ -68,6 +67,8 @@ interface UserInfo {
 })
 
 export class LookingComponent implements OnInit {
+  @ViewChild('cityInput') cityInput: ElementRef | undefined;
+  @ViewChild('regionInput') regionInput: ElementRef | undefined;
   path_logo = path_logo;
   userInfo: UserInfo = {
     price_of: 0,
@@ -137,6 +138,8 @@ export class LookingComponent implements OnInit {
   currentStep: number = 1;
   statusMessage: string | undefined;
   errorMessage: string | undefined;
+  activationUserSearch: boolean = false;
+  deactivation: boolean = false;
 
   changeStep(step: number): void {
     this.indexPage = step;
@@ -203,12 +206,11 @@ export class LookingComponent implements OnInit {
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
-      // isMobile: boolean = false;
     });
   }
 
-  ngOnInit(): void {
-    this.getInfo();
+  async ngOnInit(): Promise<void> {
+    await this.getInfo();
     this.loading = false;
     if (this.isMobile) {
       this.indexPage = 0;
@@ -255,18 +257,22 @@ export class LookingComponent implements OnInit {
     }
   }
 
+  // отримуємо інформацію про наш профіль орендаря
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
-        .subscribe((response: any) => {
-          // console.log(response)
+      try {
+        const response: any = await this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        // console.log(response)
+        if (response.status === true) {
           this.userInfo = response.inf;
-        }, (error: any) => {
-          console.error(error);
-        });
+        }
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      console.log('user not found');
+      // console.log('Авторизуйтесь')
+      this.sharedService.logout();
     }
   }
 
@@ -320,22 +326,42 @@ export class LookingComponent implements OnInit {
         // console.log(data)
         const response: any = await this.http.post(serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
-        if (this.userInfo && this.userInfo.agree_search === 0) {
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Збережено, оголошення не активне!');
+        if (response.status === true) {
+          // результат якщо я натискаю деактивувати оголошення
+          if (this.userInfo.agree_search === 0 && this.deactivation) {
             setTimeout(() => {
-              this.router.navigate(['/user/info']);
-              this.sharedService.setStatusMessage('');
-            }, 3000);
-          }, 1000);
-        } else if (this.userInfo && this.userInfo.agree_search === 1) {
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Активовано!');
+              this.sharedService.setStatusMessage('Деактивовано!');
+              this.deactivation = false;
+              setTimeout(() => {
+                // this.router.navigate(['/user/info']);
+                this.sharedService.setStatusMessage('');
+                location.reload();
+              }, 3000);
+            }, 1000);
+          }
+          // результат якщо я натискаю зберегти
+          if (this.userInfo.agree_search === 0 && !this.deactivation) {
+            this.sharedService.setStatusMessage('Збережено!');
             setTimeout(() => {
-              this.router.navigate(['/user/info']);
-              this.sharedService.setStatusMessage('');
-            }, 3000);
-          }, 1000);
+              this.sharedService.setStatusMessage('Оголошення не активовано');
+              setTimeout(() => {
+                // this.router.navigate(['/user/info']);
+                this.sharedService.setStatusMessage('');
+                location.reload();
+              }, 2000);
+            }, 2000);
+          }
+          // результат якщо я натискаю активувати оголошення
+          if (this.userInfo.agree_search === 1) {
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Активовано!');
+              setTimeout(() => {
+                // this.router.navigate(['/user/info']);
+                this.sharedService.setStatusMessage('');
+                location.reload();
+              }, 3000);
+            }, 1000);
+          }
         } else {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Помилка формування');
@@ -344,6 +370,7 @@ export class LookingComponent implements OnInit {
             }, 3000);
           }, 1000);
         }
+
       } catch (error) {
         console.error(error);
         this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
@@ -427,7 +454,7 @@ export class LookingComponent implements OnInit {
         city.name.toLowerCase().includes(searchTerm)
       );
       this.errorMessage = 'Оберіть місто';
-      console.log(this.errorMessage)
+      // console.log(this.errorMessage)
     } else {
       // Якщо область не знайдена, показати повідомлення про помилку
       this.errorMessage = 'Оберіть правильну область';
@@ -443,14 +470,76 @@ export class LookingComponent implements OnInit {
     }
   }
 
-  loadStations() {
-    if (!this.userInfo) return;
-    const searchTerm = this.userInfo.metro!.toLowerCase();
-    const subwayStations = subway.find(city => city.name === this.userInfo.city)?.lines;
+  // підвантажую станції метро з бази даних
+  // loadStations() {
+  //   if (!this.userInfo) return;
+  //   const searchTerm = this.userInfo.metro!.toLowerCase();
+  //   const subwayStations = subway.find(city => city.name === this.userInfo.city)?.lines;
+  //   this.filteredStations = subwayStations
+  //     ? subwayStations.flatMap(line => line.stations.filter(station => station.name.toLowerCase().includes(searchTerm)))
+  //     : [];
+  // }
 
-    this.filteredStations = subwayStations
-      ? subwayStations.flatMap(line => line.stations.filter(station => station.name.toLowerCase().includes(searchTerm)))
-      : [];
+  // активую оголошення
+  async ativationBtn(): Promise<void> {
+    // чекаю перевірки на те чи внесли ми всі важливі поля
+    const isUserSearchActivated = await this.checkAtivationUserSearch();
+    if (isUserSearchActivated) {
+      // console.log('Активую оголошення')
+      this.activationUserSearch = true;
+      this.sharedService.setStatusMessage('Активую оголошення');
+      this.saveInfo(this.userInfo.agree_search = 1);
+    }
+  }
+
+  // деактивуємо оголошення
+  deactivationBtn() {
+    this.sharedService.setStatusMessage('Деактивую...');
+    this.deactivation = true;
+    this.saveInfo(this.userInfo.agree_search = 0)
+  }
+
+  // робимо клік на поле там де треба вносити інформацію
+  triggerInputClick(input: string): void {
+    if (input === 'region' && this.regionInput) {
+      this.regionInput.nativeElement.click();
+    } else if (input === 'city' && this.cityInput) {
+      this.cityInput.nativeElement.click();
+    }
+  }
+
+  // перевіряємо поля без яких оголошення не буде відображатись в пошуку
+  async checkAtivationUserSearch(): Promise<boolean> {
+    this.errorMessage = '';
+    if (!this.userInfo.region || this.userInfo.region === '') {
+      this.activationUserSearch = false;
+      this.sharedService.setStatusMessage('Треба вказати область');
+      this.indexPage = 2;
+      setTimeout(() => {
+        this.errorMessage = 'Оберіть правильну область';
+        this.sharedService.setStatusMessage('');
+        this.triggerInputClick('region');
+      }, 1500);
+    } else if (!this.userInfo.city || this.userInfo.city === '') {
+      this.indexPage = 2;
+      this.activationUserSearch = false;
+      this.sharedService.setStatusMessage('Треба вказати місто');
+      setTimeout(() => {
+        this.errorMessage = 'Оберіть місто';
+        this.triggerInputClick('city');
+        this.sharedService.setStatusMessage('');
+      }, 1500);
+    } else if (this.userInfo.option_pay === undefined || this.userInfo.option_pay === null) {
+      this.activationUserSearch = false;
+      this.sharedService.setStatusMessage('Треба вказати варіант оплати');
+      setTimeout(() => {
+        this.errorMessage = 'Оберіть варіант оплати';
+        this.sharedService.setStatusMessage('');
+      }, 1500);
+    } else if (this.userInfo.region && this.userInfo.city && this.userInfo.option_pay !== undefined && this.userInfo.option_pay !== null) {
+      this.activationUserSearch = true;
+    }
+    return this.activationUserSearch;
   }
 
 }

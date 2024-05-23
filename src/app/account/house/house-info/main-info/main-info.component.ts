@@ -255,7 +255,7 @@ export class MainInfoComponent implements OnInit {
         }
         this.generateLocationUrl();
       } else {
-        console.log('Немає інформації про оселю')
+        // console.log('Немає інформації про оселю')
       }
     } else {
       console.log('Авторизуйтесь')

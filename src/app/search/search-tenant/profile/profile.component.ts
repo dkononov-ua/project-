@@ -12,6 +12,7 @@ import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { GestureService } from 'src/app/services/gesture.service';
+import { CounterService } from 'src/app/services/counter.service';
 
 @Component({
   selector: 'app-profile',
@@ -75,6 +76,18 @@ export class ProfileComponent implements OnInit {
   card2: boolean = false;
   startX = 0;
   isLoadingImg: boolean = false;
+  authorizationHouse: boolean = false;
+
+  seeReviews() {
+    if (this.authorizationHouse) {
+      this.indexPage = 2
+    } else {
+      this.sharedService.setStatusMessage('Для перегляду відгуків треба мати оселю');
+      setTimeout(() => {
+        this.sharedService.setStatusMessage('');
+      }, 2000);
+    }
+  }
 
   constructor(
     private filterService: FilterUserService,
@@ -82,6 +95,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
+    private counterService: CounterService,
   ) { }
 
   ngOnInit(): void {
@@ -155,12 +169,12 @@ export class ProfileComponent implements OnInit {
   async getSelectedFlat() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.getSearchInfo();
+      if (!this.selectedFlatId) {
+        this.authorizationHouse = false;
       } else {
-        console.log('Немає обраної оселі')
-        this.loading = false;
+        this.authorizationHouse = true;
       }
+      this.getSearchInfo();
     });
   }
 
@@ -184,6 +198,7 @@ export class ProfileComponent implements OnInit {
   getFilteredData(filterValue: any, optionsFound: number) {
     if (filterValue) {
       this.filteredUsers = filterValue;
+      // console.log(this.filteredUsers)
       this.optionsFound = optionsFound;
       // this.selectedUser = this.filteredUsers![0];
       this.loading = false;
@@ -200,6 +215,7 @@ export class ProfileComponent implements OnInit {
     this.indexPage = 1;
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
+    // console.log(this.selectedUser)
     await this.getRating(this.selectedUser)
     await this.checkSubscribe();
     await this.calculateTotalDays()
@@ -244,7 +260,6 @@ export class ProfileComponent implements OnInit {
     if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
       const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
       try {
-
         const response: any = await this.http.post(serverPath + '/usersubs/subscribe', data).toPromise();
         // console.log(response)
         if (response.status === 'Ви успішно відписались') {
@@ -261,7 +276,10 @@ export class ProfileComponent implements OnInit {
         setTimeout(() => { this.statusMessage = ''; }, 2000);
       }
     } else {
-      console.log('Авторизуйтесь');
+      this.sharedService.setStatusMessage('Для підписки треба мати оселю');
+      setTimeout(() => {
+        this.sharedService.setStatusMessage('');
+      }, 2000);
     }
   }
 
@@ -273,6 +291,8 @@ export class ProfileComponent implements OnInit {
       try {
         const response: any = await this.http.post(serverPath + '/usersubs/checkSubscribe', data).toPromise();
         // console.log(response.status)
+        // перевірка підписок оселі
+        await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
         if (response.status === 'Ви успішно відписались') {
           this.subscriptionStatus = 0;
         } else if (response.status === 'Ви в дискусії') {
@@ -286,7 +306,7 @@ export class ProfileComponent implements OnInit {
         setTimeout(() => { this.statusMessage = ''; }, 2000);
       }
     } else {
-      console.log('Авторизуйтесь');
+      // console.log('Авторизуйтесь');
     }
   }
 

@@ -5,12 +5,13 @@
 
       <div class="hide-pc  btn-close-container m-2">
         <div class="btn-close-box">
-          <button class="btn-close" [routerLink]="'/search-house/all-cards'"></button>
+          <button class="btn-close" [routerLink]="'/search-tenants/all-cards'"></button>
         </div>
       </div>
 
       <div class="status-container m-2">
         <div class="status-box">
+          <i class="status-value fa-solid fa-person-circle-check accent" *ngIf="selectedUser.checked === 1"></i>
           <div class="status-value" *ngIf="subscriptionStatus === 1">Підписані</div>
           <div class="status-value" *ngIf="subscriptionStatus === 2">Discussiя</div>
           <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
@@ -26,7 +27,7 @@
           <div class="status-hover-text">
             <ul *ngIf="selectedUser?.data || subscriptionStatus">
 
-              <li *ngIf="selectedUser?.data" class="status-hover-li">
+              <li *ngIf="selectedUser?.data && authorizationHouse" class="status-hover-li">
                 Дата останього оновлення оголошення {{selectedUser?.data | date}}
                 час {{selectedUser?.data | date: 'HH:mm:ss'}}
               </li>
@@ -38,6 +39,12 @@
               <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
                 <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
               </li>
+
+              <li *ngIf="selectedUser.checked === 1" class="status-hover-li">
+                <i class="status-value fa-solid fa-person-circle-check accent"></i> - Аккаунт
+                перевірений Адміністрацією
+              </li>
+
             </ul>
 
             <ul
@@ -109,19 +116,22 @@
                 <div mat-raised-button class="flex-column" *ngIf="selectedUser.firstName">
                   <div class="t-lar-xx bold dark">{{ selectedUser.firstName }}</div>
                 </div>
-                <div mat-raised-button class="flex-column" *ngIf="selectedUser.lastName">
+                <div mat-raised-button class="flex-column" *ngIf="selectedUser.lastName && authorizationHouse">
                   <div class="t-lar-xx bold dark">{{ selectedUser.lastName }}</div>
                 </div>
               </div>
 
-              <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="indexPage = 2">
+              <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="seeReviews()">
                 <div class="panel-icon">
-                  <div class="t-lar-xx bold">{{ratingTenant}}<i class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="authorizationHouse">{{ratingTenant}}<i
+                      class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="!authorizationHouse"><i class="fa-solid fa-question"></i><i
+                    class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>
 
-              <button class="btn-panel" (click)="reportUser(selectedUser)">
+              <button [disabled]="!authorizationHouse" class="btn-panel" (click)="reportUser(selectedUser)">
                 <div class="panel-icon">
                   <i class="fa-solid fa-masks-theater"></i>
                 </div>
@@ -137,10 +147,10 @@
 
         <div class="item-box">
           <button mat-raised-button class="btn link"
-            [ngClass]="{'unSubscribed': subscriptionStatus === 1, 'subscribed': subscriptionStatus === 0, 'discussion': subscriptionStatus === 2}"
+            [ngClass]="{'unSubscribed': subscriptionStatus === 0, 'subscribed': subscriptionStatus === 1, 'discussion': subscriptionStatus === 2}"
             (click)="getSubscribe()" [disabled]="subscriptionStatus === 2">
-            <i class="fa-regular fa-heart" *ngIf="subscriptionStatus === 1"></i>
-            <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 0"></i>
+            <i class="fa-regular fa-heart" *ngIf="!subscriptionStatus || subscriptionStatus === 0"></i>
+            <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 1"></i>
             <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 2"></i>
           </button>
         </div>
@@ -357,12 +367,13 @@
 
       <div class="hide-pc  btn-close-container m-2">
         <div class="btn-close-box">
-          <button class="btn-close" [routerLink]="'/search-house/all-cards'"></button>
+          <button class="btn-close" [routerLink]="'/search-tenants/all-cards'"></button>
         </div>
       </div>
 
       <div class="status-container m-2">
         <div class="status-box">
+          <i class="status-value fa-solid fa-person-circle-check accent" *ngIf="selectedUser.checked === 1"></i>
           <div class="status-value" *ngIf="subscriptionStatus === 1">Підписані</div>
           <div class="status-value" *ngIf="subscriptionStatus === 2">Discussiя</div>
           <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
@@ -378,7 +389,7 @@
           <div class="status-hover-text">
             <ul *ngIf="selectedUser?.data || subscriptionStatus">
 
-              <li *ngIf="selectedUser?.data" class="status-hover-li">
+              <li *ngIf="selectedUser?.data && authorizationHouse" class="status-hover-li">
                 Дата останього оновлення оголошення {{selectedUser?.data | date}}
                 час {{selectedUser?.data | date: 'HH:mm:ss'}}
               </li>
@@ -390,11 +401,17 @@
               <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
                 <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
               </li>
+
+              <li *ngIf="selectedUser.checked === 1" class="status-hover-li">
+                <i class="status-value fa-solid fa-person-circle-check accent"></i> - Аккаунт
+                перевірений Адміністрацією
+              </li>
             </ul>
 
             <ul
               *ngIf="selectedUser.woman === 1 || selectedUser.man === 1 || selectedUser.students === 1 || selectedUser.family === 1">
               Пошук оселі для:
+
               <li *ngIf="selectedUser.woman === 1" class="status-hover-li">
                 <div class="status-value">W</div> - жінки
               </li>
@@ -436,19 +453,22 @@
                 <div mat-raised-button class="flex-column" *ngIf="selectedUser.firstName">
                   <div class="t-lar-xx bold dark">{{ selectedUser.firstName }}</div>
                 </div>
-                <div mat-raised-button class="flex-column" *ngIf="selectedUser.lastName">
+                <div mat-raised-button class="flex-column" *ngIf="selectedUser.lastName && authorizationHouse">
                   <div class="t-lar-xx bold dark">{{ selectedUser.lastName }}</div>
                 </div>
               </div>
 
-              <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="indexPage = 2">
+              <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="seeReviews()">
                 <div class="panel-icon">
-                  <div class="t-lar-xx bold">{{ratingTenant}}<i class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="authorizationHouse">{{ratingTenant}}<i
+                      class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="!authorizationHouse"><i class="fa-solid fa-question"></i><i
+                    class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>
 
-              <button class="btn-panel" (click)="reportUser(selectedUser)">
+              <button [disabled]="!authorizationHouse" class="btn-panel" (click)="reportUser(selectedUser)">
                 <div class="panel-icon">
                   <i class="fa-solid fa-masks-theater"></i>
                 </div>
@@ -466,7 +486,7 @@
           <button mat-raised-button class="btn link"
             [ngClass]="{'unSubscribed': subscriptionStatus === 0, 'subscribed': subscriptionStatus === 1, 'discussion': subscriptionStatus === 2}"
             (click)="getSubscribe()" [disabled]="subscriptionStatus === 2">
-            <i class="fa-regular fa-heart" *ngIf="subscriptionStatus === 0"></i>
+            <i class="fa-regular fa-heart" *ngIf="!subscriptionStatus || subscriptionStatus === 0"></i>
             <i class="fa-solid fa-heart orange" *ngIf="subscriptionStatus === 1"></i>
             <i class="fa-solid fa-d" *ngIf="subscriptionStatus === 2"></i>
           </button>

@@ -107,6 +107,7 @@
   position: relative;
   .card-wrapper {
     height: 100% !important;
+    align-items: center;
     .card-greeting {
       @include flex-box-column;
       justify-content: center;

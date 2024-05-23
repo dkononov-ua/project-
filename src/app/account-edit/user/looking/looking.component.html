@@ -116,7 +116,13 @@
         *ngIf="!isMobile && indexPage === 0 || indexPage === 1">
         <div [@right1] class="card-menu mt-2">
           <div class="p-3 t-c">
-            <h3 class="bg-mob"><span class="bold"> Активація профілю орендаря
+
+            <h3 class="bg-mob"><span class="bold" *ngIf="userInfo.agree_search === 1"> Ваш профіль орендаря активовано!
+                <i class="fa-solid fa-person-hiking"></i>
+              </span>
+            </h3>
+
+            <h3 class="bg-mob"><span class="bold" *ngIf="userInfo.agree_search !== 1"> Активація профілю орендаря
                 <i class="fa-solid fa-person-hiking"></i>
               </span>
             </h3>
@@ -125,15 +131,23 @@
               орендаря". Лише три кроки розділяють вас від ідеального житла.
             </p>
           </div>
+
           <div class="flex-group mb-2">
-            <button class="link-t" (click)="saveInfo(userInfo.agree_search = 0)" *ngIf="userInfo.agree_search === 1">
+            <button class="link-t b-primary" (click)="deactivationBtn()" *ngIf="userInfo.agree_search === 1">
               <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off p-2"></i>
             </button>
           </div>
-          <iframe class="video" width="560" height="315" src="https://www.youtube.com/embed/Tf7MSJuKjnM"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
+
+          <div class="flex-group mb-2">
+            <a class="link-t bg-red b-primary" target="_blank"
+              href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
+              <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
+            </a>
+          </div>
+
+          <!-- <iframe class="video" width="560" height="315" src="https://www.youtube.com/embed/Tf7MSJuKjnM" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe> -->
 
           <div class="gif-box t-c">
             <img class="home-img" src="../../../../assets/gif/tenants.gif" alt="">
@@ -151,6 +165,13 @@
               меню "пошук орендаря" та доступне для перегляду та підписки.</div>
           </div>
 
+          <div [@right3] class="flex-group mb-2">
+            <a class="link-t bg-red b-primary" target="_blank"
+              href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
+              <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
+            </a>
+          </div>
+
           <div [@right] class="item-box">
             <div class="item-d w-70">
               <div class="t-med gray bold">Крок 1</div>
@@ -159,7 +180,7 @@
                 Оберіть причину оренди, стан оселі, формат. Опишіть сусіда по оселі.</div>
             </div>
 
-            <button class="link-t w-30 flex-column" (click)="changeStep(2)" [ngClass]="{ 'active': indexPage == 2}">
+            <button class="link-t b-primary w-30 flex-column" (click)="changeStep(2)" [ngClass]="{ 'active': indexPage == 2}">
               <span class="ml-2 t-min">Мета & Локація</span>
               <i class="fa-solid fa-tree-city ml-2"></i>
             </button>
@@ -174,7 +195,7 @@
                 Вкажіть чи є у вас домашні улюбленці</div>
             </div>
 
-            <button class="link-t w-30 flex-column" (click)="changeStep(3)" [ngClass]="{ 'active': indexPage == 3}">
+            <button class="link-t b-primary w-30 flex-column" (click)="changeStep(3)" [ngClass]="{ 'active': indexPage == 3}">
               <span class="ml-2 t-min">Параметри & Особливості</span>
               <i class="fa-solid fa-street-view ml-2"></i>
             </button>
@@ -187,7 +208,7 @@
                 Вкажіть термін. Визначте свій бюджет. Додаткові побажання.</div>
             </div>
 
-            <button class="link-t w-30 flex-column" (click)="changeStep(4)" [ngClass]="{ 'active': indexPage == 4}">
+            <button class="link-t b-primary w-30 flex-column" (click)="changeStep(4)" [ngClass]="{ 'active': indexPage == 4}">
               <span class="ml-2 t-min">Оплата & терміни</span>
               <i class="fa-solid fa-magnifying-glass-dollar ml-2"></i>
             </button>
@@ -219,16 +240,21 @@
                 </p>
               </div>
               <div class="flex-group mb-2">
-                <button class="link-t" (click)="saveInfo(userInfo.agree_search = 0)"
-                  *ngIf="userInfo.agree_search === 1">
+                <button class="link-t b-primary" (click)="deactivationBtn()" *ngIf="userInfo.agree_search === 1">
                   <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off p-2"></i>
                 </button>
               </div>
 
-              <iframe class="video" src="https://www.youtube.com/embed/Tf7MSJuKjnM"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+              <div class="flex-group mb-2">
+                <a class="link-t bg-red b-primary" target="_blank"
+                  href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
+                  <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
+                </a>
+              </div>
+
+              <!-- <iframe class="video" src="https://www.youtube.com/embed/Tf7MSJuKjnM" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe> -->
 
               <div class="gif-box t-c">
                 <img class="home-img" src="../../../../assets/gif/tenants.gif" alt="">
@@ -288,7 +314,7 @@
               </div>
 
               <div class="btn-group mt-2">
-                <button class="btn btn-navigation" [routerLink]="'/feedback'"
+                <button class="btn" [routerLink]="'/feedback'"
                   [queryParams]="{ category: 'Профіль орендаря' }">
                   <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
                   <i class="fa-regular fa-lightbulb"></i>
@@ -379,8 +405,8 @@
 
                 <mat-label class="t-med t-c accent bold w-100">Область та місто</mat-label>
                 <mat-form-field class="item-select" appearance="outline" (click)="loadRegions()"
-                  [ngClass]="{ 'error': !userInfo.region && userInfo.region !== '' }">
-                  <input name="flatInfo.region" matInput placeholder="Почніть вводити область"
+                  [ngClass]="{ 'error': errorMessage === 'Оберіть правильну область' }">
+                  <input #regionInput name="flatInfo.region" matInput placeholder="Почніть вводити область"
                     [(ngModel)]="userInfo.region" (ngModelChange)="loadRegions()" [matAutocomplete]="autoRegion">
                   <mat-autocomplete #autoRegion="matAutocomplete">
                     <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
@@ -394,8 +420,9 @@
                     <i class="fa-solid fa-ban red"></i><span class="red">Область вказана невірно</span></mat-hint>
                 </mat-form-field>
 
-                <mat-form-field class="item-select" appearance="outline" (click)="loadCities()">
-                  <input [disabled]="!userInfo.region || errorMessage === 'Оберіть правильну область'"
+                <mat-form-field class="item-select" appearance="outline" (click)="loadCities()"
+                  [ngClass]="{ 'error': errorMessage === 'Оберіть місто' }">
+                  <input #cityInput [disabled]="!userInfo.region || errorMessage === 'Оберіть правильну область'"
                     name="flatInfo.city" matInput placeholder="Місто" [(ngModel)]="userInfo.city"
                     placeholder="Почніть вводити місто" (ngModelChange)="loadCities()" [matAutocomplete]="autoCity">
                   <mat-autocomplete #autoCity="matAutocomplete">
@@ -404,7 +431,7 @@
                     </mat-option>
                   </mat-autocomplete>
                   <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
-                  <mat-hint class="gray" align="end" *ngIf="errorMessage">{{ errorMessage }}</mat-hint>
+                  <mat-hint class="red" align="end" *ngIf="errorMessage">{{ errorMessage }}</mat-hint>
                 </mat-form-field>
 
                 <div>
@@ -755,7 +782,7 @@
                 <mat-label class="t-med t-c accent bold">Варінти оплати* </mat-label>
                 <div class="t-min gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
                   варіант який вас більше всього характеризує. Можна комбінувати.</div>
-                <div class="inputbox-group pl-2">
+                <div class="inputbox-group pl-2" [ngClass]="{ 'error': errorMessage === 'Оберіть варіант оплати'}">
                   <div class="inputbox-group pl-2">
 
                     <div class="content-group">
@@ -888,14 +915,13 @@
                   <i class="fa-regular fa-circle-check pr-2"></i> Зберегти
                 </button>
 
-                <button [disabled]="!userInfo.region || !userInfo.city" class="btn" class="btn"
-                  (click)="saveInfo(userInfo.agree_search = 1)" *ngIf="userInfo.agree_search === 0">
+                <button class="btn" (click)="ativationBtn()"
+                  *ngIf="!userInfo.agree_search || userInfo.agree_search === 0">
                   <i class="fa-solid fa-sign-hanging pr-2"></i>
                   Активувати
                 </button>
 
-                <button class="btn" class="btn" (click)="saveInfo(userInfo.agree_search = 0)"
-                  *ngIf="userInfo.agree_search === 1">
+                <button class="btn" class="btn" (click)="deactivationBtn()" *ngIf="userInfo.agree_search === 1">
                   <i class="fa-solid fa-power-off pr-2"></i>
                   Деактивувати
                 </button>

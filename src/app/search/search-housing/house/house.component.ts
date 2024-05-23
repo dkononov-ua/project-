@@ -11,6 +11,7 @@ import { PaginationConfig } from 'src/app/config/paginator';
 import { GestureService } from 'src/app/services/gesture.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
+import { CounterService } from 'src/app/services/counter.service';
 
 @Component({
   selector: 'app-house',
@@ -89,6 +90,7 @@ export class HouseComponent implements OnInit {
     private http: HttpClient,
     private sharedService: SharedService,
     private router: Router,
+    private counterService: CounterService,
   ) { }
 
   ngOnInit(): void {
@@ -311,6 +313,7 @@ export class HouseComponent implements OnInit {
         } else {
           this.subscriptionStatus = 1;
         }
+        await this.checkSubscribe();
       } catch (error) {
         console.error(error);
         this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
@@ -345,6 +348,7 @@ export class HouseComponent implements OnInit {
         } else {
           this.subscriptionStatus = 0;
         }
+        await this.counterService.getUserSubscriptionsCount();
       } catch (error) {
         console.error(error);
         this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
@@ -352,7 +356,7 @@ export class HouseComponent implements OnInit {
       }
     } else {
       this.authorization = false;
-      console.log('Авторизуйтесь');
+      // console.log('Авторизуйтесь');
     }
   }
 

@@ -100,7 +100,8 @@
 
               <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="indexPage = 2">
                 <div class="panel-icon">
-                  <div class="t-lar-xx bold">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="authorization">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="!authorization"><i class="fa-solid fa-question"></i><i class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>
@@ -182,7 +183,7 @@
               </div>
             </div>
 
-            <div class="item-box" *ngIf="selectedFlat.street">
+            <div class="item-box" *ngIf="selectedFlat.street && authorization">
               <div mat-raised-button class="flex-column">
                 <div class="t-lar bold">{{ selectedFlat.street }} {{ selectedFlat.houseNumber }}</div>
                 <div class="t-min">Вулиця</div>
@@ -424,7 +425,8 @@
 
               <button [disabled]="numberOfReviews === 0" class="btn-panel" (click)="indexPage = 2">
                 <div class="panel-icon">
-                  <div class="t-lar-xx bold">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="authorization">{{ratingOwner}}<i class="fa-regular fa-star"></i></div>
+                  <div class="t-lar-xx bold" *ngIf="!authorization"><i class="fa-solid fa-question"></i><i class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>
@@ -506,7 +508,7 @@
               </div>
             </div>
 
-            <div class="item-box" *ngIf="selectedFlat.street">
+            <div class="item-box" *ngIf="selectedFlat.street && authorization">
               <div mat-raised-button class="flex-column">
                 <div class="t-lar bold">{{ selectedFlat.street }} {{ selectedFlat.houseNumber }}</div>
                 <div class="t-min">Вулиця</div>

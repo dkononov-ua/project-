@@ -3,6 +3,16 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
+.video {
+  width: 100%;
+  border-radius: 40px;
+  overflow: hidden;
+  @include box-shadow;
+  @include s1-s3 {
+    width: 96%;
+    height: 220px;
+  }
+}
 
 .content-child {
   overflow: auto;

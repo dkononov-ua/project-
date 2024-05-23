@@ -1,7 +1,7 @@
 <div class="flex-column">
 
   <div [@bot] id="container0" class="conteiner-content al-c">
-    <div class="flex-box w-100">
+    <div class="flex-box h-100 w-100">
       <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
 
         <button class="btn update m-2" [routerLink]="'/home/update'">
@@ -9,7 +9,6 @@
         </button>
 
         <h1><strong>Discussio</strong></h1>
-        <!-- <h2 class="text mb-4">Це перша Українська соціальні мережа для нерухомості!</h2> -->
         <h3><strong>Оренда & здача оселі</strong></h3>
         <h5 class="text t-c m-2"><strong>Ми створюємо спільноту орендодавців та орендарів!</strong>
           Спрощуємо процеси їх співпраці, в форматі соціальної мережі та з
@@ -21,7 +20,7 @@
           Зареєструватись
         </button> -->
 
-        <div class="box-agree">
+        <div class="box-agree" *ngIf="!authorization">
           <label class="checkBox">
             <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
             <div class="transition"></div>
@@ -32,16 +31,16 @@
           </p>
         </div>
 
-        <button [disabled]="!agreementAccepted" class="btn update m-2" (click)="openGoogleRegistration()">
+        <button [disabled]="!agreementAccepted" class="btn update m-2" (click)="openGoogleRegistration()" *ngIf="!authorization">
           Зареєструватись з <i class="fa-brands fa-google pl-2"></i>
         </button>
 
-        <p class="t-min mt-2 gray">
+        <p class="t-min mt-2 gray" *ngIf="!authorization">
           Вже зареєстровані у нас?
         </p>
 
-        <button class="btn update m-2" [routerLink]="'/auth/login'">
-          Увійти в аккаунт  <i class="fa-solid fa-right-to-bracket pl-2"></i>
+        <button class="btn update m-2" [routerLink]="'/auth/login'" *ngIf="!authorization">
+          <i class="fa-solid fa-right-to-bracket pr-2"></i>Увійти в аккаунт
         </button>
 
         <!-- <button class="btn update m-2" (click)="openGoogleAuth()">
@@ -50,7 +49,7 @@
 
         <p class="t-min mt-2 gray">
           Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям в пошуку або здачі житла без
-          ріелторів. Проект наразі є цілком безкоштовний!
+          ріелторів. <br> <strong>Проєкт є цілком безкоштовний!</strong>
         </p>
 
         <h4 class="mt-2">Приєднуйтесь до нас!</h4>
@@ -63,20 +62,20 @@
           </div>
 
           <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/discussio.inc/">
+            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/discussio.inc">
               <i class="fab fa-brands fa-instagram"></i>
             </a>
           </div>
 
           <div class="social-link-box">
-            <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.site">
+            <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.official">
               <i class="fab fa-brands fa-tiktok"></i>
             </a>
           </div>
 
           <div class="social-link-box">
             <a class="social-link-icon" target="_blank"
-              href="https://www.facebook.com/profile.php?id=61554505683668&locale=uk_UA">
+              href="https://www.facebook.com/discussio.inc">
               <i class="fab fa-brands fa-facebook"></i>
             </a>
           </div>
@@ -104,9 +103,9 @@
   </div>
 
   <div [@bot] id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
-    <div class="flex-box w-100">
+    <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
-        <iframe class="tiktok" src="https://www.tiktok.com/embed/v2/7364325880501374209" width="320" height="560" frameborder="0"></iframe>
+        <iframe class="tiktok" src="https://www.youtube.com/embed/HSr3aSUD21Y" width="320" height="560" frameborder="0"></iframe>
 
         <button *ngIf="!containers['container2']" class="btn-next t-c" (click)="scrollToAnchor('container2')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
@@ -143,10 +142,10 @@
   </div>
 
   <div [@bot] id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
-    <div class="flex-box w-100">
+    <div class="flex-box h-100 w-100">
 
       <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
-        <iframe class="tiktok" src="https://www.tiktok.com/embed/v2/7365979982872546561" width="320" height="560" frameborder="0"></iframe>
+        <iframe class="tiktok" src="https://www.youtube.com/embed/BhGgxDsVt-4" width="320" height="560" frameborder="0"></iframe>
         <button *ngIf="!containers['container3']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container3')">
           <i class="fa-solid fa-circle-chevron-down pr-2"></i>
           <p>Інші функції</p>
@@ -173,7 +172,7 @@
   </div>
 
   <div [@bot] id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
-    <div class="flex-box w-100">
+    <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
         <button *ngIf="!containers['container4']" class="btn-next t-c" (click)="scrollToAnchor('container4')">
@@ -198,7 +197,7 @@
   </div>
 
   <div [@bot] id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
-    <div class="flex-box w-100">
+    <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
         <button *ngIf="!containers['container5']" class="btn-next t-c" (click)="scrollToAnchor('container5')">
@@ -224,7 +223,7 @@
   </div>
 
   <div [@bot] id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
-    <div class="flex-box w-100">
+    <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
         <button class="btn-next t-c" [routerLink]="'/home/opportunities'">

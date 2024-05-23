@@ -105,7 +105,7 @@ export class HouseShareComponent implements OnInit {
           this.getHouseAcces();
           this.generateLocationUrl();
         } else {
-          console.log('Немає інформації про оселю')
+          // console.log('Немає інформації про оселю')
         }
       }
     });

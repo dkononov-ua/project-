@@ -9,18 +9,18 @@
       <div class="card-mini-body p-2">
         <div class="item-box" *ngIf="flat.option_pay === 0 && selectedFlat !== flat">
           <div mat-raised-button class="param-g flex-column">
-            <div class="bg-g t-lar-xx bold accent">{{ flat.price_m}}</div>
-            <div class="t-min bg-w accent">Ціна ₴/міс</div>
+            <div class="bg-g t-lar-xx bold white">{{ flat.price_m}}</div>
+            <div class="t-min bg-w white">Ціна ₴/міс</div>
           </div>
         </div>
         <div class="item-box" *ngIf="flat.option_pay !== 0 && selectedFlat !== flat">
           <div mat-raised-button class="param-g flex-column">
-            <div class="bg-g t-lar-xx bold accent">{{ flat.price_d}}</div>
-            <div class="t-min bg-w accent">Ціна ₴/добу</div>
+            <div class="bg-g t-lar-xx bold white">{{ flat.price_d}}</div>
+            <div class="t-min bg-w white">Ціна ₴/добу</div>
           </div>
         </div>
         <div class="t-lar-x bold white">{{ flat.city }}</div>
-        <div class="t-med bold white">{{ flat.street }} {{ flat.houseNumber }}
+        <div class="t-med bold white" *ngIf="authorization">{{ flat.street }} {{ flat.houseNumber }}
           <span *ngIf="flat.area">| {{ flat.area }} м²</span>
         </div>
       </div>

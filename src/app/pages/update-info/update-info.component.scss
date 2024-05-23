@@ -16,6 +16,14 @@
       width: 100%;
     }
   }
+  .img-fluid2 {
+    object-fit: cover;
+    height: 300px;
+    width: 300px;
+    @include s1-s3 {
+      width: 100%;
+    }
+  }
   .flex-column {
     @include s1-s3 {
       width: 100%;

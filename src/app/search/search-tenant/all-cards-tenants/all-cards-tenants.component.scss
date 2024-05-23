@@ -3,6 +3,19 @@
 @use "../../../style/shared.scss";
 @use "../../search.scss";
 
+.status-value {
+  font-size: 15px;
+  color: $color-white;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: $color-accent;
+  border-radius: 50%;
+  padding: 5px;
+  z-index: 101;
+  @include box-shadow-a;
+}
+
 .position-sticky {
   @include flex-box-center;
   top: 0;

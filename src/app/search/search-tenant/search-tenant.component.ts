@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { CounterService } from 'src/app/services/counter.service';
 
 @Component({
   selector: 'app-search-tenant',
@@ -78,12 +79,15 @@ export class SearchTenantComponent implements OnInit {
   houseData: any;
   filter_group: number = 1;
   openUser: boolean = false;
+  acces_subs: number = 1;
 
   card_info: number = 0;
   indexPage: number = 1;
   shownCard: any;
   myData: boolean = false;
   startX = 0;
+  blockBtnStatus: boolean = false;
+  authorizationHouse: boolean = false;
   filterSwitchNext() {
     if (this.filter_group < 4) {
       this.filter_group++;
@@ -117,6 +121,8 @@ export class SearchTenantComponent implements OnInit {
   toggleSearchTerm() {
     this.isSearchTermCollapsed = !this.isSearchTermCollapsed;
   }
+  counterHouseSubscriptions: any;
+
   isMobile = false;
   filterValue: string = '';
   goBack(): void {
@@ -129,8 +135,12 @@ export class SearchTenantComponent implements OnInit {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private location: Location,
-
-  ) { }
+    private counterService: CounterService,
+  ) {
+    this.getBtnStatus();
+    this.getSelectedFlatId();
+    this.getHouseAcces();
+  }
 
   async ngOnInit(): Promise<void> {
     // перевірка який пристрій
@@ -144,6 +154,45 @@ export class SearchTenantComponent implements OnInit {
     this.loading = false;
   }
 
+  getSelectedFlatId() {
+    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatId = flatId;
+      if (!this.selectedFlatId) {
+        this.authorizationHouse = false;
+      } else {
+        this.authorizationHouse = true;
+      }
+    });
+  }
+
+  // перевірка підписок оселі
+  async getHouseSubscriptionsCount() {
+    // console.log('Відправляю запит на сервіс кількість підписок',)
+    await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
+    this.counterService.counterHouseSubscriptions$.subscribe(data => {
+      const counterHouseSubscriptions: any = data;
+      this.counterHouseSubscriptions = counterHouseSubscriptions.status;
+      // console.log('кількість підписок', this.counterHouseSubscriptions)
+    });
+  }
+
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseAcces(): Promise<void> {
+    this.houseData = localStorage.getItem('houseData');
+    if (this.houseData) {
+      const parsedHouseData = JSON.parse(this.houseData);
+      this.houseData = parsedHouseData;
+      // console.log(this.houseData)
+      if (this.houseData.acces) {
+        this.acces_subs = this.houseData.acces.acces_subs;
+      } else {
+        await this.getHouseSubscriptionsCount();
+      }
+    } else {
+      this.acces_subs = 0
+    }
+  }
+
   async getSearchInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -151,13 +200,21 @@ export class SearchTenantComponent implements OnInit {
         const optionsFound = this.filterUserService.getOptionsFound();
         if (optionsFound && optionsFound !== 0) {
           this.optionsFound = optionsFound;
+          this.filterUserService.blockBtn(false)
         } else {
-          this.optionsFound = 0;
+          this.optionsFound = Number(optionsFound);
         }
       })
     } else {
       console.log('Авторизуйтесь')
     }
+  }
+
+  getBtnStatus() {
+    this.filterUserService.blockBtnStatus$.subscribe(blockBtnStatus => {
+      this.blockBtnStatus = blockBtnStatus;
+      // console.log(this.blockBtnStatus)
+    });
   }
 
   getShowedCards() {

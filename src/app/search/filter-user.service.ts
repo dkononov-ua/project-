@@ -13,6 +13,7 @@ export class FilterUserService {
   loadCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   sortValue$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   showedCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  blockBtnStatus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 
@@ -47,6 +48,11 @@ export class FilterUserService {
     if (user) {
       this.user$.next(user);
     }
+  }
+
+  blockBtn(status: boolean) {
+    // console.log('blockBtnStatus', status);
+    this.blockBtnStatus$.next(status);
   }
 
   sortTenants(sortValue: any) {

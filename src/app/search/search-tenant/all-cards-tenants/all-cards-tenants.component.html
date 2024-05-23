@@ -4,28 +4,31 @@
       <div class="t-lar bold gray">Показано {{shownCard}}/{{optionsFound}}</div>
     </div>
     <button class="card-mini" *ngFor="let user of filteredUsers; let i = index" (click)="selectUser(user)"
-      [class.selected]="selectedUser === user">
+      [class.selected]="selectedUser.user_id === user.user_id">
+
+      <i class="status-value fa-solid fa-person-circle-check" *ngIf="user.checked === 1"></i>
 
       <div class="card-mini-body p-2 al-fe">
 
         <div class="flex-box" *ngIf="user.price_of || user.price_to">
           <div mat-raised-button class="param-g flex-column mr-2" *ngIf="user.price_of">
-            <div class="bg-g t-lar-xx bold white">
-              <span>{{user.price_of}}</span>
+            <div class="bg-g t-lar-x bold white">
+              <span>{{ user.price_of | number: '1.1-1' }}
+              </span>
             </div>
-            <div class="t-min bg-w white">Бюджет від ₴</div>
+            <div class="t-min">Бюджет від ₴</div>
           </div>
           <div mat-raised-button class="param-g flex-column" *ngIf="user.price_to">
-            <div class="bg-g t-lar-xx bold white">
-              <span>{{user.price_to}}</span>
+            <div class="bg-g t-lar-x bold white">
+              <span>{{user.price_to | number: '1.1-1'}}</span>
             </div>
-            <div class="t-min bg-w white">Бюджет до ₴</div>
+            <div class="t-min">Бюджет до ₴</div>
           </div>
         </div>
 
-        <div class="t-lar-x bold white">{{ user.lastName }} {{ user.firstName }}</div>
+        <div class="t-lar-x bold white"><span *ngIf="authorizationHouse">{{ user.lastName }} </span>{{ user.firstName }}</div>
 
-        <div class="flex-box t-min accent">
+        <div class="flex-box t-min">
           <span class="mr-2" *ngIf="user.city">в {{user.city}}</span>
           <span class="mr-2" *ngIf="user.house">Будинок</span>
           <span class="mr-2" *ngIf="user.flat">Квартира</span>

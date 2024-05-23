@@ -2,6 +2,9 @@
   <div class="card-wrapper w-100">
     <div [@right2] class="card-content-static p-2 w-100" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
 
+      <!-- <button class="btn" (click)="decrementOffset()">prev</button>
+      <button class="btn" (click)="incrementOffset()">next</button> -->
+
       <button class="link-menu" (click)="clearFilter()">
         <div class="flex-column w-80">
           <p class="link-menu-t1">Очистити</p>
