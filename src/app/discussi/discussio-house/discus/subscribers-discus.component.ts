@@ -7,7 +7,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
@@ -37,16 +37,18 @@ import { DeleteSubComponent } from '../delete/delete-sub.component';
 })
 
 export class SubscribersDiscusComponent implements OnInit {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
   option_pay = option_pay;
   animals = animals;
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   // параметри користувача
   subscribers: UserInfo[] = [];
   selectedUser: UserInfo | any;
@@ -102,6 +104,9 @@ export class SubscribersDiscusComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 1;
       this.indexPage = Number(this.page);
@@ -172,7 +177,7 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
     try {
-      const allDiscussions: any = await this.http.post(serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
+      const allDiscussions: any = await this.http.post(this.serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
       // console.log(allDiscussions)
       if (allDiscussions && allDiscussions.status !== 'Немає доступу') {
         localStorage.setItem('allHouseDiscussions', JSON.stringify(allDiscussions));
@@ -225,7 +230,7 @@ export class SubscribersDiscusComponent implements OnInit {
       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
         const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
         try {
-          const response: any = await this.http.post(serverPath + '/acceptsubs/delete/subs', data).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/acceptsubs/delete/subs', data).toPromise();
           if (response.status === true) {
             this.sharedService.setStatusMessage('Дискусія видалена');
             setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
@@ -276,7 +281,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (userJson && this.selectedUserID) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: this.selectedUserID, };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           const result = await this.getFlatChats();
@@ -303,10 +308,10 @@ export class SubscribersDiscusComponent implements OnInit {
       const userJson = localStorage.getItem('user');
       if (userJson) {
         const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: 0 };
-        this.http.post(serverPath + '/chat/get/flatchats', data).subscribe(async (response: any) => {
+        this.http.post(this.serverPath + '/chat/get/flatchats', data).subscribe(async (response: any) => {
           if (Array.isArray(response.status) && response.status) {
             let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
-              let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+              let infUser = await this.http.post(this.serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
               return { user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, unread: value.unread, lastMessage: value.last_message };
             }));
             localStorage.setItem('flatChats', JSON.stringify(allChatsInfo));
@@ -331,7 +336,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (userJson && this.selectedUserID) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: this.offs };
       try {
-        const response = await this.http.post(serverPath + '/chat/get/flatchats', data).toPromise() as any;
+        const response = await this.http.post(this.serverPath + '/chat/get/flatchats', data).toPromise() as any;
         if (this.selectedUserID && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === this.selectedUserID);
           this.chatExists = chatExists;
@@ -344,7 +349,7 @@ export class SubscribersDiscusComponent implements OnInit {
   // Отримання рейтингу
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/userMarks';
+    const url = this.serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: selectedUser.user_id,

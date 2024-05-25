@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { SharedService } from '../services/shared.service';
+import * as ServerConfig from 'src/app/config/path-config';
 
 @Component({
   selector: 'app-template',
@@ -8,6 +9,14 @@ import { SharedService } from '../services/shared.service';
   styleUrls: ['./template.component.scss']
 })
 export class TemplateComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   indexPage: number = 1;
   isMobile: boolean = false;
 
@@ -30,6 +39,14 @@ export class TemplateComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+
+      }
+    })
+
     // this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
     // this.sharedService.setStatusMessage('Дискусія видалена');
     // this.sharedService.setStatusMessage('');

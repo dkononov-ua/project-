@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { HouseInfo } from '../../../../interface/info';
 import { HouseConfig } from 'src/app/interface/param-config';
 import { SharedService } from 'src/app/services/shared.service';
@@ -21,9 +21,16 @@ interface FlatInfo {
 })
 
 export class HouseShareComponent implements OnInit {
-  serverPath = serverPath;
-  statusMessage: any;
 
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
+  statusMessage: any;
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   loading = false;
@@ -90,7 +97,12 @@ export class HouseShareComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSelectedFlatId();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getSelectedFlatId();
+      }
+    })
   }
 
   getSelectedFlatId() {
@@ -121,7 +133,7 @@ export class HouseShareComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       try {
-        const response: any = await this.http.post(serverPath + '/flatinfo/get/flatinf', {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/get/flatinf', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
         }).toPromise();
@@ -147,7 +159,7 @@ export class HouseShareComponent implements OnInit {
         this.loading = true
         this.disabled = true;
 
-        const response = await this.http.post(serverPath + '/flatinfo/add/flatinf', {
+        const response = await this.http.post(this.serverPath + '/flatinfo/add/flatinf', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,

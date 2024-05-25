@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../../services/chose-subscribers.service';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
 import { DatePipe } from '@angular/common';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -69,6 +69,15 @@ interface Subscriber {
 })
 
 export class ResidentPageComponent implements OnInit {
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   rating: Rating = new Rating();
   helpMenu: boolean = false;
   helpInfo: number = 0;
@@ -86,10 +95,6 @@ export class ResidentPageComponent implements OnInit {
   selectedSubAgree: any;
   timeToOpenRating: number = 0;
   isCopiedMessage!: string;
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
   selectedSubscriber: Subscriber[] | any;
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
@@ -147,8 +152,13 @@ export class ResidentPageComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getSelectedFlat();
-    this.getOwnerPage();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getSelectedFlat();
+        this.getOwnerPage();
+      }
+    })
   }
 
   // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
@@ -182,7 +192,7 @@ export class ResidentPageComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, offs: offs, };
     try {
-      const response = await this.http.post(serverPath + '/citizen/get/citizen', data).toPromise() as any[];
+      const response = await this.http.post(this.serverPath + '/citizen/get/citizen', data).toPromise() as any[];
       if (response) {
         this.subscribers = response;
         localStorage.setItem('allResidents', JSON.stringify(response));
@@ -223,7 +233,7 @@ export class ResidentPageComponent implements OnInit {
     if (userJson && selectedPerson) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: selectedPerson.user_id, };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {
@@ -272,7 +282,7 @@ export class ResidentPageComponent implements OnInit {
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue,
       };
-      this.http.post(serverPath + '/rating/add/userRating', data).subscribe((response: any) => {
+      this.http.post(this.serverPath + '/rating/add/userRating', data).subscribe((response: any) => {
         let setMark = this.rating.ratingValue.toString();
         if (response.status === true && setMark === '5') {
           setTimeout(() => {
@@ -373,7 +383,7 @@ export class ResidentPageComponent implements OnInit {
   // отримую рейтинг мешканців оселі
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/userMarks';
+    const url = this.serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: selectedUser.user_id,
@@ -479,13 +489,13 @@ export class ResidentPageComponent implements OnInit {
   // Видаляю мешканця
   removeResident(data: any): void {
     this.sharedService.setStatusMessage('Видаляємо мешканця');
-    this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(() => { this.updateSubscriberList(); },
+    this.http.post(this.serverPath + '/citizen/delete/citizen', data).subscribe(() => { this.updateSubscriberList(); },
       (error: any) => { console.error('Error deleting subscriber:', error); });
   }
   // Видаляюсь з оселі
   async leaveHouse(data: any): Promise<void> {
     try {
-      const response = await this.http.post(serverPath + '/citizen/delete/citizen', data).toPromise() as any;
+      const response = await this.http.post(this.serverPath + '/citizen/delete/citizen', data).toPromise() as any;
       // console.log(response)
       if (response) {
         this.sharedService.setStatusMessage('Виходимо з оселі');
@@ -544,7 +554,7 @@ export class ResidentPageComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: 0, };
     try {
-      const response: any = (await this.http.post(serverPath + '/agreement/get/saveagreements', data).toPromise()) as any;
+      const response: any = (await this.http.post(this.serverPath + '/agreement/get/saveagreements', data).toPromise()) as any;
       // console.log(response)
       if (response) {
         const agreeData = response.filter((item: { flat: { subscriber_id: any; }; }) =>

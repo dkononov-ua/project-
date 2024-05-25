@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SharedService } from 'src/app/services/shared.service';
 import { CounterService } from 'src/app/services/counter.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
@@ -24,11 +24,19 @@ import { Location } from '@angular/common';
 })
 
 export class HouseComponent implements OnInit {
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   goBack(): void {
     this.location.back();
   }
   selectedFlatId!: string | null;
-  path_logo = path_logo;
   statusMessage: string | undefined;
   houseData: any;
   authorization: boolean = false;
@@ -69,7 +77,12 @@ export class HouseComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     const userJson = localStorage.getItem('user');
+
     if (userJson) {
       this.authorization = true;
       const houseData = localStorage.getItem('houseData');

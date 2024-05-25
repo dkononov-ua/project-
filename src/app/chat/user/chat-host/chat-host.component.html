@@ -41,7 +41,7 @@
 
       <div class="chat-info-container p-1" *ngIf="selectedChat && indexPage === 1">
         <img class="avatar-user1 w-30"
-          [src]="serverPathPhotoFlat + (selectedChat.infFlat.imgs[0].img ? selectedChat.infFlat.imgs[0].img : 'housing_default.svg')"
+          [src]="serverPath + pathPhotoFlat + (selectedChat.infFlat.imgs[0].img ? selectedChat.infFlat.imgs[0].img : 'housing_default.svg')"
           alt="User Image">
         <div class="t-med bold w-70">
           <div>{{ selectedChat.flat_name }}</div>
@@ -94,12 +94,12 @@
               <div class="card-mini-img-container">
                 <ng-container *ngIf="chat.infFlat.imgs[0].img && isLoadingImg">
                   <img class="card-mini-img"
-                    [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
+                    [src]="serverPath + pathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
                 </ng-container>
 
                 <ng-container *ngIf="chat.infFlat.imgs[0].img && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
-                  <img [src]="serverPathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
+                  <img [src]="serverPath + pathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
 
                 <ng-container *ngIf="!chat.infFlat.imgs[0].img">
@@ -152,12 +152,12 @@
               <div class="card-mini-img-container">
                 <ng-container *ngIf="chat.infFlat.imgs[0].img && isLoadingImg">
                   <img class="card-mini-img"
-                    [src]="serverPathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
+                    [src]="serverPath + pathPhotoFlat + (chat.infFlat.imgs[0].img ? chat.infFlat.imgs[0].img : 'housing_default.svg')">
                 </ng-container>
 
                 <ng-container *ngIf="chat.infFlat.imgs[0].img && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
-                  <img [src]="serverPathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
+                  <img [src]="serverPath + pathPhotoFlat + chat.infFlat.imgs[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
 
                 <ng-container *ngIf="!chat.infFlat.imgs[0].img">

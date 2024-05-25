@@ -635,13 +635,13 @@
   </div>
 </div>
 
-<div class="full-container-img" *ngIf="serverPathPhotoComunal && photoViewing">
+<div class="full-container-img" *ngIf="serverPath + pathPhotoComunal && photoViewing">
   <div class="full-wrapper-img">
     <div class="btn-close-container close-container">
       <div class="btn-close-box">
         <button class="btn-close" (click)="photoViewing = false"></button>
       </div>
     </div>
-    <img class="full-img-fluid" [src]="serverPathPhotoComunal + (comunImg ? comunImg : 'default.png')">
+    <img class="full-img-fluid" [src]="serverPath + pathPhotoComunal + (comunImg ? comunImg : 'default.png')">
   </div>
 </div>

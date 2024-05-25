@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { HouseInfo } from '../../../../interface/info';
 import { HouseConfig } from '../../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox } from '../../../../interface/name';
@@ -35,10 +35,14 @@ export class MainInfoComponent implements OnInit {
     this.indexPage = indexPage;
   }
 
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   isOpen = true;
   isCopied = false;
   indexCard: number = 2;
@@ -97,10 +101,15 @@ export class MainInfoComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.getSelectParam();
-    this.cardParam();
-    await this.getHouseAcces();
-    await this.getConcludedAgree();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getSelectParam();
+        this.cardParam();
+        await this.getHouseAcces();
+        await this.getConcludedAgree();
+      }
+    })
   }
 
   goToEdit() {
@@ -368,7 +377,7 @@ export class MainInfoComponent implements OnInit {
       const user_id = userObject.inf.user_id;
       const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: 0, };
       try {
-        const response: any = (await this.http.post(serverPath + '/agreement/get/saveagreements', data).toPromise()) as any;
+        const response: any = (await this.http.post(this.serverPath + '/agreement/get/saveagreements', data).toPromise()) as any;
         // console.log(response)
         if (response && response[0].status !== 'Немає доступу') {
           const agreeData = response.filter((item: { flat: { subscriber_id: any; }; }) =>
@@ -396,6 +405,10 @@ export class MainInfoComponent implements OnInit {
         }
       } catch (error) {
         console.error(error);
+        this.sharedService.setStatusMessage('У вас немає доступу до оселі ID ' + this.selectedFlatId + 'Можливо її було забанено');
+        setTimeout(() => {
+          this.sharedService.logoutHouse();
+        }, 2000);
       }
     }
   }

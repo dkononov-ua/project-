@@ -4,13 +4,14 @@ import { cities } from '../../data/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { CounterService } from 'src/app/services/counter.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface UserInfo {
   price_of: string | undefined;
@@ -74,6 +75,14 @@ interface SearchParams {
 })
 
 export class SearchHousingComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   limit: number = 0;
   offs: number = 0;
@@ -188,9 +197,13 @@ export class SearchHousingComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private location: Location,
     private counterService: CounterService,
-  ) {  }
+    private sharedService: SharedService,
+  ) { }
 
   async ngOnInit() {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     // перевірка який пристрій
     this.breakpointObserver.observe([
       Breakpoints.Handset

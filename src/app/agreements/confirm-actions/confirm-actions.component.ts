@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { months } from '../../data/shared'
 import { SharedService } from 'src/app/services/shared.service';
 import { SendMessageService } from 'src/app/chat/send-message.service';
+import * as ServerConfig from 'src/app/config/path-config';
 
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -39,6 +40,14 @@ export const MY_FORMATS = {
 })
 export class ConfirmActionsComponent implements OnInit {
 
+    // імпорт шляхів до медіа
+    pathPhotoUser = ServerConfig.pathPhotoUser;
+    pathPhotoFlat = ServerConfig.pathPhotoFlat;
+    pathPhotoComunal = ServerConfig.pathPhotoComunal;
+    path_logo = ServerConfig.pathLogo;
+    serverPath: string = '';
+    // ***
+
   selectedMonth: any;
   selectedYear: any;
   months = months;
@@ -69,7 +78,12 @@ export class ConfirmActionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.loadData();
+      }
+    })
   }
 
   async loadData(): Promise<void> {

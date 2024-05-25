@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -40,13 +40,21 @@ import { checkPasswordStrength, checkPasswordMatch, formErrors, validationMessag
 })
 
 export class ChangePasswordComponent implements OnInit {
+
+    // імпорт шляхів до медіа
+    pathPhotoUser = ServerConfig.pathPhotoUser;
+    pathPhotoFlat = ServerConfig.pathPhotoFlat;
+    pathPhotoComunal = ServerConfig.pathPhotoComunal;
+    path_logo = ServerConfig.pathLogo;
+    serverPath: string = '';
+    // ***
+
   // експортую значення помилок
   formErrors: any = formErrors;
   validationMessages: any = validationMessages;
 
   changeStep: number = 0;
 
-  path_logo = path_logo;
   passwordType = 'password';
   passwordType1 = 'password';
   emailCheckCode: string = '';
@@ -91,6 +99,9 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.breakpointObserver.observe([
       Breakpoints.Handset
     ]).subscribe(result => {
@@ -195,7 +206,7 @@ export class ChangePasswordComponent implements OnInit {
   async sendCodeForChangePass(): Promise<void> {
     this.loading = true;
     const data = { email: this.changePassForm.get('email')?.value };
-    this.http.post(serverPath + '/registration/forgotpass1', data)
+    this.http.post(this.serverPath + '/registration/forgotpass1', data)
       .subscribe((response: any) => {
         if (response.status === 'На вашу пошту було надіслано код безпеки') {
           this.changeStep = 1;
@@ -228,7 +239,7 @@ export class ChangePasswordComponent implements OnInit {
       password: this.changePassForm.get('changePassword')?.value,
       passCode: this.changePassCode,
     };
-    this.http.post(serverPath + '/registration/forgotpass2', data).subscribe(
+    this.http.post(this.serverPath + '/registration/forgotpass2', data).subscribe(
       (response: any) => {
         if (response.status === 'Не правильно передані данні') {
           console.error(response.status);

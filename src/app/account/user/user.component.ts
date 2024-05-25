@@ -4,7 +4,7 @@ import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-
+import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -23,10 +23,7 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 
-
-
 export class UserComponent implements OnInit {
-
   statusMessage: any;
   loginCheck: boolean = false;
   counterSubs: any;
@@ -53,15 +50,19 @@ export class UserComponent implements OnInit {
     this.indexPage = indexPage;
   }
 
+  serverPath: string = ''
+
   constructor(
     private isAccountOpenService: IsAccountOpenService,
     private counterService: CounterService,
     private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.sendAccountIsOpen();
+    this.dataService.getInfoUser();
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.loginCheck = true;

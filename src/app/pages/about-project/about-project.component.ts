@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { ViewportScroller } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
@@ -29,7 +29,14 @@ import { AuthGoogleService } from 'src/app/auth/auth-google.service';
   ],
 })
 export class AboutProjectComponent implements OnInit {
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   currentStep: number = 0;
   currentScenario: number = 1;
   statusMessage: string | undefined;

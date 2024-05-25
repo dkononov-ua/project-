@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { serverPath } from 'src/app/config/server-config';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -22,8 +23,13 @@ interface FlatInfo {
 })
 
 export class AdditionalInfoComponent implements OnInit {
-  serverPath = serverPath;
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
@@ -87,6 +93,9 @@ export class AdditionalInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectedFlatId();
   }
 

@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, HostListen
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { NavigationEnd, Router } from '@angular/router';
 import { CloseMenuService } from './services/close-menu.service';
 import { SharedService } from './services/shared.service';
 import { Subscription } from 'rxjs';
+import { CheckBackendService } from './services/check-backend.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,7 +15,15 @@ import { Subscription } from 'rxjs';
 })
 
 export class AppComponent implements OnInit {
-  path_logo = path_logo;
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   statusMessage: string = '';
   @ViewChild('locationElement') locationElement!: ElementRef;
   loginForm: any;
@@ -62,6 +71,7 @@ export class AppComponent implements OnInit {
     private el: ElementRef,
     private isCloseMenu: CloseMenuService,
     private sharedService: SharedService,
+    private checkBackendService: CheckBackendService,
   ) {
     this.sharedService.getStatusMessage().subscribe((message: string) => {
       this.statusMessage = message;
@@ -69,6 +79,10 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+    this.checkBackendService.startCheckServer();
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.handleRouteChange(this.router.url);
@@ -106,7 +120,7 @@ export class AppComponent implements OnInit {
   async getUserInfo() {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post(serverPath + '/auth', JSON.parse(userJson))
+      this.http.post(this.serverPath + '/auth', JSON.parse(userJson))
         .subscribe((response: any) => {
         }, (error: any) => {
           console.error(error);

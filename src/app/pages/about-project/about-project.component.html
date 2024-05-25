@@ -1,37 +1,33 @@
-<div class="flex-column">
+<div class="content-wrapper">
 
   <div [@bot] id="container0" class="conteiner-content al-c">
-    <div class="flex-box h-100 w-100">
-      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
-
+    <div class="flex-box w-100">
+      <div class="flex-column t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <h3>Привіт!</h3>
+        <h1><strong>Я Discussio!</strong></h1>
+        <h3><strong>Оренда & здача оселі</strong></h3>
+        <h3>Це те що я хочу зробити комфортним!</h3>
         <button class="btn update m-2" [routerLink]="'/home/update'">
           <i class="fa-regular fa-circle-up pr-2"></i>Останні Оновлення
         </button>
-
-        <h1><strong>Discussio</strong></h1>
-        <h3><strong>Оренда & здача оселі</strong></h3>
         <h5 class="text t-c m-2"><strong>Ми створюємо спільноту орендодавців та орендарів!</strong>
           Спрощуємо процеси їх співпраці, в форматі соціальної мережі та з
           інструментами для управління оселею.
         </h5>
 
-        <!-- <button class="btn update m-2" [routerLink]="'/auth/registration'">
-          <i class="fa-solid fa-right-to-bracket pr-2"></i>
-          Зареєструватись
-        </button> -->
-
-        <div class="box-agree" *ngIf="!authorization">
+        <!-- <div class="box-agree" *ngIf="!authorization">
           <label class="checkBox">
             <input type="checkbox" [(ngModel)]="agreementAccepted" name="agreementAccepted">
             <div class="transition"></div>
           </label>
-          <p class="t-min w-75 t-c">Реєструючись я погоджуюсь з <button [disabled]="agreementAccepted" class="link-licence accent"
-              [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">угодою
+          <p class="t-min w-75 t-c">Реєструючись я погоджуюсь з <button [disabled]="agreementAccepted"
+              class="link-licence accent" [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">угодою
               користувача</button>
           </p>
-        </div>
+        </div> -->
 
-        <button [disabled]="!agreementAccepted" class="btn update m-2" (click)="openGoogleRegistration()" *ngIf="!authorization">
+        <!-- <button [disabled]="!agreementAccepted" class="btn update m-2" (click)="openGoogleRegistration()"
+          *ngIf="!authorization">
           Зареєструватись з <i class="fa-brands fa-google pl-2"></i>
         </button>
 
@@ -41,16 +37,21 @@
 
         <button class="btn update m-2" [routerLink]="'/auth/login'" *ngIf="!authorization">
           <i class="fa-solid fa-right-to-bracket pr-2"></i>Увійти в аккаунт
-        </button>
+        </button> -->
 
         <!-- <button class="btn update m-2" (click)="openGoogleAuth()">
           Увійти з <i class="fa-brands fa-google pl-2"></i>
         </button> -->
 
         <p class="t-min mt-2 gray">
-          Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям в пошуку або здачі житла без
-          ріелторів. <br> <strong>Проєкт є цілком безкоштовний!</strong>
+          Проєкт є цілком <strong>безкоштовний!</strong>
+          Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям в пошуку або здачі житла. <br>
         </p>
+
+        <button class="btn update m-2" [routerLink]="'/auth/registration'" *ngIf="!authorization">
+          <i class="fa-solid fa-right-to-bracket pr-2"></i>
+          Зареєструватись
+        </button>
 
         <h4 class="mt-2">Приєднуйтесь до нас!</h4>
         <div class="social-link-container p-2">
@@ -74,8 +75,7 @@
           </div>
 
           <div class="social-link-box">
-            <a class="social-link-icon" target="_blank"
-              href="https://www.facebook.com/discussio.inc">
+            <a class="social-link-icon" target="_blank" href="https://www.facebook.com/discussio.inc">
               <i class="fab fa-brands fa-facebook"></i>
             </a>
           </div>
@@ -89,46 +89,43 @@
         </div>
 
       </div>
-
-      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
+      <div class="gif-box jc-fs t-c col-lg-6 col-md-6 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/discussio.gif" alt="">
-        <button *ngIf="!containers['container1']" class="btn-next t-c" (click)="scrollToAnchor('container1')">
-          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
-          <p>Наші функції</p>
-        </button>
       </div>
     </div>
-    <!-- <button *ngIf="!containers['container1']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container1')"><i
-        class="fa-solid fa-chevron-down fa-beat-fade"></i></button> -->
+    <p class="t-lar" *ngIf="!containers['container1']">Цікаво? Клікай та подивись що ми пропонуємо!</p>
+    <button *ngIf="!containers['container1']" class="btn-next t-c m-2" (click)="scrollToAnchor('container1')">
+      <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+      <p>Наші функції</p>
+    </button>
   </div>
 
-  <div [@bot] id="container1" class="conteiner-content al-c flex-column" *ngIf="containers['container1']">
+  <div [@bot] id="container1" class="conteiner-content al-c t-c flex-column" *ngIf="containers['container1']">
+    <h2 class="title"><span class="bold">Пошук осель & Пошук орендарів</span></h2>
     <div class="flex-box h-100 w-100">
-      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
-        <iframe class="tiktok" src="https://www.youtube.com/embed/HSr3aSUD21Y" width="320" height="560" frameborder="0"></iframe>
-
-        <button *ngIf="!containers['container2']" class="btn-next t-c" (click)="scrollToAnchor('container2')">
-          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
-          <p>Інші функції</p>
-        </button>
-      </div>
-      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
-
+      <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
         <img class="home-img" width="320" src="../../../assets/gif/search.gif" alt="">
+      </div>
 
-        <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
-          </span></h3>
+      <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
 
+        <h3><strong>Шукаєте оселю чи орендаря?</strong></h3>
+        <div class="flex-group mb-2">
+          <a class="btn update bg-red m-2" target="_blank" href="https://www.youtube.com/shorts/HSr3aSUD21Y">
+            <span class="text m-2">Огляд функції</span><i class="fab fa-brands fa-youtube p-2"></i>
+          </a>
+        </div>
+        <p class="text t-c">
+          Надаємо можливість легко <strong>знайти житло</strong> <i class="fa-solid fa-house-laptop pl-2"></i>, яке
+          відповідає вашим вимогам та вподобанням. Ви
+          можете вибирати оселі з врахуванням різних критеріїв та багато
+          іншого. Наша система робить <strong>пошук оселі</strong> максимально <strong>простим та зручним</strong>.
+        </p>
         <button class="btn update m-2" [routerLink]="'/discussio-search'">
           Пошук Discussio<i class="fa-solid fa-magnifying-glass pl-2"></i>
         </button>
-
         <p class="text t-c">
-          Надаємо вам можливість легко <strong>знайти житло</strong> <i class="fa-solid fa-house-laptop pl-2"></i>, яке
-          відповідає вашим вимогам та вподобанням. Ви
-          можете вибирати оселі з врахуванням різних критеріїв та багато
-          іншого. Наша система робить <strong>пошук оселі</strong> максимально <strong>простим та зручним</strong>. <br>
-          <i class="fa-solid fa-people-pulling pr-2"></i> Можливість <strong>знаходити орендарів</strong>, які
+          Можливість <strong>знаходити орендарів</strong> <i class="fa-solid fa-people-pulling p-2"></i> , які
           відповідають
           вашим особистим критеріям. Ви можете
           використовувати різні фільтри, такі як бюджет, мета переїзду та термін оренди, для <strong>пошуку
@@ -137,24 +134,28 @@
         </p>
       </div>
     </div>
-    <button *ngIf="!containers['container2']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container2')"><i
-        class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
+    <button *ngIf="!containers['container2']" class="btn-next t-c" (click)="scrollToAnchor('container2')">
+      <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+      <p>Інші функції</p>
+    </button>
   </div>
 
   <div [@bot] id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
+    <h2 class="title"><span class="bold"> Створення автоматичних угод & та актів. </span></h2>
     <div class="flex-box h-100 w-100">
-
-      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
-        <iframe class="tiktok" src="https://www.youtube.com/embed/BhGgxDsVt-4" width="320" height="560" frameborder="0"></iframe>
-        <button *ngIf="!containers['container3']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container3')">
-          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
-          <p>Інші функції</p>
-        </button>
+      <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <img class="home-img" width="320" src="../../../assets/gif/agree.gif" alt="">
       </div>
 
-      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
-        <img class="home-img" width="320" src="../../../assets/gif/agree.gif" alt="">
-        <h3 class="bg-mob"><span class="bold"> Створення автоматичних угод & та актів. </span></h3>
+      <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
+
+        <h3><strong>Потрібно створити угоду оренди? <br> Не проблема!</strong></h3>
+
+        <div class="flex-group mb-2">
+          <a class="btn update bg-red m-2" target="_blank" href="https://www.youtube.com/shorts/BhGgxDsVt-4">
+            <span class="text m-2">Функція угоди</span><i class="fab fa-brands fa-youtube p-2"></i>
+          </a>
+        </div>
         <p class="text t-c">
           Наша платформа дозволяє легко та швидко <strong>створити угоду оренди</strong> <i
             class="fa-regular fa-file-pdf pl-2 pr-2"></i> між орендарем
@@ -165,24 +166,62 @@
           підписати цю угоду.
         </p>
       </div>
-
     </div>
-    <button *ngIf="!containers['container3']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container3')"><i
-        class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
+    <button *ngIf="!containers['container3']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container3')">
+      <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+      <p>Інші функції</p>
+    </button>
   </div>
 
   <div [@bot] id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
+    <h2 class="title"><span class="bold"> Система підписок & дискусій. </span></h2>
     <div class="flex-box h-100 w-100">
-      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
-        <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
-        <button *ngIf="!containers['container4']" class="btn-next t-c" (click)="scrollToAnchor('container4')">
-          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
-          <p>Інші функції</p>
-        </button>
+      <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <img class="home-img" width="320" src="../../../assets/gif/sistem_subs.gif" alt="">
       </div>
-      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
-        <h3 class="bg-mob"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
-              class="fa-regular fa-face-frown  pl-2 pr-2"></i> орендодавця & орендаря. </span></h3>
+
+      <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
+
+        <h3><strong>Розуміти з ким маєш справу це важливо!</strong></h3>
+
+        <div class="flex-group mb-2">
+          <a class="btn update bg-red m-2" target="_blank" href="https://www.youtube.com/shorts/tyXSLOZUHTE">
+            <span class="text m-2">Огляд функції</span><i class="fab fa-brands fa-youtube p-2"></i>
+          </a>
+        </div>
+        <p class="text">
+          <strong>1 етап - Підписник: </strong> <i class="fa-solid fa-child-reaching p-1"></i> На цьому етапі ви можете
+          переглядати пропозиції, читати відгуки та
+          оцінки, але ваші
+          контактні дані залишаються прихованими, доки ви не згодні перейти до наступного етапу - дискусії.<br>
+          <strong>2 етап - Дискусія: </strong> <i class="fa-solid fa-person-walking-luggage p-1"></i> Тут ви надаєте
+          можливість переглядати всі ваші контактні дані підписнику,
+          включаючи
+          соціальні мережі. Ви також можете почати обговорення, укладати угоди та переглядати статистику. <br>
+          <strong>3 етап - Мешканець: </strong> <i class="fa-solid fa-people-roof p-1"></i> Після укладення угоди та
+          додавання до мешканців оселі, ви отримуєте
+          доступ до додаткових
+          функцій.
+        </p>
+      </div>
+
+    </div>
+    <button *ngIf="!containers['container4']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container4')">
+      <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+      <p>Інші функції</p>
+    </button>
+  </div>
+
+  <div [@bot] id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
+    <h2 class="title"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
+          class="fa-regular fa-face-frown  pl-2 pr-2"></i> орендодавця & орендаря. </span></h2>
+    <div class="flex-box h-100 w-100">
+      <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
+      </div>
+      <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <h3><strong>А хто би не хотів гарантувати собі спокій, правда?</strong></h3>
+
         <p class="text t-c">
           Для власників оселі вибір надійного орендаря може стати великим завданням. Щоб допомогти власникам обирати
           порядних та надійних орендарів, ми впроваджуємо систему <strong>"Рейтинг орендаря"</strong>.
@@ -192,21 +231,20 @@
           орендарів та допомагає іншим потенційним орендарям зрозуміти, яким власникам можна довіряти.</p>
       </div>
     </div>
-    <button *ngIf="!containers['container4']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container4')"><i
-        class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
+    <button *ngIf="!containers['container5']" class="btn-next t-c" (click)="scrollToAnchor('container5')">
+      <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+      <p>Інші функції</p>
+    </button>
   </div>
 
-  <div [@bot] id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
+  <div [@bot] id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
+    <h2 class="title"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h2>
     <div class="flex-box h-100 w-100">
-      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
+      <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
-        <button *ngIf="!containers['container5']" class="btn-next t-c" (click)="scrollToAnchor('container5')">
-          <i class="fa-solid fa-circle-chevron-down pr-2"></i>
-          <p>Інші функції</p>
-        </button>
       </div>
-      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
-        <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
+      <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <h3><strong>Прозорість у фінансових питаннях це гарантія довіри!</strong></h3>
         <p class="text t-c">
           Ви можете <strong>створювати комунальні послуги</strong> та вибирати різні варіанти розрахунку
           витрат. Ви маєте можливість <strong>вести свою власну статистику</strong>, проводячи детальний розрахунок
@@ -218,22 +256,21 @@
         </p>
       </div>
     </div>
-    <button *ngIf="!containers['container5']" class="btn-home w-100 t-c" (click)="scrollToAnchor('container5')"><i
-        class="fa-solid fa-chevron-down fa-beat-fade"></i></button>
+    <button *ngIf="!containers['container6']" class="btn-next t-c" (click)="scrollToAnchor('container6')">
+      <i class="fa-solid fa-circle-chevron-down pr-2"></i>
+      <p>Інші функції</p>
+    </button>
   </div>
 
-  <div [@bot] id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
-    <div class="flex-box h-100 w-100">
-      <div class="gif-box t-c col-lg-5 col-md-5 col-sm-12 col-12">
+  <div [@bot] id="container6" class="conteiner-content al-c flex-column" *ngIf="containers['container6']">
+    <h2 class="title"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
+    </h2>
+    <div class="flex-box w-100">
+      <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
         <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
-        <button class="btn-next t-c" [routerLink]="'/home/opportunities'">
-          <i class="fa-solid fa-circle-info pr-2"></i>
-          <p>Детальніше про функції</p>
-        </button>
       </div>
-      <div class="flex-column p-3 t-c col-lg-7 col-md-7 col-sm-12 col-12">
-        <h3 class="bg-mob"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
-        </h3>
+      <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <h3><strong>Як цим користуватись? Чиє це? А воно вже було таке! Знайомо?</strong></h3>
         <p class="text t-c">
           Можливість детально описувати та <strong>документувати всі об'єкти та предмети</strong>, які знаходяться в
           місці
@@ -244,10 +281,16 @@
           кращого візуального представлення. Ця інформація є надзвичайно важливою для формування акту прийому-передачі
           оселі.
         </p>
+        <button class="btn-next t-c m-2" [routerLink]="'/home/opportunities'">
+          <i class="fa-solid fa-circle-info pr-2"></i>
+          <p>Детальніше про всі функції</p>
+        </button>
       </div>
     </div>
-    <button class="btn update m-2" (click)="scrollToAnchor('container0')"> <i class="fa-solid fa-arrow-up pr-2"></i>
-      На початок</button>
+
+    <button class="btn update m-4" (click)="scrollToAnchor('container0')">
+      <i class="fa-solid fa-arrow-up pr-2"></i>На початок
+    </button>
   </div>
 
 </div>

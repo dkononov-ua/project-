@@ -5,7 +5,7 @@
         [ngClass]="{ 'selected': selectedSubscriberId == subscriber.user_id  }">
         <div class="card-mini-img-container">
           <img class="card-mini-img"
-            [src]="serverPathPhotoUser + (subscriber.photo ? subscriber.photo : 'user_default.svg')" alt="img">
+            [src]="serverPath + pathPhotoUser + (subscriber.photo ? subscriber.photo : 'user_default.svg')" alt="img">
         </div>
         <div class="card-body">
           <div class="p-1">

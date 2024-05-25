@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../agree-delete/agree-delete.component';
-import { serverPath, serverPathPhotoUser, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../../../interface/info';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -29,10 +29,13 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 
 export class AgreeReviewComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   agree: Agree[] = [];
   loading: boolean = true;
@@ -51,12 +54,14 @@ export class AgreeReviewComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
       const offs = 0;
       this.getAgree(offs);
     });
-
     this.route.params.subscribe(params => {
       this.agree = params['selectedFlatAgree'] || null;
     });
@@ -64,7 +69,7 @@ export class AgreeReviewComponent implements OnInit {
 
   async getAgree(offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/agreement/get/agreements';
+    const url = this.serverPath + '/agreement/get/agreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -91,7 +96,7 @@ export class AgreeReviewComponent implements OnInit {
 
   async openDialog(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/agreement/delete/agreement';
+    const url = this.serverPath + '/agreement/delete/agreement';
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {
       data: {
         flatId: agree.flat.flat_id,

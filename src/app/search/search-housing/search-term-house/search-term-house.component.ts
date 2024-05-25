@@ -4,9 +4,10 @@ import { cities } from '../../../data/data-city';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface UserInfo {
   price_of: string | undefined;
@@ -70,6 +71,14 @@ interface SearchParams {
 })
 
 export class SearchTermHouseComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   limit: number = 0;
   offs: number = 0;
@@ -171,10 +180,14 @@ export class SearchTermHouseComponent implements OnInit {
     private filterService: FilterService,
     private http: HttpClient,
     private router: Router,
+    private sharedService: SharedService,
   ) {
   }
 
   ngOnInit() {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.searchFilter();
     this.getSortValue();
     this.getLoadCards();
@@ -376,7 +389,7 @@ export class SearchTermHouseComponent implements OnInit {
   // пошук оселі по ID
   async searchByID() {
     if (this.searchQuery) {
-      const endpoint = serverPath + '/search/flat';
+      const endpoint = this.serverPath + '/search/flat';
       const flatId = this.searchQuery;
       const url = `${endpoint}/?flat_id=${flatId}`;
       await this.getSearchData(url);
@@ -441,7 +454,7 @@ export class SearchTermHouseComponent implements OnInit {
 
   // побудова URL пошукового запиту
   buildSearchURL(params: any): string {
-    const endpoint = serverPath + '/search/flat';
+    const endpoint = this.serverPath + '/search/flat';
     const paramsString = Object.keys(params).filter(key => params[key] !== '').map(key => key + '=' + params[key]).join('&');
     return `${endpoint}?${paramsString}`;
   }
@@ -449,6 +462,7 @@ export class SearchTermHouseComponent implements OnInit {
   // передача пошукових фільтрів та отримання результатів пошуку
   async getSearchData(url: string) {
     const response: any = await this.http.get(url).toPromise();
+    console.log(response)
     if (response) {
       this.optionsFound = response.count;
       if (this.userInfo.filterData) {
@@ -461,6 +475,7 @@ export class SearchTermHouseComponent implements OnInit {
           this.addСardsToArray = false;
         }, 100);
       }
+
       this.calculatePaginatorInfo()
       this.passInformationToService(this.filteredFlats, this.optionsFound);
     }

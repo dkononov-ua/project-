@@ -7,7 +7,7 @@ import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { BehaviorSubject } from 'rxjs';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 interface FlatStat {
@@ -61,6 +61,14 @@ interface FlatInfo {
 })
 
 export class ComunStatSeasonComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   months = [
     { id: 0, name: 'Січень' },
@@ -178,6 +186,9 @@ export class ComunStatSeasonComponent implements OnInit {
   ) { this.onChangeYear(); }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     if (this.selectedFlatId !== null) {
       if (this.selectedComun !== null && this.selectedYear !== null) {
         this.getSelectParam()
@@ -243,7 +254,7 @@ export class ComunStatSeasonComponent implements OnInit {
       let totalDifference = 0;
       let totalСonsumed = 0;
       for (const e of this.months) {
-        const response = await this.http.post(serverPath + '/comunal/get/comunalAll', {
+        const response = await this.http.post(this.serverPath + '/comunal/get/comunalAll', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
           when_pay_y: this.selectedYear,

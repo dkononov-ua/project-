@@ -27,46 +27,46 @@
     </div> -->
 
     <div class="social-link-box">
-      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/our-team'">
         <i class="fa-solid fa-brain"></i>
         <div class="t-min pl-2 hide-mobile">Розробники</div>
-      </button>
+      </a>
     </div>
 
     <div class="social-link-box">
-      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/user-licence'">
         <i class="fa-solid fa-book-open-reader"></i>
         <div class="t-min pl-2 hide-mobile">Правила</div>
-      </button>
+      </a>
     </div>
 
-    <div class="social-link-box">
-      <button [disabled]="!authorization" class="social-link-icon" [routerLinkActive]="'active'"
+    <div class="social-link-box" *ngIf="authorization">
+      <a class="social-link-icon" [routerLinkActive]="'active'"
         [routerLink]="'/feedback'">
         <i class="fa-solid fa-bug"></i>
         <div class="t-min pl-2 hide-mobile">Відгук</div>
-      </button>
+      </a>
     </div>
 
     <div class="social-link-box">
-      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
         <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
         <div class="t-min pl-2 hide-mobile">Реєстрація</div>
-      </button>
+      </a>
     </div>
 
     <div class="social-link-box">
-      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
         <i class="fa-solid fa-hands-holding-child"></i>
         <div class="t-min pl-2 hide-mobile">Підтримка</div>
-      </button>
+      </a>
     </div>
 
     <div class="social-link-box">
-      <button class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/update'">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/home/update'">
         <i class="fa-regular fa-circle-up"></i>
         <div class="t-min pl-2 hide-mobile">Оновлення</div>
-      </button>
+      </a>
     </div>
 
   </div>

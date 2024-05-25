@@ -6,13 +6,19 @@ import { DataService } from 'src/app/services/data.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CounterService } from '../services/counter.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGoogleService {
-  serverPath = serverPath;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   userData: any;
   constructor(
@@ -22,7 +28,11 @@ export class AuthGoogleService {
     private route: ActivatedRoute,
     private counterService: CounterService,
     private router: Router,
-  ) { }
+  ) {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+  }
 
   async singAuthGoogle(param: string) {
     const provider = new GoogleAuthProvider();
@@ -38,7 +48,7 @@ export class AuthGoogleService {
         };
         // console.log(data)
         try {
-          const response = await this.http.post(serverPath + '/registration/googleLogin', data).toPromise() as any;
+          const response = await this.http.post(this.serverPath + '/registration/googleLogin', data).toPromise() as any;
           // console.log(response)
           if (response.status === true && param === 'registration') {
             // зберігаю інформацію для профілю

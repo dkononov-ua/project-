@@ -8,7 +8,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -43,6 +43,14 @@ interface ComunInfo {
 })
 export class ComunCompanyComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   showInput = false;
   isCopiedMessage: string = '';
   clickShowInput() {
@@ -62,7 +70,6 @@ export class ComunCompanyComponent implements OnInit {
   };
 
   defaultImageUrl: string = "../../../assets/example-comun/default_services.svg";
-  path_logo = path_logo;
   comunalServices = [
     { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_cat3.jpg" },
     { name: "Водопостачання", imageUrl: "../../../assets/example-comun/water.jfif" },
@@ -115,6 +122,9 @@ export class ComunCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
     this.loading = false;
     if (this.selectedFlatId !== null && this.selectedComun !== null && this.selectedComun !== null) {
@@ -160,7 +170,7 @@ export class ComunCompanyComponent implements OnInit {
   getComunalInfo(): void {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedComun && this.selectedComun !== undefined && this.selectedComun !== null) {
-      this.http.post(serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
+      this.http.post(this.serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
         .subscribe(
           (response: any) => {
             if (response.status === false) {
@@ -192,7 +202,7 @@ export class ComunCompanyComponent implements OnInit {
     }
 
     if (userJson && this.selectedFlatId !== undefined) {
-      this.http.post(serverPath + '/comunal/add/comunalCompany', data)
+      this.http.post(this.serverPath + '/comunal/add/comunalCompany', data)
         .subscribe((response: any) => {
           console.log(response)
           if (response.status === 'Данні по комуналці успішно змінені') {

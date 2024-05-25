@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { Chat } from '../../../interface/info';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,12 +27,18 @@ import { UpdateComponentService } from 'src/app/services/update-component.servic
 })
 
 export class ChatHostHouseComponent implements OnInit, AfterViewInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   selectedFlatId: any;
   infoPublic: any[] | undefined;
   loading: boolean = true;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
   chats: Chat[] = [];
   selectedChat: Chat | undefined;
   houseData: any;
@@ -55,6 +61,9 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.loadData();
     this.getSelectedFlatId();
     this.getFlatChats();
@@ -140,7 +149,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   }
 
   async getFlatChats(): Promise<any> {
-    const url = serverPath + '/chat/get/flatchats';
+    const url = this.serverPath + '/chat/get/flatchats';
     const userJson = localStorage.getItem('user');
     const offs = 0;
 
@@ -157,8 +166,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
             // console.log(response)
             if (Array.isArray(response.status) && response.status) {
               let chat = await Promise.all(response.status.map(async (value: any) => {
-                let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-                let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+                let infUser = await this.http.post(this.serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+                let infFlat = await this.http.post(this.serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
                 return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message }
               }))
               this.chats = chat;
@@ -204,7 +213,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
       };
       // console.log(data)
       try {
-        const response: any = await this.http.post(serverPath + '/chat/readMessageFlat', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/readMessageFlat', data).toPromise();
         // console.log(response)
         if (response.status === true) {
           this.updateComponent.iReadHouseMessage();

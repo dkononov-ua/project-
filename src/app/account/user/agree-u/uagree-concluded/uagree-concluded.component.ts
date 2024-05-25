@@ -1,7 +1,7 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../../../interface/info';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -26,10 +26,15 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 
 export class UagreeConcludedComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   agree: Agree[] = [];
   loading: boolean = true;
   selectedFlatAgree: any;
@@ -44,13 +49,18 @@ export class UagreeConcludedComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
-    await this.getAgree();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getAgree();
+      }
+    })
   }
 
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/saveyagreements';
+    const url = this.serverPath + '/agreement/get/saveyagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -73,7 +83,7 @@ export class UagreeConcludedComponent implements OnInit {
   async getActAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/yAct';
+    const url = this.serverPath + '/agreement/get/yAct';
     try {
       for (const agreementId of this.agreementIds) {
         const data = {

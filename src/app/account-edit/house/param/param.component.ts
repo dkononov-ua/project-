@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animations } from '../../../interface/animation';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
@@ -24,6 +24,14 @@ interface FlatInfo {
 })
 
 export class ParamComponent {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   loading = false;
   reloadPageWithLoader() {
@@ -50,7 +58,6 @@ export class ParamComponent {
   maxValueKitchen: number = 100;
   minValueFloor: number = -3;
   maxValueFloor: number = 47;
-  path_logo = path_logo;
 
   helpRepair: boolean = false;
   helpBalcony: boolean = false;
@@ -75,15 +82,18 @@ export class ParamComponent {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
-    if (this.selectedFlatId) {
-      this.getInfo();
-    }
   }
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+      if (this.selectedFlatId) {
+        this.getInfo();
+      }
     });
   }
 
@@ -103,7 +113,7 @@ export class ParamComponent {
   async getInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           if (response && response.param) {
             this.flatInfo = response.param;
@@ -133,7 +143,7 @@ export class ParamComponent {
       }
 
       try {
-        const response: any = await this.http.post(serverPath + '/flatinfo/add/parametrs', {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/add/parametrs', {
           auth: JSON.parse(userJson),
           new: data,
           flat_id: this.selectedFlatId,

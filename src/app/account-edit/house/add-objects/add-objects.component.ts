@@ -3,7 +3,7 @@ import { objects } from '../../../data/objects-data';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { animations } from '../../../interface/animation';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
@@ -49,7 +49,15 @@ export class AddObjectsComponent implements OnInit {
 
   acces_filling: number = 1;
   houseData: any;
-  path_logo = path_logo;
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   loading = false;
   checkObj: any;
   infoObjects: any;
@@ -119,6 +127,9 @@ export class AddObjectsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       if (this.selectedFlatId !== null) {
@@ -168,7 +179,7 @@ export class AddObjectsComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post(serverPath + '/flatinfo/get/filling', {
+      const response = await this.http.post(this.serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
@@ -183,7 +194,7 @@ export class AddObjectsComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return serverPath + '/img/filling/' + flat.img;
+      return this.serverPath + '/img/filling/' + flat.img;
     } else {
       return 'assets/icon-objects/default.filling.png';
     }
@@ -283,7 +294,7 @@ export class AddObjectsComponent implements OnInit {
       const headers = { 'Accept': 'application/json' };
       try {
         this.loading = true;
-        const response: any = await this.http.post(serverPath + '/img/uploadFilling', photoData, { headers }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/img/uploadFilling', photoData, { headers }).toPromise();
         if (response.status === 'Збережено') {
           this.sharedService.setStatusMessage("Об'єкт додано до списку");
           this.selectedObject = '';
@@ -312,7 +323,7 @@ export class AddObjectsComponent implements OnInit {
       const headers = { 'Accept': 'application/json' };
       try {
         this.loading = true;
-        const response: any = await this.http.post(serverPath + '/img/uploadFilling', formData, { headers }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/img/uploadFilling', formData, { headers }).toPromise();
         if (response.status === 'Збережено') {
           this.customObject = '';
           this.selectedObject = '';
@@ -338,7 +349,7 @@ export class AddObjectsComponent implements OnInit {
         filling_id: flat.filling_id
       };
 
-      this.http.post(serverPath + '/flatinfo/deletefilling', data)
+      this.http.post(this.serverPath + '/flatinfo/deletefilling', data)
         .subscribe(
           (response: any) => {
             this.flat_objects = this.flat_objects.filter((item: { filling_id: any; }) => item.filling_id !== flat.filling_id);

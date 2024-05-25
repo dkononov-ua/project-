@@ -6,7 +6,7 @@ import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { animations } from '../../interface/animation';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
@@ -24,6 +24,14 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 export class ComunAddComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   comunalServicesPhoto = [
     { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_cat3.jpg" },
@@ -54,8 +62,6 @@ export class ComunAddComponent implements OnInit {
     "Інтернет та телебачення",
     "Домофон",
   ];
-  path_logo = path_logo;
-  serverPath = serverPath;
   loading = false;
   comunCreate!: FormGroup;
   showInput = false;
@@ -107,6 +113,9 @@ export class ComunAddComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
     this.getDefaultData();
   }
@@ -122,7 +131,7 @@ export class ComunAddComponent implements OnInit {
     if (userJson) {
       const newComun = this.newComun || this.customComunal;
       if (newComun) {
-        this.http.post(serverPath + '/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: newComun })
+        this.http.post(this.serverPath + '/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: newComun })
           .subscribe((response: any) => {
             if (response.status === 'Данні по комуналці успішно змінені') {
               setTimeout(() => {
@@ -162,7 +171,7 @@ export class ComunAddComponent implements OnInit {
       if (result === true && this.selectedFlatId && userJson && this.selectedComun) {
         const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: comunal_name };
         try {
-          const response: any = await this.http.post(serverPath + '/comunal/delete/button', data).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/comunal/delete/button', data).toPromise();
           if (response.status === true) {
             this.sharedService.setStatusMessage('Послуга видалена');
             setTimeout(() => { this.sharedService.setStatusMessage(''); location.reload() }, 2000);
@@ -222,7 +231,7 @@ export class ComunAddComponent implements OnInit {
       flat_id: this.selectedFlatId,
     };
     try {
-      const response: any = await this.http.post(serverPath + '/comunal/get/button', data).toPromise();
+      const response: any = await this.http.post(this.serverPath + '/comunal/get/button', data).toPromise();
       if (response.comunal === false) {
         this.checkComun = false;
         return;

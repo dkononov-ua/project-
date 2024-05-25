@@ -3,7 +3,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../services/chose-subscribers.service';
 import { EMPTY, Subject, Subscription, switchMap, take } from 'rxjs';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SMILEYS } from '../../../data/data-smile'
@@ -28,6 +28,14 @@ interface User {
 
 export class ChatHouseComponent implements OnInit, OnDestroy {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   isStatisticsMessage(message: string): boolean {
     return /#Статистика#(?:Січень|Лютий|Березень|Квітень|Травень|Червень|Липень|Серпень|Вересень|Жовтень|Листопад|Грудень)#(?:20[1-3]\d|2040)#/.test(message);
   }
@@ -37,10 +45,6 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
 
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   users: User[] = [];
   allMessagesNotRead: any[] = [];
   selectedFlatId: string | any;
@@ -76,8 +80,11 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<any> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      await this.loadData();
+    })
     // console.log('ngOnInit')
-    await this.loadData();
     this.scrollDown();
   }
 
@@ -166,7 +173,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         offs: 0,
       };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/get/flatmessage', info).toPromise() as any[];
+        const response: any = await this.http.post(this.serverPath + '/chat/get/flatmessage', info).toPromise() as any[];
         // перевіряю скільки повідомлень якщо більше 49 то показую кнопку підвантажити повідомлення
         this.messageALL = response.status;
         if (Array.isArray(response.status)) {
@@ -202,7 +209,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
       };
       // console.log(requestData)
       // це підписка на запит кожні 3 секунди інтервал запитує нові повідомлення вона відміняється після закриття компоненту
-      this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageFlat', requestData)
+      this.getMessagesSubscription = this.http.post(this.serverPath + '/chat/get/NewMessageFlat', requestData)
         .subscribe(
           async (response: any) => {
             // console.log(response)
@@ -258,7 +265,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         offs: this.allMessages.length,
       };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/get/flatmessage', info).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/get/flatmessage', info).toPromise();
         this.messageALL = response.status;
         if (Array.isArray(response.status)) {
           const newMessages = response.status.map((message: any) => {
@@ -286,7 +293,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         flat_id: this.selectedFlatId,
         user_id: this.selectedSubscriberID,
       };
-      const response: any = this.http.post(serverPath + '/chat/readMessageFlat', data).subscribe();
+      const response: any = this.http.post(this.serverPath + '/chat/readMessageFlat', data).subscribe();
       if (response) {
         this.updateComponent.iReadHouseMessage();
       }

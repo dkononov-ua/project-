@@ -8,7 +8,7 @@ import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { GestureService } from 'src/app/services/gesture.service';
@@ -38,17 +38,20 @@ import { CounterService } from 'src/app/services/counter.service';
 })
 
 export class ProfileComponent implements OnInit {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
   option_pay = option_pay;
   animals = animals;
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+
   // рейтинг орендара
   ratingTenant: number | undefined;
   // параметри користувача
@@ -99,6 +102,9 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectedFlat();
     this.getUser();
   }
@@ -260,7 +266,7 @@ export class ProfileComponent implements OnInit {
     if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
       const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
       try {
-        const response: any = await this.http.post(serverPath + '/usersubs/subscribe', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/usersubs/subscribe', data).toPromise();
         // console.log(response)
         if (response.status === 'Ви успішно відписались') {
           this.subscriptionStatus = 0;
@@ -289,7 +295,7 @@ export class ProfileComponent implements OnInit {
     if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
       const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
       try {
-        const response: any = await this.http.post(serverPath + '/usersubs/checkSubscribe', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/usersubs/checkSubscribe', data).toPromise();
         // console.log(response.status)
         // перевірка підписок оселі
         await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
@@ -330,7 +336,7 @@ export class ProfileComponent implements OnInit {
 
   async getRating(selectedUser: any): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/userMarks';
+    const url = this.serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: selectedUser.user_id,

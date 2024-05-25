@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { serverPath } from 'src/app/config/server-config';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from './shared.service';
 import { Router } from '@angular/router';
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
 })
 
 export class CounterService {
-  private serverPath = serverPath;
+  serverPath: string = '';
   // Лічильники оселі
   private counterHouseSubscribersSubject = new BehaviorSubject<string>('');
   private counterHouseSubscriptionsSubject = new BehaviorSubject<string>('');
@@ -37,14 +36,18 @@ export class CounterService {
     private http: HttpClient,
     private sharedService: SharedService,
     private router: Router,
-  ) { }
+  ) {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+  }
 
   // Підписники оселі
   async getHouseSubscribersCount(selectedFlatId: any) {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
     try {
-      const counterHouseSubscribers: any = await this.http.post(serverPath + '/subs/get/countSubs', data).toPromise();
+      const counterHouseSubscribers: any = await this.http.post(this.serverPath + '/subs/get/countSubs', data).toPromise();
       if (counterHouseSubscribers.status !== 'Авторизуйтесь') {
         this.counterHouseSubscribersSubject.next(counterHouseSubscribers);
         // console.log('Запит на сервер Підписники оселі', counterHouseSubscribers)
@@ -62,7 +65,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
     try {
-      const counterHouseSubscriptions: any = await this.http.post(serverPath + '/usersubs/get/CountUserSubs', data).toPromise();
+      const counterHouseSubscriptions: any = await this.http.post(this.serverPath + '/usersubs/get/CountUserSubs', data).toPromise();
       if (counterHouseSubscriptions.status !== 'Авторизуйтесь') {
         // console.log('Запит на сервер Підписки оселі', counterHouseSubscriptions)
         this.counterHouseSubscriptionsSubject.next(counterHouseSubscriptions);
@@ -80,7 +83,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
     try {
-      const counterHouseDiscussio: any = await this.http.post(serverPath + '/acceptsubs/get/CountSubs', data).toPromise();
+      const counterHouseDiscussio: any = await this.http.post(this.serverPath + '/acceptsubs/get/CountSubs', data).toPromise();
       if (counterHouseDiscussio.status !== 'Авторизуйтесь') {
         this.counterHouseDiscussioSubject.next(counterHouseDiscussio);
         // console.log('Запит на сервер Дискусії оселі', counterHouseDiscussio)
@@ -98,7 +101,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserSubscribers: any = await this.http.post(serverPath + '/usersubs/get/CountYUserSubs', data).toPromise();
+      const counterUserSubscribers: any = await this.http.post(this.serverPath + '/usersubs/get/CountYUserSubs', data).toPromise();
       if (counterUserSubscribers.status !== 'Авторизуйтесь') {
         this.counterUserSubscribersSubject.next(counterUserSubscribers.status);
         // console.log('Запит на сервер Підписники користувача', counterUserSubscribers)
@@ -116,7 +119,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserSubscriptions: any = await this.http.post(serverPath + '/subs/get/countYSubs', data).toPromise();
+      const counterUserSubscriptions: any = await this.http.post(this.serverPath + '/subs/get/countYSubs', data).toPromise();
       if (counterUserSubscriptions.status !== 'Авторизуйтесь') {
         // console.log('Запит на сервер Підписки користувача', counterUserSubscriptions)
         this.counterUserSubscriptionsSubject.next(counterUserSubscriptions.status);
@@ -135,7 +138,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserDiscussio: any = await this.http.post(serverPath + '/acceptsubs/get/CountYsubs', data).toPromise();
+      const counterUserDiscussio: any = await this.http.post(this.serverPath + '/acceptsubs/get/CountYsubs', data).toPromise();
       // console.log(counterUserDiscussio)
       if (counterUserDiscussio.status !== 'Авторизуйтесь') {
         this.counterUserDiscussioSubject.next(counterUserDiscussio.status);
@@ -154,7 +157,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
     try {
-      const counterHouseNewMessage: any = await this.http.post(serverPath + '/chat/get/DontReadMessageFlat', data).toPromise();
+      const counterHouseNewMessage: any = await this.http.post(this.serverPath + '/chat/get/DontReadMessageFlat', data).toPromise();
       // console.log(counterHouseNewMessage)
       if (counterHouseNewMessage.status !== 'Авторизуйтесь') {
         this.counterHouseNewMessageSubject.next(counterHouseNewMessage);
@@ -173,7 +176,7 @@ export class CounterService {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!) };
     try {
-      const counterUserNewMessage: any = await this.http.post(serverPath + '/chat/get/DontReadMessageUser', data).toPromise();
+      const counterUserNewMessage: any = await this.http.post(this.serverPath + '/chat/get/DontReadMessageUser', data).toPromise();
       // console.log(counterUserNewMessage)
       if (counterUserNewMessage.status !== 'Авторизуйтесь') {
         this.counterUserNewMessageSubject.next(counterUserNewMessage);

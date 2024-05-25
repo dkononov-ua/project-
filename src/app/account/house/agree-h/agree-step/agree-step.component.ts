@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 @Component({
@@ -21,6 +21,13 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 
 export class AgreeStepComponent implements OnInit {
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   numSendAgree: number = 0;
   offs: number = 0;
   // показ карток
@@ -32,9 +39,6 @@ export class AgreeStepComponent implements OnInit {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
   selectedFlatId: string | any;
   counterFound: number = 0;
   agreementIds: any
@@ -48,11 +52,16 @@ export class AgreeStepComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getSelectedFlatID();
+      }
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-    this.getSelectedFlatID();
   }
 
   // відправляю event початок свайпу
@@ -109,7 +118,7 @@ export class AgreeStepComponent implements OnInit {
 
   async getSendAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/agreement/get/agreements';
+    const url = this.serverPath + '/agreement/get/agreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -130,7 +139,7 @@ export class AgreeStepComponent implements OnInit {
 
   async getConcludedAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/agreement/get/saveagreements';
+    const url = this.serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,
@@ -152,7 +161,7 @@ export class AgreeStepComponent implements OnInit {
 
   async getActAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/agreement/get/act';
+    const url = this.serverPath + '/agreement/get/act';
     const offs = 0; // Поточне значення offs
 
     // Масив для зберігання результатів перевірки існування акта
@@ -218,7 +227,7 @@ export class AgreeStepComponent implements OnInit {
   // Дискусії
   async getAcceptSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = serverPath + '/acceptsubs/get/CountSubs';
+    const url = this.serverPath + '/acceptsubs/get/CountSubs';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: this.selectedFlatId,

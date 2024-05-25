@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
@@ -40,6 +40,14 @@ interface chosenFlat {
 
 export class SubscriptionsUserComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
@@ -47,11 +55,6 @@ export class SubscriptionsUserComponent implements OnInit {
   animals = animals;
   isLoadingImg: boolean = false;
 
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   // параметри оселі
   chosenFlat: chosenFlat | null = null;
   choseFlatId: any | null;
@@ -93,6 +96,9 @@ export class SubscriptionsUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 1;
       this.indexPage = Number(this.page);
@@ -146,7 +152,7 @@ export class SubscriptionsUserComponent implements OnInit {
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     if (userJson) {
       try {
-        const allSubscriptions: any = await this.http.post(serverPath + '/subs/get/ysubs', data).toPromise() as any[];
+        const allSubscriptions: any = await this.http.post(this.serverPath + '/subs/get/ysubs', data).toPromise() as any[];
         // console.log(allSubscriptions)
         if (allSubscriptions && allSubscriptions.status !== false) {
           localStorage.setItem('allSubscriptions', JSON.stringify(allSubscriptions));
@@ -254,7 +260,7 @@ export class SubscriptionsUserComponent implements OnInit {
       if (result === true && userJson && flat) {
         const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
         try {
-          const response: any = await this.http.post(serverPath + '/subs/delete/ysubs', data).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/subs/delete/ysubs', data).toPromise();
           if (response.status === true) {
             this.sharedService.setStatusMessage('Підписка видалена');
             this.chosenFlat = null;

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ChangeComunService } from '../change-comun.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -14,6 +14,15 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 
 export class SelectComunComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   popular_comunal_names = [
     "Опалення",
     "Водопостачання",
@@ -48,6 +57,9 @@ export class SelectComunComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam()
   }
 
@@ -93,7 +105,7 @@ export class SelectComunComponent implements OnInit {
       auth: JSON.parse(userJson),
       flat_id: this.selectedFlatId,
     };
-    this.http.post(serverPath + '/comunal/get/button', requestData)
+    this.http.post(this.serverPath + '/comunal/get/button', requestData)
       .subscribe(
         (response: any) => {
           if (response.status === false) {

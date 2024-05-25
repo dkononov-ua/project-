@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Location } from '@angular/common';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionsComponent } from '../confirm-actions/confirm-actions.component';
 import { SharedService } from 'src/app/services/shared.service';
@@ -20,8 +20,14 @@ import { SharedService } from 'src/app/services/shared.service';
 
 export class RentalAgreementComponent implements OnInit {
 
-  serverPath = serverPath;
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   selectedAgreement: any;
   selectedFlatId: any;
   printableContent: SafeHtml | undefined;
@@ -49,7 +55,12 @@ export class RentalAgreementComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getParams();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getParams();
+      }
+    })
     this.loading = false;
   }
 
@@ -95,10 +106,10 @@ export class RentalAgreementComponent implements OnInit {
       }
       if (this.indexPage === 1) {
         // Отримати надіслані угоди оселі
-        this.url = serverPath + '/agreement/get/agreements';
+        this.url = this.serverPath + '/agreement/get/agreements';
       } else if (this.indexPage === 2) {
         // Отримати погоджені угоди оселі
-        this.url = serverPath + '/agreement/get/saveagreements';
+        this.url = this.serverPath + '/agreement/get/saveagreements';
       }
     } else if (selectedAgreeID && this.indexUser === 1) {
       this.data = {
@@ -108,10 +119,10 @@ export class RentalAgreementComponent implements OnInit {
       }
       if (this.indexPage === 1) {
         // Отримати надіслані угоди користувача
-        this.url = serverPath + '/agreement/get/yagreements';
+        this.url = this.serverPath + '/agreement/get/yagreements';
       } else if (this.indexPage === 2) {
         // Отримати погоджені угоди користувача
-        this.url = serverPath + '/agreement/get/saveyagreements';
+        this.url = this.serverPath + '/agreement/get/saveyagreements';
       }
     }
     try {
@@ -159,7 +170,7 @@ export class RentalAgreementComponent implements OnInit {
   async rejectAgreement(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/delete/yagreement';
+    const url = this.serverPath + '/agreement/delete/yagreement';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -197,7 +208,7 @@ export class RentalAgreementComponent implements OnInit {
       };
       this.loading = true;
       try {
-        const response = (await this.http.post(serverPath + '/agreement/accept/agreement', data).toPromise()) as any;
+        const response = (await this.http.post(this.serverPath + '/agreement/accept/agreement', data).toPromise()) as any;
         if (response.status === 'Договір погоджено') {
           this.sharedService.setStatusMessage('Умови угоди ухвалені!');
           setTimeout(() => {

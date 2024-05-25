@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
@@ -38,6 +38,15 @@ interface chosenFlat {
 })
 
 export class SubscribersUserComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
@@ -46,10 +55,6 @@ export class SubscribersUserComponent implements OnInit {
   // шляхи до серверу
   isLoadingImg: boolean = false;
 
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   // параметри оселі
   chosenFlat: chosenFlat | null = null;
   choseFlatId: any | null;
@@ -94,6 +99,9 @@ export class SubscribersUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSubInfo(this.offs);
     await this.getCounterUser();
   }
@@ -140,7 +148,7 @@ export class SubscribersUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
-      const allSubscribers: any = await this.http.post(serverPath + '/usersubs/get/subs', data).toPromise() as any[];
+      const allSubscribers: any = await this.http.post(this.serverPath + '/usersubs/get/subs', data).toPromise() as any[];
       // console.log(allSubscribers)
       if (allSubscribers && allSubscribers.status !== false) {
         localStorage.setItem('allSubscribers', JSON.stringify(allSubscribers));
@@ -252,7 +260,7 @@ export class SubscribersUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = { auth: JSON.parse(userJson!), flat_id: choseFlatId, };
-      const response: any = await this.http.post(serverPath + '/usersubs/accept', data).toPromise();
+      const response: any = await this.http.post(this.serverPath + '/usersubs/accept', data).toPromise();
       if (response.status == true) {
         this.sharedService.setStatusMessage('Ухвалено');
         this.chosenFlat = null;
@@ -282,7 +290,7 @@ export class SubscribersUserComponent implements OnInit {
       if (result === true && userJson && flat) {
         const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
         try {
-          const response: any = await this.http.post(serverPath + '/usersubs/delete/ysubs', data).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/usersubs/delete/ysubs', data).toPromise();
           if (response.status === true) {
             this.sharedService.setStatusMessage('Підписника видалено');
             this.chosenFlat = null;
@@ -369,7 +377,7 @@ export class SubscribersUserComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), user_id: user_id, };
     try {
-      const response: any = await this.http.post(serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
+      const response: any = await this.http.post(this.serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
       this.numberOfReviews = response.status.length;
       this.reviews = response.status;
       if (this.reviews && Array.isArray(this.reviews)) {

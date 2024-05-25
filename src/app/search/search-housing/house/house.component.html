@@ -77,7 +77,7 @@
       <div *ngIf="!selectedFlat">
         <div class="img-container">
           <div class="img-wrapper">
-            <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
+            <img class="img-fluid" [src]="serverPath + pathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
           </div>
         </div>
       </div>
@@ -85,8 +85,8 @@
       <div class="container-img" (panstart)="onPanStartImg($event)" (panend)="onPanEndImg($event)">
         <div class="wrapper-img">
           <img class="img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
-                      ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
-                      serverPathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
+                      ? serverPath + pathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
+                      serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
 
           <div *ngIf="selectedFlat?.img.length > 1">
             <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
@@ -402,7 +402,7 @@
       <div *ngIf="!selectedFlat">
         <div class="img-container">
           <div class="img-wrapper">
-            <img class="img-fluid" [src]="serverPathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
+            <img class="img-fluid" [src]="serverPath + pathPhotoFlat + 'housing_default.svg'" alt="Flat Image">
           </div>
         </div>
       </div>
@@ -410,8 +410,8 @@
       <div class="container-img" (panstart)="onPanStartImg($event)" (panend)="onPanEndImg($event)">
         <div class="wrapper-img">
           <img class="img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
-                      ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
-                      serverPathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
+                      ? serverPath + pathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
+                      serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
 
           <div *ngIf="selectedFlat?.img.length > 1">
             <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
@@ -663,7 +663,7 @@
           <div class="reviews-person w-70">
             <div class="reviews-person-img">
               <div *ngIf="review.reporter && review.reporter.img">
-                <img [src]="serverPathPhotoUser + review.reporter.img" alt="img">
+                <img [src]="serverPath + pathPhotoUser + review.reporter.img" alt="img">
               </div>
               <div *ngIf="!review.reporter || !review.reporter.img">
                 <img src="../../../../assets/user_default.svg" alt="img">
@@ -698,8 +698,8 @@
       </div>
     </div>
     <img class="full-img-fluid" [src]="selectedFlat.img && selectedFlat.img[currentPhotoIndex]
-          ? serverPathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
-          serverPathPhotoFlat + 'housing_default.svg'" alt="img">
+          ? serverPath + pathPhotoFlat + selectedFlat.img[currentPhotoIndex] :
+          serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img">
     <div *ngIf="selectedFlat?.img.length > 1">
       <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
           class="fa-solid fa-chevron-left"></i></button>

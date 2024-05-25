@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../../../interface/info';
 import { ConfirmActionsComponent } from 'src/app/agreements/confirm-actions/confirm-actions.component';
 import { animations } from '../../../../interface/animation';
@@ -27,10 +27,14 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 export class UagreeReviewComponent implements OnInit {
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   agree: Agree[] = [];
   userId: string | any;
@@ -50,6 +54,9 @@ export class UagreeReviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.params.subscribe(params => {
       this.selectedFlatAgree = params['selectedFlatAgree'] || null;
     });
@@ -70,7 +77,7 @@ export class UagreeReviewComponent implements OnInit {
   async getSendAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/yagreements';
+    const url = this.serverPath + '/agreement/get/yagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -92,7 +99,7 @@ export class UagreeReviewComponent implements OnInit {
   async removeAgreement(agreement: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/delete/yagreement';
+    const url = this.serverPath + '/agreement/delete/yagreement';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

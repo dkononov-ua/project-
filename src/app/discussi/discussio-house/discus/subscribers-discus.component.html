@@ -81,13 +81,13 @@
             <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
               <div class="container-loader-mini">
                 <mat-spinner color="warn"></mat-spinner>
-                <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+                <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
                   (load)="isLoadingImg = true" hidden>
                 <div class="t-min gray mt-2">Завантаження фото</div>
               </div>
             </div>
             <!-- якщо фото користувача завантажилось показуємо фото -->
-            <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+            <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
               *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
           </div>
           <div class="card-body">
@@ -130,13 +130,13 @@
                     *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
                     <div class="container-loader-mini">
                       <mat-spinner color="warn"></mat-spinner>
-                      <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+                      <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
                         (load)="isLoadingImg = true" hidden>
                       <div class="t-min gray mt-2">Завантаження фото</div>
                     </div>
                   </div>
                   <!-- якщо фото користувача завантажилось показуємо фото -->
-                  <img class="card-mini-img" [src]="serverPathPhotoUser + subscriber.img" alt="img"
+                  <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
                     *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
                 </div>
                 <div class="card-body">
@@ -272,7 +272,7 @@
                   <div class="img-fluid">
                     <div class="container-loader-mini">
                       <mat-spinner color="warn"></mat-spinner>
-                      <img [src]="serverPathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true" hidden>
+                      <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true" hidden>
                       <div class="t-min gray mt-2">Завантаження фото</div>
                     </div>
                   </div>
@@ -281,7 +281,7 @@
                 <!-- фото користувача -->
                 <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && isLoadingImg">
                   <div class="img-fluid">
-                    <img [src]="serverPathPhotoUser + selectedUser.img" alt="img">
+                    <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img">
                   </div>
                 </ng-container>
 
@@ -629,7 +629,7 @@
                 <div class="reviews-person w-70">
                   <div class="reviews-person-img">
                     <div *ngIf="review.reporter && review.reporter.img">
-                      <img [src]="serverPathPhotoUser + review.reporter.img" alt="img">
+                      <img [src]="serverPath + pathPhotoUser + review.reporter.img" alt="img">
                     </div>
                     <div *ngIf="!review.reporter || !review.reporter.img">
                       <img src="../../../../assets/user_default.svg" alt="img">

@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { regions } from '../../../data/data-city';
 import { cities } from '../../../data/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
@@ -36,6 +36,14 @@ interface FlatInfo {
 })
 
 export class AddressComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   loading = false;
   reloadPageWithLoader() {
@@ -69,7 +77,6 @@ export class AddressComponent implements OnInit {
   selectedCity: any;
   regions = regions;
   cities = cities;
-  path_logo = path_logo;
   statusMessage: string | undefined;
   selectedFlatId!: string | null;
   public locationLink: string = '';
@@ -86,15 +93,18 @@ export class AddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
-    if (this.selectedFlatId) {
-      this.getInfo();
-    }
   }
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+      if (this.selectedFlatId) {
+        this.getInfo();
+      }
     });
   }
 
@@ -114,7 +124,7 @@ export class AddressComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
-      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           this.flatInfo = response.flat;
           this.locationLink = this.generateLocationUrl();
@@ -203,7 +213,7 @@ export class AddressComponent implements OnInit {
         distance_shop: this.flatInfo.distance_shop || undefined,
       }
       try {
-        const response: any = await this.http.post(serverPath + '/flatinfo/add/addres', {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
           new: data,
           flat_id: this.selectedFlatId,

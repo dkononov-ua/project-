@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animations } from '../../interface/animation';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from '../../services/selected-flat.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -27,10 +27,13 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class SearchComponent implements OnInit {
 
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   indexPage: number = 0;
   selectedFlatId!: string | null;
   openSearchHouse: boolean = false;
@@ -50,6 +53,9 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectedFlatId();
   }
 

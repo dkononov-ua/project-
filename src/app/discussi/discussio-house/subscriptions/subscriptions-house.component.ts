@@ -8,7 +8,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
@@ -37,16 +37,18 @@ import { DeleteSubComponent } from '../delete/delete-sub.component';
 })
 
 export class SubscriptionsHouseComponent implements OnInit {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
   option_pay = option_pay;
   animals = animals;
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   // параметри користувача
   subscribers: UserInfo[] = [];
   selectedUser: UserInfo | any;
@@ -103,6 +105,9 @@ export class SubscriptionsHouseComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectedFlatID();
     await this.getCounterHouse();
   }
@@ -170,7 +175,7 @@ export class SubscriptionsHouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
     try {
-      const allDiscussions: any = await this.http.post(serverPath + '/usersubs/get/ysubs', data).toPromise() as any[];
+      const allDiscussions: any = await this.http.post(this.serverPath + '/usersubs/get/ysubs', data).toPromise() as any[];
       if (allDiscussions && allDiscussions.status !== 'Немає доступу' && allDiscussions.status !== false) {
         localStorage.setItem('allHouseSubscriptions', JSON.stringify(allDiscussions));
         const getAllDiscussions = JSON.parse(localStorage.getItem('allHouseSubscriptions') || '[]');
@@ -221,7 +226,7 @@ export class SubscriptionsHouseComponent implements OnInit {
       if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
         const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
         try {
-          const response: any = await this.http.post(serverPath + '/usersubs/delete/subs', data).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/usersubs/delete/subs', data).toPromise();
           if (response.status === true) {
             this.sharedService.setStatusMessage('Підписка видалена');
             setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
@@ -258,7 +263,7 @@ export class SubscriptionsHouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), user_id: selectedUser.user_id, };
     try {
-      const response = await this.http.post(serverPath + '/rating/get/userMarks', data).toPromise() as any;
+      const response = await this.http.post(this.serverPath + '/rating/get/userMarks', data).toPromise() as any;
       this.reviews = response.status;
       if (response && Array.isArray(response.status)) {
         let totalMarkTenant = 0;

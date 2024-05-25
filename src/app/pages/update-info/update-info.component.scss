@@ -4,14 +4,24 @@
 
 .news-content {
   @include flex-box-column;
+  padding: 20px;
+  @include s1-s3 {
+    padding: 10px;
+  }
 }
 
 .flex-news {
   @include flex-box-center;
+  // border: 1px solid $color-light;
+  border-radius: 20px;
+  margin: 20px 0 20px 0;
+  background-color: $color-light;
+  @include box-shadow;
   @include s1-s3 {
     flex-direction: column !important;
   }
   .img-fluid {
+    border: none !important;
     @include s1-s3 {
       width: 100%;
     }

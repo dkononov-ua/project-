@@ -48,7 +48,7 @@
         <div class="card-mini-img">
           <div class="container-loader-mini">
             <mat-spinner color="warn"></mat-spinner>
-            <img [src]="serverPathPhotoUser + user.img" alt="img" (load)="isLoadingImg = true" hidden>
+            <img [src]="serverPath + pathPhotoUser + user.img" alt="img" (load)="isLoadingImg = true" hidden>
             <div class="t-min gray mt-2">Завантаження фото</div>
           </div>
         </div>
@@ -56,7 +56,7 @@
       <!-- якщо фото користувача завантажилось показуємо фото -->
       <ng-container *ngIf="user.img && user.img !== 'user_default.svg' && isLoadingImg">
         <div class="card-mini-user">
-          <img [src]="serverPathPhotoUser + user.img" alt="img">
+          <img [src]="serverPath + pathPhotoUser + user.img" alt="img">
         </div>
       </ng-container>
 

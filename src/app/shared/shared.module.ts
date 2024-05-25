@@ -40,6 +40,7 @@ import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-
 import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
 import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
 import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
+import { SharedService } from '../services/shared.service';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,7 @@ import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
   ],
   providers: [
     UpdateComponentService,
-
+    SharedService,
   ],
   imports: [
     CommonModule,

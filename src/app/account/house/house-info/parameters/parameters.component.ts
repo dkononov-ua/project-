@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { HouseInfo } from '../../../../interface/info';
 import { HouseConfig } from '../../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox, OptionPay } from '../../../../interface/name';
@@ -19,8 +19,15 @@ import { SharedService } from 'src/app/services/shared.service';
   ]
 })
 export class ParametersComponent implements OnInit {
-  path_logo = path_logo;
-  serverPath = serverPath;
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   HouseInfo: HouseInfo = HouseConfig;
   options: { [key: number]: string } = Options;
   aboutDistance: { [key: number]: string } = Distance;
@@ -49,7 +56,12 @@ export class ParametersComponent implements OnInit {
     private sharedService: SharedService,
   ) { }
 
-  ngOnInit(): void { this.loadDataFlat(); }
+  ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+    this.loadDataFlat();
+  }
 
   loadDataFlat(): void {
     const userJson = localStorage.getItem('user');

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SharedService } from 'src/app/services/shared.service';
 
 interface Subscriber {
@@ -43,10 +43,15 @@ export class ResidentAccessComponent implements OnInit {
 
   loading = false;
   statusMessage: string | undefined;
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   selectedSubscriber: Subscriber[] | any;
   subscribers: Subscriber[] = [];
   minDate!: string;
@@ -97,8 +102,13 @@ export class ResidentAccessComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSelectedFlat();
-    this.selectResidents();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getSelectedFlat();
+        this.selectResidents();
+      }
+    })
   }
 
   // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
@@ -152,7 +162,7 @@ export class ResidentAccessComponent implements OnInit {
         acces_flat_features: this.selectedSubscriber?.acces_flat_features,
         acces_flat_chats: this.selectedSubscriber?.acces_flat_chats,
       };
-      this.http.post(serverPath + '/citizen/add/access', data).subscribe(
+      this.http.post(this.serverPath + '/citizen/add/access', data).subscribe(
         (response: any) => {
           if (response.status == ')') {
             this.sharedService.setStatusMessage('Зміни внесено');

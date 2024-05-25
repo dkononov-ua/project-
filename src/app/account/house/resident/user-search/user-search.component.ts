@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -36,13 +36,21 @@ interface Subscriber {
   ],
 })
 export class UserSearchComponent implements OnInit {
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   loading = false;
   searchQuery: string | undefined;
   subscribers: Subscriber[] | undefined;
   selectedSubscriber: Subscriber | undefined;
   selectedFlatId: any;
   statusMessage: string | undefined;
-  path_logo = path_logo;
   user: any;
 
   acces_added: number = 1;
@@ -68,12 +76,16 @@ export class UserSearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
       if (selectedFlatId) {
         this.selectedFlatId = selectedFlatId;
         this.loadDataFlat();
       }
     });
+
   }
 
   loadDataFlat(): void {
@@ -125,7 +137,7 @@ export class UserSearchComponent implements OnInit {
     this.loading = true;
 
     if (this.searchQuery) {
-      const url = serverPath + `/acceptsubs/add/sitizen/`;
+      const url = this.serverPath + `/acceptsubs/add/sitizen/`;
       const selectedFlat = this.selectedFlatId;
       const userJson = localStorage.getItem('user');
 

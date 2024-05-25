@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { DeleteHouseComponent } from 'src/app/components/house/delete-house/delete-house.component';
@@ -26,6 +26,14 @@ import { animations } from '../../../interface/animation';
 })
 
 export class HouseControlComponent implements OnInit {
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   @ViewChild('flatIdInput') flatIdInput: any;
 
@@ -58,7 +66,6 @@ export class HouseControlComponent implements OnInit {
     }, 500);
   }
 
-  path_logo = path_logo;
   flat_name: string = '';
   showInput = false;
   showCreate = false;
@@ -79,7 +86,12 @@ export class HouseControlComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getSelectParam();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getSelectParam();
+      }
+    })
     const selectedFlatName = localStorage.getItem('selectedFlatName');
     if (selectedFlatName !== null) {
       this.selectedFlatName = selectedFlatName;
@@ -117,7 +129,7 @@ export class HouseControlComponent implements OnInit {
         const userJson = localStorage.getItem('user');
         if (this.selectedFlatId && userJson) {
           this.http
-            .post(serverPath + '/flatinfo/deleteflat', {
+            .post(this.serverPath + '/flatinfo/deleteflat', {
               auth: JSON.parse(userJson),
               flat_id: this.selectedFlatId,
             })

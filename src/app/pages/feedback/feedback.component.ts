@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SharedService } from 'src/app/services/shared.service';
 import { animations } from '../../interface/animation';
 import { Location } from '@angular/common';
@@ -29,8 +29,15 @@ interface Option {
 })
 export class FeedbackComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   statusMessage: string | undefined;
-  path_logo = path_logo;
   evaluations: any;
   optionDevice: string = '';
   menuName: any;
@@ -77,6 +84,9 @@ export class FeedbackComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.queryParams.subscribe(params => {
       this.category = params['category'] || '';
       const selectedCategory = this.optionName!.find(option => option.label === this.category);
@@ -106,7 +116,7 @@ export class FeedbackComponent implements OnInit {
     console.log(formData)
     if (userJson && this.menuName) {
       try {
-        const response: any = await this.http.post(serverPath + '/feedback/add', {
+        const response: any = await this.http.post(this.serverPath + '/feedback/add', {
           auth: JSON.parse(userJson),
           user_id: JSON.parse(userJson).user_id,
           formData
@@ -149,7 +159,7 @@ export class FeedbackComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const response = await this.http.post(serverPath + '/feedback/get/user', {
+        const response = await this.http.post(this.serverPath + '/feedback/get/user', {
           auth: JSON.parse(userJson),
           menuName: this.menuName.label,
         }).toPromise();

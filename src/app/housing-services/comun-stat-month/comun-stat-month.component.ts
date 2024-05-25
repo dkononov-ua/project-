@@ -5,7 +5,7 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { SendMessageService } from 'src/app/chat/send-message.service';
@@ -32,6 +32,15 @@ import { SharingInfoComponent } from 'src/app/components/sharing-info/sharing-in
   ],
 })
 export class ComunStatMonthComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   messageText: string = '';
   residents: Subscriber[] = [];
   selectedSubscriberID: any;
@@ -123,6 +132,9 @@ export class ComunStatMonthComponent implements OnInit {
   ) { this.flatInfo = []; }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
     if (this.selectedFlatId && this.selectedComun) {
       this.loading = false;
@@ -181,7 +193,7 @@ export class ComunStatMonthComponent implements OnInit {
     const userJson = localStorage.getItem('user');
 
     if (this.selectedMonth && this.selectedYear && userJson) {
-      const response = await this.http.post(serverPath + '/comunal/get/comunalAll', {
+      const response = await this.http.post(this.serverPath + '/comunal/get/comunalAll', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         when_pay_y: this.selectedYear,
@@ -278,7 +290,7 @@ export class ComunStatMonthComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, offs: offs, };
     try {
-      const response = await this.http.post(serverPath + '/citizen/get/citizen', data).toPromise() as any[];
+      const response = await this.http.post(this.serverPath + '/citizen/get/citizen', data).toPromise() as any[];
       if (response) {
         this.residents = response;
         localStorage.setItem('allResidents', JSON.stringify(response));
@@ -317,7 +329,7 @@ export class ComunStatMonthComponent implements OnInit {
     if (userJson && resident_id) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: 0 };
       try {
-        const response = await this.http.post(serverPath + '/chat/get/flatchats', data).toPromise() as any;
+        const response = await this.http.post(this.serverPath + '/chat/get/flatchats', data).toPromise() as any;
         if (resident_id && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === resident_id);
           this.chatExists = chatExists;
@@ -341,7 +353,7 @@ export class ComunStatMonthComponent implements OnInit {
     if (userJson && resident_id) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: resident_id, };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {

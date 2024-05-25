@@ -1,15 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { DataService } from 'src/app/services/data.service';
 import { CounterService } from 'src/app/services/counter.service';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-navbar-user',
   templateUrl: './navbar-user.component.html',
   styleUrls: ['./navbar-user.component.scss']
 })
 export class NavbarUserComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   selectedFlatId!: string | null;
   loading: boolean = true;
@@ -30,10 +39,14 @@ export class NavbarUserComponent implements OnInit {
     private http: HttpClient,
     private updateComponent: UpdateComponentService,
     private dataService: DataService,
-    private counterService: CounterService
+    private counterService: CounterService,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.getUserSubscribersCount();

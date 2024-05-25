@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedService } from 'src/app/services/shared.service';
 import { DataService } from 'src/app/services/data.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-housing-parameters',
@@ -23,10 +23,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 
 export class HousingParametersComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+
+    // імпорт шляхів до медіа
+    pathPhotoUser = ServerConfig.pathPhotoUser;
+    pathPhotoFlat = ServerConfig.pathPhotoFlat;
+    pathPhotoComunal = ServerConfig.pathPhotoComunal;
+    path_logo = ServerConfig.pathLogo;
+    serverPath: string = '';
+    // ***
+
   addHouse: boolean = false;
   selectedFlatId!: string | null;
   indexPage: number = 0;
@@ -63,6 +68,9 @@ export class HousingParametersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);

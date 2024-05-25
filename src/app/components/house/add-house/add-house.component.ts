@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { animations } from '../../../interface/animation';
@@ -28,12 +28,19 @@ import { map } from 'rxjs/operators';
 
 export class AddHouseComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   @ViewChild('flatIdInput') flatIdInput: any;
   loading = false;
   setSelectedFlatId: any;
   setSelectedFlatName: any;
   selectedFlatName: any;
-  path_logo = path_logo;
   flat_name: string = '';
   showInput = false;
   showCreate = false;
@@ -52,6 +59,9 @@ export class AddHouseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     // перевірка який пристрій
     this.breakpointObserver.observe([
       Breakpoints.Handset
@@ -77,7 +87,7 @@ export class AddHouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const response: any = await this.http.post(serverPath + '/flatinfo/add/flat_id', {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
           new: { flat_id: this.flat_name },
         }).toPromise();
@@ -111,7 +121,7 @@ export class AddHouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const response: any = await this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise();
         const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
         if (flatInfo) {
           const flatIdFromResponse = flatInfo.flat_id;
@@ -123,7 +133,7 @@ export class AddHouseComponent implements OnInit {
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
               this.statusMessage = '';
-              if (this.isMobile){
+              if (this.isMobile) {
                 this.router.navigate(['/edit-house/instruction']);
               } else {
                 this.router.navigate(['/edit-house/address']);

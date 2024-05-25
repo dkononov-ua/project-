@@ -6,7 +6,7 @@ import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ActivatedRoute } from '@angular/router';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -60,6 +60,14 @@ interface FlatInfo {
   ],
 })
 export class ComunStatComunComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   comunalServices = [
     { name: "Опалення", unit: "Гкал" },
@@ -146,6 +154,9 @@ export class ComunStatComunComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam()
     if (this.selectedFlatId && this.selectedComun && this.selectedYear && this.selectedComun !== 'undefined') {
       this.getInfoComun()
@@ -232,7 +243,7 @@ export class ComunStatComunComponent implements OnInit {
   async getInfoComun(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedComun && this.selectedYear && this.selectedComun !== 'undefined') {
-      const response = await this.http.post(serverPath + '/comunal/get/comunal', {
+      const response = await this.http.post(this.serverPath + '/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         comunal_name: this.selectedComun,

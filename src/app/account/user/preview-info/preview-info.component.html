@@ -108,7 +108,7 @@
                 <div class="img-fluid">
                   <div class="container-loader-mini">
                     <mat-spinner color="warn"></mat-spinner>
-                    <img [src]="serverPathPhotoUser + userImg" alt="img" (load)="isLoadingImg = true" hidden>
+                    <img [src]="serverPath + pathPhotoUser + userImg" alt="img" (load)="isLoadingImg = true" hidden>
                     <div class="t-min gray mt-2">Завантаження фото</div>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
               <!-- фото користувача -->
               <ng-container *ngIf="userImg && userImg !== 'user_default.svg' && isLoadingImg">
                 <div class="img-fluid">
-                  <img [src]="serverPathPhotoUser + userImg" alt="img">
+                  <img [src]="serverPath + pathPhotoUser + userImg" alt="img">
                 </div>
               </ng-container>
               <div class="panel-container">
@@ -452,7 +452,7 @@
                 <div class="img-fluid">
                   <div class="container-loader-mini">
                     <mat-spinner color="warn"></mat-spinner>
-                    <img [src]="serverPathPhotoUser + userImg" alt="img" (load)="isLoadingImg = true" hidden>
+                    <img [src]="serverPath + pathPhotoUser + userImg" alt="img" (load)="isLoadingImg = true" hidden>
                     <div class="t-min gray mt-2">Завантаження фото</div>
                   </div>
                 </div>
@@ -461,7 +461,7 @@
               <!-- фото користувача -->
               <ng-container *ngIf="userImg && userImg !== 'user_default.svg' && isLoadingImg">
                 <div class="img-fluid">
-                  <img [src]="serverPathPhotoUser + userImg" alt="img">
+                  <img [src]="serverPath + pathPhotoUser + userImg" alt="img">
                 </div>
               </ng-container>
 

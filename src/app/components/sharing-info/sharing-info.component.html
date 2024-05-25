@@ -5,10 +5,10 @@
 
   <div *ngIf="residents">
     <div *ngFor="let resident of residents" class="user-box w-100 mb-2">
-      <button mat-button class="flex-box w-100"
-        [mat-dialog-close]="{resident}">{{resident.firstName}} {{resident.lastName}}
+      <button mat-button class="flex-box w-100" [mat-dialog-close]="{resident}">{{resident.firstName}}
+        {{resident.lastName}}
         <ng-container *ngIf="resident.img !== 'user_default.svg'">
-          <img class="img-fluid" [src]="serverPathPhotoUser + resident.img" alt="img">
+          <img class="img-fluid" [src]="serverPath + pathPhotoUser + resident.img" alt="img">
         </ng-container>
       </button>
     </div>

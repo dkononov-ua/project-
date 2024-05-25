@@ -26,7 +26,7 @@
       <ng-container *ngIf="HouseInfo.photos && isLoadingImg">
         <div class="img-fluid">
           <img
-            [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+            [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPath + pathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPath + pathPhotoFlat + 'housing_default.svg'"
             alt="img">
         </div>
       </ng-container>
@@ -36,7 +36,7 @@
           <div class="container-loader-mini">
             <mat-spinner color="warn"></mat-spinner>
             <img
-              [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPathPhotoFlat + 'housing_default.svg'"
+              [src]="HouseInfo.photos && HouseInfo.photos[currentPhotoIndex].img ? serverPath + pathPhotoFlat + HouseInfo.photos[currentPhotoIndex].img : serverPath + pathPhotoFlat + 'housing_default.svg'"
               alt="img" (load)="isLoadingImg = true" hidden>
             <div class="t-med mt-2">Завантаження фото</div>
           </div>

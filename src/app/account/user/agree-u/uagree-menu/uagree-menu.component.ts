@@ -2,10 +2,11 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from 'src/app/interface/info';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { CounterService } from 'src/app/services/counter.service';
 
 @Component({
   selector: 'app-uagree-menu',
@@ -24,9 +25,14 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 export class UagreeMenuComponent {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   loading: boolean = true;
   selectedFlatAgree: any;
@@ -34,7 +40,7 @@ export class UagreeMenuComponent {
   offs: number = 0;
   numSendAgree: number = 0;
   agreementIds: any[] | undefined;
-  counterDiscussi: number = 0;
+  counterUserDiscussio: number = 0;
   agree: Agree[] = [];
 
   // показ карток
@@ -56,16 +62,22 @@ export class UagreeMenuComponent {
     private route: ActivatedRoute,
     private router: Router,
     private sharedService: SharedService,
+    private counterService: CounterService,
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getSendAgree();
+        await this.getUserDiscussioCount();
+        await this.getAgree();
+      }
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-    await this.getSendAgree();
-    await this.getAcceptSubsCount();
-    await this.getAgree();
   }
 
   // відправляю event початок свайпу
@@ -117,7 +129,7 @@ export class UagreeMenuComponent {
       offs: this.offs,
     };
     try {
-      const response = (await this.http.post(serverPath + '/agreement/get/yagreements', data).toPromise()) as any;
+      const response = (await this.http.post(this.serverPath + '/agreement/get/yagreements', data).toPromise()) as any;
       if (response) {
         this.numSendAgree = response.length;
       } else {
@@ -131,7 +143,7 @@ export class UagreeMenuComponent {
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/saveyagreements';
+    const url = this.serverPath + '/agreement/get/saveyagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -160,7 +172,7 @@ export class UagreeMenuComponent {
   async getActAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/yAct';
+    const url = this.serverPath + '/agreement/get/yAct';
     try {
       if (this.agreementIds) {
         // Використовуємо map для отримання масиву промісів
@@ -193,21 +205,15 @@ export class UagreeMenuComponent {
     }
   }
 
-  // Дискусії
-  async getAcceptSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = serverPath + '/acceptsubs/get/CountYsubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-    };
-
-    try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
-      this.counterDiscussi = response.status;
-    }
-    catch (error) {
-      console.error(error)
-    }
+  // перевірка дискусій користувача
+  async getUserDiscussioCount() {
+    // console.log('Відправляю запит на сервіс кількість дискусій',)
+    await this.counterService.getUserDiscussioCount();
+    this.counterService.counterUserDiscussio$.subscribe(data => {
+      const counterUserDiscussio: any = data;
+      this.counterUserDiscussio = counterUserDiscussio;
+      // console.log('кількість дискусій', this.counterUserDiscussio)
+    });
   }
 
 }

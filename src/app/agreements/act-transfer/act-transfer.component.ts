@@ -6,7 +6,7 @@ import { objects } from '../../data/objects-data';
 import { DataService } from 'src/app/services/data.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Location } from '@angular/common';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../interface/info';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/services/shared.service';
@@ -21,8 +21,13 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 
 export class ActTransferComponent implements OnInit {
-  serverPath = serverPath;
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
@@ -81,7 +86,12 @@ export class ActTransferComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getParams();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getParams();
+      }
+    })
     this.loading = false;
   }
 
@@ -133,7 +143,7 @@ export class ActTransferComponent implements OnInit {
       }
       if (this.indexPage === 1) {
         // Отримати погоджені угоди оселі
-        this.url = serverPath + '/agreement/get/saveagreements';
+        this.url = this.serverPath + '/agreement/get/saveagreements';
       }
     } else if (selectedAgreeID && this.indexUser === 1) {
       this.data = {
@@ -143,7 +153,7 @@ export class ActTransferComponent implements OnInit {
       }
       if (this.indexPage === 1) {
         // Отримати погоджені угоди користувача
-        this.url = serverPath + '/agreement/get/saveyagreements';
+        this.url = this.serverPath + '/agreement/get/saveyagreements';
       }
     }
     try {
@@ -184,7 +194,7 @@ export class ActTransferComponent implements OnInit {
       }
       if (this.indexPage === 1) {
         // Отримати акти оселі
-        this.url = serverPath + '/agreement/get/act';
+        this.url = this.serverPath + '/agreement/get/act';
       }
     } else if (selectedAgreeID && this.indexUser === 1) {
       this.data = {
@@ -193,7 +203,7 @@ export class ActTransferComponent implements OnInit {
       }
       if (this.indexPage === 1) {
         // Отримати акти користувача
-        this.url = serverPath + '/agreement/get/yAct';
+        this.url = this.serverPath + '/agreement/get/yAct';
       }
     }
     try {
@@ -212,7 +222,7 @@ export class ActTransferComponent implements OnInit {
       const response: any = await this.dataService.getInfoFlat().toPromise();
       this.houseData = response;
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
+        this.houseData.imgs = [this.serverPath + '/img/flat/housing_default.svg'];
       }
     } catch (error) {
       console.error(error);
@@ -221,7 +231,7 @@ export class ActTransferComponent implements OnInit {
 
   getImageSource(flat: any): string {
     if (flat.img) {
-      return serverPath + '/img/filling/' + flat.img;
+      return this.serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }

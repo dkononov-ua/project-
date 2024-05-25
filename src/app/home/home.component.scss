@@ -2,6 +2,18 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.navbar-home {
+  @include flex-box;
+}
+
+.menu-box {
+  cursor: pointer;
+}
+
+.logo {
+  width: 40px;
+}
+
 .content-component {
   height: auto !important;
 
@@ -64,7 +76,7 @@
 }
 
 .switch-container {
-  justify-content: center !important;
+  // justify-content: center !important;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
   @include s1-s3 {
     margin-top: 0 !important;

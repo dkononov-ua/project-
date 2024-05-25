@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
@@ -41,10 +41,14 @@ export class AboutComponent implements OnInit {
   minValue: number = 0;
   maxValue: number = 1000000;
   loading = false;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   flatInfo: FlatInfo = {
     students: false,
@@ -114,15 +118,20 @@ export class AboutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getSelectParam();
-    if (this.selectedFlatId) {
-      this.getInfo();
-    }
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getSelectParam();
+      }
+    })
   }
 
   getSelectParam() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId || this.selectedFlatId;
+      if (this.selectedFlatId) {
+        this.getInfo();
+      }
     });
   }
 
@@ -149,7 +158,7 @@ export class AboutComponent implements OnInit {
         room: this.flatInfo.room || 0,
       }
       try {
-        const response: any = await this.http.post(serverPath + '/flatinfo/add/about', {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
           flat: data,
           flat_id: this.selectedFlatId,
@@ -267,7 +276,7 @@ export class AboutComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== null) {
-      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe(
           (response: any) => {
             this.flatInfo = response.about;
@@ -328,9 +337,9 @@ export class AboutComponent implements OnInit {
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
     formData.append('flat_id', this.selectedFlatId);
     const headers = { 'Accept': 'application/json' };
-    this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
+    this.http.post(this.serverPath + '/img/uploadflat', formData, { headers }).subscribe(
       async (data: any) => {
-        this.images.push(serverPath + '/img/flat/' + data.filename);
+        this.images.push(this.serverPath + '/img/flat/' + data.filename);
         this.loading = false;
         if (data.status === 'Збережено') {
           this.reloadImg = true;
@@ -374,7 +383,7 @@ export class AboutComponent implements OnInit {
         img: selectImg,
       };
 
-      this.http.post(serverPath + '/flatinfo/deleteFlatImg', data)
+      this.http.post(this.serverPath + '/flatinfo/deleteFlatImg', data)
         .subscribe(
           (response: any) => {
             if (response.status == 'Видалення було успішне') {

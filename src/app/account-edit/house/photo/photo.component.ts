@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
@@ -19,10 +19,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 
 export class PhotoComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   isLoadingImg: boolean = false;
 
   loading = true;
@@ -70,6 +75,9 @@ export class PhotoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectedFlat();
     this.loading = false;
   }
@@ -99,7 +107,7 @@ export class PhotoComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== null) {
-      this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe(
           (response: any) => {
             if (Array.isArray(response.imgs) && response.imgs.length > 0) {
@@ -159,9 +167,9 @@ export class PhotoComponent implements OnInit {
     formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
     formData.append('flat_id', this.selectedFlatId);
     const headers = { 'Accept': 'application/json' };
-    this.http.post(serverPath + '/img/uploadflat', formData, { headers }).subscribe(
+    this.http.post(this.serverPath + '/img/uploadflat', formData, { headers }).subscribe(
       async (data: any) => {
-        this.images.push(serverPath + '/img/flat/' + data.filename);
+        this.images.push(this.serverPath + '/img/flat/' + data.filename);
         this.loading = false;
         if (data.status === 'Збережено') {
           this.reloadImg = true;
@@ -205,7 +213,7 @@ export class PhotoComponent implements OnInit {
         img: selectImg,
       };
 
-      this.http.post(serverPath + '/flatinfo/deleteFlatImg', data)
+      this.http.post(this.serverPath + '/flatinfo/deleteFlatImg', data)
         .subscribe(
           (response: any) => {
             if (response.status == 'Видалення було успішне') {

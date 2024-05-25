@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../interface/animation';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { Location } from '@angular/common';
@@ -31,6 +31,14 @@ import { SharedService } from '../services/shared.service';
 })
 export class HousingServicesComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   popular_comunal_names = [
     "Опалення",
     "Водопостачання",
@@ -44,7 +52,6 @@ export class HousingServicesComponent implements OnInit {
     "Інтернет та телебачення",
     "Домофон",
   ];
-  path_logo = path_logo;
 
   loading = false;
   comunCreate!: FormGroup;
@@ -88,6 +95,9 @@ export class HousingServicesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
@@ -170,7 +180,7 @@ export class HousingServicesComponent implements OnInit {
     if (userJson) {
       const newComun = this.newComun || this.customComunal;
       if (newComun) {
-        this.http.post(serverPath + '/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: newComun })
+        this.http.post(this.serverPath + '/comunal/add/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal: newComun })
           .subscribe((response: any) => {
           }, (error: any) => {
             console.error(error);
@@ -190,7 +200,7 @@ export class HousingServicesComponent implements OnInit {
       if (result) {
         const userJson = localStorage.getItem('user');
         if (this.selectedFlatId && userJson && this.selectedComun) {
-          this.http.post(serverPath + '/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
+          this.http.post(this.serverPath + '/comunal/delete/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
             .subscribe((response: any) => {
               console.log(response)
             }, (error: any) => {

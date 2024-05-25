@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -42,10 +42,17 @@ import { formErrors, validationMessages, onValueChanged } from '../validation';
 
 export class LoginComponent implements OnInit {
 
+    // імпорт шляхів до медіа
+    pathPhotoUser = ServerConfig.pathPhotoUser;
+    pathPhotoFlat = ServerConfig.pathPhotoFlat;
+    pathPhotoComunal = ServerConfig.pathPhotoComunal;
+    path_logo = ServerConfig.pathLogo;
+    serverPath: string = '';
+    // ***
+
   // експортую значення помилок
   formErrors: any = formErrors;
   validationMessages: any = validationMessages;
-  path_logo = path_logo;
   passwordType = 'password';
   emailCheckCode: string = '';
   changePassCode: any;
@@ -83,6 +90,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.breakpointObserver.observe([
       Breakpoints.Handset
     ]).subscribe(result => {
@@ -98,7 +108,7 @@ export class LoginComponent implements OnInit {
 
   async login(): Promise<void> {
     this.loading = true;
-    this.http.post(serverPath + '/login', this.loginForm.value)
+    this.http.post(this.serverPath + '/login', this.loginForm.value)
       .subscribe((response: any) => {
         if (response.status) {
           this.sharedService.clearCache();

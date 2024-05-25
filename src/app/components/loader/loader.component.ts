@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 
 
 @Component({
@@ -9,7 +9,15 @@ import { path_logo } from 'src/app/config/server-config';
 })
 
 export class LoaderComponent {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   loading = true;
-  path_logo = path_logo;
 
 }

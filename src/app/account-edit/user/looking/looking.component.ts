@@ -4,7 +4,7 @@ import { subway } from '../../../data/subway';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { Location } from '@angular/common';
@@ -67,9 +67,16 @@ interface UserInfo {
 })
 
 export class LookingComponent implements OnInit {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   @ViewChild('cityInput') cityInput: ElementRef | undefined;
   @ViewChild('regionInput') regionInput: ElementRef | undefined;
-  path_logo = path_logo;
   userInfo: UserInfo = {
     price_of: 0,
     price_to: 0,
@@ -210,6 +217,9 @@ export class LookingComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     await this.getInfo();
     this.loading = false;
     if (this.isMobile) {
@@ -242,6 +252,7 @@ export class LookingComponent implements OnInit {
       }
     }
   }
+
   // оброблюю свайп
   onSwiped(direction: string | undefined) {
     if (direction === 'right') {
@@ -262,7 +273,7 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       try {
-        const response: any = await this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
         // console.log(response)
         if (response.status === true) {
           this.userInfo = response.inf;
@@ -324,7 +335,7 @@ export class LookingComponent implements OnInit {
           metro: this.userInfo.metro,
         };
         // console.log(data)
-        const response: any = await this.http.post(serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
           // результат якщо я натискаю деактивувати оголошення

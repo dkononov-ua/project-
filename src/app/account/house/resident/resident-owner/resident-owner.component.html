@@ -21,7 +21,7 @@
         <div class="container-img">
           <div class="wrapper-img">
 
-            <img class="img-fluid" [src]="serverPathPhotoUser + (ownerInfo?.img ? ownerInfo?.img : 'user_default.svg')"
+            <img class="img-fluid" [src]="serverPath + pathPhotoUser + (ownerInfo?.img ? ownerInfo?.img : 'user_default.svg')"
               alt="img">
 
             <div class="panel-container">
@@ -267,7 +267,7 @@
       <div class="card-content">
 
         <div class="img-wrapper2" *ngIf="isMobile">
-          <img class="img2" [src]="serverPathPhotoUser + (ownerInfo.img ? ownerInfo.img : 'user_default.svg')"
+          <img class="img2" [src]="serverPath + pathPhotoUser + (ownerInfo.img ? ownerInfo.img : 'user_default.svg')"
             alt="img">
         </div>
 
@@ -373,7 +373,7 @@
           <div class="reviews-person w-70">
             <div class="reviews-person-img">
               <div *ngIf="review.reporter && review.reporter.img">
-                <img [src]="serverPathPhotoUser + review.reporter.img" alt="img">
+                <img [src]="serverPath + pathPhotoUser + review.reporter.img" alt="img">
               </div>
               <div *ngIf="!review.reporter || !review.reporter.img">
                 <img src="../../../../assets/user_default.svg" alt="img">

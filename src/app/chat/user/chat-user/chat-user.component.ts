@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import { EMPTY, Subject, Subscription, switchMap, take, takeUntil } from 'rxjs';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SMILEYS } from '../../../data/data-smile'
@@ -17,6 +17,15 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./chat-user.component.scss']
 })
 export class ChatUserComponent implements OnInit, OnDestroy {
+
+    // імпорт шляхів до медіа
+    pathPhotoUser = ServerConfig.pathPhotoUser;
+    pathPhotoFlat = ServerConfig.pathPhotoFlat;
+    pathPhotoComunal = ServerConfig.pathPhotoComunal;
+    path_logo = ServerConfig.pathLogo;
+    serverPath: string = '';
+    // ***
+
   selectedChat: any;
 
   isStatisticsMessage(message: string): boolean {
@@ -25,10 +34,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatContainer', { static: true }) chatContainer!: ElementRef;
   private isScrolledDown = false;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   allMessages: any[] = [];
   allMessagesNotRead: any[] = [];
   currentSubscription: Subject<unknown> | undefined;
@@ -64,8 +69,13 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   ) { this.pushMessageText(); }
 
   async ngOnInit(): Promise<any> {
-    await this.loadData();
-    await this.getSelectFlatInfo()
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.loadData();
+        await this.getSelectFlatInfo()
+      }
+    })
   }
 
   async loadData(): Promise<void> {
@@ -117,7 +127,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         offs: 0,
       };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/get/usermessage', info).toPromise() as any[];
+        const response: any = await this.http.post(this.serverPath + '/chat/get/usermessage', info).toPromise() as any[];
         // перевіряю скільки повідомлень якщо більше 49 то показую кнопку підвантажити повідомлення
         this.messageALL = response.status;
         if (Array.isArray(response.status)) {
@@ -144,7 +154,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     // console.log('getNewMessages')
     const userJson = localStorage.getItem('user');
     if (userJson && selectedFlat) {
-      this.getMessagesSubscription = this.http.post(serverPath + '/chat/get/NewMessageUser', {
+      this.getMessagesSubscription = this.http.post(this.serverPath + '/chat/get/NewMessageUser', {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
         offs: 0,
@@ -204,7 +214,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       };
 
       try {
-        const response: any = await this.http.post(serverPath + '/chat/get/usermessage', info).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/get/usermessage', info).toPromise();
         this.messageALL = response.status;
         if (Array.isArray(response.status)) {
           const newMessages = response.status.map((message: any) => {
@@ -229,7 +239,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         auth: JSON.parse(userJson),
         flat_id: selectedFlat,
       };
-      const response: any = this.http.post(serverPath + '/chat/readMessageUser', data).subscribe();
+      const response: any = this.http.post(this.serverPath + '/chat/readMessageUser', data).subscribe();
       if (response) {
         this.updateComponent.iReadUserMessage();
       }

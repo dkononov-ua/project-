@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../interface/animation';
 import { SelectedFlatService } from '../services/selected-flat.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../services/shared.service';
+import { CheckBackendService } from '../services/check-backend.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,16 +21,25 @@ import { SharedService } from '../services/shared.service';
   ],
 })
 export class HomeComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   loginCheck: boolean = false;
   authorization: boolean = false;
   authorizationHouse: boolean = false;
   indexPage: number = 1;
   isAccountOpenStatus: boolean = true;
-  path_logo = path_logo;
   selectedFlatId: string | null = null;
   houseData: any;
   pathHouse: string = ''
   statusMessage: any;
+  isMobile: boolean = false;
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -39,9 +49,18 @@ export class HomeComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
-  ) { }
+    private checkBackendService: CheckBackendService,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -22,8 +22,13 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 export class SupportUsComponent implements OnInit {
-  path_logo = path_logo;
-
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   constructor(
     private sharedService: SharedService,
   ) { }

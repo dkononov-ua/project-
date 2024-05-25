@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SharedService } from '../services/shared.service';
 import { Router } from '@angular/router';
 import { ChoseSubscribeService } from '../services/chose-subscribe.service';
@@ -11,8 +11,15 @@ import { ChoseSubscribeService } from '../services/chose-subscribe.service';
   providedIn: 'root'
 })
 export class SendMessageService {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
-  private serverPath = serverPath;
+
   private messageTextSubject = new BehaviorSubject<string>('');
   public messageText$ = this.messageTextSubject.asObservable();
 
@@ -25,7 +32,11 @@ export class SendMessageService {
     private sharedService: SharedService,
     private router: Router,
     private choseSubscribeService: ChoseSubscribeService,
-  ) { }
+  ) {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+  }
 
   sendMessage(messageText: string, selectedFlatId: string, selectedSubscriberID: string): Observable<any> {
     const userJson = localStorage.getItem('user');
@@ -103,7 +114,7 @@ export class SendMessageService {
     if (userJson && choseFlatId) {
       const data = { auth: JSON.parse(userJson), flat_id: choseFlatId, offs: 0 };
       try {
-        const response = await this.http.post(serverPath + '/chat/get/userchats', data).toPromise() as any;
+        const response = await this.http.post(this.serverPath + '/chat/get/userchats', data).toPromise() as any;
         if (choseFlatId && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === choseFlatId);
           return chatExists;
@@ -127,7 +138,7 @@ export class SendMessageService {
     if (userJson) {
       const data = { auth: JSON.parse(userJson), flat_id: 1, };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/add/chatUser', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatUser', data).toPromise();
         // console.log(response)
         if (response.status === true) {
           // const messageText = 'Вітаємо! Це підтримка користувачів Discussio! Якщо у вас виникли якісь складнощі чи питання ми вам допоможемо!';
@@ -186,12 +197,12 @@ export class SendMessageService {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = { auth: JSON.parse(userJson), offs: 0 };
-      const response: any = await this.http.post(serverPath + '/chat/get/userchats', data).toPromise();
+      const response: any = await this.http.post(this.serverPath + '/chat/get/userchats', data).toPromise();
       // console.log(response)
       if (Array.isArray(response.status) && response.status) {
         let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
-          let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-          let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+          let infUser = await this.http.post(this.serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+          let infFlat = await this.http.post(this.serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message };
         }));
         localStorage.setItem('userChats', JSON.stringify(allChatsInfo));

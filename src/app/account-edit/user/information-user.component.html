@@ -124,14 +124,14 @@
               <div class="img-wrapper">
 
                 <ng-container *ngIf="userImg !== 'user_default.svg' && isLoadingImg">
-                  <img class="img-fluid" [src]="serverPathPhotoUser + userImg" alt="img">
+                  <img class="img-fluid" [src]="serverPath + pathPhotoUser + userImg" alt="img">
                 </ng-container>
 
                 <ng-container *ngIf="userImg && userImg !== 'user_default.svg' && !isLoadingImg">
                   <div class="img-fluid">
                     <div class="container-loader-mini">
                       <mat-spinner color="warn"></mat-spinner>
-                      <img [src]="serverPathPhotoUser + userImg" (load)="isLoadingImg = true" hidden>
+                      <img [src]="serverPath + pathPhotoUser + userImg" (load)="isLoadingImg = true" hidden>
                       <div class="t-min bold gray mt-2">Завантаження фото</div>
                     </div>
                   </div>

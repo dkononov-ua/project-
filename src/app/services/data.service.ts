@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from './selected-flat.service';
 import { SharedService } from './shared.service';
 @Injectable({
@@ -9,20 +9,25 @@ import { SharedService } from './shared.service';
 })
 export class DataService {
   selectedFlatId: any | null;
+  serverPath: string = '';
 
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
     private selectedFlatService: SelectedFlatService,
-  ) { }
+  ) {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+  }
 
   getInfoUser(): Observable<any> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      return this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
+      return this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson))
         .pipe(
           tap((response: any) => {
-            // console.log(response)
+            console.log(response)
             if (response && response.status === true) {
               localStorage.setItem('userData', JSON.stringify(response));
             }
@@ -47,10 +52,10 @@ export class DataService {
     });
 
     if (userJson && this.selectedFlatId) {
-      return this.http.post(serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      return this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .pipe(
           tap((response: any) => {
-            // console.log(response)
+            console.log(response)
             localStorage.setItem('houseData', JSON.stringify(response));
           }),
           catchError((error: any) => {
@@ -64,7 +69,7 @@ export class DataService {
   }
 
   getComunalInfo(userJson: string, selectedFlatId: string, comunal_name: any): Observable<any> {
-    return this.http.post(serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
+    return this.http.post(this.serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: selectedFlatId, comunal: comunal_name })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.log('Failed to retrieve comunal info:', error.message);

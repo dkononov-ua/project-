@@ -1,6 +1,6 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { LyDialog } from '@alyle/ui/dialog';
@@ -84,6 +84,15 @@ interface UserParam {
 })
 
 export class InformationUserComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   page: any;
   emailCheckCode: any;
   agreeToDel: boolean = false;
@@ -108,11 +117,6 @@ export class InformationUserComponent implements OnInit {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-
   userInfo: UserInfo = {
     agreeAdd: false,
     firstName: '',
@@ -225,6 +229,9 @@ export class InformationUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
@@ -244,7 +251,7 @@ export class InformationUserComponent implements OnInit {
         try {
           const data = { ...this.userInfo };
           // console.log(data)
-          const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
           // console.log(response)
           if (response.status === true) {
           } else {
@@ -260,7 +267,7 @@ export class InformationUserComponent implements OnInit {
         try {
           const data = { ...this.userInfo };
           // console.log(data)
-          const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
           // console.log(response)
           if (response.status === true) {
           } else {
@@ -316,7 +323,7 @@ export class InformationUserComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
-      this.http.post(serverPath + '/userinfo', JSON.parse(userJson))
+      this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
           // console.log(response)
           this.userImg = response.img[0].img;
@@ -341,7 +348,7 @@ export class InformationUserComponent implements OnInit {
       try {
         this.loading = true;
         // const data = { ...this.userInfo };
-        const response: any = await this.http.post(serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/add/params', { auth: JSON.parse(userJson), add_in_flat: this.userParam.add_in_flat }).toPromise();
         // console.log(response)
         if (response.status === true) {
           this.sharedService.setStatusMessage('Налаштування збережено');
@@ -375,7 +382,7 @@ export class InformationUserComponent implements OnInit {
         this.userInfo.dob = dob;
         const data = { ...this.userInfo };
         // console.log(data)
-        const response: any = await this.http.post(serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/add/user', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
           this.sharedService.setStatusMessage('Персональні дані збережено');
@@ -408,7 +415,7 @@ export class InformationUserComponent implements OnInit {
         this.loading = true;
         const data = this.userCont;
         console.log(data)
-        const response: any = await this.http.post(serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
         // console.log(response)
         if (response.status === true) {
           this.sharedService.setStatusMessage('Контактні дані збережено');
@@ -502,7 +509,7 @@ export class InformationUserComponent implements OnInit {
       formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
       const headers = { 'Accept': 'application/json' };
       try {
-        const response: any = await this.http.post(serverPath + '/img/uploaduser', formData, { headers }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/img/uploaduser', formData, { headers }).toPromise();
         if (response.status === 'Збережено') {
           this.sharedService.setStatusMessage('Фото додано');
           this.getInfo();
@@ -532,7 +539,7 @@ export class InformationUserComponent implements OnInit {
     this.loading = true;
     if (userJson) {
       try {
-        const response: any = await this.http.post(serverPath + '/userinfo/delete/finaly', { auth: JSON.parse(userJson), code: this.emailCheckCode }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/userinfo/delete/finaly', { auth: JSON.parse(userJson), code: this.emailCheckCode }).toPromise();
         // console.log(response)
         if (response.status === 'Видалено') {
           this.sharedService.setStatusMessage('Аккаунт видалено');
@@ -569,7 +576,7 @@ export class InformationUserComponent implements OnInit {
     if (userJson) {
       try {
         // console.log(data);
-        this.http.post(serverPath + '/userinfo/delete/first', { auth: JSON.parse(userJson) })
+        this.http.post(this.serverPath + '/userinfo/delete/first', { auth: JSON.parse(userJson) })
           .subscribe((response: any) => {
             // console.log(response)
             if (response.status === 'На вашу пошту було надіслано код безпеки') {

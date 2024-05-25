@@ -60,7 +60,7 @@
           [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
           <div class="card-mini-img-container">
             <img class="card-mini-img"
-              [src]="subscriber.img && subscriber.img[0] ? serverPathPhotoFlat + subscriber.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+              [src]="subscriber.img && subscriber.img[0] ? serverPath + pathPhotoFlat + subscriber.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
               alt="img">
           </div>
           <div class="card-body">
@@ -103,7 +103,7 @@
                 [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
                 <div class="card-mini-img-container">
                   <img class="card-mini-img"
-                    [src]="subscriber.img && subscriber.img[0] ? serverPathPhotoFlat + subscriber.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+                    [src]="subscriber.img && subscriber.img[0] ? serverPath + pathPhotoFlat + subscriber.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
                     alt="img">
                 </div>
                 <div class="card-body">
@@ -238,8 +238,8 @@
               <div class="wrapper-img">
 
                 <img class="img-fluid" [src]="chosenFlat.img && chosenFlat.img[currentPhotoIndex]
-                    ? serverPathPhotoFlat + chosenFlat.img[currentPhotoIndex] :
-                    serverPathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
+                    ? serverPath + pathPhotoFlat + chosenFlat.img[currentPhotoIndex] :
+                    serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
 
                 <div *ngIf="chosenFlat?.img.length > 1">
                   <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i

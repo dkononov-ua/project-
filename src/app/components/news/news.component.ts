@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 
 @Component({
   selector: 'app-news',
@@ -9,7 +9,13 @@ import { serverPath, path_logo } from 'src/app/config/server-config';
 
 
 export class NewsComponent {
-  path_logo = path_logo;
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
 }

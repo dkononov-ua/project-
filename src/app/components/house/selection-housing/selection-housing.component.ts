@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
@@ -30,6 +30,14 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class SelectionHousingComponent implements OnInit {
 
+    // імпорт шляхів до медіа
+    pathPhotoUser = ServerConfig.pathPhotoUser;
+    pathPhotoFlat = ServerConfig.pathPhotoFlat;
+    pathPhotoComunal = ServerConfig.pathPhotoComunal;
+    path_logo = ServerConfig.pathLogo;
+    serverPath: string = '';
+    // ***
+
   goToSettingHouse(arg0: any) {
     throw new Error('Method not implemented.');
   }
@@ -39,8 +47,6 @@ export class SelectionHousingComponent implements OnInit {
 
   allFlats: any;
   allFlatsTenant: any;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   loading = false;
   selectedFlatId: any | null;
   selectedHouse: any;
@@ -73,6 +79,9 @@ export class SelectionHousingComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     await this.getFlatInfo();
     await this.getSelectParam();
     this.route.queryParams.subscribe(params => {
@@ -142,10 +151,10 @@ export class SelectionHousingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const allFlats: any = await this.http.post(serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise() as any[];
+        const allFlats: any = await this.http.post(this.serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise() as any[];
         if (Array.isArray(allFlats.ids) && allFlats.ids) {
           let allFlatsInfo = await Promise.all(allFlats.ids.map(async (value: any) => {
-            let infFlat: any = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+            let infFlat: any = await this.http.post(this.serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
             return { flat_id: value.flat_id, flat_name: value.flat_name, flat_img: infFlat.imgs[0].img }
           }))
           this.allFlats = allFlatsInfo;
@@ -156,7 +165,7 @@ export class SelectionHousingComponent implements OnInit {
         // console.log(this.allFlats)
         if (Array.isArray(allFlats.citizen_ids) && allFlats.citizen_ids) {
           let allFlatsTenant = await Promise.all(allFlats.citizen_ids.map(async (value: any) => {
-            let infFlat: any = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+            let infFlat: any = await this.http.post(this.serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
             return {
               flat_id: value.flat_id,
               flat_name: value.flat_name,
@@ -258,7 +267,7 @@ export class SelectionHousingComponent implements OnInit {
         const userJson = localStorage.getItem('user');
         if (flat.flat_id && userJson) {
           this.http
-            .post(serverPath + '/flatinfo/deleteflat', {
+            .post(this.serverPath + '/flatinfo/deleteflat', {
               auth: JSON.parse(userJson),
               flat_id: flat.flat_id,
             })

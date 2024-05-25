@@ -5,7 +5,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
+import { SharedService } from 'src/app/services/shared.service';
 
 
 @Component({
@@ -15,6 +16,13 @@ import { serverPath } from 'src/app/config/server-config';
 })
 
 export class SelectionDiscussioComponent implements OnInit {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   loading = false;
   selectedFlatId: any | null;
@@ -27,9 +35,13 @@ export class SelectionDiscussioComponent implements OnInit {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private changeComunService: ChangeComunService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam();
     this.loadHouses();
   }
@@ -52,7 +64,7 @@ export class SelectionDiscussioComponent implements OnInit {
   async loadDiscussioFlat(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/acceptsubs/get/ysubs';
+    const url = this.serverPath + '/acceptsubs/get/ysubs';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,

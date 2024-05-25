@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from 'src/app/interface/info';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -21,9 +21,14 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 export class UagreeHostComponent {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   loading: boolean = true;
   selectedFlatAgree: any;
@@ -56,13 +61,18 @@ export class UagreeHostComponent {
   ) { }
 
   async ngOnInit(): Promise<any> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getSendAgree();
+        await this.getAcceptSubsCount();
+        await this.getAgree();
+      }
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-    await this.getSendAgree();
-    await this.getAcceptSubsCount();
-    await this.getAgree();
   }
 
   // відправляю event початок свайпу
@@ -114,7 +124,7 @@ export class UagreeHostComponent {
       offs: this.offs,
     };
     try {
-      const response = (await this.http.post(serverPath + '/agreement/get/yagreements', data).toPromise()) as any;
+      const response = (await this.http.post(this.serverPath + '/agreement/get/yagreements', data).toPromise()) as any;
       if (response) {
         this.numSendAgree = response.length;
       } else {
@@ -128,7 +138,7 @@ export class UagreeHostComponent {
   async getAgree(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/saveyagreements';
+    const url = this.serverPath + '/agreement/get/saveyagreements';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: user_id,
@@ -157,7 +167,7 @@ export class UagreeHostComponent {
   async getActAgree(): Promise<any> {
     const userJson = localStorage.getItem('user');
     const user_id = JSON.parse(userJson!).email;
-    const url = serverPath + '/agreement/get/yAct';
+    const url = this.serverPath + '/agreement/get/yAct';
     try {
       if (this.agreementIds) {
         // Використовуємо map для отримання масиву промісів
@@ -193,7 +203,7 @@ export class UagreeHostComponent {
   // Дискусії
   async getAcceptSubsCount() {
     const userJson = localStorage.getItem('user')
-    const url = serverPath + '/acceptsubs/get/CountYsubs';
+    const url = this.serverPath + '/acceptsubs/get/CountYsubs';
     const data = {
       auth: JSON.parse(userJson!),
     };

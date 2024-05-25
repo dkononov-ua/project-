@@ -28,7 +28,7 @@
       <ng-container *ngIf="flat.img && isLoadingImg">
         <div class="card-mini-img">
           <img
-            [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+            [src]="flat.img && flat.img[0] ? serverPath + pathPhotoFlat + flat.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
             alt="img">
         </div>
       </ng-container>
@@ -38,7 +38,7 @@
           <div class="container-loader-mini">
             <mat-spinner color="warn"></mat-spinner>
             <img
-              [src]="flat.img && flat.img[0] ? serverPathPhotoFlat + flat.img[0] : serverPathPhotoFlat + 'housing_default.svg'"
+              [src]="flat.img && flat.img[0] ? serverPath + pathPhotoFlat + flat.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
               alt="img" (load)="isLoadingImg = true" hidden>
             <div class="t-min gray mt-2">Завантаження фото</div>
           </div>

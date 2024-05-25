@@ -16,7 +16,7 @@ const moment = _rollupMoment || _moment;
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { cities } from 'src/app/data/data-city';
 import { Location } from '@angular/common';
@@ -83,11 +83,13 @@ export class AgreeCreateComponent implements OnInit {
     this.location.back();
   }
 
-
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
@@ -185,6 +187,9 @@ export class AgreeCreateComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.campaignOne = new FormGroup({
       start: new FormControl(new Date(year, month)),
       end: new FormControl(new Date(year, month))
@@ -270,7 +275,7 @@ export class AgreeCreateComponent implements OnInit {
         this.rentPrice = this.houseData.about.price_d || 0;
       } else { this.rentPrice = this.rentPrice; }
       if (this.houseData.imgs === 'Картинок нема') {
-        this.houseData.imgs = [serverPath + '/img/flat/housing_default.svg'];
+        this.houseData.imgs = [this.serverPath + '/img/flat/housing_default.svg'];
       }
     } catch (error) { console.error(error); }
   }
@@ -278,10 +283,10 @@ export class AgreeCreateComponent implements OnInit {
   async getAgent(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, };
-    console.log(data)
+    // console.log(data)
     try {
-      const response = await this.http.post(serverPath + '/userinfo/agent', data).toPromise() as any[];
-      console.log(response)
+      const response = await this.http.post(this.serverPath + '/userinfo/agent', data).toPromise() as any[];
+      // console.log(response)
       if (response) { this.userData = response; }
       else { this.userData = undefined; }
     } catch (error) { console.error(error); }
@@ -291,7 +296,7 @@ export class AgreeCreateComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: this.offs, };
     try {
-      const response = await this.http.post(serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
+      const response = await this.http.post(this.serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
       // console.log(response)
       if (response) {
         this.subscribers = response;
@@ -304,7 +309,7 @@ export class AgreeCreateComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: this.offs };
     try {
-      const response = await this.http.post(serverPath + '/citizen/get/citizen', data).toPromise() as any[];
+      const response = await this.http.post(this.serverPath + '/citizen/get/citizen', data).toPromise() as any[];
       // console.log(response);
       if (response) {
         response.forEach((e) => {
@@ -425,7 +430,7 @@ export class AgreeCreateComponent implements OnInit {
       if (!this.userData?.cont?.mail) { this.showMessage('Вкажіть пошту власника'); return; }
 
       try {
-        const response: any = await this.http.post(serverPath + '/agreement/add/agreement', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/agreement/add/agreement', data).toPromise();
         // console.log(response)
         this.loading = true;
         if (response.status === 'Данні введено не правильно') {
@@ -447,7 +452,7 @@ export class AgreeCreateComponent implements OnInit {
         setTimeout(() => { location.reload(); }, 2000);
       }
     } else {
-      console.log('Авторизуйтесь');
+      // console.log('Авторизуйтесь');
     }
   }
 

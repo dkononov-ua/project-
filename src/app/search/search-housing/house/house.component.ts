@@ -5,7 +5,7 @@ import { HouseInfo } from 'src/app/interface/info';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals, options, checkBox } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { GestureService } from 'src/app/services/gesture.service';
@@ -40,6 +40,14 @@ import { CounterService } from 'src/app/services/counter.service';
 
 export class HouseComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   // розшифровка пошукових параметрів
   purpose = purpose;
   aboutDistance = aboutDistance;
@@ -47,11 +55,6 @@ export class HouseComponent implements OnInit {
   animals = animals;
   options = options;
   checkBox = checkBox;
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   // пагінатор
   offs = PaginationConfig.offs;
   optionsFound = PaginationConfig.counterFound;
@@ -94,6 +97,9 @@ export class HouseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSearchInfo();
     this.getHouse()
   }
@@ -304,7 +310,7 @@ export class HouseComponent implements OnInit {
     if (userJson && this.selectedFlat.flat_id) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
       try {
-        const response: any = await this.http.post(serverPath + '/subs/subscribe', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/subs/subscribe', data).toPromise();
         // console.log(response)
         if (response.status === 'Ви успішно відписались') {
           this.subscriptionStatus = 0;
@@ -339,7 +345,7 @@ export class HouseComponent implements OnInit {
       this.authorization = true;
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
       try {
-        const response: any = await this.http.post(serverPath + '/subs/checkSubscribe', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/subs/checkSubscribe', data).toPromise();
         // console.log(response.status)
         if (response.status === 'Ви успішно відписались') {
           this.subscriptionStatus = 1;

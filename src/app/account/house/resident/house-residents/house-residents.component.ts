@@ -5,7 +5,7 @@ import { ChoseSubscribersService } from '../../../../services/chose-subscribers.
 import { MatDialog } from '@angular/material/dialog';
 import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.component';
 import { Router } from '@angular/router';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 interface Subscriber {
@@ -34,10 +34,13 @@ interface Subscriber {
   ],
 })
 export class HouseResidentsComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   isOnline = true;
   isOffline = false;
 
@@ -60,7 +63,12 @@ export class HouseResidentsComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
-    await this.getSelectedFlat();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getSelectedFlat();
+      }
+    })
   }
 
   async getSelectedFlat() {
@@ -86,7 +94,7 @@ export class HouseResidentsComponent implements OnInit {
 
   async getSubscribers(selectedFlatId: string, offs: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/citizen/get/citizen';
+    const url = this.serverPath + '/citizen/get/citizen';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -146,7 +154,7 @@ export class HouseResidentsComponent implements OnInit {
           user_id: subscriber.user_id
         };
 
-        this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(
+        this.http.post(this.serverPath + '/citizen/delete/citizen', data).subscribe(
           () => {
             this.subscribers = this.subscribers.filter(item => item.user_id !== subscriber.user_id);
           },
@@ -161,7 +169,7 @@ export class HouseResidentsComponent implements OnInit {
           user_id: subscriber.user_id
         };
 
-        this.http.post(serverPath + '/citizen/delete/citizen', data).subscribe(
+        this.http.post(this.serverPath + '/citizen/delete/citizen', data).subscribe(
           () => { },
           (error: any) => {
             console.error('Error deleting user:', error);

@@ -5,7 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { objects } from '../../../../data/objects-data';
 import { SafeHtml } from '@angular/platform-browser';
 import { animations } from '../../../../interface/animation';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../../../interface/info';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -35,10 +35,13 @@ export class ActCreateComponent implements OnInit {
     this.indexPage = indexPage;
   }
 
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   selectedFlatAgree: any;
   isContainerVisible: boolean = false;
@@ -99,7 +102,12 @@ export class ActCreateComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
-    this.getSelectedFlatID();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getSelectedFlatID();
+      }
+    })
   }
 
   // отримання ID обраної оселі
@@ -120,7 +128,7 @@ export class ActCreateComponent implements OnInit {
       this.selectedAgr = params['selectedFlatAgree'] || null;
     });
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/agreement/get/saveagreements';
+    const url = this.serverPath + '/agreement/get/saveagreements';
     const data = {
       auth: JSON.parse(userJson!),
       flat_id: selectedFlatId,
@@ -142,7 +150,7 @@ export class ActCreateComponent implements OnInit {
   // шлях до іконок
   getImageSource(flat: any): string {
     if (flat.img) {
-      return serverPath + '/img/filling/' + flat.img;
+      return this.serverPath + '/img/filling/' + flat.img;
     } else {
       return '../../../../assets/icon-objects/default.filling.png';
     }
@@ -152,7 +160,7 @@ export class ActCreateComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (this.selectedFlatId && userJson) {
-      const response = await this.http.post(serverPath + '/flatinfo/get/filling', {
+      const response = await this.http.post(this.serverPath + '/flatinfo/get/filling', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
@@ -201,7 +209,7 @@ export class ActCreateComponent implements OnInit {
           filling: this.flat_objects,
         };
 
-        this.http.post(serverPath + '/agreement/add/act', data)
+        this.http.post(this.serverPath + '/agreement/add/act', data)
           .subscribe(
             (response: any) => {
               this.loading = true;

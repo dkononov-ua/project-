@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilterUserService } from '../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { PageEvent } from '@angular/material/paginator';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { UserConfig } from '../../interface/param-config'
 import { UserInfoSearch } from '../../interface/info'
@@ -15,6 +15,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { CounterService } from 'src/app/services/counter.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-search-tenant',
@@ -35,7 +36,13 @@ import { CounterService } from 'src/app/services/counter.service';
 
 export class SearchTenantComponent implements OnInit {
 
-  // загальна кількість знайдених осель
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   // пагінатор
   offs = PaginationConfig.offs;
@@ -136,6 +143,7 @@ export class SearchTenantComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private location: Location,
     private counterService: CounterService,
+    private sharedService: SharedService,
   ) {
     this.getBtnStatus();
     this.getSelectedFlatId();
@@ -143,6 +151,9 @@ export class SearchTenantComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     // перевірка який пристрій
     this.breakpointObserver.observe([
       Breakpoints.Handset

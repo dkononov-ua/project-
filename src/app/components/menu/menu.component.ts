@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { CounterService } from 'src/app/services/counter.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { animations } from '../../interface/animation';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-menu',
@@ -36,6 +37,15 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 })
 
 export class MenuComponent {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   disabledBtn: boolean = false;
   animationDelay(index: number): string {
     return (600 + 100 * index).toString();
@@ -61,7 +71,6 @@ export class MenuComponent {
     }
   }
 
-  path_logo = path_logo;
   selectedFlatId: any;
   counterSubs: any;
   counterSubscriptions: any;
@@ -109,9 +118,13 @@ export class MenuComponent {
     private updateComponent: UpdateComponentService,
     private counterService: CounterService,
     private router: Router,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.loginCheck = true;

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { Chat } from '../../../interface/info';
 import { animations } from '../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-chat-host',
@@ -24,9 +25,14 @@ import { animations } from '../../../interface/animation';
 
 export class ChatHostComponent implements OnInit {
 
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   chats: Chat[] = [];
   loading: boolean = false;
   offs: 0 | undefined;
@@ -40,16 +46,22 @@ export class ChatHostComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
+    private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getFlatChats();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getFlatChats();
+      }
+    })
     this.loading = false;
   }
 
   // отримуємо всі чати які в нас є
   async getFlatChats(): Promise<any> {
-    const url = serverPath + '/chat/get/userchats';
+    const url = this.serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = {
@@ -60,8 +72,8 @@ export class ChatHostComponent implements OnInit {
         .subscribe(async (response: any) => {
           if (Array.isArray(response.status) && response.status) {
             let chat = await Promise.all(response.status.map(async (value: any) => {
-              let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-              let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+              let infUser = await this.http.post(this.serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+              let infFlat = await this.http.post(this.serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
               return {
                 flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message
               }

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { PageEvent } from '@angular/material/paginator';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { UserConfig } from '../../../interface/param-config'
 import { UserInfoSearch } from '../../../interface/info'
@@ -33,7 +33,13 @@ import { SharedService } from 'src/app/services/shared.service';
 
 export class SearchTermTenantsComponent implements OnInit {
 
-  // загальна кількість знайдених осель
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   // пагінатор
   offs = PaginationConfig.offs;
@@ -132,6 +138,9 @@ export class SearchTermTenantsComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     // перевірка який пристрій
     this.breakpointObserver.observe([
       Breakpoints.Handset
@@ -291,7 +300,7 @@ export class SearchTermTenantsComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const response: any = await this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId }).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId }).toPromise();
         // console.log(response.user_inf)
         // console.log(this.filteredUsers)
         if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && !this.addСardsToArray) {
@@ -327,7 +336,7 @@ export class SearchTermTenantsComponent implements OnInit {
       const userJson = localStorage.getItem('user');
       const userId = this.searchQuery;
       if (userJson && this.searchQuery) {
-        this.http.post(serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
+        this.http.post(this.serverPath + '/search/user', { auth: JSON.parse(userJson), user_id: userId, flat_id: this.selectedFlatId })
           .subscribe((response: any) => {
             this.filteredUsers = response.user_inf;
             this.optionsFound = response.search_count;
@@ -402,10 +411,10 @@ export class SearchTermTenantsComponent implements OnInit {
       this.searchFilter();
     } else {
       // console.log('Нових оголошень немає');
-      this.sharedService.setStatusMessage('Більше оголошень немає...');
-      setTimeout(() => {
-        this.sharedService.setStatusMessage('');
-      }, 1500);
+      // this.sharedService.setStatusMessage('Більше оголошень немає...');
+      // setTimeout(() => {
+      //   this.sharedService.setStatusMessage('');
+      // }, 1500);
     }
   }
 

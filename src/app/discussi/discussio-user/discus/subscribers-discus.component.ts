@@ -7,7 +7,7 @@ import { UpdateComponentService } from 'src/app/services/update-component.servic
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
@@ -74,6 +74,14 @@ interface Chat {
 
 export class SubscribersDiscusComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   private chatsUpdatesSubject = new Subject<number>();
   chatsUpdates$ = this.chatsUpdatesSubject.asObservable();
 
@@ -82,11 +90,7 @@ export class SubscribersDiscusComponent implements OnInit {
   aboutDistance = aboutDistance;
   option_pay = option_pay;
   animals = animals;
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+
   // параметри оселі
   chosenFlat: chosenFlat | null = null;
   choseFlatId: any | null;
@@ -151,6 +155,9 @@ export class SubscribersDiscusComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 1;
       this.indexPage = Number(this.page);
@@ -306,7 +313,7 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     try {
-      const allDiscussions: any = await this.http.post(serverPath + '/acceptsubs/get/ysubs', data).toPromise() as any[];
+      const allDiscussions: any = await this.http.post(this.serverPath + '/acceptsubs/get/ysubs', data).toPromise() as any[];
       // console.log(allDiscussions)
       if (allDiscussions && allDiscussions.status !== 'Авторизуйтесь') {
         localStorage.setItem('allDiscussions', JSON.stringify(allDiscussions));
@@ -419,7 +426,7 @@ export class SubscribersDiscusComponent implements OnInit {
       if (result === true && userJson && flat) {
         const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
         try {
-          const response: any = await this.http.post(serverPath + '/acceptsubs/delete/ysubs', data).toPromise();
+          const response: any = await this.http.post(this.serverPath + '/acceptsubs/delete/ysubs', data).toPromise();
           if (response.status === true) {
             this.sharedService.setStatusMessage('Дискусія видалена');
             setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
@@ -449,7 +456,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (userJson && this.choseFlatId) {
       const data = { auth: JSON.parse(userJson), flat_id: this.choseFlatId, };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/add/chatUser', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatUser', data).toPromise();
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           const result = await this.getFlatChats();
@@ -502,11 +509,11 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = { auth: JSON.parse(userJson), offs: 0 };
-      const response: any = await this.http.post(serverPath + '/chat/get/userchats', data).toPromise();
+      const response: any = await this.http.post(this.serverPath + '/chat/get/userchats', data).toPromise();
       if (Array.isArray(response.status) && response.status) {
         let allChatsInfo = await Promise.all(response.status.map(async (value: any) => {
-          let infUser = await this.http.post(serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
-          let infFlat = await this.http.post(serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
+          let infUser = await this.http.post(this.serverPath + '/userinfo/public', { auth: JSON.parse(userJson), user_id: value.user_id }).toPromise() as any[];
+          let infFlat = await this.http.post(this.serverPath + '/flatinfo/public', { auth: JSON.parse(userJson), flat_id: value.flat_id }).toPromise() as any[];
           return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, flat_name: value.flat_name, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message };
         }));
         localStorage.setItem('userChats', JSON.stringify(allChatsInfo));
@@ -550,7 +557,7 @@ export class SubscribersDiscusComponent implements OnInit {
     if (userJson && choseFlatId) {
       const data = { auth: JSON.parse(userJson), flat_id: choseFlatId, offs: 0 };
       try {
-        const response = await this.http.post(serverPath + '/chat/get/userchats', data).toPromise() as any;
+        const response = await this.http.post(this.serverPath + '/chat/get/userchats', data).toPromise() as any;
         if (choseFlatId && Array.isArray(response.status)) {
           const chatExists = response.status.some((chat: { flat_id: any }) => chat.flat_id === choseFlatId);
           this.chatExists = chatExists;
@@ -612,7 +619,7 @@ export class SubscribersDiscusComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), user_id: user_id, };
     try {
-      const response: any = await this.http.post(serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
+      const response: any = await this.http.post(this.serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
       this.numberOfReviews = response.status.length;
       this.reviews = response.status;
       if (this.reviews && Array.isArray(this.reviews)) {

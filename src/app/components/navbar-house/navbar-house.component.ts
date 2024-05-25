@@ -1,14 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { CounterService } from 'src/app/services/counter.service';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-navbar-house',
   templateUrl: './navbar-house.component.html',
   styleUrls: ['./navbar-house.component.scss']
 })
 export class NavbarHouseComponent {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   selectedFlatId: any;
   counterHouseSubscribers: any;
@@ -36,11 +45,15 @@ export class NavbarHouseComponent {
   constructor(
     private http: HttpClient,
     private updateComponent: UpdateComponentService,
-    private counterService: CounterService
+    private counterService: CounterService,
+    private sharedService: SharedService,
   ) {
   }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const houseData = localStorage.getItem('houseData');

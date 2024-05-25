@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import * as ServerConfig from 'src/app/config/path-config';
 
 @Component({
   selector: 'app-resident-menu',
@@ -20,9 +21,17 @@ import { SharedService } from 'src/app/services/shared.service';
 export class ResidentMenuComponent implements OnInit {
   isMobile = false;
 
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   constructor(
     private sharedService: SharedService
-     ) {
+  ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
       // isMobile: boolean = false;
@@ -30,7 +39,9 @@ export class ResidentMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
   }
 
 }

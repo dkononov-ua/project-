@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
-import { serverPath, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -54,6 +54,15 @@ export const MY_FORMATS = {
 })
 
 export class RegistrationComponent implements OnInit {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   // експортую значення помилок
   formErrors: any = formErrors;
   validationMessages: any = validationMessages;
@@ -61,7 +70,6 @@ export class RegistrationComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
 
-  path_logo = path_logo;
   passwordType = 'password';
   passwordType1 = 'password';
   emailCheckCode: string = '';
@@ -134,6 +142,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.breakpointObserver.observe([
       Breakpoints.Handset
     ]).subscribe(result => {
@@ -160,13 +171,15 @@ export class RegistrationComponent implements OnInit {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
         const data = {
-          email: this.registrationForm.get('email')?.value,
+          regEmail: this.registrationForm.get('email')?.value,
           regPassword: this.registrationForm.get('regPassword')?.value,
           dob: dob,
         };
+        // console.log(data)
         this.loading = true;
-        this.http.post(serverPath + '/registration/first', data).subscribe(
+        this.http.post(this.serverPath + '/registration/first', data).subscribe(
           (response: any) => {
+            // console.log(response)
             if (response.status === 'Не правильно передані данні') {
               this.sharedService.setStatusMessage('Помилка реєстрації.');
               setTimeout(() => {
@@ -211,7 +224,7 @@ export class RegistrationComponent implements OnInit {
           dob: dob,
           passCode: this.emailCheckCode,
         };
-        this.http.post(serverPath + '/registration/second', data).subscribe(
+        this.http.post(this.serverPath + '/registration/second', data).subscribe(
           (response: any) => {
             if (response.status === 'Не правильно передані данні') {
               console.error(response.status);

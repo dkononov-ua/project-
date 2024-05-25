@@ -2,29 +2,44 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ReportsComponent } from '../components/reports/reports.component';
-import { serverPath } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from './selected-flat.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { CheckBackendService } from './check-backend.service';
+import { UsereSearchConfig } from '../interface/param-config';
+import { UserInfo } from '../interface/info';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class SharedService {
+
+  userInfo: UserInfo = UsereSearchConfig;
+  numberOfReviewsTenant: any;
+  numberOfReviewsOwner: any;
+  ratingOwner: number | undefined;
+  ratingTenant: number | undefined;
+
   selectedFlatId!: string | null;
   private statusMessageSubject = new BehaviorSubject<string>('');
   private reportResultSubject = new Subject<any>();
   private checkOwnerPageSubject = new BehaviorSubject<string>('');
   public checkOwnerPage$ = this.checkOwnerPageSubject.asObservable();
-
   private checkIsMobileSubject = new BehaviorSubject<boolean>(false);
   public isMobile$ = this.checkIsMobileSubject.asObservable();
-  loading: boolean | undefined;
 
+  // Відслідковування зміни шляху до серверу
+  // private checkServerPathSubject = new BehaviorSubject<string>('https://backend.discussio.site:8000');
+  private checkServerPathSubject = new BehaviorSubject<string>('http://localhost:3000');
+  public serverPath$ = this.checkServerPathSubject.asObservable();
+  serverPath: string = '';
+
+  loading: boolean | undefined;
 
   constructor(
     private dialog: MatDialog,
@@ -38,7 +53,14 @@ export class SharedService {
     if (storedCheckOwner) {
       this.checkOwnerPageSubject.next(storedCheckOwner);
     }
-    this.checkIsMobile();
+    this.serverPath$.subscribe((serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+  }
+
+  setServerPath(path: string) {
+    console.log('Передаю всім компонентам новий шлях', path);
+    this.checkServerPathSubject.next(path);
   }
 
   checkIsMobile() {
@@ -70,7 +92,7 @@ export class SharedService {
   // скарга на оселю
   async reportHouse(flat: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/reports/flat';
+    const url = this.serverPath + '/reports/flat';
     const dialogRef = this.dialog.open(ReportsComponent, {
       data: {
         flatName: flat.flat_name ? flat.flat_name : flat.flat.flat_name,
@@ -99,7 +121,7 @@ export class SharedService {
   // скарга на користувача
   async reportUser(user: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const url = serverPath + '/reports/user';
+    const url = this.serverPath + '/reports/user';
     const dialogRef = this.dialog.open(ReportsComponent, {
       data: {
         firstName: user.firstName,
@@ -201,4 +223,81 @@ export class SharedService {
     localStorage.removeItem('houseData');
     // console.log('кеш оселі очищено')
   }
+
+  //Запитую рейтинг власника
+  async getRatingOwner(userID: string): Promise<{ ratingOwner: number; numberOfReviewsOwner: number; }> {
+    const userJson = localStorage.getItem('user');
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: userID,
+    };
+    if (userJson && data) {
+      try {
+        const response = await this.http.post(this.serverPath + '/rating/get/ownerMarks', data).toPromise() as any;
+        if (response && Array.isArray(response.status)) {
+          let ratingOwner = 0;
+          let numberOfReviewsOwner = response.status.length;
+          response.status.forEach((item: any) => {
+            if (item.info && item.info.mark) {
+              ratingOwner += item.info.mark;
+            }
+          });
+          // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
+          if (numberOfReviewsOwner > 0) {
+            ratingOwner = ratingOwner / numberOfReviewsOwner;
+          } else {
+            ratingOwner = 0;
+          }
+          return { ratingOwner, numberOfReviewsOwner };
+        } else {
+          // Якщо немає оцінок
+          return { ratingOwner: 0, numberOfReviewsOwner: 0 };
+        }
+      } catch (error) {
+        console.error(error);
+        return { ratingOwner: 0, numberOfReviewsOwner: 0 };
+      }
+    }
+    // Якщо немає даних користувача
+    return { ratingOwner: 0, numberOfReviewsOwner: 0 };
+  }
+
+  //Запитую рейтинг орендаря
+  async getRatingTenant(userID: string): Promise<{ ratingTenant: number; numberOfReviewsTenant: number; }> {
+    const userJson = localStorage.getItem('user');
+    const url = this.serverPath + '/rating/get/userMarks';
+    const data = {
+      auth: JSON.parse(userJson!),
+      user_id: userID,
+    };
+    try {
+      const response = await this.http.post(url, data).toPromise() as any;
+      if (response && Array.isArray(response.status)) {
+        let ratingTenant = 0;
+        let numberOfReviewsTenant = response.status.length;
+        response.status.forEach((item: any) => {
+          if (item.info && item.info.mark) {
+            ratingTenant += item.info.mark;
+          }
+        });
+        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
+        if (numberOfReviewsTenant > 0) {
+          ratingTenant = ratingTenant / numberOfReviewsTenant;
+        } else {
+          ratingTenant = 0;
+        }
+        return { ratingTenant, numberOfReviewsTenant };
+      } else {
+        // Якщо немає оцінок
+        return { ratingTenant: 0, numberOfReviewsTenant: 0 };
+      }
+    } catch (error) {
+      // Обробка помилок
+      console.error(error);
+      return { ratingTenant: 0, numberOfReviewsTenant: 0 };
+    }
+  }
+
+
+
 }

@@ -118,8 +118,8 @@
             <div class="flex-box-column col-lg-6 col-md-6 col-sm-12 col-12 p-2">
               <div class="card-user">
                 <div class="img-wrapper w-100">
-                  <img class="img-fluid" [src]="selectedAgreement?.img[0] ? serverPathPhotoFlat + selectedAgreement?.img[0] :
-                      serverPathPhotoFlat + 'housing_default.svg'" alt="img">
+                  <img class="img-fluid" [src]="selectedAgreement?.img[0] ? serverPath + pathPhotoFlat + selectedAgreement?.img[0] :
+                      serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img">
 
                   <div class="card-body w-60 p-2">
                     <div class="t-min bold accent">Передача оселі:</div>
@@ -138,7 +138,7 @@
             <div [@left2] class="flex-box-column col-lg-6 col-md-6 col-sm-12 col-12 p-2">
               <div class="card-user">
                 <div class="img-wrapper w-100">
-                  <img class="img-fluid" [src]="serverPathPhotoUser + (selectedAgreement?.flat?.subscriber_img
+                  <img class="img-fluid" [src]="serverPath + pathPhotoUser + (selectedAgreement?.flat?.subscriber_img
                                   ? selectedAgreement?.flat?.subscriber_img : 'user_default.svg')" alt="img">
                   <div class="card-body w-60 p-2">
                     <div class="t-min bold accent">Орендарю:</div>

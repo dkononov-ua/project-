@@ -4,7 +4,7 @@ import { HouseInfo } from 'src/app/interface/info';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { GestureService } from 'src/app/services/gesture.service';
 import { animations } from '../../../interface/animation';
@@ -32,11 +32,13 @@ import { Router } from '@angular/router';
 
 export class AllCardsComponent implements OnInit {
 
-  // шляхи до серверу
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   // пагінатор
   offs = PaginationConfig.offs;
   optionsFound = PaginationConfig.counterFound;
@@ -68,6 +70,9 @@ export class AllCardsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSearchInfo();
     this.getShowedCards();
   }

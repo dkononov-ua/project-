@@ -92,14 +92,14 @@
               <div class="carousel-item active" data-bs-interval="3000">
                 <div class="img-fluid-h">
                   <img
-                    [src]="houseData.imgs[0].img ? serverPathPhotoFlat + houseData.imgs[0].img : serverPathPhotoFlat + 'housing_default.svg'"
+                    [src]="houseData.imgs[0].img ? serverPath + pathPhotoFlat + houseData.imgs[0].img : serverPath + pathPhotoFlat + 'housing_default.svg'"
                     alt="Flat Image" class="img-h">
                 </div>
 
               </div>
               <div class="carousel-item" data-bs-interval="2000" *ngFor="let image of houseData.imgs?.slice(1)">
                 <div class="img-fluid-h">
-                  <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-h">
+                  <img [src]="serverPath + pathPhotoFlat + image.img" alt="Flat Image" class="img-h">
                 </div>
               </div>
 
@@ -160,14 +160,14 @@
                   <div class="carousel-item active" data-bs-interval="3000">
                     <div class="img-fluid-h">
                       <img
-                        [src]="houseData.imgs[0].img ? serverPathPhotoFlat + houseData.imgs[0].img : serverPathPhotoFlat + 'housing_default.svg'"
+                        [src]="houseData.imgs[0].img ? serverPath + pathPhotoFlat + houseData.imgs[0].img : serverPath + pathPhotoFlat + 'housing_default.svg'"
                         alt="Flat Image" class="img-h">
                     </div>
 
                   </div>
                   <div class="carousel-item" data-bs-interval="2000" *ngFor="let image of houseData.imgs?.slice(1)">
                     <div class="img-fluid-h">
-                      <img [src]="serverPathPhotoFlat + image.img" alt="Flat Image" class="img-h">
+                      <img [src]="serverPath + pathPhotoFlat + image.img" alt="Flat Image" class="img-h">
                     </div>
                   </div>
 
@@ -294,7 +294,7 @@
               </div>
               <div class="card-2">
                 <div class="img-fluid-h w-30">
-                  <img class="img-h" [src]="serverPathPhotoUser +
+                  <img class="img-h" [src]="serverPath + pathPhotoUser +
                   (userData.img[0].img ? userData.img[0].img : 'user_default.svg')" alt="img">
                 </div>
                 <div class="flex-column bg-w w-70">
@@ -339,7 +339,7 @@
               </div>
               <div class="card-2">
                 <div class="img-fluid-h w-30">
-                  <img class="img-h" [src]="serverPathPhotoUser +
+                  <img class="img-h" [src]="serverPath + pathPhotoFlat +
                   (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="img">
                 </div>
                 <div class="flex-column bg-w w-70">

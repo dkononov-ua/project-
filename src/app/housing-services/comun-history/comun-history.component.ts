@@ -7,7 +7,7 @@ import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat, serverPathPhotoComunal } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { LyDialog } from '@alyle/ui/dialog';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { MatDialog } from '@angular/material/dialog';
@@ -64,9 +64,16 @@ interface FlatInfo {
 
 export class ComunHistoryComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   month1: boolean = true;
   month2: boolean = false;
-
 
   coment: boolean = false;
   allInfoComunal: any;
@@ -78,11 +85,6 @@ export class ComunHistoryComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  serverPathPhotoComunal = serverPathPhotoComunal;
   isCopiedMessage: string = '';
 
   comunalServicesPhoto = [
@@ -228,6 +230,9 @@ export class ComunHistoryComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     await this.getInfoFlat();
     this.loading = false;
   }
@@ -291,7 +296,7 @@ export class ComunHistoryComponent implements OnInit {
     localStorage.setItem('selectedMonth', this.selectedMonth);
     const userJson = localStorage.getItem('user');
     if (this.selectedYear && this.selectedComun && userJson) {
-      const response = await this.http.post(serverPath + '/comunal/get/comunal', {
+      const response = await this.http.post(this.serverPath + '/comunal/get/comunal', {
         auth: JSON.parse(userJson),
         flat_id: this.selectedFlatId,
         comunal_name: this.selectedComun,
@@ -432,7 +437,7 @@ export class ComunHistoryComponent implements OnInit {
     if (userJson && this.selectedFlatId) {
 
       try {
-        const response: any = await this.http.post(serverPath + '/comunal/add/comunal', {
+        const response: any = await this.http.post(this.serverPath + '/comunal/add/comunal', {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
           comunal_name: this.selectedComun,
@@ -624,7 +629,7 @@ export class ComunHistoryComponent implements OnInit {
       photoData.append("inf", JSON.stringify(data));
       photoData.append('auth', userJson!);
       const headers = { 'Accept': 'application/json' };
-      this.http.post(serverPath + '/img/uploadcomunal', photoData, { headers }).subscribe(
+      this.http.post(this.serverPath + '/img/uploadcomunal', photoData, { headers }).subscribe(
         (uploadResponse: any) => {
           if (uploadResponse.status === 'Збережено') {
             this.saveInfo();

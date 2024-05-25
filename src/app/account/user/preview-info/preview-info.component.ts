@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from 'src/app/services/data.service';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { UserInfo } from '../../../interface/info';
 import { UsereSearchConfig } from '../../../interface/param-config';
 import { Options, Distance, Animals, CheckBox, OptionPay, Purpose } from '../../../interface/name';
@@ -29,11 +29,15 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class PreviewInfoComponent implements OnInit {
 
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   indexPage: number = 0;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
   userImg: any;
   loading: boolean = false;
   public selectedFlatId: any | null;
@@ -58,7 +62,7 @@ export class PreviewInfoComponent implements OnInit {
   counterUserNewMessage: any;
   userMenu: boolean = false;
   isLoadingImg: boolean = false;
-  numberOfReviews: any;
+  numberOfReviewsTenant: any;
   numberOfReviewsOwner: any;
 
   totalDays: any;
@@ -97,6 +101,14 @@ export class PreviewInfoComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+
+      }
+    })
+
     this.loading = true;
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
@@ -176,7 +188,7 @@ export class PreviewInfoComponent implements OnInit {
           if (response.img && response.img.length > 0) {
             this.userImg = response.img[0].img;
           }
-          this.getRating();
+          this.getRatingTenant();
           this.getRatingOwner();
         },
         (error) => {
@@ -193,7 +205,7 @@ export class PreviewInfoComponent implements OnInit {
     localStorage.removeItem('searchInfoUserData')
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post(serverPath + '/features/get', { auth: JSON.parse(userJson) })
+      this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) })
         .subscribe(async (response: any) => {
           localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
           const searchInfoUserData = localStorage.getItem('searchInfoUserData');
@@ -251,72 +263,20 @@ export class PreviewInfoComponent implements OnInit {
     event.target.src = '../../../../assets/user_default.svg';
   }
 
-  // рейтинг орендара
-  async getRating(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/userMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: this.userInfo.user_id,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (response && Array.isArray(response.status)) {
-        let ratingTenant = 0;
-        this.numberOfReviews = response.status.length;
-        response.status.forEach((item: any) => {
-          if (item.info && item.info.mark) {
-            ratingTenant += item.info.mark;
-          }
-        });
-        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
-        if (this.numberOfReviews > 0) {
-          this.ratingTenant = ratingTenant / this.numberOfReviews;
-        } else {
-          this.ratingTenant = 0;
-        }
-      } else {
-        this.ratingTenant = 0;
-      }
-    } catch (error) {
-      // Обробка помилок
-    }
-
+  //Запитую рейтинг орендаря
+  async getRatingTenant(): Promise<any> {
+    const response = await this.sharedService.getRatingTenant(this.userInfo.user_id);
+    // console.log(response);
+    this.ratingTenant = response.ratingTenant;
+    this.numberOfReviewsTenant = response.numberOfReviewsTenant;
   }
 
-  // рейтинг власника
+  //Запитую рейтинг власника
   async getRatingOwner(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = serverPath + '/rating/get/ownerMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: this.userInfo.user_id,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (response && Array.isArray(response.status)) {
-        let ratingOwner = 0;
-        this.numberOfReviewsOwner = response.status.length;
-        response.status.forEach((item: any) => {
-          if (item.info && item.info.mark) {
-            ratingOwner += item.info.mark;
-          }
-        });
-        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
-        if (this.numberOfReviewsOwner > 0) {
-          this.ratingOwner = ratingOwner / this.numberOfReviewsOwner;
-        } else {
-          this.ratingOwner = 0;
-        }
-      } else {
-        this.ratingOwner = 0;
-        // console.log('Власник не містить оцінок.');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await this.sharedService.getRatingOwner(this.userInfo.user_id);
+    // console.log(response);
+    this.ratingOwner = response.ratingOwner;
+    this.numberOfReviewsOwner = response.numberOfReviewsOwner;
   }
 
   // Копіювання параметрів

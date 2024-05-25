@@ -1,23 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  path_logo = path_logo;
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   selectedFlatId!: string | null;
   counterHouseNewMessage: any;
   counterUserNewMessage: any;
   counterUserNewAgree: any;
 
   constructor(
-    private selectedFlatService: SelectedFlatService
+    private selectedFlatService: SelectedFlatService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     this.getSelectParam()
   }
 

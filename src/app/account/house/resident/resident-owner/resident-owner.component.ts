@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChoseSubscribersService } from '../../../../services/chose-subscribers.service';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
 import { DatePipe } from '@angular/common';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -70,6 +70,15 @@ interface Subscriber {
 })
 
 export class ResidentOwnerComponent implements OnInit {
+
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   rating: Rating = new Rating();
   helpMenu: boolean = false;
   helpInfo: number = 0;
@@ -90,10 +99,6 @@ export class ResidentOwnerComponent implements OnInit {
   indexMenu: number = 0;
   indexPage: number = 1;
   indexCard: number = 0;
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
   selectedSubscriber: Subscriber[] | any;
   subscribers: Subscriber[] = [];
   selectedFlatId: string | any;
@@ -165,7 +170,12 @@ export class ResidentOwnerComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.getOwnerPage();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        this.getOwnerPage();
+      }
+    })
   }
 
   // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
@@ -212,7 +222,7 @@ export class ResidentOwnerComponent implements OnInit {
     if (userJson && selectedPerson) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: selectedPerson.user_id, };
       try {
-        const response: any = await this.http.post(serverPath + '/chat/add/chatFlat', data).toPromise();
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {
@@ -260,7 +270,7 @@ export class ResidentOwnerComponent implements OnInit {
         mark: this.rating.ratingValue
       };
       // console.log(data)
-      this.http.post(serverPath + '/rating/add/flatrating', data).subscribe((response: any) => {
+      this.http.post(this.serverPath + '/rating/add/flatrating', data).subscribe((response: any) => {
         let setMark = this.rating.ratingValue.toString();
         // console.log(response)
         if (response.status === true && setMark === '5') {
@@ -364,7 +374,7 @@ export class ResidentOwnerComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), user_id: user_id, };
     try {
-      const response: any = await this.http.post(serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
+      const response: any = await this.http.post(this.serverPath + '/rating/get/ownerMarks', data).toPromise() as any[];
       this.numberOfReviews = response.status.length;
       this.reviews = response.status;
       if (this.reviews && Array.isArray(this.reviews)) {
@@ -416,7 +426,7 @@ export class ResidentOwnerComponent implements OnInit {
 
     if (userJson && data) {
       try {
-        const response: any = (await this.http.post(serverPath + '/agreement/get/saveyagreements', data).toPromise()) as any;
+        const response: any = (await this.http.post(this.serverPath + '/agreement/get/saveyagreements', data).toPromise()) as any;
         if (response) {
           const agreeData = response.filter((item: { flat: { owner_id: any; }; }) =>
             item.flat.owner_id === owner_id

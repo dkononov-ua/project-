@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { serverPath, serverPathPhotoUser, serverPathPhotoFlat, path_logo } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { CloseMenuService } from 'src/app/services/close-menu.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-selection-account',
   templateUrl: './selection-account.component.html',
   styleUrls: ['./selection-account.component.scss']
 })
 export class SelectionAccountComponent implements OnInit {
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
-  path_logo = path_logo;
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   selectedFlatId: any | null;
   houseInfo: any;
   userInfo: any;
@@ -59,9 +63,13 @@ export class SelectionAccountComponent implements OnInit {
     private isCloseMenu: CloseMenuService,
     private dataService: DataService,
     private selectedFlatService: SelectedFlatService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
     if (!this.userData) {
       // this.onLoginCheckUser()
     } else {

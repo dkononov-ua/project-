@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { serverPath, path_logo, serverPathPhotoUser, serverPathPhotoFlat } from 'src/app/config/server-config';
+import * as ServerConfig from 'src/app/config/path-config';
 import { ActivatedRoute } from '@angular/router';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
@@ -26,6 +26,14 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 
 export class ResidentComponent implements OnInit {
 
+  // імпорт шляхів
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
+
   page: any;
   card: any;
 
@@ -34,10 +42,6 @@ export class ResidentComponent implements OnInit {
   isCopiedMessage!: string;
   indexPage: number = 0;
   indexCard: number = 0;
-  path_logo = path_logo;
-  serverPath = serverPath;
-  serverPathPhotoUser = serverPathPhotoUser;
-  serverPathPhotoFlat = serverPathPhotoFlat;
 
   selectedFlatId: string | any;
   loading = false;
@@ -66,7 +70,12 @@ export class ResidentComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.getSelectedFlat();
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+      if (this.serverPath) {
+        await this.getSelectedFlat();
+      }
+    })
   }
 
   // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
@@ -105,7 +114,7 @@ export class ResidentComponent implements OnInit {
       const user_id = userObject.inf.user_id;
       const data = { auth: JSON.parse(userJson!), user_id: user_id, flat_id: selectedFlatId, offs: offs, };
       try {
-        const response = await this.http.post(serverPath + '/citizen/get/ycitizen', data).toPromise() as any[];
+        const response = await this.http.post(this.serverPath + '/citizen/get/ycitizen', data).toPromise() as any[];
         const ownerInfo = response.find(item => item.flat.flat_id.toString() === selectedFlatId)?.owner;
         if (ownerInfo) {
           if (user_id === ownerInfo.user_id) {
