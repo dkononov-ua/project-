@@ -1,0 +1,87 @@
+<button class="status-container" *ngIf="userInfo">
+  <div class="status-box m-2">
+    <div class="status-value" *ngIf="userInfo.checked === 0"><i
+        class="fa-solid fa-person-circle-exclamation"></i></div>
+    <div class="status-value" *ngIf="userInfo.checked === 1"><i
+        class="fa-solid fa-person-circle-check white"></i></div>
+    <div class="status-value" *ngIf="userInfo.realll === 1"><i class="fa-solid fa-coins white"></i></div>
+    <div class="status-value" *ngIf="userInfo.agree_search === 1">
+      <i class="fa-solid fa-person-hiking white"></i>
+    </div>
+    <div class="status-value" *ngIf="!userInfo.agree_search || userInfo.agree_search === 0">
+      <i class="fa-solid fa-person-hiking"></i>
+    </div>
+    <div class="status-value" *ngIf="userInfo.house === 1 && userInfo.agree_search === 1">Б</div>
+    <div class="status-value" *ngIf="userInfo.flat === 1 && userInfo.agree_search === 1">Кв</div>
+    <div class="status-value" *ngIf="userInfo.room === 1 && userInfo.agree_search === 1">К</div>
+    <div class="status-value" *ngIf="userInfo.woman === 1 && userInfo.agree_search === 1">W</div>
+    <div class="status-value" *ngIf="userInfo.man === 1 && userInfo.agree_search === 1">M</div>
+    <div class="status-value" *ngIf="userInfo.students === 1 && userInfo.agree_search === 1">S
+    </div>
+    <div class="status-value" *ngIf="userInfo.family === 1 && userInfo.agree_search === 1">F</div>
+  </div>
+  <div class="status-hover">
+    <div class="status-hover-label border-bottom">Допомога</div>
+    <div class="status-hover-text t-c">
+
+      <ul>Статуси аккаунту:
+        <li *ngIf="userInfo.checked === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-person-circle-check white"></i></div>
+          - Підтверджений аккаунт
+        </li>
+        <li *ngIf="userInfo.checked === 0" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-person-circle-exclamation"></i></div>
+          - Не підтверджений аккаунт
+        </li>
+        <li *ngIf="userInfo.agree_search === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-person-hiking white"></i></div>
+          - Профіль орендаря активовано
+        </li>
+        <li *ngIf="userInfo.agree_search === 1 && userInfo.date" class="status-hover-li">
+          <div class="status-value"><i class="fa-regular fa-clock white"></i></div> - Активовано
+          {{userInfo.date | date}} {{userInfo.date | date: 'HH:mm'}}
+        </li>
+        <li *ngIf="userInfo.agree_search !== 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-person-hiking"></i></div>
+          - Профіль орендаря не активовано
+        </li>
+        <li *ngIf="userInfo.realll === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-coins white"></i></div>
+          - Аккаунт має статус ріелтора
+        </li>
+      </ul>
+
+      <div *ngIf="userInfo.agree_search === 1">
+        <ul
+          *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
+          Пошук оселі для:
+          <li *ngIf="userInfo.woman === 1" class="status-hover-li">
+            <div class="status-value">W</div> - Жінки
+          </li>
+          <li *ngIf="userInfo.man === 1" class="status-hover-li">
+            <div class="status-value">M</div> - Чоловіка
+          </li>
+          <li *ngIf="userInfo.students === 1" class="status-hover-li">
+            <div class="status-value">S</div> - Студента
+          </li>
+          <li *ngIf="userInfo.family === 1" class="status-hover-li">
+            <div class="status-value">F</div> - Сім'ї
+          </li>
+        </ul>
+
+        <ul *ngIf="userInfo.house === 1 || userInfo.flat === 1 || userInfo.room === 1">
+          Пошук по типу оселі:
+          <li *ngIf="userInfo.house === 1" class="status-hover-li">
+            <div class="status-value">Б</div> - Будинок
+          </li>
+          <li *ngIf="userInfo.flat === 1" class="status-hover-li">
+            <div class="status-value">Кв</div> - Квартира
+          </li>
+          <li *ngIf="userInfo.room === 1" class="status-hover-li">
+            <div class="status-value">К</div> - Підійде кімната
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</button>

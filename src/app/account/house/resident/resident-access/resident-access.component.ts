@@ -162,31 +162,33 @@ export class ResidentAccessComponent implements OnInit {
         acces_flat_features: this.selectedSubscriber?.acces_flat_features,
         acces_flat_chats: this.selectedSubscriber?.acces_flat_chats,
       };
-      this.http.post(this.serverPath + '/citizen/add/access', data).subscribe(
-        (response: any) => {
-          if (response.status == ')') {
-            this.sharedService.setStatusMessage('Зміни внесено');
+      try {
+        const response: any = await this.http.post(this.serverPath + '/citizen/add/access', data).toPromise() as any[];
+        // console.log(response.status)
+        if (response.status === ')') {
+          this.sharedService.setStatusMessage('Зміни внесено');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Орендар має перезайти в оселю');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('Орендар має перезайти в оселю');
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('Після цього зміни втуплять в силу');
-                setTimeout(() => {
-                  this.sharedService.setStatusMessage('');
-                  this.loading = false;
-                }, 1500);
-              }, 1500);
-            }, 1500);
-          } else {
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Помилка збереження');
+              this.sharedService.setStatusMessage('Після цього зміни втуплять в силу');
               setTimeout(() => {
                 this.sharedService.setStatusMessage('');
-                location.reload();
+                this.loading = false;
               }, 1500);
-            }, 500);
-          }
-        },
-      );
+            }, 1500);
+          }, 1500);
+        } else {
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Помилка збереження');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('');
+              location.reload();
+            }, 1500);
+          }, 500);
+        }
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       console.log('Авторизуйтесь');
     }

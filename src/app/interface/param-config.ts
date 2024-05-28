@@ -83,6 +83,7 @@ export const UsereSearchConfig = {
   tell: undefined,
   dob: undefined,
   checked: 0,
+  realll: 0,
   date: undefined,
 }
 
@@ -132,3 +133,32 @@ export const HouseConfig = {
   room: undefined
 }
 
+export const StatusConfig = {
+  checked: 0,
+  realll: 0,
+  house: undefined,
+  flat: undefined,
+  room: undefined,
+  looking_woman: undefined,
+  looking_man: undefined,
+  agree_search: 0,
+  students: 1,
+  woman: 1,
+  man: 1,
+  family: 1,
+  date: undefined,
+};
+
+export const HouseSearchConfig = {
+  checked: 0,
+  realll: 0,
+  room: undefined,
+  students: 1,
+  woman: 1,
+  man: 1,
+  family: 1,
+  date: undefined,
+  private: undefined,
+  rent: undefined,
+  option_flat: 0,
+};

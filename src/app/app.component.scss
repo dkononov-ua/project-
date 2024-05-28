@@ -1,6 +1,12 @@
 @use "style/mixins/" as *;
 @use "style/presets/" as *;
 
+.news-line {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
 // карусель параметрів
 .caruesel-container2 {
   @include flex-box-center;

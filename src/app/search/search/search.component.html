@@ -1,10 +1,10 @@
 <div class="content-component">
-  <div class="switch-container">
+  <div [@left1] class="switch-container">
 
     <div class="switch-btn-group">
       <button class="btn" (click)="goBack()">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
+        <div class="t-min">Назад</div>
       </button>
     </div>
 
@@ -15,7 +15,7 @@
       </button>
     </div> -->
 
-    <div class="menu-box hide-mobile">
+    <div class="menu-box">
       <div class="menu-lable">Пошук</div>
       <div class="menu-name">Осель & Орендарів</div>
     </div>
@@ -48,7 +48,7 @@
       </button>
     </div> -->
 
-    <div class="switch-btn-group">
+    <div class="switch-btn-group hide-mobile" *ngIf="!isMobile">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
         <i class="fa-solid fa-house-circle-check"></i>
         <div class="t-min">Управління Оселею</div>
@@ -92,33 +92,59 @@
             </div>
 
           </div>
-
         </div>
       </div>
     </div>
 
     <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12">
-      <div [@left1] class="card-menu mt-2 p-2">
+      <div [@top2] class="card-menu mt-2 p-2">
         <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
           </span></h3>
 
         <p class="t-min bold mt-2">Натисніть для пошуку Оселі.</p>
         <div class="flex-group">
-          <button class="link-t bg-accent" [routerLink]="'/search-house/filter'">
-            <span class="m-2">ШУКАТИ ОСЕЛЮ</span><i class="fa-solid fa-house-laptop pl-2"></i>
+          <button class="b-primary" [routerLink]="'/search-house/filter'">
+            <i class="fa-solid fa-house-laptop pr-2"></i><span class="m-2">ШУКАТИ ОСЕЛЮ</span>
           </button>
         </div>
 
         <p class="t-min bold mt-2">Натисніть для пошуку Орендаря.</p>
-        <div class="flex-group">
-          <button class="link-t bg-accent" (click)="goToSearchTenants()">
-            <span class="m-2">ШУКАТИ ОРЕНДАРЯ</span><i class="fa-solid fa-people-pulling pl-2"></i>
+        <div class="flex-group ">
+          <button class="b-primary" (click)="goToSearchTenants()">
+            <i class="fa-solid fa-people-pulling pr-2"></i><span class="m-2">ШУКАТИ ОРЕНДАРЯ</span>
           </button>
         </div>
 
         <div class="gif-box t-c">
           <img class="home-img" src="../../../assets/gif/search.gif" alt="">
         </div>
+
+        <div class="card-group hide-pc" *ngIf="isMobile">
+          <div class="flex-box-center t-c p-2 w-100">
+            <p class="t-lar-xx bold mb-2 t-c">Discussio Пошук <i class="fa-solid fa-magnifying-glass pl-2"></i></p>
+            <p class="t-med mb-2">Надаємо вам можливість легко <strong>знайти житло</strong> <i
+                class="fa-solid fa-house-laptop pl-2"></i>, яке
+              відповідає вашим вимогам та вподобанням.</p>
+            <p class="t-med mb-2"> <i class="fa-solid fa-people-pulling pr-2"></i>А також можливість <strong>знаходити
+                орендарів</strong>, які відповідають вашим особистим критеріям. Ви можете
+              використовувати різні фільтри, такі як бюджет, мета переїзду та термін оренди, для <strong>пошуку
+                орендарів</strong>, які вам
+              підходять.</p>
+          </div>
+
+          <div class="btn-group mt-2 pb-2">
+            <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук оселі' }">
+              <div class="t-med bold">Відгук пошук оселі</div>
+            </button>
+            <button class="btn btn-navigation" [routerLink]="'/feedback'"
+              [queryParams]="{ category: 'Пошук орендаря' }">
+              <div class="t-med bold mr-2">Відгук пошук орендаря</div>
+              <i class="fa-regular fa-lightbulb"></i>
+            </button>
+          </div>
+
+        </div>
+
       </div>
     </div>
 

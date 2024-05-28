@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ReportsComponent } from '../components/reports/reports.component';
-import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from './selected-flat.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
@@ -12,6 +11,8 @@ import { Router } from '@angular/router';
 import { CheckBackendService } from './check-backend.service';
 import { UsereSearchConfig } from '../interface/param-config';
 import { UserInfo } from '../interface/info';
+import * as ServerConfig from 'src/app/config/path-config';
+import { StatusMessageService } from './status-message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,18 +27,25 @@ export class SharedService {
   ratingTenant: number | undefined;
 
   selectedFlatId!: string | null;
-  private statusMessageSubject = new BehaviorSubject<string>('');
+
   private reportResultSubject = new Subject<any>();
   private checkOwnerPageSubject = new BehaviorSubject<string>('');
   public checkOwnerPage$ = this.checkOwnerPageSubject.asObservable();
+
   private checkIsMobileSubject = new BehaviorSubject<boolean>(false);
   public isMobile$ = this.checkIsMobileSubject.asObservable();
 
+  private statusServerSubject = new BehaviorSubject<string>('');
+  public statusServer$ = this.statusServerSubject.asObservable();
+
   // Відслідковування зміни шляху до серверу
-  // private checkServerPathSubject = new BehaviorSubject<string>('https://backend.discussio.site:8000');
-  private checkServerPathSubject = new BehaviorSubject<string>('http://localhost:3000');
+  private checkServerPathSubject = new BehaviorSubject<string>('');
   public serverPath$ = this.checkServerPathSubject.asObservable();
+
   serverPath: string = '';
+
+  firstPath: string = ServerConfig.firstPath;
+  secondPath: string = ServerConfig.secondPath;
 
   loading: boolean | undefined;
 
@@ -48,33 +56,55 @@ export class SharedService {
     private location: Location,
     private breakpointObserver: BreakpointObserver,
     private router: Router,
+    private statusMessageService: StatusMessageService,
   ) {
+    this.getServerPath();
     const storedCheckOwner = localStorage.getItem('checkOwnerPage');
-    if (storedCheckOwner) {
-      this.checkOwnerPageSubject.next(storedCheckOwner);
+    if (storedCheckOwner) { this.checkOwnerPageSubject.next(storedCheckOwner); }
+    this.checkIsMobile();
+  }
+
+  getServerPath() {
+    const savedServerPath = localStorage.getItem('savedServerPath');
+    // console.log('Шлях:', savedServerPath)
+    if (savedServerPath) {
+      // якщо є збережений шлях ми беремо його для порівняння
+      this.serverPath = savedServerPath;
+      this.setServerPath(this.serverPath);
+    } else {
+      // якщо немає ми беремо перший
+      this.serverPath = this.firstPath;
+      this.setServerPath(this.serverPath);
     }
-    this.serverPath$.subscribe((serverPath: string) => {
-      this.serverPath = serverPath;
-    })
   }
 
-  setServerPath(path: string) {
-    console.log('Передаю всім компонентам новий шлях', path);
-    this.checkServerPathSubject.next(path);
-  }
-
-  checkIsMobile() {
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.checkIsMobileSubject.next(result.matches);
-    });
+  async setServerPath(path: string): Promise<any> {
+    localStorage.removeItem('savedServerPath');
+    // console.log('Передаю всім компонентам шлях', path);
+    this.checkServerPathSubject.next(this.serverPath);
+    localStorage.setItem('savedServerPath', path);
   }
 
   getSelectedFlatId() {
     this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
       this.selectedFlatId = flatId;
       // console.log(this.selectedFlatId)
+    });
+  }
+
+  setStatusServer(status: string) {
+    localStorage.removeItem('savedStatusServer');
+    // console.log(status)
+    this.statusServerSubject.next(status);
+    localStorage.setItem('savedStatusServer', status);
+  }
+
+  checkIsMobile() {
+    this.breakpointObserver.observe([
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      // console.log('Перевіряю пристрій на якому переглядають')
+      this.checkIsMobileSubject.next(result.matches);
     });
   }
 
@@ -149,12 +179,8 @@ export class SharedService {
     });
   }
 
-  getStatusMessage(): Observable<string> {
-    return this.statusMessageSubject.asObservable();
-  }
-
   setStatusMessage(message: string): void {
-    this.statusMessageSubject.next(message);
+    this.statusMessageService.setStatusMessage(message);
   }
 
   reloadPage() {
@@ -169,36 +195,36 @@ export class SharedService {
   }
 
   getAuthorization() {
-    this.setStatusMessage('Для цього потрібно бути авторизованим');
+    this.statusMessageService.setStatusMessage('Для цього потрібно бути авторизованим');
     setTimeout(() => {
       this.router.navigate(['/house/house-info']);
-      this.setStatusMessage('');
+      this.statusMessageService.setStatusMessage('');
     }, 3000);
   }
 
   getAuthorizationHouse() {
-    this.setStatusMessage('Для цього потрібно створити або обрати оселю');
+    this.statusMessageService.setStatusMessage('Для цього потрібно створити або обрати оселю');
     setTimeout(() => {
       this.router.navigate(['/house/house-control/add-house']);
-      this.setStatusMessage('');
+      this.statusMessageService.setStatusMessage('');
     }, 3000);
   }
 
   logout() {
-    this.setStatusMessage('Потрібно авторизуватись');
+    this.statusMessageService.setStatusMessage('Потрібно авторизуватись');
     this.clearCache();
     setTimeout(() => {
       this.router.navigate(['/auth/login']);
-      this.setStatusMessage('');
+      this.statusMessageService.setStatusMessage('');
     }, 1500);
   }
 
   logoutHouse() {
-    this.setStatusMessage('Потрібно обрати оселю');
+    this.statusMessageService.setStatusMessage('Потрібно обрати оселю');
     this.clearCacheHouse();
     setTimeout(() => {
       this.router.navigate(['/house/house-control/selection-house']);
-      this.setStatusMessage('');
+      this.statusMessageService.setStatusMessage('');
     }, 1500);
   }
 
@@ -265,13 +291,14 @@ export class SharedService {
   //Запитую рейтинг орендаря
   async getRatingTenant(userID: string): Promise<{ ratingTenant: number; numberOfReviewsTenant: number; }> {
     const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/rating/get/userMarks';
     const data = {
       auth: JSON.parse(userJson!),
       user_id: userID,
     };
+    // console.log(this.serverPath)
     try {
-      const response = await this.http.post(url, data).toPromise() as any;
+      const response = await this.http.post(this.serverPath + '/rating/get/userMarks', data).toPromise() as any;
+      // console.log(response)
       if (response && Array.isArray(response.status)) {
         let ratingTenant = 0;
         let numberOfReviewsTenant = response.status.length;

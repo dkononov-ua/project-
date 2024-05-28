@@ -140,6 +140,7 @@ export class SearchTermTenantsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
+      // console.log(this.serverPath)
     })
     // перевірка який пристрій
     this.breakpointObserver.observe([

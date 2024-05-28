@@ -10,6 +10,7 @@ import { animations } from '../../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-main-info',
@@ -31,6 +32,7 @@ import { Router } from '@angular/router';
 
 export class MainInfoComponent implements OnInit {
 
+  statusInfoHouse: any;
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
@@ -93,6 +95,7 @@ export class MainInfoComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
     private router: Router,
+    private statusDataService: StatusDataService,
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
@@ -218,6 +221,29 @@ export class MainInfoComponent implements OnInit {
     }
   }
 
+  async loadSearchDataFlat(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.houseData) {
+      // console.log(this.houseData)
+      this.statusInfoHouse = {
+        private: this.houseData.about.private,
+        rent: this.houseData.about.rent,
+        room: this.houseData.about.room,
+        students: this.houseData.about.students,
+        woman: this.houseData.about.woman,
+        man: this.houseData.about.man,
+        family: this.houseData.about.family,
+        date: this.houseData.about.data,
+        checked: this.houseData.flatStat[0].checked,
+        realll: this.houseData.flatStat[0].realll,
+        option_flat: this.houseData.param.option_flat,
+      };
+
+      this.statusDataService.setStatusDataFlat(this.statusInfoHouse);
+    }
+  }
+
+
   async loadDataFlat(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -263,6 +289,7 @@ export class MainInfoComponent implements OnInit {
           this.HouseInfo.photos[0] = "housing_default.svg";
         }
         this.generateLocationUrl();
+        this.loadSearchDataFlat();
       } else {
         // console.log('Немає інформації про оселю')
       }

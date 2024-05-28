@@ -12,6 +12,7 @@ import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { DeleteSubsComponent } from '../delete/delete-subs.component';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 interface chosenFlat {
   flat: any;
@@ -96,6 +97,7 @@ export class SubscribersUserComponent implements OnInit {
     private router: Router,
     private sharedService: SharedService,
     private counterService: CounterService,
+    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -186,6 +188,8 @@ export class SubscribersUserComponent implements OnInit {
         const chosenFlat = allSubscribers.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
         if (chosenFlat) {
           this.chosenFlat = chosenFlat;
+          this.statusDataService.setStatusDataFlat(this.chosenFlat?.flat);
+          this.statusDataService.setStatusData(this.chosenFlat?.owner);
           this.getRatingOwner(this.chosenFlat?.owner.user_id);
           this.generateLocationUrl();
         } else {

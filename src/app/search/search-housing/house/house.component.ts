@@ -12,6 +12,7 @@ import { GestureService } from 'src/app/services/gesture.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { CounterService } from 'src/app/services/counter.service';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-house',
@@ -94,6 +95,7 @@ export class HouseComponent implements OnInit {
     private sharedService: SharedService,
     private router: Router,
     private counterService: CounterService,
+    private statusDataService: StatusDataService,
   ) { }
 
   ngOnInit(): void {
@@ -119,6 +121,7 @@ export class HouseComponent implements OnInit {
     this.indexPage = 1;
     this.currentCardIndex = this.filteredFlats!.indexOf(flat);
     this.selectedFlat = flat;
+    this.statusDataService.setStatusDataFlat(this.selectedFlat);
     this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();
@@ -239,6 +242,7 @@ export class HouseComponent implements OnInit {
     this.currentPhotoIndex = 0;
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.statusDataService.setStatusDataFlat(this.selectedFlat);
     this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();
@@ -249,6 +253,7 @@ export class HouseComponent implements OnInit {
     this.currentPhotoIndex = 0;
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
     this.selectedFlat = this.filteredFlats![this.currentCardIndex];
+    this.statusDataService.setStatusDataFlat(this.selectedFlat);
     this.getRating(this.selectedFlat)
     this.checkSubscribe();
     this.generateLocationUrl();

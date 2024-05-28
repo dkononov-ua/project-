@@ -8,6 +8,7 @@ import { CloseMenuService } from './services/close-menu.service';
 import { SharedService } from './services/shared.service';
 import { Subscription } from 'rxjs';
 import { CheckBackendService } from './services/check-backend.service';
+import { StatusMessageService } from './services/status-message.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,6 +23,8 @@ export class AppComponent implements OnInit {
   pathPhotoComunal = ServerConfig.pathPhotoComunal;
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
+  firstPath: string = ServerConfig.firstPath;
+  secondPath: string = ServerConfig.secondPath;
   // ***
 
   statusMessage: string = '';
@@ -33,6 +36,7 @@ export class AppComponent implements OnInit {
   hideMenu = false;
   indexPage: number = 0;
   shouldBeVisible: boolean = true;
+  waitingUpdate: boolean = false;
 
   onToggleMenu() {
     if (this.isMenuOpen) {
@@ -49,6 +53,7 @@ export class AppComponent implements OnInit {
   }
 
   loading: boolean = true;
+  statusServer: string = '';
 
   openMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -72,17 +77,45 @@ export class AppComponent implements OnInit {
     private isCloseMenu: CloseMenuService,
     private sharedService: SharedService,
     private checkBackendService: CheckBackendService,
-  ) {
-    this.sharedService.getStatusMessage().subscribe((message: string) => {
-      this.statusMessage = message;
-    });
-  }
+    private statusMessageService: StatusMessageService,
+  ) {  }
 
   async ngOnInit(): Promise<void> {
+    this.checkBackendService.startCheckServer();
+    this.sharedService.statusServer$.subscribe((status: string) => {
+      this.statusServer = status;
+      // console.log(this.statusServer);
+      this.sharedService.setStatusMessage('');
+      if (this.statusServer === 'Перемикаємось на резервний інтернет') {
+        this.sharedService.setStatusMessage('Зачекайте');
+        this.waitingUpdate = true;
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('Перемикаємось на резервний інтернет');
+        }, 1000);
+      } else if (this.statusServer === 'Перемикаємось на основний інтернет') {
+        this.waitingUpdate = true;
+        this.sharedService.setStatusMessage('Зачекайте');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('Перемикаємось на основний інтернет');
+        }, 1000);
+      } else {
+        this.waitingUpdate = false;
+        this.sharedService.setStatusMessage('');
+      }
+    });
+    this.statusMessageService.statusMessage$.subscribe((message: string) => {
+      // console.log(message);
+      this.statusMessage = message;
+    });
+    // підписуюсь на зміну шляху до серверу
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
+      // console.log(this.serverPath)
+      if (this.serverPath) {
+        await this.getUserInfo();
+      }
     })
-    this.checkBackendService.startCheckServer();
+    // підписуюсь на зміну шляху до серверу
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.handleRouteChange(this.router.url);
@@ -97,39 +130,34 @@ export class AppComponent implements OnInit {
     } else {
       this.loggedInAccount = true;
       await this.getMenuIsOpen();
-      await this.getUserInfo();
       this.loading = false;
     }
-
   }
 
+  // перевірка локації де я знаходжусь, тоді показую що мені треба
   handleRouteChange(currentRoute: string): void {
     if (currentRoute.includes('/home/about-project')) {
       this.shouldBeVisible = true;
-
-      // Ваш потрібний роут (/home/about-project)
-      // Додайте тут код для виконання дій, якщо поточний роут співпадає з /home/about-project
     } else {
       this.shouldBeVisible = false;
-
-      // Інші роути
-      // Додайте тут код для виконання дій, якщо поточний роут не співпадає з /home/about-project
     }
   }
 
+  // перевірка користувача на авторизацію, виконується кожен раз при перезавантаженні сторінки
   async getUserInfo() {
     const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
-      this.http.post(this.serverPath + '/auth', JSON.parse(userJson))
-        .subscribe((response: any) => {
-        }, (error: any) => {
-          console.error(error);
-          this.router.navigate(['/registration']);
-        });
-    } else {
+    if (userJson) {
+      try {
+        const response: any = await this.http.post(this.serverPath + '/auth', JSON.parse(userJson)).toPromise();
+        // console.log(response)
+      } catch (error) {
+        // console.log('Помилка авторизації')
+        // this.router.navigate(['/registration']);
+      }
     }
   }
 
+  // перевіряю локацію якщо я знаходжусь на сторінці реєстрації то this.loggedInAccount = false;
   async compareLocationWithCondition(currentLocation: string): Promise<void> {
     const location = '/registration';
     if (location === currentLocation) {

@@ -1,5 +1,5 @@
 <div class="content-component">
-  <div class="switch-container">
+  <div [@left1] class="switch-container">
 
     <!-- <div class="switch-btn-group">
       <button class="btn" (click)="goBack()">
@@ -11,7 +11,7 @@
     <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/user/info'">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
+        <div class="t-min">Назад</div>
       </button>
     </div>
 
@@ -93,10 +93,4 @@
     </div>
 
   </div>
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>

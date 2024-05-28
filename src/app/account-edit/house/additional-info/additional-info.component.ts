@@ -5,7 +5,6 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
-import { serverPath } from 'src/app/config/server-config';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -119,7 +118,7 @@ export class AdditionalInfoComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
-      this.http.post(serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
+      this.http.post(this.serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .subscribe((response: any) => {
           if (response)
             this.flatInfo = response[0];
@@ -139,7 +138,7 @@ export class AdditionalInfoComponent implements OnInit {
     if (userJson && this.selectedFlatId !== undefined) {
       try {
         this.loading = true
-        const response: any = await this.http.post(serverPath + '/flatinfo/add/flatinf', {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/add/flatinf', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,

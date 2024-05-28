@@ -8,10 +8,6 @@
   position: relative;
 }
 
-.link-t {
-  width: 250px;
-}
-
 .card-wrapper {
   display: block;
   overflow: auto;
@@ -50,7 +46,7 @@
     overflow: hidden;
     .home-img {
       width: 80%;
-      filter: drop-shadow(2px 2px 8px $color-dark);
+      // filter: drop-shadow(2px 2px 8px $color-dark);
       object-fit: cover;
     }
   }

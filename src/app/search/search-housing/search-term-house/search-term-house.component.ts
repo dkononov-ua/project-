@@ -462,7 +462,7 @@ export class SearchTermHouseComponent implements OnInit {
   // передача пошукових фільтрів та отримання результатів пошуку
   async getSearchData(url: string) {
     const response: any = await this.http.get(url).toPromise();
-    console.log(response)
+    // console.log(response)
     if (response) {
       this.optionsFound = response.count;
       if (this.userInfo.filterData) {
@@ -475,7 +475,6 @@ export class SearchTermHouseComponent implements OnInit {
           this.addСardsToArray = false;
         }, 100);
       }
-
       this.calculatePaginatorInfo()
       this.passInformationToService(this.filteredFlats, this.optionsFound);
     }

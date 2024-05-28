@@ -30,13 +30,13 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class SelectionHousingComponent implements OnInit {
 
-    // імпорт шляхів до медіа
-    pathPhotoUser = ServerConfig.pathPhotoUser;
-    pathPhotoFlat = ServerConfig.pathPhotoFlat;
-    pathPhotoComunal = ServerConfig.pathPhotoComunal;
-    path_logo = ServerConfig.pathLogo;
-    serverPath: string = '';
-    // ***
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   goToSettingHouse(arg0: any) {
     throw new Error('Method not implemented.');
@@ -81,9 +81,9 @@ export class SelectionHousingComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
+      await this.getFlatInfo();
+      await this.getSelectParam();
     })
-    await this.getFlatInfo();
-    await this.getSelectParam();
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 1;
     });
@@ -149,6 +149,7 @@ export class SelectionHousingComponent implements OnInit {
 
   async getFlatInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
+    // console.log(this.serverPath)
     if (userJson) {
       try {
         const allFlats: any = await this.http.post(this.serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise() as any[];
@@ -215,6 +216,7 @@ export class SelectionHousingComponent implements OnInit {
           this.selectedFlatService.setSelectedFlatName(flat.flat_name);
           this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
           this.dataService.getInfoFlat().subscribe((response: any) => {
+            // console.log(response)
             if (response) {
               setTimeout(() => {
                 this.sharedService.setStatusMessage('Оновлено');
@@ -222,7 +224,7 @@ export class SelectionHousingComponent implements OnInit {
                 this.selectedFlatName = flat.flat_name;
                 this.selectedFlatId = flat.flat_id;
                 const houseData = localStorage.getItem('houseData');
-                if (houseData ) {
+                if (houseData) {
                   const parsedHouseData = JSON.parse(houseData);
                   this.houseData = parsedHouseData;
                 }

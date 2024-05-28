@@ -63,6 +63,10 @@ import { UpdateInfoComponent } from './pages/update-info/update-info.component';
 import { SharingInfoComponent } from './components/sharing-info/sharing-info.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthRoutingModule } from './auth/auth-routing.module';
+import { NewsLineComponent } from './components/news-line/news-line.component';
+import { SharedService } from './services/shared.service';
+import { StatusMessageComponent } from './components/status-message/status-message.component';
+import { StatusMessageService } from './services/status-message.service';
 
 @NgModule({
   declarations: [
@@ -87,10 +91,14 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
     TemplateComponent,
     UpdateInfoComponent,
     SharingInfoComponent,
+    NewsLineComponent,
+    StatusMessageComponent,
   ],
   providers: [
     SelectedFlatService,
+    StatusMessageService,
     DatePipe,
+    SharedService,
     StyleRenderer,
     LyTheme2,
     { provide: LY_THEME_NAME, useValue: 'minima-deep-dark' },

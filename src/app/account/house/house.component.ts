@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
     animations.left5,
     animations.right1,
     animations.swichCard,
+    animations.top1,
   ],
 })
 

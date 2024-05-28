@@ -13,9 +13,9 @@
 
             <div class="card-mini-body p-2">
               <button class="btn-pick" (click)="selectFlat(flat)">
-                <div class="t-med  bold t-s white" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
-                <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
-                <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
+                <div class="t-med bold t-s" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
+                <div class="t-lar-x t-s">{{ flat.flat_name }}</div>
+                <div class="t-lar-xx bold t-s">ID: {{ flat.flat_id }}</div>
               </button>
 
               <div class="btn-group-comun w-20">
@@ -77,11 +77,11 @@
               </div>
             </div>
 
-            <div class="card-mini-body p-2" (click)="selectFlat(flat)">
-              <div class="flex-column p-2">
-                <div class="t-med  bold t-s white" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
-                <div class="t-lar-x white t-s">{{ flat.flat_name }}</div>
-                <div class="t-lar-xx bold white t-s">ID: {{ flat.flat_id }}</div>
+            <div class="card-mini-body p-2">
+              <div class="btn-pick p-2">
+                <div class="t-med t-s" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
+                <div class="t-lar-x t-s">{{ flat.flat_name }}</div>
+                <div class="t-lar-xx t-s">ID: {{ flat.flat_id }}</div>
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 // параметри користувача
 export interface UserInfo {
   checked: number | 0;
+  realll: number | 0;
   tell: any;
   dob: any;
   country: string | undefined;
@@ -222,6 +223,42 @@ export interface Subscriber {
   viber: string;
   facebook: string;
   mail: string;
+}
+
+// параметри користувача
+export interface StatusInfo {
+  checked: number | 0;
+  realll: number | 0;
+  house: number | undefined;
+  flat: number | undefined;
+  room: number | undefined;
+  looking_woman: boolean | undefined;
+  looking_man: boolean | undefined;
+  agree_search: number | undefined;
+  students: number | undefined;
+  woman: number | undefined;
+  man: number | undefined;
+  family: number | undefined;
+  date: any;
+}
+
+export interface HouseStatusInfo {
+  checked: number | 0;
+  realll: number | 0;
+  house: number | undefined;
+  flat: number | undefined;
+  room: number | 0;
+  looking_woman: boolean | undefined;
+  looking_man: boolean | undefined;
+  agree_search: number | undefined;
+  students: number | undefined;
+  woman: number | undefined;
+  man: number | undefined;
+  family: number | undefined;
+  date: any;
+  private: number | 0;
+  rent: number | 0;
+  option_flat: any;
 }
 
 

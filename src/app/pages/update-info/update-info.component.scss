@@ -22,8 +22,18 @@
   }
   .img-fluid {
     border: none !important;
+    height: 100%;
+    &:hover {
+      transform: scale(1);
+    }
     @include s1-s3 {
       width: 100%;
+    }
+    img {
+      height: 100%;
+      &:hover {
+        transform: scale(1);
+      }
     }
   }
   .img-fluid2 {

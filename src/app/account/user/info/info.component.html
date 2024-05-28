@@ -9,12 +9,21 @@
       <div class="card-animation" [@swichCard]>
         <div class="card-content">
 
-          <button class="status-container">
+          <app-status-data></app-status-data>
+
+          <!-- <button class="status-container">
             <div class="status-box m-2">
-              <i class="fa-solid fa-person-circle-check accent" *ngIf="userInfo.checked === 1"></i>
-              <i class="fa-solid fa-person-circle-exclamation gray" *ngIf="userInfo.checked === 0"></i>
-              <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
-              <div class="status-value" *ngIf="!userInfo.agree_search || userInfo.agree_search === 0">Не активне</div>
+              <div class="status-value" *ngIf="userInfo.checked === 0"><i
+                  class="fa-solid fa-person-circle-exclamation"></i></div>
+              <div class="status-value" *ngIf="userInfo.checked === 1"><i
+                  class="fa-solid fa-person-circle-check white"></i></div>
+              <div class="status-value" *ngIf="userInfo.realll === 1"><i class="fa-solid fa-coins white"></i></div>
+              <div class="status-value" *ngIf="userInfo.agree_search === 1">
+                <i class="fa-solid fa-person-hiking white"></i>
+              </div>
+              <div class="status-value" *ngIf="!userInfo.agree_search || userInfo.agree_search === 0">
+                <i class="fa-solid fa-person-hiking"></i>
+              </div>
               <div class="status-value" *ngIf="userInfo.house === 1 && userInfo.agree_search === 1">Б</div>
               <div class="status-value" *ngIf="userInfo.flat === 1 && userInfo.agree_search === 1">Кв</div>
               <div class="status-value" *ngIf="userInfo.room === 1 && userInfo.agree_search === 1">К</div>
@@ -25,26 +34,33 @@
               <div class="status-value" *ngIf="userInfo.family === 1 && userInfo.agree_search === 1">F</div>
             </div>
             <div class="status-hover">
-              <div class="status-hover-label">Допомога</div>
+              <div class="status-hover-label border-bottom">Допомога</div>
               <div class="status-hover-text t-c">
 
-                <ul>
+                <ul>Статуси аккаунту:
                   <li *ngIf="userInfo.checked === 1" class="status-hover-li">
-                    <i class="fa-solid fa-person-circle-check accent"></i> - Ваш аккаунт
-                    перевірений Адміністрацією
+                    <div class="status-value"><i class="fa-solid fa-person-circle-check white"></i></div>
+                    - Підтверджений аккаунт
                   </li>
                   <li *ngIf="userInfo.checked === 0" class="status-hover-li">
-                    <div class="status-value"><i class="fa-solid fa-person-circle-exclamation"></i></div> - Не
-                    перевірено адміністрацією. Для того щоб ваш аккаунт
-                    був підтверджений надайте посилання на ваші соціальні мережі та очікуйте підтвердження. Перші 1000
-                    аккаунтів отримають галочку
-                    безкоштовно!
+                    <div class="status-value"><i class="fa-solid fa-person-circle-exclamation"></i></div>
+                    - Не підтверджений аккаунт
+                  </li>
+                  <li *ngIf="userInfo.agree_search === 1" class="status-hover-li">
+                    <div class="status-value"><i class="fa-solid fa-person-hiking white"></i></div>
+                    - Профіль орендаря активовано
+                  </li>
+                  <li *ngIf="userInfo.agree_search === 1 && userInfo.date" class="status-hover-li">
+                    <div class="status-value"><i class="fa-regular fa-clock white"></i></div> - Активовано
+                    {{userInfo.date | date}} {{userInfo.date | date: 'HH:mm'}}
                   </li>
                   <li *ngIf="userInfo.agree_search !== 1" class="status-hover-li">
-                    <div class="status-value"><i class="fa-solid fa-person-hiking"></i></div> - Профіль орендаря
-                    не активовано
-                    <button class="btn bg-accent m-2" [routerLinkActive]="'active'"
-                      [routerLink]="'/looking'">Налаштувати</button>
+                    <div class="status-value"><i class="fa-solid fa-person-hiking"></i></div>
+                    - Профіль орендаря не активовано
+                  </li>
+                  <li *ngIf="userInfo.realll === 1" class="status-hover-li">
+                    <div class="status-value"><i class="fa-solid fa-coins white"></i></div>
+                    - Аккаунт має статус ріелтора
                   </li>
                 </ul>
 
@@ -53,16 +69,16 @@
                     *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
                     Пошук оселі для:
                     <li *ngIf="userInfo.woman === 1" class="status-hover-li">
-                      <div class="status-value">W</div> - жінки
+                      <div class="status-value">W</div> - Жінки
                     </li>
                     <li *ngIf="userInfo.man === 1" class="status-hover-li">
-                      <div class="status-value">M</div> - чоловіка
+                      <div class="status-value">M</div> - Чоловіка
                     </li>
                     <li *ngIf="userInfo.students === 1" class="status-hover-li">
-                      <div class="status-value">S</div> - студента
+                      <div class="status-value">S</div> - Студента
                     </li>
                     <li *ngIf="userInfo.family === 1" class="status-hover-li">
-                      <div class="status-value">F</div> - сім'ї
+                      <div class="status-value">F</div> - Сім'ї
                     </li>
                   </ul>
 
@@ -81,11 +97,11 @@
                 </div>
               </div>
             </div>
-          </button>
+          </button> -->
 
-          <button class="techSupport" matTooltip="Задати питання" (click)="checkChatExistAndOpen()">
-            <p class="white">Тех-підтримка</p>
-          </button>
+          <!-- <button class="techSupport" matTooltip="Задати питання" (click)="checkChatExistAndOpen()">
+            <p class="white"><i class="fa-solid fa-headset"></i>ddddddddddddd</p>
+          </button> -->
 
           <div class="copyMessage-box" *ngIf="isCopiedMessage">
             <div class="copyMessage-text">{{isCopiedMessage}}</div>
@@ -303,6 +319,14 @@
               <div class="link-icon w-20"><i class="fa-solid fa-house"></i></div>
             </a>
 
+            <a class="link-menu" target="_blank" href="https://t.me/discussio_chat">
+              <div class="flex-column w-80">
+                <p class="link-menu-t1">Технічна</p>
+                <p class="link-menu-t2">Підтримка <i class="fa-brands fa-telegram"></i></p>
+              </div>
+              <div class="link-icon w-20"><i class="fa-solid fa-headset"></i></div>
+            </a>
+
           </nav>
 
         </div>
@@ -312,15 +336,6 @@
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
       <div class="card-animation bg-none" [@left2]>
         <div class="flex-column t-c">
-
-          <div class="t-med">Профіль орендаря
-            <span *ngIf="userInfo.agree_search === 1" class="bold accent">Активовано</span>
-            <span *ngIf="!userInfo.agree_search || userInfo.agree_search === 0" class="bold">Вимкнено</span>
-          </div>
-
-          <div class="t-med" *ngIf="userInfo.agree_search === 1 && userInfo.date">Дата активації
-            {{userInfo.date | date}} час {{userInfo.date | date: 'HH:mm:ss'}}
-          </div>
 
           <div class="switch-container p-2">
 

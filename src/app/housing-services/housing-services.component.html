@@ -5,14 +5,14 @@
     <div class="switch-btn-group" *ngIf="!selectedName">
       <button class="btn" [routerLink]="'/house/house-info'">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
+        <div class="t-min">Назад</div>
       </button>
     </div>
 
     <div class="switch-btn-group" *ngIf="selectedName">
       <button class="btn" (click)="backToDiscus()">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
+        <div class="t-min">Назад</div>
       </button>
     </div>
 

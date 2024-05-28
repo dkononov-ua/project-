@@ -18,6 +18,7 @@ import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { ViewComunService } from './view-comun.service';
 import { DeleteSubsComponent } from '../delete/delete-subs.component';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 
 interface chosenFlat {
@@ -152,6 +153,7 @@ export class SubscribersDiscusComponent implements OnInit {
     private counterService: CounterService,
     private route: ActivatedRoute,
     private location: Location,
+    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -340,6 +342,9 @@ export class SubscribersDiscusComponent implements OnInit {
         const chosenFlat = allDiscussions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
         if (chosenFlat) {
           this.chosenFlat = chosenFlat;
+          // console.log(this.chosenFlat)
+          this.statusDataService.setStatusDataFlat(this.chosenFlat?.flat);
+          this.statusDataService.setStatusData(this.chosenFlat?.owner);
           this.getRatingOwner(this.chosenFlat?.owner.user_id);
           this.generateLocationUrl();
         } else {
@@ -580,6 +585,7 @@ export class SubscribersDiscusComponent implements OnInit {
       this.sharedService.setStatusMessage('Переходимо до статистики оселі');
       setTimeout(() => {
         this.router.navigate(['/communal'], { queryParams: { indexPage: 0 } });
+        this.sharedService.setStatusMessage('');
       }, 2000);
     }
   }

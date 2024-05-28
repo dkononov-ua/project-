@@ -17,6 +17,7 @@ import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { DeleteSubComponent } from '../delete/delete-sub.component';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-subscriptions-house',
@@ -102,6 +103,7 @@ export class SubscriptionsHouseComponent implements OnInit {
     private counterService: CounterService,
     private router: Router,
     private location: Location,
+    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -207,6 +209,7 @@ export class SubscriptionsHouseComponent implements OnInit {
         const selectedUser = allHouseDiscussions.find((user: any) => user.user_id === this.selectedUserID);
         if (selectedUser) {
           this.selectedUser = selectedUser;
+          this.statusDataService.setStatusData(this.selectedUser);
           this.getRating(this.selectedUser)
         } else {
           this.selectedUser = undefined;

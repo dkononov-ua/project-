@@ -18,6 +18,7 @@ export class DataService {
   ) {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
+      // console.log(this.serverPath)
     })
   }
 
@@ -27,7 +28,7 @@ export class DataService {
       return this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson))
         .pipe(
           tap((response: any) => {
-            console.log(response)
+            // console.log(response)
             if (response && response.status === true) {
               localStorage.setItem('userData', JSON.stringify(response));
             }
@@ -52,10 +53,11 @@ export class DataService {
     });
 
     if (userJson && this.selectedFlatId) {
+      // console.log('getInfoFlat')
       return this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
         .pipe(
           tap((response: any) => {
-            console.log(response)
+            // console.log(response)
             localStorage.setItem('houseData', JSON.stringify(response));
           }),
           catchError((error: any) => {

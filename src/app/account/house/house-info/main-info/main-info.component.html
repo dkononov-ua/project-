@@ -6,9 +6,11 @@
   </div>
   <div class="container-img">
 
-    <div class="status-container m-2">
+    <app-status-data-house></app-status-data-house>
+
+    <!-- <div class="status-container m-2">
       <div class="status-box" *ngIf="selectedSubAgree">
-        <!-- <div class="status-value" *ngIf="HouseInfo.rent === 1 && acces_flat_features === 1">Активне</div> -->
+        <div class="status-value" *ngIf="HouseInfo.rent === 1 && acces_flat_features === 1">Активне</div>
         <div class="status-value" *ngIf="selectedSubAgree.dateAgreeStart && selectedSubAgree.dateAgreeEnd">Угода з
           {{selectedSubAgree.dateAgreeStart | date: 'dd-MM-yy'}} по {{selectedSubAgree.dateAgreeEnd | date:
           'dd-MM-yy'}}
@@ -19,7 +21,7 @@
         <div class="status-value" *ngIf="selectedSubAgree.price">Орендна плата: {{selectedSubAgree.price}}₴
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="wrapper-img">
 

@@ -11,6 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   animations: [
+    animations.top2,
     animations.left,
     animations.left1,
     animations.left2,
@@ -44,6 +45,7 @@ export class SearchComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  isMobile: boolean = false;
 
   constructor(
     private selectedFlatService: SelectedFlatService,
@@ -56,6 +58,10 @@ export class SearchComponent implements OnInit {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
     })
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      // isMobile: boolean = false;
+    });
     this.getSelectedFlatId();
   }
 

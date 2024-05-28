@@ -51,6 +51,10 @@ textarea::-webkit-scrollbar {
   background-color: $color-accent !important;
 }
 
+.bg-red {
+  background-color: $color-red !important;
+}
+
 .bg-white {
   background-color: $color-white !important;
 }
@@ -81,6 +85,10 @@ textarea::-webkit-scrollbar {
 
 .gray {
   color: $color-gray;
+}
+
+.white {
+  color: $color-white !important;
 }
 
 .blue {

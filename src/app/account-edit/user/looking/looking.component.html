@@ -60,11 +60,11 @@
 
     </div>
 
-    <div class="switch-container">
+    <div [@left1] class="switch-container">
       <div class="switch-btn-group">
         <button class="btn" (click)="goBack()">
           <i class="fa-solid fa-arrow-left"></i>
-          <div class="t-min white">Назад</div>
+          <div class="t-min">Назад</div>
         </button>
       </div>
 
@@ -110,7 +110,7 @@
 
     </div>
 
-    <div class="main-container">
+    <div [@top1] class="main-container">
 
       <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12 hide-mobile"
         *ngIf="!isMobile && indexPage === 0 || indexPage === 1">

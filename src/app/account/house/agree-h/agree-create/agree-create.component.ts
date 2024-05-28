@@ -75,6 +75,7 @@ interface Subscribers {
     animations.right1,
     animations.right4,
     animations.swichCard,
+    animations.top1,
   ],
 })
 export class AgreeCreateComponent implements OnInit {

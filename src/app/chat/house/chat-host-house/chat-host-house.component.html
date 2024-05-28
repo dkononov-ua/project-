@@ -6,7 +6,7 @@
 
   <div class="content-component">
 
-    <div class="switch-container">
+    <div [@left1] class="switch-container">
 
       <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" [routerLink]="'/house/house-info'">
@@ -18,7 +18,7 @@
       <div class="switch-btn-group" *ngIf="indexPage === 1">
         <button class="btn" (click)="indexPage = 0">
           <i class="fa-solid fa-arrow-left"></i>
-          <div class="t-min white">Назад</div>
+          <div class="t-min">Назад</div>
         </button>
       </div>
 
@@ -55,7 +55,7 @@
 
     </div>
 
-    <div class="main-container">
+    <div [@top1] class="main-container">
 
       <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
         <div class="card-wrapper">

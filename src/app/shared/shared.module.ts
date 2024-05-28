@@ -41,6 +41,9 @@ import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.componen
 import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
 import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
 import { SharedService } from '../services/shared.service';
+import { StatusDataComponent } from '../components/status-data/status-data.component';
+import { StatusDataService } from '../services/status-data.service';
+import { StatusDataHouseComponent } from '../components/status-data-house/status-data-house.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +61,12 @@ import { SharedService } from '../services/shared.service';
     GalleryComponent,
     CropImg2Component,
     DeleteHComponent,
-
     ChatUserComponent,
     ChatHostComponent,
     ChatHouseComponent,
     ChatHostHouseComponent,
+    StatusDataComponent,
+    StatusDataHouseComponent,
   ],
   exports: [
     NavbarComponent,
@@ -79,16 +83,18 @@ import { SharedService } from '../services/shared.service';
     GalleryComponent,
     CropImg2Component,
     DeleteHComponent,
-
     ChatUserComponent,
     ChatHostComponent,
     ChatHouseComponent,
     ChatHostHouseComponent,
-
+    StatusDataComponent,
+    StatusDataHouseComponent,
   ],
   providers: [
     UpdateComponentService,
     SharedService,
+    StatusDataService,
+    StatusDataHouseComponent,
   ],
   imports: [
     CommonModule,

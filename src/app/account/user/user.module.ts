@@ -26,6 +26,7 @@ import { UagreeHostComponent } from './agree-u/uagree-host/uagree-host.component
 import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component';
 import { PreviewInfoComponent } from './preview-info/preview-info.component';
 import { UserComponent } from './user.component';
+import { SharedService } from 'src/app/services/shared.service';
 @NgModule({
   declarations: [
     UserComponent,
@@ -38,7 +39,7 @@ import { UserComponent } from './user.component';
     PreviewInfoComponent,
   ],
   providers: [
-    DatePipe
+    DatePipe,
   ],
   imports: [
     CommonModule,

@@ -63,7 +63,7 @@ import { UserSearchComponent } from './resident/user-search/user-search.componen
     UserSearchComponent,
   ],
   providers: [
-    DatePipe
+    DatePipe,
   ],
   imports: [
     CommonModule,

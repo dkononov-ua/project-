@@ -4,7 +4,7 @@
     <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/user/info'">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
+        <div class="t-min">Назад</div>
       </button>
     </div>
 
@@ -190,52 +190,7 @@
           </div>
           <div class="card-content">
 
-            <div class="status-container m-2">
-              <div class="status-box">
-                <div class="status-value" *ngIf="chosenFlat.flat.room === 1">К</div>
-                <div class="status-value" *ngIf="chosenFlat.flat.option_flat === 1">Будинок</div>
-                <div class="status-value" *ngIf="chosenFlat.flat.option_flat === 2">Кв</div>
-                <div class="status-value" *ngIf="chosenFlat.flat.woman === 1">W</div>
-                <div class="status-value" *ngIf="chosenFlat.flat.man === 1">M</div>
-                <div class="status-value" *ngIf="chosenFlat.flat.students === 1">S</div>
-                <div class="status-value" *ngIf="chosenFlat.flat.family === 1">F</div>
-              </div>
-              <div class="status-hover">
-                <div class="status-hover-label">Допомога</div>
-                <div class="status-hover-text">
-                  <ul
-                    *ngIf="chosenFlat.flat.woman === 1 || chosenFlat.flat.man === 1 || chosenFlat.flat.students === 1 || chosenFlat.flat.family === 1">
-                    Пошук орендаря:
-                    <li *ngIf="chosenFlat.flat.woman === 1" class="status-hover-li">
-                      <div class="status-value">W</div> - жінки
-                    </li>
-                    <li *ngIf="chosenFlat.flat.man === 1" class="status-hover-li">
-                      <div class="status-value">M</div> - чоловіка
-                    </li>
-                    <li *ngIf="chosenFlat.flat.students === 1" class="status-hover-li">
-                      <div class="status-value">S</div> - студента
-                    </li>
-                    <li *ngIf="chosenFlat.flat.family === 1" class="status-hover-li">
-                      <div class="status-value">F</div> - сім'ї
-                    </li>
-                  </ul>
-
-                  <ul *ngIf="chosenFlat.flat.option_flat || chosenFlat.flat.room === 1">
-                    Здаю оселю, тип оселі:
-                    <li *ngIf="chosenFlat.flat.option_flat === 1" class="status-hover-li">
-                      <div class="status-value">Б</div> - Будинок
-                    </li>
-                    <li *ngIf="chosenFlat.flat.option_flat === 2" class="status-hover-li">
-                      <div class="status-value">Кв</div> - Квартира
-                    </li>
-                    <li *ngIf="chosenFlat.flat.room === 1" class="status-hover-li">
-                      <div class="status-value">К</div> - Кімната
-                    </li>
-                  </ul>
-
-                </div>
-              </div>
-            </div>
+            <app-status-data-house></app-status-data-house>
 
             <div class="copyMessage-box" *ngIf="isCopiedMessage">
               <div class="copyMessage-text">{{isCopiedMessage}}</div>
@@ -487,6 +442,8 @@
               <i class="fa-regular fa-copy"></i>
               <div class="t-lar dark bold">Скопійовано</div>
             </div>
+
+            <app-status-data></app-status-data>
 
             <div class="container-img">
               <div class="wrapper-img">

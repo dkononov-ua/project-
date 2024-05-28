@@ -79,11 +79,7 @@ export class HouseControlComponent implements OnInit {
     private router: Router,
     private sharedService: SharedService,
     private location: Location,
-  ) {
-    this.sharedService.getStatusMessage().subscribe((message: string) => {
-      this.statusMessage = message;
-    });
-  }
+  ) {  }
 
   async ngOnInit(): Promise<void> {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {

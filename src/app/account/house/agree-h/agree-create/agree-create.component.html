@@ -1,11 +1,11 @@
 <div class="content-component">
 
-  <div class="switch-container">
+  <div [@left1] class="switch-container">
 
     <div class="switch-btn-group">
       <button class="btn" (click)="goBack()">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
+        <div class="t-min">Назад</div>
       </button>
     </div>
 
@@ -54,7 +54,7 @@
 
   </div>
 
-  <div class="main-container">
+  <div [@top1] class="main-container">
 
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
       <div [@right1] class="card-content-static">
@@ -339,7 +339,7 @@
               </div>
               <div class="card-2">
                 <div class="img-fluid-h w-30">
-                  <img class="img-h" [src]="serverPath + pathPhotoFlat +
+                  <img class="img-h" [src]="serverPath + pathPhotoUser +
                   (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')" alt="img">
                 </div>
                 <div class="flex-column bg-w w-70">

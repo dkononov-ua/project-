@@ -13,6 +13,7 @@ import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search
 import { UserInfo } from 'src/app/interface/info';
 import { GestureService } from 'src/app/services/gesture.service';
 import { CounterService } from 'src/app/services/counter.service';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-profile',
@@ -99,6 +100,7 @@ export class ProfileComponent implements OnInit {
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
     private counterService: CounterService,
+    private statusDataService: StatusDataService,
   ) { }
 
   ngOnInit(): void {
@@ -221,7 +223,8 @@ export class ProfileComponent implements OnInit {
     this.indexPage = 1;
     this.currentCardIndex = this.filteredUsers!.indexOf(user);
     this.selectedUser = user;
-    // console.log(this.selectedUser)
+    // console.log(this.selectedUser);
+    this.statusDataService.setStatusData(this.selectedUser);
     await this.getRating(this.selectedUser)
     await this.checkSubscribe();
     await this.calculateTotalDays()
@@ -231,6 +234,7 @@ export class ProfileComponent implements OnInit {
     this.reviews = [];
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
+    this.statusDataService.setStatusData(this.selectedUser);
     await this.getRating(this.selectedUser)
     await this.checkSubscribe();
     await this.calculateTotalDays()
@@ -240,6 +244,7 @@ export class ProfileComponent implements OnInit {
     this.reviews = [];
     this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
     this.selectedUser = this.filteredUsers![this.currentCardIndex];
+    this.statusDataService.setStatusData(this.selectedUser);
     await this.getRating(this.selectedUser)
     await this.checkSubscribe();
     await this.calculateTotalDays()

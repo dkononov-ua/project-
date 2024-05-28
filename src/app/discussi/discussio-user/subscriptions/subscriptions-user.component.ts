@@ -13,6 +13,7 @@ import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { DeleteSubsComponent } from '../delete/delete-subs.component';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 interface chosenFlat {
   flat: any;
@@ -93,6 +94,7 @@ export class SubscriptionsUserComponent implements OnInit {
     private counterService: CounterService,
     private route: ActivatedRoute,
     private router: Router,
+    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -182,6 +184,7 @@ export class SubscriptionsUserComponent implements OnInit {
         const chosenFlat = allSubscriptions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
         if (chosenFlat) {
           this.chosenFlat = chosenFlat;
+          this.statusDataService.setStatusDataFlat(this.chosenFlat?.flat);
           this.generateLocationUrl();
         } else {
           console.log('Немає інформації');

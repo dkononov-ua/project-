@@ -1,53 +1,7 @@
 <div class="container-box p-2" *ngIf="rent">
 
-  <div class="t-lar bold t-c pt-5">Оголошення активне</div>
+  <div class="t-lar bold t-c">Оголошення активне</div>
   <div class="t-med t-c gray">Параметри вашої оселі які бачать орендарі в пошуку</div>
-
-  <div class="status-container">
-    <div class="status-box">
-      <div class="status-value" *ngIf="HouseInfo.room === 1">К</div>
-      <div class="status-value" *ngIf="HouseInfo.option_flat === 1">Будинок</div>
-      <div class="status-value" *ngIf="HouseInfo.option_flat === 2">Кв</div>
-      <div class="status-value" *ngIf="HouseInfo.woman === 1">W</div>
-      <div class="status-value" *ngIf="HouseInfo.man === 1">M</div>
-      <div class="status-value" *ngIf="HouseInfo.students === 1">S</div>
-      <div class="status-value" *ngIf="HouseInfo.family === 1">F</div>
-    </div>
-    <div class="status-hover">
-      <div class="status-hover-label">Допомога</div>
-      <div class="status-hover-text">
-        <ul *ngIf="HouseInfo.woman === 1 || HouseInfo.man === 1 || HouseInfo.students === 1 || HouseInfo.family === 1">
-          Пошук орендара:
-          <li *ngIf="HouseInfo.woman === 1" class="status-hover-li">
-            <div class="status-value">W</div> - жінки
-          </li>
-          <li *ngIf="HouseInfo.man === 1" class="status-hover-li">
-            <div class="status-value">M</div> - чоловіка
-          </li>
-          <li *ngIf="HouseInfo.students === 1" class="status-hover-li">
-            <div class="status-value">S</div> - студента
-          </li>
-          <li *ngIf="HouseInfo.family === 1" class="status-hover-li">
-            <div class="status-value">F</div> - сім'ї
-          </li>
-        </ul>
-
-        <ul *ngIf="HouseInfo.option_flat || HouseInfo.room === 1">
-          Здаю оселю, тип оселі:
-          <li *ngIf="HouseInfo.option_flat === 1" class="status-hover-li">
-            <div class="status-value">Б</div> - Будинок
-          </li>
-          <li *ngIf="HouseInfo.option_flat === 2" class="status-hover-li">
-            <div class="status-value">Кв</div> - Квартира
-          </li>
-          <li *ngIf="HouseInfo.room === 1" class="status-hover-li">
-            <div class="status-value">К</div> - Кімната
-          </li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
 
   <div class="param-box ">
     <div class="param-label">Параметри оселі:</div>

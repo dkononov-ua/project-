@@ -9,77 +9,7 @@
         </div>
       </div>
 
-      <div class="status-container m-2">
-        <div class="status-box">
-          <i class="status-value fa-solid fa-person-circle-check accent" *ngIf="selectedUser.checked === 1"></i>
-          <div class="status-value" *ngIf="subscriptionStatus === 1">Підписані</div>
-          <div class="status-value" *ngIf="subscriptionStatus === 2">Discussiя</div>
-          <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
-          <div class="status-value" *ngIf="selectedUser.flat === 1">Кв</div>
-          <div class="status-value" *ngIf="selectedUser.room === 1">К</div>
-          <div class="status-value" *ngIf="selectedUser.woman === 1">W</div>
-          <div class="status-value" *ngIf="selectedUser.man === 1">M</div>
-          <div class="status-value" *ngIf="selectedUser.students === 1">S</div>
-          <div class="status-value" *ngIf="selectedUser.family === 1">F</div>
-        </div>
-        <div class="status-hover">
-          <div class="status-hover-label">Допомога</div>
-          <div class="status-hover-text">
-            <ul *ngIf="selectedUser?.data || subscriptionStatus">
-
-              <li *ngIf="selectedUser?.data && authorizationHouse" class="status-hover-li">
-                Дата останього оновлення оголошення {{selectedUser?.data | date}}
-                час {{selectedUser?.data | date: 'HH:mm:ss'}}
-              </li>
-
-              <li *ngIf="subscriptionStatus === 1" class="status-hover-li">
-                <div class="status-value">Підписані</div> - Ви вже підписані на цього орендаря.
-              </li>
-
-              <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
-                <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
-              </li>
-
-              <li *ngIf="selectedUser.checked === 1" class="status-hover-li">
-                <i class="status-value fa-solid fa-person-circle-check accent"></i> - Аккаунт
-                перевірений Адміністрацією
-              </li>
-
-            </ul>
-
-            <ul
-              *ngIf="selectedUser.woman === 1 || selectedUser.man === 1 || selectedUser.students === 1 || selectedUser.family === 1">
-              Пошук оселі для:
-              <li *ngIf="selectedUser.woman === 1" class="status-hover-li">
-                <div class="status-value">W</div> - жінки
-              </li>
-              <li *ngIf="selectedUser.man === 1" class="status-hover-li">
-                <div class="status-value">M</div> - чоловіка
-              </li>
-              <li *ngIf="selectedUser.students === 1" class="status-hover-li">
-                <div class="status-value">S</div> - студента
-              </li>
-              <li *ngIf="selectedUser.family === 1" class="status-hover-li">
-                <div class="status-value">F</div> - сім'ї
-              </li>
-            </ul>
-
-            <ul *ngIf="selectedUser.house === 1 || selectedUser.flat === 1 || selectedUser.room === 1">
-              Пошук по типу оселі:
-              <li *ngIf="selectedUser.house === 1" class="status-hover-li">
-                <div class="status-value">Б</div> - Будинок
-              </li>
-              <li *ngIf="selectedUser.flat === 1" class="status-hover-li">
-                <div class="status-value">Кв</div> - Квартира
-              </li>
-              <li *ngIf="selectedUser.room === 1" class="status-hover-li">
-                <div class="status-value">К</div> - Підійде кімната
-              </li>
-            </ul>
-
-          </div>
-        </div>
-      </div>
+      <app-status-data></app-status-data>
 
       <div class="container-img">
         <div class="wrapper-img">
@@ -96,7 +26,8 @@
             <div class="img-fluid">
               <div class="container-loader-mini">
                 <mat-spinner color="warn"></mat-spinner>
-                <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true" hidden>
+                <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true"
+                  hidden>
                 <div class="t-min gray mt-2">Завантаження фото</div>
               </div>
             </div>
@@ -126,7 +57,7 @@
                   <div class="t-lar-xx bold" *ngIf="authorizationHouse">{{ratingTenant}}<i
                       class="fa-regular fa-star"></i></div>
                   <div class="t-lar-xx bold" *ngIf="!authorizationHouse"><i class="fa-solid fa-question"></i><i
-                    class="fa-regular fa-star"></i></div>
+                      class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>
@@ -371,81 +302,38 @@
         </div>
       </div>
 
-      <div class="status-container m-2">
-        <div class="status-box">
-          <i class="status-value fa-solid fa-person-circle-check accent" *ngIf="selectedUser.checked === 1"></i>
-          <div class="status-value" *ngIf="subscriptionStatus === 1">Підписані</div>
-          <div class="status-value" *ngIf="subscriptionStatus === 2">Discussiя</div>
-          <div class="status-value" *ngIf="selectedUser.house === 1">Б</div>
-          <div class="status-value" *ngIf="selectedUser.flat === 1">Кв</div>
-          <div class="status-value" *ngIf="selectedUser.room === 1">К</div>
-          <div class="status-value" *ngIf="selectedUser.woman === 1">W</div>
-          <div class="status-value" *ngIf="selectedUser.man === 1">M</div>
-          <div class="status-value" *ngIf="selectedUser.students === 1">S</div>
-          <div class="status-value" *ngIf="selectedUser.family === 1">F</div>
-        </div>
-        <div class="status-hover">
-          <div class="status-hover-label">Допомога</div>
-          <div class="status-hover-text">
-            <ul *ngIf="selectedUser?.data || subscriptionStatus">
+      <app-status-data></app-status-data>
 
-              <li *ngIf="selectedUser?.data && authorizationHouse" class="status-hover-li">
-                Дата останього оновлення оголошення {{selectedUser?.data | date}}
-                час {{selectedUser?.data | date: 'HH:mm:ss'}}
-              </li>
-
-              <li *ngIf="subscriptionStatus === 1" class="status-hover-li">
-                <div class="status-value">Підписані</div> - Ви вже підписані на цього орендаря.
-              </li>
-
-              <li *ngIf="subscriptionStatus === 2" class="status-hover-li">
-                <div class="status-value">Discussiя</div> - Ви вже в Дискусії з орендарем.
-              </li>
-
-              <li *ngIf="selectedUser.checked === 1" class="status-hover-li">
-                <i class="status-value fa-solid fa-person-circle-check accent"></i> - Аккаунт
-                перевірений Адміністрацією
-              </li>
-            </ul>
-
-            <ul
-              *ngIf="selectedUser.woman === 1 || selectedUser.man === 1 || selectedUser.students === 1 || selectedUser.family === 1">
-              Пошук оселі для:
-
-              <li *ngIf="selectedUser.woman === 1" class="status-hover-li">
-                <div class="status-value">W</div> - жінки
-              </li>
-              <li *ngIf="selectedUser.man === 1" class="status-hover-li">
-                <div class="status-value">M</div> - чоловіка
-              </li>
-              <li *ngIf="selectedUser.students === 1" class="status-hover-li">
-                <div class="status-value">S</div> - студента
-              </li>
-              <li *ngIf="selectedUser.family === 1" class="status-hover-li">
-                <div class="status-value">F</div> - сім'ї
-              </li>
-            </ul>
-
-            <ul *ngIf="selectedUser.house === 1 || selectedUser.flat === 1 || selectedUser.room === 1">
-              Пошук по типу оселі:
-              <li *ngIf="selectedUser.house === 1" class="status-hover-li">
-                <div class="status-value">Б</div> - Будинок
-              </li>
-              <li *ngIf="selectedUser.flat === 1" class="status-hover-li">
-                <div class="status-value">Кв</div> - Квартира
-              </li>
-              <li *ngIf="selectedUser.room === 1" class="status-hover-li">
-                <div class="status-value">К</div> - Підійде кімната
-              </li>
-            </ul>
-
-          </div>
-        </div>
-      </div>
 
       <div class="container-img">
         <div class="wrapper-img">
-          <img class="img-fluid" [src]="serverPath + pathPhotoUser + (selectedUser?.img || 'user_default.svg')" alt="img">
+
+          <!-- якщо фото немає -->
+          <ng-container *ngIf="!selectedUser.img || selectedUser.img === 'user_default.svg'">
+            <div class="img-fluid">
+              <img src="../../../../assets/user_default.svg" alt="img">
+            </div>
+          </ng-container>
+
+          <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+          <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && !isLoadingImg">
+            <div class="img-fluid">
+              <div class="container-loader-mini">
+                <mat-spinner color="warn"></mat-spinner>
+                <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true"
+                  hidden>
+                <div class="t-min gray mt-2">Завантаження фото</div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- фото користувача -->
+          <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && isLoadingImg">
+            <div class="img-fluid">
+              <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img">
+            </div>
+          </ng-container>
+
           <div class="panel-container">
             <div class="wrapper">
 
@@ -463,7 +351,7 @@
                   <div class="t-lar-xx bold" *ngIf="authorizationHouse">{{ratingTenant}}<i
                       class="fa-regular fa-star"></i></div>
                   <div class="t-lar-xx bold" *ngIf="!authorizationHouse"><i class="fa-solid fa-question"></i><i
-                    class="fa-regular fa-star"></i></div>
+                      class="fa-regular fa-star"></i></div>
                 </div>
                 <div class="t-min">Рейтинг</div>
               </button>

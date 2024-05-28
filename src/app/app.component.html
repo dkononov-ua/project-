@@ -1,10 +1,8 @@
 <div class="body-container">
-  <div class="container">
+  <div *ngIf="!statusMessage && !waitingUpdate" class="container">
+    <app-news-line class="news-line"></app-news-line>
     <router-outlet></router-outlet>
   </div>
-  <div *ngIf="statusMessage" class="status-message">
-    <div class="status-message-text">{{ statusMessage }}</div>
-    <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-    <div class="status-message-name">Discussio</div>
-  </div>
+  <app-status-message *ngIf="statusMessage"></app-status-message>
+  <app-loader *ngIf="waitingUpdate"></app-loader>
 </div>

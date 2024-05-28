@@ -19,6 +19,7 @@ import { SharedService } from 'src/app/services/shared.service';
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.top1,
   ],
 })
 

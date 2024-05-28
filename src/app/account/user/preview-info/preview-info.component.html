@@ -42,53 +42,8 @@
 
         <div [@top1] class="card-content"
           *ngIf="indexPage === 0 && userInfo.agree_search !== 0 && userInfo.agree_search !== null">
-          <div class="status-container">
-            <div class="status-box m-2">
-              <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
-              <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
-              <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>
-              <div class="status-value" *ngIf="userInfo.room === 1">К</div>
-              <div class="status-value" *ngIf="userInfo.woman === 1">W</div>
-              <div class="status-value" *ngIf="userInfo.man === 1">M</div>
-              <div class="status-value" *ngIf="userInfo.students === 1">S</div>
-              <div class="status-value" *ngIf="userInfo.family === 1">F</div>
-            </div>
-            <div class="status-hover">
-              <div class="status-hover-label">Допомога</div>
-              <div class="status-hover-text">
-                <ul
-                  *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
-                  Пошук оселі для:
-                  <li *ngIf="userInfo.woman === 1" class="status-hover-li">
-                    <div class="status-value">W</div> - жінки
-                  </li>
-                  <li *ngIf="userInfo.man === 1" class="status-hover-li">
-                    <div class="status-value">M</div> - чоловіка
-                  </li>
-                  <li *ngIf="userInfo.students === 1" class="status-hover-li">
-                    <div class="status-value">S</div> - студента
-                  </li>
-                  <li *ngIf="userInfo.family === 1" class="status-hover-li">
-                    <div class="status-value">F</div> - сім'ї
-                  </li>
-                </ul>
 
-                <ul *ngIf="userInfo.house === 1 || userInfo.flat === 1 || userInfo.room === 1">
-                  Пошук по типу оселі:
-                  <li *ngIf="userInfo.house === 1" class="status-hover-li">
-                    <div class="status-value">Б</div> - Будинок
-                  </li>
-                  <li *ngIf="userInfo.flat === 1" class="status-hover-li">
-                    <div class="status-value">Кв</div> - Квартира
-                  </li>
-                  <li *ngIf="userInfo.room === 1" class="status-hover-li">
-                    <div class="status-value">К</div> - Підійде кімната
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
+          <app-status-data></app-status-data>
 
           <div class="container-img">
             <button class="btn geer" [routerLink]="'/looking'">
@@ -380,53 +335,8 @@
 
         <div [@top1] class="card-content" *ngIf="indexPage === 1">
 
-          <div class="status-container m-2">
-            <div class="status-box">
-              <div class="status-value" *ngIf="userInfo.agree_search === 1">Активне</div>
-              <div class="status-value" *ngIf="userInfo.house === 1">Б</div>
-              <div class="status-value" *ngIf="userInfo.flat === 1">Кв</div>
-              <div class="status-value" *ngIf="userInfo.room === 1">К</div>
-              <div class="status-value" *ngIf="userInfo.woman === 1">W</div>
-              <div class="status-value" *ngIf="userInfo.man === 1">M</div>
-              <div class="status-value" *ngIf="userInfo.students === 1">S</div>
-              <div class="status-value" *ngIf="userInfo.family === 1">F</div>
-            </div>
-            <div class="status-hover">
-              <div class="status-hover-label">Допомога</div>
-              <div class="status-hover-text">
-                <ul
-                  *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
-                  Пошук оселі для:
-                  <li *ngIf="userInfo.woman === 1" class="status-hover-li">
-                    <div class="status-value">W</div> - жінки
-                  </li>
-                  <li *ngIf="userInfo.man === 1" class="status-hover-li">
-                    <div class="status-value">M</div> - чоловіка
-                  </li>
-                  <li *ngIf="userInfo.students === 1" class="status-hover-li">
-                    <div class="status-value">S</div> - студента
-                  </li>
-                  <li *ngIf="userInfo.family === 1" class="status-hover-li">
-                    <div class="status-value">F</div> - сім'ї
-                  </li>
-                </ul>
+          <app-status-data></app-status-data>
 
-                <ul *ngIf="userInfo.house === 1 || userInfo.flat === 1 || userInfo.room === 1">
-                  Пошук по типу оселі:
-                  <li *ngIf="userInfo.house === 1" class="status-hover-li">
-                    <div class="status-value">Б</div> - Будинок
-                  </li>
-                  <li *ngIf="userInfo.flat === 1" class="status-hover-li">
-                    <div class="status-value">Кв</div> - Квартира
-                  </li>
-                  <li *ngIf="userInfo.room === 1" class="status-hover-li">
-                    <div class="status-value">К</div> - Підійде кімната
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
 
           <div class="copyMessage-box" *ngIf="isCopiedMessage">
             <div class="copyMessage-text">{{isCopiedMessage}}</div>

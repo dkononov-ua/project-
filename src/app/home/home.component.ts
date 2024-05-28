@@ -18,6 +18,8 @@ import { CheckBackendService } from '../services/check-backend.service';
     animations.left5,
     animations.right1,
     animations.swichCard,
+    animations.bot,
+    animations.top1,
   ],
 })
 export class HomeComponent implements OnInit {
@@ -53,6 +55,7 @@ export class HomeComponent implements OnInit {
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
+      // console.log(this.isMobile)
       // isMobile: boolean = false;
     });
   }
