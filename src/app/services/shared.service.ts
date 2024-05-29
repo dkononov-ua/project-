@@ -210,6 +210,18 @@ export class SharedService {
     }, 3000);
   }
 
+  logoutUser() {
+    this.statusMessageService.setStatusMessage('Виходимо з аккаунту');
+    this.clearCache();
+    setTimeout(() => {
+      this.statusMessageService.setStatusMessage('Очищуємо дані');
+      setTimeout(() => {
+        this.router.navigate(['/auth/login']);
+        this.statusMessageService.setStatusMessage('');
+      }, 1500);
+    }, 2500);
+  }
+
   logout() {
     this.statusMessageService.setStatusMessage('Потрібно авторизуватись');
     this.clearCache();

@@ -93,7 +93,10 @@
         <img class="home-img" src="../../../assets/gif/discussio.gif" alt="">
       </div>
     </div>
-    <p class="t-lar" *ngIf="!containers['container1']">Цікаво? Клікай та подивись що ми пропонуємо!</p>
+
+    <p class="t-lar bold accent p-2" *ngIf="!containers['container1'] && !text">Цікаво?</p>
+    <p class="t-lar p-2" *ngIf="!containers['container1'] && text">Подивись що ми пропонуємо!</p>
+
     <button *ngIf="!containers['container1']" class="btn-next t-c m-2" (click)="scrollToAnchor('container1')">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Наші функції</p>

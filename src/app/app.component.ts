@@ -9,10 +9,26 @@ import { SharedService } from './services/shared.service';
 import { Subscription } from 'rxjs';
 import { CheckBackendService } from './services/check-backend.service';
 import { StatusMessageService } from './services/status-message.service';
+import { animations } from '../app/interface/animation';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  animations: [
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.top1,
+    animations.bot,
+    animations.right2,
+    animations.swichCard,
+    animations.fadeIn,
+  ],
 })
 
 export class AppComponent implements OnInit {
@@ -67,6 +83,30 @@ export class AppComponent implements OnInit {
   }
   private routerSubscription: Subscription | undefined;
 
+  images = [
+    // '../assets/bg-img/bg1.svg',
+    // '../assets/bg-img/bg2.svg',
+    '../assets/bg-img/1.svg',
+    '../assets/bg-img/2.svg',
+    '../assets/bg-img/3.svg',
+    '../assets/bg-img/4.svg',
+    // Додайте сюди інші шляхи до зображень
+  ];
+  currentImageIndex = 0;
+  nextBG = true;
+
+  changeBG() {
+    setInterval(() => {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+      this.nextBG = !this.nextBG;
+    }, 2000);
+  }
+
+  get currentImage() {
+    return this.images[this.currentImageIndex];
+  }
+  isMobile: boolean = false;
+
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
@@ -78,9 +118,17 @@ export class AppComponent implements OnInit {
     private sharedService: SharedService,
     private checkBackendService: CheckBackendService,
     private statusMessageService: StatusMessageService,
-  ) {  }
+  ) {
+
+  }
 
   async ngOnInit(): Promise<void> {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+      if (!this.isMobile) {
+        this.changeBG();
+      }
+    });
     this.checkBackendService.startCheckServer();
     this.sharedService.statusServer$.subscribe((status: string) => {
       this.statusServer = status;

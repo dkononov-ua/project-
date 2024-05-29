@@ -11,7 +11,7 @@
       <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" [routerLink]="'/house/house-info'">
           <i class="fa-solid fa-arrow-left"></i>
-          <div class="t-min white">Назад</div>
+          <div class="t-min">Назад</div>
         </button>
       </div>
 
@@ -67,12 +67,13 @@
                 <p class="t-min mb-2">Тут будуть всі створені чати з орендарями.</p>
               </div>
 
-              <div class="btn-group mt-2">
-                <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Чат' }">
-                  <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-                  <i class="fa-regular fa-lightbulb"></i>
-                </button>
-              </div>
+              <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Чат' }">
+                Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+              </button>
+
+              <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
+                <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
+              </a>
 
             </div>
             <!-- <div class="card-background">
@@ -103,7 +104,8 @@
                   <img class="card-mini-img" [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
+                <ng-container
+                  *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
@@ -121,7 +123,8 @@
                   <img class="card-mini-img" [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
+                <ng-container
+                  *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
@@ -177,7 +180,8 @@
                   <img class="card-mini-img" [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
+                <ng-container
+                  *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>
@@ -195,7 +199,8 @@
                   <img class="card-mini-img" [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img">
                 </ng-container>
 
-                <ng-container *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
+                <ng-container
+                  *ngIf="chat.infUser.img[0].img && chat.infUser.img[0].img !== 'user_default.svg' && !isLoadingImg">
                   <mat-spinner color="warn"></mat-spinner>
                   <img [src]="serverPath + pathPhotoUser + chat.infUser.img[0].img" (load)="isLoadingImg = true" hidden>
                 </ng-container>

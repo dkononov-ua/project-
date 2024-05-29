@@ -25,10 +25,16 @@ import { AuthGoogleService } from 'src/app/auth/auth-google.service';
     animations.left5,
     animations.right1,
     animations.swichCard,
-
   ],
 })
 export class AboutProjectComponent implements OnInit {
+
+  text: boolean = false;
+  changeText() {
+    setInterval(() => {
+      this.text = !this.text;
+    }, 5000);
+  }
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -65,7 +71,6 @@ export class AboutProjectComponent implements OnInit {
     }, 30);
   }
 
-
   constructor(
     private el: ElementRef,
     private viewportScroller: ViewportScroller,
@@ -74,6 +79,7 @@ export class AboutProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.changeText();
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;

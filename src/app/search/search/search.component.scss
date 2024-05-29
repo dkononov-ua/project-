@@ -22,7 +22,7 @@
 }
 .card-content-static {
   @include s3-s6-max {
-    background-color: $color-primary !important;
+    background-color: transparent !important;
   }
 }
 

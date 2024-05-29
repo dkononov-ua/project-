@@ -87,29 +87,27 @@
                   переглядайте аналітику вашого аккаунту.</p>
 
                 <p class="t-min bold mt-2">Натисніть для виходу з аккаунту.</p>
-                <div class="flex-group mt-2">
-                  <button class="link-t" (click)="logout()">
-                    <span class="m-2">ВИЙТИ З АККАУНТУ</span><i class="icon-up fa-solid fa-door-open p-2"></i>
+                <div class="btn-group jc-c">
+                  <button class="b-primary" (click)="logout()">
+                    <i class="icon-up fa-solid fa-door-open pr-2"></i>
+                    <div class="t-med bold">ВИЙТИ З АККАУНТУ</div>
                   </button>
                 </div>
 
                 <p class="t-min bold mt-2">Якщо ви хочете щоб на вас підписувались оселі активуйте свій профіль
                   орендаря.
                 </p>
-
-                <div class="flex-group">
-                  <button class="link-t bg-accent" [routerLink]="'/looking'">
-                    <span class="m-2">ПРОФІЛЬ ОРЕНДАРЯ</span><i class="fa-solid fa-person-hiking p-2"></i>
+                <div class="btn-group jc-c">
+                  <button class="b-primary" [routerLink]="'/looking'">
+                    <i class="fa-solid fa-person-hiking pr-2"></i>
+                    <div class="t-med bold">Профіль орендаря</div>
                   </button>
                 </div>
 
-                <p class="t-min bold mt-2">Підкажіть нам як вам буде зручніше. </p>
-                <div class="flex-group">
-                  <button class="link-t" [routerLink]="'/feedback'"
-                    [queryParams]="{ category: 'Налаштування користувача' }">
-                    <span class="m-2">Як зробити краще?</span><i class="fa-regular fa-lightbulb p-2"></i>
-                  </button>
-                </div>
+                <button class="btn-feedback mt-2" [routerLink]="'/feedback'"
+                  [queryParams]="{ category: 'Налаштування користувача' }">
+                  Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+                </button>
 
               </div>
             </div>
@@ -249,9 +247,8 @@
             </div>
           </div>
 
-          <div [@swichCard] *ngIf="indexPage === 2" class="card-animation p-2">
+          <div [@swichCard] *ngIf="indexPage === 2" class="card-animation h-100 p-2">
             <div class="card-content">
-
               <div class="flex-column t-c">
 
                 <mat-label class="t-lar bold accent t-c p-2">Доступи аккаунта</mat-label>
@@ -326,13 +323,11 @@
 
                 </div>
               </div>
-
               <div class="flex-group hide-pc">
                 <button class="link-t" (click)="logout()">
                   <span class="m-2">ВИЙТИ З АККАУНТУ</span><i class="icon-up fa-solid fa-door-open p-2"></i>
                 </button>
               </div>
-
               <div class="btn-group">
                 <button class="btn" (click)="saveParamsUser()">
                   <div class="t-min">ЗБЕРЕГТИ</div>
@@ -342,43 +337,41 @@
             </div>
           </div>
 
-          <div [@swichCard] *ngIf="indexPage === 3" class="card-animation p-2">
+          <div [@swichCard] *ngIf="indexPage === 3" class="card-animation h-100 p-2">
             <div class="card-content">
+              <p class="t-lar-x bold t-c p-2">При видаленні аккаунту видаляються:</p>
+              <ul class="t-lar">
+                <li>Дані користувача</li>
+                <li>Дані оселі</li>
+                <li>Наповнення оселі</li>
+                <li>Фото оселі</li>
+                <li>Оцінки, відгуки та рейтинг оселі</li>
+                <li>Оцінки, відгуки та рейтинг користувача</li>
+                <li>Угоди користувача</li>
+                <li>Угоди оселі</li>
+              </ul>
+
               <div class="flex-box-column">
-                <p class="t-lar-x bold t-c p-2">При видаленні аккаунту видаляються:</p>
-                <ul class="t-lar">
-                  <li>Дані користувача</li>
-                  <li>Дані оселі</li>
-                  <li>Наповнення оселі</li>
-                  <li>Фото оселі</li>
-                  <li>Оцінки, відгуки та рейтинг оселі</li>
-                  <li>Оцінки, відгуки та рейтинг користувача</li>
-                  <li>Угоди користувача</li>
-                  <li>Угоди оселі</li>
-                </ul>
-
-                <div class="flex-box-column">
-                  <label class="checkBox">
-                    <input type="checkbox" [(ngModel)]="agreeToDel">
-                    <div class="transition"></div>
-                  </label>
-                  <div class="mt-2 t-min t-c">Погоджуюсь на видалення аккаунту та розумію наслідки</div>
-                </div>
-
-                <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
-                  <mat-label>Код підтвердження пошти</mat-label>
-                  <div class="mat-input-container">
-                    <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
-                      placeholder="Введіть код підтвердження">
-                  </div>
-                </mat-form-field>
-
-                <p class="t-min t-c" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам
-                  було
-                  надіслано на пошту</p>
+                <label class="checkBox">
+                  <input type="checkbox" [(ngModel)]="agreeToDel">
+                  <div class="transition"></div>
+                </label>
+                <div class="mt-2 t-min t-c">Погоджуюсь на видалення аккаунту та розумію наслідки</div>
               </div>
-              <div class="btn-group">
 
+              <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
+                <mat-label>Код підтвердження пошти</mat-label>
+                <div class="mat-input-container">
+                  <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+                    placeholder="Введіть код підтвердження">
+                </div>
+              </mat-form-field>
+
+              <p class="t-min t-c" *ngIf="sentCode">Для підтвердження видалення аккаунту введіть пароль який вам
+                було
+                надіслано на пошту</p>
+
+              <div class="btn-group">
                 <button [disabled]="!agreeToDel" class="btn" (click)="sendCodeForDelAcc()" *ngIf="!sentCode">
                   <div class="t-min">Видалити</div>
                   <i class="fa-solid fa-user-xmark pl-2"></i>
@@ -388,13 +381,12 @@
                   <div class="t-min">Підтвердити видалення</div>
                   <i class="fa-solid fa-user-xmark pl-2"></i>
                 </button>
-
               </div>
-
             </div>
           </div>
 
         </div>
+
       </div>
     </div>
 

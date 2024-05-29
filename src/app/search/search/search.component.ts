@@ -12,6 +12,7 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./search.component.scss'],
   animations: [
     animations.top2,
+    animations.bot3,
     animations.left,
     animations.left1,
     animations.left2,

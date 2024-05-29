@@ -1,6 +1,35 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 
+/* CSS для анімації набору тексту */
+.t-lar {
+  overflow: hidden; /* Приховуємо текст, який не вміщується в область відображення */
+  white-space: nowrap; /* Вимикаємо перенесення тексту */
+  animation: typing 3.5s steps(80, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.btn-next {
+  animation: pulse 0.5s infinite alternate; /* Збільшувати та зменшувати розмір кнопки безкінечно */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  } /* Початковий розмір */
+  100% {
+    transform: scale(1.1);
+  } /* Збільшений розмір */
+}
+
 .title {
   padding-top: 20px;
   @include s1-s3 {
@@ -192,8 +221,6 @@ a {
   border-radius: 20px;
   @include box-shadow;
 }
-
-
 
 .vh-80 {
   height: 80vh;

@@ -25,7 +25,7 @@
   flex-wrap: wrap;
   align-items: stretch;
   flex-direction: column;
-  
+
 }
 
 .card-group {
@@ -37,7 +37,7 @@
   flex-direction: column !important;
   border-radius: 0px !important;
   @include s3-s6-max {
-    background-color: $color-primary !important;
+    background-color: transparent !important;
   }
 }
 

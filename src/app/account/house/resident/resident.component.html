@@ -35,12 +35,13 @@
       </button>
     </div>
 
-    <div class="switch-btn-group">
-      <button [disabled]="!iPickUser" class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'">
+    <!-- <div class="switch-btn-group">
+      <button [disabled]="!iPickUser" class="btn" [routerLinkActive]="'active'"
+        [routerLink]="'/house/residents/resident'">
         <i class="fa-solid fa-person"></i>
         <div class="t-min dark bold">Мешканець</div>
       </button>
-    </div>
+    </div> -->
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'">
@@ -74,17 +75,15 @@
               <li>Додавання мешканців по ID.</li>
             </ul>
 
-            <div class="btn-group mt-2">
-              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
-                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-                <i class="fa-regular fa-lightbulb"></i>
-              </button>
-            </div>
+            <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
+              Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+            </button>
 
+            <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
+              <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
+            </a>
           </div>
-          <!-- <div class="card-background">
-            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
-          </div> -->
+
         </div>
       </div>
     </div>

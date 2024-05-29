@@ -83,18 +83,15 @@
                 Доступні функції оселі. Сповіщення про повідомлення, дискусії та угоди.</p>
             </div>
 
-            <div class="btn-group mt-2">
-              <button class="btn btn-navigation" [routerLink]="'/feedback'"
-                [queryParams]="{ category: 'Профіль оселі' }">
-                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-                <i class="fa-regular fa-lightbulb"></i>
-              </button>
-            </div>
+            <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль оселі' }">
+              Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+            </button>
+
+            <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
+              <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
+            </a>
 
           </div>
-          <!-- <div class="card-background">
-            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
-          </div> -->
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 <div class="content-child">
   <div [@top1] class="card-wrapper col-12">
     <div class="card-content-static">
-      <div class="card-group w-100">
+      <div class="card-group w-100 jc-c t-c">
 
         <div class="flex-box-center t-c p-2 mt-2 w-100">
           <i class="fa-solid fa-people-roof"></i>
@@ -22,11 +22,14 @@
           <li>Додавання мешканців по ID.</li>
         </ul>
 
-        <div class="btn-group mt-2">
-          <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
-            <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-            <i class="fa-regular fa-lightbulb"></i>
-          </button>
+        <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
+          Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+        </button>
+
+        <div class="btn-group jc-c">
+          <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
+            <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
+          </a>
         </div>
 
       </div>

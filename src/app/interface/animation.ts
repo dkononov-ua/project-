@@ -2,6 +2,17 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
 
 export const animations = {
 
+  fadeIn: trigger('fadeIn', [
+    transition('void => *', [
+      style({ opacity: 0 }),
+      animate('1000ms 0ms ease-in-out', style({ opacity: 1 }))
+    ]),
+    transition('* => void', [
+      style({ opacity: 1 }),
+      animate('1000ms 0ms ease-in-out', style({ opacity: 0 }))
+    ])
+  ]),
+
   left: trigger('left', [
     transition('void => *', [
       style({ transform: 'translateX(230%)' }),

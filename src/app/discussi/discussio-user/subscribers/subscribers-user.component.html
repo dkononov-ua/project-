@@ -157,19 +157,15 @@
             </div>
 
             <div class="btn-group">
-              <button class="btn btn-navigation" [routerLink]="'/subscribers-discuss'">
-                <div class="t-med bold mr-2">Меню Дискусій</div>
-                <i class="fa-solid fa-child-reaching"></i>
+              <button class="b-primary" [routerLink]="'/subscribers-discuss'">
+                <i class="fa-solid fa-arrow-right pr-2"></i>
+                <div class="t-med bold">Меню Дискусій</div>
               </button>
             </div>
 
-            <div class="btn-group">
-              <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Підписники' }">
-                <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-                <i class="fa-regular fa-lightbulb"></i>
-              </button>
-            </div>
-
+            <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Підписники' }">
+              Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+            </button>
 
           </div>
         </div>

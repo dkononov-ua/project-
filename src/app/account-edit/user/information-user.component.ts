@@ -466,14 +466,7 @@ export class InformationUserComponent implements OnInit {
   }
 
   logout() {
-    this.sharedService.clearCache();
-    this.sharedService.setStatusMessage('Виходимо з аккаунту');
-    setTimeout(() => {
-      this.sharedService.setStatusMessage('');
-      setTimeout(() => {
-        this.router.navigate(['/auth/login']);
-      }, 1500);
-    }, 1500);
+    this.sharedService.logoutUser();
   }
 
   openCropperDialog(event: Event) {

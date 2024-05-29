@@ -27,7 +27,15 @@
 }
 
 .w-70 {
-  width: 70%;
+  width: 70% !important;
+}
+
+.w-80 {
+  width: 80% !important;
+}
+
+.w-90 {
+  width: 90% !important;
 }
 
 .pl-1 {
@@ -75,11 +83,11 @@
 }
 
 .alc-sa {
-  align-content: space-around
+  align-content: space-around !important;
 }
 
 .d-flex {
-  display: flex;
+  display: flex; 
 }
 
 .jc-sa {

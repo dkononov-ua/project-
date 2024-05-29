@@ -3,8 +3,9 @@
     <div class="switch-container">
 
       <div class="menu-box t-c" *ngIf="!isMobile" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-        <img class="logo" src="../../assets/logo/logo.svg" alt="">
-        <div class="menu-lable">Discussio</div>
+        <!-- <img class="logo" src="../../assets/logo/logo.svg" alt=""> -->
+        <div class="t-med">Про проєкт</div>
+        <div class="t-lar-x">Discussio</div>
         <!-- <div class="t-min">Об'єднуємо орендарів та орендодаців</div> -->
       </div>
 
@@ -45,7 +46,7 @@
 
     </div>
 
-    <div class="switch-container jc-fe">
+    <div class="switch-container jc-fe" *ngIf="authorization">
 
       <div class="switch-btn-group" *ngIf="authorization">
         <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
@@ -61,11 +62,6 @@
         </a>
       </div>
     </div>
-
-
-
-
-
   </div>
 
   <div [@top1] class="main-container w-100">

@@ -6,9 +6,11 @@
   @include flex-box-center;
   background-color: $color-accent;
   border-radius: 20px;
+  margin: 0;
   @include box-shadow;
   color: $color-white;
   width: 250px;
+  height: 60px;
   .fa-regular,
   .fa-solid,
   .fa-brands {
@@ -481,6 +483,7 @@
     .card-group {
       padding: 10px;
       z-index: 10;
+      justify-content: center;
       background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 60%);
     }
     .card-background {
@@ -653,8 +656,21 @@
 }
 
 // кнопка навігації
-.btn-navigation {
-  background-color: $color-light !important;
+.btn-feedback {
+  color: $color-text;
+  background-color: transparent !important;
+  padding: 5px;
+  font-size: $t-med;
+  .fa-regular {
+    color: $color-text;
+    font-size: $t-med;
+  }
+  &:hover {
+    color: $color-accent;
+    .fa-regular {
+      color: $color-accent;
+    }
+  }
 }
 
 // кнопка закриття
