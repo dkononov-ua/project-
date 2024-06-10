@@ -2,14 +2,12 @@
   <div [@bot] class="navbar-home">
     <div class="switch-container">
 
-      <div class="menu-box t-c" *ngIf="!isMobile" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-        <!-- <img class="logo" src="../../assets/logo/logo.svg" alt=""> -->
+      <!-- <div class="menu-box t-c" *ngIf="!isMobile" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
         <div class="t-med">Про проєкт</div>
         <div class="t-lar-x">Discussio</div>
-        <!-- <div class="t-min">Об'єднуємо орендарів та орендодаців</div> -->
-      </div>
+      </div> -->
 
-      <div class="switch-btn-group hide-mobile" *ngIf="isMobile">
+      <div class="switch-btn-group hide-mobile">
         <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
           <i class="fa-solid fa-barcode"></i>
           <div class="t-min">Про Проект</div>
@@ -76,8 +74,3 @@
 
 </div>
 
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
-</div>

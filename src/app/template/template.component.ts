@@ -40,6 +40,13 @@ export class TemplateComponent implements OnInit {
 
   ngOnInit() {
 
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      const userObject = JSON.parse(userData);
+    }
+
+
+
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
       if (this.serverPath) {

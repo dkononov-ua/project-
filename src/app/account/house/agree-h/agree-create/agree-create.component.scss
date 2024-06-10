@@ -123,6 +123,17 @@
 
 .input-mat {
   height: 65px !important;
+  color: $color-text !important;
+}
+
+mat-label,
+input,
+mat-icon,
+mat-select,
+span,
+mat-date-range-input,
+input {
+  color: $color-dark !important;
 }
 
 .characteristics-group {
@@ -177,6 +188,7 @@
   font-family: $font-main;
   font-size: $font-size;
   font-weight: bold;
+  color: $color-text;
 }
 
 .content {
@@ -189,6 +201,7 @@
 
 .info-text {
   font-size: 12px;
+  color: $color-text;
 }
 
 .form-floating {

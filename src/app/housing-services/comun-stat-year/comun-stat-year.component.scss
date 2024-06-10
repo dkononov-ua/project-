@@ -11,9 +11,9 @@
   }
   .sticky-top {
     @include flex-box-center;
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 0), $color-primary 20%);
+    background-image: linear-gradient(to top, transparent, $color-primary 20%);
     @include s1-s3 {
-      background-image: linear-gradient(to top, rgba(255, 255, 255, 0), white 20%);
+      background-image: linear-gradient(to top, transparent, $color-white 20%);
       flex-direction: column;
     }
     .app {
@@ -28,9 +28,9 @@
   }
   .sticky-bottom {
     @include flex-box-column;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $color-primary 10%);
+    background-image: linear-gradient(to bottom, transparent, $color-primary 10%);
     @include s1-s3 {
-      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), white 10%);
+      background-image: linear-gradient(to bottom, transparent, $color-white 10%);
     }
   }
 }

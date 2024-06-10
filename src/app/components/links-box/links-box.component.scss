@@ -1,0 +1,158 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.group-btn {
+  @include flex-box-center;
+  padding: 10px;
+  .group {
+    @include flex-box-center;
+    border-radius: 20px;
+    .flex-box {
+      .fa-solid {
+        font-size: 14px;
+      }
+    }
+    .flex-column {
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
+}
+
+.btn {
+  background-color: rgba(205, 205, 205, 0.76);
+  margin: 0 10px 0 10px;
+  @include box-shadow;
+  &:hover {
+    @include hover;
+  }
+  &.active {
+    @include hover;
+  }
+}
+
+.mini {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.group {
+  flex-direction: row;
+}
+
+a {
+  padding: 0;
+  margin: 0;
+}
+
+.raiting-number {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.raiting-box {
+  @include flex-box-column;
+  width: fit-content;
+  align-items: flex-start;
+  background-color: $color-dark;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 5px;
+  color: $color-white;
+  @include box-shadow;
+  .raiting-item {
+    color: $color-white;
+    @include flex-box-center;
+    .raiting-number {
+      color: $color-white;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .fa-regular,
+    .fa-solid {
+      color: $color-white;
+    }
+  }
+  .raiting-name {
+    @include flex-box-center;
+    color: $color-white;
+    justify-content: flex-start;
+    width: 100%;
+    font-weight: 600;
+    .fa-regular,
+    .fa-solid {
+      color: $color-white;
+    }
+  }
+}
+
+.links-box {
+  @include flex-box-center;
+  position: absolute;
+  z-index: 100;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  padding: 10px;
+  .link-item {
+    @include flex-box-center;
+    @include box-shadow;
+    justify-content: flex-start;
+    width: fit-content;
+    padding: 5px 10px;
+    background-color: $color-dark;
+    border-radius: 20px;
+    margin-bottom: 5px;
+    transition: 1s;
+    .fa-regular,
+    .fa-solid,
+    .fa-brands {
+      color: $color-white;
+      font-size: 20px;
+    }
+    &:disabled {
+      .fa-regular,
+      .fa-solid,
+      .fa-brands {
+        color: $color-gray !important;
+      }
+      .link-item-name {
+        font-weight: 300;
+      }
+      &:hover {
+        background-color: $color-white;
+        cursor: not-allowed;
+        transform: none;
+        filter: none;
+        color: $color-gray;
+        .fa-regular,
+        .fa-solid,
+        .fa-brands {
+          transform: none;
+          padding-right: 0px;
+        }
+      }
+    }
+    .link-item-name {
+      color: $color-white;
+      padding-left: 5px;
+      font-weight: 600;
+    }
+    &:hover {
+      // @include hover;
+      background-color: $color-accent;
+      transition: 0.4s;
+      transform: scale(1.05);
+      filter: drop-shadow(0px 0px 10px $color-accent);
+      color: $color-white;
+      .fa-regular,
+      .fa-solid,
+      .fa-brands {
+        transform: scale(1.4);
+        padding-right: 10px;
+      }
+    }
+  }
+}

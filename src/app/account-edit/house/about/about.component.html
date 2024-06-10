@@ -33,14 +33,18 @@
       <div class="info-help-name">Оберіть пріоритетність здачі:</div>
       <div class="info-help-text">
         <ul>Варіанти:
-          <li><span class="bold">W</span> - Пріорітетно на поселення в оселю шукаю жінок.</li>
-          <li><span class="bold">M</span> - Пріорітетно на поселення в оселю шукаю чоловіків.</li>
-          <li><span class="bold">S</span> - Пріорітетно на поселення в оселю шукаю студентів.</li>
-          <li><span class="bold">F</span> - Пріорітетно на поселення в оселю шукаю сім'ї.</li>
+          <div class="status-value"><i class="fa-solid fa-person-dress"></i> - Пріорітетно на поселення в оселю шукаю
+            жінок.</div>
+          <div class="status-value"><i class="fa-solid fa-person"></i> - Пріорітетно на поселення в оселю шукаю
+            чоловіків.</div>
+          <div class="status-value"><i class="fa-solid fa-graduation-cap"></i> - Пріорітетно на поселення в оселю шукаю
+            студентів.</div>
+          <div class="status-value"><i class="fa-solid fa-children"></i> - Пріорітетно на поселення в оселю шукаю сім'ї.
+          </div>
         </ul>
       </div>
-      <div class="t-min gray t-c">Це можна комбінувати між собою</div>
-      <div class="t-min gray t-c">Також можете пропонувати ваші варіанти в меню "Залишити відгук" обравши
+      <div class="t-min t-c">Це можна комбінувати між собою</div>
+      <div class="t-min t-c">Також можете пропонувати ваші варіанти в меню "Залишити відгук" обравши
         "Пріорітетні
         категорії" ті категорії які ви хотіли би бачити</div>
 
@@ -85,59 +89,71 @@
         <div class="t-med bold t-c mb-1">Тут можна вказати пріорітети, вартість та активувати оголошення</div>
         <mat-label class="t-med t-c accent bold">Оберіть пріорітет орендарів* </mat-label>
         <div class="t-min gray">Кого ви розглядаєте як своїх потенційних орендарів?</div>
-        <div class="inputbox-group">
-          <div class="inputbox-group">
-            <button class="info-btn" (click)="openHelpPriority()">Допомога</button>
+
+        <div class="inputbox-group pl-2">
+          <button class="info-btn" (click)="openHelpPriority()">Допомога</button>
+
+          <div class="inputbox-group pl-2">
+
             <div class="content-group">
               <label class="checkBox">
                 <input type="checkbox" id="students" name="students" [(ngModel)]="flatInfo.students">
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status-static">S</div>
-                <div class="ml-2">Студенти</div>
+                <div class="status-static" [ngClass]="{ 'active': flatInfo.students}"><i
+                    class="fa-solid fa-graduation-cap"></i></div>
+                <div class="ml-2">Студент <span class="gray checkBox-text" *ngIf="flatInfo.students">
+                    (В пріорітеті студенти)</span></div>
               </div>
             </div>
           </div>
 
-          <div class="inputbox-group">
+          <div class="inputbox-group pl-2">
             <div class="content-group">
               <label class="checkBox">
                 <input type="checkbox" id="woman" name="woman" [(ngModel)]="flatInfo.woman">
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status-static">W</div>
-                <div class="ml-2">Жінки</div>
+                <div class="status-static" [ngClass]="{ 'active': flatInfo.woman}"><i
+                    class="fa-solid fa-person-dress"></i></div>
+                <div class="ml-2">Жінка <span class="gray checkBox-text" *ngIf="flatInfo.woman">
+                    (В пріоритеті жінки)</span></div>
               </div>
             </div>
           </div>
 
-          <div class="inputbox-group">
+          <div class="inputbox-group pl-2">
             <div class="content-group">
               <label class="checkBox">
                 <input type="checkbox" id="man" name="man" [(ngModel)]="flatInfo.man">
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status-static">M</div>
-                <div class="ml-2">Чоловіки</div>
+                <div class="status-static" [ngClass]="{ 'active': flatInfo.man}"><i class="fa-solid fa-person"></i>
+                </div>
+                <div class="ml-2">Чоловік <span class="gray checkBox-text" *ngIf="flatInfo.man">(В пріоритеті
+                    чоловіки)</span></div>
               </div>
             </div>
           </div>
 
-          <div class="inputbox-group">
+          <div class="inputbox-group pl-2">
             <div class="content-group">
               <label class="checkBox">
                 <input type="checkbox" id="family" name="family" [(ngModel)]="flatInfo.family">
                 <div class="transition"></div>
               </label>
               <div class="content-group ml-2">
-                <div class="status-static">F</div>
-                <div class="ml-2">Сім'ї</div>
+                <div class="status-static" [ngClass]="{ 'active': flatInfo.family}"><i class="fa-solid fa-children"></i>
+                </div>
+                <div class="ml-2">Сім'я <span class="gray checkBox-text" *ngIf="flatInfo.family">(В пріоритеті
+                    сім'ї)</span></div>
               </div>
             </div>
           </div>
+
         </div>
 
         <mat-form-field class="item-select" appearance="outline">
@@ -171,7 +187,7 @@
                 <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="0">
                 <div class="transition"></div>
               </label>
-              <span class="checkBox-span">Оселя</span>
+              <span class="checkBox-span">Вся оселя <i class="fa-solid fa-dice-d6 pl-2 gray"></i></span>
               <i></i>
             </div>
             <div class="content">
@@ -179,7 +195,7 @@
                 <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
                 <div class="transition"></div>
               </label>
-              <span class="checkBox-span">Кімната</span>
+              <span class="checkBox-span">Тільки кімната <i class="fa-solid fa-cube pl-2 gray"></i></span>
               <i></i>
             </div>
           </div>

@@ -16,13 +16,7 @@
 
 .card-group {
   @include s3-s6-max {
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
-  }
-}
-
-.card-content-static {
-  @include s3-s6-max {
-    background-color: $color-primary !important;
+    background-image: linear-gradient(to top, transparent 0%, $color-primary) !important;
   }
 }
 
@@ -37,7 +31,7 @@
     padding: 10px;
     .btn-close {
       border: 1px solid $color-gray;
-      background-color: white;
+      background-color: $color-white;
       border-radius: 50%;
       width: 30px;
       height: 30px;
@@ -99,7 +93,7 @@ img {
 .card {
   width: 100%;
   display: flex;
-  background-color: white;
+  background-color: $color-white;
   color: rgba(0, 0, 0, 0.8117647059);
   border-radius: 20px;
   flex-direction: column;
@@ -285,6 +279,7 @@ mat-form-field {
 }
 
 .statNum {
+  color: $color-text;
   font-size: 30px;
   font-weight: 600;
 }

@@ -12,6 +12,7 @@ import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.co
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
+import { StatusDataService } from 'src/app/services/status-data.service';
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -160,6 +161,7 @@ export class ResidentOwnerComponent implements OnInit {
     private sharedService: SharedService,
     private dialog: MatDialog,
     private location: Location,
+    private statusDataService: StatusDataService,
   ) {
     this.setMinMaxDate(35);
     this.rating.ratingDate = this.formatDate(new Date());
@@ -202,12 +204,13 @@ export class ResidentOwnerComponent implements OnInit {
     });
   }
 
-  // Дії якщо я обрав мешканця
+  // Дії якщо я обрав власника
   async getOwner(): Promise<any> {
     this.choseSubscribersService.selectedSubscriber$.subscribe(async subscriberId => {
       const ownerInfo = localStorage.getItem('ownerInfo');
       if (ownerInfo) {
         this.ownerInfo = JSON.parse(ownerInfo);
+        this.statusDataService.setUserData(this.ownerInfo, 1);
         this.getRatingOwner(this.ownerInfo.user_id);
         this.getConcludedAgree(this.ownerInfo.user_id);
       } else {
@@ -226,7 +229,7 @@ export class ResidentOwnerComponent implements OnInit {
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {
-            this.router.navigate(['/chat']);
+            this.router.navigate(['/chat-house']);
             this.sharedService.setStatusMessage('');
           }, 2000);
         } else if (response.status === 'Чат вже існує') {
@@ -236,7 +239,7 @@ export class ResidentOwnerComponent implements OnInit {
             this.choseSubscribersService.setSelectedSubscriber(selectedPerson.user_id);
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
-              this.router.navigate(['/chat'], { queryParams: { user_id: selectedPerson.user_id } });
+              this.router.navigate(['/chat-house'], { queryParams: { user_id: selectedPerson.user_id } });
             }, 2000);
           }, 2000);
         } else {

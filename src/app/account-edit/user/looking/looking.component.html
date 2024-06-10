@@ -137,8 +137,8 @@
             </button>
           </div>
 
-          <div class="btg-group jc-c w-100 d-flex" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
-            <a class="bg-red b-primary mt-2" target="_blank"
+          <div [@right3] class="flex-group mb-2" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
+            <a class="b-primary bg-red" target="_blank"
               href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
               <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
             </a>
@@ -160,8 +160,8 @@
               меню "пошук орендаря" та доступне для перегляду та підписки.</div>
           </div>
 
-          <div [@right3] class="btg-group jc-c w-100 d-flex">
-            <a class="bg-red b-primary mt-2" target="_blank"
+          <div [@right3] class="flex-group mb-2" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
+            <a class="b-primary bg-red" target="_blank"
               href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
               <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
             </a>
@@ -212,12 +212,7 @@
             </button>
           </div>
 
-          <div class="btg-group jc-c w-100 d-flex">
-            <button class="b-primary" (click)="deactivationBtn()" *ngIf="userInfo.agree_search === 1">
-              <i class="fa-solid fa-power-off pr-2"></i>
-              <div class="t-med bold">Деактивувати</div>
-            </button>
-          </div>
+
 
         </div>
       </div>
@@ -248,8 +243,8 @@
                 </button>
               </div>
 
-              <div [@right3] class="btg-group jc-c w-100 d-flex">
-                <a class="bg-red b-primary mt-2" target="_blank"
+              <div [@right3] class="flex-group mb-2" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
+                <a class="b-primary bg-red" target="_blank"
                   href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
                   <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
                 </a>
@@ -349,7 +344,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.students}">S</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.students}"><i class="fa-solid fa-graduation-cap"></i></div>
                         <div class="ml-2">Студент <span class="gray checkBox-text" *ngIf="userInfo.students">(Я
                             студент/студентка)</span></div>
                       </div>
@@ -363,7 +358,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.woman}">W</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.woman}"><i class="fa-solid fa-person-dress"></i></div>
                         <div class="ml-2">Жінка <span class="gray checkBox-text" *ngIf="userInfo.woman">(Буде
                             проживати жінка)</span></div>
                       </div>
@@ -377,7 +372,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.man}">M</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.man}"><i class="fa-solid fa-person"></i></div>
                         <div class="ml-2">Чоловік <span class="gray checkBox-text" *ngIf="userInfo.man">(Буде
                             проживати чоловік)</span></div>
                       </div>
@@ -391,7 +386,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.family}">F</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.family}"><i class="fa-solid fa-children"></i></div>
                         <div class="ml-2">Сім'я <span class="gray checkBox-text" *ngIf="userInfo.family">(Буде
                             проживати сім'я)</span></div>
                       </div>
@@ -470,7 +465,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.house}">Б</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.house}"><i class="fa-solid fa-house-chimney-window"></i></div>
                         <div class="ml-2">Будинок
                           <span class="gray checkBox-text" *ngIf="userInfo.house">(Шукаю будинок)</span>
                         </div>
@@ -483,7 +478,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.flat}">Кв</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.flat}"><i class="fa-solid fa-building-circle-arrow-right"></i></div>
                         <div class="ml-2">Квартира
                           <span class="gray checkBox-text" *ngIf="userInfo.flat">(Шукаю квартиру)</span>
                         </div>
@@ -496,7 +491,7 @@
                         <div class="transition"></div>
                       </label>
                       <div class="content-group ml-2">
-                        <div class="status-static" [ngClass]="{ 'active': userInfo.room}">К</div>
+                        <div class="status-static" [ngClass]="{ 'active': userInfo.room}"><i class="fa-solid fa-cube"></i></div>
                         <div class="ml-2">Кімната
                           <span class="gray checkBox-text" *ngIf="userInfo.room">(Потрібна тільки кімната)</span>
                         </div>

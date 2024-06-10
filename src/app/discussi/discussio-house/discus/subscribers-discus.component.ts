@@ -213,6 +213,7 @@ export class SubscribersDiscusComponent implements OnInit {
         if (selectedUser) {
           this.selectedUser = selectedUser;
           this.statusDataService.setStatusData(this.selectedUser);
+          this.statusDataService.setUserData(this.selectedUser, 2);
           this.checkChatExistence();
           this.getRating(this.selectedUser)
         } else {

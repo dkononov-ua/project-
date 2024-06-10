@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { IsAccountOpenService } from './services/is-account-open.service';
@@ -96,16 +96,23 @@ export class AppComponent implements OnInit {
   nextBG = true;
 
   changeBG() {
-    setInterval(() => {
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
-      this.nextBG = !this.nextBG;
-    }, 2000);
+    // setInterval(() => {
+    //   this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+    //   this.nextBG = !this.nextBG;
+    // }, 2000);
   }
 
   get currentImage() {
     return this.images[this.currentImageIndex];
   }
   isMobile: boolean = false;
+
+  currentTheme: string = 'light';
+  toggleTheme() {
+    this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.renderer.setAttribute(document.body, 'data-theme', this.currentTheme);
+    localStorage.setItem('theme', this.currentTheme);
+  }
 
   constructor(
     private http: HttpClient,
@@ -118,11 +125,13 @@ export class AppComponent implements OnInit {
     private sharedService: SharedService,
     private checkBackendService: CheckBackendService,
     private statusMessageService: StatusMessageService,
-  ) {
-
-  }
+    private renderer: Renderer2,
+  ) {  }
 
   async ngOnInit(): Promise<void> {
+    this.currentTheme = localStorage.getItem('theme') || 'light';
+    this.renderer.setAttribute(document.body, 'data-theme', this.currentTheme);
+
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
       if (!this.isMobile) {

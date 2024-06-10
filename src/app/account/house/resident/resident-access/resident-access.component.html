@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <div class="btn-group p-1 w-100">
+  <div class="btn-group p-1 w-100" *ngIf="acces_admin === 1 && acces_added === 1">
     <button class="btn w-100" (click)="addAccess(selectedSubscriber)">
       <i class="fa-solid fa-check-double"></i>Підтвердити
     </button>

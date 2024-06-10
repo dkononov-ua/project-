@@ -1,6 +1,7 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss";
+@use "../../status-data/status-data.component.scss";
 
 .content-child {
   // height: calc(100vh - 100px - 1rem);
@@ -53,7 +54,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 105;
-      background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 20%, rgba(215, 215, 215, 0.744) 70%) !important;
+      background-image: linear-gradient(to left, transparent 20%, $color-white 70%) !important;
       width: 100%;
       height: 100%;
       .btn-pick {
@@ -64,7 +65,7 @@
         .t-med,
         .t-lar-x,
         .t-lar-xx {
-          color: $color-text !important;
+          color: $color-dark !important;
         }
       }
     }
@@ -79,17 +80,21 @@
         object-fit: scale-down;
       }
     }
+    &:hover {
+      transition: 1s;
+      transform: scale(0.95);
+    }
   }
   .card-mini.selected {
     transition: 1s;
     font-weight: 600;
     .card-mini-body {
-      background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 50%, $color-accent 100%) !important;
+      background-image: linear-gradient(to left, transparent 50%, $color-white 100%) !important;
       .btn-pick {
         .t-med,
         .t-lar-x,
         .t-lar-xx {
-          color: $color-white !important;
+          color: $color-dark !important;
         }
       }
     }
@@ -105,17 +110,31 @@
 }
 .btn-delete {
   margin-left: 5px;
-  background-color: transparent;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   padding: 5px;
   z-index: 20;
   border: none;
-  background-color: rgba(255, 255, 255, 0.37);
-
+  background-color: $color-white;
+  &:hover {
+    transition: 1s;
+    transform: scale(1.05);
+    background-color: $color-accent;
+  }
   .fa-solid {
     color: $color-text;
     font-size: 20px;
+  }
+}
+
+.active-icon {
+  // @include active-icon;
+  background-color: $color-white-always;
+  .fa-solid,
+  .fa-regular {
+    transition: 1s;
+    color: $color-accent;
+    filter: drop-shadow(0px 0px 10px $color-accent);
   }
 }

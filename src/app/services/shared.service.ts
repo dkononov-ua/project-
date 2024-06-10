@@ -263,7 +263,7 @@ export class SharedService {
   }
 
   //Запитую рейтинг власника
-  async getRatingOwner(userID: string): Promise<{ ratingOwner: number; numberOfReviewsOwner: number; }> {
+  async getRatingOwner(userID: string): Promise<{ ratingOwner: number; numberOfReviewsOwner: number; reviews: any; }> {
     const userJson = localStorage.getItem('user');
     const data = {
       auth: JSON.parse(userJson!),
@@ -272,6 +272,8 @@ export class SharedService {
     if (userJson && data) {
       try {
         const response = await this.http.post(this.serverPath + '/rating/get/ownerMarks', data).toPromise() as any;
+        // console.log(response);
+        const reviews = response.status;
         if (response && Array.isArray(response.status)) {
           let ratingOwner = 0;
           let numberOfReviewsOwner = response.status.length;
@@ -286,18 +288,18 @@ export class SharedService {
           } else {
             ratingOwner = 0;
           }
-          return { ratingOwner, numberOfReviewsOwner };
+          return { ratingOwner, numberOfReviewsOwner, reviews };
         } else {
           // Якщо немає оцінок
-          return { ratingOwner: 0, numberOfReviewsOwner: 0 };
+          return { ratingOwner: 0, numberOfReviewsOwner: 0, reviews: undefined };
         }
       } catch (error) {
         console.error(error);
-        return { ratingOwner: 0, numberOfReviewsOwner: 0 };
+        return { ratingOwner: 0, numberOfReviewsOwner: 0, reviews: undefined };
       }
     }
     // Якщо немає даних користувача
-    return { ratingOwner: 0, numberOfReviewsOwner: 0 };
+    return { ratingOwner: 0, numberOfReviewsOwner: 0, reviews: undefined };
   }
 
   //Запитую рейтинг орендаря
@@ -338,5 +340,26 @@ export class SharedService {
   }
 
 
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          this.statusMessageService.setStatusMessage(message + ' Скопійовано');
+          setTimeout(() => {
+            this.statusMessageService.setStatusMessage('');
+          }, 2000);
+        })
+        .catch((error) => {
+          this.statusMessageService.setStatusMessage('');
+        });
+    }
+  }
+
+  // Відкриваю локацію на мапі
+  openMap(locationLink: string) {
+    this.setStatusMessage('Відкриваємо локаці на мапі');
+    setTimeout(() => { this.setStatusMessage(''); window.open(locationLink, '_blank'); }, 2000);
+  }
 
 }

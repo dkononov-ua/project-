@@ -165,7 +165,7 @@
       top: 0;
       height: 100%;
       width: 100%;
-      background-image: linear-gradient(to right, transparent 20%, rgb(255, 255, 255) 80%);
+      background-image: linear-gradient(to right, transparent 20%, $color-white 80%);
       z-index: 2;
     }
     .card-mini-img-container {
@@ -197,7 +197,7 @@
   position: sticky;
   top: 0;
   @include flex-box;
-  background-image: linear-gradient(to bottom, white 0%, rgba(255, 255, 255, 0.824) 100%);
+  background-image: linear-gradient(to bottom, $color-white, rgba(255, 255, 255, 0.824) 100%);
 
   width: 100%;
   justify-content: space-around;

@@ -98,11 +98,11 @@ a {
   @include flex-box-center;
   background-color: $color-accent;
   @include box-shadow;
-  color: $color-white;
+  color: $color-white-always;
   width: 250px;
   .fa-regular,
   .fa-solid {
-    color: $color-white;
+    color: $color-white-always;
     transition: 1s;
   }
   transition: 1s;

@@ -4,7 +4,7 @@
 
 
 .card-group {
-  background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 30%) !important;
+  background-image: linear-gradient(to top, transparent 0%, $color-white 30%) !important;
 }
 
 .content-child {

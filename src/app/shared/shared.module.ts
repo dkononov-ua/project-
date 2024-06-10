@@ -44,6 +44,9 @@ import { SharedService } from '../services/shared.service';
 import { StatusDataComponent } from '../components/status-data/status-data.component';
 import { StatusDataService } from '../services/status-data.service';
 import { StatusDataHouseComponent } from '../components/status-data-house/status-data-house.component';
+import { LinksBoxComponent } from '../components/links-box/links-box.component';
+import { StatusAccessComponent } from '../components/status-access/status-access.component';
+import { CardsListComponent } from '../components/user/cards-list/cards-list.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,9 @@ import { StatusDataHouseComponent } from '../components/status-data-house/status
     ChatHostHouseComponent,
     StatusDataComponent,
     StatusDataHouseComponent,
+    LinksBoxComponent,
+    StatusAccessComponent,
+    CardsListComponent,
   ],
   exports: [
     NavbarComponent,
@@ -89,12 +95,16 @@ import { StatusDataHouseComponent } from '../components/status-data-house/status
     ChatHostHouseComponent,
     StatusDataComponent,
     StatusDataHouseComponent,
+    LinksBoxComponent,
+    StatusAccessComponent,
+    CardsListComponent,
   ],
   providers: [
     UpdateComponentService,
     SharedService,
     StatusDataService,
     StatusDataHouseComponent,
+
   ],
   imports: [
     CommonModule,

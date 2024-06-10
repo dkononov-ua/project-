@@ -105,6 +105,9 @@
 
   <div [@bot] id="container1" class="conteiner-content al-c t-c flex-column" *ngIf="containers['container1']">
     <h2 class="title"><span class="bold">Пошук осель & Пошук орендарів</span></h2>
+    <button class="btn update m-2" [routerLink]="'/discussio-search'">
+      <i class="fa-solid fa-magnifying-glass pr-2"></i>Пошук Discussio
+    </button>
     <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
         <img class="home-img" width="320" src="../../../assets/gif/search.gif" alt="">
@@ -112,21 +115,12 @@
 
       <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
 
-        <h3><strong>Шукаєте оселю чи орендаря?</strong></h3>
+        <h3><strong>Шукаєте орендаря?</strong></h3>
         <div class="flex-group mb-2">
           <a class="btn update bg-red m-2" target="_blank" href="https://www.youtube.com/shorts/HSr3aSUD21Y">
             <span class="text m-2">Огляд функції</span><i class="fab fa-brands fa-youtube p-2"></i>
           </a>
         </div>
-        <p class="text t-c">
-          Надаємо можливість легко <strong>знайти житло</strong> <i class="fa-solid fa-house-laptop pl-2"></i>, яке
-          відповідає вашим вимогам та вподобанням. Ви
-          можете вибирати оселі з врахуванням різних критеріїв та багато
-          іншого. Наша система робить <strong>пошук оселі</strong> максимально <strong>простим та зручним</strong>.
-        </p>
-        <button class="btn update m-2" [routerLink]="'/discussio-search'">
-          Пошук Discussio<i class="fa-solid fa-magnifying-glass pl-2"></i>
-        </button>
         <p class="text t-c">
           Можливість <strong>знаходити орендарів</strong> <i class="fa-solid fa-people-pulling p-2"></i> , які
           відповідають
@@ -134,6 +128,18 @@
           використовувати різні фільтри, такі як бюджет, мета переїзду та термін оренди, для <strong>пошуку
             орендарів</strong>, які вам
           підходять.
+        </p>
+        <h3 class="mt-2"><strong>Шукаєте оселю?</strong></h3>
+        <div class="flex-group">
+          <a class="btn update bg-red m-2" target="_blank" href="https://www.youtube.com/shorts/R1YfDiY9z5U">
+            <span class="text m-2">Навіщо мені аккаунт?</span><i class="fab fa-brands fa-youtube p-2"></i>
+          </a>
+        </div>
+        <p class="text t-c">
+          Надаємо можливість легко <strong>знайти житло</strong> <i class="fa-solid fa-house-laptop pl-2"></i>, яке
+          відповідає вашим вимогам та вподобанням. Ви
+          можете вибирати оселі з врахуванням різних критеріїв та багато
+          іншого. Наша система робить <strong>пошук оселі</strong> максимально <strong>простим та зручним</strong>.
         </p>
       </div>
     </div>
@@ -223,7 +229,14 @@
         <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
       </div>
       <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
+
         <h3><strong>А хто би не хотів гарантувати собі спокій, правда?</strong></h3>
+
+        <div class="flex-group mb-2">
+          <a class="btn update bg-red m-2" target="_blank" href="https://www.youtube.com/shorts/UZ5KAJq18oU">
+            <span class="text m-2">Рейтинг для оренди</span><i class="fab fa-brands fa-youtube p-2"></i>
+          </a>
+        </div>
 
         <p class="text t-c">
           Для власників оселі вибір надійного орендаря може стати великим завданням. Щоб допомогти власникам обирати

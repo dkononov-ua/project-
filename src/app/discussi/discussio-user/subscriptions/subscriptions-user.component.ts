@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
@@ -14,6 +14,8 @@ import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { DeleteSubsComponent } from '../delete/delete-subs.component';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
+import { LocationHouseService } from 'src/app/services/location-house.service';
 
 interface chosenFlat {
   flat: any;
@@ -39,7 +41,7 @@ interface chosenFlat {
   ],
 })
 
-export class SubscriptionsUserComponent implements OnInit {
+export class SubscriptionsUserComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -70,7 +72,6 @@ export class SubscriptionsUserComponent implements OnInit {
   // показ карток
   page: number = 0;
   indexPage: number = 1;
-  counterUserSubscriptions: any;
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -85,6 +86,7 @@ export class SubscriptionsUserComponent implements OnInit {
   card_info: number = 0;
   startX = 0;
   photoViewing: boolean = false;
+  isMobile: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -95,18 +97,53 @@ export class SubscriptionsUserComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private statusDataService: StatusDataService,
-  ) { }
+    private cardsDataService: CardsDataService,
+    private locationHouseService: LocationHouseService,
+  ) {
+    this.sharedService.isMobile$.subscribe((status: boolean) => {
+      this.isMobile = status;
+    });
+  }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 1;
-      this.indexPage = Number(this.page);
-    });
-    this.getSubInfo(this.offs);
-    await this.getCounterUser();
+    // Підписка на шлях до серверу
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+
+    // Підписка на отримання айді обраної оселі
+    this.subscriptions.push(
+      this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
+        this.choseFlatId = selectedFlatId;
+      })
+    );
+
+    // Підписка на отримання даних обраної оселі
+    this.subscriptions.push(
+      this.cardsDataService.cardData$.subscribe(async (data: any) => {
+        this.chosenFlat = data;
+        // Якщо є обрана оселя
+        if (this.chosenFlat) {
+          this.indexPage = 2;
+          // Формую локацію на мапі
+          this.locationLink = await this.locationHouseService.generateLocationUrl(this.chosenFlat);
+        }
+      })
+    );
+    // Підписка на отримання кількості карток
+    this.subscriptions.push(
+      this.counterService.counterUserSubscriptions$.subscribe(async data => {
+        this.counterFound = Number(data);
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.choseSubscribeService.removeChosenFlatId(); // очищуємо вибрану оселю
+    this.cardsDataService.removeCardData(); // очищуємо дані про оселю
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   onPanStart(event: any): void {
@@ -136,203 +173,33 @@ export class SubscriptionsUserComponent implements OnInit {
     }
   }
 
-  // отримання, кількості підписок та запит на якій я сторінці
-  async getCounterUser() {
-    await this.counterService.getUserSubscribersCount();
-    await this.counterService.getUserSubscriptionsCount();
-    await this.counterService.getUserDiscussioCount();
-    this.counterService.counterUserSubscriptions$.subscribe(async data => {
-      this.counterUserSubscriptions = data;
-      this.counterFound = this.counterUserSubscriptions;
-      if (this.counterFound) { await this.getCurrentPageInfo(); }
-    })
-  }
-
-  // Отримання та збереження даних всіх дискусій
-  async getSubInfo(offs: number): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const data = { auth: JSON.parse(userJson!), offs: offs, };
-    if (userJson) {
-      try {
-        const allSubscriptions: any = await this.http.post(this.serverPath + '/subs/get/ysubs', data).toPromise() as any[];
-        // console.log(allSubscriptions)
-        if (allSubscriptions && allSubscriptions.status !== false) {
-          localStorage.setItem('allSubscriptions', JSON.stringify(allSubscriptions));
-          const getAllSubscriptions = JSON.parse(localStorage.getItem('allSubscriptions') || '[]');
-          if (getAllSubscriptions) {
-            this.subscriptions = getAllSubscriptions;
-          } else {
-            this.subscriptions = []
-          }
-        } else {
-          console.log('Авторизуйтесь')
-          this.sharedService.logout();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.log('Авторизуйтесь')
-    }
-  }
-
-  // Виводимо інформацію з локального сховища про обрану оселю
-  selectSubscriptions() {
-    if (this.choseFlatId) {
-      const allSubscriptions = JSON.parse(localStorage.getItem('allSubscriptions') || '[]');
-      if (allSubscriptions) {
-        const chosenFlat = allSubscriptions.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
-        if (chosenFlat) {
-          this.chosenFlat = chosenFlat;
-          this.statusDataService.setStatusDataFlat(this.chosenFlat?.flat);
-          this.generateLocationUrl();
-        } else {
-          console.log('Немає інформації');
-        }
-      }
-    }
-  }
-
-  // Перемикання оселі
-  async onFlatSelect(choseFlatId: any) {
-    this.choseFlatId = choseFlatId; // обираємо айді оселі
-    this.currentPhotoIndex = 0; // встановлюємо перше фото оселі
-    this.indexPage = 2; // встановлюємо основну картку оселі
-    this.choseSubscribeService.setChosenFlatId(this.choseFlatId); // передаємо всім компонентам айді оселі яке ми обрали
-    this.selectSubscriptions(); // Виводимо інформацію про обрану оселю
-  }
-
   // Перемикання Фото в каруселі
   prevPhoto() {
-    this.currentPhotoIndex--;
+    const length = this.chosenFlat?.img.length || 0;
+    if (this.currentPhotoIndex !== 0) {
+      this.currentPhotoIndex--;
+    }
   }
 
   nextPhoto() {
-    this.currentPhotoIndex++;
-  }
-
-  // Копіювання параметрів
-  copyToClipboard(textToCopy: string, message: string) {
-    if (textToCopy) {
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-          this.isCopiedMessage = message;
-          setTimeout(() => {
-            this.isCopiedMessage = '';
-          }, 2000);
-        })
-        .catch((error) => {
-          this.isCopiedMessage = '';
-        });
+    const length = this.chosenFlat?.img.length || 0;
+    if (this.currentPhotoIndex < length) {
+      this.currentPhotoIndex++;
     }
   }
 
-  copyFlatId() {
-    this.copyToClipboard(this.chosenFlat?.flat.flat_id, 'ID оселі ' + this.chosenFlat?.flat.flat_id);
-  }
-
-  copyOwnerId() {
-    this.copyToClipboard(this.chosenFlat?.owner.user_id, 'ID користувача ' + this.chosenFlat?.owner.user_id);
-  }
-  copyTell() {
-    this.copyToClipboard(this.chosenFlat?.owner.tell, 'Номер ' + this.chosenFlat?.owner.tell);
-  }
-  copyMail() {
-    this.copyToClipboard(this.chosenFlat?.owner.mail, 'Пошту ' + this.chosenFlat?.owner.mail);
-  }
-
-  copyViber() { this.copyToClipboard(this.chosenFlat?.owner.viber, 'Номер ' + this.chosenFlat?.owner.viber); }
-
-
-  // Перезавантаження сторінки з лоадером
-  reloadPage() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 500);
-  }
-
-  // Видалення підписки
+  // Видалення підписника
   async deleteSubscriber(flat: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const dialogRef = this.dialog.open(DeleteSubsComponent, {
-      data: { flatId: flat.flat.flat_id, flatName: flat.flat.flat_name, flatCity: flat.flat.city, flatSub: 'subscriptions', }
-    });
-
-    dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && flat) {
-        const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
-        try {
-          const response: any = await this.http.post(this.serverPath + '/subs/delete/ysubs', data).toPromise();
-          if (response.status === true) {
-            this.sharedService.setStatusMessage('Підписка видалена');
-            this.chosenFlat = null;
-            this.counterService.getUserSubscriptionsCount();
-            await this.getSubInfo(this.offs);
-            if (this.subscriptions.length > 0) {
-              this.indexPage = 1;
-            } else {
-              this.indexPage = 0;
-            }
-            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
-          } else { this.sharedService.setStatusMessage('Помилка'), this.reloadPage; }
-        } catch (error) { this.sharedService.setStatusMessage('Помилка на сервері'), this.reloadPage; console.error(error); }
+    this.cardsDataService.deleteFlatSub(flat, 'subscriptions');
+    this.cardsDataService.getResultDeleteFlatSubject().subscribe(result => {
+      if (result.status === true) {
+        this.sharedService.setStatusMessage('Підписка видалена');
+        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
+      } else {
+        this.sharedService.setStatusMessage('Помилка');
+        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       }
     });
-  }
-
-  // Генерую локацію оселі
-  generateLocationUrl() {
-    const baseUrl = 'https://www.google.com/maps/place/';
-    const region = this.chosenFlat?.flat.region || '';
-    const city = this.chosenFlat?.flat.city || '';
-    const street = this.chosenFlat?.flat.street || '';
-    const houseNumber = this.chosenFlat?.flat.houseNumber || '';
-    const flatIndex = this.chosenFlat?.flat.flat_index || '';
-    const encodedRegion = encodeURIComponent(region);
-    const encodedCity = encodeURIComponent(city);
-    const encodedStreet = encodeURIComponent(street);
-    const encodedHouseNumber = encodeURIComponent(houseNumber);
-    const encodedFlatIndex = encodeURIComponent(flatIndex);
-    const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-    this.locationLink = locationUrl;
-    return this.locationLink;
-  }
-
-  // Відкриваю локацію на мапі
-  openMap() {
-    this.sharedService.setStatusMessage('Відкриваємо локаці на мапі');
-    setTimeout(() => { this.sharedService.setStatusMessage(''); window.open(this.locationLink, '_blank'); }, 2000);
-  }
-
-  // пагінатор наступна сторінка з картками
-  incrementOffset() {
-    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
-      this.pageEvent.pageIndex++;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.getSubInfo(offs);
-    }
-    this.getCurrentPageInfo()
-  }
-
-  // пагінатор попередня сторінка з картками
-  decrementOffset() {
-    if (this.pageEvent.pageIndex > 0) {
-      this.pageEvent.pageIndex--;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.getSubInfo(offs);
-    }
-    this.getCurrentPageInfo()
-  }
-
-  // пагінатор перевіряю кількість сторінок
-  async getCurrentPageInfo(): Promise<string> {
-    const itemsPerPage = this.pageEvent.pageSize;
-    const currentPage = this.pageEvent.pageIndex + 1;
-    const totalPages = Math.ceil(this.counterFound / itemsPerPage);
-    this.currentPage = currentPage;
-    this.totalPages = totalPages;
-    return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
 
   async reportHouse(flat: any): Promise<void> {
@@ -347,5 +214,16 @@ export class SubscriptionsUserComponent implements OnInit {
       }
     });
   }
+
+  // Відкриваю локацію на мапі
+  openMap() {
+    this.sharedService.openMap(this.locationLink)
+  }
+
+  // Копіювання параметрів
+  copyToClipboard(textToCopy: string, message: string) {
+    this.sharedService.copyToClipboard(textToCopy, message);
+  }
+
 }
 

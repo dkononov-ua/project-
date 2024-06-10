@@ -1,0 +1,68 @@
+<div class="container-info" *ngIf="statusAccess">
+  <div class="content">
+
+    <div class="status-hover">
+      <h3>Доступи до оселі</h3>
+      <h3>ID: {{statusAccess.flat_id}} {{statusAccess.flat_name}}</h3>
+      <ul>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_discuss === 1}">
+          <div class="status-value"><i class="fa-solid fa-person-walking-luggage"></i></div>
+          - Дискусія
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_admin === 1}">
+          <div class="status-value"><i class="fa-solid fa-user-shield"></i></div>
+          - Адмінстратор
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_agent === 1}">
+          <div class="status-value"><i class="fa-solid fa-user-tie"></i></div>
+          - Представник
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_agreement === 1}">
+          <div class="status-value"><i class="fa-solid fa-handshake-simple"></i></div> - Угоди
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_citizen === 1}">
+          <div class="status-value"><i class="fa-solid fa-people-roof"></i></div>
+          - Мешканці
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_comunal === 1}">
+          <div class="status-value"><i class="fa-solid fa-chart-pie"></i></div>
+          - Комунальні
+        </li>
+
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_comunal_indexes === 1}">
+          <div class="status-value"><i class="fa-solid fa-calculator"></i></div>
+          - Лічильник
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_filling === 1}">
+          <div class="status-value"><i class="fa-solid fa-boxes-packing"></i></div>
+          - Наповнення
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_flat_chats === 1}">
+          <div class="status-value"><i class="fa-regular fa-comments"></i></div>
+          - Чат
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_flat_features === 1}">
+          <div class="status-value"><i class="fa-solid fa-magnifying-glass"></i></div>
+          - Пошук
+        </li>
+        <li class="status-hover-li"
+          [ngClass]="{'active' : statusAccess.acces_subs === 1}">
+          <div class="status-value"><i class="fa-solid fa-person"></i></div>
+          - Підписки
+        </li>
+      </ul>
+    </div>
+
+    <button class="b-primary" (click)="close()">Закрити</button>
+  </div>
+</div>

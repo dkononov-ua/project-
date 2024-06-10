@@ -216,6 +216,33 @@ export class SendMessageService {
     };
   }
 
+  // Створюю чат з оселею
+  async createUserChat(choseFlatId: string): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && choseFlatId) {
+      const data = { auth: JSON.parse(userJson), flat_id: choseFlatId, };
+      try {
+        const response: any = await this.http.post(this.serverPath + '/chat/add/chatUser', data).toPromise();
+        if (response.status === true) {
+          this.sharedService.setStatusMessage('Створюємо чат');
+          const result = await this.getFlatChats();
+          if (result === 1) {
+            setTimeout(() => { this.openChat(); }, 2000);
+          } else if (result === 0) {
+            this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+          }
+        } else { }
+      } catch (error) {
+        console.error(error);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      }
+    } else {
+      console.log('Авторизуйтесь');
+    }
+  }
+
 
 
 

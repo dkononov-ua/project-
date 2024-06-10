@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { MatDialog } from '@angular/material/dialog';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-selection-housing',
@@ -29,6 +30,10 @@ import { MatDialog } from '@angular/material/dialog';
 })
 
 export class SelectionHousingComponent implements OnInit {
+
+  checkAcces(flat: any) {
+    this.statusDataService.setStatusAccess(flat);
+  }
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -76,6 +81,7 @@ export class SelectionHousingComponent implements OnInit {
     private router: Router,
     private sharedService: SharedService,
     private dialog: MatDialog,
+    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {

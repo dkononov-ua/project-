@@ -12,21 +12,21 @@
 
         <div class="flex-box" *ngIf="user.price_of || user.price_to">
           <div mat-raised-button class="param-g flex-column mr-2" *ngIf="user.price_of">
-            <div class="bg-g t-lar-x bold white">
+            <div class="bg-g t-lar-x bold">
               <span>{{ user.price_of | number: '1.1-1' }}
               </span>
             </div>
             <div class="t-min">Бюджет від ₴</div>
           </div>
           <div mat-raised-button class="param-g flex-column" *ngIf="user.price_to">
-            <div class="bg-g t-lar-x bold white">
+            <div class="bg-g t-lar-x bold">
               <span>{{user.price_to | number: '1.1-1'}}</span>
             </div>
             <div class="t-min">Бюджет до ₴</div>
           </div>
         </div>
 
-        <div class="t-lar-x bold white"><span *ngIf="authorizationHouse">{{ user.lastName }} </span>{{ user.firstName }}</div>
+        <div class="t-lar-x bold"><span *ngIf="authorizationHouse">{{ user.lastName }} </span>{{ user.firstName }}</div>
 
         <div class="flex-box t-min">
           <span class="mr-2" *ngIf="user.city">в {{user.city}}</span>

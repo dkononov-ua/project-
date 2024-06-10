@@ -224,129 +224,23 @@
                   </div>
                 </ng-container>
 
-                <div class="panel-container">
-                  <div class="caruesel-container w-100">
-                    <div class="carousel w-100">
-                      <div class="slide">
-                        <button class="slide-item" (click)="copyId()">
-                          <div class="slide-item-box">
-                            <div class="bold">{{selectedUser.user_id}}</div>
-                            <i class="fa-solid fa-fingerprint pl-2"></i>
-                          </div>
-                          <div class="slide-name">ID<br>орендаря</div>
-                        </button>
-
-                        <button class="slide-item">
-                          <div class="slide-item-box">
-                            <div class="bold">{{ratingTenant}}</div>
-                            <i class="fa-regular fa-star"></i>
-                          </div>
-                          <div class="slide-name">Рейтинг <br> орендаря</div>
-                        </button>
-
-                        <button class="slide-item" (click)="copyMail()" *ngIf="selectedUser.mail">
-                          <i class="fa-solid fa-at"></i>
-                          <div class="slide-name">Пошта</div>
-                        </button>
-
-                        <button class="slide-item" (click)="copyTell()" *ngIf="selectedUser.tell">
-                          <i class="fa-solid fa-phone"></i>
-                          <div class="slide-name">Номер</div>
-                        </button>
-
-                        <a class="slide-item" href="https://www.instagram.com/{{  selectedUser.instagram }}"
-                          *ngIf="selectedUser.instagram">
-                          <i class="fa-brands fa-instagram"></i>
-                          <div class="slide-name">instagram</div>
-                        </a>
-
-                        <a class="slide-item" href="https://www.facebook.com//{{  selectedUser.facebook }}"
-                          *ngIf="selectedUser.facebook">
-                          <i class="fa-brands fa-facebook"></i>
-                          <div class="slide-name">facebook</div>
-                        </a>
-
-                        <a class="slide-item" href="https://t.me/{{  selectedUser.telegram }}"
-                          *ngIf="selectedUser.telegram">
-                          <i class="fa-brands fa-telegram"></i>
-                          <div class="slide-name">telegram</div>
-                        </a>
-
-                        <button class="slide-item" (click)="copyViber()" *ngIf="selectedUser.viber">
-                          <i class="fa-brands fa-viber"></i>
-                          <div class="slide-name">viber</div>
-                        </button>
-
-                      </div>
-
-                      <div class="slide">
-                        <button class="slide-item" (click)="copyId()">
-                          <div class="slide-item-box">
-                            <div class="bold">{{selectedUser.user_id}}</div>
-                            <i class="fa-solid fa-fingerprint pl-2"></i>
-                          </div>
-                          <div class="slide-name">ID<br>орендаря</div>
-                        </button>
-
-                        <button class="slide-item">
-                          <div class="slide-item-box">
-                            <div class="bold">{{ratingTenant}}</div>
-                            <i class="fa-regular fa-star"></i>
-                          </div>
-                          <div class="slide-name">Рейтинг <br> орендаря</div>
-                        </button>
-
-                        <button class="slide-item" (click)="copyMail()" *ngIf="selectedUser.mail">
-                          <i class="fa-solid fa-at"></i>
-                          <div class="slide-name">Пошта</div>
-                        </button>
-
-                        <button class="slide-item" (click)="copyTell()" *ngIf="selectedUser.tell">
-                          <i class="fa-solid fa-phone"></i>
-                          <div class="slide-name">Номер</div>
-                        </button>
-
-                        <a class="slide-item" href="https://www.instagram.com/{{  selectedUser.instagram }}"
-                          *ngIf="selectedUser.instagram">
-                          <i class="fa-brands fa-instagram"></i>
-                          <div class="slide-name">instagram</div>
-                        </a>
-
-                        <a class="slide-item" href="https://www.facebook.com//{{  selectedUser.facebook }}"
-                          *ngIf="selectedUser.facebook">
-                          <i class="fa-brands fa-facebook"></i>
-                          <div class="slide-name">facebook</div>
-                        </a>
-
-                        <a class="slide-item" href="https://t.me/{{  selectedUser.telegram }}"
-                          *ngIf="selectedUser.telegram">
-                          <i class="fa-brands fa-telegram"></i>
-                          <div class="slide-name">telegram</div>
-                        </a>
-
-                        <button class="slide-item" (click)="copyViber()" *ngIf="selectedUser.viber">
-                          <i class="fa-brands fa-viber"></i>
-                          <div class="slide-name">viber</div>
-                        </button>
-
-                      </div>
-                    </div>
-                  </div>
+                <div class="info-panel">
+                  <app-links-box></app-links-box>
                 </div>
 
               </div>
             </div>
 
-            <div class="flex-box">
-              <div class="flex-column p-2">
+            <div class="flex-box" *ngIf="selectedUser.lastName || selectedUser.firstName || selectedUser.surName">
+              <div class="flex-column p-2" *ngIf="selectedUser.lastName">
                 <div class="t-lar bold">{{ selectedUser.lastName }}</div>
                 <div class="t-min gray">Прізвище</div>
               </div>
-              <div class="flex-column p-2">
+              <div class="flex-column p-2" *ngIf="selectedUser.firstName">
                 <div class="t-lar bold">{{ selectedUser.firstName }}</div>
                 <div class="t-min gray">ім'я</div>
               </div>
-              <div class="flex-column p-2">
+              <div class="flex-column p-2" *ngIf="selectedUser.surName">
                 <div class="t-lar bold">{{ selectedUser.surName }}</div>
                 <div class="t-min gray">По батькові</div>
               </div>

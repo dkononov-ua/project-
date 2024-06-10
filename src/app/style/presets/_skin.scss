@@ -1,25 +1,45 @@
-// $color-primary: #151515;
+// стоковий варіант
+// $color-primary: #cbcdcd;
 // $color-accent: tomato;
+// $color-red: rgba(255, 0, 0, 0.692);
 // $accordion-icon-color: red;
 // $color-white: white;
 // $color-light: rgba(138, 138, 138, 0.793);
-// $color-dark: #a8a7a7;
-// $color-gray: #b3b4b4;
+// $color-dark: #232323;
+// $color-gray: #7e7f7f;
 // $color-blue: #0949ec;
-// $color-icon: #eaeaea;
-// $color-text: #dededece;
-// $color-card-bg: #DEDEDE;
+// $color-icon: #000000;
+// $color-text: #121111ce;
+// $color-card-bg: #dedede;
 
-// стоковий варіант
+// $color-white-always: white;
+// $color-primary: light-dark(#cbcdcd, #9d9d9de3);
+// $color-accent: tomato;
+// $color-dark: light-dark(#3b3b3b, white);
+// $color-red: light-dark(rgba(255, 0, 0, 0.692), rgba(255, 0, 0, 0.692));
+// $color-white: light-dark(white, #616161);
+// $color-light: light-dark(rgba(138, 138, 138, 0.793), rgb(186, 186, 186, 0.793));
+// $color-shadow: light-dark(#505050da, #505050da);
+// $color-gray: #7e7f7f;
+// $color-light-gray: light-dark(rgba(201, 201, 201, 0.943), rgba(201, 201, 201, 0.943));
+// $color-blue: light-dark(#0949ec, #0949ec);
+// $color-icon: light-dark(#212121, white);
+// $color-text: light-dark(#121111ce, rgb(232, 232, 232));
+// $color-card-bg: light-dark(#dedede, #262626ce);
+
+
+// основні кольори
+$color-white-always: white;
 $color-primary: #cbcdcd;
 $color-accent: tomato;
+$color-dark: #3b3b3b;
 $color-red: rgba(255, 0, 0, 0.692);
-$accordion-icon-color: red;
 $color-white: white;
 $color-light: rgba(138, 138, 138, 0.793);
-$color-dark: #232323;
+$color-shadow: #505050da;
 $color-gray: #7e7f7f;
+$color-light-gray: rgba(201, 201, 201, 0.943);
 $color-blue: #0949ec;
-$color-icon: #000000;
+$color-icon: #212121;
 $color-text: #121111ce;
 $color-card-bg: #dedede;

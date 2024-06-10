@@ -18,7 +18,7 @@
 
 .card-group {
   @include s3-s6-max {
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;
+    background-image: linear-gradient(to top, transparent 0%, $color-primary) !important;
   }
 }
 .card-content-static {

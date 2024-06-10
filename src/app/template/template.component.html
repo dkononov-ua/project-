@@ -2,7 +2,7 @@
 
   <div class="switch-container">
 
-    <div class="switch-btn-group">
+    <div class="switch-btn-group" [ngClass]="{ 'active': indexPage === 1}">
       <button class="btn" (click)="goBack()">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min white">Назад</div>

@@ -94,9 +94,8 @@
 
           </form>
 
-          <button class="btn btn-primary"
-            
-            [ngClass]="{'disabled-button': formErrors.email || !registrationForm.valid || !agreementAccepted || !validateAgeDate}"
+          <button class="btn btn-primary" [disabled]="!registrationForm.valid"
+            [ngClass]="{'disabled-button': formErrors.email || !registrationForm.valid || !validateAgeDate}"
             (click)="registrationCheck()" *ngIf="indexBtn === 1">
             Зареєструватись <i class="fa-solid fa-person-walking-dashed-line-arrow-right pl-2"></i>
           </button>
@@ -114,23 +113,23 @@
             <button class="btn m-2" [disabled]="!emailCheckCode" (click)="registration()">Підтвердити</button>
           </div>
 
-          <div class="box-agree p-2" *ngIf="indexBtn === 1">
-            <label class="checkBox">
-              <input type="checkbox" [disabled]="timeLeft > 0" [(ngModel)]="agreementAccepted" name="agreementAccepted">
-              <div class="transition"></div>
-            </label>
-            <p class="t-med w-75 p-2 t-c">Реєструючись я погоджуюсь з <a class="bold" [routerLinkActive]="'active'"
-                [routerLink]="'/home/user-licence'">угодою користувача</a></p>
-          </div>
-
           <div class="t-med t-c mt-2" *ngIf="indexBtn === 1">
-            Якщо є Google аккаунт прийміть угоду користувача та зареєструйтесь за допомогою його
+            Якщо є Google аккаунт зареєструйтесь за допомогою його
           </div>
 
-          <button [disabled]="!agreementAccepted" class="btn btn-secondary mt-2" (click)="openGoogleAuth()"
+          <button class="btn btn-secondary mt-2" (click)="openGoogleAuth()"
             *ngIf="indexBtn === 1">
             Зареєструватись з <i class="fa-brands fa-google"></i>
           </button>
+
+          <div class="box-agree p-2" *ngIf="indexBtn === 1">
+            <!-- <label class="checkBox">
+              <input type="checkbox" [disabled]="timeLeft > 0" [(ngModel)]="agreementAccepted" name="agreementAccepted">
+              <div class="transition"></div>
+            </label> -->
+            <p class="t-med p-2 t-c">Реєструючись я погоджуюсь з <a class="bold" [routerLinkActive]="'active'"
+                [routerLink]="'/home/user-licence'">угодою користувача</a></p>
+          </div>
 
         </div>
       </div>

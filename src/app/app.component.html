@@ -11,10 +11,11 @@
     <img class="bg-img" [src]="currentImage">
   </div>
 
-  <div *ngIf="!statusMessage && !waitingUpdate" class="container">
+  <div *ngIf="!waitingUpdate" class="container">
     <app-news-line class="news-line"></app-news-line>
     <router-outlet></router-outlet>
   </div>
   <app-status-message *ngIf="statusMessage"></app-status-message>
+
   <app-loader *ngIf="waitingUpdate"></app-loader>
 </div>

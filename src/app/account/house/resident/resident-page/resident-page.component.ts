@@ -12,6 +12,7 @@ import { AgreeDeleteComponent } from '../../agree-h/agree-delete/agree-delete.co
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
+import { StatusDataService } from 'src/app/services/status-data.service';
 export class Rating {
   constructor(
     public ratingComment: string = '',
@@ -142,6 +143,7 @@ export class ResidentPageComponent implements OnInit {
     private sharedService: SharedService,
     private dialog: MatDialog,
     private location: Location,
+    private statusDataService: StatusDataService,
   ) {
     this.setMinMaxDate(35);
     this.rating.ratingDate = this.formatDate(new Date());
@@ -211,6 +213,7 @@ export class ResidentPageComponent implements OnInit {
         const selectedSubscriber = this.subscribers.find(subscriber => subscriber.user_id.toString() === String(subscriberId));
         if (selectedSubscriber) {
           this.selectedSubscriber = selectedSubscriber;
+          this.statusDataService.setUserData(this.selectedSubscriber, 2);
           await this.getRating(selectedSubscriber);
           await this.getConcludedAgree(selectedSubscriber);
         }
@@ -237,7 +240,7 @@ export class ResidentPageComponent implements OnInit {
         if (response.status === true) {
           this.sharedService.setStatusMessage('Створюємо чат');
           setTimeout(() => {
-            this.router.navigate(['/chat']);
+            this.router.navigate(['/chat-house']);
             this.sharedService.setStatusMessage('');
           }, 2000);
         } else if (response.status === 'Чат вже існує') {

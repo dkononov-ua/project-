@@ -55,8 +55,6 @@ export class HomeComponent implements OnInit {
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
-      // console.log(this.isMobile)
-      // isMobile: boolean = false;
     });
   }
 

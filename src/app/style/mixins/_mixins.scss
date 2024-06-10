@@ -51,7 +51,7 @@
 @mixin hover {
   &:hover {
     background-color: $color-accent;
-    box-shadow: -3px 3px 20px -10px darken($color-accent, 40%);
+    box-shadow: -3px 3px 20px -10px ($color-accent, 40%);
   }
 }
 
@@ -87,13 +87,23 @@
 }
 
 @mixin box-shadow {
-  box-shadow: -3px 3px 20px -10px darken($color-gray, 40%);
+  box-shadow: -3px 3px 20px -10px ($color-gray, 40%);
 }
 
 @mixin box-shadow-a {
-  box-shadow: -3px 3px 20px -10px darken($color-accent, 40%);
+  box-shadow: -3px 3px 20px -10px ($color-accent, 40%);
 }
 
 @mixin box-shadow-i {
-  box-shadow: inset -3px 3px 20px -10px darken($color-gray, 40%);
+  box-shadow: inset -3px 3px 20px -10px ($color-gray, 40%);
+}
+
+@mixin active-icon {
+  background-color: $color-white-always;
+  .fa-solid,
+  .fa-regular {
+    transition: 1s;
+    color: $color-accent;
+    filter: drop-shadow(0px 0px 10px $color-accent);
+  }
 }

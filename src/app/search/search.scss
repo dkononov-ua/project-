@@ -2,7 +2,9 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
-
+span {
+  color: $color-text;
+}
 
 .card-animation {
   &::-webkit-scrollbar {

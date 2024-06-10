@@ -22,7 +22,7 @@
 
     <div class="hide-pc">
       <div class="switch-btn-group ">
-        <button class="btn" [disabled]="!subscriptions" (click)="onClickMenu(0)"
+        <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
           [ngClass]="{ 'active': indexPage === 0}">
           <i class="fa-solid fa-people-group"></i>
           <div class="t-min bold">Вподобані</div>
@@ -43,86 +43,17 @@
   <div class="main-container">
 
     <!-- всі картки -->
-    <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
-      <div class="paginator-container">
-        <button class="paginator-btn" (click)="decrementOffset()">
-          <i class="fa-solid fa-chevron-left"></i></button>
-        <div class="paginator-box">
-          <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-          <div class="t-min">Всього {{counterFound}}</div>
-        </div>
-        <button class="paginator-btn" (click)="incrementOffset()">
-          <i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-      <div class="cards-container p-2">
-        <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions"
-          (click)="onFlatSelect(subscriber.flat.flat_id)"
-          [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
-          <div class="card-mini-img-container">
-            <img class="card-mini-img"
-              [src]="subscriber.img && subscriber.img[0] ? serverPath + pathPhotoFlat + subscriber.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
-              alt="img">
-          </div>
-          <div class="card-body">
-            <div class="p-1">
-              <div class="t-med accent bold">ID: {{ subscriber.flat.flat_id }}</div>
-              <div class="t-min">Обл.: {{ subscriber.flat.region}}</div>
-              <div class="t-min">м.: {{ subscriber.flat.city}}</div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay === 0">
-                <div class="t-lar bold"> {{ subscriber.flat.price_m | number:'1.0-0' }} </div>
-                <div class="t-min bold">₴/міс</div>
-              </div>
-              <div class="flex-box" *ngIf="subscriber.flat.option_pay !== 0">
-                <div class="t-lar bold"> {{ subscriber.flat.price_d | number:'1.0-0' }} </div>
-                <div class="t-min bold">₴/добу</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile" *ngIf="!isMobile">
+      <app-cards-list></app-cards-list>
     </div>
 
     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card-wrapper">
         <!-- всі картки -->
-        <div [@swichCard] class="card-animation hide-pc" *ngIf="indexPage === 0">
+        <div [@swichCard] class="card-animation hide-pc" *ngIf="indexPage === 0 && isMobile">
           <div class="card-content">
-            <div class="paginator-container">
-              <button class="paginator-btn" (click)="decrementOffset()">
-                <i class="fa-solid fa-chevron-left"></i></button>
-              <div class="paginator-box">
-                <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
-                <div class="t-min">Всього Дискусій {{counterFound}}</div>
-              </div>
-              <button class="paginator-btn" (click)="incrementOffset()">
-                <i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-            <div class="cards-container p-2">
-              <div class="card-mini mb-3" *ngFor="let subscriber of subscriptions"
-                (click)="onFlatSelect(subscriber.flat.flat_id)"
-                [ngClass]="{ 'selected': choseFlatId == subscriber.flat.flat_id  }">
-                <div class="card-mini-img-container">
-                  <img class="card-mini-img"
-                    [src]="subscriber.img && subscriber.img[0] ? serverPath + pathPhotoFlat + subscriber.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
-                    alt="img">
-                </div>
-                <div class="card-body">
-                  <div class="p-1">
-                    <div class="t-med accent bold">ID: {{ subscriber.flat.flat_id }}</div>
-                    <div class="t-min">Обл.: {{ subscriber.flat.region}}</div>
-                    <div class="t-min">м.: {{ subscriber.flat.city}}</div>
-                    <div class="flex-box" *ngIf="subscriber.flat.option_pay === 0">
-                      <div class="t-lar bold"> {{ subscriber.flat.price_m | number:'1.0-0' }} </div>
-                      <div class="t-min bold">₴/міс</div>
-                    </div>
-                    <div class="flex-box" *ngIf="subscriber.flat.option_pay !== 0">
-                      <div class="t-lar bold"> {{ subscriber.flat.price_d | number:'1.0-0' }} </div>
-                      <div class="t-min bold">₴/добу</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <app-cards-list></app-cards-list>
+
           </div>
         </div>
         <!-- про меню -->
@@ -225,7 +156,7 @@
                       <div class="t-min">Локація</div>
                     </button>
 
-                    <button class="btn-panel" matTooltip="Копіювати" (click)="copyFlatId()">
+                    <button class="btn-panel" matTooltip="Копіювати" (click)="copyToClipboard(this.chosenFlat.flat.flat_id, 'ID оселі ' + this.chosenFlat.flat.flat_id)">
                       <div class="panel-icon">
                         <i class="fa-solid fa-fingerprint"></i>
                       </div>

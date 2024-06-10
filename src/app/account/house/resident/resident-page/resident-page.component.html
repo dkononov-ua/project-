@@ -18,137 +18,24 @@
               [src]="serverPath + pathPhotoUser + (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')"
               alt="img">
 
-            <div class="panel-container">
-              <div class="caruesel-container w-100">
-                <div class="carousel w-100">
-                  <div class="slide">
-
-                    <button class="slide-item" (click)="copyId(selectedSubscriber.user_id)">
-                      <div class="slide-item-box">
-                        <div class="bold">{{selectedSubscriber.user_id}}</div>
-                        <i class="fa-solid fa-fingerprint pl-2"></i>
-                      </div>
-                      <div class="slide-name">ID<br>орендаря</div>
-                    </button>
-
-                    <button class="slide-item">
-                      <div class="slide-item-box">
-                        <div class="bold">{{ratingTenant}}</div>
-                        <i class="fa-regular fa-star"></i>
-                      </div>
-                      <div class="slide-name">Рейтинг <br> орендаря</div>
-                    </button>
-
-                    <button class="slide-item" (click)="copyMail(selectedSubscriber.mail)"
-                      *ngIf="selectedSubscriber.mail">
-                      <i class="fa-solid fa-at"></i>
-                      <div class="slide-name">Пошта</div>
-                    </button>
-
-                    <button class="slide-item" (click)="copyTell(selectedSubscriber.tell)"
-                      *ngIf="selectedSubscriber.tell">
-                      <i class="fa-solid fa-phone"></i>
-                      <div class="slide-name">Номер</div>
-                    </button>
-
-                    <a class="slide-item" href="https://www.instagram.com/{{  selectedSubscriber.instagram }}"
-                      *ngIf="selectedSubscriber.instagram">
-                      <i class="fa-brands fa-instagram"></i>
-                      <div class="slide-name">instagram</div>
-                    </a>
-
-                    <a class="slide-item" href="https://www.facebook.com//{{  selectedSubscriber.facebook }}"
-                      *ngIf="selectedSubscriber.facebook">
-                      <i class="fa-brands fa-facebook"></i>
-                      <div class="slide-name">facebook</div>
-                    </a>
-
-                    <a class="slide-item" href="https://t.me/{{  selectedSubscriber.telegram }}"
-                      *ngIf="selectedSubscriber.telegram">
-                      <i class="fa-brands fa-telegram"></i>
-                      <div class="slide-name">telegram</div>
-                    </a>
-
-                    <button class="slide-item" (click)="copyViber(selectedSubscriber.viber)"
-                      *ngIf="selectedSubscriber.viber">
-                      <i class="fa-brands fa-viber"></i>
-                      <div class="slide-name">viber</div>
-                    </button>
-
-                  </div>
-
-                  <div class="slide">
-
-                    <button class="slide-item" (click)="copyId(selectedSubscriber.user_id)">
-                      <div class="slide-item-box">
-                        <div class="bold">{{selectedSubscriber.user_id}}</div>
-                        <i class="fa-solid fa-fingerprint pl-2"></i>
-                      </div>
-                      <div class="slide-name">ID<br>орендаря</div>
-                    </button>
-
-                    <button class="slide-item">
-                      <div class="slide-item-box">
-                        <div class="bold">{{ratingTenant}}</div>
-                        <i class="fa-regular fa-star"></i>
-                      </div>
-                      <div class="slide-name">Рейтинг <br> орендаря</div>
-                    </button>
-
-                    <button class="slide-item" (click)="copyMail(selectedSubscriber.mail)"
-                      *ngIf="selectedSubscriber.mail">
-                      <i class="fa-solid fa-at"></i>
-                      <div class="slide-name">Пошта</div>
-                    </button>
-
-                    <button class="slide-item" (click)="copyTell(selectedSubscriber.tell)"
-                      *ngIf="selectedSubscriber.tell">
-                      <i class="fa-solid fa-phone"></i>
-                      <div class="slide-name">Номер</div>
-                    </button>
-
-                    <a class="slide-item" href="https://www.instagram.com/{{  selectedSubscriber.instagram }}"
-                      *ngIf="selectedSubscriber.instagram">
-                      <i class="fa-brands fa-instagram"></i>
-                      <div class="slide-name">instagram</div>
-                    </a>
-
-                    <a class="slide-item" href="https://www.facebook.com//{{  selectedSubscriber.facebook }}"
-                      *ngIf="selectedSubscriber.facebook">
-                      <i class="fa-brands fa-facebook"></i>
-                      <div class="slide-name">facebook</div>
-                    </a>
-
-                    <a class="slide-item" href="https://t.me/{{  selectedSubscriber.telegram }}"
-                      *ngIf="selectedSubscriber.telegram">
-                      <i class="fa-brands fa-telegram"></i>
-                      <div class="slide-name">telegram</div>
-                    </a>
-
-                    <button class="slide-item" (click)="copyViber(selectedSubscriber.viber)"
-                      *ngIf="selectedSubscriber.viber">
-                      <i class="fa-brands fa-viber"></i>
-                      <div class="slide-name">viber</div>
-                    </button>
-
-                  </div>
-                </div>
-              </div>
+            <div class="info-panel">
+              <app-links-box></app-links-box>
             </div>
 
           </div>
         </div>
 
-        <div class="flex-box">
-          <div class="flex-column p-2">
+        <div class="flex-box"
+          *ngIf="selectedSubscriber.lastName || selectedSubscriber.firstName || selectedSubscriber.surName">
+          <div class="flex-column p-2" *ngIf="selectedSubscriber.lastName">
             <div class="t-lar bold">{{ selectedSubscriber.lastName }}</div>
             <div class="t-min gray">Прізвище</div>
           </div>
-          <div class="flex-column p-2">
+          <div class="flex-column p-2" *ngIf="selectedSubscriber.firstName">
             <div class="t-lar bold">{{ selectedSubscriber.firstName }}</div>
             <div class="t-min gray">ім'я</div>
           </div>
-          <div class="flex-column p-2">
+          <div class="flex-column p-2" *ngIf="selectedSubscriber.surName">
             <div class="t-lar bold">{{ selectedSubscriber.surName }}</div>
             <div class="t-min gray">По батькові</div>
           </div>
@@ -181,7 +68,8 @@
             <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
           </button>
 
-          <button [disabled]="numberOfReviews === 0" class="link-menu" (click)="onClickMenu(4)" [ngClass]="{ 'active': indexPage === 4 }">
+          <button [disabled]="numberOfReviews === 0" class="link-menu" (click)="onClickMenu(4)"
+            [ngClass]="{ 'active': indexPage === 4 }">
             <div class="flex-column pl-4 w-80">
               <p class="link-menu-t1">Відгуки</p>
               <p class="link-menu-t2">Орендодавців</p>
@@ -189,7 +77,7 @@
             <div class="link-icon w-20"><i class="fa-solid fa-star-half-stroke"></i></div>
           </button>
 
-          <button *ngIf="!selectMyPage && iResident === 'false'" class="link-menu" (click)="onClickMenu(2)"
+          <button class="link-menu" (click)="onClickMenu(2)"
             [ngClass]="{ 'active': indexPage === 2 }">
             <div class="flex-column pl-4 w-80">
               <p class="link-menu-t1">Надати</p>
@@ -234,8 +122,9 @@
               <div class="link-icon w-20"><i class="fa-solid fa-ranking-star"></i></div>
             </button>
 
-            <button *ngIf="statusPermitCreate && statusPermitStart && statusPermitEnd" class="link-menu"
-              (click)="onClickMenu(3)" [disabled]="iResident === 'true'" [ngClass]="{ 'active': indexPage === 3 }">
+            <button *ngIf="statusPermitCreate && statusPermitStart && statusPermitEnd"
+              class="link-menu" (click)="onClickMenu(3)"
+              [ngClass]="{ 'active': indexPage === 3 }">
               <div class="flex-column pl-4 w-80">
                 <p class="link-menu-t1">Залишити</p>
                 <p class="link-menu-t2">Відгук</p>
@@ -252,45 +141,6 @@
               <div class="link-icon w-20"><i class="fa-regular fa-calendar"></i></div>
             </button>
 
-            <div class="statusUserBox p-2" *ngIf="selectedSubAgree">
-
-              <div class="statusBox" *ngIf="selectedSubAgree.data">
-                <div class="statusValue">Дата створення угоди: <span class="bold"> {{selectedSubAgree.data | date:
-                    'dd-MM-yy'}}</span></div>
-                <div class="flex-box">
-                  <div *ngIf="statusPermitCreate"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-                  </div>
-                  <div *ngIf="!statusPermitCreate"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-                  </div>
-                  <div *ngIf="statusPermitCreateMsg" class="statusMsg pl-2">{{statusPermitCreateMsg}}</div>
-                </div>
-              </div>
-
-              <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeStart">
-                <div class="statusValue">Дія угоди з: <span class="bold">{{selectedSubAgree.dateAgreeStart | date:
-                    'dd-MM-yy'}}</span> </div>
-                <div class="flex-box">
-                  <div *ngIf="statusPermitStart"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-                  </div>
-                  <div *ngIf="!statusPermitStart"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-                  </div>
-                  <div *ngIf="statusPermitStartMsg" class="statusMsg pl-2">{{statusPermitStartMsg}}</div>
-                </div>
-              </div>
-
-              <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeEnd">
-                <div class="statusValue">Дія угоди до: <span class="bold">{{selectedSubAgree.dateAgreeEnd | date:
-                    'dd-MM-yy'}}</span> </div>
-                <div class="flex-box">
-                  <div *ngIf="statusPermitEnd"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-                  </div>
-                  <div *ngIf="!statusPermitEnd"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-                  </div>
-                  <div *ngIf="statusPermitEndMsg" class="statusMsg pl-2">{{statusPermitEndMsg}}</div>
-                </div>
-              </div>
-
-            </div>
           </div>
 
         </nav>
@@ -326,12 +176,6 @@
       </div>
       <div class="card-content">
 
-        <div class="img-wrapper2" *ngIf="isMobile">
-          <img class="img2"
-            [src]="serverPath + pathPhotoUser + (selectedSubscriber.img ? selectedSubscriber.img : 'user_default.svg')"
-            alt="img">
-        </div>
-
         <div class="flex-column bold t-c p-2 mt-3">
           <div class="t-lar bold gray t-с">Оцінити <br> мешканця <i class="fa-solid fa-ranking-star pl-2 gray"></i>
           </div>
@@ -347,6 +191,46 @@
             <span class="accent bold">Оцінити можна лише того орендаря з яким у вас є акт-прийому передачі
               оселі.</span>
           </div>
+        </div>
+
+        <div class="statusUserBox p-2" *ngIf="selectedSubAgree">
+
+          <div class="statusBox" *ngIf="selectedSubAgree.data">
+            <div class="statusValue">Дата створення угоди: <span class="bold"> {{selectedSubAgree.data | date:
+                'dd-MM-yy'}}</span></div>
+            <div class="flex-box">
+              <div *ngIf="statusPermitCreate"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+              </div>
+              <div *ngIf="!statusPermitCreate"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+              </div>
+              <div *ngIf="statusPermitCreateMsg" class="statusMsg pl-2">{{statusPermitCreateMsg}}</div>
+            </div>
+          </div>
+
+          <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeStart">
+            <div class="statusValue">Дія угоди з: <span class="bold">{{selectedSubAgree.dateAgreeStart | date:
+                'dd-MM-yy'}}</span> </div>
+            <div class="flex-box">
+              <div *ngIf="statusPermitStart"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+              </div>
+              <div *ngIf="!statusPermitStart"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+              </div>
+              <div *ngIf="statusPermitStartMsg" class="statusMsg pl-2">{{statusPermitStartMsg}}</div>
+            </div>
+          </div>
+
+          <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeEnd">
+            <div class="statusValue">Дія угоди до: <span class="bold">{{selectedSubAgree.dateAgreeEnd | date:
+                'dd-MM-yy'}}</span> </div>
+            <div class="flex-box">
+              <div *ngIf="statusPermitEnd"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+              </div>
+              <div *ngIf="!statusPermitEnd"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
+              </div>
+              <div *ngIf="statusPermitEndMsg" class="statusMsg pl-2">{{statusPermitEndMsg}}</div>
+            </div>
+          </div>
+
         </div>
 
         <div class="flex-column t-c p-2">

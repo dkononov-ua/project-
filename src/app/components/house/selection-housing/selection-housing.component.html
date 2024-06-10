@@ -1,6 +1,7 @@
 <ng-container *ngIf="loading; else content">
   <app-loader></app-loader>
 </ng-container>
+<app-status-access></app-status-access>
 
 <ng-template #content>
   <ng-container *ngIf="allFlats || allFlatsTenant">
@@ -56,32 +57,19 @@
         </div>
         <div class="flatsTenant border-bottom" *ngIf="allFlatsTenant && allFlatsTenant.length > 0">
           <div class="t-lar bold t-c">Орендовані оселі</div>
-          <div class="card-mini mb-2" *ngFor="let flat of allFlatsTenant" (click)="selectFlat(flat)"
+          <div class="card-mini mb-2" *ngFor="let flat of allFlatsTenant"
             [ngClass]="{ 'selected': chooseFlatID === flat.flat_id  }">
 
-            <div class="status-container m-2"
-              *ngIf="flat.acces_discuss === 1 || flat.acces_admin === 1 || flat.acces_agent === 1 || flat.acces_agreement === 1 || flat.acces_citizen === 1 || flat.acces_comunal === 1 || flat.acces_comunal_indexes === 1 || flat.acces_discuss === 1 || flat.acces_filling === 1 || flat.acces_flat_chats === 1 || flat.acces_flat_features === 1 || flat.acces_services === 1 || flat.acces_subs === 1">
-              <div class="status-box">
-                <div class="status-value" *ngIf="flat.acces_discuss === 1">Дискусія</div>
-                <div class="status-value" *ngIf="flat.acces_admin === 1">Адмінстратор</div>
-                <div class="status-value" *ngIf="flat.acces_agent === 1">Представник</div>
-                <div class="status-value" *ngIf="flat.acces_agreement === 1">Угоди</div>
-                <div class="status-value" *ngIf="flat.acces_citizen === 1">Мешканці</div>
-                <div class="status-value" *ngIf="flat.acces_comunal === 1">Комунальні</div>
-                <div class="status-value" *ngIf="flat.acces_comunal_indexes === 1">Лічильник</div>
-                <div class="status-value" *ngIf="flat.acces_filling === 1">Наповнення</div>
-                <div class="status-value" *ngIf="flat.acces_flat_chats === 1">Чат</div>
-                <div class="status-value" *ngIf="flat.acces_flat_features === 1">Пошук</div>
-                <div class="status-value" *ngIf="flat.acces_subs === 1">Підписки</div>
-                <!-- <div class="status-value" *ngIf="flat.acces_services === 1">Послуги</div> -->
-              </div>
-            </div>
-
             <div class="card-mini-body p-2">
-              <div class="btn-pick p-2">
+              <button class="btn-pick p-2" (click)="selectFlat(flat)">
                 <div class="t-med t-s" *ngIf="chooseFlatID === flat.flat_id">Обрано оселю</div>
                 <div class="t-lar-x t-s">{{ flat.flat_name }}</div>
                 <div class="t-lar-xx t-s">ID: {{ flat.flat_id }}</div>
+              </button>
+              <div class="btn-group-comun w-20">
+                <button class="btn-delete flex-box" (click)="checkAcces(flat)">
+                  <i class="fa-solid fa-lock-open"></i>
+                </button>
               </div>
             </div>
 
@@ -118,5 +106,3 @@
   </ng-container>
   <div class="t-lar" *ngIf="!allFlats && !allFlatsTenant">Оселей немає</div>
 </ng-template>
-
-

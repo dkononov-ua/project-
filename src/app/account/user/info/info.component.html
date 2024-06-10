@@ -132,128 +132,8 @@
                 <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
               </ng-container>
 
-              <div class="panel-container">
-                <div class="caruesel-container w-100">
-                  <div class="carousel w-100">
-                    <div class="slide">
-                      <button class="slide-item" (click)="copyId()">
-                        <div class="slide-item-box">
-                          <div class="bold">{{userInfo.user_id}}</div>
-                          <i class="fa-solid fa-fingerprint pl-2"></i>
-                        </div>
-                        <div class="slide-name">ID<br>користувача</div>
-                      </button>
-
-                      <button class="slide-item">
-                        <div class="slide-item-box">
-                          <div class="bold">{{ratingOwner}}</div>
-                          <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div class="slide-name">Рейтинг <br> власника</div>
-                      </button>
-
-                      <button class="slide-item">
-                        <div class="slide-item-box">
-                          <div class="bold">{{ratingTenant}}</div>
-                          <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div class="slide-name">Рейтинг <br> Орендаря</div>
-                      </button>
-
-                      <button class="slide-item" (click)="copyMail()" *ngIf="userInfo.mail">
-                        <i class="fa-solid fa-at"></i>
-                        <div class="slide-name">Пошта</div>
-                      </button>
-
-                      <button class="slide-item" (click)="copyTell()" *ngIf="userInfo.tell">
-                        <i class="fa-solid fa-phone"></i>
-                        <div class="slide-name">Номер</div>
-                      </button>
-
-                      <a class="slide-item" href="https://www.instagram.com/{{  userInfo.instagram }}"
-                        *ngIf="userInfo.instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                        <div class="slide-name">instagram</div>
-                      </a>
-
-                      <a class="slide-item" href="https://www.facebook.com//{{  userInfo.facebook }}"
-                        *ngIf="userInfo.facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                        <div class="slide-name">facebook</div>
-                      </a>
-
-                      <a class="slide-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
-                        <i class="fa-brands fa-telegram"></i>
-                        <div class="slide-name">telegram</div>
-                      </a>
-
-                      <button class="slide-item" (click)="copyViber()" *ngIf="userInfo.viber">
-                        <i class="fa-brands fa-viber"></i>
-                        <div class="slide-name">viber</div>
-                      </button>
-
-                    </div>
-
-                    <div class="slide">
-                      <button class="slide-item" (click)="copyId()">
-                        <div class="slide-item-box">
-                          <div class="bold">{{userInfo.user_id}}</div>
-                          <i class="fa-solid fa-fingerprint pl-2"></i>
-                        </div>
-                        <div class="slide-name">ID<br>користувача</div>
-                      </button>
-
-                      <button class="slide-item">
-                        <div class="slide-item-box">
-                          <div class="bold">{{ratingOwner}}</div>
-                          <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div class="slide-name">Рейтинг <br> власника</div>
-                      </button>
-
-                      <button class="slide-item">
-                        <div class="slide-item-box">
-                          <div class="bold">{{ratingTenant}}</div>
-                          <i class="fa-regular fa-star"></i>
-                        </div>
-                        <div class="slide-name">Рейтинг <br> Орендаря</div>
-                      </button>
-
-                      <button class="slide-item" (click)="copyMail()" *ngIf="userInfo.mail">
-                        <i class="fa-solid fa-at"></i>
-                        <div class="slide-name">Пошта</div>
-                      </button>
-
-                      <button class="slide-item" (click)="copyTell()" *ngIf="userInfo.tell">
-                        <i class="fa-solid fa-phone"></i>
-                        <div class="slide-name">Номер</div>
-                      </button>
-
-                      <a class="slide-item" href="https://www.instagram.com/{{  userInfo.instagram }}"
-                        *ngIf="userInfo.instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                        <div class="slide-name">instagram</div>
-                      </a>
-
-                      <a class="slide-item" href="https://www.facebook.com//{{  userInfo.facebook }}"
-                        *ngIf="userInfo.facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                        <div class="slide-name">facebook</div>
-                      </a>
-
-                      <a class="slide-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
-                        <i class="fa-brands fa-telegram"></i>
-                        <div class="slide-name">telegram</div>
-                      </a>
-
-                      <button class="slide-item" (click)="copyViber()" *ngIf="userInfo.viber">
-                        <i class="fa-brands fa-viber"></i>
-                        <div class="slide-name">viber</div>
-                      </button>
-
-                    </div>
-                  </div>
-                </div>
+              <div class="info-panel">
+                <app-links-box></app-links-box>
               </div>
 
             </div>
@@ -319,7 +199,7 @@
               <div class="link-icon w-20"><i class="fa-solid fa-house"></i></div>
             </a>
 
-            <a class="link-menu" target="_blank" href="https://t.me/discussio_chat">
+            <a class="link-menu" target="_blank" href="https://t.me/discussio_chat" *ngIf="isMobile">
               <div class="flex-column w-80">
                 <p class="link-menu-t1">Технічна</p>
                 <p class="link-menu-t2">Підтримка <i class="fa-brands fa-telegram"></i></p>

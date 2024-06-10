@@ -101,6 +101,7 @@ export class RegistrationComponent implements OnInit {
   counterPass: number = 5;
   counterWrongEnteredPass: number = 5;
   timeLeft: number = 0;
+  checkDob: boolean = false;
 
   nextBtn(indexBtn: number) {
     if (indexBtn)
@@ -156,18 +157,19 @@ export class RegistrationComponent implements OnInit {
   }
 
   openGoogleAuth() {
-    if (!this.agreementAccepted) {
-      this.sharedService.setStatusMessage('Треба ознайомитись з угодою користувача');
-      setTimeout(() => {
-        this.sharedService.setStatusMessage('');
-      }, 1000);
-    } else {
-      this.authGoogleService.singAuthGoogle('registration');
-    }
+    // if (!this.agreementAccepted) {
+    //   this.sharedService.setStatusMessage('Треба ознайомитись з угодою користувача');
+    //   setTimeout(() => {
+    //     this.sharedService.setStatusMessage('');
+    //   }, 1000);
+    // } else {
+    //   this.authGoogleService.singAuthGoogle('registration');
+    // }
+    this.authGoogleService.singAuthGoogle('registration');
   }
 
   registrationCheck(): void {
-    if (this.registrationForm.valid && this.agreementAccepted) {
+    if (this.registrationForm.valid) {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
         const data = {
@@ -215,7 +217,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration(): void {
-    if (this.registrationForm.valid && this.agreementAccepted) {
+    if (this.registrationForm.valid) {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
         const data = {
@@ -254,6 +256,8 @@ export class RegistrationComponent implements OnInit {
             }, 2000);
           }
         );
+      } else {
+        this.checkDob = false;
       }
     }
   }
@@ -377,6 +381,11 @@ export class RegistrationComponent implements OnInit {
       ],
       email: [null, [Validators.required, Validators.pattern(/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})$/)]],
       dob: [null, [Validators.required]],
+    });
+    // Підписка на пошту та перевірка на валідність
+    this.registrationForm.get('dob')?.valueChanges.subscribe(value => {
+      this.formErrors.dob = '';
+      onValueChanged(this.registrationForm);
     });
     // Підписка на пошту та перевірка на валідність
     this.registrationForm.get('email')?.valueChanges.subscribe(value => {

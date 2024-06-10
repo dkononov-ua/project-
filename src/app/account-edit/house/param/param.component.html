@@ -65,7 +65,7 @@
               <input id="looking_house" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=1>
               <div class="transition"></div>
             </label>
-            <span class="checkBox-span">Будинок</span>
+            <span class="checkBox-span">Будинок <i class="fa-solid fa-house-chimney-window gray pr-2"></i></span>
             <i></i>
           </div>
 
@@ -74,7 +74,7 @@
               <input id="looking_flat" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=2>
               <div class="transition"></div>
             </label>
-            <span class="checkBox-span">Квартира</span>
+            <span class="checkBox-span">Квартира <i class="fa-solid fa-building-circle-arrow-right gray pr-2"></i></span>
             <i></i>
           </div>
         </div>
@@ -83,18 +83,21 @@
           <mat-form-field class="item-select" appearance="outline">
             <mat-label>Площа м²</mat-label>
             <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="flatInfo.area" name="area">
+            <mat-icon matSuffix><i class="fa-solid fa-s"></i></mat-icon>
           </mat-form-field>
 
           <mat-form-field class="item-select" appearance="outline">
             <mat-label>Кухня м²</mat-label>
             <input matInput type="number" [min]="minValueKitchen" [max]="maxValueKitchen"
               [(ngModel)]="flatInfo.kitchen_area" name="kitchen_area">
+              <mat-icon matSuffix><i class="fa-solid fa-utensils"></i></mat-icon>
           </mat-form-field>
 
           <mat-form-field class="item-select" appearance="outline">
             <mat-label>Поверх</mat-label>
             <input matInput type="number" [min]="minValueFloor" [max]="maxValueFloor" [(ngModel)]="flatInfo.floor"
               name="floor">
+              <mat-icon matSuffix><i class="fa-solid fa-stairs"></i></mat-icon>
           </mat-form-field>
         </div>
 
@@ -106,6 +109,7 @@
             <mat-option [value]="4">Чотирьохкімнатна</mat-option>
             <mat-option [value]="5">Більше чотирьох</mat-option>
           </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-draw-polygon"></i></mat-icon>
           <mat-hint align="start" class="t-min gray">Кількість кімнат</mat-hint>
         </mat-form-field>
 
@@ -118,6 +122,7 @@
               <mat-option value="Задовільний">Задовільний</mat-option>
               <mat-option value="Поганий">Поганий</mat-option>
             </mat-select>
+            <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
             <mat-hint align="start" class="t-min gray">Стан оселі</mat-hint>
           </mat-form-field>
           <button class="info-btn" (click)="openHelpRepair()">Допомога</button>
@@ -133,6 +138,7 @@
               <mat-option value="Тераса">Тераса</mat-option>
               <mat-option value="Веранда">Веранда</mat-option>
             </mat-select>
+            <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
             <mat-hint align="start" class="t-min gray">Тип балкону</mat-hint>
           </mat-form-field>
           <button class="info-btn" (click)="openHelpBalcony()">Допомога</button>

@@ -22,5 +22,9 @@ export class ChoseSubscribeService {
       await this.counterService.getUserNewMessage();
     }, 500);
   }
-  
+
+  removeChosenFlatId() {
+    // console.log('removeChosenFlatId')
+    this.chosenFlatIdSubject.next(null);
+  }
 }

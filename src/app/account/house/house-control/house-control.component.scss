@@ -8,6 +8,12 @@
   align-items: stretch;
 }
 
+.switch-container {
+  @include s1-s3 {
+    justify-content: space-around !important;
+  }
+}
+
 .card-group {
   @include s3-s6-max {
     background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, $color-primary) !important;

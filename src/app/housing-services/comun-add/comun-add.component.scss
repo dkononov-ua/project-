@@ -2,12 +2,6 @@
 @use "../../style/mixins/" as *;
 @use "../housing-services.component.scss";
 
-// .card-content-static {
-//   @include s3-s6-max {
-//     background-color: $color-primary !important;
-//   }
-// }
-
 .flex-box {
   @include flex-box;
   justify-content: space-evenly;
@@ -47,7 +41,7 @@
   border-radius: 20px;
   border: none;
 
-  box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.792);
+  box-shadow: 3px 5px 10px $color-dark;
   transition: 1s;
   @include s3-s6-max {
     min-width: 350px;
@@ -59,10 +53,10 @@
     z-index: 105;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to right, white 20%, rgba(255, 255, 255, 0) 80%);
+    background-image: linear-gradient(to right, $color-white 20%, transparent 80%);
     .item-box {
       @include flex-box-center;
-      color: rgba(62, 62, 62, 0.898);
+      color: $color-gray;
       border: none;
       background-color: transparent;
       flex-direction: column;
@@ -119,10 +113,10 @@
   z-index: 20;
   border: none;
   margin: 5px;
-  background-color: rgba(255, 255, 255, 0.37);
+  background-color: $color-white;
 
   .fa-solid {
-    color: $color-text;
+    color: $color-dark;
     font-size: 20px;
   }
 }

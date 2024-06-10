@@ -1,6 +1,5 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
-@use "../../style/shared.scss" as *;
 
 .container-loader-mini {
   display: flex;
@@ -20,7 +19,7 @@
   cursor: pointer;
   background-color: transparent;
   &:hover {
-    box-shadow: -3px 3px 20px -10px darken($color-accent, 40%);
+    box-shadow: -3px 3px 20px -10px ($color-accent, 40%);
   }
 
   .status-box {
@@ -32,22 +31,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     margin: 3px;
     width: 30px;
     height: 30px;
     padding: 5px;
-    color: $color-white;
+    color: $color-white-always;
     border-radius: 10px;
     background-color: $color-accent;
     box-shadow:
-      2px 3px 10px rgba(0, 0, 0, 0.25),
-      2px 2px 10px rgba(0, 0, 0, 0.22);
+      2px 3px 10px $color-shadow,
+      2px 2px 10px $color-shadow;
     font-size: 12px;
     font-weight: bold;
     .fa-solid,
     .fa-regular {
       font-size: 14px;
+      color: $color-white-always;
     }
   }
 
@@ -60,7 +59,7 @@
     top: 170%;
     left: 10px;
     display: none;
-    background-color: rgba(26, 26, 26, 0.957);
+    background-color:  $color-dark;
     border-radius: 20px;
     padding: 8px;
 

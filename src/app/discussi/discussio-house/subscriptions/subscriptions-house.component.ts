@@ -210,6 +210,7 @@ export class SubscriptionsHouseComponent implements OnInit {
         if (selectedUser) {
           this.selectedUser = selectedUser;
           this.statusDataService.setStatusData(this.selectedUser);
+          this.statusDataService.setUserData(this.selectedUser, 3);
           this.getRating(this.selectedUser)
         } else {
           this.selectedUser = undefined;

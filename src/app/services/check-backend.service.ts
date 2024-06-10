@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SharedService } from './shared.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { timeout } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class CheckBackendService {
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
+    private router: Router,
   ) {
     this.sharedService.statusServer$.subscribe((status: string) => {
       this.statusServer = status;
@@ -52,11 +54,9 @@ export class CheckBackendService {
         this.sharedService.setServerPath(this.serverPath);
       } else if (this.savedServerPath === this.firstPath && response.serb === true) {
         //якщо такий шлях вже задіяний всюди
-        console.log('ОК firstPath');
+        // console.log('ОК firstPath');
         this.serverPath = this.firstPath;
         this.sharedService.setStatusServer('')
-      } else {
-        console.log('firstPath is OFF');
       }
     } catch (firstPathError: any) {
       // console.log(firstPathError)
@@ -78,22 +78,20 @@ export class CheckBackendService {
           this.sharedService.setServerPath(this.secondPath);
         } else if (this.savedServerPath === this.secondPath && response.serb === true) {
           //якщо такий шлях вже задіяний всюди
-          console.log('ОК secondPath');
+          // console.log('ОК secondPath');
           this.statusServer = 'Задіяний резервний інтернет, швидкість може бути нижчою! Дякуємо за розуміння!';
           this.sharedService.setStatusServer(this.statusServer);
-        } else {
-          console.log('secondPath is OFF');
         }
       } catch (secondPathError: any) {
         //якщо нічого не відповідає
         // console.log('firstPath and secondPath is OFF');
-        this.serverPath = this.secondPath;
+        // this.serverPath = this.secondPath;
         if (this.statusServer !== 'Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.') {
-          this.statusServer = 'Задіяний резервний інтернет, швидкість може бути нижчою! Дякуємо за розуміння!';
+          this.statusServer = 'Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.';
           this.sharedService.setStatusServer(this.statusServer);
+          // this.router.navigate(['/home/about-project']);
         }
       }
-
     }
   }
 

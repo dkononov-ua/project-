@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-info',
@@ -19,17 +20,32 @@ import { StatusDataService } from 'src/app/services/status-data.service';
   providers: [{ provide: LOCALE_ID, useValue: 'uk-UA' },],
   styleUrls: ['./info.component.scss'],
   animations: [
-    animations.right2,
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateX(120%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(120%)' }))
+      ]),
+    ]),
+    animations.top,
+    animations.top1,
+    animations.top2,
+    animations.top3,
+    animations.top4,
     animations.left,
     animations.left1,
     animations.left2,
     animations.left3,
-    animations.left4,
-    animations.left5,
     animations.swichCard,
   ],
 })
 export class InfoComponent implements OnInit {
+
+
+
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -145,6 +161,7 @@ export class InfoComponent implements OnInit {
       this.dataService.getInfoUser().subscribe(
         (response) => {
           if (response.status === true) {
+            this.statusDataService.setUserData(response.cont, 0);
             // console.log(response);
             this.agreeNum = response.agree;
             localStorage.setItem('counterUserNewAgree', JSON.stringify(this.agreeNum));

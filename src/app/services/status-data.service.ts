@@ -13,6 +13,13 @@ export class StatusDataService {
   private statusDataFlatSubject = new BehaviorSubject<any>('');
   public statusDataFlat$ = this.statusDataFlatSubject.asObservable();
 
+  private userDataSubject = new BehaviorSubject<any>('');
+  public userData$ = this.userDataSubject.asObservable();
+
+  private statusAccessSubject = new BehaviorSubject<any>('');
+  public statusAccess$ = this.statusAccessSubject.asObservable();
+
+
   statusInfo: StatusInfo = StatusConfig;
 
   constructor() { }
@@ -27,22 +34,18 @@ export class StatusDataService {
     this.statusDataFlatSubject.next(data);
   }
 
-  // якщо треба буде кожне окремо присвоїти
-  // setStatusUserSearchData(data: any): void {
-  //   // this.statusInfo.house = data.house;
-  //   // this.statusInfo.flat = data.flat;
-  //   // this.statusInfo.room = data.room;
-  //   // this.statusInfo.looking_woman = data.looking_woman;
-  //   // this.statusInfo.looking_man = data.looking_man;
-  //   // this.statusInfo.agree_search = data.agree_search;
-  //   // this.statusInfo.students = data.students;
-  //   // this.statusInfo.woman = data.woman;
-  //   // this.statusInfo.man = data.man;
-  //   // this.statusInfo.family = data.family;
-  //   // this.statusInfo.date = data.date;
-  //   // this.statusInfo.checked = data.checked;
-  //   // this.statusInfo.realll = data.realll;
-  //   this.setStatusData();
-  // }
+  setUserData(data: any, index: number): void {
+    // console.log(data)
+    // index потрібен для показу рейтингу в links-box.component
+    // якщо 0 - показую два рейтинги
+    // якщо 1 - показую рейтинг орендодавця
+    // якщо 2 - показую рейтинг орендаря
+    this.userDataSubject.next({ data, index });
+  }
+
+  setStatusAccess(data: any): void {
+    // console.log(data)
+    this.statusAccessSubject.next(data);
+  }
 
 }

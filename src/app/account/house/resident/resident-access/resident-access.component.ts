@@ -41,6 +41,22 @@ interface Subscriber {
 
 export class ResidentAccessComponent implements OnInit {
 
+  acces_added: number = 1;
+  acces_admin: number = 1;
+  acces_agent: number = 1;
+  acces_agreement: number = 1;
+  acces_citizen: number = 1;
+  acces_comunal: number = 1;
+  acces_comunal_indexes: number = 1;
+  acces_discuss: number = 1;
+  acces_filling: number = 1;
+  acces_flat_chats: number = 1;
+  acces_flat_features: number = 1;
+  acces_services: number = 1;
+  acces_subs: number = 1;
+  authorization: boolean = false;
+  houseData: any;
+
   loading = false;
   statusMessage: string | undefined;
 
@@ -107,6 +123,7 @@ export class ResidentAccessComponent implements OnInit {
       if (this.serverPath) {
         this.getSelectedFlat();
         this.selectResidents();
+        this.getHouseAcces();
       }
     })
   }
@@ -193,5 +210,31 @@ export class ResidentAccessComponent implements OnInit {
       console.log('Авторизуйтесь');
     }
   }
+
+    // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+    async getHouseAcces(): Promise<void> {
+      this.houseData = localStorage.getItem('houseData');
+      if (this.houseData) {
+        const parsedHouseData = JSON.parse(this.houseData);
+        this.houseData = parsedHouseData;
+        // console.log(this.houseData)
+        if (this.houseData.acces) {
+          this.acces_added = this.houseData.acces.acces_added;
+          this.acces_admin = this.houseData.acces.acces_admin;
+          this.acces_agent = this.houseData.acces.acces_agent;
+          this.acces_agreement = this.houseData.acces.acces_agreement;
+          this.acces_citizen = this.houseData.acces.acces_citizen;
+          this.acces_comunal = this.houseData.acces.acces_comunal;
+          this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+          this.acces_discuss = this.houseData.acces.acces_discuss;
+          this.acces_filling = this.houseData.acces.acces_filling;
+          this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+          this.acces_flat_features = this.houseData.acces.acces_flat_features;
+          this.acces_services = this.houseData.acces.acces_services;
+          this.acces_subs = this.houseData.acces.acces_subs;
+        }
+
+      }
+    }
 
 }

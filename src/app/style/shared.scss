@@ -2,19 +2,28 @@
 @use "../style/mixins/" as *;
 @use "../style/media.scss" as *;
 
+.info-panel {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: $color-white;
+  border-radius: 20px 20px 0 0;
+  padding: 10px;
+}
+
 .b-primary {
   @include flex-box-center;
   background-color: $color-accent;
   border-radius: 20px;
   margin: 0;
   @include box-shadow;
-  color: $color-white;
+  color: $color-white-always;
   width: 250px;
   height: 60px;
   .fa-regular,
   .fa-solid,
   .fa-brands {
-    color: $color-white;
+    color: $color-white-always;
     transition: 1s;
   }
   transition: 1s;
@@ -248,7 +257,7 @@
   .fa-solid,
   .fa-regular {
     color: $color-white;
-    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+    filter: drop-shadow(5px 5px 10px $color-shadow);
   }
   &:disabled {
     background-color: rgba(0, 0, 0, 0.1);
@@ -314,15 +323,9 @@
     position: sticky;
     top: 0;
     margin-top: 1rem;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.197);
-    border-top: 1px solid rgba(128, 128, 128, 0.197);
-    background-image: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(255, 255, 255, 0.824) 10%,
-      rgba(255, 255, 255, 0.653) 70%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    border-bottom: 1px solid light-dark($color-light-gray, transparent);
+    border-top: 1px solid light-dark($color-light-gray, transparent);
+    // background-image: linear-gradient(to right, transparent 0%, light-dark( $color-white, transparent) 10%, light-dark( $color-gray, transparent) 70%, transparent 100%);
 
     @include s1-s3 {
       border: none;
@@ -445,7 +448,7 @@
       .card-mini.selected {
         transition: 1s;
         color: $color-white;
-        background-color: $color-dark;
+        background-color: $color-gray;
       }
     }
   }
@@ -484,7 +487,7 @@
       padding: 10px;
       z-index: 10;
       justify-content: center;
-      background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 60%);
+      background-image: linear-gradient(to top, transparent 0%, $color-white 60%);
     }
     .card-background {
       position: absolute;
@@ -545,7 +548,7 @@
     position: relative;
     height: 80px;
     border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.823);
+    background-color: $color-white;
     overflow: hidden;
     &:hover .slide {
       animation-play-state: paused;
@@ -588,7 +591,7 @@
         }
         &.not-allowed {
           cursor: not-allowed;
-          background-color: rgba(128, 128, 128, 0.711);
+          background-color: $color-light;
         }
       }
     }
@@ -649,7 +652,7 @@
       .fa-regular {
         padding-left: 5px;
         color: $color-white;
-        filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+        filter: drop-shadow(5px 5px 10px $color-shadow);
       }
     }
   }
@@ -737,6 +740,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 3px;
+  color: $color-text;
 }
 
 .inputbox-group {
@@ -746,6 +750,7 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   position: relative;
+  color: $color-text;
 }
 
 // вікно додаткової інформації
@@ -758,6 +763,7 @@
   display: flex;
   justify-content: flex-end;
   z-index: 50;
+  color: $color-text;
 
   @include s1-s3 {
     width: 100%;
@@ -775,7 +781,7 @@
     top: 0;
     left: 0;
     background-color: $color-dark;
-    border: 1px solid #ccc;
+    border: 1px solid $color-white;
     border-radius: 10px;
     padding: 8px;
   }
@@ -875,7 +881,7 @@
     }
 
     &:hover {
-      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+      filter: drop-shadow(0px 0px 10px $color-shadow);
     }
 
     .stub-card-logo {
@@ -960,7 +966,7 @@
     border-radius: 0px;
     color: $color-accent;
     transition: 1s;
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px 0px 10px $color-accent);
     .link-menu-t2,
     .link-menu-t1 {
       color: $color-accent;
@@ -983,7 +989,7 @@
     transform: scale(1.1);
     color: $color-accent;
     transition: 1s;
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px 0px 10px $color-accent);
     .link-menu-t2,
     .link-menu-t1 {
       color: $color-accent;

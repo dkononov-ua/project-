@@ -3,11 +3,50 @@
 @use "../../style/shared.scss";
 @use "../../style/radio.scss";
 
+.status-static {
+  @include flex-box-center;
+  width: 35px;
+  height: 35px;
+  background-color: $color-gray;
+  color: $color-white;
+  border-radius: 50%;
+  transition: 1s;
+  &.active {
+    background-color: $color-accent !important;
+    width: 40px;
+    height: 40px;
+    @include box-shadow-a;
+    @include s1-s3 {
+      width: 35px;
+      height: 35px;
+    }
+  }
+  .fa-solid,
+  .fa-regular {
+    color: $color-white;
+  }
+
+  .fa-envelope-open-text {
+    color: $color-white;
+    font-size: 15px;
+  }
+
+  @include s1-s3 {
+    width: 30px;
+    height: 30px;
+    right: 10px;
+    top: 10px;
+    .fa-envelope-open-text {
+      font-size: 10px;
+    }
+  }
+}
+
 .btn {
   display: flex;
   flex: 1;
   font-size: 14px;
-  background-color: white;
+  background-color: $color-white;
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
@@ -29,8 +68,8 @@
 }
 
 .card-content-static {
-  background-color: $color-white !important;
   @include box-shadow;
+  background-color: $color-white !important;
   justify-content: space-between !important;
   align-items: stretch !important;
   @include s3-s6-max {
@@ -109,6 +148,7 @@
 }
 
 .item-select {
+  color: $color-text;
   width: 100%;
   font-size: 16px;
   flex-direction: column-reverse;
@@ -131,22 +171,31 @@
   width: 30px;
   height: 30px;
   background-color: $color-accent;
-  color: white;
+  color: $color-white;
   font-size: 12px;
   font-weight: bold;
   border-radius: 4px;
   box-shadow:
-    2px 3px 10px rgba(0, 0, 0, 0.25),
-    2px 2px 10px rgba(0, 0, 0, 0.22);
+    2px 3px 10px $color-dark,
+    2px 2px 10px $color-dark;
 }
 
 mat-form-field {
+  color: $color-text !important;
   width: 100%;
+}
+
+mat-select,
+input,
+mat-hint,
+mat-label,
+span {
+  color: $color-text !important;
 }
 
 .flex-column {
   @include flex-box-column;
-  overflow: visible
+  overflow: visible;
 }
 
 .flex-box {
@@ -172,7 +221,7 @@ mat-form-field {
     background-color: $color-accent;
     .fa-solid {
       color: $color-white;
-      filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+      filter: drop-shadow(5px 5px 10px $color-shadow);
     }
   }
 
@@ -193,4 +242,3 @@ mat-form-field {
     color: $color-dark;
   }
 }
-

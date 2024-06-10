@@ -85,7 +85,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 10px 10px $color-dark;
     transition: 1s;
 
     &:hover {

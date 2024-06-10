@@ -67,6 +67,7 @@ import { NewsLineComponent } from './components/news-line/news-line.component';
 import { SharedService } from './services/shared.service';
 import { StatusMessageComponent } from './components/status-message/status-message.component';
 import { StatusMessageService } from './services/status-message.service';
+import { CardsDataService } from './services/user-components/cards-data.service';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { StatusMessageService } from './services/status-message.service';
   providers: [
     SelectedFlatService,
     StatusMessageService,
+    CardsDataService,
     DatePipe,
     SharedService,
     StyleRenderer,
