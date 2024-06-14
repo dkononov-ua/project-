@@ -1,0 +1,52 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+// стиль відгуків
+.reviews-card {
+  @include flex-box-column;
+  @include box-shadow;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  .reviews-group {
+    @include flex-box;
+    width: 100%;
+    .reviews-person {
+      @include flex-box;
+      justify-content: flex-start;
+      width: 100%;
+      .reviews-person-img {
+        position: relative;
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      .reviews-person-info {
+        padding: 10px;
+        font-size: $t-med;
+      }
+    }
+    .review-mark {
+      @include flex-box;
+      @include box-shadow;
+      height: 100%;
+      padding: 5px;
+      background-color: $color-accent;
+      border-radius: 20px;
+      .review-mark-number {
+        font-size: 30px;
+        font-weight: 600;
+        color: $color-white;
+      }
+      .fa-regular {
+        padding-left: 5px;
+        color: $color-white;
+        filter: drop-shadow(5px 5px 10px $color-shadow);
+      }
+    }
+  }
+}

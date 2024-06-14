@@ -151,7 +151,9 @@ export class CardsDataService {
           this.reportResultDeleteFlatSubject.next(response);
           this.removeCardData();
           this.removeCardsData();
-          this.getSubInfo(0);
+          setTimeout(() => {
+            this.getSubInfo(0);
+          }, 100);
         } catch (error) {
           console.error(error);
         }

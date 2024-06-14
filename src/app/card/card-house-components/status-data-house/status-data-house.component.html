@@ -1,0 +1,92 @@
+<button class="status-content">
+  <button class="status-box m-2" (click)="toogleOpenStatus()">
+    <div class="status-value" *ngIf="!houseInfo.checked || houseInfo.checked === 0"><i class="fa-solid fa-house-circle-exclamation"></i></div>
+    <div class="status-value" *ngIf="houseInfo.checked === 1"><i class="fa-solid fa-house-circle-check"></i></div>
+    <div class="status-value" *ngIf="houseInfo.room === 0"><i class="fa-solid fa-dice-d6"></i></div>
+    <div class="status-value" *ngIf="houseInfo.room === 1"><i class="fa-solid fa-cube"></i></div>
+    <div class="status-value" *ngIf="houseInfo.rent === 1"><i class="fa-solid fa-sign-hanging"></i></div>
+    <!-- <div class="status-value" *ngIf="!houseInfo.rent || houseInfo.rent === 0"><i class="fa-solid fa-sign-hanging"></i></div> -->
+    <div class="status-value" *ngIf="houseInfo.option_flat === 1"><i class="fa-solid fa-house-chimney-window"></i></div>
+    <div class="status-value" *ngIf="houseInfo.option_flat === 2"><i class="fa-solid fa-building-circle-arrow-right"></i></div>
+    <div class="status-value" *ngIf="houseInfo.woman === 1"><i class="fa-solid fa-person-dress"></i></div>
+    <div class="status-value" *ngIf="houseInfo.man === 1"><i class="fa-solid fa-person"></i></div>
+    <div class="status-value" *ngIf="houseInfo.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div class="status-value" *ngIf="houseInfo.family === 1"><i class="fa-solid fa-children"></i></div>
+  </button>
+  <div [@fadeIn] class="status-hover" *ngIf="openStatus">
+    <div class="status-hover-label border-bottom">Допомога</div>
+    <div class="status-hover-text t-c">
+
+      <ul>Статуси оселі:
+        <li *ngIf="houseInfo.checked === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-house-circle-check"></i></div>
+          - Перевірена оселя
+        </li>
+        <li *ngIf="houseInfo.checked === 0" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-house-circle-exclamation"></i></div>
+          - Не перевірена оселя
+        </li>
+
+        <li *ngIf="houseInfo.rie && houseInfo.rie.rielt === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-coins"></i></div>
+          - Оселя від ріелтора
+        </li>
+
+        <li *ngIf="houseInfo.rent === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-sign-hanging"></i></div>
+          - Профіль оселі активовано
+        </li>
+        <li *ngIf="houseInfo.data" class="status-hover-li">
+          <div class="status-value"><i class="fa-regular fa-clock"></i></div> - Активовано
+          {{houseInfo.data | date}} {{houseInfo.data | date: 'HH:mm'}}
+        </li>
+        <li *ngIf="houseInfo.date" class="status-hover-li">
+          <div class="status-value"><i class="fa-regular fa-clock"></i></div> - Активовано
+          {{houseInfo.date | date}} {{houseInfo.date | date: 'HH:mm'}}
+        </li>
+        <!-- <li *ngIf="!houseInfo.rent || houseInfo.rent === 0" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-sign-hanging"></i></div>
+          - Профіль оселі не активовано
+        </li> -->
+        <!-- <li *ngIf="houseInfo.realll === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-coins"></i></div>
+          - Оселя від ріелтора
+        </li> -->
+      </ul>
+
+      <ul
+        *ngIf="houseInfo.woman === 1 || houseInfo.man === 1 || houseInfo.students === 1 || houseInfo.family === 1">
+        Пріорітет у орендарів:
+        <li *ngIf="houseInfo.woman === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-person-dress"></i></div> - Жінки
+        </li>
+        <li *ngIf="houseInfo.man === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-person"></i></div> - Чоловіки
+        </li>
+        <li *ngIf="houseInfo.students === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-graduation-cap"></i></div> - Студенти
+        </li>
+        <li *ngIf="houseInfo.family === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-children"></i></div> - Сім'ї
+        </li>
+      </ul>
+
+      <ul *ngIf="houseInfo.option_flat || houseInfo.room === 1">
+        Здаю оселю, тип оселі:
+        <li *ngIf="houseInfo.option_flat === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-house-chimney-window"></i></div> - Будинок
+        </li>
+        <li *ngIf="houseInfo.option_flat === 2" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-building-circle-arrow-right"></i></div> - Квартира
+        </li>
+        <li *ngIf="houseInfo.room === 1" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-cube"></i></div> - Здається кімната
+        </li>
+        <li *ngIf="houseInfo.room === 0" class="status-hover-li">
+          <div class="status-value"><i class="fa-solid fa-dice-d6"></i></div> - Повністю
+        </li>
+      </ul>
+      <button class="btn-close bg-white p-2" (click)="toogleOpenStatus()"></button>
+    </div>
+  </div>
+</button>

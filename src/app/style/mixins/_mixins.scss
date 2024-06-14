@@ -87,15 +87,15 @@
 }
 
 @mixin box-shadow {
-  box-shadow: -3px 3px 20px -10px ($color-gray, 40%);
+  box-shadow: -3px 3px 20px -10px $color-gray;
 }
 
 @mixin box-shadow-a {
-  box-shadow: -3px 3px 20px -10px ($color-accent, 40%);
+  box-shadow: -3px 3px 20px -10px $color-accent;
 }
 
 @mixin box-shadow-i {
-  box-shadow: inset -3px 3px 20px -10px ($color-gray, 40%);
+  box-shadow: inset -3px 3px 20px -10px $color-gray;
 }
 
 @mixin active-icon {

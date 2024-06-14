@@ -1,5 +1,7 @@
 import { Component, ElementRef, HostListener, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as ServerConfig from 'src/app/config/path-config';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-gallery',
@@ -7,16 +9,30 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent {
+
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
   currentPhotoIndex: number = 0;
   @ViewChild('fullscreenImg') fullscreenImg: ElementRef | undefined;
   @ViewChild('imgContainer') imgContainer: ElementRef | undefined;
   private zoomLevel: number = 1;
-
   private offsetX: number = 0;
   private offsetY: number = 0;
   private isDragging: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+      this.serverPath = serverPath;
+    })
+  }
 
   prevPhoto() {
     if (this.currentPhotoIndex > 0) {
@@ -30,51 +46,50 @@ export class GalleryComponent {
     }
   }
 
-// В компоненті
-zoomIn(): void {
-  const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
-  const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
+  // В компоненті
+  zoomIn(): void {
+    const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
+    const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
 
-  if (img && container) {
-    const mouseX = container.offsetWidth / 2;
-    const mouseY = container.offsetHeight / 2;
+    if (img && container) {
+      const mouseX = container.offsetWidth / 2;
+      const mouseY = container.offsetHeight / 2;
 
-    const zoomDirection = 1;
-    const newZoomLevel = this.zoomLevel + zoomDirection * 0.1;
+      const zoomDirection = 1;
+      const newZoomLevel = this.zoomLevel + zoomDirection * 0.1;
 
-    const deltaX = (mouseX / img.width) * (this.zoomLevel - newZoomLevel);
-    const deltaY = (mouseY / img.height) * (this.zoomLevel - newZoomLevel);
+      const deltaX = (mouseX / img.width) * (this.zoomLevel - newZoomLevel);
+      const deltaY = (mouseY / img.height) * (this.zoomLevel - newZoomLevel);
 
-    this.zoomLevel = newZoomLevel;
-    this.offsetX += deltaX;
-    this.offsetY += deltaY;
+      this.zoomLevel = newZoomLevel;
+      this.offsetX += deltaX;
+      this.offsetY += deltaY;
 
-    this.updateImageSize();
+      this.updateImageSize();
+    }
   }
-}
 
-zoomOut(): void {
-  const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
-  const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
+  zoomOut(): void {
+    const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;
+    const container = this.imgContainer?.nativeElement as HTMLElement | undefined;
 
-  if (img && container) {
-    const mouseX = container.offsetWidth / 2;
-    const mouseY = container.offsetHeight / 2;
+    if (img && container) {
+      const mouseX = container.offsetWidth / 2;
+      const mouseY = container.offsetHeight / 2;
 
-    const zoomDirection = -1;
-    const newZoomLevel = this.zoomLevel + zoomDirection * 0.1;
+      const zoomDirection = -1;
+      const newZoomLevel = this.zoomLevel + zoomDirection * 0.1;
 
-    const deltaX = (mouseX / img.width) * (this.zoomLevel - newZoomLevel);
-    const deltaY = (mouseY / img.height) * (this.zoomLevel - newZoomLevel);
+      const deltaX = (mouseX / img.width) * (this.zoomLevel - newZoomLevel);
+      const deltaY = (mouseY / img.height) * (this.zoomLevel - newZoomLevel);
 
-    this.zoomLevel = newZoomLevel;
-    this.offsetX += deltaX;
-    this.offsetY += deltaY;
+      this.zoomLevel = newZoomLevel;
+      this.offsetX += deltaX;
+      this.offsetY += deltaY;
 
-    this.updateImageSize();
+      this.updateImageSize();
+    }
   }
-}
-
 
   private updateImageSize() {
     const img = this.fullscreenImg?.nativeElement as HTMLImageElement | undefined;

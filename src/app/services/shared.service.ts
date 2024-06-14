@@ -13,6 +13,7 @@ import { UsereSearchConfig } from '../interface/param-config';
 import { UserInfo } from '../interface/info';
 import * as ServerConfig from 'src/app/config/path-config';
 import { StatusMessageService } from './status-message.service';
+import { GalleryComponent } from '../components/gallery/gallery.component';
 
 @Injectable({
   providedIn: 'root'
@@ -360,6 +361,17 @@ export class SharedService {
   openMap(locationLink: string) {
     this.setStatusMessage('Відкриваємо локаці на мапі');
     setTimeout(() => { this.setStatusMessage(''); window.open(locationLink, '_blank'); }, 2000);
+  }
+
+  // Відкриваю локацію на мапі
+  openFullScreenImage(photos: string): void {
+    const dialogRef = this.dialog.open(GalleryComponent, {
+      data: {
+        photos: photos,
+        place: '',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
 }

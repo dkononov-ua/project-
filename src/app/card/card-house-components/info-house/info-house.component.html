@@ -1,0 +1,160 @@
+<div [@top3]>
+  <p class="t-c bold">Основні характеристики</p>
+  <div class="flex-box wrap">
+
+    <div class="item-box m-1" *ngIf="chosenFlat.flat.rooms">
+      <div mat-raised-button class="param-g flex-column">
+        <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.rooms }}</div>
+        <div class="t-min bg-w">Кімнат</div>
+      </div>
+    </div>
+
+    <div class="item-box m-1" *ngIf="chosenFlat.flat.area">
+      <div mat-raised-button class="param-g flex-column">
+        <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.area | number:'1.0-0' }}</div>
+        <div class="t-min bg-w">Площа</div>
+      </div>
+    </div>
+
+    <div class="item-box m-1" *ngIf="chosenFlat.flat.floor">
+      <div mat-raised-button class="param-g flex-column">
+        <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.floor }}</div>
+        <div class="t-min bg-w">Поверх</div>
+      </div>
+    </div>
+
+    <div class="item-box m-1" *ngIf="chosenFlat.flat.price_m && chosenFlat.flat.option_pay === 0">
+      <div mat-raised-button class="param-g flex-column">
+        <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_m | number:'1.0-0' }}</div>
+        <div class="t-min bg-w accent">Ціна ₴/міс</div>
+      </div>
+    </div>
+
+    <div class="item-box m-1" *ngIf="chosenFlat.flat.price_d && chosenFlat.flat.option_pay !== 0">
+      <div mat-raised-button class="param-g flex-column">
+        <div class="bg-g t-lar-xx bold accent">{{ chosenFlat.flat.price_d | number:'1.0-0' }}</div>
+        <div class="t-min bg-w accent">Ціна ₴/добу</div>
+      </div>
+    </div>
+
+    <button class="btn-open" (click)="moreDetail()" [ngClass]="{'active': detail === true}">
+      <i class="fa-solid fa-circle-chevron-up" *ngIf="detail"></i>
+      <i class="fa-solid fa-circle-chevron-down" *ngIf="!detail"></i>
+      <div class="t-min" *ngIf="detail">Менше</div>
+      <div class="t-min" *ngIf="!detail">Більше</div>
+    </button>
+
+  </div>
+
+  <div [@bot] class="p-2" *ngIf="detail">
+
+    <div class="param-box" *ngIf="chosenFlat.flat.region || chosenFlat.flat.city">
+      <div class="param-label">Локація:</div>
+      <div class="param-group">
+        <div class="param-field" *ngIf="chosenFlat.flat.region">
+          Область:<span class="param-value">{{ chosenFlat.flat.region }} </span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.city">
+          Місто:<span class="param-value">{{ chosenFlat.flat.city }} </span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.street">
+          Вулиця:<span class="param-value">{{ chosenFlat.flat.street }} {{ chosenFlat.flat.houseNumber
+            }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-box">
+      <div class="param-label">Параметри оселі:</div>
+      <div class="param-group">
+
+        <div class="param-field" *ngIf="chosenFlat.flat.option_flat">
+          <div *ngIf="chosenFlat.flat.room === 1">
+            Здаю:<span class="param-value"> Кімнату </span>
+          </div>
+
+          <div *ngIf="chosenFlat.flat.option_flat === 1">
+            Тип оселі:<span class="param-value"> Будинок </span>
+          </div>
+
+          <div *ngIf="chosenFlat.flat.option_flat === 2">
+            Тип оселі:<span class="param-value"> Квартира </span>
+          </div>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.area">
+          Площа:<span class="param-value">{{ chosenFlat.flat.area }}м²</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.repair_status">Стан
+          оселі:<span class="param-value">{{ chosenFlat.flat.repair_status }}</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.rooms">
+          Кімнат:<span class="param-value">{{ chosenFlat.flat.rooms }}</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.floor">
+          Поверх:<span class="param-value">{{ chosenFlat.flat.floor }}</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.balcony">
+          Тип балкону:<span class="param-value">{{ chosenFlat.flat.balcony }}</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.kitchen_area">
+          Площа кухні:<span class="param-value">{{ chosenFlat.flat.kitchen_area }}м²</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-box"
+      *ngIf="chosenFlat.flat.distance_metro || chosenFlat.flat.distance_stop || chosenFlat.flat.distance_shop || chosenFlat.flat.distance_green || chosenFlat.flat.distance_parking">
+      <div class="param-label">Інфраструктура в доступності:</div>
+      <div class="param-group">
+        <div class="param-field" *ngIf="chosenFlat.flat.distance_metro">
+          Метро до:<span class="param-value">{{ aboutDistance[chosenFlat.flat.distance_metro] }}</span>
+        </div>
+        <div class="param-field" *ngIf="chosenFlat.flat.distance_stop">
+          Зупинка до:<span class="param-value">{{ aboutDistance[chosenFlat.flat.distance_stop] }}</span>
+        </div>
+        <div class="param-field" *ngIf="chosenFlat.flat.distance_shop">
+          Маркет до:<span class="param-value">{{ aboutDistance[chosenFlat.flat.distance_shop] }}</span>
+        </div>
+        <div class="param-field" *ngIf="chosenFlat.flat.distance_green">
+          Парк до:<span class="param-value">{{ aboutDistance[chosenFlat.flat.distance_green] }}</span>
+        </div>
+        <div class="param-field" *ngIf="chosenFlat.flat.distance_parking">
+          Паркінг до:<span class="param-value">{{ aboutDistance[chosenFlat.flat.distance_parking] }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-box">
+      <div class="param-label">Особливості:</div>
+      <div class="param-group">
+
+        <div class="param-field" *ngIf="chosenFlat.flat.option_pay">
+          Оплата:<span class="param-value">{{ option_pay[chosenFlat.flat.option_pay] }}</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.bunker">
+          Наявність укриття:<span class="param-value">{{ chosenFlat.flat.bunker }}</span>
+        </div>
+
+        <div class="param-field" *ngIf="chosenFlat.flat.animals && chosenFlat.flat.animals !== 'Неважливо'">
+          Дозвіл на тварин: <span class="param-value">{{ animals[chosenFlat.flat.animals] }} </span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="p-2" *ngIf="chosenFlat.flat.about">
+      <div class="t-lar dark bold">Додаткова інформація:</div>
+      <div class="t-min ">{{ chosenFlat.flat.about }}</div>
+    </div>
+
+  </div>
+</div>

@@ -109,31 +109,39 @@
           </div>
         </div>
         <!-- інформація про оселю -->
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 2 && chosenFlat">
+        <div class="card-animation" *ngIf="indexPage === 2 && chosenFlat">
           <div class="btn-close-container">
             <div class="btn-close-box">
               <button class="btn-close" (click)="indexPage = 1"></button>
             </div>
           </div>
           <div class="card-content">
+            <app-img-house></app-img-house>
+            <app-info-house></app-info-house>
+            <app-functions-house></app-functions-house>
+          </div>
+          <!-- <div class="card-content">
 
             <app-status-data-house></app-status-data-house>
 
             <div class="container-img">
+
+
               <div class="wrapper-img">
 
-                <img class="img-fluid" [src]="chosenFlat.img && chosenFlat.img[currentPhotoIndex]
+                <img [@top2] class="img-fluid" [src]="chosenFlat.img && chosenFlat.img[currentPhotoIndex]
                     ? serverPath + pathPhotoFlat + chosenFlat.img[currentPhotoIndex] :
-                    serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img" (click)="photoViewing = true">
+                    serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img"
+                  (click)="openFullScreenImage(chosenFlat.img)">
 
-                <div *ngIf="chosenFlat?.img.length > 1">
+                <div [@top2] *ngIf="chosenFlat?.img.length > 1">
                   <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
                       class="fa-solid fa-chevron-left"></i></button>
                   <button *ngIf="currentPhotoIndex !== chosenFlat?.img.length - 1" class="next-img"
                     (click)="nextPhoto()"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
 
-                <div class="panel-container">
+                <div [@top3] class="panel-container">
                   <div class="wrapper">
 
                     <button class="btn-panel" (click)="goToComun()">
@@ -187,7 +195,8 @@
                       <div class="t-min">Власник</div>
                     </button>
 
-                    <button class="btn-panel" matTooltip="Копіювати" (click)="copyToClipboard(this.chosenFlat.flat.flat_id, 'ID оселі ' + this.chosenFlat.flat.flat_id)">
+                    <button class="btn-panel" matTooltip="Копіювати"
+                      (click)="copyToClipboard(this.chosenFlat.flat.flat_id, 'ID оселі ' + this.chosenFlat.flat.flat_id)">
                       <div class="panel-icon">
                         <i class="fa-solid fa-fingerprint"></i>
                       </div>
@@ -199,7 +208,7 @@
               </div>
             </div>
 
-            <div class="flex-box wrap">
+            <div [@top4] class="flex-box wrap">
               <div class="item-box m-1" *ngIf="chosenFlat.flat.rooms">
                 <div mat-raised-button class="param-g flex-column">
                   <div class="bg-g t-lar-x bold">{{ chosenFlat.flat.rooms }}</div>
@@ -236,7 +245,7 @@
               </div>
 
             </div>
-            <div class="p-2">
+            <div [@top4] class="p-2">
 
               <div class="param-box" *ngIf="chosenFlat.flat.region || chosenFlat.flat.city">
                 <div class="param-label">Локація:</div>
@@ -348,7 +357,7 @@
 
             </div>
 
-          </div>
+          </div> -->
         </div>
         <!-- інформація про власника -->
         <div [@swichCard] class="card-animation" *ngIf="indexPage === 3 && chosenFlat">
@@ -358,88 +367,10 @@
             </div>
           </div>
           <div class="card-content">
-
-            <app-status-data></app-status-data>
-
-            <div class="container-img">
-              <div class="wrapper-img">
-                <ng-container *ngIf="chosenFlat.owner.img && isLoadingImg">
-                  <img class="img-fluid"
-                    [src]="serverPath + pathPhotoUser + (chosenFlat.owner.img ? chosenFlat.owner.img : 'user_default.svg')"
-                    alt="img"> </ng-container>
-
-                <ng-container *ngIf="chosenFlat.owner.img && !isLoadingImg">
-                  <div class="img-fluid">
-                    <div class="container-loader-mini">
-                      <mat-spinner color="warn"></mat-spinner>
-                      <img [src]="serverPath + pathPhotoUser + chosenFlat.owner.img" (load)="isLoadingImg = true"
-                        hidden>
-                      <div class="t-min bold gray mt-2">Завантаження фото</div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="!chosenFlat.owner.img">
-                  <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
-                </ng-container>
-
-                <div class="info-panel">
-                  <app-links-box></app-links-box>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="flex-box border-bottom">
-              <div class="flex-column p-2">
-                <div class="t-lar bold">{{ chosenFlat.owner.lastName }}</div>
-                <div class="t-min gray">Прізвище</div>
-              </div>
-              <div class="flex-column p-2">
-                <div class="t-lar bold">{{ chosenFlat.owner.firstName }}</div>
-                <div class="t-min gray">ім'я</div>
-              </div>
-              <div class="flex-column p-2">
-                <div class="t-lar bold">{{ chosenFlat.owner.surName }}</div>
-                <div class="t-min gray">По батькові</div>
-              </div>
-            </div>
-
-            <div class="card-content p-2" *ngIf="reviews">
-              <div class="t-min bold gray">Відгуки орендарів</div>
-              <div [@left3] class="reviews-card" *ngFor="let review of reviews">
-                <div class="reviews-group">
-                  <div class="reviews-person w-70">
-                    <div class="reviews-person-img">
-                      <div *ngIf="review.reporter && review.reporter.img">
-                        <img [src]="serverPath + pathPhotoUser + review.reporter.img" alt="img">
-                      </div>
-                      <div *ngIf="!review.reporter || !review.reporter.img">
-                        <img src="../../../../assets/user_default.svg" alt="img">
-                      </div>
-                    </div>
-
-                    <div class="reviews-person-info">
-                      <p class="bold" *ngIf="review.reporter">{{review.reporter.lastName}}
-                        {{review.reporter.firstName}} {{review.reporter.surName}}</p>
-                      <p *ngIf="!review.reporter">Аккаунт видалено</p>
-                      <p class="t-min gray">Дата відгуку: {{review.info.data |date}}</p>
-                    </div>
-
-                  </div>
-                  <div class="review-mark w-30" *ngIf="review.info.mark">
-                    <p class="review-mark-number">{{review.info.mark}} </p>
-                    <i class="fa-regular fa-star"></i>
-                  </div>
-                </div>
-                <div class="t-med bold mt-2" *ngIf="review.info.about">"{{review.info.about}}"</div>
-              </div>
-            </div>
-
-            <div class="card-content p-2" *ngIf="!reviews">
-              <div class="t-min bold gray">Відгуків ще немає</div>
-            </div>
-
+            <app-img></app-img>
+            <app-links-box></app-links-box>
+            <app-info></app-info>
+            <app-reviews></app-reviews>
           </div>
         </div>
         <!-- Чат -->

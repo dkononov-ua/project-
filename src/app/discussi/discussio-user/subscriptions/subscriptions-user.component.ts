@@ -225,5 +225,9 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
     this.sharedService.copyToClipboard(textToCopy, message);
   }
 
+  openFullScreenImage(photos: string): void {
+    this.sharedService.openFullScreenImage(photos);
+  }
+
 }
 

@@ -41,12 +41,19 @@ import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.componen
 import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
 import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
 import { SharedService } from '../services/shared.service';
-import { StatusDataComponent } from '../components/status-data/status-data.component';
+import { StatusDataComponent } from '../card/card-user-components/status-data/status-data.component';
 import { StatusDataService } from '../services/status-data.service';
-import { StatusDataHouseComponent } from '../components/status-data-house/status-data-house.component';
-import { LinksBoxComponent } from '../components/links-box/links-box.component';
-import { StatusAccessComponent } from '../components/status-access/status-access.component';
-import { CardsListComponent } from '../components/user/cards-list/cards-list.component';
+import { StatusDataHouseComponent } from '../card/card-house-components/status-data-house/status-data-house.component';
+import { CardsListComponent } from '../card/card-user-components/cards-list/cards-list.component';
+import { CardHouseComponent } from '../card/card-house-components/card-house/card-house.component';
+import { FunctionsHouseComponent } from '../card/card-house-components/functions-house/functions-house.component';
+import { InfoHouseComponent } from '../card/card-house-components/info-house/info-house.component';
+import { ImgHouseComponent } from '../card/card-house-components/img-house/img-house.component';
+import { ImgComponent } from '../card/card-user-components/img/img.component';
+import { InfoComponent } from '../card/card-user-components/info/info.component';
+import { ReviewsComponent } from '../card/card-user-components/reviews/reviews.component';
+import { LinksBoxComponent } from '../card/card-user-components/links-box/links-box.component';
+import { StatusAccessComponent } from '../components/house/status-access/status-access.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +80,14 @@ import { CardsListComponent } from '../components/user/cards-list/cards-list.com
     LinksBoxComponent,
     StatusAccessComponent,
     CardsListComponent,
+    CardHouseComponent,
+    FunctionsHouseComponent,
+    InfoHouseComponent,
+    ImgHouseComponent,
+    ImgComponent,
+    InfoComponent,
+    ReviewsComponent,
+
   ],
   exports: [
     NavbarComponent,
@@ -98,6 +113,13 @@ import { CardsListComponent } from '../components/user/cards-list/cards-list.com
     LinksBoxComponent,
     StatusAccessComponent,
     CardsListComponent,
+    CardHouseComponent,
+    FunctionsHouseComponent,
+    InfoHouseComponent,
+    ImgHouseComponent,
+    ImgComponent,
+    InfoComponent,
+    ReviewsComponent,
   ],
   providers: [
     UpdateComponentService,

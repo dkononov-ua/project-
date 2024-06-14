@@ -1,0 +1,110 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+.btn-open {
+  background-color: transparent;
+  padding: 5px;
+  .fa-solid {
+    font-size: 35px;
+  }
+  &.active {
+    color: $color-accent;
+    .fa-solid {
+      color: $color-accent;
+    }
+  }
+}
+
+.flex-box {
+  @include flex-box;
+}
+
+.param-g {
+  @include flex-box;
+  border: 1px solid $color-gray;
+  background-color: transparent;
+  border-radius: 10px;
+  height: 60px;
+  min-width: 50px;
+  overflow: hidden;
+  padding: 3px;
+
+  .fa-solid,
+  .fa-regular {
+    color: $color-white;
+  }
+
+  .bg-g {
+    @include flex-box;
+    height: 70%;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .bg-w {
+    @include flex-box;
+    border-top: 1px solid gray;
+    height: 30%;
+    width: 100%;
+  }
+}
+
+// загальні обрані параметри користувача
+.param-box {
+  .param-name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: $color-text;
+
+    .fa-solid {
+      font-size: 30px;
+    }
+    button {
+      border: none;
+    }
+    .param-name-text {
+      @include flex-box;
+      font-size: 12px;
+      .fa-solid {
+        font-size: 16px;
+      }
+      &:hover {
+        color: $color-accent;
+      }
+    }
+  }
+
+  .param-label {
+    font-weight: 600;
+    font-size: 12px;
+    margin: 2px;
+    color: $color-accent;
+  }
+
+  .param-group {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .param-field {
+      font-weight: 600;
+      font-size: 12px;
+      margin: 2px;
+      border-radius: 10px;
+      padding: 5px;
+      background-color: $color-primary;
+    }
+
+    .param-value {
+      font-weight: 400;
+      font-size: 16px;
+      margin: 2px;
+      padding: 5px;
+      color: $color-text;
+    }
+  }
+}

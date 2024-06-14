@@ -277,5 +277,9 @@ export class SubscribersUserComponent implements OnInit {
       }
     });
   }
+
+  openFullScreenImage(photos: string): void {
+    this.sharedService.openFullScreenImage(photos);
+  }
 }
 

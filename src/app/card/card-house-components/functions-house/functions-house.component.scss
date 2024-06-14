@@ -1,0 +1,167 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+// панель з кнопками функцій в Дискусії та Пошуку
+.panel-container {
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-white;
+  border-radius: 20px 20px 0 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  justify-content: flex-start;
+  .wrapper {
+    @include flex-box;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    .btn-panel {
+      @include flex-box-column;
+      justify-content: space-between;
+      background-color: transparent;
+      border: none;
+      width: 60px;
+      height: 50px;
+      border-radius: 50%;
+      transition: 0.5s;
+      .panel-icon {
+        height: 100%;
+        @include flex-box-center;
+        .fa-solid,
+        .fa-regular {
+          font-size: 30px;
+          color: $color-text;
+        }
+        .fa-star,
+        .fa-image {
+          font-size: 15px;
+        }
+      }
+      .t-min {
+        font-size: 10px;
+      }
+      .img-btn {
+        @include flex-box;
+        background-color: transparent;
+        border-radius: 50%;
+        border: none;
+        width: 80px;
+        .fa-solid,
+        .fa-regular {
+          color: $color-dark;
+        }
+      }
+      &:hover {
+        color: $color-accent;
+        .panel-icon {
+          .fa-solid,
+          .fa-regular {
+            transition: 0.5s;
+            color: $color-accent;
+          }
+        }
+      }
+      &:disabled {
+        color: $color-gray;
+        .panel-icon {
+          .fa-regular,
+          .fa-solid {
+            color: $color-gray;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 10px;
+}
+
+// Кнопки функціоналу
+.link-menu {
+  @include flex-box-center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  height: 60px;
+  color: $color-text;
+  text-align: start;
+  text-transform: uppercase;
+  margin: 0 0 5px 0;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: rgba(128, 128, 128, 0.154);
+  border: 1px solid rgba(128, 128, 128, 0.237);
+  .link-menu-t1 {
+    font-size: $t-med;
+  }
+  .link-menu-t2 {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .link-icon {
+    padding: 0 10px;
+  }
+  .link-text {
+    font-size: 14px;
+    font-family: $font-main;
+  }
+  .fa-solid,
+  .fa-regular {
+    color: $color-text;
+    font-size: 30px;
+  }
+  &:hover {
+    transform: scale(1.1);
+    border-radius: 0px;
+    color: $color-accent;
+    transition: 1s;
+    filter: drop-shadow(0px 0px 10px $color-accent);
+    .link-menu-t2,
+    .link-menu-t1 {
+      color: $color-accent;
+    }
+    .flex-column {
+      transform: translateX(40px);
+      transition: 1s;
+    }
+    .link-icon {
+      transform: translateX(-40px);
+      transition: 1s;
+    }
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transition: 1s;
+    }
+  }
+  &.active {
+    transform: scale(1.1);
+    color: $color-accent;
+    transition: 1s;
+    filter: drop-shadow(0px 0px 10px $color-accent);
+    .link-menu-t2,
+    .link-menu-t1 {
+      color: $color-accent;
+    }
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      transition: 1s;
+    }
+  }
+  &:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: transparent;
+  }
+}
