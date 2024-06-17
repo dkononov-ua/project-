@@ -51,6 +51,7 @@ export class StatusDataComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.statusDataService.statusData$.subscribe((data: any) => {
+      console.log(data)
       if (data) { this.userInfo = data; }
     });
   }

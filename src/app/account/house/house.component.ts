@@ -137,7 +137,7 @@ export class HouseComponent implements OnInit {
     await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
     this.counterService.counterHouseSubscribers$.subscribe(data => {
       const counterHouseSubscribers: any = data;
-      this.counterHouseSubscribers = counterHouseSubscribers.status;
+      this.counterHouseSubscribers = counterHouseSubscribers;
       // console.log('кількість підписників', this.counterHouseSubscribers)
     });
   }
@@ -148,7 +148,7 @@ export class HouseComponent implements OnInit {
     await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
     this.counterService.counterHouseSubscriptions$.subscribe(data => {
       const counterHouseSubscriptions: any = data;
-      this.counterHouseSubscriptions = counterHouseSubscriptions.status;
+      this.counterHouseSubscriptions = counterHouseSubscriptions;
       // console.log('кількість підписок', this.counterHouseSubscriptions)
     });
   }
@@ -159,10 +159,10 @@ export class HouseComponent implements OnInit {
     await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
     this.counterService.counterHouseDiscussio$.subscribe(data => {
       const counterHouseDiscussio: any = data;
-      if (counterHouseDiscussio.status === 'Немає доступу') {
+      if (counterHouseDiscussio === 'Немає доступу') {
         this.counterHouseDiscussio = null;
       } else {
-        this.counterHouseDiscussio = counterHouseDiscussio.status;
+        this.counterHouseDiscussio = counterHouseDiscussio;
       }
       // console.log('кількість дискусій', this.counterHouseDiscussio)
     });

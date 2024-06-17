@@ -21,7 +21,7 @@
 
 .param-g {
   @include flex-box;
-  border: 1px solid $color-gray;
+  // border: 1px solid $color-gray;
   background-color: transparent;
   border-radius: 10px;
   height: 60px;
@@ -31,7 +31,9 @@
 
   .fa-solid,
   .fa-regular {
-    color: $color-white;
+    font-size: 16px;
+    color: $color-dark;
+    padding-right: 5px;
   }
 
   .bg-g {
@@ -43,7 +45,7 @@
 
   .bg-w {
     @include flex-box;
-    border-top: 1px solid gray;
+    border-top: 1px solid rgba(128, 128, 128, 0.331);
     height: 30%;
     width: 100%;
   }
@@ -91,20 +93,33 @@
     flex-wrap: wrap;
 
     .param-field {
+      @include flex-box-center;
+
       font-weight: 600;
       font-size: 12px;
       margin: 2px;
       border-radius: 10px;
       padding: 5px;
       background-color: $color-primary;
+
+      .fa-solid, .fa-regular {
+        font-size: 16px;
+        padding: 0px 5px;
+      }
     }
 
     .param-value {
       font-weight: 400;
       font-size: 16px;
-      margin: 2px;
-      padding: 5px;
+      padding: 0px 5px;
       color: $color-text;
     }
   }
+}
+
+.item-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 5px;
 }

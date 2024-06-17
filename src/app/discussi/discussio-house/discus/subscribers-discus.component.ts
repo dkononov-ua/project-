@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { DeleteSubComponent } from '../delete/delete-sub.component';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 
 @Component({
   selector: 'app-subscribers-discus',
@@ -37,7 +38,7 @@ import { StatusDataService } from 'src/app/services/status-data.service';
   ],
 })
 
-export class SubscribersDiscusComponent implements OnInit {
+export class SubscribersDiscusComponent implements OnInit, OnDestroy {
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -65,7 +66,7 @@ export class SubscribersDiscusComponent implements OnInit {
   isCopiedMessage!: string;
   // показ карток
   indexPage: number = 1;
-  selectedUserID: any;
+  selectedUserId: any;
   counterHouseDiscussio: any;
   counterHouseSubscriptions: any;
   counterHouseSubscribers: any;
@@ -91,6 +92,10 @@ export class SubscribersDiscusComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  subscriptions: any[] = [];
+  choseUser: any;
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -103,18 +108,68 @@ export class SubscribersDiscusComponent implements OnInit {
     private router: Router,
     private location: Location,
     private statusDataService: StatusDataService,
+    private cardsDataHouseService: CardsDataHouseService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 1;
-      this.indexPage = Number(this.page);
-    });
-    this.getSelectedFlatID();
-    await this.getCounterHouse();
+    // Підписка на шлях до серверу
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+
+    // Підписка на отримання обраної оселі
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+        this.selectedFlatId = selectedFlatId;
+      })
+    );
+
+    // Підписка на отримання айді обраного юзера
+    this.subscriptions.push(
+      this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
+        this.selectedUserId = selectedSubscriber;
+      })
+    );
+
+    // Підписка на отримання даних обраного юзера
+    this.subscriptions.push(
+      this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+        this.selectedUser = data;
+        // Якщо є обрана оселя
+        if (this.selectedUser) {
+          this.indexPage = 2;
+          // Запитую рейтинг власника
+          await this.getRating(this.selectedUser);
+          // Перевіряю чи створений чат
+          await this.checkChatExistence();
+        }
+      })
+    );
+
+    // Підписка на отримання кількості карток
+    this.subscriptions.push(
+      this.counterService.counterHouseDiscussio$.subscribe(data => {
+        this.counterFound = Number(data);
+      })
+    );
+
+    // Підписка на зміну параметрів маршруту
+    this.subscriptions.push(
+      this.route.queryParams.subscribe(params => {
+        this.page = params['indexPage'] || 1;
+        this.indexPage = Number(this.page);
+      })
+    );
+    // console.log(this.subscriptions)
+  }
+
+  ngOnDestroy() {
+    this.choseSubscribersService.removeChosenUserId(); // очищуємо вибрану оселю
+    this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    // console.log(this.subscriptions)
   }
 
   // відправляю event початок свайпу
@@ -150,112 +205,23 @@ export class SubscribersDiscusComponent implements OnInit {
     }
   }
 
-  // отримання, кількіст дискусій та запит на якій я сторінці
-  async getCounterHouse() {
-    await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
-    await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
-    await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
-    this.counterService.counterHouseDiscussio$.subscribe(async data => {
-      this.counterHouseDiscussio = data;
-      this.counterFound = this.counterHouseDiscussio.status;
-      if (this.counterFound) {
-        await this.getCurrentPageInfo();
-      }
-    })
-  }
-
   // Отримання айді обраної оселі
   getSelectedFlatID() {
     this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
       this.selectedFlatId = selectedFlatId;
-      if (this.selectedFlatId) {
-        this.getSubInfo(this.offs);
-      } else { console.log('Оберіть оселю'); }
     });
   }
 
-  // Отримання та збереження даних всіх дискусій
-  async getSubInfo(offs: number): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
-    try {
-      const allDiscussions: any = await this.http.post(this.serverPath + '/acceptsubs/get/subs', data).toPromise() as any[];
-      // console.log(allDiscussions)
-      if (allDiscussions && allDiscussions.status !== 'Немає доступу') {
-        localStorage.setItem('allHouseDiscussions', JSON.stringify(allDiscussions));
-        const getAllDiscussions = JSON.parse(localStorage.getItem('allHouseDiscussions') || '[]');
-        if (getAllDiscussions) {
-          this.subscribers = getAllDiscussions;
-        } else {
-          this.subscribers = []
-        }
+  // Видалення дискусії
+  async deleteUser(user: any): Promise<void> {
+    this.cardsDataHouseService.deleteUser(user, 'discussio');
+    this.cardsDataHouseService.getResultDeleteUserSubject().subscribe(result => {
+      if (result.status === true) {
+        this.sharedService.setStatusMessage('Дискусію видалено');
+        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       } else {
-        this.sharedService.setStatusMessage('Немає доступу');
-        setTimeout(() => {
-          this.router.navigate(['/house/house-info']);
-          this.sharedService.setStatusMessage('');
-        }, 1500);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Виводимо інформацію з локального сховища про обрану оселю
-  async selectDiscussion(subscriber: UserInfo) {
-    this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
-    this.selectedUserID = subscriber.user_id;
-    if (this.selectedUserID) {
-      const allHouseDiscussions = JSON.parse(localStorage.getItem('allHouseDiscussions') || '[]');
-      if (allHouseDiscussions) {
-        this.indexPage = 2;
-        const selectedUser = allHouseDiscussions.find((user: any) => user.user_id === this.selectedUserID);
-        if (selectedUser) {
-          this.selectedUser = selectedUser;
-          this.statusDataService.setStatusData(this.selectedUser);
-          this.statusDataService.setUserData(this.selectedUser, 2);
-          this.checkChatExistence();
-          this.getRating(this.selectedUser)
-        } else {
-          this.selectedUser = undefined;
-          console.log('Немає інформації');
-        }
-      }
-    }
-  }
-
-  // Видалення орендара
-  async deleteUser(subscriber: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const dialogRef = this.dialog.open(DeleteSubComponent, {
-      data: { user_id: subscriber.user_id, firstName: subscriber.firstName, lastName: subscriber.lastName, component_id: 3, }
-    });
-    dialogRef.afterClosed().subscribe(async (result: any) => {
-      if (result === true && userJson && subscriber.user_id && this.selectedFlatId) {
-        const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: subscriber.user_id, };
-        try {
-          const response: any = await this.http.post(this.serverPath + '/acceptsubs/delete/subs', data).toPromise();
-          if (response.status === true) {
-            this.sharedService.setStatusMessage('Дискусія видалена');
-            setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
-            this.updateComponent.triggerUpdate();
-            this.selectedUser = undefined;
-            this.counterService.getHouseDiscussioCount(this.selectedFlatId);
-            await this.getSubInfo(this.offs);
-            if (this.subscribers.length > 0) {
-              this.indexPage = 1;
-            } else {
-              this.indexPage = 0;
-            }
-          } else {
-            this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage(''); this.sharedService.reloadPage();
-            }, 2000);
-          }
-        } catch (error) {
-          console.error(error);
-        }
+        this.sharedService.setStatusMessage('Помилка');
+        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       }
     });
   }
@@ -282,8 +248,8 @@ export class SubscribersDiscusComponent implements OnInit {
   // Створюю чат
   async createChat(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedUserID) {
-      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: this.selectedUserID, };
+    if (userJson && this.selectedUserId) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: this.selectedUserId, };
       try {
         const response: any = await this.http.post(this.serverPath + '/chat/add/chatFlat', data).toPromise();
         if (response.status === true) {
@@ -337,12 +303,14 @@ export class SubscribersDiscusComponent implements OnInit {
   // Перевірка на існування чату
   async checkChatExistence(): Promise<any> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedUserID) {
+    if (userJson && this.selectedUserId) {
       const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, offs: this.offs };
+      console.log(data)
       try {
         const response = await this.http.post(this.serverPath + '/chat/get/flatchats', data).toPromise() as any;
-        if (this.selectedUserID && Array.isArray(response.status)) {
-          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === this.selectedUserID);
+        console.log(response)
+        if (this.selectedUserId && Array.isArray(response.status)) {
+          const chatExists = response.status.some((chat: { user_id: any }) => chat.user_id === this.selectedUserId);
           this.chatExists = chatExists;
         }
         else { console.log('чат не існує'); }
@@ -388,38 +356,6 @@ export class SubscribersDiscusComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  // наступна сторінка з картками
-  incrementOffset() {
-    if (this.pageEvent.pageIndex * this.pageEvent.pageSize + this.pageEvent.pageSize < this.counterFound) {
-      this.pageEvent.pageIndex++;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.offs = offs;
-      this.getSubInfo(this.offs);
-    }
-    this.getCurrentPageInfo()
-  }
-
-  // попередня сторінка з картками
-  decrementOffset() {
-    if (this.pageEvent.pageIndex > 0) {
-      this.pageEvent.pageIndex--;
-      const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
-      this.offs = offs;
-      this.getSubInfo(this.offs);
-    }
-    this.getCurrentPageInfo()
-  }
-
-  // перевірка на якій ми сторінці і скільки їх
-  async getCurrentPageInfo(): Promise<string> {
-    const itemsPerPage = this.pageEvent.pageSize;
-    const currentPage = this.pageEvent.pageIndex + 1;
-    const totalPages = Math.ceil(this.counterFound / itemsPerPage);
-    this.currentPage = currentPage;
-    this.totalPages = totalPages;
-    return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
 
   // Копіювання параметрів

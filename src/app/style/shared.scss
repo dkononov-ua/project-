@@ -1028,25 +1028,25 @@
   }
 }
 
-.copyMessage-box {
-  @include pos-abs-l;
-  @include flex-box-column;
-  justify-content: center;
-  z-index: 300;
-  background-color: rgba(255, 255, 255, 0.78);
-  height: 650px;
-  width: 100%;
-  color: $color-text;
-  .fa-regular {
-    color: $color-text;
-    font-size: 48px;
-  }
-  .copyMessage-text {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;
-  }
-}
+// .copyMessage-box {
+//   @include pos-abs-l;
+//   @include flex-box-column;
+//   justify-content: center;
+//   z-index: 300;
+//   background-color: rgba(255, 255, 255, 0.78);
+//   height: 650px;
+//   width: 100%;
+//   color: $color-text;
+//   .fa-regular {
+//     color: $color-text;
+//     font-size: 48px;
+//   }
+//   .copyMessage-text {
+//     text-align: center;
+//     font-size: 30px;
+//     font-weight: 600;
+//   }
+// }
 
 .param-g {
   @include flex-box;

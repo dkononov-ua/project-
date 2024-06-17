@@ -27,4 +27,9 @@ export class ChoseSubscribersService {
       localStorage.removeItem('selectedSubscriberId');
     }
   }
+
+  removeChosenUserId() {
+    // console.log('removeChosenFlatId')
+    this.selectedSubscriberSubject.next(null);
+  }
 }

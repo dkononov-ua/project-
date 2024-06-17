@@ -106,7 +106,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
         })
       );
       // Якщо я в Підписках
-    } else if (currentLocation === '/allCards-user') {
+    } else if (currentLocation === '/subscriptions-user') {
       this.counterService.getUserSubscriptionsCount();
       this.subscriptions.push(
         this.counterService.counterUserSubscriptions$.subscribe(data => {

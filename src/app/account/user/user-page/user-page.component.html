@@ -9,58 +9,12 @@
       <div class="card-animation" [@swichCard]>
         <div class="card-content">
 
-          <app-status-data></app-status-data>
+          <button class="btn geer" [routerLink]="'/information-user'"><i class="fa-solid fa-gear"
+              matTooltip="Налаштувати профіль"></i></button>
 
-          <div class="copyMessage-box" *ngIf="isCopiedMessage">
-            <div class="copyMessage-text">{{isCopiedMessage}}</div>
-            <i class="fa-regular fa-copy"></i>
-            <div class="t-lar">Discussio</div>
-          </div>
-
-          <div class="container-img">
-            <button class="btn geer" [routerLink]="'/information-user'"><i class="fa-solid fa-gear"
-                matTooltip="Налаштувати профіль"></i></button>
-            <div class="wrapper-img">
-
-              <ng-container *ngIf="userImg !== 'user_default.svg' && isLoadingImg">
-                <img class="img-fluid" [src]="serverPath + pathPhotoUser + userImg" alt="img">
-              </ng-container>
-
-              <ng-container *ngIf="userImg && userImg !== 'user_default.svg' && !isLoadingImg">
-                <div class="img-fluid">
-                  <div class="container-loader-mini">
-                    <mat-spinner color="warn"></mat-spinner>
-                    <img [src]="serverPath + pathPhotoUser + userImg" (load)="isLoadingImg = true" hidden>
-                    <div class="t-min bold gray mt-2">Завантаження фото</div>
-                  </div>
-                </div>
-              </ng-container>
-
-              <ng-container *ngIf="!userImg || userImg === 'user_default.svg'">
-                <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
-              </ng-container>
-
-              <div class="info-panel">
-                <app-links-box></app-links-box>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="flex-box border-bottom">
-            <div class="flex-column p-2">
-              <div class="t-lar bold">{{ userInfo.lastName }}</div>
-              <div class="t-min gray">Прізвище</div>
-            </div>
-            <div class="flex-column p-2">
-              <div class="t-lar bold">{{ userInfo.firstName }}</div>
-              <div class="t-min gray">ім'я</div>
-            </div>
-            <div class="flex-column p-2">
-              <div class="t-lar bold">{{ userInfo.surName }}</div>
-              <div class="t-min gray">По батькові</div>
-            </div>
-          </div>
+          <app-img></app-img>
+          <app-links-box></app-links-box>
+          <app-info></app-info>
 
           <nav class="navbar">
 

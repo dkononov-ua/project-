@@ -1,0 +1,80 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+
+.cards-container {
+  @include flex-box;
+  flex-wrap: wrap;
+  height: calc(100vh - 80px - 100px - 1rem - 10px);
+  overflow: auto;
+  width: 100%;
+  align-content: flex-start;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .card-mini {
+    @include flex-box;
+    @include box-shadow;
+    cursor: pointer;
+    background-color: $color-white;
+    position: relative;
+    width: 96%;
+    height: 130px;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    border-radius: 20px;
+    @include s1-s3 {
+      border: 1px solid $color-gray;
+    }
+    &:hover {
+      transform: scale(1.05);
+    }
+    .card-mini-img-container {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      transition: all 0.3s ease;
+
+      &:hover {
+        width: 55%;
+      }
+      .card-mini-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+        clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+      }
+    }
+  }
+  @include s1-s3 {
+    height: calc(100vh - 80px - 100px - 1rem);
+  }
+  .card-mini.selected {
+    transition: 1s;
+    color: $color-white;
+    background-color: $color-gray;
+  }
+}
+
+// пагінатор
+.paginator-container {
+  @include flex-box;
+  width: 100%;
+  justify-content: space-evenly;
+  .paginator-box {
+    @include flex-box-column;
+  }
+  .paginator-btn {
+    @include flex-box;
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+    &:hover {
+      background-color: $color-accent;
+    }
+  }
+}

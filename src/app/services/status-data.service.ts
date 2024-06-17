@@ -35,7 +35,7 @@ export class StatusDataService {
   }
 
   setUserData(data: any, index: number): void {
-    // console.log(data)
+    console.log(data)
     // index потрібен для показу рейтингу в links-box.component
     // якщо 0 - показую два рейтинги
     // якщо 1 - показую рейтинг орендодавця

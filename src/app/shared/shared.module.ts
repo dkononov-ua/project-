@@ -54,6 +54,7 @@ import { InfoComponent } from '../card/card-user-components/info/info.component'
 import { ReviewsComponent } from '../card/card-user-components/reviews/reviews.component';
 import { LinksBoxComponent } from '../card/card-user-components/links-box/links-box.component';
 import { StatusAccessComponent } from '../components/house/status-access/status-access.component';
+import { CardsListUsersComponent } from '../card/card-user-components/cards-list-users/cards-list-users.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { StatusAccessComponent } from '../components/house/status-access/status-
     LinksBoxComponent,
     StatusAccessComponent,
     CardsListComponent,
+    CardsListUsersComponent,
     CardHouseComponent,
     FunctionsHouseComponent,
     InfoHouseComponent,
@@ -113,6 +115,8 @@ import { StatusAccessComponent } from '../components/house/status-access/status-
     LinksBoxComponent,
     StatusAccessComponent,
     CardsListComponent,
+    CardsListUsersComponent,
+
     CardHouseComponent,
     FunctionsHouseComponent,
     InfoHouseComponent,

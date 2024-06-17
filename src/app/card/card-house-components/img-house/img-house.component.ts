@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
+import { HouseInfo } from '../../../interface/info';
+import { HouseConfig } from '../../../interface/param-config';
 
 @Component({
   selector: 'app-img-house',
@@ -54,7 +56,6 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   animals = animals;
 
   // параметри оселі
-  chosenFlat: any;
   choseFlatId: any | null;
   public locationLink: string = '';
   subscriptions: any[] = [];
@@ -102,6 +103,9 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   }
   isMobile: boolean = false;
 
+
+  house: HouseInfo = HouseConfig;
+
   constructor(
     private sharedService: SharedService,
     private location: Location,
@@ -113,18 +117,41 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    const currentLocation = this.location.path();
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    // Підписка на отримання даних обраної оселі
-    this.subscriptions.push(
-      this.cardsDataService.cardData$.subscribe(async (data: any) => {
-        this.chosenFlat = data;
-      })
-    );
+    if (currentLocation === '/house/house-info') {
+      this.loadDataFlat();
+    } else {
+      // Підписка на отримання даних обраної оселі
+      this.subscriptions.push(
+        this.cardsDataService.cardData$.subscribe(async (data: any) => {
+          this.house.photos = data.img.map((img: string) => ({
+            flat_id: data.flat.flat_id,
+            img: img
+          }));
+        })
+      );
+    }
+  }
+
+  async loadDataFlat(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      if (Array.isArray(parsedHouseData.imgs) && parsedHouseData.imgs.length > 0) {
+        this.house.photos = parsedHouseData.imgs;
+        // console.log(this.house.photos)
+      } else {
+        this.house.photos[0] = "housing_default.svg";
+      }
+    } else {
+      console.log('Авторизуйтесь')
+    }
   }
 
   ngOnDestroy() {
@@ -134,20 +161,20 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
 
   // Перемикання Фото в каруселі
   prevPhoto() {
-    const length = this.chosenFlat?.img.length || 0;
+    const length = this.house?.photos.length || 0;
     if (this.currentPhotoIndex !== 0) {
       this.currentPhotoIndex--;
     }
   }
 
   nextPhoto() {
-    const length = this.chosenFlat?.img.length || 0;
+    const length = this.house?.photos.length || 0;
     if (this.currentPhotoIndex < length) {
       this.currentPhotoIndex++;
     }
   }
 
-  openFullScreenImage(photos: string): void {
+  openFullScreenImage(photos: any): void {
     this.sharedService.openFullScreenImage(photos);
   }
 

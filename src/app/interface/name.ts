@@ -1,4 +1,4 @@
-export const Options = {
+export const Options: { [key: number]: string } = {
   0: 'Вибір не зроблено',
   1: 'Новий',
   2: 'Добрий',
@@ -15,7 +15,7 @@ export const Options = {
   13: 'Немає',
 }
 
-export const Distance = {
+export const Distance: { [key: number]: string } = {
   0: 'Немає',
   1: 'На території будинку',
   5: 'На території будинку',
@@ -26,20 +26,20 @@ export const Distance = {
   2000: '2км',
 }
 
-export const CheckBox = {
+export const CheckBox: { [key: number]: string } = {
   0: 'Вибір не зроблено',
   1: 'Так',
   2: 'Ні',
 }
 
-export const Animals = {
+export const Animals: { [key: number]: string } = {
   '0': 'Без тварин',
   '1': 'З тваринами',
   '2': 'Тільки котики',
   '3': 'Тільки песики',
 }
 
-export const OptionPay = {
+export const OptionPay: { [key: number]: string } = {
   0: 'Щомісяця',
   1: 'Подобово',
   2: 'Безкоштовно',

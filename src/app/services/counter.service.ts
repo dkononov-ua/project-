@@ -49,9 +49,9 @@ export class CounterService {
     try {
       const counterHouseSubscribers: any = await this.http.post(this.serverPath + '/subs/get/countSubs', data).toPromise();
       if (counterHouseSubscribers.status !== 'Авторизуйтесь') {
-        this.counterHouseSubscribersSubject.next(counterHouseSubscribers);
+        this.counterHouseSubscribersSubject.next(counterHouseSubscribers.status);
         // console.log('Запит на сервер Підписники оселі', counterHouseSubscribers)
-        localStorage.setItem('counterHouseSubscriptions', JSON.stringify(counterHouseSubscribers));
+        localStorage.setItem('counterHouseSubscriptions', JSON.stringify(counterHouseSubscribers.status));
       } else {
         this.counterHouseSubscribersSubject.next('0');
         localStorage.removeItem('counterHouseSubscriptions');
@@ -68,8 +68,8 @@ export class CounterService {
       const counterHouseSubscriptions: any = await this.http.post(this.serverPath + '/usersubs/get/CountUserSubs', data).toPromise();
       if (counterHouseSubscriptions.status !== 'Авторизуйтесь') {
         // console.log('Запит на сервер Підписки оселі', counterHouseSubscriptions)
-        this.counterHouseSubscriptionsSubject.next(counterHouseSubscriptions);
-        localStorage.setItem('counterHouseSubscriptions', JSON.stringify(counterHouseSubscriptions));
+        this.counterHouseSubscriptionsSubject.next(counterHouseSubscriptions.status);
+        localStorage.setItem('counterHouseSubscriptions', JSON.stringify(counterHouseSubscriptions.status));
       } else {
         this.counterHouseSubscriptionsSubject.next('0');
         localStorage.removeItem('counterHouseSubscriptions');
@@ -85,9 +85,9 @@ export class CounterService {
     try {
       const counterHouseDiscussio: any = await this.http.post(this.serverPath + '/acceptsubs/get/CountSubs', data).toPromise();
       if (counterHouseDiscussio.status !== 'Авторизуйтесь') {
-        this.counterHouseDiscussioSubject.next(counterHouseDiscussio);
+        this.counterHouseDiscussioSubject.next(counterHouseDiscussio.status);
         // console.log('Запит на сервер Дискусії оселі', counterHouseDiscussio)
-        localStorage.setItem('counterHouseDiscussio', JSON.stringify(counterHouseDiscussio));
+        localStorage.setItem('counterHouseDiscussio', JSON.stringify(counterHouseDiscussio.status));
       } else {
         this.counterHouseDiscussioSubject.next('0');
         localStorage.removeItem('counterHouseDiscussio');

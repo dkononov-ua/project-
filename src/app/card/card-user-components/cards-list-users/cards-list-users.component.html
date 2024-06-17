@@ -1,0 +1,40 @@
+<div class="paginator-container">
+  <button class="paginator-btn" (click)="decrementOffset()">
+    <i class="fa-solid fa-chevron-left"></i></button>
+  <div class="paginator-box">
+    <div class="t-lar">Сторінка {{currentPage}} з {{totalPages}} </div>
+    <div class="t-min">Всього {{counterFound}}</div>
+  </div>
+  <button class="paginator-btn" (click)="incrementOffset()">
+    <i class="fa-solid fa-chevron-right"></i></button>
+</div>
+<div class="cards-container">
+  <div class="card-mini mb-3" *ngFor="let subscriber of allCards" (click)="onSelect(subscriber)"
+    [ngClass]="{ 'selected': subscriber.user_id == choseUser }">
+    <div class="card-mini-img-container">
+      <!-- якщо фото немає -->
+      <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
+        *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+      <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+      <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
+        <div class="container-loader-mini">
+          <mat-spinner color="warn"></mat-spinner>
+          <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
+            (load)="isLoadingImg = true" hidden>
+          <div class="t-min gray mt-2">Завантаження фото</div>
+        </div>
+      </div>
+      <!-- якщо фото користувача завантажилось показуємо фото -->
+      <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
+        *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
+    </div>
+    <div class="card-body">
+      <div class="p-1">
+        <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
+        <div class="t-lar bold">{{ subscriber.lastName }}</div>
+        <div class="t-lar-xx bold">{{ subscriber.firstName }}</div>
+        <div class="t-med thin">{{ subscriber.surName }}</div>
+      </div>
+    </div>
+  </div>
+</div>

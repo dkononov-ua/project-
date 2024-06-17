@@ -15,10 +15,9 @@ import { StatusDataService } from 'src/app/services/status-data.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-info',
-  templateUrl: './info.component.html',
-  providers: [{ provide: LOCALE_ID, useValue: 'uk-UA' },],
-  styleUrls: ['./info.component.scss'],
+  selector: 'app-user-page',
+  templateUrl: './user-page.component.html',
+  styleUrls: ['./user-page.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -42,7 +41,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     animations.swichCard,
   ],
 })
-export class InfoComponent implements OnInit {
+export class UserPageComponent implements OnInit {
 
 
 
@@ -182,8 +181,6 @@ export class InfoComponent implements OnInit {
               this.userImg = response.img[0].img;
             }
             this.getInfo();
-            this.getRatingTenant();
-            this.getRatingOwner();
           } else {
             console.log('Авторизуйтесь')
             this.sharedService.logout();
@@ -228,64 +225,13 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  // пошукові параметри користувача
-  // async getInfo(): Promise<any> {
-  //   localStorage.removeItem('searchInfoUserData')
-  //   const userJson = localStorage.getItem('user');
-  //   if (userJson) {
-  //     this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) })
-  //       .subscribe((response: any) => {
-  //         localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
-  //       }, (error: any) => {
-  //         console.error(error);
-  //       });
-  //   } else {
-  //     // console.log('user not found');
-  //   }
-  // }
 
-  //Запитую рейтинг орендаря
-  async getRatingTenant(): Promise<any> {
-    const response = await this.sharedService.getRatingTenant(this.userInfo.user_id);
-    // console.log(response);
-    this.ratingTenant = response.ratingTenant;
-    this.numberOfReviewsTenant = response.numberOfReviewsTenant;
-  }
 
-  //Запитую рейтинг власника
-  async getRatingOwner(): Promise<any> {
-    const response = await this.sharedService.getRatingOwner(this.userInfo.user_id);
-    // console.log(response);
-    this.ratingOwner = response.ratingOwner;
-    this.numberOfReviewsOwner = response.numberOfReviewsOwner;
-  }
 
-  // Копіювання параметрів
-  copyId() { this.copyToClipboard(this.userInfo.user_id, 'ID скопійовано'); }
-  copyTell() { this.copyToClipboard(this.userInfo.tell, 'Телефон скопійовано'); }
-  copyMail() { this.copyToClipboard(this.userInfo.mail, 'Пошту скопійовано'); }
-  copyViber() { this.copyToClipboard(this.userInfo.viber, 'Viber номер скопійовано'); }
-  copyToClipboard(textToCopy: string, message: string) {
-    if (textToCopy) {
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => { this.isCopiedMessage = message; setTimeout(() => { this.isCopiedMessage = ''; }, 2000); })
-        .catch((error) => { this.isCopiedMessage = ''; });
-    }
-  }
 
-  // створення чату техпідтримки в самому діскусіо
-  async checkChatExistAndOpen(): Promise<void> {
-    try {
-      const chatExists = await this.sendMessageService.checkChatExistence(1);
-      if (chatExists) {
-        this.sendMessageService.openChat();
-      } else {
-        this.sendMessageService.createChat();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
+
+
 
 
 }

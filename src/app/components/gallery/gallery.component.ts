@@ -29,6 +29,7 @@ export class GalleryComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private sharedService: SharedService,
   ) {
+    // console.log(data)
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
     })

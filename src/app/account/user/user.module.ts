@@ -4,7 +4,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { UagreeConcludedComponent } from './agree-u/uagree-concluded/uagree-concluded.component';
 import { UagreeMenuComponent } from './agree-u/uagree-menu/uagree-menu.component';
 import { UagreeReviewComponent } from './agree-u/uagree-review/uagree-review.component';
-import { InfoComponent } from './info/info.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,16 +26,17 @@ import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component
 import { PreviewInfoComponent } from './preview-info/preview-info.component';
 import { UserComponent } from './user.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { UserPageComponent } from './user-page/user-page.component';
 @NgModule({
   declarations: [
     UserComponent,
-    InfoComponent,
     UagreeConcludedComponent,
     UagreeMenuComponent,
     UagreeReviewComponent,
     UagreeHostComponent,
     UagreeStepComponent,
     PreviewInfoComponent,
+    UserPageComponent,
   ],
   providers: [
     DatePipe,
