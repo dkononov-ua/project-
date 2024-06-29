@@ -419,7 +419,6 @@ export class AgreeCreateComponent implements OnInit {
           vacateHouse: this.vacateHouse || 0,
         }
       };
-
       if (!this.houseData?.flat.city) { this.showMessage('В оселі має бути вказано місто'); return; }
       if (!this.houseData?.flat.houseNumber) { this.showMessage('В оселі має бути номер будинку'); return; }
       if (!this.houseData?.param.area) { this.showMessage('В оселі має бути площа'); return; }
@@ -429,8 +428,8 @@ export class AgreeCreateComponent implements OnInit {
       if (!this.selectedFlatId) { this.showMessage('Будь ласка, оберіть оселю'); return; }
       if (!this.userData?.cont?.tell) { this.showMessage('Вкажіть номер телефону власника'); return; }
       if (!this.userData?.cont?.mail) { this.showMessage('Вкажіть пошту власника'); return; }
-
       try {
+        // console.log(data)
         const response: any = await this.http.post(this.serverPath + '/agreement/add/agreement', data).toPromise();
         // console.log(response)
         this.loading = true;

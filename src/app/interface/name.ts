@@ -45,7 +45,7 @@ export const OptionPay: { [key: number]: string } = {
   2: 'Безкоштовно',
 }
 
-export const Purpose = {
+export const Purpose: { [key: number]: string } = {
   0: 'Переїзд',
   1: 'Відряджання',
   2: 'Подорож',

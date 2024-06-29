@@ -8,7 +8,7 @@
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
+    <div class="menu-box">
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Дискусії Оселі</div>
     </div>
@@ -20,53 +20,26 @@
       </button>
     </div>
 
-    <div class="hide-pc">
-      <div class="switch-btn-group ">
-        <button class="btn" [disabled]="subscribers.length === 0" (click)="onClickMenu(0)"
-          [ngClass]="{ 'active': indexPage === 0}">
-          <i class="fa-solid fa-people-group"></i>
-          <div class="t-min bold">Дискусії</div>
-          <div class="status"> {{subscribers.length}} </div>
-        </button>
-      </div>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [disabled]="!selectedUser" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage === 2}">
-        <i class="fa-solid fa-child-reaching"></i>
-        <div class="t-min bold">Орендарь</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [disabled]="!selectedUser || !reviews" (click)="onClickMenu(3)"
-        [ngClass]="{ 'active': indexPage == 3}">
-        <i class="fa-regular fa-star"></i>
-        <div class="t-min bold">Відгуки</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [disabled]="!selectedUser || !chatExists" (click)="onClickMenu(4)"
-        [ngClass]="{ 'active': indexPage === 4}">
-        <i class="fa-regular fa-message"></i>
-        <div class="t-min bold">Чат</div>
+    <div class="switch-btn-group ">
+      <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
+        [ngClass]="{ 'active': indexPage === 0}">
+        <i class="fa-solid fa-people-group"></i>
+        <div class="t-min bold">Дискусії</div>
+        <div class="status"> {{counterFound}} </div>
       </button>
     </div>
 
   </div>
 
   <div class="main-container">
-
     <!-- всі картки -->
-    <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
       <app-cards-list-users></app-cards-list-users>
     </div>
-
     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card-wrapper">
         <!-- всі картки -->
-        <div [@swichCard] class="card-animation hide-pc" *ngIf="indexPage === 0">
+        <div [@swichCard] class="card-animation" *ngIf="indexPage === 0 && isMobile">
           <div class="card-content">
             <app-cards-list-users></app-cards-list-users>
 
@@ -112,328 +85,18 @@
           </div>
         </div>
         <!-- інформація про орендаря -->
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 2 && selectedUser">
+        <div class="card-animation" *ngIf="indexPage === 2 && selectedUserId">
           <div class="btn-close-container">
             <div class="btn-close-box">
               <button class="btn-close" (click)="indexPage = 1"></button>
             </div>
           </div>
           <div class="card-content">
-
-            <!-- <app-img></app-img>
-            <app-info></app-info> -->
-
-            <app-status-data></app-status-data>
-
-            <div class="copyMessage-box" *ngIf="isCopiedMessage">
-              <div class="copyMessage-text">{{isCopiedMessage}}</div>
-              <i class="fa-regular fa-copy"></i>
-              <div class="t-lar dark bold">Discussio</div>
-            </div>
-
-            <div class="container-img">
-              <div class="wrapper-img">
-
-                <!-- якщо фото немає -->
-                <ng-container *ngIf="!selectedUser.img || selectedUser.img === 'user_default.svg'">
-                  <div class="img-fluid">
-                    <img src="../../../../assets/user_default.svg" alt="img">
-                  </div>
-                </ng-container>
-
-                <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
-                <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && !isLoadingImg">
-                  <div class="img-fluid">
-                    <div class="container-loader-mini">
-                      <mat-spinner color="warn"></mat-spinner>
-                      <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img" (load)="isLoadingImg = true"
-                        hidden>
-                      <div class="t-min gray mt-2">Завантаження фото</div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <!-- фото користувача -->
-                <ng-container *ngIf="selectedUser.img && selectedUser.img !== 'user_default.svg' && isLoadingImg">
-                  <div class="img-fluid">
-                    <img [src]="serverPath + pathPhotoUser + selectedUser.img" alt="img">
-                  </div>
-                </ng-container>
-
-                <div class="info-panel">
-                  <app-links-box></app-links-box>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="flex-box" *ngIf="selectedUser.lastName || selectedUser.firstName || selectedUser.surName">
-              <div class="flex-column p-2" *ngIf="selectedUser.lastName">
-                <div class="t-lar bold">{{ selectedUser.lastName }}</div>
-                <div class="t-min gray">Прізвище</div>
-              </div>
-              <div class="flex-column p-2" *ngIf="selectedUser.firstName">
-                <div class="t-lar bold">{{ selectedUser.firstName }}</div>
-                <div class="t-min gray">ім'я</div>
-              </div>
-              <div class="flex-column p-2" *ngIf="selectedUser.surName">
-                <div class="t-lar bold">{{ selectedUser.surName }}</div>
-                <div class="t-min gray">По батькові</div>
-              </div>
-            </div>
-
-            <nav class="navbar">
-
-              <button class="link-menu" (click)="reportUser(selectedUser)">
-                <div class="flex-column pl-4 w-80">
-                  <p class="link-menu-t1">Відправити</p>
-                  <p class="link-menu-t2">Скаргу</p>
-                </div>
-                <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
-              </button>
-
-              <button class="link-menu" (click)="deleteUser(selectedUser)">
-                <div class="flex-column pl-4 w-80">
-                  <p class="link-menu-t1">Видалити</p>
-                  <p class="link-menu-t2">Дискусію</p>
-                </div>
-                <div class="link-icon w-20"><i class="fa-solid fa-user-xmark"></i></div>
-              </button>
-
-              <button class="link-menu" [routerLink]="['/agree-create', selectedUser?.user_id]">
-                <div class="flex-column pl-4 w-80">
-                  <p class="link-menu-t1">Створити</p>
-                  <p class="link-menu-t2">Угоду</p>
-                </div>
-                <div class="link-icon w-20"><i class="fa-solid fa-file-contract"></i></div>
-              </button>
-
-              <button class="link-menu" *ngIf="!chatExists" (click)="createChat()">
-                <div class="flex-column pl-4 w-80">
-                  <p class="link-menu-t1">Створити</p>
-                  <p class="link-menu-t2">Чат</p>
-                </div>
-                <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
-              </button>
-
-              <button class="link-menu" *ngIf="chatExists" (click)="openChat()">
-                <div class="flex-column pl-4 w-80">
-                  <p class="link-menu-t1">Написати</p>
-                  <p class="link-menu-t2">Повідомлення</p>
-                </div>
-                <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
-              </button>
-
-            </nav>
-
-            <div class="param-box" *ngIf="selectedUser.region || selectedUser.city">
-              <div class="t-lar gray t-c p-2">Пошукові параметри
-                <p class="t-med">за якими орендарь шукає оселю</p>
-              </div>
-              <div class="param-label">Локація, шукаю оселю в :</div>
-              <div class="param-group p-1">
-                <div class="param-field" *ngIf="selectedUser.region">Область :
-                  <span class="param-value">{{ selectedUser.region }}</span>
-                </div>
-                <div class="param-field" *ngIf="selectedUser.city">Місто :
-                  <span class="param-value">{{ selectedUser.city }}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="param-box" *ngIf="selectedUser.price_of || selectedUser.price_to">
-              <div class="param-label">Бюджет в грн:</div>
-              <div class="param-group p-1">
-                <div class="param-field" *ngIf="selectedUser.price_of">Від :
-                  <span class="param-value">{{ selectedUser.price_of }} ₴</span>
-                </div>
-                <div class="param-field" *ngIf="selectedUser.price_to">До:
-                  <span class="param-value">{{ selectedUser.price_to }} ₴</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="param-box"
-              *ngIf="selectedUser.area_of || selectedUser.area_to || selectedUser.rooms_of || selectedUser.rooms_to || selectedUser.repair_status || selectedUser.balcony">
-              <div class="param-label">Параметри оселі:</div>
-
-              <div class="param-group p-1">
-
-                <div class="param-field" *ngIf="selectedUser.area_of || selectedUser.area_to">
-                  <div> Площа:
-                    <span class="param-value" *ngIf="selectedUser.area_of !== '' ">
-                      від {{ selectedUser.area_of }}м²</span>
-                    <span class="param-value" *ngIf="selectedUser.area_to !== '' ">
-                      до {{ selectedUser.area_to }}м²</span>
-                    <span class="param-value" *ngIf="selectedUser.area_of === '' && selectedUser.area_to === ''">
-                      Неважливо </span>
-                  </div>
-                </div>
-
-                <div class="param-field" *ngIf="selectedUser.rooms_of || selectedUser.rooms_to">
-                  <div *ngIf="selectedUser.rooms_of !== 0 || selectedUser.rooms_to !== 6 "> Кіл. кімнат:
-                    <span class="param-value" *ngIf="selectedUser.rooms_of !== 0 && selectedUser.rooms_of !== null">
-                      від {{ selectedUser.rooms_of}}</span>
-                    <span class="param-value" *ngIf="selectedUser.rooms_to !== 6">до {{ selectedUser.rooms_to}}</span>
-                  </div>
-                  <div *ngIf="selectedUser.rooms_of === 0 && selectedUser.rooms_to === 6"> Кіл. кімнат: неважливо </div>
-                </div>
-
-                <div class="param-field" *ngIf="selectedUser?.repair_status">Стан оселі:
-                  <span class="param-value">{{ selectedUser.repair_status }}</span>
-                </div>
-
-                <div class="param-field" *ngIf="selectedUser.balcony">
-                  Тип балкону:<span class="param-value">{{ selectedUser.balcony }}</span> </div>
-              </div>
-            </div>
-
-            <div class="param-box"
-              *ngIf="selectedUser.distance_metro || selectedUser.distance_stop || selectedUser.distance_shop || selectedUser.distance_green || selectedUser.distance_parking">
-              <div class="param-label">Інфраструктура в доступі:</div>
-
-              <div class="param-group p-1">
-                <div class="param-field"
-                  *ngIf="selectedUser?.distance_metro !== 0 && selectedUser?.distance_metro !== null">
-                  Метро до:<span class="param-value">{{ aboutDistance[selectedUser.distance_metro] }}</span> </div>
-                <div class="param-field"
-                  *ngIf="selectedUser?.distance_stop !== 0 && selectedUser?.distance_stop !== null">
-                  Зупинка до:<span class="param-value">{{ aboutDistance[selectedUser.distance_stop] }}</span> </div>
-                <div class="param-field"
-                  *ngIf="selectedUser?.distance_shop !== 0 && selectedUser?.distance_shop !== null">
-                  Маркет до:<span class="param-value">{{ aboutDistance[selectedUser.distance_shop] }}</span> </div>
-                <div class="param-field"
-                  *ngIf="selectedUser?.distance_green !== 0 && selectedUser?.distance_green !== null">
-                  Парк до:<span class="param-value">{{ aboutDistance[selectedUser.distance_green] }}</span> </div>
-                <div class="param-field"
-                  *ngIf="selectedUser?.distance_parking !== 0 && selectedUser?.distance_parking !== null">
-                  Паркінг:<span class="param-value">{{ aboutDistance[selectedUser.distance_parking] }}</span> </div>
-              </div>
-            </div>
-
-            <div class="param-box" *ngIf="selectedUser.bunker || selectedUser.animals || selectedUser.purpose_rent">
-              <div class="param-label">Особливості:</div>
-              <div class="param-group p-1">
-
-                <div class="param-field" *ngIf="selectedUser.purpose_rent">
-                  Мета оренди:<span class="param-value">{{ purpose[selectedUser.purpose_rent] }}</span> </div>
-
-                <div class="param-field" *ngIf="selectedUser.bunker">
-                  Наявність укриття:<span class="param-value">{{ selectedUser.bunker }}</span> </div>
-
-                <div class="param-field" *ngIf="selectedUser.animals">
-                  <div *ngIf="selectedUser.animals !== 'Неважливо'">
-                    Домашні улюбленці: <span class="param-value">{{ animals[selectedUser.animals] }} </span> </div>
-                  <div *ngIf="selectedUser.animals === 'Неважливо'">Домашні улюбленці: <span class="param-value">
-                      Наявність чи відсутність тварин не вказано.</span></div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="param-box" *ngIf="selectedUser.flat || selectedUser.house || selectedUser.room">
-              <div class="param-label">Розглядаю тип оселі:</div>
-              <div class="param-group p-1">
-                <div class="param-field" *ngIf="selectedUser?.flat && selectedUser?.flat !== null"><span
-                    class="param-value">Квартира</span> </div>
-                <div class="param-field" *ngIf="selectedUser?.house && selectedUser?.house !== null"><span
-                    class="param-value">Будинок</span> </div>
-                <div class="param-field" *ngIf="selectedUser?.room && selectedUser?.room !== null"><span
-                    class="param-value">Кімната</span> </div>
-              </div>
-            </div>
-
-            <div class="param-box" *ngIf="selectedUser.room && selectedUser.room !== 0">
-              <div class="param-label">Розглядаю сусіда по оселі:</div>
-              <div class="param-group p-1">
-                <div class="param-field" *ngIf="selectedUser.looking_man">
-                  <span class="param-value">Чоловік</span>
-                </div>
-                <div class="param-field" *ngIf="selectedUser.looking_woman"><span class="param-value">Жінка</span>
-                </div>
-                <div class="param-field" *ngIf="!selectedUser.looking_woman && !selectedUser.looking_man"><span
-                    class="param-value">Неважливо який сусід по оселі</span> </div>
-              </div>
-            </div>
-
-            <div class="param-box"
-              *ngIf="selectedUser?.years || selectedUser?.mounths || selectedUser?.weeks || selectedUser?.days">
-              <div class="param-label">Орієнтовний термін оренди:</div>
-              <div class="param-group p-1">
-
-                <div class="param-field" *ngIf="selectedUser?.years && selectedUser?.years !== null">Роки:<span
-                    class="param-value">{{ selectedUser.years }}</span></div>
-
-                <div class="param-field" *ngIf="selectedUser?.mounths && selectedUser?.mounths !== null">Місяці:
-                  <span class="param-value">{{ selectedUser.mounths }}</span>
-                </div>
-
-                <div class="param-field" *ngIf="selectedUser?.weeks && selectedUser?.weeks !== null">Тижні:<span
-                    class="param-value">{{ selectedUser.weeks }}</span></div>
-
-                <div class="param-field" *ngIf="selectedUser?.days && selectedUser?.days !== null">Дні:<span
-                    class="param-value">{{
-                    selectedUser.days }}</span></div>
-              </div>
-            </div>
-
-            <div class="p-2" *ngIf="selectedUser.about">
-              <div class="t-lar dark bold">Додаткова інформація:</div>
-              <div class="t-min ">{{selectedUser.about}}</div>
-            </div>
-
+            <app-img></app-img>
+            <app-links-box></app-links-box>
+            <app-info></app-info>
+            <app-functions></app-functions>
           </div>
-        </div>
-        <!-- Відгуки -->
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 3 && counterFound !== 0  && selectedUser">
-          <div class="btn-close-container">
-            <div class="btn-close-box">
-              <button class="btn-close" (click)="indexPage = 2"></button>
-            </div>
-          </div>
-          <div class="card-content p-2" *ngIf="reviews">
-            <div class="t-lar-x bold gray mb-3">Відгуки власників</div>
-            <div [@left3] class="reviews-card" *ngFor="let review of reviews">
-              <div class="reviews-group">
-                <div class="reviews-person w-70">
-                  <div class="reviews-person-img">
-                    <div *ngIf="review.reporter && review.reporter.img">
-                      <img [src]="serverPath + pathPhotoUser + review.reporter.img" alt="img">
-                    </div>
-                    <div *ngIf="!review.reporter || !review.reporter.img">
-                      <img src="../../../../assets/user_default.svg" alt="img">
-                    </div>
-                  </div>
-
-                  <div class="reviews-person-info">
-                    <p class="bold" *ngIf="review.reporter">{{review.reporter.lastName}}
-                      {{review.reporter.firstName}} {{review.reporter.surName}}</p>
-                    <p *ngIf="!review.reporter">Аккаунт видалено</p>
-                    <p class="t-min gray">Дата відгуку: {{review.info.data |date}}</p>
-                  </div>
-
-                </div>
-                <div class="review-mark w-30" *ngIf="review.info.mark">
-                  <p class="review-mark-number">{{review.info.mark}} </p>
-                  <i class="fa-regular fa-star"></i>
-                </div>
-              </div>
-              <div class="t-med bold mt-2" *ngIf="review.info.about">"{{review.info.about}}"</div>
-            </div>
-          </div>
-
-          <div class="card-content p-2" *ngIf="!reviews">
-            <div class="t-lar-x bold gray mb-3">Відгуків ще немає</div>
-          </div>
-        </div>
-        <!-- Чат -->
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 4 && selectedUser">
-          <div class="btn-close-container close-container">
-            <div class="btn-close-box">
-              <button class="btn-close" (click)="indexPage = 2"></button>
-            </div>
-          </div>
-          <app-chat-house class="chat"></app-chat-house>
         </div>
       </div>
     </div>

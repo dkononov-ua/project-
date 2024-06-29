@@ -9,7 +9,7 @@
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
+    <div class="menu-box">
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Профіль Користувача</div>
     </div>
@@ -24,7 +24,21 @@
       </button>
     </div>
 
-    <div class="switch-btn-group">
+    <a class="switch-btn-group" [routerLink]="'/discussio-search'">
+      <div class="btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min bold">Пошук</div>
+      </div>
+    </a>
+
+    <a class="switch-btn-group" [routerLink]="'/house/house-control/selection-house'">
+      <div class="btn">
+        <i class="fa-solid fa-house"></i>
+        <div class="t-min bold">Оселя</div>
+      </div>
+    </a>
+
+    <!-- <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/subscriptions-user'">
         <i class="fa-regular fa-heart"></i>
         <div class="t-min bold">Вподоб.</div>
@@ -58,7 +72,7 @@
         <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== '0'">
           {{counterUserNewAgree}} </div>
       </button>
-    </div>
+    </div> -->
 
   </div>
 
@@ -77,8 +91,7 @@
                 Інформацію по вашому профілю орендаря. Сповіщення про повідомлення, дискусії та угоди.</p>
             </div>
 
-            <button class="btn-feedback" [routerLink]="'/feedback'"
-              [queryParams]="{ category: 'Профіль користувача' }">
+            <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль користувача' }">
               Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
             </button>
 

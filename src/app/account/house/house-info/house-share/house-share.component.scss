@@ -1,7 +1,12 @@
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
 @use "../../../../style/shared.scss";
-@use "../parameters/parameters.component.scss";
+
+.container-box {
+  @include flex-box-center;
+  flex-wrap: wrap;
+  width: 100%;
+}
 
 .fa-solid, .fa-regular {
   font-size: 20px;
@@ -17,4 +22,64 @@
   padding: 2px;
   background-color: transparent;
   margin-left: 10px;
+}
+
+// загальні обрані параметри користувача
+.param-box {
+  .param-name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: $color-text;
+
+    .fa-solid {
+      font-size: 30px;
+    }
+    button {
+      border: none;
+    }
+    .param-name-text {
+      @include flex-box;
+      font-size: 12px;
+      .fa-solid {
+        font-size: 16px;
+      }
+      &:hover {
+        color: $color-accent;
+      }
+    }
+  }
+
+  .param-label {
+    font-weight: 600;
+    font-size: 12px;
+    margin: 2px;
+    color: $color-accent;
+  }
+
+  .param-group {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .param-field {
+      font-weight: 600;
+      font-size: 12px;
+      margin: 2px;
+      border-radius: 10px;
+      padding: 5px;
+      background-color: $color-primary;
+    }
+
+    .param-value {
+      font-weight: 400;
+      font-size: 16px;
+      margin: 2px;
+      padding: 5px;
+      color: $color-text;
+    }
+  }
 }

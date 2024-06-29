@@ -6,6 +6,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
+import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 
 @Component({
   selector: 'app-img',
@@ -45,6 +46,7 @@ export class ImgComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private location: Location,
     private cardsDataService: CardsDataService,
+    private cardsDataHouseService: CardsDataHouseService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -55,18 +57,41 @@ export class ImgComponent implements OnInit, OnDestroy {
         this.serverPath = serverPath;
       })
     );
-    if (currentLocation === '/user/info') {
-      this.getInfoUser();
-    } else {
-      // Підписка на отримання даних обраної оселі
+    this.checkLocation();
+  }
+
+  checkLocation() {
+    const currentLocation = this.location.path();
+    // Якщо я в меню користувача
+    if (
+      currentLocation === '/subscribers-discuss' ||
+      currentLocation === '/subscribers-user' ||
+      currentLocation === '/subscriptions-user'
+    ) {
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
+          // console.log(data)
           this.user.img = data.owner.img;
         })
       );
+      // Якщо я в меню оселі
+    } else if (
+      currentLocation === '/subscribers-discus' ||
+      currentLocation === '/subscribers-house' ||
+      currentLocation === '/subscriptions-house'
+    ) {
+      this.subscriptions.push(
+        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+          // console.log(data)
+          this.user.img = data.img;
+        })
+      );
+    } else if (currentLocation === '/user/info') {
+      this.getInfoUser();
     }
   }
 
+  // Якщо я на сторінці профілю
   getInfoUser() {
     const userData = localStorage.getItem('userData');
     if (userData) {

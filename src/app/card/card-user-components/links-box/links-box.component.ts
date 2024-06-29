@@ -3,6 +3,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-links-box',
@@ -66,6 +67,7 @@ export class LinksBoxComponent implements OnInit {
     }
   }
 
+  currentLocation: string = '';
 
   userInfo: any;
   animationDelay(index: number): string {
@@ -75,9 +77,12 @@ export class LinksBoxComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private statusDataService: StatusDataService,
+    private location: Location,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.currentLocation = this.location.path();
     this.statusDataService.userData$.subscribe((data: any) => {
       // console.log(data);
       this.userInfo = data.data;

@@ -40,6 +40,7 @@ import { AgreeHostComponent } from './agree-h/agree-host/agree-host.component';
 import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
 import { ResidentMenuComponent } from './resident/resident-menu/resident-menu.component';
 import { UserSearchComponent } from './resident/user-search/user-search.component';
+import { NavigationHouseComponent } from 'src/app/card/card-house-components/navigation-house/navigation-house.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -61,6 +62,7 @@ import { UserSearchComponent } from './resident/user-search/user-search.componen
     AgreeStepComponent,
     ResidentMenuComponent,
     UserSearchComponent,
+    NavigationHouseComponent,
   ],
   providers: [
     DatePipe,

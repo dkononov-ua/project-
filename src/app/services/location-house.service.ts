@@ -14,12 +14,13 @@ export class LocationHouseService {
 
   // Генерую локацію оселі
   async generateLocationUrl(chosenFlat: any): Promise<string> {
+    // console.log(chosenFlat)
     const baseUrl = 'https://www.google.com/maps/place/';
-    const region = chosenFlat.flat.region || '';
-    const city = chosenFlat.flat.city || '';
-    const street = chosenFlat.flat.street || '';
-    const houseNumber = chosenFlat.flat.houseNumber || '';
-    const flatIndex = chosenFlat.flat.flat_index || '';
+    const region = chosenFlat.region || '';
+    const city = chosenFlat.city || '';
+    const street = chosenFlat.street || '';
+    const houseNumber = chosenFlat.houseNumber || '';
+    const flatIndex = chosenFlat.flat_index || '';
     const encodedRegion = encodeURIComponent(region);
     const encodedCity = encodeURIComponent(city);
     const encodedStreet = encodeURIComponent(street);

@@ -16,13 +16,19 @@
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
+    <div class="menu-box">
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Профіль Оселі</div>
     </div>
 
+
     <div class="switch-btn-group">
-      <button [disabled]="!houseData || acces_flat_chats !== 1" class="btn" [routerLinkActive]="'active'" [routerLink]="'/chat-house'">
+      <app-navigation-house></app-navigation-house>
+    </div>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!houseData || acces_flat_chats !== 1" class="btn" [routerLinkActive]="'active'"
+        [routerLink]="'/chat-house'">
         <i class="fa-regular fa-comments"></i>
         <div class="t-min bold">Повід.</div>
         <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
@@ -31,7 +37,21 @@
       </button>
     </div>
 
-    <div class="switch-btn-group">
+    <a class="switch-btn-group" [routerLink]="'/discussio-search'">
+      <div class="btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min bold">Пошук</div>
+      </div>
+    </a>
+
+    <div class="switch-btn-group" *ngIf="authorization">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
+        <i class="fa-regular fa-circle-user"></i>
+        <div class="t-min bold">Профіль</div>
+      </a>
+    </div>
+
+    <!-- <div class="switch-btn-group">
       <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscriptions-house'">
         <i class="fa-solid fa-people-pulling"></i>
         <div class="t-min bold">Підписки</div>
@@ -64,11 +84,11 @@
         <i class="fa-solid fa-envelope-open-text"></i>
         <div class="t-min bold">Угоди</div>
       </button>
-    </div>
+    </div> -->
 
   </div>
 
-  <div [@top1] class="main-container">
+  <div class="main-container">
 
     <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
       <div class="card-wrapper">
@@ -97,7 +117,7 @@
     </div>
 
     <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12">
-      <div class="card-animation" [@left2]>
+      <div class="card-animation">
         <div class="card-content">
           <app-main-info></app-main-info>
         </div>
@@ -105,10 +125,8 @@
     </div>
 
     <div class="card-wrapper hide-mobile col-lg-4 col-md-5 col-sm-12 col-12">
-      <div class="card-animation" [@left2]>
-        <div class="card-content">
-          <app-parameters></app-parameters>
-        </div>
+      <div class="flex-column">
+        <app-info-house></app-info-house>
       </div>
     </div>
   </div>

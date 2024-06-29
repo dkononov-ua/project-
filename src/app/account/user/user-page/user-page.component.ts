@@ -72,11 +72,12 @@ export class UserPageComponent implements OnInit {
 
   agreeNum: number = 0;
   page: any;
-  counterUserSubscribers: string = '0';
-  counterUserDiscussio: string = '0';
-  counterUserSubscriptions: string = '0';
-  counterUserNewAgree: string = '0';
+  counterUserSubscribers: any;
+  counterUserSubscriptions: any;
+  counterUserDiscussio: any;
   counterUserNewMessage: any;
+  counterUserNewAgree: any;
+
   userMenu: boolean = false;
   isLoadingImg: boolean = false;
   numberOfReviewsTenant: any;
@@ -101,6 +102,7 @@ export class UserPageComponent implements OnInit {
     this.location.back();
   }
   isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -120,37 +122,77 @@ export class UserPageComponent implements OnInit {
       this.isMobile = status;
       // isMobile: boolean = false;
     });
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.getInfoUser();
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      await this.getUserSubscribersCount();
+      await this.getUserSubscriptionsCount();
+      await this.getUserDiscussioCount();
+      this.getCounterAgree();
+    } else {
+      this.authorization = false;
+    }
 
   }
 
-  ngOnInit(): void {
-    // Assuming this.serverPath is of type Observable<string>
-    this.getInfoUser();
-    const counterUserSubscribers = localStorage.getItem('counterUserSubscribers')
-    if (counterUserSubscribers) { this.counterUserSubscribers = counterUserSubscribers; }
-    const counterUserDiscussio = localStorage.getItem('counterUserDiscussio')
-    if (counterUserDiscussio) { this.counterUserDiscussio = counterUserDiscussio; }
-    const counterUserSubscriptions = localStorage.getItem('counterUserSubscriptions')
-    if (counterUserSubscriptions) { this.counterUserSubscriptions = counterUserSubscriptions; }
-    const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
-    if (counterUserNewAgree) { this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total; } else {
-      this.counterUserNewAgree = '0';
+  getCounterAgree() {
+    const userJson = localStorage.getItem('user');
+    // console.log(localStorage.getItem('user'))
+    if (userJson) {
+      const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
+      if (counterUserNewAgree) {
+        this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
+        // console.log(counterUserNewAgree)
+      } else {
+        this.counterUserNewAgree = 0;
+      }
+    } else {
+      this.counterUserNewAgree = 0;
     }
-    this.getUserNewMessage();
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 0;
-      this.indexPage = Number(this.page);
+  }
+
+  // перевірка підписників користувача
+  async getUserSubscribersCount() {
+    // console.log('Відправляю запит на сервіс кількість підписників',)
+    await this.counterService.getUserSubscribersCount();
+    this.counterService.counterUserSubscribers$.subscribe(data => {
+      const counterUserSubscribers: any = data;
+      if (counterUserSubscribers.status === 'Немає доступу') {
+        this.counterUserSubscribers = null;
+      } else {
+        this.counterUserSubscribers = counterUserSubscribers;
+      }
+      // console.log('кількість підписників', this.counterUserSubscribers)
     });
   }
 
-  // перевірка на нові повідомлення користувача
-  async getUserNewMessage() {
+  // перевірка підписок користувача
+  async getUserSubscriptionsCount() {
+    // console.log('Відправляю запит на сервіс кількість підписок',)
+    await this.counterService.getUserSubscriptionsCount();
+    this.counterService.counterUserSubscriptions$.subscribe(data => {
+      const counterUserSubscriptions: any = data;
+      if (counterUserSubscriptions.status === 'Немає доступу') {
+        this.counterUserSubscriptions = null;
+      } else {
+        this.counterUserSubscriptions = counterUserSubscriptions;
+      }
+      // console.log('кількість підписників', this.counterUserSubscriptions)
+    });
+  }
+
+  // перевірка дискусій користувача
+  async getUserDiscussioCount() {
     // console.log('Відправляю запит на сервіс кількість дискусій',)
-    await this.counterService.getUserNewMessage();
-    this.counterService.counterUserNewMessage$.subscribe(data => {
-      const counterUserNewMessage: any = data;
-      this.counterUserNewMessage = counterUserNewMessage.status;
-      // console.log('кількість повідомлень користувача', this.counterUserNewMessage)
+    await this.counterService.getUserDiscussioCount();
+    this.counterService.counterUserDiscussio$.subscribe(data => {
+      const counterUserDiscussio: any = data;
+      this.counterUserDiscussio = counterUserDiscussio;
+      // console.log('кількість дискусій', this.counterUserDiscussio)
     });
   }
 
@@ -161,26 +203,6 @@ export class UserPageComponent implements OnInit {
         (response) => {
           if (response.status === true) {
             this.statusDataService.setUserData(response.cont, 0);
-            // console.log(response);
-            this.agreeNum = response.agree;
-            localStorage.setItem('counterUserNewAgree', JSON.stringify(this.agreeNum));
-            this.userInfo.user_id = response.inf?.user_id || '';
-            this.userInfo.firstName = response.inf?.firstName || '';
-            this.userInfo.lastName = response.inf?.lastName || '';
-            this.userInfo.surName = response.inf?.surName || '';
-            this.userInfo.mail = response.cont.mail || '';
-            this.userInfo.dob = response.inf?.dob || '';
-            this.userInfo.tell = response.cont?.tell || '';
-            this.userInfo.telegram = response.cont?.telegram || '';
-            this.userInfo.facebook = response.cont?.facebook || '';
-            this.userInfo.instagram = response.cont?.instagram || '';
-            this.userInfo.viber = response.cont?.viber || '';
-            this.userInfo.checked = response.inf?.checked || 0;
-            this.userInfo.realll = response.inf?.realll || 0;
-            if (response.img && response.img.length > 0) {
-              this.userImg = response.img[0].img;
-            }
-            this.getInfo();
           } else {
             console.log('Авторизуйтесь')
             this.sharedService.logout();
@@ -192,46 +214,5 @@ export class UserPageComponent implements OnInit {
       );
     }
   }
-
-  // пошукові параметри користувача
-  async getInfo(): Promise<any> {
-    // localStorage.removeItem('statusUserData')
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise() as any[];
-        if (response.status === true) {
-          this.statusInfo = {
-            house: response.inf.house,
-            flat: response.inf.flat,
-            room: response.inf.room,
-            looking_woman: response.inf.looking_woman,
-            looking_man: response.inf.looking_man,
-            agree_search: response.inf.agree_search,
-            students: response.inf.students,
-            woman: response.inf.woman,
-            man: response.inf.man,
-            family: response.inf.family,
-            date: response.inf.data,
-            checked: this.userInfo.checked,
-            realll: this.userInfo.realll
-          };
-          this.statusDataService.setStatusData(this.statusInfo);
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-    }
-  }
-
-
-
-
-
-
-
-
-
 
 }

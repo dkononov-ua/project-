@@ -8,7 +8,7 @@
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
+    <div class="menu-box">
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Вподобані Оселі</div>
     </div>
@@ -20,24 +20,14 @@
       </button>
     </div>
 
-    <div class="hide-pc">
-      <div class="switch-btn-group ">
-        <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
-          [ngClass]="{ 'active': indexPage === 0}">
-          <i class="fa-solid fa-people-group"></i>
-          <div class="t-min bold">Вподобані</div>
-          <div class="status"> {{counterFound}} </div>
-        </button>
-      </div>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage === 2}">
-        <i class="fa-regular fa-building"></i>
-        <div class="t-min bold">Оселя</div>
+    <div class="switch-btn-group ">
+      <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
+        [ngClass]="{ 'active': indexPage === 0}">
+        <i class="fa-solid fa-people-group"></i>
+        <div class="t-min bold">Вподобані</div>
+        <div class="status"> {{counterFound}} </div>
       </button>
     </div>
-
   </div>
 
   <div class="main-container">
@@ -53,7 +43,6 @@
         <div [@swichCard] class="card-animation hide-pc" *ngIf="indexPage === 0 && isMobile">
           <div class="card-content">
             <app-cards-list></app-cards-list>
-
           </div>
         </div>
         <!-- про меню -->

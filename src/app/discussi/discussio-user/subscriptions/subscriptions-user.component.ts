@@ -1,35 +1,20 @@
-import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
-import { DeleteSubsComponent } from '../delete/delete-subs.component';
-import { StatusDataService } from 'src/app/services/status-data.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
-
-interface chosenFlat {
-  flat: any;
-  owner: any;
-  img: any;
-}
 
 @Component({
   selector: 'app-subscriptions-user',
   templateUrl: './subscriptions-user.component.html',
-  styleUrls: ['./subscriptions-user.component.scss'],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'uk-UA' },
-  ],
+  styleUrls: ['./../../discussi.scss'],
   animations: [
     animations.left,
     animations.left1,
@@ -51,24 +36,10 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
   serverPath: string = '';
   // ***
 
-  // розшифровка пошукових параметрів
-  purpose = purpose;
-  aboutDistance = aboutDistance;
-  option_pay = option_pay;
-  animals = animals;
-  isLoadingImg: boolean = false;
-
   // параметри оселі
-  chosenFlat: chosenFlat | null = null;
+  chosenFlat: any;
   choseFlatId: any | null;
-  public locationLink: string = '';
   subscriptions: any[] = [];
-  currentPhotoIndex: number = 0;
-  // статуси
-  loading: boolean | undefined;
-  isCopiedMessage!: string;
-  statusMessage: any;
-  statusMessageChat: any;
   // показ карток
   page: number = 0;
   indexPage: number = 1;
@@ -77,35 +48,24 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
     this.indexPage = indexPage;
   }
 
-  // пагінатор
-  offs = PaginationConfig.offs;
   counterFound = PaginationConfig.counterFound;
-  currentPage = PaginationConfig.currentPage;
-  totalPages = PaginationConfig.totalPages;
-  pageEvent = PaginationConfig.pageEvent;
-  card_info: number = 0;
   startX = 0;
-  photoViewing: boolean = false;
   isMobile: boolean = false;
 
   constructor(
-    private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
-    private dialog: MatDialog,
     private sharedService: SharedService,
     private counterService: CounterService,
-    private route: ActivatedRoute,
     private router: Router,
-    private statusDataService: StatusDataService,
     private cardsDataService: CardsDataService,
-    private locationHouseService: LocationHouseService,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-    });
-  }
+  ) {  }
 
   async ngOnInit(): Promise<void> {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
@@ -127,12 +87,12 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
         // Якщо є обрана оселя
         if (this.chosenFlat) {
           this.indexPage = 2;
-          // Формую локацію на мапі
-          this.locationLink = await this.locationHouseService.generateLocationUrl(this.chosenFlat);
         }
       })
     );
+
     // Підписка на отримання кількості карток
+    await this.counterService.getUserSubscriptionsCount();
     this.subscriptions.push(
       this.counterService.counterUserSubscriptions$.subscribe(async data => {
         this.counterFound = Number(data);
@@ -141,7 +101,6 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.choseSubscribeService.removeChosenFlatId(); // очищуємо вибрану оселю
     this.cardsDataService.removeCardData(); // очищуємо дані про оселю
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
@@ -171,62 +130,6 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
         }
       }
     }
-  }
-
-  // Перемикання Фото в каруселі
-  prevPhoto() {
-    const length = this.chosenFlat?.img.length || 0;
-    if (this.currentPhotoIndex !== 0) {
-      this.currentPhotoIndex--;
-    }
-  }
-
-  nextPhoto() {
-    const length = this.chosenFlat?.img.length || 0;
-    if (this.currentPhotoIndex < length) {
-      this.currentPhotoIndex++;
-    }
-  }
-
-  // Видалення підписника
-  async deleteSubscriber(flat: any): Promise<void> {
-    this.cardsDataService.deleteFlatSub(flat, 'subscriptions');
-    this.cardsDataService.getResultDeleteFlatSubject().subscribe(result => {
-      if (result.status === true) {
-        this.sharedService.setStatusMessage('Підписка видалена');
-        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
-      } else {
-        this.sharedService.setStatusMessage('Помилка');
-        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
-      }
-    });
-  }
-
-  async reportHouse(flat: any): Promise<void> {
-    this.sharedService.reportHouse(flat);
-    this.sharedService.getReportResultSubject().subscribe(result => {
-      if (result.status === true) {
-        this.sharedService.setStatusMessage('Скаргу надіслано');
-        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
-      } else {
-        this.sharedService.setStatusMessage('Помилка');
-        setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
-      }
-    });
-  }
-
-  // Відкриваю локацію на мапі
-  openMap() {
-    this.sharedService.openMap(this.locationLink)
-  }
-
-  // Копіювання параметрів
-  copyToClipboard(textToCopy: string, message: string) {
-    this.sharedService.copyToClipboard(textToCopy, message);
-  }
-
-  openFullScreenImage(photos: string): void {
-    this.sharedService.openFullScreenImage(photos);
   }
 
 }

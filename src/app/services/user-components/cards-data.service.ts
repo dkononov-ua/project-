@@ -149,11 +149,13 @@ export class CardsDataService {
         try {
           const response: any = await this.http.post(this.serverPath + this.linkPath, data).toPromise();
           this.reportResultDeleteFlatSubject.next(response);
-          this.removeCardData();
-          this.removeCardsData();
-          setTimeout(() => {
-            this.getSubInfo(0);
-          }, 100);
+          if (response.status === true) {
+            setTimeout(() => {
+              this.removeCardData();
+              this.removeCardsData();
+              location.reload();
+            }, 200);
+          }
         } catch (error) {
           console.error(error);
         }

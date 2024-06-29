@@ -20,6 +20,14 @@
   }
 }
 
+.number {
+  @include flex-box-center;
+  flex-direction: column;
+  .fa-solid {
+    font-size: 14px;
+  }
+}
+
 .btn {
   background-color: rgba(205, 205, 205, 0.76);
   margin: 0 10px 0 10px;

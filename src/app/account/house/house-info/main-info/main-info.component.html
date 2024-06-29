@@ -1,4 +1,4 @@
-<div class="content-child" *ngIf="indexPage === 0">
+<div class="content-box" *ngIf="indexPage === 0">
   <div class="copyMessage-box" *ngIf="isCopiedMessage">
     <div class="copyMessage-text">{{isCopiedMessage}}</div>
     <i class="fa-regular fa-copy"></i>
@@ -9,87 +9,12 @@
     *ngIf="acces_flat_features === 1 && acces_admin === 1 && acces_added === 1">
     <i class="fa-solid fa-gear" matTooltip="Налаштування оселі"></i>
   </button>
-
   <app-img-house></app-img-house>
-  <app-info-house></app-info-house>
+  <app-house-rent-progress></app-house-rent-progress>
 
-  <div class="flex-box w-100 border-bottom ">
-    <div class="t-med t-s bold pl-2">Доступні Функції Оселі</div>
+  <div class="mb-2" *ngIf="isMobile">
+    <app-info-house></app-info-house>
   </div>
-  <nav class="navbar w-100">
 
-    <button class="link-menu hide-pc" (click)="indexPage = 1">
-      <div class="flex-column w-80">
-        <p class="link-menu-t1">Інформація</p>
-        <p class="link-menu-t2">Про оселю</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-outdent"></i></div>
-    </button>
-
-    <a class="link-menu" [routerLink]="'/discussio-search'" *ngIf="acces_flat_features === 1">
-      <div class="flex-column w-80">
-        <p class="link-menu-t2">Пошук</p>
-        <p class="link-menu-t1">Discussio</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-magnifying-glass"></i></div>
-    </a>
-
-    <a class="link-menu" [routerLink]="'/house/house-control/selection-house'">
-      <div class="flex-column w-80">
-        <p class="link-menu-t2">Управління</p>
-        <p class="link-menu-t1">Оселею</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-house-circle-check"></i></div>
-    </a>
-
-    <!-- <button class="link-menu" *ngIf="HouseInfo.region && HouseInfo.city && HouseInfo.street" (click)="openMap()">
-      <div class="flex-column w-80">
-        <p class="link-menu-t2">Локація</p>
-        <p class="link-menu-t1">Оселі</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-location-dot"></i></div>
-    </button> -->
-
-    <a class="link-menu" [routerLink]="'/house/residents'">
-      <div class="flex-column w-80">
-        <p class="link-menu-t2">Мешканці</p>
-        <p class="link-menu-t1">Оселі</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-people-roof"></i></div>
-    </a>
-
-    <a class="link-menu" [routerLink]="'/add-objects'" *ngIf="authorization && selectedFlatId">
-      <div class="flex-column w-80">
-        <p class="link-menu-t2">Наповнення</p>
-        <p class="link-menu-t1">Оселі</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-boxes-packing"></i></div>
-    </a>
-
-    <a class="link-menu" (click)="goToComun()" *ngIf="authorization && selectedFlatId && acces_comunal_indexes === 1">
-      <div class="flex-column w-80">
-        <p class="link-menu-t2">Статистика</p>
-        <p class="link-menu-t1">Оселі</p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-chart-pie"></i></div>
-    </a>
-
-    <a class="link-menu" target="_blank" href="https://t.me/discussio_chat" *ngIf="isMobile">
-      <div class="flex-column w-80">
-        <p class="link-menu-t1">Технічна</p>
-        <p class="link-menu-t2">Підтримка <i class="fa-brands fa-telegram"></i></p>
-      </div>
-      <div class="link-icon w-20"><i class="fa-solid fa-headset"></i></div>
-    </a>
-
-  </nav>
 </div>
 
-<div [@top2] class="content-child" *ngIf="indexPage === 1">
-  <div class="btn-close-container">
-    <div class="btn-close-box">
-      <button class="btn-close" (click)="indexPage = 0"></button>
-    </div>
-  </div>
-  <app-parameters></app-parameters>
-</div>

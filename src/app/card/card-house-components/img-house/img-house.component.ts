@@ -130,10 +130,23 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
       // Підписка на отримання даних обраної оселі
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
-          this.house.photos = data.img.map((img: string) => ({
-            flat_id: data.flat.flat_id,
-            img: img
-          }));
+          // console.log(data)
+          if (Array.isArray(data.img) && data.img.length !== 0) {
+            this.house.photos = data.img.map((img: string) => ({
+              flat_id: data.flat.flat_id,
+              img: img
+            }));
+          } else if (data) {
+            this.house.photos = [{
+              flat_id: data.flat.flat_id,
+              img: 'housing_default.svg'
+            }];
+          } else {
+            this.house.photos = [{
+              flat_id: 0,
+              img: 'housing_default.svg'
+            }];          }
+          // console.log(this.house.photos)
         })
       );
     }

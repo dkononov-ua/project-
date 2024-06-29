@@ -8,7 +8,7 @@
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
+    <div class="menu-box">
       <div class="menu-lable">Меню</div>
       <div class="menu-name">Запропоновані Оселі</div>
     </div>
@@ -20,28 +20,12 @@
       </button>
     </div>
 
-    <div class="hide-pc">
-      <div class="switch-btn-group ">
-        <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
-          [ngClass]="{ 'active': indexPage === 0}">
-          <i class="fa-solid fa-people-group"></i>
-          <div class="t-min bold">Пропозиції</div>
-          <div class="status"> {{counterFound}} </div>
-        </button>
-      </div>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage === 2}">
-        <i class="fa-regular fa-building"></i>
-        <div class="t-min bold">Оселя</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [disabled]="!chosenFlat" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage === 3}">
-        <i class="fa-solid fa-child-reaching"></i>
-        <div class="t-min bold">Власник</div>
+    <div class="switch-btn-group ">
+      <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
+        [ngClass]="{ 'active': indexPage === 0}">
+        <i class="fa-solid fa-people-group"></i>
+        <div class="t-min bold">Пропозиції</div>
+        <div class="status"> {{counterFound}} </div>
       </button>
     </div>
 
@@ -107,26 +91,41 @@
               <button class="btn-close" (click)="indexPage = 1"></button>
             </div>
           </div>
-          <div class="card-content">
+          <div class="card-content" *ngIf="!showOwner">
             <app-img-house></app-img-house>
             <app-info-house></app-info-house>
+            <div [@top4] class="p-2">
+              <button class="link-menu" (click)="toggleCards()">
+                <div class="flex-column w-80">
+                  <p class="link-menu-t2">Показати</p>
+                  <p class="link-menu-t1" *ngIf="!showOwner">Інформацію Власника</p>
+                  <p class="link-menu-t1" *ngIf="showOwner">Інформацію Оселі</p>
+                </div>
+                <div class="link-icon w-20" *ngIf="showOwner"><i class="fa-regular fa-building"></i></div>
+                <div class="link-icon w-20" *ngIf="!showOwner"><i class="fa-solid fa-child-reaching"></i></div>
+              </button>
+            </div>
             <app-functions-house></app-functions-house>
           </div>
-        </div>
-        <!-- інформація про власника -->
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 3 && chosenFlat">
-          <div class="btn-close-container">
-            <div class="btn-close-box">
-              <button class="btn-close" (click)="indexPage = 2"></button>
-            </div>
-          </div>
-          <div class="card-content">
+          <div class="card-content" *ngIf="showOwner">
             <app-img></app-img>
             <app-links-box></app-links-box>
             <app-info></app-info>
-            <app-reviews></app-reviews>
+            <div [@top4] class="p-2">
+              <button class="link-menu" (click)="toggleCards()">
+                <div class="flex-column w-80">
+                  <p class="link-menu-t2">Показати</p>
+                  <p class="link-menu-t1" *ngIf="!showOwner">Інформацію Власника</p>
+                  <p class="link-menu-t1" *ngIf="showOwner">Інформацію Оселі</p>
+                </div>
+                <div class="link-icon w-20" *ngIf="showOwner"><i class="fa-regular fa-building"></i></div>
+                <div class="link-icon w-20" *ngIf="!showOwner"><i class="fa-solid fa-child-reaching"></i></div>
+              </button>
+            </div>
+            <app-functions-house></app-functions-house>
           </div>
         </div>
+
       </div>
     </div>
 

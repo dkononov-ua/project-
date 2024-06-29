@@ -1,26 +1,42 @@
-<div class="group-btn p-2">
-  <button *ngIf="indexParam !== 3" [disabled]="disabledBtn" class="btn mini" [ngClass]="{ 'active': menu[1]}" (click)="toggleLinks(1)"><i
-      class="fa-solid fa-link"></i></button>
+<div [@top3] class="group-btn p-2">
+
+  <button *ngIf="indexParam !== 3" [disabled]="disabledBtn" class="btn group" [ngClass]="{ 'active': menu[1]}"
+    (click)="toggleLinks(1)">
+    <div class="flex-column t-c">
+      <i class="fa-solid fa-link"></i>
+      <p class="t-min">Список Контактів</p>
+    </div>
+  </button>
 
   <button *ngIf="indexParam === 0 || indexParam === 2 || indexParam === 3" [disabled]="disabledBtn" class="btn group"
     [ngClass]="{ 'active': menu[2]}" (click)="toggleLinks(2)">
-    <div class="flex-box">
-      <i class="fa-solid fa-star"></i>
+    <div class="number">
       <p class="t-lar-xx bold">{{ratingTenant}}</p>
+      <i class="fa-solid fa-star"></i>
     </div>
-    <div class="flex-column t-s pl-2">
+    <div class="flex-column t-c pl-2">
       <i class="fa-regular fa-user"></i>
+      <p class="t-min">Рейтинг Орендаря</p>
     </div>
   </button>
 
   <button *ngIf="indexParam === 0 || indexParam === 1" [disabled]="disabledBtn" class="btn group"
     [ngClass]="{ 'active': menu[3]}" (click)="toggleLinks(3)">
-    <div class="flex-box">
-      <i class="fa-solid fa-star"></i>
+    <div class="number">
       <p class="t-lar-xx bold">{{ratingOwner}}</p>
+      <i class="fa-solid fa-star"></i>
     </div>
-    <div class="flex-column t-s pl-2">
+    <div class="flex-column t-с pl-2">
       <i class="fa-solid fa-house-chimney-user"></i>
+      <p class="t-min">Рейтинг Орендодавця</p>
+    </div>
+  </button>
+
+  <button *ngIf="currentLocation !== '/user/info'" [disabled]="disabledBtn" class="btn group"
+    [ngClass]="{ 'active': menu[4]}" (click)="toggleLinks(4)">
+    <div class="flex-column t-c">
+      <i class="fa-solid fa-pen-nib"></i>
+      <p class="t-min">Перегляд Відгуків</p>
     </div>
   </button>
 
@@ -142,4 +158,10 @@
     </button>
   </div> -->
 
+</div>
+
+<div class="links-box" *ngIf="menu[4]">
+  <div *ngIf="links[4]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
+    <app-reviews></app-reviews>
+  </div>
 </div>

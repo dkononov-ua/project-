@@ -3,7 +3,13 @@
 @use "../../style/shared.scss";
 
 .switch-container {
+  @include s1-s3 {
+    background-image: linear-gradient(to top, transparent 0%, rgba(255, 255, 255, 0.791) 40%);
+  }
+  z-index: 500 !important;
   .switch-btn-group {
+    margin: 0;
+    padding: 0;
     .btn {
       width: 50px;
     }
@@ -11,9 +17,18 @@
 }
 
 .card-animation {
+  height: auto !important;
   @include s3-s6-max {
     width: 98% !important;
   }
+}
+
+.flex-column {
+  @include flex-box-center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: hidden;
+  position: relative;
 }
 
 .main-container {

@@ -72,10 +72,10 @@ export class HousingParametersComponent implements OnInit {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
     })
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 0;
-      this.indexPage = Number(this.page);
-    });
+    // this.route.queryParams.subscribe(params => {
+    //   this.page = params['indexPage'] || 0;
+    //   this.indexPage = Number(this.page);
+    // });
     if (this.isMobile) {
       this.router.navigate(['/edit-house/instruction']);
     }

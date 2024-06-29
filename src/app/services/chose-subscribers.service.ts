@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ChoseSubscribersService {
 
-  private selectedSubscriberSubject = new BehaviorSubject<string | null>(null);
+  private selectedSubscriberSubject = new BehaviorSubject<string>('');
   public selectedSubscriber$ = this.selectedSubscriberSubject.asObservable();
   getSelectedSubscriber: any;
   selectSubscriber: any;
@@ -19,7 +19,8 @@ export class ChoseSubscribersService {
     }
   }
 
-  setSelectedSubscriber(subscriberId: string | null) {
+  setSelectedSubscriber(subscriberId: string) {
+    // console.log(subscriberId)
     this.selectedSubscriberSubject.next(subscriberId);
     if (subscriberId) {
       localStorage.setItem('selectedSubscriberId', subscriberId);
@@ -30,6 +31,6 @@ export class ChoseSubscribersService {
 
   removeChosenUserId() {
     // console.log('removeChosenFlatId')
-    this.selectedSubscriberSubject.next(null);
+    this.selectedSubscriberSubject.next('');
   }
 }

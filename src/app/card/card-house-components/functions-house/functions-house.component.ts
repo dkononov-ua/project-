@@ -20,6 +20,7 @@ import { StatusDataService } from 'src/app/services/status-data.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
+import { CreateChatService } from 'src/app/chat/create-chat.service';
 
 @Component({
   selector: 'app-functions-house',
@@ -112,6 +113,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     private cardsDataService: CardsDataService,
     private sendMessageService: SendMessageService,
     private locationHouseService: LocationHouseService,
+    private createChatService: CreateChatService,
   ) {
     this.sharedService.isMobile$.subscribe((status: boolean) => {
       this.isMobile = status;
@@ -141,7 +143,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
         // Якщо є обрана оселя
         if (this.chosenFlat) {
           // Перевіряю чи створений чат
-          await this.checkChatExistence(this.chosenFlat?.flat.flat_id);
+          await this.checkChatExistence();
           // Формую локацію на мапі
           this.locationLink = await this.locationHouseService.generateLocationUrl(this.chosenFlat);
         }
@@ -156,12 +158,6 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     // this.cardsDataService.removeCardData(); // очищуємо дані про оселю
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     // console.log(this.subscriptions)
-  }
-
-  // Перевірка на існування чату
-  async checkChatExistence(choseFlatId: any): Promise<any> {
-    this.chatExists = await this.sendMessageService.checkChatExistence(choseFlatId);
-    // console.log(this.chatExists)
   }
 
   // Копіювання параметрів
@@ -182,10 +178,13 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
       if (result.status === true) {
         if (this.currentLocation === '/subscribers-discuss') {
           this.sharedService.setStatusMessage('Дискусію видалено');
+          this.cardsDataService.getSubInfo(0);
         } else if (this.currentLocation === '/subscribers-user') {
           this.sharedService.setStatusMessage('Підписника видалено');
+          this.cardsDataService.getSubInfo(0);
         } else if (this.currentLocation === '/subscriptions-user') {
           this.sharedService.setStatusMessage('Підписку видалено');
+          this.cardsDataService.getSubInfo(0);
         }
         setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       } else {
@@ -195,36 +194,22 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Створюю чат з оселею
-  async createChat(): Promise<void> {
-    this.sendMessageService.createUserChat(this.chosenFlat?.flat.flat_id)
+  // Перевіряємо в сервісі існування чату оселі з обраним користувачем
+  async checkChatExistence(): Promise<any> {
+    const chatExists = await this.createChatService.checkChatExistenceUser();
+    this.chatExists = chatExists;
+    // console.log(chatExists)
   }
 
-  // openOwner(index: number) {
-  //   if (index === 0) {
-  //     this.sharedService.setStatusMessage('Оселя');
-  //     setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(2) }, 1000);
-  //   } else {
-  //     this.sharedService.setStatusMessage('Представник оселі');
-  //     setTimeout(() => { this.sharedService.setStatusMessage(''); this.onClickMenu(3) }, 1000);
-  //   }
-  // }
+  // Створюю чат з оселею
+  async createChat(flat_id: number): Promise<void> {
+    this.createChatService.createUserChat(flat_id)
+  }
 
-  async openChat() {
-    try {
-      this.sharedService.setStatusMessage('Завантажуємо чат...');
-      const result = await this.sendMessageService.getFlatChats();
-      if (result === 1) {
-        this.sharedService.setStatusMessage('Відкриваємо чат');
-        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 1000);
-      } else if (result === 0) {
-        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
-        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 1000);
-      }
-    } catch (error) {
-      console.error('Помилка при завантаженні чату:', error);
-      this.sharedService.setStatusMessage('Помилка на сервері, спробуйте пізніше');
-      setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+  openChat() {
+    if (this.chatExists) {
+      this.choseSubscribeService.setChosenFlatId(this.chosenFlat?.flat.flat_id);
+      this.router.navigate(['/chat-user']);
     }
   }
 

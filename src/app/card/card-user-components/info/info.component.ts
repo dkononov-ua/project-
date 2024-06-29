@@ -3,10 +3,13 @@ import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
+import { Purpose, Distance, OptionPay, Animals } from '../../../interface/name';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
+import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
+import { HttpClient } from '@angular/common/http';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-info',
@@ -16,25 +19,21 @@ import { CardsDataService } from 'src/app/services/user-components/cards-data.se
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.swichCard,
     animations.bot,
     animations.top,
     animations.top2,
     animations.top3,
     animations.top4,
+    animations.fadeIn,
   ],
 })
 
 export class InfoComponent implements OnInit, OnDestroy {
 
   detail: boolean = false;
-  moreDetail() {
+  totalDays: number = 0;
+
+  toogleOpen() {
     this.detail = !this.detail;
   }
 
@@ -47,56 +46,116 @@ export class InfoComponent implements OnInit, OnDestroy {
   // ***
 
   // розшифровка пошукових параметрів
-  purpose = purpose;
-  aboutDistance = aboutDistance;
-  option_pay = option_pay;
-  animals = animals;
+  purpose = Purpose;
+  aboutDistance = Distance;
+  option_pay = OptionPay;
+  animals = Animals;
 
-  user = {
-    inf: {
-      lastName: '',
-      firstName: '',
-      surName: '',
-    }
-  };
+  user: any;
 
   subscriptions: any[] = [];
   card_info: number = 0;
+  currentLocation: string = '';
 
   constructor(
     private sharedService: SharedService,
     private location: Location,
     private cardsDataService: CardsDataService,
+    private cardsDataHouseService: CardsDataHouseService,
+    private http: HttpClient,
+    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const currentLocation = this.location.path();
+    this.currentLocation = this.location.path();
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    if (currentLocation === '/user/info') {
-      this.getInfoUser();
-    } else {
-      // Підписка на отримання даних обраної оселі
+    this.checkLocation();
+  }
+
+  checkLocation() {
+    // Якщо я в меню користувача
+    if (
+      this.currentLocation === '/subscribers-discuss' ||
+      this.currentLocation === '/subscribers-user' ||
+      this.currentLocation === '/subscriptions-user'
+    ) {
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
           // console.log(data)
-          this.user.inf = data.owner;
+          this.user = data.owner;
         })
       );
+      // Якщо я в меню оселі
+    } else if (
+      this.currentLocation === '/subscribers-discus' ||
+      this.currentLocation === '/subscribers-house' ||
+      this.currentLocation === '/subscriptions-house'
+    ) {
+      this.subscriptions.push(
+        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+          this.user = data;
+          // console.log(this.user)
+        })
+      );
+    } else if (this.currentLocation === '/user/info') {
+      this.getFeaturesInfo();
+    }
+    this.calculateTotalDays();
+  }
+
+  // Пошукові параметри користувача
+  async getFeaturesInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const userData = localStorage.getItem('userData');
+    if (userJson && userData) {
+      const userObject = JSON.parse(userData);
+      this.user = userObject.inf;
+      try {
+        const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        if (response.status === true) {
+          const newData = response.inf;
+          let existingData = JSON.parse(localStorage.getItem('userData') || '{}');
+          // Перевіряємо, чи існуючі дані є об'єктом
+          if (typeof existingData === 'object' && existingData !== null) {
+            // Додаємо лише відсутні параметри з newData до existingData
+            for (const key in newData) {
+              if (newData.hasOwnProperty(key) && !existingData.hasOwnProperty(key)) {
+                existingData[key] = newData[key];
+              }
+            }
+          } else {
+            // Якщо існуючі дані не є об'єктом, замінюємо їх новими даними
+            existingData = newData;
+          }
+          // Зберігаємо оновлений об'єкт назад в localStorage
+          localStorage.setItem('userData', JSON.stringify(existingData));
+          // Оновлюємо локальний this.user
+          this.user = { ...this.user, ...newData };
+          this.calculateTotalDays();
+          this.statusDataService.setStatusData(this.user);
+          // console.log(this.user);
+        } else {
+          console.error("Response status is not true");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
-  getInfoUser() {
-    const userData = localStorage.getItem('userData');
-    if (userData) {
-      const userObject = JSON.parse(userData);
-      // console.log(userObject)
-      this.user.inf = userObject.inf;
-    }
+  async calculateTotalDays(): Promise<number> {
+    const days = this.user.days || 0;
+    const weeks = this.user.weeks || 0;
+    const months = this.user.months || 0;
+    const years = this.user.years || 0;
+    const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    this.totalDays = totalDays / 29;
+    return totalDays;
   }
 
   ngOnDestroy() {

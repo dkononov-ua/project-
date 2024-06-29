@@ -50,8 +50,13 @@
 
 @mixin hover {
   &:hover {
-    background-color: $color-accent;
-    box-shadow: -3px 3px 20px -10px ($color-accent, 40%);
+    transition: 1s;
+    // background-color: $color-accent;
+    .fa-solid, .fa-regular, .t-min {
+      transform: scale(1.05);
+      color: $color-accent;
+      box-shadow: -3px 3px 20px -10px ($color-accent, 40%);
+    }
   }
 }
 

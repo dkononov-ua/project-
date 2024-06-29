@@ -3,23 +3,22 @@
   <app-status-data></app-status-data>
 
   <div class="wrapper-img">
-    <ng-container *ngIf="user.img && isLoadingImg">
-      <img [@top2] class="img-fluid"
-        [src]="serverPath + pathPhotoUser + (user.img ? user.img : 'user_default.svg')"
-        alt="img"> </ng-container>
 
-    <ng-container *ngIf="user.img && !isLoadingImg">
-      <div class="img-fluid">
+    <ng-container *ngIf="user.img && isLoadingImg && user.img !== 'user_default.svg'">
+      <img [@top2] class="img-fluid" [src]="serverPath + pathPhotoUser + user.img" alt="img">
+    </ng-container>
+
+    <ng-container *ngIf="user.img && !isLoadingImg && user.img !== 'user_default.svg'">
+      <div class=" img-fluid">
         <div class="container-loader-mini">
           <mat-spinner color="warn"></mat-spinner>
-          <img [src]="serverPath + pathPhotoUser + user.img" (load)="isLoadingImg = true"
-            hidden>
+          <img [src]="serverPath + pathPhotoUser + user.img" (load)="isLoadingImg = true" hidden>
           <div class="t-min bold gray mt-2">Завантаження фото</div>
         </div>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="!user.img">
+    <ng-container *ngIf="!user.img || user.img === 'user_default.svg'">
       <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
     </ng-container>
 
@@ -29,5 +28,3 @@
 
   </div>
 </div>
-
-

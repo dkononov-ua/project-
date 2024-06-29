@@ -55,6 +55,9 @@ import { ReviewsComponent } from '../card/card-user-components/reviews/reviews.c
 import { LinksBoxComponent } from '../card/card-user-components/links-box/links-box.component';
 import { StatusAccessComponent } from '../components/house/status-access/status-access.component';
 import { CardsListUsersComponent } from '../card/card-user-components/cards-list-users/cards-list-users.component';
+import { FunctionsComponent } from '../card/card-user-components/functions/functions.component';
+import { CreateChatService } from '../chat/create-chat.service';
+import { HouseRentProgressComponent } from '../card/card-house-components/house-rent-progress/house-rent-progress.component';
 
 @NgModule({
   declarations: [
@@ -84,12 +87,13 @@ import { CardsListUsersComponent } from '../card/card-user-components/cards-list
     CardsListUsersComponent,
     CardHouseComponent,
     FunctionsHouseComponent,
+    FunctionsComponent,
     InfoHouseComponent,
     ImgHouseComponent,
     ImgComponent,
     InfoComponent,
     ReviewsComponent,
-
+    HouseRentProgressComponent,
   ],
   exports: [
     NavbarComponent,
@@ -119,18 +123,22 @@ import { CardsListUsersComponent } from '../card/card-user-components/cards-list
 
     CardHouseComponent,
     FunctionsHouseComponent,
+    FunctionsComponent,
+
     InfoHouseComponent,
     ImgHouseComponent,
     ImgComponent,
     InfoComponent,
     ReviewsComponent,
+    HouseRentProgressComponent,
+
   ],
   providers: [
     UpdateComponentService,
     SharedService,
     StatusDataService,
     StatusDataHouseComponent,
-
+    CreateChatService,
   ],
   imports: [
     CommonModule,

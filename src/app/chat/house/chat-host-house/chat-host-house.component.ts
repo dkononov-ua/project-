@@ -49,6 +49,7 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   isLoadingImg: boolean = false;
   startX = 0;
   userID: number | undefined;
+  choseUserId: any;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -67,7 +68,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
     })
     this.loadData();
     this.getSelectedFlatId();
-    this.getFlatChats();
+    await this.getFlatChats();
+    this.ifSubscriberSelect();
     this.route.queryParams.subscribe(params => {
       const userID = params['user_id'] || '';
       this.userID = Number(userID);
@@ -76,6 +78,28 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
       }
     });
     this.loading = false;
+  }
+
+  async ifSubscriberSelect() {
+    this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
+      this.choseUserId = Number(selectedSubscriber);
+      // console.log(this.choseUserId)
+      if (this.choseUserId) {
+        this.chatSelected = true;
+        this.indexPage = 1;
+      }
+    })
+  }
+
+  pickChat() {
+    // console.log(this.chats);
+    if (this.chats && this.choseUserId) {
+      const chat = this.chats.find(chat => chat.user_id === this.choseUserId);
+      // console.log(chat)
+      if (chat) {
+        this.selectChat(chat);
+      }
+    }
   }
 
   // відправляю event початок свайпу
@@ -172,7 +196,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
                 return { flat_id: value.flat_id, user_id: value.user_id, chat_id: value.chat_id, infUser: infUser, infFlat: infFlat, unread: value.unread, lastMessage: value.last_message }
               }))
               this.chats = chat;
-              // console.log(this.chats)
+              // console.log(this.chats);
+              this.pickChat();
               localStorage.setItem('flatChats', JSON.stringify(this.chats));
             } else if (response.status === 'Немає доступу') {
               this.sharedService.setStatusMessage('Немає доступу');

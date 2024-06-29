@@ -304,7 +304,7 @@ export class SharedService {
   }
 
   //Запитую рейтинг орендаря
-  async getRatingTenant(userID: string): Promise<{ ratingTenant: number; numberOfReviewsTenant: number; }> {
+  async getRatingTenant(userID: string): Promise<{ ratingTenant: number; numberOfReviewsTenant: number; reviews: any; }> {
     const userJson = localStorage.getItem('user');
     const data = {
       auth: JSON.parse(userJson!),
@@ -314,6 +314,8 @@ export class SharedService {
     try {
       const response = await this.http.post(this.serverPath + '/rating/get/userMarks', data).toPromise() as any;
       // console.log(response)
+      const reviews = response.status;
+
       if (response && Array.isArray(response.status)) {
         let ratingTenant = 0;
         let numberOfReviewsTenant = response.status.length;
@@ -328,15 +330,15 @@ export class SharedService {
         } else {
           ratingTenant = 0;
         }
-        return { ratingTenant, numberOfReviewsTenant };
+        return { ratingTenant, numberOfReviewsTenant, reviews };
       } else {
         // Якщо немає оцінок
-        return { ratingTenant: 0, numberOfReviewsTenant: 0 };
+        return { ratingTenant: 0, numberOfReviewsTenant: 0, reviews: undefined };
       }
     } catch (error) {
       // Обробка помилок
       console.error(error);
-      return { ratingTenant: 0, numberOfReviewsTenant: 0 };
+      return { ratingTenant: 0, numberOfReviewsTenant: 0, reviews: undefined };
     }
   }
 
@@ -359,7 +361,7 @@ export class SharedService {
 
   // Відкриваю локацію на мапі
   openMap(locationLink: string) {
-    this.setStatusMessage('Відкриваємо локаці на мапі');
+    this.setStatusMessage('Відкриваємо локацію на мапі');
     setTimeout(() => { this.setStatusMessage(''); window.open(locationLink, '_blank'); }, 2000);
   }
 

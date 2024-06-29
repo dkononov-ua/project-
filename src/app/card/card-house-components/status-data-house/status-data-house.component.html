@@ -36,13 +36,9 @@
           <div class="status-value"><i class="fa-solid fa-sign-hanging"></i></div>
           - Профіль оселі активовано
         </li>
-        <li *ngIf="houseInfo.data" class="status-hover-li">
+        <li *ngIf="houseInfo.data && houseInfo.rent === 1" class="status-hover-li">
           <div class="status-value"><i class="fa-regular fa-clock"></i></div> - Активовано
           {{houseInfo.data | date}} {{houseInfo.data | date: 'HH:mm'}}
-        </li>
-        <li *ngIf="houseInfo.date" class="status-hover-li">
-          <div class="status-value"><i class="fa-regular fa-clock"></i></div> - Активовано
-          {{houseInfo.date | date}} {{houseInfo.date | date: 'HH:mm'}}
         </li>
         <!-- <li *ngIf="!houseInfo.rent || houseInfo.rent === 0" class="status-hover-li">
           <div class="status-value"><i class="fa-solid fa-sign-hanging"></i></div>

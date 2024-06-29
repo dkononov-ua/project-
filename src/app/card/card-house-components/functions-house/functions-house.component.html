@@ -1,65 +1,3 @@
-<!-- <div [@top3] class="panel-container" *ngIf="chosenFlat">
-  <div class="wrapper">
-
-    <button *ngIf="currentLocation === '/subscribers-user'" class="btn-panel" (click)="approveSubscriber(choseFlatId)">
-      <div class="panel-icon">
-        <i class="fa-regular fa-thumbs-up"></i>
-      </div>
-      <div class="t-min">Дискусія</div>
-    </button>
-
-    <button *ngIf="currentLocation === '/subscribers-discuss'" class="btn-panel" (click)="goToComun()">
-      <div class="panel-icon">
-        <i class="fa-solid fa-chart-pie"></i>
-      </div>
-      <div class="t-min">Стат.</div>
-    </button>
-
-    <button class="btn-panel" (click)="deleteSubscriber(chosenFlat)">
-      <div class="panel-icon">
-        <i class="fa-solid fa-user-xmark"></i>
-      </div>
-      <div class="t-min">Видал.</div>
-    </button>
-
-    <button class="btn-panel" (click)="reportHouse(chosenFlat)">
-      <div class="panel-icon">
-        <i class="fa-solid fa-masks-theater"></i>
-      </div>
-      <div class="t-min">Скарга</div>
-    </button>
-
-    <button *ngIf="currentLocation === '/subscribers-discuss' && !chatExists" class="btn-panel" (click)="createChat()">
-      <div class="panel-icon">
-        <i class="fa-regular fa-message"></i>
-      </div>
-      <div class="t-min">Чат</div>
-    </button>
-
-    <button *ngIf="currentLocation === '/subscribers-discuss' && chatExists" class="btn-panel" (click)="openChat()">
-      <div class="panel-icon">
-        <i class="fa-regular fa-message"></i>
-      </div>
-      <div class="t-min">Повід.</div>
-    </button>
-
-    <button class="btn-panel" *ngIf="chosenFlat.flat.region && chosenFlat.flat.city && chosenFlat.flat.street"
-      (click)="openMap()">
-      <div class="panel-icon">
-        <i class="fa-solid fa-location-dot"></i>
-      </div>
-      <div class="t-min">Локація</div>
-    </button>
-
-    <button class="btn-panel" matTooltip="Копіювати"
-      (click)="copyToClipboard(this.chosenFlat.flat.flat_id, 'ID оселі ' + this.chosenFlat.flat.flat_id)">
-      <div class="panel-icon">
-        <i class="fa-solid fa-fingerprint"></i>
-      </div>
-      <div class="t-min">ID</div>
-    </button>
-  </div>
-</div> -->
 <div class="p-2" [@top4] *ngIf="chosenFlat">
   <button class="link-menu" *ngIf="currentLocation === '/subscribers-user'" (click)="approveSubscriber(choseFlatId)">
     <div class="flex-column w-80">
@@ -105,12 +43,12 @@
     (click)="openMap()">
     <div class="flex-column w-80">
       <p class="link-menu-t2">Відкрити</p>
-      <p class="link-menu-t1">Локацію Оселі</p>
+      <p class="link-menu-t1">Локацію Оселі на мапі</p>
     </div>
     <div class="link-icon w-20"><i class="fa-solid fa-location-dot"></i></div>
   </a>
 
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discuss' && !chatExists" (click)="createChat()">
+  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discuss' && !chatExists" (click)="createChat(chosenFlat.flat.flat_id)">
     <div class="flex-column w-80">
       <p class="link-menu-t2">Створити</p>
       <p class="link-menu-t1">Чат</p>

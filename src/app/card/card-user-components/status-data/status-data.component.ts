@@ -15,7 +15,8 @@ import { animations } from '../../../interface/animation';
   selector: 'app-status-data',
   templateUrl: './status-data.component.html',
   styleUrls: ['./status-data.component.scss'],
-  animations: [animations.fadeIn],
+  animations: [animations.fadeIn, animations.top4,
+  ],
 })
 export class StatusDataComponent implements OnInit {
 
@@ -51,7 +52,7 @@ export class StatusDataComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.statusDataService.statusData$.subscribe((data: any) => {
-      console.log(data)
+      // console.log(data)
       if (data) { this.userInfo = data; }
     });
   }

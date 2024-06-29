@@ -1,3 +1,51 @@
-<p>
-  functions works!
-</p>
+<div class="p-2" [@top4] *ngIf="user">
+
+  <button class="link-menu" *ngIf="currentLocation === '/subscribers-house'" (click)="approveSubscriber(user)">
+    <div class="flex-column pl-4 w-80">
+      <p class="link-menu-t1">Ухвалити до</p>
+      <p class="link-menu-t2">Дискусії</p>
+    </div>
+    <div class="link-icon w-20"><i class="fa-regular fa-thumbs-up"></i></div>
+  </button>
+
+  <button class="link-menu" (click)="reportUser(user)">
+    <div class="flex-column pl-4 w-80">
+      <p class="link-menu-t1">Відправити</p>
+      <p class="link-menu-t2">Скаргу</p>
+    </div>
+    <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
+  </button>
+
+  <button class="link-menu" (click)="deleteUser(user)">
+    <div class="flex-column pl-4 w-80">
+      <p class="link-menu-t1">Видалити</p>
+      <p class="link-menu-t2">Користувача</p>
+    </div>
+    <div class="link-icon w-20"><i class="fa-solid fa-user-xmark"></i></div>
+  </button>
+
+  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discus'" [routerLink]="['/agree-create', user.user_id]">
+    <div class="flex-column pl-4 w-80">
+      <p class="link-menu-t1">Створити</p>
+      <p class="link-menu-t2">Угоду</p>
+    </div>
+    <div class="link-icon w-20"><i class="fa-solid fa-file-contract"></i></div>
+  </button>
+
+  <button class="link-menu" *ngIf="!chatExists && currentLocation === '/subscribers-discus'" (click)="createChat()">
+    <div class="flex-column pl-4 w-80">
+      <p class="link-menu-t1">Створити</p>
+      <p class="link-menu-t2">Чат</p>
+    </div>
+    <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
+  </button>
+
+  <button class="link-menu" *ngIf="chatExists && currentLocation === '/subscribers-discus'" (click)="openChat()">
+    <div class="flex-column pl-4 w-80">
+      <p class="link-menu-t1">Написати</p>
+      <p class="link-menu-t2">Повідомлення</p>
+    </div>
+    <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
+  </button>
+
+</div>

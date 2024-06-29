@@ -42,6 +42,7 @@ export class ChatHostComponent implements OnInit {
   chatSelected: boolean = false;
   isLoadingImg: boolean = false;
   choseFlatID: any;
+  subscriptions: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -50,17 +51,45 @@ export class ChatHostComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        await this.getFlatChats();
-      }
-    })
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+    await this.getUserChats();
+    this.ifSubscriberSelect();
     this.loading = false;
   }
 
+  async ifSubscriberSelect() {
+    this.subscriptions.push(
+      this.choseSubscribeService.selectedFlatId$.subscribe(selectedFlatId => {
+        this.choseFlatId = selectedFlatId;
+        // console.log(this.choseFlatId)
+        if (this.choseFlatId) {
+          this.chatSelected = true;
+          this.indexPage = 1;
+        }
+      })
+    );
+  }
+
+  pickChat() {
+    if (this.chats && this.choseFlatId) {
+      const chat = this.chats.find(chat => chat.flat_id === this.choseFlatId);
+      if (chat) {
+        if (this.selectedChat) {
+          this.selectedChat.isSelected = false;
+        }
+        this.selectedChat = chat;
+        chat.isSelected = true;
+        this.indexPage = 1;
+      }
+    }
+  }
+
   // отримуємо всі чати які в нас є
-  async getFlatChats(): Promise<any> {
+  async getUserChats(): Promise<any> {
     const url = this.serverPath + '/chat/get/userchats';
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -80,9 +109,8 @@ export class ChatHostComponent implements OnInit {
             }))
             this.chats = chat;
             // console.log(this.chats)
+            this.pickChat();
             localStorage.setItem('userChats', JSON.stringify(this.chats));
-            // перевіряємо чи є в нас автоматично обраний чат
-            this.getSelectFlatInfo();
           } else {
             console.log('Немає чатів');
           }
@@ -94,56 +122,28 @@ export class ChatHostComponent implements OnInit {
     }
   }
 
-  // отримуємо автоматично з сервісу айді оселі обраний чат
-  async getSelectFlatInfo(): Promise<any> {
-    // console.log('getSelectFlatInfo')
-    this.choseSubscribeService.selectedFlatId$.subscribe(async choseFlatID => {
-      this.choseFlatID = choseFlatID;
-      // console.log(this.choseFlatID)
-      if (this.choseFlatID) {
-        this.onAutoFlatSelect(Number(this.choseFlatID));
-      } else {
-        this.choseFlatID = undefined;
-      }
-    });
-  }
-
-  // дії при існуванні вибраного айді оселі
-  async onAutoFlatSelect(choseFlatID: number): Promise<void> {
-    // шукаємо по адйі оселі обраний чат
-    const chat: any = this.chats.find(chat => chat.flat_id === choseFlatID);
-    // якщо він є то
-    if (chat) {
-      // скидаємо те що в нас було обрано візуально
-      if (this.selectedChat) {
-        this.selectedChat.isSelected = false;
-      }
-      // вносимо нову інформацію по чату
-      this.selectedChat = chat;
-      // візуально обираємо чат
-      chat.isSelected = true;
-      // повідомляємо що ми обрали чат
-      this.chatSelected = true;
-      // переходимо до повідомлень
-      this.indexPage = 1;
-    }
-  }
-
   onFlatSelect(chat: Chat): void {
     this.chatSelected = true;
     this.choseSubscribeService.setChosenFlatId(chat.flat_id);
   }
 
   selectChat(chat: Chat): void {
-    // console.log(chat)
-    if (this.selectedChat) {
-      this.selectedChat.isSelected = false;
+    if (chat.flat_id !== this.choseFlatId) {
+      if (this.selectedChat) {
+        this.selectedChat.isSelected = false;
+      }
+      this.selectedChat = chat;
+      console.log(this.selectedChat)
+      chat.isSelected = true;
+      this.indexPage = 1;
+      this.onFlatSelect(chat);
     }
-    this.selectedChat = chat;
-    chat.isSelected = true;
-    this.indexPage = 1;
-    this.onFlatSelect(chat);
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 }
 
 

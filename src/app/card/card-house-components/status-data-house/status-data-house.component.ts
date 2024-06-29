@@ -8,7 +8,10 @@ import { animations } from '../../../interface/animation';
   selector: 'app-status-data-house',
   templateUrl: './status-data-house.component.html',
   styleUrls: ['./status-data-house.component.scss'],
-  animations: [animations.fadeIn],
+  animations: [
+    animations.fadeIn,
+    animations.top4,
+  ],
 })
 export class StatusDataHouseComponent implements OnInit {
 

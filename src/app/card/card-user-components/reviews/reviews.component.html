@@ -1,5 +1,4 @@
-<div [@top3] class="card-content p-2" *ngIf="reviews">
-  <div class="t-min bold gray">Відгуки орендарів</div>
+<div class="card-content p-2" *ngIf="reviews">
   <div class="reviews-card" *ngFor="let review of reviews">
     <div class="reviews-group">
       <div class="reviews-person w-70">
@@ -29,6 +28,8 @@
   </div>
 </div>
 
-<div [@top3] class="card-content p-2" *ngIf="!reviews">
-  <div class="t-min bold gray">Відгуків ще немає</div>
+<div class="card-content p-2" *ngIf="!reviews">
+  <div class="reviews-card">
+    <div class="t-min bold gray">Відгуків ще немає</div>
+  </div>
 </div>

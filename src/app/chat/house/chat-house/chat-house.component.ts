@@ -34,6 +34,7 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
   pathPhotoComunal = ServerConfig.pathPhotoComunal;
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
+  choseUserId: any;
   // ***
 
   isStatisticsMessage(message: string): boolean {
@@ -84,8 +85,20 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
       this.serverPath = serverPath;
       await this.loadData();
     })
-    // console.log('ngOnInit')
+    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+      this.selectedFlatId = selectedFlatId;
+    });
+    this.ifSubscriberSelect();
     this.scrollDown();
+  }
+
+  ifSubscriberSelect() {
+    this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
+      this.choseUserId = Number(selectedSubscriber);
+      if (this.choseUserId) {
+        this.getSelectUserInfo(this.choseUserId);
+      }
+    })
   }
 
   // Підвантажуємо інформацію про користвача та оселю з локального сховища
@@ -101,7 +114,6 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
         if (houseData) {
           const parsedHouseData = JSON.parse(houseData);
           this.houseData = parsedHouseData;
-          this.getSelectedFlatId();
         } else {
           console.log('Інформація оселі відсутня')
         }
@@ -113,31 +125,8 @@ export class ChatHouseComponent implements OnInit, OnDestroy {
     }
   }
 
-  // беремо обраний id оселі з сервісу
-  getSelectedFlatId() {
-    // console.log('getSelectedFlatId')
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-      if (this.selectedFlatId) {
-        this.getSelectedSub();
-      } else { console.log('Оберіть оселю') }
-    });
-  }
-
-  // беремо обраний id оселі з сервісу
-  getSelectedSub() {
-    // console.log('getSelectedSub')
-    this.choseSubscribersService.selectedSubscriber$.subscribe(async selectedSubscriber => {
-      this.getSelectedUser = selectedSubscriber;
-      if (this.getSelectedUser) {
-        this.getSelectUserInfo(this.getSelectedUser);
-      } else { console.log('Оберіть оселю') }
-    });
-  }
-
   // отримуємо обраного орендара, та беремо інформацію по ньому з локального сховища flatChats який ми записали в chat-host-house,
   async getSelectUserInfo(subscriberId: string): Promise<any> {
-    // console.log('getSelectUserInfo')
     this.selectedSubscriberID = subscriberId;
     if (this.selectedSubscriberID) {
       const flatAllChats = JSON.parse(localStorage.getItem('flatChats') || '[]');

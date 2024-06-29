@@ -155,7 +155,8 @@
   align-items: stretch;
   position: relative;
   align-content: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
+  // flex-direction: column;
 }
 
 // карусель параметрів на фото
@@ -328,6 +329,7 @@
     // background-image: linear-gradient(to right, transparent 0%, light-dark( $color-white, transparent) 10%, light-dark( $color-gray, transparent) 70%, transparent 100%);
 
     @include s1-s3 {
+      background-image: linear-gradient(to top, transparent 0%, $color-white 30% $color-white 100%);
       border: none;
     }
 
@@ -972,11 +974,11 @@
       color: $color-accent;
     }
     .flex-column {
-      transform: translateX(40px);
+      transform: translateX(20px);
       transition: 1s;
     }
     .link-icon {
-      transform: translateX(-40px);
+      transform: translateX(-10px);
       transition: 1s;
     }
     .fa-solid,

@@ -1,0 +1,95 @@
+<div [@top3] class="progress-content">
+  <div class="progress-wrapper">
+    <h2 class="bold t-med m-2 border-bottom"><strong>Послідовність здачі оселі в оренду</strong></h2>
+    <div class="switch-container">
+
+      <div class="flex-column">
+        <div class="flex-box">
+          <a class="switch-btn-group" [routerLink]="'/search-tenants'">
+            <div class="btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <div class="t-min bold">Пошук Орендаря</div>
+            </div>
+          </a>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-heart mini"></i>
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </div>
+        <div class="flex-box">
+          <a class="switch-btn-group" [routerLink]="'/edit-house'">
+            <div class="btn">
+              <i class="fa-solid fa-sign-hanging"></i>
+              <div class="t-min bold">Активація Оголошення</div>
+            </div>
+          </a>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-heart mini"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-column">
+        <div class="flex-box">
+          <div class="switch-btn-group">
+            <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscriptions-house'">
+              <i class="fa-solid fa-people-pulling"></i>
+              <div class="t-min bold">Підписка</div>
+              <div class="status status1" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== '0'">
+                {{counterHouseSubscriptions}} </div>
+            </button>
+          </div>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-hourglass-start mini"></i>
+            <i class="fa-solid fa-arrow-trend-down"></i>
+          </div>
+        </div>
+        <div class="flex-box">
+          <div class="switch-btn-group">
+            <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscribers-house'">
+              <i class="fa-solid fa-child-reaching"></i>
+              <div class="t-min bold">Підписник</div>
+              <div class="status status1" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== '0'">
+                {{counterHouseSubscribers}}</div>
+            </button>
+          </div>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <i class="fa-solid fa-thumbs-up mini"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_discuss !== 1" class="btn" [routerLink]="'/subscribers-discus'">
+          <i class="fa-solid fa-person-walking-luggage"></i>
+          <div class="t-min bold">Дискусія</div>
+          <div class="status status1" *ngIf="counterHouseDiscussio && counterHouseDiscussio !== '0'">
+            {{counterHouseDiscussio}}
+          </div>
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
+          [routerLink]="'/house/agree'">
+          <i class="fa-solid fa-envelope-open-text"></i>
+          <div class="t-min bold">Угода</div>
+        </button>
+      </div>
+
+      <!-- <i class="fa-solid fa-arrow-right"></i>
+
+    <div class="switch-btn-group">
+      <button [disabled]="!houseData || acces_citizen !== 1" class="btn" [routerLink]="'/house/residents'">
+        <i class="fa-solid fa-people-roof"></i>
+        <div class="t-min bold">Мешканці</div>
+      </button>
+    </div> -->
+
+    </div>
+  </div>
+</div>

@@ -32,14 +32,24 @@
   display: none;
 }
 
-
-
 .flex-box {
   justify-content: center;
 }
 
 .card-content {
   align-items: stretch !important;
+}
+
+.img-fluid {
+  cursor: pointer;
+  transition: 1s;
+  overflow: hidden;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.wrapper-img {
+  overflow: hidden;
 }
 
 .hide-pc {

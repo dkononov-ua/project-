@@ -9,6 +9,7 @@
   padding: 10px;
   margin-bottom: 10px;
   width: 100%;
+  background-color: $color-white;
   .reviews-group {
     @include flex-box;
     width: 100%;
