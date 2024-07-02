@@ -65,27 +65,27 @@ textarea::-webkit-scrollbar {
 }
 
 .accent {
-  color: $color-accent;
+  color: $color-accent !important;
 }
 
 .green {
-  color: green;
+  color: green !important;
 }
 
 .bold {
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 .thin {
-  font-weight: 300;
+  font-weight: 300 !important;
 }
 
 .dark {
-  color: $color-text;
+  color: $color-text !important;
 }
 
 .gray {
-  color: $color-gray;
+  color: $color-gray !important;
 }
 
 .white {
@@ -93,7 +93,7 @@ textarea::-webkit-scrollbar {
 }
 
 .blue {
-  color: $color-blue;
+  color: $color-blue !important;
 }
 
 .t-min {

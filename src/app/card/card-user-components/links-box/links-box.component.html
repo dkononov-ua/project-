@@ -1,167 +1,79 @@
-<div [@top3] class="group-btn p-2">
+<button class="btn-open" (click)="toogleOpen()" [ngClass]="{'active': detail === true}">
+  <i class="fa-solid fa-link"></i>
+  <!-- <div class="t-min">Більше</div> -->
+</button>
 
-  <button *ngIf="indexParam !== 3" [disabled]="disabledBtn" class="btn group" [ngClass]="{ 'active': menu[1]}"
-    (click)="toggleLinks(1)">
-    <div class="flex-column t-c">
-      <i class="fa-solid fa-link"></i>
-      <p class="t-min">Список Контактів</p>
-    </div>
-  </button>
+<div [@fadeIn] class="detail p-2" *ngIf="detail">
+  <div class="detail-wrapper t-c">
 
-  <button *ngIf="indexParam === 0 || indexParam === 2 || indexParam === 3" [disabled]="disabledBtn" class="btn group"
-    [ngClass]="{ 'active': menu[2]}" (click)="toggleLinks(2)">
-    <div class="number">
-      <p class="t-lar-xx bold">{{ratingTenant}}</p>
-      <i class="fa-solid fa-star"></i>
-    </div>
-    <div class="flex-column t-c pl-2">
-      <i class="fa-regular fa-user"></i>
-      <p class="t-min">Рейтинг Орендаря</p>
-    </div>
-  </button>
+    <button class="btn-close bg-white p-2" (click)="toogleOpen()"></button>
 
-  <button *ngIf="indexParam === 0 || indexParam === 1" [disabled]="disabledBtn" class="btn group"
-    [ngClass]="{ 'active': menu[3]}" (click)="toggleLinks(3)">
-    <div class="number">
-      <p class="t-lar-xx bold">{{ratingOwner}}</p>
-      <i class="fa-solid fa-star"></i>
-    </div>
-    <div class="flex-column t-с pl-2">
-      <i class="fa-solid fa-house-chimney-user"></i>
-      <p class="t-min">Рейтинг Орендодавця</p>
-    </div>
-  </button>
+    <div class="links-box">
 
-  <button *ngIf="currentLocation !== '/user/info'" [disabled]="disabledBtn" class="btn group"
-    [ngClass]="{ 'active': menu[4]}" (click)="toggleLinks(4)">
-    <div class="flex-column t-c">
-      <i class="fa-solid fa-pen-nib"></i>
-      <p class="t-min">Перегляд Відгуків</p>
-    </div>
-  </button>
+      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
+        <a href="tel:{{ userInfo.tell}}" class="link-item" *ngIf="userInfo.tell">
+          <i class="fa-solid fa-phone"></i>
+          <div class="link-item-name">{{userInfo.tell}}</div>
+        </a>
 
-</div>
-
-<div class="links-box" *ngIf="menu[1]">
-
-  <div *ngIf="links[1]" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
-    <button class="link-item" *ngIf="userInfo.tell" (click)="copyTell()">
-      <i class="fa-solid fa-phone"></i>
-      <div class="link-item-name">{{userInfo.tell}}</div>
-    </button>
-    <button disabled class="link-item" *ngIf="!userInfo.tell">
-      <i class="fa-solid fa-phone"></i>
-      <div class="link-item-name">Номер Відсутній</div>
-    </button>
-  </div>
-
-  <div *ngIf="links[1]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
-    <button class="link-item" *ngIf="userInfo.mail" (click)="copyMail()">
-      <i class="fa-solid fa-at"></i>
-      <div class="link-item-name">{{userInfo.mail}}</div>
-    </button>
-    <button disabled class="link-item" *ngIf="!userInfo.mail">
-      <i class="fa-solid fa-at"></i>
-      <div class="link-item-name">Email Відсутній</div>
-    </button>
-  </div>
-
-  <div *ngIf="links[1]" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
-    <a class="link-item" href="https://www.instagram.com/{{  userInfo.instagram }}" *ngIf="userInfo.instagram">
-      <i class="fa-brands fa-instagram"></i>
-      <div class="link-item-name">{{userInfo.instagram}}</div>
-    </a>
-    <button disabled class="link-item" *ngIf="!userInfo.instagram">
-      <i class="fa-brands fa-instagram"></i>
-      <div class="link-item-name">Instagram Відсутній</div>
-    </button>
-  </div>
-  <div *ngIf="links[1]" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}">
-    <a class="link-item" href="https://www.facebook.com//{{  userInfo.facebook }}" *ngIf="userInfo.facebook">
-      <i class="fa-brands fa-facebook"></i>
-      <div class="link-item-name">{{userInfo.facebook}}</div>
-    </a>
-    <button disabled class="link-item" *ngIf="!userInfo.facebook">
-      <i class="fa-brands fa-facebook"></i>
-      <div class="link-item-name">Facebook Відсутній</div>
-    </button>
-  </div>
-  <div *ngIf="links[1]" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
-    <a class="link-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
-      <i class="fa-brands fa-telegram"></i>
-      <div class="link-item-name">{{userInfo.telegram}}</div>
-    </a>
-    <button disabled class="link-item" *ngIf="!userInfo.telegram">
-      <i class="fa-brands fa-telegram"></i>
-      <div class="link-item-name">Telegram Відсутній</div>
-    </button>
-  </div>
-  <div *ngIf="links[1]" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
-    <button class="link-item" *ngIf="userInfo.viber" (click)="copyViber()">
-      <i class="fa-brands fa-viber"></i>
-      <div class="link-item-name">{{userInfo.viber}}</div>
-    </button>
-    <button disabled class="link-item" *ngIf="!userInfo.viber">
-      <i class="fa-brands fa-viber"></i>
-      <div class="link-item-name">Viber Відсутній</div>
-    </button>
-  </div>
-</div>
-
-<div class="links-box" *ngIf="menu[2]">
-
-  <div *ngIf="links[2]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
-    <div class="raiting-box">
-      <div class="raiting-name border-bottom"><i class="fa-regular fa-user p-2"></i>Орендарь</div>
-      <div class="raiting-item"><i class="fa-regular fa-star pr-2"></i><span
-          class="raiting-number">{{ratingTenant}}</span>
-        Рейтинг
+        <button disabled class="link-item" *ngIf="!userInfo.tell">
+          <i class="fa-solid fa-phone"></i>
+          <div class="link-item-name">Номер Відсутній</div>
+        </button>
       </div>
-      <div class="raiting-item"><i class="fa-regular fa-pen-to-square pr-2"></i><span
-          class="raiting-number">{{numberOfReviewsTenant}}</span>
-        Кількість відгуків
+
+      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
+        <button class="link-item" *ngIf="userInfo.mail" (click)="copyMail()">
+          <i class="fa-solid fa-at"></i>
+          <div class="link-item-name">{{userInfo.mail}}</div>
+        </button>
+        <button disabled class="link-item" *ngIf="!userInfo.mail">
+          <i class="fa-solid fa-at"></i>
+          <div class="link-item-name">Email Відсутній</div>
+        </button>
+      </div>
+
+      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
+        <a class="link-item" href="https://www.instagram.com/{{  userInfo.instagram }}" *ngIf="userInfo.instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <div class="link-item-name">{{userInfo.instagram}}</div>
+        </a>
+        <button disabled class="link-item" *ngIf="!userInfo.instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <div class="link-item-name">Instagram Відсутній</div>
+        </button>
+      </div>
+      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}">
+        <a class="link-item" href="https://www.facebook.com//{{  userInfo.facebook }}" *ngIf="userInfo.facebook">
+          <i class="fa-brands fa-facebook"></i>
+          <div class="link-item-name">{{userInfo.facebook}}</div>
+        </a>
+        <button disabled class="link-item" *ngIf="!userInfo.facebook">
+          <i class="fa-brands fa-facebook"></i>
+          <div class="link-item-name">Facebook Відсутній</div>
+        </button>
+      </div>
+      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
+        <a class="link-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
+          <i class="fa-brands fa-telegram"></i>
+          <div class="link-item-name">{{userInfo.telegram}}</div>
+        </a>
+        <button disabled class="link-item" *ngIf="!userInfo.telegram">
+          <i class="fa-brands fa-telegram"></i>
+          <div class="link-item-name">Telegram Відсутній</div>
+        </button>
+      </div>
+      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
+        <button class="link-item" *ngIf="userInfo.viber" (click)="copyViber()">
+          <i class="fa-brands fa-viber"></i>
+          <div class="link-item-name">{{userInfo.viber}}</div>
+        </button>
+        <button disabled class="link-item" *ngIf="!userInfo.viber">
+          <i class="fa-brands fa-viber"></i>
+          <div class="link-item-name">Viber Відсутній</div>
+        </button>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="links[2]" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
-    <button class="link-item" *ngIf="userInfo.user_id" (click)="copyId()">
-      <i class="fa-regular fa-address-card pr-2"></i>
-      <div class="link-item-name"><span class="raiting-number">{{userInfo.user_id}}</span> ID
-        Користувача</div>
-    </button>
-  </div>
-
-</div>
-
-<div class="links-box" *ngIf="menu[3]">
-
-  <div *ngIf="links[3]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
-    <div class="raiting-box">
-      <div class="raiting-name border-bottom"><i class="fa-solid fa-house-chimney-user p-2"></i>Орендодавець</div>
-      <div class="raiting-item"><i class="fa-regular fa-star pr-2"></i><span
-          class="raiting-number">{{ratingOwner}}</span>
-        Рейтинг
-      </div>
-      <div class="raiting-item"><i class="fa-regular fa-pen-to-square pr-2"></i><span
-          class="raiting-number">{{numberOfReviewsOwner}}</span>
-        Кількість відгуків
-      </div>
-    </div>
-  </div>
-
-  <!-- <div *ngIf="links[3]" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
-    <button class="link-item" *ngIf="userInfo.user_id" (click)="copyId()">
-      <i class="fa-regular fa-address-card pr-2"></i>
-      <div class="link-item-name"><span class="raiting-number">{{userInfo.user_id}}</span> ID
-        Користувача</div>
-    </button>
-  </div> -->
-
-</div>
-
-<div class="links-box" *ngIf="menu[4]">
-  <div *ngIf="links[4]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
-    <app-reviews></app-reviews>
   </div>
 </div>

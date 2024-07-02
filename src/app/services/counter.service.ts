@@ -46,6 +46,7 @@ export class CounterService {
   async getHouseSubscribersCount(selectedFlatId: any) {
     const userJson = localStorage.getItem('user')
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
+    // console.log(data)
     try {
       const counterHouseSubscribers: any = await this.http.post(this.serverPath + '/subs/get/countSubs', data).toPromise();
       if (counterHouseSubscribers.status !== 'Авторизуйтесь') {

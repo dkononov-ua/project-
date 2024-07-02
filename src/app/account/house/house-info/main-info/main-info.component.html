@@ -1,20 +1,12 @@
 <div class="content-box" *ngIf="indexPage === 0">
-  <div class="copyMessage-box" *ngIf="isCopiedMessage">
-    <div class="copyMessage-text">{{isCopiedMessage}}</div>
-    <i class="fa-regular fa-copy"></i>
-    <div class="t-lar dark bold">Discussio</div>
-  </div>
-
   <button class="btn geer" (click)="goToEdit()"
     *ngIf="acces_flat_features === 1 && acces_admin === 1 && acces_added === 1">
     <i class="fa-solid fa-gear" matTooltip="Налаштування оселі"></i>
   </button>
   <app-img-house></app-img-house>
   <app-house-rent-progress></app-house-rent-progress>
-
   <div class="mb-2" *ngIf="isMobile">
     <app-info-house></app-info-house>
   </div>
-
 </div>
 

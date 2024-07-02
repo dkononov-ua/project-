@@ -1,0 +1,87 @@
+<div [@top3] class="progress-content">
+  <div class="progress-wrapper">
+    <h2 class="bold t-med m-2 border-bottom"><strong>Послідовність пошуку оселі</strong></h2>
+    <div class="switch-container">
+
+      <div class="flex-column">
+        <div class="flex-box">
+          <a class="switch-btn-group" [routerLink]="'/search-house'">
+            <div class="btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <div class="t-min bold">Пошук Оселі</div>
+            </div>
+          </a>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-heart mini"></i>
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </div>
+        <div class="flex-box">
+          <a class="switch-btn-group" [routerLink]="'/looking'">
+            <div class="btn">
+              <i class="fa-solid fa-person-hiking"></i>
+              <div class="t-min bold">Активація Профілю</div>
+            </div>
+          </a>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-heart mini"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-column">
+        <div class="flex-box">
+          <div class="switch-btn-group">
+            <a class="btn" [routerLink]="'/subscriptions-user'">
+              <i class="fa-regular fa-heart"></i>
+              <div class="t-min bold">Вподобані</div>
+              <div class="status status1" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
+                {{counterUserSubscriptions}} </div>
+            </a>
+          </div>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-hourglass-start mini"></i>
+            <i class="fa-solid fa-arrow-trend-down"></i>
+          </div>
+        </div>
+        <div class="flex-box">
+          <div class="switch-btn-group">
+            <a class="btn" [routerLink]="'/subscribers-user'">
+              <i class="fa-solid fa-people-pulling"></i>
+              <div class="t-min bold">Пропозиції</div>
+              <div class="status status1" *ngIf="counterUserSubscribers && counterUserSubscribers !== '0'">
+                {{counterUserSubscribers}}</div>
+            </a>
+          </div>
+          <div class="flex-column-box">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <i class="fa-solid fa-thumbs-up mini"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="switch-btn-group">
+        <a class="btn" [routerLink]="'/subscribers-discus'">
+          <i class="fa-solid fa-person-walking-luggage"></i>
+          <div class="t-min bold">Дискусія</div>
+          <div class="status status1" *ngIf="counterUserDiscussio && counterUserDiscussio !== '0'">
+            {{counterUserDiscussio}}
+          </div>
+        </a>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <a class="btn" [routerLink]="'/user/agree/menu'">
+          <i class="fa-solid fa-envelope-open-text"></i>
+          <div class="t-min bold">Угода</div>
+          <div class="status status1" *ngIf="counterUserNewAgree && counterUserNewAgree !== '0'">
+            {{counterUserNewAgree}} </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>

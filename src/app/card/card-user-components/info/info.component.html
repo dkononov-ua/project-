@@ -1,82 +1,119 @@
 <div *ngIf="user" class="content-info w-100">
 
-  <div [@top2] class="flex-box">
+  <div [@top2] class="main-param mb-2">
+    <div class="left">
+      <p class="t-c t-min"><i class="fa-solid fa-fingerprint"></i> <br> ID Користувача</p>
+      <p class="t-c t-lar-x bold">ID: {{ user.user_id }}</p>
+    </div>
+    <div class="right">
+      <div class="flex-box">
+        <div class="d-flex flex-column w-80 jc-fs">
+          <p class="t-c t-med thin gray p-2">Користувач:</p>
 
-    <div class="flex-column p-2" *ngIf="user.user_id">
-      <div class="t-lar bold">ID: {{ user.user_id }}</div>
-      <div class="t-min">User</div>
-    </div>
-    <div class="flex-column p-2" *ngIf="user.lastName">
-      <div class="t-lar bold">{{ user.lastName }}</div>
-      <div class="t-min gray">Прізвище</div>
-    </div>
-    <div class="flex-column p-2" *ngIf="user.firstName">
-      <div class="t-lar bold">{{ user.firstName }}</div>
-      <div class="t-min gray">ім'я</div>
-    </div>
-    <div class="flex-column p-2" *ngIf="user.surName">
-      <div class="t-lar bold">{{ user.surName }}</div>
-      <div class="t-min gray">По батькові</div>
+          <div class="item-box" *ngIf="user.lastName">
+            <div mat-raised-button class="flex-column">
+              <div class="t-lar bold border-bottom">{{ user.lastName }}</div>
+              <div class="t-min">Прізвище </div>
+            </div>
+          </div>
+
+          <div class="item-box" *ngIf="user.firstName">
+            <div mat-raised-button class="flex-column">
+              <div class="t-lar bold border-bottom">{{ user.firstName }}</div>
+              <div class="t-min">Ім'я</div>
+            </div>
+          </div>
+
+          <div class="item-box" *ngIf="user.surName">
+            <div mat-raised-button class="flex-column">
+              <div class="t-lar bold border-bottom">{{ user.surName }}</div>
+              <div class="t-min">По батькові</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="flex-box flex-column w-20">
+
+          <app-links-box></app-links-box>
+
+          <button class="btn-open" (click)="toogleOpen()" [ngClass]="{'active': detail === true}">
+            <i class="fa-solid fa-info"></i>
+            <!-- <div class="t-min">Більше</div> -->
+          </button>
+
+          <button class="btn-open" [routerLink]="'/information-user'" *ngIf="currentLocation === '/user/info'">
+            <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
+            <!-- <div class="t-min">Налашт.</div> -->
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div [@top4] class="main-param" *ngIf="user.agree_search === 1">
+  <div [@top4] class="main-param mb-2" *ngIf="user.agree_search === 1">
     <div class="left">
       <p class="t-c t-min"><i class="fa-solid fa-person-hiking"></i> <br> Профіль Орендаря Активовано</p>
       <p class="t-c t-min" *ngIf="user.data"> <i class="fa-regular fa-clock"></i> <br> {{user.data | date}} {{user.data
         | date: 'HH:mm'}}</p>
     </div>
     <div class="right">
-      <p class="t-c t-med bold mt-2">Основні пошукові параметри:</p>
-      <div class="flex-box wrap">
+      <div class="flex-box">
+        <div class="flex-box w-80 wrap">
+          <p class="t-c t-med thin gray p-2">Пошукові параметри:</p>
 
-        <div class="item-box m-1" *ngIf="user.price_of">
-          <div mat-raised-button class="param-g flex-column">
-            <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-sack-dollar"></i>{{ user.price_of | number:'1.0-0' }}
+          <div class="item-box" *ngIf="user.price_of">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom">
+                <i class="fa-solid fa-sack-dollar"></i>
+                {{ user.price_of | number:'1.0-0' }}
+              </div>
+              <div class="t-min">Ціна від (грн)</div>
             </div>
-            <div class="t-min bg-w">Ціна від (грн)</div>
           </div>
-        </div>
 
-        <div class="item-box m-1" *ngIf="user.price_to">
-          <div mat-raised-button class="param-g flex-column">
-            <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-sack-dollar"></i>{{ user.price_to | number:'1.0-0' }}
+          <div class="item-box" *ngIf="user.price_to">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom"><i class="fa-solid fa-sack-dollar"></i>{{ user.price_to | number:'1.0-0'
+                }}
+              </div>
+              <div class="t-min">Ціна до (грн)</div>
             </div>
-            <div class="t-min bg-w">Ціна до (грн)</div>
           </div>
-        </div>
 
-        <!-- <div class="item-box m-1" *ngIf="user.purpose_rent">
-      <div mat-raised-button class="param-g flex-column">
-        <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-head-side-virus"></i>{{ purpose[user.purpose_rent] }}
-        </div>
-        <div class="t-min bg-w">Мета пошуку</div>
-      </div>
-    </div> -->
-
-        <div class="item-box m-1" *ngIf="totalDays">
-          <div mat-raised-button class="param-g flex-column">
-            <div class="bg-g t-lar-xx bold accent"><i class="fa-solid fa-calendar-days"></i>
-              {{ totalDays | number:'1.0-0' }}</div>
-            <div class="t-min bg-w accent">Термін (місяців)</div>
+          <div class="item-box" *ngIf="user.purpose_rent">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom"><i class="fa-solid fa-head-side-virus"></i>{{ purpose[user.purpose_rent]
+                }}
+              </div>
+              <div class="t-min">Мета пошуку</div>
+            </div>
           </div>
+
+          <div class="item-box" *ngIf="totalDays">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom"><i class="fa-solid fa-calendar-days"></i>
+                {{ totalDays | number:'1.0-0' }}</div>
+              <div class="t-min">Термін (місяців)</div>
+            </div>
+          </div>
+
         </div>
+        <div class="flex-box flex-column w-20">
+          <button class="btn-open" (click)="toogleOpen()" [ngClass]="{'active': detail === true}">
+            <i class="fa-solid fa-info"></i>
+            <!-- <div class="t-min">Більше</div> -->
+          </button>
 
-        <button class="btn-open" (click)="toogleOpen()" [ngClass]="{'active': detail === true}">
-          <i class="fa-solid fa-circle-chevron-up" *ngIf="detail"></i>
-          <i class="fa-solid fa-circle-chevron-down" *ngIf="!detail"></i>
-          <div class="t-min" *ngIf="detail">Менше</div>
-          <div class="t-min" *ngIf="!detail">Більше</div>
-        </button>
-
-        <button class="btn-open" [routerLink]="'/looking'" *ngIf="currentLocation === '/user/info'">
-          <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
-          <div class="t-min">Налаштувати</div>
-        </button>
-
+          <button class="btn-open" [routerLink]="'/looking'" *ngIf="currentLocation === '/user/info'">
+            <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
+            <!-- <div class="t-min">Налашт.</div> -->
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <app-rating></app-rating>
 
   <div [@fadeIn] class="detail p-2" *ngIf="detail">
     <div class="detail-wrapper t-c">

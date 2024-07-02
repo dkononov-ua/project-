@@ -27,6 +27,7 @@ import { PreviewInfoComponent } from './preview-info/preview-info.component';
 import { UserComponent } from './user.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserPageComponent } from './user-page/user-page.component';
+import { NavigationUserComponent } from 'src/app/card/card-user-components/navigation-user/navigation-user.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -37,6 +38,7 @@ import { UserPageComponent } from './user-page/user-page.component';
     UagreeStepComponent,
     PreviewInfoComponent,
     UserPageComponent,
+    NavigationUserComponent,
   ],
   providers: [
     DatePipe,
@@ -62,6 +64,7 @@ import { UserPageComponent } from './user-page/user-page.component';
     MatNativeDateModule,
     RouterModule,
     MatProgressSpinnerModule,
+
   ]
 })
 export class UserModule { }

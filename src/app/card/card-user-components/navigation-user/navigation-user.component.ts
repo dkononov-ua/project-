@@ -1,30 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
-import { SharedService } from 'src/app/services/shared.service';
 import { CounterService } from 'src/app/services/counter.service';
-import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { animations } from '../../interface/animation';
-import { Location } from '@angular/common';
+import { animations } from '../../../interface/animation';
+import { SharedService } from 'src/app/services/shared.service';
+import { Router } from '@angular/router';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-house',
-  templateUrl: './house.component.html',
-  styleUrls: ['./house.component.scss'],
+  selector: 'app-navigation-user',
+  templateUrl: './navigation-user.component.html',
+  styleUrls: ['./navigation-user.component.scss'],
   animations: [
-    animations.left,
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateY(1220%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateY(1220%)' }))
+      ]),
+    ]),
+    animations.top2,
     animations.left1,
     animations.left2,
     animations.left3,
     animations.left4,
     animations.left5,
     animations.right1,
+    animations.right2,
+    animations.right4,
     animations.swichCard,
-    animations.top1,
   ],
 })
 
-export class HouseComponent implements OnInit {
+export class NavigationUserComponent implements OnInit, OnDestroy {
+
+  onClickMenu(indexPage: number) {
+    this.indexPage = indexPage;
+  }
+
+  disabledBtn: boolean = false;
+  animationDelay(index: number): string {
+    return (600 + 100 * index).toString();
+  }
+
+  linkOpen: boolean[] = [false, false, false, false, false];
+  menu: boolean[] = [false, false, false, false, false];
+
+  toggleAllMenu(index: number) {
+    this.linkOpen[index] = !this.linkOpen[index];
+    this.disabledBtn = true;
+    if (this.menu[index]) {
+      setTimeout(() => {
+        this.menu[index] = !this.menu[index];
+        this.disabledBtn = false;
+      }, 600);
+    } else {
+      this.menu[index] = !this.menu[index];
+      this.disabledBtn = false;
+    }
+  }
 
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -34,14 +71,11 @@ export class HouseComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  goBack(): void {
-    this.location.back();
-  }
-  selectedFlatId!: string | null;
-  statusMessage: string | undefined;
-  houseData: any;
-  authorization: boolean = false;
-  loading: boolean = false;
+  indexPage: number = 0;
+  counterHouseSubscribers: any;
+  counterHouseSubscriptions: any;
+  counterHouseDiscussio: any;
+  counterHouseNewMessage: any;
 
   acces_added: number = 1;
   acces_admin: number = 1;
@@ -56,62 +90,55 @@ export class HouseComponent implements OnInit {
   acces_flat_features: number = 1;
   acces_services: number = 1;
   acces_subs: number = 1;
-
-  counterHouseSubscribers: any;
-  counterHouseSubscriptions: any;
-  counterHouseDiscussio: any;
-  unreadHouseMessage: any;
-  iReadHouseMessage: boolean = false;
-  counterHouseNewMessage: any;
+  houseData: any;
   isMobile: boolean = false;
   subscriptions: any[] = [];
+  selectedFlatId!: string | null;
+  authorization: boolean = false;
 
   constructor(
-    private selectedFlatService: SelectedFlatService,
-    private sharedService: SharedService,
     private counterService: CounterService,
-    private updateComponent: UpdateComponentService,
-    private location: Location,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-    });
-  }
+    private sharedService: SharedService,
+    private selectedFlatService: SelectedFlatService,
+    private router: Router,
+  ) { }
 
   async ngOnInit(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
+      this.subscriptions.push(
+        this.sharedService.isMobile$.subscribe((status: boolean) => {
+          this.isMobile = status;
+        })
+      );
       this.getSelectParam();
-    } else {
-      this.authorization = false;
     }
-    this.subscriptions.push(
-      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-        this.serverPath = serverPath;
-      })
-    );
+  }
+
+  goToEdit() {
+    if (this.isMobile) {
+      this.router.navigate(['/edit-house/instruction']);
+    } else {
+      this.router.navigate(['/edit-house/address']);
+    }
+  }
+
+  goToComun() {
+    if (this.isMobile) {
+      this.router.navigate(['/communal/about']);
+    } else {
+      this.router.navigate(['/communal/about']);
+    }
   }
 
   getSelectParam() {
     this.subscriptions.push(
       this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
         this.selectedFlatId = flatId || this.selectedFlatId;
-        if (this.selectedFlatId) {
-          this.loadDataFlat();
-        }
+        this.getHouseAcces();
       })
     );
-  }
-
-  loadDataFlat(): void {
-    const houseData = localStorage.getItem('houseData');
-    if (houseData) {
-      this.houseData = true;
-      this.getHouseAcces();
-    } else {
-      this.houseData = false;
-    }
   }
 
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
@@ -120,6 +147,7 @@ export class HouseComponent implements OnInit {
     if (this.houseData) {
       const parsedHouseData = JSON.parse(this.houseData);
       this.houseData = parsedHouseData;
+      // console.log(this.houseData)
       if (this.houseData.acces) {
         this.acces_added = this.houseData.acces.acces_added;
         this.acces_admin = this.houseData.acces.acces_admin;
@@ -154,7 +182,7 @@ export class HouseComponent implements OnInit {
 
   // перевірка підписників оселі
   async getHouseSubscribersCount() {
-    await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
+    // await this.counterService.getHouseSubscribersCount(0);
     this.subscriptions.push(
       this.counterService.counterHouseSubscribers$.subscribe(data => {
         this.counterHouseSubscribers = Number(data);
@@ -164,7 +192,7 @@ export class HouseComponent implements OnInit {
 
   // перевірка підписок оселі
   async getHouseSubscriptionsCount() {
-    await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
+    // await this.counterService.getHouseSubscriptionsCount(0);
     this.subscriptions.push(
       this.counterService.counterHouseSubscriptions$.subscribe(data => {
         this.counterHouseSubscriptions = Number(data);
@@ -174,7 +202,7 @@ export class HouseComponent implements OnInit {
 
   // перевірка дискусій оселі
   async getHouseDiscussioCount() {
-    await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+    // await this.counterService.getHouseDiscussioCount(0);
     this.subscriptions.push(
       this.counterService.counterHouseDiscussio$.subscribe(data => {
         this.counterHouseDiscussio = Number(data);
@@ -184,7 +212,7 @@ export class HouseComponent implements OnInit {
 
   // перевірка на нові повідомлення оселі
   async getHouseNewMessage() {
-    await this.counterService.getHouseNewMessage(this.selectedFlatId);
+    // await this.counterService.getHouseNewMessage(0);
     this.subscriptions.push(
       this.counterService.counterHouseNewMessage$.subscribe(data => {
         this.counterHouseNewMessage = Number(data)

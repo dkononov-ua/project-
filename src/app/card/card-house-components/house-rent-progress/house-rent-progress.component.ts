@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { SharedService } from 'src/app/services/shared.service';
@@ -26,7 +26,7 @@ import { Location } from '@angular/common';
   ],
 })
 
-export class HouseRentProgressComponent implements OnInit {
+export class HouseRentProgressComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -66,6 +66,7 @@ export class HouseRentProgressComponent implements OnInit {
   iReadHouseMessage: boolean = false;
   counterHouseNewMessage: any;
   isMobile: boolean = false;
+  subscriptions: any[] = [];
 
   constructor(
     private selectedFlatService: SelectedFlatService,
@@ -73,141 +74,98 @@ export class HouseRentProgressComponent implements OnInit {
     private counterService: CounterService,
     private updateComponent: UpdateComponentService,
     private location: Location,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-    });
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
-
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
     const userJson = localStorage.getItem('user');
-
     if (userJson) {
       this.authorization = true;
-      const houseData = localStorage.getItem('houseData');
-      if (houseData) {
-        const parsedHouseData = JSON.parse(houseData);
-        this.houseData = parsedHouseData;
-        this.selectedFlatId = parsedHouseData.flat.flat_id;
-        if (this.selectedFlatId) {
-          this.getHouseAcces();
-          await this.getHouseSubscribersCount();
-          await this.getHouseSubscriptionsCount();
-          await this.getHouseDiscussioCount();
-          await this.getHouseNewMessage();
-          await this.getUpdateHouseMessage();
-          this.loading = false;
-        }
-      } else {
-        // console.log('Оберіть оселю')
-      }
-    } else {
-      this.authorization = false;
+      this.subscriptions.push(
+        this.sharedService.isMobile$.subscribe((status: boolean) => {
+          this.isMobile = status;
+        })
+      );
+      this.getSelectParam();
     }
   }
 
   getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-      if (this.selectedFlatId) {
-        this.loadDataFlat();
-      }
-    });
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId;
+        this.getHouseAcces();
+      })
+    );
   }
 
-  loadDataFlat(): void {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const houseData = localStorage.getItem('houseData');
-      if (houseData) {
-        this.houseData = true;
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseAcces(): Promise<void> {
+    this.houseData = localStorage.getItem('houseData');
+    if (this.houseData) {
+      const parsedHouseData = JSON.parse(this.houseData);
+      this.houseData = parsedHouseData;
+      // console.log(this.houseData)
+      if (this.houseData.acces) {
+        this.acces_added = this.houseData.acces.acces_added;
+        this.acces_admin = this.houseData.acces.acces_admin;
+        this.acces_agent = this.houseData.acces.acces_agent;
+        this.acces_agreement = this.houseData.acces.acces_agreement;
+        this.acces_citizen = this.houseData.acces.acces_citizen;
+        this.acces_comunal = this.houseData.acces.acces_comunal;
+        this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+        this.acces_discuss = this.houseData.acces.acces_discuss;
+        this.acces_filling = this.houseData.acces.acces_filling;
+        this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+        this.acces_flat_features = this.houseData.acces.acces_flat_features;
+        this.acces_services = this.houseData.acces.acces_services;
+        this.acces_subs = this.houseData.acces.acces_subs;
+        if (this.acces_discuss === 1) {
+          await this.getHouseDiscussioCount();
+        }
+        if (this.acces_subs === 1) {
+          await this.getHouseSubscribersCount();
+          await this.getHouseSubscriptionsCount();
+        }
       } else {
-        this.houseData = false;
+        await this.getHouseDiscussioCount();
+        await this.getHouseSubscribersCount();
+        await this.getHouseSubscriptionsCount();
       }
-    } else {
-      console.log('Авторизуйтесь')
     }
   }
 
   // перевірка підписників оселі
   async getHouseSubscribersCount() {
-    // console.log('Відправляю запит на сервіс кількість підписників',)
-    await this.counterService.getHouseSubscribersCount(this.selectedFlatId);
-    this.counterService.counterHouseSubscribers$.subscribe(data => {
-      const counterHouseSubscribers: any = data;
-      this.counterHouseSubscribers = counterHouseSubscribers;
-      // console.log('кількість підписників', this.counterHouseSubscribers)
-    });
+    // await this.counterService.getHouseSubscribersCount(0);
+    this.subscriptions.push(
+      this.counterService.counterHouseSubscribers$.subscribe(data => {
+        this.counterHouseSubscribers = Number(data);
+      })
+    );
   }
 
   // перевірка підписок оселі
   async getHouseSubscriptionsCount() {
-    // console.log('Відправляю запит на сервіс кількість підписок',)
-    await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
-    this.counterService.counterHouseSubscriptions$.subscribe(data => {
-      const counterHouseSubscriptions: any = data;
-      this.counterHouseSubscriptions = counterHouseSubscriptions;
-      // console.log('кількість підписок', this.counterHouseSubscriptions)
-    });
+    // await this.counterService.getHouseSubscriptionsCount(0);
+    this.subscriptions.push(
+      this.counterService.counterHouseSubscriptions$.subscribe(data => {
+        this.counterHouseSubscriptions = Number(data);
+      })
+    );
   }
 
   // перевірка дискусій оселі
   async getHouseDiscussioCount() {
-    // console.log('Відправляю запит на сервіс кількість дискусій',)
-    await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
-    this.counterService.counterHouseDiscussio$.subscribe(data => {
-      const counterHouseDiscussio: any = data;
-      if (counterHouseDiscussio === 'Немає доступу') {
-        this.counterHouseDiscussio = null;
-      } else {
-        this.counterHouseDiscussio = counterHouseDiscussio;
-      }
-      // console.log('кількість дискусій', this.counterHouseDiscussio)
-    });
+    // await this.counterService.getHouseDiscussioCount(0);
+    this.subscriptions.push(
+      this.counterService.counterHouseDiscussio$.subscribe(data => {
+        this.counterHouseDiscussio = Number(data);
+      })
+    );
   }
 
-  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
-  getHouseAcces(): void {
-    if (this.houseData.acces) {
-      this.acces_added = this.houseData.acces.acces_added;
-      this.acces_admin = this.houseData.acces.acces_admin;
-      this.acces_agent = this.houseData.acces.acces_agent;
-      this.acces_agreement = this.houseData.acces.acces_agreement;
-      this.acces_citizen = this.houseData.acces.acces_citizen;
-      this.acces_comunal = this.houseData.acces.acces_comunal;
-      this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
-      this.acces_discuss = this.houseData.acces.acces_discuss;
-      this.acces_filling = this.houseData.acces.acces_filling;
-      this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
-      this.acces_flat_features = this.houseData.acces.acces_flat_features;
-      this.acces_services = this.houseData.acces.acces_services;
-      this.acces_subs = this.houseData.acces.acces_subs;
-    }
-  }
-
-  // перевірка на нові повідомлення оселі
-  async getHouseNewMessage() {
-    // console.log('Відправляю запит на сервіс кількість дискусій',)
-    await this.counterService.getHouseNewMessage(this.selectedFlatId);
-    this.counterService.counterHouseNewMessage$.subscribe(data => {
-      const counterHouseNewMessage: any = data;
-      this.counterHouseNewMessage = counterHouseNewMessage.status;
-      // console.log('кількість повідомлень оселі', this.counterHouseNewMessage)
-    });
-  }
-
-  // повідомлення оселі було прочитано
-  async getUpdateHouseMessage() {
-    this.updateComponent.iReadHouseMessage$.subscribe(async () => {
-      this.iReadHouseMessage = true;
-      if (this.iReadHouseMessage === true) {
-        this.counterHouseNewMessage = 0;
-      }
-    });
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
 

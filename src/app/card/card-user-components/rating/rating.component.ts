@@ -6,9 +6,9 @@ import { StatusDataService } from 'src/app/services/status-data.service';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-links-box',
-  templateUrl: './links-box.component.html',
-  styleUrls: ['./links-box.component.scss'],
+  selector: 'app-rating',
+  templateUrl: './rating.component.html',
+  styleUrls: ['./rating.component.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
@@ -30,18 +30,9 @@ import { Location } from '@angular/common';
     animations.left2,
     animations.left3,
     animations.swichCard,
-    animations.fadeIn,
-
   ],
 })
-export class LinksBoxComponent implements OnInit {
-
-  detail: boolean = false;
-
-  toogleOpen() {
-    this.detail = !this.detail;
-  }
-
+export class RatingComponent implements OnInit {
   numberOfReviewsTenant: any;
   numberOfReviewsOwner: any;
   ratingTenant: number | undefined;
@@ -52,6 +43,11 @@ export class LinksBoxComponent implements OnInit {
   links: boolean[] = [false, false, false, false, false];
   menu: boolean[] = [false, false, false, false, false];
   indexParam: number = 0;
+
+  detail: boolean = false;
+  toogleOpen() {
+    this.detail = !this.detail;
+  }
 
   toggleLinks(index: number) {
     // Закрити всі меню, крім того, що має переданий індекс
@@ -78,7 +74,7 @@ export class LinksBoxComponent implements OnInit {
 
   currentLocation: string = '';
 
-  userInfo: any;
+  user: any;
   animationDelay(index: number): string {
     return (600 + 100 * index).toString();
   }
@@ -94,26 +90,26 @@ export class LinksBoxComponent implements OnInit {
     this.currentLocation = this.location.path();
     this.statusDataService.userData$.subscribe((data: any) => {
       // console.log(data);
-      this.userInfo = data.data;
+      this.user = data.data;
       this.indexParam = data.index;
-      if (this.userInfo && this.indexParam === 0) {
+      if (this.user && this.indexParam === 0) {
         this.getRatingTenant();
         this.getRatingOwner();
       }
-      if (this.userInfo && this.indexParam === 1) {
+      if (this.user && this.indexParam === 1) {
         this.getRatingOwner();
       }
-      if (this.userInfo && this.indexParam === 2 || this.indexParam === 3) {
+      if (this.user && this.indexParam === 2 || this.indexParam === 3) {
         this.getRatingTenant();
       }
     });
   }
 
   // Копіювання параметрів
-  copyId() { this.copyToClipboard(this.userInfo.user_id, 'ID скопійовано'); }
-  copyTell() { this.copyToClipboard(this.userInfo.tell, 'Телефон скопійовано'); }
-  copyMail() { this.copyToClipboard(this.userInfo.mail, 'Пошту скопійовано'); }
-  copyViber() { this.copyToClipboard(this.userInfo.viber, 'Viber номер скопійовано'); }
+  copyId() { this.copyToClipboard(this.user.user_id, 'ID скопійовано'); }
+  copyTell() { this.copyToClipboard(this.user.tell, 'Телефон скопійовано'); }
+  copyMail() { this.copyToClipboard(this.user.mail, 'Пошту скопійовано'); }
+  copyViber() { this.copyToClipboard(this.user.viber, 'Viber номер скопійовано'); }
   copyToClipboard(textToCopy: string, message: string) {
     if (textToCopy) {
       navigator.clipboard.writeText(textToCopy)
@@ -124,7 +120,7 @@ export class LinksBoxComponent implements OnInit {
 
   //Запитую рейтинг орендаря
   async getRatingTenant(): Promise<any> {
-    const response = await this.sharedService.getRatingTenant(this.userInfo.user_id);
+    const response = await this.sharedService.getRatingTenant(this.user.user_id);
     // console.log(response);
     this.ratingTenant = response.ratingTenant;
     this.numberOfReviewsTenant = response.numberOfReviewsTenant;
@@ -132,10 +128,11 @@ export class LinksBoxComponent implements OnInit {
 
   //Запитую рейтинг власника
   async getRatingOwner(): Promise<any> {
-    const response = await this.sharedService.getRatingOwner(this.userInfo.user_id);
+    const response = await this.sharedService.getRatingOwner(this.user.user_id);
     // console.log(response);
     this.ratingOwner = response.ratingOwner;
     this.numberOfReviewsOwner = response.numberOfReviewsOwner;
   }
 
 }
+

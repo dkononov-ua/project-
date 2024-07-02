@@ -153,7 +153,9 @@
 
 .item-box {
   display: flex;
+  align-items: center;
   flex-direction: column;
+  margin: 0 5px;
   .fa-solid {
     font-size: 14px;
     padding-left: 5px;

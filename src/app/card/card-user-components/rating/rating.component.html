@@ -1,0 +1,54 @@
+<div *ngIf="user" class="content-info w-100">
+
+  <div [@top4] class="main-param mb-2">
+    <div class="left">
+      <p class="t-c t-min"><i class="fa-solid fa-star"></i> <br> Рейтинг <br> Користувача</p>
+      <p class="t-c t-lar-x bold">ID: {{ user.user_id }}</p>
+    </div>
+    <div class="right">
+
+      <div class="flex-box">
+        <div class="flex-box w-80 jc-c wrap">
+          <p class="t-c t-med thin gray p-2">Рейтинг користувача:</p>
+
+          <div class="item-box" *ngIf="ratingTenant">
+            <div mat-raised-button class="flex-column p-1">
+              <div class="t-lar-xx bold border-bottom">{{ratingTenant}}
+                <i class="fa-solid fa-star"></i>
+                <span class="t-min">/ {{numberOfReviewsTenant}}</span>
+              </div>
+              <div class="t-min">Орендарь </div>
+            </div>
+          </div>
+
+          <div class="item-box" *ngIf="ratingOwner">
+            <div mat-raised-button class="flex-column p-1">
+              <div class="t-lar-xx bold border-bottom">{{ratingOwner}}
+                <i class="fa-solid fa-star"></i>
+                <span class="t-min">/ {{numberOfReviewsOwner}}</span>
+              </div>
+              <div class="t-min">Орендодавець </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex-box flex-column w-20">
+          <button [disabled]="disabledBtn" class="btn-open" *ngIf="currentLocation !== '/user/info'"
+            [ngClass]="{ 'active': menu[4]}" (click)="toggleLinks(4)">
+            <i class="fa-solid fa-pen-nib" matTooltip="Перегляд Відгуків"></i>
+            <!-- <div class="t-min">Налашт.</div> -->
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="links-box" *ngIf="menu[4]">
+    <div *ngIf="links[4]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
+      <app-reviews></app-reviews>
+    </div>
+  </div>
+
+</div>

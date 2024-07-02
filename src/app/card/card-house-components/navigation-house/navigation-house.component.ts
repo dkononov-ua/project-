@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
@@ -35,7 +35,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ],
 })
 
-export class NavigationHouseComponent implements OnInit {
+export class NavigationHouseComponent implements OnInit, OnDestroy {
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -182,7 +182,7 @@ export class NavigationHouseComponent implements OnInit {
 
   // перевірка підписників оселі
   async getHouseSubscribersCount() {
-    await this.counterService.getHouseSubscribersCount(0);
+    // await this.counterService.getHouseSubscribersCount(0);
     this.subscriptions.push(
       this.counterService.counterHouseSubscribers$.subscribe(data => {
         this.counterHouseSubscribers = Number(data);
@@ -192,7 +192,7 @@ export class NavigationHouseComponent implements OnInit {
 
   // перевірка підписок оселі
   async getHouseSubscriptionsCount() {
-    await this.counterService.getHouseSubscriptionsCount(0);
+    // await this.counterService.getHouseSubscriptionsCount(0);
     this.subscriptions.push(
       this.counterService.counterHouseSubscriptions$.subscribe(data => {
         this.counterHouseSubscriptions = Number(data);
@@ -202,7 +202,7 @@ export class NavigationHouseComponent implements OnInit {
 
   // перевірка дискусій оселі
   async getHouseDiscussioCount() {
-    await this.counterService.getHouseDiscussioCount(0);
+    // await this.counterService.getHouseDiscussioCount(0);
     this.subscriptions.push(
       this.counterService.counterHouseDiscussio$.subscribe(data => {
         this.counterHouseDiscussio = Number(data);
@@ -212,7 +212,7 @@ export class NavigationHouseComponent implements OnInit {
 
   // перевірка на нові повідомлення оселі
   async getHouseNewMessage() {
-    await this.counterService.getHouseNewMessage(0);
+    // await this.counterService.getHouseNewMessage(0);
     this.subscriptions.push(
       this.counterService.counterHouseNewMessage$.subscribe(data => {
         this.counterHouseNewMessage = Number(data)

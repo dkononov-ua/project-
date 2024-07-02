@@ -9,12 +9,15 @@
       <div class="card-animation" [@swichCard]>
         <div class="card-content">
 
-          <button class="btn geer" [routerLink]="'/information-user'"><i class="fa-solid fa-gear"
-              matTooltip="Налаштувати профіль"></i></button>
+          <button class="btn geer" [routerLink]="'/information-user'">
+            <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
+          </button>
 
           <app-img></app-img>
-          <app-links-box></app-links-box>
-          <app-info></app-info>
+          <app-user-rent-progress></app-user-rent-progress>
+          <div *ngIf="isMobile">
+            <app-info></app-info>
+          </div>
 
           <nav class="navbar">
 
@@ -108,7 +111,6 @@
               </div>
               <div class="link-icon w-20"><i class="fa-solid fa-headset"></i></div>
             </a>
-
           </nav>
           <app-footer class="pb-3" *ngIf="isMobile"></app-footer>
 
@@ -118,37 +120,9 @@
 
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
       <div class="card-animation bg-none" [@left2]>
-        <div class="flex-column t-c">
-
-          <div class="switch-container p-2">
-
-            <div class="menu-box t-e hide-mobile" [routerLink]="'/house/house-control/'">
-              <div class="menu-lable">Управління</div>
-              <div class="menu-name">Оселею</div>
-            </div>
-
-            <div class="switch-btn-group">
-              <button class="btn" [routerLink]="'/house/house-control/add-house'">
-                <i class="fa-solid fa-house-chimney-medical"></i>
-                <div class="t-min bold">Створення</div>
-              </button>
-            </div>
-
-            <!-- <div class="switch-btn-group">
-              <button class="btn" [ngClass]="{ 'active': indexPage === 1}" (click)="indexPage = 1">
-                <i class="fa-solid fa-house-circle-check"></i>
-                <div class="t-min bold">Вибір</div>
-              </button>
-            </div> -->
-
-          </div>
-
-          <div class="selection-housing w-100">
-            <app-selection-housing></app-selection-housing>
-          </div>
-
-        </div>
+        <app-info></app-info>
       </div>
     </div>
+
   </div>
 </ng-template>
