@@ -1,66 +1,69 @@
-<div class="p-2" [@top4] *ngIf="chosenFlat">
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-user'" (click)="approveSubscriber(choseFlatId)">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Перейти до</p>
-      <p class="link-menu-t1">Дискусії</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-regular fa-thumbs-up"></i></div>
+<div class="menu-container" *ngIf="chosenFlat">
+  <button [disabled]="disabledBtn" class="btn" (click)="toggleAllMenu(1)">
+    <i class="fa-solid fa-people-arrows"></i>
+    <div class="t-min bold">Дії</div>
   </button>
-
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discuss'" (click)="goToComun()">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Статистика</p>
-      <p class="link-menu-t1">Оселі</p>
+  <div class="menu" (click)="toggleAllMenu(1)" *ngIf="menu[1]">
+    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="t-lar-xx bold white t-e mr-2"
+      *ngIf="linkOpen[1]">Дії з оселею
     </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-chart-pie"></i></div>
-  </button>
 
-  <button class="link-menu" (click)="deleteSubscriber(chosenFlat)">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Видалити</p>
-      <p class="link-menu-t1">Оселю</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-user-xmark"></i></div>
-  </button>
+    <button *ngIf="linkOpen[1] && currentLocation === '/subscribers-user'"
+      [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link"
+      (click)="approveSubscriber(choseFlatId)">
+      <i class="fa-regular fa-thumbs-up"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Дискусія</p>
+        <p class="t-min">Ухвалити оселю до Дискусії</p>
+      </div>
+    </button>
 
-  <button class="link-menu" (click)="reportHouse(chosenFlat)">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Надіслати</p>
-      <p class="link-menu-t1">Скаргу</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
-  </button>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" (click)="goToComun()"
+      *ngIf="linkOpen[1] && currentLocation === '/subscribers-discuss'">
+      <i class="fa-solid fa-chart-pie"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Статистика</p>
+        <p class="t-min">Переглянути статистику оселі</p>
+      </div>
+    </button>
 
-  <button class="link-menu" (click)="copyToClipboard(chosenFlat.flat.flat_id, 'ID оселі ' + chosenFlat.flat.flat_id)">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Копіювати</p>
-      <p class="link-menu-t1">ID Оселі</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-fingerprint"></i></div>
-  </button>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
+      (click)="reportHouse(chosenFlat)" *ngIf="linkOpen[1]">
+      <i class="fa-solid fa-masks-theater"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Скарга</p>
+        <p class="t-min">Відправити скаргу на оселю</p>
+      </div>
+    </button>
 
-  <a class="link-menu" *ngIf="chosenFlat.flat.region && chosenFlat.flat.city && chosenFlat.flat.street"
-    (click)="openMap()">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Відкрити</p>
-      <p class="link-menu-t1">Локацію Оселі на мапі</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-location-dot"></i></div>
-  </a>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link"
+      (click)="deleteSubscriber(chosenFlat)" *ngIf="linkOpen[1]">
+      <i class="fa-solid fa-user-xmark"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Видалити</p>
+        <p class="t-min">Видалити Оселю з меню</p>
+      </div>
+    </button>
 
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discuss' && !chatExists" (click)="createChat(chosenFlat.flat.flat_id)">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Створити</p>
-      <p class="link-menu-t1">Чат</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-regular fa-message"></i></div>
-  </button>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="createChat(chosenFlat.flat.flat_id)"
+      *ngIf="linkOpen[1] && !chatExists && currentLocation === '/subscribers-discuss'">
+      <i class="fa-solid fa-message"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Чат</p>
+        <p class="t-min">Створити чат</p>
+      </div>
+    </button>
 
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discuss' && chatExists" (click)="openChat()">
-    <div class="flex-column w-80">
-      <p class="link-menu-t2">Надіслати</p>
-      <p class="link-menu-t1">Повідомлення</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-regular fa-message"></i></div>
-  </button>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="openChat()"
+      *ngIf="linkOpen[1] && chatExists && currentLocation === '/subscribers-discuss'">
+      <i class="fa-solid fa-message"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Написати</p>
+        <p class="t-min">Написати повідомлення</p>
+      </div>
+    </button>
+
+
+
+  </div>
 </div>

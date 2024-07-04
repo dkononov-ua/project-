@@ -128,11 +128,11 @@ export class SelectionHousingComponent implements OnInit {
     if (direction === 'right' && this.indexPage !== 0) {
       this.indexPage--;
     } else if (direction === 'right' && this.indexPage === 0 && this.selectedFlatId) {
-      this.router.navigate(['/house/house-info']);
+      this.router.navigate(['/house']);
     } else if (direction !== 'right' && this.indexPage !== 1) {
       this.indexPage++;
     } else if (direction !== 'right' && this.indexPage === 1 && this.selectedFlatId) {
-      this.router.navigate(['/house/house-info']);
+      this.router.navigate(['/house']);
     } else {
       this.router.navigate(['/user/info']);
     }
@@ -209,7 +209,7 @@ export class SelectionHousingComponent implements OnInit {
   selectFlat(flat: any): void {
     const houseData = localStorage.getItem('houseData');
     if (houseData && this.chooseFlatID === flat.flat_id) {
-      this.router.navigate(['/house/house-info']);
+      this.router.navigate(['/house']);
     } else {
       const userJson = localStorage.getItem('user');
       if (userJson && flat) {
@@ -237,7 +237,7 @@ export class SelectionHousingComponent implements OnInit {
                 // console.log(this.houseData)
                 if (this.houseData && this.houseData.status === true) {
                   setTimeout(() => {
-                    this.router.navigate(['/house/house-info']);
+                    this.router.navigate(['/house']);
                     this.sharedService.setStatusMessage('');
                   }, 1500);
                 } else {

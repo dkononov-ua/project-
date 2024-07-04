@@ -104,8 +104,13 @@
 
 .detail-wrapper {
   @include box-shadow;
-  min-width: 350px;
   max-width: 500px;
+  @include s3-s6-max {
+    min-width: 400px;
+  }
+  @include s1-s3 {
+    width: 95%;
+  }
   background-color: $color-dark;
   border-radius: 20px;
   padding: 10px;
@@ -116,5 +121,30 @@
     position: sticky;
     top: 0;
     border-radius: 50%;
+  }
+}
+
+.status-subscription {
+  transition: 1s;
+  @include flex-box-center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  // background-color: rgba(48, 46, 46, 0.277);
+  background-image: linear-gradient(to top, transparent 10%, rgba(104, 100, 100, 0.786) 100%);
+  height: 100%;
+  width: 100%;
+  transform: 1s;
+  overflow: hidden;
+  .status-text {
+    font-size: 40px;
+    color: $color-accent;
+    font-weight: 300;
+    border: 1px solid $color-accent;
+    border-radius: 20px;
+    rotate: -7deg;
+    background-color: rgba(255, 255, 255, 0.734);
+    @include box-shadow-a;
   }
 }

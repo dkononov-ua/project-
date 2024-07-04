@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { CardsDataHouseService } from '../services/house-components/cards-data-house.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 export class FilterUserService {
 
   private filterValue: any;
-  private optionsFound: number | undefined;
+  counterFound$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   user$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
   loadCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -15,13 +16,16 @@ export class FilterUserService {
   showedCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   blockBtnStatus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor() { }
+  constructor(private cardsDataHouseService: CardsDataHouseService) { }
 
-  updateFilter(filterValue: any, optionsFound: number) {
+  updateFilter(filterValue: any, counterFound: number) {
     this.filterValue = filterValue;
-    this.optionsFound = optionsFound;
+    // console.log(this.filterValue)
+    this.counterFound$.next(counterFound);
     if (this.filterValue) {
       this.filterChange$.next(filterValue);
+      // console.log(filterValue)
+      this.cardsDataHouseService.setCardsData(filterValue);
     }
   }
 
@@ -29,9 +33,9 @@ export class FilterUserService {
     return this.filterValue;
   }
 
-  getOptionsFound() {
-    return this.optionsFound;
-  }
+  // getOptionsFound() {
+  //   return this.counterFound;
+  // }
 
   loadCards(loadCards: string) {
     // console.log(loadCards);

@@ -13,6 +13,9 @@ span {
   @include s3-s6-max {
     width: 98% !important;
   }
+  @include s1-s3 {
+    overflow: visible !important;
+  }
 }
 
 .card-content {

@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
   goToHouse() {
     if (this.authorizationHouse) {
       setTimeout(() => {
-        this.router.navigate(['/house/house-info']);
+        this.router.navigate(['/house']);
       }, 100);
     } else {
       this.sharedService.setStatusMessage('Переходимо до вибору оселі');

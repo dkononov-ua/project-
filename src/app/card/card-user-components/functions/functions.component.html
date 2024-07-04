@@ -1,51 +1,69 @@
-<div class="p-2" [@top4] *ngIf="user">
-
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-house'" (click)="approveSubscriber(user)">
-    <div class="flex-column pl-4 w-80">
-      <p class="link-menu-t1">Ухвалити до</p>
-      <p class="link-menu-t2">Дискусії</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-regular fa-thumbs-up"></i></div>
+<div class="menu-container" *ngIf="user">
+  <button [disabled]="disabledBtn" class="btn" (click)="toggleAllMenu(1)">
+    <i class="fa-solid fa-people-arrows"></i>
+    <div class="t-min bold">Дії</div>
   </button>
-
-  <button class="link-menu" (click)="reportUser(user)">
-    <div class="flex-column pl-4 w-80">
-      <p class="link-menu-t1">Відправити</p>
-      <p class="link-menu-t2">Скаргу</p>
+  <div class="menu" (click)="toggleAllMenu(1)" *ngIf="menu[1]">
+    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="t-lar-xx bold white t-e mr-2"
+      *ngIf="linkOpen[1]">Дії з користувачем
     </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
-  </button>
 
-  <button class="link-menu" (click)="deleteUser(user)">
-    <div class="flex-column pl-4 w-80">
-      <p class="link-menu-t1">Видалити</p>
-      <p class="link-menu-t2">Користувача</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-user-xmark"></i></div>
-  </button>
+    <button [disabled]="currentLocation !== '/subscribers-house'" *ngIf="linkOpen[1]"
+      [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link"
+      (click)="approveSubscriber(user)">
+      <i class="fa-regular fa-thumbs-up"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-house'">Доступно в Підписниках </span>Дискусія</p>
+        <p class="t-min">Ухвалити користувача до Дискусії</p>
+      </div>
+    </button>
 
-  <button class="link-menu" *ngIf="currentLocation === '/subscribers-discus'" [routerLink]="['/agree-create', user.user_id]">
-    <div class="flex-column pl-4 w-80">
-      <p class="link-menu-t1">Створити</p>
-      <p class="link-menu-t2">Угоду</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-file-contract"></i></div>
-  </button>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" (click)="reportUser(user)"
+      *ngIf="linkOpen[1]">
+      <i class="fa-solid fa-masks-theater"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Скарга</p>
+        <p class="t-min">Відправити скаргу на користувача</p>
+      </div>
+    </button>
 
-  <button class="link-menu" *ngIf="!chatExists && currentLocation === '/subscribers-discus'" (click)="createChat()">
-    <div class="flex-column pl-4 w-80">
-      <p class="link-menu-t1">Створити</p>
-      <p class="link-menu-t2">Чат</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
-  </button>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link" (click)="deleteUser(user)"
+      *ngIf="linkOpen[1] && currentLocation !== '/search-tenants'">
+      <i class="fa-solid fa-user-xmark"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Видалити</p>
+        <p class="t-min">Видалити користувача з меню</p>
+      </div>
+    </button>
 
-  <button class="link-menu" *ngIf="chatExists && currentLocation === '/subscribers-discus'" (click)="openChat()">
-    <div class="flex-column pl-4 w-80">
-      <p class="link-menu-t1">Написати</p>
-      <p class="link-menu-t2">Повідомлення</p>
-    </div>
-    <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
-  </button>
+    <button [disabled]="currentLocation !== '/subscribers-discus'" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link"
+      [routerLink]="['/agree-create', user.user_id]" *ngIf="linkOpen[1]" >
+      <i class="fa-solid fa-file-contract"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discus'">Доступно в Дискусії </span>Угода</p>
+        <p class="t-min">Створити угоду оренди</p>
+      </div>
+    </button>
 
+    <button [disabled]="currentLocation !== '/subscribers-discus'" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="createChat()"
+      *ngIf="linkOpen[1] && !chatExists">
+      <i class="fa-solid fa-message"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discus'">Доступно в Дискусії </span>Чат</p>
+        <p class="t-min">Створити чат</p>
+      </div>
+    </button>
+
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="openChat()"
+      *ngIf="linkOpen[1] && chatExists && currentLocation === '/subscribers-discus'">
+      <i class="fa-solid fa-message"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Написати</p>
+        <p class="t-min">Написати повідомлення</p>
+      </div>
+    </button>
+
+
+
+  </div>
 </div>

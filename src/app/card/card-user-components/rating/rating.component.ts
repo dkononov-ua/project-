@@ -29,7 +29,7 @@ import { Location } from '@angular/common';
     animations.left1,
     animations.left2,
     animations.left3,
-    animations.swichCard,
+    animations.fadeIn,
   ],
 })
 export class RatingComponent implements OnInit {

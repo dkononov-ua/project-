@@ -2,8 +2,8 @@
 
   <div [@top4] class="main-param mb-2">
     <div class="left">
-      <p class="t-c t-min"><i class="fa-solid fa-star"></i> <br> Рейтинг <br> Користувача</p>
-      <p class="t-c t-lar-x bold">ID: {{ user.user_id }}</p>
+      <p class="t-c t-min white"><i class="fa-solid fa-star white"></i> <br> Рейтинг <br> Користувача</p>
+      <p class="t-c t-lar-x bold white">ID: {{ user.user_id }}</p>
     </div>
     <div class="right">
 
@@ -34,10 +34,8 @@
         </div>
 
         <div class="flex-box flex-column w-20">
-          <button [disabled]="disabledBtn" class="btn-open" *ngIf="currentLocation !== '/user/info'"
-            [ngClass]="{ 'active': menu[4]}" (click)="toggleLinks(4)">
+          <button class="btn-open" *ngIf="currentLocation !== '/user/info'" (click)="toogleOpen()">
             <i class="fa-solid fa-pen-nib" matTooltip="Перегляд Відгуків"></i>
-            <!-- <div class="t-min">Налашт.</div> -->
           </button>
         </div>
 
@@ -45,10 +43,10 @@
     </div>
   </div>
 
-  <div class="links-box" *ngIf="menu[4]">
-    <div *ngIf="links[4]" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
+  <div [@fadeIn] class="detail p-2" *ngIf="detail">
+    <div class="detail-wrapper t-c">
+      <button class="btn-close bg-white p-2" (click)="toogleOpen()"></button>
+      <div class="t-lar-x white p-2">Відгуки про користувача</div>
       <app-reviews></app-reviews>
     </div>
   </div>
-
-</div>

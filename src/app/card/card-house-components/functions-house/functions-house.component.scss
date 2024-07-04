@@ -1,167 +1,81 @@
 @use "../../../style/presets/" as *;
 @use "../../../style/mixins/" as *;
 
-// панель з кнопками функцій в Дискусії та Пошуку
-.panel-container {
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: $color-white;
-  border-radius: 20px 20px 0 0;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  justify-content: flex-start;
-  .wrapper {
-    @include flex-box;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px;
-    .btn-panel {
-      @include flex-box-column;
-      justify-content: space-between;
-      background-color: transparent;
-      border: none;
-      width: 60px;
-      height: 50px;
-      border-radius: 50%;
-      transition: 0.5s;
-      .panel-icon {
-        height: 100%;
-        @include flex-box-center;
-        .fa-solid,
-        .fa-regular {
-          font-size: 30px;
-          color: $color-text;
-        }
-        .fa-star,
-        .fa-image {
-          font-size: 15px;
-        }
-      }
-      .t-min {
-        font-size: 10px;
-      }
-      .img-btn {
-        @include flex-box;
-        background-color: transparent;
-        border-radius: 50%;
-        border: none;
-        width: 80px;
-        .fa-solid,
-        .fa-regular {
-          color: $color-dark;
-        }
-      }
-      &:hover {
-        color: $color-accent;
-        .panel-icon {
-          .fa-solid,
-          .fa-regular {
-            transition: 0.5s;
-            color: $color-accent;
-          }
-        }
-      }
-      &:disabled {
-        color: $color-gray;
-        .panel-icon {
-          .fa-regular,
-          .fa-solid {
-            color: $color-gray;
-          }
-        }
-      }
-    }
-  }
-}
-
-
-.navbar {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  flex-direction: column;
-  padding: 10px;
-}
-
-// Кнопки функціоналу
-.link-menu {
+.menu-container {
   @include flex-box-center;
-  justify-content: space-between;
-  position: relative;
   width: 100%;
-  height: 60px;
-  color: $color-text;
-  text-align: start;
-  text-transform: uppercase;
-  margin: 0 0 5px 0;
-  padding: 10px;
-  border-radius: 20px;
-  background-color: rgba(128, 128, 128, 0.154);
-  border: 1px solid rgba(128, 128, 128, 0.237);
-  .link-menu-t1 {
-    font-size: $t-med;
+  padding: 5px;
+}
+
+.btn {
+  background-color: transparent;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+}
+
+.menu {
+  @include flex-box-center;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.736);
+  @include s1-s3 {
+    justify-content: flex-end;
+    padding-bottom: 20px;
   }
-  .link-menu-t2 {
+  .link {
+    &:disabled {
+      background-color: $color-gray;
+      box-shadow: 2px 2px 2px 4px $color-gray;
+      color: rgb(82, 82, 82);
+      .fa-solid,
+      .fa-regular {
+        color: rgb(82, 82, 82);
+      }
+    }
+    @include flex-box-center;
+    border: none;
+    height: 6vh;
+    padding: 5px;
+    justify-content: space-between;
+    margin: 7px;
+    position: relative;
+    background-color: $color-white;
     font-weight: 600;
-    font-size: 20px;
-  }
-  .link-icon {
-    padding: 0 10px;
-  }
-  .link-text {
-    font-size: 14px;
-    font-family: $font-main;
-  }
-  .fa-solid,
-  .fa-regular {
-    color: $color-text;
-    font-size: 30px;
-  }
-  &:hover {
-    transform: scale(1.1);
-    border-radius: 0px;
-    color: $color-accent;
-    transition: 1s;
-    filter: drop-shadow(0px 0px 10px $color-accent);
-    .link-menu-t2,
-    .link-menu-t1 {
-      color: $color-accent;
+    text-transform: capitalize;
+    border-radius: 10px;
+    min-width: 350px;
+    box-shadow: 2px 2px 2px 4px $color-white;
+    .status {
+      @include flex-box-center;
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-15px);
+      width: 30px;
+      height: 30px;
+      background-color: $color-accent;
+      color: $color-white;
+      border-radius: 50%;
+
+      .fa-envelope-open-text {
+        color: $color-white;
+        font-size: 15px;
+      }
     }
-    .flex-column {
-      transform: translateX(40px);
-      transition: 1s;
-    }
-    .link-icon {
-      transform: translateX(-40px);
-      transition: 1s;
-    }
+  }
+  .link.active {
+    background-color: $color-accent;
+    color: $color-white;
+    box-shadow: 2px 2px 2px 4px $color-accent;
     .fa-solid,
     .fa-regular {
-      color: $color-accent;
-      transition: 1s;
+      color: $color-white;
     }
-  }
-  &.active {
-    transform: scale(1.1);
-    color: $color-accent;
-    transition: 1s;
-    filter: drop-shadow(0px 0px 10px $color-accent);
-    .link-menu-t2,
-    .link-menu-t1 {
-      color: $color-accent;
-    }
-    .fa-solid,
-    .fa-regular {
-      color: $color-accent;
-      transition: 1s;
-    }
-  }
-  &:disabled {
-    pointer-events: none;
-    cursor: not-allowed;
-    background-color: transparent;
   }
 }

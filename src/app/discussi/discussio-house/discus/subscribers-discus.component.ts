@@ -14,17 +14,19 @@ import { SharedService } from 'src/app/services/shared.service';
   animations: [
     animations.left,
     animations.left1,
+    animations.right1,
     animations.left2,
     animations.left3,
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.appearance,
   ],
 })
 
 export class SubscribersDiscusComponent implements OnInit, OnDestroy {
 
-  indexPage: number = 1;
+  indexPage: number = 0;
   selectedUserId: any;
   page: any;
   counterFound: number = 0;
@@ -47,7 +49,7 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
     private location: Location,
     private cardsDataHouseService: CardsDataHouseService,
     private sharedService: SharedService,
-  ) {  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.counterService.getHouseDiscussioCount(0);
@@ -71,21 +73,21 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.counterService.counterHouseDiscussio$.subscribe(data => {
         this.counterFound = Number(data);
+        // console.log(data)
       })
     );
 
-    // Підписка на зміну параметрів маршруту
-    this.subscriptions.push(
-      this.route.queryParams.subscribe(params => {
-        this.page = params['indexPage'] || 1;
-        this.indexPage = Number(this.page);
-      })
-    );
   }
 
   ngOnDestroy() {
     this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
+    this.closeUser();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  closeUser() {
+    this.choseSubscribersService.removeChosenUserId();
+    this.indexPage = 1;
   }
 
   // відправляю event початок свайпу

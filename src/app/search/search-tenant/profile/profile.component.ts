@@ -1,9 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Subject } from 'rxjs';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -14,6 +11,10 @@ import { UserInfo } from 'src/app/interface/info';
 import { GestureService } from 'src/app/services/gesture.service';
 import { CounterService } from 'src/app/services/counter.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
+import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
+import { animations } from '../../../interface/animation';
 
 @Component({
   selector: 'app-profile',
@@ -23,22 +24,24 @@ import { StatusDataService } from 'src/app/services/status-data.service';
   animations: [
     trigger('cardSwipe', [
       transition('void => *', [
-        style({ transform: 'scale(0.8)', opacity: 0 }),
+        style({ transform: 'scale(0.6)', opacity: 0 }),
         animate('600ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
       ]),
       transition('left => *', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(-100%)' })),
+        style({ transform: 'translateX(0%)', opacity: 1 }),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(-100%)', opacity: 0 })),
       ]),
       transition('right => *', [
-        style({ transform: 'translateX(0%)' }),
-        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(100%)' })),
+        style({ transform: 'translateX(0%)', opacity: 1 }),
+        animate('600ms 0ms ease-in-out', style({ transform: 'translateX(100%)', opacity: 0 })),
       ]),
     ]),
+    animations.appearance,
   ]
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
+
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -47,40 +50,27 @@ export class ProfileComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  // розшифровка пошукових параметрів
-  purpose = purpose;
-  aboutDistance = aboutDistance;
-  option_pay = option_pay;
-  animals = animals;
-
-  // рейтинг орендара
-  ratingTenant: number | undefined;
-  // параметри користувача
   isSubscribed: boolean = false;
-  subscriptionMessage: string | undefined;
   userInfo: UserInfo[] = [];
-  filteredUsers: UserInfo[] | undefined;
+  allCards: UserInfo[] | undefined;
   selectedUser: UserInfo | any;
   // параметри оселі
-  selectedFlatId!: string | null;
+  selectedFlatId!: number | null;
   // статуси
   currentCardIndex: number = 0;
-  subscriptionStatus: any;
+  subscriptionStatus: number = 0;
   statusMessage: any;
-  loading = true;
   optionsFound: number = 0;
-  card_info: number = 0;
-  indexPage: number = 1;
-  numberOfReviews: any;
-  totalDays: any;
-  reviews: any;
+  indexPage: number = 0;
   cardSwipeState: string = '';
   cardDirection: string = 'Discussio';
-  card1: boolean = true;
-  card2: boolean = false;
   startX = 0;
   isLoadingImg: boolean = false;
   authorizationHouse: boolean = false;
+  selectedUserId: number | undefined;
+
+  switchCard: number = 1;
+  isSelectedUserId: boolean = false;
 
   seeReviews() {
     if (this.authorizationHouse) {
@@ -92,32 +82,100 @@ export class ProfileComponent implements OnInit {
       }, 2000);
     }
   }
+  subscriptions: any[] = [];
+  isMobile = false;
 
   constructor(
     private filterService: FilterUserService,
-    private formBuilder: FormBuilder,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
     private counterService: CounterService,
     private statusDataService: StatusDataService,
+    private choseSubscribersService: ChoseSubscribersService,
+    private cardsDataHouseService: CardsDataHouseService,
+    private cardsDataService: CardsDataService,
   ) { }
 
   ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+    this.getCheckDevice();
+    this.getServerPath();
     this.getSelectedFlat();
-    this.getUser();
+    this.getAllCardsData();
   }
 
-  getUser() {
-    this.filterService.user$.subscribe(user => {
-      // console.log(house);
-      if (user) {
-        this.selectUser(user);
-      }
-    });
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = Number(flatId);
+        if (!this.selectedFlatId) {
+          this.authorizationHouse = false;
+        } else {
+          this.authorizationHouse = true;
+        }
+      })
+    )
+  }
+
+  // підписка на отримання даних по всім знайденим карткам
+  async getAllCardsData() {
+    this.subscriptions.push(
+      this.cardsDataHouseService.cardsData$.subscribe(async (data: any) => {
+        this.allCards = data;
+        if (this.allCards) {
+          this.getСhoseUserID();
+        }
+      })
+    );
+  }
+
+  // Підписка на отримання айді обраного юзера
+  async getСhoseUserID() {
+    this.subscriptions.push(
+      this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
+        this.selectedUserId = Number(selectedSubscriber);
+        // console.log(this.selectedUserId)
+        if (this.selectedUserId) {
+          this.isSelectedUserId = false;
+          this.findUserCardIndex(this.selectedUserId);
+        } else {
+          this.isSelectedUserId = true;
+        }
+      })
+    )
+  }
+
+  // Шукаю номер юзера в масиві за його айді
+  findUserCardIndex(cardId: number) {
+    const index = this.allCards?.findIndex(card => Number(card.user_id) === cardId);
+    if (index !== undefined && index !== -1) {
+      this.currentCardIndex = index;
+      // console.log(this.currentCardIndex)
+      this.autoSelectUser();
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   // відправляю event початок свайпу
@@ -143,8 +201,6 @@ export class ProfileComponent implements OnInit {
       this.cardDirection = 'Наступна';
       this.cardSwipeState = 'left';
       setTimeout(() => {
-        this.card1 = !this.card1;
-        this.card2 = !this.card2;
         this.onNextCard();
         this.cardSwipeState = 'endLeft';
         setTimeout(() => {
@@ -155,8 +211,6 @@ export class ProfileComponent implements OnInit {
       this.cardDirection = 'Попередня';
       this.cardSwipeState = 'right';
       setTimeout(() => {
-        this.card1 = !this.card1;
-        this.card2 = !this.card2;
         this.onPrevCard();
         this.cardSwipeState = 'endRight';
         setTimeout(() => {
@@ -166,103 +220,53 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  toggleIndexPage() {
-    if (this.indexPage === 1) {
-      this.indexPage = 2;
-    } else {
-      this.indexPage = 1;
+  onPrevCard() {
+    if (this.currentCardIndex !== 0) {
+      this.currentCardIndex--;
+      setTimeout(() => {
+        this.selectedCard();
+      }, 500);
     }
   }
 
-  async getSelectedFlat() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (!this.selectedFlatId) {
-        this.authorizationHouse = false;
-      } else {
-        this.authorizationHouse = true;
+  onNextCard() {
+    if (this.currentCardIndex < this.allCards!.length - 1) {
+      this.currentCardIndex++;
+      // console.log(this.currentCardIndex)
+      setTimeout(() => {
+        this.selectedCard();
+      }, 500);
+    }
+  }
+
+  autoSelectUser() {
+    this.selectedUser = undefined;
+    this.subscriptionStatus = 0;
+    setTimeout(() => {
+      this.selectedUser = this.allCards![this.currentCardIndex];
+      if (this.selectedUser.user_id !== this.selectedUserId) {
+        this.choseSubscribersService.setSelectedSubscriber(this.selectedUser.user_id);
       }
-      this.getSearchInfo();
-    });
+      if (this.selectedUser) {
+        this.checkSubscribe(this.selectedUser.user_id);
+        this.cardsDataHouseService.selectCard();
+      }
+    }, 50);
   }
 
-  async getSearchInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.filterService.filterChange$.subscribe(async () => {
-        const filterValue = this.filterService.getFilterValue();
-        const optionsFound = this.filterService.getOptionsFound();
-        if (filterValue && optionsFound && optionsFound !== 0) {
-          this.getFilteredData(filterValue, optionsFound);
-        } else {
-          this.getFilteredData(undefined, 0);
-        }
-      })
-    } else {
-      console.log('Авторизуйтесь')
-    }
-  }
-
-  getFilteredData(filterValue: any, optionsFound: number) {
-    if (filterValue) {
-      this.filteredUsers = filterValue;
-      // console.log(this.filteredUsers)
-      this.optionsFound = optionsFound;
-      // this.selectedUser = this.filteredUsers![0];
-      this.loading = false;
-    } else {
-      this.optionsFound = 0;
-      this.filteredUsers = undefined;
-      this.selectedUser = undefined;
-      this.loading = false;
-    }
-  }
-
-  async selectUser(user: UserInfo) {
-    this.reviews = [];
-    this.indexPage = 1;
-    this.currentCardIndex = this.filteredUsers!.indexOf(user);
-    this.selectedUser = user;
-    // console.log(this.selectedUser);
-    this.statusDataService.setStatusData(this.selectedUser);
-    await this.getRating(this.selectedUser)
-    await this.checkSubscribe();
-    await this.calculateTotalDays()
-  }
-
-  async onPrevCard() {
-    this.reviews = [];
-    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
-    this.selectedUser = this.filteredUsers![this.currentCardIndex];
-    this.statusDataService.setStatusData(this.selectedUser);
-    await this.getRating(this.selectedUser)
-    await this.checkSubscribe();
-    await this.calculateTotalDays()
-  }
-
-  async onNextCard() {
-    this.reviews = [];
-    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
-    this.selectedUser = this.filteredUsers![this.currentCardIndex];
-    this.statusDataService.setStatusData(this.selectedUser);
-    await this.getRating(this.selectedUser)
-    await this.checkSubscribe();
-    await this.calculateTotalDays()
-  }
-
-  private calculateCardIndex(index: number): number {
-    const length = this.filteredUsers?.length || 0;
-    return (index + length) % length;
-  }
-
-  async calculateTotalDays(): Promise<number> {
-    const days = this.selectedUser.days || 0;
-    const weeks = this.selectedUser.weeks || 0;
-    const months = this.selectedUser.months || 0;
-    const years = this.selectedUser.years || 0;
-    const totalDays = days + weeks * 7 + months * 30 + years * 365;
-    this.totalDays = totalDays;
-    return totalDays;
+  // Очищую selectedUser потім встановлюю обраного користувача по його номеру в масиві та запускаю тригер
+  // в сервісі для того щоб він передав у всі інші компоненти дані обраного користувача
+  selectedCard() {
+    this.selectedUser = undefined;
+    this.subscriptionStatus = 0;
+    setTimeout(() => {
+      this.selectedUser = this.allCards![this.currentCardIndex];
+      this.choseSubscribersService.setSelectedSubscriber(this.selectedUser.user_id);
+      if (this.selectedUser) {
+        this.checkSubscribe(this.selectedUser.user_id);
+        this.cardsDataHouseService.selectCard();
+      }
+    }, 50);
   }
 
   // Підписуюсь
@@ -280,7 +284,7 @@ export class ProfileComponent implements OnInit {
         } else {
           this.subscriptionStatus = 1;
         }
-        this.checkSubscribe();
+        this.checkSubscribe(this.selectedUser.user_id);
       } catch (error) {
         console.error(error);
         this.statusMessage = 'Щось пішло не так, повторіть спробу';
@@ -295,10 +299,10 @@ export class ProfileComponent implements OnInit {
   }
 
   // Перевіряю підписку
-  async checkSubscribe(): Promise<void> {
+  async checkSubscribe(user_id: number): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedUser.user_id && this.selectedFlatId) {
-      const data = { auth: JSON.parse(userJson), user_id: this.selectedUser.user_id, flat_id: this.selectedFlatId };
+    if (userJson && user_id && this.selectedFlatId) {
+      const data = { auth: JSON.parse(userJson), user_id: user_id, flat_id: this.selectedFlatId };
       try {
         const response: any = await this.http.post(this.serverPath + '/usersubs/checkSubscribe', data).toPromise();
         // console.log(response.status)
@@ -321,60 +325,11 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  async reportUser(user: any): Promise<void> {
-    this.sharedService.reportUser(user);
-    this.sharedService.getReportResultSubject().subscribe(result => {
-      // Обробка результату в компоненті
-      if (result.status === true) {
-        this.statusMessage = 'Скаргу надіслано';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      } else {
-        this.statusMessage = 'Помилка';
-        setTimeout(() => {
-          this.statusMessage = '';
-        }, 2000);
-      }
-    });
+  closeUser() {
+    this.selectedUser = undefined;
+    this.choseSubscribersService.removeChosenUserId();
+    this.choseSubscribersService.setIndexPage(2);
   }
-
-  async getRating(selectedUser: any): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/rating/get/userMarks';
-    const data = {
-      auth: JSON.parse(userJson!),
-      user_id: selectedUser.user_id,
-    };
-
-    try {
-      const response = await this.http.post(url, data).toPromise() as any;
-      if (response && Array.isArray(response.status)) {
-        this.reviews = response.status;
-        let totalMarkTenant = 0;
-        this.numberOfReviews = response.status.length;
-        response.status.forEach((item: any) => {
-          if (item.info.mark) {
-            totalMarkTenant += item.info.mark;
-          }
-        });
-        // Після того як всі оцінки додані, ділимо загальну суму на кількість оцінок
-        if (this.numberOfReviews > 0) {
-          this.ratingTenant = totalMarkTenant / this.numberOfReviews;
-        } else {
-          this.ratingTenant = 0;
-        }
-        // console.log('Кількість відгуків:', this.numberOfReviews);
-      } else {
-        this.reviews = undefined;
-        this.numberOfReviews = 0;
-        this.ratingTenant = 0;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
 
 }
 

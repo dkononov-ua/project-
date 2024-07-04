@@ -5,6 +5,7 @@
 .switch-container {
   @include s1-s3 {
     justify-content: space-around !important;
+    background-image: linear-gradient(to top, transparent 0%, rgba(255, 255, 255, 0.791) 40%);
   }
 }
 
@@ -25,7 +26,6 @@
   flex-wrap: wrap;
   align-items: stretch;
   flex-direction: column;
-
 }
 
 .card-group {
@@ -36,6 +36,9 @@
 .card-content-static {
   flex-direction: column !important;
   border-radius: 0px !important;
+  @include s1-s3 {
+    overflow: visible !important;
+  }
   @include s3-s6-max {
     background-color: transparent !important;
   }

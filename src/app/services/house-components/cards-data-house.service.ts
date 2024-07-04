@@ -96,8 +96,9 @@ export class CardsDataHouseService {
 
   setCardsData(data: any): void {
     // console.log('setCardsData')
-    // console.log(data)
     this.cardsDataSubject.next(data);
+    this.allCards = data;
+    this.selectCard();
   }
 
   removeCardsData() {
@@ -108,7 +109,7 @@ export class CardsDataHouseService {
   selectCard() {
     // console.log('selectCard')
     if (this.choseUserId && this.allCards) {
-      const chosenUser = this.allCards.find((user: any) => user.user_id === this.choseUserId);
+      const chosenUser = this.allCards.find((user: any) => user.user_id === Number(this.choseUserId));
       if (chosenUser) {
         this.setCardData(chosenUser)
         // (chosenUser?.owner, 1 => запитую різні рейтинги якщо 1 то я запитую і показую тільки рейтинг власника

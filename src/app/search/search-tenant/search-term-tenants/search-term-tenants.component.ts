@@ -1,18 +1,16 @@
 import { regions } from '../../../data/data-city';
 import { cities } from '../../../data/data-city';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FilterUserService } from '../../filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { PageEvent } from '@angular/material/paginator';
 import * as ServerConfig from 'src/app/config/path-config';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { UserConfig } from '../../../interface/param-config'
 import { UserInfoSearch } from '../../../interface/info'
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-search-term-tenants',
@@ -31,7 +29,7 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 
-export class SearchTermTenantsComponent implements OnInit {
+export class SearchTermTenantsComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -127,6 +125,7 @@ export class SearchTermTenantsComponent implements OnInit {
   }
   isMobile = false;
   filterValue: string = '';
+  subscriptions: any[] = [];
 
   constructor(
     private filterUserService: FilterUserService,
@@ -138,16 +137,15 @@ export class SearchTermTenantsComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      // console.log(this.serverPath)
-    })
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkAuthorization();
+    this.getSelectedFlat();
+    this.getLoadCards();
+  }
+
+  // перевірію чи авторизований я і чи є в мене дані про оселю
+  checkAuthorization() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.houseData = localStorage.getItem('houseData');
@@ -159,9 +157,39 @@ export class SearchTermTenantsComponent implements OnInit {
     } else {
       this.myDataExist = false;
     }
-    this.getLoadCards();
-    this.getSelectedFlatId();
-    this.loading = false;
+  }
+
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId;
+        if (!this.selectedFlatId) {
+          this.selectedFlatId = '1';
+          this.searchFilter();
+        } else {
+          this.searchFilter();
+        }
+      })
+    );
   }
 
   // відправляю event початок свайпу
@@ -282,18 +310,6 @@ export class SearchTermTenantsComponent implements OnInit {
     } else {
       console.log('Авторизуйтесь')
     }
-  }
-
-  getSelectedFlatId() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (!this.selectedFlatId) {
-        this.selectedFlatId = '1';
-        this.searchFilter();
-      } else {
-        this.searchFilter();
-      }
-    });
   }
 
   // пошук
@@ -457,6 +473,11 @@ export class SearchTermTenantsComponent implements OnInit {
     this.router.navigate(['/search-house/all-cards']);
     this.filterUserService.sortTenants(value)
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 
 }
 

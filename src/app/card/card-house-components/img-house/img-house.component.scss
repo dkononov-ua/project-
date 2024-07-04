@@ -34,3 +34,15 @@
   background-color: $color-white;
   z-index: 10;
 }
+
+.func {
+  @include box-shadow;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 50;
+  background-color: $color-white;
+  border-radius: 50%;
+  margin: 10px;
+  overflow: hidden;
+}

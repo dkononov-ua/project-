@@ -47,7 +47,7 @@
       *ngIf="linkOpen[1] && authorization && selectedFlatId">
       <i class="fa-solid fa-boxes-packing"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Мешканці оселі</p>
+        <p class="t-lar-x">Наповнення оселі</p>
         <p class="t-min">Перегляд & Додавання & Видалення</p>
       </div>
     </button>
@@ -62,7 +62,7 @@
     </button>
 
     <button [@cardAnimation]="{value: '', params: { delay: animationDelay(7) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/house/house-info'"
+      [routerLinkActive]="'active'" [routerLink]="'/house'"
       *ngIf="linkOpen[1] && houseData && authorization">
       <i class="fa-solid fa-person-shelter"></i>
       <div class="flex-column pl-2 t-e">

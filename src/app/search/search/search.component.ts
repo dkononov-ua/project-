@@ -114,7 +114,7 @@ export class SearchComponent implements OnInit {
   }
 
   goToSearchTenants() {
-    this.router.navigate(['/search-tenants/filter']);
+    this.router.navigate(['/search-tenants']);
 
 
     // if (this.selectedFlatId) {

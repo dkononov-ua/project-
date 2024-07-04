@@ -9,7 +9,7 @@
     <i class="fa-solid fa-chevron-right"></i></button>
 </div>
 <div class="cards-container">
-  <div class="card-mini mb-3" *ngFor="let subscriber of allCards" (click)="onSelect(subscriber)"
+  <div class="card-mini mb-3" *ngFor="let subscriber of allCards" (click)="onSelect(subscriber.user_id)"
     [ngClass]="{ 'selected': subscriber.user_id == choseUser }">
     <div class="card-mini-img-container">
       <!-- якщо фото немає -->

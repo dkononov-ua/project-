@@ -2,8 +2,8 @@
 
   <div [@top4] class="main-param mb-2">
     <div class="left" *ngIf="house.flat_id">
-      <p class="t-c t-min"><i class="fa-solid fa-fingerprint"></i> <br> ID Оселі</p>
-      <p class="t-c t-lar-x bold">ID: {{ house.flat_id }}</p>
+      <p class="t-c t-min white"><i class="fa-solid fa-fingerprint white"></i> <br> ID Оселі</p>
+      <p class="t-c t-lar-x bold white">ID: {{ house.flat_id }}</p>
     </div>
     <div class="right">
       <p class="t-c t-med bold mt-2">Розташування оселі:</p>
@@ -48,7 +48,7 @@
         </div>
         <div class="flex-box flex-column w-20">
 
-          <button class="btn-open" (click)="toogleAdditional()" *ngIf="currentLocation === '/house/house-info'">
+          <button class="btn-open" (click)="toogleAdditional()" *ngIf="currentLocation === '/house'">
             <i class="fa-regular fa-address-book"></i>
             <!-- <div class="t-min">Більше</div> -->
           </button>
@@ -63,9 +63,9 @@
             <!-- <div class="t-min">Більше</div> -->
           </button>
 
-          <!-- <button class="btn-open" [routerLink]="'/edit-house/about'" *ngIf="currentLocation === '/house/house-info'">
+          <button class="btn-open" [routerLink]="'/edit-house/address'" *ngIf="currentLocation === '/house'">
             <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
-          </button> -->
+          </button>
         </div>
       </div>
     </div>
@@ -73,10 +73,9 @@
 
   <div [@top3] class="main-param">
     <div class="left">
-      <p class="t-c t-min"><i class="fa-solid fa-sign-hanging"></i> <br> Профіль Оселі </p>
-      <p class="t-c t-min" *ngIf=" house.rent === 1 && house.data"> <i class="fa-regular fa-clock"></i> Активовано <br> {{house.data | date}}
-        {{house.data
-        | date: 'HH:mm'}}</p>
+      <p class="t-c t-min white"><i class="fa-solid fa-sign-hanging white"></i> <br> Профіль Оселі </p>
+      <p class="t-c t-min white" *ngIf=" house.rent === 1 && house.data"> <i class="fa-regular fa-clock white mt-2"></i> Активовано <br> {{house.data | date}}
+        </p>
     </div>
     <div class="right">
       <p class="t-c t-med bold mt-2">Основні характеристики:</p>
@@ -106,19 +105,19 @@
 
           <div class="item-box m-1" *ngIf="house.price_m && house.option_pay === 0">
             <div mat-raised-button class="param-g flex-column">
-              <div class="bg-g t-lar-xx bold accent"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_m |
+              <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_m |
                 number:'1.0-0'
                 }}</div>
-              <div class="t-min bg-w accent">Ціна ₴/міс</div>
+              <div class="t-min bg-w">Ціна ₴/міс</div>
             </div>
           </div>
 
           <div class="item-box m-1" *ngIf="house.price_d && house.option_pay !== 0">
             <div mat-raised-button class="param-g flex-column">
-              <div class="bg-g t-lar-xx bold accent"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_d |
+              <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_d |
                 number:'1.0-0'
                 }}</div>
-              <div class="t-min bg-w accent">Ціна ₴/добу</div>
+              <div class="t-min bg-w">Ціна ₴/добу</div>
             </div>
           </div>
 
@@ -130,7 +129,7 @@
             <!-- <div class="t-min">Більше</div> -->
           </button>
 
-          <button class="btn-open" [routerLink]="'/edit-house/about'" *ngIf="currentLocation === '/house/house-info'">
+          <button class="btn-open" [routerLink]="'/edit-house/about'" *ngIf="currentLocation === '/house'">
             <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
             <!-- <div class="t-min">Налашт.</div> -->
           </button>

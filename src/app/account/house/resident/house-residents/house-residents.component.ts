@@ -86,7 +86,7 @@ export class HouseResidentsComponent implements OnInit {
   }
 
   onSubscriberSelect(subscriber: Subscriber): void {
-    this.choseSubscribersService.setSelectedSubscriber(subscriber.user_id);
+    this.choseSubscribersService.setSelectedSubscriber(Number(subscriber.user_id));
     this.selectedSubscriber = subscriber;
     this.selectedSubscriberId = subscriber.user_id;
     this.router.navigate(['/house/residents/resident']);

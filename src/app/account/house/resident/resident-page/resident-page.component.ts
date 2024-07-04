@@ -272,7 +272,7 @@ export class ResidentPageComponent implements OnInit {
   }
 
   // Надсилаю оцінку орендарю
-  sendRating(selectedSubscriber: any) {
+  async sendRating(selectedSubscriber: any) {
     // console.log('sendRating')
     const userJson = localStorage.getItem('user');
     const formattedDate = this.datePipe.transform(this.rating.ratingDate, 'yyyy-MM-dd');
@@ -285,7 +285,8 @@ export class ResidentPageComponent implements OnInit {
         about: this.rating.ratingComment,
         mark: this.rating.ratingValue,
       };
-      this.http.post(this.serverPath + '/rating/add/userRating', data).subscribe((response: any) => {
+      try {
+        const response: any = await this.http.post(this.serverPath + '/rating/add/userRating', data).toPromise() as any;
         let setMark = this.rating.ratingValue.toString();
         if (response.status === true && setMark === '5') {
           setTimeout(() => {
@@ -374,10 +375,9 @@ export class ResidentPageComponent implements OnInit {
         }, 4000);
         this.indexPersonMenu = 0;
         this.rating.ratingComment = '';
-
-      }, (error: any) => {
-        console.error(error);
-      });
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       console.log('Авторизуйтесь');
     }

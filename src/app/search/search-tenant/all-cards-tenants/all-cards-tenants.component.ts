@@ -13,6 +13,9 @@ import { UserInfo } from 'src/app/interface/info';
 import { GestureService } from 'src/app/services/gesture.service';
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
+import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
+import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 
 @Component({
   selector: 'app-all-cards-tenants',
@@ -63,7 +66,7 @@ export class AllCardsTenantsComponent implements OnInit {
   subscriptionStatus: any;
   statusMessage: any;
   loading = true;
-  optionsFound: number = 0;
+  counterFound: number = 0;
   card_info: number = 0;
   indexPage: number = 0;
   numberOfReviews: any;
@@ -77,6 +80,7 @@ export class AllCardsTenantsComponent implements OnInit {
   isLoadingImg: boolean = false;
   @ViewChild('findCards') findCardsElement!: ElementRef;
   authorizationHouse: boolean = false;
+  subscriptions: any[] = [];
 
   constructor(
     private filterService: FilterUserService,
@@ -86,7 +90,9 @@ export class AllCardsTenantsComponent implements OnInit {
     private sharedService: SharedService,
     private router: Router,
     private filterUserService: FilterUserService,
-
+    private choseSubscribersService: ChoseSubscribersService,
+    private cardsDataHouseService: CardsDataHouseService,
+    private cardsDataService: CardsDataService,
   ) { }
 
   ngOnInit(): void {
@@ -126,38 +132,38 @@ export class AllCardsTenantsComponent implements OnInit {
       } else {
         this.authorizationHouse = true;
       }
-      this.getSearchInfo();
+      this.getCounterFound();
     });
   }
 
-  async getSearchInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.filterService.filterChange$.subscribe(async () => {
-        const filterValue = this.filterService.getFilterValue();
-        const optionsFound = this.filterService.getOptionsFound();
-        if (filterValue && optionsFound && optionsFound !== 0) {
-          this.getFilteredData(filterValue, optionsFound);
+  async getCounterFound() {
+    // Підписка на отримання айді обраного юзера
+    this.subscriptions.push(
+      this.filterUserService.counterFound$.subscribe(number => {
+        const counterFound = number;
+        if (counterFound !== 0) {
+          this.counterFound = counterFound;
+          this.filterUserService.blockBtn(false)
         } else {
-          this.getFilteredData(undefined, 0);
+          this.counterFound = counterFound;
         }
       })
-    } else {
-      console.log('Авторизуйтесь')
-    }
+    )
   }
 
-  getFilteredData(filterValue: any, optionsFound: number) {
+  getFilteredData(filterValue: any, counterFound: number) {
     if (filterValue) {
       this.filteredUsers = filterValue;
+      // this.cardsDataHouseService.setCardsData(this.filteredUsers);
+
       // console.log(this.filteredUsers)
-      this.optionsFound = optionsFound;
+      this.counterFound = counterFound;
       if (!this.selectedUser) {
         this.selectedUser = this.filteredUsers![0];
       }
       this.loading = false;
     } else {
-      this.optionsFound = 0;
+      this.counterFound = 0;
       this.filteredUsers = undefined;
       this.selectedUser = undefined;
       this.loading = false;
@@ -168,8 +174,11 @@ export class AllCardsTenantsComponent implements OnInit {
     this.selectedUser = user;
     // console.log(user)
     this.filterService.pickUser(user);
+    this.choseSubscribersService.setSelectedSubscriber(this.selectedUser.user_id);
+    this.cardsDataHouseService.selectCard();
     this.router.navigate(['/search-tenants/tenants']);
   }
+
 
   private calculateCardIndex(index: number): number {
     const length = this.filteredUsers?.length || 0;

@@ -21,6 +21,7 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
     animations.top2,
     animations.top3,
     animations.top4,
+    animations.left2,
   ],
 })
 
@@ -41,6 +42,7 @@ export class ImgComponent implements OnInit, OnDestroy {
 
   subscriptions: any[] = [];
   currentPhotoIndex: number = 0;
+  currentLocation: string = '';
 
   constructor(
     private sharedService: SharedService,
@@ -50,7 +52,7 @@ export class ImgComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const currentLocation = this.location.path();
+    this.currentLocation = this.location.path();
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
@@ -61,12 +63,11 @@ export class ImgComponent implements OnInit, OnDestroy {
   }
 
   checkLocation() {
-    const currentLocation = this.location.path();
     // Якщо я в меню користувача
     if (
-      currentLocation === '/subscribers-discuss' ||
-      currentLocation === '/subscribers-user' ||
-      currentLocation === '/subscriptions-user'
+      this.currentLocation === '/subscribers-discuss' ||
+      this.currentLocation === '/subscribers-user' ||
+      this.currentLocation === '/subscriptions-user'
     ) {
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
@@ -76,18 +77,25 @@ export class ImgComponent implements OnInit, OnDestroy {
       );
       // Якщо я в меню оселі
     } else if (
-      currentLocation === '/subscribers-discus' ||
-      currentLocation === '/subscribers-house' ||
-      currentLocation === '/subscriptions-house'
+      this.currentLocation === '/subscribers-discus' ||
+      this.currentLocation === '/subscribers-house' ||
+      this.currentLocation === '/subscriptions-house'
     ) {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           // console.log(data)
-          this.user.img = data.img;
+          this.user = data;
         })
       );
-    } else if (currentLocation === '/user/info') {
+    } else if (this.currentLocation === '/user/info') {
       this.getInfoUser();
+    } else if (this.currentLocation === '/search-tenants') {
+      this.subscriptions.push(
+        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+          this.user = data;
+          // console.log(this.user)
+        })
+      );
     }
   }
 

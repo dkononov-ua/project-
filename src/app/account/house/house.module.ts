@@ -28,10 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './resident/resident.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActCreateComponent } from './agree-h/act-create/act-create.component';
-import { ParametersComponent } from './house-info/parameters/parameters.component';
-import { HouseShareComponent } from './house-info/house-share/house-share.component';
 import { HouseResidentsComponent } from './resident/house-residents/house-residents.component';
-import { MainInfoComponent } from './house-info/main-info/main-info.component';
 import { ResidentAccessComponent } from './resident/resident-access/resident-access.component';
 import { ResidentOwnerComponent } from './resident/resident-owner/resident-owner.component';
 import { ResidentPageComponent } from './resident/resident-page/resident-page.component';
@@ -40,7 +37,6 @@ import { AgreeHostComponent } from './agree-h/agree-host/agree-host.component';
 import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
 import { ResidentMenuComponent } from './resident/resident-menu/resident-menu.component';
 import { UserSearchComponent } from './resident/user-search/user-search.component';
-import { NavigationHouseComponent } from 'src/app/card/card-house-components/navigation-house/navigation-house.component';
 @NgModule({
   declarations: [
     HouseComponent,
@@ -48,11 +44,8 @@ import { NavigationHouseComponent } from 'src/app/card/card-house-components/nav
     AgreeDeleteComponent,
     AgreeMenuComponent,
     AgreeReviewComponent,
-    ParametersComponent,
-    HouseShareComponent,
     HouseResidentsComponent,
     ResidentComponent,
-    MainInfoComponent,
     ActCreateComponent,
     ResidentAccessComponent,
     ResidentOwnerComponent,
@@ -62,7 +55,6 @@ import { NavigationHouseComponent } from 'src/app/card/card-house-components/nav
     AgreeStepComponent,
     ResidentMenuComponent,
     UserSearchComponent,
-    NavigationHouseComponent,
   ],
   providers: [
     DatePipe,

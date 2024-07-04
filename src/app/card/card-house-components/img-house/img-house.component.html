@@ -16,4 +16,8 @@
 
     <div [@top] class="decor"></div>
   </div>
+
+  <div [@left2] class="func" *ngIf="currentLocation !== '/house'">
+    <app-functions-house></app-functions-house>
+  </div>
 </div>

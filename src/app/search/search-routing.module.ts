@@ -14,12 +14,12 @@ import { SearchComponent } from './search/search.component';
 const routes: Routes = [
   {
     path: 'search-tenants', component: SearchTenantComponent, canActivate: [CanActivateGuard],
-    children: [
-      { path: '', redirectTo: 'filter', pathMatch: 'full' },
-      { path: 'tenants', component: ProfileComponent, canActivate: [CanActivateGuard] },
-      { path: 'all-cards', component: AllCardsTenantsComponent, canActivate: [CanActivateGuard] },
-      { path: 'filter', component: SearchTermTenantsComponent, canActivate: [CanActivateGuard] },
-    ]
+    // children: [
+    //   { path: '', redirectTo: 'filter', pathMatch: 'full' },
+    //   { path: 'tenants', component: ProfileComponent, canActivate: [CanActivateGuard] },
+    //   { path: 'all-cards', component: AllCardsTenantsComponent, canActivate: [CanActivateGuard] },
+    //   { path: 'filter', component: SearchTermTenantsComponent, canActivate: [CanActivateGuard] },
+    // ]
   },
   {
     path: 'search-house', component: SearchHousingComponent,

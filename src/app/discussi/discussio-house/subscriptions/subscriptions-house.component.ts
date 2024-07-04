@@ -14,17 +14,19 @@ import { SharedService } from 'src/app/services/shared.service';
   animations: [
     animations.left,
     animations.left1,
+    animations.right1,
     animations.left2,
     animations.left3,
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.appearance,
   ],
 })
 
 export class SubscriptionsHouseComponent implements OnInit, OnDestroy {
 
-  indexPage: number = 1;
+  indexPage: number = 0;
   selectedUserId: any;
   page: any;
   counterFound: number = 0;
@@ -74,18 +76,17 @@ export class SubscriptionsHouseComponent implements OnInit, OnDestroy {
       })
     );
 
-    // Підписка на зміну параметрів маршруту
-    this.subscriptions.push(
-      this.route.queryParams.subscribe(params => {
-        this.page = params['indexPage'] || 1;
-        this.indexPage = Number(this.page);
-      })
-    );
   }
 
   ngOnDestroy() {
     this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
+    this.closeUser();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  closeUser() {
+    this.indexPage = 1;
+    this.choseSubscribersService.removeChosenUserId();
   }
 
   // відправляю event початок свайпу

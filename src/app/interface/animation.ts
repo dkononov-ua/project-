@@ -168,6 +168,17 @@ export const animations = {
       animate('0.5s', style({ backgroundColor: 'red', borderColor: 'red' })),
       animate('0.5s', style({ backgroundColor: 'transparent', borderColor: 'transparent' }))
     ])
-  ])
+  ]),
+
+  appearance: trigger('appearance', [
+    transition('void => *', [
+      style({ transform: 'scale(3)', opacity: 0 }),
+      animate('600ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
+    ]),
+    transition('* => void', [
+      style({ transform: 'scale(1)', opacity: 1 }),
+      animate('600ms ease-in-out', style({ transform: 'scale(3)', opacity: 0 }))
+    ]),
+  ]),
 
 };

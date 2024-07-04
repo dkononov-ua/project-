@@ -49,6 +49,7 @@ export class CounterService {
     // console.log(data)
     try {
       const counterHouseSubscribers: any = await this.http.post(this.serverPath + '/subs/get/countSubs', data).toPromise();
+      // console.log(counterHouseSubscribers)
       if (counterHouseSubscribers.status !== 'Авторизуйтесь') {
         this.counterHouseSubscribersSubject.next(counterHouseSubscribers.status);
         // console.log('Запит на сервер Підписники оселі', counterHouseSubscribers)
@@ -67,6 +68,7 @@ export class CounterService {
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
     try {
       const counterHouseSubscriptions: any = await this.http.post(this.serverPath + '/usersubs/get/CountUserSubs', data).toPromise();
+      // console.log(counterHouseSubscriptions)
       if (counterHouseSubscriptions.status !== 'Авторизуйтесь') {
         // console.log('Запит на сервер Підписки оселі', counterHouseSubscriptions)
         this.counterHouseSubscriptionsSubject.next(counterHouseSubscriptions.status);

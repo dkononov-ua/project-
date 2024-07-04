@@ -13,7 +13,6 @@ import { AgreeHostComponent } from './agree-h/agree-host/agree-host.component';
 import { AgreeConcludedComponent } from './agree-h/agree-concluded/agree-concluded.component';
 import { AgreeReviewComponent } from './agree-h/agree-review/agree-review.component';
 import { AgreeStepComponent } from './agree-h/agree-step/agree-step.component';
-import { MainInfoComponent } from './house-info/main-info/main-info.component';
 import { ResidentOwnerComponent } from './resident/resident-owner/resident-owner.component';
 import { ResidentMenuComponent } from './resident/resident-menu/resident-menu.component';
 import { ResidentPageComponent } from './resident/resident-page/resident-page.component';
@@ -24,8 +23,7 @@ const routes: Routes = [
     path: '',
     component: HouseComponent, canActivate: [CanActivateGuard],
     children: [
-      { path: '', redirectTo: 'house-info', pathMatch: 'full' },
-      { path: 'house-info', component: MainInfoComponent, canActivate: [CanActivateGuard] },
+      { path: '', redirectTo: 'house', pathMatch: 'full' },
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
     ],
   },

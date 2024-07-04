@@ -95,6 +95,18 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       );
     } else if (this.currentLocation === '/user/info') {
       // this.getInfoUser();
+    } else if (this.currentLocation === '/search-tenants') {
+      this.subscriptions.push(
+        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+          this.user = data;
+          // console.log(this.user)
+          if (this.user) {
+            // Запитую рейтинг власника
+            await this.getRatingTenant(this.user.user_id);
+          }
+
+        })
+      );
     }
   }
 

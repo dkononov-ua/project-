@@ -1,5 +1,4 @@
 <div class="menu-container">
-
   <div class="switch-box">
     <div class="switch-btn-group">
       <button [disabled]="disabledBtn" class="btn" (click)="toggleAllMenu(1)">
@@ -8,7 +7,6 @@
       </button>
     </div>
   </div>
-
   <div class="menu" (click)="toggleAllMenu(1)" *ngIf="menu[1]">
     <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="t-lar-xx bold white t-e mr-2"
       *ngIf="linkOpen[1]">Меню Користувача
@@ -62,6 +60,4 @@
 
 
   </div>
-
-
 </div>

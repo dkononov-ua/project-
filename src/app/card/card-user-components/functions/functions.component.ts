@@ -15,7 +15,7 @@ import { CounterService } from 'src/app/services/counter.service';
 import { Chat } from '../../../interface/info';
 import { animations } from '../../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
 import { DeleteSubComponent } from '../../../discussi/discussio-house/delete/delete-sub.component';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
@@ -29,10 +29,46 @@ import { CreateChatService } from 'src/app/chat/create-chat.service';
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
-  animations: [animations.top4],
+  animations: [
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateY(1220%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateY(1220%)' }))
+      ]),
+    ]),
+    animations.top4,
+    animations.left2,
+  ],
 })
 
 export class FunctionsComponent implements OnInit, OnDestroy {
+
+  disabledBtn: boolean = false;
+  houseData: any;
+  animationDelay(index: number): string {
+    return (600 + 100 * index).toString();
+  }
+
+  linkOpen: boolean[] = [false, false, false, false, false];
+  menu: boolean[] = [false, false, false, false, false];
+
+  toggleAllMenu(index: number) {
+    this.linkOpen[index] = !this.linkOpen[index];
+    this.disabledBtn = true;
+    if (this.menu[index]) {
+      setTimeout(() => {
+        this.menu[index] = !this.menu[index];
+        this.disabledBtn = false;
+      }, 600);
+    } else {
+      this.menu[index] = !this.menu[index];
+      this.disabledBtn = false;
+    }
+  }
 
   serverPath: string = '';
   subscribers: UserInfo[] = [];
@@ -82,6 +118,11 @@ export class FunctionsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.selectedFlatId = selectedFlatId;
+        if (this.selectedFlatId) {
+          this.disabledBtn = false;
+        } else {
+          this.disabledBtn = true;
+        }
       })
     );
     this.checkLocation();
@@ -116,6 +157,13 @@ export class FunctionsComponent implements OnInit, OnDestroy {
       );
     } else if (this.currentLocation === '/user/info') {
       this.getInfoUser();
+    } else if (this.currentLocation === '/search-tenants') {
+      this.subscriptions.push(
+        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+          this.user = data;
+          // console.log(this.user)
+        })
+      );
     }
   }
 
@@ -129,10 +177,8 @@ export class FunctionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.choseSubscribersService.removeChosenUserId(); // очищуємо вибір
     this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    // console.log(this.subscriptions)
   }
 
   // Видалення карток
@@ -163,9 +209,11 @@ export class FunctionsComponent implements OnInit, OnDestroy {
 
   // Перевіряємо в сервісі існування чату оселі з обраним користувачем
   async checkChatExistence(): Promise<any> {
-    const chatExists = await this.createChatService.checkChatExistence();
-    this.chatExists = chatExists;
-    // console.log(chatExists)
+    if (this.currentLocation === '/subscribers-discus' || this.currentLocation === '/house/residents') {
+      const chatExists = await this.createChatService.checkChatExistence();
+      this.chatExists = chatExists;
+      // console.log(chatExists)
+    }
   }
 
   openChat() {
@@ -223,7 +271,6 @@ export class FunctionsComponent implements OnInit, OnDestroy {
       (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { location.reload(); }, 2000); console.error(error); }
     } else { console.log('Авторизуйтесь'); }
   }
-
 }
 
 

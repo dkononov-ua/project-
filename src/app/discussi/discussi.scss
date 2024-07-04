@@ -26,6 +26,12 @@
   width: 100%;
 }
 
+.card-wrapper {
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .card-animation::-webkit-scrollbar,
 .cards-container::-webkit-scrollbar,
 .card-wrapper::-webkit-scrollbar {

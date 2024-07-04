@@ -14,17 +14,19 @@ import { SharedService } from 'src/app/services/shared.service';
   animations: [
     animations.left,
     animations.left1,
+    animations.right1,
     animations.left2,
     animations.left3,
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.appearance,
   ],
 })
 
 export class SubscribersHouseComponent implements OnInit, OnDestroy {
 
-  indexPage: number = 1;
+  indexPage: number = 0;
   selectedUserId: any;
   page: any;
   counterFound: number = 0;
@@ -47,7 +49,7 @@ export class SubscribersHouseComponent implements OnInit, OnDestroy {
     private location: Location,
     private cardsDataHouseService: CardsDataHouseService,
     private sharedService: SharedService,
-  ) {  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.counterService.getHouseSubscribersCount(0);
@@ -61,6 +63,7 @@ export class SubscribersHouseComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
         this.selectedUserId = selectedSubscriber;
+        // console.log(this.selectedUserId)
         if (this.selectedUserId) {
           this.indexPage = 2;
         }
@@ -73,18 +76,16 @@ export class SubscribersHouseComponent implements OnInit, OnDestroy {
         this.counterFound = Number(data);
       })
     );
+  }
 
-    // Підписка на зміну параметрів маршруту
-    this.subscriptions.push(
-      this.route.queryParams.subscribe(params => {
-        this.page = params['indexPage'] || 1;
-        this.indexPage = Number(this.page);
-      })
-    );
+  closeUser() {
+    this.choseSubscribersService.removeChosenUserId();
+    this.indexPage = 1;
   }
 
   ngOnDestroy() {
     this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
+    this.closeUser();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 

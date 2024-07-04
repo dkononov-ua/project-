@@ -282,7 +282,7 @@
         <mat-hint align="start">Відстань до зупинки</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="item-select " appearance="outline">
+      <mat-form-field class="item-select pb-4" appearance="outline">
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Метро" [(ngModel)]="userInfo.distance_metro"
           name="distance_metro">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>

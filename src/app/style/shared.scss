@@ -2,6 +2,39 @@
 @use "../style/mixins/" as *;
 @use "../style/media.scss" as *;
 
+.status-subscription-wrapper {
+  @include flex-box-center;
+  position: relative;
+  border-radius: 20px 20px 0 0;
+  height: 350px;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.status-subscription {
+  @include flex-box-center;
+  background-image: linear-gradient(to bottom, transparent 10%, rgba(104, 100, 100, 0.786) 100%);
+  height: 100%;
+  width: 100%;
+  .status-text {
+    font-size: 40px;
+    color: $color-accent;
+    font-weight: 300;
+    border: 1px solid $color-accent;
+    border-radius: 20px;
+    rotate: -15deg;
+    background-color: rgba(255, 255, 255, 0.734);
+    @include box-shadow-a;
+  }
+}
+
+.bg-transparent {
+  background-image: none;
+}
+
 .info-panel {
   position: absolute;
   bottom: 0;
@@ -284,6 +317,9 @@
     .menu-name {
       color: $color-accent;
       font-weight: bold;
+      .fa-solid, .fa-regular {
+        color: $color-accent;
+      }
     }
   }
   .menu-lable,
@@ -294,6 +330,9 @@
   }
   .menu-name {
     font-size: $t-min;
+    .fa-solid, .fa-regular {
+      font-size: 14px;
+    }
   }
   padding-right: 10px;
   border-right: 1px solid rgba(128, 128, 128, 0.568);
@@ -324,13 +363,13 @@
     position: sticky;
     top: 0;
     margin-top: 1rem;
-    border-bottom: 1px solid light-dark($color-light-gray, transparent);
-    border-top: 1px solid light-dark($color-light-gray, transparent);
+    // border-bottom: 1px solid light-dark($color-light-gray, transparent);
+    // border-top: 1px solid light-dark($color-light-gray, transparent);
     // background-image: linear-gradient(to right, transparent 0%, light-dark( $color-white, transparent) 10%, light-dark( $color-gray, transparent) 70%, transparent 100%);
 
     @include s1-s3 {
-      background-image: linear-gradient(to top, transparent 0%, $color-white 30% $color-white 100%);
-      border: none;
+      justify-content: space-around !important;
+      background-image: linear-gradient(to top, transparent 0%, rgba(255, 255, 255, 0.791) 40%) !important;
     }
 
     .switch-btn-group {
@@ -405,54 +444,54 @@
     .card-container {
       display: flex;
     }
-    .cards-container {
-      @include flex-box;
-      flex-wrap: wrap;
-      height: calc(100vh - 80px - 100px - 1rem - 10px);
-      overflow: auto;
-      width: 100%;
-      align-content: flex-start;
-      .card-mini {
-        @include flex-box;
-        @include box-shadow;
-        cursor: pointer;
-        background-color: $color-white;
-        position: relative;
-        width: 96%;
-        height: 130px;
-        overflow: hidden;
-        transition: all 0.5s ease;
-        border-radius: 20px;
-        &:hover {
-          transform: scale(1.05);
-        }
-        .card-mini-img-container {
-          position: relative;
-          width: 50%;
-          height: 100%;
-          overflow: hidden;
-          transition: all 0.3s ease;
-          &:hover {
-            width: 55%;
-          }
-          .card-mini-img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            transition: all 0.3s ease;
-            clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-          }
-        }
-      }
-      @include s1-s3 {
-        height: calc(100vh - 80px - 100px - 1rem);
-      }
-      .card-mini.selected {
-        transition: 1s;
-        color: $color-white;
-        background-color: $color-gray;
-      }
-    }
+    // .cards-container {
+    //   @include flex-box;
+    //   flex-wrap: wrap;
+    //   height: calc(100vh - 80px - 100px - 1rem - 10px);
+    //   overflow: auto;
+    //   width: 100%;
+    //   align-content: flex-start;
+    //   .card-mini {
+    //     @include flex-box;
+    //     @include box-shadow;
+    //     cursor: pointer;
+    //     background-color: $color-white;
+    //     position: relative;
+    //     width: 96%;
+    //     height: 130px;
+    //     overflow: hidden;
+    //     transition: all 0.5s ease;
+    //     border-radius: 20px;
+    //     &:hover {
+    //       transform: scale(1.05);
+    //     }
+    //     .card-mini-img-container {
+    //       position: relative;
+    //       width: 50%;
+    //       height: 100%;
+    //       overflow: hidden;
+    //       transition: all 0.3s ease;
+    //       &:hover {
+    //         width: 55%;
+    //       }
+    //       .card-mini-img {
+    //         height: 100%;
+    //         width: 100%;
+    //         object-fit: cover;
+    //         transition: all 0.3s ease;
+    //         clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
+    //       }
+    //     }
+    //   }
+    //   @include s1-s3 {
+    //     height: calc(100vh - 80px - 100px - 1rem);
+    //   }
+    //   .card-mini.selected {
+    //     transition: 1s;
+    //     color: $color-white;
+    //     background-color: $color-gray;
+    //   }
+    // }
   }
 }
 
@@ -515,12 +554,20 @@
     border-radius: 20px;
     background-color: $color-white;
     min-height: 650px;
+
     @include s3-s6-max {
+      width: 98% !important;
       max-height: calc(100% - 20px);
     }
+
+    @include s1-s3 {
+      overflow: visible !important;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .card-content {
       @include flex-box-column;
       position: relative;
@@ -610,71 +657,19 @@
   }
 }
 
-// стиль відгуків
-.reviews-card {
-  @include flex-box-column;
-  @include box-shadow;
-  border-radius: 20px;
-  padding: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  .reviews-group {
-    @include flex-box;
-    width: 100%;
-    .reviews-person {
-      @include flex-box;
-      justify-content: flex-start;
-      width: 100%;
-      .reviews-person-img {
-        position: relative;
-        img {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-      }
-      .reviews-person-info {
-        padding: 10px;
-        font-size: $t-med;
-      }
-    }
-    .review-mark {
-      @include flex-box;
-      @include box-shadow;
-      height: 100%;
-      padding: 5px;
-      background-color: $color-accent;
-      border-radius: 20px;
-      .review-mark-number {
-        font-size: 30px;
-        font-weight: 600;
-        color: $color-white;
-      }
-      .fa-regular {
-        padding-left: 5px;
-        color: $color-white;
-        filter: drop-shadow(5px 5px 10px $color-shadow);
-      }
-    }
-  }
-}
-
 // кнопка навігації
 .btn-feedback {
-  color: $color-text;
+  color: $color-accent;
   background-color: transparent !important;
   padding: 5px;
   font-size: $t-med;
   .fa-regular {
-    color: $color-text;
+    color: $color-accent;
     font-size: $t-med;
   }
   &:hover {
-    color: $color-accent;
-    .fa-regular {
-      color: $color-accent;
-    }
+    background-color: $color-dark;
+    border-radius: 20px;
   }
 }
 
@@ -683,7 +678,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 300;
+  z-index: 200;
   .btn-close-box {
     @include flex-box-column;
     align-items: flex-end;

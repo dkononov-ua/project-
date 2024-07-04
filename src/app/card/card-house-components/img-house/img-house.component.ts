@@ -75,6 +75,7 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   ratingOwner: number = 0;
   chatsUpdates: number | undefined;
   counterUserDiscussio: any;
+  currentLocation: string = '';
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -117,14 +118,14 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    const currentLocation = this.location.path();
+    this.currentLocation = this.location.path();
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    if (currentLocation === '/house/house-info') {
+    if (this.currentLocation === '/house') {
       this.loadDataFlat();
     } else {
       // Підписка на отримання даних обраної оселі

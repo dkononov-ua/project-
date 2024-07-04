@@ -74,7 +74,7 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
         this.serverPath = serverPath;
       })
     );
-    if (this.currentLocation === '/house/house-info') {
+    if (this.currentLocation === '/house') {
       this.loadDataFlat();
       this.getAdditionalHouseInfo();
     } else {

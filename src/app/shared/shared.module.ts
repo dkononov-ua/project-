@@ -60,6 +60,8 @@ import { CreateChatService } from '../chat/create-chat.service';
 import { HouseRentProgressComponent } from '../card/card-house-components/house-rent-progress/house-rent-progress.component';
 import { UserRentProgressComponent } from '../card/card-user-components/user-rent-progress/user-rent-progress.component';
 import { RatingComponent } from '../card/card-user-components/rating/rating.component';
+import { NavigationUserComponent } from '../card/card-user-components/navigation-user/navigation-user.component';
+import { NavigationHouseComponent } from '../card/card-house-components/navigation-house/navigation-house.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +100,8 @@ import { RatingComponent } from '../card/card-user-components/rating/rating.comp
     HouseRentProgressComponent,
     UserRentProgressComponent,
     RatingComponent,
+    NavigationUserComponent,
+    NavigationHouseComponent
   ],
   exports: [
     NavbarComponent,
@@ -137,6 +141,8 @@ import { RatingComponent } from '../card/card-user-components/rating/rating.comp
     HouseRentProgressComponent,
     UserRentProgressComponent,
     RatingComponent,
+    NavigationUserComponent,
+    NavigationHouseComponent
   ],
   providers: [
     UpdateComponentService,

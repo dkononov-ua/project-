@@ -179,8 +179,9 @@
     border-radius: 20px;
     flex-direction: column;
     width: 25%;
-    background-color: $color-accent;
+    background-color: rgba(255, 99, 71, 0.794);
     padding: 5px;
+    color: $color-white;
   }
   .right {
     width: 75%;
@@ -207,6 +208,12 @@
 .detail-wrapper {
   @include box-shadow;
   max-width: 500px;
+  @include s3-s6-max {
+    min-width: 400px;
+  }
+  @include s1-s3 {
+    width: 95%;
+  }
   background-color: $color-dark;
   border-radius: 20px;
   padding: 10px;

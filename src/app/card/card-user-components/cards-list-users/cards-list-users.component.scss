@@ -4,7 +4,7 @@
 .cards-container {
   @include flex-box;
   flex-wrap: wrap;
-  height: calc(100vh - 80px - 100px - 1rem - 10px);
+  height: calc(100vh - 80px - 100px);
   overflow: auto;
   width: 100%;
   align-content: flex-start;
@@ -48,7 +48,7 @@
     }
   }
   @include s1-s3 {
-    height: calc(100vh - 80px - 100px - 1rem);
+    height: calc(100vh - 50px - 100px - 1rem);
   }
   .card-mini.selected {
     transition: 1s;

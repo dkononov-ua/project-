@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -19,6 +19,7 @@ import { Location } from '@angular/common';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { Subscription } from 'rxjs';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
+import { FilterUserService } from 'src/app/search/filter-user.service';
 
 @Component({
   selector: 'app-cards-list-users',
@@ -38,7 +39,7 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
   ],
 })
 
-export class CardsListUsersComponent implements OnInit {
+export class CardsListUsersComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   // імпорт шляхів до медіа
@@ -60,6 +61,7 @@ export class CardsListUsersComponent implements OnInit {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
   choseUserId: any;
+  currentLocation: string = '';
   goBack(): void {
     this.location.back();
   }
@@ -76,9 +78,12 @@ export class CardsListUsersComponent implements OnInit {
     private location: Location,
     private cardsDataHouseService: CardsDataHouseService,
     private statusDataService: StatusDataService,
+    private filterUserService: FilterUserService,
   ) { }
 
   ngOnInit(): void {
+    this.currentLocation = this.location.path();
+
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(serverPath => {
@@ -96,17 +101,26 @@ export class CardsListUsersComponent implements OnInit {
     // Підписка на отримання айді юзера
     this.subscriptions.push(
       this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
-        this.choseUser = selectedSubscriber;
+        this.choseUser = Number(selectedSubscriber);
+        const storedSubscriberId = localStorage.getItem('selectedSubscriberId');
+        if (storedSubscriberId) {
+          const parsedSubscriberId = JSON.parse(storedSubscriberId);
+          if (parsedSubscriberId !== this.choseUser) {
+            this.onSelect(this.choseUser);
+          }
+        }
       })
     );
 
     this.getSubInfoFromService(this.offs);
   }
 
-
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
-    this.cardsDataHouseService.getUserInfo(offs);
+    if (this.currentLocation !== '/search-tenants') {
+      this.cardsDataHouseService.getUserInfo(offs);
+    }
+
     this.getCardsData();
     this.getCounterCards();
   }
@@ -116,15 +130,15 @@ export class CardsListUsersComponent implements OnInit {
     this.subscriptions.push(
       this.cardsDataHouseService.cardsData$.subscribe(data => {
         this.allCards = data;
+        // console.log(this.allCards)
       })
     );
   }
 
   // Підписка на кількість карток, та запит на якій я сторінці
   private getCounterCards(): void {
-    const currentLocation = this.location.path();
     // Якщо я в Дискусії
-    if (currentLocation === '/subscribers-discus') {
+    if (this.currentLocation === '/subscribers-discus') {
       this.counterService.getHouseDiscussioCount(this.selectedFlatId);
       this.subscriptions.push(
         this.counterService.counterHouseDiscussio$.subscribe(data => {
@@ -132,7 +146,7 @@ export class CardsListUsersComponent implements OnInit {
         })
       );
       // Якщо я в Підписниках
-    } else if (currentLocation === '/subscribers-house') {
+    } else if (this.currentLocation === '/subscribers-house') {
       this.counterService.getHouseSubscribersCount(this.selectedFlatId);
       this.subscriptions.push(
         this.counterService.counterHouseSubscribers$.subscribe(data => {
@@ -140,13 +154,19 @@ export class CardsListUsersComponent implements OnInit {
         })
       );
       // Якщо я в Підписках
-    } else if (currentLocation === '/subscriptions-house') {
+    } else if (this.currentLocation === '/subscriptions-house') {
       this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
       this.subscriptions.push(
         this.counterService.counterHouseSubscriptions$.subscribe(data => {
           this.counterFound = Number(data);
         })
       );
+    } else if (this.currentLocation === '/search-tenants') {
+      this.subscriptions.push(
+        this.filterUserService.counterFound$.subscribe(number => {
+          this.counterFound = number;
+        })
+      )
     }
     // Вираховую на якій я сторінці та скільки всього карток
     if (this.counterFound) {
@@ -155,11 +175,13 @@ export class CardsListUsersComponent implements OnInit {
   }
 
   // Перемикання оселі
-  onSelect(user: any): void {
-    // Встановлюю обрану оселю щоб виділити її
-    this.choseUserId = user.user_id;
-    // Передаю ID обраної оселю
-    this.choseSubscribersService.setSelectedSubscriber(this.choseUserId);
+  async onSelect(user_id: number): Promise<void> {
+    // Видаляю ID юзера
+    this.choseSubscribersService.removeChosenUserId();
+    // Передаю нове ID юзера
+    this.choseSubscribersService.setSelectedSubscriber(user_id);
+    // Відкриваю картку
+    this.choseSubscribersService.setIndexPage(3);
     // Встановлюю дані по обраній оселі на сервісі
     this.cardsDataHouseService.selectCard();
   }
@@ -194,6 +216,10 @@ export class CardsListUsersComponent implements OnInit {
     this.currentPage = currentPage;
     this.totalPages = totalPages;
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

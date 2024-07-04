@@ -8,9 +8,17 @@
 
     <button class="btn-close bg-white p-2" (click)="toogleOpen()"></button>
 
+    <div class="t-lar-x white p-2">Контакти користувача</div>
+
+    <div [@appearance] class="status-subscription" *ngIf="closed">
+      <div class="status-text">Немає доступу</div>
+      <div class="t-lar p-2 accent mt-3">Доступ до контактів
+        орендаря <br> відкривається в Дискусії</div>
+      <button class="b-primary p-2" (click)="toogleOpen()">Зрозуміло</button>
+    </div>
+
     <div class="links-box">
 
-      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
         <a href="tel:{{ userInfo.tell}}" class="link-item" *ngIf="userInfo.tell">
           <i class="fa-solid fa-phone"></i>
           <div class="link-item-name">{{userInfo.tell}}</div>
@@ -20,9 +28,7 @@
           <i class="fa-solid fa-phone"></i>
           <div class="link-item-name">Номер Відсутній</div>
         </button>
-      </div>
 
-      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
         <button class="link-item" *ngIf="userInfo.mail" (click)="copyMail()">
           <i class="fa-solid fa-at"></i>
           <div class="link-item-name">{{userInfo.mail}}</div>
@@ -31,9 +37,7 @@
           <i class="fa-solid fa-at"></i>
           <div class="link-item-name">Email Відсутній</div>
         </button>
-      </div>
 
-      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
         <a class="link-item" href="https://www.instagram.com/{{  userInfo.instagram }}" *ngIf="userInfo.instagram">
           <i class="fa-brands fa-instagram"></i>
           <div class="link-item-name">{{userInfo.instagram}}</div>
@@ -42,8 +46,6 @@
           <i class="fa-brands fa-instagram"></i>
           <div class="link-item-name">Instagram Відсутній</div>
         </button>
-      </div>
-      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}">
         <a class="link-item" href="https://www.facebook.com//{{  userInfo.facebook }}" *ngIf="userInfo.facebook">
           <i class="fa-brands fa-facebook"></i>
           <div class="link-item-name">{{userInfo.facebook}}</div>
@@ -52,8 +54,6 @@
           <i class="fa-brands fa-facebook"></i>
           <div class="link-item-name">Facebook Відсутній</div>
         </button>
-      </div>
-      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
         <a class="link-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
           <i class="fa-brands fa-telegram"></i>
           <div class="link-item-name">{{userInfo.telegram}}</div>
@@ -62,8 +62,6 @@
           <i class="fa-brands fa-telegram"></i>
           <div class="link-item-name">Telegram Відсутній</div>
         </button>
-      </div>
-      <div [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
         <button class="link-item" *ngIf="userInfo.viber" (click)="copyViber()">
           <i class="fa-brands fa-viber"></i>
           <div class="link-item-name">{{userInfo.viber}}</div>
@@ -72,7 +70,6 @@
           <i class="fa-brands fa-viber"></i>
           <div class="link-item-name">Viber Відсутній</div>
         </button>
-      </div>
     </div>
 
   </div>

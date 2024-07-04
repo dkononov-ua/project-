@@ -6,7 +6,7 @@
   <div class="content-child">
 
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card-animation" [@swichCard]>
+      <div class="card-animation">
         <div class="card-content">
 
           <button class="btn geer" [routerLink]="'/information-user'">
@@ -18,108 +18,13 @@
           <div *ngIf="isMobile">
             <app-info></app-info>
           </div>
-
-          <nav class="navbar">
-
-            <!-- <a class="link-menu" [routerLink]="'/discussio-search'">
-              <div class="flex-column w-80">
-                <p class="link-menu-t2">Пошук</p>
-                <p class="link-menu-t1">Discussio</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-magnifying-glass"></i></div>
-            </a> -->
-
-            <a class="link-menu" [routerLink]="'/subscriptions-user'">
-              <div class="flex-column w-80">
-                <p class="t-min">Оселі на які я підписався</p>
-                <p class="link-menu-t2">Вподобані</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-regular fa-heart"></i></div>
-              <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
-                {{counterUserSubscriptions}} </div>
-            </a>
-
-            <a class="link-menu" [routerLink]="'/subscribers-user'">
-              <div class="flex-column w-80">
-                <p class="t-min">Оселі які мені</p>
-                <p class="link-menu-t2">Запропоновані</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-people-pulling"></i></div>
-              <div class="status" *ngIf="counterUserSubscribers && counterUserSubscribers !== '0'">
-                {{counterUserSubscribers}} </div>
-            </a>
-
-            <a class="link-menu" [routerLink]="'/subscribers-discuss'">
-              <div class="flex-column w-80">
-                <p class="t-min">Оселі з якими я в</p>
-                <p class="link-menu-t2">Дискусії</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-person-walking-luggage"></i></div>
-              <div class="status" *ngIf="counterUserDiscussio && counterUserDiscussio !== '0'">
-                {{counterUserDiscussio}} </div>
-            </a>
-
-            <a class="link-menu" [routerLink]="'/user/agree'">
-              <div class="flex-column w-80">
-                <p class="t-min">Запропоновані & укладені</p>
-                <p class="link-menu-t2">Угоди</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-envelope-open-text"></i></div>
-              <div class="status" *ngIf="counterUserNewAgree && counterUserNewAgree !== '0'">
-                {{counterUserNewAgree}} </div>
-            </a>
-
-            <a class="link-menu" [routerLink]="'/user/preview'">
-              <div class="flex-column w-80">
-                <p class="t-min">Як виглядає мій профіль</p>
-                <p class="link-menu-t2">Перегляд</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-address-card"></i></div>
-            </a>
-
-            <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/looking'">
-              <div class="flex-column w-80">
-                <p class="t-min">Налаштування & активація </p>
-                <p class="link-menu-t2">Профіль Орендаря</p>
-              </div>
-              <div class="link-icon w-20">
-                <i class="fa-solid fa-person-hiking" *ngIf="!userInfo.agree_search || userInfo.agree_search === 0"></i>
-                <i class="fa-solid fa-person-hiking fa-beat-fade active" *ngIf="userInfo.agree_search === 1"></i>
-              </div>
-            </a>
-
-            <!-- <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/information-user'">
-              <div class="flex-column w-80">
-                <p class="link-menu-t1">Редагувати</p>
-                <p class="link-menu-t2">Профіль</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-gears"></i></div>
-            </a> -->
-
-            <!-- <a class="link-menu" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
-              <div class="flex-column w-80">
-                <p class="link-menu-t1">Управління</p>
-                <p class="link-menu-t2">Оселею</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-house"></i></div>
-            </a> -->
-
-            <a class="link-menu" target="_blank" href="https://t.me/discussio_chat" *ngIf="isMobile">
-              <div class="flex-column w-80">
-                <p class="t-min">Виникли складнощі</p>
-                <p class="link-menu-t2">Підтримка <i class="fa-brands fa-telegram"></i></p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-headset"></i></div>
-            </a>
-          </nav>
           <app-footer class="pb-3" *ngIf="isMobile"></app-footer>
-
         </div>
       </div>
     </div>
 
     <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-animation bg-none" [@left2]>
+      <div class="card-animation bg-none">
         <app-info></app-info>
       </div>
     </div>

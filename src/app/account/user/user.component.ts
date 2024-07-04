@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CounterService } from 'src/app/services/counter.service';
 import { IsAccountOpenService } from 'src/app/services/is-account-open.service';
 import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { DataService } from 'src/app/services/data.service';
+import * as ServerConfig from 'src/app/config/path-config';
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -23,7 +25,14 @@ import { DataService } from 'src/app/services/data.service';
   ],
 })
 
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  // ***
+
   statusMessage: any;
   loginCheck: boolean = false;
   counterSubs: any;
@@ -46,11 +55,13 @@ export class UserComponent implements OnInit {
 
   indexPage: number = 1;
   isAccountOpenStatus: boolean = true;
+  houseData: any;
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
 
   serverPath: string = ''
+  subscriptions: any[] = [];
 
   constructor(
     private isAccountOpenService: IsAccountOpenService,
@@ -61,6 +72,13 @@ export class UserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+
     this.sendAccountIsOpen();
     this.dataService.getInfoUser();
     const userJson = localStorage.getItem('user');
@@ -73,6 +91,7 @@ export class UserComponent implements OnInit {
       await this.getUserNewMessage();
       await this.getUpdateUserMessage();
       this.getCounterAgree();
+      this.getHouseData();
     } else {
       this.authorization = false;
     }
@@ -159,5 +178,20 @@ export class UserComponent implements OnInit {
   sendAccountIsOpen() {
     this.isAccountOpenStatus = true;
     this.isAccountOpenService.setIsAccountOpen(this.isAccountOpenStatus);
+  }
+
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseData(): Promise<void> {
+    this.houseData = localStorage.getItem('houseData');
+    if (this.houseData) {
+      const parsedHouseData = JSON.parse(this.houseData);
+      this.houseData = parsedHouseData;
+      // console.log(this.houseData)
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    // console.log(this.subscriptions)
   }
 }

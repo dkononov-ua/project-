@@ -20,7 +20,7 @@ import { StatusDataService } from 'src/app/services/status-data.service';
   ],
   animations: [
     animations.bot,
-    animations.top,
+    animations.top1,
     animations.top2,
     animations.top3,
     animations.top4,
@@ -104,6 +104,13 @@ export class InfoComponent implements OnInit, OnDestroy {
       );
     } else if (this.currentLocation === '/user/info') {
       this.getFeaturesInfo();
+    } else if (this.currentLocation === '/search-tenants') {
+      this.subscriptions.push(
+        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+          this.user = data;
+          // console.log(this.user)
+        })
+      );
     }
     this.calculateTotalDays();
   }
@@ -149,13 +156,14 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   async calculateTotalDays(): Promise<number> {
-    const days = this.user.days || 0;
-    const weeks = this.user.weeks || 0;
-    const months = this.user.months || 0;
-    const years = this.user.years || 0;
-    const totalDays = days + weeks * 7 + months * 30 + years * 365;
-    this.totalDays = totalDays / 29;
-    return totalDays;
+    // const days = this.user.days || 0;
+    // const weeks = this.user.weeks || 0;
+    // const months = this.user.months || 0;
+    // const years = this.user.years || 0;
+    // const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    // this.totalDays = totalDays / 29;
+    // console.log(this.totalDays)
+    return 0;
   }
 
   ngOnDestroy() {

@@ -21,6 +21,7 @@ import { CardsDataService } from 'src/app/services/user-components/cards-data.se
 import { SendMessageService } from 'src/app/chat/send-message.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
 import { CreateChatService } from 'src/app/chat/create-chat.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-functions-house',
@@ -30,21 +31,44 @@ import { CreateChatService } from 'src/app/chat/create-chat.service';
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   animations: [
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.swichCard,
-    animations.top,
-    animations.top2,
-    animations.top3,
+    trigger('cardAnimation', [
+      transition('void => *', [
+        style({ transform: 'translateY(1220%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateY(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateY(1220%)' }))
+      ]),
+    ]),
     animations.top4,
+    animations.left4,
   ],
 })
 
 export class FunctionsHouseComponent implements OnInit, OnDestroy {
+
+  disabledBtn: boolean = false;
+  animationDelay(index: number): string {
+    return (600 + 100 * index).toString();
+  }
+
+  linkOpen: boolean[] = [false, false, false, false, false];
+  menu: boolean[] = [false, false, false, false, false];
+
+  toggleAllMenu(index: number) {
+    this.linkOpen[index] = !this.linkOpen[index];
+    this.disabledBtn = true;
+    if (this.menu[index]) {
+      setTimeout(() => {
+        this.menu[index] = !this.menu[index];
+        this.disabledBtn = false;
+      }, 600);
+    } else {
+      this.menu[index] = !this.menu[index];
+      this.disabledBtn = false;
+    }
+  }
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
