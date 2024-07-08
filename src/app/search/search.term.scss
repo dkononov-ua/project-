@@ -2,6 +2,9 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss" as *;
 
+.pb-10 {
+  padding-bottom: 120px;
+}
 .switch-container {
   @include s1-s3 {
     justify-content: space-around !important;
@@ -26,6 +29,7 @@
   flex-wrap: wrap;
   align-items: stretch;
   flex-direction: column;
+  position: relative;
 }
 
 .card-group {
@@ -91,6 +95,14 @@
       background-color: $color-accent;
     }
   }
+}
+
+.btn-group {
+  @include flex-box-center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 40px;
 }
 
 .switch-box {

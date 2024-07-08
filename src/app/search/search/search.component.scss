@@ -11,6 +11,9 @@
 .card-wrapper {
   display: block;
   overflow: auto;
+  @include s1-s3 {
+    overflow: visible;
+  }
   height: 100%;
   position: relative;
 }

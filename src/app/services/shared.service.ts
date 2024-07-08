@@ -43,12 +43,17 @@ export class SharedService {
   private checkServerPathSubject = new BehaviorSubject<string>('');
   public serverPath$ = this.checkServerPathSubject.asObservable();
 
+  // Відслідковування зміни шляху до серверу
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
+
   serverPath: string = '';
 
   firstPath: string = ServerConfig.firstPath;
   secondPath: string = ServerConfig.secondPath;
 
   loading: boolean | undefined;
+  authorization: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -63,6 +68,12 @@ export class SharedService {
     const storedCheckOwner = localStorage.getItem('checkOwnerPage');
     if (storedCheckOwner) { this.checkOwnerPageSubject.next(storedCheckOwner); }
     this.checkIsMobile();
+  }
+
+  // Встановлюю статус лоадеру та передаю його в інші компоненти
+  setLoading(status: boolean) {
+    // console.log('setLoading', status)
+    this.loadingSubject.next(status);
   }
 
   getServerPath() {
@@ -212,6 +223,7 @@ export class SharedService {
   }
 
   logoutUser() {
+    this.setLoading(true);
     this.statusMessageService.setStatusMessage('Виходимо з аккаунту');
     this.clearCache();
     setTimeout(() => {
@@ -219,6 +231,7 @@ export class SharedService {
       setTimeout(() => {
         this.router.navigate(['/auth/login']);
         this.statusMessageService.setStatusMessage('');
+        this.reloadPage();
       }, 1500);
     }, 2500);
   }
@@ -375,5 +388,7 @@ export class SharedService {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
+
+
 
 }

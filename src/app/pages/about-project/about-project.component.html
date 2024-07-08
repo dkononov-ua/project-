@@ -1,6 +1,6 @@
-<div class="content-wrapper">
+<div #contentWrapper class="content-wrapper">
 
-  <div [@bot] id="container0" class="conteiner-content al-c">
+  <div #conteiner0 [@bot5] id="conteiner0" class="conteiner-content c-0 al-c" *ngIf="containers[0]">
     <div class="flex-box w-100">
       <div class="flex-column t-c col-lg-6 col-md-6 col-sm-12 col-12">
         <h3>Привіт!</h3>
@@ -94,16 +94,16 @@
       </div>
     </div>
 
-    <p class="t-lar bold accent p-2" *ngIf="!containers['container1'] && !text">Цікаво?</p>
-    <p class="t-lar p-2" *ngIf="!containers['container1'] && text">Подивись що ми пропонуємо!</p>
+    <p class="t-lar bold accent p-2" *ngIf="!containers[0] && !text">Цікаво?</p>
+    <p class="t-lar p-2" *ngIf="!containers[0] && text">Подивись що ми пропонуємо!</p>
 
-    <button *ngIf="!containers['container1']" class="btn-next t-c m-2" (click)="scrollToAnchor('container1')">
+    <button *ngIf="!containers[1]" class="btn-next t-c m-2" (click)="scrollToAnchor(1)">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Наші функції</p>
     </button>
   </div>
 
-  <div [@bot] id="container1" class="conteiner-content al-c t-c flex-column" *ngIf="containers['container1']">
+  <div #conteiner1 [@bot5] id="conteiner1" class="conteiner-content c-1 al-c t-c flex-column" *ngIf="containers[1]">
     <h2 class="title"><span class="bold">Пошук осель & Пошук орендарів</span></h2>
     <button class="btn update m-2" [routerLink]="'/discussio-search'">
       <i class="fa-solid fa-magnifying-glass pr-2"></i>Пошук Discussio
@@ -143,13 +143,13 @@
         </p>
       </div>
     </div>
-    <button *ngIf="!containers['container2']" class="btn-next t-c" (click)="scrollToAnchor('container2')">
+    <button *ngIf="!containers[2]" class="btn-next t-c" (click)="scrollToAnchor(2)">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Інші функції</p>
     </button>
   </div>
 
-  <div [@bot] id="container2" class="conteiner-content al-c flex-column" *ngIf="containers['container2']">
+  <div #conteiner2 [@bot5] id="conteiner2" class="conteiner-content c-2 al-c flex-column" *ngIf="containers[2]">
     <h2 class="title"><span class="bold"> Створення автоматичних угод & та актів. </span></h2>
     <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
@@ -176,13 +176,13 @@
         </p>
       </div>
     </div>
-    <button *ngIf="!containers['container3']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container3')">
+    <button *ngIf="!containers[3]" class="btn-next t-c mt-2" (click)="scrollToAnchor(3)">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Інші функції</p>
     </button>
   </div>
 
-  <div [@bot] id="container3" class="conteiner-content al-c flex-column" *ngIf="containers['container3']">
+  <div #conteiner3 [@bot5] id="conteiner3" class="conteiner-content c-3 al-c flex-column" *ngIf="containers[3]">
     <h2 class="title"><span class="bold"> Система підписок & дискусій. </span></h2>
     <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
@@ -215,13 +215,13 @@
       </div>
 
     </div>
-    <button *ngIf="!containers['container4']" class="btn-next t-c mt-2" (click)="scrollToAnchor('container4')">
+    <button *ngIf="!containers[4]" class="btn-next t-c mt-2" (click)="scrollToAnchor(4)">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Інші функції</p>
     </button>
   </div>
 
-  <div [@bot] id="container4" class="conteiner-content al-c flex-column" *ngIf="containers['container4']">
+  <div #conteiner4 [@bot5] id="conteiner4" class="conteiner-content c-4 al-c flex-column" *ngIf="containers[4]">
     <h2 class="title"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
           class="fa-regular fa-face-frown  pl-2 pr-2"></i> орендодавця & орендаря. </span></h2>
     <div class="flex-box h-100 w-100">
@@ -247,13 +247,13 @@
           орендарів та допомагає іншим потенційним орендарям зрозуміти, яким власникам можна довіряти.</p>
       </div>
     </div>
-    <button *ngIf="!containers['container5']" class="btn-next t-c" (click)="scrollToAnchor('container5')">
+    <button *ngIf="!containers[5]" class="btn-next t-c" (click)="scrollToAnchor(5)">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Інші функції</p>
     </button>
   </div>
 
-  <div [@bot] id="container5" class="conteiner-content al-c flex-column" *ngIf="containers['container5']">
+  <div #conteiner5 [@bot5] id="conteiner5" class="conteiner-content c-5 al-c flex-column" *ngIf="containers[5]">
     <h2 class="title"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h2>
     <div class="flex-box h-100 w-100">
       <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
@@ -272,13 +272,13 @@
         </p>
       </div>
     </div>
-    <button *ngIf="!containers['container6']" class="btn-next t-c" (click)="scrollToAnchor('container6')">
+    <button *ngIf="!containers[6]" class="btn-next t-c" (click)="scrollToAnchor(6)">
       <i class="fa-solid fa-circle-chevron-down pr-2"></i>
       <p>Інші функції</p>
     </button>
   </div>
 
-  <div [@bot] id="container6" class="conteiner-content al-c flex-column" *ngIf="containers['container6']">
+  <div #conteiner6 [@bot5] id="conteiner6" class="conteiner-content c-6 al-c flex-column" *ngIf="containers[6]">
     <h2 class="title"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
     </h2>
     <div class="flex-box w-100">
@@ -286,7 +286,8 @@
         <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
       </div>
       <div class="flex-column p-3 t-c col-lg-6 col-md-6 col-sm-12 col-12">
-        <h3><strong>Як цим користуватись? Чиє це? А воно вже було таке! Знайомо?</strong></h3>
+        <h3><strong>"Як цим користуватись?" " Чиї це речі?" "А вони вже були в такому стані?" <br> Знайомо?</strong>
+        </h3>
         <p class="text t-c">
           Можливість детально описувати та <strong>документувати всі об'єкти та предмети</strong>, які знаходяться в
           місці
@@ -297,16 +298,29 @@
           кращого візуального представлення. Ця інформація є надзвичайно важливою для формування акту прийому-передачі
           оселі.
         </p>
-        <button class="btn-next t-c m-2" [routerLink]="'/home/opportunities'">
+        <!-- <button class="btn-next t-c m-2" [routerLink]="'/home/opportunities'">
           <i class="fa-solid fa-circle-info pr-2"></i>
           <p>Детальніше про всі функції</p>
-        </button>
+        </button> -->
       </div>
     </div>
 
-    <button class="btn update m-4" (click)="scrollToAnchor('container0')">
-      <i class="fa-solid fa-arrow-up pr-2"></i>На початок
-    </button>
+    <div class="btn-group">
+      <button class="btn-next t-c" (click)="scrollToAnchor(0)">
+        <i class="fa-solid fa-arrow-up pr-2"></i>
+        <p>На гору</p>
+      </button>
+
+      <button class="btn-next t-c" [routerLink]="'/user/info'">
+        <i class="fa-solid fa-arrow-right pr-2"></i>
+        <p>Почати</p>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <app-footer></app-footer>
   </div>
 
 </div>

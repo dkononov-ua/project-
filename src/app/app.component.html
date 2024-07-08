@@ -1,21 +1,11 @@
 <div class="body-container">
-
-  <!-- <div [@fadeIn] class="bg">
-    <img class="bg-img" src="../assets/bg-img/1.svg" alt="">
-  </div> -->
-
   <div [@fadeIn] class="bg" *ngIf="nextBG && !isMobile">
     <img class="bg-img" [src]="currentImage">
   </div>
-  <div [@fadeIn] class="bg" *ngIf="!nextBG && !isMobile">
-    <img class="bg-img" [src]="currentImage">
-  </div>
-
-  <div *ngIf="!waitingUpdate" class="container">
+  <div class="container">
     <app-news-line class="news-line"></app-news-line>
     <router-outlet></router-outlet>
   </div>
   <app-status-message *ngIf="statusMessage"></app-status-message>
-
-  <app-loader *ngIf="waitingUpdate"></app-loader>
+  <app-loader *ngIf="loading"></app-loader>
 </div>

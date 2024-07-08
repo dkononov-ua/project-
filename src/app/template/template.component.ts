@@ -19,6 +19,7 @@ export class TemplateComponent implements OnInit {
   // ***
   indexPage: number = 1;
   isMobile: boolean = false;
+  authorization: boolean = false;
 
   goBack(): void {
     this.location.back();
@@ -58,6 +59,16 @@ export class TemplateComponent implements OnInit {
     // this.sharedService.setStatusMessage('Дискусія видалена');
     // this.sharedService.setStatusMessage('');
 
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
 }

@@ -2,10 +2,6 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
-.navbar-home {
-  @include flex-box;
-}
-
 .menu-box {
   cursor: pointer;
   transition: 1s;
@@ -33,16 +29,23 @@
 }
 
 .content-component {
-  height: auto !important;
-
-  @include s1-s3 {
-    height: auto;
+  @include flex-box;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-start;
+  @include s3-s6-max {
+    align-items: stretch;
   }
-
-  .switch-container {
+  .navbar-home {
+    position: sticky;
+    top: 0;
+    @include flex-box;
     height: 100px;
-    @include s1-s3 {
-      position: relative !important;
+    .switch-container {
+      height: 100px;
+      @include s1-s3 {
+        position: relative !important;
+      }
     }
   }
 
@@ -75,12 +78,7 @@
       flex-direction: column;
       align-items: stretch;
       @include s1-s3 {
-        background-image: linear-gradient(
-          to top,
-          $color-white 0%,
-          $color-white 60%,
-          transparent 100%
-        );
+        background-image: linear-gradient(to top, $color-white 0%, $color-white 60%, transparent 100%);
       }
     }
   }

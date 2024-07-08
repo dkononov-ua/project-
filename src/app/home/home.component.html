@@ -1,5 +1,5 @@
-<div class="content-component">
-  <div [@bot] class="navbar-home">
+<div #content class="content-component">
+  <div #navbar [@bot] class="navbar-home">
     <div class="switch-container">
 
       <!-- <div class="menu-box t-c" *ngIf="!isMobile" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
@@ -62,15 +62,8 @@
     </div>
   </div>
 
-  <div [@top1] class="main-container w-100">
-    <main class="main-content">
-      <router-outlet></router-outlet>
-      <div class="bg-home"></div>
-    </main>
-    <div class="footer">
-      <app-footer></app-footer>
-    </div>
-  </div>
-
+  <main [@top1] class="main-content">
+    <router-outlet></router-outlet>
+    <div class="bg-home"></div>
+  </main>
 </div>
-

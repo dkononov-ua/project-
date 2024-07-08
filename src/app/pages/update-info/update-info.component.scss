@@ -4,9 +4,12 @@
 
 .news-content {
   @include flex-box-column;
+  overflow: auto;
+  height: calc(100vh - 100px - 1rem);
   padding: 20px;
   @include s1-s3 {
     padding: 10px;
+    overflow: visible;
   }
 }
 

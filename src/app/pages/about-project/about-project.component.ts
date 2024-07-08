@@ -17,6 +17,7 @@ import { AuthGoogleService } from 'src/app/auth/auth-google.service';
     animations.top1,
     animations.top2,
     animations.top4,
+    animations.bot5,
     animations.left,
     animations.left1,
     animations.left2,
@@ -25,6 +26,7 @@ import { AuthGoogleService } from 'src/app/auth/auth-google.service';
     animations.left5,
     animations.right1,
     animations.swichCard,
+    animations.appearance,
   ],
 })
 export class AboutProjectComponent implements OnInit {
@@ -49,26 +51,26 @@ export class AboutProjectComponent implements OnInit {
   gmail: string = 'discussio.inc@gmail.com';
   agreementAccepted: boolean = false;
 
-  containers: { [key: string]: boolean } = {
-    container1: false,
-    container2: false,
-    container3: false,
-    container4: false
+  containers: { [key: number]: boolean } = {
+    0: true,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
   };
+
   authorization: boolean = false;
 
-  scrollToAnchor(anchor: string): void {
-    // Встановлюємо статус активності для вибраного контейнера
+  scrollToAnchor(anchor: number): void {
     this.containers[anchor] = true;
-
     setTimeout(() => {
-      const element = this.el.nativeElement.querySelector(`#${anchor}`);
+      const element = this.el.nativeElement.querySelector(`#conteiner${anchor}`);
       if (element) {
-        const container = element.parentElement;
-        const scrollTop = element.offsetTop - container.offsetTop; // Відстань від верху контейнера до елемента
-        container.scrollTop = scrollTop;
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 30);
+    }, 200);
   }
 
   constructor(

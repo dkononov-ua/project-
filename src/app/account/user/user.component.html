@@ -10,8 +10,8 @@
     </div>
 
     <div class="menu-box">
-      <div class="menu-lable">Меню</div>
-      <div class="menu-name">Профіль Користувача</div>
+      <div class="menu-lable">Профіль</div>
+      <div class="menu-name">Користувача<i class="fa-regular fa-circle-user pl-2"></i></div>
     </div>
 
     <div class="switch-btn-group">
@@ -89,9 +89,9 @@
 
   <div class="main-container">
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
-      <div class="card-wrapper ">
-        <div [@right2] class="card-content-static w-100">
+    <div [@right2] class="col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!isMobile">
+      <div  class="card-wrapper">
+        <div class="card-content-static w-100">
           <div class="card-group">
             <div class="flex-box-center t-c p-2 mt-2 w-100">
               <i class="fa-regular fa-circle-user"></i>
@@ -111,9 +111,6 @@
             </a>
 
           </div>
-          <!-- <div class="card-background">
-            <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
-          </div> -->
         </div>
       </div>
     </div>

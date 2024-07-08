@@ -1,17 +1,18 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
 import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 import { formErrors, validationMessages, onValueChanged } from '../validation';
+import { DataService } from 'src/app/services/data.service';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Component({
   selector: 'app-login',
@@ -34,21 +35,21 @@ import { formErrors, validationMessages, onValueChanged } from '../validation';
     animations.left2,
     animations.left3,
     animations.left4,
-    animations.left5,
+    animations.appearance,
     animations.swichCard,
   ],
 
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-    // імпорт шляхів до медіа
-    pathPhotoUser = ServerConfig.pathPhotoUser;
-    pathPhotoFlat = ServerConfig.pathPhotoFlat;
-    pathPhotoComunal = ServerConfig.pathPhotoComunal;
-    path_logo = ServerConfig.pathLogo;
-    serverPath: string = '';
-    // ***
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   // експортую значення помилок
   formErrors: any = formErrors;
@@ -74,6 +75,8 @@ export class LoginComponent implements OnInit {
   counterPass: number = 5;
   counterWrongEnteredPass: number = 5;
   timeLeft: number = 0;
+  subscriptions: any[] = [];
+  authorization: boolean = false;
 
   togglePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
@@ -85,21 +88,48 @@ export class LoginComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private sharedService: SharedService,
-    private breakpointObserver: BreakpointObserver,
     private authGoogleService: AuthGoogleService,
+    private dataService: DataService,
+    private statusDataService: StatusDataService,
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
     this.initializeForm();
-    this.loading = false;
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Перевірка на пристрій
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
   }
 
   openGoogleAuth() {
@@ -107,37 +137,47 @@ export class LoginComponent implements OnInit {
   }
 
   async login(): Promise<void> {
-    this.loading = true;
-    this.http.post(this.serverPath + '/login', this.loginForm.value)
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.sharedService.clearCache();
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('З поверненням!');
-            localStorage.setItem('user', JSON.stringify(response));
+    this.sharedService.setLoading(true);
+    this.sharedService.clearCache();
+    try {
+      const response: any = await this.http.post(this.serverPath + '/login', this.loginForm.value).toPromise();
+      if (response.status === true) {
+        this.sharedService.setStatusMessage('З поверненням!');
+        localStorage.setItem('user', JSON.stringify(response));
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('Оновлюємо дані');
+          this.dataService.getInfoUser().subscribe((response: any) => {
             setTimeout(() => {
-              this.router.navigate(['/user']);
-              this.sharedService.setStatusMessage('Оновлюємо дані профілю');
-              setTimeout(() => {
-                location.reload();
-              }, 1500);
+              if (response.status === true) {
+                this.sharedService.setStatusMessage('Оновлено');
+                this.statusDataService.setUserData(response.cont, 0);
+                setTimeout(() => {
+                  this.router.navigate(['/user']);
+                  this.sharedService.setStatusMessage('');
+                  this.sharedService.setLoading(false);
+                }, 1500);
+              } else {
+                this.sharedService.setStatusMessage('Помилка оновлення даних');
+                setTimeout(() => {
+                  location.reload();
+                }, 1500);
+              }
             }, 1500);
-          }, 1000);
-        } else {
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Неправильний логін або пароль.');
-            setTimeout(() => {
-              location.reload();
-            }, 1000);
-          }, 1000);
-        }
-      }, (error: any) => {
-        this.loading = false;
-        this.sharedService.setStatusMessage('Сталася помилка на сервері.');
+          })
+        }, 1500);
+      } else {
+        this.sharedService.setStatusMessage('Неправильний логін або пароль');
         setTimeout(() => {
           location.reload();
         }, 2000);
-      });
+      }
+    } catch (error) {
+      this.loading = false;
+      this.sharedService.setStatusMessage('Сталася помилка на сервері.');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    }
   }
 
   private initializeForm(): void {

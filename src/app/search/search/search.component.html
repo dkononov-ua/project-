@@ -16,8 +16,9 @@
     </div> -->
 
     <div class="menu-box">
-      <div class="menu-lable">Меню Пошуку</div>
-      <div class="menu-name">Осель & Орендарів</div>
+      <div class="menu-lable">Пошук</div>
+      <div class="menu-name">Discussio <i class="fa-solid fa-magnifying-glass pl-2"></i>
+      </div>
     </div>
 
     <div class="switch-btn-group">
@@ -91,8 +92,8 @@
       </div>
     </div>
 
-    <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12">
-      <div [@top2] class="card-menu mt-2 p-2">
+    <div class="card-wrapper  col-lg-7 col-md-7 col-sm-12 col-12">
+      <div [@top2] class="card-menu  mt-2 p-2">
         <h3 class="bg-mob"><span class="bold"> Пошук осель & Пошук орендарів
           </span></h3>
 
@@ -129,10 +130,12 @@
                 орендарів</strong>, які вам
               підходять.</p>
           </div>
-          <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук орендаря' }">
+          <button class="btn-feedback border-bottom" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук орендаря' }">
             Є ідея <i class="fa-regular fa-lightbulb"></i><br> як зробити краще пошук орендаря?
           </button>
         </div>
+
+        <app-footer></app-footer>
 
       </div>
     </div>

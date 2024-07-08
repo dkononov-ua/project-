@@ -47,39 +47,11 @@
   }
 
   .main-container {
-    // height: auto !important;
-    // height: calc(100vh - 100px - 1rem);
-    // overflow: auto;
+    overflow: auto;
     position: relative;
     height: calc(100vh - 100px);
-
-    @include s1-s3 {
-      height: 100vh;
-    }
-
     &::-webkit-scrollbar {
       display: none;
-    }
-    .main-content {
-      height: calc(100% - 100px);
-      position: relative;
-      overflow: auto;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    .footer {
-      @include flex-box-center;
-      // position: sticky;
-      // z-index: 100;
-      // bottom: 0;
-      width: 100%;
-      flex-direction: column;
-      align-items: stretch;
-      @include s1-s3 {
-        background-image: linear-gradient(to top, $color-white 0%, $color-white 60%, transparent 100%);
-      }
     }
   }
 }
@@ -102,12 +74,17 @@
   position: relative;
   .card-wrapper {
     height: 100% !important;
-    align-items: center;
+    @include s3-s6-max {
+      align-items: center !important;
+    }
     .card-greeting {
       @include flex-box-column;
       justify-content: center;
       height: 100%;
       width: 100%;
+      @include s3-s6-max {
+        align-items: center !important;
+      }
     }
     .card-animation {
       position: absolute;
@@ -115,15 +92,19 @@
       align-items: center;
       justify-content: center;
       padding: 10px;
+      @include s3-s6-max {
+        max-width: 400px;
+      }
       background-color: $color-white !important;
       @include s1-s3 {
         flex-direction: column;
         // justify-content: flex-start;
       }
-      .card-content {
+      .card-content1 {
         height: 100%;
         width: 100%;
         @include flex-box-center;
+        align-items: center;
         flex-direction: column;
         background-color: $color-white;
         padding: 10px;
@@ -153,7 +134,7 @@
   align-content: center;
   align-items: center;
   flex-direction: column;
-  height: 25vh;
+  // height: 25vh;
   position: relative;
   @include s1-s3 {
     height: auto;

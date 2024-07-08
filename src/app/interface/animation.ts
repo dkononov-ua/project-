@@ -151,6 +151,13 @@ export const animations = {
     ]),
   ]),
 
+  bot5: trigger('bot5', [
+    transition(':enter', [
+      style({ transform: 'translateY(-5%)', opacity: 0 }),
+      animate('1000ms 0ms ease-in-out', style({ transform: 'translateY(0)', opacity: 1 }))
+    ]),
+  ]),
+
   cardSwipeAnimation: trigger('cardSwipe', [
     state('notSwiped', style({ transform: 'translateX(0)' })),
     state('swiped', style({ transform: 'translateX(100%)' })),
@@ -178,6 +185,17 @@ export const animations = {
     transition('* => void', [
       style({ transform: 'scale(1)', opacity: 1 }),
       animate('600ms ease-in-out', style({ transform: 'scale(3)', opacity: 0 }))
+    ]),
+  ]),
+
+  appearanceOut: trigger('appearanceOut', [
+    transition('void => *', [
+      style({ transform: 'scale(0.5)', opacity: 0 }),
+      animate('600ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
+    ]),
+    transition('* => void', [
+      style({ transform: 'scale(1)', opacity: 1 }),
+      animate('600ms ease-in-out', style({ transform: 'scale(0.5)', opacity: 0 }))
     ]),
   ]),
 

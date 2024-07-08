@@ -103,6 +103,7 @@ export class CardsDataHouseService {
 
   removeCardsData() {
     this.cardsDataSubject.next(null);
+    this.allCards = null;
   }
 
   // Виводимо інформацію з локального сховища про обрану оселю

@@ -1,5 +1,5 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -9,7 +9,6 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 import { checkPasswordStrength, onValueChanged, formErrors, validationMessages } from '../validation';
 
@@ -24,7 +23,6 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -49,11 +47,11 @@ export const MY_FORMATS = {
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.appearance,
   ],
-
 })
 
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -84,7 +82,6 @@ export class RegistrationComponent implements OnInit {
   indexCard: number = 0;
   indexBtn: number = 1;
   isMobile = false;
-  isCopied = false;
   disabledEmail: boolean = false;
   passMatch: any;
   passMatchMessage: any;
@@ -117,13 +114,15 @@ export class RegistrationComponent implements OnInit {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }
 
+  subscriptions: any[] = [];
+  authorization: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
     public dialog: MatDialog,
     private sharedService: SharedService,
-    private breakpointObserver: BreakpointObserver,
     private authGoogleService: AuthGoogleService,
   ) {
     // Отримання поточної дати
@@ -142,18 +141,44 @@ export class RegistrationComponent implements OnInit {
     this.counterWrongEnteredPass = 5;
   }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
     this.initializeForm();
-    this.loading = false;
     this.calcWrongPass();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Перевірка на пристрій
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
   }
 
   openGoogleAuth() {
@@ -216,7 +241,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  registration(): void {
+  async registration(): Promise<void> {
     if (this.registrationForm.valid) {
       if (this.registrationForm.get('dob')?.value) {
         const dob = moment(this.registrationForm.get('dob')?.value._i).format('YYYY-MM-DD');
@@ -226,36 +251,33 @@ export class RegistrationComponent implements OnInit {
           dob: dob,
           passCode: this.emailCheckCode,
         };
-        this.http.post(this.serverPath + '/registration/second', data).subscribe(
-          (response: any) => {
-            if (response.status === 'Не правильно передані данні') {
-              console.error(response.status);
-              this.sharedService.setStatusMessage('Помилка реєстрації');
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
-            } else if (response.status === "Не правильний код") {
-              this.invalidСodeCheck();
-            } else {
-              this.sharedService.clearCache();
-              this.sharedService.setStatusMessage('Вітаємо в Discussio!');
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('Переходимо до налаштування профілю!');
-                localStorage.setItem('user', JSON.stringify(response));
-                setTimeout(() => {
-                  this.router.navigate(['/information-user']);
-                }, 2000);
-              }, 1000);
-            }
-          },
-          (error: any) => {
-            console.error(error);
-            this.sharedService.setStatusMessage('Помилка реєстрації.');
+        try {
+          const response: any = await this.http.post(this.serverPath + '/registration/second', data).toPromise();
+          if (response.status === 'Не правильно передані данні') {
+            this.sharedService.setStatusMessage('Помилка реєстрації');
             setTimeout(() => {
               location.reload();
-            }, 2000);
+            }, 1000);
+          } else if (response.status === "Не правильний код") {
+            this.invalidСodeCheck();
+          } else {
+            this.sharedService.clearCache();
+            this.sharedService.setStatusMessage('Вітаємо в Discussio!');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('Переходимо до налаштування профілю!');
+              localStorage.setItem('user', JSON.stringify(response));
+              setTimeout(() => {
+                this.router.navigate(['/information-user']);
+              }, 2000);
+            }, 1000);
           }
-        );
+        } catch (error) {
+          console.error(error);
+          this.sharedService.setStatusMessage('Помилка реєстрації.');
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        }
       } else {
         this.checkDob = false;
       }

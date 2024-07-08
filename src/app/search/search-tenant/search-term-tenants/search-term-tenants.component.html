@@ -1,6 +1,6 @@
-<div [@left1] class="content-child">
+<div [@top3] class="content-child">
   <div class="card-wrapper w-100">
-    <div [@right2] class="card-content-static p-2 w-100" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
+    <div class="card-content-static p-2 w-100" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
 
       <!-- <button class="btn" (click)="decrementOffset()">prev</button>
       <button class="btn" (click)="incrementOffset()">next</button> -->
@@ -282,7 +282,7 @@
         <mat-hint align="start">Відстань до зупинки</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="item-select pb-4" appearance="outline">
+      <mat-form-field class="item-select pb-10" appearance="outline">
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Метро" [(ngModel)]="userInfo.distance_metro"
           name="distance_metro">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>

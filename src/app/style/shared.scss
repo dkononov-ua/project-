@@ -307,10 +307,12 @@
 // Назва меню
 .menu-box {
   border: none;
-  width: 200px;
   background-color: transparent;
   transition: 1s;
   color: $color-dark;
+  @include s3-s6-max {
+    width: 200px;
+  }
   &:hover {
     transform: scale(1.05);
     .menu-lable,
@@ -329,6 +331,8 @@
     font-weight: 600;
   }
   .menu-name {
+    display: flex;
+    flex-direction: row;
     font-size: $t-min;
     .fa-solid, .fa-regular {
       font-size: 14px;

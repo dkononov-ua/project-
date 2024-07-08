@@ -5,7 +5,7 @@
 <ng-template #content>
   <div class="card-box">
 
-    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
+    <div [@appearance] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
       <div class="card-greeting">
         <div class="card-box-logo">
           <div class="logo-box">
@@ -21,9 +21,9 @@
       </div>
     </div>
 
-    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div [@swichCard] class="card-animation">
-        <div class="card-content">
+    <div [@top1] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="card-animation">
+        <div class="card-content1">
 
           <div class="logo-box">
             <img class="logoMin" src="{{path_logo}}" alt="logo">

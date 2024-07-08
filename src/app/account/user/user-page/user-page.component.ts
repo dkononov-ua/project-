@@ -1,29 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
-import { CounterService } from 'src/app/services/counter.service';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
-import { StatusDataService } from 'src/app/services/status-data.service';
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.scss'],
   animations: [
-    animations.top,
-    animations.top1,
-    animations.top2,
-    animations.top3,
-    animations.top4,
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.swichCard,
+    animations.appearance,
   ],
 })
-export class UserPageComponent implements OnInit {
+export class UserPageComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -34,12 +23,6 @@ export class UserPageComponent implements OnInit {
   // ***
 
   loading: boolean = false;
-  counterUserSubscribers: any;
-  counterUserSubscriptions: any;
-  counterUserDiscussio: any;
-  counterUserNewMessage: any;
-  counterUserNewAgree: any;
-
   goBack(): void {
     this.location.back();
   }
@@ -50,92 +33,46 @@ export class UserPageComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private dataService: DataService,
-    private counterService: CounterService,
     private location: Location,
-    private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.subscriptions.push(
-      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-        this.serverPath = serverPath;
-      })
-    );
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
+  }
 
+  // підписка на шлях до серверу
+  async getCheckDevice() {
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {
         this.isMobile = status;
       })
     );
+  }
 
-    this.getInfoUser();
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+        this.dataService.getInfoUser();
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      this.getCounterAgree();
-      await this.getUserDiscussioCount();
-      await this.getUserSubscribersCount();
-      await this.getUserSubscriptionsCount();
-    }
-  }
-
-  // перевірка підписників оселі
-  async getUserSubscribersCount() {
-    this.subscriptions.push(
-      this.counterService.counterUserSubscribers$.subscribe(data => {
-        this.counterUserSubscribers = Number(data);
-      })
-    );
-  }
-
-  // перевірка підписок оселі
-  async getUserSubscriptionsCount() {
-    this.subscriptions.push(
-      this.counterService.counterUserSubscriptions$.subscribe(data => {
-        this.counterUserSubscriptions = Number(data);
-      })
-    );
-  }
-
-  // перевірка дискусій оселі
-  async getUserDiscussioCount() {
-    this.subscriptions.push(
-      this.counterService.counterUserDiscussio$.subscribe(data => {
-        this.counterUserDiscussio = Number(data);
-      })
-    );
-  }
-
-  getCounterAgree() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      const counterUserNewAgree = localStorage.getItem('counterUserNewAgree');
-      if (counterUserNewAgree) {
-        this.counterUserNewAgree = JSON.parse(counterUserNewAgree).total;
-      } else {
-        this.counterUserNewAgree = 0;
-      }
     } else {
-      this.counterUserNewAgree = 0;
+      this.authorization = false;
     }
   }
 
-  getInfoUser() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.dataService.getInfoUser().subscribe(
-        (response) => {
-          if (response.status === true) {
-            this.statusDataService.setUserData(response.cont, 0);
-          } else {
-            this.sharedService.logout();
-          }
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    }
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

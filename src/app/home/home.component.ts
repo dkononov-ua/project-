@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../interface/animation';
 import { SelectedFlatService } from '../services/selected-flat.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../services/shared.service';
-import { CheckBackendService } from '../services/check-backend.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -22,7 +21,7 @@ import { CheckBackendService } from '../services/check-backend.service';
     animations.top1,
   ],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -32,60 +31,80 @@ export class HomeComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  loginCheck: boolean = false;
   authorization: boolean = false;
   authorizationHouse: boolean = false;
-  indexPage: number = 1;
-  isAccountOpenStatus: boolean = true;
-  selectedFlatId: string | null = null;
+  selectedFlatId!: number | null;
   houseData: any;
-  pathHouse: string = ''
-  statusMessage: any;
   isMobile: boolean = false;
+  subscriptions: any[] = [];
 
-  onClickMenu(indexPage: number) {
-    this.indexPage = indexPage;
+  scrollToAnchor(): void {
+    setTimeout(() => {
+      const element = this.el.nativeElement.querySelector(`#content`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
   }
 
   constructor(
+    private el: ElementRef,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
-    private checkBackendService: CheckBackendService,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-    });
-  }
+  ) {  }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+    this.scrollToAnchor();
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      await this.getSelectParam();
+      await this.getSelectedFlat();
     } else {
       this.authorization = false;
     }
   }
 
-  async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const houseData = localStorage.getItem('houseData');
-        if (houseData) {
-          this.authorizationHouse = true;
-        }
-      } else {
-        this.authorizationHouse = false;
-      }
-    });
+  // Перевірка на пристрій
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
   }
 
-  // Перегляд статистики комунальних
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = Number(flatId);
+        if (this.selectedFlatId) {
+          this.authorizationHouse = true;
+        } else {
+          this.authorizationHouse = false;
+        }
+      })
+    );
+  }
+
+  // Перехід до оселі
   goToHouse() {
     if (this.authorizationHouse) {
       setTimeout(() => {
@@ -98,6 +117,10 @@ export class HomeComponent implements OnInit {
         this.sharedService.setStatusMessage('');
       }, 2000);
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

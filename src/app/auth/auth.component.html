@@ -4,33 +4,33 @@
     <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/home/about-project'">
         <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Головна</div>
+        <div class="t-min bold">Головна</div>
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
-      <div class="menu-lable">Меню</div>
-      <div class="menu-name">Авторизації</div>
+    <div class="menu-box">
+      <div class="menu-lable">Авторизація</div>
+      <div class="menu-name">Користувача</div>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <div class="t-min">Вхід в аккаунт</div>
+        <div class="t-min">Вхід</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
         <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="t-min">Реєстрація аккаунту</div>
+        <div class="t-min">Реєстрація</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/change-password'">
         <i class="fa-solid fa-user-secret"></i>
-        <div class="t-min">Зміна паролю</div>
+        <div class="t-min">Пароль</div>
       </button>
     </div>
 
@@ -50,14 +50,8 @@
 
   </div>
 
-  <div class="main-container w-100">
-    <main class="main-content">
-      <router-outlet></router-outlet>
-      <div class="bg-home"></div>
-    </main>
-    <div class="footer">
-      <app-footer></app-footer>
-    </div>
-  </div>
+  <main class="main-container p-2">
+    <router-outlet></router-outlet>
+  </main>
 
 </div>

@@ -83,7 +83,6 @@ export class RatingComponent implements OnInit {
     private sharedService: SharedService,
     private statusDataService: StatusDataService,
     private location: Location,
-
   ) { }
 
   async ngOnInit(): Promise<void> {

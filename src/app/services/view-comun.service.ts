@@ -28,7 +28,7 @@ export class ViewComunService {
   }
 
   setSelectedView(ViewComun: string): void {
-    console.log(ViewComun)
+    // console.log(ViewComun)
     localStorage.removeItem('selectedView');
     localStorage.removeItem('selectedFlatId');
     localStorage.removeItem('house');
@@ -38,7 +38,7 @@ export class ViewComunService {
   }
 
   setSelectedName(Name: string): void {
-    console.log(Name)
+    // console.log(Name)
     localStorage.removeItem('selectedView');
     localStorage.removeItem('selectedFlatId');
     localStorage.removeItem('house');

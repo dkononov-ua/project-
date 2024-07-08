@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
 import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.component';
-import { SelectionAccountComponent } from '../components/selection-account/selection-account.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
@@ -70,7 +69,6 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     LoaderComponent,
     NavbarUserComponent,
     NavbarHouseComponent,
-    SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,
@@ -109,7 +107,6 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     LoaderComponent,
     NavbarUserComponent,
     NavbarHouseComponent,
-    SelectionAccountComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,

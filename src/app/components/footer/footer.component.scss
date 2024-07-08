@@ -24,6 +24,7 @@
   width: 100%;
   @include s1-s3 {
     border-radius: 20px;
+    padding-bottom: 20px;
   }
 }
 
@@ -53,8 +54,8 @@ span {
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: row;
-  width: 96%;
-  padding: 0 10px;
+  width: 100%;
+  // padding: 0 10px;
   align-items: center;
 
   .social-link-box {

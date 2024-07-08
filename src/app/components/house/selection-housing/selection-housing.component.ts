@@ -207,14 +207,15 @@ export class SelectionHousingComponent implements OnInit {
 
   // обираємо іншу оселю
   selectFlat(flat: any): void {
+    // якщо оселя вже була вибрана то ми просто переходимо до меню оселі
     const houseData = localStorage.getItem('houseData');
     if (houseData && this.chooseFlatID === flat.flat_id) {
       this.router.navigate(['/house']);
     } else {
       const userJson = localStorage.getItem('user');
       if (userJson && flat) {
+        this.sharedService.setLoading(true)
         this.sharedService.clearCacheHouse();
-        this.loading = true;
         this.sharedService.setStatusMessage('Обираємо ' + flat.flat_name);
         setTimeout(() => {
           this.sharedService.setStatusMessage('Оновлюємо дані');
@@ -222,7 +223,7 @@ export class SelectionHousingComponent implements OnInit {
           this.selectedFlatService.setSelectedFlatName(flat.flat_name);
           this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
           this.dataService.getInfoFlat().subscribe((response: any) => {
-            // console.log(response)
+            console.log(response)
             if (response) {
               setTimeout(() => {
                 this.sharedService.setStatusMessage('Оновлено');

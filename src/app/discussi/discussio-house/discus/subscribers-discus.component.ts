@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 @Component({
   selector: 'app-subscribers-discus',
   templateUrl: './subscribers-discus.component.html',
@@ -40,6 +41,7 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
+  selectedFlatId: number = 0;
 
   constructor(
     private choseSubscribersService: ChoseSubscribersService,
@@ -49,34 +51,58 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
     private location: Location,
     private cardsDataHouseService: CardsDataHouseService,
     private sharedService: SharedService,
+    private selectedFlatService: SelectedFlatService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.counterService.getHouseDiscussioCount(0);
+    await this.getCheckDevice();
+    await this.getSelectedFlat();
+    await this.getСhoseUserID();
+    if (this.selectedFlatId) {
+      await this.counterService.getHouseDiscussioCount(this.selectedFlatId);
+      await this.getCounterFound();
+    }
+  }
 
+  // підписка на шлях до серверу
+  async getCheckDevice() {
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {
         this.isMobile = status;
       })
     );
-    // Підписка на отримання айді обраного юзера
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        this.selectedFlatId = Number(flatId);
+      })
+    )
+  }
+
+  // Підписка на отримання айді обраного юзера
+  async getСhoseUserID() {
     this.subscriptions.push(
       this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
-        this.selectedUserId = selectedSubscriber;
+        this.selectedUserId = Number(selectedSubscriber);
+        // console.log(this.selectedUserId)
         if (this.selectedUserId) {
           this.indexPage = 2;
         }
       })
-    );
+    )
+  }
 
-    // Підписка на отримання кількості карток
+  // Підписка на отримання кількості карток
+  async getCounterFound() {
     this.subscriptions.push(
       this.counterService.counterHouseDiscussio$.subscribe(data => {
-        this.counterFound = Number(data);
         // console.log(data)
-      })
-    );
-
+        this.counterFound = Number(data);
+      }))
   }
 
   ngOnDestroy() {

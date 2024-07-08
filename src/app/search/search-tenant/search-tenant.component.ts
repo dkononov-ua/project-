@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { CounterService } from 'src/app/services/counter.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 
 @Component({
   selector: 'app-search-tenant',
@@ -22,6 +23,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
     animations.left5,
     animations.swichCard,
     animations.top,
+    animations.appearance,
   ],
 })
 
@@ -38,7 +40,7 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
   selectedFlatId!: number | null;
   houseData: any;
   acces_subs: number = 1;
-  indexPage: number = 2;
+  indexPage: number = 1;
   startX = 0;
   blockBtnStatus: boolean = false;
   authorizationHouse: boolean = false;
@@ -56,6 +58,7 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     private counterService: CounterService,
     private sharedService: SharedService,
     private choseSubscribersService: ChoseSubscribersService,
+    private cardsDataHouseService: CardsDataHouseService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -163,6 +166,8 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // видаляю обраний айді користувача
     this.choseSubscribersService.removeChosenUserId();
+    this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
+
     // скидую в компоненті profile індекс сторінки щоб показувати всі картки при оновленні сторінки
     this.choseSubscribersService.setIndexPage(2);
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

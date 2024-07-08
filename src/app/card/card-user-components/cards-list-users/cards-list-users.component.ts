@@ -36,6 +36,7 @@ import { FilterUserService } from 'src/app/search/filter-user.service';
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.top3,
   ],
 })
 

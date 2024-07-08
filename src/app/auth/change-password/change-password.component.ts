@@ -1,16 +1,13 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import moment from 'moment';
 import * as ServerConfig from 'src/app/config/path-config';
 import { MatDialog } from '@angular/material/dialog';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 import { checkPasswordStrength, checkPasswordMatch, formErrors, validationMessages, onValueChanged } from '../validation';
 
 @Component({
@@ -36,18 +33,19 @@ import { checkPasswordStrength, checkPasswordMatch, formErrors, validationMessag
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.appearance,
   ],
 })
 
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
 
-    // імпорт шляхів до медіа
-    pathPhotoUser = ServerConfig.pathPhotoUser;
-    pathPhotoFlat = ServerConfig.pathPhotoFlat;
-    pathPhotoComunal = ServerConfig.pathPhotoComunal;
-    path_logo = ServerConfig.pathLogo;
-    serverPath: string = '';
-    // ***
+  // імпорт шляхів до медіа
+  pathPhotoUser = ServerConfig.pathPhotoUser;
+  pathPhotoFlat = ServerConfig.pathPhotoFlat;
+  pathPhotoComunal = ServerConfig.pathPhotoComunal;
+  path_logo = ServerConfig.pathLogo;
+  serverPath: string = '';
+  // ***
 
   // експортую значення помилок
   formErrors: any = formErrors;
@@ -87,29 +85,55 @@ export class ChangePasswordComponent implements OnInit {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }
 
+  subscriptions: any[] = [];
+  authorization: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
     public dialog: MatDialog,
     private sharedService: SharedService,
-    private breakpointObserver: BreakpointObserver,
-  ) {
-    this.counterWrongEnteredPass = 5;
+  ) { this.counterWrongEnteredPass = 5; }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
+  async ngOnInit(): Promise<void> {
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
     this.initializeForm();
-    this.loading = false;
     this.calcWrongPass();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Перевірка на пристрій
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
   }
 
   async invalidСodeCheck(): Promise<void> {
@@ -206,30 +230,29 @@ export class ChangePasswordComponent implements OnInit {
   async sendCodeForChangePass(): Promise<void> {
     this.loading = true;
     const data = { email: this.changePassForm.get('email')?.value };
-    this.http.post(this.serverPath + '/registration/forgotpass1', data)
-      .subscribe((response: any) => {
-        if (response.status === 'На вашу пошту було надіслано код безпеки') {
-          this.changeStep = 1;
-          this.changePassForm.get('email')?.disable();
-          this.sharedService.setStatusMessage('На вашу пошту було надіслано код безпеки.');
-          this.sharedService.clearCache();
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('');
-            this.loading = false;
-          }, 2000);
-        } else {
-          this.sharedService.setStatusMessage('Помилка надсилання коду безпеки.');
-          setTimeout(() => {
-            location.reload();
-          }, 2000);
-        }
-      }, (error: any) => {
-        console.error(error);
-        this.sharedService.setStatusMessage('Сталася помилка на сервері');
+    try {
+      const response: any = await this.http.post(this.serverPath + '/registration/forgotpass1', data).toPromise();
+      if (response.status === 'На вашу пошту було надіслано код безпеки') {
+        this.changeStep = 1;
+        this.changePassForm.get('email')?.disable();
+        this.sharedService.setStatusMessage('На вашу пошту було надіслано код безпеки.');
+        this.sharedService.clearCache();
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          this.loading = false;
+        }, 2000);
+      } else {
+        this.sharedService.setStatusMessage('Помилка надсилання коду безпеки.');
         setTimeout(() => {
           location.reload();
         }, 2000);
-      });
+      }
+    } catch (error) {
+      this.sharedService.setStatusMessage('Сталася помилка на сервері');
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    }
   }
 
   onChangePassword() {
