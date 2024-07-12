@@ -1,13 +1,11 @@
 <div class="card-wrapper">
   <div class="card-animation" [@cardSwipe]="cardSwipeState" *ngIf="selectedUser">
     <div class="card-content w-100" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
-
       <div class="btn-close-container m-2">
         <div class="btn-close-box">
           <button class="btn-close" (click)="closeUser()"></button>
         </div>
       </div>
-
       <app-img></app-img>
       <div class="status-subscription-wrapper">
         <div [@appearance] class="status-subscription" *ngIf="subscriptionStatus === 1 || subscriptionStatus === 2">
@@ -15,39 +13,34 @@
           <div class="status-text p-2" *ngIf="subscriptionStatus === 2">Дискусія</div>
         </div>
       </div>
-
       <div class="card-btn-container w-100">
-
         <div class="item-box">
-          <button *ngIf="!subscriptionStatus || subscriptionStatus === 0" class="btn link" (click)="getSubscribe()">
+          <button [disabled]="btnDisabled" *ngIf="!subscriptionStatus || subscriptionStatus === 0 " class="btn link"
+            (click)="getSubscribe()">
             <i class="fa-regular fa-heart"></i>
           </button>
-          <button *ngIf="subscriptionStatus === 1" class="btn link" (click)="getSubscribe()">
+          <button [disabled]="btnDisabled" *ngIf="subscriptionStatus === 1" class="btn link" (click)="getSubscribe()">
             <i class="fa-solid fa-heart orange"></i>
           </button>
           <a [routerLink]="'/subscribers-discus'" class="btn link bg-accent" *ngIf="subscriptionStatus === 2">
             <i class="fa-solid fa-d"></i>
           </a>
         </div>
-
         <div class="item-box m-1">
           <button mat-raised-button class="btn link" (click)="onSwiped('right')">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
         </div>
-
         <div class="item-box m-1">
           <button mat-raised-button class="btn link" (click)="onSwiped('left')">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
-
       </div>
-
       <app-info></app-info>
-
     </div>
   </div>
+
   <div class="status-subscription-wrapper h-100" *ngIf="isSelectedUserId">
     <div [@appearance] class="status-subscription bg-transparent">
       <div class="status-text p-2 t-c">Оберіть <br> користувача</div>

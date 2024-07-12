@@ -1,4 +1,4 @@
-<div class="content-component">
+<div class="content-component" *ngIf="authorization">
   <div class="switch-container">
 
     <div class="switch-btn-group">
@@ -13,11 +13,18 @@
       <div class="menu-name">Орендаря <i class="fa-solid fa-magnifying-glass pl-2"></i></div>
     </div>
 
+    <div class="switch-btn-group hide-mobile" *ngIf="!authorizationHouse">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
+        <i class="fa-solid fa-house-circle-check"></i>
+        <div class="t-min">Оселя</div>
+      </button>
+    </div>
+
     <div class="switch-btn-group" *ngIf="authorizationHouse">
       <app-navigation-house></app-navigation-house>
     </div>
 
-    <div class="switch-btn-group" *ngIf="houseData && acces_subs === 1">
+    <div class="switch-btn-group">
       <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscriptions-house'">
         <i class="fa-solid fa-people-pulling"></i>
         <div class="t-min bold">Підписки</div>
@@ -35,17 +42,18 @@
 
     <div class="switch-btn-group" *ngIf="!isMobile">
       <button [disabled]="counterFound === 0 || blockBtnStatus" class="btn">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <div class="t-min bold">Знайдено</div>
-          <div class="status" *ngIf="!blockBtnStatus">{{counterFound}}</div>
-          <div class="status" *ngIf="blockBtnStatus"> <mat-spinner color="dark"></mat-spinner>
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min bold">Знайдено</div>
+        <div class="status" *ngIf="!blockBtnStatus">{{counterFound}}</div>
+        <div class="status" *ngIf="blockBtnStatus"> <mat-spinner color="dark"></mat-spinner>
         </div>
       </button>
     </div>
 
     <div class="switch-btn-group" *ngIf="isMobile">
-      <button [disabled]="counterFound === 0 || blockBtnStatus" class="btn" (click)="indexPage = 2" [ngClass]="{ 'active': indexPage === 2}">
-        <i class="fa-solid fa-house-chimney-window"></i>
+      <button [disabled]="counterFound === 0 || blockBtnStatus" class="btn" (click)="indexPage = 2"
+        [ngClass]="{ 'active': indexPage === 2}">
+        <i class="fa-solid fa-magnifying-glass"></i>
         <div class="t-min bold">Знайдено</div>
         <div class="status" *ngIf="!blockBtnStatus">{{counterFound}}</div>
         <div class="status" *ngIf="blockBtnStatus"> <mat-spinner color="dark"></mat-spinner>
@@ -94,9 +102,11 @@
     <div *ngIf="!isMobile" class="col-lg-3 col-md-3">
       <app-search-term-tenants></app-search-term-tenants>
     </div>
+
     <div *ngIf="!isMobile" class="col-lg-4 col-md-4">
       <app-cards-list-users></app-cards-list-users>
     </div>
+
     <div *ngIf="!isMobile" class="col-lg-5 col-md-5">
       <app-profile></app-profile>
     </div>
@@ -104,9 +114,11 @@
     <div *ngIf="isMobile && indexPage === 1">
       <app-search-term-tenants></app-search-term-tenants>
     </div>
+
     <div *ngIf="isMobile && indexPage === 2">
       <app-cards-list-users></app-cards-list-users>
     </div>
+
     <div *ngIf="isMobile && indexPage === 3">
       <app-profile></app-profile>
     </div>

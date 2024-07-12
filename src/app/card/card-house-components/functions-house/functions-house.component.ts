@@ -22,6 +22,8 @@ import { SendMessageService } from 'src/app/chat/send-message.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
 import { CreateChatService } from 'src/app/chat/create-chat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { HouseInfo } from '../../../interface/info';
+import { HouseConfig } from '../../../interface/param-config';
 
 @Component({
   selector: 'app-functions-house',
@@ -116,11 +118,13 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   panelWidth: string = '0px'; // Початкова висота панелі
   iconRotation: number = 0;
   currentLocation: string = '';
+  authorization: boolean = false;
 
   goBack(): void {
     this.location.back();
   }
   isMobile: boolean = false;
+  house: HouseInfo = HouseConfig;
 
   constructor(
     private http: HttpClient,
@@ -138,50 +142,94 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     private sendMessageService: SendMessageService,
     private locationHouseService: LocationHouseService,
     private createChatService: CreateChatService,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-    });
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    // Підписка на шлях до серверу
+    this.currentLocation = this.location.path();
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    await this.getChosenFlatId();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
+  }
 
-    // Підписка на отримання айді обраної оселі
+  // Підписка на отримання айді обраної оселі
+  async getChosenFlatId() {
     this.subscriptions.push(
       this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.choseFlatId = selectedFlatId;
         // console.log(this.choseFlatId)
-      })
-    );
-
-    // Підписка на отримання даних обраної оселі
-    this.subscriptions.push(
-      this.cardsDataService.cardData$.subscribe(async (data: any) => {
-        this.chosenFlat = data;
-        // Якщо є обрана оселя
-        if (this.chosenFlat) {
-          // Перевіряю чи створений чат
-          await this.checkChatExistence();
-          // Формую локацію на мапі
-          this.locationLink = await this.locationHouseService.generateLocationUrl(this.chosenFlat);
+        if (this.choseFlatId) {
+          this.getCardsData();
         }
       })
     );
-
-    this.currentLocation = this.location.path();
   }
 
+  // Підписка на отримання даних обраної оселі
+  async getCardsData() {
+    this.subscriptions.push(
+      this.cardsDataService.cardData$.subscribe(async (data: any) => {
+        if (data) {
+          this.chosenFlat = data;
+          // Якщо є обрана оселя та я авторизований
+          if (this.chosenFlat && this.authorization && this.choseFlatId) {
+            // Перевіряю чи створений чат
+            await this.checkChatExistence();
+            // Формую локацію на мапі
+            this.locationLink = await this.locationHouseService.generateLocationUrl(this.chosenFlat);
+          }
+          if (Array.isArray(data.img) && data.img.length !== 0) {
+            this.house.photos = data.img.map((img: string) => ({
+              flat_id: data.flat.flat_id,
+              img: img
+            }));
+          } else if (data) {
+            this.house.photos = [{
+              flat_id: data.flat.flat_id,
+              img: 'housing_default.svg'
+            }];
+          } else {
+            this.house.photos = [{
+              flat_id: 0,
+              img: 'housing_default.svg'
+            }];
+          }
+        }
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
+
   ngOnDestroy() {
-    // this.choseSubscribeService.removeChosenFlatId(); // очищуємо вибрану оселю
-    // this.cardsDataService.removeCardData(); // очищуємо дані про оселю
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    // console.log(this.subscriptions)
   }
 
   // Копіювання параметрів
@@ -239,7 +287,11 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
 
   // Відкриваю локацію на мапі
   openMap() {
-    this.sharedService.openMap(this.locationLink)
+    if (this.authorization) {
+      this.sharedService.openMap(this.locationLink)
+    } else {
+      this.sharedService.getAuthorization();
+    }
   }
 
   // Перегляд статистики комунальних
@@ -270,7 +322,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     });
   }
 
-  openFullScreenImage(photos: string): void {
+  openFullScreenImage(photos: any): void {
     this.sharedService.openFullScreenImage(photos);
   }
 
@@ -297,9 +349,6 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
       (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { location.reload(); }, 2000); console.error(error); }
     } else { console.log('Авторизуйтесь'); }
   }
-
-
-
 }
 
 

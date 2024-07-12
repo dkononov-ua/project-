@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { CounterService } from 'src/app/services/counter.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { ChoseSubscribeService } from 'src/app/services/chose-subscribe.service';
 
 interface UserInfo {
   price_of: string | undefined;
@@ -71,6 +72,7 @@ interface SearchParams {
     animations.left5,
     animations.swichCard,
     animations.top,
+    animations.appearance,
   ],
 })
 
@@ -146,7 +148,7 @@ export class SearchHousingComponent implements OnInit {
   searchQuery: any;
   searchTimer: any;
   // загальна кількість знайдених осель
-  optionsFound: number = 0
+  counterFound: number = 0
   loading = true;
   filter_group: number = 1;
   openUser: boolean = false;
@@ -154,7 +156,7 @@ export class SearchHousingComponent implements OnInit {
   userInfoSearch: any;
 
   card_info: number = 0;
-  indexPage: number = 0;
+  indexPage: number = 1;
   shownCard: string | undefined;
   myData: boolean = false;
   startX = 0;
@@ -189,66 +191,105 @@ export class SearchHousingComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  subscriptions: any[] = [];
+  blockBtnStatus: boolean = false;
 
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
     private router: Router,
-    private breakpointObserver: BreakpointObserver,
     private location: Location,
     private counterService: CounterService,
     private sharedService: SharedService,
+    private choseSubscribeService: ChoseSubscribeService,
+
   ) { }
 
-  async ngOnInit() {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
+    await this.getSearchInfo();
+    this.getShowedCards();
+    await this.getIndexPage();
+    await this.getLoadResult();
+  }
+
+  // перевірка девайсу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // показую маленький лоадер на кількість знайдених варіантів
+  async getLoadResult() {
+    this.subscriptions.push(
+      this.filterService.blockBtnStatus$.subscribe(async (status: boolean) => {
+        this.blockBtnStatus = status;
+        setTimeout(() => {
+          if (this.blockBtnStatus) {
+            this.blockBtnStatus = !this.blockBtnStatus;
+          }
+        }, 3000);
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
       this.getUserSubscriptionsCount()
+      await this.counterService.getUserSubscriptionsCount();
     } else {
       this.authorization = false;
     }
-    this.getSearchInfo();
-    this.getShowedCards();
   }
 
   // перевірка підписок користувача
   async getUserSubscriptionsCount() {
-    // console.log('Відправляю запит на сервіс кількість підписок',)
-    await this.counterService.getUserSubscriptionsCount();
-    this.counterService.counterUserSubscriptions$.subscribe(data => {
-      const counterUserSubscriptions: any = data;
-      if (counterUserSubscriptions.status === 'Немає доступу') {
-        this.counterUserSubscriptions = null;
-      } else {
-        this.counterUserSubscriptions = counterUserSubscriptions;
-      }
-      // console.log('кількість підписок', this.counterUserSubscriptions)
-    });
+    this.subscriptions.push(
+      this.counterService.counterUserSubscriptions$.subscribe(data => {
+        const counterUserSubscriptions: any = data;
+        if (counterUserSubscriptions.status === 'Немає доступу') {
+          this.counterUserSubscriptions = null;
+        } else {
+          this.counterUserSubscriptions = counterUserSubscriptions;
+        }
+      })
+    );
   }
 
+  // підписка на кількість знайдених осель
   async getSearchInfo() {
-    this.filterService.filterChange$.subscribe(async () => {
-      const optionsFound = this.filterService.getOptionsFound();
-      if (optionsFound && optionsFound !== 0) {
-        this.optionsFound = optionsFound;
-      } else {
-        this.optionsFound = 0;
-      }
-    })
+    this.subscriptions.push(
+      this.filterService.filterChange$.subscribe(async () => {
+        const counterFound = this.filterService.getOptionsFound();
+        if (counterFound && counterFound !== 0) {
+          this.counterFound = counterFound;
+        } else {
+          this.counterFound = 0;
+        }
+      })
+    );
   }
 
   getShowedCards() {
     this.filterService.showedCards$.subscribe(showedCards => {
+      // console.log(showedCards)
       if (showedCards !== '') {
         this.shownCard = showedCards;
       }
@@ -257,8 +298,16 @@ export class SearchHousingComponent implements OnInit {
 
   onSortSelected(value: string) {
     this.filterValue = value;
-    this.router.navigate(['/search-house/all-cards']);
     this.filterService.sortHouse(value)
+  }
+
+  // Відкриваю сторінку профілю
+  async getIndexPage() {
+    this.subscriptions.push(
+      this.choseSubscribeService.indexPage$.subscribe(indexPage => {
+        this.indexPage = indexPage;
+      })
+    )
   }
 
 }

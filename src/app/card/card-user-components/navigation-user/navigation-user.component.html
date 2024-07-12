@@ -8,12 +8,21 @@
     </div>
   </div>
   <div class="menu" (click)="toggleAllMenu(1)" *ngIf="menu[1]">
-    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="t-lar-xx bold white t-e mr-2"
-      *ngIf="linkOpen[1]">Меню Користувача
+    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="t-lar-xx bold white t-c"
+      *ngIf="linkOpen[1]">Меню <br> Користувача
     </div>
 
-    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'" *ngIf="linkOpen[1]">
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" [routerLinkActive]="'active'"
+      [routerLink]="'/user/info'" *ngIf="linkOpen[1]">
+      <i class="fa-regular fa-circle-user"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Профіль користувача</p>
+        <p class="t-min">Ваш профіль</p>
+      </div>
+    </a>
+
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link" [routerLinkActive]="'active'"
+      [routerLink]="'/house/house-control/selection-house'" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-house-circle-check"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Управління оселею</p>
@@ -21,8 +30,8 @@
       </div>
     </a>
 
-    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/user/agree'" *ngIf="linkOpen[1]">
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link" [routerLinkActive]="'active'"
+      [routerLink]="'/user/agree'" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-envelope-open-text"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Угоди</p>
@@ -30,17 +39,17 @@
       </div>
     </a>
 
-    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/user/preview'" *ngIf="linkOpen[1]">
+    <!-- <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" [routerLinkActive]="'active'"
+      [routerLink]="'/user/preview'" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-address-card"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Перегляд</p>
         <p class="t-min">Як виглядає мій профіль</p>
       </div>
-    </a>
+    </a> -->
 
-    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/looking'" *ngIf="linkOpen[1]">
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" [routerLinkActive]="'active'"
+      [routerLink]="'/looking'" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-person-hiking"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Профіль Орендаря</p>
@@ -48,8 +57,8 @@
       </div>
     </a>
 
-    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/information-user'" *ngIf="linkOpen[1]">
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link" [routerLinkActive]="'active'"
+      [routerLink]="'/information-user'" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-gears"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Редагувати</p>

@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
+import { animations } from '../../../app/interface/animation';
 
 
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss']
+  styleUrls: ['./loader.component.scss'],
+  animations: [
+    animations.appearance,
+  ],
 })
 
 export class LoaderComponent {

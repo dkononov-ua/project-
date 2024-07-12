@@ -55,19 +55,4 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  // Перегляд статистики комунальних
-  goToHouse() {
-    if (this.authorizationHouse) {
-      setTimeout(() => {
-        this.router.navigate(['/house/house-info']);
-      }, 100);
-    } else {
-      this.sharedService.setStatusMessage('Переходимо до вибору оселі');
-      setTimeout(() => {
-        this.router.navigate(['/house/house-control/selection-house']);
-        this.sharedService.setStatusMessage('');
-      }, 2000);
-    }
-  }
-
 }

@@ -13,6 +13,7 @@ import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 import { formErrors, validationMessages, onValueChanged } from '../validation';
 import { DataService } from 'src/app/services/data.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -91,6 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authGoogleService: AuthGoogleService,
     private dataService: DataService,
     private statusDataService: StatusDataService,
+    private loaderService: LoaderService,
   ) { }
 
   ngOnDestroy() {
@@ -137,7 +139,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   async login(): Promise<void> {
-    this.sharedService.setLoading(true);
+    this.loaderService.setLoading(true);
     this.sharedService.clearCache();
     try {
       const response: any = await this.http.post(this.serverPath + '/login', this.loginForm.value).toPromise();
@@ -154,7 +156,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                   this.router.navigate(['/user']);
                   this.sharedService.setStatusMessage('');
-                  this.sharedService.setLoading(false);
+                  this.loaderService.setLoading(false);
                 }, 1500);
               } else {
                 this.sharedService.setStatusMessage('Помилка оновлення даних');

@@ -175,7 +175,7 @@ export class AboutComponent implements OnInit {
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оновлюємо інформацію');
               setTimeout(() => {
-                this.router.navigate(['/house/house-info']);
+                this.router.navigate(['/house']);
                 this.sharedService.setStatusMessage('');
               }, 1000);
             }, 1500);
@@ -187,7 +187,7 @@ export class AboutComponent implements OnInit {
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оновлюємо інформацію');
               setTimeout(() => {
-                // this.router.navigate(['/house/house-info']);
+                // this.router.navigate(['/house']);
                 this.sharedService.setStatusMessage('');
                 location.reload();
               }, 1000);

@@ -8,7 +8,7 @@
   <button class="paginator-btn" (click)="incrementOffset()">
     <i class="fa-solid fa-chevron-right"></i></button>
 </div>
-<div [@right1] class="cards-container p-2">
+<div #findCards [@right1] class="cards-container p-2" (scroll)="onScroll($event)">
   <div class="card-mini mb-3" *ngFor="let card of allCards" (click)="onFlatSelect(card.flat.flat_id)"
     [ngClass]="{ 'selected': choseFlatId == card.flat.flat_id  }">
     <div class="card-mini-img-container">

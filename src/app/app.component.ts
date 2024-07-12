@@ -7,6 +7,7 @@ import { CheckBackendService } from './services/check-backend.service';
 import { StatusMessageService } from './services/status-message.service';
 import { animations } from '../app/interface/animation';
 import { Router } from '@angular/router';
+import { LoaderService } from './services/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -69,16 +70,17 @@ export class AppComponent implements OnInit {
     private checkBackendService: CheckBackendService,
     private statusMessageService: StatusMessageService,
     private router: Router,
+    private loaderService: LoaderService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getStatusLoader();
     this.checkBackendService.startCheckServer();
     this.currentLocation = this.location.path();
     this.getStatusServer();
     this.getCheckDevice();
     this.getServerPath();
     this.getStatusMessage();
-    this.getStatusLoader();
   }
 
   // підписка на оновлення шляху серверу
@@ -146,7 +148,7 @@ export class AppComponent implements OnInit {
   // Отримання статусу лоадера
   async getStatusLoader() {
     this.subscriptions.push(
-      this.sharedService.loading$.subscribe((status: boolean) => {
+      this.loaderService.loading$.subscribe((status: boolean) => {
         // console.log(status)
         this.loading = status;
       })

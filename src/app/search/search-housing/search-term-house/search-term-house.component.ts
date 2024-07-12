@@ -283,9 +283,8 @@ export class SearchTermHouseComponent implements OnInit {
       this.userInfo.looking_woman = this.userInfoSearch.looking_woman;
       this.userInfo.looking_man = this.userInfoSearch.looking_man;
 
-      setTimeout(() => {
-        this.searchFilter()
-      }, 1000)
+      this.onSubmitWithDelay();
+
     } else {
       this.myDataExist = false;
     }
@@ -340,9 +339,7 @@ export class SearchTermHouseComponent implements OnInit {
       limit: 0,
       filterData: '',
     };
-    setTimeout(() => {
-      this.searchFilter()
-    }, 1000)
+    this.onSubmitWithDelay();
   }
 
   // завантаження бази міст
@@ -377,13 +374,14 @@ export class SearchTermHouseComponent implements OnInit {
 
   // додавання затримки на відправку запиту
   onSubmitWithDelay() {
-    // console.log('onSubmitWithDelay')
+    this.filterService.blockBtn(true);
+    this.passInformationToService([], 0);
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
     }
     this.searchTimer = setTimeout(() => {
       this.searchFilter();
-    }, 1000);
+    }, 2000);
   }
 
   // пошук оселі по ID
@@ -449,7 +447,9 @@ export class SearchTermHouseComponent implements OnInit {
       flat: undefined
     };
     const url = this.buildSearchURL(params);
-    await this.getSearchData(url);
+    setTimeout(async () => {
+      await this.getSearchData(url);
+    }, 200);
   }
 
   // побудова URL пошукового запиту
@@ -461,24 +461,33 @@ export class SearchTermHouseComponent implements OnInit {
 
   // передача пошукових фільтрів та отримання результатів пошуку
   async getSearchData(url: string) {
-    const response: any = await this.http.get(url).toPromise();
-    // console.log(response)
-    if (response) {
-      this.optionsFound = response.count;
-      if (this.userInfo.filterData) {
-        this.filteredFlats = response.img;
-      } else if (!this.addСardsToArray) {
-        this.filteredFlats = response.img;
-      } else if (this.addСardsToArray) {
-        this.filteredFlats.push(...response.img);
-        setTimeout(() => {
-          this.addСardsToArray = false;
-        }, 100);
+    if (url) {
+      try {
+        this.filterService.blockBtn(true)
+        const response: any = await this.http.get(url).toPromise();
+        if (response) {
+          this.optionsFound = response.count;
+          if (this.userInfo.filterData) {
+            this.filteredFlats = response.img;
+          } else if (!this.addСardsToArray) {
+            this.filteredFlats = response.img;
+          } else if (this.addСardsToArray) {
+            this.filteredFlats.push(...response.img);
+            setTimeout(() => {
+              this.addСardsToArray = false;
+            }, 100);
+          }
+          this.calculatePaginatorInfo()
+          this.passInformationToService(this.filteredFlats, this.optionsFound);
+          setTimeout(() => {
+            this.filterService.blockBtn(false)
+          }, 500);
+        }
+        this.loading = false;
+      } catch (error) {
+        console.log(error)
       }
-      this.calculatePaginatorInfo()
-      this.passInformationToService(this.filteredFlats, this.optionsFound);
     }
-    this.loading = false;
   }
 
   // передача отриманих даних до сервісу а потім виведення на картки карток

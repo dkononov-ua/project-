@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -6,6 +6,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { DeleteHouseComponent } from 'src/app/components/house/delete-house/delete-house.component';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-delete-h',
@@ -13,7 +14,7 @@ import { DeleteHouseComponent } from 'src/app/components/house/delete-house/dele
   styleUrls: ['./delete-h.component.scss'],
 })
 
-export class DeleteHComponent implements OnInit {
+export class DeleteHComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -55,43 +56,67 @@ export class DeleteHComponent implements OnInit {
   flat_name: string = '';
   showInput = false;
   showCreate = false;
-  selectedFlatId: string | null = null;
+  selectedFlatId: any | null;
   statusMessage: string | undefined;
+
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
+  authorizationHouse: boolean = false;
+
 
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private loaderService: LoaderService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    await this.getSelectParam();
-    const selectedFlatName = localStorage.getItem('selectedFlatName');
-    if (selectedFlatName !== null) {
-      this.selectedFlatName = selectedFlatName;
-    } else {
-    }
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.getSelectedFlat();
   }
 
-  async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const houseData = localStorage.getItem('houseData');
-        if (houseData) {
-          const parsedHouseData = JSON.parse(houseData);
-          this.houseData = parsedHouseData;
-          if (this.houseData) {
-            this.getHouseAcces();
+  // підписка на перевірку девайсу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        this.selectedFlatId = Number(flatId);
+        if (this.selectedFlatId) {
+          this.authorizationHouse = true;
+          const houseData = localStorage.getItem('houseData');
+          if (houseData) {
+            const parsedHouseData = JSON.parse(houseData);
+            this.houseData = parsedHouseData;
+            if (this.houseData) {
+              this.getHouseAcces();
+            }
           }
+        } else {
+          this.authorizationHouse = false;
         }
-      }
-    });
+      })
+    );
   }
 
   async openDialog(): Promise<void> {
@@ -176,4 +201,7 @@ export class DeleteHComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }

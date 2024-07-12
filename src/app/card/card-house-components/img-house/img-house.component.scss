@@ -5,18 +5,19 @@
 .container-img {
   position: relative;
   width: 100%;
+
   .wrapper-img {
     border-radius: 20px 20px 0px 0px;
     position: relative;
     overflow: hidden;
-    height: 350px;
     .img-fluid {
       box-shadow: 1px 1px 30px 1px $color-dark;
       cursor: pointer;
       transition: 1s;
+      height: 350px;
       width: 100%;
       border-radius: 0px;
-      object-fit: cover;
+      overflow: hidden;
       &:hover {
         transform: scale(1.05);
       }
@@ -40,7 +41,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  z-index: 50;
+  z-index: 250;
   background-color: $color-white;
   border-radius: 50%;
   margin: 10px;

@@ -16,6 +16,7 @@ import { CardsDataService } from 'src/app/services/user-components/cards-data.se
   animations: [
     animations.left,
     animations.left1,
+    animations.right1,
     animations.left2,
     animations.left3,
     animations.left4,
@@ -25,6 +26,7 @@ import { CardsDataService } from 'src/app/services/user-components/cards-data.se
     animations.top2,
     animations.top3,
     animations.top4,
+    animations.appearance,
   ],
 })
 
@@ -135,6 +137,14 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  close() {
+    this.indexPage = 1;
+    setTimeout(() => {
+      this.choseSubscribeService.removeChosenFlatId();
+      this.cardsDataService.removeCardData();
+    }, 100);
   }
 }
 

@@ -15,6 +15,8 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { animations } from '../../../interface/animation';
+import { StatusMessageService } from 'src/app/services/status-message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -84,6 +86,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   subscriptions: any[] = [];
   isMobile = false;
+  btnDisabled: boolean = false;
 
   constructor(
     private filterService: FilterUserService,
@@ -95,6 +98,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private choseSubscribersService: ChoseSubscribersService,
     private cardsDataHouseService: CardsDataHouseService,
     private cardsDataService: CardsDataService,
+    private statusMessageService: StatusMessageService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -291,9 +296,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         setTimeout(() => { this.statusMessage = ''; }, 2000);
       }
     } else {
-      this.sharedService.setStatusMessage('Для підписки треба мати оселю');
+      this.btnDisabled = true;
+      this.statusMessageService.setStatusMessage('Для підписки треба мати оселю');
       setTimeout(() => {
-        this.sharedService.setStatusMessage('');
+        this.statusMessageService.setStatusMessage('');
+        this.btnDisabled = false;
+        this.router.navigate(['/house/house-control/selection-house']);
       }, 2000);
     }
   }

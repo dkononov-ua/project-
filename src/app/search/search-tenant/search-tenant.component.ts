@@ -8,6 +8,7 @@ import { CounterService } from 'src/app/services/counter.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
+import { StatusMessageService } from 'src/app/services/status-message.service';
 
 @Component({
   selector: 'app-search-tenant',
@@ -50,6 +51,7 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     this.location.back();
   }
   subscriptions: any[] = [];
+  authorization: boolean = false;
 
   constructor(
     private filterUserService: FilterUserService,
@@ -59,19 +61,36 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private choseSubscribersService: ChoseSubscribersService,
     private cardsDataHouseService: CardsDataHouseService,
+    private statusMessageService: StatusMessageService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getCheckDevice();
-    this.getServerPath();
-    this.getSelectedFlat();
-    this.getBtnStatus();
-    this.getHouseAcces();
-    this.getCounterFound();
-    this.getIndexPage();
+    this.checkUserAuthorization();
   }
 
-  // підписка на шлях до серверу
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      if (this.authorization) {
+        this.getCheckDevice();
+        this.getServerPath();
+        this.getSelectedFlat();
+        this.getBtnStatus();
+        this.getHouseAcces();
+        this.getCounterFound();
+        this.getIndexPage();
+      }
+    } else {
+      this.authorization = false;
+      setTimeout(() => {
+        this.sharedService.getAuthorization();
+      }, 100);
+    }
+  }
+
+  // підписка на перевірку девайсу
   async getCheckDevice() {
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {

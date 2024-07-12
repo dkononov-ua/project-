@@ -168,7 +168,7 @@ export class CreateChatService {
       }
     } else {
       console.log('Авторизуйтесь');
-      throw new Error('User not authenticated or flat ID not provided');
+      return false;
     }
   }
 

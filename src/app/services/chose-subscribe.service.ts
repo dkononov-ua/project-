@@ -6,14 +6,21 @@ import { CounterService } from './counter.service';
   providedIn: 'root'
 })
 export class ChoseSubscribeService {
-  private chosenFlatIdSubject = new BehaviorSubject<string | null>(null);
+  private chosenFlatIdSubject = new BehaviorSubject<any>(undefined);
   public selectedFlatId$ = this.chosenFlatIdSubject.asObservable();
   selectedFlat: { flat_id: any; flatImg: any; price_m: any; } | undefined;
   selectedFlatId: string | null = null;
 
+  private indexPageSubject = new BehaviorSubject<number>(1);
+  public indexPage$ = this.indexPageSubject.asObservable();
+
   constructor(
     private counterService: CounterService,
   ) { }
+
+  setIndexPage(indexPage: number) {
+    this.indexPageSubject.next(indexPage);
+  }
 
   async setChosenFlatId(flatId: string) {
     // console.log(flatId)
@@ -25,6 +32,6 @@ export class ChoseSubscribeService {
 
   removeChosenFlatId() {
     // console.log('removeChosenFlatId')
-    this.chosenFlatIdSubject.next(null);
+    this.chosenFlatIdSubject.next(undefined);
   }
 }

@@ -33,7 +33,11 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
   additional: boolean = false;
   currentLocation: string = '';
   toogleOpen() {
-    this.detail = !this.detail;
+    if (this.authorization) {
+      this.detail = !this.detail;
+    } else {
+      this.sharedService.getAuthorization();
+    }
   }
   toogleAdditional() {
     this.additional = !this.additional;
@@ -57,6 +61,8 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
   house: any | {};
   public locationLink: string = '';
   additionalHouseInfo: any;
+  isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -68,26 +74,71 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
-    // Підписка на шлях до серверу
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    this.checkLocation();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    if (this.currentLocation === '/house') {
-      this.loadDataFlat();
-      this.getAdditionalHouseInfo();
-    } else {
-      // Підписка на отримання даних обраної оселі
-      this.subscriptions.push(
-        this.cardsDataService.cardData$.subscribe(async (data: any) => {
-          // console.log(data)
-          this.house = data.flat
-          this.locationLink = await this.locationHouseService.generateLocationUrl(this.house);
+  }
 
-        })
-      );
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
     }
+  }
+
+  // перевірка де я знаходжусь
+  async checkLocation() {
+    if (this.currentLocation === '/house') {
+      this.getMyFlatData();
+    } else {
+      await this.getCardsData();
+    }
+  }
+
+  // Я на сторінці свого профілю запитую інформацію по своїй оселі
+  async getMyFlatData() {
+    this.loadDataFlat();
+    this.getAdditionalHouseInfo();
+  }
+
+  // Підписка на отримання даних обраної оселі
+  async getCardsData() {
+    // console.log('getCardsData')
+    this.subscriptions.push(
+      this.cardsDataService.cardData$.subscribe(async (data: any) => {
+        // console.log(data)
+        if (data) {
+          this.house = data.flat;
+          this.locationLink = await this.locationHouseService.generateLocationUrl(this.house);
+          if (this.house) {
+            // Формую локацію на мапі
+            this.locationLink = await this.locationHouseService.generateLocationUrl(this.house);
+          }
+        }
+      })
+    );
   }
 
   async loadDataFlat(): Promise<void> {
@@ -99,26 +150,27 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
       Object.assign(this.house, parsedHouseData.flat, parsedHouseData.about, parsedHouseData.param);
       // console.log(this.house);
       this.locationLink = await this.locationHouseService.generateLocationUrl(this.house);
-
     } else {
       console.log('Авторизуйтесь');
     }
   }
 
-
-  // Копіювання параметрів
-  copyLocation() {
-    this.sharedService.copyToClipboard(this.locationLink, 'Локацію');
-  }
-
   // Копіювання параметрів
   copyToClipboard(textToCopy: string, message: string) {
-    this.sharedService.copyToClipboard(textToCopy, message);
+    if (this.authorization) {
+      this.sharedService.copyToClipboard(textToCopy, message);
+    } else {
+      this.sharedService.getAuthorization();
+    }
   }
 
   // Відкриваю локацію на мапі
   openMap() {
-    this.sharedService.openMap(this.locationLink)
+    if (this.authorization) {
+      this.sharedService.openMap(this.locationLink)
+    } else {
+      this.sharedService.getAuthorization();
+    }
   }
 
   async getAdditionalHouseInfo(): Promise<any> {

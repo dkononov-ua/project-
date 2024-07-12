@@ -1,11 +1,12 @@
-<div class="container-img" *ngIf="house.photos">
+<div class="container-img" *ngIf="house">
   <app-status-data-house></app-status-data-house>
 
   <div class="wrapper-img">
-    <img [@top2] class="img-fluid" [src]="house.photos && house.photos[currentPhotoIndex].img
-                    ? serverPath + pathPhotoFlat + house.photos[currentPhotoIndex].img :
-                    serverPath + pathPhotoFlat + 'housing_default.svg'" alt="img"
-      (click)="openFullScreenImage(house.photos)">
+
+    <div [@top2] *ngIf="house.photos">
+      <img class="img-fluid" [src]="serverPath + pathPhotoFlat + house.photos[currentPhotoIndex].img" alt="img-house"
+        (click)="openFullScreenImage(house.photos)">
+    </div>
 
     <div [@top2] *ngIf="house.photos.length > 1">
       <button *ngIf="currentPhotoIndex !== 0" class="prev-img" (click)="prevPhoto()"><i
@@ -20,4 +21,5 @@
   <div [@left2] class="func" *ngIf="currentLocation !== '/house'">
     <app-functions-house></app-functions-house>
   </div>
+
 </div>

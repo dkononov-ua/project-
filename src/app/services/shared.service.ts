@@ -14,6 +14,7 @@ import { UserInfo } from '../interface/info';
 import * as ServerConfig from 'src/app/config/path-config';
 import { StatusMessageService } from './status-message.service';
 import { GalleryComponent } from '../components/gallery/gallery.component';
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -63,17 +64,12 @@ export class SharedService {
     private breakpointObserver: BreakpointObserver,
     private router: Router,
     private statusMessageService: StatusMessageService,
+    private loaderService: LoaderService,
   ) {
     this.getServerPath();
     const storedCheckOwner = localStorage.getItem('checkOwnerPage');
     if (storedCheckOwner) { this.checkOwnerPageSubject.next(storedCheckOwner); }
     this.checkIsMobile();
-  }
-
-  // Встановлюю статус лоадеру та передаю його в інші компоненти
-  setLoading(status: boolean) {
-    // console.log('setLoading', status)
-    this.loadingSubject.next(status);
   }
 
   getServerPath() {
@@ -209,7 +205,7 @@ export class SharedService {
   getAuthorization() {
     this.statusMessageService.setStatusMessage('Для цього потрібно бути авторизованим');
     setTimeout(() => {
-      this.router.navigate(['/house/house-info']);
+      this.router.navigate(['/house']);
       this.statusMessageService.setStatusMessage('');
     }, 3000);
   }
@@ -223,7 +219,7 @@ export class SharedService {
   }
 
   logoutUser() {
-    this.setLoading(true);
+    this.loaderService.setLoading(true);
     this.statusMessageService.setStatusMessage('Виходимо з аккаунту');
     this.clearCache();
     setTimeout(() => {

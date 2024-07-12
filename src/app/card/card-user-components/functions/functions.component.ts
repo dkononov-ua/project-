@@ -118,11 +118,6 @@ export class FunctionsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.selectedFlatId = selectedFlatId;
-        if (this.selectedFlatId) {
-          this.disabledBtn = false;
-        } else {
-          this.disabledBtn = true;
-        }
       })
     );
     this.checkLocation();
@@ -166,6 +161,7 @@ export class FunctionsComponent implements OnInit, OnDestroy {
       );
     }
   }
+
 
   getInfoUser() {
     const userData = localStorage.getItem('userData');
@@ -271,6 +267,8 @@ export class FunctionsComponent implements OnInit, OnDestroy {
       (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { location.reload(); }, 2000); console.error(error); }
     } else { console.log('Авторизуйтесь'); }
   }
+
+
 }
 
 

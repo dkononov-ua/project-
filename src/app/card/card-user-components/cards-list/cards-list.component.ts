@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
@@ -14,6 +14,7 @@ import { PaginationConfig } from 'src/app/config/paginator';
 
 // Анімації
 import { animations } from '../../../interface/animation';
+import { FilterService } from 'src/app/search/filter.service';
 
 @Component({
   selector: 'app-cards-list',
@@ -43,16 +44,22 @@ export class CardsListComponent implements OnInit, OnDestroy {
   pageEvent = PaginationConfig.pageEvent;
 
   subscriptions: Subscription[] = [];
+  currentLocation: string = '';
+
+  @ViewChild('findCards') findCardsElement!: ElementRef;
 
   constructor(
     private choseSubscribeService: ChoseSubscribeService,
     private sharedService: SharedService,
     private counterService: CounterService,
     private location: Location,
-    private cardsDataService: CardsDataService
+    private cardsDataService: CardsDataService,
+    private filterService: FilterService,
   ) { }
 
   ngOnInit(): void {
+    this.currentLocation = this.location.path();
+
     // Підписка на шлях до серверу
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(serverPath => {
@@ -72,7 +79,9 @@ export class CardsListComponent implements OnInit, OnDestroy {
 
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
-    this.cardsDataService.getSubInfo(offs);
+    if (this.currentLocation !== '/search-house') {
+      this.cardsDataService.getSubInfo(offs);
+    }
     this.getCardsData();
     this.getCounterCards();
   }
@@ -81,6 +90,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
   private getCardsData(): void {
     this.subscriptions.push(
       this.cardsDataService.cardsData$.subscribe(data => {
+        // console.log(data)
         this.allCards = data;
       })
     );
@@ -113,6 +123,15 @@ export class CardsListComponent implements OnInit, OnDestroy {
           this.counterFound = Number(data);
         })
       );
+    } else if (currentLocation === '/search-house') {
+      this.subscriptions.push(
+        this.filterService.filterChange$.subscribe(async () => {
+          const optionsFound = this.filterService.getOptionsFound();
+          if (optionsFound) {
+            this.counterFound = optionsFound;
+          }
+        })
+      );
     }
     // Вираховую на якій я сторінці та скільки всього карток
     if (this.counterFound) {
@@ -122,12 +141,8 @@ export class CardsListComponent implements OnInit, OnDestroy {
 
   // Перемикання оселі
   onFlatSelect(choseFlatId: any): void {
-    // Встановлюю обрану оселю щоб виділити її
-    this.choseFlatId = choseFlatId;
-    // Передаю ID обраної оселю
-    this.choseSubscribeService.setChosenFlatId(this.choseFlatId);
-    // Встановлюю дані по обраній оселі на сервісі
-    this.cardsDataService.selectCard();
+    this.choseSubscribeService.setChosenFlatId(choseFlatId);
+    this.choseSubscribeService.setIndexPage(3);
   }
 
   // пагінатор наступна сторінка з картками
@@ -167,5 +182,19 @@ export class CardsListComponent implements OnInit, OnDestroy {
   // При закриванні компоненту
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  // треба налаштувати
+  onScroll(event: Event): void {
+    const element = this.findCardsElement.nativeElement;
+    const atTop = element.scrollTop === 0;
+    const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    if (atTop) {
+      // console.log(atTop)
+      // this.filterService.loadCards('prev')
+    } else if (atBottom) {
+      // console.log(atBottom)
+      this.filterService.loadCards('next')
+    }
   }
 }

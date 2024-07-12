@@ -192,6 +192,10 @@ span {
       10px 20px 40px rgba(0, 0, 0, 0.162);
   }
 
+  &:disabled {
+    background-color: $color-gray;
+  }
+
   &:active {
     transform: scale(0.8);
     letter-spacing: 0px;
@@ -303,32 +307,23 @@ span {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-evenly;
-  box-shadow:
-    10px 10px 40px rgba(0, 0, 0, 0.105),
-    10px 20px 40px rgba(0, 0, 0, 0.162);
+  @include box-shadow;
 
-  .link {
-    color: $color-text;
-    transition: all 0.4s ease;
-    letter-spacing: 1px;
-
-    &:active {
-      transform: scale(0.8);
-      letter-spacing: 0px;
-      box-shadow:
-        10px 10px 40px rgba(0, 0, 0, 0.105),
-        10px 20px 40px rgba(0, 0, 0, 0.162);
-    }
-
-    &.active {
-      letter-spacing: 5px;
-      font-weight: bold;
-      color: $color-accent;
-      box-shadow:
-        10px 10px 40px rgba(0, 0, 0, 0.105),
-        10px 20px 40px rgba(0, 0, 0, 0.162);
+  &:hover {
+    @include box-shadow;
+    background-color: $color-dark;
+    .fa-regular, .fa-solid {
+      color: $color-white;
     }
   }
+
+  &.active {
+    @include box-shadow-i;
+    &:hover {
+      @include box-shadow-i;
+    }
+  }
+
 }
 
 .btn.subscribed {

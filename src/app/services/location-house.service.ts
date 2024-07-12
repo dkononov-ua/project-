@@ -10,7 +10,8 @@ export class LocationHouseService {
   public locationHouse$ = this.locationHouseSubject.asObservable();
   public locationLink: string = '';
 
-  constructor() { }
+  constructor() {  }
+
 
   // Генерую локацію оселі
   async generateLocationUrl(chosenFlat: any): Promise<string> {

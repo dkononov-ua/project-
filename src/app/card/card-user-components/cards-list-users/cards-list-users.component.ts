@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -66,6 +66,10 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
   goBack(): void {
     this.location.back();
   }
+
+  @ViewChild('findCards') findCardsElement!: ElementRef;
+
+
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
@@ -217,6 +221,20 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     this.currentPage = currentPage;
     this.totalPages = totalPages;
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
+  }
+
+
+  onScroll(event: Event): void {
+    const element = this.findCardsElement.nativeElement;
+    const atTop = element.scrollTop === 0;
+    const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    if (atTop) {
+      // console.log(atTop)
+      // this.filterService.loadCards('prev')
+    } else if (atBottom) {
+      // console.log(atBottom)
+      this.filterUserService.loadCards('next')
+    }
   }
 
   ngOnDestroy() {

@@ -50,7 +50,10 @@ export class CardsDataService {
       // console.log(this.serverPath)
     })
     this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.choseFlatId = selectedFlatId;
+      if (selectedFlatId) {
+        this.choseFlatId = selectedFlatId;
+        this.selectCard();
+      }
     });
     this.currentLocation = this.location.path();
     // console.log(this.currentLocation)
@@ -90,6 +93,8 @@ export class CardsDataService {
     // console.log('setCardsData')
     // console.log(data)
     this.cardsDataSubject.next(data);
+    this.allCards = data;
+    // this.selectCard();
   }
 
   removeCardsData() {
@@ -98,21 +103,23 @@ export class CardsDataService {
 
   // Виводимо інформацію з локального сховища про обрану оселю
   selectCard() {
+    // console.log('i selected house card')
     // console.log('selectCard')
+    // console.log(this.choseFlatId)
+    // console.log(this.allCards)
     if (this.choseFlatId && this.allCards) {
       const chosenFlat = this.allCards.find((flat: any) => flat.flat.flat_id === this.choseFlatId);
+      // console.log(chosenFlat)
       if (chosenFlat) {
+        // console.log('i selected house card')
         this.setCardData(chosenFlat)
-        // console.log(this.chosenFlat)
         this.statusDataService.setStatusDataFlat(chosenFlat.flat);
         if (chosenFlat?.owner) {
           this.statusDataService.setStatusData(chosenFlat.owner);
-          // (chosenFlat?.owner, 1 => запитую різні рейтинги якщо 1 то я запитую і показую тільки рейтинг власника
+          //Не видаляй! (chosenFlat?.owner, 1 => запитую різні рейтинги якщо 1 то я запитую і показую тільки рейтинг власника
           this.statusDataService.setUserData(chosenFlat.owner, 1);
           this.sharedService.getRatingOwner(chosenFlat.owner.user_id);
         }
-      } else {
-        console.log('Немає інформації');
       }
     }
   }

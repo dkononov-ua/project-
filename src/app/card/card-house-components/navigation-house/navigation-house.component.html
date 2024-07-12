@@ -10,66 +10,67 @@
   </div>
 
   <div class="menu" (click)="toggleAllMenu(1)" *ngIf="menu[1]">
-    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="t-lar-xx bold white t-e mr-2"
+    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="t-lar-xx bold white t-c"
       *ngIf="linkOpen[1]">Меню Оселі
     </div>
 
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'" *ngIf="linkOpen[1]">
-      <i class="fa-solid fa-house-circle-check"></i>
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(6) }}" class="link"
+      [routerLinkActive]="'active'" [routerLink]="'/house'" *ngIf="linkOpen[1] && houseData && authorization">
+      <i class="fa-solid fa-person-shelter"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Управління оселею</p>
-        <p class="t-min">Вибір & Створення & Видалення</p>
-      </div>
-    </button>
-
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link" (click)="goToEdit()"
-      *ngIf="linkOpen[1] && authorization && selectedFlatId && acces_flat_features === 1">
-      <i class="fa-solid fa-gear"></i>
-      <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Налаштування оселі</p>
-        <p class="t-min">Редагування & Активація & Деактивація</p>
-      </div>
-    </button>
-
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/house/residents/'"
-      *ngIf="linkOpen[1] && authorization && selectedFlatId && acces_citizen === 1">
-      <i class="fa-solid fa-people-roof"></i>
-      <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Мешканці оселі</p>
-        <p class="t-min">Інформація & Доступи & Відгуки</p>
+        <p class="t-lar-x">Профіль</p>
+        <p class="t-min">Перегляд & Доступні Функції</p>
       </div>
     </button>
 
     <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link"
+      [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'" *ngIf="linkOpen[1]">
+      <i class="fa-solid fa-house-circle-check"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Управління</p>
+        <p class="t-min">Вибір & Створення & Видалення</p>
+      </div>
+    </button>
+
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link" (click)="goToEdit()"
+      *ngIf="linkOpen[1] && authorization && selectedFlatId && acces_flat_features === 1">
+      <i class="fa-solid fa-gear"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Налаштування</p>
+        <p class="t-min">Редагування & Активація & Деактивація</p>
+      </div>
+    </button>
+
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link"
+      [routerLinkActive]="'active'" [routerLink]="'/house/residents/'"
+      *ngIf="linkOpen[1] && authorization && selectedFlatId && acces_citizen === 1">
+      <i class="fa-solid fa-people-roof"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x">Мешканці</p>
+        <p class="t-min">Інформація & Доступи & Відгуки</p>
+      </div>
+    </button>
+
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
       [routerLinkActive]="'active'" [routerLink]="'/add-objects'"
       *ngIf="linkOpen[1] && authorization && selectedFlatId">
       <i class="fa-solid fa-boxes-packing"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Наповнення оселі</p>
+        <p class="t-lar-x">Наповнення</p>
         <p class="t-min">Перегляд & Додавання & Видалення</p>
       </div>
     </button>
 
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(6) }}" class="link" (click)="goToComun()"
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link" (click)="goToComun()"
       *ngIf="linkOpen[1] && authorization && selectedFlatId && acces_comunal_indexes === 1">
       <i class="fa-solid fa-chart-pie"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Статистика оселі</p>
+        <p class="t-lar-x">Статистика</p>
         <p class="t-min">Перегляд & Додавання & Видалення</p>
       </div>
     </button>
 
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(7) }}" class="link"
-      [routerLinkActive]="'active'" [routerLink]="'/house'"
-      *ngIf="linkOpen[1] && houseData && authorization">
-      <i class="fa-solid fa-person-shelter"></i>
-      <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x">Профіль оселі</p>
-        <p class="t-min">Перегляд & Доступні Функції</p>
-      </div>
-    </button>
+
 
   </div>
 

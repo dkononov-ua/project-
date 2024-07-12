@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { DeleteHouseComponent } from '../delete-house/delete-house.component';
 import { MatDialog } from '@angular/material/dialog';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-selection-housing',
@@ -17,19 +17,10 @@ import { StatusDataService } from 'src/app/services/status-data.service';
   styleUrls: ['./selection-housing.component.scss'],
   animations: [
     animations.top2,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.right1,
-    animations.right2,
-    animations.right4,
-    animations.swichCard,
   ],
 })
 
-export class SelectionHousingComponent implements OnInit {
+export class SelectionHousingComponent implements OnInit, OnDestroy {
 
   checkAcces(flat: any) {
     this.statusDataService.setStatusAccess(flat);
@@ -43,67 +34,80 @@ export class SelectionHousingComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  goToSettingHouse(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-  goToHouse(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-
   allFlats: any;
   allFlatsTenant: any;
   loading = false;
   selectedFlatId: any | null;
   selectedHouse: any;
   flatName: any | null;
-  statusMessage: string | undefined;
   indexPage: number = 1;
   chooseFlatID: any;
   houseData: any;
-  page: any;
   selectedFlatName: any;
   isLoadingImg: boolean = false;
   startX = 0;
 
   reloadPageWithLoader() {
-    this.loading = true;
+    this.loaderService.setLoading(true);
     setTimeout(() => {
       location.reload();
     }, 500);
   }
 
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
+  authorizationHouse: boolean = false;
+
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
-    private changeComunService: ChangeComunService,
     private dataService: DataService,
-    private route: ActivatedRoute,
     private router: Router,
     private sharedService: SharedService,
     private dialog: MatDialog,
     private statusDataService: StatusDataService,
+    private loaderService: LoaderService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      await this.getFlatInfo();
-      await this.getSelectParam();
-    })
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 1;
-    });
-    this.loading = false;
-    // if (this.allFlats && this.allFlats.length > 0 || this.allFlatsTenant && this.allFlatsTenant > 0) {
-    //   if (this.page === '0') {
-    //     this.indexPage = 0;
-    //   } else {
-    //     this.indexPage = 1;
-    //   }
-    // } else {
-    //   this.indexPage = 0;
-    //   this.router.navigate(['/house/house-control/add-house']);
-    // }
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.getSelectedFlat();
+  }
+
+  // підписка на перевірку девайсу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+        this.loaderService.setLoading(true)
+        await this.getFlatInfo();
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        this.selectedFlatId = Number(flatId);
+        if (this.selectedFlatId) {
+          this.authorizationHouse = true;
+          this.getSelectParam();
+        } else {
+          this.authorizationHouse = false;
+        }
+      })
+    );
   }
 
   // відправляю event початок свайпу
@@ -138,21 +142,19 @@ export class SelectionHousingComponent implements OnInit {
     }
   }
 
+  // якщо вже є обрана оселя встановлюю її дані
   async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const houseData = localStorage.getItem('houseData');
-        if (houseData) {
-          const parsedHouseData = JSON.parse(houseData);
-          this.houseData = parsedHouseData;
-          this.chooseFlatID = parsedHouseData.flat.flat_id;
-          this.selectedFlatName = parsedHouseData.flat.flat_name;
-        }
-      }
-    });
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      // console.log(this.houseData)
+      this.chooseFlatID = parsedHouseData.flat.flat_id;
+      this.selectedFlatName = parsedHouseData.flat.flat_name;
+    }
   }
 
+  // запитую дані по всім оселям які в мене є
   async getFlatInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     // console.log(this.serverPath)
@@ -203,6 +205,7 @@ export class SelectionHousingComponent implements OnInit {
         console.error(error);
       }
     }
+    this.loaderService.setLoading(false)
   }
 
   // обираємо іншу оселю
@@ -214,7 +217,7 @@ export class SelectionHousingComponent implements OnInit {
     } else {
       const userJson = localStorage.getItem('user');
       if (userJson && flat) {
-        this.sharedService.setLoading(true)
+        this.loaderService.setLoading(true)
         this.sharedService.clearCacheHouse();
         this.sharedService.setStatusMessage('Обираємо ' + flat.flat_name);
         setTimeout(() => {
@@ -223,7 +226,7 @@ export class SelectionHousingComponent implements OnInit {
           this.selectedFlatService.setSelectedFlatName(flat.flat_name);
           this.selectedFlatService.setSelectedHouse(flat.flat_id, flat.flat_name);
           this.dataService.getInfoFlat().subscribe((response: any) => {
-            console.log(response)
+            // console.log(response)
             if (response) {
               setTimeout(() => {
                 this.sharedService.setStatusMessage('Оновлено');
@@ -240,6 +243,7 @@ export class SelectionHousingComponent implements OnInit {
                   setTimeout(() => {
                     this.router.navigate(['/house']);
                     this.sharedService.setStatusMessage('');
+                    this.loaderService.setLoading(false)
                   }, 1500);
                 } else {
                   this.sharedService.setStatusMessage('У вас немає доступу до оселі ID ' + this.selectedFlatId + ' або можливо її було забанено');
@@ -262,7 +266,6 @@ export class SelectionHousingComponent implements OnInit {
         console.log('Авторизуйтесь')
       }
     }
-
     this.chooseFlatID = flat.flat_id;
   }
 
@@ -273,6 +276,7 @@ export class SelectionHousingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result) {
+        this.loaderService.setLoading(true);
         const userJson = localStorage.getItem('user');
         if (flat.flat_id && userJson) {
           this.http
@@ -285,7 +289,6 @@ export class SelectionHousingComponent implements OnInit {
                 this.sharedService.clearCacheHouse();
                 this.sharedService.setStatusMessage('Оселя видалена');
                 setTimeout(() => {
-                  this.sharedService.setStatusMessage('');
                   this.reloadPageWithLoader()
                 }, 1500);
               },
@@ -300,5 +303,8 @@ export class SelectionHousingComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
 }

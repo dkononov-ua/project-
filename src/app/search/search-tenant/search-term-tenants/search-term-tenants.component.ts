@@ -10,7 +10,6 @@ import { UserConfig } from '../../../interface/param-config'
 import { UserInfoSearch } from '../../../interface/info'
 import { animations } from '../../../interface/animation';
 import { Router } from '@angular/router';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-search-term-tenants',
@@ -133,7 +132,6 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
-    private breakpointObserver: BreakpointObserver,
     private sharedService: SharedService,
   ) { }
 

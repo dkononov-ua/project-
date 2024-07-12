@@ -44,7 +44,6 @@ import { StatusDataComponent } from '../card/card-user-components/status-data/st
 import { StatusDataService } from '../services/status-data.service';
 import { StatusDataHouseComponent } from '../card/card-house-components/status-data-house/status-data-house.component';
 import { CardsListComponent } from '../card/card-user-components/cards-list/cards-list.component';
-import { CardHouseComponent } from '../card/card-house-components/card-house/card-house.component';
 import { FunctionsHouseComponent } from '../card/card-house-components/functions-house/functions-house.component';
 import { InfoHouseComponent } from '../card/card-house-components/info-house/info-house.component';
 import { ImgHouseComponent } from '../card/card-house-components/img-house/img-house.component';
@@ -87,7 +86,6 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     StatusAccessComponent,
     CardsListComponent,
     CardsListUsersComponent,
-    CardHouseComponent,
     FunctionsHouseComponent,
     FunctionsComponent,
     InfoHouseComponent,
@@ -126,7 +124,6 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     CardsListComponent,
     CardsListUsersComponent,
 
-    CardHouseComponent,
     FunctionsHouseComponent,
     FunctionsComponent,
 

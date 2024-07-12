@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { FilterService } from '../../filter.service';
 import { HouseInfo } from 'src/app/interface/info';
 import { SharedService } from 'src/app/services/shared.service';
@@ -13,6 +13,10 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { CounterService } from 'src/app/services/counter.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
+import { ChoseSubscribeService } from 'src/app/services/chose-subscribe.service';
+import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
+import { animations } from '../../../interface/animation';
+import { StatusMessageService } from 'src/app/services/status-message.service';
 
 @Component({
   selector: 'app-house',
@@ -36,10 +40,11 @@ import { StatusDataService } from 'src/app/services/status-data.service';
         animate('600ms 0ms ease-in-out', style({ transform: 'translateX(100%)', opacity: 0 })),
       ]),
     ]),
+    animations.appearance,
   ]
 })
 
-export class HouseComponent implements OnInit {
+export class HouseComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -89,6 +94,15 @@ export class HouseComponent implements OnInit {
   isLoadingImg: boolean = false;
   authorization: boolean = true;
 
+
+  subscriptions: any[] = [];
+  isMobile = false;
+  chosenFlatId: number | undefined;
+  isSelectedFlatId: boolean = false;
+  btnDisabled: boolean = false;
+
+  allCards: any;
+
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
@@ -96,43 +110,227 @@ export class HouseComponent implements OnInit {
     private router: Router,
     private counterService: CounterService,
     private statusDataService: StatusDataService,
+    private choseSubscribeService: ChoseSubscribeService,
+    private cardsDataService: CardsDataService,
+    private statusMessageService: StatusMessageService,
   ) { }
 
   ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.getSearchInfo();
-    this.getHouse()
+    this.getCheckDevice();
+    this.getServerPath();
+    this.getAllCardsData();
+    this.getСhoseFlatID();
   }
 
-  getHouse() {
-    this.filterService.house$.subscribe(house => {
-      // console.log(house);
-      if (house) {
-        this.selectFlat(house);
+  // перевірка девайсу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // підписка на отримання даних по всім знайденим карткам
+  async getAllCardsData() {
+    this.subscriptions.push(
+      this.cardsDataService.cardsData$.subscribe(async (data: any) => {
+        this.allCards = data;
+      })
+    );
+  }
+
+  // Підписка на отримання айді обраної оселі
+  async getСhoseFlatID() {
+    this.subscriptions.push(
+      this.choseSubscribeService.selectedFlatId$.subscribe(flatId => {
+        this.chosenFlatId = Number(flatId);
+        // console.log(this.chosenFlatId)
+        if (this.chosenFlatId) {
+          this.isSelectedFlatId = false;
+          this.findUserCardIndex(this.chosenFlatId);
+        } else {
+          this.isSelectedFlatId = true;
+        }
+      })
+    )
+  }
+
+  // Шукаю номер картки в масиві за його айді
+  findUserCardIndex(cardId: number) {
+    // console.log('findUserCardIndex', cardId);
+    // console.log(this.allCards);
+    const index = this.allCards?.findIndex((card: { flat: any; }) => Number(card.flat.flat_id) === cardId);
+    if (index !== undefined && index !== -1) {
+      this.currentCardIndex = index;
+      // console.log(this.currentCardIndex)
+      this.autoSelect();
+    }
+  }
+
+  autoSelect() {
+    this.selectedFlat = undefined;
+    this.subscriptionStatus = 0;
+    setTimeout(() => {
+      this.selectedFlat = this.allCards![this.currentCardIndex];
+      // console.log(this.selectedFlat)
+      // console.log(this.selectedFlat.flat.flat_id)
+      // console.log(this.chosenFlatId)
+      if (this.selectedFlat.flat.flat_id !== this.chosenFlatId) {
+        this.choseSubscribeService.setChosenFlatId(this.selectedFlat.flat.flat_id);
       }
-    });
+      if (this.selectedFlat.flat.flat_id === this.chosenFlatId) {
+        this.checkSubscribe(this.selectedFlat.flat.flat_id);
+        // this.cardsDataService.selectCard();
+      }
+    }, 50);
   }
 
-  selectFlat(flat: HouseInfo) {
-    this.reviews = [];
-    this.currentPhotoIndex = 0;
-    this.indexPage = 1;
-    this.currentCardIndex = this.filteredFlats!.indexOf(flat);
-    this.selectedFlat = flat;
-    this.statusDataService.setStatusDataFlat(this.selectedFlat);
-    this.getRating(this.selectedFlat)
-    this.checkSubscribe();
-    this.generateLocationUrl();
+  toggleIndexPage() {
+    if (this.indexPage === 1) {
+      this.indexPage = 2;
+    } else {
+      this.indexPage = 1;
+    }
+  }
+
+  async getSearchInfo() {
+    this.filterService.filterChange$.subscribe(async () => {
+      const filterValue = this.filterService.getFilterValue();
+      const optionsFound = this.filterService.getOptionsFound();
+      if (filterValue && optionsFound && optionsFound !== 0) {
+        this.filteredFlats = filterValue;
+        this.optionsFound = optionsFound;
+      } else {
+        this.optionsFound = 0;
+        this.filteredFlats = undefined;
+        this.selectedFlat = undefined;
+      }
+    })
+  }
+
+  onPrevCard() {
+    if (this.currentCardIndex !== 0) {
+      this.currentCardIndex--;
+      setTimeout(() => {
+        this.selectedCard();
+      }, 500);
+    }
+  }
+
+  onNextCard() {
+    if (this.currentCardIndex < this.allCards!.length - 1) {
+      this.currentCardIndex++;
+      setTimeout(() => {
+        this.selectedCard();
+      }, 500);
+    }
+  }
+
+  // Очищую selectedFlat потім встановлюю обраного користувача по його номеру в масиві та запускаю тригер
+  // в сервісі для того щоб він передав у всі інші компоненти дані обраного користувача
+  selectedCard() {
+    this.selectedFlat = undefined;
+    this.subscriptionStatus = 0;
+    // console.log(this.currentCardIndex)
+    setTimeout(() => {
+      this.selectedFlat = this.allCards![this.currentCardIndex];
+      // console.log(this.selectedFlat.flat.flat_id)
+      this.choseSubscribeService.setChosenFlatId(this.selectedFlat.flat.flat_id);
+      if (this.selectedFlat) {
+        this.checkSubscribe(this.selectedFlat.flat.flat_id);
+        // this.cardsDataService.selectCard();
+      }
+    }, 50);
+  }
+
+  calculateCardIndex(index: number): number {
+    const length = this.filteredFlats?.length || 0;
+    return (index + length) % length;
+  }
+
+  closeCard() {
+    this.selectedFlat = undefined;
+    this.choseSubscribeService.removeChosenFlatId();
+    this.choseSubscribeService.setIndexPage(2);
+  }
+
+  // Підписуюсь
+  async getSubscribe(): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlat.flat.flat_id) {
+      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat.flat_id };
+      try {
+        const response: any = await this.http.post(this.serverPath + '/subs/subscribe', data).toPromise();
+        // console.log(response)
+        if (response.status === 'Ви успішно відписались') {
+          this.subscriptionStatus = 0;
+        } else if (response.status === 'Ви в дискусії') {
+          this.subscriptionStatus = 2;
+        } else {
+          this.subscriptionStatus = 1;
+        }
+        await this.checkSubscribe(this.selectedFlat.flat.flat_id);
+      } catch (error) {
+        console.error(error);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      }
+    } else {
+      this.btnDisabled = true;
+      this.statusMessageService.setStatusMessage('Треба авторизуватись');
+      setTimeout(() => {
+        this.statusMessageService.setStatusMessage('');
+        setTimeout(() => {
+          this.btnDisabled = false;
+        }, 500);
+      }, 2000);
+    }
+  }
+
+  // Перевіряю підписку
+  async checkSubscribe(flat_id: number): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson && flat_id) {
+      this.authorization = true;
+      const data = { auth: JSON.parse(userJson), flat_id: flat_id };
+      try {
+        const response: any = await this.http.post(this.serverPath + '/subs/checkSubscribe', data).toPromise();
+        // console.log(response.status)
+        if (response.status === 'Ви успішно відписались') {
+          this.subscriptionStatus = 1;
+        } else if (response.status === 'Ви в дискусії') {
+          this.subscriptionStatus = 2;
+        } else {
+          this.subscriptionStatus = 0;
+        }
+        await this.counterService.getUserSubscriptionsCount();
+      } catch (error) {
+        console.error(error);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+      }
+    } else {
+      this.authorization = false;
+      // console.log('Авторизуйтесь');
+    }
+  }
+
+  getLogin() {
+    this.sharedService.getAuthorization();
   }
 
   // відправляю event початок свайпу
   onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  onPanStartImg(event: any): void {
     this.startX = 0;
   }
 
@@ -144,17 +342,6 @@ export class HouseComponent implements OnInit {
         this.onSwiped('right');
       } else {
         this.onSwiped('left');
-      }
-    }
-  }
-
-  onPanEndImg(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwipedImg('right');
-      } else {
-        this.onSwipedImg('left');
       }
     }
   }
@@ -187,238 +374,9 @@ export class HouseComponent implements OnInit {
       }, 10);
     }
   }
-  // оброблюю свайп фото
-  onSwipedImg(direction: string | undefined): void {
-    if (direction === 'right') {
-      this.prevPhoto();
-    } else {
-      this.nextPhoto();
-    }
-  }
 
-  toggleIndexPage() {
-    if (this.indexPage === 1) {
-      this.indexPage = 2;
-    } else {
-      this.indexPage = 1;
-    }
-  }
-
-  async getSearchInfo() {
-    // const userJson = localStorage.getItem('user');
-    // if (userJson) {
-    this.filterService.filterChange$.subscribe(async () => {
-      const filterValue = this.filterService.getFilterValue();
-      const optionsFound = this.filterService.getOptionsFound();
-      if (filterValue && optionsFound && optionsFound !== 0) {
-        this.getFilteredData(filterValue, optionsFound);
-      } else {
-        this.getFilteredData(undefined, 0);
-      }
-    })
-    // } else {
-    //   console.log('Авторизуйтесь')
-    // }
-  }
-
-  getFilteredData(filterValue: any, optionsFound: number) {
-    if (filterValue) {
-      this.filteredFlats = filterValue;
-      this.optionsFound = optionsFound;
-      // this.selectedFlat = this.filteredFlats![0];
-      // this.locationLink = this.generateLocationUrl();
-      // this.checkSubscribe();
-      this.loading = false;
-    } else {
-      this.optionsFound = 0;
-      this.filteredFlats = undefined;
-      this.selectedFlat = undefined;
-      this.loading = false;
-    }
-  }
-
-  onPrevCard() {
-    this.reviews = [];
-    this.currentPhotoIndex = 0;
-    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex - 1);
-    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    this.statusDataService.setStatusDataFlat(this.selectedFlat);
-    this.getRating(this.selectedFlat)
-    this.checkSubscribe();
-    this.generateLocationUrl();
-  }
-
-  onNextCard() {
-    this.reviews = [];
-    this.currentPhotoIndex = 0;
-    this.currentCardIndex = this.calculateCardIndex(this.currentCardIndex + 1);
-    this.selectedFlat = this.filteredFlats![this.currentCardIndex];
-    this.statusDataService.setStatusDataFlat(this.selectedFlat);
-    this.getRating(this.selectedFlat)
-    this.checkSubscribe();
-    this.generateLocationUrl();
-  }
-
-  prevPhoto() {
-    if (!this.authorization) {
-      this.sharedService.getAuthorization();
-    } else {
-      const length = this.selectedFlat.img?.length || 0;
-      if (this.currentPhotoIndex !== 0) {
-        this.currentPhotoIndex--;
-      }
-    }
-  }
-
-  nextPhoto() {
-    if (!this.authorization) {
-      this.sharedService.getAuthorization();
-    } else {
-      const length = this.selectedFlat.img?.length || 0;
-      if (this.currentPhotoIndex < length) {
-        this.currentPhotoIndex++;
-      }
-    }
-  }
-
-  calculateCardIndex(index: number): number {
-    const length = this.filteredFlats?.length || 0;
-    return (index + length) % length;
-  }
-
-  async generateLocationUrl() {
-    let locationUrl = '';
-    if (this.selectedFlat && this.selectedFlat.region) {
-      const baseUrl = 'https://www.google.com/maps/place/';
-      const region = this.selectedFlat.region || '';
-      const city = this.selectedFlat.city || '';
-      const street = this.selectedFlat.street || '';
-      const houseNumber = this.selectedFlat.houseNumber || '';
-      const flatIndex = this.selectedFlat.flatIndex || '';
-      const encodedRegion = encodeURIComponent(region);
-      const encodedCity = encodeURIComponent(city);
-      const encodedStreet = encodeURIComponent(street);
-      const encodedHouseNumber = encodeURIComponent(houseNumber);
-      const encodedFlatIndex = encodeURIComponent(flatIndex);
-      locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-      this.locationLink = locationUrl;
-      return locationUrl;
-    } else {
-      this.locationLink = null;
-      return locationUrl;
-    }
-  }
-
-  // Підписуюсь
-  async getSubscribe(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlat.flat_id) {
-      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
-      try {
-        const response: any = await this.http.post(this.serverPath + '/subs/subscribe', data).toPromise();
-        // console.log(response)
-        if (response.status === 'Ви успішно відписались') {
-          this.subscriptionStatus = 0;
-        } else if (response.status === 'Ви в дискусії') {
-          this.subscriptionStatus = 2;
-        } else {
-          this.subscriptionStatus = 1;
-        }
-        await this.checkSubscribe();
-      } catch (error) {
-        console.error(error);
-        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
-        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
-      }
-    } else {
-      console.log('Авторизуйтесь');
-    }
-  }
-
-  openMap() {
-    if (!this.authorization) {
-      this.sharedService.getAuthorization();
-    } else {
-      window.open(this.locationLink, '_blank');
-    }
-  }
-
-  // Перевіряю підписку
-  async checkSubscribe(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlat.flat_id) {
-      this.authorization = true;
-      const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlat.flat_id };
-      try {
-        const response: any = await this.http.post(this.serverPath + '/subs/checkSubscribe', data).toPromise();
-        // console.log(response.status)
-        if (response.status === 'Ви успішно відписались') {
-          this.subscriptionStatus = 1;
-        } else if (response.status === 'Ви в дискусії') {
-          this.subscriptionStatus = 2;
-        } else {
-          this.subscriptionStatus = 0;
-        }
-        await this.counterService.getUserSubscriptionsCount();
-      } catch (error) {
-        console.error(error);
-        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
-        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
-      }
-    } else {
-      this.authorization = false;
-      // console.log('Авторизуйтесь');
-    }
-  }
-
-  // скарга на оселю
-  async reportHouse(flat: any): Promise<void> {
-    if (!this.authorization) {
-      this.sharedService.getAuthorization();
-    } else {
-      this.sharedService.reportHouse(flat);
-      this.sharedService.getReportResultSubject().subscribe(result => {
-        // Обробка результату в компоненті
-        if (result.status === true) {
-          this.sharedService.setStatusMessage('Скаргу надіслано');
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('');
-          }, 2000);
-        } else {
-          this.sharedService.setStatusMessage('Помилка');
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('');
-          }, 2000);
-        }
-      });
-    }
-  }
-
-  // отримую рейтинг власника оселі
-  async getRating(selectedFlat: any): Promise<any> {
-    if (selectedFlat && Array.isArray(selectedFlat.rating)) {
-      let totalMarkOwner = 0;
-      this.numberOfReviews = selectedFlat.rating.length;
-      selectedFlat.rating.forEach((item: { mark: number }) => {
-        if (item.mark) {
-          this.reviews = selectedFlat.rating;
-          totalMarkOwner += item.mark;
-          this.ratingOwner = totalMarkOwner;
-        }
-      });
-      if (this.numberOfReviews > 0) {
-        this.ratingOwner = totalMarkOwner / this.numberOfReviews;
-      } else {
-        this.ratingOwner = 0;
-      }
-    } else {
-      this.ratingOwner = 0;
-      this.numberOfReviews = 0;
-    }
-  }
-
-  getLogin() {
-    this.sharedService.getAuthorization();
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

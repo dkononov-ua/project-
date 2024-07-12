@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -8,6 +8,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { animations } from '../../../interface/animation';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-add-house',
@@ -26,7 +27,7 @@ import { map } from 'rxjs/operators';
   ],
 })
 
-export class AddHouseComponent implements OnInit {
+export class AddHouseComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -44,49 +45,68 @@ export class AddHouseComponent implements OnInit {
   flat_name: string = '';
   showInput = false;
   showCreate = false;
-  selectedFlatId!: string | null;
+  selectedFlatId: any | null;
   statusMessage: string | undefined;
 
-
-  isMobile = false;
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
+  authorizationHouse: boolean = false;
 
   constructor(
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
-    private breakpointObserver: BreakpointObserver,
+    private loaderService: LoaderService,
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    // перевірка який пристрій
-    this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
-      this.isMobile = result.matches;
-    });
-    this.getSelectParam();
+  async ngOnInit(): Promise<void> {
+    this.getCheckDevice();
+    this.getServerPath();
+    this.getSelectedFlat();
   }
 
-  async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const selectedFlatName = localStorage.getItem('selectedFlatName');
-        if (selectedFlatName) {
-          this.selectedFlatName = selectedFlatName;
+  // підписка на перевірку девайсу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        this.selectedFlatId = Number(flatId);
+        if (this.selectedFlatId) {
+          this.authorizationHouse = true;
+          const selectedFlatName = localStorage.getItem('selectedFlatName');
+          if (selectedFlatName) {
+            this.selectedFlatName = selectedFlatName;
+          }
+        } else {
+          this.authorizationHouse = false;
         }
-      }
-    });
+      })
+    );
   }
 
   async houseCreate(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
+        this.loaderService.setLoading(true);
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/flat_id', {
           auth: JSON.parse(userJson),
           new: { flat_id: this.flat_name },
@@ -97,22 +117,22 @@ export class AddHouseComponent implements OnInit {
           localStorage.removeItem('selectedFlatId');
           localStorage.removeItem('selectedFlatName');
           localStorage.removeItem('houseData');
-          this.statusMessage = 'Оселя ' + this.flat_name + ' успішно створена';
           this.sharedService.setStatusMessage('Оселя ' + this.flat_name + ' успішно створена');
           setTimeout(() => {
-            this.statusMessage = '';
             this.loadNewFlats(this.flat_name);
           }, 2000);
         } else {
-          this.statusMessage = 'Помилка створення';
+          this.sharedService.setStatusMessage('Помилка створення');
           setTimeout(() => {
-            this.statusMessage = '';
             this.reloadPageWithLoader()
           }, 1500);
         }
       } catch (error) {
-        this.loading = false;
         console.error(error);
+        this.sharedService.setStatusMessage('Помилка на сервері');
+        setTimeout(() => {
+          this.reloadPageWithLoader()
+        }, 1500);
       }
     }
   }
@@ -121,6 +141,7 @@ export class AddHouseComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
+        this.loaderService.setLoading(true);
         const response: any = await this.http.post(this.serverPath + '/flatinfo/localflatid', JSON.parse(userJson)).toPromise();
         const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
         if (flatInfo) {
@@ -129,22 +150,21 @@ export class AddHouseComponent implements OnInit {
             this.selectedFlatService.setSelectedFlatId(flatIdFromResponse);
             this.selectedFlatService.setSelectedFlatName(flat_name);
             this.sharedService.setStatusMessage('Переходимо до налаштувань ' + flat_name);
-            this.statusMessage = 'Переходимо до налаштувань ' + flat_name;
             setTimeout(() => {
-              this.sharedService.setStatusMessage('');
-              this.statusMessage = '';
               if (this.isMobile) {
                 this.router.navigate(['/edit-house/instruction']);
               } else {
                 this.router.navigate(['/edit-house/address']);
               }
+              this.sharedService.setStatusMessage('');
+              this.loaderService.setLoading(false);
             }, 2500);
           }
         }
       } catch (error) {
         console.error(error);
-        this.statusMessage = 'Щось пішло не так, повторіть спробу';
-        setTimeout(() => { this.statusMessage = ''; }, 2000);
+        this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
+        setTimeout(() => { this.reloadPageWithLoader }, 2000);
       }
     } else {
       console.log('Авторизуйтесь');
@@ -156,10 +176,14 @@ export class AddHouseComponent implements OnInit {
   }
 
   reloadPageWithLoader() {
-    this.loading = true;
+    this.loaderService.setLoading(true);
     setTimeout(() => {
       location.reload();
     }, 500);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }
