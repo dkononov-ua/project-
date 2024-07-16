@@ -1,36 +1,18 @@
 import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
-import { DeleteSubsComponent } from '../delete/delete-subs.component';
-import { StatusDataService } from 'src/app/services/status-data.service';
-import { UpdateComponentService } from 'src/app/services/update-component.service';
-import { LocationHouseService } from 'src/app/services/location-house.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
-import { Location } from '@angular/common';
-
-interface chosenFlat {
-  flat: any;
-  owner: any;
-  img: any;
-}
-
 @Component({
   selector: 'app-subscribers-user',
   templateUrl: './subscribers-user.component.html',
   styleUrls: ['./../../discussi.scss'],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'uk-UA' },
-  ],
   animations: [
     animations.left,
     animations.left1,
@@ -40,6 +22,8 @@ interface chosenFlat {
     animations.left5,
     animations.swichCard,
     animations.top4,
+    animations.appearance,
+    animations.right1,
   ],
 })
 
@@ -72,6 +56,8 @@ export class SubscribersUserComponent implements OnInit {
   toggleCards() {
     this.showOwner = !this.showOwner;
   }
+  authorization: boolean = false;
+
   constructor(
     private choseSubscribeService: ChoseSubscribeService,
     private sharedService: SharedService,
@@ -81,26 +67,53 @@ export class SubscribersUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    await this.getChosenFlatId();
+    await this.getCardData();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {
         this.isMobile = status;
       })
     );
-    // Підписка на шлях до серверу
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
+  }
 
-    // Підписка на отримання айді обраної оселі
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.getUserSubscribersCount();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Підписка на отримання айді обраної оселі
+  async getChosenFlatId() {
     this.subscriptions.push(
       this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.choseFlatId = selectedFlatId;
       })
     );
+  }
 
-    // Підписка на отримання даних обраної оселі
+  // Підписка на отримання даних обраної оселі
+  async getCardData() {
     this.subscriptions.push(
       this.cardsDataService.cardData$.subscribe(async (data: any) => {
         this.chosenFlat = data;
@@ -110,14 +123,24 @@ export class SubscribersUserComponent implements OnInit {
         }
       })
     );
+  }
 
-    // Підписка на отримання кількості карток
+  // перевірка підписників користувача
+  async getUserSubscribersCount() {
     await this.counterService.getUserSubscribersCount();
     this.subscriptions.push(
-      this.counterService.counterUserSubscribers$.subscribe(async data => {
+      this.counterService.counterUserSubscribers$.subscribe(data => {
         this.counterFound = Number(data);
       })
     );
+  }
+
+  close() {
+    this.indexPage = 1;
+    setTimeout(() => {
+      this.choseSubscribeService.removeChosenFlatId();
+      this.cardsDataService.removeCardData();
+    }, 100);
   }
 
   ngOnDestroy() {

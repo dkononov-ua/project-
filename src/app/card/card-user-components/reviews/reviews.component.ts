@@ -18,7 +18,6 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
   animations: [
     animations.top3,
     animations.top4,
-
   ],
 })
 
@@ -42,6 +41,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   numberOfReviews: any;
   currentLocation: string = '';
   user: any;
+  isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -52,12 +53,38 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    this.checkLocation();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.checkLocation();
+    } else {
+      this.authorization = false;
+    }
   }
 
   checkLocation() {
@@ -104,7 +131,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
             // Запитую рейтинг власника
             await this.getRatingTenant(this.user.user_id);
           }
-
         })
       );
     }

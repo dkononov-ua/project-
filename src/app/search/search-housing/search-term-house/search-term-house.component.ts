@@ -2,7 +2,7 @@ import { FilterService } from '../../filter.service';
 import { regions } from '../../../data/data-city';
 import { cities } from '../../../data/data-city';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
@@ -70,7 +70,7 @@ interface SearchParams {
   ],
 })
 
-export class SearchTermHouseComponent implements OnInit {
+export class SearchTermHouseComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -159,6 +159,7 @@ export class SearchTermHouseComponent implements OnInit {
   searchInfoUserData: boolean = false;
   myDataExist: boolean = false;
   addСardsToArray: boolean = false;
+  subscriptions: any[] = [];
 
   filterSwitchNext() {
     if (this.filter_group < 3) {
@@ -181,13 +182,10 @@ export class SearchTermHouseComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private sharedService: SharedService,
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+    this.getServerPath();
     this.searchFilter();
     this.getSortValue();
     this.getLoadCards();
@@ -197,6 +195,15 @@ export class SearchTermHouseComponent implements OnInit {
     } else {
       this.myDataExist = false;
     }
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
   }
 
   getSortValue() {
@@ -546,6 +553,10 @@ export class SearchTermHouseComponent implements OnInit {
     // console.log(this.shownCard);
     this.filterService.showedCards(this.shownCard)
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
 

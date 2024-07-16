@@ -1,24 +1,17 @@
 import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UpdateComponentService } from 'src/app/services/update-component.service';
+import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { PaginationConfig } from 'src/app/config/paginator';
-import { Subject } from 'rxjs';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { ViewComunService } from '../../../discussi/discussio-user/discus/view-comun.service';
-import { DeleteSubsComponent } from '../../../discussi/discussio-user/delete/delete-subs.component';
-import { StatusDataService } from 'src/app/services/status-data.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
-import { SendMessageService } from 'src/app/chat/send-message.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
 import { CreateChatService } from 'src/app/chat/create-chat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -57,7 +50,6 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
 
   linkOpen: boolean[] = [false, false, false, false, false];
   menu: boolean[] = [false, false, false, false, false];
-
   toggleAllMenu(index: number) {
     this.linkOpen[index] = !this.linkOpen[index];
     this.disabledBtn = true;
@@ -80,16 +72,6 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   serverPath: string = '';
   // ***
 
-  private chatsUpdatesSubject = new Subject<number>();
-  chatsUpdates$ = this.chatsUpdatesSubject.asObservable();
-
-  // розшифровка пошукових параметрів
-  purpose = purpose;
-  aboutDistance = aboutDistance;
-  option_pay = option_pay;
-  animals = animals;
-
-  // параметри оселі
   chosenFlat: any;
   choseFlatId: any | null;
   public locationLink: string = '';
@@ -97,26 +79,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   selectedView!: any;
   selectedViewName!: string;
   chatExists = false;
-  // показ карток
-  page: number = 0;
-
-  // пагінатор
   offs = PaginationConfig.offs;
-  counterFound = PaginationConfig.counterFound;
-  currentPage = PaginationConfig.currentPage;
-  totalPages = PaginationConfig.totalPages;
-  pageEvent = PaginationConfig.pageEvent;
-
-  card_info: number = 0;
-  reviews: any;
-  numberOfReviews: any;
-  startX = 0;
-  startY = 0;
-  showFullScreenImage = false;
-  fullScreenImageUrl = '';
-  panelHeight: string = '0px'; // Початкова висота панелі
-  panelWidth: string = '0px'; // Початкова висота панелі
-  iconRotation: number = 0;
   currentLocation: string = '';
   authorization: boolean = false;
 
@@ -129,17 +92,12 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private choseSubscribeService: ChoseSubscribeService,
-    private dialog: MatDialog,
     private selectedViewComun: ViewComunService,
     private router: Router,
-    private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
     private counterService: CounterService,
-    private route: ActivatedRoute,
     private location: Location,
-    private statusDataService: StatusDataService,
     private cardsDataService: CardsDataService,
-    private sendMessageService: SendMessageService,
     private locationHouseService: LocationHouseService,
     private createChatService: CreateChatService,
   ) { }
@@ -170,12 +128,21 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
   // Підписка на отримання айді обраної оселі
   async getChosenFlatId() {
     this.subscriptions.push(
       this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.choseFlatId = selectedFlatId;
-        // console.log(this.choseFlatId)
         if (this.choseFlatId) {
           this.getCardsData();
         }
@@ -217,17 +184,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Перевірка на авторизацію користувача
-  async checkUserAuthorization() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.authorization = true;
-    } else {
-      this.authorization = false;
-    }
-  }
-
-
+  // Після закриття компоненту відписуюсь від всіх підписок
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
@@ -270,7 +227,6 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   async checkChatExistence(): Promise<any> {
     const chatExists = await this.createChatService.checkChatExistenceUser();
     this.chatExists = chatExists;
-    // console.log(chatExists)
   }
 
   // Створюю чат з оселею
@@ -278,6 +234,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     this.createChatService.createUserChat(flat_id)
   }
 
+  // Відкриваю чат
   openChat() {
     if (this.chatExists) {
       this.choseSubscribeService.setChosenFlatId(this.chosenFlat?.flat.flat_id);
@@ -309,6 +266,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Відправка скарги на осел через сервіс
   async reportHouse(flat: any): Promise<void> {
     this.sharedService.reportHouse(flat);
     this.sharedService.getReportResultSubject().subscribe(result => {
@@ -322,32 +280,40 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Відкрити фото оселі на весь екран
   openFullScreenImage(photos: any): void {
     this.sharedService.openFullScreenImage(photos);
   }
 
-  // Ухвалення до дискусії
+  // Ухвалення оселі до дискусії
   async approveSubscriber(choseFlatId: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const data = { auth: JSON.parse(userJson!), flat_id: choseFlatId, };
-      const response: any = await this.http.post(this.serverPath + '/usersubs/accept', data).toPromise();
-      if (response.status == true) {
-        this.sharedService.setStatusMessage('Ухвалено');
-        this.chosenFlat = null;
-        this.counterService.getUserDiscussioCount();
-        this.counterService.getUserSubscribersCount();
-        this.cardsDataService.getSubInfo(this.offs)
-        setTimeout(() => {
-          this.sharedService.setStatusMessage('Переходимо до Дискусії');
+      try {
+        const response: any = await this.http.post(this.serverPath + '/usersubs/accept', data).toPromise();
+        if (response.status == true) {
+          this.sharedService.setStatusMessage('Ухвалено');
+          this.chosenFlat = null;
+          this.counterService.getUserDiscussioCount();
+          this.counterService.getUserSubscribersCount();
+          this.cardsDataService.getSubInfo(this.offs)
           setTimeout(() => {
-            this.router.navigate(['/subscribers-discuss']);
-            this.sharedService.setStatusMessage('');
-          }, 1000);
-        }, 2000);
-      } else { this.sharedService.setStatusMessage('Помилка'), location.reload(); }
-      (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { location.reload(); }, 2000); console.error(error); }
-    } else { console.log('Авторизуйтесь'); }
+            this.sharedService.setStatusMessage('Переходимо до Дискусії');
+            setTimeout(() => {
+              this.router.navigate(['/subscribers-discuss']);
+              this.sharedService.setStatusMessage('');
+            }, 1000);
+          }, 2000);
+        } else {
+          this.sharedService.setStatusMessage('Помилка'), location.reload();
+        }
+      } catch (error) {
+        (error: any) => { this.sharedService.setStatusMessage('Помилка'), setTimeout(() => { location.reload(); }, 2000); console.error(error); }
+      }
+    } else {
+      console.log('Авторизуйтесь');
+    }
   }
 }
 

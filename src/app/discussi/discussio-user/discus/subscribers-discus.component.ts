@@ -59,6 +59,8 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
   toggleCards() {
     this.showOwner = !this.showOwner;
   }
+  authorization: boolean = false;
+
   constructor(
     private choseSubscribeService: ChoseSubscribeService,
     private sharedService: SharedService,
@@ -68,26 +70,53 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    await this.getChosenFlatId();
+    await this.getCardData();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {
         this.isMobile = status;
       })
     );
-    // Підписка на шлях до серверу
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
+  }
 
-    // Підписка на отримання айді обраної оселі
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.getUserDiscussioCount();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Підписка на отримання айді обраної оселі
+  async getChosenFlatId() {
     this.subscriptions.push(
       this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.choseFlatId = selectedFlatId;
       })
     );
+  }
 
-    // Підписка на отримання даних обраної оселі
+  // Підписка на отримання даних обраної оселі
+  async getCardData() {
     this.subscriptions.push(
       this.cardsDataService.cardData$.subscribe(async (data: any) => {
         this.chosenFlat = data;
@@ -97,11 +126,13 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
 
+  // перевірка дискусій користувача
+  async getUserDiscussioCount() {
     await this.counterService.getUserDiscussioCount();
-    // Підписка на отримання кількості карток
     this.subscriptions.push(
-      this.counterService.counterUserDiscussio$.subscribe(async data => {
+      this.counterService.counterUserDiscussio$.subscribe(data => {
         this.counterFound = Number(data);
       })
     );

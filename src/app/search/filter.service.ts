@@ -111,7 +111,4 @@ export class FilterService {
     // console.log('blockBtnStatus', status);
     this.blockBtnStatus$.next(status);
   }
-
-
-
 }

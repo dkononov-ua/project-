@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { HouseSearchConfig } from '../../../interface/param-config';
-import { HouseStatusInfo } from '../../../interface/info';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { animations } from '../../../interface/animation';
 
@@ -13,25 +11,29 @@ import { animations } from '../../../interface/animation';
     animations.top4,
   ],
 })
-export class StatusDataHouseComponent implements OnInit {
+export class StatusDataHouseComponent implements OnInit, OnDestroy {
 
   houseInfo: any;
   openStatus: boolean = false;
-  toogleOpenStatus() {
-    this.openStatus = !this.openStatus;
-  }
-  // houseInfo: HouseStatusInfo = HouseSearchConfig;
+  subscriptions: any[] = [];
 
   constructor(
     private statusDataService: StatusDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.statusDataService.statusDataFlat$.subscribe((data: any) => {
-      // console.log(data)
-      if (data) { this.houseInfo = data; }
-      // console.log(this.houseInfo)
-    });
+    this.subscriptions.push(
+      this.statusDataService.statusDataFlat$.subscribe((data: any) => {
+        if (data) { this.houseInfo = data; }
+      })
+    );
   }
 
+  toogleOpenStatus() {
+    this.openStatus = !this.openStatus;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }

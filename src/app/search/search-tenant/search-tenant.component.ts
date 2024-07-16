@@ -8,7 +8,6 @@ import { CounterService } from 'src/app/services/counter.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
-import { StatusMessageService } from 'src/app/services/status-message.service';
 
 @Component({
   selector: 'app-search-tenant',
@@ -61,7 +60,6 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private choseSubscribersService: ChoseSubscribersService,
     private cardsDataHouseService: CardsDataHouseService,
-    private statusMessageService: StatusMessageService,
   ) { }
 
   async ngOnInit(): Promise<void> {

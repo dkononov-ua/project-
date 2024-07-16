@@ -1,15 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SendMessageService } from 'src/app/chat/send-message.service';
 import * as ServerConfig from 'src/app/config/path-config';
-import { CounterService } from 'src/app/services/counter.service';
-import { DataService } from 'src/app/services/data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserInfo } from '../../../interface/info';
 import { UsereSearchConfig } from '../../../interface/param-config';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { animations } from '../../../interface/animation';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-status-data',
@@ -36,25 +32,59 @@ export class StatusDataComponent implements OnInit {
     this.openStatus = !this.openStatus;
   }
 
+  isMobile: boolean = false;
+  authorization: boolean = false;
+  subscriptions: any[] = [];
+  currentLocation: string = '';
+
   constructor(
     private sharedService: SharedService,
-    private dataService: DataService,
-    private http: HttpClient,
-    private route: ActivatedRoute,
-    private counterService: CounterService,
-    private sendMessageService: SendMessageService,
     private statusDataService: StatusDataService,
-  ) {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-  }
+    private location: Location,
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    this.statusDataService.statusData$.subscribe((data: any) => {
-      // console.log(data)
-      if (data) { this.userInfo = data; }
-    });
+    this.currentLocation = this.location.path();
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.getStatusData();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  async getStatusData() {
+    this.subscriptions.push(
+      this.statusDataService.statusData$.subscribe((data: any) => {
+        if (data) { this.userInfo = data; }
+      })
+    );
   }
 
 }

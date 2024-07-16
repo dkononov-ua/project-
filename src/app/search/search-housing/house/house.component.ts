@@ -10,14 +10,11 @@ import { purpose, aboutDistance, option_pay, animals, options, checkBox } from '
 import { PaginationConfig } from 'src/app/config/paginator';
 import { GestureService } from 'src/app/services/gesture.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Router } from '@angular/router';
 import { CounterService } from 'src/app/services/counter.service';
-import { StatusDataService } from 'src/app/services/status-data.service';
 import { ChoseSubscribeService } from 'src/app/services/chose-subscribe.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { animations } from '../../../interface/animation';
 import { StatusMessageService } from 'src/app/services/status-message.service';
-
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
@@ -93,23 +90,18 @@ export class HouseComponent implements OnInit, OnDestroy {
   photoViewing: boolean = false;
   isLoadingImg: boolean = false;
   authorization: boolean = true;
-
-
   subscriptions: any[] = [];
   isMobile = false;
   chosenFlatId: number | undefined;
   isSelectedFlatId: boolean = false;
   btnDisabled: boolean = false;
-
   allCards: any;
 
   constructor(
     private filterService: FilterService,
     private http: HttpClient,
     private sharedService: SharedService,
-    private router: Router,
     private counterService: CounterService,
-    private statusDataService: StatusDataService,
     private choseSubscribeService: ChoseSubscribeService,
     private cardsDataService: CardsDataService,
     private statusMessageService: StatusMessageService,

@@ -73,6 +73,8 @@ export class RatingComponent implements OnInit {
   }
 
   currentLocation: string = '';
+  subscriptions: any[] = [];
+  authorization: boolean = false;
 
   user: any;
   animationDelay(index: number): string {
@@ -87,21 +89,37 @@ export class RatingComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
-    this.statusDataService.userData$.subscribe((data: any) => {
-      // console.log(data);
-      this.user = data.data;
-      this.indexParam = data.index;
-      if (this.user && this.indexParam === 0) {
-        this.getRatingTenant();
-        this.getRatingOwner();
-      }
-      if (this.user && this.indexParam === 1) {
-        this.getRatingOwner();
-      }
-      if (this.user && this.indexParam === 2 || this.indexParam === 3) {
-        this.getRatingTenant();
-      }
-    });
+    this.checkUserAuthorization();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.getDataUser();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  getDataUser() {
+    this.subscriptions.push(
+      this.statusDataService.userData$.subscribe((data: any) => {
+        this.user = data.data;
+        this.indexParam = data.index;
+        if (this.user && this.indexParam === 0) {
+          this.getRatingTenant();
+          this.getRatingOwner();
+        }
+        if (this.user && this.indexParam === 1) {
+          this.getRatingOwner();
+        }
+        if (this.user && this.indexParam === 2 || this.indexParam === 3) {
+          this.getRatingTenant();
+        }
+      })
+    );
   }
 
   // Копіювання параметрів

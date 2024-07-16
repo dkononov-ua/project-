@@ -1,6 +1,5 @@
 import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
-
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
 import { Purpose, Distance, OptionPay, Animals } from '../../../interface/name';
@@ -50,12 +49,12 @@ export class InfoComponent implements OnInit, OnDestroy {
   aboutDistance = Distance;
   option_pay = OptionPay;
   animals = Animals;
-
   user: any;
-
   subscriptions: any[] = [];
   card_info: number = 0;
   currentLocation: string = '';
+  isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -68,13 +67,38 @@ export class InfoComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
-    // Підписка на шлях до серверу
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    this.checkLocation();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.checkLocation();
+    } else {
+      this.authorization = false;
+    }
   }
 
   checkLocation() {
@@ -86,7 +110,6 @@ export class InfoComponent implements OnInit, OnDestroy {
     ) {
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
-          // console.log(data)
           this.user = data.owner;
         })
       );
@@ -99,7 +122,6 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;
-          // console.log(this.user)
         })
       );
     } else if (this.currentLocation === '/user/info') {
@@ -108,7 +130,6 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;
-          // console.log(this.user)
         })
       );
     }
@@ -156,19 +177,17 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   async calculateTotalDays(): Promise<number> {
-    // const days = this.user.days || 0;
-    // const weeks = this.user.weeks || 0;
-    // const months = this.user.months || 0;
-    // const years = this.user.years || 0;
-    // const totalDays = days + weeks * 7 + months * 30 + years * 365;
-    // this.totalDays = totalDays / 29;
-    // console.log(this.totalDays)
+    const days = this.user.days || 0;
+    const weeks = this.user.weeks || 0;
+    const months = this.user.months || 0;
+    const years = this.user.years || 0;
+    const totalDays = days + weeks * 7 + months * 30 + years * 365;
+    this.totalDays = totalDays / 29;
     return 0;
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    // console.log(this.subscriptions)
   }
 
 }

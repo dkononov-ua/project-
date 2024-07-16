@@ -43,6 +43,8 @@ export class ImgComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   currentPhotoIndex: number = 0;
   currentLocation: string = '';
+  isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -53,13 +55,38 @@ export class ImgComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
-    // Підписка на шлях до серверу
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    this.checkLocation();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.checkLocation();
+    } else {
+      this.authorization = false;
+    }
   }
 
   checkLocation() {
@@ -71,7 +98,6 @@ export class ImgComponent implements OnInit, OnDestroy {
     ) {
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
-          // console.log(data)
           this.user.img = data.owner.img;
         })
       );
@@ -83,7 +109,6 @@ export class ImgComponent implements OnInit, OnDestroy {
     ) {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-          // console.log(data)
           this.user = data;
         })
       );
@@ -93,7 +118,6 @@ export class ImgComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;
-          // console.log(this.user)
         })
       );
     }

@@ -33,10 +33,6 @@ export class FilterUserService {
     return this.filterValue;
   }
 
-  // getOptionsFound() {
-  //   return this.counterFound;
-  // }
-
   loadCards(loadCards: string) {
     // console.log(loadCards);
     this.loadCards$.next(loadCards);
@@ -63,8 +59,6 @@ export class FilterUserService {
     // console.log('sortHouse')
     this.sortValue$.next(sortValue);
   }
-
-
 }
 
 

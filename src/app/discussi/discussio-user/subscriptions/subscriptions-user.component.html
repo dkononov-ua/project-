@@ -9,20 +9,20 @@
     </div>
 
     <div class="menu-box">
-      <div class="menu-lable">Меню</div>
-      <div class="menu-name">Вподобані Оселі</div>
+      <div class="menu-lable">Вподобані</div>
+      <div class="menu-name">Оселі <i class="fa-regular fa-heart pl-2"></i></div>
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage === 1}">
+      <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage === 0}">
         <i class="fa-solid fa-circle-info"></i>
         <div class="t-min bold">Інфо</div>
       </button>
     </div>
 
     <div class="switch-btn-group ">
-      <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(0)"
-        [ngClass]="{ 'active': indexPage === 0}">
+      <button class="btn" [disabled]="counterFound === 0" (click)="onClickMenu(1)"
+        [ngClass]="{ 'active': indexPage === 1}">
         <i class="fa-solid fa-people-group"></i>
         <div class="t-min bold">Вподобані</div>
         <div class="status"> {{counterFound}} </div>
@@ -32,21 +32,66 @@
 
   <div class="main-container">
 
-    <!-- всі картки -->
-    <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile" *ngIf="!isMobile">
-      <app-cards-list></app-cards-list>
+    <div class="card-wrapper col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!isMobile">
+
+      <div [@right1] class="card-content">
+
+        <div class="flex-box-center t-c p-2 mt-2 w-100">
+          <i class="fa-regular fa-heart"></i>
+          <p class="t-lar-x bold">Меню вподобані оселі</p>
+          <p class="t-min">Список оселей які вам сподобались і ви на них підписались.</p>
+        </div>
+
+        <ul class="t-med mt-2 t-s">
+          <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
+          <li>Перегляд інформації про оселю.</li>
+          <li>Видалення підписки.</li>
+          <li>Перегляд локації.</li>
+        </ul>
+
+        <div class="flex-box-center t-c p-2 mt-2">
+          <p class="t-med bold">Підписуватись на оселі можна в пошуку оселей</p>
+          <p class="t-med bold">Після того як вас ухвалять, оселя з'явиться в меню Дискусії там будуть вже доступні
+            контакти та відкриється більше функцій</p>
+        </div>
+
+        <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Підписки' }">
+          Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
+        </button>
+
+      </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card-wrapper">
-        <!-- всі картки -->
-        <div [@swichCard] class="card-animation hide-pc" *ngIf="indexPage === 0 && isMobile">
-          <div class="card-content">
-            <app-cards-list></app-cards-list>
+    <div class="card-wrapper col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
+      <div class="card-content">
+        <app-cards-list></app-cards-list>
+      </div>
+    </div>
+
+    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+      <div [@appearance] class="card-animation" *ngIf="chosenFlat">
+        <div class="btn-close-container">
+          <div class="btn-close-box">
+            <button class="btn-close" (click)="close()"></button>
           </div>
         </div>
+        <div class="card-content">
+          <app-img-house></app-img-house>
+          <app-info-house></app-info-house>
+        </div>
+      </div>
+      <div class="status-subscription-wrapper h-100" *ngIf="!chosenFlat">
+        <div [@appearance] class="status-subscription bg-transparent">
+          <div class="status-text p-2 t-c">Оберіть <br> оселю</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="isMobile">
+      <div class="card-wrapper">
+
         <!-- про меню -->
-        <div [@swichCard] class="card-animation" *ngIf="indexPage === 1">
+        <div [@swichCard] class="card-animation" *ngIf="indexPage === 0">
           <div class="card-content">
 
             <div class="flex-box-center t-c p-2 mt-2 w-100">
@@ -69,16 +114,9 @@
             </div>
 
             <div class="btn-group">
-              <button class="btn btn-navigation" [routerLink]="'/search-house'">
-                <div class="t-med bold mr-2">Пошук оселі</div>
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-
-            <div class="btn-group">
-              <button class="b-primary" [routerLink]="'/subscribers-discuss'">
-                <i class="fa-solid fa-arrow-right pr-2"></i>
-                <div class="t-med bold">Меню Дискусій</div>
+              <button class="b-primary" (click)="indexPage = 1">
+                <div class="t-med bold white">Перейти до осель</div>
+                <i class="fa-solid fa-arrow-right pl-2"></i>
               </button>
             </div>
 
@@ -88,11 +126,19 @@
 
           </div>
         </div>
+
+        <!-- всі картки -->
+        <div [@swichCard] class="card-animation hide-pc" *ngIf="indexPage === 1">
+          <div class="card-content">
+            <app-cards-list></app-cards-list>
+          </div>
+        </div>
+
         <!-- інформація про оселю -->
-        <div class="card-animation" *ngIf="indexPage === 2 && chosenFlat">
+        <div class="card-animation" *ngIf="chosenFlat && indexPage === 2">
           <div class="btn-close-container">
             <div class="btn-close-box">
-              <button class="btn-close" (click)="indexPage = 1"></button>
+              <button class="btn-close" (click)="close()"></button>
             </div>
           </div>
           <div class="card-content">
@@ -100,8 +146,10 @@
             <app-info-house></app-info-house>
           </div>
         </div>
+
       </div>
     </div>
 
   </div>
+
 </div>

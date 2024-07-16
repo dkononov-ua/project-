@@ -5,15 +5,10 @@ import { SearchHousingComponent } from './search-housing/search-housing.componen
 import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
-  {
-    path: 'search-tenants', component: SearchTenantComponent,
-  },
-  {
-    path: 'search-house', component: SearchHousingComponent,
-  },
+  { path: 'search-tenants', component: SearchTenantComponent },
+  { path: 'search-house', component: SearchHousingComponent },
   { path: 'discussio-search', component: SearchComponent },
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

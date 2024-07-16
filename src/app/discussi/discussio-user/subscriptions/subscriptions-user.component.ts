@@ -9,7 +9,6 @@ import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
-import { LocationHouseService } from 'src/app/services/location-house.service';
 
 @Component({
   selector: 'app-subscriptions-user',
@@ -23,6 +22,8 @@ import { LocationHouseService } from 'src/app/services/location-house.service';
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.appearance,
+    animations.right1,
   ],
 })
 
@@ -51,6 +52,7 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
   counterFound = PaginationConfig.counterFound;
   startX = 0;
   isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private choseSubscribeService: ChoseSubscribeService,
@@ -58,29 +60,56 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
     private counterService: CounterService,
     private router: Router,
     private cardsDataService: CardsDataService,
-  ) {  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    await this.getChosenFlatId();
+    await this.getCardData();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {
         this.isMobile = status;
       })
     );
-    // Підписка на шлях до серверу
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
+  }
 
-    // Підписка на отримання айді обраної оселі
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.getUserSubscriptionsCount();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Підписка на отримання айді обраної оселі
+  async getChosenFlatId() {
     this.subscriptions.push(
       this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.choseFlatId = selectedFlatId;
       })
     );
+  }
 
-    // Підписка на отримання даних обраної оселі
+  // Підписка на отримання даних обраної оселі
+  async getCardData() {
     this.subscriptions.push(
       this.cardsDataService.cardData$.subscribe(async (data: any) => {
         this.chosenFlat = data;
@@ -90,15 +119,26 @@ export class SubscriptionsUserComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
 
-    // Підписка на отримання кількості карток
+  // перевірка підписок користувача
+  async getUserSubscriptionsCount() {
     await this.counterService.getUserSubscriptionsCount();
     this.subscriptions.push(
-      this.counterService.counterUserSubscriptions$.subscribe(async data => {
+      this.counterService.counterUserSubscriptions$.subscribe(data => {
         this.counterFound = Number(data);
       })
     );
   }
+
+  close() {
+    this.indexPage = 1;
+    setTimeout(() => {
+      this.choseSubscribeService.removeChosenFlatId();
+      this.cardsDataService.removeCardData();
+    }, 100);
+  }
+
 
   ngOnDestroy() {
     this.cardsDataService.removeCardData(); // очищуємо дані про оселю

@@ -2,166 +2,8 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
-span {
-  color: $color-text;
-}
-
-.card-animation {
-  &::-webkit-scrollbar {
-    display: none !important;
-  }
-  @include s3-s6-max {
-    width: 98% !important;
-  }
-  @include s1-s3 {
-    overflow: visible !important;
-  }
-}
-
 .card-content {
   align-items: stretch !important;
-}
-
-.container-img {
-  position: relative;
-  .wrapper-img {
-    position: relative;
-    .img-fluid {
-      width: 100%;
-      border: none;
-      border-radius: 20px;
-    }
-  }
-}
-
-.card-img-container {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  width: 60%;
-  height: 100%;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border-radius: 10px;
-}
-
-.card-img-top {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: all 0.3s ease;
-  clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-  background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
-.card-title {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 2px;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  align-content: flex-start;
-  align-items: flex-end;
-}
-
-.item-deskr {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 12px;
-}
-
-.deskr-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.item-characteristics-1 {
-  font-size: 16px;
-  font-weight: 400;
-  margin: 2px;
-  border-radius: 10px;
-  padding: 2px 5px;
-  background-color: $color-white;
-  color: $color-dark;
-}
-
-.card-selected {
-  background-color: $color-white;
-  display: flex;
-  position: absolute;
-  top: -12vh;
-  left: 0;
-  justify-content: center;
-  align-items: flex-start;
-  align-content: flex-start;
-  width: 100%;
-  height: 100vh;
-  z-index: 100;
-  .cardDirection {
-    @include flex-box-column;
-    height: 100vh;
-    background-color: $color-accent;
-    position: absolute;
-    width: 100%;
-    padding-top: 30vh;
-    .logo {
-      width: 50%;
-    }
-  }
-}
-
-.search-card {
-  @include flex-box-center;
-  flex-direction: column;
-  position: absolute;
-  justify-content: flex-start;
-  top: 0;
-  left: 0;
-  overflow: auto;
-  height: 100vh;
-  background-color: $color-white;
-  z-index: 500;
-  width: 100%;
-  align-items: stretch;
-}
-
-.user-group {
-  position: absolute;
-  z-index: 30;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: flex-end;
-  z-index: 10;
-  box-shadow: inset -70px 0px 70px 0px rgb(255, 255, 255);
-  align-items: flex-end;
-  .user-group-name {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    flex-direction: column;
-    .user-sup-name {
-      font-size: 12px;
-      text-shadow: 0 0 5px rgb(255, 255, 255);
-    }
-
-    .user-name {
-      font-size: 20px;
-      font-weight: 600;
-      text-shadow: 0 0 5px rgb(255, 255, 255);
-    }
-  }
 }
 
 .card-btn-container {
@@ -169,48 +11,46 @@ span {
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-}
+  .item-box {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 5px;
+    .link,
+    .location {
+      color: $color-text;
+      transition: all 0.4s ease;
+      letter-spacing: 1px;
+      margin: 0;
 
-.item-box {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin: 0 5px;
-}
+      &:hover {
+        background-color: $color-gray;
+        box-shadow:
+          10px 10px 40px rgba(0, 0, 0, 0.105),
+          10px 20px 40px rgba(0, 0, 0, 0.162);
+      }
 
-.link,
-.location {
-  color: $color-text;
-  transition: all 0.4s ease;
-  letter-spacing: 1px;
-  margin: 0;
+      &:disabled {
+        background-color: $color-gray;
+      }
 
-  &:hover {
-    background-color: $color-gray;
-    box-shadow:
-      10px 10px 40px rgba(0, 0, 0, 0.105),
-      10px 20px 40px rgba(0, 0, 0, 0.162);
-  }
+      &:active {
+        transform: scale(0.8);
+        letter-spacing: 0px;
+        box-shadow:
+          10px 10px 40px rgba(0, 0, 0, 0.105),
+          10px 20px 40px rgba(0, 0, 0, 0.162);
+      }
 
-  &:disabled {
-    background-color: $color-gray;
-  }
-
-  &:active {
-    transform: scale(0.8);
-    letter-spacing: 0px;
-    box-shadow:
-      10px 10px 40px rgba(0, 0, 0, 0.105),
-      10px 20px 40px rgba(0, 0, 0, 0.162);
-  }
-
-  &.active {
-    letter-spacing: 5px;
-    font-weight: bold;
-    color: $color-accent;
-    box-shadow:
-      10px 10px 40px rgba(0, 0, 0, 0.105),
-      10px 20px 40px rgba(0, 0, 0, 0.162);
+      &.active {
+        letter-spacing: 5px;
+        font-weight: bold;
+        color: $color-accent;
+        box-shadow:
+          10px 10px 40px rgba(0, 0, 0, 0.105),
+          10px 20px 40px rgba(0, 0, 0, 0.162);
+      }
+    }
   }
 }
 
@@ -220,83 +60,6 @@ span {
 
 .white {
   color: $color-white;
-}
-
-.card-mini {
-  @include flex-box;
-  margin-bottom: 10px;
-  background-color: $color-white;
-  position: relative;
-  width: 100%;
-  height: 130px;
-  overflow: hidden;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.629);
-  transition: 1s;
-  .card-mini-body {
-    display: flex;
-    flex-direction: column;
-    z-index: 105;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  .card-mini-img {
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    overflow: hidden;
-    img {
-      width: 100%;
-      object-fit: scale-down;
-    }
-  }
-  .card-mini-user {
-    @include flex-box-center;
-    justify-content: flex-start;
-    position: absolute;
-    z-index: 1;
-    overflow: hidden;
-    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.26) 50%, $color-dark 100%) !important;
-    width: 100%;
-    height: 100%;
-    img {
-      height: 100%;
-      width: 40%;
-      object-fit: cover;
-      clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-    }
-  }
-  &.selected {
-    color: $color-white;
-    font-weight: 600;
-    .card-mini-body {
-      background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 30%, $color-accent 100%) !important;
-    }
-  }
-}
-
-.search-results {
-  @include flex-box;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: center;
-  height: 600px;
-  overflow: auto;
-  padding: 0;
-  margin: 0;
-  @include s1-s3 {
-    overflow: visible;
-    width: 100%;
-    height: auto;
-  }
-}
-
-.search-results::-webkit-scrollbar {
-  overflow: hidden;
 }
 
 .btn {
@@ -312,7 +75,8 @@ span {
   &:hover {
     @include box-shadow;
     background-color: $color-dark;
-    .fa-regular, .fa-solid {
+    .fa-regular,
+    .fa-solid {
       color: $color-white;
     }
   }
@@ -323,35 +87,6 @@ span {
       @include box-shadow-i;
     }
   }
-
-}
-
-.btn.subscribed {
-  background-color: $color-dark;
-}
-
-.btn.discussion {
-  background-color: $color-accent;
-}
-
-.price_m {
-  font-size: 20px;
-  color: $color-accent;
-  font-weight: 600;
-  font-size: 30px;
-}
-
-.search-results2 {
-  @include flex-box;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
-  width: 100%;
-}
-
-.search-results2::-webkit-scrollbar {
-  display: none;
 }
 
 .btn-close {
@@ -366,127 +101,3 @@ span {
   padding: 5px;
 }
 
-.btn-container {
-  @include flex-box;
-  overflow-x: auto;
-  background-color: rgba(255, 255, 255, 0.673);
-  height: 90px;
-  padding: 5px;
-  // border: 5px solid $color-white;
-  border-radius: 20px 20px 0 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  justify-content: flex-start;
-  .img-btn-box {
-    @include flex-box-column;
-    .img-btn {
-      @include flex-box;
-      background-color: transparent;
-      border-radius: 50%;
-      border: none;
-      width: 80px;
-      .fa-solid,
-      .fa-regular {
-        color: $color-white;
-        &:hover {
-          color: $color-accent;
-          @include box-shadow;
-        }
-      }
-    }
-  }
-}
-
-.flex-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .room {
-    height: 40px;
-    font-size: 36px;
-    color: $color-text;
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
-    text-shadow:
-      -1px -1px 0 white,
-      1px -1px 0 white,
-      -1px 1px 0 white,
-      1px 1px 0 white;
-  }
-}
-
-.text {
-  font-size: 14px;
-  font-weight: 600;
-  color: $color-text;
-  text-shadow:
-    -1px -1px 0 white,
-    1px -1px 0 white,
-    -1px 1px 0 white,
-    1px 1px 0 white;
-}
-
-.flex-box {
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.link-t {
-  background-color: rgba(128, 128, 128, 0.905);
-}
-
-.feedback-box {
-  .feedback-box-btn {
-    background-color: rgba(128, 128, 128, 0.905);
-    color: $color-white;
-    &:disabled {
-      color: rgba(128, 128, 128, 0.905);
-      background-color: transparent;
-    }
-  }
-}
-
-.param-g {
-  @include flex-box;
-  border: none !important;
-  background-color: transparent;
-  margin-top: 5px;
-  border-radius: 10px;
-  height: 60px;
-  min-width: 50px;
-  overflow: hidden;
-  padding: 3px;
-
-  &:hover {
-    .bg-g {
-      height: 100%;
-    }
-    .bg-w {
-      display: none;
-    }
-  }
-
-  .fa-solid,
-  .fa-regular {
-    color: $color-white;
-  }
-
-  .bg-g {
-    @include flex-box;
-    height: 70%;
-    width: 100%;
-    padding: 5px;
-  }
-
-  .bg-w {
-    @include flex-box;
-    border-top: 1px solid rgba(128, 128, 128, 0.331);
-    height: 30%;
-    width: 100%;
-  }
-}

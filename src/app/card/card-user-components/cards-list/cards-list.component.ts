@@ -45,6 +45,8 @@ export class CardsListComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   currentLocation: string = '';
+  isMobile: boolean = false;
+  authorization: boolean = false;
 
   @ViewChild('findCards') findCardsElement!: ElementRef;
 
@@ -57,24 +59,54 @@ export class CardsListComponent implements OnInit, OnDestroy {
     private filterService: FilterService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    await this.getChosenFlatId();
+    this.getSubInfoFromService(this.offs);
+  }
 
-    // Підписка на шлях до серверу
+  // перевірка на девайс
+  async getCheckDevice() {
     this.subscriptions.push(
-      this.sharedService.serverPath$.subscribe(serverPath => {
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
+  }
 
-    // Підписка на отримання айді обраної оселі
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Підписка на отримання айді обраної оселі
+  async getChosenFlatId() {
     this.subscriptions.push(
-      this.choseSubscribeService.selectedFlatId$.subscribe(selectedFlatId => {
+      this.choseSubscribeService.selectedFlatId$.subscribe(async selectedFlatId => {
         this.choseFlatId = selectedFlatId;
+        // console.log(this.choseFlatId)
+        if (this.choseFlatId) {
+          this.getCardsData();
+        }
       })
     );
-
-    this.getSubInfoFromService(this.offs);
   }
 
   // Запит на сервіс про список карток так їх кількість

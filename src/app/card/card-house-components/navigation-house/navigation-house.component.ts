@@ -104,16 +104,28 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    this.checkUserAuthorization();
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      this.subscriptions.push(
-        this.sharedService.isMobile$.subscribe((status: boolean) => {
-          this.isMobile = status;
-        })
-      );
       this.getSelectParam();
+    } else {
+      this.authorization = false;
     }
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
   }
 
   goToEdit() {

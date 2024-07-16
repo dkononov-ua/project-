@@ -1,22 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { UpdateComponentService } from 'src/app/services/update-component.service';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
-import { UserInfo } from 'src/app/interface/info';
 import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
-import { Chat } from '../../../interface/info';
 import { animations } from '../../../interface/animation';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { StatusDataService } from 'src/app/services/status-data.service';
 import { Subscription } from 'rxjs';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 import { FilterUserService } from 'src/app/search/filter-user.service';
@@ -25,19 +16,7 @@ import { FilterUserService } from 'src/app/search/filter-user.service';
   selector: 'app-cards-list-users',
   templateUrl: './cards-list-users.component.html',
   styleUrls: ['./cards-list-users.component.scss'],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'uk-UA' },
-  ],
-  animations: [
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.swichCard,
-    animations.top3,
-  ],
+  animations: [animations.top3],
 })
 
 export class CardsListUsersComponent implements OnInit, OnDestroy {
@@ -61,49 +40,72 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
   currentPage = PaginationConfig.currentPage;
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
+
   choseUserId: any;
   currentLocation: string = '';
-  goBack(): void {
-    this.location.back();
-  }
-
   @ViewChild('findCards') findCardsElement!: ElementRef;
-
+  isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
-    private http: HttpClient,
-    private dialog: MatDialog,
     private choseSubscribersService: ChoseSubscribersService,
-    private updateComponent: UpdateComponentService,
     private sharedService: SharedService,
     private counterService: CounterService,
-    private route: ActivatedRoute,
-    private router: Router,
     private location: Location,
     private cardsDataHouseService: CardsDataHouseService,
-    private statusDataService: StatusDataService,
     private filterUserService: FilterUserService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.currentLocation = this.location.path();
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
+    await this.getSelectedFlatId();
+    await this.getChosenUserId();
+    this.getSubInfoFromService(this.offs);
+  }
 
-    // Підписка на шлях до серверу
+  // перевірка на девайс
+  async getCheckDevice() {
     this.subscriptions.push(
-      this.sharedService.serverPath$.subscribe(serverPath => {
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
+  }
 
-    // Підписка на отримання айді обраної оселі
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
         this.selectedFlatId = flatId || this.selectedFlatId || null;
       })
     );
+  }
 
-    // Підписка на отримання айді юзера
+  // Підписка на отримання айді обраного користувача
+  async getChosenUserId() {
     this.subscriptions.push(
       this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
         this.choseUser = Number(selectedSubscriber);
@@ -116,8 +118,6 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-    this.getSubInfoFromService(this.offs);
   }
 
   // Запит на сервіс про список карток так їх кількість
@@ -125,7 +125,6 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     if (this.currentLocation !== '/search-tenants') {
       this.cardsDataHouseService.getUserInfo(offs);
     }
-
     this.getCardsData();
     this.getCounterCards();
   }
@@ -135,7 +134,6 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.cardsDataHouseService.cardsData$.subscribe(data => {
         this.allCards = data;
-        // console.log(this.allCards)
       })
     );
   }
@@ -222,7 +220,6 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     this.totalPages = totalPages;
     return `Сторінка ${currentPage} із ${totalPages}. Загальна кількість карток: ${this.counterFound}`;
   }
-
 
   onScroll(event: Event): void {
     const element = this.findCardsElement.nativeElement;

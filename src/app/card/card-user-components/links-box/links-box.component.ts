@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-links-box',
