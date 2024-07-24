@@ -68,6 +68,7 @@ import { SharedService } from './services/shared.service';
 import { StatusMessageComponent } from './components/status-message/status-message.component';
 import { StatusMessageService } from './services/status-message.service';
 import { CardsDataService } from './services/user-components/cards-data.service';
+import { PostsComponent } from './pages/posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { CardsDataService } from './services/user-components/cards-data.service'
     SharingInfoComponent,
     NewsLineComponent,
     StatusMessageComponent,
+    PostsComponent,
   ],
   providers: [
     SelectedFlatService,
@@ -144,6 +146,7 @@ import { CardsDataService } from './services/user-components/cards-data.service'
     LyIconModule,
     LyDialogModule,
 
+
     MatInputModule,
     MatFormFieldModule,
     HousingParametersModule,
@@ -155,6 +158,7 @@ import { CardsDataService } from './services/user-components/cards-data.service'
 
     AuthModule,
     AuthRoutingModule,
+
   ]
 })
 export class AppModule { }

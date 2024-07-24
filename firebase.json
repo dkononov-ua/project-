@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist\\project",
+    "public": "dist/project",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -10,6 +10,17 @@
       {
         "source": "**",
         "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "/sitemap.xml",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/xml"
+          }
+        ]
       }
     ]
   },

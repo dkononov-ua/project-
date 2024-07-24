@@ -1,0 +1,31 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.status-subscription-wrapper {
+  @include flex-box-center;
+  position: relative;
+  border-radius: 20px 20px 0 0;
+  height: 350px;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.status-subscription {
+  @include flex-box-center;
+  background-image: linear-gradient(to bottom, transparent 10%, rgba(104, 100, 100, 0.786) 100%);
+  height: 100%;
+  width: 100%;
+  .status-text {
+    font-size: 40px;
+    color: $color-accent;
+    font-weight: 300;
+    border: 1px solid $color-accent;
+    border-radius: 20px;
+    rotate: -15deg;
+    background-color: rgba(255, 255, 255, 0.734);
+    @include box-shadow-a;
+  }
+}

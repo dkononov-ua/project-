@@ -1,6 +1,5 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
-@use "../style/media.scss" as *;
 
 .hide-mobile {
   @include s1-s3 {

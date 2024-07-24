@@ -1,5 +1,5 @@
-<button class="status-content">
-  <button class="status-box m-2" (click)="toogleOpenStatus()">
+<button class="status-content" *ngIf="houseInfo">
+  <button class="status-box m-2" (click)="toogleOpenStatus()" >
     <div class="status-value" *ngIf="!houseInfo.checked || houseInfo.checked === 0"><i class="fa-solid fa-house-circle-exclamation"></i></div>
     <div class="status-value" *ngIf="houseInfo.checked === 1"><i class="fa-solid fa-house-circle-check"></i></div>
     <div class="status-value" *ngIf="houseInfo.room === 0"><i class="fa-solid fa-dice-d6"></i></div>

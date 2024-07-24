@@ -17,7 +17,7 @@ const routes: Routes = [
     component: UserComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
-      { path: 'info', component: UserPageComponent, canActivate: [CanActivateGuard] },
+      { path: 'info', component: UserPageComponent, data: { title: 'Профіль користувача', description: 'Профіль користувача'} , canActivate: [CanActivateGuard] },
       { path: 'preview', component: PreviewInfoComponent, canActivate: [CanActivateGuard] },
     ],
   },
@@ -25,13 +25,13 @@ const routes: Routes = [
     path: 'agree', component: UagreeHostComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'menu', pathMatch: 'full' },
-      { path: 'menu', component: UagreeMenuComponent, canActivate: [CanActivateGuard] },
+      { path: 'menu', component: UagreeMenuComponent, data: { title: 'Угоди орендаря', description: 'Переглянути угоди оренди'}, canActivate: [CanActivateGuard] },
       { path: 'concluded', component: UagreeConcludedComponent, canActivate: [CanActivateGuard] },
       { path: 'rewiew', component: UagreeReviewComponent, canActivate: [CanActivateGuard] },
       { path: 'step', component: UagreeStepComponent, canActivate: [CanActivateGuard] },
     ],
   },
-  { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
+  { path: 'looking', component: LookingComponent, data: { title: 'Профіль орендаря', description: 'Розмістити оголошення про пошук оселі'}, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

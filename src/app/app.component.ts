@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import * as ServerConfig from 'src/app/config/path-config';
@@ -6,8 +6,9 @@ import { SharedService } from './services/shared.service';
 import { CheckBackendService } from './services/check-backend.service';
 import { StatusMessageService } from './services/status-message.service';
 import { animations } from '../app/interface/animation';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ import { LoaderService } from './services/loader.service';
   ],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -71,9 +72,16 @@ export class AppComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     private router: Router,
     private loaderService: LoaderService,
+    private titleService: Title,
+    private metaService: Meta,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateMetaTags(this.router.routerState.snapshot.root);
+      }
+    });
     await this.getStatusLoader();
     this.checkBackendService.startCheckServer();
     this.currentLocation = this.location.path();
@@ -81,6 +89,24 @@ export class AppComponent implements OnInit {
     this.getCheckDevice();
     this.getServerPath();
     this.getStatusMessage();
+  }
+
+  updateMetaTags(route: ActivatedRouteSnapshot): void {
+    let title = 'Discussio - Соціальна платформа для нерухомості';
+    let description = 'Опис сайту.';
+
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    if (route.data['title']) {
+      title = route.data['title'];
+    }
+    if (route.data['description']) {
+      description = route.data['description'];
+    }
+
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
   }
 
   // підписка на оновлення шляху серверу

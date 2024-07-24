@@ -1,0 +1,128 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.content-component {
+  @include flex-box;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-start;
+  @include s3-s6-max {
+    align-items: stretch;
+  }
+}
+
+.container-content {
+  flex-direction: column;
+  overflow: auto;
+  height: calc(100vh - 100px);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.content-wrapper {
+  @include flex-box-center;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-start;
+  flex-direction: column;
+  .post {
+    @include flex-box-center;
+    position: relative;
+    align-items: flex-start;
+    background-color: $color-white;
+    transform: scale(0.98);
+    transition: 1s;
+    width: 100%;
+    height: 300px;
+    @include box-shadow;
+    border-radius: 20px;
+    overflow: hidden;
+    .card-text {
+      font-size: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid $color-white;
+    }
+    &.selected {
+      transition: 1s;
+
+      position: absolute;
+      left: 0;
+      z-index: 10;
+      height: 70vh;
+      transform: scale(1);
+      background-color: $color-accent;
+      .card-title,
+      .t-min,
+      .card-text {
+        color: $color-white;
+      }
+      .card-text {
+        font-size: 16px;
+      }
+      .img-wrapper {
+        width: 40%;
+      }
+      .card-body {
+        width: 60%;
+        height: 100%;
+        overflow: auto;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      @include s1-s3 {
+        top: 0;
+        height: 90vh;
+        .img-wrapper {
+          display: none;
+        }
+        .card-body {
+          width: 100%;
+        }
+      }
+    }
+
+    &:hover {
+      transform: scale(1);
+      background-color: $color-gray;
+      color: $color-white;
+      .card-title,
+      .t-min,
+      .card-text {
+        color: $color-white;
+      }
+    }
+    .img-wrapper {
+      width: 40%;
+      height: 100%;
+      position: relative;
+      @include flex-box-center;
+      .img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        object-fit: cover;
+      }
+    }
+    .card-body {
+      @include flex-box-center;
+      justify-content: flex-start;
+      flex-direction: column;
+      width: 60%;
+      height: 300px;
+    }
+    .btn-group {
+      position: fixed;
+      bottom: 0;
+    }
+  }
+}
+
+.btn-group {
+  @include flex-box-center;
+  .b-primary {
+    border: none;
+  }
+}

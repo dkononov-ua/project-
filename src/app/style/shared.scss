@@ -1,35 +1,6 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
-@use "../style/media.scss" as *;
-
-.status-subscription-wrapper {
-  @include flex-box-center;
-  position: relative;
-  border-radius: 20px 20px 0 0;
-  height: 350px;
-  width: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.status-subscription {
-  @include flex-box-center;
-  background-image: linear-gradient(to bottom, transparent 10%, rgba(104, 100, 100, 0.786) 100%);
-  height: 100%;
-  width: 100%;
-  .status-text {
-    font-size: 40px;
-    color: $color-accent;
-    font-weight: 300;
-    border: 1px solid $color-accent;
-    border-radius: 20px;
-    rotate: -15deg;
-    background-color: rgba(255, 255, 255, 0.734);
-    @include box-shadow-a;
-  }
-}
+@use "../style/textForUser.scss" as *;
 
 .bg-transparent {
   background-image: none;
@@ -382,9 +353,6 @@
     position: sticky;
     top: 0;
     margin-top: 1rem;
-    // border-bottom: 1px solid light-dark($color-light-gray, transparent);
-    // border-top: 1px solid light-dark($color-light-gray, transparent);
-    // background-image: linear-gradient(to right, transparent 0%, light-dark( $color-white, transparent) 10%, light-dark( $color-gray, transparent) 70%, transparent 100%);
 
     @include s1-s3 {
       justify-content: space-around !important;
@@ -393,6 +361,8 @@
 
     .switch-btn-group {
       @include flex-box-column;
+      margin: 0;
+      padding: 0;
       position: relative;
       width: 80px;
     }
@@ -463,54 +433,6 @@
     .card-container {
       display: flex;
     }
-    // .cards-container {
-    //   @include flex-box;
-    //   flex-wrap: wrap;
-    //   height: calc(100vh - 80px - 100px - 1rem - 10px);
-    //   overflow: auto;
-    //   width: 100%;
-    //   align-content: flex-start;
-    //   .card-mini {
-    //     @include flex-box;
-    //     @include box-shadow;
-    //     cursor: pointer;
-    //     background-color: $color-white;
-    //     position: relative;
-    //     width: 96%;
-    //     height: 130px;
-    //     overflow: hidden;
-    //     transition: all 0.5s ease;
-    //     border-radius: 20px;
-    //     &:hover {
-    //       transform: scale(1.05);
-    //     }
-    //     .card-mini-img-container {
-    //       position: relative;
-    //       width: 50%;
-    //       height: 100%;
-    //       overflow: hidden;
-    //       transition: all 0.3s ease;
-    //       &:hover {
-    //         width: 55%;
-    //       }
-    //       .card-mini-img {
-    //         height: 100%;
-    //         width: 100%;
-    //         object-fit: cover;
-    //         transition: all 0.3s ease;
-    //         clip-path: polygon(0 0, 70% 0, 100% 100%, 0% 100%);
-    //       }
-    //     }
-    //   }
-    //   @include s1-s3 {
-    //     height: calc(100vh - 80px - 100px - 1rem);
-    //   }
-    //   .card-mini.selected {
-    //     transition: 1s;
-    //     color: $color-white;
-    //     background-color: $color-gray;
-    //   }
-    // }
   }
 }
 
@@ -909,31 +831,6 @@
   }
 }
 
-// .card-menu {
-//   height: 550px;
-//   overflow: hidden;
-//   border-radius: 20px;
-//   @include flex-box;
-//   @include box-shadow;
-//   align-items: flex-start;
-//   position: relative;
-
-//   .param-box {
-//     z-index: 10;
-//     background-color: rgba(255, 255, 255, 0.831);
-//   }
-
-//   .img-wrapper {
-//     position: absolute;
-//     overflow: hidden;
-//     border-radius: 20px;
-//     .img {
-//       width: 100%;
-//       object-fit: cover;
-//     }
-//   }
-// }
-
 .navbar {
   display: flex;
   justify-content: center;
@@ -1043,26 +940,6 @@
     }
   }
 }
-
-// .copyMessage-box {
-//   @include pos-abs-l;
-//   @include flex-box-column;
-//   justify-content: center;
-//   z-index: 300;
-//   background-color: rgba(255, 255, 255, 0.78);
-//   height: 650px;
-//   width: 100%;
-//   color: $color-text;
-//   .fa-regular {
-//     color: $color-text;
-//     font-size: 48px;
-//   }
-//   .copyMessage-text {
-//     text-align: center;
-//     font-size: 30px;
-//     font-weight: 600;
-//   }
-// }
 
 .param-g {
   @include flex-box;

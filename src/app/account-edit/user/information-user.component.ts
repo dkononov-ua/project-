@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as ServerConfig from 'src/app/config/path-config';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -84,7 +84,7 @@ interface UserParam {
   ],
 })
 
-export class InformationUserComponent implements OnInit {
+export class InformationUserComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -220,6 +220,10 @@ export class InformationUserComponent implements OnInit {
   phonePattern = '^[0-9]{10}$';
   startX = 0;
 
+  isMobile: boolean = false;
+  authorization: boolean = false;
+  subscriptions: any[] = [];
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -230,14 +234,42 @@ export class InformationUserComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
-    await this.getInfo();
+  }
+
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      await this.getInfo();
+    } else {
+      this.authorization = false;
+    }
   }
 
   async registrationGoogle(): Promise<any> {
@@ -596,8 +628,10 @@ export class InformationUserComponent implements OnInit {
         }, 2000);
       }
     }
-
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
 };

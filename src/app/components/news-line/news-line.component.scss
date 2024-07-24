@@ -43,6 +43,11 @@
   padding-right: 50px; /* відстань між новинами */
 }
 
+.hide {
+  transition: 1s;
+  transform: translateY(-100%);
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(100%);

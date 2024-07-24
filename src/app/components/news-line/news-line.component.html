@@ -1,4 +1,4 @@
-<div class="news-ticker" *ngIf="statusServer">
+<div [@bot] class="news-ticker" *ngIf="statusServer" [ngClass]="{'hide': hideLine === true}">
   <div class="news-ticker-content">
     <span class="news-item">{{statusServer}}</span>
   </div>

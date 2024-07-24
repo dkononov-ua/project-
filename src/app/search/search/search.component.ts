@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animations } from '../../interface/animation';
 import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from '../../services/selected-flat.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search',
@@ -13,21 +14,10 @@ import { SharedService } from 'src/app/services/shared.service';
   animations: [
     animations.top2,
     animations.bot3,
-    animations.left,
     animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.top4,
-    animations.right4,
-    animations.right,
-    animations.right1,
-    animations.right2,
-    animations.swichCard,
   ],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -41,29 +31,85 @@ export class SearchComponent implements OnInit {
   openSearchHouse: boolean = false;
   loading: boolean = false;
   startX = 0;
-  authorizationHouse: boolean = true;
 
   goBack(): void {
     this.location.back();
   }
+  houseData: any;
   isMobile: boolean = false;
+  subscriptions: any[] = [];
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
 
   constructor(
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private location: Location,
     private sharedService: SharedService,
+    private titleService: Title,
+    private metaService: Meta
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-      // isMobile: boolean = false;
-    });
-    this.getSelectedFlatId();
+  async ngOnInit(): Promise<void> {
+    this.metaService.addTags([
+      // { name: 'description', content: 'Ось де ви знайдете нерухомість для оренди або орендарів.' },
+      { name: 'keywords', content: 'Оренда нерухомості, оренда, аренда, купівля, орендарі, Україна, пошук нерухомості, пошук орендарів, орендар' }
+    ]);
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.getSelectedFlatId();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.checkHouseAuthorization();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Перевірка на авторизацію оселі
+  async checkHouseAuthorization() {
+    const houseData = localStorage.getItem('houseData');
+    if (this.selectedFlatId && houseData) {
+      this.authorizationHouse = true;
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+    } else {
+      this.authorizationHouse = false;
+      this.houseData = false;
+    }
   }
 
   // відправляю event початок свайпу
@@ -96,27 +142,8 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  getSelectedFlatId() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      if (flatId) {
-        this.selectedFlatId = flatId;
-        this.authorizationHouse = true;
-      } else {
-        this.authorizationHouse = false;
-      }
-    });
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.openSearchHouse = true;
-    } else {
-      this.openSearchHouse = false;
-    }
-  }
-
   goToSearchTenants() {
     this.router.navigate(['/search-tenants']);
-
-
     // if (this.selectedFlatId) {
     //   this.authorizationHouse = true;
     //   this.router.navigate(['/search-tenants/filter']);
@@ -125,4 +152,9 @@ export class SearchComponent implements OnInit {
     //   this.sharedService.getAuthorizationHouse();
     // }
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 }

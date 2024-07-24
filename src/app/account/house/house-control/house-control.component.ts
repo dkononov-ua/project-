@@ -72,43 +72,84 @@ export class HouseControlComponent implements OnInit {
   selectedFlatId: string | null = null;
   statusMessage: string | undefined;
 
+  isMobile: boolean = false;
+  subscriptions: any[] = [];
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
     private location: Location,
-  ) {  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        await this.getSelectParam();
-      }
-    })
-    const selectedFlatName = localStorage.getItem('selectedFlatName');
-    if (selectedFlatName !== null) {
-      this.selectedFlatName = selectedFlatName;
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.getSelectedFlatId();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.checkHouseAuthorization();
     } else {
+      this.authorization = false;
     }
   }
 
-  async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const houseData = localStorage.getItem('houseData');
-        if (houseData) {
-          const parsedHouseData = JSON.parse(houseData);
-          this.houseData = parsedHouseData;
-          if (this.houseData) {
-            this.getHouseAcces();
-          }
-        }
-      }
-    });
+  // Перевірка на авторизацію оселі
+  async checkHouseAuthorization() {
+    const houseData = localStorage.getItem('houseData');
+    if (this.selectedFlatId && houseData) {
+      this.authorizationHouse = true;
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
+      this.getSelectedFlatName();
+    } else {
+      this.authorizationHouse = false;
+    }
+  }
+
+  getSelectedFlatName() {
+    const selectedFlatName = localStorage.getItem('selectedFlatName');
+    if (selectedFlatName) {
+      this.selectedFlatName = selectedFlatName;
+    }
   }
 
   async openDialog(): Promise<void> {

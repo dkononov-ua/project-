@@ -192,7 +192,7 @@ export class CardsDataHouseService {
         return null;
       }
     } else {
-      console.log('house not found');
+      console.log('Авторизуйтесь');
       return null;
     }
   };

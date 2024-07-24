@@ -1,4 +1,4 @@
-<div class="flex-box-column">
+<div class="flex-box-column p-2">
 
   <!-- <div class="logo-box">
     <img class="logoMin" src="{{path_logo}}" alt="logo">
@@ -20,14 +20,18 @@
   </div>
 
   <div [@top3] class="flex-column">
-    <a class="b-primary w-90 mt-2" target="_blank" href="https://send.monobank.ua/jar/4ehuCXVdzw">
-      <i class="fa-solid fa-piggy-bank pr-2"></i>Посилання
+    <a target="_blank" href="https://send.monobank.ua/jar/4ehuCXVdzw">
+      <img class="banka" src="../../../assets/banka.png" alt="img">
     </a>
-
-    <img class="banka" src="../../../assets/banka.png" alt="img">
+    <p class="t-med p-2 accent">Для переходу відскануй або клікни на QR-code</p>
   </div>
 
   <app-footer></app-footer>
-
+  <div class="btn-group">
+    <a class="btn" [routerLink]="'/'">
+      <i class="fa-solid fa-arrow-left white pr-2"></i>
+      <div class="t-min white">Назад</div>
+    </a>
+  </div>
 </div>
 

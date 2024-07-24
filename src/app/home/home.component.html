@@ -2,12 +2,7 @@
   <div #navbar [@bot] class="navbar-home">
     <div class="switch-container">
 
-      <!-- <div class="menu-box t-c" *ngIf="!isMobile" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-        <div class="t-med">Про проєкт</div>
-        <div class="t-lar-x">Discussio</div>
-      </div> -->
-
-      <div class="switch-btn-group hide-mobile">
+      <div class="switch-btn-group" *ngIf="!isMobile">
         <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
           <i class="fa-solid fa-barcode"></i>
           <div class="t-min">Про Проект</div>
@@ -18,6 +13,13 @@
         <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
           <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
           <div class="t-min">Вхід & Реєстрація</div>
+        </a>
+      </div>
+
+      <div class="switch-btn-group">
+        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+          <i class="fa-solid fa-blog"></i>
+          <div class="t-min">Blog Discussio</div>
         </a>
       </div>
 
@@ -62,7 +64,7 @@
     </div>
   </div>
 
-  <main [@top1] class="main-content">
+  <main [@top1] class="main-content t-c">
     <router-outlet></router-outlet>
     <div class="bg-home"></div>
   </main>

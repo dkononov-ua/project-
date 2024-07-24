@@ -24,7 +24,10 @@ export class StatusDataHouseComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.subscriptions.push(
       this.statusDataService.statusDataFlat$.subscribe((data: any) => {
-        if (data) { this.houseInfo = data; }
+        if (data) {
+          this.houseInfo = data;
+          // console.log(this.houseInfo)
+        }
       })
     );
   }

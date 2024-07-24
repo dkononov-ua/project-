@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth, analytics } from '../config/auth';
+import { auth, analytics } from '../config/firebaseConfig';
 import { SharedService } from '../services/shared.service';
 import { DataService } from 'src/app/services/data.service';
 import { HttpClient } from '@angular/common/http';

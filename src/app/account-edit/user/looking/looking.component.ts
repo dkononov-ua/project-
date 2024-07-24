@@ -2,7 +2,7 @@ import { regions } from '../../../data/data-city';
 import { cities } from '../../../data/data-city';
 import { subway } from '../../../data/subway';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
@@ -67,7 +67,7 @@ interface UserInfo {
   ],
 })
 
-export class LookingComponent implements OnInit {
+export class LookingComponent implements OnInit, OnDestroy {
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -117,7 +117,6 @@ export class LookingComponent implements OnInit {
     metro: '',
   };
 
-  loading: boolean = true;
   filteredStations: any[] = [];
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
@@ -205,28 +204,53 @@ export class LookingComponent implements OnInit {
     this.help = index;
   }
   isMobile: boolean = false;
+  authorization: boolean = false;
+  subscriptions: any[] = [];
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private sharedService: SharedService,
     private location: Location,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-    });
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    await this.getInfo();
-    this.loading = false;
-    if (this.isMobile) {
-      this.indexPage = 0;
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+        if (this.isMobile) {
+          this.indexPage = 0;
+        } else {
+          this.indexPage = 1;
+        }
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      await this.getInfo();
     } else {
-      this.indexPage = 1;
+      this.authorization = false;
     }
   }
 
@@ -292,7 +316,6 @@ export class LookingComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        this.loading = true;
         if (this.userInfo.option_pay === 2) {
           this.userInfo.price_of = 0.01;
           this.userInfo.price_to = 0.01;
@@ -552,6 +575,10 @@ export class LookingComponent implements OnInit {
       this.activationUserSearch = true;
     }
     return this.activationUserSearch;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

@@ -2,13 +2,6 @@
 
   <div [@left1] class="switch-container">
 
-    <!-- <div class="switch-btn-group">
-      <button class="btn" (click)="goBack()">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
-      </button>
-    </div> -->
-
     <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/house/house-control/selection-house'">
         <i class="fa-solid fa-arrow-left"></i>
@@ -89,7 +82,7 @@
 
   <div class="main-container">
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
+    <div class="col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!isMobile">
       <div class="card-wrapper">
         <div [@right1] class="card-content-static w-100">
           <div class="card-group">
@@ -131,11 +124,12 @@
       </div>
     </div>
 
-    <div class="card-wrapper hide-mobile col-lg-4 col-md-5 col-sm-12 col-12">
+    <div class="card-wrapper hide-mobile col-lg-4 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
       <div class="flex-column">
         <app-info-house></app-info-house>
       </div>
     </div>
+    
   </div>
 
 </div>

@@ -4,6 +4,7 @@ import { animations } from '../interface/animation';
 import { SelectedFlatService } from '../services/selected-flat.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../services/shared.service';
+import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -52,9 +53,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
+    private titleService: Title,
+    private metaService: Meta
   ) {  }
 
   async ngOnInit(): Promise<void> {
+    // this.titleService.setTitle('Головна сторінка - Discussio™');
+    this.metaService.addTags([
+      // { name: 'description', content: 'Ось де ви знайдете нерухомість для оренди або орендарів.' },
+      { name: 'keywords', content: 'Оренда нерухомості, оренда, аренда, купівля, орендарі, Україна, пошук нерухомості, пошук орендарів, орендар' }
+    ]);
     this.scrollToAnchor();
     this.getCheckDevice();
     this.getServerPath();

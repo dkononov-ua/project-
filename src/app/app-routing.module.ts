@@ -11,13 +11,13 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { RentalAgreementComponent } from './agreements/rental-agreement/rental-agreement.component';
 import { ActTransferComponent } from './agreements/act-transfer/act-transfer.component';
 import { ActCreateComponent } from './account/house/agree-h/act-create/act-create.component';
+import { PostsComponent } from './pages/posts/posts.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home/about-project', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home-routing.module').then(m => m.HomeRoutingModule) },
   { path: 'auth', loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule) },
   { path: 'user-licence', component: UserLicenceComponent, },
-  { path: 'home', component: UserLicenceComponent, },
   { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
   { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
   { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
@@ -31,6 +31,8 @@ const routes: Routes = [
   { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard] },
   { path: 'act-create/:selectedFlatAgree', component: ActCreateComponent, canActivate: [CanActivateGuard] },
+  { path: 'blog', data: { title: 'Наші останні оновлення на нашій платформі для нерухомості Discussio.', description: 'Ми ділимось з вами нашим розвитком та становленням! Підтримайте наш проект та підписуйтесь на наші оновлення!' }, component: PostsComponent },
+
 ];
 
 @NgModule({

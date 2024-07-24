@@ -1,0 +1,79 @@
+<div #content class="content-component">
+  <div class="switch-container">
+
+    <div class="switch-btn-group hide-mobile">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="t-min">Про Проект</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+        <div class="t-min">Вхід & Реєстрація</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+        <i class="fa-solid fa-blog"></i>
+        <div class="t-min">Blog Discussio</div>
+      </a>
+    </div>
+
+    <div class=" up">
+      <app-navigation-user></app-navigation-user>
+    </div>
+
+    <div class="switch-btn-group">
+      <a class="btn" [routerLink]="'/discussio-search'">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min">Пошук Discussio</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="!isMobile">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
+        <i class="fa-solid fa-hands-holding-child"></i>
+        <div class="t-min">Підтримати проект</div>
+      </button>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="!isMobile">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/update'">
+        <i class="fa-regular fa-circle-up"></i>
+        <div class="t-min">Останні Оновлення</div>
+      </button>
+    </div>
+
+  </div>
+  <div class="container-content t-c">
+    <h2>Discussio blog</h2>
+    <h3 class="t-med">Все про оренду, корисні поради та потрібна інформація.</h3>
+    <div class="content-wrapper" *ngIf="posts.length > 0">
+      <div class="post mb-2" *ngFor="let post of posts" [ngClass]="{'selected': selectedPostID === post.id}">
+        <div class="btn-close-container">
+          <div class="btn-close-box" *ngIf="selectedPostID === post.id">
+            <button class="btn-close" (click)="close()"></button>
+          </div>
+        </div>
+        <div class="img-wrapper">
+          <img class="img" *ngIf="post.image" [src]="post.image" alt="Post Image" loading="lazy">
+          <img class="img" *ngIf="!post.image" src="../../../assets/logo/logo.svg" alt="Post Image" loading="lazy">
+        </div>
+        <div class="card-body p-3">
+          <h4 class="card-title bold">{{ post.title }}</h4>
+          <p class="t-min">{{ post.author }} {{ post.formattedDate }}</p>
+          <p class="card-text mt-2">{{ post.content }}</p>
+        </div>
+        <div class="btn-group p-2">
+          <a class="b-primary mr-2" *ngIf="post.link" [href]="post.link" target="_blank">Посилання <i
+              class="fa-solid fa-link pl-2"></i></a>
+          <button class="b-primary ml-2" *ngIf="selectedPostID !== post.id" (click)="selectPost(post)">Детальніше <i
+              class="fa-solid fa-maximize pl-2"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

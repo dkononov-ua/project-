@@ -1,9 +1,13 @@
-<div class="container-img" *ngIf="house">
+<div class="container-img">
   <app-status-data-house></app-status-data-house>
 
-  <div class="wrapper-img">
+  <div class="wrapper-img" *ngIf="house">
 
-    <div [@top2] *ngIf="house.photos">
+    <div [@top2] *ngIf="!photoExists">
+      <img class="img-fluid" src="../../../../assets/housing_default.svg">
+    </div>
+
+    <div [@top2] *ngIf="photoExists">
       <img class="img-fluid" [src]="serverPath + pathPhotoFlat + house.photos[currentPhotoIndex].img" alt="img-house"
         (click)="openFullScreenImage(house.photos)">
     </div>

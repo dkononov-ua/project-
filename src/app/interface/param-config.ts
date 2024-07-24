@@ -25,6 +25,7 @@ export const UserConfig = {
   days: undefined,
   weeks: undefined,
   months: undefined,
+  mounths: undefined,
   years: undefined,
   day_counts: undefined,
   house: undefined,

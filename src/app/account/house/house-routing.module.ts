@@ -21,7 +21,7 @@ import { UserSearchComponent } from 'src/app/account/house/resident/user-search/
 const routes: Routes = [
   {
     path: '',
-    component: HouseComponent, canActivate: [CanActivateGuard],
+    component: HouseComponent, data: { title: 'Профіль оселі', description: 'Профіль оселі'}, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'house', pathMatch: 'full' },
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
@@ -42,15 +42,15 @@ const routes: Routes = [
     path: 'house-control', component: HouseControlComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'selection-house', pathMatch: 'full' },
-      { path: 'selection-house', component: SelectionHousingComponent, canActivate: [CanActivateGuard] },
-      { path: 'add-house', component: AddHouseComponent, canActivate: [CanActivateGuard] },
+      { path: 'selection-house', data: { title: 'Вибрати оселю', description: 'Вибрати оселю'}, component: SelectionHousingComponent, canActivate: [CanActivateGuard] },
+      { path: 'add-house', data: { title: 'Створити оселю, додати оселю', description: 'Створити оселю'}, component: AddHouseComponent, canActivate: [CanActivateGuard] },
     ],
   },
   {
     path: 'agree', component: AgreeHostComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'menu', pathMatch: 'full' },
-      { path: 'menu', component: AgreeMenuComponent, canActivate: [CanActivateGuard] },
+      { path: 'menu', data: { title: 'Угоди оселі', description: 'Угоди оселі'}, component: AgreeMenuComponent, canActivate: [CanActivateGuard] },
       { path: 'concluded', component: AgreeConcludedComponent, canActivate: [CanActivateGuard] },
       { path: 'rewiew', component: AgreeReviewComponent, canActivate: [CanActivateGuard] },
       { path: 'step', component: AgreeStepComponent, canActivate: [CanActivateGuard] },

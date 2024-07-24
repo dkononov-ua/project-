@@ -39,6 +39,7 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   isMobile: boolean = false;
   house: HouseInfo = HouseConfig;
+  photoExists: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -76,7 +77,7 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      this.checkLocation();
+      await this.checkLocation();
     } else {
       this.authorization = false;
     }
@@ -85,7 +86,7 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
   // перевірка де я знаходжусь
   async checkLocation() {
     if (this.currentLocation === '/house') {
-      this.loadDataFlat();
+      await this.loadDataFlat();
     } else {
       await this.getCardsData();
     }
@@ -98,9 +99,9 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
       const parsedHouseData = JSON.parse(houseData);
       if (Array.isArray(parsedHouseData.imgs) && parsedHouseData.imgs.length > 0) {
         this.house.photos = parsedHouseData.imgs;
-        // console.log(this.house.photos)
+        this.photoExists = true;
       } else {
-        this.house.photos[0] = "housing_default.svg";
+        this.photoExists = false;
       }
     } else {
       console.log('Авторизуйтесь')
@@ -117,6 +118,9 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
               flat_id: data.flat.flat_id,
               img: img
             }));
+            this.photoExists = true;
+          } else {
+            this.photoExists = false;
           }
         }
       })

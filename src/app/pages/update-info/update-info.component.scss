@@ -2,6 +2,11 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss" as *;
 
+.btn-group {
+  position: fixed;
+  width: 250px;
+}
+
 .news-content {
   @include flex-box-column;
   overflow: auto;
