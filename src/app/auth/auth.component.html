@@ -2,7 +2,7 @@
   <div class="switch-container">
 
     <div class="switch-btn-group">
-      <a class="btn" [routerLink]="'/'">
+      <a class="btn" [routerLink]="''">
         <i class="fa-solid fa-arrow-left"></i>
         <div class="t-min">Головна</div>
       </a>
@@ -13,40 +13,33 @@
       <div class="menu-name">Користувача</div>
     </div>
 
+    <div class="switch-btn-group" *ngIf="!isMobile">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="t-min">Про Проект</div>
+      </a>
+    </div>
+
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
         <div class="t-min">Вхід</div>
-      </button>
+      </a>
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
         <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
         <div class="t-min">Реєстрація</div>
-      </button>
+      </a>
     </div>
 
     <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/change-password'">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/change-password'">
         <i class="fa-solid fa-user-secret"></i>
         <div class="t-min">Пароль</div>
-      </button>
+      </a>
     </div>
-
-    <!-- <div class="switch-btn-group">
-      <button [disabled]="!authorization" class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
-        <i class="fa-regular fa-circle-user"></i>
-        <div class="t-min">Профіль Користувача</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button [disabled]="!authorization" class="btn" (click)="goToHouse()">
-        <i class="fa-solid fa-house"></i>
-        <div class="t-min">Профіль Оселі</div>
-      </button>
-    </div> -->
 
   </div>
 

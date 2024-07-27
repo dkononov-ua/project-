@@ -14,6 +14,7 @@ import { formErrors, validationMessages, onValueChanged } from '../validation';
 import { DataService } from 'src/app/services/data.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { LoaderService } from 'src/app/services/loader.service';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-login',
@@ -93,6 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private statusDataService: StatusDataService,
     private loaderService: LoaderService,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   ngOnDestroy() {
@@ -100,10 +102,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
     this.initializeForm();
+  }
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Вхід на сайт Discussio™. Платформа для управління нерухомістю. Пошук оселі та орендарів!',
+      description: 'Увійдіть в свій профіль Discussio',
+      keywords: 'Discussio, Вхід, вхід, Логін, логін, Login, зайти',
+      image: '',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // Перевірка на авторизацію користувача

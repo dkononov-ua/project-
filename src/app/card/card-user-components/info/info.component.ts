@@ -173,17 +173,25 @@ export class InfoComponent implements OnInit, OnDestroy {
       } catch (error) {
         console.log(error);
       }
+    } else if (!userData) {
+      setTimeout(() => {
+        this.getFeaturesInfo();
+      }, 100);
     }
   }
 
   async calculateTotalDays(): Promise<number> {
-    const days = this.user.days || 0;
-    const weeks = this.user.weeks || 0;
-    const months = this.user.months || 0;
-    const years = this.user.years || 0;
-    const totalDays = days + weeks * 7 + months * 30 + years * 365;
-    this.totalDays = totalDays / 29;
-    return 0;
+    if (this.user) {
+      const days = this.user.days || 0;
+      const weeks = this.user.weeks || 0;
+      const months = this.user.months || 0;
+      const years = this.user.years || 0;
+      const totalDays = days + weeks * 7 + months * 30 + years * 365;
+      this.totalDays = totalDays / 29;
+      return this.totalDays;
+    } else {
+      return 0;
+    }
   }
 
   ngOnDestroy() {

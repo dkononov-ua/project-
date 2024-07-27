@@ -1,71 +1,140 @@
-<div #content class="content-component">
-  <div #navbar [@bot] class="navbar-home">
-    <div class="switch-container">
+<div class="app-container">
+  <nav class="switch-container">
 
-      <div class="switch-btn-group" *ngIf="!isMobile">
-        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-          <i class="fa-solid fa-barcode"></i>
-          <div class="t-min">Про Проект</div>
-        </a>
-      </div>
-
-      <div class="switch-btn-group">
-        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
-          <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-          <div class="t-min">Вхід & Реєстрація</div>
-        </a>
-      </div>
-
-      <div class="switch-btn-group">
-        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
-          <i class="fa-solid fa-blog"></i>
-          <div class="t-min">Blog Discussio</div>
-        </a>
-      </div>
-
-      <div class="switch-btn-group">
-        <a class="btn" [routerLink]="'/discussio-search'">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <div class="t-min">Пошук Discussio</div>
-        </a>
-      </div>
-
-      <div class="switch-btn-group" *ngIf="!isMobile">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
-          <i class="fa-solid fa-hands-holding-child"></i>
-          <div class="t-min">Підтримати проект</div>
-        </button>
-      </div>
-
-      <div class="switch-btn-group" *ngIf="!isMobile">
-        <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/update'">
-          <i class="fa-regular fa-circle-up"></i>
-          <div class="t-min">Останні Оновлення</div>
-        </button>
-      </div>
-
+    <div class="menu-box p-2">
+      <div class="menu-lable">Головна</div>
+      <div class="menu-name">Сторінка</div>
     </div>
 
-    <div class="switch-container jc-fe" *ngIf="authorization">
-
-      <div class="switch-btn-group" *ngIf="authorization">
-        <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
-          <i class="fa-regular fa-circle-user"></i>
-          <div class="t-min">Профіль Користувача</div>
-        </a>
-      </div>
-
-      <div class="switch-btn-group" *ngIf="authorization">
-        <a class="btn" (click)="goToHouse()">
-          <i class="fa-solid fa-house"></i>
-          <div class="t-min">Профіль Оселі</div>
-        </a>
-      </div>
+    <div class="switch-btn-group" *ngIf="!isMobile">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="t-min">Про Проект</div>
+      </a>
     </div>
-  </div>
 
-  <main [@top1] class="main-content t-c">
-    <router-outlet></router-outlet>
-    <div class="bg-home"></div>
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+        <div class="t-min">Вхід & Реєстрація</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+        <i class="fa-solid fa-blog"></i>
+        <div class="t-min">Blog Discussio</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group">
+      <a class="btn" [routerLink]="'/discussio-search'">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="t-min">Пошук Discussio</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="!isMobile">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
+        <i class="fa-solid fa-hands-holding-child"></i>
+        <div class="t-min">Підтримати проект</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="authorization">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
+        <i class="fa-regular fa-circle-user"></i>
+        <div class="t-min">Профіль Користувача</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group" *ngIf="authorization && !isMobile">
+      <a class="btn" (click)="goToHouse()">
+        <i class="fa-solid fa-house"></i>
+        <div class="t-min">Профіль Оселі</div>
+      </a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <header [@bot3] class="header t-c p-2 mt-2">
+      <p class="t-lar-xx bold">Привіт я Discussio!</p>
+      <h1 class="t-lar-xx"><strong>Пошук житла та оренда, пошук орендарів або сусідів.</strong></h1>
+      <h2 class="t-lar-x">Все це ми хочемо зробити комфортним для Вас!</h2>
+      <div class="btn-group">
+        <a class="b-primary m-2" [routerLink]="'/about-project'">
+          Про Discussio
+          <i class="fa-regular fa-circle-right pl-2"></i>
+        </a>
+        <a class="b-primary m-2" [routerLink]="'/blog'">
+          Останні новини
+          <i class="fa-solid fa-blog pl-2"></i>
+        </a>
+      </div>
+    </header>
+    <div [@bot3] class="section-conteiner">
+      <section class="section-gif col-lg-6 col-md-6 col-sm-12 col-12">
+        <img class="gif" src="../../../assets/gif/discussio.gif" alt="Discussio gif">
+      </section>
+      <section class="section-text pb-3 col-lg-6 col-md-6 col-sm-12 col-12">
+        <h2 class="t-lar-x bold"><strong>Ми створюємо спільноту орендодавців та орендарів!</strong></h2>
+        <h5 class="text t-c m-2">
+          Наша платформа спрощує процеси співпраці в форматі соціальної мережі та з
+          інструментами для управління оселею.
+        </h5>
+
+        <p class="t-med mt-2 gray">
+          Наш проєкт являється добровільною ініціативою і розрахований на допомогу людям в пошуку або здачі житла.
+          Наразі проєкт є цілком <strong>безкоштовний!</strong>
+        </p>
+
+        <div class="btn-group">
+          <a class="b-primary m-2" [routerLink]="'/auth/registration'" *ngIf="!authorization">
+            Зареєструватись
+            <i class="fa-solid fa-right-to-bracket pl-2"></i>
+          </a>
+        </div>
+
+        <p class="t-med mt-2">Приєднуйтесь та <strong>підтримайте нас в соціальних мережах</strong>, це дуже важливо!</p>
+        <div class="social-link-container p-2">
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://t.me/discussio_inc">
+              <i class="fab fa-brands fa-telegram"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.instagram.com/discussio.inc">
+              <i class="fab fa-brands fa-instagram"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.official">
+              <i class="fab fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.facebook.com/discussio.inc">
+              <i class="fab fa-brands fa-facebook"></i>
+            </a>
+          </div>
+
+          <div class="social-link-box">
+            <a class="social-link-icon" target="_blank" href="https://www.youtube.com/@discussio.ukraine">
+              <i class="fab fa-brands fa-youtube"></i>
+            </a>
+          </div>
+
+        </div>
+
+      </section>
+    </div>
+
+    <footer class="footer">
+      <app-footer></app-footer>
+    </footer>
   </main>
 </div>

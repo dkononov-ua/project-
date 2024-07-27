@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from '../services/selected-flat.service';
 import { SharedService } from '../services/shared.service';
@@ -9,7 +9,7 @@ import * as ServerConfig from 'src/app/config/path-config';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -22,37 +22,69 @@ export class AuthComponent implements OnInit {
   selectedFlatId: string | null = null;
   authorization: boolean = false;
   authorizationHouse: boolean = false;
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
+  }
+
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      await this.getSelectParam();
+      await this.getSelectedFlatId();
     } else {
       this.authorization = false;
     }
   }
 
-  async getSelectParam(): Promise<void> {
-    this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const houseData = localStorage.getItem('houseData');
-        if (houseData) {
-          this.authorizationHouse = true;
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (this.selectedFlatId) {
+          const houseData = localStorage.getItem('houseData');
+          if (houseData) {
+            this.authorizationHouse = true;
+          }
+        } else {
+          this.authorizationHouse = false;
         }
-      } else {
-        this.authorizationHouse = false;
-      }
-    });
+      })
+    );
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 
 }

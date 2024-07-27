@@ -6,15 +6,33 @@ import { SharedService } from './services/shared.service';
 import { CheckBackendService } from './services/check-backend.service';
 import { StatusMessageService } from './services/status-message.service';
 import { animations } from '../app/interface/animation';
-import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
-import { Meta, Title } from '@angular/platform-browser';
+import { filter } from 'rxjs';
+import { UpdateMetaTagsService } from './services/updateMetaTags.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
+    animations.bot,
+    animations.bot3,
+    animations.top,
+    animations.top1,
+    animations.top2,
+    animations.top3,
+    animations.top4,
+    animations.bot5,
+    animations.left,
+    animations.left1,
+    animations.left2,
+    animations.left3,
+    animations.left4,
+    animations.left5,
+    animations.right1,
+    animations.swichCard,
+    animations.appearance,
     animations.fadeIn,
   ],
 })
@@ -54,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.nextBG = true;
         this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
       }, 100);
-    }, 2000);
+    }, 20000);
   }
 
   get currentImage() {
@@ -63,6 +81,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isMobile: boolean = false;
   subscriptions: any[] = [];
+  menu: boolean = false;
+  isHomePage = false;
 
   constructor(
     private http: HttpClient,
@@ -72,16 +92,17 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusMessageService: StatusMessageService,
     private router: Router,
     private loaderService: LoaderService,
-    private titleService: Title,
-    private metaService: Meta,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateMetaTags(this.router.routerState.snapshot.root);
-      }
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.isHomePage = this.location.path() === '';
     });
+    this.updateMetaTagsInService();
     await this.getStatusLoader();
     this.checkBackendService.startCheckServer();
     this.currentLocation = this.location.path();
@@ -91,22 +112,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getStatusMessage();
   }
 
-  updateMetaTags(route: ActivatedRouteSnapshot): void {
-    let title = 'Discussio - Соціальна платформа для нерухомості';
-    let description = 'Опис сайту.';
-
-    while (route.firstChild) {
-      route = route.firstChild;
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Діскусіо - розміщення оголошень. Здача осель в оренду. Активація профілів орендарів для пошуку житла.',
+      description: 'Платформа для управління нерухомістю. Потрібно орендувати оселю? Пошук оселі та пошук орендарів. Знайдемо оселю та орендаря. Сформуємо угоду.',
+      keywords: 'нерухомість, пошук орендаря, оренда, пошук оселі, управління нерухомістю, Діскусіо, діскусіо, діскус',
+      image: '',
     }
-    if (route.data['title']) {
-      title = route.data['title'];
-    }
-    if (route.data['description']) {
-      description = route.data['description'];
-    }
-
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // підписка на оновлення шляху серверу
@@ -204,5 +217,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
   }
+
 
 }

@@ -22,6 +22,13 @@
     </div>
 
     <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="''">
+        <i class="fa-solid fa-d"></i>
+        <div class="t-min">На Головну</div>
+      </a>
+    </div>
+
+    <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/user/info'">
         <i class="fa-regular fa-circle-user"></i>
         <div class="t-min">Профіль Користувача</div>
@@ -130,7 +137,8 @@
                 орендарів</strong>, які вам
               підходять.</p>
           </div>
-          <button class="btn-feedback border-bottom" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук орендаря' }">
+          <button class="btn-feedback border-bottom" [routerLink]="'/feedback'"
+            [queryParams]="{ category: 'Пошук орендаря' }">
             Є ідея <i class="fa-regular fa-lightbulb"></i><br> як зробити краще пошук орендаря?
           </button>
         </div>

@@ -1,11 +1,16 @@
-<div #content class="content-component">
+<div #content class="content-component" [ngClass]="{'selected': selectedPost}">
   <div class="switch-container">
 
-    <div class="switch-btn-group hide-mobile">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/about-project'">
-        <i class="fa-solid fa-barcode"></i>
-        <div class="t-min">Про Проект</div>
+    <div class="switch-btn-group">
+      <a class="btn" [routerLink]="''">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="t-min">Головна</div>
       </a>
+    </div>
+
+    <div class="menu-box">
+      <div class="menu-lable">Blog</div>
+      <div class="menu-name">Discussio <i class="fa-solid fa-blog pl-2"></i></div>
     </div>
 
     <div class="switch-btn-group">
@@ -16,14 +21,10 @@
     </div>
 
     <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
-        <i class="fa-solid fa-blog"></i>
-        <div class="t-min">Blog Discussio</div>
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="t-min">Про Проект</div>
       </a>
-    </div>
-
-    <div class=" up">
-      <app-navigation-user></app-navigation-user>
     </div>
 
     <div class="switch-btn-group">
@@ -33,47 +34,66 @@
       </a>
     </div>
 
-    <div class="switch-btn-group" *ngIf="!isMobile">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/support-us'">
+    <div class="switch-btn-group">
+      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
         <i class="fa-solid fa-hands-holding-child"></i>
         <div class="t-min">Підтримати проект</div>
-      </button>
+      </a>
     </div>
-
-    <div class="switch-btn-group" *ngIf="!isMobile">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/home/update'">
-        <i class="fa-regular fa-circle-up"></i>
-        <div class="t-min">Останні Оновлення</div>
-      </button>
-    </div>
-
   </div>
+
   <div class="container-content t-c">
-    <h2>Discussio blog</h2>
-    <h3 class="t-med">Все про оренду, корисні поради та потрібна інформація.</h3>
-    <div class="content-wrapper" *ngIf="posts.length > 0">
-      <div class="post mb-2" *ngFor="let post of posts" [ngClass]="{'selected': selectedPostID === post.id}">
-        <div class="btn-close-container">
-          <div class="btn-close-box" *ngIf="selectedPostID === post.id">
-            <button class="btn-close" (click)="close()"></button>
+
+    <div class="content-wrapper">
+      <div class="categories-box w-100">
+        <button [ngClass]="{ 'selected': selectedCategory === null  }" class="btn categories t-med" (click)="filterPostsCategory(null, selectedPerson)">Все <i class="fa-solid fa-list pl-1"></i></button>
+        <button [ngClass]="{ 'selected': selectedCategory === 1  }" class="btn categories t-med" (click)="filterPostsCategory(1, selectedPerson)">Новини <i class="fa-regular fa-newspaper pl-1"></i> </button>
+        <button [ngClass]="{ 'selected': selectedCategory === 2  }" class="btn categories t-med" (click)="filterPostsCategory(2, selectedPerson)">Оновлення <i class="fa-regular fa-circle-up pl-1"></i> </button>
+        <button [ngClass]="{ 'selected': selectedCategory === 3  }" class="btn categories t-med" (click)="filterPostsCategory(3, selectedPerson)">Поради <i class="fa-solid fa-wand-magic-sparkles pl-1"></i> </button>
+        <button [ngClass]="{ 'selected': selectedCategory === 4  }" class="btn categories t-med" (click)="filterPostsCategory(4, selectedPerson)">Реклама <i class="fa-solid fa-tag pl-1"></i> </button>
+        <button [ngClass]="{ 'selected': selectedPerson === null  }" class="btn categories t-med" (click)="filterPostsCategory(selectedCategory, null)">Всім <i class="fa-solid fa-people-group pl-1"></i></button>
+        <button [ngClass]="{ 'selected': selectedPerson === 1  }" class="btn categories t-med" (click)="filterPostsCategory(selectedCategory, 1)">Власникам <i class="fa-solid fa-house-user pl-1"></i> </button>
+        <button [ngClass]="{ 'selected': selectedPerson === 2  }" class="btn categories t-med" (click)="filterPostsCategory(selectedCategory, 2)">Орендарям <i class="fa-solid fa-person pl-1"></i> </button>
+      </div>
+
+      <div class="post-container" *ngIf="posts.length > 0">
+        <a  [routerLink]="['/blog', post.slug]" class="post col-lg-3 col-md-3 col-sm-12 col-12"
+          *ngFor="let post of filteredPosts">
+
+          <div class="img-wrapper" *ngIf="post">
+            <img [@top2] class="img" *ngIf="post.image" [src]="post.image" alt="Post Image" loading="lazy">
+            <img [@top2] class="img" *ngIf="!post.image" src="../../../assets/logo/logo.svg" alt="Post Image" loading="lazy">
+            <div [@top3] class="decor"></div>
           </div>
-        </div>
-        <div class="img-wrapper">
-          <img class="img" *ngIf="post.image" [src]="post.image" alt="Post Image" loading="lazy">
-          <img class="img" *ngIf="!post.image" src="../../../assets/logo/logo.svg" alt="Post Image" loading="lazy">
-        </div>
-        <div class="card-body p-3">
-          <h4 class="card-title bold">{{ post.title }}</h4>
-          <p class="t-min">{{ post.author }} {{ post.formattedDate }}</p>
-          <p class="card-text mt-2">{{ post.content }}</p>
-        </div>
-        <div class="btn-group p-2">
-          <a class="b-primary mr-2" *ngIf="post.link" [href]="post.link" target="_blank">Посилання <i
-              class="fa-solid fa-link pl-2"></i></a>
-          <button class="b-primary ml-2" *ngIf="selectedPostID !== post.id" (click)="selectPost(post)">Детальніше <i
-              class="fa-solid fa-maximize pl-2"></i></button>
+
+          <div [@top4] class="card-body p-3">
+
+            <p class="t-min mb-2">{{ post.author }} {{ post.formattedDate }}</p>
+
+            <h4 class="t-s bold">{{ post.title }}</h4>
+            <div class="status-content mt-2">
+              <div class="status-box">
+                <div class="status-value" *ngIf="post.categories === 0"><i class="fa-solid fa-list"></i></div>
+                <div class="status-value" *ngIf="post.categories === 1"><i class="fa-regular fa-newspaper"></i>Новини
+                </div>
+                <div class="status-value" *ngIf="post.categories === 2"><i class="fa-regular fa-circle-up"></i>Оновлення
+                </div>
+                <div class="status-value" *ngIf="post.categories === 3"> <i class="fa-solid fa-wand-magic-sparkles"></i>Поради</div>
+                <div class="status-value" *ngIf="post.categories === 4"><i class="fa-solid fa-tag"></i>Реклама</div>
+                <div class="status-value" *ngIf="post.person === 0"><i class="fa-solid fa-people-group"></i>Загальний
+                </div>
+                <div class="status-value" *ngIf="post.person === 1"><i class="fa-solid fa-house-user"></i>Власникам
+                </div>
+                <div class="status-value" *ngIf="post.person === 2"><i class="fa-solid fa-person"></i>Орендарям</div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <div class="footer w-100">
+          <app-footer></app-footer>
         </div>
       </div>
     </div>
+
   </div>
 </div>

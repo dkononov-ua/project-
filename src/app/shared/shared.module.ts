@@ -60,6 +60,8 @@ import { UserRentProgressComponent } from '../card/card-user-components/user-ren
 import { RatingComponent } from '../card/card-user-components/rating/rating.component';
 import { NavigationUserComponent } from '../card/card-user-components/navigation-user/navigation-user.component';
 import { NavigationHouseComponent } from '../card/card-house-components/navigation-house/navigation-house.component';
+import { ContactsComponent } from '../components/contacts/contacts.component';
+import { PostDetailComponent } from '../pages/post-detail/post-detail.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,9 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     UserRentProgressComponent,
     RatingComponent,
     NavigationUserComponent,
-    NavigationHouseComponent
+    NavigationHouseComponent,
+    ContactsComponent,
+    PostDetailComponent,
   ],
   exports: [
     NavbarComponent,
@@ -136,7 +140,10 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     UserRentProgressComponent,
     RatingComponent,
     NavigationUserComponent,
-    NavigationHouseComponent
+    NavigationHouseComponent,
+    ContactsComponent,
+    PostDetailComponent,
+
   ],
   providers: [
     UpdateComponentService,
@@ -167,6 +174,7 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
     LyDialogModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
+
   ]
 })
 export class SharedModule { }

@@ -12,27 +12,112 @@ import { RentalAgreementComponent } from './agreements/rental-agreement/rental-a
 import { ActTransferComponent } from './agreements/act-transfer/act-transfer.component';
 import { ActCreateComponent } from './account/house/agree-h/act-create/act-create.component';
 import { PostsComponent } from './pages/posts/posts.component';
+import { SupportUsComponent } from './pages/support-us/support-us.component';
+import { AboutProjectComponent } from './pages/about-project/about-project.component';
+import { OurTeamComponent } from './pages/our-team/our-team.component';
+import { HomeComponent } from './home/home.component';
+import { PostDetailComponent } from './pages/post-detail/post-detail.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./home/home-routing.module').then(m => m.HomeRoutingModule) },
+  {
+    path: '',
+    component: AppComponent,
+  },
   { path: 'auth', loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule) },
-  { path: 'user-licence', component: UserLicenceComponent, },
-  { path: 'information-user', component: InformationUserComponent, canActivate: [CanActivateGuard] },
-  { path: 'looking', component: LookingComponent, canActivate: [CanActivateGuard] },
-  { path: 'housing-services', component: HousingServicesComponent, canActivate: [CanActivateGuard] },
-  { path: 'comun-page', component: ComunPageComponent, canActivate: [CanActivateGuard] },
-  { path: 'housing-parameters', component: HousingParametersComponent, canActivate: [CanActivateGuard] },
-  { path: 'discus', loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule), canActivate: [CanActivateGuard] },
-  { path: 'discussio-house', loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule), canActivate: [CanActivateGuard] },
-  { path: 'user', loadChildren: () => import('./account/user/user.module').then(m => m.UserModule), canActivate: [CanActivateGuard] },
-  { path: 'house', loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule), canActivate: [CanActivateGuard] },
-  { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
-  { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard] },
-  { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard] },
-  { path: 'act-create/:selectedFlatAgree', component: ActCreateComponent, canActivate: [CanActivateGuard] },
-  { path: 'blog', data: { title: 'Наші останні оновлення на нашій платформі для нерухомості Discussio.', description: 'Ми ділимось з вами нашим розвитком та становленням! Підтримайте наш проект та підписуйтесь на наші оновлення!' }, component: PostsComponent },
-
+  {
+    path: 'information-user',
+    component: InformationUserComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'looking',
+    component: LookingComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'housing-services',
+    component: HousingServicesComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'comun-page',
+    component: ComunPageComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'housing-parameters',
+    component: HousingParametersComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'discus',
+    loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule),
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'discussio-house',
+    loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule),
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./account/user/user.module').then(m => m.UserModule),
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'house',
+    loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule),
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'feedback',
+    component: FeedbackComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'rental-agree',
+    component: RentalAgreementComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'act-transfer',
+    component: ActTransferComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'act-create/:selectedFlatAgree',
+    component: ActCreateComponent,
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'blog',
+    component: PostsComponent
+  },
+  {
+    path: 'support-us',
+    component: SupportUsComponent
+  },
+  {
+    path: 'about-project',
+    component: AboutProjectComponent
+  },
+  {
+    path: 'our-team',
+    component: OurTeamComponent
+  },
+  {
+    path: 'user-licence',
+    component: UserLicenceComponent
+  },
+  {
+    path: 'blog/:title',
+    component: PostDetailComponent
+  }
 ];
 
 @NgModule({

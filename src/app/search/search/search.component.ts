@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-search',
@@ -46,19 +47,25 @@ export class SearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private sharedService: SharedService,
-    private titleService: Title,
-    private metaService: Meta
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.metaService.addTags([
-      // { name: 'description', content: 'Ось де ви знайдете нерухомість для оренди або орендарів.' },
-      { name: 'keywords', content: 'Оренда нерухомості, оренда, аренда, купівля, орендарі, Україна, пошук нерухомості, пошук орендарів, орендар' }
-    ]);
+    this.updateMetaTagsInService();
     await this.getCheckDevice();
     await this.getServerPath();
     await this.getSelectedFlatId();
     this.checkUserAuthorization();
+  }
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Пошук - Discussio™. Пошук житла, квартири, будинку, орендаря, орендарів',
+      description: 'Знайти оселю вам допоможе Discussio пошук оселі. Знайти орендарів вам допоможе Discussio пошук орендарів.',
+      keywords: 'Пошук житла, квартири, будинку, орендаря, орендарів, перевірені, оселі, орендарі, кімнати, кімната, сусід',
+      image: '',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // перевірка на девайс

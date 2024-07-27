@@ -4,8 +4,19 @@
   </div>
   <div class="container">
     <app-news-line class="news-line"></app-news-line>
-    <router-outlet></router-outlet>
+
+    <!-- Специфічний контент для головної сторінки -->
+    <div class="app-container" *ngIf="isHomePage">
+      <app-home></app-home>
+    </div>
+
+    <!-- Для всіх інших маршрутів -->
+    <div *ngIf="!isHomePage">
+      <router-outlet></router-outlet>
+    </div>
+
   </div>
   <app-status-message *ngIf="statusMessage"></app-status-message>
+  <app-menu *ngIf="menu"></app-menu>
   <app-loader *ngIf="loading"></app-loader>
 </div>

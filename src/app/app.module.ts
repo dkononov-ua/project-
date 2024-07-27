@@ -59,7 +59,6 @@ import { ConfirmActionsComponent } from './agreements/confirm-actions/confirm-ac
 import { HomeComponent } from './home/home.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { TemplateComponent } from './template/template.component';
-import { UpdateInfoComponent } from './pages/update-info/update-info.component';
 import { SharingInfoComponent } from './components/sharing-info/sharing-info.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthRoutingModule } from './auth/auth-routing.module';
@@ -91,7 +90,6 @@ import { PostsComponent } from './pages/posts/posts.component';
     HomeComponent,
     HomePageComponent,
     TemplateComponent,
-    UpdateInfoComponent,
     SharingInfoComponent,
     NewsLineComponent,
     StatusMessageComponent,
@@ -145,8 +143,6 @@ import { PostsComponent } from './pages/posts/posts.component';
     LyButtonModule,
     LyIconModule,
     LyDialogModule,
-
-
     MatInputModule,
     MatFormFieldModule,
     HousingParametersModule,
@@ -155,10 +151,8 @@ import { PostsComponent } from './pages/posts/posts.component';
     SearchRoutingModule,
     DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
-
     AuthModule,
     AuthRoutingModule,
-
   ]
 })
 export class AppModule { }

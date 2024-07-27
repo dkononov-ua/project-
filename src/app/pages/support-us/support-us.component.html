@@ -1,37 +1,118 @@
-<div class="flex-box-column p-2">
+<div class="container-info p-2">
+  <div class="flex-column p-3 mt-2">
 
-  <!-- <div class="logo-box">
-    <img class="logoMin" src="{{path_logo}}" alt="logo">
-  </div> -->
+    <header [@bot3] class="header t-c p-2 mt-2">
+      <div class="logo-box">
+        <img class="logoMin" src="{{path_logo}}" alt="logo">
+      </div>
+      <p class="t-lar-xx bold">Дякуємо за Вашу цікавість до нашого проекту!</p>
+      <h1 class="t-lar-xx"><strong>Ви можете допомогти нам з розвитком Discussio!</strong></h1>
+      <p class="t-med">Ми впроваджуємо багато корисних та зручних функції для облегшення процесу оренди осель.
+        Ознайомитись детальніше ви можете за цим посиланням</p>
+      <a class="b-primary m-2" [routerLink]="'/about-project'">
+        Про Discussio
+        <i class="fa-regular fa-circle-right pl-2"></i>
+      </a>
+    </header>
 
-  <div [@top1] class="t-lar-xx bold t-c p-2 mt-3"><strong>Привіт! <br> Допоможіть нам з розвитком Discussio!</strong>
+    <div [@bot3] class="section-conteiner">
+      <section class="section-gif col-lg-6 col-md-6 col-sm-12 col-12">
+        <img class="gif" src="../../../assets/gif/discussio.gif" alt="Discussio gif">
+      </section>
+      <section class="section-text pb-3 col-lg-6 col-md-6 col-sm-12 col-12">
+        <h2 class="t-lar-x bold"><strong>Наша команда працює на волонтерських засадах і не стягує плату за користування
+            додатком або сайтом.</strong></h2>
+        <p class="t-lar">
+          Ми прагнемо реалізувати всі наші плани та зробити наш сервіс по-справжньому зручним і корисним для людей.
+          Якщо ви зацікавлені у розвитку нашого проєкту, і наші ідеї та плани вам близькі, ми будемо раді вашій
+          підтримці.
+          Ваш
+          внесок допоможе нам реалізувати заплановані покращення та розширити функціональність нашого сервісу. Ми
+          прагнемо
+          створити щось дійсно корисне і зручне для наших користувачів, і ваша допомога є неоціненною в досягненні цієї
+          мети.
+          Незалежно від розміру вашої підтримки, кожен внесок має значення і сприяє розвитку нашої спільної справи.
+        </p>
+      </section>
+    </div>
+
+    <div [@bot3] class="section-conteiner">
+      <section class="section-gif col-lg-6 col-md-6 col-sm-12 col-12">
+        <div [@top3] class="banka-box">
+          <a class="banka-qr" target="_blank" href="https://send.monobank.ua/jar/4ehuCXVdzw">
+            <img class="banka" src="../../../assets/banka.png" alt="img">
+          </a>
+          <p class="t-min p-2">Для переходу відскануй або клікни на QR-code</p>
+        </div>
+      </section>
+      <section class="section-text pb-3 col-lg-6 col-md-6 col-sm-12 col-12">
+        <h2 class="t-lar-x bold"><strong>Допомогти нам Ви можете задонативши нам на банку за посиланням, або
+            відсканувавши QR-code чи просто натиснувши на нього.</strong></h2>
+        <a class="b-primary m-2" target="_blank" href="https://send.monobank.ua/jar/4ehuCXVdzw">
+          Посилання на банку
+          <i class="fa-regular fa-circle-right pl-2"></i>
+        </a>
+        <h2 class="t-lar-x bold"><strong>Також ми відкриті до комунікацій та пропозицій.</strong></h2>
+        <p class="t-lar">
+          В розділі відгуки після авторизації ви можете обрати категорію сайту яку ви бажаєте покращити та запропонувати
+          свої ідеї. Які ми
+          зможемо разом з вами реалізувати в життя!
+        </p>
+        <a class="b-primary m-2" [routerLink]="'/feedback'">
+          Залишити відгук
+          <i class="fa-regular fa-circle-right pl-2"></i>
+        </a>
+      </section>
+    </div>
+
+    <h4 class="t-lar mt-2">Приєднуйтесь та <strong>підтримайте нас в соціальних мережах</strong>, це дуже важливо!</h4>
+    <div class="social-link-container p-2">
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://t.me/discussio_inc">
+          <i class="fab fa-brands fa-telegram"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.instagram.com/discussio.inc">
+          <i class="fab fa-brands fa-instagram"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.official">
+          <i class="fab fa-brands fa-tiktok"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.facebook.com/discussio.inc">
+          <i class="fab fa-brands fa-facebook"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.youtube.com/@discussio.ukraine">
+          <i class="fab fa-brands fa-youtube"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="w-100 mb-4">
+      <app-contacts></app-contacts>
+    </div>
+
+    <div class="mb-5">
+      <app-footer></app-footer>
+    </div>
+
   </div>
-
-  <div [@top2] class="gray t-lar bold p-2 t-c">
-    Наша команда працює на волонтерських засадах і не стягує плату за користування додатком або сайтом. Ми прагнемо
-    реалізувати всі наші плани та зробити наш сервіс по-справжньому зручним і корисним для людей.
-  </div>
-
-  <div [@top3] class="gray t-med p-2 t-c">
-    Якщо ви зацікавлені у розвитку нашого проєкту, і наші ідеї та плани вам близькі, ми будемо раді вашій підтримці. Ваш
-    внесок допоможе нам реалізувати заплановані покращення та розширити функціональність нашого сервісу. Ми прагнемо
-    створити щось дійсно корисне і зручне для наших користувачів, і ваша допомога є неоціненною в досягненні цієї мети.
-    Незалежно від розміру вашої підтримки, кожен внесок має значення і сприяє розвитку нашої спільної справи.
-  </div>
-
-  <div [@top3] class="flex-column">
-    <a target="_blank" href="https://send.monobank.ua/jar/4ehuCXVdzw">
-      <img class="banka" src="../../../assets/banka.png" alt="img">
-    </a>
-    <p class="t-med p-2 accent">Для переходу відскануй або клікни на QR-code</p>
-  </div>
-
-  <app-footer></app-footer>
-  <div class="btn-group">
-    <a class="btn" [routerLink]="'/'">
+  <div [@top1] class="btn-group">
+    <a class="btn" [routerLink]="''">
       <i class="fa-solid fa-arrow-left white pr-2"></i>
       <div class="t-min white">Назад</div>
     </a>
   </div>
 </div>
-

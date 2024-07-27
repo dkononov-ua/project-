@@ -26,18 +26,20 @@ body {
 }
 
 a {
-  padding: 0.5em 1em;
-  margin: 5px;
+  // padding: 0.5em 1em;
+  // margin: 5px;
   cursor: pointer;
   text-transform: capitalize;
   font-family: $font-main;
-  color: $color-text;
+  color: $color-accent;
   text-decoration: none;
-  display: block;
-  transition: 0.3s ease;
+  // display: block;
+  transition: 0.5s ease;
 
-  &.active {
+  &:hover {
     color: $color-accent;
+    font-weight: bold;
+    transform: scale(1.1);
   }
 
   .fab {

@@ -1,10 +1,10 @@
-import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { ViewportScroller } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
 import { AuthGoogleService } from 'src/app/auth/auth-google.service';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-about-project',
@@ -16,6 +16,7 @@ import { AuthGoogleService } from 'src/app/auth/auth-google.service';
     animations.top,
     animations.top1,
     animations.top2,
+    animations.top3,
     animations.top4,
     animations.bot5,
     animations.left,
@@ -62,6 +63,8 @@ export class AboutProjectComponent implements OnInit {
   };
 
   authorization: boolean = false;
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   scrollToAnchor(anchor: number): void {
     this.containers[anchor] = true;
@@ -78,9 +81,12 @@ export class AboutProjectComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private sharedService: SharedService,
     private authGoogleService: AuthGoogleService,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   ngOnInit() {
+    this.updateMetaTagsInService();
+    this.getCheckDevice();
     this.changeText();
     const userJson = localStorage.getItem('user');
     if (userJson) {
@@ -88,6 +94,25 @@ export class AboutProjectComponent implements OnInit {
     } else {
       this.authorization = false;
     }
+  }
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Що таке - Discussio™. Інформація про проект та наші функції',
+      description: 'Тут ви дізнаєтесь про наші плани та функції Діскусіо. Діскусіо орієнтований на полегшення процесу оренди, та надання нових послуг у цій сфері',
+      keywords: 'Discussio, проект, функції, інформація, оренда, орендарі',
+      image: '',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
+  }
+
+  // Перевірка на пристрій
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
   }
 
   changeStep(step: number): void {

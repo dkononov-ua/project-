@@ -124,11 +124,15 @@ export class ImgComponent implements OnInit, OnDestroy {
   }
 
   // Якщо я на сторінці профілю
-  getInfoUser() {
+  async getInfoUser() {
     const userData = localStorage.getItem('userData');
     if (userData) {
       const userObject = JSON.parse(userData);
       this.user.img = userObject.img[0].img;
+    } else if (!userData) {
+      setTimeout(() => {
+        this.getInfoUser();
+      }, 100);
     }
   }
 

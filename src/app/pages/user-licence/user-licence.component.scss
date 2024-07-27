@@ -4,9 +4,7 @@
 
 .container-info {
   @include flex-box-center;
-  height: calc(100vh - 100px - 20px);
-  overflow: auto;
-  background-color: $color-white;
+  height: calc(100vh);
 }
 
 .btn-group {
@@ -19,10 +17,12 @@
 }
 
 .flex-column {
-  height: 100%;
+  height: calc(100vh - 50px);
+  overflow: auto;
   @include flex-box-column;
   align-items: center;
   @include box-shadow;
+  background-color: $color-white;
 }
 
 .logo-wrapper {

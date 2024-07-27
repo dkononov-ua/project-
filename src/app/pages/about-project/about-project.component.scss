@@ -1,15 +1,23 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.content-component {
+  @include flex-box;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-start;
+  @include s3-s6-max {
+    align-items: stretch;
+  }
+}
 
 .footer {
   position: sticky;
   bottom: 0;
-  @include flex-box-center;
-  width: 100%;
-  flex-direction: column;
-  align-items: stretch;
+  z-index: 10;
   @include s3-s6-max {
-    margin-top: 5vh;
+    background-image: linear-gradient(to bottom, transparent 0%, $color-primary 30%) !important;
   }
   @include s1-s3 {
     background-image: linear-gradient(to top, $color-white 0%, $color-white 60%, transparent 100%);
@@ -237,11 +245,13 @@ a {
 }
 
 .btn-group {
+  @include flex-box-center;
+  position: relative;
   @include s1-s3 {
-    flex-wrap: wrap;
     flex-direction: column;
   }
 }
+
 .btn-next {
   @include flex-box-center;
   // background-color: $color-accent;
@@ -272,12 +282,6 @@ a {
       padding-right: 30px;
     }
   }
-}
-
-.content-component {
-  background-color: $color-white !important;
-  border-radius: 20px;
-  @include box-shadow;
 }
 
 .vh-80 {

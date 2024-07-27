@@ -11,6 +11,7 @@ import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { AuthGoogleService } from 'src/app/auth/auth-google.service';
 import { checkPasswordStrength, onValueChanged, formErrors, validationMessages } from '../validation';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -124,6 +125,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private sharedService: SharedService,
     private authGoogleService: AuthGoogleService,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) {
     // Отримання поточної дати
     const currentDate = new Date();
@@ -146,11 +148,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
     this.initializeForm();
     this.calcWrongPass();
+  }
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Реєстрація на сайті Discussio™. Платформа для управління нерухомістю. Пошук оселі та орендарів!',
+      description: 'Зареєструватись на нащому сайті',
+      keywords: 'Discussio, реєстрація, зареєструватись, створити профіль, registration',
+      image: '',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // Перевірка на авторизацію користувача

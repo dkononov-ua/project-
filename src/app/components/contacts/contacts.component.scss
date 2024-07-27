@@ -1,0 +1,32 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/navbar.scss" as *;
+
+.contacts-container {
+  @include flex-box-center;
+  flex-direction: column;
+  .contact-info {
+    @include flex-box-center;
+    .item {
+      @include flex-box-center;
+    }
+    @include s1-s3 {
+      flex-direction: column;
+      align-items: flex-start
+    }
+  }
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  text-transform: lowercase;
+  &:hover {
+    transform: scale(1.2);
+    border-radius: 5px;
+    color: $color-accent;
+    font-weight: bold;
+    background-color: $color-white;
+    padding: 5px;
+  }
+}
