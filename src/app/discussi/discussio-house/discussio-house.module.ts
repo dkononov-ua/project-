@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { DiscussioHouseRoutingModule } from './discussio-house-routing.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -34,47 +34,40 @@ import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
-@NgModule({
-  declarations: [
-    AgreeCreateComponent,
-    SubscribersHouseComponent,
-    SubscriptionsHouseComponent,
-    DeleteSubComponent,
-    SubscribersDiscusComponent,
-  ],
-  providers: [
-    SelectedFlatService,
-    DatePipe,
-  ],
-
-  imports: [
-    CommonModule,
-    DiscussioHouseRoutingModule,
-    SharedModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatListModule,
-    MatTooltipModule,
-    MatIconModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    NgbModule,
-    DragDropModule,
-    HttpClientModule,
-    RouterModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatPaginatorModule,
-    MatStepperModule,
-    MatProgressSpinnerModule,
-    HouseRoutingModule,
-    UserRoutingModule,
-  ]
-})
+@NgModule({ declarations: [
+        AgreeCreateComponent,
+        SubscribersHouseComponent,
+        SubscriptionsHouseComponent,
+        DeleteSubComponent,
+        SubscribersDiscusComponent,
+    ], imports: [CommonModule,
+        DiscussioHouseRoutingModule,
+        SharedModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatListModule,
+        MatTooltipModule,
+        MatIconModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        DragDropModule,
+        RouterModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatPaginatorModule,
+        MatStepperModule,
+        MatProgressSpinnerModule,
+        HouseRoutingModule,
+        UserRoutingModule], providers: [
+        SelectedFlatService,
+        DatePipe,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class DiscussioHouseModule { }

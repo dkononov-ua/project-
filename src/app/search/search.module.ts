@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
 import { FilterService } from './filter.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -33,53 +33,48 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchTermHouseComponent } from './search-housing/search-term-house/search-term-house.component';
 import { SearchTermTenantsComponent } from './search-tenant/search-term-tenants/search-term-tenants.component';
 import { SearchComponent } from './search/search.component';
-@NgModule({
-  declarations: [
-    SearchTenantComponent,
-    ProfileComponent,
-    SearchHousingComponent,
-    HouseComponent,
-    SearchTermTenantsComponent,
-    SearchTermHouseComponent,
-    SearchComponent,
-  ],
-  providers: [
-    FilterService,
-    FilterUserService,
-    { provide: MatPaginatorIntl },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
-  ],
-  imports: [
-    // BrowserModule,
-    // AppRoutingModule,
-    // BrowserAnimationsModule,
-    NgbModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCardModule,
-    DragDropModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    RouterModule,
-    CommonModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatSliderModule,
-    SharedModule,
-    MatIconModule,
-    MatTooltipModule,
-    FormsModule,
-    MatAutocompleteModule,
-    NgbTypeaheadModule,
-    MatPaginatorModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-  ]
-})
+@NgModule({ declarations: [
+        SearchTenantComponent,
+        ProfileComponent,
+        SearchHousingComponent,
+        HouseComponent,
+        SearchTermTenantsComponent,
+        SearchTermHouseComponent,
+        SearchComponent,
+    ], imports: [
+        // BrowserModule,
+        // AppRoutingModule,
+        // BrowserAnimationsModule,
+        NgbModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatCardModule,
+        DragDropModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        RouterModule,
+        CommonModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatSliderModule,
+        SharedModule,
+        MatIconModule,
+        MatTooltipModule,
+        FormsModule,
+        MatAutocompleteModule,
+        NgbTypeaheadModule,
+        MatPaginatorModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        MatMenuModule,
+        MatProgressSpinnerModule], providers: [
+        FilterService,
+        FilterUserService,
+        { provide: MatPaginatorIntl },
+        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class SearchModule { }

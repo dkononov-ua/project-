@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HousingServicesComponent } from './housing-services.component';
 import { SharedModule } from '../shared/shared.module';
@@ -33,45 +33,39 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ComunStatMonthComponent } from './comun-stat-month/comun-stat-month.component';
 
-@NgModule({
-  declarations: [
-    HousingServicesComponent,
-    ComunCompanyComponent,
-    SelectYearComponent,
-    SelectMonthComponent,
-    SelectComunComponent,
-    ComunHistoryComponent,
-    DeleteComunComponent,
-    ComunStatYearComponent,
-    ComunStatSeasonComponent,
-    ComunStatMonthComponent,
-    ComunStatComunComponent,
-    ComunAboutComponent,
-    ComunAddComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-    DragDropModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    SharedModule,
-    RouterModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatTableModule,
-    MatDialogModule,
-    MatRadioModule,
-    MatMenuModule,
-    MatSlideToggleModule,
-    MatProgressSpinnerModule,
-  ],
-})
+@NgModule({ declarations: [
+        HousingServicesComponent,
+        ComunCompanyComponent,
+        SelectYearComponent,
+        SelectMonthComponent,
+        SelectComunComponent,
+        ComunHistoryComponent,
+        DeleteComunComponent,
+        ComunStatYearComponent,
+        ComunStatSeasonComponent,
+        ComunStatMonthComponent,
+        ComunStatComunComponent,
+        ComunAboutComponent,
+        ComunAddComponent,
+    ], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+        DragDropModule,
+        ReactiveFormsModule,
+        SharedModule,
+        RouterModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatTableModule,
+        MatDialogModule,
+        MatRadioModule,
+        MatMenuModule,
+        MatSlideToggleModule,
+        MatProgressSpinnerModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class HousingServicesModule { }

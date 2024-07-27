@@ -1,4 +1,4 @@
-import * as Hammer from 'hammerjs';
+import Hammer from 'hammerjs';
 import { Injectable } from '@angular/core';
 import { HammerGestureConfig } from '@angular/platform-browser';
 

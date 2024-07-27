@@ -15,7 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -29,40 +29,33 @@ import { DeleteSubsComponent } from './delete/delete-subs.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-@NgModule({
-  declarations: [
-    SubscribersUserComponent,
-    SubscribersDiscusComponent,
-    SubscriptionsUserComponent,
-    DeleteSubsComponent,
-  ],
-  providers: [ChoseSubscribeService],
-  imports: [
-    DiscussioRoutingModule,
-    CommonModule,
-    SharedModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatListModule,
-    MatTooltipModule,
-    MatIconModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    NgbModule,
-    DragDropModule,
-    HttpClientModule,
-    RouterModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    HouseRoutingModule,
-    UserRoutingModule,
-  ]
-})
+@NgModule({ declarations: [
+        SubscribersUserComponent,
+        SubscribersDiscusComponent,
+        SubscriptionsUserComponent,
+        DeleteSubsComponent,
+    ], imports: [DiscussioRoutingModule,
+        CommonModule,
+        SharedModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatListModule,
+        MatTooltipModule,
+        MatIconModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        DragDropModule,
+        RouterModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        HouseRoutingModule,
+        UserRoutingModule], providers: [ChoseSubscribeService, provideHttpClient(withInterceptorsFromDi())] })
 export class DiscussioModule { }
