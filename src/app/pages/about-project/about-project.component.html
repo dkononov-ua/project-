@@ -1,53 +1,11 @@
-<div #content class="content-component">
-  <div class="switch-container">
+<div #content class="container-info p-2">
 
-    <div class="switch-btn-group">
-      <a class="btn" [routerLink]="''">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Головна</div>
-      </a>
-    </div>
+  <div [@bot3] #contentWrapper class="content-wrapper p-3 mt-2">
 
-    <div class="menu-box">
-      <div class="menu-lable">Проект</div>
-      <div class="menu-name">Discussio <i class="fa-solid fa-barcode pl-2"></i></div>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
-        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="t-min">Вхід & Реєстрація</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
-        <i class="fa-solid fa-blog"></i>
-        <div class="t-min">Blog Discussio</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLink]="'/discussio-search'">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="t-min">Пошук Discussio</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="!isMobile">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
-        <i class="fa-solid fa-hands-holding-child"></i>
-        <div class="t-min">Підтримати проект</div>
-      </a>
-    </div>
-  </div>
-
-  <div #contentWrapper class="content-wrapper">
-
-    <div #conteiner0 [@bot3] id="conteiner0" class="conteiner-content c-0 al-c">
+    <div #conteiner0 id="conteiner0" class="conteiner-content">
       <h1 class="title"><span class="bold">Що таке Discussio?</span></h1>
 
-      <div class="flex-box w-100">
+      <div class="container-box">
         <div class="gif-box jc-fs t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" src="../../../assets/gif/about.gif" alt="about discussio gif">
         </div>
@@ -78,15 +36,16 @@
         </div>
       </div>
 
-      <p class="t-lar bold accent p-2" *ngIf="!text">Цікаво?</p>
-      <p class="t-lar p-2" *ngIf="text">Подивись що ми пропонуємо!</p>
+      <div class="interactive">
+        <p class="t-lar bold accent p-2" *ngIf="!text">Цікаво?</p>
+        <p class="t-lar p-2" *ngIf="text">Подивись що ми пропонуємо!</p>
+      </div>
 
     </div>
 
-    <div #conteiner1 [@top4] id="conteiner1" class="conteiner-content c-1 al-c t-c flex-column">
+    <div #conteiner1 id="conteiner1" class="conteiner-content">
       <h2 class="title"><span class="bold">Пошук осель & Пошук орендарів</span></h2>
-
-      <div class="flex-box h-100 w-100">
+      <div class="container-box">
         <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" width="320" src="../../../assets/gif/search.gif" alt="">
         </div>
@@ -128,9 +87,9 @@
       </div>
     </div>
 
-    <div #conteiner2 [@bot5] id="conteiner2" class="conteiner-content c-2 al-c flex-column">
+    <div #conteiner2 id="conteiner2" class="conteiner-content">
       <h2 class="title"><span class="bold"> Створення автоматичних угод & та актів. </span></h2>
-      <div class="flex-box h-100 w-100">
+      <div class="container-box">
         <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" width="320" src="../../../assets/gif/agree.gif" alt="">
         </div>
@@ -157,9 +116,9 @@
       </div>
     </div>
 
-    <div #conteiner3 [@bot5] id="conteiner3" class="conteiner-content c-3 al-c flex-column">
+    <div #conteiner3 id="conteiner3" class="conteiner-content">
       <h2 class="title"><span class="bold"> Система підписок & дискусій. </span></h2>
-      <div class="flex-box h-100 w-100">
+      <div class="container-box">
         <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" width="320" src="../../../assets/gif/sistem_subs.gif" alt="">
         </div>
@@ -192,10 +151,10 @@
       </div>
     </div>
 
-    <div #conteiner4 [@bot5] id="conteiner4" class="conteiner-content c-4 al-c flex-column">
+    <div #conteiner4 id="conteiner4" class="conteiner-content">
       <h2 class="title"><span class="bold"> Рейтинг <i class="fa-regular fa-face-smile-beam  pl-2 pr-2"></i> | <i
             class="fa-regular fa-face-frown  pl-2 pr-2"></i> орендодавця & орендаря. </span></h2>
-      <div class="flex-box h-100 w-100">
+      <div class="container-box">
         <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" src="../../../assets/gif/raiting.gif" alt="">
         </div>
@@ -221,9 +180,9 @@
       </div>
     </div>
 
-    <div #conteiner5 [@bot5] id="conteiner5" class="conteiner-content c-5 al-c flex-column">
+    <div #conteiner5 id="conteiner5" class="conteiner-content">
       <h2 class="title"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h2>
-      <div class="flex-box h-100 w-100">
+      <div class="container-box">
         <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
         </div>
@@ -242,10 +201,10 @@
       </div>
     </div>
 
-    <div #conteiner6 [@bot5] id="conteiner6" class="conteiner-content c-6 al-c flex-column">
+    <div #conteiner6 id="conteiner6" class="conteiner-content">
       <h2 class="title"><span class="bold"> Наповнення оселі <i class="fa-solid fa-boxes-packing pl-2"></i> </span>
       </h2>
-      <div class="flex-box w-100">
+      <div class="container-box">
         <div class="gif-box t-c col-lg-6 col-md-6 col-sm-12 col-12">
           <img class="home-img" src="../../../assets/gif/obj.gif" alt="">
         </div>
@@ -267,17 +226,15 @@
       </div>
     </div>
 
-    <div class="btn-group">
-      <button class="b-primary t-c m-2" (click)="scrollToAnchor(0)">
-        <p class="white">На гору</p>
-        <i class="fa-solid fa-arrow-up pl-2"></i>
-      </button>
+    <button class="b-primary t-c m-2" (click)="scrollToAnchor(0)">
+      <p class="white">На гору</p>
+      <i class="fa-solid fa-arrow-up pl-2"></i>
+    </button>
 
-      <a class="b-primary t-c  m-2" [routerLink]="'/auth/registration'">
-        <p class="white">Почати</p>
-        <i class="fa-solid fa-arrow-right pl-2"></i>
-      </a>
-    </div>
+    <a class="b-primary t-c  m-2" [routerLink]="'/auth/registration'">
+      <p class="white">Почати</p>
+      <i class="fa-solid fa-arrow-right pl-2"></i>
+    </a>
 
     <div class="w-100 mb-4">
       <app-contacts></app-contacts>
@@ -287,5 +244,12 @@
       <app-footer></app-footer>
     </div>
 
+  </div>
+
+  <div [@top1] class="btn-group">
+    <a class="btn" [routerLink]="''">
+      <i class="fa-solid fa-arrow-left white pr-2"></i>
+      <div class="t-min white">Назад</div>
+    </a>
   </div>
 </div>

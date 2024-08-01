@@ -2,29 +2,11 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
-.switch-container {
-  .switch-btn-group {
-    margin: 0;
-    padding: 0;
-    .btn {
-      width: 50px;
-    }
-  }
-}
 
 .main-container {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
+  height: 100%;
 }
 
-.card-group {
-  @include s3-s6-max {
-    background-image: linear-gradient(to top, transparent 0%, $color-primary) !important;
-  }
-}
-.card-content-static {
-  @include s3-s6-max {
-    background-color: transparent !important;
-  }
-}

@@ -1,7 +1,7 @@
 <div  class="container-info p-2">
-  <div class="flex-column p-3 mt-2">
+  <div [@bot3] class="content-wrapper p-3 mt-2">
 
-    <header #contentWrapper id="conteiner0" [@bot3] class="header t-c p-2 mt-2">
+    <header #contentWrapper id="conteiner0" class="header t-c p-2 mt-2">
       <div class="logo-box">
         <img class="logoMin" src="{{path_logo}}" alt="logo">
       </div>
@@ -15,7 +15,7 @@
       </a>
     </header>
 
-    <div [@bot3] class="section-conteiner">
+    <div class="section-conteiner">
       <section class="section-gif col-lg-6 col-md-6 col-sm-12 col-12">
         <img class="gif" src="../../../assets/gif/team.gif" alt="Team Discussio gif">
       </section>
@@ -37,8 +37,8 @@
       </section>
     </div>
 
-    <h3 [@bot3] class="t-c bold">Технології які використовуємо та які задіяні в нашому проекті</h3>
-    <section [@bot3] class="technologies mb-2">
+    <h3 class="t-c bold">Технології які використовуємо та які задіяні в нашому проекті</h3>
+    <section class="technologies mb-2">
       <div class="item-box" *ngFor="let item of technologies">
         <img class="img-logo" src="{{ item.image }}" alt="logo">
         <p class="t-med">{{ item.name }}</p>

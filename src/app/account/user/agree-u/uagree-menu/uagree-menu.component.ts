@@ -1,6 +1,5 @@
-import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from 'src/app/interface/info';
@@ -22,9 +21,10 @@ import { CounterService } from 'src/app/services/counter.service';
     animations.left5,
     animations.right1,
     animations.swichCard,
+    animations.bot,
   ],
 })
-export class UagreeMenuComponent {
+export class UagreeMenuComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -56,6 +56,8 @@ export class UagreeMenuComponent {
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
   }
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -65,19 +67,36 @@ export class UagreeMenuComponent {
     private counterService: CounterService,
   ) { }
 
-  async ngOnInit(): Promise<any> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        await this.getSendAgree();
-        await this.getUserDiscussioCount();
-        await this.getAgree();
-      }
-    })
+  async ngOnInit(): Promise<void> {
+    this.getCheckDevice();
+    this.getServerPath();
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
+  }
+
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+        if (this.serverPath) {
+          await this.getSendAgree();
+          await this.getUserDiscussioCount();
+          await this.getAgree();
+        }
+      })
+    );
   }
 
   // відправляю event початок свайпу
@@ -216,4 +235,8 @@ export class UagreeMenuComponent {
     });
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    // console.log(this.subscriptions)
+  }
 }

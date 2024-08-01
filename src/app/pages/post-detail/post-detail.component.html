@@ -1,55 +1,13 @@
-<div class="content-component">
-  <div class="switch-container">
+<div class="container-info p-2">
 
-    <div class="switch-btn-group">
-      <a class="btn" [routerLink]="'/blog'">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Блог</div>
-      </a>
-    </div>
-
-    <div class="menu-box">
-      <div class="menu-lable">Пост</div>
-      <div class="menu-name">Discussio <i class="fa-solid fa-blog pl-2"></i></div>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
-        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="t-min">Вхід & Реєстрація</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-        <i class="fa-solid fa-barcode"></i>
-        <div class="t-min">Про Проект</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLink]="'/discussio-search'">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="t-min">Пошук Discussio</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
-        <i class="fa-solid fa-hands-holding-child"></i>
-        <div class="t-min">Підтримати проект</div>
-      </a>
-    </div>
-  </div>
-
-  <div [@top2]  class="content-wrapper">
-    <div  class="post mb-2" *ngIf="post">
+  <div [@top2] class="content-wrapper mt-2" *ngIf="post">
+    <div class="post">
       <div [@right1] class="img-wrapper">
         <img *ngIf="post.image" class="img" [src]="post.image" alt="Post Image" loading="lazy">
         <img *ngIf="!post.image" class="img" src="../../../assets/logo/discussio.png" alt="Post Image" loading="lazy">
         <div class="blure"></div>
       </div>
-      <div  class="title-wrapper p-2">
+      <div class="title-wrapper p-2">
         <h1 [@top4] class="card-title t-c bold">{{ post.title }}</h1>
         <p [@top3] class="t-min">{{ post.author }} {{ post.formattedDate }}</p>
 
@@ -62,21 +20,21 @@
 
         <div [@top2] class="card-text mt-2 pl-3" [innerHTML]="sanitizeContent(post.content)"></div>
 
-        <div [@top1] class="btn-group">
-          <a class="b-primary m-1" [routerLink]="'/blog'">
-            <i class="fa-solid fa-arrow-left white pr-2"></i>
-            <div class="white">Назад</div>
-          </a>
-          <a class="b-primary m-1" *ngIf="post.link" [href]="post.link" target="_blank">
-            Посилання <i class="fa-solid fa-link pl-2"></i>
-          </a>
-        </div>
-      </div>
+        <a class="b-primary m-1" *ngIf="post.link" [href]="post.link" target="_blank">
+          Посилання <i class="fa-solid fa-link pl-2"></i>
+        </a>
 
+        <app-footer></app-footer>
+
+      </div>
     </div>
-    <div [@top3] class="footer w-100">
-      <app-footer></app-footer>
-    </div>
+  </div>
+
+  <div [@top1] class="btn-group">
+    <a class="btn" [routerLink]="''">
+      <i class="fa-solid fa-arrow-left white pr-2"></i>
+      <div class="t-min white">Назад</div>
+    </a>
   </div>
 
 </div>

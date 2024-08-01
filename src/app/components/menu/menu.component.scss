@@ -2,142 +2,192 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
-.menu-container {
+.wrapper-img {
   @include flex-box-center;
-  display: flex;
   width: 100%;
-  height: 8vh;
-  padding: 5px;
-  .btn-menu {
-    @include flex-box-center;
-    background-color: transparent;
-    flex: 1;
-    height: 100%;
-    padding: 0px;
-    position: relative;
-    &.active {
-      .t-min {
-        color: $color-accent;
-      }
-      .fa-solid {
-        color: $color-accent;
-      }
-    }
-    .t-min {
-      font-size: 9px;
-      text-transform: uppercase;
-      color: $color-gray;
-    }
-    .notification {
-      @include flex-box-center;
-      position: absolute;
-      right: 0px;
-      top: 0;
-      width: 15px;
-      height: 15px;
-      background-color: $color-accent;
-      border-radius: 50%;
-    }
-  }
-}
-
-.switch-btn-group {
-  .btn {
-    transition: 1s;
-    margin: 0 5px;
-    width: 60px;
-    height: 60px;
-    padding: 5px;
-    &:active {
-      transform: scale(0.8);
-      @include box-shadow-i;
-    }
-    &.active {
-      transform: scale(1);
-      @include box-shadow-i;
-    }
-  }
-}
-
-.menu {
-  @include flex-box-column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  position: absolute;
-  height: 100vh;
-  overflow: hidden;
-  width: 100%;
-  bottom: 0;
-  right: 0;
-  z-index: 500;
-  background-color: rgba(0, 0, 0, 0.736);
-  padding-bottom: 5vh;
-  .link {
-    &:disabled {
-      background-color: $color-gray;
-      box-shadow: 2px 2px 2px 4px $color-gray;
-      color: rgb(82, 82, 82);
-      .fa-solid,
-      .fa-regular {
-        color: rgb(82, 82, 82);
-      }
-    }
-    @include flex-box-center;
-    border: none;
-    height: 5vh;
-    padding: 5px;
-    justify-content: space-between;
-    margin: 5px 0px 5px 5px;
-    position: relative;
-    background-color: $color-white;
-    font-weight: 600;
-    text-transform: capitalize;
-    border-radius: 10px 0 0 10px;
-    box-shadow: 2px 2px 2px 4px $color-white;
-    .status {
-      @include flex-box-center;
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-15px);
-      width: 30px;
-      height: 30px;
-      background-color: $color-accent;
-      color: $color-white;
-      border-radius: 50%;
-
-      .fa-envelope-open-text {
-        color: $color-white;
-        font-size: 15px;
-      }
-    }
-  }
-  .link.active {
-    background-color: $color-accent;
-    color: $color-white;
-    box-shadow: 2px 2px 2px 4px $color-accent;
-    .fa-solid,
-    .fa-regular {
-      color: $color-white;
-    }
-  }
-}
-
-.btn-logo {
-  border: none;
-  margin: 5px;
-  background-color: transparent;
-  .logo {
-    @include box-shadow;
+  .img-fluid {
     width: 50px;
     height: 50px;
-    background-color: $color-accent;
+    object-fit: cover;
     border-radius: 50%;
   }
 }
 
-.hide-pc {
-  @include s3-s6-max {
+.logo-img {
+  width: 30px;
+  height: 30px;
+  border: 3px solid $color-white;
+  border-radius: 50%;
+}
+
+.menu-container {
+  @include flex-box-center;
+  display: flex;
+  width: 100%;
+  position: fixed;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.736);
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  align-items: flex-start;
+}
+
+.btn {
+  background-color: transparent;
+}
+
+.menu {
+  @include flex-box-center;
+  flex-direction: column;
+  position: relative;
+  height: auto;
+  width: 40%;
+  max-width: 500px;
+  overflow: hidden;
+
+  @include s1-s3 {
+    width: 100%;
+  }
+}
+
+.link-container {
+  @include flex-box-center;
+  width: 100%;
+  &.active {
+    background-color: $color-white;
+    color: $color-accent;
+    box-shadow: 2px 2px 2px 4px $color-white;
+    .fa-solid,
+    .fa-regular,
+    .t-lar-x,
+    .t-min {
+      color: $color-accent;
+    }
+  }
+}
+
+.link-item {
+  @include flex-box-center;
+  @include box-shadow;
+  height: 8vh;
+  padding: 15px;
+  justify-content: space-between;
+  margin: 0;
+  margin-bottom: 10px;
+  position: relative;
+  background-color: transparent;
+  font-weight: 600;
+  text-transform: capitalize;
+  z-index: 5;
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid $color-white;
+
+  .fa-solid,
+  .fa-regular,
+  .t-lar-x,
+  .t-min {
+    color: $color-white;
+  }
+
+  &:hover {
+    transform: scale(0.9);
+    background-color: $color-gray;
+    @include box-shadow-i;
+  }
+
+  &:disabled {
+    background-color: $color-gray;
+    box-shadow: 2px 2px 2px 4px $color-gray;
+    .fa-solid,
+    .fa-regular,
+    .t-lar-x,
+    .t-min {
+      color: $color-light-gray;
+    }
+    border: none;
+  }
+
+  &.active {
+    background-color: $color-white;
+    color: $color-accent;
+    box-shadow: 2px 2px 2px 4px $color-white;
+    .fa-solid,
+    .fa-regular,
+    .t-lar-x,
+    .t-min {
+      color: $color-accent;
+    }
+  }
+}
+
+.link-btn {
+  width: 60px;
+  background-color: transparent;
+  .fa-solid,
+  .fa-regular,
+  .t-lar-x,
+  .t-min {
+    color: $color-white;
+  }
+  &.active {
+    .fa-solid,
+    .fa-regular,
+    .t-lar-x,
+    .t-min {
+      color: $color-gray;
+    }
+  }
+}
+
+.bg-menu {
+  @include flex-box-center;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: auto;
+  padding: 20px 0.5rem 0.5rem 0.5rem;
+  height: 100%;
+  max-height: 100vh;
+  width: 100%;
+  z-index: 1;
+  border-radius: 0 0 20px 20px;
+  background-color: $color-accent;
+  transform: translateY(-100%);
+  transition: 0.6s;
+  &::-webkit-scrollbar {
     display: none;
   }
+  &.active {
+    transition: 2s;
+    transform: translateY(0%);
+  }
+
+  .subcategory {
+    width: 70%;
+  }
+
+  .menu_title {
+    color: $color-white;
+    // border-bottom: 2px solid $color-white;
+    z-index: 5;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: $t-med;
+    width: 100%;
+    .fa-regular {
+      color: $color-white;
+      font-size: 25px;
+    }
+  }
+}
+
+.btn-group {
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+
+
+
 }

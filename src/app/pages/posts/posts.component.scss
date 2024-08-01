@@ -6,13 +6,20 @@
   @include flex-box;
   flex-direction: column;
   height: 100vh;
+  width: 100%;
+  align-items: stretch;
   justify-content: flex-start;
-  @include s3-s6-max {
-    align-items: stretch;
-  }
+
   .container-content {
-    flex-direction: column;
-    height: calc(100vh - 100px - 1rem);
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: flex-start;
+    overflow: auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -29,9 +36,14 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  background-color: $color-primary;
   @include flex-box-center;
-  flex-wrap: wrap;
   justify-content: flex-start;
+  overflow-x: auto;
+  width: 100%;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
 
   .categories {
     padding: 3px;
@@ -56,85 +68,71 @@
   }
 }
 
-.content-wrapper {
-  height: calc(100vh - 100px - 1rem);
+.post {
+  @include flex-box-center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
   position: relative;
-  display: flex;
   align-items: flex-start;
-  width: 100%;
-  justify-content: flex-start;
-  overflow: auto;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  &::-webkit-scrollbar {
-    display: none;
+  background-color: $color-white;
+  transform: scale(0.96);
+  transition: 1s;
+  height: 400px;
+  overflow: hidden;
+  @include box-shadow;
+  border-radius: 10px;
+  @include s1-s3 {
+    height: auto;
+    overflow: visible;
   }
-  .post {
-    @include flex-box-center;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
+
+  .card-text {
+    font-size: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-white;
+    .fa-solid {
+      font-size: 14px;
+    }
+  }
+
+  &:hover {
+    transform: scale(1);
+  }
+  .img-wrapper {
+    width: 100%;
     position: relative;
-    align-items: flex-start;
-    background-color: $color-white;
-    transform: scale(0.96);
-    transition: 1s;
-    height: 400px;
     overflow: hidden;
-    @include box-shadow;
-    border-radius: 10px;
-    @include s1-s3 {
-      height: auto;
-      overflow: visible;
-    }
-
-    .card-text {
-      font-size: 12px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid $color-white;
-      .fa-solid {
-        font-size: 14px;
-      }
-    }
-
-    &:hover {
-      transform: scale(1);
-    }
-    .img-wrapper {
+    border-radius: 10px 10px 0px 0px;
+    @include flex-box-center;
+    .img {
       width: 100%;
-      position: relative;
+      height: 300px;
+      object-fit: cover;
       overflow: hidden;
-      border-radius: 10px 10px 0px 0px;
-      @include flex-box-center;
-      .img {
-        width: 100%;
-        height: 300px;
-        object-fit: cover;
-        overflow: hidden;
-        z-index: 1;
-        @include s1-s3 {
-          height: auto;
-          max-height: 250px;
-        }
-      }
-    }
-    .card-body {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      width: 100%;
-      height: 100%;
-      justify-content: flex-start;
-      z-index: 10;
-
+      z-index: 1;
       @include s1-s3 {
         height: auto;
+        max-height: 250px;
       }
     }
-    .btn-group {
-      position: fixed;
-      bottom: 0;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    z-index: 10;
+
+    @include s1-s3 {
+      height: auto;
     }
+  }
+  .btn-group {
+    position: fixed;
+    bottom: 0;
   }
 }
 
@@ -160,7 +158,7 @@
 .post-container {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   flex-wrap: wrap;
   width: 100%;
   height: 100%;
@@ -170,7 +168,7 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  border-bottom: 5px dotted     rgba(128, 128, 128, 0.519);
+  border-bottom: 5px dotted rgba(128, 128, 128, 0.519);
   height: 15px;
   border-radius: 10px 10px 0px 0px;
   background-color: $color-white;

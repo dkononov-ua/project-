@@ -53,6 +53,11 @@ export class UagreeHostComponent {
     this.indexPage = indexPage;
   }
 
+  subscriptions: any[] = [];
+  authorization: boolean = false;
+  currentLocation: string = '';
+  isMobile: boolean = false;
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -60,19 +65,47 @@ export class UagreeHostComponent {
     private sharedService: SharedService,
   ) { }
 
-  async ngOnInit(): Promise<any> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        await this.getSendAgree();
-        await this.getAcceptSubsCount();
-        await this.getAgree();
-      }
-    })
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    this.checkUserAuthorization();
     this.route.queryParams.subscribe(params => {
       this.page = params['indexPage'] || 0;
       this.indexPage = Number(this.page);
     });
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+        if (this.serverPath) {
+          await this.getSendAgree();
+          await this.getAcceptSubsCount();
+          await this.getAgree();
+        }
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
   // відправляю event початок свайпу

@@ -3,12 +3,26 @@
 @use "../../style/shared.scss" as *;
 
 .container-info {
-  @include flex-box-center;
-  height: calc(100vh);
+  position: relative;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.content-wrapper {
+  @include flex-box-column;
+  @include box-shadow;
+  height: auto;
+  align-items: center;
+  background-color: $color-white;
+  justify-content: flex-start;
 }
 
 .btn-group {
-  position: fixed;
+  z-index: 10;
   width: 250px;
 }
 

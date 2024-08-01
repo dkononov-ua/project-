@@ -2,44 +2,47 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
-.content-component {
-  @include flex-box;
-  flex-direction: column;
+.container-info {
+  position: relative;
   height: 100vh;
-  justify-content: flex-start;
-  @include s3-s6-max {
-    align-items: stretch;
-  }
-}
-
-.container-content {
+  overflow: auto;
+  display: flex;
   flex-direction: column;
-  height: calc(100vh - 100px - 1rem);
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .content-wrapper {
-  height: calc(100vh - 100px - 1rem);
-  @include flex-box-center;
-  width: 100%;
+  @include flex-box-column;
+  @include box-shadow;
+  height: auto;
+  align-items: center;
+  background-color: $color-white;
   justify-content: flex-start;
-  flex-direction: column;
+  @include s3-s6-max {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.btn-group {
+  z-index: 10;
+  width: 250px;
 }
 
 .post {
-  height: calc(100vh - 200px - 1rem);
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   position: relative;
   align-items: flex-start;
   transition: 1s;
   width: 100%;
-  border-radius: 20px;
   background-color: white;
   overflow: hidden;
   @include s1-s3 {
+    overflow: auto;
+    display: block;
     flex-direction: column;
   }
 
@@ -63,16 +66,17 @@
   .title-wrapper {
     display: flex;
     align-items: center;
-    height: calc(100vh - 300px - 1rem);
     align-items: flex-start;
     justify-content: center;
     width: 50%;
-    overflow: auto;
     flex-wrap: wrap;
-    height: 100%;
+    @include s3-s6-max {
+      height: 100%;
+      overflow: auto;
+    }
     @include s1-s3 {
-      width: 100%;
       height: auto;
+      width: 100%;
     }
   }
 
@@ -101,17 +105,9 @@
   }
 }
 
-.btn-group {
-  position: sticky;
-  bottom: 0;
-  justify-content: center;
-}
-
 .footer {
   padding-bottom: 20px;
-  background-image: linear-gradient(to bottom, transparent 0%, $color-primary 40%) !important;
   @include s1-s3 {
-    background-image: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.791) 40%) !important;
     padding-bottom: 0px;
   }
 }

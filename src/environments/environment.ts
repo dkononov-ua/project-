@@ -1,8 +1,5 @@
-
-
-// Конфігураційні дані проекту
-
 export const environment = {
+  production: true,
   firebaseConfig: {
     projectId: 'konnect-ukraine',
     appId: '1:829086125717:web:b307326f4cbd78f1d0d59c',
@@ -12,7 +9,7 @@ export const environment = {
     apiKey: 'AIzaSyD7jtcAm16O5vybYAcwdEoiANdb8y6-cfY',
     authDomain: 'konnect-ukraine.firebaseapp.com',
     messagingSenderId: '829086125717',
-  },
+  }
 };
 
 

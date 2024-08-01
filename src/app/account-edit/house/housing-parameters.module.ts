@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from 'src/app/app-routing.module';
@@ -18,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HousingParametersRoutingModule } from './housing-parameters-routing.module';
 import { MatInputModule } from '@angular/material/input';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,39 +32,42 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { InstructionComponent } from './instruction/instruction.component';
 import { DeleteHouseComponent } from 'src/app/components/house/delete-house/delete-house.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModule } from 'src/app/shared/shared.module';
 
-@NgModule({ declarations: [
-        HousingParametersComponent,
-        AboutComponent,
-        AddressComponent,
-        ParamComponent,
-        PhotoComponent,
-        AddObjectsComponent,
-        DeleteHouseComponent,
-        AdditionalInfoComponent,
-        InstructionComponent,
-    ], imports: [BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        NgbModule,
-        DragDropModule,
-        MatIconModule,
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        SharedModule,
-        RouterModule,
-        HousingParametersRoutingModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTooltipModule,
-        LyImageCropperModule,
-        LySliderModule,
-        LyButtonModule,
-        LyIconModule,
-        LyDialogModule,
-        MatProgressSpinnerModule], providers: [SelectedFlatService, provideHttpClient(withInterceptorsFromDi())] })
+@NgModule({
+  declarations: [
+    HousingParametersComponent,
+    AboutComponent,
+    AddressComponent,
+    ParamComponent,
+    PhotoComponent,
+    AddObjectsComponent,
+    DeleteHouseComponent,
+    AdditionalInfoComponent,
+    InstructionComponent,
+  ], imports: [BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NgbModule,
+    DragDropModule,
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    SharedModule,
+    RouterModule,
+    HousingParametersRoutingModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    LyImageCropperModule,
+    LySliderModule,
+    LyButtonModule,
+    LyIconModule,
+    LyDialogModule,
+    MatProgressSpinnerModule], providers: [SelectedFlatService, provideHttpClient(withInterceptorsFromDi())]
+})
 export class HousingParametersModule { }

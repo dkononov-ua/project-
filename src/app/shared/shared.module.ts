@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,8 +12,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
-import { NavbarUserComponent } from '../components/navbar-user/navbar-user.component';
-import { NavbarHouseComponent } from '../components/navbar-house/navbar-house.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionDiscussioComponent } from '../components/selection-discussio/selection-discussio.component';
@@ -62,14 +58,13 @@ import { NavigationUserComponent } from '../card/card-user-components/navigation
 import { NavigationHouseComponent } from '../card/card-house-components/navigation-house/navigation-house.component';
 import { ContactsComponent } from '../components/contacts/contacts.component';
 import { PostDetailComponent } from '../pages/post-detail/post-detail.component';
+import { NavbarComponent } from '../components/navbar/navbar.component';
+import { ClickOutsideDirective } from '../directive/click-outside.directive';
 
 @NgModule({
   declarations: [
-    NavbarComponent,
     FooterComponent,
     LoaderComponent,
-    NavbarUserComponent,
-    NavbarHouseComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,
@@ -102,13 +97,12 @@ import { PostDetailComponent } from '../pages/post-detail/post-detail.component'
     NavigationHouseComponent,
     ContactsComponent,
     PostDetailComponent,
+    NavbarComponent,
+    ClickOutsideDirective,
   ],
   exports: [
-    NavbarComponent,
     FooterComponent,
     LoaderComponent,
-    NavbarUserComponent,
-    NavbarHouseComponent,
     SelectionHousingComponent,
     SelectionDiscussioComponent,
     AddHouseComponent,
@@ -143,6 +137,8 @@ import { PostDetailComponent } from '../pages/post-detail/post-detail.component'
     NavigationHouseComponent,
     ContactsComponent,
     PostDetailComponent,
+    NavbarComponent,
+    ClickOutsideDirective,
 
   ],
   providers: [

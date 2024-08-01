@@ -10,6 +10,14 @@ import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component
 import { PreviewInfoComponent } from './preview-info/preview-info.component';
 import { UserComponent } from './user.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { UserParametersComponent } from 'src/app/account-edit/user/user-parameterscomponent';
+import { UserContactsComponent } from 'src/app/account-edit/user/user-contacts/user-contacts.component';
+import { UserPersonComponent } from 'src/app/account-edit/user/user-person/user-person.component';
+import { UserStatusComponent } from 'src/app/account-edit/user/user-status/user-status.component';
+import { UserLookingComponent } from 'src/app/account-edit/user/user-looking/user-looking.component';
+import { UserDeleteComponent } from 'src/app/account-edit/user/user-delete/user-delete.component';
+import { UserTenantComponent } from './tenant/user-tenant/user-tenant.component';
+import { UserTenantStepComponent } from './tenant/user-tenant-step/user-tenant-step.component';
 
 const routes: Routes = [
   {
@@ -17,21 +25,37 @@ const routes: Routes = [
     component: UserComponent, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
-      { path: 'info', component: UserPageComponent, data: { title: 'Профіль користувача', description: 'Профіль користувача'} , canActivate: [CanActivateGuard] },
+      { path: 'info', component: UserPageComponent, data: { title: 'Профіль користувача', description: 'Профіль користувача' }, canActivate: [CanActivateGuard] },
       { path: 'preview', component: PreviewInfoComponent, canActivate: [CanActivateGuard] },
+      { path: 'tenant', component: UserTenantComponent },
+      { path: 'tenant-step', component: UserTenantStepComponent },
+      {
+        path: 'agree', component: UagreeHostComponent, canActivate: [CanActivateGuard],
+        children: [
+          { path: '', redirectTo: 'menu', pathMatch: 'full' },
+          { path: 'menu', component: UagreeMenuComponent, data: { title: 'Угоди орендаря', description: 'Переглянути угоди оренди' }, canActivate: [CanActivateGuard] },
+          { path: 'concluded', component: UagreeConcludedComponent, canActivate: [CanActivateGuard] },
+          { path: 'rewiew', component: UagreeReviewComponent, canActivate: [CanActivateGuard] },
+          { path: 'step', component: UagreeStepComponent, canActivate: [CanActivateGuard] },
+        ],
+      },
+      {
+        path: 'edit',
+        component: UserParametersComponent,
+        canActivate: [CanActivateGuard],
+        children: [
+          { path: '', redirectTo: 'person', pathMatch: 'full' },
+          { path: 'contacts', component: UserContactsComponent, canActivate: [CanActivateGuard] },
+          { path: 'person', component: UserPersonComponent, canActivate: [CanActivateGuard] },
+          { path: 'status', component: UserStatusComponent, canActivate: [CanActivateGuard] },
+          { path: 'looking', component: UserLookingComponent, canActivate: [CanActivateGuard] },
+          { path: 'delete', component: UserDeleteComponent, canActivate: [CanActivateGuard] },
+        ],
+      },
     ],
   },
-  {
-    path: 'agree', component: UagreeHostComponent, canActivate: [CanActivateGuard],
-    children: [
-      { path: '', redirectTo: 'menu', pathMatch: 'full' },
-      { path: 'menu', component: UagreeMenuComponent, data: { title: 'Угоди орендаря', description: 'Переглянути угоди оренди'}, canActivate: [CanActivateGuard] },
-      { path: 'concluded', component: UagreeConcludedComponent, canActivate: [CanActivateGuard] },
-      { path: 'rewiew', component: UagreeReviewComponent, canActivate: [CanActivateGuard] },
-      { path: 'step', component: UagreeStepComponent, canActivate: [CanActivateGuard] },
-    ],
-  },
-  { path: 'looking', component: LookingComponent, data: { title: 'Профіль орендаря', description: 'Розмістити оголошення про пошук оселі'}, canActivate: [CanActivateGuard] },
+
+  { path: 'looking', component: LookingComponent, data: { title: 'Профіль орендаря', description: 'Розмістити оголошення про пошук оселі' }, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

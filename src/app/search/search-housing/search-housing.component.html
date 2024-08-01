@@ -13,10 +13,6 @@
       <h2 class="menu-name">Оселі <i class="fa-solid fa-magnifying-glass pl-2"></i></h2>
     </div>
 
-    <div class="switch-btn-group" *ngIf="authorization">
-      <app-navigation-user></app-navigation-user>
-    </div>
-
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/subscriptions-user'">
         <i class="fa-regular fa-heart"></i>

@@ -1,69 +1,6 @@
 <div class="content-component">
-  <div [@left1] class="switch-container">
 
-    <div class="switch-btn-group">
-      <button class="btn" (click)="goBack()">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Назад</div>
-      </button>
-    </div>
-
-    <!-- <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/user/info'">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min white">Назад</div>
-      </button>
-    </div> -->
-
-    <div class="menu-box">
-      <div class="menu-lable">Пошук</div>
-      <div class="menu-name">Discussio <i class="fa-solid fa-magnifying-glass pl-2"></i>
-      </div>
-    </div>
-
-    <div class="switch-btn-group">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="''">
-        <i class="fa-solid fa-d"></i>
-        <div class="t-min">На Головну</div>
-      </a>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/user/info'">
-        <i class="fa-regular fa-circle-user"></i>
-        <div class="t-min">Профіль Користувача</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/house'">
-        <i class="fa-solid fa-house"></i>
-        <div class="t-min">Профіль Оселі</div>
-      </button>
-    </div>
-
-    <!-- <div class="switch-btn-group">
-      <button class="btn" (click)="goToSearchTenants()">
-        <i class="fa-solid fa-people-pulling pl-2"></i>
-        <div class="t-min">Пошук Орендаря</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/search-house/filter'">
-        <i class="fa-solid fa-house-laptop pl-2"></i>
-        <div class="t-min">Пошук Оселі</div>
-      </button>
-    </div> -->
-
-    <div class="switch-btn-group hide-mobile" *ngIf="!isMobile">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
-        <i class="fa-solid fa-house-circle-check"></i>
-        <div class="t-min">Управління Оселею</div>
-      </button>
-    </div>
-
-  </div>
+  <app-navbar></app-navbar>
 
   <div class="main-container t-c">
 
@@ -149,4 +86,5 @@
     </div>
 
   </div>
+
 </div>

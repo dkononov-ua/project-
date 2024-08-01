@@ -65,7 +65,7 @@ export class AuthGoogleService {
               localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
                 this.sharedService.setStatusMessage('');
-                this.router.navigate(['/information-user']);
+                this.router.navigate(['/user/edit']);
               }, 2000);
             }, 1000);
           } else if (response.status === true && param === 'login') {

@@ -2,8 +2,8 @@
 
   <div [@top4] class="main-param mb-2">
     <div class="left">
-      <p class="t-c t-min white"><i class="fa-solid fa-star white"></i> <br> Рейтинг <br> Користувача</p>
-      <p class="t-c t-lar-x bold white">ID: {{ user.user_id }}</p>
+      <p class="t-c t-min"><i class="fa-solid fa-star"></i> <br> Рейтинг <br> Користувача</p>
+      <p class="t-c t-lar-x bold">ID: {{ user.user_id }}</p>
     </div>
     <div class="right">
 
@@ -11,9 +11,9 @@
         <div class="flex-box w-80 jc-c wrap">
           <p class="t-c t-med thin gray p-2">Рейтинг користувача:</p>
 
-          <div class="item-box" *ngIf="ratingTenant">
-            <div mat-raised-button class="flex-column p-1">
-              <div class="t-lar-xx bold border-bottom">{{ratingTenant}}
+          <div class="item-box w-100" *ngIf="ratingTenant">
+            <div mat-raised-button class="flex-column p-1 w-100">
+              <div class="t-lar-xx bold border-bottom w-100">{{ratingTenant}}
                 <i class="fa-solid fa-star"></i>
                 <span class="t-min">/ {{numberOfReviewsTenant}}</span>
               </div>
@@ -21,9 +21,9 @@
             </div>
           </div>
 
-          <div class="item-box" *ngIf="ratingOwner">
-            <div mat-raised-button class="flex-column p-1">
-              <div class="t-lar-xx bold border-bottom">{{ratingOwner}}
+          <div class="item-box w-100" *ngIf="ratingOwner">
+            <div mat-raised-button class="flex-column p-1 w-100">
+              <div class="t-lar-xx bold border-bottom w-100">{{ratingOwner}}
                 <i class="fa-solid fa-star"></i>
                 <span class="t-min">/ {{numberOfReviewsOwner}}</span>
               </div>

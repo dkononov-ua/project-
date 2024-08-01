@@ -10,6 +10,12 @@ import { NavigationEnd, Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
 import { filter } from 'rxjs';
 import { UpdateMetaTagsService } from './services/updateMetaTags.service';
+import { MenuService } from './services/menu.service';
+
+interface MenuStatus {
+  status: boolean;
+  index: number;
+}
 
 @Component({
   selector: 'app-root',
@@ -93,10 +99,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private loaderService: LoaderService,
     private updateMetaTagsService: UpdateMetaTagsService,
+    private menuService: MenuService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -110,6 +116,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getCheckDevice();
     this.getServerPath();
     this.getStatusMessage();
+    this.getStatusMenu();
   }
 
   private updateMetaTagsInService(): void {
@@ -192,6 +199,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loading = status;
       })
     );
+  }
+
+  // підписка на статус меню
+  async getStatusMenu() {
+    this.menuService.toogleMenu$.subscribe((menuStatus: MenuStatus) => {
+      this.menu = menuStatus.status;
+    });
+  }
+
+  // відкриття меню через сервіс
+  async toogleMenu() {
+    // this.menu = !this.menu
+    // this.menuService.toogleMenu(this.menu)
   }
 
   ngOnDestroy() {

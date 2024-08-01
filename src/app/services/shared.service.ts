@@ -250,6 +250,19 @@ export class SharedService {
     }, 1500);
   }
 
+  getlogoutHouse() {
+    this.loaderService.setLoading(true);
+    this.statusMessageService.setStatusMessage('Виходимо з аккаунту оселі');
+    this.clearCacheHouse();
+    setTimeout(() => {
+      this.statusMessageService.setStatusMessage('Очищуємо дані');
+      setTimeout(() => {
+        this.router.navigate(['/house/house-control/selection-house']);
+        this.statusMessageService.setStatusMessage('');
+      }, 1500);
+    }, 2500);
+  }
+
   //повна очистка кешу від попередніх даних
   clearCache() {
     localStorage.removeItem('selectedComun');

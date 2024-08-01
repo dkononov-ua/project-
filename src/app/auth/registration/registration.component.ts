@@ -280,7 +280,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
               this.sharedService.setStatusMessage('Переходимо до налаштування профілю!');
               localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
-                this.router.navigate(['/information-user']);
+                this.router.navigate(['/user/edit']);
               }, 2000);
             }, 1000);
           }

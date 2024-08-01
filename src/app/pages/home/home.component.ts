@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
-import { animations } from '../interface/animation';
-import { SelectedFlatService } from '../services/selected-flat.service';
+import { animations } from '../../interface/animation';
+import { SelectedFlatService } from '../../services/selected-flat.service';
 import { Router } from '@angular/router';
-import { SharedService } from '../services/shared.service';
+import { SharedService } from '../../services/shared.service';
+import { MenuService } from '../../services/menu.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   houseData: any;
   isMobile: boolean = false;
   subscriptions: any[] = [];
+  menu: boolean = false;
 
   scrollToAnchor(): void {
     setTimeout(() => {
@@ -59,13 +61,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
-  ) {  }
+    private menuService: MenuService,
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.scrollToAnchor();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
+    this.getStatusMenu();
   }
 
   // Перевірка на авторизацію користувача
@@ -125,6 +129,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       }, 2000);
     }
   }
+
+  // підписка на статус меню
+  async getStatusMenu() {
+    // this.subscriptions.push(
+    //   this.menuService.toogleMenu$.subscribe((status: boolean) => {
+    //     this.menu = status;
+    //   })
+    // );
+  }
+
+  // відкриття меню через сервіс
+  async toogleMenu() {
+    // this.menu = !this.menu
+    // this.menuService.toogleMenu(this.menu)
+  }
+
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

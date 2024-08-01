@@ -8,15 +8,11 @@
     <div [@appearance] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card-animation">
         <div class="card-content">
-          <button class="btn geer" [routerLink]="'/information-user'">
-            <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
-          </button>
           <app-img></app-img>
           <app-user-rent-progress></app-user-rent-progress>
           <div *ngIf="isMobile">
             <app-info></app-info>
           </div>
-          <app-footer class="pb-3" *ngIf="isMobile"></app-footer>
         </div>
       </div>
     </div>

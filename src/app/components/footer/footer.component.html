@@ -41,17 +41,23 @@
     </div>
 
     <div class="social-link-box" *ngIf="authorization">
-      <a class="social-link-icon" [routerLinkActive]="'active'"
-        [routerLink]="'/feedback'">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/feedback'">
         <i class="fa-solid fa-bug"></i>
         <div class="t-min pl-2">Відгук</div>
       </a>
     </div>
 
-    <div class="social-link-box">
+    <!-- <div class="social-link-box">
       <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
         <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
         <div class="t-min pl-2">Реєстрація</div>
+      </a>
+    </div> -->
+
+    <div class="social-link-box">
+      <a class="social-link-icon" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="t-min pl-2">Про проект</div>
       </a>
     </div>
 

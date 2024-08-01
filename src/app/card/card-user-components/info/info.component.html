@@ -2,8 +2,8 @@
 
   <div [@top1] class="main-param mb-2">
     <div class="left">
-      <p class="t-c t-min white"><i class="fa-solid fa-fingerprint white"></i> <br> ID Користувача</p>
-      <p class="t-c t-lar-x bold white">ID: {{ user.user_id }}</p>
+      <p class="t-c t-min"><i class="fa-solid fa-fingerprint"></i> <br> ID Користувача</p>
+      <p class="t-c t-lar-x bold">ID: {{ user.user_id }}</p>
     </div>
     <div class="right">
       <div class="flex-box">
@@ -36,10 +36,10 @@
 
           <app-links-box></app-links-box>
 
-          <button class="btn-open" [routerLink]="'/information-user'" *ngIf="currentLocation === '/user/info'">
+          <a class="btn-open" [routerLink]="'/user/edit/person'" *ngIf="currentLocation === '/user/info'">
             <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
             <!-- <div class="t-min">Налашт.</div> -->
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -47,8 +47,8 @@
 
   <div [@top2] class="main-param mb-2" *ngIf="user.agree_search === 1">
     <div class="left">
-      <p class="t-c t-min white"><i class="fa-solid fa-person-hiking white"></i> <br> Профіль Орендаря </p>
-      <p class="t-c t-min white mt-2" *ngIf="user.data"> <i class="fa-regular fa-clock white"></i> Активовано <br> {{user.data | date}}</p>
+      <p class="t-c t-min"><i class="fa-solid fa-person-hiking"></i> <br> Профіль Орендаря </p>
+      <p class="t-c t-min mt-2" *ngIf="user.data"> <i class="fa-regular fa-clock"></i> Активовано <br> {{user.data | date}}</p>
     </div>
     <div class="right">
       <div class="flex-box">
@@ -100,7 +100,7 @@
             <!-- <div class="t-min">Більше</div> -->
           </button>
 
-          <button class="btn-open" [routerLink]="'/looking'" *ngIf="currentLocation === '/user/info'">
+          <button class="btn-open" [routerLink]="'/user/edit/looking'" *ngIf="currentLocation === '/user/info'">
             <i class="fa-solid fa-gear" matTooltip="Налаштувати профіль"></i>
             <!-- <div class="t-min">Налашт.</div> -->
           </button>

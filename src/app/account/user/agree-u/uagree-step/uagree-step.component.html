@@ -1,18 +1,18 @@
-<div class="content-child p-3">
+<div class="content-info p-3">
   <div [@right] class="t-lar t-c ">
-    <p class="bold">Покроково як створити <br> Discussio угоду</p>
+    <p class="bold t-c">Покроково як створити <br> Discussio угоду</p>
   </div>
 
   <div [@right1] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 1 Створення угоди</div>
-      <div class="t-min t-c p-1">Угоду створює власник оселі. Формування відбувається шляхом обрання орендаря
+      <div class="t-med t-c p-1">Угоду створює власник оселі. Формування відбувається шляхом обрання орендаря
         зі списку Дискусій або Мешканців.</div>
     </div>
 
     <button [disabled]="counterUserDiscussio === 0 || !counterUserDiscussio" class="link-t w-30 flex-column"
       [routerLink]="'/subscribers-discuss'">
-      <span class="ml-2 t-min">Дискусії <br> у вас {{counterUserDiscussio}}</span>
+      <span class="ml-2 t-med white">Дискусії <br> у вас {{counterUserDiscussio}}</span>
       <i class="fa-solid fa-person-walking-luggage"></i>
     </button>
   </div>
@@ -21,12 +21,12 @@
 
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 2 Пропозиція</div>
-      <div class="t-min t-c p-1">Після формування угода надходить орендарю на розгляд.</div>
+      <div class="t-med t-c p-1">Після формування угода надходить орендарю на розгляд.</div>
     </div>
 
     <button [disabled]="numSendAgree === 0 || !numSendAgree" class="link-t w-30 flex-column"
       [routerLink]="'/user/agree/rewiew'">
-      <span class="ml-2 t-min">Пропозицій <br> у вас {{numSendAgree}}</span>
+      <span class="ml-2 t-med white">Пропозицій <br> у вас {{numSendAgree}}</span>
       <i class="fa-solid fa-hourglass-half"></i>
     </button>
   </div>
@@ -35,14 +35,14 @@
 
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 3 Формування акту</div>
-      <div class="t-min t-c p-1">Після підтвердження, вона з'являється в ухвалених угодах. Тепер власник може
+      <div class="t-med t-c p-1">Після підтвердження, вона з'являється в ухвалених угодах. Тепер власник може
         сформувати
         акт прийому-передачі оселі.</div>
     </div>
 
     <button [disabled]="numConcludedAgree === 0 || !numConcludedAgree" class="link-t w-30 flex-column"
       [routerLink]="'/user/agree/concluded'">
-      <span class="ml-2 t-min">Ухвалені <br> у вас {{numConcludedAgree}}</span>
+      <span class="ml-2 t-med white">Ухвалені <br> у вас {{numConcludedAgree}}</span>
       <i class="fa-solid fa-file-circle-check"></i>
     </button>
   </div>
@@ -51,13 +51,13 @@
 
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 4 Мешканець</div>
-      <div class="t-min t-c p-1">Після формування акту власник може додати вас до мешканців, тим самим надати доступ
+      <div class="t-med t-c p-1">Після формування акту власник може додати вас до мешканців, тим самим надати доступ
         до інформації про оселю</div>
     </div>
 
     <button [disabled]="countTrueExists === 0 || !countTrueExists" class="link-t w-30 flex-column"
       [routerLink]="'/user/agree/concluded'">
-      <span class="ml-2 t-min">Акти сформовані <br> у вас {{countTrueExists}}</span>
+      <span class="ml-2 t-med white">Акти сформовані <br> у вас {{countTrueExists}}</span>
       <i class="fa-solid fa-people-roof"></i>
     </button>
   </div>

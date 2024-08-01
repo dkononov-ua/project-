@@ -1,58 +1,79 @@
-<div class="container-box">
-  <nav class="navbar w-100">
+<nav class="switch-container" >
 
-    <div class="nav-item">
-      <a class="nav-link-logo" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-        <img class="logo" src="{{path_logo}}" alt="logo">
-        <div class="text">Discussio. Beta</div>
-      </a>
+  <!-- <div class="switch-btn-group" *ngIf="!isHomePage">
+    <button class="btn" (click)="goBack()">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div> -->
+
+  <div class="switch-btn-group" (click)="toggleAllMenu(1)">
+    <div class="lobo-box">
+      <img class="logo-img" src="./../../assets/logo/discussio.png" alt="">
+      <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div>
     </div>
+  </div>
 
-    <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'">Аккаунт</a>
-      <div class="statusCount" *ngIf="counterUserNewMessage || counterUserNewAgree"><i class="fa-solid fa-circle accent"></i></div>
-    </div>
+  <button class="menu-box t-s" (click)="toggleAllMenu(1)">
+    <div class="menu-lable">{{page_title}}</div>
+    <div class="menu-name">{{page_description}}</div>
+  </button>
 
-    <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/house-info'">Оселя</a>
-      <div class="statusCount" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false"><i class="fa-solid fa-circle accent"></i></div>
-    </div>
+  <!-- <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
+      <i class="fa-solid fa-barcode"></i>
+      <div class="t-min">Discussio</div>
+    </a>
+  </div> -->
 
-    <div class="nav-item hide-mobile">
-      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/opportunities'">Функції</a>
-    </div>
+  <div class="switch-btn-group" *ngIf="!authorization">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <div class="t-min">Вхід</div>
+    </a>
+  </div>
 
-    <div class="switch-btn-group">
-      <div class="dropdown nav-item">
-        <a class="dropdown-toggle nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-solid fa-magnifying-glass pr-2"></i>Пошук
-        </a>
-        <ul class="dropdown-menu">
-          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/house'">
-            <i class="fa-solid fa-people-roof"></i>
-            <div class="flex-column">
-              <div class="t-min t-c">Пошук</div>
-              <div class="t-med t-c">Оселі</div>
-            </div>
-          </a>
-          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenants'"  *ngIf="selectedFlatId">
-            <i class="fa-solid fa-people-pulling"></i>
-            <div class="flex-column">
-              <div class="t-min t-c">Пошук</div>
-              <div class="t-med t-c">Орендара</div>
-            </div>
-          </a>
-          <a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="'/looking'">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <div class="flex-column">
-              <div class="t-med t-c">Пошуковий</div>
-              <div class="t-min t-c">Профіль</div>
-            </div>
-          </a>
-        </ul>
-      </div>
-    </div>
+  <div class="switch-btn-group" *ngIf="!authorization">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
+      <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+      <div class="t-min">Реєстрація</div>
+    </a>
+  </div>
 
-  </nav>
+  <div class="switch-btn-group" *ngIf="!isMobile">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/discussio-search'">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <div class="t-min">Пошук</div>
+    </a>
+  </div>
 
-</div>
+  <div class="switch-btn-group" *ngIf="!isMobile">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
+      <i class="fa-solid fa-hands-holding-child"></i>
+      <div class="t-min">Підтримати</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="authorization" (click)="toggleAllMenu(2)">
+    <a class="btn">
+      <i class="fa-regular fa-circle-user"></i>
+      <div class="t-min">Профіль</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="authorization" (click)="toggleAllMenu(3)">
+    <a class="btn">
+      <i class="fa-solid fa-house"></i>
+      <div class="t-min">Оселя</div>
+    </a>
+  </div>
+
+  <!-- <div class="switch-btn-group">
+    <app-navigation-user></app-navigation-user>
+  </div>
+
+  <div class="switch-btn-group">
+    <app-navigation-house></app-navigation-house>
+  </div> -->
+
+</nav>

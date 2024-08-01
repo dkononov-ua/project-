@@ -1,84 +1,6 @@
 <div class="content-component">
 
-  <div [@left1] class="switch-container">
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/house/house-control/selection-house'">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Назад</div>
-      </button>
-    </div>
-
-    <div class="menu-box">
-      <div class="menu-lable">Профіль</div>
-      <div class="menu-name">Оселі <i class="fa-solid fa-house pl-2"></i></div>
-    </div>
-
-    <div class="switch-btn-group">
-      <app-navigation-house></app-navigation-house>
-    </div>
-
-    <div class="switch-btn-group">
-      <button [disabled]="!houseData || acces_flat_chats !== 1" class="btn" [routerLinkActive]="'active'"
-        [routerLink]="'/chat-house'">
-        <i class="fa-regular fa-comments"></i>
-        <div class="t-min bold">Повід.</div>
-        <div class="status" *ngIf="counterHouseNewMessage && counterHouseNewMessage !== false">
-          {{counterHouseNewMessage}}
-        </div>
-      </button>
-    </div>
-
-    <a class="switch-btn-group" [routerLink]="'/discussio-search'">
-      <div class="btn">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="t-min bold">Пошук</div>
-      </div>
-    </a>
-
-    <div class="switch-btn-group" *ngIf="authorization">
-      <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user'">
-        <i class="fa-regular fa-circle-user"></i>
-        <div class="t-min bold">Профіль</div>
-      </a>
-    </div>
-
-    <!-- <div class="switch-btn-group">
-      <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscriptions-house'">
-        <i class="fa-solid fa-people-pulling"></i>
-        <div class="t-min bold">Підписки</div>
-        <div class="status" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== '0'">
-          {{counterHouseSubscriptions}} </div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscribers-house'">
-        <i class="fa-solid fa-child-reaching"></i>
-        <div class="t-min bold">Підписники</div>
-        <div class="status" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== '0'">
-          {{counterHouseSubscribers}}</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button [disabled]="!houseData || acces_discuss !== 1" class="btn" [routerLink]="'/subscribers-discus'">
-        <i class="fa-solid fa-person-walking-luggage"></i>
-        <div class="t-min bold">Дискусії</div>
-        <div class="status" *ngIf="counterHouseDiscussio && counterHouseDiscussio !== '0'">
-          {{counterHouseDiscussio}}
-        </div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn" [routerLink]="'/house/agree'">
-        <i class="fa-solid fa-envelope-open-text"></i>
-        <div class="t-min bold">Угоди</div>
-      </button>
-    </div> -->
-
-  </div>
+  <app-navbar></app-navbar>
 
   <div class="main-container">
 
@@ -129,7 +51,7 @@
         <app-info-house></app-info-house>
       </div>
     </div>
-    
+
   </div>
 
 </div>

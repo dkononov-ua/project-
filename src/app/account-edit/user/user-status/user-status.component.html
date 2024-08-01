@@ -1,0 +1,100 @@
+<div [@top1] class="info-card" *ngIf="userInfo">
+
+  <div class="info-container" *ngIf="helpAdd">
+    <div class="info-help-box">
+      <div class="info-help-text">
+        <ul>
+          <li>
+            <div class="bold">Дозвіл на додавання в оселю</div> - він дозволяє власнику оселі додати вас до
+            мешканців
+            напряму без формування угоди.
+          </li>
+        </ul>
+      </div>
+      <button class="btn" (click)="openHelpAdd()">Зрозуміло</button>
+    </div>
+  </div>
+
+  <div class="flex-column t-c">
+
+    <mat-label class="t-lar bold accent t-c p-2">Доступи аккаунта</mat-label>
+    <div class="flex-column t-c border-bottom mt-2 mb-2">
+      <div class="t-min gray t-c">Тут будуть доступи для налаштування аккаунту та його взаємодії з іншими
+        користувачами та оселями</div>
+      <div class="content-group">
+        <label class="checkBox">
+          <input type="checkbox" [(ngModel)]="userParam.add_in_flat">
+          <div class="transition"></div>
+        </label>
+        <div class="ml-2">Додавати в оселю</div>
+        <button class="btn" (click)="openHelpAdd()"><i class="fa-solid fa-question"></i></button>
+      </div>
+    </div>
+
+    <mat-label class="t-s t-lar bold accent">Статуси аккаунту</mat-label>
+
+    <div class="status-box w-100 mb-2 mt-2">
+      <div class="t-min t-c bold">Дата створення аккаунту</div>
+      <div class="t-min gray">Показує коли ви були зареєстровані</div>
+      <div class="flex-box w-100">
+
+        <div class="flex-column p-2">
+          <i class="fa-solid fa-calendar-day"></i>
+        </div>
+
+        <div class="w-80 flex-column p-2">
+          <div class="t-lar-x bold t-c">{{userInfo.data_create | date}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-100 flex-column mb-2" *ngIf="userInfo.data_unban">
+      <div class="t-min t-c">Дата розблокування</div>
+      <div class="t-lar-x bold t-c">{{userInfo.data_unban | date}}</div>
+    </div>
+
+    <div class="status-box w-100 mb-2">
+      <div class="t-min t-c bold">Стату перевірки аккаунту на бан</div>
+      <div class="t-min gray">Показує чи є у вас проблеми зі скаргами</div>
+      <div class="flex-box w-100">
+
+        <div class="flex-column p-2">
+          <i class="fa-solid fa-circle-check pr-2" *ngIf="userInfo.banned === 0"></i>
+          <i class="fa-solid fa-ban pr-2" *ngIf="userInfo.banned === 1"></i>
+        </div>
+
+        <div class="w-80 flex-column p-2">
+          <div class="t-lar-x bold t-c" *ngIf="userInfo.banned === 0">Розблоковано</div>
+          <div class="t-lar-x bold t-c" *ngIf="userInfo.banned === 1">Заблокований</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="status-box w-100 mb-2">
+      <div class="t-min t-c bold">Стату перевірки аккаунту</div>
+      <div class="t-min gray">Надає статус підтвердженої особи. В розробці*</div>
+      <div class="flex-box w-100">
+
+        <div class="flex-column p-2">
+          <i class="fa-solid fa-user-check pr-2" *ngIf="userInfo.checked === 1"></i>
+          <i class="fa-solid fa-user-clock pr-2" *ngIf="userInfo.checked === 0"></i>
+        </div>
+
+        <div class="w-80 flex-column p-2">
+          <div class="t-lar-x bold t-c" *ngIf="userInfo.checked === 0">Не підтверджений</div>
+          <div class="t-lar-x bold t-c" *ngIf="userInfo.checked === 1">Підтверджений</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn" (click)="saveParamsUser()">
+      <div class="t-min">ЗБЕРЕГТИ</div>
+      <i class="fa-regular fa-circle-check ml-2"></i>
+    </button>
+  </div>
+
+</div>

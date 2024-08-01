@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InformationUserComponent } from './account-edit/user/information-user.component';
 import { CanActivateGuard } from './services/auth.guard';
 import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
-import { ComunPageComponent } from './pages/comun-page/comun-page.component';
 import { HousingParametersComponent } from './account-edit/house/housing-parameters.component';
 import { LookingComponent } from './account-edit/user/looking/looking.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
@@ -15,7 +13,7 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { SupportUsComponent } from './pages/support-us/support-us.component';
 import { AboutProjectComponent } from './pages/about-project/about-project.component';
 import { OurTeamComponent } from './pages/our-team/our-team.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 import { PostDetailComponent } from './pages/post-detail/post-detail.component';
 import { AppComponent } from './app.component';
 
@@ -26,23 +24,12 @@ const routes: Routes = [
   },
   { path: 'auth', loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule) },
   {
-    path: 'information-user',
-    component: InformationUserComponent,
-    canActivate: [CanActivateGuard]
-  },
-  {
     path: 'looking',
     component: LookingComponent,
-    canActivate: [CanActivateGuard]
   },
   {
     path: 'housing-services',
     component: HousingServicesComponent,
-    canActivate: [CanActivateGuard]
-  },
-  {
-    path: 'comun-page',
-    component: ComunPageComponent,
     canActivate: [CanActivateGuard]
   },
   {

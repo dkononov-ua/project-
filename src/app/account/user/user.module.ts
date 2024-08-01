@@ -27,6 +27,15 @@ import { PreviewInfoComponent } from './preview-info/preview-info.component';
 import { UserComponent } from './user.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserPageComponent } from './user-page/user-page.component';
+import { UserContactsComponent } from 'src/app/account-edit/user/user-contacts/user-contacts.component';
+import { UserLookingComponent } from 'src/app/account-edit/user/user-looking/user-looking.component';
+import { UserParametersComponent } from 'src/app/account-edit/user/user-parameterscomponent';
+import { UserPersonComponent } from 'src/app/account-edit/user/user-person/user-person.component';
+import { UserStatusComponent } from 'src/app/account-edit/user/user-status/user-status.component';
+import { UserDeleteComponent } from 'src/app/account-edit/user/user-delete/user-delete.component';
+import { UserTenantComponent } from './tenant/user-tenant/user-tenant.component';
+import { UserTenantStepComponent } from './tenant/user-tenant-step/user-tenant-step.component';
+
 @NgModule({
   declarations: [
     UserComponent,
@@ -37,6 +46,14 @@ import { UserPageComponent } from './user-page/user-page.component';
     UagreeStepComponent,
     PreviewInfoComponent,
     UserPageComponent,
+    UserParametersComponent,
+    UserContactsComponent,
+    UserPersonComponent,
+    UserStatusComponent,
+    UserLookingComponent,
+    UserDeleteComponent,
+    UserTenantComponent,
+    UserTenantStepComponent,
   ],
   providers: [
     DatePipe,
