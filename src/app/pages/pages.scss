@@ -1,6 +1,6 @@
-@use "../../../../style/presets/" as *;
-@use "../../../../style/mixins/" as *;
-@use "../../../../style/shared.scss";
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/shared.scss";
 
 .container-info {
   position: relative;
@@ -38,6 +38,18 @@
   width: 250px;
 }
 
+.img-wrapper2 {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  .img {
+    z-index: 10;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
 .info-content {
   height: 100%;
   display: flex;
@@ -64,9 +76,6 @@
       height: 300px;
       border-radius: 0px;
       margin: 0;
-      .blure {
-        display: none;
-      }
       .img {
         height: 300px;
       }
@@ -77,10 +86,10 @@
       height: 100%;
       z-index: 15;
       right: 0;
-      top: 0;
+      bottom: 0;
       background-image: linear-gradient(to right, transparent 60%, $color-white 95%) !important;
       @include s1-s3 {
-        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.516) 0%, $color-white 55%) !important;
+        background-image: linear-gradient(to bottom, transparent 30%, $color-white 95%) !important;
       }
     }
     .img {
@@ -120,5 +129,78 @@
   .card-text {
     overflow: hidden; /* Очищення float */
     padding-bottom: 20px;
+  }
+}
+
+.switch-container {
+  @include flex-box;
+  height: auto;
+  width: 100%;
+  justify-content: flex-start;
+  z-index: 40;
+  position: sticky;
+  top: 0;
+  justify-content: space-around !important;
+  background-color: $color-white;
+
+  .switch-btn-group {
+    @include flex-box-column;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 40px;
+  }
+
+  .btn-menu {
+    @include flex-box-column;
+    flex: 1;
+  }
+
+  .btn {
+    @include flex-box-column;
+    position: relative;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    transition: 1s;
+    &:hover {
+      transform: scale(1.1);
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+      .t-min {
+        color: $color-accent;
+      }
+    }
+    @include s1-s3 {
+      flex: 1;
+      width: 50px;
+    }
+    &.active {
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+      .t-min {
+        color: $color-accent;
+      }
+      font-weight: bold;
+      filter: drop-shadow(0px 0px 2px $color-accent);
+    }
+    &:disabled {
+      .fa-regular,
+      .fa-solid {
+        color: $color-gray;
+      }
+    }
+    .fa-solid,
+    .fa-regular {
+      font-size: 30px;
+    }
   }
 }

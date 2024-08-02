@@ -5,6 +5,7 @@
 .menu {
   overflow: auto;
   height: calc(100vh - 80px);
+  padding: 20px 0px 0px 20px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -16,12 +17,10 @@
   align-items: flex-end;
   flex-direction: column;
   width: 100%;
-  overflow: hidden;
   .category {
     @include flex-box-center;
     width: 100%;
     z-index: 105;
-    overflow: hidden;
     &.active {
       background-color: $color-white;
       color: $color-accent;
@@ -39,7 +38,10 @@
     width: 80%;
     .subcategory {
       height: auto;
-      padding: 5px;
+      margin: 0px 10px 5px 0px;
+      &.active {
+        margin: 0px 0px 5px 0px;
+      }
     }
   }
 }
@@ -47,12 +49,10 @@
 .link-item {
   @include flex-box-center;
   @include box-shadow;
-  height: 8vh;
+  height: 6vh;
   min-height: 50px;
-  padding: 15px;
   justify-content: space-between;
-  margin: 0;
-  margin-bottom: 5px;
+  margin: 0px 0px 5px 0px;
   position: relative;
   background-color: transparent;
   font-weight: 600;
@@ -61,7 +61,7 @@
   width: 100%;
   border-radius: 20px;
   background-color: $color-white;
-
+  padding: 10px;
   .fa-solid,
   .fa-regular,
   .t-med,
@@ -99,6 +99,12 @@
   &.active {
     background-color: $color-accent;
     color: $color-accent;
+    border-radius: 20px 0px 0px 20px;
+
+    &:hover {
+      transform: none;
+    }
+
     @include box-shadow-a;
     .fa-solid,
     .fa-regular,

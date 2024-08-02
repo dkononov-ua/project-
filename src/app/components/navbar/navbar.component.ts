@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   menuStatus: boolean = false;
   menuIndex: number = 0;
   disabledBtn: boolean = false;
-
+  user_router: boolean = false;
   toggleAllMenu(index: number) {
     this.menuStatus = !this.menuStatus
     this.menuService.toogleMenu(this.menuStatus, index)
@@ -82,18 +82,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.isHomePage = this.location.path() === '';
+    ).subscribe((event: NavigationEnd) => {
+      this.currentLocation = event.urlAfterRedirects;
       this.checkLocation();
     });
+    this.currentLocation = this.location.path();
+    this.checkRouter();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
     this.getStatusMenu();
   }
 
+  async checkRouter(): Promise<void> {
+    if (this.currentLocation.includes('/user')) {
+      this.user_router = true;
+    } else {
+      this.user_router = false;
+    }
+  }
+
   async checkLocation(): Promise<void> {
-    this.currentLocation = this.location.path();
     if (this.currentLocation.includes('/discussio-search')) {
       this.page_title = 'Пошук'
       this.page_description = 'Осель & Орендарів'
@@ -116,11 +125,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.page_title = 'Редагування'
       this.page_description = 'Статуси'
     } else if (this.currentLocation.includes('/user/edit/looking')) {
-      this.page_title = 'Профіль'
+      this.page_title = 'Редагування'
       this.page_description = 'Орендаря'
     } else if (this.currentLocation.includes('/user/edit/delete')) {
       this.page_title = 'Видалення'
       this.page_description = 'Аккаунту'
+    } else if (this.currentLocation.includes('/user/tenant')) {
+      this.page_title = 'Профіль'
+      this.page_description = 'Орендаря'
+    } else if (this.currentLocation.includes('/user/agree/menu')) {
+      this.page_title = 'Угоди'
+      this.page_description = 'Меню'
+    } else if (this.currentLocation.includes('/user/agree/step')) {
+      this.page_title = 'Угоди'
+      this.page_description = 'Пояснення'
+    } else if (this.currentLocation.includes('/user/agree/rewiew')) {
+      this.page_title = 'Угоди'
+      this.page_description = 'Запропоновані'
+    } else if (this.currentLocation.includes('/user/agree/concluded')) {
+      this.page_title = 'Угоди'
+      this.page_description = 'Ухвалені'
     } else {
       this.page_title = 'Discussio'
       this.page_description = "Об'єднуємо орендарів та орендодавців"

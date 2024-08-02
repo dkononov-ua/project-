@@ -1,5 +1,5 @@
 <div class="content-component">
-  <div class="switch-container">
+  <div class="switch-container" *ngIf="isMobile">
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
@@ -32,43 +32,7 @@
 
   <div class="main-container">
 
-    <div class="card-wrapper col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!isMobile">
-
-      <div [@right1] class="card-content">
-
-        <div class="flex-box-center t-c p-2 mt-2 w-100">
-          <i class="fa-regular fa-heart"></i>
-          <p class="t-lar-x bold">Меню вподобані оселі</p>
-          <p class="t-min">Список оселей які вам сподобались і ви на них підписались.</p>
-        </div>
-
-        <ul class="t-med mt-2 t-s">
-          <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-          <li>Перегляд інформації про оселю.</li>
-          <li>Видалення підписки.</li>
-          <li>Перегляд локації.</li>
-        </ul>
-
-        <div class="flex-box-center t-c p-2 mt-2">
-          <p class="t-med bold">Підписуватись на оселі можна в пошуку оселей</p>
-          <p class="t-med bold">Після того як вас ухвалять, оселя з'явиться в меню Дискусії там будуть вже доступні
-            контакти та відкриється більше функцій</p>
-        </div>
-
-        <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Підписки' }">
-          Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-        </button>
-
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-content">
-        <app-cards-list></app-cards-list>
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+    <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12" *ngIf="!isMobile">
       <div [@appearance] class="card-animation" *ngIf="chosenFlat">
         <div class="btn-close-container">
           <div class="btn-close-box">
@@ -84,6 +48,12 @@
         <div [@appearance] class="status-subscription bg-transparent">
           <div class="status-text p-2 t-c">Оберіть <br> оселю</div>
         </div>
+      </div>
+    </div>
+
+    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+      <div class="card-content">
+        <app-cards-list></app-cards-list>
       </div>
     </div>
 

@@ -14,7 +14,7 @@
     </div>
 
     <div class="switch-btn-group">
-      <button [disabled]="!authorization" class="btn" [routerLink]="'/subscriptions-user'">
+      <button [disabled]="!authorization" class="btn" [routerLink]="'/user/discus/subscriptions'">
         <i class="fa-regular fa-heart"></i>
         <div class="t-min bold">Вподоб.</div>
         <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">

@@ -355,6 +355,8 @@
     margin-top: 1rem;
 
     @include s1-s3 {
+      height: calc(100vh - 60px);
+
       justify-content: space-around !important;
       background-image: linear-gradient(to top, transparent 0%, rgba(255, 255, 255, 0.791) 40%) !important;
     }

@@ -38,11 +38,6 @@ const routes: Routes = [
     canActivate: [CanActivateGuard]
   },
   {
-    path: 'discus',
-    loadChildren: () => import('./discussi/discussio-user/discussio.module').then(m => m.DiscussioModule),
-    canActivate: [CanActivateGuard]
-  },
-  {
     path: 'discussio-house',
     loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule),
     canActivate: [CanActivateGuard]
@@ -94,6 +89,10 @@ const routes: Routes = [
     component: AboutProjectComponent
   },
   {
+    path: 'about-project',
+    component: AboutProjectComponent
+  },
+  {
     path: 'our-team',
     component: OurTeamComponent
   },
@@ -105,6 +104,7 @@ const routes: Routes = [
     path: 'blog/:title',
     component: PostDetailComponent
   }
+
 ];
 
 @NgModule({

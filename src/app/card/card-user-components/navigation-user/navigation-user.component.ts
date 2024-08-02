@@ -67,7 +67,7 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   isMobile: boolean = false;
   subscriptions: any[] = [];
   authorization: boolean = false;
-  section: boolean[] = [false, false, false, false, false, false, false];
+  section: boolean[] = [false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
 
   constructor(
@@ -113,12 +113,14 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
       this.setSection(2);
     } else if (this.currentLocation.includes('/user/tenant')) {
       this.setSection(3);
-    } else if (this.currentLocation.includes('/search-house')) {
+    } else if (this.currentLocation.includes('/user/discus')) {
       this.setSection(4);
     } else if (this.currentLocation.includes('/chat-user')) {
       this.setSection(5);
     } else if (this.currentLocation.includes('/user/edit')) {
       this.setSection(6);
+    } else if (this.currentLocation.includes('/user/search')) {
+      this.setSection(7);
     } else {
       this.setSection(-1); // вимикає всі секції, якщо шлях не відповідає жодному з умов
     }

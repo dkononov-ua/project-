@@ -1,4 +1,4 @@
-<div class="menu p-2">
+<div class="menu">
 
   <div class="category-container">
     <div class="category">
@@ -6,8 +6,8 @@
         [routerLinkActive]="'active'" [routerLink]="'/user/info'">
         <i class="fa-regular fa-circle-user"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Мій аккаунт</p>
-          <p class="t-min">Ваш профіль користувача</p>
+          <p class="t-med">Дії аккаунту</p>
+          <p class="t-min">Інфо користувача</p>
         </div>
       </a>
       <button *ngIf="!section[1]" [@appearance] [ngClass]="{'active': section[1]}" class="link-btn"
@@ -16,6 +16,15 @@
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[1]">
+
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+        <i class="fa-solid fa-id-badge"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Профіль</p>
+          <p class="t-min">Користувача</p>
+        </div>
+      </a>
 
       <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData">
@@ -31,7 +40,7 @@
         <i class="fa-solid fa-gears"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Редагувати</p>
-          <p class="t-min">Профіль</p>
+          <p class="t-min">Аккаунт</p>
         </div>
       </a>
 
@@ -40,7 +49,7 @@
         <i class="fa-solid fa-door-open"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Вийти</p>
-          <p class="t-min">Вийти з аккаунту</p>
+          <p class="t-min">З аккаунту</p>
         </div>
       </button>
 
@@ -53,8 +62,8 @@
         [routerLinkActive]="'active'" [routerLink]="'/user/agree'">
         <i class="fa-solid fa-envelope-open-text"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Меню угод</p>
-          <p class="t-min">Пояснення/Запропоновані/Укладені</p>
+          <p class="t-med">Угоди</p>
+          <p class="t-min">Орендаря</p>
         </div>
       </a>
       <button *ngIf="!section[2]" [@appearance] [ngClass]="{'active': section[2]}" class="link-btn"
@@ -66,37 +75,37 @@
 
       <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/menu'" *ngIf="section[2]">
-        <i class="fa-solid fa-circle-info"></i>
+        <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Що таке угода?</p>
+          <p class="t-med">Що це таке?</p>
           <p class="t-min">Про функцію</p>
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'" *ngIf="section[2]">
         <i class="fa-solid fa-shoe-prints"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Пояснення</p>
-          <p class="t-min">Як отримати угоду</p>
-        </div>
-      </a>
-
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree/rewiew'" *ngIf="section[2]">
-        <i class="fa-solid fa-hourglass-half"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Запропоновані</p>
-          <p class="t-min">Угоди які вам запропонували</p>
+          <p class="t-med">Як отримати?</p>
+          <p class="t-min">Пояснення</p>
         </div>
       </a>
 
       <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/user/agree/rewiew'" *ngIf="section[2]">
+        <i class="fa-solid fa-hourglass-half"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Запропоновані</p>
+          <p class="t-min">Угоди</p>
+        </div>
+      </a>
+
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" *ngIf="section[2]">
         <i class="fa-solid fa-file-circle-check"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Ухвалені Угоди</p>
-          <p class="t-min">Угоди які ви підтвердили</p>
+          <p class="t-med">Ухвалені </p>
+          <p class="t-min">Угоди</p>
         </div>
       </a>
 
@@ -109,8 +118,8 @@
         [routerLinkActive]="'active'" [routerLink]="'/user/tenant'">
         <i class="fa-solid fa-person-hiking"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Профіль Орендаря</p>
-          <p class="t-min">Пояснення/Редагування</p>
+          <p class="t-med">Профіль</p>
+          <p class="t-min">Орендаря</p>
         </div>
       </a>
       <button *ngIf="!section[3]" [@appearance] [ngClass]="{'active': section[3]}" class="link-btn"
@@ -124,23 +133,23 @@
         <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Що це таке?</p>
-          <p class="t-min">Профіль орендаря</p>
+          <p class="t-min">Про функцію</p>
         </div>
       </a>
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/tenant-step'" *ngIf="section[3]">
         <i class="fa-solid fa-shoe-prints"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Пояснення</p>
-          <p class="t-min">Як активувати оголошення</p>
+          <p class="t-med">Як активувати?</p>
+          <p class="t-min">Пояснення</p>
         </div>
       </a>
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" *ngIf="section[3]">
         <i class="fa-solid fa-gears"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Редагування</p>
-          <p class="t-min">Профіль орендаря</p>
+          <p class="t-med">Налаштування</p>
+          <p class="t-min">Профілю</p>
         </div>
       </a>
     </div>
@@ -149,11 +158,11 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/search-house'">
-        <i class="fa-solid fa-magnifying-glass"></i>
+        [routerLinkActive]="'active'" [routerLink]="'/user/discus'">
+        <i class="fa-solid fa-signs-post"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Пошук Оселі</p>
-          <p class="t-min">Відкрити пошук осель</p>
+          <p class="t-med">Підписки</p>
+          <p class="t-min">Та Дискусії</p>
         </div>
       </a>
       <button *ngIf="!section[4]" [@appearance] [ngClass]="{'active': section[4]}" class="link-btn"
@@ -162,30 +171,40 @@
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[4]">
+
       <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/subscriptions-user'" *ngIf="section[4]">
-        <i class="fa-regular fa-heart pl-2"></i>
+        [routerLinkActive]="'active'" [routerLink]="'/user/discus/about'" *ngIf="section[4]">
+        <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Вподобані</p>
-          <p class="t-min">Оселі на які ви підписані</p>
+          <p class="t-med">Що це таке?</p>
+          <p class="t-min">Про систему</p>
         </div>
       </a>
 
       <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/subscribers-user'" *ngIf="section[4]">
-        <i class="fa-solid fa-house-fire pl-2"></i>
+        [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" *ngIf="section[4]">
+        <i class="fa-regular fa-heart pl-2"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Запропоновані</p>
-          <p class="t-min">Оселі які підписані на вас</p>
+          <p class="t-med">Вподобані</p>
+          <p class="t-min">Мої підписки</p>
         </div>
       </a>
 
       <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/subscribers-discuss'" *ngIf="section[4]">
+        [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" *ngIf="section[4]">
+        <i class="fa-solid fa-house-fire pl-2"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Запропоновані</p>
+          <p class="t-min">Мої пропозиції</p>
+        </div>
+      </a>
+
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" *ngIf="section[4]">
         <i class="fa-solid fa-person-walking-luggage"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Дискусії</p>
-          <p class="t-min">Оселі з якими я в Дискусії</p>
+          <p class="t-min">Мої дискусії</p>
         </div>
       </a>
     </div>
@@ -198,7 +217,7 @@
         <i class="fa-solid fa-message"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Повідомлення</p>
-          <p class="t-min">Відкрити пошук осель</p>
+          <p class="t-min">Чати користувача</p>
         </div>
       </a>
       <button *ngIf="!section[5]" [@appearance] [ngClass]="{'active': section[5]}" class="link-btn"
@@ -216,8 +235,8 @@
         [routerLinkActive]="'active'" [routerLink]="'/user/edit'">
         <i class="fa-solid fa-gears"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med">Редагувати</p>
-          <p class="t-min">Налаштування профілю</p>
+          <p class="t-med">Редагування</p>
+          <p class="t-min">Всі налаштування</p>
         </div>
       </a>
       <button *ngIf="!section[6]" [@appearance] [ngClass]="{'active': section[6]}" class="link-btn"
@@ -246,7 +265,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/status'">
         <i class="fa-solid fa-sliders"></i>
         <div class="flex-column pl-2 t-e">
@@ -255,7 +274,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'">
         <i class="fa-solid fa-person-hiking"></i>
         <div class="flex-column pl-2 t-e">
@@ -264,7 +283,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/delete'">
         <i class="fa-solid fa-user-minus"></i>
         <div class="flex-column pl-2 t-e">
@@ -273,18 +292,53 @@
         </div>
       </a>
 
-
-
     </div>
   </div>
 
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/user/search'">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Пошук</p>
+          <p class="t-min">Discussio Пошук</p>
+        </div>
+      </a>
+      <button *ngIf="!section[7]" [@appearance] [ngClass]="{'active': section[7]}" class="link-btn"
+        (click)="setSection(7)">
+        <i [ngClass]="section[7] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+      </button>
+    </div>
+    <div class="subcategory-container" *ngIf="section[7]">
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/user/search/house'" *ngIf="section[7]">
+        <i class="fa-solid fa-house-flag"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Пошук </p>
+          <p class="t-min">Оселі</p>
+        </div>
+      </a>
 
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/user/search/tenant'" *ngIf="section[7]">
+        <i class="fa-solid fa-child-reaching"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Пошук</p>
+          <p class="t-min">Орендаря</p>
+        </div>
+      </a>
 
+      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/user/search/neighbor'" *ngIf="section[7]">
+        <i class="fa-solid fa-restroom"></i>
+        <div class="flex-column pl-2 t-e">
+          <p class="t-med">Пошук</p>
+          <p class="t-min">Сусіда</p>
+        </div>
+      </a>
 
-
-
-
-
-
+    </div>
+  </div>
 
 </div>

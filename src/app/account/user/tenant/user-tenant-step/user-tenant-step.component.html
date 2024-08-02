@@ -1,4 +1,4 @@
-<div class="content-info p-3">
+<div class="content-info p-2">
   <div [@right] class="t-lar t-c ">
     <p class="bold t-c">Покроково як створити <br> та активувати профіль орендаря.</p>
   </div>
@@ -6,13 +6,13 @@
   <div [@right] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 1</div>
-      <div class="t-min t-c p-1">Оберіть для кого шукаєте оселю.
+      <div class="t-med t-c p-1">Оберіть для кого шукаєте оселю.
         Область та місто це обов'язково*.
         Оберіть причину оренди, стан оселі, формат. Опишіть сусіда по оселі.</div>
     </div>
 
     <button class="link-t w-30 flex-column">
-      <span class="ml-2 t-min">Мета & Локація</span>
+      <span class="ml-2 t-med white">Мета & Локація</span>
       <i class="fa-solid fa-tree-city ml-2"></i>
     </button>
   </div>
@@ -20,14 +20,14 @@
   <div [@right1] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 2</div>
-      <div class="t-min t-c p-1">Опишіть параметри оселі.
+      <div class="t-med t-c p-1">Опишіть параметри оселі.
         Доступність інфраструктури.
         Чи важливо вам знайти оселі з укриттям
         Вкажіть чи є у вас домашні улюбленці</div>
     </div>
 
     <button class="link-t w-30 flex-column">
-      <span class="ml-2 t-min">Параметри & Особливості</span>
+      <span class="ml-2 t-med white">Параметри & Особливості</span>
       <i class="fa-solid fa-street-view ml-2"></i>
     </button>
   </div>
@@ -35,25 +35,35 @@
   <div [@right2] class="item-box mb-2">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 3</div>
-      <div class="t-min t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
+      <div class="t-med t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
         Вкажіть термін. Визначте свій бюджет. Додаткові побажання.</div>
     </div>
 
     <button class="link-t w-30 flex-column">
-      <span class="ml-2 t-min">Оплата & терміни</span>
+      <span class="ml-2 t-med white">Оплата & терміни</span>
       <i class="fa-solid fa-magnifying-glass-dollar ml-2"></i>
     </button>
   </div>
 
-  <button class="btn-feedback w-100" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль орендаря' }">
-    Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-  </button>
+  <a [@top1] class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль орендаря' }">
+    <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+    </div>
+  </a>
 
-  <div class="btg-group jc-c w-100 d-flex">
-    <button class="b-primary">
-      <i class="fa-solid fa-arrow-right pr-2"></i>
-      <div class="t-med bold">Почати!</div>
-    </button>
+  <div class="btn-group jc-c">
+    <a [@top] class="b-primary m-2 b-shadow jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/tenant'">
+      <i class="fa-solid fa-circle-arrow-left"></i>
+      <div class="flex-column pl-2">
+        <p class="t-med white bold">Назад</p>
+      </div>
+    </a>
+    <a [@top] class="b-primary m-2 b-shadow jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'">
+      <div class="flex-column pl-2">
+        <p class="t-med white bold">Розмістити </p>
+        <p class="t-med white bold">Оголошення</p>
+      </div>
+      <i class="fa-solid fa-circle-arrow-right"></i>
+    </a>
   </div>
 
 </div>

@@ -1,0 +1,70 @@
+<div [@bot] class="container-info">
+
+  <div class="info-content">
+    <div class="img-wrapper">
+      <img class="img" src="./../../../../assets/menu/search-house.png" alt="Menu Image" loading="lazy">
+      <div class="blure"></div>
+    </div>
+
+    <div class="info-wrapper mt-2">
+      <div class="info">
+        <i class="fa-solid fa-house-flag"></i>
+        <p class="t-lar-x bold mb-2">Як це працює?</p>
+
+        <h1 class="t-c">Пошук оселі</h1>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/search-house'">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Пошук</p>
+            <p class="t-min white">Перейти до пошуку</p>
+          </div>
+        </a>
+
+        <app-user-rent-progress></app-user-rent-progress>
+
+        <h2 class="t-med bold mb-2 t-c mt-2">В Діскусіо пошук осель відбувається з допомогою пошукових фільтрів, після
+          того
+          як ви знайшли потрібну оселю на неї потрібно підписатись.</h2>
+
+        <div class="img-wrapper2">
+          <img class="img" src="./../../../../assets/menu/search-house1.png" alt="Menu Image" loading="lazy">
+        </div>
+
+        <p class="t-med t-c mt-2"><strong>1 етап - Вподобані:</strong> На цьому етапі ви підписуєтесь на оселю яка вам
+          сподобалась і поки що не бачите інформації про її власника та його контакти, але показуєте йому свої дані для
+          того щоб він міг виріщити чи хоче він з вами перейти до дискусії.
+        </p>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'">
+          <i class="fa-regular fa-heart pl-2"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Вподобані</p>
+            <p class="t-min white">Оселі на які ви підписані</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c"><strong>2 етап - Дискусія:</strong> Тут ви зможете бачити інформацію власника оселі його
+          контакти та соціальні мережі. Також можете почати обговорення, укладати угоди та переглядати
+          статистику.
+        </p>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'">
+          <i class="fa-solid fa-person-walking-luggage"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Дискусії</p>
+            <p class="t-min white">Оселі з якими я в Дискусії</p>
+          </div>
+        </a>
+
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук оселі' }">
+          <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+          </div>
+        </a>
+
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+</div>

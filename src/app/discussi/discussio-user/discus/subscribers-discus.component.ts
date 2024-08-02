@@ -175,7 +175,7 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.choseSubscribeService.removeChosenFlatId();
       this.cardsDataService.removeCardData();
-    }, 100);
+    }, 200);
   }
 }
 

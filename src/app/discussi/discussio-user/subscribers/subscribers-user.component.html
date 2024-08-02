@@ -1,5 +1,5 @@
 <div class="content-component">
-  <div class="switch-container">
+  <div class="switch-container" *ngIf="isMobile">
 
     <div class="switch-btn-group">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
@@ -33,43 +33,7 @@
 
   <div class="main-container">
 
-    <div class="card-wrapper col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!isMobile">
-      <div [@right1] class="card-content">
-
-        <div class="flex-box-center t-c p-2 mt-2 w-100">
-          <i class="fa-solid fa-house-fire"></i>
-          <p class="t-lar-x bold">Меню запропоновані оселі</p>
-          <p class="t-min">Власники які підписались на вас і пропонують вам свою оселю.</p>
-        </div>
-
-        <span class="t-lar t-c bold p-3">Тут доступні такі можливості:</span>
-        <ul class="t-med mt-2 gray t-s">
-          <li><i class="fa-regular fa-building p-2"></i>Перегляд інформації про оселю. </li>
-          <li><i class="fa-solid fa-child-reaching p-2"></i>Перегляд вудгуків та рейтингу власника. </li>
-          <li><i class="fa-solid fa-location-dot p-2"></i>Перегляд локації оселі.</li>
-          <li><i class="fa-solid fa-user-xmark p-2"></i>Відхилення пропозиції. </li>
-          <li><i class="fa-regular fa-thumbs-up p-2"></i>Ухвалення до дискусії. </li>
-        </ul>
-
-        <div class="flex-box-center t-c p-2 mt-2">
-          <p class="t-med bold">Отримати пропозицію можна коли на вас підпишуться оселі в меню "Пошук орендаря".</p>
-          <p class="t-med bold">Після вашого ухвалення, оселя з'явиться в меню Дискусії.</p>
-        </div>
-
-        <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Підписники' }">
-          Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-        </button>
-
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-content">
-        <app-cards-list></app-cards-list>
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+    <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12" *ngIf="!isMobile">
       <div [@appearance] class="card-animation" *ngIf="chosenFlat">
         <div class="btn-close-container">
           <div class="btn-close-box">
@@ -85,6 +49,12 @@
         <div [@appearance] class="status-subscription bg-transparent">
           <div class="status-text p-2 t-c">Оберіть <br> оселю</div>
         </div>
+      </div>
+    </div>
+
+    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+      <div class="card-content">
+        <app-cards-list></app-cards-list>
       </div>
     </div>
 

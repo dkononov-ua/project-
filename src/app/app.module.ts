@@ -5,7 +5,6 @@ import { HousingParametersModule } from './account-edit/house/housing-parameters
 import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
 import { SearchRoutingModule } from './search/search-routing.module';
 import { SearchModule } from './search/search.module';
-import { DiscussioRoutingModule } from './discussi/discussio-user/discussio-routing.module';
 import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
 import { SelectedFlatService } from './services/selected-flat.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -66,6 +65,11 @@ import { StatusMessageComponent } from './components/status-message/status-messa
 import { StatusMessageService } from './services/status-message.service';
 import { CardsDataService } from './services/user-components/cards-data.service';
 import { PostsComponent } from './pages/posts/posts.component';
+import { UserDiscussPageComponent } from './pages/user-discuss-page/user-discuss-page.component';
+import { SearchHousePageComponent } from './pages/search-user-host/search-house-page/search-house-page.component';
+import { SearchUserHostComponent } from './pages/search-user-host/search-user-host.component';
+import { SearchTenantPageComponent } from './pages/search-user-host/search-tenant-page/search-tenant-page.component';
+import { SearchNeighborPageComponent } from './pages/search-user-host/search-neighbor-page/search-neighbor-page.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +94,13 @@ import { PostsComponent } from './pages/posts/posts.component';
     NewsLineComponent,
     StatusMessageComponent,
     PostsComponent,
+    UserDiscussPageComponent,
+
+    SearchUserHostComponent,
+    SearchHousePageComponent,
+    SearchTenantPageComponent,
+    SearchNeighborPageComponent,
+    
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -131,7 +142,6 @@ import { PostsComponent } from './pages/posts/posts.component';
     HousingParametersRoutingModule,
     SearchModule,
     SearchRoutingModule,
-    DiscussioRoutingModule,
     DiscussioHouseRoutingModule,
     AuthModule,
     AuthRoutingModule], providers: [

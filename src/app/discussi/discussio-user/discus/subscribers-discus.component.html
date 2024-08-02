@@ -1,5 +1,5 @@
 <div class="content-component">
-  <div class="switch-container">
+  <div class="switch-container" *ngIf="isMobile">
 
     <div class="switch-btn-group">
       <button class="btn" [routerLink]="'/user/info'">
@@ -33,51 +33,7 @@
 
   <div class="main-container">
 
-    <div class="card-wrapper col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="!isMobile">
-      <div [@right1] class="card-content">
-
-        <div class="flex-box-center t-c p-2 mt-2 w-100">
-          <i class="fa-solid fa-person-walking-luggage"></i>
-          <p class="t-lar-x bold">Меню дискусії користувача</p>
-          <p class="t-min">Оселі які ви ухвалили або вони вас. З ними доступні додаткові можливості.</p>
-        </div>
-
-        <ul class="t-med mt-2 t-s">
-          <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-          <li>Перегляд контактної інформації.</li>
-          <li>Рейтинг власника.</li>
-          <li>Соціальні мережі власника.</li>
-          <li>Статистичні дані по комунальним.</li>
-          <li>Створення чату.</li>
-          <li>Створення шаблону угоди.</li>
-        </ul>
-
-        <div class="flex-box-center t-c p-2 mt-2">
-          <p class="t-med bold">Отримати Дискусії можна ухваливши користувача з пропозицій</p>
-          <p class="t-med bold">Або якщо ви підписались на оселю і вас ухвалили.</p>
-        </div>
-
-        <div class="btn-group">
-          <button class="b-primary" [routerLink]="'/subscribers-user'">
-            <i class="fa-solid fa-arrow-right pr-2"></i>
-            <div class="t-med bold">Меню пропозицій</div>
-          </button>
-        </div>
-
-        <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Дискусії' }">
-          Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-        </button>
-
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-4 col-md-4 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-content">
-        <app-cards-list></app-cards-list>
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+    <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12" *ngIf="!isMobile">
       <div [@appearance] class="card-animation" *ngIf="chosenFlat">
         <div class="btn-close-container">
           <div class="btn-close-box">
@@ -119,6 +75,12 @@
         <div [@appearance] class="status-subscription bg-transparent">
           <div class="status-text p-2 t-c">Оберіть <br> оселю</div>
         </div>
+      </div>
+    </div>
+
+    <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
+      <div class="card-content">
+        <app-cards-list></app-cards-list>
       </div>
     </div>
 

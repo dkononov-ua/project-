@@ -196,22 +196,22 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
 
   // Видалення карток
   async deleteSubscriber(flat: any): Promise<void> {
-    if (this.currentLocation === '/subscribers-discuss') {
+    if (this.currentLocation === '/user/discus/discussion') {
       this.cardsDataService.deleteFlatSub(flat, 'discussio');
-    } else if (this.currentLocation === '/subscribers-user') {
+    } else if (this.currentLocation === '/user/discus/subscribers') {
       this.cardsDataService.deleteFlatSub(flat, 'subscribers');
-    } else if (this.currentLocation === '/subscriptions-user') {
+    } else if (this.currentLocation === '/user/discus/subscriptions') {
       this.cardsDataService.deleteFlatSub(flat, 'subscriptions');
     }
     this.cardsDataService.getResultDeleteFlatSubject().subscribe(result => {
       if (result.status === true) {
-        if (this.currentLocation === '/subscribers-discuss') {
+        if (this.currentLocation === '/user/discus/discussion') {
           this.sharedService.setStatusMessage('Дискусію видалено');
           this.cardsDataService.getSubInfo(0);
-        } else if (this.currentLocation === '/subscribers-user') {
+        } else if (this.currentLocation === '/user/discus/subscribers') {
           this.sharedService.setStatusMessage('Підписника видалено');
           this.cardsDataService.getSubInfo(0);
-        } else if (this.currentLocation === '/subscriptions-user') {
+        } else if (this.currentLocation === '/user/discus/subscriptions') {
           this.sharedService.setStatusMessage('Підписку видалено');
           this.cardsDataService.getSubInfo(0);
         }
@@ -301,7 +301,7 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Переходимо до Дискусії');
             setTimeout(() => {
-              this.router.navigate(['/subscribers-discuss']);
+              this.router.navigate(['/user/discus/discussion']);
               this.sharedService.setStatusMessage('');
             }, 1000);
           }, 2000);

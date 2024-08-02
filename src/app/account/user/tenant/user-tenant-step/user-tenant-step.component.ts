@@ -12,6 +12,8 @@ import { animations } from '../../../../interface/animation';
     animations.right3,
     animations.right4,
     animations.swichCard,
+    animations.top,
+    animations.top1,
   ],
 })
 export class UserTenantStepComponent implements OnInit {

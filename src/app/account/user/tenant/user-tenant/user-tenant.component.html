@@ -6,13 +6,14 @@
       <div class="blure"></div>
     </div>
 
-    <div class="info-wrapper mt-2 p-2">
+    <div class="info-wrapper mt-2">
       <div class="info">
         <i class="fa-solid fa-person-hiking"></i>
         <p class="t-lar-x bold mb-2">Профіль орендаря</p>
-        <p class="t-med bold mb-2 t-c">Наша платформа дозволяє створювати та розміщювати оголошення орендарів про пошук
-          оселі.</p>
-        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'">
+        <h1 class="t-c">Створення та розміщення оголошень про пошук житла</h1>
+        <h2 class="t-med bold mb-2 t-c">Наша платформа дозволяє створювати та розміщювати оголошення орендарів про пошук
+          оселі.</h2>
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/tenant-step'">
           <i class="fa-solid fa-shoe-prints"></i>
           <div class="flex-column pl-2 t-e">
             <p class="t-med white">Пояснення</p>
@@ -21,38 +22,24 @@
         </a>
         <p class="t-med t-c"> Ви детально можете описати всі ваші побажання стосовно нової оселі. Вказати свої
           особливості. Та розмістити оголошення!</p>
-        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/agree/rewiew'">
-          <i class="fa-solid fa-hourglass-half"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-med white">Запропоновані</p>
-            <p class="t-min white">Угоди які вам запропонували</p>
+        <a class="b-primary m-2 b-shadow jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'">
+          <i class="fa-solid fa-circle-arrow-right"></i>
+          <div class="flex-column pl-2">
+            <p class="t-med white bold">Розмістити </p>
+            <p class="t-med white bold">Оголошення</p>
           </div>
         </a>
         <p class="t-med t-c">Після налаштування та активації профілю ваше оголошення буде доступне в пошуку орендарів.
           Користувачі у який є профіль оселі зможуть на вас підписуватись.
         </p>
-        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'">
-          <i class="fa-solid fa-file-circle-check"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-med white">Ухвалені Угоди</p>
-            <p class="t-min white">Угоди які ви підтвердили</p>
-          </div>
-        </a>
 
-        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль орендаря' }">
           <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
           </div>
         </a>
       </div>
       <app-footer></app-footer>
     </div>
-  </div>
-
-  <div [@top1] class="btn-group mb-2" *ngIf="isMobile">
-    <a class="btn" [routerLink]="''">
-      <i class="fa-solid fa-arrow-left white pr-2"></i>
-      <div class="t-min white">Назад</div>
-    </a>
   </div>
 
 </div>

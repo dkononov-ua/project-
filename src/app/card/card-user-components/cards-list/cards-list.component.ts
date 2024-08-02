@@ -122,7 +122,6 @@ export class CardsListComponent implements OnInit, OnDestroy {
   private getCardsData(): void {
     this.subscriptions.push(
       this.cardsDataService.cardsData$.subscribe(data => {
-        // console.log(data)
         this.allCards = data;
       })
     );
@@ -132,7 +131,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
   private getCounterCards(): void {
     const currentLocation = this.location.path();
     // Якщо я в Дискусії
-    if (currentLocation === '/subscribers-discuss') {
+    if (currentLocation === '/user/discus/discussion') {
       this.counterService.getUserDiscussioCount();
       this.subscriptions.push(
         this.counterService.counterUserDiscussio$.subscribe(data => {
@@ -140,7 +139,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
         })
       );
       // Якщо я в Підписниках
-    } else if (currentLocation === '/subscribers-user') {
+    } else if (currentLocation === '/user/discus/subscribers') {
       this.counterService.getUserSubscribersCount();
       this.subscriptions.push(
         this.counterService.counterUserSubscribers$.subscribe(data => {
@@ -148,7 +147,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
         })
       );
       // Якщо я в Підписках
-    } else if (currentLocation === '/subscriptions-user') {
+    } else if (currentLocation === '/user/discus/subscriptions') {
       this.counterService.getUserSubscriptionsCount();
       this.subscriptions.push(
         this.counterService.counterUserSubscriptions$.subscribe(data => {

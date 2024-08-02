@@ -65,13 +65,13 @@ export class CardsDataService {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), offs: offs, };
     const currentLocation = this.location.path();
-    if (currentLocation === '/subscribers-discuss') {
+    if (currentLocation === '/user/discus/discussion') {
       this.linkPath = '/acceptsubs/get/ysubs';
     }
-    if (currentLocation === '/subscribers-user') {
+    if (currentLocation === '/user/discus/subscribers') {
       this.linkPath = '/usersubs/get/subs';
     }
-    if (currentLocation === '/subscriptions-user') {
+    if (currentLocation === '/user/discus/subscriptions') {
       this.linkPath = '/subs/get/ysubs';
     }
     // console.log(currentLocation)
@@ -144,13 +144,13 @@ export class CardsDataService {
       if (result === true && userJson && flat) {
         const data = { auth: JSON.parse(userJson), flat_id: flat.flat.flat_id, };
         const currentLocation = this.location.path();
-        if (currentLocation === '/subscribers-discuss') {
+        if (currentLocation === '/user/discus/discussion') {
           this.linkPath = '/acceptsubs/delete/ysubs';
         }
-        if (currentLocation === '/subscribers-user') {
+        if (currentLocation === '/user/discus/subscribers') {
           this.linkPath = '/usersubs/delete/ysubs';
         }
-        if (currentLocation === '/subscriptions-user') {
+        if (currentLocation === '/user/discus/subscriptions') {
           this.linkPath = '/subs/delete/ysubs';
         }
         try {

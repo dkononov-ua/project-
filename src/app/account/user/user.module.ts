@@ -25,7 +25,6 @@ import { UagreeHostComponent } from './agree-u/uagree-host/uagree-host.component
 import { UagreeStepComponent } from './agree-u/uagree-step/uagree-step.component';
 import { PreviewInfoComponent } from './preview-info/preview-info.component';
 import { UserComponent } from './user.component';
-import { SharedService } from 'src/app/services/shared.service';
 import { UserPageComponent } from './user-page/user-page.component';
 import { UserContactsComponent } from 'src/app/account-edit/user/user-contacts/user-contacts.component';
 import { UserLookingComponent } from 'src/app/account-edit/user/user-looking/user-looking.component';
@@ -35,6 +34,11 @@ import { UserStatusComponent } from 'src/app/account-edit/user/user-status/user-
 import { UserDeleteComponent } from 'src/app/account-edit/user/user-delete/user-delete.component';
 import { UserTenantComponent } from './tenant/user-tenant/user-tenant.component';
 import { UserTenantStepComponent } from './tenant/user-tenant-step/user-tenant-step.component';
+import { SubscribersDiscusComponent } from 'src/app/discussi/discussio-user/discus/subscribers-discus.component';
+import { SubscribersUserComponent } from 'src/app/discussi/discussio-user/subscribers/subscribers-user.component';
+import { SubscriptionsUserComponent } from 'src/app/discussi/discussio-user/subscriptions/subscriptions-user.component';
+import { DeleteSubsComponent } from 'src/app/discussi/discussio-user/delete/delete-subs.component';
+import { DiscusUserComponent } from 'src/app/discussi/discussio-user/discus-user/discus-user.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +58,13 @@ import { UserTenantStepComponent } from './tenant/user-tenant-step/user-tenant-s
     UserDeleteComponent,
     UserTenantComponent,
     UserTenantStepComponent,
+
+    SubscribersUserComponent,
+    SubscribersDiscusComponent,
+    SubscriptionsUserComponent,
+    DeleteSubsComponent,
+    DiscusUserComponent,
+
   ],
   providers: [
     DatePipe,
@@ -79,7 +90,6 @@ import { UserTenantStepComponent } from './tenant/user-tenant-step/user-tenant-s
     MatNativeDateModule,
     RouterModule,
     MatProgressSpinnerModule,
-
   ]
 })
 export class UserModule { }

@@ -75,6 +75,8 @@
   align-items: stretch;
   align-content: stretch;
   flex-wrap: wrap;
+  background-color: $color-white;
+  border-radius: 20px;
   .progress-wrapper {
     display: flex;
     padding: 5px;

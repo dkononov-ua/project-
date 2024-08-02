@@ -1,4 +1,4 @@
-<nav class="switch-container" >
+<nav class="switch-container">
 
   <!-- <div class="switch-btn-group" *ngIf="!isHomePage">
     <button class="btn" (click)="goBack()">
@@ -19,12 +19,12 @@
     <div class="menu-name">{{page_description}}</div>
   </button>
 
-  <!-- <div class="switch-btn-group">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/about-project'">
-      <i class="fa-solid fa-barcode"></i>
-      <div class="t-min">Discussio</div>
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+      <i class="fa-solid fa-blog"></i>
+      <div class="t-min">Блог</div>
     </a>
-  </div> -->
+  </div>
 
   <div class="switch-btn-group" *ngIf="!authorization">
     <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
@@ -54,7 +54,14 @@
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="authorization" (click)="toggleAllMenu(2)">
+  <div class="switch-btn-group" *ngIf="authorization && !user_router && !isMobile" (click)="toggleAllMenu(2)">
+    <a class="btn">
+      <i class="fa-regular fa-circle-user"></i>
+      <div class="t-min">Профіль</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(2)">
     <a class="btn">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
@@ -67,13 +74,5 @@
       <div class="t-min">Оселя</div>
     </a>
   </div>
-
-  <!-- <div class="switch-btn-group">
-    <app-navigation-user></app-navigation-user>
-  </div>
-
-  <div class="switch-btn-group">
-    <app-navigation-house></app-navigation-house>
-  </div> -->
 
 </nav>

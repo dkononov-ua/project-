@@ -90,9 +90,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   checkLocation() {
     // Якщо я в меню користувача
     if (
-      this.currentLocation === '/subscribers-discuss' ||
-      this.currentLocation === '/subscribers-user' ||
-      this.currentLocation === '/subscriptions-user'
+      this.currentLocation === '/user/discus/discussion' ||
+      this.currentLocation === '/user/discus/subscribers-user' ||
+      this.currentLocation === '/user/discus/subscriptions-user'
     ) {
       this.subscriptions.push(
         this.cardsDataService.cardData$.subscribe(async (data: any) => {
