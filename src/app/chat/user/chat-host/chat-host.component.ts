@@ -11,6 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
   templateUrl: './chat-host.component.html',
   styleUrls: ['./chat-host.component.scss'],
   animations: [
+    animations.top1,
     animations.top2,
     animations.left,
     animations.left1,
@@ -43,6 +44,7 @@ export class ChatHostComponent implements OnInit {
   isLoadingImg: boolean = false;
   choseFlatID: any;
   subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -51,14 +53,29 @@ export class ChatHostComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.getUserChats();
+    this.ifSubscriberSelect();
+    this.loading = false;
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
         this.serverPath = serverPath;
       })
     );
-    await this.getUserChats();
-    this.ifSubscriberSelect();
-    this.loading = false;
   }
 
   async ifSubscriberSelect() {
@@ -133,7 +150,6 @@ export class ChatHostComponent implements OnInit {
         this.selectedChat.isSelected = false;
       }
       this.selectedChat = chat;
-      console.log(this.selectedChat)
       chat.isSelected = true;
       this.indexPage = 1;
       this.onFlatSelect(chat);

@@ -8,6 +8,15 @@
       <h1 class="t-lar-xx"><strong>Пошук житла та оренда, пошук орендарів або сусідів.</strong></h1>
       <h2 class="t-lar-x">Все це ми хочемо зробити комфортним для Вас!</h2>
       <div class="btn-group">
+
+        <a class="b-primary m-2 jc-se" [routerLinkActive]="'active'" [routerLink]="'/looking'" *ngIf="!authorization">
+          <i class="fa-solid fa-bullhorn"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Шукаю житло</p>
+            <p class="t-min white">Розмістити оголошення</p>
+          </div>
+        </a>
+
         <a class="b-primary m-2" [routerLink]="'/about-project'">
           Про Discussio
           <i class="fa-regular fa-circle-right pl-2"></i>
@@ -39,13 +48,7 @@
             Зареєструватись
             <i class="fa-solid fa-right-to-bracket pl-2"></i>
           </a>
-          <a class="b-primary m-2" [routerLink]="'/looking'" *ngIf="!authorization">
-            Розмістити оголошення
-            <i class="fa-solid fa-right-to-bracket pl-2"></i>
-          </a>
         </div>
-
-
 
         <p class="t-med mt-2">Приєднуйтесь та <strong>підтримайте нас в соціальних мережах</strong>, це дуже важливо!
         </p>

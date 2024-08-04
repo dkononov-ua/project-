@@ -65,6 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   menuIndex: number = 0;
   disabledBtn: boolean = false;
   user_router: boolean = false;
+  
   toggleAllMenu(index: number) {
     this.menuStatus = !this.menuStatus
     this.menuService.toogleMenu(this.menuStatus, index)

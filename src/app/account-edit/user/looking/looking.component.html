@@ -44,7 +44,7 @@
           <li class="bold">Якщо потрібно опишіть себе або ваші додаткові побажання.</li>
         </ul>
 
-        <ul class="t-min accent m-2">Варіант оплати Безкоштовно
+        <ul class="t-med accent m-2">Варіант оплати Безкоштовно
           <li class="bold">Ми додали цей варіант для людей які потребають житла але не мають
             змоги за нього заплатити. Власники оселей можуть допомогти переселенцям або людям в скрутній
             ситуації. </li>
@@ -63,43 +63,43 @@
       </button>
     </div>
 
-    <div class="menu-box hide-mobile">
-      <div class="menu-lable">Орендаря</div>
-      <div class="menu-name">Профіль</div>
+    <div class="menu-box" (click)="onClickMenu(0)">
+      <div class="menu-lable">Discussio</div>
+      <div class="menu-name">Профіль Орендаря</div>
     </div>
 
-    <div class="switch-btn-group" *ngIf="isMobile">
+    <div class="switch-btn-group" *ngIf="!isMobile">
       <button class="btn" (click)="onClickMenu(0)" [ngClass]="{ 'active': indexPage === 0}">
         <i class="fa-solid fa-circle-info"></i>
-        <div class="t-min bold">Інфо</div>
+        <div class="t-min">Інфо</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" (click)="onClickMenu(1)" [ngClass]="{ 'active': indexPage == 1}">
         <i class="fa-solid fa-shoe-prints"></i>
-        <div class="t-min bold">Кроки</div>
+        <div class="t-min ">Кроки</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" (click)="onClickMenu(2)" [ngClass]="{ 'active': indexPage == 2}">
         <i class="fa-solid fa-1"></i>
-        <div class="t-min bold">Крок</div>
+        <div class="t-min">Крок</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" (click)="onClickMenu(3)" [ngClass]="{ 'active': indexPage == 3}">
         <i class="fa-solid fa-2"></i>
-        <div class="t-min bold">Крок</div>
+        <div class="t-min">Крок</div>
       </button>
     </div>
 
     <div class="switch-btn-group">
       <button class="btn" (click)="onClickMenu(4)" [ngClass]="{ 'active': indexPage == 4}">
         <i class="fa-solid fa-3"></i>
-        <div class="t-min bold">Крок</div>
+        <div class="t-min">Крок</div>
       </button>
     </div>
 
@@ -150,7 +150,7 @@
       <div class="card-content-static jc-c t-c w-100 p-2">
         <div [@right] class="t-lar">
           <p class="bold">Шлях по кроках. <br> Як активувати профіль орендаря.</p>
-          <div class="t-min gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено
+          <div class="t-med gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено
             в
             меню "пошук орендаря" та доступне для перегляду та підписки.</div>
         </div>
@@ -165,14 +165,14 @@
         <div [@right] class="item-box">
           <div class="item-d w-70">
             <div class="t-med gray bold">Крок 1</div>
-            <div class="t-min t-c p-1">Оберіть для кого шукаєте оселю.
+            <div class="t-med t-c p-1">Оберіть для кого шукаєте оселю.
               Область та місто це обов'язково*.
               Оберіть причину оренди, стан оселі, формат. Опишіть сусіда по оселі.</div>
           </div>
 
           <button class="link-t b-primary w-30 flex-column" (click)="changeStep(2)"
             [ngClass]="{ 'active': indexPage == 2}">
-            <span class="ml-2 t-min">Мета & Локація</span>
+            <span class="ml-2 t-med white">Мета & Локація</span>
             <i class="fa-solid fa-tree-city ml-2"></i>
           </button>
         </div>
@@ -180,7 +180,7 @@
         <div [@right1] class="item-box">
           <div class="item-d w-70">
             <div class="t-med gray bold">Крок 2</div>
-            <div class="t-min t-c p-1">Опишіть параметри оселі.
+            <div class="t-med t-c p-1">Опишіть параметри оселі.
               Доступність інфраструктури.
               Чи важливо вам знайти оселі з укриттям
               Вкажіть чи є у вас домашні улюбленці</div>
@@ -188,7 +188,7 @@
 
           <button class="link-t b-primary w-30 flex-column" (click)="changeStep(3)"
             [ngClass]="{ 'active': indexPage == 3}">
-            <span class="ml-2 t-min">Параметри & Особливості</span>
+            <span class="ml-2 t-med white">Параметри & Особливості</span>
             <i class="fa-solid fa-street-view ml-2"></i>
           </button>
         </div>
@@ -196,13 +196,13 @@
         <div [@right2] class="item-box">
           <div class="item-d w-70">
             <div class="t-med gray bold">Крок 3</div>
-            <div class="t-min t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
+            <div class="t-med t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
               Вкажіть термін. Визначте свій бюджет. Додаткові побажання.</div>
           </div>
 
           <button class="link-t b-primary w-30 flex-column" (click)="changeStep(4)"
             [ngClass]="{ 'active': indexPage == 4}">
-            <span class="ml-2 t-min">Оплата & терміни</span>
+            <span class="ml-2 t-med white">Оплата & терміни</span>
             <i class="fa-solid fa-magnifying-glass-dollar ml-2"></i>
           </button>
         </div>
@@ -238,11 +238,11 @@
               </button>
             </div>
 
-            <div [@right3] class="flex-group mb-2" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
-              <a class="b-primary bg-red" target="_blank"
-                href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
-                <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
-              </a>
+            <div class="btn-group jc-c w-100 d-flex">
+              <button class="b-primary" (click)="indexPage = 1">
+                <div class="t-med bold white">Далі</div>
+                <i class="fa-solid fa-arrow-right pl-2"></i>
+              </button>
             </div>
 
             <div class="gif-box t-c">
@@ -255,21 +255,28 @@
           <div class="card-content-static w-100 p-2">
             <div [@right] class="t-lar t-c p-2">
               <p class="bold">Шлях по кроках. <br> Як активувати профіль орендаря.</p>
-              <div class="t-min gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено
+              <div class="t-med gray t-c bold">Після виконання цих кроків та активації ваше оголошення буде розміщено
                 в
                 меню "пошук орендаря" та доступне для перегляду та підписки.</div>
+            </div>
+
+            <div [@right3] class="flex-group mb-2" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
+              <a class="b-primary bg-red" target="_blank"
+                href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
+                <span class="text m-2">Відеоінструкція</span><i class="fab fa-brands fa-youtube p-2"></i>
+              </a>
             </div>
 
             <div [@right] class="item-box">
               <div class="item-d w-70">
                 <div class="t-med gray bold">Крок 1</div>
-                <div class="t-min t-c p-1">Оберіть для кого шукаєте оселю.
+                <div class="t-med t-c p-1">Оберіть для кого шукаєте оселю.
                   Область та місто це обов'язково*.
                   Оберіть причину оренди, стан оселі, формат. Опишіть сусіда по оселі.</div>
               </div>
 
               <button class="link-t w-30 flex-column" (click)="changeStep(2)">
-                <span class="ml-2 t-min">Мета & Локація</span>
+                <span class="ml-2 t-med white">Мета & Локація</span>
                 <i class="fa-solid fa-tree-city ml-2"></i>
               </button>
             </div>
@@ -277,14 +284,14 @@
             <div [@right1] class="item-box">
               <div class="item-d w-70">
                 <div class="t-med gray bold">Крок 2</div>
-                <div class="t-min t-c p-1">Опишіть параметри оселі.
+                <div class="t-med t-c p-1">Опишіть параметри оселі.
                   Доступність інфраструктури.
                   Чи важливо вам знайти оселі з укриттям
                   Вкажіть чи є у вас домашні улюбленці</div>
               </div>
 
               <button class="link-t w-30 flex-column" (click)="changeStep(3)">
-                <span class="ml-2 t-min">Параметри & Особливості</span>
+                <span class="ml-2 t-med white">Параметри & Особливості</span>
                 <i class="fa-solid fa-street-view ml-2"></i>
               </button>
             </div>
@@ -292,25 +299,20 @@
             <div [@right2] class="item-box mb-2">
               <div class="item-d w-70">
                 <div class="t-med gray bold">Крок 3</div>
-                <div class="t-min t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
+                <div class="t-med t-c p-1">Оберіть тип оренди, подобово чи на тривалий термін.
                   Вкажіть термін. Визначте свій бюджет. Додаткові побажання.</div>
               </div>
 
               <button class="link-t w-30 flex-column" (click)="changeStep(4)">
-                <span class="ml-2 t-min">Оплата & терміни</span>
+                <span class="ml-2 t-med white">Оплата & терміни</span>
                 <i class="fa-solid fa-magnifying-glass-dollar ml-2"></i>
               </button>
             </div>
 
-            <button class="btn-feedback w-100" [routerLink]="'/feedback'"
-              [queryParams]="{ category: 'Профіль орендаря' }">
-              Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-            </button>
-
-            <div class="btg-group jc-c w-100 d-flex">
+            <div class="btn-group jc-c w-100 d-flex">
               <button class="b-primary" (click)="indexPage = 2">
-                <i class="fa-solid fa-arrow-right pr-2"></i>
-                <div class="t-med bold">Почати!</div>
+                <div class="t-med bold white">Почати!</div>
+                <i class="fa-solid fa-arrow-right pl-2"></i>
               </button>
             </div>
 
@@ -326,7 +328,7 @@
 
             <div class="flex-column t-c mt-2 p-2">
               <mat-label class="t-med t-c accent bold">Шукаю оселю для* </mat-label>
-              <div class="t-min gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
+              <div class="t-med gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
                 варіант
                 який
                 вас більше всього характеризує. Можна комбінувати.</div>
@@ -453,7 +455,7 @@
               </div>
 
               <mat-label class="t-med t-c accent bold">Формат оселі* </mat-label>
-              <div class="t-min gray t-c">Оберіть що ви хочете знайти, якщо обрати параметр кімната це буде означати
+              <div class="t-med gray t-c">Оберіть що ви хочете знайти, якщо обрати параметр кімната це буде означати
                 що ви шукаєте тільки кімнату в будинку чи квартирі.</div>
               <div class="inputbox-group pl-2">
 
@@ -503,7 +505,7 @@
               </div>
 
               <mat-label class="t-med t-c accent bold">Сусідство</mat-label>
-              <div class="t-min gray t-c">Якщо ви обираєте формат оселі параметр кімната. То оберіть сусіда.
+              <div class="t-med gray t-c">Якщо ви обираєте формат оселі параметр кімната. То оберіть сусіда.
               </div>
               <div class="inputbox-group pl-2">
 
@@ -545,16 +547,16 @@
 
               <button class="btn w-30" (click)="indexPage = 1">
                 <i class="fa-solid fa-arrow-left"></i>
-                <div class="t-med dark bold p-2">Назад</div>
+                <div class="t-med bold p-2">Назад</div>
               </button>
 
               <button class="btn w-40" (click)="clearInfoCard1()">
                 <i class="icon fa-solid fa-eraser"></i>
-                <div class="t-med dark bold p-2">Очистити</div>
+                <div class="t-med bold p-2">Очистити</div>
               </button>
 
               <button class="btn w-30" (click)="indexPage = 3">
-                <div class="t-med dark bold p-2">Далі</div>
+                <div class="t-med bold p-2">Далі</div>
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
@@ -749,14 +751,14 @@
             <div class="btn-group w-100 mt-2">
               <button class="btn w-30" (click)="indexPage = 2">
                 <i class="fa-solid fa-arrow-left"></i>
-                <div class="t-med dark bold p-2">Назад</div>
+                <div class="t-med bold p-2">Назад</div>
               </button>
               <button class="btn w-40" (click)="clearInfoCard2()">
                 <i class="icon fa-solid fa-eraser"></i>
-                <div class="t-med dark bold p-2">Очистити</div>
+                <div class="t-med bold p-2">Очистити</div>
               </button>
               <button class="btn w-30" (click)="indexPage = 4">
-                <div class="t-med dark bold p-2">Далі</div>
+                <div class="t-med bold p-2">Далі</div>
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
@@ -774,7 +776,7 @@
             <div class="flex-column t-c mt-2 p-2">
 
               <mat-label class="t-med t-c accent bold">Варінти оплати* </mat-label>
-              <div class="t-min gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
+              <div class="t-med gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
                 варіант який вас більше всього характеризує. Можна комбінувати.</div>
               <div class="inputbox-group pl-2" [ngClass]="{ 'error': errorMessage === 'Оберіть варіант оплати'}">
                 <div class="inputbox-group pl-2">
@@ -825,7 +827,7 @@
               </div>
 
               <mat-label class="t-med t-c accent bold">Вкажіть термін оренди</mat-label>
-              <div class="t-min gray t-c">Не обов'язково детально щось вираховувати. Дні, тижні, місяці та роки додаті
+              <div class="t-med gray t-c">Не обов'язково детально щось вираховувати. Дні, тижні, місяці та роки додаті
                 для зручності, в пошуку буде виводитись сумарна кількість днів, тому це все можна комбінувати.</div>
               <div>
 
@@ -863,7 +865,7 @@
               <div class="bold t-med accent t-с" *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">
                 Визначить
                 ваш бюджет</div>
-              <div class="bold t-min accent t-с" *ngIf="userInfo.option_pay === 2">Вкажіть обов'язково причину чому ви
+              <div class="bold t-med accent t-с" *ngIf="userInfo.option_pay === 2">Вкажіть обов'язково причину чому ви
                 потребуєте житло, для того щоб власники могли розуміти ваші потреби та допомогти вам, або вкажіть чим
                 би
                 ви могли допомогти взамін. Будь ласка, не зловживайте довірою людей!</div>
@@ -897,7 +899,7 @@
 
               <button class="btn w-30" (click)="indexPage = 3">
                 <i class="fa-solid fa-arrow-left"></i>
-                <div class="t-med dark bold p-2">Назад</div>
+                <div class="t-med bold p-2">Назад</div>
               </button>
 
               <!-- <button class="btn" (click)="clearInfoCard3()">
@@ -905,23 +907,25 @@
                 </button> -->
 
               <button *ngIf="!authorization" class="btn" (click)="saveInfoLocal(userInfo.agree_search = 0)">
-                <i class="fa-regular fa-circle-check pr-2"></i> Зберегти
+                <i class="fa-regular fa-circle-check pr-2"></i>
+                <div class="t-med bold p-2">Зберегти</div>
               </button>
 
               <button *ngIf="authorization" class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
-                <i class="fa-regular fa-circle-check pr-2"></i> Зберегти
+                <i class="fa-regular fa-circle-check pr-2"></i>
+                <div class="t-med bold p-2">Зберегти</div>
               </button>
 
               <button class="btn" (click)="ativationBtn()"
                 *ngIf="authorization && !userInfo.agree_search || authorization && userInfo.agree_search === 0">
                 <i class="fa-solid fa-sign-hanging pr-2"></i>
-                Активувати
+                <div class="t-med bold p-2">Активувати</div>
               </button>
 
               <button class="btn" class="btn" (click)="deactivationBtn()"
                 *ngIf="authorization && userInfo.agree_search === 1">
                 <i class="fa-solid fa-power-off pr-2"></i>
-                Деактивувати
+                <div class="t-med bold p-2">Деактивувати</div>
               </button>
 
             </div>

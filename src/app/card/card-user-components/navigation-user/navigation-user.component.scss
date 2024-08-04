@@ -9,6 +9,9 @@
   &::-webkit-scrollbar {
     display: none;
   }
+  @include s1-s3 {
+    height: 100%;
+  }
 }
 
 .category-container {
@@ -97,15 +100,13 @@
   }
 
   &.active {
-    background-color: $color-accent;
+    background-color: $color-dark;
     color: $color-accent;
     border-radius: 20px 0px 0px 20px;
-
+    @include box-shadow;
     &:hover {
       transform: none;
     }
-
-    @include box-shadow-a;
     .fa-solid,
     .fa-regular,
     .t-med {
@@ -113,6 +114,13 @@
     }
     .t-min {
       color: rgba(255, 255, 255, 0.689);
+    }
+  }
+  @include s1-s3 {
+    height: auto;
+    .t-med,
+    .t-min {
+      font-size: $t-med;
     }
   }
 }

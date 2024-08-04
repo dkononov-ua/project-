@@ -1,0 +1,60 @@
+@use "../style/agree/agree_about.scss";
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.content-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item-box {
+  @include flex-box;
+  @include box-shadow;
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 20px;
+  margin-top: 10px;
+  height: auto;
+  background-color: $color-white;
+  padding: 5px;
+
+  @include s3-s6-max {
+    min-height: 130px;
+    max-width: 500px;
+    overflow: hidden;
+  }
+
+  .link-t {
+    @include flex-box;
+    @include box-shadow;
+    border: none;
+    color: $color-white;
+    height: 100%;
+    background-color: $color-accent;
+    .fa-solid {
+      color: $color-white;
+      filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.791));
+    }
+  }
+
+  .link-t:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    cursor: not-allowed;
+    color: #929292;
+    .fa-solid {
+      color: #929292;
+    }
+  }
+
+  .item-d {
+    @include flex-box-column;
+    margin: 0;
+  }
+}

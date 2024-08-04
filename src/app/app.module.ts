@@ -54,7 +54,6 @@ import { ActTransferComponent } from './agreements/act-transfer/act-transfer.com
 import { RentalAgreementComponent } from './agreements/rental-agreement/rental-agreement.component';
 import { ConfirmActionsComponent } from './agreements/confirm-actions/confirm-actions.component';
 import { HomeComponent } from './pages/home/home.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
 import { TemplateComponent } from './template/template.component';
 import { SharingInfoComponent } from './components/sharing-info/sharing-info.component';
 import { AuthModule } from './auth/auth.module';
@@ -65,11 +64,10 @@ import { StatusMessageComponent } from './components/status-message/status-messa
 import { StatusMessageService } from './services/status-message.service';
 import { CardsDataService } from './services/user-components/cards-data.service';
 import { PostsComponent } from './pages/posts/posts.component';
-import { UserDiscussPageComponent } from './pages/user-discuss-page/user-discuss-page.component';
-import { SearchHousePageComponent } from './pages/search-user-host/search-house-page/search-house-page.component';
-import { SearchUserHostComponent } from './pages/search-user-host/search-user-host.component';
-import { SearchTenantPageComponent } from './pages/search-user-host/search-tenant-page/search-tenant-page.component';
-import { SearchNeighborPageComponent } from './pages/search-user-host/search-neighbor-page/search-neighbor-page.component';
+import { SearchHousePageComponent } from './pages/host-user/host-user-serach/search-house-page/search-house-page.component';
+import { SearchTenantPageComponent } from './pages/host-user/host-user-serach/search-tenant-page/search-tenant-page.component';
+import { SearchNeighborPageComponent } from './pages/host-user/host-user-serach/search-neighbor-page/search-neighbor-page.component';
+import { SearchUserHostComponent } from './pages/host-user/host-user-serach/search-user-host.component';
 
 @NgModule({
   declarations: [
@@ -88,19 +86,15 @@ import { SearchNeighborPageComponent } from './pages/search-user-host/search-nei
     RentalAgreementComponent,
     ConfirmActionsComponent,
     HomeComponent,
-    HomePageComponent,
     TemplateComponent,
     SharingInfoComponent,
     NewsLineComponent,
     StatusMessageComponent,
     PostsComponent,
-    UserDiscussPageComponent,
-
     SearchUserHostComponent,
     SearchHousePageComponent,
     SearchTenantPageComponent,
     SearchNeighborPageComponent,
-    
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -144,19 +138,22 @@ import { SearchNeighborPageComponent } from './pages/search-user-host/search-nei
     SearchRoutingModule,
     DiscussioHouseRoutingModule,
     AuthModule,
-    AuthRoutingModule], providers: [
-      SelectedFlatService,
-      StatusMessageService,
-      CardsDataService,
-      DatePipe,
-      SharedService,
-      StyleRenderer,
-      LyTheme2,
-      { provide: LY_THEME_NAME, useValue: 'minima-deep-dark' },
-      { provide: LY_THEME, useClass: MinimaLight, multi: true },
-      { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
-      { provide: LY_THEME, useClass: MinimaDark, multi: true },
-      provideHttpClient(withInterceptorsFromDi()),
-    ]
+    AuthRoutingModule
+  ],
+  providers: [
+    
+    SelectedFlatService,
+    StatusMessageService,
+    CardsDataService,
+    DatePipe,
+    SharedService,
+    StyleRenderer,
+    LyTheme2,
+    { provide: LY_THEME_NAME, useValue: 'minima-deep-dark' },
+    { provide: LY_THEME, useClass: MinimaLight, multi: true },
+    { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
+    { provide: LY_THEME, useClass: MinimaDark, multi: true },
+    provideHttpClient(withInterceptorsFromDi()),
+  ]
 })
 export class AppModule { }

@@ -581,24 +581,8 @@
       <i class="icon fa-solid fa-eraser white pr-2"></i> Очистити
     </button>
 
-    <button *ngIf="!authorization" class="btn white" (click)="saveInfoLocal(userInfo.agree_search = 0)">
+    <button *ngIf="authorization" class="btn white" (click)="saveInfo()">
       <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
-    </button>
-
-    <button *ngIf="authorization" class="btn white" (click)="saveInfo(userInfo.agree_search = 0)">
-      <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
-    </button>
-
-    <button class="btn white" (click)="ativationBtn()"
-      *ngIf="authorization && !userInfo.agree_search || authorization && userInfo.agree_search === 0">
-      <i class="fa-solid fa-sign-hanging pr-2 white"></i>
-      Активувати
-    </button>
-
-    <button class="btn" class="btn white" (click)="deactivationBtn()"
-      *ngIf="authorization && userInfo.agree_search === 1">
-      <i class="fa-solid fa-power-off pr-2 white"></i>
-      Деактивувати
     </button>
 
   </div>

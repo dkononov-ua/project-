@@ -1,0 +1,53 @@
+<div [@bot] class="container-info">
+
+  <div class="info-content">
+
+    <div class="img-wrapper">
+      <img class="img" src="./../../../../../assets/example-agree/man_and_door4.jpg" alt="Menu Image" loading="lazy">
+      <div class="blure"></div>
+    </div>
+
+    <div class="info-wrapper">
+      <div class="info">
+        <i class="fa-solid fa-handshake-simple"></i>
+        <p class="t-lar-x bold mb-2">Угоди Орендаря</p>
+        <h1 class="t-c">Створення угод оренди житла</h1>
+        <h2 class="t-med bold mb-2 t-c">Наша платформа дозволяє легко та швидко створювати угоди між орендарем та
+          орендодавцем всього за кілька кліків.</h2>
+        <a class="b-primary m-2 jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Пояснення</p>
+            <p class="t-min white">Як отримати угоду</p>
+          </div>
+        </a>
+        <p class="t-med t-c"> Після створення угоди орендодавцем, вона направляється орендарю для розгляду та
+          погодження, щоб він міг докладно з нею ознайомитись та прийняти рішення.</p>
+        <a class="b-primary m-2 jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/agree/rewiew'">
+          <i class="fa-solid fa-hourglass-half"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Запропоновані</p>
+            <p class="t-min white">Угоди які вам запропонували</p>
+          </div>
+        </a>
+        <p class="t-med t-c">Після погодження умов угоди вона залишиться у вашому профілі де її
+          можна буде легко роздрукувати та підписати на місці.
+        </p>
+        <a class="b-primary m-2 jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'">
+          <i class="fa-solid fa-file-circle-check"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Ухвалені Угоди</p>
+            <p class="t-min white">Угоди які ви підтвердили</p>
+          </div>
+        </a>
+
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
+          <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+          </div>
+        </a>
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+</div>

@@ -48,7 +48,8 @@
   <div [@top2] class="main-param mb-2" *ngIf="user.agree_search === 1">
     <div class="left">
       <p class="t-c t-min"><i class="fa-solid fa-person-hiking"></i> <br> Профіль Орендаря </p>
-      <p class="t-c t-min mt-2" *ngIf="user.data"> <i class="fa-regular fa-clock"></i> Активовано <br> {{user.data | date}}</p>
+      <p class="t-c t-min mt-2" *ngIf="user.data"> <i class="fa-regular fa-clock"></i> Активовано <br> {{user.data |
+        date}}</p>
     </div>
     <div class="right">
       <div class="flex-box">
@@ -329,5 +330,11 @@
 
 
     </div>
+  </div>
+</div>
+
+<div class="status-subscription-wrapper h-100" *ngIf="!user">
+  <div [@appearance] class="status-subscription bg-transparent">
+    <div class="status-text p-2 t-c">Потрібно <br> увійти в аккаунт</div>
   </div>
 </div>

@@ -1,0 +1,26 @@
+<div class="message-box">
+  <mat-dialog-content>
+
+    <div *ngIf="data.actionName === 'tenantProfile'">
+      <p class="text1">Активувати профіль орендаря?</p>
+      <p class="t-lar mt-2">Область: <span class="accent">{{data.data.region }}</span></p>
+      <p class="t-lar mb-2">Місто: <span class="accent">{{data.data.city}}</span> </p>
+      <p class="text"><span class="description">Активувати або деактивувати оголошення ви завжди зможете в налаштуваннях
+          профілю орендаря</span></p>
+    </div>
+
+    <div *ngIf="data.actionName === 'tenantProfileDeactivate'">
+      <p class="text1">Деактивувати профіль орендаря?</p>
+      <p class="t-lar mt-2">Область: <span class="accent">{{data.data.region }}</span></p>
+      <p class="t-lar mb-2">Місто: <span class="accent">{{data.data.city}}</span> </p>
+      <p class="text"><span class="description">Активувати або деактивувати оголошення ви завжди зможете в налаштуваннях
+          профілю орендаря</span></p>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions class="box" align="end">
+    <button class="btn m-2" mat-button mat-dialog-close>Ні</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true" *ngIf="data.actionName === 'tenantProfile'">Активувати</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true" *ngIf="data.actionName === 'tenantProfileDeactivate'">Деактивувати</button>
+  </mat-dialog-actions>
+</div>

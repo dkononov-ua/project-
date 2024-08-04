@@ -20,12 +20,12 @@
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/subscribers-discuss'"
+    <button [disabled]="currentLocation !== '/user/discus/discussion'"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" (click)="goToComun()"
       *ngIf="linkOpen[1]">
       <i class="fa-solid fa-chart-pie"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discuss'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/user/discus/discussion'">Доступно в
             Дискусії </span>Статистика</p>
         <p class="t-min">Переглянути статистику оселі</p>
       </div>
@@ -61,23 +61,23 @@
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/subscribers-discuss'"
+    <button [disabled]="currentLocation !== '/user/discus/discussion'"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(6) }}" class="link"
       (click)="createChat(chosenFlat.flat.flat_id)" *ngIf="linkOpen[1] && !chatExists">
       <i class="fa-solid fa-message"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discuss'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/user/discus/discussion'">Доступно в
             Дискусії </span>Чат</p>
         <p class="t-min">Створити чат</p>
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/subscribers-discuss'"
+    <button [disabled]="currentLocation !== '/user/discus/discussion'"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(6) }}" class="link"
-      (click)="createChat(chosenFlat.flat.flat_id)" *ngIf="linkOpen[1] && chatExists">
+      (click)="openChat(chosenFlat.flat.flat_id)" *ngIf="linkOpen[1] && chatExists">
       <i class="fa-solid fa-message"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discuss'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/user/discus/discussion'">Доступно в
             чатах користувача </span>Написати</p>
         <p class="t-min">Написати повідомлення</p>
       </div>

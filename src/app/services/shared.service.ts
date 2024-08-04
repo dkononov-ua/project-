@@ -205,7 +205,7 @@ export class SharedService {
   getAuthorization() {
     this.statusMessageService.setStatusMessage('Для цього потрібно бути авторизованим');
     setTimeout(() => {
-      this.router.navigate(['/house']);
+      this.router.navigate(['/auth/registration']);
       this.statusMessageService.setStatusMessage('');
     }, 3000);
   }
@@ -397,7 +397,5 @@ export class SharedService {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
-
-
 
 }

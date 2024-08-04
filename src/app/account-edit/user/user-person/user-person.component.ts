@@ -12,6 +12,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
+import { StorageUserDataService } from 'src/app/services/storageUserData.service';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -138,12 +139,14 @@ export class UserPersonComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private sharedService: SharedService,
+    private storageUserDataService: StorageUserDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
+    this.storageUserDataService.getStorageTenantData();
   }
 
   // підписка на шлях до серверу

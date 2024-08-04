@@ -60,6 +60,7 @@ import { ContactsComponent } from '../components/contacts/contacts.component';
 import { PostDetailComponent } from '../pages/post-detail/post-detail.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { ClickOutsideDirective } from '../directive/click-outside.directive';
+import { ActionComponent } from '../components/action/action.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,8 @@ import { ClickOutsideDirective } from '../directive/click-outside.directive';
     PostDetailComponent,
     NavbarComponent,
     ClickOutsideDirective,
+
+    ActionComponent,
   ],
   exports: [
     FooterComponent,
@@ -139,6 +142,7 @@ import { ClickOutsideDirective } from '../directive/click-outside.directive';
     PostDetailComponent,
     NavbarComponent,
     ClickOutsideDirective,
+    ActionComponent,
 
   ],
   providers: [
@@ -147,6 +151,7 @@ import { ClickOutsideDirective } from '../directive/click-outside.directive';
     StatusDataService,
     StatusDataHouseComponent,
     CreateChatService,
+    ActionComponent,
   ],
   imports: [
     CommonModule,

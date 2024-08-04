@@ -321,55 +321,6 @@ export class LookingComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveInfoLocal(agree: any) {
-    if (this.userInfo.option_pay === 2) {
-      this.userInfo.price_of = 0.01;
-      this.userInfo.price_to = 0.01;
-    }
-    const data = {
-      agree_search: agree,
-      price_of: this.userInfo.price_of,
-      price_to: this.userInfo.price_to,
-      region: this.userInfo.region,
-      city: this.userInfo.city,
-      rooms_of: this.userInfo.rooms_of,
-      rooms_to: this.userInfo.rooms_to,
-      area_of: this.userInfo.area_of,
-      area_to: this.userInfo.area_to,
-      repair_status: this.userInfo.repair_status,
-      bunker: this.userInfo.bunker,
-      balcony: this.userInfo.balcony,
-      animals: this.userInfo.animals,
-      distance_metro: this.userInfo.distance_metro,
-      distance_stop: this.userInfo.distance_stop,
-      distance_green: this.userInfo.distance_green,
-      distance_shop: this.userInfo.distance_shop,
-      distance_parking: this.userInfo.distance_parking,
-      option_pay: this.userInfo.option_pay,
-      day_counts: this.userInfo.day_counts,
-      purpose_rent: this.userInfo.purpose_rent,
-      house: this.userInfo.house,
-      flat: this.userInfo.flat,
-      room: this.userInfo.room,
-      looking_woman: this.userInfo.looking_woman,
-      looking_man: this.userInfo.looking_man,
-      students: this.userInfo.students,
-      woman: this.userInfo.woman,
-      man: this.userInfo.man,
-      family: this.userInfo.family,
-      days: this.userInfo.days,
-      weeks: this.userInfo.weeks,
-      mounths: this.userInfo.mounths,
-      years: this.userInfo.years,
-      about: this.userInfo.about,
-      metro: this.userInfo.metro,
-    };
-    localStorage.setItem('storageUserLooking', JSON.stringify(data));
-    setTimeout(() => {
-      this.sharedService.getAuthorization();
-    }, 1500);
-  }
-
   // Якщо я на сторінці профілю
   async getStorageData() {
     console.log('getStorageData')
@@ -377,7 +328,8 @@ export class LookingComponent implements OnInit, OnDestroy {
     if (storageUserLooking) {
       const storageUserObject = JSON.parse(storageUserLooking);
       this.userInfo = storageUserObject;
-      this.saveInfo(1);
+      console.log(this.userInfo)
+      // this.saveInfo(1);
     } else {
       this.clearInfoCard1();
       this.clearInfoCard2();
@@ -386,6 +338,17 @@ export class LookingComponent implements OnInit, OnDestroy {
   }
 
   async saveInfo(agree: any): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      // якщо я авторизований то зберігаю інформацію у свій профіль
+      this.saveUserInfo(agree);
+    } else {
+      // якщо я не авторизований то зберігаю інформацію локально а потім при авторизації зберігаю у профіль
+      this.saveInfoLocal(agree);
+    }
+  }
+
+  async saveUserInfo(agree: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
@@ -488,6 +451,55 @@ export class LookingComponent implements OnInit, OnDestroy {
     } else {
       console.log('Авторизуйтесь');
     }
+  }
+
+  saveInfoLocal(agree: any) {
+    if (this.userInfo.option_pay === 2) {
+      this.userInfo.price_of = 0.01;
+      this.userInfo.price_to = 0.01;
+    }
+    const data = {
+      agree_search: agree,
+      price_of: this.userInfo.price_of,
+      price_to: this.userInfo.price_to,
+      region: this.userInfo.region,
+      city: this.userInfo.city,
+      rooms_of: this.userInfo.rooms_of,
+      rooms_to: this.userInfo.rooms_to,
+      area_of: this.userInfo.area_of,
+      area_to: this.userInfo.area_to,
+      repair_status: this.userInfo.repair_status,
+      bunker: this.userInfo.bunker,
+      balcony: this.userInfo.balcony,
+      animals: this.userInfo.animals,
+      distance_metro: this.userInfo.distance_metro,
+      distance_stop: this.userInfo.distance_stop,
+      distance_green: this.userInfo.distance_green,
+      distance_shop: this.userInfo.distance_shop,
+      distance_parking: this.userInfo.distance_parking,
+      option_pay: this.userInfo.option_pay,
+      day_counts: this.userInfo.day_counts,
+      purpose_rent: this.userInfo.purpose_rent,
+      house: this.userInfo.house,
+      flat: this.userInfo.flat,
+      room: this.userInfo.room,
+      looking_woman: this.userInfo.looking_woman,
+      looking_man: this.userInfo.looking_man,
+      students: this.userInfo.students,
+      woman: this.userInfo.woman,
+      man: this.userInfo.man,
+      family: this.userInfo.family,
+      days: this.userInfo.days,
+      weeks: this.userInfo.weeks,
+      mounths: this.userInfo.mounths,
+      years: this.userInfo.years,
+      about: this.userInfo.about,
+      metro: this.userInfo.metro,
+    };
+    localStorage.setItem('storageUserLooking', JSON.stringify(data));
+    setTimeout(() => {
+      this.sharedService.getAuthorization();
+    }, 1500);
   }
 
   clearInfoCard1(): void {

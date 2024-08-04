@@ -1,0 +1,51 @@
+<div [@top1] class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'">
+      <i class="fa-solid fa-circle-info"></i>
+      <div class="t-min bold">Про Меню</div>
+    </button>
+  </div>
+
+  <div class="hide-pc">
+    <div class="switch-btn-group">
+      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'">
+        <i class="fa-solid fa-shoe-prints"></i>
+        <div class="t-min bold">Пояснення Кроки</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="switch-btn-group">
+    <button [disabled]="numSendAgree === 0" class="btn" [routerLinkActive]="'active'"
+      [routerLink]="'/user/agree/rewiew'">
+      <i class="fa-solid fa-hourglass-half"></i>
+      <div class="t-min bold">Пропозиції Угоди</div>
+      <div class="status" *ngIf="numSendAgree !== 0">
+        {{numSendAgree}}
+      </div>
+    </button>
+  </div>
+
+
+
+  <div class="switch-btn-group">
+    <button [disabled]="numConcludedAgree === 0" class="btn" [routerLinkActive]="'active'"
+      [routerLink]="'/user/agree/concluded'">
+      <i class="fa-solid fa-file-circle-check"></i>
+      <div class="t-min bold">Ухвалені Угоди</div>
+      <div class="status" *ngIf="numConcludedAgree !== 0">
+        {{numConcludedAgree}}
+      </div>
+    </button>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

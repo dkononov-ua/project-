@@ -7,6 +7,8 @@ import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { StorageUserDataService } from 'src/app/services/storageUserData.service';
+import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-navigation-user',
@@ -42,14 +44,13 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
 
   disabledBtn: boolean = false;
   userData: any;
+  userFeaturesData: any;
   animationDelay(index: number): string {
     return (600 + 100 * index).toString();
   }
 
   linkOpen: boolean[] = [false, false, false, false, false];
   menu: boolean[] = [false, false, false, false, false];
-
-
 
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -63,18 +64,24 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   counterUserSubscriptions: any;
   counterUserDiscussio: any;
   counterUserNewMessage: any;
-
   isMobile: boolean = false;
   subscriptions: any[] = [];
   authorization: boolean = false;
   section: boolean[] = [false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
 
+  // відкриття меню через сервіс
+  async closeToogleMenu(index: number) {
+    this.menuService.indexMenu(index);
+  }
+
   constructor(
     private counterService: CounterService,
     private sharedService: SharedService,
     private location: Location,
     private router: Router,
+    private menuService: MenuService,
+    private storageUserDataService: StorageUserDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -96,6 +103,7 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
     if (userJson) {
       this.authorization = true;
       this.getInfoUser();
+      this.getInfoFeaturesUser();
       await this.getUserDiscussioCount();
       await this.getUserSubscribersCount();
       await this.getUserSubscriptionsCount();
@@ -140,6 +148,15 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.getInfoUser();
       }, 100);
+    }
+  }
+
+  // Беру інформацію користувача
+  async getInfoFeaturesUser() {
+    const userFeaturesData = localStorage.getItem('userFeaturesData');
+    if (userFeaturesData) {
+      const userObject = JSON.parse(userFeaturesData);
+      this.userFeaturesData = userObject;
     }
   }
 
@@ -199,6 +216,11 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
         this.counterUserNewMessage = Number(data)
       })
     );
+  }
+
+  deactivateTenantProfile() {
+    this.storageUserDataService.deactivateTenantProfile();
+    this.closeToogleMenu(3)
   }
 
   logout() {

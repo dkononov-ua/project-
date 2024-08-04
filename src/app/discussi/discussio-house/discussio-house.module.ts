@@ -30,11 +30,12 @@ import { AgreeCreateComponent } from 'src/app/account/house/agree-h/agree-create
 import { DeleteSubComponent } from './delete/delete-sub.component';
 import { SubscribersDiscusComponent } from './discus/subscribers-discus.component';
 import { HouseRoutingModule } from 'src/app/account/house/house-routing.module';
-import { UserRoutingModule } from 'src/app/account/user/user-routing.module';
+import { UserRoutingModule } from 'src/app/pages/host-user/user-routing.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AgreeCreateComponent,
         SubscribersHouseComponent,
         SubscriptionsHouseComponent,
@@ -66,8 +67,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatProgressSpinnerModule,
         HouseRoutingModule,
         UserRoutingModule], providers: [
-        SelectedFlatService,
-        DatePipe,
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
+            SelectedFlatService,
+            DatePipe,
+            provideHttpClient(withInterceptorsFromDi()),
+        ]
+})
 export class DiscussioHouseModule { }

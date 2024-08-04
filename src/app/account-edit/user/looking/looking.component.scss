@@ -79,7 +79,8 @@ mat-form-field {
   justify-content: flex-start;
   border-radius: 20px;
   margin-top: 10px;
-  height: 120px;
+  height: auto;
+  min-height: 130px;
   background-color: $color-white;
 
   .link-t {
@@ -114,7 +115,6 @@ mat-form-field {
     margin: 0;
   }
 }
-
 
 .text {
   text-transform: capitalize;
@@ -156,6 +156,14 @@ mat-form-field {
 .btn-group {
   justify-content: center;
   border-radius: 20px;
+  .btn {
+    .fa-solid,
+    .fa-regular,
+    .t-min,
+    .t-med {
+      color: $color-white;
+    }
+  }
 }
 
 .t-l {

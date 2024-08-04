@@ -8,6 +8,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { Location } from '@angular/common';
+import { StorageUserDataService } from 'src/app/services/storageUserData.service';
 interface UserInfo {
   price_of: number | undefined;
   price_to: number | undefined;
@@ -212,6 +213,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     private router: Router,
     private sharedService: SharedService,
     private location: Location,
+    private storageUserDataService: StorageUserDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -299,31 +301,22 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
-        const storageUserLooking = localStorage.getItem('storageUserLooking');
-        if (storageUserLooking) {
-          this.getStorageData();
-        } else {
-          this.userInfo = response.inf;
-        }
         if (response.status === true) {
-        } else {
-          this.getStorageData();
+          this.userInfo = response.inf;
         }
       } catch (error) {
         console.error(error);
       }
-    } else {
-      this.getStorageData();
     }
   }
 
-  saveInfoLocal(agree: any) {
+  async saveInfo(): Promise<void> {
     if (this.userInfo.option_pay === 2) {
       this.userInfo.price_of = 0.01;
       this.userInfo.price_to = 0.01;
     }
     const data = {
-      agree_search: agree,
+      agree_search: false,
       price_of: this.userInfo.price_of,
       price_to: this.userInfo.price_to,
       region: this.userInfo.region,
@@ -360,130 +353,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
       about: this.userInfo.about,
       metro: this.userInfo.metro,
     };
-    localStorage.setItem('storageUserLooking', JSON.stringify(data));
-    setTimeout(() => {
-      this.sharedService.getAuthorization();
-    }, 1500);
-  }
-
-  // Якщо я на сторінці профілю
-  async getStorageData() {
-    console.log('getStorageData')
-    const storageUserLooking = localStorage.getItem('storageUserLooking');
-    if (storageUserLooking) {
-      const storageUserObject = JSON.parse(storageUserLooking);
-      this.userInfo = storageUserObject;
-      this.saveInfo(1);
-    } else {
-      this.clearInfoCard1();
-      this.clearInfoCard2();
-      this.clearInfoCard3();
-    }
-  }
-
-  async saveInfo(agree: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        if (this.userInfo.option_pay === 2) {
-          this.userInfo.price_of = 0.01;
-          this.userInfo.price_to = 0.01;
-        }
-        const data = {
-          agree_search: agree,
-          price_of: this.userInfo.price_of,
-          price_to: this.userInfo.price_to,
-          region: this.userInfo.region,
-          city: this.userInfo.city,
-          rooms_of: this.userInfo.rooms_of,
-          rooms_to: this.userInfo.rooms_to,
-          area_of: this.userInfo.area_of,
-          area_to: this.userInfo.area_to,
-          repair_status: this.userInfo.repair_status,
-          bunker: this.userInfo.bunker,
-          balcony: this.userInfo.balcony,
-          animals: this.userInfo.animals,
-          distance_metro: this.userInfo.distance_metro,
-          distance_stop: this.userInfo.distance_stop,
-          distance_green: this.userInfo.distance_green,
-          distance_shop: this.userInfo.distance_shop,
-          distance_parking: this.userInfo.distance_parking,
-          option_pay: this.userInfo.option_pay,
-          day_counts: this.userInfo.day_counts,
-          purpose_rent: this.userInfo.purpose_rent,
-          house: this.userInfo.house,
-          flat: this.userInfo.flat,
-          room: this.userInfo.room,
-          looking_woman: this.userInfo.looking_woman,
-          looking_man: this.userInfo.looking_man,
-          students: this.userInfo.students,
-          woman: this.userInfo.woman,
-          man: this.userInfo.man,
-          family: this.userInfo.family,
-          days: this.userInfo.days,
-          weeks: this.userInfo.weeks,
-          mounths: this.userInfo.mounths,
-          years: this.userInfo.years,
-          about: this.userInfo.about,
-          metro: this.userInfo.metro,
-        };
-        // console.log(data)
-        const response: any = await this.http.post(this.serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
-        // console.log(response)
-        if (response.status === true) {
-          // результат якщо я натискаю деактивувати оголошення
-          if (this.userInfo.agree_search === 0 && this.deactivation) {
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Деактивовано!');
-              this.deactivation = false;
-              setTimeout(() => {
-                // this.router.navigate(['/user/info']);
-                this.sharedService.setStatusMessage('');
-                location.reload();
-              }, 3000);
-            }, 1000);
-          }
-          // результат якщо я натискаю зберегти
-          if (this.userInfo.agree_search === 0 && !this.deactivation) {
-            this.sharedService.setStatusMessage('Збережено!');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оголошення не активовано');
-              setTimeout(() => {
-                // this.router.navigate(['/user/info']);
-                this.sharedService.setStatusMessage('');
-                localStorage.removeItem('storageUserLooking');
-                location.reload();
-              }, 2000);
-            }, 2000);
-          }
-          // результат якщо я натискаю активувати оголошення
-          if (this.userInfo.agree_search === 1) {
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Активовано!');
-              setTimeout(() => {
-                // this.router.navigate(['/user/info']);
-                this.sharedService.setStatusMessage('');
-                localStorage.removeItem('storageUserLooking');
-                location.reload();
-              }, 3000);
-            }, 1000);
-          }
-        } else {
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Помилка формування');
-            setTimeout(() => {
-              location.reload();
-            }, 3000);
-          }, 1000);
-        }
-      } catch (error) {
-        console.error(error);
-        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
-        setTimeout(() => { location.reload }, 2000);
-      }
-    } else {
-      console.log('Авторизуйтесь');
-    }
+    this.storageUserDataService.activateTenantProfile(data);
   }
 
   clearAll() {
@@ -590,25 +460,6 @@ export class UserLookingComponent implements OnInit, OnDestroy {
   //     ? subwayStations.flatMap(line => line.stations.filter(station => station.name.toLowerCase().includes(searchTerm)))
   //     : [];
   // }
-
-  // активую оголошення
-  async ativationBtn(): Promise<void> {
-    // чекаю перевірки на те чи внесли ми всі важливі поля
-    const isUserSearchActivated = await this.checkAtivationUserSearch();
-    if (isUserSearchActivated) {
-      // console.log('Активую оголошення')
-      this.activationUserSearch = true;
-      this.sharedService.setStatusMessage('Активую оголошення');
-      this.saveInfo(this.userInfo.agree_search = 1);
-    }
-  }
-
-  // деактивуємо оголошення
-  deactivationBtn() {
-    this.sharedService.setStatusMessage('Деактивую...');
-    this.deactivation = true;
-    this.saveInfo(this.userInfo.agree_search = 0)
-  }
 
   // робимо клік на поле там де треба вносити інформацію
   triggerInputClick(input: string): void {

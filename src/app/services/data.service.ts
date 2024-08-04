@@ -32,6 +32,7 @@ export class DataService {
             if (response && response.status === true) {
               // console.log(response)
               localStorage.setItem('userData', JSON.stringify(response));
+              this.getFeaturesInfo();
             }
             else {
               this.sharedService.logout();
@@ -44,6 +45,24 @@ export class DataService {
         );
     } else {
       return throwError('user not found');
+    }
+  }
+
+  // Пошукові параметри користувача
+  async getFeaturesInfo(): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        // console.log(response)
+        if (response.status === true) {
+          localStorage.setItem('userFeaturesData', JSON.stringify(response.inf));
+        } else {
+          localStorage.removeItem('userFeaturesData');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 

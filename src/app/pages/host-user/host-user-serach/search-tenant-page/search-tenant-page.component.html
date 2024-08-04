@@ -1,0 +1,80 @@
+<div [@bot] class="container-info">
+
+  <div class="info-content">
+    <div class="img-wrapper">
+      <img class="img" src="./../../../../assets/menu/search-tenant.png" alt="Menu Image" loading="lazy">
+      <div class="blure"></div>
+    </div>
+
+    <div class="info-wrapper">
+      <div class="info">
+
+        <i class="fa-solid fa-child-reaching"></i>
+        <p class="t-lar-x bold mb-2">Як це працює?</p>
+        <h1 class="t-c">Пошук Орендаря</h1>
+
+        <h2 class="t-med bold mb-2 t-c mt-2">
+          Підписка на орендарів стає доступною після створення профілю оселі
+        </h2>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/add-house'">
+          <i class="fa-solid fa-house-chimney-medical"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Створити</p>
+            <p class="t-min white">Оселю</p>
+          </div>
+        </a>
+
+        <h2 class="t-med bold mb-2 t-c mt-2">
+          Пошук орендарів відбувається з допомогою пошукових фільтрів,
+          після того як ви знайшли орендаря на нього потрібно підписатись.
+        </h2>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/search-tenants'">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Пошук</p>
+            <p class="t-min white">Орендаря</p>
+          </div>
+        </a>
+
+
+
+        <app-house-rent-progress></app-house-rent-progress>
+
+        <p class="t-med t-c mt-2"><strong>1 етап - Підписка:</strong> На цьому етапі ви підписуєтесь на орендаря який
+          вам підходить і поки що не бачите повної його інформації та контактів, але показуєте йому свої дані
+          для того щоб він міг виріщити чи хоче він з вами перейти до дискусії.
+        </p>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'">
+          <i class="fa-regular fa-heart pl-2"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Вподобані</p>
+            <p class="t-min white">Оселі на які ви підписані</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c"><strong>2 етап - Дискусія:</strong> Тут ви зможете бачити інформацію орендаря його
+          контакти та соціальні мережі. Також можете почати обговорення і створювати угоди оренди.
+        </p>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'">
+          <i class="fa-solid fa-person-walking-luggage"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Дискусії</p>
+            <p class="t-min white">Оселі з якими я в Дискусії</p>
+          </div>
+        </a>
+
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Пошук оселі' }">
+          <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+          </div>
+        </a>
+
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+</div>

@@ -44,8 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    loadChildren: () => import('./account/user/user.module').then(m => m.UserModule),
-    canActivate: [CanActivateGuard]
+    loadChildren: () => import('./pages/host-user/user.module').then(m => m.UserModule),
   },
   {
     path: 'house',

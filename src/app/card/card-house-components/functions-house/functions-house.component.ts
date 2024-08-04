@@ -235,10 +235,10 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   }
 
   // Відкриваю чат
-  openChat() {
+  openChat(flat_id: number) {
     if (this.chatExists) {
       this.choseSubscribeService.setChosenFlatId(this.chosenFlat?.flat.flat_id);
-      this.router.navigate(['/chat-user']);
+      this.router.navigate(['/user/chat']);
     }
   }
 

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CounterService } from '../services/counter.service';
 import * as ServerConfig from 'src/app/config/path-config';
+import { StatusMessageService } from '../services/status-message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class AuthGoogleService {
     private route: ActivatedRoute,
     private counterService: CounterService,
     private router: Router,
+    private statusMessageService: StatusMessageService,
   ) {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
@@ -59,28 +61,29 @@ export class AuthGoogleService {
             };
             localStorage.setItem('registrationGoogleInfo', JSON.stringify(registrationGoogleInfo));
             this.sharedService.clearCache();
-            this.sharedService.setStatusMessage('Вітаємо в Discussio!');
+            this.statusMessageService.setStatusMessage('Вітаємо в Discussio!');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('Переходимо до налаштування профілю!');
+              this.statusMessageService.setStatusMessage('Переходимо до налаштування профілю!');
               localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
-                this.sharedService.setStatusMessage('');
-                this.router.navigate(['/user/edit']);
+                  this.router.navigate(['/user/edit/person']);
+                  this.statusMessageService.setStatusMessage('');
               }, 2000);
             }, 1000);
           } else if (response.status === true && param === 'login') {
+            localStorage.removeItem('storageUserLooking');
             this.sharedService.clearCache();
-            this.sharedService.setStatusMessage('З поверненням в Discussio!');
+            this.statusMessageService.setStatusMessage('З поверненням в Discussio!');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('Переходимо до профілю!');
+              this.statusMessageService.setStatusMessage('Переходимо до профілю!');
               localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
-                this.sharedService.setStatusMessage('');
+                this.statusMessageService.setStatusMessage('');
                 this.router.navigate(['/user/info']);
               }, 2000);
             }, 1000);
           } else {
-            this.sharedService.setStatusMessage('Помилка входу');
+            this.statusMessageService.setStatusMessage('Помилка входу');
             setTimeout(() => {
               location.reload();
             }, 2000);
@@ -93,5 +96,4 @@ export class AuthGoogleService {
       console.log('Властивість `_tokenResponse` не знайдена у користувача');
     }
   }
-
 }

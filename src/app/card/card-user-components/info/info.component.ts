@@ -24,6 +24,7 @@ import { StatusDataService } from 'src/app/services/status-data.service';
     animations.top3,
     animations.top4,
     animations.fadeIn,
+    animations.appearance,
   ],
 })
 
@@ -145,6 +146,7 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.user = userObject.inf;
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        // console.log(response)
         if (response.status === true) {
           const newData = response.inf;
           let existingData = JSON.parse(localStorage.getItem('userData') || '{}');

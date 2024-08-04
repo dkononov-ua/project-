@@ -87,181 +87,18 @@
     <div appClickOutside (clickOutside)="onClickedOutside(2)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
 
       <div class="wrapper-img" *ngIf="userData" (click)="closeToogleMenu(2)">
-        <img *ngIf="userData.img && userData.img[0].img !== 'user_default.svg'" [@top4] class="img-fluid" [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img">
-        <img *ngIf="!userData.img || userData.img[0].img === 'user_default.svg'" [@top4] class="img-fluid" src="../../../assets/user_default.svg" alt="img">
+        <img *ngIf="userData.img && userData.img[0].img !== 'user_default.svg'" [@top4] class="img-fluid"
+          [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img">
+        <img *ngIf="!userData.img || userData.img[0].img === 'user_default.svg'" [@top4] class="img-fluid"
+          src="../../../assets/user_default.svg" alt="img">
       </div>
 
       <div class="menu_title">
         Меню Користувача<i class="fa-regular fa-compass pl-2"></i>
       </div>
 
-      <div class="link-container">
-        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item" *ngIf="linkOpen[2]"
-          [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu(1)">
-          <i class="fa-regular fa-circle-user"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-lar-x">Мій аккаунт</p>
-            <p class="t-min">Ваш профіль</p>
-          </div>
-        </a>
-        <button [ngClass]="{'active': section[1]}" class="link-btn" (click)="toogleSection(1)">
-          <i class="fa-solid fa-circle-chevron-down"></i>
-        </button>
-      </div>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="linkOpen[2] && section[1] || !userData"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Вхід</p>
-          <p class="t-min">Увійти в аккаунт</p>
-        </div>
-      </a>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit'" *ngIf="linkOpen[2] && section[1] "
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Редагувати</p>
-          <p class="t-min">Профіль</p>
-        </div>
-      </a>
-
-      <button [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        *ngIf="linkOpen[2] && section[1]" (click)="logout()">
-        <i class="fa-solid fa-door-open"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Вийти</p>
-          <p class="t-min">Вийти з аккаунту</p>
-        </div>
-      </button>
-
-      <div class="link-container">
-        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item" *ngIf="linkOpen[2] "
-          [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu(2)">
-          <i class="fa-solid fa-envelope-open-text"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-lar-x">Меню угод</p>
-            <p class="t-min">Пояснення/Запропоновані/Укладені</p>
-          </div>
-        </a>
-        <button [ngClass]="{'active': section[2]}" class="link-btn" (click)="toogleSection(2)">
-          <i class="fa-solid fa-circle-chevron-down"></i>
-        </button>
-      </div>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'" *ngIf="linkOpen[2] && section[2]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-shoe-prints"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Пояснення</p>
-          <p class="t-min">Як отримати угоду</p>
-        </div>
-      </a>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree'" *ngIf="linkOpen[2] && section[2]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-hourglass-half"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Запропоновані</p>
-          <p class="t-min">Угоди які вам запропонували</p>
-        </div>
-      </a>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree'" *ngIf="linkOpen[2] && section[2]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-file-circle-check"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Ухвалені Угоди</p>
-          <p class="t-min">Угоди які ви підтвердили</p>
-        </div>
-      </a>
-
-      <div class="link-container">
-        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item" *ngIf="linkOpen[2] "
-          [routerLinkActive]="'active'" [routerLink]="'/looking'" (click)="closeToogleMenu(2)">
-          <i class="fa-solid fa-person-hiking"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-lar-x">Профіль Орендаря</p>
-            <p class="t-min">Пояснення/Редагування</p>
-          </div>
-        </a>
-        <button [ngClass]="{'active': section[3]}" class="link-btn" (click)="toogleSection(3)">
-          <i class="fa-solid fa-circle-chevron-down"></i>
-        </button>
-      </div>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/looking'" *ngIf="linkOpen[2] && section[3]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Редагування</p>
-          <p class="t-min">Налаштувати профіль орендаря</p>
-        </div>
-      </a>
-
-      <div class="link-container">
-        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item" *ngIf="linkOpen[2] "
-          [routerLinkActive]="'active'" [routerLink]="'/search-house'" (click)="closeToogleMenu(2)">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-lar-x">Пошук Оселі</p>
-            <p class="t-min">Відкрити пошук осель</p>
-          </div>
-        </a>
-        <button [ngClass]="{'active': section[4]}" class="link-btn" (click)="toogleSection(4)">
-          <i class="fa-solid fa-circle-chevron-down"></i>
-        </button>
-      </div>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/subscriptions-user'" *ngIf="linkOpen[2] && section[4]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-regular fa-heart pl-2"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Вподобані</p>
-          <p class="t-min">Оселі на які ви підписані</p>
-        </div>
-      </a>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/subscribers-user'" *ngIf="linkOpen[2] && section[4]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-house-fire pl-2"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Запропоновані</p>
-          <p class="t-min">Оселі які підписані на вас</p>
-        </div>
-      </a>
-
-      <a [@cardAnimationLeft]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/subscribers-discuss'" *ngIf="linkOpen[2] && section[4]"
-        (click)="closeToogleMenu(1)">
-        <i class="fa-solid fa-person-walking-luggage"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Дискусії</p>
-          <p class="t-min">Оселі з якими я в Дискусії</p>
-        </div>
-      </a>
-
-      <div class="link-container">
-        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item" *ngIf="linkOpen[2] "
-          [routerLinkActive]="'active'" [routerLink]="'/chat-user'" (click)="closeToogleMenu(2)">
-          <i class="fa-solid fa-message"></i>
-          <div class="flex-column pl-2 t-e">
-            <p class="t-lar-x">Повідомлення</p>
-            <p class="t-min">Відкрити пошук осель</p>
-          </div>
-        </a>
-        <!-- <button [ngClass]="{'active': section[2]}" class="link-btn" (click)="toogleSection(3)">
-          <i class="fa-solid fa-circle-chevron-down"></i>
-        </button> -->
+      <div class="w-100">
+        <app-navigation-user></app-navigation-user>
       </div>
 
       <div [@appearance] class="btn-group">
@@ -270,6 +107,7 @@
           <div class="t-med white">ЗГОРНУТИ</div>
         </button>
       </div>
+
     </div>
   </div>
   <div class="menu" [ngClass]="{'active': menu[3]}" *ngIf="menu[3]">

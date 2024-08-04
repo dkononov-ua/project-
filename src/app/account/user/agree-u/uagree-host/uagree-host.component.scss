@@ -1,9 +1,0 @@
-@use "../../../../style/presets/" as *;
-@use "../../../../style/mixins/" as *;
-@use "../../../../style/shared.scss";
-
-.main-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-}

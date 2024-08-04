@@ -170,6 +170,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.getStatusMenu();
     this.checkLocation();
     this.checkUserAuthorization();
+    this.getIndexMenu();
   }
 
   // перевірка на девайс
@@ -265,14 +266,27 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   // підписка на статус меню
   async getStatusMenu() {
-    this.menuService.toogleMenu$.subscribe((menuStatus: MenuStatus) => {
-      this.servicsMenu = menuStatus.index;
-      this.statusMenu = menuStatus.status;
-      this.toggleAllMenu(this.servicsMenu);
-      setTimeout(() => {
-        this.bgMenu = true
-      }, 10);
-    });
+    this.subscriptions.push(
+      this.menuService.toogleMenu$.subscribe((menuStatus: MenuStatus) => {
+        this.servicsMenu = menuStatus.index;
+        this.statusMenu = menuStatus.status;
+        this.toggleAllMenu(this.servicsMenu);
+        setTimeout(() => {
+          this.bgMenu = true
+        }, 10);
+      })
+    );
+  }
+
+  // підписка на статус меню
+  async getIndexMenu() {
+    this.subscriptions.push(
+      this.menuService.indexMenu$.subscribe((index: number) => {
+        if (index && !this.statusMenu) {
+          this.closeToogleMenu(index);
+        }
+      })
+    );
   }
 
   // відкриття меню через сервіс
