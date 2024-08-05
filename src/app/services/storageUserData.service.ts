@@ -126,6 +126,7 @@ export class StorageUserDataService implements OnDestroy {
     if (storageUserLooking) {
       const storageUserObject = JSON.parse(storageUserLooking);
       this.userInfo = storageUserObject;
+      // console.log(this.userInfo)
       if (this.userInfo) {
         setTimeout(() => {
           this.activateTenantProfile(this.userInfo);
@@ -154,9 +155,9 @@ export class StorageUserDataService implements OnDestroy {
     });
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson) {
-        this.saveUserInfo(userInfo, true);
+        this.saveUserInfo(userInfo, 1);
       } else {
-        this.saveUserInfo(userInfo, false);
+        this.saveUserInfo(userInfo, 0);
       }
     });
   }
@@ -174,13 +175,13 @@ export class StorageUserDataService implements OnDestroy {
       });
       dialogRef.afterClosed().subscribe(async (result: any) => {
         if (result === true && userJson) {
-          this.saveUserInfo(this.userFeaturesData, false);
+          this.saveUserInfo(this.userFeaturesData, 0);
         }
       });
     }
   }
 
-  async saveUserInfo(userData: any, agree: boolean): Promise<void> {
+  async saveUserInfo(userData: any, agree: number): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
@@ -190,8 +191,8 @@ export class StorageUserDataService implements OnDestroy {
         }
         const data = {
           agree_search: agree,
-          price_of: userData.price_of,
-          price_to: userData.price_to,
+          price_of: userData.price_of.toString(),
+          price_to: userData.price_to.toString(),
           region: userData.region,
           city: userData.city,
           rooms_of: userData.rooms_of,
@@ -202,11 +203,11 @@ export class StorageUserDataService implements OnDestroy {
           bunker: userData.bunker,
           balcony: userData.balcony,
           animals: userData.animals,
-          distance_metro: userData.distance_metro,
-          distance_stop: userData.distance_stop,
-          distance_green: userData.distance_green,
-          distance_shop: userData.distance_shop,
-          distance_parking: userData.distance_parking,
+          distance_metro: userData.distance_metro || 0,
+          distance_stop: userData.distance_stop || 0,
+          distance_green: userData.distance_green || 0,
+          distance_shop: userData.distance_shop || 0,
+          distance_parking: userData.distance_parking || 0,
           option_pay: userData.option_pay,
           day_counts: userData.day_counts,
           purpose_rent: userData.purpose_rent,

@@ -12,6 +12,12 @@
   top: 0;
   margin-top: 1rem;
   background-image: linear-gradient(to right, transparent 0%, transparent) !important;
+
+  .menu-box {
+    width: 40%;
+    max-width: 200px;
+  }
+
   @include s1-s3 {
     @include box-shadow;
     margin-top: 0 !important;
@@ -24,7 +30,6 @@
       color: $color-white;
     }
     .menu-box {
-      // border-right: 2px solid $color-white;
       border: none;
     }
   }

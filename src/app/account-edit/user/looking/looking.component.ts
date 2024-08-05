@@ -8,6 +8,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { Location } from '@angular/common';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 interface UserInfo {
   price_of: number | undefined;
   price_to: number | undefined;
@@ -212,13 +213,26 @@ export class LookingComponent implements OnInit, OnDestroy {
     private router: Router,
     private sharedService: SharedService,
     private location: Location,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
-    await this.getInfo();
+  }
+
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Пошук орендаря',
+      description: 'Пояснення як працює створення та розміщення оголошень про здачу оселі та пошук орендаря',
+      keywords: 'шукаю, пошук, потрібні, орендаря, орендарь, орендарів, допомога з пошуком орендарів, здача оселі, здаю оселю, здаю житло, розмістити оголошення, орендодавець',
+      // image: '/assets/blog/blog.png',
+      // url: 'https://discussio.site/blog',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // підписка на шлях до серверу
@@ -249,6 +263,7 @@ export class LookingComponent implements OnInit, OnDestroy {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
+      this.router.navigate(['/user/edit/looking']);
     } else {
       this.authorization = false;
     }
@@ -293,43 +308,12 @@ export class LookingComponent implements OnInit, OnDestroy {
     }
   }
 
-  // отримуємо інформацію про наш профіль орендаря
-  async getInfo(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
-        const storageUserLooking = localStorage.getItem('storageUserLooking');
-        console.log(storageUserLooking)
-        if (storageUserLooking) {
-          this.getStorageData();
-        } else {
-          this.userInfo = response.inf;
-        }
-
-
-        console.log(response)
-        if (response.status === true) {
-        } else {
-          this.getStorageData();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      this.getStorageData();
-    }
-  }
-
   // Якщо я на сторінці профілю
   async getStorageData() {
-    console.log('getStorageData')
     const storageUserLooking = localStorage.getItem('storageUserLooking');
     if (storageUserLooking) {
       const storageUserObject = JSON.parse(storageUserLooking);
       this.userInfo = storageUserObject;
-      console.log(this.userInfo)
-      // this.saveInfo(1);
     } else {
       this.clearInfoCard1();
       this.clearInfoCard2();
@@ -338,119 +322,7 @@ export class LookingComponent implements OnInit, OnDestroy {
   }
 
   async saveInfo(agree: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      // якщо я авторизований то зберігаю інформацію у свій профіль
-      this.saveUserInfo(agree);
-    } else {
-      // якщо я не авторизований то зберігаю інформацію локально а потім при авторизації зберігаю у профіль
-      this.saveInfoLocal(agree);
-    }
-  }
-
-  async saveUserInfo(agree: any): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        if (this.userInfo.option_pay === 2) {
-          this.userInfo.price_of = 0.01;
-          this.userInfo.price_to = 0.01;
-        }
-        const data = {
-          agree_search: agree,
-          price_of: this.userInfo.price_of,
-          price_to: this.userInfo.price_to,
-          region: this.userInfo.region,
-          city: this.userInfo.city,
-          rooms_of: this.userInfo.rooms_of,
-          rooms_to: this.userInfo.rooms_to,
-          area_of: this.userInfo.area_of,
-          area_to: this.userInfo.area_to,
-          repair_status: this.userInfo.repair_status,
-          bunker: this.userInfo.bunker,
-          balcony: this.userInfo.balcony,
-          animals: this.userInfo.animals,
-          distance_metro: this.userInfo.distance_metro,
-          distance_stop: this.userInfo.distance_stop,
-          distance_green: this.userInfo.distance_green,
-          distance_shop: this.userInfo.distance_shop,
-          distance_parking: this.userInfo.distance_parking,
-          option_pay: this.userInfo.option_pay,
-          day_counts: this.userInfo.day_counts,
-          purpose_rent: this.userInfo.purpose_rent,
-          house: this.userInfo.house,
-          flat: this.userInfo.flat,
-          room: this.userInfo.room,
-          looking_woman: this.userInfo.looking_woman,
-          looking_man: this.userInfo.looking_man,
-          students: this.userInfo.students,
-          woman: this.userInfo.woman,
-          man: this.userInfo.man,
-          family: this.userInfo.family,
-          days: this.userInfo.days,
-          weeks: this.userInfo.weeks,
-          mounths: this.userInfo.mounths,
-          years: this.userInfo.years,
-          about: this.userInfo.about,
-          metro: this.userInfo.metro,
-        };
-        // console.log(data)
-        const response: any = await this.http.post(this.serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
-        // console.log(response)
-        if (response.status === true) {
-          // результат якщо я натискаю деактивувати оголошення
-          if (this.userInfo.agree_search === 0 && this.deactivation) {
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Деактивовано!');
-              this.deactivation = false;
-              setTimeout(() => {
-                // this.router.navigate(['/user/info']);
-                this.sharedService.setStatusMessage('');
-                location.reload();
-              }, 3000);
-            }, 1000);
-          }
-          // результат якщо я натискаю зберегти
-          if (this.userInfo.agree_search === 0 && !this.deactivation) {
-            this.sharedService.setStatusMessage('Збережено!');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оголошення не активовано');
-              setTimeout(() => {
-                // this.router.navigate(['/user/info']);
-                this.sharedService.setStatusMessage('');
-                localStorage.removeItem('storageUserLooking');
-                location.reload();
-              }, 2000);
-            }, 2000);
-          }
-          // результат якщо я натискаю активувати оголошення
-          if (this.userInfo.agree_search === 1) {
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Активовано!');
-              setTimeout(() => {
-                // this.router.navigate(['/user/info']);
-                this.sharedService.setStatusMessage('');
-                localStorage.removeItem('storageUserLooking');
-                location.reload();
-              }, 3000);
-            }, 1000);
-          }
-        } else {
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Помилка формування');
-            setTimeout(() => {
-              location.reload();
-            }, 3000);
-          }, 1000);
-        }
-      } catch (error) {
-        console.error(error);
-        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
-        setTimeout(() => { location.reload }, 2000);
-      }
-    } else {
-      console.log('Авторизуйтесь');
-    }
+    this.saveInfoLocal(agree);
   }
 
   saveInfoLocal(agree: any) {
@@ -589,35 +461,6 @@ export class LookingComponent implements OnInit, OnDestroy {
       this.errorMessage = 'Оберіть місто';
       return;
     }
-  }
-
-  // підвантажую станції метро з бази даних
-  // loadStations() {
-  //   if (!this.userInfo) return;
-  //   const searchTerm = this.userInfo.metro!.toLowerCase();
-  //   const subwayStations = subway.find(city => city.name === this.userInfo.city)?.lines;
-  //   this.filteredStations = subwayStations
-  //     ? subwayStations.flatMap(line => line.stations.filter(station => station.name.toLowerCase().includes(searchTerm)))
-  //     : [];
-  // }
-
-  // активую оголошення
-  async ativationBtn(): Promise<void> {
-    // чекаю перевірки на те чи внесли ми всі важливі поля
-    const isUserSearchActivated = await this.checkAtivationUserSearch();
-    if (isUserSearchActivated) {
-      // console.log('Активую оголошення')
-      this.activationUserSearch = true;
-      this.sharedService.setStatusMessage('Активую оголошення');
-      this.saveInfo(this.userInfo.agree_search = 1);
-    }
-  }
-
-  // деактивуємо оголошення
-  deactivationBtn() {
-    this.sharedService.setStatusMessage('Деактивую...');
-    this.deactivation = true;
-    this.saveInfo(this.userInfo.agree_search = 0)
   }
 
   // робимо клік на поле там де треба вносити інформацію

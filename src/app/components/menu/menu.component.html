@@ -86,17 +86,6 @@
 
     <div appClickOutside (clickOutside)="onClickedOutside(2)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
 
-      <div class="wrapper-img" *ngIf="userData" (click)="closeToogleMenu(2)">
-        <img *ngIf="userData.img && userData.img[0].img !== 'user_default.svg'" [@top4] class="img-fluid"
-          [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img">
-        <img *ngIf="!userData.img || userData.img[0].img === 'user_default.svg'" [@top4] class="img-fluid"
-          src="../../../assets/user_default.svg" alt="img">
-      </div>
-
-      <div class="menu_title">
-        Меню Користувача<i class="fa-regular fa-compass pl-2"></i>
-      </div>
-
       <div class="w-100">
         <app-navigation-user></app-navigation-user>
       </div>

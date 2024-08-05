@@ -6,6 +6,7 @@ import { Agree } from 'src/app/interface/info';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { CounterService } from 'src/app/services/counter.service';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-agree-user-page',
@@ -66,12 +67,25 @@ export class AgreeUserPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private sharedService: SharedService,
     private counterService: CounterService,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.updateMetaTagsInService();
     await this.getCheckDevice();
     await this.getServerPath();
     this.checkUserAuthorization();
+  }
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Створення угод оренди житла',
+      description: 'Пояснення як працює створення угоди оренди нерухомості в Діскусіо',
+      keywords: 'угода, оренда, укласти угоду, сформувати угоду, завантажити угоду оренди, надрукувати угоду',
+      // image: '/assets/blog/blog.png',
+      // url: 'https://discussio.site/blog',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // підписка на шлях до серверу

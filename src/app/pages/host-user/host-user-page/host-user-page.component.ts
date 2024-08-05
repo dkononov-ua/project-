@@ -4,6 +4,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 @Component({
   selector: 'app-host-user-page',
   templateUrl: './host-user-page.component.html',
@@ -34,12 +35,26 @@ export class HostUserPageComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private dataService: DataService,
     private location: Location,
+    private updateMetaTagsService: UpdateMetaTagsService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
+  }
+
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Профіль користувача',
+      description: 'Переглядайте вашу інформацію та керуйте аккаунтом',
+      keywords: 'акаунт, профіль користувача, моя сторінка, мій профіль, prifile',
+      // image: '/assets/blog/blog.png',
+      // url: 'https://discussio.site/blog',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // підписка на шлях до серверу

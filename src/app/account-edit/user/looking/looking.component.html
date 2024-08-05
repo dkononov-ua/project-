@@ -125,13 +125,6 @@
           </p>
         </div>
 
-        <div class="btg-group jc-c w-100 d-flex">
-          <button class="b-primary" (click)="deactivationBtn()" *ngIf="userInfo.agree_search === 1">
-            <i class="fa-solid fa-power-off pr-2"></i>
-            <div class="t-med bold">Деактивувати</div>
-          </button>
-        </div>
-
         <div [@right3] class="flex-group mb-2" *ngIf="userInfo.agree_search !== 1 || !userInfo.agree_search">
           <a class="b-primary bg-red" target="_blank"
             href="https://www.youtube.com/watch?v=Tf7MSJuKjnM&ab_channel=Discussio">
@@ -231,11 +224,6 @@
               <p class="text t-c">Вибір іншого житла - це легко та зручно завдяки <strong>"Пошуковому профілю
                   орендаря"</strong>. Лише три кроки розділяють вас від ідеального житла.
               </p>
-            </div>
-            <div class="flex-group mb-2">
-              <button class="link-t b-primary" (click)="deactivationBtn()" *ngIf="userInfo.agree_search === 1">
-                <span class="m-2">Деактивувати</span><i class="fa-solid fa-power-off p-2"></i>
-              </button>
             </div>
 
             <div class="btn-group jc-c w-100 d-flex">
@@ -902,30 +890,9 @@
                 <div class="t-med bold p-2">Назад</div>
               </button>
 
-              <!-- <button class="btn" (click)="clearInfoCard3()">
-                  <i class="icon fa-solid fa-eraser pr-2"></i> Очистити
-                </button> -->
-
-              <button *ngIf="!authorization" class="btn" (click)="saveInfoLocal(userInfo.agree_search = 0)">
+              <button class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
                 <i class="fa-regular fa-circle-check pr-2"></i>
                 <div class="t-med bold p-2">Зберегти</div>
-              </button>
-
-              <button *ngIf="authorization" class="btn" (click)="saveInfo(userInfo.agree_search = 0)">
-                <i class="fa-regular fa-circle-check pr-2"></i>
-                <div class="t-med bold p-2">Зберегти</div>
-              </button>
-
-              <button class="btn" (click)="ativationBtn()"
-                *ngIf="authorization && !userInfo.agree_search || authorization && userInfo.agree_search === 0">
-                <i class="fa-solid fa-sign-hanging pr-2"></i>
-                <div class="t-med bold p-2">Активувати</div>
-              </button>
-
-              <button class="btn" class="btn" (click)="deactivationBtn()"
-                *ngIf="authorization && userInfo.agree_search === 1">
-                <i class="fa-solid fa-power-off pr-2"></i>
-                <div class="t-med bold p-2">Деактивувати</div>
               </button>
 
             </div>

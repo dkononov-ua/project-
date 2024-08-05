@@ -1,9 +1,25 @@
 <div class="menu">
 
+  <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2" *ngIf="userData"
+    (click)="closeToogleMenu(2)">
+    <img *ngIf="userData.img && userData.img[0].img !== 'user_default.svg'" class="img-fluid"
+      [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img">
+    <img *ngIf="!userData.img || userData.img[0].img === 'user_default.svg'" class="img-fluid"
+      src="../../../assets/user_default.svg" alt="img">
+    <div class="userName pl-2" *ngIf="userData">
+      <p class="t-lar bold">{{userData.inf.firstName}}</p>
+      <p class="t-min">{{userData.inf.lastName}} ID : {{userData.inf.user_id}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="isMobile" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="menu_title">
+    Меню Користувача<i class="fa-regular fa-compass pl-2"></i>
+  </div>
+
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/info'">
+        [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-user"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Дії аккаунту</p>
@@ -17,7 +33,7 @@
     </div>
     <div class="subcategory-container" *ngIf="section[1]">
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-id-badge"></i>
         <div class="flex-column pl-2 t-e">
@@ -26,7 +42,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
         <div class="flex-column pl-2 t-e">
@@ -35,7 +51,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
         <div class="flex-column pl-2 t-e">
@@ -44,7 +60,7 @@
         </div>
       </a>
 
-      <button [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+      <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         (click)="logout()">
         <i class="fa-solid fa-door-open"></i>
         <div class="flex-column pl-2 t-e">
@@ -60,7 +76,7 @@
     <div class="category">
       <div class="w-100">
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item"
-          [routerLinkActive]="'active'" [routerLink]="'/user/tenant'">
+          [routerLinkActive]="'active'" [routerLink]="'/user/tenant'" (click)="closeToogleMenu(2)">
           <i class="fa-solid fa-person-hiking"></i>
           <div class="flex-column pl-2 t-e">
             <p class="t-med">Профіль</p>
@@ -77,7 +93,7 @@
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[3]">
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/tenant'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
@@ -85,7 +101,7 @@
           <p class="t-min">Про функцію</p>
         </div>
       </a>
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/tenant-step'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-shoe-prints"></i>
         <div class="flex-column pl-2 t-e">
@@ -94,7 +110,7 @@
         </div>
       </a>
 
-      <button (click)="deactivateTenantProfile()" [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}"
+      <button (click)="deactivateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
         class="link-item subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1">
         <i class="fa-solid fa-power-off"></i>
         <div class="flex-column pl-2 t-e">
@@ -103,7 +119,7 @@
         </div>
       </button>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
         <div class="flex-column pl-2 t-e">
@@ -117,7 +133,7 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/discus'">
+        [routerLinkActive]="'active'" [routerLink]="'/user/discus'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-signs-post"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Підписки</p>
@@ -131,7 +147,7 @@
     </div>
     <div class="subcategory-container" *ngIf="section[4]">
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
@@ -140,7 +156,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-heart pl-2"></i>
         <div class="flex-column pl-2 t-e">
@@ -149,7 +165,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-house-fire pl-2"></i>
         <div class="flex-column pl-2 t-e">
@@ -158,7 +174,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-person-walking-luggage"></i>
         <div class="flex-column pl-2 t-e">
@@ -172,7 +188,7 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree'">
+        [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-envelope-open-text"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Угоди</p>
@@ -186,7 +202,7 @@
     </div>
     <div class="subcategory-container" *ngIf="section[2]">
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
@@ -195,7 +211,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-shoe-prints"></i>
         <div class="flex-column pl-2 t-e">
@@ -204,7 +220,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/rewiew'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-hourglass-half"></i>
         <div class="flex-column pl-2 t-e">
@@ -213,7 +229,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-file-circle-check"></i>
         <div class="flex-column pl-2 t-e">
@@ -247,7 +263,7 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search'">
+        [routerLinkActive]="'active'" [routerLink]="'/user/search'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-magnifying-glass"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Пошук</p>
@@ -260,7 +276,7 @@
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[7]">
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/search/house'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-house-flag"></i>
         <div class="flex-column pl-2 t-e">
@@ -269,7 +285,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/search/tenant'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-child-reaching"></i>
         <div class="flex-column pl-2 t-e">
@@ -278,7 +294,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/search/neighbor'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-restroom"></i>
         <div class="flex-column pl-2 t-e">
@@ -293,7 +309,7 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit'">
+        [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Редагування</p>
@@ -308,7 +324,7 @@
 
     <div class="subcategory-container" *ngIf="section[6]">
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/person'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-user"></i>
         <div class="flex-column pl-2 t-e">
@@ -317,7 +333,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/contacts'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-share-nodes"></i>
         <div class="flex-column pl-2 t-e">
@@ -326,7 +342,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/status'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-sliders"></i>
         <div class="flex-column pl-2 t-e">
@@ -335,7 +351,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-person-hiking"></i>
         <div class="flex-column pl-2 t-e">
@@ -344,7 +360,7 @@
         </div>
       </a>
 
-      <a [@cardAnimationUp]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/delete'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-user-minus"></i>
         <div class="flex-column pl-2 t-e">

@@ -100,6 +100,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   counterWrongEnteredPass: number = 5;
   timeLeft: number = 0;
   checkDob: boolean = false;
+  regForm: boolean = false;
+
+  toogleRegForm() {
+    this.regForm = !this.regForm;
+  }
 
   nextBtn(indexBtn: number) {
     if (indexBtn)

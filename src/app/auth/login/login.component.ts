@@ -80,6 +80,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   authorization: boolean = false;
 
+  logForm: boolean = false;
+
+  toogleForm() {
+    this.logForm = !this.logForm;
+  }
+
   togglePasswordVisibility() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }

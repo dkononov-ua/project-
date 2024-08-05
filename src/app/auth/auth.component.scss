@@ -92,14 +92,12 @@
       align-items: center;
       justify-content: center;
       padding: 10px;
+      flex-direction: column;
       @include s3-s6-max {
         max-width: 400px;
       }
       background-color: $color-white !important;
-      @include s1-s3 {
-        flex-direction: column;
-        // justify-content: flex-start;
-      }
+
       .card-content1 {
         height: 100%;
         width: 100%;
@@ -109,6 +107,9 @@
         background-color: $color-white;
         padding: 10px;
         border-radius: 20px;
+        @include s1-s3 {
+          justify-content: flex-start;
+        }
       }
     }
   }

@@ -14,17 +14,10 @@
     </div>
   </div>
 
-  <button class="menu-box t-s" (click)="toggleAllMenu(1)">
+  <a class="menu-box t-s" [routerLinkActive]="'active'" [routerLink]="'/home'">
     <div class="menu-lable">{{page_title}}</div>
     <div class="menu-name">{{page_description}}</div>
-  </button>
-
-  <div class="switch-btn-group">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
-      <i class="fa-solid fa-blog"></i>
-      <div class="t-min">Блог</div>
-    </a>
-  </div>
+  </a>
 
   <div class="switch-btn-group" *ngIf="!authorization">
     <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
@@ -40,22 +33,8 @@
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="!isMobile">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/discussio-search'">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <div class="t-min">Пошук</div>
-    </a>
-  </div>
-
-  <div class="switch-btn-group" *ngIf="!isMobile">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
-      <i class="fa-solid fa-hands-holding-child"></i>
-      <div class="t-min">Підтримати</div>
-    </a>
-  </div>
-
-  <div class="switch-btn-group" *ngIf="authorization && !user_router && !isMobile" (click)="toggleAllMenu(2)">
-    <a class="btn">
+  <div class="switch-btn-group" *ngIf="authorization && !isMobile">
+    <a class="btn" [routerLink]="'/user/info'">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
     </a>
@@ -74,5 +53,33 @@
       <div class="t-min">Оселя</div>
     </a>
   </div>
+
+  <div class="switch-btn-group" *ngIf="!isMobile">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+      <i class="fa-solid fa-blog"></i>
+      <div class="t-min">Блог</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="!isMobile">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/search/'">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <div class="t-min">Пошук</div>
+    </a>
+  </div>
+
+    <!-- <div class="switch-btn-group" *ngIf="!isMobile">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
+      <i class="fa-solid fa-hands-holding-child"></i>
+      <div class="t-min">Підтримати</div>
+    </a>
+  </div> -->
+
+  <!-- <div class="switch-btn-group" *ngIf="!isMobile">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
+      <i class="fa-solid fa-hands-holding-child"></i>
+      <div class="t-min">Підтримати</div>
+    </a>
+  </div> -->
 
 </nav>

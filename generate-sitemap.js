@@ -19,7 +19,14 @@ const routes = [
   '/our-team',
   '/auth/login',
   '/auth/registration',
-  '/discussio-search',
+
+  '/user/search/house',
+  '/user/search/tenant',
+  '/user/search/neighbor',
+
+  '/user/agree/about',
+  '/user/discus/about',
+  '/user/tenant',
 ];
 
 console.log('Маршрути:', routes);

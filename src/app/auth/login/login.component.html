@@ -32,10 +32,25 @@
 
           <h2 class="t-lar-xx bold t-c dark w-100">Вхід в аккаунт</h2>
 
-          <!-- <div class="t-med gray dark mt-2 t-c">Якщо у вас ще немає облікового запису</div>
-          <button [routerLink]="'/auth/registration'"
-            class="btn-none t-lar mb-2">зареєструйтесь тут</button> -->
-          <form class="form" [formGroup]="loginForm">
+          <div class="googleForm" *ngIf="!logForm">
+
+            <div class="t-med t-c mt-3">Якщо у вас є Google аккаунт увійдіть за допомогою його
+            </div>
+
+            <button class="btn btn-secondary mt-2 w-100" (click)="openGoogleAuth()">
+              Увійти з гугл <i class="fa-brands fa-google"></i>
+            </button>
+
+            <div class="t-med t-c mt-3">
+              Якщо немає то увійдіть через форму
+            </div>
+
+            <button class="btn btn-secondary mt-2 w-100" (click)="toogleForm()">
+              Вхід через форму <i class="fa-solid fa-right-to-bracket pl-2"></i>
+            </button>
+          </div>
+
+          <form class="form" [formGroup]="loginForm" *ngIf="logForm">
 
             <div *ngIf="timeLeft > 0" class="accent t-c t-med">
               Ви перевисили ліміт введення неправильного коду!
@@ -44,8 +59,8 @@
 
             <mat-form-field class="inputbox" appearance="fill">
               <mat-label>Email</mat-label>
-              <input matInput class="input-field" id="email" placeholder="Введіть Email" type="text" formControlName="email" placeholder="email"
-                required>
+              <input matInput class="input-field" id="email" placeholder="Введіть Email" type="text"
+                formControlName="email" placeholder="email" required>
               <mat-hint align="start" class="alert alert-danger"
                 *ngIf="formErrors.email">{{formErrors.email}}</mat-hint>
             </mat-form-field>
@@ -62,20 +77,18 @@
                 *ngIf="formErrors.password">{{formErrors.password}}</mat-hint>
             </mat-form-field>
 
-            <button class="btn btn-primary mt-2" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
-              (click)="login()">Увійти <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <button class="btn btn-primary mt-2" [disabled]="!loginForm.valid"
+              [ngClass]="{'disabled-button': !loginForm.valid}" (click)="login()">Увійти <i
+                class="fa-solid fa-arrow-right-from-bracket"></i>
             </button>
 
-            <div class="t-med t-c mt-3">Якщо є Google аккаунт увійдіть за допомогою його
-            </div>
 
-            <button class="btn btn-secondary m-2" (click)="openGoogleAuth()">
-              Увійти з <i class="fa-brands fa-google"></i>
-            </button>
 
           </form>
 
         </div>
+        <app-footer></app-footer>
+
       </div>
     </div>
 

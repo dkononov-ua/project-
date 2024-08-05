@@ -17,12 +17,12 @@ import { MenuService } from 'src/app/services/menu.service';
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateY(1220%)' }),
-        animate('{{delay}}ms ease-in-out', style({ transform: 'translateY(0)' }))
+        style({ transform: 'translateX(100%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
-        style({ transform: 'translateY(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateY(1220%)' }))
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(100%)' }))
       ]),
     ]),
     trigger('cardAnimationUp', [
