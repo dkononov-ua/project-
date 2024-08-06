@@ -12,22 +12,22 @@
       <div class=" img-fluid">
         <div class="container-loader-mini">
           <mat-spinner color="warn"></mat-spinner>
-          <img [@top2]  [src]="serverPath + pathPhotoUser + user.img" (load)="isLoadingImg = true" hidden>
+          <img [@top2] [src]="serverPath + pathPhotoUser + user.img" (load)="isLoadingImg = true" hidden>
           <div class="t-min bold gray mt-2">Завантаження фото</div>
         </div>
       </div>
     </ng-container>
 
     <ng-container *ngIf="!user.img || user.img === 'user_default.svg'">
-      <img [@top2]  class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
+      <img [@top2] class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
     </ng-container>
     <div class="info-panel">
     </div>
     <div [@top1] class="decor"></div>
+
   </div>
 
   <div [@left2] class="func" *ngIf="currentLocation !== '/user/info'">
     <app-functions></app-functions>
-  </div>
 
 </div>

@@ -245,7 +245,7 @@ export class SharedService {
     this.statusMessageService.setStatusMessage('Потрібно обрати оселю');
     this.clearCacheHouse();
     setTimeout(() => {
-      this.router.navigate(['/house/house-control/selection-house']);
+      this.router.navigate(['/house/control/selection']);
       this.statusMessageService.setStatusMessage('');
     }, 1500);
   }
@@ -257,7 +257,7 @@ export class SharedService {
     setTimeout(() => {
       this.statusMessageService.setStatusMessage('Очищуємо дані');
       setTimeout(() => {
-        this.router.navigate(['/house/house-control/selection-house']);
+        this.router.navigate(['/house/control/selection']);
         this.statusMessageService.setStatusMessage('');
       }, 1500);
     }, 2500);

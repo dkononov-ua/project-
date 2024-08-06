@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../../../interface/info';
-import { ConfirmActionsComponent } from 'src/app/agreements/confirm-actions/confirm-actions.component';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { ConfirmActionsComponent } from 'src/app/components/agreements/confirm-actions/confirm-actions.component';
 
 @Component({
   selector: 'app-agree-user-review',

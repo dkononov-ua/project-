@@ -85,7 +85,7 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
 
   // перевірка де я знаходжусь
   async checkLocation() {
-    if (this.currentLocation === '/house') {
+    if (this.currentLocation === '/house/info') {
       await this.loadDataFlat();
     } else {
       await this.getCardsData();

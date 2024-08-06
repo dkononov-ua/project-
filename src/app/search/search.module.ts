@@ -13,7 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
-import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
@@ -33,48 +33,57 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchTermHouseComponent } from './search-housing/search-term-house/search-term-house.component';
 import { SearchTermTenantsComponent } from './search-tenant/search-term-tenants/search-term-tenants.component';
 import { SearchComponent } from './search/search.component';
-@NgModule({ declarations: [
-        SearchTenantComponent,
-        ProfileComponent,
-        SearchHousingComponent,
-        HouseComponent,
-        SearchTermTenantsComponent,
-        SearchTermHouseComponent,
-        SearchComponent,
-    ], imports: [
-        // BrowserModule,
-        // AppRoutingModule,
-        // BrowserAnimationsModule,
-        NgbModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatCardModule,
-        DragDropModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatFormFieldModule,
-        RouterModule,
-        CommonModule,
-        MatSelectModule,
-        MatDialogModule,
-        MatSliderModule,
-        SharedModule,
-        MatIconModule,
-        MatTooltipModule,
-        FormsModule,
-        MatAutocompleteModule,
-        NgbTypeaheadModule,
-        MatPaginatorModule,
-        MatRadioModule,
-        MatCheckboxModule,
-        MatMenuModule,
-        MatProgressSpinnerModule], providers: [
-        FilterService,
-        FilterUserService,
-        { provide: MatPaginatorIntl },
-        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
+import { MatStepperModule } from '@angular/material/stepper';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+@NgModule({
+  declarations: [
+    SearchTenantComponent,
+    ProfileComponent,
+    SearchHousingComponent,
+    HouseComponent,
+    SearchTermTenantsComponent,
+    SearchTermHouseComponent,
+    SearchComponent,
+  ],
+  imports: [
+    BrowserAnimationsModule,
+    MatStepperModule,
+    HammerModule,
+    BrowserModule,
+
+    NgbModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCardModule,
+    DragDropModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    RouterModule,
+    CommonModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatSliderModule,
+    SharedModule,
+    MatIconModule,
+    MatTooltipModule,
+    FormsModule,
+    MatAutocompleteModule,
+    NgbTypeaheadModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatMenuModule,
+    MatProgressSpinnerModule
+  ],
+  providers: [
+    FilterService,
+    FilterUserService,
+    { provide: MatPaginatorIntl },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
+    provideHttpClient(withInterceptorsFromDi()),
+  ]
+})
 export class SearchModule { }

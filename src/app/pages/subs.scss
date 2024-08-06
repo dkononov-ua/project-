@@ -1,0 +1,36 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/shared.scss";
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  position: relative;
+}
+
+.width-param {
+  position: relative;
+}
+
+.card-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: $color-white;
+  border-radius: 20px;
+  z-index: 10;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @include box-shadow;
+  @include s3-s6-max {
+    height: auto;
+    max-height: 750px;
+    overflow: auto;
+  }
+  @include s1-s3 {
+    height: auto;
+  }
+}
+

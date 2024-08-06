@@ -110,7 +110,7 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
 
   // перевірка де я знаходжусь
   async checkLocation() {
-    if (this.currentLocation === '/house') {
+    if (this.currentLocation === '/house/info') {
       this.getMyFlatData();
     } else {
       await this.getCardsData();

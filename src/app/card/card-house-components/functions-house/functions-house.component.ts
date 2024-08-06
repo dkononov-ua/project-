@@ -10,13 +10,13 @@ import { PaginationConfig } from 'src/app/config/paginator';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
-import { ViewComunService } from '../../../discussi/discussio-user/discus/view-comun.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
 import { CreateChatService } from 'src/app/chat/create-chat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HouseInfo } from '../../../interface/info';
 import { HouseConfig } from '../../../interface/param-config';
+import { ViewComunService } from 'src/app/pages/host-user/host-user-discus/discus/view-comun.service';
 
 @Component({
   selector: 'app-functions-house',
@@ -197,11 +197,11 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   // Видалення карток
   async deleteSubscriber(flat: any): Promise<void> {
     if (this.currentLocation === '/user/discus/discussion') {
-      this.cardsDataService.deleteFlatSub(flat, 'discussio');
+      this.cardsDataService.deleteFlatSub(flat, 'discussioHouse');
     } else if (this.currentLocation === '/user/discus/subscribers') {
-      this.cardsDataService.deleteFlatSub(flat, 'subscribers');
+      this.cardsDataService.deleteFlatSub(flat, 'subscribersHouse');
     } else if (this.currentLocation === '/user/discus/subscriptions') {
-      this.cardsDataService.deleteFlatSub(flat, 'subscriptions');
+      this.cardsDataService.deleteFlatSub(flat, 'subscriptionsHouse');
     }
     this.cardsDataService.getResultDeleteFlatSubject().subscribe(result => {
       if (result.status === true) {

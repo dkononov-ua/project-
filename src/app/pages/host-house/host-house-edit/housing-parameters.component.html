@@ -1,0 +1,59 @@
+<div [@left1] class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div>
+
+  <div class="menu-box hide-mobile">
+    <div class="menu-lable">Меню</div>
+    <div class="menu-name">Налаштування Оселі</div>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'">
+      <i class="fa-solid fa-location-dot"></i>
+      <div class="t-min">Розт.</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/param'">
+      <i class="fa-solid fa-trowel-bricks"></i>
+      <div class="t-min">Парам.</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="acces_flat_features === 1">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/about'">
+      <i class="fa-solid fa-users-gear"></i>
+      <div class="t-min">Особл.</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/photo'">
+      <i class="fa-solid fa-images"></i>
+      <div class="t-min">Фото</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/add-objects'">
+      <i class="fa-solid fa-boxes-packing"></i>
+      <div class="t-min bold">Наповнення</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="acces_flat_features === 1">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/additionally'">
+      <i class="fa-regular fa-address-book"></i>
+      <div class="t-min">Додат.</div>
+    </button>
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>

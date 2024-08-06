@@ -23,7 +23,7 @@ export class LinksBoxComponent implements OnInit, OnDestroy {
     this.detail = !this.detail;
     if (this.detail) {
       setTimeout(() => {
-        if (this.currentLocation === '/search-tenants') {
+        if (this.currentLocation === '/search/tenant') {
           this.closed = true;
         } else {
           this.closed = false;

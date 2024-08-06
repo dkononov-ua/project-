@@ -1,0 +1,16 @@
+<div class="content-wrapper">
+  <div class="width-param col-md-6 col-sm-12 col-12">
+    <div [@appearance] class="component-wrapper">
+      <app-img-house></app-img-house>
+      <app-house-rent-progress></app-house-rent-progress>
+      <div *ngIf="isMobile">
+        <app-info-house></app-info-house>
+      </div>
+    </div>
+  </div>
+  <div class="width-param col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
+    <div [@appearance] class="component-wrapper">
+      <app-info-house></app-info-house>
+    </div>
+  </div>
+</div>

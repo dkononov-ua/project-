@@ -1,1 +1,46 @@
+<div class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLink]="'/user/info'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/discus/about'">
+      <i class="fa-regular fa-circle-question"></i>
+      <div class="t-min bold">Інфо</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [disabled]="counterUserSubscriptions === 0" [routerLinkActive]="'active'"
+      [routerLink]="'/user/discus/subscriptions'">
+      <i class="fa-regular fa-heart pl-2"></i>
+      <div class="t-min bold">Вподобані</div>
+      <div class="status"> {{counterUserSubscriptions}} </div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [disabled]="counterUserSubscribers === 0" [routerLinkActive]="'active'"
+      [routerLink]="'/user/discus/subscribers'">
+      <i class="fa-solid fa-house-fire pl-2"></i>
+      <div class="t-min bold">Запропоновані</div>
+      <div class="status"> {{counterUserSubscribers}} </div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [disabled]="counterUserDiscussio === 0" [routerLinkActive]="'active'"
+      [routerLink]="'/user/discus/discussion'">
+      <i class="fa-solid fa-person-walking-luggage"></i>
+      <div class="t-min bold">Дискусії</div>
+      <div class="status"> {{counterUserDiscussio}} </div>
+    </button>
+  </div>
+
+</div>
+
 <router-outlet></router-outlet>

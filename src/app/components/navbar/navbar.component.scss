@@ -1,118 +1,48 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
-@use "../../style/shared.scss";
 
-.switch-container {
+.navigation-container {
   @include flex-box;
   height: 60px;
   width: 100%;
   justify-content: flex-start;
   z-index: 40;
-  position: sticky;
+  position: fixed;
   top: 0;
-  margin-top: 1rem;
-  background-image: linear-gradient(to right, transparent 0%, transparent) !important;
-
-  .menu-box {
-    width: 40%;
-    max-width: 200px;
-  }
+  padding-top: 1rem;
+  background-image: linear-gradient(to top, transparent 0%, $color-primary 40%) !important;
 
   @include s1-s3 {
-    @include box-shadow;
-    margin-top: 0 !important;
+    // @include box-shadow;
+    padding-top: 0rem !important;
+    background-image: none !important;
     background-color: $color-accent;
-    // border-radius: 0 0 10px 10px;
-    .menu-box,
-    .menu-lable,
-    .menu-name,
-    .fa-solid {
+  }
+}
+
+.item-group {
+  @include flex-box-column;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 80px;
+}
+
+.menu-box {
+  width: 40%;
+  max-width: 200px;
+  @include s1-s3 {
+    .t-lar,
+    .t-med {
       color: $color-white;
     }
     .menu-box {
       border: none;
     }
   }
-
-  .switch-btn-group {
-    @include flex-box-column;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: 80px;
-  }
-
-  .btn-menu {
-    @include flex-box-column;
-    flex: 1;
-  }
-
-  .btn {
-    @include flex-box-column;
-    position: relative;
-    justify-content: center;
-    height: 50px;
-    width: 80px;
-    background-color: transparent;
-    border: none;
-    transition: 1s;
-    &:hover {
-      transform: scale(1.1);
-      .fa-solid,
-      .fa-regular {
-        color: $color-accent;
-        font-size: 36px;
-      }
-      .t-min {
-        color: $color-accent;
-      }
-    }
-    @include s1-s3 {
-      flex: 1;
-      width: 50px;
-      .fa-solid,
-      .fa-regular,
-      .t-min {
-        color: $color-white;
-      }
-    }
-    &.active {
-      .fa-solid,
-      .fa-regular {
-        color: $color-accent;
-        font-size: 36px;
-      }
-      .t-min {
-        color: $color-accent;
-      }
-      font-weight: bold;
-      filter: drop-shadow(0px 0px 2px $color-accent);
-      @include s1-s3 {
-        &.active {
-          .fa-solid,
-          .fa-regular,
-          .t-min {
-            color: $color-dark;
-          }
-        }
-      }
-    }
-    &:disabled {
-      .fa-regular,
-      .fa-solid {
-        color: $color-gray;
-      }
-    }
-    .fa-solid,
-    .fa-regular {
-      font-size: 30px;
-    }
-  }
 }
 
 .lobo-box {
-  width: 50px;
-  height: 50px;
   position: relative;
   .logo-img {
     height: 50px;
@@ -133,6 +63,73 @@
     .fa-solid {
       color: $color-white;
       font-size: 20px;
+    }
+  }
+}
+
+.nav-link {
+  @include flex-box-column;
+  position: relative;
+  justify-content: center;
+  height: 50px;
+  width: 80px;
+  background-color: transparent;
+  border: none;
+  transition: 1s;
+
+  .fa-solid,
+  .fa-regular {
+    font-size: 30px;
+  }
+
+  @include s1-s3 {
+    flex: 1;
+    width: 50px;
+    .fa-solid,
+    .fa-regular,
+    .t-min {
+      color: $color-white;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      font-size: 36px;
+    }
+    .t-min {
+      color: $color-accent;
+    }
+  }
+
+  &.active {
+    .fa-solid,
+    .fa-regular {
+      color: $color-accent;
+      font-size: 36px;
+    }
+    .t-min {
+      color: $color-accent;
+    }
+    font-weight: bold;
+    filter: drop-shadow(0px 0px 2px $color-accent);
+    @include s1-s3 {
+      &.active {
+        .fa-solid,
+        .fa-regular,
+        .t-min {
+          color: $color-dark;
+        }
+      }
+    }
+  }
+
+  &:disabled {
+    .fa-regular,
+    .fa-solid {
+      color: $color-gray;
     }
   }
 }

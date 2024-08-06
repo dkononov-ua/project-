@@ -6,7 +6,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
-import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { LyDialog } from '@alyle/ui/dialog';
 import { ImgCropperEvent } from '@alyle/ui/image-cropper';

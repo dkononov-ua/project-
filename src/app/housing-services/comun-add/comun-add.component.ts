@@ -7,10 +7,10 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DeleteComunComponent } from '../delete-comun/delete-comun.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ServerConfig from 'src/app/config/path-config';
-import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { animations } from '../../interface/animation';
 import { DiscussioViewService } from 'src/app/services/discussio-view.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { ViewComunService } from 'src/app/pages/host-user/host-user-discus/discus/view-comun.service';
 
 @Component({
   selector: 'app-comun-add',

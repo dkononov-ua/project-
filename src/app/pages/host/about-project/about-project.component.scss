@@ -1,0 +1,115 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.container-info {
+  position: relative;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.content-wrapper {
+  @include flex-box-column;
+  @include box-shadow;
+  height: auto;
+  align-items: center;
+  background-color: $color-white;
+  justify-content: flex-start;
+}
+
+.btn-group {
+  z-index: 10;
+  width: 250px;
+}
+
+.t-lar {
+  overflow: hidden; /* Приховуємо текст, який не вміщується в область відображення */
+  white-space: nowrap; /* Вимикаємо перенесення тексту */
+  animation: typing 3.5s steps(80, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.btn-next {
+  animation: pulse 0.5s infinite alternate; /* Збільшувати та зменшувати розмір кнопки безкінечно */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  } /* Початковий розмір */
+  100% {
+    transform: scale(1.1);
+  } /* Збільшений розмір */
+}
+
+.title {
+  text-align: center;
+  border-bottom: 1px dashed $color-light-gray;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+html {
+  transition: 5s;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-transform: capitalize;
+  padding: 0;
+  margin: 0;
+}
+
+.container-box {
+  @include flex-box-center;
+  width: 100%;
+  justify-content: flex-start;
+  .gif-box {
+    @include flex-box-center;
+    flex-direction: column;
+    // height: 100%;
+    position: relative;
+    .home-img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .home-img2 {
+      width: 100%;
+      object-fit: cover;
+      filter: drop-shadow(2px 2px 8px $color-dark);
+    }
+  }
+  .flex-column {
+    // width: 40%;
+    @include flex-box-center;
+    flex-direction: column;
+  }
+  @include s1-s3 {
+    flex-wrap: wrap;
+    flex-direction: column;
+    .gif-box {
+      width: 100%;
+      .home-img,
+      .home-img2 {
+        width: 100%;
+      }
+    }
+    .flex-column {
+      width: 100%;
+    }
+  }
+}
+

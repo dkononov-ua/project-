@@ -8,10 +8,10 @@ import { StatusDataService } from '../status-data.service';
 import { Location } from '@angular/common';
 import { LocationHouseService } from '../location-house.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteSubComponent } from 'src/app/discussi/discussio-house/delete/delete-sub.component';
 import { CounterService } from '../counter.service';
 import { SelectedFlatService } from '../selected-flat.service';
 import { ChoseSubscribersService } from '../chose-subscribers.service';
+import { ActionDeleteSubComponent } from 'src/app/components/action-delete-sub/action-delete-sub.component';
 
 @Injectable({
   providedIn: 'root'
@@ -70,13 +70,13 @@ export class CardsDataHouseService {
     const userJson = localStorage.getItem('user');
     const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
     const currentLocation = this.location.path();
-    if (currentLocation === '/subscribers-discus') {
+    if (currentLocation === '/house/discus/discussion') {
       this.linkPath = '/acceptsubs/get/subs';
     }
-    if (currentLocation === '/subscribers-house') {
+    if (currentLocation === '/house/discus/subscribers') {
       this.linkPath = '/subs/get/subs';
     }
-    if (currentLocation === '/subscriptions-house') {
+    if (currentLocation === '/house/discus/subscriptions') {
       this.linkPath = '/usersubs/get/ysubs';
     }
     // console.log(currentLocation)
@@ -130,27 +130,27 @@ export class CardsDataHouseService {
   }
 
   removeCardData() {
-    this.cardDataSubject.next(null);
+    this.cardDataSubject.next(undefined);
   }
 
   // Видалення
   async deleteUser(user: any, flatSub: string): Promise<void> {
     // console.log(user)
     const userJson = localStorage.getItem('user');
-    const dialogRef = this.dialog.open(DeleteSubComponent, {
+    const dialogRef = this.dialog.open(ActionDeleteSubComponent, {
       data: { user_id: user.user_id, firstName: user.firstName, lastName: user.lastName, flatSub: flatSub, }
     });
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson && user.user_id && this.selectedFlatId) {
         const data = { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, user_id: user.user_id, };
         const currentLocation = this.location.path();
-        if (currentLocation === '/subscribers-discus') {
+        if (currentLocation === '/house/discus/discussion') {
           this.linkPath = '/acceptsubs/delete/subs';
         }
-        if (currentLocation === '/subscribers-house') {
+        if (currentLocation === '/house/discus/subscribers') {
           this.linkPath = '/subs/delete/subs';
         }
-        if (currentLocation === '/subscriptions-house') {
+        if (currentLocation === '/house/discus/subscriptions') {
           this.linkPath = '/usersubs/delete/subs';
         }
         try {

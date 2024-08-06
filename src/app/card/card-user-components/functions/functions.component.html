@@ -8,12 +8,12 @@
       *ngIf="linkOpen[1]">Дії з користувачем
     </div>
 
-    <button [disabled]="currentLocation !== '/subscribers-house'" *ngIf="linkOpen[1]"
+    <button [disabled]="currentLocation !== '/house/discus/subscribers'" *ngIf="linkOpen[1]"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link"
       (click)="approveSubscriber(user)">
       <i class="fa-regular fa-thumbs-up"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-house'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/discus/subscribers'">Доступно в
             Підписниках </span>Дискусія</p>
         <p class="t-min">Ухвалити користувача до Дискусії</p>
       </div>
@@ -37,30 +37,30 @@
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/subscribers-discus'"
+    <button [disabled]="currentLocation !== '/house/discus/discussion'"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link"
       [routerLink]="['/agree-create', user.user_id]" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-file-contract"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discus'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/discus/discussion'">Доступно в
             Дискусії </span>Угода</p>
         <p class="t-min">Створити угоду оренди</p>
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/subscribers-discus'"
+    <button [disabled]="currentLocation !== '/house/discus/discussion'"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="createChat()"
       *ngIf="linkOpen[1] && !chatExists">
       <i class="fa-solid fa-message"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/subscribers-discus'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/discus/discussion'">Доступно в
             Дискусії </span>Чат</p>
         <p class="t-min">Створити чат</p>
       </div>
     </button>
 
     <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="openChat()"
-      *ngIf="linkOpen[1] && chatExists && currentLocation === '/subscribers-discus'">
+      *ngIf="linkOpen[1] && chatExists && currentLocation === '/house/discus/discussion'">
       <i class="fa-solid fa-message"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Написати</p>

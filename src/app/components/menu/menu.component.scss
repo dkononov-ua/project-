@@ -21,31 +21,21 @@
 }
 
 .menu-container {
-  @include flex-box-center;
-  display: flex;
   width: 100%;
   position: fixed;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.736);
+  height: 90vh;
   top: 0;
   left: 0;
   z-index: 2000;
-  align-items: flex-start;
 }
 
 .btn {
   background-color: transparent;
 }
 
-.menu {
-  @include flex-box-center;
-  flex-direction: column;
+.menu-content {
   position: relative;
-  height: auto;
-  width: 40%;
   max-width: 500px;
-  overflow: hidden;
-
   @include s1-s3 {
     width: 100%;
   }
@@ -146,18 +136,17 @@
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
-  overflow: auto;
-  padding: 20px 0.5rem 0rem 0.5rem;
-  height: 100%;
-  max-height: 100vh;
+  // padding: 20px 0.5rem 0rem 0.5rem;
+  height: 80vh;
   width: 100%;
   z-index: 1;
   border-radius: 0 0 20px 20px;
   background-color: $color-accent;
+  box-shadow: 10px 10px 200px 100px rgba(56, 56, 56, 0.947);
   transform: translateY(-100%);
   transition: 0.6s;
   @include s1-s3 {
-    padding: 20px 0rem 0rem 0.5rem;
+    // padding: 20px 0rem 0rem 0.5rem;
   }
   &::-webkit-scrollbar {
     display: none;

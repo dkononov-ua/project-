@@ -1,0 +1,46 @@
+<div class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLink]="'/house/info'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/discus/about'">
+      <i class="fa-regular fa-circle-question"></i>
+      <div class="t-min bold">Інфо</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [disabled]="counterHouseSubscriptions === 0" [routerLinkActive]="'active'"
+      [routerLink]="'/house/discus/subscriptions'">
+      <i class="fa-solid fa-people-pulling"></i>
+      <div class="t-min bold">Підписка</div>
+      <div class="status"> {{counterHouseSubscriptions}} </div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [disabled]="counterHouseSubscribers === 0" [routerLinkActive]="'active'"
+      [routerLink]="'/house/discus/subscribers'">
+      <i class="fa-solid fa-child-reaching"></i>
+      <div class="t-min bold">Підписник</div>
+      <div class="status"> {{counterHouseSubscribers}} </div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [disabled]="counterHouseDiscussio === 0" [routerLinkActive]="'active'"
+      [routerLink]="'/house/discus/discussion'">
+      <i class="fa-solid fa-person-walking-luggage"></i>
+      <div class="t-min bold">Дискусії</div>
+      <div class="status"> {{counterHouseDiscussio}} </div>
+    </button>
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>

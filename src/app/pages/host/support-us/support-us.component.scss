@@ -1,0 +1,179 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss" as *;
+
+.container-info {
+  position: relative;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.content-wrapper {
+  @include flex-box-column;
+  @include box-shadow;
+  height: auto;
+  align-items: center;
+  background-color: $color-white;
+  justify-content: flex-start;
+}
+
+.btn-group {
+  z-index: 10;
+  width: 250px;
+}
+
+.header {
+  @include flex-box-center;
+  height: auto;
+  flex-direction: column;
+  position: relative;
+}
+
+.banka {
+  height: 300px;
+}
+
+.bg-white {
+  border-radius: 20px;
+}
+
+.logoMin {
+  height: 100px;
+  width: 100%;
+  filter: drop-shadow(0px 10px 25px rgb(41, 41, 41));
+}
+
+.btn {
+  background-color: $color-accent;
+}
+
+.t-min {
+  text-align: start;
+}
+
+.social-link-container {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 96%;
+  padding: 0 10px;
+  align-items: center;
+
+  .social-link-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    .social-link-icon {
+      @include flex-box-center;
+      margin: 0;
+      padding: 0 5px 0 5px;
+      background-color: transparent;
+      .fa-solid,
+      .fa-regular,
+      .fa-brands {
+        font-size: 20px;
+      }
+      .t-min {
+        text-transform: capitalize;
+        color: $color-gray;
+        padding-left: 5px;
+      }
+      &.active {
+        .fa-solid,
+        .fa-regular,
+        .fa-brands,
+        .t-min {
+          color: $color-accent;
+        }
+      }
+      &:disabled {
+        .fa-solid,
+        .fa-regular,
+        .fa-brands,
+        .t-min {
+          color: $color-gray;
+        }
+      }
+    }
+    &:hover {
+      color: $color-accent;
+      transition: 0.4s;
+      transform: scale(1.2);
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+      .social-link-icon {
+        .fa-solid,
+        .fa-regular,
+        .fa-brands {
+          color: $color-accent;
+        }
+        .t-min {
+          color: $color-accent;
+        }
+        &:disabled {
+          .fa-solid,
+          .fa-regular,
+          .fa-brands,
+          .t-min {
+            color: $color-gray;
+          }
+        }
+      }
+    }
+    &:disabled {
+      color: $color-gray;
+    }
+  }
+}
+
+.section-conteiner {
+  @include s3-s6-max {
+    @include flex-box-center;
+  }
+  @include s1-s3 {
+    flex-direction: column;
+  }
+
+  .section-gif {
+    @include flex-box-center;
+    .gif {
+      width: 100%;
+      object-fit: cover;
+    }
+    @include s1-s3 {
+      flex-direction: column;
+    }
+  }
+
+  .section-text {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    @include s1-s3 {
+      flex-direction: column;
+    }
+  }
+}
+
+.banka-qr {
+  animation: pulse 1s infinite alternate; /* Збільшувати та зменшувати розмір кнопки безкінечно */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  } /* Початковий розмір */
+  100% {
+    transform: scale(1.1);
+  } /* Збільшений розмір */
+}

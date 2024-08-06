@@ -1,0 +1,105 @@
+<div class="main-container">
+
+  <div class="width-param col-md-7 col-sm-12 col-12 p-1" *ngIf="!isMobile">
+    <div class="card-item" [@appearance] *ngIf="chosenFlat">
+      <div *ngIf="!showOwner">
+        <div class="btn-close-container">
+          <div class="btn-close-box">
+            <button class="btn-close" (click)="close()"></button>
+          </div>
+        </div>
+        <app-img-house></app-img-house>
+        <app-info-house></app-info-house>
+        <div [@top4] class="p-2">
+          <button class="link-menu" (click)="toggleCards()">
+            <div class="flex-column w-80">
+              <p class="link-menu-t2">Показати</p>
+              <p class="link-menu-t1" *ngIf="!showOwner">Інформацію Власника</p>
+              <p class="link-menu-t1" *ngIf="showOwner">Інформацію Оселі</p>
+            </div>
+            <div class="link-icon w-20" *ngIf="showOwner"><i class="fa-regular fa-building"></i></div>
+            <div class="link-icon w-20" *ngIf="!showOwner"><i class="fa-solid fa-child-reaching"></i></div>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="showOwner">
+        <div class="btn-close-container">
+          <div class="btn-close-box">
+            <button class="btn-close" (click)="close()"></button>
+          </div>
+        </div>
+        <app-img></app-img>
+        <app-info></app-info>
+        <div [@top4] class="p-2">
+          <button class="link-menu" (click)="toggleCards()">
+            <div class="flex-column w-80">
+              <p class="link-menu-t2">Показати</p>
+              <p class="link-menu-t1" *ngIf="!showOwner">Інформацію Власника</p>
+              <p class="link-menu-t1" *ngIf="showOwner">Інформацію Оселі</p>
+            </div>
+            <div class="link-icon w-20" *ngIf="showOwner"><i class="fa-regular fa-building"></i></div>
+            <div class="link-icon w-20" *ngIf="!showOwner"><i class="fa-solid fa-child-reaching"></i></div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="status-subscription-wrapper h-100" *ngIf="!chosenFlat">
+      <div [@appearance] class="status-subscription bg-transparent">
+        <div class="status-text p-2 t-c">Оберіть <br> оселю</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="width-param col-lg-5 col-md-5 col-sm-12 col-12 p-1" *ngIf="!isMobile">
+    <app-cards-list></app-cards-list>
+  </div>
+
+  <div class="width-param col-12" *ngIf="isMobile">
+
+    <!-- всі картки -->
+    <div class="card-item" *ngIf="indexPage === 1">
+      <app-cards-list></app-cards-list>
+    </div>
+
+    <!-- інформація про оселю -->
+    <div class="card-item" *ngIf="chosenFlat && indexPage === 2">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="close()"></button>
+        </div>
+      </div>
+      <div *ngIf="!showOwner">
+        <app-img-house></app-img-house>
+        <app-info-house></app-info-house>
+        <div [@top4] class="p-2">
+          <button class="link-menu" (click)="toggleCards()">
+            <div class="flex-column w-80">
+              <p class="link-menu-t2">Показати</p>
+              <p class="link-menu-t1" *ngIf="!showOwner">Інформацію Власника</p>
+              <p class="link-menu-t1" *ngIf="showOwner">Інформацію Оселі</p>
+            </div>
+            <div class="link-icon w-20" *ngIf="showOwner"><i class="fa-regular fa-building"></i></div>
+            <div class="link-icon w-20" *ngIf="!showOwner"><i class="fa-solid fa-child-reaching"></i></div>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="showOwner">
+        <app-img></app-img>
+        <app-info></app-info>
+        <div [@top4] class="p-2">
+          <button class="link-menu" (click)="toggleCards()">
+            <div class="flex-column w-80">
+              <p class="link-menu-t2">Показати</p>
+              <p class="link-menu-t1" *ngIf="!showOwner">Інформацію Власника</p>
+              <p class="link-menu-t1" *ngIf="showOwner">Інформацію Оселі</p>
+            </div>
+            <div class="link-icon w-20" *ngIf="showOwner"><i class="fa-regular fa-building"></i></div>
+            <div class="link-icon w-20" *ngIf="!showOwner"><i class="fa-solid fa-child-reaching"></i></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

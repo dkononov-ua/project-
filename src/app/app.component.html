@@ -3,12 +3,9 @@
     <img class="bg-img" [src]="currentImage">
   </div>
   <div class="container">
-    <app-news-line class="news-line"></app-news-line>
-    <!-- Специфічний контент для головної сторінки -->
     <div class="app-container" *ngIf="isHomePage">
       <app-home></app-home>
     </div>
-    <!-- Для всіх інших маршрутів -->
     <div *ngIf="!isHomePage">
       <router-outlet></router-outlet>
     </div>

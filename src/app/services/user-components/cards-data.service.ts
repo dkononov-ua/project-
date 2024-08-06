@@ -8,8 +8,8 @@ import { StatusDataService } from '../status-data.service';
 import { Location } from '@angular/common';
 import { LocationHouseService } from '../location-house.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteSubsComponent } from 'src/app/discussi/discussio-user/delete/delete-subs.component';
 import { CounterService } from '../counter.service';
+import { ActionDeleteSubComponent } from 'src/app/components/action-delete-sub/action-delete-sub.component';
 
 @Injectable({
   providedIn: 'root'
@@ -137,7 +137,7 @@ export class CardsDataService {
   // Видалення
   async deleteFlatSub(flat: any, flatSub: string): Promise<void> {
     const userJson = localStorage.getItem('user');
-    const dialogRef = this.dialog.open(DeleteSubsComponent, {
+    const dialogRef = this.dialog.open(ActionDeleteSubComponent, {
       data: { flatId: flat.flat.flat_id, flatName: flat.flat.flat_name, flatCity: flat.flat.city, flatSub: flatSub, }
     });
     dialogRef.afterClosed().subscribe(async (result: any) => {

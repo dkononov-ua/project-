@@ -6,12 +6,12 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../interface/animation';
-import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import { Location } from '@angular/common';
 import { ChangeComunService } from './change-comun.service';
 import { DiscussioViewService } from '../services/discussio-view.service';
 import { DeleteComunComponent } from './delete-comun/delete-comun.component';
 import { SharedService } from '../services/shared.service';
+import { ViewComunService } from '../pages/host-user/host-user-discus/discus/view-comun.service';
 
 @Component({
   selector: 'app-housing-services',

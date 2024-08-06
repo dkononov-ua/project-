@@ -94,7 +94,7 @@
     </div>
     <div class="subcategory-container" *ngIf="section[3]">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/tenant'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/user/tenant/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Що це таке?</p>
@@ -102,7 +102,7 @@
         </div>
       </a>
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/tenant-step'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/user/tenant/step'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-shoe-prints"></i>
         <div class="flex-column pl-2 t-e">
           <p class="t-med">Як активувати?</p>

@@ -1,84 +1,70 @@
-<nav class="switch-container">
+<nav class="navigation-container">
 
-  <!-- <div class="switch-btn-group" *ngIf="!isHomePage">
-    <button class="btn" (click)="goBack()">
-      <i class="fa-solid fa-arrow-left"></i>
-      <div class="t-min">Назад</div>
-    </button>
-  </div> -->
-
-  <div class="switch-btn-group" (click)="toggleAllMenu(1)">
+  <div class="item-group" (click)="toggleAllMenu(1)">
     <div class="lobo-box">
       <img class="logo-img" src="./../../assets/logo/discussio.png" alt="">
       <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div>
     </div>
   </div>
 
-  <a class="menu-box t-s" [routerLinkActive]="'active'" [routerLink]="'/home'">
-    <div class="menu-lable">{{page_title}}</div>
-    <div class="menu-name">{{page_description}}</div>
+  <a class="menu-box t-s" [routerLink]="'/home'">
+    <div class="t-lar bold">{{page_title}}</div>
+    <div class="t-med">{{page_description}}</div>
   </a>
 
-  <div class="switch-btn-group" *ngIf="!authorization">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
+  <div class="item-group" *ngIf="!authorization">
+    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
       <div class="t-min">Вхід</div>
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="!authorization">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
+  <div class="item-group" *ngIf="!authorization">
+    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
       <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
       <div class="t-min">Реєстрація</div>
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="authorization && !isMobile">
-    <a class="btn" [routerLink]="'/user/info'">
+  <div class="item-group" *ngIf="authorization && !isMobile">
+    <a class="nav-link" [routerLink]="'/user/info'">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(2)">
-    <a class="btn">
+  <div class="item-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(2)">
+    <a class="nav-link">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="authorization" (click)="toggleAllMenu(3)">
-    <a class="btn">
+  <div class="item-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(3)">
+    <a class="nav-link">
       <i class="fa-solid fa-house"></i>
       <div class="t-min">Оселя</div>
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="!isMobile">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+  <div class="item-group" *ngIf="authorization && !isMobile">
+    <a class="nav-link" [routerLink]="'/house/info'">
+      <i class="fa-solid fa-house"></i>
+      <div class="t-min">Оселя</div>
+    </a>
+  </div>
+
+  <div class="item-group" *ngIf="!isMobile">
+    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/blog'">
       <i class="fa-solid fa-blog"></i>
       <div class="t-min">Блог</div>
     </a>
   </div>
 
-  <div class="switch-btn-group" *ngIf="!isMobile">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/search/'">
+  <!-- <div class="item-group" *ngIf="!isMobile">
+    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/search/'">
       <i class="fa-solid fa-magnifying-glass"></i>
       <div class="t-min">Пошук</div>
-    </a>
-  </div>
-
-    <!-- <div class="switch-btn-group" *ngIf="!isMobile">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
-      <i class="fa-solid fa-hands-holding-child"></i>
-      <div class="t-min">Підтримати</div>
-    </a>
-  </div> -->
-
-  <!-- <div class="switch-btn-group" *ngIf="!isMobile">
-    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/support-us'">
-      <i class="fa-solid fa-hands-holding-child"></i>
-      <div class="t-min">Підтримати</div>
     </a>
   </div> -->
 

@@ -122,7 +122,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
 
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
-    if (this.currentLocation !== '/search-tenants') {
+    if (this.currentLocation !== '/search/tenant') {
       this.cardsDataHouseService.getUserInfo(offs);
     }
     this.getCardsData();
@@ -141,7 +141,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
   // Підписка на кількість карток, та запит на якій я сторінці
   private getCounterCards(): void {
     // Якщо я в Дискусії
-    if (this.currentLocation === '/subscribers-discus') {
+    if (this.currentLocation === '/house/discus/discussion') {
       this.counterService.getHouseDiscussioCount(this.selectedFlatId);
       this.subscriptions.push(
         this.counterService.counterHouseDiscussio$.subscribe(data => {
@@ -149,7 +149,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
         })
       );
       // Якщо я в Підписниках
-    } else if (this.currentLocation === '/subscribers-house') {
+    } else if (this.currentLocation === '/house/discus/subscribers') {
       this.counterService.getHouseSubscribersCount(this.selectedFlatId);
       this.subscriptions.push(
         this.counterService.counterHouseSubscribers$.subscribe(data => {
@@ -157,14 +157,14 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
         })
       );
       // Якщо я в Підписках
-    } else if (this.currentLocation === '/subscriptions-house') {
+    } else if (this.currentLocation === '/house/discus/subscriptions') {
       this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);
       this.subscriptions.push(
         this.counterService.counterHouseSubscriptions$.subscribe(data => {
           this.counterFound = Number(data);
         })
       );
-    } else if (this.currentLocation === '/search-tenants') {
+    } else if (this.currentLocation === '/search/tenant') {
       this.subscriptions.push(
         this.filterUserService.counterFound$.subscribe(number => {
           this.counterFound = number;

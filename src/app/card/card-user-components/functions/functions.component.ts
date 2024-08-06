@@ -145,20 +145,22 @@ export class FunctionsComponent implements OnInit, OnDestroy {
       );
       // Якщо я в меню оселі
     } else if (
-      this.currentLocation === '/subscribers-discus' ||
-      this.currentLocation === '/subscribers-house' ||
-      this.currentLocation === '/subscriptions-house'
+      this.currentLocation === '/house/discus/discussion' ||
+      this.currentLocation === '/house/discus/subscribers' ||
+      this.currentLocation === '/house/discus/subscriptions'
     ) {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-          this.user = data;
-          this.checkChatExistence();
-          // console.log(this.user)
+          const user = data;
+          if (user) {
+            this.user = user;
+            this.checkChatExistence();
+          }
         })
       );
     } else if (this.currentLocation === '/user/info') {
       this.getInfoUser();
-    } else if (this.currentLocation === '/search-tenants') {
+    } else if (this.currentLocation === '/search/tenant') {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;
@@ -184,20 +186,20 @@ export class FunctionsComponent implements OnInit, OnDestroy {
 
   // Видалення карток
   async deleteUser(user: any): Promise<void> {
-    if (this.currentLocation === '/subscribers-discus') {
+    if (this.currentLocation === '/house/discus/discussion') {
       this.cardsDataHouseService.deleteUser(user, 'discussio');
-    } else if (this.currentLocation === '/subscribers-house') {
+    } else if (this.currentLocation === '/house/discus/subscribers') {
       this.cardsDataHouseService.deleteUser(user, 'subscribers');
-    } else if (this.currentLocation === '/subscriptions-house') {
+    } else if (this.currentLocation === '/house/discus/subscriptions') {
       this.cardsDataHouseService.deleteUser(user, 'subscriptions');
     }
     this.cardsDataHouseService.getResultDeleteUserSubject().subscribe(result => {
       if (result.status === true) {
-        if (this.currentLocation === '/subscribers-discuss') {
+        if (this.currentLocation === '/house/discus/discussion') {
           this.sharedService.setStatusMessage('Дискусію видалено');
-        } else if (this.currentLocation === '/subscribers-user') {
+        } else if (this.currentLocation === '/house/discus/subscribers') {
           this.sharedService.setStatusMessage('Підписника видалено');
-        } else if (this.currentLocation === '/subscriptions-user') {
+        } else if (this.currentLocation === '/house/discus/subscriptions') {
           this.sharedService.setStatusMessage('Підписку видалено');
         }
         setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
@@ -210,7 +212,7 @@ export class FunctionsComponent implements OnInit, OnDestroy {
 
   // Перевіряємо в сервісі існування чату оселі з обраним користувачем
   async checkChatExistence(): Promise<any> {
-    if (this.currentLocation === '/subscribers-discus' || this.currentLocation === '/house/residents') {
+    if (this.currentLocation === '/house/discus/discussion' || this.currentLocation === '/house/residents') {
       const chatExists = await this.createChatService.checkChatExistence();
       this.chatExists = chatExists;
     }
@@ -253,14 +255,14 @@ export class FunctionsComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Переходимо до Дискусії');
             setTimeout(() => {
-              this.router.navigate(['/subscribers-discus']);
+              this.router.navigate(['/house/discus/discussion']);
               this.sharedService.setStatusMessage('');
             }, 1000);
           }, 2000);
         } else if (response.status === 'Ви в дискусії') {
           this.sharedService.setStatusMessage('З цим користувачем вже є дискусія'),
             setTimeout(() => {
-              this.router.navigate(['/subscribers-discus']);
+              this.router.navigate(['/house/discus/discussion']);
               this.sharedService.setStatusMessage('');
             }, 2000);
         }

@@ -106,9 +106,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       );
       // Якщо я в меню оселі
     } else if (
-      this.currentLocation === '/subscribers-discus' ||
-      this.currentLocation === '/subscribers-house' ||
-      this.currentLocation === '/subscriptions-house'
+      this.currentLocation === '/house/discus/discussion' ||
+      this.currentLocation === '/house/discus/subscribers' ||
+      this.currentLocation === '/house/discus/subscriptions'
     ) {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
@@ -122,7 +122,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       );
     } else if (this.currentLocation === '/user/info') {
       // this.getInfoUser();
-    } else if (this.currentLocation === '/search-tenants') {
+    } else if (this.currentLocation === '/search/tenant') {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;

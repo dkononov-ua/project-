@@ -1,0 +1,262 @@
+@use "../housing-parameters.component.scss";
+@use "../../../../style/presets/" as *;
+@use "../../../../style/mixins/" as *;
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.card-content {
+  justify-content: space-between !important;
+}
+
+.card-menu1 {
+  height: 100%;
+  overflow: hidden;
+}
+
+.counterNum {
+  @include flex-box;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 30px;
+  height: 30px;
+  background-color: $color-gray;
+  border-radius: 50%;
+  color: $color-white;
+}
+
+.img-wrapper {
+  .img {
+    height: 85vh;
+  }
+}
+
+.textarea-form {
+  height: 150px;
+}
+
+.box-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-photo-group {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .add-photo-label {
+    width: 50%;
+    height: 60px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 15px;
+    color: $color-accent;
+    font-weight: 600;
+  }
+
+  .box-group {
+    @include flex-box-column;
+    position: relative;
+
+    .btn-name {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+
+  .add-photo-box {
+    cursor: pointer;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid $color-accent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 10px $color-dark;
+    transition: 1s;
+
+    &:hover {
+      background-color: $color-dark;
+    }
+  }
+
+  .add-photo-icon {
+    color: $color-accent;
+    font-size: 30px;
+    animation: iconflicker 8s linear infinite;
+  }
+
+  .add-photo-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.box-add-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+
+  .btn-close-container {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    z-index: 300;
+    .btn-close-box {
+      @include flex-box-column;
+      align-items: flex-end;
+      padding: 10px;
+      .btn-close {
+        border: 1px solid $color-gray;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+p,
+li {
+  font-size: 13px;
+}
+
+.item-select {
+  flex-direction: column-reverse;
+}
+
+.cropped {
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  transition: transform 1s;
+  object-fit: cover;
+  transition: transform 1s;
+}
+
+.option-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.box-filling {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  align-content: flex-start;
+  justify-content: center;
+}
+
+.box-filling::-webkit-scrollbar {
+  display: none;
+}
+
+.card-filling {
+  @include box-shadow;
+  cursor: pointer;
+  width: 97%;
+  height: 130px;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-between;
+  transition: 1s;
+  position: relative;
+  .box-img {
+    @include flex-box;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    justify-content: flex-start;
+    .card-img {
+      width: auto;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .box-img.selectedCard {
+    display: none;
+  }
+}
+
+.card-filling.selectedCard {
+  background-color: $color-accent;
+}
+
+.flex-column {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.card-add {
+  width: 47%;
+  min-width: 200px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  @include box-shadow;
+  position: absolute;
+  background-color: $color-accent;
+  top: 35%;
+  left: 0px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid $color-accent;
+  padding: 5px;
+  z-index: 20;
+}
+
+.btn-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  z-index: 20;
+  background-color: $color-white;
+
+  .fa-solid {
+    color: $color-text;
+  }
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.btn.active {
+  color: $color-accent;
+  .fa-solid,
+  .fa-regular {
+    color: $color-accent;
+  }
+}

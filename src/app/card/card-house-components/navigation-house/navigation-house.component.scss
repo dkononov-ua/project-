@@ -2,76 +2,205 @@
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss";
 
-.menu-container {
-  @include flex-box-center;
-  display: flex;
-  width: 100%;
-  height: 8vh;
-  padding: 5px;
-}
-
-.btn {
-  background-color: transparent;
-}
-
 .menu {
-  @include flex-box-center;
-  flex-direction: column;
-  position: fixed;
-  height: 100vh;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 2000;
-  background-color: rgba(0, 0, 0, 0.736);
-  .link {
-    &:disabled {
-      background-color: $color-gray;
-      box-shadow: 2px 2px 2px 4px $color-gray;
-      color: rgb(82, 82, 82);
-      .fa-solid,
-      .fa-regular {
-        color: rgb(82, 82, 82);
-      }
-    }
-    @include flex-box-center;
-    border: none;
-    height: 6vh;
-    padding: 5px;
-    justify-content: space-between;
-    margin: 7px;
-    position: relative;
-    background-color: $color-white;
-    font-weight: 600;
-    text-transform: capitalize;
-    border-radius: 10px;
-    min-width: 350px;
-    box-shadow: 2px 2px 2px 4px $color-white;
-    .status {
-      @include flex-box-center;
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-15px);
-      width: 30px;
-      height: 30px;
-      background-color: $color-accent;
-      color: $color-white;
-      border-radius: 50%;
+  overflow: auto;
+  position: relative;
+  height: calc(100vh - 80px);
+  padding: 0px 0px 0px 0px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-      .fa-envelope-open-text {
+  @include s1-s3 {
+    padding: 20px 0px 0px 20px;
+    height: 70vh;
+  }
+}
+
+.wrapper-img {
+  @include flex-box-center;
+  width: 100%;
+  .userName {
+    display: flex;
+    flex-direction: column;
+    .t-lar {
+      border-bottom: 1px solid $color-gray;
+    }
+    @include s1-s3 {
+      .t-lar,
+      .t-min {
         color: $color-white;
-        font-size: 15px;
+      }
+      .t-lar {
+        border-bottom: 1px solid $color-white;
       }
     }
   }
-  .link.active {
-    background-color: $color-accent;
+  .img-fluid {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.menu_title {
+  color: $color-dark;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: $t-med;
+  width: 100%;
+  .fa-regular {
+    color: $color-dark;
+    font-size: 25px;
+  }
+  @include s1-s3 {
     color: $color-white;
-    box-shadow: 2px 2px 2px 4px $color-accent;
-    .fa-solid,
     .fa-regular {
       color: $color-white;
     }
   }
+}
+
+.category-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+  .category {
+    @include flex-box-center;
+    width: 100%;
+    z-index: 105;
+    &.active {
+      background-color: $color-white;
+      color: $color-accent;
+      .fa-solid,
+      .fa-regular,
+      .t-med,
+      .t-min {
+        color: $color-accent;
+      }
+    }
+  }
+  .subcategory-container {
+    @include flex-box-center;
+    flex-direction: column;
+    width: 80%;
+    .subcategory {
+      height: auto;
+      margin: 0px 10px 5px 0px;
+      &.active {
+        margin: 0px 0px 5px 0px;
+      }
+    }
+  }
+}
+
+.link-item {
+  @include flex-box-center;
+  @include box-shadow;
+  height: 6vh;
+  min-height: 50px;
+  justify-content: space-between;
+  margin: 0px 0px 5px 0px;
+  position: relative;
+  background-color: transparent;
+  font-weight: 600;
+  text-transform: capitalize;
+  z-index: 5;
+  width: 100%;
+  border-radius: 20px;
+  background-color: $color-white;
+  padding: 10px;
+  .fa-solid,
+  .fa-regular,
+  .t-med,
+  .t-min {
+    color: $color-dark;
+  }
+
+  .t-min {
+    color: $color-gray;
+  }
+
+  &:hover {
+    transform: scale(0.9);
+    background-color: $color-gray;
+    @include box-shadow-i;
+    .fa-solid,
+    .fa-regular,
+    .t-med,
+    .t-min {
+      color: $color-white;
+    }
+  }
+
+  &:disabled {
+    background-color: $color-gray;
+    box-shadow: 2px 2px 2px 4px $color-gray;
+    .fa-solid,
+    .fa-regular,
+    .t-med,
+    .t-min {
+      color: $color-light-gray;
+    }
+  }
+
+  &.active {
+    background-color: $color-dark;
+    color: $color-accent;
+    border-radius: 20px 0px 0px 20px;
+    @include box-shadow;
+    &:hover {
+      transform: none;
+    }
+    .fa-solid,
+    .fa-regular,
+    .t-med {
+      color: $color-white;
+    }
+    .t-min {
+      color: rgba(255, 255, 255, 0.689);
+    }
+  }
+  @include s1-s3 {
+    height: auto;
+    .t-med,
+    .t-min {
+      font-size: $t-med;
+    }
+  }
+}
+
+.link-btn {
+  width: 60px;
+  background-color: transparent;
+  .fa-solid,
+  .fa-regular,
+  .t-med,
+  .t-min {
+    color: $color-white;
+  }
+  &:hover {
+    .fa-solid,
+    .fa-regular,
+    .t-med,
+    .t-min {
+      color: $color-white;
+    }
+  }
+  &.active {
+    .fa-solid,
+    .fa-regular,
+    .t-med {
+      color: $color-accent;
+    }
+  }
+}
+
+.btn-group {
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
 }

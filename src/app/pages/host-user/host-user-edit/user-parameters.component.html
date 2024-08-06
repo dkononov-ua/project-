@@ -1,0 +1,47 @@
+<div class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLink]="'/user/info'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/edit/person'">
+      <i class="fa-regular fa-circle-user"></i>
+      <div class="t-min">Профіль</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/edit/contacts'">
+      <i class="fa-solid fa-share-nodes"></i>
+      <div class="t-min">Контакти</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/edit/status'">
+      <i class="fa-solid fa-sliders"></i>
+      <div class="t-min">Доступи</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'">
+      <i class="fa-solid fa-person-hiking"></i>
+      <div class="t-min">Орендарь</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/edit/delete'">
+      <i class="fa-solid fa-user-xmark pl-2"></i>
+      <div class="t-min">Видалення</div>
+    </a>
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>

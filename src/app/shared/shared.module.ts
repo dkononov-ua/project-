@@ -57,10 +57,12 @@ import { RatingComponent } from '../card/card-user-components/rating/rating.comp
 import { NavigationUserComponent } from '../card/card-user-components/navigation-user/navigation-user.component';
 import { NavigationHouseComponent } from '../card/card-house-components/navigation-house/navigation-house.component';
 import { ContactsComponent } from '../components/contacts/contacts.component';
-import { PostDetailComponent } from '../pages/post-detail/post-detail.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { ClickOutsideDirective } from '../directive/click-outside.directive';
 import { ActionComponent } from '../components/action/action.component';
+import { PostDetailComponent } from '../pages/blog/post-detail/post-detail.component';
+import { ActionDeleteSubComponent } from '../components/action-delete-sub/action-delete-sub.component';
+import { DeleteHouseComponent } from '../components/house/delete-house/delete-house.component';
 
 @NgModule({
   declarations: [
@@ -100,8 +102,9 @@ import { ActionComponent } from '../components/action/action.component';
     PostDetailComponent,
     NavbarComponent,
     ClickOutsideDirective,
-
     ActionComponent,
+    ActionDeleteSubComponent,
+    DeleteHouseComponent,
   ],
   exports: [
     FooterComponent,
@@ -124,10 +127,8 @@ import { ActionComponent } from '../components/action/action.component';
     StatusAccessComponent,
     CardsListComponent,
     CardsListUsersComponent,
-
     FunctionsHouseComponent,
     FunctionsComponent,
-
     InfoHouseComponent,
     ImgHouseComponent,
     ImgComponent,
@@ -143,7 +144,7 @@ import { ActionComponent } from '../components/action/action.component';
     NavbarComponent,
     ClickOutsideDirective,
     ActionComponent,
-
+    ActionDeleteSubComponent,
   ],
   providers: [
     UpdateComponentService,
@@ -151,7 +152,6 @@ import { ActionComponent } from '../components/action/action.component';
     StatusDataService,
     StatusDataHouseComponent,
     CreateChatService,
-    ActionComponent,
   ],
   imports: [
     CommonModule,
@@ -175,7 +175,6 @@ import { ActionComponent } from '../components/action/action.component';
     LyDialogModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
-
   ]
 })
 export class SharedModule { }

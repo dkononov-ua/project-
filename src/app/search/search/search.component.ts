@@ -139,10 +139,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   // оброблюю свайп
   onSwiped(direction: string | undefined) {
     if (direction === 'right') {
-      this.router.navigate(['/search-house']);
+      this.router.navigate(['/search/house']);
     } else {
       if (this.selectedFlatId) {
-        this.router.navigate(['/search-tenants']);
+        this.router.navigate(['/search/tenant']);
       } else {
         this.router.navigate(['/user/info']);
       }
@@ -150,14 +150,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   goToSearchTenants() {
-    this.router.navigate(['/search-tenants']);
-    // if (this.selectedFlatId) {
-    //   this.authorizationHouse = true;
-    //   this.router.navigate(['/search-tenants/filter']);
-    // } else {
-    //   this.authorizationHouse = false;
-    //   this.sharedService.getAuthorizationHouse();
-    // }
+    this.router.navigate(['/search/tenant']);
   }
 
   ngOnDestroy() {

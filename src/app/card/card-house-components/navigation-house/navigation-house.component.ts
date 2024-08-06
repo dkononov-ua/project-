@@ -3,9 +3,12 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { CounterService } from 'src/app/services/counter.service';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { MenuService } from 'src/app/services/menu.service';
+import { filter } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-navigation-house',
@@ -14,24 +17,26 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateY(1220%)' }),
+        style({ transform: 'translateX(100%)' }),
+        animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(0%)' }),
+        animate('600ms ease-in-out', style({ transform: 'translateX(100%)' }))
+      ]),
+    ]),
+    trigger('cardAnimationUp', [
+      transition('void => *', [
+        style({ transform: 'translateY(-30vh)' }),
         animate('{{delay}}ms ease-in-out', style({ transform: 'translateY(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateY(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateY(1220%)' }))
+        animate('600ms ease-in-out', style({ transform: 'translateY(-30vh)' }))
       ]),
     ]),
-    animations.top2,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.right1,
-    animations.right2,
-    animations.right4,
-    animations.swichCard,
+    animations.appearance,
+
   ],
 })
 
@@ -95,17 +100,59 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   selectedFlatId!: string | null;
   authorization: boolean = false;
+  section: boolean[] = [false, false, false, false, false, false, false, false, false];
+  currentLocation: string = '';
+
+  // відкриття меню через сервіс
+  async closeToogleMenu(index: number) {
+    this.menuService.indexMenu(index);
+  }
+
+  setSection(index: number) {
+    this.section = this.section.map((_, i) => i === index);
+  }
 
   constructor(
     private counterService: CounterService,
     private sharedService: SharedService,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
+    private menuService: MenuService,
+    private location: Location,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getCheckDevice();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.currentLocation = event.urlAfterRedirects;
+      this.checkLocation();
+    });
+    this.getCheckDevice();
+    this.getServerPath();
     this.checkUserAuthorization();
+    this.checkLocation();
+  }
+
+  checkLocation() {
+    this.currentLocation = this.location.path();
+    if (this.currentLocation.includes('/house/info')) {
+      this.setSection(1);
+    } else if (this.currentLocation.includes('/house/agree')) {
+      this.setSection(2);
+    } else if (this.currentLocation.includes('/house/control')) {
+      this.setSection(3);
+    } else if (this.currentLocation.includes('/house/discus')) {
+      this.setSection(4);
+    } else if (this.currentLocation.includes('/chat-house')) {
+      this.setSection(5);
+    } else if (this.currentLocation.includes('/house/edit')) {
+      this.setSection(6);
+    } else if (this.currentLocation.includes('/house/search')) {
+      this.setSection(7);
+    } else {
+      this.setSection(-1); // вимикає всі секції, якщо шлях не відповідає жодному з умов
+    }
   }
 
   // Перевірка на авторизацію користувача
@@ -128,6 +175,16 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     );
   }
 
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+
   goToEdit() {
     if (this.isMobile) {
       this.router.navigate(['/edit-house/instruction']);
@@ -144,6 +201,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     }
   }
 
+
   getSelectParam() {
     this.subscriptions.push(
       this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
@@ -159,7 +217,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     if (this.houseData) {
       const parsedHouseData = JSON.parse(this.houseData);
       this.houseData = parsedHouseData;
-      // console.log(this.houseData)
+      console.log(this.houseData)
       if (this.houseData.acces) {
         this.acces_added = this.houseData.acces.acces_added;
         this.acces_admin = this.houseData.acces.acces_admin;
@@ -234,6 +292,10 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  logoutHouse() {
+    this.sharedService.logoutHouse();
   }
 }
 

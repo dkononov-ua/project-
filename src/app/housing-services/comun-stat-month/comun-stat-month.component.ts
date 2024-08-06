@@ -4,7 +4,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
-import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -14,6 +13,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SharingInfoComponent } from 'src/app/components/sharing-info/sharing-info.component';
+import { ViewComunService } from 'src/app/pages/host-user/host-user-discus/discus/view-comun.service';
 
 @Component({
   selector: 'app-comun-stat-month',

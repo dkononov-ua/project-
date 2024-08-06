@@ -7,7 +7,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ChangeMonthService } from '../change-month.service';
 import { ChangeYearService } from '../change-year.service';
-import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';

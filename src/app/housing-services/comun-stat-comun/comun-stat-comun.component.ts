@@ -5,10 +5,10 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeYearService } from '../change-year.service';
 import { ChangeComunService } from '../change-comun.service';
 import { ActivatedRoute } from '@angular/router';
-import { ViewComunService } from 'src/app/discussi/discussio-user/discus/view-comun.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { ViewComunService } from 'src/app/pages/host-user/host-user-discus/discus/view-comun.service';
 
 interface FlatStat {
   totalNeedPay: any;

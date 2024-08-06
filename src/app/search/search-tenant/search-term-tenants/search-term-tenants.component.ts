@@ -467,11 +467,11 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 
-  onSortSelected(value: string) {
-    this.filterValue = value;
-    this.router.navigate(['/search-house/all-cards']);
-    this.filterUserService.sortTenants(value)
-  }
+  // onSortSelected(value: string) {
+  //   this.filterValue = value;
+  //   this.router.navigate(['/search-house/all-cards']);
+  //   this.filterUserService.sortTenants(value)
+  // }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

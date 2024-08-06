@@ -1,0 +1,52 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss" as *;
+
+.container-info {
+  position: relative;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.content-wrapper {
+  @include flex-box-column;
+  @include box-shadow;
+  height: auto;
+  align-items: center;
+  background-color: $color-white;
+  justify-content: flex-start;
+}
+
+.btn-group {
+  z-index: 10;
+  width: 250px;
+}
+
+.t-min {
+  text-align: start;
+}
+
+.flex-column {
+  height: calc(100vh - 50px);
+  overflow: auto;
+  @include flex-box-column;
+  align-items: center;
+  @include box-shadow;
+  background-color: $color-white;
+}
+
+.logo-wrapper {
+  transition: 0.2s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+img {
+  width: 100px;
+  object-fit: cover;
+}

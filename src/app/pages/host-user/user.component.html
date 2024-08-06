@@ -1,16 +1,10 @@
-<div class="content-component">
   <app-navbar></app-navbar>
-
   <div class="main-container">
-
     <div class="col-lg-3 col-md-12 col-sm-12 col-12" *ngIf="!isMobile">
       <app-navigation-user></app-navigation-user>
     </div>
-
     <div class="col-lg-9 col-md-12 col-sm-12 col-12">
       <router-outlet></router-outlet>
     </div>
-
   </div>
 
-</div>

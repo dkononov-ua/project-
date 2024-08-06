@@ -1,55 +1,53 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateGuard } from './services/auth.guard';
-import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
 import { HousingServicesComponent } from './housing-services/housing-services.component';
-import { HousingParametersComponent } from './account-edit/house/housing-parameters.component';
-import { LookingComponent } from './account-edit/user/looking/looking.component';
-import { FeedbackComponent } from './pages/feedback/feedback.component';
-import { RentalAgreementComponent } from './agreements/rental-agreement/rental-agreement.component';
-import { ActTransferComponent } from './agreements/act-transfer/act-transfer.component';
-import { ActCreateComponent } from './account/house/agree-h/act-create/act-create.component';
-import { PostsComponent } from './pages/posts/posts.component';
-import { SupportUsComponent } from './pages/support-us/support-us.component';
-import { AboutProjectComponent } from './pages/about-project/about-project.component';
-import { OurTeamComponent } from './pages/our-team/our-team.component';
-import { HomeComponent } from './pages/home/home.component';
-import { PostDetailComponent } from './pages/post-detail/post-detail.component';
+import { LookingComponent } from './pages/host-user/host-user-edit/looking/looking.component';
+import { ActCreateComponent } from './pages/host-house/host-house-agree/act-create/act-create.component';
+import { AboutProjectComponent } from './pages/host/about-project/about-project.component';
 import { AppComponent } from './app.component';
+import { FeedbackComponent } from './pages/host/feedback/feedback.component';
+import { OurTeamComponent } from './pages/host/our-team/our-team.component';
+import { SupportUsComponent } from './pages/host/support-us/support-us.component';
+import { UserLicenceComponent } from './pages/host/user-licence/user-licence.component';
+import { PostDetailComponent } from './pages/blog/post-detail/post-detail.component';
+import { PostsComponent } from './pages/blog/posts/posts.component';
+import { RentalAgreementComponent } from './components/agreements/rental-agreement/rental-agreement.component';
+import { ActTransferComponent } from './components/agreements/act-transfer/act-transfer.component';
+import { HomeComponent } from './pages/host/home/home.component';
+import { NotFoundComponent } from './pages/host/not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AppComponent,
   },
-  { path: 'auth', loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule) },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'looking',
-    component: LookingComponent,
-  },
-  {
-    path: 'housing-services',
-    component: HousingServicesComponent,
-    canActivate: [CanActivateGuard]
-  },
-  {
-    path: 'housing-parameters',
-    component: HousingParametersComponent,
-    canActivate: [CanActivateGuard]
-  },
-  {
-    path: 'discussio-house',
-    loadChildren: () => import('./discussi/discussio-house/discussio-house.module').then(m => m.DiscussioHouseModule),
-    canActivate: [CanActivateGuard]
+    path: 'auth',
+    loadChildren: () => import('./pages/host-auth/auth-routing.module').then(m => m.AuthRoutingModule)
   },
   {
     path: 'user',
-    loadChildren: () => import('./pages/host-user/user.module').then(m => m.UserModule),
+    loadChildren: () => import('./pages/host-user/user-routing.module').then(m => m.UserRoutingModule),
   },
   {
     path: 'house',
-    loadChildren: () => import('./account/house/house.module').then(m => m.HouseModule),
+    loadChildren: () => import('./pages/host-house/house-routing.module').then(m => m.HouseRoutingModule),
     canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'housing-services',
+    loadChildren: () => import('./housing-services/housing-services-routing.module').then(m => m.HousingServicesRoutingModule),
+    canActivate: [CanActivateGuard]
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./search/search-routing.module').then(m => m.SearchRoutingModule),
+  },
+  {
+    path: 'looking',
+    component: LookingComponent,
   },
   {
     path: 'feedback',
@@ -88,10 +86,6 @@ const routes: Routes = [
     component: AboutProjectComponent
   },
   {
-    path: 'about-project',
-    component: AboutProjectComponent
-  },
-  {
     path: 'our-team',
     component: OurTeamComponent
   },
@@ -102,8 +96,9 @@ const routes: Routes = [
   {
     path: 'blog/:title',
     component: PostDetailComponent
-  }
-
+  },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

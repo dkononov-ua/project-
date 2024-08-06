@@ -16,15 +16,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { UserContactsComponent } from 'src/app/account-edit/user/user-contacts/user-contacts.component';
-import { UserDeleteComponent } from 'src/app/account-edit/user/user-delete/user-delete.component';
-import { UserLookingComponent } from 'src/app/account-edit/user/user-looking/user-looking.component';
-import { UserParametersComponent } from 'src/app/account-edit/user/user-parameterscomponent';
-import { UserPersonComponent } from 'src/app/account-edit/user/user-person/user-person.component';
-import { UserStatusComponent } from 'src/app/account-edit/user/user-status/user-status.component';
-import { DeleteSubsComponent } from 'src/app/discussi/discussio-user/delete/delete-subs.component';
-import { SubscribersUserComponent } from 'src/app/discussi/discussio-user/subscribers/subscribers-user.component';
-import { SubscriptionsUserComponent } from 'src/app/discussi/discussio-user/subscriptions/subscriptions-user.component';
+import { UserContactsComponent } from 'src/app/pages/host-user/host-user-edit/user-contacts/user-contacts.component';
+import { UserDeleteComponent } from 'src/app/pages/host-user/host-user-edit/user-delete/user-delete.component';
+import { UserLookingComponent } from 'src/app/pages/host-user/host-user-edit/user-looking/user-looking.component';
+import { UserParametersComponent } from 'src/app/pages/host-user/host-user-edit/user-parameterscomponent';
+import { UserPersonComponent } from 'src/app/pages/host-user/host-user-edit/user-person/user-person.component';
+import { UserStatusComponent } from 'src/app/pages/host-user/host-user-edit/user-status/user-status.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AgreeUserConcludedComponent } from './host-user-agree/agree-user-concluded/agree-user-concluded.component';
 import { AgreeUserPageComponent } from './host-user-agree/agree-user-page/agree-user-page.component';
@@ -38,7 +35,10 @@ import { UserTenantStepComponent } from './host-user-tenants-profile/user-tenant
 import { UserTenantComponent } from './host-user-tenants-profile/user-tenant/user-tenant.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
-import { SubscribersDiscusComponent } from 'src/app/discussi/discussio-user/discus/subscribers-discus.component';
+import { HostUserTenantsProfileComponent } from './host-user-tenants-profile/host-user-tenants-profile.component';
+import { SubscribersUserComponent } from './host-user-discus/subscribers/subscribers-user.component';
+import { SubscribersDiscusComponent } from './host-user-discus/discus/subscribers-discus.component';
+import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
 
 @NgModule({
   declarations: [
@@ -62,14 +62,13 @@ import { SubscribersDiscusComponent } from 'src/app/discussi/discussio-user/disc
     SubscribersUserComponent,
     SubscribersDiscusComponent,
     SubscriptionsUserComponent,
-    DeleteSubsComponent,
+    HostUserTenantsProfileComponent,
   ],
   providers: [
     DatePipe,
   ],
   imports: [
     CommonModule,
-    UserRoutingModule,
     SharedModule,
     MatSelectModule,
     MatFormFieldModule,

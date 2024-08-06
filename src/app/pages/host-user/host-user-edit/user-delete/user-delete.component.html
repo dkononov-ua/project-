@@ -1,0 +1,49 @@
+<div [@top1] class="info-card" *ngIf="userInfo">
+
+  <div class="param-wrapper">
+    <p class="t-lar-x bold t-c p-2">При видаленні аккаунту видаляються:</p>
+    <ul class="t-lar">
+      <li>Дані користувача</li>
+      <li>Дані оселі</li>
+      <li>Наповнення оселі</li>
+      <li>Фото оселі</li>
+      <li>Оцінки, відгуки та рейтинг оселі</li>
+      <li>Оцінки, відгуки та рейтинг користувача</li>
+      <li>Угоди користувача</li>
+      <li>Угоди оселі</li>
+    </ul>
+
+    <div class="flex-box-column">
+      <label class="checkBox">
+        <input type="checkbox" [(ngModel)]="agreeToDel">
+        <div class="transition"></div>
+      </label>
+      <div class="mt-2 t-min t-c">Погоджуюсь на видалення аккаунту та розумію наслідки</div>
+    </div>
+
+    <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="sentCode">
+      <mat-label>Код підтвердження пошти</mat-label>
+      <div class="mat-input-container">
+        <input matInput type="password" id="passwordCheck" [(ngModel)]="emailCheckCode" name="passwordCheck"
+          placeholder="Введіть код підтвердження">
+      </div>
+    </mat-form-field>
+
+    <p class="t-min t-c" *ngIf="sentCode">
+      Для підтвердження видалення аккаунту введіть пароль який вам було надіслано на пошту
+    </p>
+  </div>
+
+  <div [@appearance] class="btn-group">
+    <button [disabled]="!agreeToDel" class="btn" (click)="sendCodeForDelAcc()" *ngIf="!sentCode">
+      <div class="t-med white">Видалити</div>
+      <i class="fa-solid fa-user-xmark pl-2 white"></i>
+    </button>
+
+    <button [disabled]="!agreeToDel && !emailCheckCode" class="btn" (click)="deleteAcc()" *ngIf="sentCode">
+      <div class="t-med white">Підтвердити видалення</div>
+      <i class="fa-solid fa-user-xmark pl-2 white"></i>
+    </button>
+  </div>
+
+</div>

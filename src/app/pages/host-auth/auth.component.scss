@@ -1,0 +1,243 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.btn-primary {
+  background-color: $color-accent;
+  height: 50px;
+  width: 100%;
+  color: $color-white-always;
+  .fa-solid {
+    color: $color-white-always;
+  }
+  &:disabled {
+    background-color: $color-gray;
+    color: $color-white-always;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  height: 50px;
+  width: 250px;
+  color: $color-white-always;
+  background-color: $color-accent;
+  .fa-solid {
+    color: $color-white-always;
+  }
+  &:disabled {
+    background-color: $color-gray;
+    color: $color-white-always;
+    cursor: not-allowed;
+  }
+}
+
+.content-component {
+  height: auto !important;
+
+  @include s1-s3 {
+    height: auto;
+  }
+
+  .switch-container {
+    height: 100px;
+    @include s1-s3 {
+      position: relative !important;
+    }
+  }
+
+  .main-container {
+    overflow: auto;
+    position: relative;
+    height: calc(100vh - 100px);
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.logo-name {
+  font-size: 6rem;
+}
+
+.switch-container {
+  @include s1-s3 {
+    justify-content: space-evenly !important;
+    margin-top: 0 !important;
+  }
+}
+
+.card-box {
+  @include flex-box-center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  .card-wrapper {
+    height: 100% !important;
+    @include s3-s6-max {
+      align-items: center !important;
+    }
+    .card-greeting {
+      @include flex-box-column;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      @include s3-s6-max {
+        align-items: center !important;
+      }
+    }
+    .card-animation {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      flex-direction: column;
+      @include s3-s6-max {
+        max-width: 400px;
+      }
+      background-color: $color-white !important;
+
+      .card-content1 {
+        height: 100%;
+        width: 100%;
+        @include flex-box-center;
+        align-items: center;
+        flex-direction: column;
+        background-color: $color-white;
+        padding: 10px;
+        border-radius: 20px;
+        @include s1-s3 {
+          justify-content: flex-start;
+        }
+      }
+    }
+  }
+}
+
+.flex-column {
+  @include flex-box-column;
+}
+
+.inputbox {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.input-email {
+  height: 100px;
+}
+
+.card-box-logo {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  // height: 25vh;
+  position: relative;
+  @include s1-s3 {
+    height: auto;
+    justify-content: flex-start;
+  }
+}
+
+a {
+  padding: 0;
+  margin: 0;
+  text-transform: capitalize;
+  color: $color-accent;
+  display: inline;
+}
+
+.alert-danger {
+  color: $color-accent;
+  font-size: 12px;
+  left: 0;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  height: 150px;
+  width: 100%;
+  filter: drop-shadow(0px 10px 25px rgb(52, 52, 52));
+}
+
+.logoMin {
+  height: 100px;
+  width: 100%;
+  filter: drop-shadow(0px 10px 25px rgb(41, 41, 41));
+}
+
+// .btn {
+//   height: 50px;
+//   font-size: 16px;
+//   color: $color-white;
+//   background-color: $color-gray;
+//   border-radius: 5px;
+//   font-weight: 600;
+//   letter-spacing: 0.2em;
+//   width: 100%;
+//   background-color: $color-accent;
+// }
+
+.box-agree {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-none {
+  border: none;
+  width: 100%;
+  background-color: transparent;
+  font-weight: 600;
+  color: $color-accent;
+  @include s3-s6-max {
+    &:hover {
+      color: $color-accent;
+      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+    }
+  }
+}
+
+.btn-none.disabled-button {
+  color: $color-gray;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
+}
+
+.see {
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  position: absolute;
+  background: none;
+  border: none;
+}
+
+.error-message {
+  font-size: 12px;
+  color: rgba(255, 0, 0, 0.663);
+}
+
+.fa-solid,
+.fa-regular {
+  font-size: 18px;
+  color: $color-dark;
+}

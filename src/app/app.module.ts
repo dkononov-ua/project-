@@ -1,11 +1,4 @@
 import { AppComponent } from './app.component';
-import { OurTeamComponent } from './pages/our-team/our-team.component';
-import { UserLicenceComponent } from './pages/user-licence/user-licence.component';
-import { HousingParametersModule } from './account-edit/house/housing-parameters.module';
-import { HousingParametersRoutingModule } from './account-edit/house/housing-parameters-routing.module';
-import { SearchRoutingModule } from './search/search-routing.module';
-import { SearchModule } from './search/search.module';
-import { DiscussioHouseRoutingModule } from './discussi/discussio-house/discussio-house-routing.module';
 import { SelectedFlatService } from './services/selected-flat.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -22,18 +15,15 @@ import { MatSliderModule } from '@angular/material/slider';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HousingServicesRoutingModule } from './housing-services/housing-services-routing.module';
-import { HousingServicesModule } from './housing-services/housing-services.module';
 import { RouterModule } from '@angular/router';
-import { LookingComponent } from './account-edit/user/looking/looking.component';
+import { LookingComponent } from './pages/host-user/host-user-edit/looking/looking.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { MatRadioModule } from '@angular/material/radio';
-import { AboutProjectComponent } from './pages/about-project/about-project.component';
+import { AboutProjectComponent } from './pages/host/about-project/about-project.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinimaLight, MinimaDeepDark, MinimaDark } from '@alyle/ui/themes/minima';
@@ -43,31 +33,37 @@ import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
-import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { ReportsComponent } from './components/reports/reports.component';
-import { SharedModule } from './shared/shared.module';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NewsComponent } from './components/news/news.component';
-import { SupportUsComponent } from './pages/support-us/support-us.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActTransferComponent } from './agreements/act-transfer/act-transfer.component';
-import { RentalAgreementComponent } from './agreements/rental-agreement/rental-agreement.component';
-import { ConfirmActionsComponent } from './agreements/confirm-actions/confirm-actions.component';
-import { HomeComponent } from './pages/home/home.component';
+import { HomeComponent } from './pages/host/home/home.component';
 import { TemplateComponent } from './template/template.component';
 import { SharingInfoComponent } from './components/sharing-info/sharing-info.component';
-import { AuthModule } from './auth/auth.module';
-import { AuthRoutingModule } from './auth/auth-routing.module';
 import { NewsLineComponent } from './components/news-line/news-line.component';
 import { SharedService } from './services/shared.service';
 import { StatusMessageComponent } from './components/status-message/status-message.component';
 import { StatusMessageService } from './services/status-message.service';
 import { CardsDataService } from './services/user-components/cards-data.service';
-import { PostsComponent } from './pages/posts/posts.component';
 import { SearchHousePageComponent } from './pages/host-user/host-user-serach/search-house-page/search-house-page.component';
 import { SearchTenantPageComponent } from './pages/host-user/host-user-serach/search-tenant-page/search-tenant-page.component';
 import { SearchNeighborPageComponent } from './pages/host-user/host-user-serach/search-neighbor-page/search-neighbor-page.component';
 import { SearchUserHostComponent } from './pages/host-user/host-user-serach/search-user-host.component';
+import { NotFoundComponent } from './pages/host/not-found/not-found.component';
+import { OurTeamComponent } from './pages/host/our-team/our-team.component';
+import { FeedbackComponent } from './pages/host/feedback/feedback.component';
+import { SupportUsComponent } from './pages/host/support-us/support-us.component';
+import { UserLicenceComponent } from './pages/host/user-licence/user-licence.component';
+import { PostsComponent } from './pages/blog/posts/posts.component';
+import { ActTransferComponent } from './components/agreements/act-transfer/act-transfer.component';
+import { RentalAgreementComponent } from './components/agreements/rental-agreement/rental-agreement.component';
+import { ConfirmActionsComponent } from './components/agreements/confirm-actions/confirm-actions.component';
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
+import { UserModule } from './pages/host-user/user.module';
+import { HouseModule } from './pages/host-house/house.module';
+import { AuthModule } from './pages/host-auth/auth.module';
+import { HousingServicesModule } from './housing-services/housing-services.module';
+import { SearchModule } from './search/search.module';
 
 @NgModule({
   declarations: [
@@ -77,7 +73,6 @@ import { SearchUserHostComponent } from './pages/host-user/host-user-serach/sear
     LookingComponent,
     FeedbackComponent,
     AboutProjectComponent,
-    OpportunitiesComponent,
     ReportsComponent,
     NotFoundComponent,
     NewsComponent,
@@ -111,14 +106,11 @@ import { SearchUserHostComponent } from './pages/host-user/host-user-serach/sear
     MatSelectModule,
     MatDialogModule,
     MatSliderModule,
-    SharedModule,
     MatIconModule,
     RouterModule,
     MatAutocompleteModule,
     MatTooltipModule,
     MatStepperModule,
-    HousingServicesModule,
-    HousingServicesRoutingModule,
     ReactiveFormsModule,
     MatRadioModule,
     MatMenuModule,
@@ -132,16 +124,19 @@ import { SearchUserHostComponent } from './pages/host-user/host-user-serach/sear
     LyDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    HousingParametersModule,
-    HousingParametersRoutingModule,
-    SearchModule,
-    SearchRoutingModule,
-    DiscussioHouseRoutingModule,
+
+    // модулі треба імпортувати а роутери імпортуються в AppRoutingModule
+    AppRoutingModule,
+    SharedModule,
+    UserModule,
+    HouseModule,
     AuthModule,
-    AuthRoutingModule
+    SearchModule,
+    HousingServicesModule,
+    // *********
+
   ],
   providers: [
-    
     SelectedFlatService,
     StatusMessageService,
     CardsDataService,

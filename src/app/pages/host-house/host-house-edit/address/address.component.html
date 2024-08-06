@@ -1,0 +1,152 @@
+<div [@top1] class="info-card">
+  <div class="param-wrapper">
+    <div class="group-label mt-2">Локація</div>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-label for="region">Область</mat-label>
+      <input name="flatInfo.region" id="region" matInput [(ngModel)]="flatInfo.region"
+        placeholder="Виберіть або введіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
+      <mat-autocomplete #autoRegion="matAutocomplete">
+        <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
+          {{ region.name }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
+      <mat-hint align="end" class="t-min">Обов'язково для локації</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-label for="city">Місто</mat-label>
+      <input name="flatInfo.city" id="city" matInput [(ngModel)]="flatInfo.city"
+        placeholder="Виберіть або введіть місто" (ngModelChange)="loadDistricts()" [matAutocomplete]="autoCity">
+      <mat-autocomplete #autoCity="matAutocomplete">
+        <mat-option *ngFor="let city of filteredCities" [value]="city.name">
+          {{ city.name }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+      <mat-hint align="end" class="t-min">Обов'язково для локації</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-label for="flat_index">Індекс</mat-label>
+      <input name="flatInfo.flat_index" id="flat_index" matInput [(ngModel)]="flatInfo.flat_index">
+      <mat-hint align="end" class="t-min">Обов'язково для локації</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-label for="street">Вулиця</mat-label>
+      <input name="flatInfo.street" id="street" matInput [(ngModel)]="flatInfo.street">
+      <mat-icon matSuffix><i class="fa-solid fa-road"></i></mat-icon>
+
+    </mat-form-field>
+
+    <div class="inputbox-group">
+
+      <mat-form-field class="item-select w-50" appearance="outline">
+        <mat-label for="houseNumber">Номер будинку</mat-label>
+        <input name="flatInfo.houseNumber" id="houseNumber" matInput [(ngModel)]="flatInfo.houseNumber">
+        <mat-icon matSuffix><i class="fa-solid fa-house-flag"></i></mat-icon>
+
+      </mat-form-field>
+
+      <mat-form-field class="item-select w-50 pl-2" appearance="outline">
+        <mat-label for="apartment">Номер квартири</mat-label>
+        <input name="flatInfo.apartment" id="apartment" matInput [(ngModel)]="flatInfo.apartment">
+        <mat-icon matSuffix><i class="fa-solid fa-door-closed"></i></mat-icon>
+
+      </mat-form-field>
+    </div>
+
+    <div class="inputbox-group">
+      <div class="flex-column" *ngIf="!locationLink">
+        <div class="t-min">Локація формується після збереження</div>
+      </div>
+
+      <div class="flex-column w-70" *ngIf="locationLink">
+        <div class="t-min">Перевірте правильність наданих даних це впливає на точність локації</div>
+      </div>
+
+      <a class="location" href="{{ locationLink }}" target="_blank" *ngIf="locationLink">
+        <i class="fa-solid fa-map-location"></i>
+        <div class="t-min bold">Локація</div>
+      </a>
+
+    </div>
+
+    <div class="group-label mt-2">Паркінг / транспорт / метро</div>
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select name="distance_parking" placeholder="Відстань до парковки" [(ngModel)]="flatInfo.distance_parking">
+        <mat-option [value]="">Приховати</mat-option>
+        <mat-option [value]="1">на території</mat-option>
+        <mat-option [value]="100">до 100м</mat-option>
+        <mat-option [value]="300">до 300м</mat-option>
+        <mat-option [value]="500">до 500м</mat-option>
+        <mat-option [value]="1000">до 1км</mat-option>
+      </mat-select>
+      <mat-icon matSuffix><i class="fa-solid fa-car-side"></i></mat-icon>
+      <mat-hint align="end" class="t-min">Відстань до парковки</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select name="distance_stop" placeholder="Відстань до зупинки транспорту" id="distance_stop"
+        [(ngModel)]="flatInfo.distance_stop">
+        <mat-option [value]="">Приховати</mat-option>
+        <mat-option [value]="100">до 100м</mat-option>
+        <mat-option [value]="300">до 300м</mat-option>
+        <mat-option [value]="500">до 500м</mat-option>
+        <mat-option [value]="1000">до 1км</mat-option>
+      </mat-select>
+      <mat-icon matSuffix><i class="fa-solid fa-bus"></i></mat-icon>
+      <mat-hint align="end" class="t-min">Відстань до зупинки</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select name="distance_metro" placeholder="Відстань до метро" id="distance_metro"
+        [(ngModel)]="flatInfo.distance_metro">
+        <mat-option [value]="">Приховати</mat-option>
+        <mat-option [value]="100">до 100м</mat-option>
+        <mat-option [value]="300">до 300м</mat-option>
+        <mat-option [value]="500">до 500м</mat-option>
+        <mat-option [value]="1000">до 1км</mat-option>
+        <mat-option [value]="2000">до 2км</mat-option>
+      </mat-select>
+      <mat-hint align="end" class="t-min">Відстань до метро</mat-hint>
+    </mat-form-field>
+
+    <div class="group-label mt-2">Інфраструктура</div>
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select name="distance_green" placeholder="Відстань до парку" id="distance_green"
+        [(ngModel)]="flatInfo.distance_green">
+        <mat-option [value]="">Приховати</mat-option>
+        <mat-option [value]="100">до 100м</mat-option>
+        <mat-option [value]="300">до 300м</mat-option>
+        <mat-option [value]="500">до 500м</mat-option>
+        <mat-option [value]="1000">до 1км</mat-option>
+      </mat-select>
+      <mat-icon matSuffix><i class="fa-solid fa-tree"></i></mat-icon>
+      <mat-hint align="end" class="t-min">Відстань до парку</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select name="distance_shop" placeholder="Відстань до маркетів" id="distance_shop"
+        [(ngModel)]="flatInfo.distance_shop">
+        <mat-option [value]="">Приховати</mat-option>
+        <mat-option [value]="100">до 100м</mat-option>
+        <mat-option [value]="300">до 300м</mat-option>
+        <mat-option [value]="500">до 500м</mat-option>
+        <mat-option [value]="1000">до 1км</mat-option>
+      </mat-select>
+      <mat-icon matSuffix><i class="fa-solid fa-basket-shopping"></i></mat-icon>
+      <mat-hint align="end" class="t-min">Відстань до маркетів</mat-hint>
+    </mat-form-field>
+
+
+
+  </div>
+  <div class="btn-group mt-2">
+    <button class="btn flex-box" (click)="clearInfo()">ОЧИСТИТИ<i class="icon fa-solid fa-eraser ml-2"></i></button>
+    <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
+        class="icon fa-regular fa-circle-check ml-2"></i></button>
+  </div>
+</div>

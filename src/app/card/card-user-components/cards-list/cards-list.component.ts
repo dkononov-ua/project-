@@ -111,7 +111,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
 
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
-    if (this.currentLocation !== '/search-house') {
+    if (this.currentLocation !== '/search/house') {
       this.cardsDataService.getSubInfo(offs);
     }
     this.getCardsData();
@@ -154,7 +154,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
           this.counterFound = Number(data);
         })
       );
-    } else if (currentLocation === '/search-house') {
+    } else if (currentLocation === '/search/house') {
       this.subscriptions.push(
         this.filterService.filterChange$.subscribe(async () => {
           const optionsFound = this.filterService.getOptionsFound();

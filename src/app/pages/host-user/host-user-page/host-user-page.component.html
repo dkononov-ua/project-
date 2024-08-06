@@ -1,27 +1,16 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
-
-<ng-template #content>
-  <div class="content-child">
-
-    <div [@appearance] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card-animation">
-        <div class="card-content">
-          <app-img></app-img>
-          <app-user-rent-progress></app-user-rent-progress>
-          <div *ngIf="isMobile">
-            <app-info></app-info>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-animation bg-none">
+<div class="content-wrapper">
+  <div class="width-param col-md-6 col-sm-12 col-12">
+    <div [@appearance] class="component-wrapper">
+      <app-img></app-img>
+      <app-user-rent-progress></app-user-rent-progress>
+      <div *ngIf="isMobile">
         <app-info></app-info>
       </div>
     </div>
-
   </div>
-</ng-template>
+  <div class="width-param col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
+    <div [@appearance] class="component-wrapper">
+      <app-info></app-info>
+    </div>
+  </div>
+</div>

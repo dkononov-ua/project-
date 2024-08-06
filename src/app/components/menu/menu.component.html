@@ -1,5 +1,5 @@
 <div class="menu-container">
-  <div class="menu" [ngClass]="{'active': menu[1]}" (click)="closeToogleMenu(1)" *ngIf="menu[1]">
+  <div class="menu-content" [ngClass]="{'active': menu[1]}" (click)="closeToogleMenu(1)" *ngIf="menu[1]">
     <div appClickOutside (clickOutside)="onClickedOutside(1)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
 
       <div class="wrapper-img">
@@ -82,7 +82,7 @@
 
     </div>
   </div>
-  <div class="menu" [ngClass]="{'active': menu[2]}" *ngIf="menu[2]">
+  <div class="menu-content" [ngClass]="{'active': menu[2]}" *ngIf="menu[2]">
 
     <div appClickOutside (clickOutside)="onClickedOutside(2)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
 
@@ -99,7 +99,7 @@
 
     </div>
   </div>
-  <div class="menu" [ngClass]="{'active': menu[3]}" *ngIf="menu[3]">
+  <div class="menu-content" [ngClass]="{'active': menu[3]}" *ngIf="menu[3]">
 
     <div appClickOutside (clickOutside)="onClickedOutside(3)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
       <div class="wrapper-img" *ngIf="houseData" (click)="closeToogleMenu(3)">

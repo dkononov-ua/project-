@@ -1,4 +1,6 @@
 @use "app/style/presets/" as *;
+@use "app/style/mixins/" as *;
+
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 * {
@@ -15,6 +17,7 @@ html,
 body {
   font-family: $font-main;
   scroll-behavior: smooth;
+
 }
 
 button {
@@ -23,6 +26,9 @@ button {
 
 body {
   background-color: $color-primary;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
 }
 
 a {

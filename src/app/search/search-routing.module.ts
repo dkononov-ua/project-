@@ -6,10 +6,10 @@ import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {
-    path: 'search-tenants', component: SearchTenantComponent,
+    path: 'tenant', component: SearchTenantComponent,
   },
   {
-    path: 'search-house', component: SearchHousingComponent,
+    path: 'house', component: SearchHousingComponent,
   },
   {
     path: 'discussio-search', component: SearchComponent,

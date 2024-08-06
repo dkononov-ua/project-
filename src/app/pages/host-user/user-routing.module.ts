@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { LookingComponent } from 'src/app/account-edit/user/looking/looking.component';
+import { LookingComponent } from 'src/app/pages/host-user/host-user-edit/looking/looking.component';
 import { UserComponent } from './user.component';
-import { UserParametersComponent } from 'src/app/account-edit/user/user-parameterscomponent';
-import { UserContactsComponent } from 'src/app/account-edit/user/user-contacts/user-contacts.component';
-import { UserPersonComponent } from 'src/app/account-edit/user/user-person/user-person.component';
-import { UserStatusComponent } from 'src/app/account-edit/user/user-status/user-status.component';
-import { UserLookingComponent } from 'src/app/account-edit/user/user-looking/user-looking.component';
-import { UserDeleteComponent } from 'src/app/account-edit/user/user-delete/user-delete.component';
+import { UserParametersComponent } from 'src/app/pages/host-user/host-user-edit/user-parameterscomponent';
+import { UserContactsComponent } from 'src/app/pages/host-user/host-user-edit/user-contacts/user-contacts.component';
+import { UserPersonComponent } from 'src/app/pages/host-user/host-user-edit/user-person/user-person.component';
+import { UserStatusComponent } from 'src/app/pages/host-user/host-user-edit/user-status/user-status.component';
+import { UserLookingComponent } from 'src/app/pages/host-user/host-user-edit/user-looking/user-looking.component';
+import { UserDeleteComponent } from 'src/app/pages/host-user/host-user-edit/user-delete/user-delete.component';
 import { UserTenantComponent } from './host-user-tenants-profile/user-tenant/user-tenant.component';
-import { SubscribersUserComponent } from 'src/app/discussi/discussio-user/subscribers/subscribers-user.component';
-import { SubscriptionsUserComponent } from 'src/app/discussi/discussio-user/subscriptions/subscriptions-user.component';
-import { SubscribersDiscusComponent } from 'src/app/discussi/discussio-user/discus/subscribers-discus.component';
 import { SearchHousePageComponent } from 'src/app/pages/host-user/host-user-serach/search-house-page/search-house-page.component';
 import { SearchNeighborPageComponent } from 'src/app/pages/host-user/host-user-serach/search-neighbor-page/search-neighbor-page.component';
 import { SearchTenantPageComponent } from 'src/app/pages/host-user/host-user-serach/search-tenant-page/search-tenant-page.component';
@@ -27,6 +24,11 @@ import { SearchUserHostComponent } from './host-user-serach/search-user-host.com
 import { HostUserAgreeComponent } from './host-user-agree/host-user-agree.component';
 import { HostUserPageComponent } from './host-user-page/host-user-page.component';
 import { ChatHostComponent } from 'src/app/chat/user/chat-host/chat-host.component';
+import { HostUserTenantsProfileComponent } from './host-user-tenants-profile/host-user-tenants-profile.component';
+import { NotFoundComponent } from '../host/not-found/not-found.component';
+import { SubscribersDiscusComponent } from './host-user-discus/discus/subscribers-discus.component';
+import { SubscribersUserComponent } from './host-user-discus/subscribers/subscribers-user.component';
+import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
 
 
 const routes: Routes = [
@@ -36,9 +38,15 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: HostUserPageComponent, data: { title: 'Профіль користувача', description: 'Профіль користувача' } },
-      { path: 'tenant', component: UserTenantComponent },
-      { path: 'tenant-step', component: UserTenantStepComponent },
       { path: 'chat', component: ChatHostComponent, canActivate: [CanActivateGuard] },
+      {
+        path: 'tenant', component: HostUserTenantsProfileComponent,
+        children: [
+          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: 'about', component: UserTenantComponent },
+          { path: 'step', component: UserTenantStepComponent },
+        ],
+      },
       {
         path: 'discus', component: HostUserDiscusComponent,
         children: [
@@ -82,8 +90,9 @@ const routes: Routes = [
       },
     ],
   },
-
   { path: 'looking', component: LookingComponent, data: { title: 'Профіль орендаря', description: 'Розмістити оголошення про пошук оселі' }, canActivate: [CanActivateGuard] },
+  { path: '404', component: NotFoundComponent },
+  // { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

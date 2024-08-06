@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   menuIndex: number = 0;
   disabledBtn: boolean = false;
   user_router: boolean = false;
-  
+
   toggleAllMenu(index: number) {
     this.menuStatus = !this.menuStatus
     this.menuService.toogleMenu(this.menuStatus, index)
@@ -81,18 +81,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    await this.checkUrl();
+    this.checkRouter();
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
+    this.getStatusMenu();
+  }
+
+  async checkUrl(): Promise<void> {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.currentLocation = event.urlAfterRedirects;
       this.checkLocation();
     });
-    this.currentLocation = this.location.path();
-    this.checkRouter();
-    this.getCheckDevice();
-    this.getServerPath();
-    this.checkUserAuthorization();
-    this.getStatusMenu();
   }
 
   async checkRouter(): Promise<void> {
@@ -104,6 +107,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   async checkLocation(): Promise<void> {
+    // console.log(this.currentLocation)
     if (this.currentLocation.includes('/discussio-search')) {
       this.page_title = 'Пошук'
       this.page_description = 'Осель & Орендарів'
@@ -148,7 +152,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.page_description = 'Ухвалені'
     } else {
       this.page_title = 'Discussio'
-      this.page_description = "Об'єднуємо орендарів та орендодавців"
     }
   }
 
