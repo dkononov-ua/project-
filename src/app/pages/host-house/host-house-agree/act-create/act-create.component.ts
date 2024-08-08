@@ -209,6 +209,8 @@ export class ActCreateComponent implements OnInit {
           filling: this.flat_objects,
         };
 
+        console.log(data)
+
         this.http.post(this.serverPath + '/agreement/add/act', data)
           .subscribe(
             (response: any) => {
@@ -218,7 +220,7 @@ export class ActCreateComponent implements OnInit {
                 setTimeout(() => {
                   this.sharedService.setStatusMessage('Помилка формування акту');
                   setTimeout(() => {
-                    location.reload();
+                    // location.reload();
                   }, 2000);
                 }, 2000);
               } else {

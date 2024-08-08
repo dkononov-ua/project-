@@ -1,15 +1,52 @@
-@use "../housing-parameters.component.scss";
-@use "../../../../style/presets/" as *;
-@use "../../../../style/mixins/" as *;
+@use "./../../pages.scss";
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
 
-.main-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+.card-objects {
+  @include flex-box-center;
+  flex-direction: column;
+  background-color: $color-white;
+  border-radius: 20px;
+  justify-content: space-between;
+  @include s3-s6-max {
+    max-width: 500px;
+    height: 100%;
+  }
+  @include s1-s3 {
+    width: 100%;
+    height: auto;
+  }
+  .group {
+    @include flex-box-center;
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
 }
 
-.card-content {
-  justify-content: space-between !important;
+.btn-group {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+
+  @include s3-s6-max {
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+  }
+  .btn {
+    @include flex-box-center;
+    height: 60px;
+    background-color: $color-accent;
+  }
+}
+
+textarea {
+  height: auto;
+  min-height: 200px;
 }
 
 .card-menu1 {
@@ -140,6 +177,7 @@ li {
 
 .item-select {
   flex-direction: column-reverse;
+  width: 100%;
 }
 
 .cropped {

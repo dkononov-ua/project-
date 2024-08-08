@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
-import { SharedService } from 'src/app/services/shared.service';
 import { UserInfo } from '../../../interface/info';
 import { UsereSearchConfig } from '../../../interface/param-config';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { animations } from '../../../interface/animation';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-status-data',
   templateUrl: './status-data.component.html',
   styleUrls: ['./status-data.component.scss'],
-  animations: [animations.fadeIn, animations.top4,
+  animations: [
+    animations.fadeIn,
+    animations.top4,
+    animations.appearance,
   ],
 })
-export class StatusDataComponent implements OnInit {
+export class StatusDataComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -28,9 +29,7 @@ export class StatusDataComponent implements OnInit {
   statusUserData: any;
 
   openStatus: boolean = false;
-  toogleOpenStatus() {
-    this.openStatus = !this.openStatus;
-  }
+  checkOpenStatus: boolean = true;
 
   isMobile: boolean = false;
   authorization: boolean = false;
@@ -38,45 +37,11 @@ export class StatusDataComponent implements OnInit {
   currentLocation: string = '';
 
   constructor(
-    private sharedService: SharedService,
     private statusDataService: StatusDataService,
-    private location: Location,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.currentLocation = this.location.path();
-    await this.getCheckDevice();
-    await this.getServerPath();
-    this.checkUserAuthorization();
-  }
-
-  // перевірка на девайс
-  async getCheckDevice() {
-    this.subscriptions.push(
-      this.sharedService.isMobile$.subscribe((status: boolean) => {
-        this.isMobile = status;
-      })
-    );
-  }
-
-  // підписка на шлях до серверу
-  async getServerPath() {
-    this.subscriptions.push(
-      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-        this.serverPath = serverPath;
-      })
-    );
-  }
-
-  // Перевірка на авторизацію користувача
-  async checkUserAuthorization() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      this.authorization = true;
-      this.getStatusData();
-    } else {
-      this.authorization = false;
-    }
+    await this.getStatusData();
   }
 
   async getStatusData() {
@@ -87,4 +52,20 @@ export class StatusDataComponent implements OnInit {
     );
   }
 
+  toogleOpenStatus(status: boolean) {
+    this.openStatus = status;
+  }
+
+  onClickedOutside() {
+    this.checkOpenStatus = !this.checkOpenStatus;
+    if (this.checkOpenStatus) {
+      this.openStatus = !this.openStatus;
+    } else {
+      this.openStatus = true;
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }

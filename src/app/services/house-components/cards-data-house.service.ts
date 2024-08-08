@@ -66,36 +66,33 @@ export class CardsDataHouseService {
 
   // Отримання даних всіх користувачів
   async getUserInfo(offs: number): Promise<void> {
-    // console.log('getUserInfo')
     const userJson = localStorage.getItem('user');
-    const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
-    const currentLocation = this.location.path();
-    if (currentLocation === '/house/discus/discussion') {
-      this.linkPath = '/acceptsubs/get/subs';
-    }
-    if (currentLocation === '/house/discus/subscribers') {
-      this.linkPath = '/subs/get/subs';
-    }
-    if (currentLocation === '/house/discus/subscriptions') {
-      this.linkPath = '/usersubs/get/ysubs';
-    }
-    // console.log(currentLocation)
-    // console.log(this.linkPath)
-    try {
-      this.allCards = await this.http.post(this.serverPath + this.linkPath, data).toPromise() as any[];
-      // console.log(this.allCards)
-      if (this.allCards) {
-        this.setCardsData(this.allCards)
-      } else {
-        this.setCardsData([])
+    if (userJson && this.selectedFlatId) {
+      const data = { auth: JSON.parse(userJson!), flat_id: this.selectedFlatId, offs: offs, };
+      const currentLocation = this.location.path();
+      if (currentLocation === '/house/discus/discussion') {
+        this.linkPath = '/acceptsubs/get/subs';
       }
-    } catch (error) {
-      console.error(error);
+      if (currentLocation === '/house/discus/subscribers') {
+        this.linkPath = '/subs/get/subs';
+      }
+      if (currentLocation === '/house/discus/subscriptions') {
+        this.linkPath = '/usersubs/get/ysubs';
+      }
+      try {
+        this.allCards = await this.http.post(this.serverPath + this.linkPath, data).toPromise() as any[];
+        if (this.allCards) {
+          this.setCardsData(this.allCards)
+        } else {
+          this.setCardsData([])
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
   setCardsData(data: any): void {
-    // console.log('setCardsData')
     this.cardsDataSubject.next(data);
     this.allCards = data;
     this.selectCard();
@@ -108,7 +105,6 @@ export class CardsDataHouseService {
 
   // Виводимо інформацію з локального сховища про обрану оселю
   selectCard() {
-    // console.log('selectCard')
     if (this.choseUserId && this.allCards) {
       const chosenUser = this.allCards.find((user: any) => user.user_id === Number(this.choseUserId));
       if (chosenUser) {
@@ -124,8 +120,6 @@ export class CardsDataHouseService {
   }
 
   setCardData(data: any): void {
-    // console.log('setCardData')
-    // console.log(data)
     this.cardDataSubject.next(data);
   }
 

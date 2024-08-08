@@ -76,6 +76,7 @@ interface Subscribers {
     animations.right4,
     animations.swichCard,
     animations.top1,
+    animations.top3,
   ],
 })
 export class AgreeCreateComponent implements OnInit {
@@ -442,7 +443,7 @@ export class AgreeCreateComponent implements OnInit {
         } else {
           this.sharedService.setStatusMessage('Умови угоди надіслані на розгляд орендарю!');
           setTimeout(() => {
-            this.router.navigate(['/house/agree/rewiew']);
+            this.router.navigate(['/house/agree/review']);
             this.sharedService.setStatusMessage('');
           }, 3000);
         }
@@ -454,10 +455,6 @@ export class AgreeCreateComponent implements OnInit {
     } else {
       // console.log('Авторизуйтесь');
     }
-  }
-
-  goToHelp() {
-    this.router.navigate(['/house/agree-menu'], { queryParams: { currentStep: 1 } });
   }
 
   showMessage(msg: string): void {

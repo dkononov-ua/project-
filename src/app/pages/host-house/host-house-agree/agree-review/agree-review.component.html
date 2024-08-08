@@ -1,5 +1,5 @@
 <div [@top2] class="content-child">
-  <div class="card-agree m-2 p-2" *ngFor="let agreement of agree">
+  <div class="card-agree m-2 p-2" *ngFor="let agreement of houseSendAgree">
     <div class="t-lar gray">ID угоди: <span class="t-lar bold accent">
         {{agreement.flat.agreement_id}}
       </span> </div>
@@ -50,10 +50,4 @@
 
 
   </div>
-</div>
-
-<div *ngIf="statusMessage" class="status-message">
-  <div class="status-message-text">{{ statusMessage }}</div>
-  <img class="status-message-logo" src="{{path_logo}}" alt="logo">
-  <div class="status-message-name">Discussio</div>
 </div>

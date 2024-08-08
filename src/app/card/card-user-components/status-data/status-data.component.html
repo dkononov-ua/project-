@@ -1,5 +1,5 @@
 <button class="status-content" *ngIf="userInfo">
-  <button class="status-box m-2" (click)="toogleOpenStatus()">
+  <button class="status-box m-2" (click)="toogleOpenStatus(true)">
     <div class="status-value" *ngIf="userInfo.checked === 0"><i class="fa-solid fa-person-circle-exclamation"></i></div>
     <div class="status-value" *ngIf="userInfo.checked === 1"><i class="fa-solid fa-person-circle-check"></i></div>
     <div class="status-value" *ngIf="userInfo.realll === 1"><i class="fa-solid fa-coins"></i></div>
@@ -20,7 +20,7 @@
     <div class="status-value" *ngIf="userInfo.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
     <div class="status-value" *ngIf="userInfo.family === 1"><i class="fa-solid fa-children"></i></div>
   </button>
-  <div [@fadeIn] class="status-hover" *ngIf="openStatus">
+  <div appClickOutside (clickOutside)="onClickedOutside()" [@appearance] class="status-hover" *ngIf="openStatus">
     <div class="status-hover-label border-bottom">Допомога</div>
     <div class="status-hover-text t-c">
 
@@ -52,7 +52,7 @@
           </li>
         </ul>
       </div>
-      
+
       <div *ngIf="userInfo.agree_search === 1">
         <ul *ngIf="userInfo.woman === 1 || userInfo.man === 1 || userInfo.students === 1 || userInfo.family === 1">
           Пошук оселі для:
@@ -84,7 +84,7 @@
         </ul>
 
       </div>
-      <button class="btn-close bg-white p-2" (click)="toogleOpenStatus()"></button>
+      <button class="btn-close bg-white p-2" (click)="toogleOpenStatus(false)"></button>
     </div>
   </div>
 </button>

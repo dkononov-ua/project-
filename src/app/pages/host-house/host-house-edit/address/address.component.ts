@@ -1,6 +1,6 @@
 import { animations } from '../../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { regions } from '../../../../data/data-city';
 import { cities } from '../../../../data/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
 import { DataService } from 'src/app/services/data.service';
+import { LocationHouseService } from 'src/app/services/location-house.service';
 
 interface FlatInfo {
   flat_id: string | undefined;
@@ -40,7 +41,7 @@ interface FlatInfo {
   ],
 })
 
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -49,14 +50,6 @@ export class AddressComponent implements OnInit {
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
   // ***
-
-  loading = false;
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-  }
 
   flatInfo: FlatInfo = {
     flat_id: '',
@@ -86,31 +79,72 @@ export class AddressComponent implements OnInit {
   selectedFlatId!: string | null;
   public locationLink: string = '';
 
+  isMobile = false;
+  subscriptions: any[] = [];
+  currentLocation: string = '';
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+  houseData: any;
+
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private dataService: DataService,
     private sharedService: SharedService,
     private missingParamsService: MissingParamsService,
+    private locationHouseService: LocationHouseService,
   ) {
     this.filteredRegions = [];
   }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.getSelectParam();
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
+    await this.getSelectedFlatId();
   }
 
-  getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-      if (this.selectedFlatId) {
-        this.getInfo();
-      }
-    });
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (this.selectedFlatId) {
+          this.getInfo();
+        } else {
+          console.log('Оберіть оселю')
+        }
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
   updateFlatInfo() {
@@ -118,7 +152,12 @@ export class AddressComponent implements OnInit {
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
         if (response) {
+          localStorage.removeItem('houseData');
           localStorage.setItem('houseData', JSON.stringify(response));
+          this.sharedService.setStatusMessage('Оновлюємо інформацію...');
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
         } else {
           console.log('Немає оселі')
         }
@@ -126,21 +165,27 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  async getInfo(): Promise<any> {
+  async getInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId) {
-      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
+    if (userJson) {
+      try {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
+        if (response && response.flat) {
           this.flatInfo = response.flat;
-          this.locationLink = this.generateLocationUrl();
-          this.loading = false;
-        }, (error: any) => {
-          console.error(error);
-          this.loading = false;
-        });
+          // Формую локацію на мапі
+          this.locationLink = await this.locationHouseService.generateLocationUrl(this.flatInfo);
+        } else {
+          console.log('flat not found in response.');
+        }
+      } catch (error) {
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          location.reload();
+        }, 1500);
+      }
     } else {
-      console.log('house not found');
-      this.loading = false;
+      console.log('user not found');
     }
   };
 
@@ -179,27 +224,6 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  generateLocationUrl() {
-    if (this.flatInfo.region && this.flatInfo.city && this.flatInfo.street) {
-      const baseUrl = 'https://www.google.com/maps/place/';
-      const region = this.flatInfo.region || '';
-      const city = this.flatInfo.city || '';
-      const street = this.flatInfo.street || '';
-      const houseNumber = this.flatInfo.houseNumber || '';
-      const flatIndex = this.flatInfo.flat_index || '';
-      const encodedRegion = encodeURIComponent(region);
-      const encodedCity = encodeURIComponent(city);
-      const encodedStreet = encodeURIComponent(street);
-      const encodedHouseNumber = encodeURIComponent(houseNumber);
-      const encodedFlatIndex = encodeURIComponent(flatIndex);
-      const locationUrl = `${baseUrl}${encodedStreet}+${encodedHouseNumber},${encodedCity},${encodedRegion},${encodedFlatIndex}`;
-      this.locationLink = locationUrl;
-      return this.locationLink;
-    } else {
-      return '';
-    }
-  }
-
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
@@ -224,18 +248,20 @@ export class AddressComponent implements OnInit {
           flat_id: this.selectedFlatId,
         }).toPromise();
         if (response && response.status === 'Параметри успішно додані') {
-          this.updateFlatInfo();
           if (response && response.rent) {
             this.sharedService.setStatusMessage('Параметри успішно збережено');
             setTimeout(() => {
               this.missingParamsService.checkResponse(response);
+              setTimeout(() => {
+                this.updateFlatInfo();
+              }, 2000);
             }, 1000);
           } else {
             this.sharedService.setStatusMessage('Параметри успішно збережено');
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оголошення можна активувати!');
               setTimeout(() => {
-                this.router.navigate(['/edit-house/about']);
+                this.router.navigate(['/house/edit/about']);
                 this.sharedService.setStatusMessage('');
               }, 1000);
             }, 1500);
@@ -249,12 +275,9 @@ export class AddressComponent implements OnInit {
           }, 500);
         }
       } catch (error) {
-        this.loading = false;
         console.error(error);
         location.reload();
       }
-    } else {
-      this.loading = false;
     }
   }
 
@@ -276,5 +299,9 @@ export class AddressComponent implements OnInit {
       distance_green: 0,
       distance_shop: 0,
     };
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

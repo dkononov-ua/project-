@@ -97,6 +97,7 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
     const houseData = localStorage.getItem('houseData');
     if (houseData) {
       const parsedHouseData = JSON.parse(houseData);
+      // console.log(parsedHouseData)
       if (Array.isArray(parsedHouseData.imgs) && parsedHouseData.imgs.length > 0) {
         this.house.photos = parsedHouseData.imgs;
         this.photoExists = true;

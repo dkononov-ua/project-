@@ -1,5 +1,5 @@
 <button class="status-content" *ngIf="houseInfo">
-  <button class="status-box m-2" (click)="toogleOpenStatus()" >
+  <button class="status-box m-2" (click)="toogleOpenStatus(true)" >
     <div class="status-value" *ngIf="!houseInfo.checked || houseInfo.checked === 0"><i class="fa-solid fa-house-circle-exclamation"></i></div>
     <div class="status-value" *ngIf="houseInfo.checked === 1"><i class="fa-solid fa-house-circle-check"></i></div>
     <div class="status-value" *ngIf="houseInfo.room === 0"><i class="fa-solid fa-dice-d6"></i></div>
@@ -13,7 +13,7 @@
     <div class="status-value" *ngIf="houseInfo.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
     <div class="status-value" *ngIf="houseInfo.family === 1"><i class="fa-solid fa-children"></i></div>
   </button>
-  <div [@fadeIn] class="status-hover" *ngIf="openStatus">
+  <div appClickOutside (clickOutside)="onClickedOutside()" [@appearance] class="status-hover" *ngIf="openStatus">
     <div class="status-hover-label border-bottom">Допомога</div>
     <div class="status-hover-text t-c">
 
@@ -82,7 +82,7 @@
           <div class="status-value"><i class="fa-solid fa-dice-d6"></i></div> - Повністю
         </li>
       </ul>
-      <button class="btn-close bg-white p-2" (click)="toogleOpenStatus()"></button>
+      <button class="btn-close bg-white p-2" (click)="toogleOpenStatus(false)"></button>
     </div>
   </div>
 </button>

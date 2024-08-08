@@ -1,4 +1,4 @@
-<div  class="container-info p-2">
+<div class="container-info p-2">
   <div [@bot3] class="content-wrapper mt-2">
 
     <header #contentWrapper id="conteiner0" class="header t-c p-2 mt-2">
@@ -58,10 +58,13 @@
               <p class="team-member-position">{{ member.position }}</p>
               <p class="team-member-description">{{ member.description }}</p>
               <div class="team-member-social">
-                <a *ngIf="member.social.telegram" target="_blank" href="{{ member.social.telegram }}"><i class="fab fa-brands fa-telegram"></i></a>
-                <a *ngIf="member.social.instagram" target="_blank" href="{{ member.social.instagram }}"><i class="fab fa-brands fa-instagram"></i></a>
+                <a *ngIf="member.social.telegram" target="_blank" href="{{ member.social.telegram }}"><i
+                    class="fab fa-brands fa-telegram"></i></a>
+                <a *ngIf="member.social.instagram" target="_blank" href="{{ member.social.instagram }}"><i
+                    class="fab fa-brands fa-instagram"></i></a>
                 <!-- <a href="{{ member.social.twitter }}"><i class="fab fa-twitter"></i></a> -->
-                <a *ngIf="member.social.linkedin" target="_blank" href="{{ member.social.linkedin }}"><i class="fab fa-linkedin-in"></i></a>
+                <a *ngIf="member.social.linkedin" target="_blank" href="{{ member.social.linkedin }}"><i
+                    class="fab fa-linkedin-in"></i></a>
               </div>
             </div>
           </div>
@@ -69,7 +72,8 @@
       </div>
     </section>
 
-    <h4 class="t-lar mt-2 t-c">Приєднуйтесь та <strong>підтримайте Discussio в соціальних мережах</strong>, це дуже важливо!
+    <h4 class="t-lar mt-2 t-c">Приєднуйтесь та <strong>підтримайте Discussio в соціальних мережах</strong>, це дуже
+      важливо!
     </h4>
     <div class="social-link-container p-2 pb-4">
 
@@ -108,9 +112,7 @@
       <app-contacts></app-contacts>
     </div>
 
-    <div class="mb-5">
-      <app-footer></app-footer>
-    </div>
+    <app-footer></app-footer>
 
   </div>
 

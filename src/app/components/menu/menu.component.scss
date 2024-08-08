@@ -176,7 +176,15 @@
 }
 
 .btn-group {
-  position: sticky;
+  justify-content: center;
+  position: fixed;
+  background-color: transparent;
   bottom: 0;
   z-index: 120;
+  padding: 10px;
+  .btn {
+    border-radius: 20px !important;
+    width: 200px;
+    flex: none;
+  }
 }

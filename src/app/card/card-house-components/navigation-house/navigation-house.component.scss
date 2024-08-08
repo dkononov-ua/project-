@@ -12,14 +12,27 @@
   }
 
   @include s1-s3 {
-    padding: 20px 0px 0px 20px;
-    height: 70vh;
+    padding: 20px 0px 60px 20px;
+    height: 80vh;
   }
 }
 
 .wrapper-img {
   @include flex-box-center;
+  position: sticky;
+  border-radius: 30px;
+  top: 0;
+  z-index: 10;
   width: 100%;
+  background-color: transparent;
+  justify-content: center;
+
+  @include s1-s3 {
+    @include box-shadow;
+    width: 250px;
+    background-color: $color-accent;
+    justify-content: flex-start;
+  }
   .userName {
     display: flex;
     flex-direction: column;
@@ -71,7 +84,7 @@
   .category {
     @include flex-box-center;
     width: 100%;
-    z-index: 105;
+    z-index: 5;
     &.active {
       background-color: $color-white;
       color: $color-accent;

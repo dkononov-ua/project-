@@ -4,12 +4,12 @@
   <div class="wrapper-img" *ngIf="house">
 
     <div [@top2] *ngIf="!photoExists">
-      <img class="img-fluid" src="../../../../assets/housing_default.svg">
+      <img class="img-fluid" src="../../../../assets/housing_default.svg" loading="lazy">
     </div>
 
     <div [@top2] *ngIf="photoExists">
       <img class="img-fluid" [src]="serverPath + pathPhotoFlat + house.photos[currentPhotoIndex].img" alt="img-house"
-        (click)="openFullScreenImage(house.photos)">
+        (click)="openFullScreenImage(house.photos)" loading="lazy">
     </div>
 
     <div [@top2] *ngIf="house.photos.length > 1">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChoseSubscribeService } from '../../../services/chose-subscribe.service';
 import * as ServerConfig from 'src/app/config/path-config';
@@ -9,7 +9,7 @@ import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-chat-host',
   templateUrl: './chat-host.component.html',
-  styleUrls: ['./chat-host.component.scss'],
+  styleUrls: ['../../chat_host.scss'],
   animations: [
     animations.top1,
     animations.top2,
@@ -24,7 +24,7 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 
-export class ChatHostComponent implements OnInit {
+export class ChatHostComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;

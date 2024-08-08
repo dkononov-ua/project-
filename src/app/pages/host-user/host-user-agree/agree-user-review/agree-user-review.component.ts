@@ -11,7 +11,7 @@ import { ConfirmActionsComponent } from 'src/app/components/agreements/confirm-a
 @Component({
   selector: 'app-agree-user-review',
   templateUrl: './agree-user-review.component.html',
-  styleUrls: ['./agree-user-review.component.scss'],
+  styleUrls: ['./../../../../style/agree/agree_menu.scss'],
   animations: [
     animations.left,
     animations.left1,

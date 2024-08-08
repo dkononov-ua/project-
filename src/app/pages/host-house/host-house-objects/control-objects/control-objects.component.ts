@@ -20,9 +20,9 @@ interface ObjectInfo {
   photo: File | undefined;
 }
 @Component({
-  selector: 'app-add-objects',
-  templateUrl: './add-objects.component.html',
-  styleUrls: ['./add-objects.component.scss'],
+  selector: 'app-control-objects',
+  templateUrl: './control-objects.component.html',
+  styleUrls: ['./../objects.component.scss'],
   animations: [
     animations.left1,
     animations.left2,
@@ -36,7 +36,7 @@ interface ObjectInfo {
   ],
 })
 
-export class AddObjectsComponent implements OnInit {
+export class ControlObjectsComponent implements OnInit {
 
   indexPage: number = 1;
 
@@ -184,7 +184,7 @@ export class AddObjectsComponent implements OnInit {
         flat_id: this.selectedFlatId,
       }).toPromise() as any;
       if (response) {
-        this.flat_objects = response.status;
+        this.flat_objects = response.status.reverse();
         localStorage.setItem('flat_objects', JSON.stringify(this.flat_objects));
       } else {
         localStorage.removeItem('flat_objects');

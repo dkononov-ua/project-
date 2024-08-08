@@ -16,7 +16,7 @@
   flex-direction: column-reverse;
   background-color: $color-white;
   overflow: auto;
-  height: calc(100vh - 100px - 1rem - 70px);
+  height: calc(100vh - 130px - 1rem - 70px);
   @include s3-s6-max {
     height: calc(100vh - 100px - 1rem - 70px - 20px);
   }

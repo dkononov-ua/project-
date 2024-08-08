@@ -77,19 +77,19 @@ export class MissingParamsService {
 
         if (hasRegion || hasCity || hasStreet || hasHouseNumber) {
           this.sharedService.setStatusMessage('');
-          this.router.navigate(['/edit-house/address']);
+          this.router.navigate(['house/edit/address']);
         } else if (hasArea || hasFloor || hasOptionFlat || hasOptionPay) {
           this.sharedService.setStatusMessage('');
-          this.router.navigate(['/edit-house/param']);
+          this.router.navigate(['house/edit/param']);
         } else if (response.rent.length === 0 || hasRoom) {
-          this.router.navigate(['/edit-house/about']);
+          this.router.navigate(['house/edit/about']);
           this.sharedService.setStatusMessage('');
         }
       }, 2000);
     } else if (response.rent === 'Додайте фото') {
       this.sharedService.setStatusMessage('Для активації оголошення додайте мінімум 2 фото');
       setTimeout(() => {
-        this.router.navigate(['/edit-house/photo']);
+        this.router.navigate(['house/edit/photo']);
         this.sharedService.setStatusMessage('');
       }, 2000);
     }

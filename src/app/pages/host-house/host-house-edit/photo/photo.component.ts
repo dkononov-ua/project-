@@ -1,6 +1,6 @@
 import { animations } from '../../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
@@ -22,7 +22,7 @@ import { DataService } from 'src/app/services/data.service';
   ],
 })
 
-export class PhotoComponent implements OnInit {
+export class PhotoComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -61,16 +61,16 @@ export class PhotoComponent implements OnInit {
     }
   }
 
-  reloadPageWithLoader() {
-    this.loading = true;
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-  }
+  isMobile = false;
+  subscriptions: any[] = [];
+  currentLocation: string = '';
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+  houseData: any;
 
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private _dialog: LyDialog,
     private elementRef: ElementRef,
@@ -78,12 +78,53 @@ export class PhotoComponent implements OnInit {
     private sharedService: SharedService,
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.getSelectedFlat();
-    this.loading = false;
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
+    await this.getSelectedFlatId();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (this.selectedFlatId) {
+          this.getInfo();
+        } else {
+          console.log('Оберіть оселю')
+        }
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
   updateFlatInfo() {
@@ -91,7 +132,12 @@ export class PhotoComponent implements OnInit {
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
         if (response) {
+          localStorage.removeItem('houseData');
           localStorage.setItem('houseData', JSON.stringify(response));
+          this.sharedService.setStatusMessage('Оновлюємо інформацію...');
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
         } else {
           console.log('Немає оселі')
         }
@@ -99,38 +145,30 @@ export class PhotoComponent implements OnInit {
     }
   }
 
-  getSelectedFlat() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId !== null) {
-        this.getInfo();
-      }
-    });
-  }
-
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== null) {
-      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe(
-          (response: any) => {
-            if (Array.isArray(response.imgs) && response.imgs.length > 0) {
-              this.flatImg = response.imgs;
-              this.flatImg.reverse();
-              if (this.reloadImg) {
-                setTimeout(() => {
-                  this.sharedService.setStatusMessage('');
-                  this.reloadImg = false;
-                }, 1500);
-              }
-            } else {
-              this.flatImg = [{ img: "housing_default.svg" }];
-            }
-          },
-          (error: any) => {
-            console.error(error);
+      try {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
+        if (Array.isArray(response.imgs) && response.imgs.length > 0) {
+          this.flatImg = response.imgs;
+          this.flatImg.reverse();
+          if (this.reloadImg) {
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('');
+              this.reloadImg = false;
+            }, 1500);
           }
-        );
+        } else {
+          this.flatImg = [{ img: "housing_default.svg" }];
+        }
+      } catch (error) {
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          location.reload();
+        }, 1500);
+      }
     } else {
       console.log('user not found');
     }
@@ -162,38 +200,33 @@ export class PhotoComponent implements OnInit {
     return new Blob([ab], { type: mimeString });
   }
 
-  onUpload(formData: any): void {
+  async onUpload(formData: any): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (!formData) {
-      console.log('Файл не обраний. Завантаження не відбудеться.');
-      return;
-    }
-    formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
-    formData.append('flat_id', this.selectedFlatId);
-    const headers = { 'Accept': 'application/json' };
-    this.http.post(this.serverPath + '/img/uploadflat', formData, { headers }).subscribe(
-      async (data: any) => {
-        this.images.push(this.serverPath + '/img/flat/' + data.filename);
-        this.loading = false;
-        if (data.status === 'Збережено') {
+    if (userJson && formData) {
+      formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
+      formData.append('flat_id', this.selectedFlatId);
+      const headers = { 'Accept': 'application/json' };
+      try {
+        const response: any = await this.http.post(this.serverPath + '/img/uploadflat', formData, { headers }).toPromise();
+        if (response.status === 'Збережено') {
           this.reloadImg = true;
-          this.flatImg = [];
           this.sharedService.setStatusMessage('Фото додано');
-          await this.getInfo();
+          this.updateFlatInfo();
         } else {
+          this.sharedService.setStatusMessage('Помилка завантаження');
           setTimeout(() => {
-            this.sharedService.setStatusMessage('Помилка завантаження');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('');
-            }, 1500);
-          }, 500);
+            this.sharedService.setStatusMessage('');
+            location.reload();
+          }, 1500);
         }
-      },
-      (error: any) => {
-        console.log(error);
-        this.loading = false;
+      } catch (error) {
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          location.reload();
+        }, 1500);
       }
-    );
+    }
   }
 
   prevPhoto() {
@@ -208,51 +241,42 @@ export class PhotoComponent implements OnInit {
     }
   }
 
-  deleteObject(selectImg: any): void {
+  async deleteObject(selectImg: any): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && selectImg && selectImg !== "housing_default.svg" && this.selectedFlatId) {
+
       const data = {
         auth: JSON.parse(userJson),
-        flat_id: this.selectedFlatId,
+        flat_id: Number(this.selectedFlatId),
         img: selectImg,
       };
 
-      this.http.post(this.serverPath + '/flatinfo/deleteFlatImg', data)
-        .subscribe(
-          (response: any) => {
-            if (response.status == 'Видалення було успішне') {
-              this.sharedService.setStatusMessage('Видалено');
-              setTimeout(() => {
-                const deletedIndex = this.flatImg.findIndex((item: { img: any; }) => item.img === selectImg);
-                this.flatImg = this.flatImg.filter((item: { img: any; }) => item.img !== selectImg);
-                if (this.currentPhotoIndex > deletedIndex) {
-                  this.currentPhotoIndex--;
-                }
-                this.getInfo();
-                setTimeout(() => {
-                  this.sharedService.setStatusMessage('');
-                }, 1500);
-              }, 1500);
-            } else {
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('Помилка видалення');
-                setTimeout(() => {
-                  this.sharedService.setStatusMessage('');
-                }, 1500);
-              }, 500);
-            }
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
-    } else {
-      console.log('user or subscriber not found');
+      try {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/deleteFlatImg', data).toPromise();
+        // console.log(response)
+        if (response.status === 'Видалення було успішне' || response.status === 'Параметри успішно додані') {
+          this.sharedService.setStatusMessage('Видалено');
+          this.updateFlatInfo();
+        } else {
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Помилка видалення');
+            setTimeout(() => {
+              this.sharedService.setStatusMessage('');
+              location.reload();
+            }, 1500);
+          }, 500);
+        }
+      } catch (error) {
+        console.error(error);
+        this.sharedService.setStatusMessage('Помилка на сервері, повторіть спробу');
+        setTimeout(() => { location.reload }, 2000);
+      }
     }
   }
 
-
-
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
 }
 

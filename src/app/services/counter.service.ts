@@ -10,11 +10,26 @@ import { Router } from '@angular/router';
 
 export class CounterService {
   serverPath: string = '';
+  agreementIds: any = [];
+  houseConcludedAgree: any = [];
+
+
   // Лічильники оселі
   private counterHouseSubscribersSubject = new BehaviorSubject<string>('');
   private counterHouseSubscriptionsSubject = new BehaviorSubject<string>('');
   private counterHouseDiscussioSubject = new BehaviorSubject<string>('');
   private counterHouseNewMessageSubject = new BehaviorSubject<string>('');
+
+  // Лічильники оселі надіслані угоди
+  private counterHouseSendAgreeSubject = new BehaviorSubject<string>('');
+  private houseSendAgreeSubject = new BehaviorSubject<any>([]);
+
+  private counterHouseConcludedAgreeSubject = new BehaviorSubject<string>('');
+  private houseConcludedAgreeSubject = new BehaviorSubject<any[]>([]);
+
+
+  private houseConcludedAgreeIdsSubject = new BehaviorSubject<any>([]);
+  private actExistsArraySubject = new BehaviorSubject<any[]>([]);
 
   // Лічильники користувача
   private counterUserSubscribersSubject = new BehaviorSubject<string>('');
@@ -23,10 +38,20 @@ export class CounterService {
   private counterUserNewMessageSubject = new BehaviorSubject<string>('');
 
   // Властивості оселі для отримання потоків даних
+  // Система підписок
   counterHouseSubscribers$ = this.counterHouseSubscribersSubject.asObservable();
   counterHouseSubscriptions$ = this.counterHouseSubscriptionsSubject.asObservable();
   counterHouseDiscussio$ = this.counterHouseDiscussioSubject.asObservable();
+  // Повідомлення
   counterHouseNewMessage$ = this.counterHouseNewMessageSubject.asObservable();
+  // Угоди
+  counterHouseSendAgree$ = this.counterHouseSendAgreeSubject.asObservable();
+  houseSendAgree$ = this.houseSendAgreeSubject.asObservable();
+  counterHouseConcludedAgree$ = this.counterHouseConcludedAgreeSubject.asObservable();
+  houseConcludedAgree$ = this.houseConcludedAgreeSubject.asObservable();
+  houseConcludedAgreeIds$ = this.houseConcludedAgreeIdsSubject.asObservable();
+  actExistsArray$ = this.actExistsArraySubject.asObservable();
+  // ***********
   // Властивості користувача для отримання потоків даних
   counterUserSubscribers$ = this.counterUserSubscribersSubject.asObservable();
   counterUserSubscriptions$ = this.counterUserSubscriptionsSubject.asObservable();
@@ -53,10 +78,10 @@ export class CounterService {
       if (counterHouseSubscribers.status !== 'Авторизуйтесь') {
         this.counterHouseSubscribersSubject.next(counterHouseSubscribers.status);
         // console.log('Запит на сервер Підписники оселі', counterHouseSubscribers)
-        localStorage.setItem('counterHouseSubscriptions', JSON.stringify(counterHouseSubscribers.status));
+        localStorage.setItem('counterHouseSubscribers', JSON.stringify(counterHouseSubscribers.status));
       } else {
         this.counterHouseSubscribersSubject.next('0');
-        localStorage.removeItem('counterHouseSubscriptions');
+        localStorage.removeItem('counterHouseSubscribers');
       }
     }
     catch (error) { console.error(error) }
@@ -192,4 +217,107 @@ export class CounterService {
     }
     catch (error) { console.error(error) }
   }
+
+  // Надіслані угоди оселі
+  async getHouseSendAgree(selectedFlatId: any, offs: number): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, offs: offs, };
+    try {
+      const counterHouseSendAgree: any = await this.http.post(this.serverPath + '/agreement/get/agreements', data).toPromise();
+      // console.log(counterHouseSendAgree)
+      if (counterHouseSendAgree) {
+        this.counterHouseSendAgreeSubject.next(counterHouseSendAgree.length);
+        this.houseSendAgreeSubject.next(counterHouseSendAgree);
+        // console.log('Запит на сервер, кількість надісланих угод оселі', counterHouseSendAgree.length)
+        localStorage.setItem('counterHouseSendAgree', JSON.stringify(counterHouseSendAgree.length));
+        localStorage.setItem('houseSendAgreeSubject', JSON.stringify(counterHouseSendAgree));
+      } else {
+        this.counterUserDiscussioSubject.next('0');
+        localStorage.removeItem('counterHouseSendAgree');
+      }
+    }
+    catch (error) { console.error(error) }
+  }
+
+  // Ухвалені угоди оселі
+  async getHouseConcludedAgree(selectedFlatId: any, offs: number): Promise<void> {
+    const userJson = localStorage.getItem('user');
+    const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, offs: offs, };
+    try {
+      const houseConcludedAgree: any = await this.http.post(this.serverPath + '/agreement/get/saveagreements', data).toPromise();
+      // console.log(houseConcludedAgree)
+      if (houseConcludedAgree) {
+        const agreement = houseConcludedAgree.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
+        this.agreementIds = agreement;
+        this.houseConcludedAgree = houseConcludedAgree;
+        if (this.agreementIds) {
+          this.getActAgree(selectedFlatId, offs);
+        }
+        this.counterHouseConcludedAgreeSubject.next(houseConcludedAgree.length);
+        this.houseConcludedAgreeIdsSubject.next(this.agreementIds);
+        this.houseConcludedAgreeSubject.next(this.houseConcludedAgree);
+        // console.log('Запит на сервер, кількість надісланих угод оселі', counterHouseConcludedAgree.length)
+        localStorage.setItem('counterHouseConcludedAgree', JSON.stringify(houseConcludedAgree.length));
+        localStorage.setItem('houseConcludedAgreeIds', JSON.stringify(this.agreementIds));
+        localStorage.setItem('houseConcludedAgree', JSON.stringify(this.houseConcludedAgree));
+      } else {
+        this.counterUserDiscussioSubject.next('0');
+        this.houseConcludedAgreeIdsSubject.next([]);
+        localStorage.removeItem('counterHouseConcludedAgree');
+      }
+
+    }
+    catch (error) { console.error(error) }
+  }
+
+  // Перевіряємо чи сформовані акти передачі оселі по ухваленим угодам
+  async getActAgree(selectedFlatId: any, offs: number): Promise<any> {
+    const userJson = localStorage.getItem('user');
+    const houseCheckedAgreements = [];
+
+    if (userJson && this.agreementIds) {
+      try {
+        // Проміжний масив для зберігання обіцянок (Promise)
+        const promises = this.agreementIds.map(async (agreementId: any) => {
+          const data = {
+            auth: JSON.parse(userJson!),
+            flat_id: selectedFlatId,
+            agreement_id: agreementId,
+            offs
+          };
+
+          // Виконуємо запит для кожного agreement_id
+          const response = await this.http.post(this.serverPath + '/agreement/get/act', data).toPromise() as any[];
+
+          // Знаходимо відповідний об'єкт угоди
+          const agreement = this.houseConcludedAgree.find((agreement: { flat: { agreement_id: any; }; }) => agreement.flat.agreement_id === agreementId);
+
+          // Формуємо новий об'єкт з угоди та результату перевірки акту
+          const houseCheckedAgreement = {
+            ...agreement,
+            actExists: response.length > 0
+          };
+
+          // Повертаємо сформований об'єкт
+          return houseCheckedAgreement;
+        });
+        // Очікуємо завершення всіх запитів
+        const results = await Promise.all(promises);
+        // Оновлюємо масив houseCheckedAgreements
+        houseCheckedAgreements.push(...results);
+        // Відправляємо дані після обробки всіх угод
+        this.actExistsArraySubject.next(houseCheckedAgreements);
+        localStorage.setItem('actExistsArray', JSON.stringify(houseCheckedAgreements));
+      } catch (error) {
+        console.error(error);
+        // У разі помилки скидаємо subject і видаляємо значення з localStorage
+        this.actExistsArraySubject.next([]);
+        localStorage.removeItem('actExistsArray');
+      }
+    }
+  }
+
+
+
+
 }

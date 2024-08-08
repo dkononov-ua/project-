@@ -3,27 +3,46 @@
 @use "../../../../style/radio.scss";
 @use "../../../../style/shared.scss";
 
-.main-container {
+.info-card {
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-}
-
-.switch-content {
-  height: 15vh;
-  width: 100%;
-}
-
-.card-content {
-  justify-content: space-between !important;
   position: relative;
-  .flex-column {
-    width: 100%;
+  max-width: 500px;
+  justify-content: flex-start;
+  flex-direction: column;
+  overflow: auto;
+  background-color: $color-white;
+  @include box-shadow;
+  padding-bottom: 80px;
+  @include s3-s6-max {
+    height: calc(100vh - 100px - 1rem);
+  }
+  @include s1-s3 {
+    height: auto;
   }
 }
 
 .btn-group {
-  bottom: 10px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+
+  @include s3-s6-max {
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+  }
+  .btn {
+    @include flex-box-center;
+    height: 60px;
+    background-color: $color-accent;
+  }
+}
+
+.card-content {
+  position: relative;
 }
 
 .group {
@@ -31,36 +50,6 @@
   align-items: flex-end;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.carousel-inner {
-  @include s1-s3 {
-    border-radius: 0px;
-  }
-}
-
-.carousel-item {
-  .img-fluid-h {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    width: 100%;
-    position: relative;
-  }
-
-  .img-h {
-    overflow: hidden;
-    height: calc(100vh - 100px - 1rem - 20px);
-    width: 100%;
-    border-radius: 20px;
-    transition: transform 1s;
-    object-fit: cover;
-    position: relative;
-    @include s1-s3 {
-      border-radius: 0px;
-      height: calc(100vh - 100px - 1rem);
-    }
-  }
 }
 
 .card-1 {
@@ -229,16 +218,4 @@ textarea {
   color: red;
   font-size: 14px;
   font-weight: 600;
-}
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
-  }
-}
-
-.hide-pc {
-  @include s3-s6-max {
-    display: none;
-  }
 }

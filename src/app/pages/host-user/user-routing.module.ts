@@ -72,7 +72,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'about', pathMatch: 'full' },
           { path: 'about', component: AgreeUserPageComponent },
           { path: 'step', component: AgreeUserStepComponent },
-          { path: 'rewiew', component: AgreeUserReviewComponent, canActivate: [CanActivateGuard] },
+          { path: 'review', component: AgreeUserReviewComponent, canActivate: [CanActivateGuard] },
           { path: 'concluded', component: AgreeUserConcludedComponent, canActivate: [CanActivateGuard] },
         ],
       },

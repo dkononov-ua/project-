@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
@@ -27,7 +27,7 @@ import { UpdateComponentService } from 'src/app/services/update-component.servic
   ],
 })
 
-export class ChatHostHouseComponent implements OnInit, AfterViewInit {
+export class ChatHostHouseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -50,6 +50,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   startX = 0;
   userID: number | undefined;
   choseUserId: any;
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -63,9 +65,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   ) { }
 
   async ngOnInit(): Promise<any> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+    await this.getCheckDevice();
+    await this.getServerPath();
     this.loadData();
     this.getSelectedFlatId();
     await this.getFlatChats();
@@ -80,15 +81,35 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
     this.loading = false;
   }
 
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
   async ifSubscriberSelect() {
-    this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
-      this.choseUserId = Number(selectedSubscriber);
-      // console.log(this.choseUserId)
-      if (this.choseUserId) {
-        this.chatSelected = true;
-        this.indexPage = 1;
-      }
-    })
+    this.subscriptions.push(
+      this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
+        this.choseUserId = Number(selectedSubscriber);
+        // console.log(this.choseUserId)
+        if (this.choseUserId) {
+          this.chatSelected = true;
+          this.indexPage = 1;
+        }
+      })
+    );
   }
 
   pickChat() {
@@ -109,7 +130,6 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
 
   // Реалізація обробки завершення панорамування
   onPanEnd(event: any): void {
-    console.log('Свайп')
     const minDeltaX = 100;
     if (Math.abs(event.deltaX) > minDeltaX) {
       if (event.deltaX > 0) {
@@ -133,9 +153,11 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
   }
 
   getSelectedFlatId() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-    });
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
+        this.selectedFlatId = selectedFlatId;
+      })
+    );
   }
 
   ngAfterViewInit(): void {
@@ -248,5 +270,9 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit {
         console.error(error);
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

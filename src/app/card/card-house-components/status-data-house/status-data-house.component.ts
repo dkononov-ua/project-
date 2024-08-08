@@ -9,12 +9,14 @@ import { animations } from '../../../interface/animation';
   animations: [
     animations.fadeIn,
     animations.top4,
+    animations.appearance,
   ],
 })
 export class StatusDataHouseComponent implements OnInit, OnDestroy {
 
   houseInfo: any;
   openStatus: boolean = false;
+  checkOpenStatus: boolean = true;
   subscriptions: any[] = [];
 
   constructor(
@@ -22,21 +24,32 @@ export class StatusDataHouseComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.subscriptions.push(
-      this.statusDataService.statusDataFlat$.subscribe((data: any) => {
-        if (data) {
-          this.houseInfo = data;
-          // console.log(this.houseInfo)
-        }
-      })
-    );
+    await this.getStatusData();
   }
 
-  toogleOpenStatus() {
-    this.openStatus = !this.openStatus;
+  async getStatusData() {
+    this.subscriptions.push(
+      this.statusDataService.statusDataFlat$.subscribe((data: any) => {
+        if (data) { this.houseInfo = data; }
+      })
+    );
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
+
+  toogleOpenStatus(status: boolean) {
+    this.openStatus = status;
+  }
+
+  onClickedOutside() {
+    this.checkOpenStatus = !this.checkOpenStatus;
+    if (this.checkOpenStatus) {
+      this.openStatus = !this.openStatus;
+    } else {
+      this.openStatus = true;
+    }
+  }
+
 }

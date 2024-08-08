@@ -5,10 +5,19 @@
 .content-component {
   @include flex-box;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   align-items: stretch;
   justify-content: flex-start;
+  padding-top: 80px;
+
+  @include s3-s6-max {
+    height: 100vh;
+  }
+  @include s1-s3 {
+    padding-top: 60px;
+    height: auto;
+  }
 
   .container-content {
     height: 100%;

@@ -64,11 +64,7 @@ const routes: Routes = [
     component: ActTransferComponent,
     canActivate: [CanActivateGuard]
   },
-  {
-    path: 'act-create/:selectedFlatAgree',
-    component: ActCreateComponent,
-    canActivate: [CanActivateGuard]
-  },
+
   {
     path: 'home',
     component: HomeComponent

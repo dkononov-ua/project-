@@ -1,0 +1,60 @@
+<div class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div>
+
+  <div class="menu-box hide-mobile">
+    <div class="menu-lable">Меню</div>
+    <div class="menu-name">Угод Оселі</div>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/agree/about'">
+      <i class="fa-regular fa-circle-question"></i>
+      <div class="t-min bold">Про Меню</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/agree/step'">
+      <i class="fa-solid fa-shoe-prints"></i>
+      <div class="t-min bold">Пояснення Кроки</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/agree/create'"
+      [disabled]="counterHouseDiscussio === 0">
+      <i class="fa-solid fa-feather-pointed"></i>
+      <div class="t-min bold">Формувати Угоду</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button [disabled]="counterHouseSendAgree === 0" class="btn" [routerLinkActive]="'active'"
+      [routerLink]="'/house/agree/review'">
+      <i class="fa-solid fa-hourglass-half"></i>
+      <div class="t-min bold">Надіслані Угоди</div>
+      <div class="status" *ngIf="counterHouseSendAgree !== 0">
+        {{counterHouseSendAgree}}
+      </div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button [disabled]="counterHouseConcludedAgree === 0" class="btn" [routerLinkActive]="'active'"
+      [routerLink]="'/house/agree/concluded'">
+      <i class="fa-solid fa-file-circle-check"></i>
+      <div class="t-min bold">Ухвалені Угоди</div>
+      <div class="status" *ngIf="counterHouseConcludedAgree !== 0">
+        {{counterHouseConcludedAgree}}
+      </div>
+    </button>
+  </div>
+
+</div>
+<router-outlet></router-outlet>

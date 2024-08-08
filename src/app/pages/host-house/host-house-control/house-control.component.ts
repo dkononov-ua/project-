@@ -12,7 +12,7 @@ import { animations } from '../../../interface/animation';
 @Component({
   selector: 'app-house-control',
   templateUrl: './house-control.component.html',
-  styleUrls: ['./house-control.component.scss'],
+  styleUrls: ['./../../pages.scss'],
   animations: [
     animations.left,
     animations.left1,

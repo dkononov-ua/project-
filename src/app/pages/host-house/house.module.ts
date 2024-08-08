@@ -32,7 +32,6 @@ import { ResidentMenuComponent } from './host-house-resident/resident-menu/resid
 import { UserSearchComponent } from './host-house-resident/user-search/user-search.component';
 import { HostHousePageComponent } from './host-house-page/host-house-page.component';
 import { AboutComponent } from './host-house-edit/about/about.component';
-import { AddObjectsComponent } from './host-house-edit/add-objects/add-objects.component';
 import { AdditionalInfoComponent } from './host-house-edit/additional-info/additional-info.component';
 import { AddressComponent } from './host-house-edit/address/address.component';
 import { HousingParametersComponent } from './host-house-edit/housing-parameters.component';
@@ -59,7 +58,6 @@ import { AgreeDeleteComponent } from './host-house-agree/agree-delete/agree-dele
 import { AgreeMenuComponent } from './host-house-agree/agree-menu/agree-menu.component';
 import { AgreeReviewComponent } from './host-house-agree/agree-review/agree-review.component';
 import { ActCreateComponent } from './host-house-agree/act-create/act-create.component';
-import { AgreeHostComponent } from './host-house-agree/agree-host/agree-host.component';
 import { AgreeStepComponent } from './host-house-agree/agree-step/agree-step.component';
 import { AgreeCreateComponent } from './host-house-agree/agree-create/agree-create.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -69,6 +67,11 @@ import { SubscriptionsHouseComponent } from './host-house-discus/subscriptions/s
 import { SubscribersDiscusComponent } from './host-house-discus/discus/subscribers-discus.component';
 import { HostHouseDiscusComponent } from './host-house-discus/host-house-discus.component';
 import { HouseDiscussPageComponent } from './host-house-discus/house-discuss-page/house-discuss-page.component';
+import { AgreeHostComponent } from './host-house-agree/agree-host.component';
+import { HostHouseObjectsComponent } from './host-house-objects/host-house-objects.component';
+import { ObjectsPageComponent } from './host-house-objects/objects-page/objects-page.component';
+import { AddObjectsComponent } from './host-house-objects/add-objects/add-objects.component';
+import { ControlObjectsComponent } from './host-house-objects/control-objects/control-objects.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +112,10 @@ import { HouseDiscussPageComponent } from './host-house-discus/house-discuss-pag
     AddObjectsComponent,
     AdditionalInfoComponent,
     InstructionComponent,
+
+    HostHouseObjectsComponent,
+    ObjectsPageComponent,
+    ControlObjectsComponent,
   ],
   providers: [
     DatePipe,

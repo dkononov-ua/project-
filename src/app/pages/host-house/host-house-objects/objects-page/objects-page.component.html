@@ -1,0 +1,59 @@
+<div [@bot] class="container-info">
+
+  <div class="info-content">
+    <div class="img-wrapper">
+      <img class="img" src="./../../../../assets/menu/objects.png" alt="Menu Image" loading="lazy">
+      <div class="blure"></div>
+    </div>
+
+    <div class="info-wrapper ">
+      <div class="info">
+        <i class="fa-solid fa-person-hiking"></i>
+        <p class="t-lar-x bold mb-2">Як це працює?</p>
+
+        <h1 class="t-c">Наповнення оселі</h1>
+        <app-house-rent-progress></app-house-rent-progress>
+        <h2 class="t-med bold mb-2 t-c mt-2">Це можливість детально описувати та документувати всі об'єкти та предмети,
+          які знаходяться в місці проживання. </h2>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/edit/add-objects'">
+          <i class="fa-solid fa-boxes-packing"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Додати</p>
+            <p class="t-min white">Наповнення</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c">Ця функція надає користувачам доступ до попередньо розроблених шаблонів та
+          універсальної форми, яка полегшує процес внесення інформації про речі їх стан, а також інструкцій щодо
+          використання.
+        </p>
+
+        <h2 class="t-med bold mb-2 t-c mt-2">
+          Додати наповнення можна після створення профілю оселі
+        </h2>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/add-house'">
+          <i class="fa-solid fa-house-chimney-medical"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Створити</p>
+            <p class="t-min white">Оселю</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c">
+          Список предметів задієються для формування акту прийому-передачі оселі. А також для розуміння власників речей
+          які знаходяться в оселі.
+        </p>
+
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Наповнення' }">
+          <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+          </div>
+        </a>
+
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+</div>

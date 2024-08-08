@@ -9,6 +9,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { MenuService } from 'src/app/services/menu.service';
 import { filter } from 'rxjs';
 import { Location } from '@angular/common';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-navigation-house',
@@ -100,9 +101,10 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   selectedFlatId!: string | null;
   authorization: boolean = false;
+  authorizationHouse: boolean = false;
   section: boolean[] = [false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
-
+  imgFlat: string = '';
   // відкриття меню через сервіс
   async closeToogleMenu(index: number) {
     this.menuService.indexMenu(index);
@@ -119,6 +121,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     private router: Router,
     private menuService: MenuService,
     private location: Location,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -150,7 +153,10 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
       this.setSection(6);
     } else if (this.currentLocation.includes('/house/search')) {
       this.setSection(7);
+    } else if (this.currentLocation.includes('/house/objects')) {
+      this.setSection(8);
     } else {
+
       this.setSection(-1); // вимикає всі секції, якщо шлях не відповідає жодному з умов
     }
   }
@@ -184,7 +190,6 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     );
   }
 
-
   goToEdit() {
     if (this.isMobile) {
       this.router.navigate(['/edit-house/instruction']);
@@ -206,47 +211,60 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
         this.selectedFlatId = flatId || this.selectedFlatId;
-        this.getHouseAcces();
+        if (this.selectedFlatId) {
+          this.loadDataFlat();
+        }
       })
     );
   }
 
+  // Беру дані своєї оселі з локального сховища
+  async loadDataFlat(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
+      if (Array.isArray(this.houseData.imgs) && this.houseData.imgs.length > 0) {
+        this.imgFlat = this.houseData.imgs[0].img;
+      } else {
+        this.imgFlat = '';
+      }
+    } else {
+      this.houseData = undefined;
+    }
+  }
+
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
   async getHouseAcces(): Promise<void> {
-    this.houseData = localStorage.getItem('houseData');
-    if (this.houseData) {
-      const parsedHouseData = JSON.parse(this.houseData);
-      this.houseData = parsedHouseData;
-      console.log(this.houseData)
-      if (this.houseData.acces) {
-        this.acces_added = this.houseData.acces.acces_added;
-        this.acces_admin = this.houseData.acces.acces_admin;
-        this.acces_agent = this.houseData.acces.acces_agent;
-        this.acces_agreement = this.houseData.acces.acces_agreement;
-        this.acces_citizen = this.houseData.acces.acces_citizen;
-        this.acces_comunal = this.houseData.acces.acces_comunal;
-        this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
-        this.acces_discuss = this.houseData.acces.acces_discuss;
-        this.acces_filling = this.houseData.acces.acces_filling;
-        this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
-        this.acces_flat_features = this.houseData.acces.acces_flat_features;
-        this.acces_services = this.houseData.acces.acces_services;
-        this.acces_subs = this.houseData.acces.acces_subs;
-        if (this.acces_discuss === 1) {
-          await this.getHouseDiscussioCount();
-        }
-        if (this.acces_subs === 1) {
-          await this.getHouseSubscribersCount();
-          await this.getHouseSubscriptionsCount();
-        } if (this.acces_flat_chats === 1) {
-          await this.getHouseNewMessage();
-        }
-      } else {
+    if (this.houseData.acces) {
+      this.acces_added = this.houseData.acces.acces_added;
+      this.acces_admin = this.houseData.acces.acces_admin;
+      this.acces_agent = this.houseData.acces.acces_agent;
+      this.acces_agreement = this.houseData.acces.acces_agreement;
+      this.acces_citizen = this.houseData.acces.acces_citizen;
+      this.acces_comunal = this.houseData.acces.acces_comunal;
+      this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+      this.acces_discuss = this.houseData.acces.acces_discuss;
+      this.acces_filling = this.houseData.acces.acces_filling;
+      this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+      this.acces_flat_features = this.houseData.acces.acces_flat_features;
+      this.acces_services = this.houseData.acces.acces_services;
+      this.acces_subs = this.houseData.acces.acces_subs;
+      if (this.acces_discuss === 1) {
         await this.getHouseDiscussioCount();
+      }
+      if (this.acces_subs === 1) {
         await this.getHouseSubscribersCount();
         await this.getHouseSubscriptionsCount();
+      } if (this.acces_flat_chats === 1) {
         await this.getHouseNewMessage();
       }
+    } else {
+      await this.getHouseDiscussioCount();
+      await this.getHouseSubscribersCount();
+      await this.getHouseSubscriptionsCount();
+      await this.getHouseNewMessage();
     }
   }
 

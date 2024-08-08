@@ -6,7 +6,7 @@
 
   <div class="content-component">
 
-    <div [@left1] class="switch-container">
+    <div class="switch-container" *ngIf="isMobile">
 
       <div class="switch-btn-group" *ngIf="indexPage === 0">
         <button class="btn" [routerLink]="'/house'">
@@ -57,33 +57,7 @@
 
     <div [@top1] class="main-container">
 
-      <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
-        <div class="card-wrapper">
-          <div [@right1] class="card-content-static w-100">
-            <div class="card-group">
-              <div class="flex-box-center t-c p-2 mt-2 w-100">
-                <i class="fa-regular fa-comments"></i>
-                <p class="t-lar-xx bold mb-2 t-c">Чат Оселі</p>
-                <p class="t-min mb-2">Тут будуть всі створені чати з орендарями.</p>
-              </div>
-
-              <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Чат' }">
-                Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-              </button>
-
-              <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
-                <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
-              </a>
-
-            </div>
-            <!-- <div class="card-background">
-              <img class="img" src="../../../../../assets/example-agree/search7.jpg" alt="">
-            </div> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="card-wrapper hide-mobile col-lg-4 col-md-5 col-sm-12 col-12">
+      <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
         <div [@top2] class="card-animation">
           <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container p-2"
             *ngIf="chats.length !== 0">
@@ -159,8 +133,8 @@
         </div>
       </div>
 
-      <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12">
-        <div [@top2] class="card-animation hide-pc" *ngIf="indexPage === 0">
+      <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12">
+        <div [@top2] class="card-animation" *ngIf="indexPage === 0 && isMobile">
           <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container p-2"
             *ngIf="chats.length !== 0">
 

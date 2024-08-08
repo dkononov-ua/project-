@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { Location } from '@angular/common';
+import { StatusMessageService } from 'src/app/services/status-message.service';
 
 @Component({
   selector: 'app-housing-parameters',
@@ -23,7 +25,7 @@ import { SharedService } from 'src/app/services/shared.service';
   ],
 })
 
-export class HousingParametersComponent implements OnInit {
+export class HousingParametersComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -55,45 +57,85 @@ export class HousingParametersComponent implements OnInit {
   startX = 0;
   isMobile = false;
 
+  subscriptions: any[] = [];
+  currentLocation: string = '';
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+
   constructor(
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
     private sharedService: SharedService,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-      // isMobile: boolean = false;
-    });
+    private location: Location,
+    private statusMessageService: StatusMessageService,
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    this.currentLocation = this.location.path();
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
+    await this.getSelectedFlatId();
   }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    // this.route.queryParams.subscribe(params => {
-    //   this.page = params['indexPage'] || 0;
-    //   this.indexPage = Number(this.page);
-    // });
-    if (this.isMobile) {
-      this.router.navigate(['/edit-house/instruction']);
-    }
-    this.getSelectParam();
-    this.updateFlatInfo();
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
   }
 
-  updateFlatInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson && this.selectedFlatId) {
-      this.dataService.getInfoFlat().subscribe((response: any) => {
-        if (response) {
-          localStorage.setItem('houseData', JSON.stringify(response));
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (this.selectedFlatId) {
+          this.loadDataFlat();
         } else {
-          console.log('Немає оселі')
+          console.log('Оберіть оселю')
         }
-      });
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
     }
+  }
+
+  // Беру дані своєї оселі з локального сховища
+  async loadDataFlat(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
+    } else {
+      this.houseData = undefined;
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   // відправляю event початок свайпу
@@ -126,24 +168,6 @@ export class HousingParametersComponent implements OnInit {
         this.indexPage++;
       }
     }
-  }
-
-  getSelectParam(): void {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        const houseData = localStorage.getItem('houseData');
-        if (houseData) {
-          const parsedHouseData = JSON.parse(houseData);
-          this.houseData = parsedHouseData;
-          if (this.houseData) {
-            this.getHouseAcces();
-          }
-        } else {
-          console.log('Оберіть оселю')
-        }
-      }
-    });
   }
 
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню

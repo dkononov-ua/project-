@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { animations } from '../../../../interface/animation';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -28,7 +28,7 @@ interface FlatInfo {
   ],
 })
 
-export class ParamComponent {
+export class ParamComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -76,9 +76,16 @@ export class ParamComponent {
     this.helpRepair = !this.helpRepair;
   }
 
+  isMobile = false;
+  subscriptions: any[] = [];
+  currentLocation: string = '';
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+  houseData: any;
+
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private dataService: DataService,
     private sharedService: SharedService,
@@ -86,20 +93,53 @@ export class ParamComponent {
 
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.getSelectParam();
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
+    await this.getSelectedFlatId();
   }
 
-  getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-      if (this.selectedFlatId) {
-        this.getInfo();
-      }
-    });
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (this.selectedFlatId) {
+          this.getInfo();
+        } else {
+          console.log('Оберіть оселю')
+        }
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
   updateFlatInfo() {
@@ -107,7 +147,12 @@ export class ParamComponent {
     if (userJson && this.selectedFlatId) {
       this.dataService.getInfoFlat().subscribe((response: any) => {
         if (response) {
+          localStorage.removeItem('houseData');
           localStorage.setItem('houseData', JSON.stringify(response));
+          this.sharedService.setStatusMessage('Оновлюємо інформацію...');
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
         } else {
           console.log('Немає оселі')
         }
@@ -118,16 +163,20 @@ export class ParamComponent {
   async getInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (response && response.param) {
-            this.flatInfo = response.param;
-          } else {
-            console.log('Param not found in response.');
-          }
-        }, (error: any) => {
-          console.error(error);
-        });
+      try {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
+        if (response && response.param) {
+          this.flatInfo = response.param;
+        } else {
+          console.log('Param not found in response.');
+        }
+      } catch (error) {
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          location.reload();
+        }, 1500);
+      }
     } else {
       console.log('user not found');
     }
@@ -154,11 +203,13 @@ export class ParamComponent {
           flat_id: this.selectedFlatId,
         }).toPromise();
         if (response.status == 'Параметри успішно додані') {
-          this.updateFlatInfo();
           if (response && response.rent) {
             this.sharedService.setStatusMessage('Параметри успішно збережено');
             setTimeout(() => {
               this.missingParamsService.checkResponse(response);
+              setTimeout(() => {
+                this.updateFlatInfo();
+              }, 2000);
             }, 1000);
           } else {
             this.sharedService.setStatusMessage('Параметри успішно збережено');
@@ -191,5 +242,9 @@ export class ParamComponent {
       floor: null,
       option_flat: 2,
     };
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

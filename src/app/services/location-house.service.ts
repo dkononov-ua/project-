@@ -15,6 +15,7 @@ export class LocationHouseService {
 
   // Генерую локацію оселі
   async generateLocationUrl(chosenFlat: any): Promise<string> {
+    // console.log(chosenFlat)
     const baseUrl = 'https://www.google.com/maps/place/';
     const region = chosenFlat.region || '';
     const city = chosenFlat.city || '';

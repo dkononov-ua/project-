@@ -4,7 +4,7 @@
 
 <ng-template #content>
   <div class="content-component">
-    <div [@left1] class="switch-container" *ngIf="isMobile">
+    <div class="switch-container" *ngIf="isMobile">
 
       <div class="switch-btn-group" *ngIf="indexPage === 0 && isMobile">
         <button class="btn" [routerLink]="'/user/info'">

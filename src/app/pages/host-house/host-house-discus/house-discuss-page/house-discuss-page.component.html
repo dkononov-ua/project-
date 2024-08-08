@@ -2,54 +2,55 @@
 
   <div class="info-content">
     <div class="img-wrapper">
-      <img class="img" src="./../../../../assets/menu/discuss.png" alt="Menu Image" loading="lazy">
+      <img class="img" src="./../../../../assets/menu/discussHouse.png" alt="Menu Image" loading="lazy">
       <div class="blure"></div>
     </div>
 
     <div class="info-wrapper ">
       <div class="info">
         <i class="fa-solid fa-person-hiking"></i>
-        <p class="t-lar-x bold mb-2">Як це працює?</p>
+        <p class="t-lar-x bold mb-2">Як це працює для оселі?</p>
 
         <h1 class="t-c">Система Підписок та Дискусій</h1>
-        <app-user-rent-progress></app-user-rent-progress>
-        <h2 class="t-med bold mb-2 t-c mt-2">В Діскусіо діє система підписок та дискусій. Вона призначена для вашої безпеки та безпеки
+        <app-house-rent-progress></app-house-rent-progress>
+        <h2 class="t-med bold mb-2 t-c mt-2">В Діскусіо діє система підписок та дискусій. Вона призначена для вашої
+          безпеки та безпеки
           ваших даних.</h2>
 
-        <p class="t-med t-c"><strong>1 етап - Вподобані:</strong> На цьому етапі ви підписуєтесь на оселю яка вам
-          сподобалась і поки що не бачите інформації про її власника та його контакти, але показуєте йому свої дані для
+        <p class="t-med t-c"><strong>1 етап - Підписка:</strong> На цьому етапі ви підписуєтесь на орендаря який вам
+          підходить і поки що не бачите інформації про його контакти та соціальні мережі, але показуєте йому свої дані
+          для
           того щоб він міг виріщити чи хоче він з вами перейти до дискусії.
         </p>
 
-        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'">
-          <i class="fa-regular fa-heart pl-2"></i>
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'">
+          <i class="fa-solid fa-people-pulling"></i>
           <div class="flex-column pl-2 t-e">
-            <p class="t-med white">Вподобані</p>
-            <p class="t-min white">Оселі на які ви підписані</p>
+            <p class="t-med white">Підписка</p>
+            <p class="t-min white">Орендарі на яких ви підписані</p>
           </div>
         </a>
 
-        <p class="t-med t-c"><strong>1 етап - Підписник:</strong> На цьому етапі ви можете переглядати запропоновані
-          оселі, читати відгуки та
+        <p class="t-med t-c"><strong>1 етап - Підписник:</strong> На цьому етапі ви можете переглядати орендарів які
+          підписались на вашу оселю, читати відгуки та
           оцінки, але ваші контактні дані залишаються прихованими, доки ви не згодні перейти до наступного етапу -
           дискусії.
         </p>
 
-        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'">
-          <i class="fa-solid fa-house-fire pl-2"></i>
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'">
+          <i class="fa-solid fa-child-reaching"></i>
           <div class="flex-column pl-2 t-e">
-            <p class="t-med white">Пропозиції</p>
-            <p class="t-min white">Оселі які підписані на вас</p>
+            <p class="t-med white">Підписник</p>
+            <p class="t-min white">Орендарі які підписані на вас</p>
           </div>
         </a>
 
         <p class="t-med t-c"><strong>2 етап - Дискусія:</strong> Тут ви надаєте можливість переглядати всі ваші
-          контактні дані
-          підписнику, включаючи соціальні мережі. Також можете почати обговорення, укладати угоди та переглядати
-          статистику.
+          контактні дані підписнику, включаючи соціальні мережі. Можливість створити чат, де можете почати
+          обговорення стосовно оренди а також створювати та укладати угоди.
         </p>
 
-        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'">
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'">
           <i class="fa-solid fa-person-walking-luggage"></i>
           <div class="flex-column pl-2 t-e">
             <p class="t-med white">Дискусії</p>
@@ -57,16 +58,17 @@
           </div>
         </a>
 
-        <p class="t-med t-c"><strong>3 етап - Мешканець:</strong> Після укладення угоди та створення акту передачі
-          оселі, власник в профілі оселі зможе додати вас до списку мешканців оселі.
-          Де ви отримуєте доступ до оселі і можете користуватись її профілем, та дозволеними вам функціями..
+        <p class="t-med t-c"><strong>3 етап - Мешканець:</strong> Після ухвалення угоди та створення акту передачі
+          оселі, ви зможете додати орендаря до списку мешканців оселі.
+          Де він отримуєте доступ до оселі і зможе користуватись її профілем та дозволеними функціями..
         </p>
 
-        <a class="b-primary m-2 b-shadow jc-se" [routerLinkActive]="'active'" [routerLink]="'/house/house-control/selection-house'">
-          <i class="fa-solid fa-house-circle-check"></i>
+        <a class="b-primary m-2 b-shadow jc-se" [routerLinkActive]="'active'"
+          [routerLink]="'/house/agree/concluded'">
+          <i class="fa-solid fa-file-circle-check"></i>
           <div class="flex-column pl-2">
-            <p class="t-med white bold">Вибір </p>
-            <p class="t-min white bold">Оселі</p>
+            <p class="t-med white bold">Ухвалені </p>
+            <p class="t-min white bold">Угоди</p>
           </div>
         </a>
 

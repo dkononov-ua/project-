@@ -1,0 +1,75 @@
+<div class="card-objects p-2">
+  <div class="group">
+
+    <h2 class="mb-2 t-c">Додати об'єкт</h2>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select [(ngModel)]="selectedType" (ngModelChange)="loadObjects()" placeholder="Виберіть тип" required="">
+        <mat-option *ngFor="let type of objects" [value]="type.type">{{ type.type }}</mat-option>
+      </mat-select>
+      <mat-hint align="end" class="gray">Оберіть тип об'єкту*</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline" *ngIf="selectedObject !== 0">
+
+      <mat-select [(ngModel)]="selectedObject" (ngModelChange)="checkObject()" placeholder="Виберіть назву">
+        <mat-option [value]="0">Свій варіант</mat-option>
+        <mat-option *ngFor="let obj of filteredObjects" [value]="obj.name">
+          <img class="option-icon" [src]="obj.iconUrl" alt="{{ obj.name }} icon">
+          <span class="option-text">{{ obj.name }}</span>
+        </mat-option>
+      </mat-select>
+      <mat-hint align="end" class="gray">Дайте назву об'єкту*</mat-hint>
+    </mat-form-field>
+
+    <div class="box-add-custom" *ngIf="selectedObject === 0">
+      <mat-form-field class="item-select" (ngModelChange)="checkObject()" appearance="outline">
+        <input matInput [(ngModel)]="customObject" placeholder="Введіть назву об'єкту">
+        <mat-hint align="end" class="gray">Додати свій об'єкт</mat-hint>
+      </mat-form-field>
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="selectedObject = ''"></button>
+        </div>
+      </div>
+    </div>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="objectInfo.number" name="number">
+      <mat-hint align="end" class="gray">Кількість</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-select [(ngModel)]="objectInfo.condition" name="condition" placeholder="Виберіть стан">
+        <mat-option *ngFor="let condition of selectCondition | keyvalue" [value]="condition.key">
+          {{ condition.value }}
+        </mat-option>
+      </mat-select>
+      <mat-hint align="end" class="gray">Опишіть cтан об'єкту*</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width mt-2">
+      <mat-label>Опис вашого оголошення</mat-label>
+      <textarea #textArea matInput id="floatingTextarea" placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."
+        [(ngModel)]="objectInfo.about" (input)="onInput()"></textarea>
+    </mat-form-field>
+
+    <div class="add-photo-group">
+
+      <div class="box-group" *ngIf="cropped">
+        <div *ngIf="cropped"><img class="cropped" [src]="cropped"></div>
+        <p class="btn-name" *ngIf="cropped">Фото додане</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="btn-group">
+    <button [disabled]="!checkObj" class="btn" (click)="_fileInput.click()">
+      <i class="fa-regular fa-image mr-2"></i> Фото
+    </button>
+    <input #_fileInput type="file" (change)="openCropperDialog($event)" accept="image/*" hidden>
+    <button [disabled]="!checkObj" class="btn" (click)="saveObject()">
+      <i class="fa-regular fa-circle-check mr-2"></i> Зберегти
+    </button>
+  </div>
+</div>

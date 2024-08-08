@@ -55,6 +55,7 @@ export class SharedService {
 
   loading: boolean | undefined;
   authorization: boolean = false;
+  authorizationHouse: boolean = false;
 
   constructor(
     private dialog: MatDialog,

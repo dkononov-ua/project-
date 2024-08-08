@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
@@ -26,7 +26,7 @@ interface FlatInfo {
   ],
 })
 
-export class AdditionalInfoComponent implements OnInit {
+export class AdditionalInfoComponent implements OnInit, OnDestroy {
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -89,29 +89,67 @@ export class AdditionalInfoComponent implements OnInit {
     this.helpPriority = !this.helpPriority;
   }
 
+  isMobile = false;
+  subscriptions: any[] = [];
+  currentLocation: string = '';
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+  houseData: any;
+
   constructor(
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.getSelectedFlatId();
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
+    await this.getSelectedFlatId();
   }
 
-  getSelectedFlatId() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId;
-      if (this.selectedFlatId) {
-        this.getInfo();
-      } else {
-        console.log('no flat')
-      }
-    });
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (this.selectedFlatId) {
+          this.getInfo();
+        } else {
+          console.log('Оберіть оселю')
+        }
+      })
+    );
+  }
+
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
   }
 
   onInput() {
@@ -123,18 +161,19 @@ export class AdditionalInfoComponent implements OnInit {
   async getInfo(): Promise<any> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
-      this.http.post(this.serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId })
-        .subscribe((response: any) => {
-          if (response)
-            this.flatInfo = response[0];
-          this.loading = false;
-        }, (error: any) => {
-          console.error(error);
-          this.loading = false;
-        });
-    } else {
-      console.log('house not found');
-      this.loading = false;
+      try {
+        const response: any = await this.http.post(this.serverPath + '/flatinfo/get/flatinf', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
+        // console.log(response)
+        if (response) {
+          this.flatInfo = response[0];
+        }
+      } catch (error) {
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          location.reload();
+        }, 1500);
+      }
     }
   };
 
@@ -142,32 +181,23 @@ export class AdditionalInfoComponent implements OnInit {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
       try {
-        this.loading = true
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/flatinf', {
           auth: JSON.parse(userJson),
           new: this.flatInfo,
           flat_id: this.selectedFlatId,
         }).toPromise();
-        // if (response.status === 'Збережено') {
         if (response.status) {
           this.sharedService.setStatusMessage("Допоміжна інформація збережена");
           setTimeout(() => {
             this.sharedService.setStatusMessage('');
-            this.router.navigate(['/house/house-info']);
-            // this.getInfo();
-            // this.loading = false;
           }, 2000);
         } else {
           this.sharedService.setStatusMessage("Помилка збереження");
           this.reloadPageWithLoader()
         }
       } catch (error) {
-        this.loading = false;
         console.error(error);
       }
-    } else {
-      this.loading = false;
-      console.log('user not found, the form is blocked');
     }
   }
 
@@ -179,6 +209,10 @@ export class AdditionalInfoComponent implements OnInit {
       wifi: '',
       info_about: '',
     };
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

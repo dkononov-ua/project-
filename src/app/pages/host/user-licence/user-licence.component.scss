@@ -4,12 +4,17 @@
 
 .container-info {
   position: relative;
-  height: 100vh;
-  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  @include s3-s6-max {
+    overflow: auto;
+    height: 100vh;
+  }
+  @include s1-s3 {
+    height: auto;
+  }
 }
 
 .content-wrapper {
@@ -19,11 +24,28 @@
   align-items: center;
   background-color: $color-white;
   justify-content: flex-start;
+  padding: 20px 10px 80px 10px;
 }
 
 .btn-group {
-  z-index: 10;
-  width: 250px;
+  @include flex-box-center;
+  width: 100%;
+  @include s3-s6-max {
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+    padding: 10px;
+  }
+  .btn {
+    @include flex-box-center;
+    flex: none;
+    height: 60px;
+    background-color: $color-accent;
+    width: 250px;
+  }
 }
 
 .t-min {

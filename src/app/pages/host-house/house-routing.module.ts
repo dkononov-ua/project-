@@ -9,7 +9,6 @@ import { AddHouseComponent } from 'src/app/components/house/add-house/add-house.
 import { HouseResidentsComponent } from './host-house-resident/house-residents/house-residents.component';
 import { HouseControlComponent } from './host-house-control/house-control.component';
 import { ResidentComponent } from './host-house-resident/resident.component';
-import { AgreeHostComponent } from './host-house-agree/agree-host/agree-host.component';
 import { AgreeConcludedComponent } from './host-house-agree/agree-concluded/agree-concluded.component';
 import { AgreeReviewComponent } from './host-house-agree/agree-review/agree-review.component';
 import { AgreeStepComponent } from './host-house-agree/agree-step/agree-step.component';
@@ -19,7 +18,6 @@ import { ResidentPageComponent } from './host-house-resident/resident-page/resid
 import { UserSearchComponent } from 'src/app/pages/host-house/host-house-resident/user-search/user-search.component';
 import { HostHousePageComponent } from './host-house-page/host-house-page.component';
 import { AboutComponent } from './host-house-edit/about/about.component';
-import { AddObjectsComponent } from './host-house-edit/add-objects/add-objects.component';
 import { AdditionalInfoComponent } from './host-house-edit/additional-info/additional-info.component';
 import { AddressComponent } from './host-house-edit/address/address.component';
 import { HousingParametersComponent } from './host-house-edit/housing-parameters.component';
@@ -32,6 +30,13 @@ import { SubscribersDiscusComponent } from './host-house-discus/discus/subscribe
 import { SubscriptionsHouseComponent } from './host-house-discus/subscriptions/subscriptions-house.component';
 import { HostHouseDiscusComponent } from './host-house-discus/host-house-discus.component';
 import { HouseDiscussPageComponent } from './host-house-discus/house-discuss-page/house-discuss-page.component';
+import { ChatHostHouseComponent } from 'src/app/chat/house/chat-host-house/chat-host-house.component';
+import { AgreeHostComponent } from './host-house-agree/agree-host.component';
+import { ActCreateComponent } from './host-house-agree/act-create/act-create.component';
+import { HostHouseObjectsComponent } from './host-house-objects/host-house-objects.component';
+import { ObjectsPageComponent } from './host-house-objects/objects-page/objects-page.component';
+import { AddObjectsComponent } from './host-house-objects/add-objects/add-objects.component';
+import { ControlObjectsComponent } from './host-house-objects/control-objects/control-objects.component';
 
 const routes: Routes = [
   {
@@ -41,6 +46,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: HostHousePageComponent, canActivate: [CanActivateGuard] },
       { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
+      { path: 'chat', component: ChatHostHouseComponent, canActivate: [CanActivateGuard] },
       {
         path: 'edit', component: HousingParametersComponent, canActivate: [CanActivateGuard],
         children: [
@@ -51,7 +57,6 @@ const routes: Routes = [
           { path: 'about', component: AboutComponent, canActivate: [CanActivateGuard] },
           { path: 'additionally', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
           { path: 'instruction', component: InstructionComponent, canActivate: [CanActivateGuard] },
-          { path: 'add-objects', component: AddObjectsComponent, canActivate: [CanActivateGuard] },
         ]
       },
       {
@@ -84,20 +89,30 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'objects', component: HostHouseObjectsComponent, canActivate: [CanActivateGuard],
+        children: [
+          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: 'about', component: ObjectsPageComponent, canActivate: [CanActivateGuard] },
+          { path: 'add', component: AddObjectsComponent, canActivate: [CanActivateGuard] },
+          { path: 'control', component: ControlObjectsComponent, canActivate: [CanActivateGuard] },
+        ],
+      },
+      {
         path: 'agree', component: AgreeHostComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'menu', pathMatch: 'full' },
-          { path: 'menu', data: { title: 'Угоди оселі', description: 'Угоди оселі' }, component: AgreeMenuComponent, canActivate: [CanActivateGuard] },
-          { path: 'concluded', component: AgreeConcludedComponent, canActivate: [CanActivateGuard] },
-          { path: 'rewiew', component: AgreeReviewComponent, canActivate: [CanActivateGuard] },
+          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: 'about', data: { title: 'Угоди оселі', description: 'Угоди оселі' }, component: AgreeMenuComponent },
           { path: 'step', component: AgreeStepComponent, canActivate: [CanActivateGuard] },
+          { path: 'review', component: AgreeReviewComponent, canActivate: [CanActivateGuard] },
+          { path: 'concluded', component: AgreeConcludedComponent, canActivate: [CanActivateGuard] },
+          { path: 'create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
+          { path: 'create/:selectedSubscriber?.user_id', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
+          { path: 'act-create/:selectedFlatAgree', component: ActCreateComponent, canActivate: [CanActivateGuard] },
         ],
       },
     ],
   },
 
-  { path: 'agree-create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
-  { path: 'agree-create/:selectedSubscriber?.user_id', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
 ];
 
 @NgModule({

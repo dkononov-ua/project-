@@ -9,7 +9,7 @@ import { AuthGoogleService } from '../../host-auth/auth-google.service';
 @Component({
   selector: 'app-about-project',
   templateUrl: './about-project.component.html',
-  styleUrls: ['./about-project.component.scss'],
+  styleUrls: ['./../../info_page.scss'],
   animations: [
     animations.bot,
     animations.bot3,

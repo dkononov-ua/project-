@@ -9,23 +9,21 @@
 
   <div class="switch-btn-group">
     <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'">
-      <i class="fa-solid fa-circle-info"></i>
+      <i class="fa-regular fa-circle-question"></i>
       <div class="t-min bold">Про Меню</div>
     </button>
   </div>
 
-  <div class="hide-pc">
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'">
-        <i class="fa-solid fa-shoe-prints"></i>
-        <div class="t-min bold">Пояснення Кроки</div>
-      </button>
-    </div>
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'">
+      <i class="fa-solid fa-shoe-prints"></i>
+      <div class="t-min bold">Пояснення Кроки</div>
+    </button>
   </div>
 
   <div class="switch-btn-group">
     <button [disabled]="numSendAgree === 0" class="btn" [routerLinkActive]="'active'"
-      [routerLink]="'/user/agree/rewiew'">
+      [routerLink]="'/user/agree/review'">
       <i class="fa-solid fa-hourglass-half"></i>
       <div class="t-min bold">Пропозиції Угоди</div>
       <div class="status" *ngIf="numSendAgree !== 0">
@@ -33,8 +31,6 @@
       </div>
     </button>
   </div>
-
-
 
   <div class="switch-btn-group">
     <button [disabled]="numConcludedAgree === 0" class="btn" [routerLinkActive]="'active'"

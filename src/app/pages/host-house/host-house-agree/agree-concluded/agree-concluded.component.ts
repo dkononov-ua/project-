@@ -8,11 +8,13 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { Agree } from '../../../../interface/info';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+import { StatusMessageService } from 'src/app/services/status-message.service';
+import { CounterService } from 'src/app/services/counter.service';
 
 @Component({
   selector: 'app-agree-concluded',
   templateUrl: './agree-concluded.component.html',
-  styleUrls: ['./agree-concluded.component.scss'],
+  styleUrls: ['./../../../../style/agree/agree_menu.scss'],
   animations: [
     animations.left,
     animations.left1,
@@ -29,6 +31,8 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 
 export class AgreeConcludedComponent implements OnInit {
+
+  offs: number = 0;
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -37,15 +41,27 @@ export class AgreeConcludedComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  agree: Agree[] = [];
-  loading: boolean = true;
-  selectedFlatId: any;
+  counterHouseSubscribers: number = 0;
+  counterHouseSubscriptions: number = 0;
+  counterHouseDiscussio: number = 0;
+  counterHouseNewMessage: number = 0;
+  counterHouseSendAgree: number = 0;
+  counterHouseConcludedAgree: number = 0;
+  houseConcludedAgreeIds: any = [];
+  houseSendAgree: any = [];
+  actExistsArray: any = [];
+  counterActExistsArray: number = 0;
+
+  acces_agreement: number = 1;
+  houseData: any;
+  isMobile: boolean = false;
+  subscriptions: any[] = [];
+  selectedFlatId!: string | null;
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
   deletingFlatId: string | null = null;
 
-  agreementIds: any;
-  offs: number = 0;
-  numConcludedAgree: any;
-  statusMessage: string | undefined;
+  agreements: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -54,91 +70,103 @@ export class AgreeConcludedComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private sharedService: SharedService,
+    private statusMessageService: StatusMessageService,
+    private counterService: CounterService,
   ) { }
 
-  async ngOnInit(): Promise<any> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        this.getSelectedFlatID();
-      }
-    })
-    this.loading = false;
+  async ngOnInit(): Promise<void> {
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
+    this.loadDataFlat();
   }
 
-  getSelectedFlatID() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-      if (this.selectedFlatId) {
-        await this.getConcludedAgree();
-        await this.getActAgree();
-      }
-    });
-  }
-
-  async getConcludedAgree(): Promise<void> {
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
     const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/agreement/get/saveagreements';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-      offs: this.offs,
-    };
-    try {
-      const response: any = (await this.http.post(url, data).toPromise()) as any;
-      // console.log(response)
-      if (response) {
-        this.agree = response;
-        this.numConcludedAgree = response.length;
-        const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
-        this.agreementIds = agreementIds;
-      } else {
-        this.loading = true;
-        this.sharedService.setStatusMessage('Ухвалених угод немає');
-        this.numConcludedAgree = 0;
-        setTimeout(() => {
-          this.router.navigate(['/house/agree-menu']);
-          this.sharedService.setStatusMessage('');
-          this.loading = false;
-        }, 300);
-      }
-    } catch (error) {
-      console.error(error);
+    if (userJson) {
+      this.authorization = true;
+      this.getSelectParam();
+    } else {
+      this.authorization = false;
     }
   }
 
-  async getActAgree(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/agreement/get/act';
-    const offs = 0; // Поточне значення offs
-    try {
-      for (const agreementId of this.agreementIds) {
-        const data = {
-          auth: JSON.parse(userJson!),
-          flat_id: this.selectedFlatId,
-          agreement_id: agreementId,
-          offs
-        };
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
 
-        // Виконуємо запит для кожного agreement_id
-        const response = await this.http.post(url, data).toPromise() as any[];
-        // console.log(response)
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
 
-        // Шукаємо угоду за agreement_id у масиві this.agree
-        const agreement = this.agree.find((agreement) => agreement.flat.agreement_id === agreementId);
-
-        if (agreement) {
-          // Оновлюємо існуючу угоду, додаючи інформацію про наявність акту
-          agreement.exists = response.length > 0;
+  getSelectParam() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId;
+        if (this.selectedFlatId) {
+        } else {
+          setTimeout(() => {
+            this.statusMessageService.setStatusMessage('Немає доступу до угод оселі');
+            setTimeout(() => {
+              this.router.navigate(['/house/agree/about']);
+              this.statusMessageService.setStatusMessage('');
+            }, 1500);
+          }, 100);
         }
-      }
-    } catch (error) {
-      console.error(error);
-      return null;
+      })
+    );
+  }
+
+  // Беру дані своєї оселі з локального сховища
+  async loadDataFlat(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
     }
+  }
+
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseAcces(): Promise<void> {
+    if (this.houseData.acces) {
+      this.acces_agreement = this.houseData.acces.acces_agreement;
+      if (this.acces_agreement === 1) {
+        this.getCheckedAgreements();
+      } else {
+        this.statusMessageService.setStatusMessage('Немає доступу до угод оселі');
+        setTimeout(() => {
+          this.router.navigate(['/house/agree/about']);
+          this.statusMessageService.setStatusMessage('');
+        }, 1500);
+      }
+    } else {
+      this.getCheckedAgreements();
+    }
+  }
+
+  // Перевіряємо чи сформовані акти передачі оселі по ухваленим угодам
+  getCheckedAgreements() {
+    this.subscriptions.push(
+      this.counterService.actExistsArray$.subscribe(data => {
+        this.agreements = data;
+      })
+    );
   }
 
   async openDialog(agree: any): Promise<void> {
+    console.log(agree)
     const userJson = localStorage.getItem('user');
     const url = this.serverPath + '/agreement/delete/act';
     const dialogRef = this.dialog.open(AgreeDeleteComponent, {
@@ -165,7 +193,7 @@ export class AgreeConcludedComponent implements OnInit {
           if (response) {
             this.sharedService.setStatusMessage('Акт видалений');
             setTimeout(() => {
-              this.getActAgree();
+              this.counterService.getHouseConcludedAgree(this.selectedFlatId, 0);
               this.sharedService.setStatusMessage('');
             }, 2000);
           } else {
@@ -246,7 +274,6 @@ export class AgreeConcludedComponent implements OnInit {
           agreement_id: agree.flat.agreement_id,
         };
         try {
-          this.loading = true;
           const response = await this.http.post(url, data).toPromise();
           console.log(response)
           this.sharedService.setStatusMessage('Мешканець доданий до оселі');

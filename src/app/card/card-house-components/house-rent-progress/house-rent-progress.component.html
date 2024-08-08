@@ -18,7 +18,7 @@
         </div>
         <div class="flex-box">
           <div class="switch-btn-group">
-            <button [disabled]="!houseData" class="btn" [routerLink]="'/edit-house'">
+            <button [disabled]="!houseData" class="btn" [routerLink]="'/house/edit/about'">
               <i class="fa-solid fa-sign-hanging"></i>
               <div class="t-min bold">Активація Оголошення</div>
             </button>
@@ -34,7 +34,7 @@
       <div class="flex-column">
         <div class="flex-box">
           <div class="switch-btn-group">
-            <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscriptions-house'">
+            <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/discus/subscriptions'">
               <i class="fa-solid fa-people-pulling"></i>
               <div class="t-min bold">Підписка</div>
               <div class="status status1" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== '0'">
@@ -48,7 +48,7 @@
         </div>
         <div class="flex-box">
           <div class="switch-btn-group">
-            <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/subscribers-house'">
+            <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/discus/subscribers'">
               <i class="fa-solid fa-child-reaching"></i>
               <div class="t-min bold">Підписник</div>
               <div class="status status1" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== '0'">
@@ -63,7 +63,7 @@
       </div>
 
       <div class="switch-btn-group">
-        <button [disabled]="!houseData || acces_discuss !== 1" class="btn" [routerLink]="'/subscribers-discus'">
+        <button [disabled]="!houseData || acces_discuss !== 1" class="btn" [routerLink]="'/house/discus/discussion'">
           <i class="fa-solid fa-person-walking-luggage"></i>
           <div class="t-min bold">Дискусія</div>
           <div class="status status1" *ngIf="counterHouseDiscussio && counterHouseDiscussio !== '0'">
@@ -76,7 +76,7 @@
 
       <div class="switch-btn-group">
         <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
-          [routerLink]="'/house/agree'">
+          [routerLink]="'/house/agree/about'">
           <i class="fa-solid fa-envelope-open-text"></i>
           <div class="t-min bold">Угода</div>
         </button>

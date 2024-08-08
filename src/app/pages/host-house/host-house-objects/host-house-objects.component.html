@@ -1,0 +1,33 @@
+<div class="switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLink]="'/house/info'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'">
+      <i class="fa-regular fa-circle-question"></i>
+      <div class="t-min bold">Інфо</div>
+    </a>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'">
+      <i class="fa-solid fa-boxes-stacked"></i>
+      <div class="t-min bold">Додати</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group ">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'">
+      <i class="fa-solid fa-dolly"></i>
+      <div class="t-min bold">Керування</div>
+    </button>
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>

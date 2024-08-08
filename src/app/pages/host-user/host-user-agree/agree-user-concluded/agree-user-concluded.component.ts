@@ -9,7 +9,7 @@ import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-agree-user-concluded',
   templateUrl: './agree-user-concluded.component.html',
-  styleUrls: ['./agree-user-concluded.component.scss'],
+  styleUrls: ['./../../../../style/agree/agree_menu.scss'],
   animations: [
     animations.left,
     animations.left1,

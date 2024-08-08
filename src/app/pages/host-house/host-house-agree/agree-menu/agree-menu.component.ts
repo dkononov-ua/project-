@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
+
 @Component({
   selector: 'app-agree-menu',
   templateUrl: './agree-menu.component.html',
-  styleUrls: ['./agree-menu.component.scss'],
+  styleUrls: ['./../../../pages.scss'],
   animations: [
     animations.left,
     animations.left1,
@@ -17,22 +17,14 @@ import { SharedService } from 'src/app/services/shared.service';
     animations.left4,
     animations.left5,
     animations.swichCard,
+    animations.top1,
+    animations.top3,
   ],
 })
 
-export class AgreeMenuComponent implements OnInit {
-  numSendAgree: number = 0;
-  offs: number = 0;
-  // показ карток
-  card_info: boolean = false;
-  indexPage: number = 0;
-  numConcludedAgree: any;
-  selectedAgree: any;
-  page: any;
-  onClickMenu(indexPage: number) {
-    this.indexPage = indexPage;
-  }
+export class AgreeMenuComponent implements OnInit, OnDestroy {
 
+  offs: number = 0;
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -41,209 +33,179 @@ export class AgreeMenuComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  selectedFlatId: string | any;
-  counterFound: number = 0;
-  agreementIds: any
-  startX = 0;
+  counterHouseSubscribers: number = 0;
+  counterHouseSubscriptions: number = 0;
+  counterHouseDiscussio: number = 0;
+  counterHouseSendAgree: number = 0;
+  counterHouseConcludedAgree: number = 0;
+  houseConcludedAgreeIds: any = [];
+  actExistsArray: any = [];
+  counterActExistsArray: number = 0;
+
+  acces_added: number = 1;
+  acces_admin: number = 1;
+  acces_agent: number = 1;
+  acces_agreement: number = 1;
+  acces_citizen: number = 1;
+  acces_comunal: number = 1;
+  acces_comunal_indexes: number = 1;
+  acces_discuss: number = 1;
+  acces_filling: number = 1;
+  acces_flat_chats: number = 1;
+  acces_flat_features: number = 1;
+  acces_services: number = 1;
+  acces_subs: number = 1;
+
+  houseData: any;
+  isMobile: boolean = false;
+  subscriptions: any[] = [];
+  selectedFlatId!: string | null;
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+
   constructor(
-    private http: HttpClient,
     private router: Router,
     private selectedFlatIdService: SelectedFlatService,
-    private route: ActivatedRoute,
     private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        this.getSelectedFlatID();
-      }
-    })
-    this.route.queryParams.subscribe(params => {
-      this.page = params['indexPage'] || 0;
-      this.indexPage = Number(this.page);
-    });
+    this.getCheckDevice();
+    this.getServerPath();
+    this.checkUserAuthorization();
   }
 
-  // відправляю event початок свайпу
-  onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  // Реалізація обробки завершення панорамування
-  onPanEnd(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwiped('right');
-      } else {
-        this.onSwiped('left');
-      }
-    }
-  }
-  // оброблюю свайп
-  onSwiped(direction: string | undefined) {
-    // console.log(direction)
-    if (direction === 'right') {
-      if (this.indexPage === 0) {
-        this.router.navigate(['/house/house-info']);
-      } else if (this.indexPage === 3 && this.numSendAgree === 0) {
-        this.indexPage = 1;
-      } else {
-        this.indexPage--;
-      }
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.getSelectParam();
     } else {
-      if (this.indexPage === 0) {
-        this.indexPage++;
-      } else if (this.indexPage === 1 && this.numSendAgree !== 0) {
-        this.indexPage++;
-      } else if (this.indexPage === 1 && this.numSendAgree === 0) {
-        this.indexPage = 3;
-      } else if (this.indexPage === 2 && this.numConcludedAgree !== 0) {
-        this.indexPage++;
-      }
+      this.authorization = false;
     }
   }
 
-  getSelectedFlatID() {
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-      if (this.selectedFlatId) {
-        await this.getSendAgree();
-        await this.getConcludedAgree();
-        await this.getAcceptSubsCount();
-        await this.getActAgree();
-      }
-    });
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
   }
 
-  async getSendAgree(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/agreement/get/agreements';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-      offs: this.offs,
-    };
-
-    try {
-      const response = (await this.http.post(url, data).toPromise()) as any;
-      if (response) {
-        this.numSendAgree = response.length;
-      } else {
-        this.numSendAgree = 0;
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
   }
 
-  async getConcludedAgree(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/agreement/get/saveagreements';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-      offs: this.offs,
-    };
-    try {
-      const response: any = (await this.http.post(url, data).toPromise()) as any;
-      if (response) {
-        const agreementIds = response.map((item: { flat: { agreement_id: any; }; }) => item.flat.agreement_id);
-        this.agreementIds = agreementIds;
-        this.numConcludedAgree = response.length;
-      } else {
-        this.numConcludedAgree = 0;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async getActAgree(): Promise<any> {
-    const userJson = localStorage.getItem('user');
-    const url = this.serverPath + '/agreement/get/act';
-    const offs = 0; // Поточне значення offs
-
-    // Масив для зберігання результатів перевірки існування акта
-    const actExistsArray = [];
-
-    if (this.agreementIds) {
-      try {
-        for (const agreementId of this.agreementIds) {
-          const data = {
-            auth: JSON.parse(userJson!),
-            flat_id: this.selectedFlatId,
-            agreement_id: agreementId,
-            offs
-          };
-
-          // Виконуємо запит для кожного agreement_id
-          const response = await this.http.post(url, data).toPromise() as any[];
-          // Додаємо результат до масиву
-          actExistsArray.push({
-            agreement_id: agreementId,
-            exists: response.length > 0
-          });
+  getSelectParam() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId;
+        if (this.selectedFlatId) {
+          this.loadDataFlat();
         }
-        // Виводимо результати
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    }
-
+      })
+    );
   }
 
+  // Беру дані своєї оселі з локального сховища
+  async loadDataFlat(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
+    } else {
+      this.houseData = undefined;
+    }
+  }
 
-  // Перегляд статистики комунальних
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseAcces(): Promise<void> {
+    if (this.houseData.acces) {
+      this.acces_added = this.houseData.acces.acces_added;
+      this.acces_admin = this.houseData.acces.acces_admin;
+      this.acces_agent = this.houseData.acces.acces_agent;
+      this.acces_agreement = this.houseData.acces.acces_agreement;
+      this.acces_citizen = this.houseData.acces.acces_citizen;
+      this.acces_comunal = this.houseData.acces.acces_comunal;
+      this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+      this.acces_discuss = this.houseData.acces.acces_discuss;
+      this.acces_filling = this.houseData.acces.acces_filling;
+      this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+      this.acces_flat_features = this.houseData.acces.acces_flat_features;
+      this.acces_services = this.houseData.acces.acces_services;
+      this.acces_subs = this.houseData.acces.acces_subs;
+    }
+    this.getStorageHouseCounter();
+  }
+
+  // Перевірка на авторизацію користувача
+  async getStorageHouseCounter() {
+    this.counterHouseSubscribers = Number(localStorage.getItem('counterHouseSubscribers'));
+    this.counterHouseSubscriptions = Number(localStorage.getItem('counterHouseSubscriptions'));
+    this.counterHouseDiscussio = Number(localStorage.getItem('counterHouseDiscussio'));
+    this.counterHouseSendAgree = Number(localStorage.getItem('counterHouseSendAgree'));
+    this.counterHouseConcludedAgree = Number(localStorage.getItem('counterHouseConcludedAgree'));
+
+    const houseConcludedAgreeIds = localStorage.getItem('houseConcludedAgreeIds');
+    if (houseConcludedAgreeIds) {
+      this.houseConcludedAgreeIds = JSON.parse(houseConcludedAgreeIds);
+    }
+    const actExistsArray = localStorage.getItem('actExistsArray');
+    if (actExistsArray) {
+      this.actExistsArray = JSON.parse(actExistsArray);
+    }
+
+    // console.log('counterHouseSubscribers:', this.counterHouseSubscribers);
+    // console.log('counterHouseSubscriptions:', this.counterHouseSubscriptions);
+    // console.log('counterHouseDiscussio:', this.counterHouseDiscussio);
+    // console.log('counterHouseSendAgree:', this.counterHouseSendAgree);
+    // console.log('counterHouseConcludedAgree:', this.counterHouseConcludedAgree);
+    // console.log('houseConcludedAgreeIds:', this.houseConcludedAgreeIds);
+    // console.log('actExistsArray:', this.actExistsArray);
+  }
+
+  // Переходимо до створення угоди
   goToAgreeCreate() {
-    if (this.counterFound !== 0) {
-      this.router.navigate(['/agree-create/']);
+    if (this.counterHouseDiscussio !== 0) {
+      this.router.navigate(['/house/agree/create']);
     }
   }
 
-  // Перегляд статистики комунальних
+  // Переходимо до створення акту за угодою
   goToActCreate() {
-    if (this.counterFound !== 0) {
-      this.router.navigate(['/house/act-create']);
+    if (this.counterHouseConcludedAgree !== 0) {
+      this.router.navigate(['/house/act/create']);
     }
   }
 
-  // Перегляд статистики комунальних
+  // Переходимо до надісланих угод
   goToAgreeReview() {
-    if (this.numSendAgree !== 0) {
-      this.router.navigate(['/house/agree-review']);
+    if (this.counterHouseSendAgree !== 0) {
+      this.router.navigate(['/house/agree/review']);
     }
   }
 
-  // Перегляд статистики комунальних
+  // Переходимо до укладених угод
   goToConcluded() {
-    if (this.numConcludedAgree !== 0) {
-      this.router.navigate(['/house/agree-concluded']);
+    if (this.counterHouseConcludedAgree !== 0) {
+      this.router.navigate(['/house/agree/concluded']);
     }
   }
 
 
-  // Дискусії
-  async getAcceptSubsCount() {
-    const userJson = localStorage.getItem('user')
-    const url = this.serverPath + '/acceptsubs/get/CountSubs';
-    const data = {
-      auth: JSON.parse(userJson!),
-      flat_id: this.selectedFlatId,
-    };
 
-    try {
-      const response: any = await this.http.post(url, data).toPromise() as any;
-      this.counterFound = response.status;
-    }
-    catch (error) {
-      console.error(error)
-    }
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
-
 
 }
+
