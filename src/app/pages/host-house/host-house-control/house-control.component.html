@@ -19,25 +19,11 @@
     </button>
   </div>
 
-  <div class="switch-btn-group">
-    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/control/selection'">
-      <i class="fa-solid fa-house-circle-check"></i>
-      <div class="t-min bold">Вибір</div>
-    </button>
-  </div>
-
-  <button class="menu-box t-s hide-mobile" *ngIf="selectedFlatName" [routerLinkActive]="'active'"
-    [routerLink]="'/house/house-info'">
-    <div class="menu-lable">{{selectedFlatName}}</div>
-    <div class="menu-name">Ви обрали оселю</div>
+  <button class="menu-box t-s" *ngIf="selectedFlatName" [routerLinkActive]="'active'"
+    [routerLink]="'/house/info'">
+    <div class="menu-name white">Ви обрали оселю</div>
+    <div class="menu-lable white">{{selectedFlatName}}</div>
   </button>
-
-  <div class="switch-btn-group" *ngIf="acces_admin === 1">
-    <button [disabled]="!selectedFlatId" class="btn" (click)="openDialog()">
-      <i class="fa-solid fa-circle-minus"></i>
-      <div class="t-min bold">Видалити</div>
-    </button>
-  </div>
 
   <div class="switch-btn-group">
     <button [disabled]="!selectedFlatId" class="btn" (click)="exitHouse()">

@@ -14,7 +14,7 @@ import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-navigation-house',
   templateUrl: './navigation-house.component.html',
-  styleUrls: ['./navigation-house.component.scss'],
+  styleUrls: ['./../../navigation.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [

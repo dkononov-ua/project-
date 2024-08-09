@@ -10,7 +10,7 @@ import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
-import { FilterUserService } from 'src/app/search/filter-user.service';
+import { FilterUserService } from 'src/app/services/search/filter-user.service';
 
 @Component({
   selector: 'app-cards-list-users',

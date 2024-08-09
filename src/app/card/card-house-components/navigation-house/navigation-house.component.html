@@ -20,7 +20,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-user"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Дії аккаунту</p>
           <p class="t-min">Інфо оселі</p>
         </div>
@@ -35,7 +35,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-id-badge"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Профіль</p>
           <p class="t-min">Оселі</p>
         </div>
@@ -44,7 +44,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!houseData" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Вхід</p>
           <p class="t-min">Увійти в аккаунт</p>
         </div>
@@ -53,7 +53,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Редагувати</p>
           <p class="t-min">Оселю</p>
         </div>
@@ -62,7 +62,7 @@
       <button [disabled]="!houseData" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}"
         class="link-item subcategory" (click)="logoutHouse()">
         <i class="fa-solid fa-door-open"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Вийти</p>
           <p class="t-min">З оселі</p>
         </div>
@@ -76,7 +76,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/control'" (click)="closeToogleMenu(3)">
         <i class="fa-solid fa-timeline"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Керування</p>
           <p class="t-min">Оселями</p>
         </div>
@@ -89,31 +89,22 @@
     <div class="subcategory-container" *ngIf="section[3]">
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/control/selection'" (click)="closeToogleMenu(3)">
-        <i class="fa-solid fa-house-circle-check"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Обрати</p>
-          <p class="t-min">Вибрати оселю</p>
+        [routerLinkActive]="'active'" [routerLink]="'/house/control/about'" (click)="closeToogleMenu(8)">
+        <i class="fa-regular fa-circle-question"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Що це?</p>
+          <p class="t-min">Профіль оселі</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" (click)="closeToogleMenu(3)">
         <i class="fa-solid fa-house-chimney-medical"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Додати</p>
-          <p class="t-min">Створити оселю</p>
+        <div class="item-description pl-2">
+          <p class="t-med">Створити | Обрати</p>
+          <p class="t-min">Видалити оселю</p>
         </div>
       </a>
-
-      <button [disabled]="!houseData" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}"
-        class="link-item subcategory">
-        <i class="fa-solid fa-circle-minus"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Видалити</p>
-          <p class="t-min">Видалення оселі</p>
-        </div>
-      </button>
 
     </div>
   </div>
@@ -123,7 +114,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-signs-post"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Підписки</p>
           <p class="t-min">Та Дискусії</p>
         </div>
@@ -138,7 +129,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
           <p class="t-min">Про систему</p>
         </div>
@@ -147,7 +138,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-people-pulling"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Підписка</p>
           <p class="t-min">Мої підписки</p>
         </div>
@@ -156,7 +147,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-child-reaching"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Підписники</p>
           <p class="t-min">Вбодобали оселю</p>
         </div>
@@ -165,7 +156,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-person-walking-luggage"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Дискусії</p>
           <p class="t-min">Дискусії оселі</p>
         </div>
@@ -178,7 +169,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/agree'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-envelope-open-text"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Угоди</p>
           <p class="t-min">Оселі</p>
         </div>
@@ -193,7 +184,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/agree/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
           <p class="t-min">Про функцію</p>
         </div>
@@ -202,7 +193,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/agree/step'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-shoe-prints"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Як створити?</p>
           <p class="t-min">Пояснення</p>
         </div>
@@ -211,7 +202,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/agree/create'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-feather-pointed"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Створити</p>
           <p class="t-min">Угоду</p>
         </div>
@@ -220,7 +211,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/agree/review'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-hourglass-half"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Запропоновані</p>
           <p class="t-min">Угоди</p>
         </div>
@@ -229,7 +220,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/agree/concluded'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-file-circle-check"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Ухвалені </p>
           <p class="t-min">Угоди</p>
         </div>
@@ -243,7 +234,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/chat'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-message"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Повідомлення</p>
           <p class="t-min">Чати оселі</p>
         </div>
@@ -260,11 +251,11 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/search/tenant'" (click)="closeToogleMenu(7)">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Пошук</p>
-          <p class="t-min">Discussio Пошук</p>
+          <p class="t-min">Орендаря</p>
         </div>
       </a>
       <button *ngIf="!section[7]" [@appearance] [ngClass]="{'active': section[7]}" class="link-btn"
@@ -272,29 +263,22 @@
         <i [ngClass]="section[7] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
-    <div class="subcategory-container" *ngIf="section[7]">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search/house'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-house-flag"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Пошук </p>
-          <p class="t-min">Оселі</p>
-        </div>
-      </a>
+
+   <div class="subcategory-container" *ngIf="section[7]">
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search/tenant'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/search/tenant'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-child-reaching"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Пошук</p>
           <p class="t-min">Орендаря</p>
         </div>
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search/neighbor'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/search/neighbor'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-restroom"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Пошук</p>
           <p class="t-min">Сусіда</p>
         </div>
@@ -308,7 +292,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/objects'" (click)="closeToogleMenu(8)">
         <i class="fa-solid fa-boxes-packing"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Наповнення</p>
           <p class="t-min">Предмети оселі</p>
         </div>
@@ -323,7 +307,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu(8)">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
           <p class="t-min">Про функцію</p>
         </div>
@@ -332,7 +316,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu(8)">
         <i class="fa-solid fa-boxes-stacked"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Додати</p>
           <p class="t-min">Наповнення</p>
         </div>
@@ -341,7 +325,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu(8)">
         <i class="fa-solid fa-dolly"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Керування</p>
           <p class="t-min">Наповненням</p>
         </div>
@@ -356,7 +340,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Редагування</p>
           <p class="t-min">Всі налаштування</p>
         </div>
@@ -372,7 +356,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-location-dot"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Розташування</p>
           <p class="t-min">Локація оселі</p>
         </div>
@@ -381,7 +365,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit/param'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-trowel-bricks"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Параметри</p>
           <p class="t-min">Характеристики</p>
         </div>
@@ -390,7 +374,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit/about'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-users-gear"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Особливості</p>
           <p class="t-min">Про оселю</p>
         </div>
@@ -399,7 +383,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit/photo'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-images"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Фото</p>
           <p class="t-min">Додати фото</p>
         </div>
@@ -408,7 +392,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/edit/additionally'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-address-book"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Додаткова</p>
           <p class="t-min">Для мешканців</p>
         </div>
@@ -416,6 +400,54 @@
 
     </div>
   </div>
+
+  <!-- <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal'" (click)="closeToogleMenu(8)">
+        <i class="fa-solid fa-chart-pie"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Статистика</p>
+          <p class="t-min">Комунальні</p>
+        </div>
+      </a>
+      <button *ngIf="!section[8]" [@appearance] [ngClass]="{'active': section[8]}" class="link-btn"
+        (click)="setSection(8)">
+        <i [ngClass]="section[8] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+      </button>
+    </div>
+    <div class="subcategory-container" *ngIf="section[8]">
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu(8)">
+        <i class="fa-regular fa-circle-question"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Що це таке?</p>
+          <p class="t-min">Про функцію</p>
+        </div>
+      </a>
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu(8)">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Додати</p>
+          <p class="t-min">Наповнення</p>
+        </div>
+      </a>
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu(8)">
+        <i class="fa-solid fa-dolly"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Керування</p>
+          <p class="t-min">Наповненням</p>
+        </div>
+      </a>
+
+
+    </div>
+  </div> -->
 
 
 

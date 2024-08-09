@@ -1,6 +1,13 @@
 <nav class="navigation-container">
 
-  <div class="item-group" (click)="toggleAllMenu(1)">
+  <div class="item-group" (click)="toggleAllMenu(1)" *ngIf="isMobile">
+    <div class="lobo-box">
+      <img class="logo-img" src="./../../assets/logo/discussio.png" alt="">
+      <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div>
+    </div>
+  </div>
+
+  <div class="item-group" *ngIf="!isMobile">
     <div class="lobo-box">
       <img class="logo-img" src="./../../assets/logo/discussio.png" alt="">
       <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div>
@@ -34,17 +41,17 @@
   </div>
 
   <div class="item-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(2)">
-    <a class="nav-link">
+    <button class="nav-link">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
-    </a>
+    </button>
   </div>
 
   <div class="item-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(3)">
-    <a class="nav-link">
+    <button class="nav-link">
       <i class="fa-solid fa-house"></i>
       <div class="t-min">Оселя</div>
-    </a>
+    </button>
   </div>
 
   <div class="item-group" *ngIf="authorization && !isMobile">
@@ -61,11 +68,11 @@
     </a>
   </div>
 
-  <div class="item-group" *ngIf="!isMobile">
+  <!-- <div class="item-group" *ngIf="!isMobile">
     <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/search/'">
       <i class="fa-solid fa-magnifying-glass"></i>
       <div class="t-min">Пошук</div>
     </a>
-  </div>
+  </div> -->
 
 </nav>

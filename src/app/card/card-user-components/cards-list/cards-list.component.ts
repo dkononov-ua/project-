@@ -14,7 +14,7 @@ import { PaginationConfig } from 'src/app/config/paginator';
 
 // Анімації
 import { animations } from '../../../interface/animation';
-import { FilterService } from 'src/app/search/filter.service';
+import { FilterService } from 'src/app/services/search/filter.service';
 
 @Component({
   selector: 'app-cards-list',

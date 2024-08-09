@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
-import { CreateChatService } from 'src/app/chat/create-chat.service';
+import { CreateChatService } from 'src/app/services/chat/create-chat.service';
 
 @Component({
   selector: 'app-functions',
@@ -187,11 +187,11 @@ export class FunctionsComponent implements OnInit, OnDestroy {
   // Видалення карток
   async deleteUser(user: any): Promise<void> {
     if (this.currentLocation === '/house/discus/discussion') {
-      this.cardsDataHouseService.deleteUser(user, 'discussio');
+      this.cardsDataHouseService.deleteUser(user, 'discussioHouse');
     } else if (this.currentLocation === '/house/discus/subscribers') {
-      this.cardsDataHouseService.deleteUser(user, 'subscribers');
+      this.cardsDataHouseService.deleteUser(user, 'subscribersHouse');
     } else if (this.currentLocation === '/house/discus/subscriptions') {
-      this.cardsDataHouseService.deleteUser(user, 'subscriptions');
+      this.cardsDataHouseService.deleteUser(user, 'subscriptionsHouse');
     }
     this.cardsDataHouseService.getResultDeleteUserSubject().subscribe(result => {
       if (result.status === true) {

@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-house-rent-progress',
   templateUrl: './house-rent-progress.component.html',
-  styleUrls: ['./house-rent-progress.component.scss'],
+  styleUrls: ['./../../progress.scss'],
   animations: [
     animations.left,
     animations.left1,

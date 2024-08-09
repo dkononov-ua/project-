@@ -34,7 +34,6 @@ import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyDialogModule } from '@alyle/ui/dialog';
 import { ReportsComponent } from './components/reports/reports.component';
-import { NewsComponent } from './components/news/news.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HomeComponent } from './pages/host/home/home.component';
 import { TemplateComponent } from './template/template.component';
@@ -45,15 +44,13 @@ import { StatusMessageComponent } from './components/status-message/status-messa
 import { StatusMessageService } from './services/status-message.service';
 import { CardsDataService } from './services/user-components/cards-data.service';
 import { SearchHousePageComponent } from './pages/host-user/host-user-serach/search-house-page/search-house-page.component';
-import { SearchTenantPageComponent } from './pages/host-user/host-user-serach/search-tenant-page/search-tenant-page.component';
-import { SearchNeighborPageComponent } from './pages/host-user/host-user-serach/search-neighbor-page/search-neighbor-page.component';
 import { SearchUserHostComponent } from './pages/host-user/host-user-serach/search-user-host.component';
 import { NotFoundComponent } from './pages/host/not-found/not-found.component';
 import { OurTeamComponent } from './pages/host/our-team/our-team.component';
 import { FeedbackComponent } from './pages/host/feedback/feedback.component';
 import { SupportUsComponent } from './pages/host/support-us/support-us.component';
 import { UserLicenceComponent } from './pages/host/user-licence/user-licence.component';
-import { PostsComponent } from './pages/blog/posts/posts.component';
+import { PostsComponent } from './pages/host/blog/posts/posts.component';
 import { ActTransferComponent } from './components/agreements/act-transfer/act-transfer.component';
 import { RentalAgreementComponent } from './components/agreements/rental-agreement/rental-agreement.component';
 import { ConfirmActionsComponent } from './components/agreements/confirm-actions/confirm-actions.component';
@@ -62,8 +59,7 @@ import { SharedModule } from './shared/shared.module';
 import { UserModule } from './pages/host-user/user.module';
 import { HouseModule } from './pages/host-house/house.module';
 import { AuthModule } from './pages/host-auth/auth.module';
-import { HousingServicesModule } from './housing-services/housing-services.module';
-import { SearchModule } from './search/search.module';
+import { SearchModule } from './pages/host-search/search.module';
 
 @NgModule({
   declarations: [
@@ -75,7 +71,6 @@ import { SearchModule } from './search/search.module';
     AboutProjectComponent,
     ReportsComponent,
     NotFoundComponent,
-    NewsComponent,
     SupportUsComponent,
     ActTransferComponent,
     RentalAgreementComponent,
@@ -88,8 +83,6 @@ import { SearchModule } from './search/search.module';
     PostsComponent,
     SearchUserHostComponent,
     SearchHousePageComponent,
-    SearchTenantPageComponent,
-    SearchNeighborPageComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -132,7 +125,6 @@ import { SearchModule } from './search/search.module';
     HouseModule,
     AuthModule,
     SearchModule,
-    HousingServicesModule,
     // *********
 
   ],

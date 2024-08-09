@@ -4,8 +4,6 @@ import { HouseComponent } from './house.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { AgreeDeleteComponent } from './host-house-agree/agree-delete/agree-delete.component';
 import { AgreeMenuComponent } from './host-house-agree/agree-menu/agree-menu.component';
-import { SelectionHousingComponent } from 'src/app/components/house/selection-housing/selection-housing.component';
-import { AddHouseComponent } from 'src/app/components/house/add-house/add-house.component';
 import { HouseResidentsComponent } from './host-house-resident/house-residents/house-residents.component';
 import { HouseControlComponent } from './host-house-control/house-control.component';
 import { ResidentComponent } from './host-house-resident/resident.component';
@@ -30,13 +28,27 @@ import { SubscribersDiscusComponent } from './host-house-discus/discus/subscribe
 import { SubscriptionsHouseComponent } from './host-house-discus/subscriptions/subscriptions-house.component';
 import { HostHouseDiscusComponent } from './host-house-discus/host-house-discus.component';
 import { HouseDiscussPageComponent } from './host-house-discus/house-discuss-page/house-discuss-page.component';
-import { ChatHostHouseComponent } from 'src/app/chat/house/chat-host-house/chat-host-house.component';
+import { ChatHostHouseComponent } from 'src/app/pages/host-house/host-house-chat/chat-host-house.component';
 import { AgreeHostComponent } from './host-house-agree/agree-host.component';
 import { ActCreateComponent } from './host-house-agree/act-create/act-create.component';
 import { HostHouseObjectsComponent } from './host-house-objects/host-house-objects.component';
 import { ObjectsPageComponent } from './host-house-objects/objects-page/objects-page.component';
 import { AddObjectsComponent } from './host-house-objects/add-objects/add-objects.component';
 import { ControlObjectsComponent } from './host-house-objects/control-objects/control-objects.component';
+import { HouseControlPageComponent } from './host-house-control/house-control-page/house-control-page.component';
+import { HouseControlAboutComponent } from './host-house-control/house-control-about/house-control-about.component';
+import { HostHouseSearchComponent } from './host-house-search/host-house-search.component';
+import { SearchTenantPageComponent } from './host-house-search/search-tenant-page/search-tenant-page.component';
+import { SearchNeighborPageComponent } from './host-house-search/search-neighbor-page/search-neighbor-page.component';
+import { HousingServicesComponent } from './host-house-comun/housing-services.component';
+import { ComunAboutComponent } from './host-house-comun/comun-about/comun-about.component';
+import { ComunAddComponent } from './host-house-comun/comun-add/comun-add.component';
+import { ComunCompanyComponent } from './host-house-comun/comun-company/comun-company.component';
+import { ComunHistoryComponent } from './host-house-comun/comun-history/comun-history.component';
+import { ComunStatComunComponent } from './host-house-comun/comun-stat-comun/comun-stat-comun.component';
+import { ComunStatMonthComponent } from './host-house-comun/comun-stat-month/comun-stat-month.component';
+import { ComunStatSeasonComponent } from './host-house-comun/comun-stat-season/comun-stat-season.component';
+import { ComunStatYearComponent } from './host-house-comun/comun-stat-year/comun-stat-year.component';
 
 const routes: Routes = [
   {
@@ -44,8 +56,7 @@ const routes: Routes = [
     component: HouseComponent, data: { title: 'Профіль оселі', description: 'Профіль оселі' }, canActivate: [CanActivateGuard],
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
-      { path: 'info', component: HostHousePageComponent, canActivate: [CanActivateGuard] },
-      { path: 'agree-delete', component: AgreeDeleteComponent, canActivate: [CanActivateGuard] },
+      { path: 'info', component: HostHousePageComponent },
       { path: 'chat', component: ChatHostHouseComponent, canActivate: [CanActivateGuard] },
       {
         path: 'edit', component: HousingParametersComponent, canActivate: [CanActivateGuard],
@@ -81,28 +92,36 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'control', component: HouseControlComponent, canActivate: [CanActivateGuard],
+        path: 'control', component: HouseControlComponent,
         children: [
-          { path: '', redirectTo: 'selection', pathMatch: 'full' },
-          { path: 'selection', data: { title: 'Вибрати оселю', description: 'Вибрати оселю' }, component: SelectionHousingComponent, canActivate: [CanActivateGuard] },
-          { path: 'add', data: { title: 'Створити оселю, додати оселю', description: 'Створити оселю' }, component: AddHouseComponent, canActivate: [CanActivateGuard] },
+          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: 'about', component: HouseControlAboutComponent },
+          { path: 'add', component: HouseControlPageComponent },
         ],
       },
       {
-        path: 'objects', component: HostHouseObjectsComponent, canActivate: [CanActivateGuard],
+        path: 'objects', component: HostHouseObjectsComponent,
         children: [
           { path: '', redirectTo: 'about', pathMatch: 'full' },
-          { path: 'about', component: ObjectsPageComponent, canActivate: [CanActivateGuard] },
+          { path: 'about', component: ObjectsPageComponent },
           { path: 'add', component: AddObjectsComponent, canActivate: [CanActivateGuard] },
           { path: 'control', component: ControlObjectsComponent, canActivate: [CanActivateGuard] },
         ],
       },
       {
-        path: 'agree', component: AgreeHostComponent, canActivate: [CanActivateGuard],
+        path: 'search', component: HostHouseSearchComponent,
+        children: [
+          { path: '', redirectTo: 'house', pathMatch: 'full' },
+          { path: 'tenant', component: SearchTenantPageComponent },
+          { path: 'neighbor', component: SearchNeighborPageComponent },
+        ],
+      },
+      {
+        path: 'agree', component: AgreeHostComponent,
         children: [
           { path: '', redirectTo: 'about', pathMatch: 'full' },
-          { path: 'about', data: { title: 'Угоди оселі', description: 'Угоди оселі' }, component: AgreeMenuComponent },
-          { path: 'step', component: AgreeStepComponent, canActivate: [CanActivateGuard] },
+          { path: 'about', component: AgreeMenuComponent },
+          { path: 'step', component: AgreeStepComponent },
           { path: 'review', component: AgreeReviewComponent, canActivate: [CanActivateGuard] },
           { path: 'concluded', component: AgreeConcludedComponent, canActivate: [CanActivateGuard] },
           { path: 'create', component: AgreeCreateComponent, canActivate: [CanActivateGuard] },
@@ -110,6 +129,22 @@ const routes: Routes = [
           { path: 'act-create/:selectedFlatAgree', component: ActCreateComponent, canActivate: [CanActivateGuard] },
         ],
       },
+      {
+        path: 'communal',
+        component: HousingServicesComponent, canActivate: [CanActivateGuard],
+        children: [
+          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: 'add', component: ComunAddComponent, canActivate: [CanActivateGuard] },
+          { path: 'about', component: ComunAboutComponent, canActivate: [CanActivateGuard] },
+          { path: 'history', component: ComunHistoryComponent, canActivate: [CanActivateGuard] },
+          { path: 'all-yaers-stat', component: ComunStatSeasonComponent, canActivate: [CanActivateGuard] },
+          { path: 'stat-comun', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
+          { path: 'stat-month', component: ComunStatMonthComponent, canActivate: [CanActivateGuard] },
+          { path: 'stat-year', component: ComunStatYearComponent, canActivate: [CanActivateGuard] },
+          { path: 'company', component: ComunCompanyComponent, canActivate: [CanActivateGuard] },
+          { path: 'stat-season', component: ComunStatComunComponent, canActivate: [CanActivateGuard] },
+        ]
+      }
     ],
   },
 

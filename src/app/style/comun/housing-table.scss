@@ -1,0 +1,296 @@
+@use "./../presets/" as *;
+@use "./../mixins/" as *;
+
+.container-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.monthChange {
+  @include flex-box-center;
+  justify-content: space-evenly;
+}
+
+.btn-2 {
+  @include flex-box;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: none;
+  background-color: transparent;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.text {
+  text-align: start;
+  font-weight: 600;
+}
+
+.wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+}
+
+.table-box::-webkit-scrollbar {
+  display: none;
+}
+
+.table-row {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  color: $color-white;
+  margin: 2px;
+  align-items: center;
+  border-bottom: 1px solid $color-light;
+}
+
+.table-cell {
+  font-size: 14px;
+  height: 45px;
+  // background-color: $color-gray;
+  color: $color-dark;
+  border-radius: 10px;
+  // border: 3px solid $color-primary;
+  display: flex;
+  align-items: center;
+}
+
+.table-head {
+  height: 30px;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 600;
+  height: 30px;
+  // color: $color-dark;
+  background-color: transparent;
+  justify-content: center;
+}
+
+.name-1 {
+  font-weight: 600;
+  justify-content: flex-start;
+  padding-left: 5px;
+}
+
+.name-2 {
+  justify-content: flex-end;
+  padding-right: 5px;
+}
+
+.wi-30 {
+  width: 30px !important;
+}
+
+.wi-50 {
+  width: 50px;
+}
+
+.wi-80 {
+  width: 80px;
+}
+
+.wi-100 {
+  width: 100px;
+  @include s3-s6-max {
+    width: 200px;
+  }
+}
+
+.wi-150 {
+  width: 150px;
+}
+
+.wi-200 {
+  width: 200px;
+}
+
+.card-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.container-box {
+  display: flex;
+  align-items: center;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.box-item {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.message-box {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  // height: 70px;
+  flex-direction: column-reverse;
+}
+
+
+.switch-container {
+  @include flex-box;
+  width: 100%;
+  justify-content: space-around;
+  z-index: 50;
+  position: sticky;
+  top: 0;
+  margin: 0 !important;
+  background-image: none !important;
+  height: auto !important;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.197);
+  border-top: 1px solid rgba(128, 128, 128, 0.197);
+
+  @include s1-s3 {
+    border: none;
+  }
+
+  .switch-btn-group {
+    @include flex-box-column;
+    position: relative;
+    width: 80px;
+  }
+
+  .btn-menu {
+    @include flex-box-column;
+    flex: 1;
+  }
+
+  .btn {
+    @include flex-box-column;
+    position: relative;
+    justify-content: center;
+    height: 50px;
+    width: 80px;
+    background-color: transparent;
+    border: none;
+    transition: 1s;
+    &:hover {
+      transform: scale(1.1);
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+      .t-min {
+        color: $color-accent;
+      }
+    }
+    @include s1-s3 {
+      flex: 1;
+      width: 50px;
+    }
+    &.active {
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+      .t-min {
+        color: $color-accent;
+      }
+      font-weight: bold;
+      filter: drop-shadow(0px 0px 2px $color-accent);
+    }
+    &:disabled {
+      .fa-regular,
+      .fa-solid {
+        color: $color-gray;
+      }
+    }
+    .fa-solid,
+    .fa-regular {
+      font-size: 30px;
+    }
+  }
+}
+
+
+.switch-box {
+  @include flex-box-center;
+  justify-content: space-around;
+}
+
+.card-animation {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.card-content {
+  align-items: stretch !important;
+}
+
+.mat-form-field {
+  border-radius: 5px;
+}
+
+.howmuch_pay {
+  background-color: rgba(255, 166, 0, 0.515);
+}
+
+.consumed {
+  background-color: rgba(0, 255, 213, 0.617);
+}
+
+.payed {
+  background-color: rgba(0, 128, 0, 0.344);
+}
+
+.tariff {
+  background-color: rgba(87, 0, 128, 0.344);
+}
+
+.differenceOK {
+  background-color: rgba(99, 202, 249, 0.669);
+}
+
+.difference {
+  background-color: rgba(255, 0, 0, 0.429);
+}
+
+.th-grid {
+  display: grid;
+  // justify-content: flex-start;
+  flex: 1;
+}
+
+
+

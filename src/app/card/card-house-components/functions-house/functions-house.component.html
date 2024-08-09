@@ -20,7 +20,7 @@
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/user/discus/discussion'"
+    <button disabled
       [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" (click)="goToComun()"
       *ngIf="linkOpen[1]">
       <i class="fa-solid fa-chart-pie"></i>
@@ -30,6 +30,17 @@
         <p class="t-min">Переглянути статистику оселі</p>
       </div>
     </button>
+
+    <!-- <button [disabled]="currentLocation !== '/user/discus/discussion'"
+      [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" (click)="goToComun()"
+      *ngIf="linkOpen[1]">
+      <i class="fa-solid fa-chart-pie"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/user/discus/discussion'">Доступно в
+            Дискусії </span>Статистика</p>
+        <p class="t-min">Переглянути статистику оселі</p>
+      </div>
+    </button> -->
 
     <button [disabled]="!authorization" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}"
       class="link" (click)="openFullScreenImage(house.photos)" *ngIf="linkOpen[1]">

@@ -11,8 +11,6 @@ import { UserLookingComponent } from 'src/app/pages/host-user/host-user-edit/use
 import { UserDeleteComponent } from 'src/app/pages/host-user/host-user-edit/user-delete/user-delete.component';
 import { UserTenantComponent } from './host-user-tenants-profile/user-tenant/user-tenant.component';
 import { SearchHousePageComponent } from 'src/app/pages/host-user/host-user-serach/search-house-page/search-house-page.component';
-import { SearchNeighborPageComponent } from 'src/app/pages/host-user/host-user-serach/search-neighbor-page/search-neighbor-page.component';
-import { SearchTenantPageComponent } from 'src/app/pages/host-user/host-user-serach/search-tenant-page/search-tenant-page.component';
 import { AgreeUserPageComponent } from 'src/app/pages/host-user/host-user-agree/agree-user-page/agree-user-page.component';
 import { HostUserDiscusComponent } from 'src/app/pages/host-user/host-user-discus/host-user-discus.component';
 import { UserTenantStepComponent } from 'src/app/pages/host-user/host-user-tenants-profile/user-tenant-step/user-tenant-step.component';
@@ -23,12 +21,12 @@ import { UserDiscussPageComponent } from './host-user-discus/user-discuss-page/u
 import { SearchUserHostComponent } from './host-user-serach/search-user-host.component';
 import { HostUserAgreeComponent } from './host-user-agree/host-user-agree.component';
 import { HostUserPageComponent } from './host-user-page/host-user-page.component';
-import { ChatHostComponent } from 'src/app/chat/user/chat-host/chat-host.component';
 import { HostUserTenantsProfileComponent } from './host-user-tenants-profile/host-user-tenants-profile.component';
 import { NotFoundComponent } from '../host/not-found/not-found.component';
 import { SubscribersDiscusComponent } from './host-user-discus/discus/subscribers-discus.component';
 import { SubscribersUserComponent } from './host-user-discus/subscribers/subscribers-user.component';
 import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
+import { ChatHostComponent } from './host-user-chat/chat-host.component';
 
 
 const routes: Routes = [
@@ -62,8 +60,6 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'house', pathMatch: 'full' },
           { path: 'house', component: SearchHousePageComponent },
-          { path: 'tenant', component: SearchTenantPageComponent },
-          { path: 'neighbor', component: SearchNeighborPageComponent },
         ],
       },
       {

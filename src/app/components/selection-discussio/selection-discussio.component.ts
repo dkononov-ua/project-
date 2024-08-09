@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { ChangeComunService } from 'src/app/housing-services/change-comun.service';
+import { ChangeComunService } from 'src/app/services/comun/change-comun.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';

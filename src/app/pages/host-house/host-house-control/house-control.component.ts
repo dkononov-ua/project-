@@ -5,7 +5,7 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
-import { DeleteHouseComponent } from 'src/app/components/house/delete-house/delete-house.component';
+import { DeleteHouseComponent } from 'src/app/card/card-house-components/delete-house/delete-house.component';
 import { Location } from '@angular/common';
 import { animations } from '../../../interface/animation';
 

@@ -1,0 +1,75 @@
+@use "./../../../../style/comun/comun.scss";
+@use "./../../../../style/shared.scss" as *;
+@use "./../../../../style/presets/" as *;
+@use "./../../../../style/mixins/" as *;
+
+.card-content-static {
+  justify-content: space-between !important;
+  @include s3-s6-max {
+    background-color: $color-white !important;
+  }
+}
+
+.flex-box {
+  flex-wrap: wrap;
+}
+
+.switch-content {
+  @include flex-box-column;
+  width: 100%;
+  .switch-box {
+    @include flex-box-center;
+    justify-content: space-around;
+  }
+}
+
+.select-year {
+  height: 100px;
+}
+
+.card-box {
+  height: 85vh;
+  overflow: auto;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.box {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: calc(85vh - 100px);
+  justify-content: space-evenly;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.progress {
+  max-height: 90%;
+  min-height: 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $color-primary;
+  border: 1px solid #ccc;
+  margin: 5px;
+}
+
+.progress-bar {
+  color: $color-dark;
+  width: 100%;
+  flex-grow: 1;
+  background-image: linear-gradient(to top, #4caf50, #ffffff);
+}

@@ -12,7 +12,7 @@ import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
-import { CreateChatService } from 'src/app/chat/create-chat.service';
+import { CreateChatService } from 'src/app/services/chat/create-chat.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HouseInfo } from '../../../interface/info';
 import { HouseConfig } from '../../../interface/param-config';
@@ -197,11 +197,11 @@ export class FunctionsHouseComponent implements OnInit, OnDestroy {
   // Видалення карток
   async deleteSubscriber(flat: any): Promise<void> {
     if (this.currentLocation === '/user/discus/discussion') {
-      this.cardsDataService.deleteFlatSub(flat, 'discussioHouse');
+      this.cardsDataService.deleteFlatSub(flat, 'discussio');
     } else if (this.currentLocation === '/user/discus/subscribers') {
-      this.cardsDataService.deleteFlatSub(flat, 'subscribersHouse');
+      this.cardsDataService.deleteFlatSub(flat, 'subscribers');
     } else if (this.currentLocation === '/user/discus/subscriptions') {
-      this.cardsDataService.deleteFlatSub(flat, 'subscriptionsHouse');
+      this.cardsDataService.deleteFlatSub(flat, 'subscriptions');
     }
     this.cardsDataService.getResultDeleteFlatSubject().subscribe(result => {
       if (result.status === true) {

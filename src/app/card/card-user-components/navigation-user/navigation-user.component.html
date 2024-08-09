@@ -21,7 +21,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-user"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Дії аккаунту</p>
           <p class="t-min">Інфо користувача</p>
         </div>
@@ -36,7 +36,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-id-badge"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Профіль</p>
           <p class="t-min">Користувача</p>
         </div>
@@ -45,7 +45,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Вхід</p>
           <p class="t-min">Увійти в аккаунт</p>
         </div>
@@ -54,7 +54,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Редагувати</p>
           <p class="t-min">Аккаунт</p>
         </div>
@@ -63,7 +63,7 @@
       <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         (click)="logout()">
         <i class="fa-solid fa-door-open"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Вийти</p>
           <p class="t-min">З аккаунту</p>
         </div>
@@ -78,7 +78,7 @@
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item"
           [routerLinkActive]="'active'" [routerLink]="'/user/tenant'" (click)="closeToogleMenu(2)">
           <i class="fa-solid fa-person-hiking"></i>
-          <div class="flex-column pl-2 t-e">
+          <div class="item-description pl-2">
             <p class="t-med">Профіль</p>
             <p class="t-min">Орендаря</p>
             <p class="t-min bold" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1"><i
@@ -96,15 +96,15 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/tenant/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Що це таке?</p>
-          <p class="t-min">Про функцію</p>
+        <div class="item-description pl-2">
+          <p class="t-med">Що це?</p>
+          <p class="t-min">Профіль орендаря</p>
         </div>
       </a>
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/tenant/step'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-shoe-prints"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Як активувати?</p>
           <p class="t-min">Пояснення</p>
         </div>
@@ -113,7 +113,7 @@
       <button (click)="deactivateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
         class="link-item subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1">
         <i class="fa-solid fa-power-off"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Деактивувати</p>
           <p class="t-min">Профіль орендаря</p>
         </div>
@@ -122,7 +122,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Налаштування</p>
           <p class="t-min">Профілю</p>
         </div>
@@ -135,7 +135,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-signs-post"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Підписки</p>
           <p class="t-min">Та Дискусії</p>
         </div>
@@ -150,7 +150,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
           <p class="t-min">Про систему</p>
         </div>
@@ -159,7 +159,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-heart pl-2"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Вподобані</p>
           <p class="t-min">Мої підписки</p>
         </div>
@@ -168,7 +168,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-house-fire pl-2"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Запропоновані</p>
           <p class="t-min">Мої пропозиції</p>
         </div>
@@ -177,7 +177,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-person-walking-luggage"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Дискусії</p>
           <p class="t-min">Мої дискусії</p>
         </div>
@@ -190,7 +190,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-envelope-open-text"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Угоди</p>
           <p class="t-min">Орендаря</p>
         </div>
@@ -205,7 +205,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
           <p class="t-min">Про функцію</p>
         </div>
@@ -214,7 +214,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-shoe-prints"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Як отримати?</p>
           <p class="t-min">Пояснення</p>
         </div>
@@ -223,7 +223,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-hourglass-half"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Запропоновані</p>
           <p class="t-min">Угоди</p>
         </div>
@@ -232,7 +232,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-file-circle-check"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Ухвалені </p>
           <p class="t-min">Угоди</p>
         </div>
@@ -246,7 +246,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-message"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Повідомлення</p>
           <p class="t-min">Чати користувача</p>
         </div>
@@ -263,11 +263,11 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/search/house'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Пошук</p>
-          <p class="t-min">Discussio Пошук</p>
+          <p class="t-min">Оселі</p>
         </div>
       </a>
       <button *ngIf="!section[7]" [@appearance] [ngClass]="{'active': section[7]}" class="link-btn"
@@ -279,27 +279,9 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/search/house'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-house-flag"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Пошук </p>
           <p class="t-min">Оселі</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search/tenant'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-child-reaching"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Пошук</p>
-          <p class="t-min">Орендаря</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search/neighbor'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-restroom"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Пошук</p>
-          <p class="t-min">Сусіда</p>
         </div>
       </a>
 
@@ -311,7 +293,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Редагування</p>
           <p class="t-min">Всі налаштування</p>
         </div>
@@ -327,7 +309,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/person'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-user"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Персона</p>
           <p class="t-min">Власна інформація</p>
         </div>
@@ -336,7 +318,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/contacts'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-share-nodes"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Контакти</p>
           <p class="t-min">Соціальні мережі</p>
         </div>
@@ -345,7 +327,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/status'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-sliders"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Статуси</p>
           <p class="t-min">Доступи Аккаунту</p>
         </div>
@@ -354,7 +336,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-person-hiking"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Профіль</p>
           <p class="t-min">Орендаря</p>
         </div>
@@ -363,7 +345,7 @@
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit/delete'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-user-minus"></i>
-        <div class="flex-column pl-2 t-e">
+        <div class="item-description pl-2">
           <p class="t-med">Видалення</p>
           <p class="t-min">Видалити профіль</p>
         </div>

@@ -3,7 +3,7 @@ import { SharedService } from './shared.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { StatusMessageService } from './status-message.service';
-import { ActionComponent } from '../components/action/action.component';
+import { ActionComponent } from '../card/card-user-components/action/action.component';
 import { DataService } from './data.service';
 import { LoaderService } from './loader.service';
 

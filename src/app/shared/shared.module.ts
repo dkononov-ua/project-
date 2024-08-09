@@ -26,15 +26,8 @@ import { CropImgComponent } from '../components/crop-img/crop-img.component';
 import { MenuComponent } from '../components/menu/menu.component';
 import { GalleryComponent } from '../components/gallery/gallery.component';
 import { CropImg2Component } from '../components/crop-img2/crop-img2.component';
-import { SelectionHousingComponent } from '../components/house/selection-housing/selection-housing.component';
-import { AddHouseComponent } from '../components/house/add-house/add-house.component';
-import { DeleteHComponent } from '../components/house/delete-h/delete-h.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ChatHostHouseComponent } from '../chat/house/chat-host-house/chat-host-house.component';
-import { ChatHouseComponent } from '../chat/house/chat-house/chat-house.component';
-import { ChatHostComponent } from '../chat/user/chat-host/chat-host.component';
-import { ChatUserComponent } from '../chat/user/chat-user/chat-user.component';
 import { SharedService } from '../services/shared.service';
 import { StatusDataComponent } from '../card/card-user-components/status-data/status-data.component';
 import { StatusDataService } from '../services/status-data.service';
@@ -47,10 +40,10 @@ import { ImgComponent } from '../card/card-user-components/img/img.component';
 import { InfoComponent } from '../card/card-user-components/info/info.component';
 import { ReviewsComponent } from '../card/card-user-components/reviews/reviews.component';
 import { LinksBoxComponent } from '../card/card-user-components/links-box/links-box.component';
-import { StatusAccessComponent } from '../components/house/status-access/status-access.component';
+import { StatusAccessComponent } from '../card/card-house-components/status-access/status-access.component';
 import { CardsListUsersComponent } from '../card/card-user-components/cards-list-users/cards-list-users.component';
 import { FunctionsComponent } from '../card/card-user-components/functions/functions.component';
-import { CreateChatService } from '../chat/create-chat.service';
+import { CreateChatService } from '../services/chat/create-chat.service';
 import { HouseRentProgressComponent } from '../card/card-house-components/house-rent-progress/house-rent-progress.component';
 import { UserRentProgressComponent } from '../card/card-user-components/user-rent-progress/user-rent-progress.component';
 import { RatingComponent } from '../card/card-user-components/rating/rating.component';
@@ -59,27 +52,32 @@ import { NavigationHouseComponent } from '../card/card-house-components/navigati
 import { ContactsComponent } from '../components/contacts/contacts.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { ClickOutsideDirective } from '../directive/click-outside.directive';
-import { ActionComponent } from '../components/action/action.component';
-import { PostDetailComponent } from '../pages/blog/post-detail/post-detail.component';
+import { ActionComponent } from '../card/card-user-components/action/action.component';
+import { PostDetailComponent } from '../pages/host/blog/post-detail/post-detail.component';
 import { ActionDeleteSubComponent } from '../components/action-delete-sub/action-delete-sub.component';
-import { DeleteHouseComponent } from '../components/house/delete-house/delete-house.component';
+import { DeleteHouseComponent } from '../card/card-house-components/delete-house/delete-house.component';
+import { HouseAgreeProgressComponent } from '../card/card-house-components/house-agree-progress/house-agree-progress.component';
+import { ChatUserComponent } from '../pages/host-user/host-user-chat/chat-user/chat-user.component';
+import { ChatHostComponent } from '../pages/host-user/host-user-chat/chat-host.component';
+import { ChatHouseComponent } from '../pages/host-house/host-house-chat/chat-house/chat-house.component';
+import { ChatHostHouseComponent } from '../pages/host-house/host-house-chat/chat-host-house.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
     LoaderComponent,
-    SelectionHousingComponent,
     SelectionDiscussioComponent,
-    AddHouseComponent,
     CropImgComponent,
     MenuComponent,
     GalleryComponent,
     CropImg2Component,
-    DeleteHComponent,
+
     ChatUserComponent,
     ChatHostComponent,
+
     ChatHouseComponent,
     ChatHostHouseComponent,
+
     StatusDataComponent,
     StatusDataHouseComponent,
     LinksBoxComponent,
@@ -105,18 +103,16 @@ import { DeleteHouseComponent } from '../components/house/delete-house/delete-ho
     ActionComponent,
     ActionDeleteSubComponent,
     DeleteHouseComponent,
+    HouseAgreeProgressComponent,
   ],
   exports: [
     FooterComponent,
     LoaderComponent,
-    SelectionHousingComponent,
     SelectionDiscussioComponent,
-    AddHouseComponent,
     CropImgComponent,
     MenuComponent,
     GalleryComponent,
     CropImg2Component,
-    DeleteHComponent,
     ChatUserComponent,
     ChatHostComponent,
     ChatHouseComponent,
@@ -145,6 +141,8 @@ import { DeleteHouseComponent } from '../components/house/delete-house/delete-ho
     ClickOutsideDirective,
     ActionComponent,
     ActionDeleteSubComponent,
+    HouseAgreeProgressComponent,
+
   ],
   providers: [
     UpdateComponentService,

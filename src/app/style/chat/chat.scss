@@ -1,22 +1,29 @@
-@use "../../style/presets/" as *;
-@use "../../style/mixins/" as *;
+@use "./../presets/" as *;
+@use "./../mixins/" as *;
 
-.container-chat {
-  height: 50vh;
+.chat-container {
+  position: relative;
   display: flex;
   width: 100%;
   flex-direction: column-reverse;
   background-color: $color-white;
   overflow: auto;
-  // border-radius: 20px 20px 0 0;
-  @include s1-s3 {
-    width: 100%;
-    height: 65vh;
+  height: calc(100vh - 130px - 1rem - 70px);
+  @include s3-s6-max {
+    height: calc(100vh - 100px - 1rem - 70px - 20px);
   }
+  // box-shadow: inset 0px 10px 15px rgba(107, 107, 107, 0.531);
+}
+
+.chat-send-container {
+  @include flex-box-center;
+  height: 70px;
+  background-color: $color-white;
 }
 
 .container-loader-mini {
-  height: 50vh;
+  @include flex-box-column;
+  height: 100vh;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -26,6 +33,7 @@
 .chat {
   display: flex;
   width: 100%;
+  height: inherit;
   align-items: stretch;
   flex-direction: column;
   justify-content: flex-end;
@@ -77,43 +85,16 @@
   overflow: auto;
 }
 
-.group1 {
-  @include box-shadow;
-  width: auto;
-  position: sticky;
-  height: 70px;
-  background-color: tan;
-  padding: 10px;
-  // background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 30%, rgb(255, 255, 255) 100%);
-  z-index: 50;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: flex-end;
-  border-radius: 20px 20px 0 0;
-  justify-content: space-between;
-  flex-direction: column;
-  @include s1-s3 {
-    position: sticky;
-    top: 0;
-  }
-}
-
 .avatar-user1 {
-  position: absolute;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  top: 5px;
-  left: 5px;
   border: 2px solid rgba(93, 90, 90, 0.856);
 }
 
 .name-user1 {
-  position: absolute;
   display: flex;
-  left: 70px;
   font-size: 20px;
   justify-content: flex-start;
   font-weight: 600;
@@ -129,7 +110,7 @@
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
-  padding: 20px 5px 5px 5px;
+  padding: 0px 5px 0px 5px;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -146,7 +127,6 @@
   position: relative;
   width: 100%;
   display: flex;
-  margin-bottom: 10px;
 }
 
 .chat-container-user {
@@ -161,29 +141,12 @@
   flex-direction: column;
   display: flex;
   min-width: 100px;
-  background-color: rgba(93, 90, 90, 0.856);
-  border-radius: 10px 10px 10px 0px;
 }
 
 .owner-message {
   flex-direction: column;
   display: flex;
   min-width: 100px;
-  background-color: $color-dark;
-  border-radius: 10px 10px 0px 10px;
-}
-
-.message {
-  position: relative;
-  display: flex;
-  clear: both;
-  z-index: 10;
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-  font-size: 15px;
-  margin-bottom: 20px;
-  padding: 10px;
 }
 
 .message-content {
@@ -196,11 +159,8 @@
   overflow: hidden;
   width: auto;
   max-width: 300px;
-  padding: 12px 0 0 0;
-}
-
-.message-content-owner {
-  justify-content: flex-end;
+  padding: 10px;
+  margin: 5px;
 }
 
 .message-text-user,
@@ -209,32 +169,33 @@
   font-size: 16px;
 }
 
-.avatar-wrapper-user,
-.avatar-wrapper-owner {
-  position: absolute;
-  top: -20px;
+.wrapper-user,
+.wrapper-owner {
+  height: 12px;
   float: left;
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-.avatar-wrapper-user {
+.wrapper-user {
   left: 0;
   flex-direction: row-reverse;
 }
 
-.avatar-wrapper-owner {
+.wrapper-owner {
   right: 0;
 }
 
 .name-user,
 .name-owner {
-  width: 200px;
+  width: 300px;
+  font-size: 10px;
   display: flex;
   align-items: stretch;
   justify-content: space-between;
   position: absolute;
+  color: rgb(174, 174, 174);
 }
 
 .name-owner {
@@ -243,19 +204,8 @@
   top: 0;
 }
 
-.accent-name {
-  color: $color-accent;
-  font-size: 13px;
-}
-
 .time {
-  color: $color-dark;
   font-weight: 300;
-}
-
-.unread {
-  background-color: $color-accent;
-  transform: 1s;
 }
 
 img {
@@ -268,29 +218,19 @@ img {
 .fab {
   transition: 0.4s;
   font-size: 25px;
-  &:hover {
-    transition: 0.4s;
-    transform: scale(2);
-    color: $color-accent;
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
-  }
 }
 
 .fa-check-double,
 .fa-check {
-  color: $color-accent;
+  color: $color-gray;
   font-size: 12px;
-}
-
-.fa-check {
-  color: $color-dark;
 }
 
 input {
   height: 60px;
   border-radius: 10px;
   padding: 10px;
-  background: rgba(245, 222, 179, 0);
+  background: transparent;
 }
 
 .btn-more-box {
@@ -299,16 +239,5 @@ input {
     width: 200px;
     margin: 5px;
     background-color: transparent;
-    &:hover {
-      .fa-solid {
-        color: $color-accent;
-      }
-    }
-  }
-}
-
-.hide-mobile {
-  @include s1-s3 {
-    display: none;
   }
 }
