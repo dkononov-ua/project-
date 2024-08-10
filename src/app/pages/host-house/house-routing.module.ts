@@ -53,7 +53,7 @@ import { ComunStatYearComponent } from './host-house-comun/comun-stat-year/comun
 const routes: Routes = [
   {
     path: '',
-    component: HouseComponent, data: { title: 'Профіль оселі', description: 'Профіль оселі' }, canActivate: [CanActivateGuard],
+    component: HouseComponent,
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
       { path: 'info', component: HostHousePageComponent },

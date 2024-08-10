@@ -126,7 +126,7 @@ export class ParamComponent implements OnInit, OnDestroy {
         if (this.selectedFlatId) {
           this.getInfo();
         } else {
-          console.log('Оберіть оселю')
+          this.sharedService.logoutHouse();
         }
       })
     );

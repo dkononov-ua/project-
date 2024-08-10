@@ -5,14 +5,20 @@
 
 .info-card {
   display: flex;
-  height: calc(100vh - 100px - 1rem);
   padding: 10px;
   position: relative;
   justify-content: flex-start;
   flex-direction: column;
-  overflow: auto;
   background-color: $color-white;
+  padding-bottom: 70px;
   @include box-shadow;
+  @include s3-s6-max {
+    overflow: auto;
+    height: calc(100vh - 80px);
+  }
+  @include s1-s3 {
+    height: auto;
+  }
 }
 
 // вікно додаткової інформації
@@ -162,8 +168,29 @@ mat-label {
 }
 
 .btn-group {
-  justify-content: center;
-  border-radius: 20px;
+  @include flex-box-center;
+  width: 100%;
+  @include s3-s6-max {
+    padding: 10px 10px 20px 10px;
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+    padding: 10px;
+  }
+  .btn {
+    @include flex-box-center;
+    flex: none;
+    height: 60px;
+    background-color: $color-accent;
+    width: 250px;
+    @include s1-s3 {
+      width: auto;
+      flex: 1;
+    }
+  }
 }
 
 .icon {

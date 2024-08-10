@@ -184,6 +184,7 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     // видаляю обраний айді користувача
     this.choseSubscribersService.removeChosenUserId();
     this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
+    this.cardsDataHouseService.removeCardsData(); 
 
     // скидую в компоненті profile індекс сторінки щоб показувати всі картки при оновленні сторінки
     this.choseSubscribersService.setIndexPage(2);

@@ -321,16 +321,17 @@
   </div>
 
   <div class="btn-group">
-    <button class="btn" (click)="changeStep(currentStep - 1)">
-      <i class="fa-solid fa-arrow-left"></i>
-      <div class="t-med dark bold p-2">Назад</div>
-    </button>
+    <a class="btn" [routerLink]="'/house/info'">
+      <i class="fa-solid fa-arrow-left white pr-2"></i>
+      <div class="t-min white">Назад</div>
+    </a>
 
     <button class="btn" [disabled]="!isCheckboxChecked" (click)="createAgreement()">
       <i class="fa-solid fa-paper-plane"></i>
       <div class="t-med dark bold p-2">Надіслати</div>
     </button>
   </div>
+  
   <div *ngIf="message" class="error-message">{{ message }}</div>
 
 </div>

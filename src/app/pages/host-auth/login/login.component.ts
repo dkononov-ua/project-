@@ -39,6 +39,8 @@ import { AuthGoogleService } from '../auth-google.service';
     animations.left4,
     animations.appearance,
     animations.swichCard,
+    animations.bot3,
+    animations.top3,
   ],
 
 })

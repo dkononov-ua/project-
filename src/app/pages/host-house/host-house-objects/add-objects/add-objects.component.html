@@ -23,8 +23,8 @@
     </mat-form-field>
 
     <div class="box-add-custom" *ngIf="selectedObject === 0">
-      <mat-form-field class="item-select" (ngModelChange)="checkObject()" appearance="outline">
-        <input matInput [(ngModel)]="customObject" placeholder="Введіть назву об'єкту">
+      <mat-form-field class="item-select" appearance="outline">
+        <input (ngModelChange)="checkObject()" matInput [(ngModel)]="customObject" placeholder="Введіть назву об'єкту">
         <mat-hint align="end" class="gray">Додати свій об'єкт</mat-hint>
       </mat-form-field>
       <div class="btn-close-container">
@@ -50,7 +50,8 @@
 
     <mat-form-field class="example-full-width mt-2">
       <mat-label>Опис вашого оголошення</mat-label>
-      <textarea #textArea matInput id="floatingTextarea" placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."
+      <textarea #textArea matInput id="floatingTextarea"
+        placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."
         [(ngModel)]="objectInfo.about" (input)="onInput()"></textarea>
     </mat-form-field>
 

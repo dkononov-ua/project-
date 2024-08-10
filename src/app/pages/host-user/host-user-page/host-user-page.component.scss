@@ -23,6 +23,7 @@
   flex-direction: column;
   align-items: stretch;
   overflow: hidden;
+  position: relative;
   @include s3-s6-max {
     min-height: 650px;
   }

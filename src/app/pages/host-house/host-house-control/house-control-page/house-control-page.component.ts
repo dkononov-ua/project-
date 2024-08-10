@@ -132,7 +132,16 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
 
   async houseCreate(): Promise<void> {
     const userJson = localStorage.getItem('user');
-    if (!userJson) return;
+
+    if (!userJson) {
+      this.sharedService.setStatusMessage('Потрібно авторизуватись');
+      setTimeout(() => {
+        this.router.navigate(['/auth/login']);
+        this.sharedService.setStatusMessage('');
+      }, 1500);
+      return;
+    }
+
     this.loaderService.setLoading(true);
     try {
       const response: any = await this.http.post(`${this.serverPath}/flatinfo/add/flat_id`, {
@@ -179,13 +188,10 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
       console.log('Авторизуйтесь');
       return;
     }
-
-    this.loaderService.setLoading(true);
-
     try {
       const response: any = await this.http.post(`${this.serverPath}/flatinfo/localflatid`, JSON.parse(userJson)).toPromise();
       const flatInfo = response.ids.find((flat: any) => flat.flat_name === flat_name);
-      if (flatInfo) this.selectFlat(flatInfo);
+      if (flatInfo) this.selectFlat(flatInfo, 1);
     } catch (error) {
       console.error(error);
       this.sharedService.setStatusMessage('Щось пішло не так, повторіть спробу');
@@ -195,7 +201,8 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectFlat(flatInfo: any): void {
+  selectFlat(flatInfo: any, action: number): void {
+    this.loaderService.setLoading(true);
     const userJson = localStorage.getItem('user');
     if (!userJson || !flatInfo) return;
 
@@ -215,19 +222,30 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.updateFlatData(flatInfo, response);
+      this.updateFlatData(flatInfo, response, action);
     }, 1500);
   }
 
-  private updateFlatData(flatInfo: any, response: any): void {
+  private updateFlatData(flatInfo: any, response: any, action: number): void {
     localStorage.setItem('houseData', JSON.stringify(response));
     this.selectedFlatName = flatInfo.flat_name;
     this.selectedFlatId = flatInfo.flat_id;
 
     const houseData = JSON.parse(localStorage.getItem('houseData') || '{}');
     if (houseData.status) {
-      this.sharedService.setStatusMessage(`Переходимо до налаштувань ${flatInfo.flat_name}`);
-      this.scheduleAction(() => this.router.navigate(['/house/edit']), 1500);
+      if (action === 1) {
+        this.sharedService.setStatusMessage(`Переходимо до налаштувань ${flatInfo.flat_name}`);
+        this.scheduleAction(() => {
+          this.loaderService.setLoading(false);
+          this.router.navigate(['/house/edit']);
+        }, 1500);
+      } else if (action === 2) {
+        this.sharedService.setStatusMessage(`Переходимо до профілю ${flatInfo.flat_name}`);
+        this.scheduleAction(() => {
+          this.loaderService.setLoading(false);
+          this.router.navigate(['/house/info']);
+        }, 1500);
+      }
     } else {
       this.handleFlatAccessDenied();
     }

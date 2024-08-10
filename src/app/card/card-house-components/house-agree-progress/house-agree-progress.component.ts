@@ -45,6 +45,15 @@ export class HouseAgreeProgressComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   loading: boolean = false;
 
+  counterHouseSubscribers: number = 0;
+  counterHouseSubscriptions: number = 0;
+  counterHouseDiscussio: number = 0;
+  counterHouseSendAgree: number = 0;
+  counterHouseConcludedAgree: number = 0;
+  houseConcludedAgreeIds: any = [];
+  actExistsArray: any = [];
+  counterActExistsArray: number = 0;
+
   acces_added: number = 1;
   acces_admin: number = 1;
   acces_agent: number = 1;
@@ -59,9 +68,6 @@ export class HouseAgreeProgressComponent implements OnInit, OnDestroy {
   acces_services: number = 1;
   acces_subs: number = 1;
 
-  counterHouseSubscribers: any;
-  counterHouseSubscriptions: any;
-  counterHouseDiscussio: any;
   unreadHouseMessage: any;
   iReadHouseMessage: boolean = false;
   counterHouseNewMessage: any;
@@ -105,76 +111,64 @@ export class HouseAgreeProgressComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
         this.selectedFlatId = flatId || this.selectedFlatId;
-        this.getHouseAcces();
+        this.loadDataFlat();
       })
     );
+  }
+
+  // Беру дані своєї оселі з локального сховища
+  async loadDataFlat(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
+    } else {
+      this.houseData = undefined;
+    }
   }
 
   // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
   async getHouseAcces(): Promise<void> {
-    this.houseData = localStorage.getItem('houseData');
-    if (this.houseData) {
-      const parsedHouseData = JSON.parse(this.houseData);
-      this.houseData = parsedHouseData;
-      // console.log(this.houseData)
-      if (this.houseData.acces) {
-        this.acces_added = this.houseData.acces.acces_added;
-        this.acces_admin = this.houseData.acces.acces_admin;
-        this.acces_agent = this.houseData.acces.acces_agent;
-        this.acces_agreement = this.houseData.acces.acces_agreement;
-        this.acces_citizen = this.houseData.acces.acces_citizen;
-        this.acces_comunal = this.houseData.acces.acces_comunal;
-        this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
-        this.acces_discuss = this.houseData.acces.acces_discuss;
-        this.acces_filling = this.houseData.acces.acces_filling;
-        this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
-        this.acces_flat_features = this.houseData.acces.acces_flat_features;
-        this.acces_services = this.houseData.acces.acces_services;
-        this.acces_subs = this.houseData.acces.acces_subs;
-        if (this.acces_discuss === 1) {
-          await this.getHouseDiscussioCount();
-        }
-        if (this.acces_subs === 1) {
-          await this.getHouseSubscribersCount();
-          await this.getHouseSubscriptionsCount();
-        }
-      } else {
-        await this.getHouseDiscussioCount();
-        await this.getHouseSubscribersCount();
-        await this.getHouseSubscriptionsCount();
+    if (this.houseData.acces) {
+      this.acces_added = this.houseData.acces.acces_added;
+      this.acces_admin = this.houseData.acces.acces_admin;
+      this.acces_agent = this.houseData.acces.acces_agent;
+      this.acces_agreement = this.houseData.acces.acces_agreement;
+      if (this.acces_agreement === 1) {
+        this.getStorageHouseCounter();
       }
+      this.acces_citizen = this.houseData.acces.acces_citizen;
+      this.acces_comunal = this.houseData.acces.acces_comunal;
+      this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+      this.acces_discuss = this.houseData.acces.acces_discuss;
+      this.acces_filling = this.houseData.acces.acces_filling;
+      this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+      this.acces_flat_features = this.houseData.acces.acces_flat_features;
+      this.acces_services = this.houseData.acces.acces_services;
+      this.acces_subs = this.houseData.acces.acces_subs;
+    }
+    this.getStorageHouseCounter();
+  }
+
+  // Отримання лічильників по угодам
+  async getStorageHouseCounter() {
+    this.counterHouseSubscribers = Number(localStorage.getItem('counterHouseSubscribers'));
+    this.counterHouseSubscriptions = Number(localStorage.getItem('counterHouseSubscriptions'));
+    this.counterHouseDiscussio = Number(localStorage.getItem('counterHouseDiscussio'));
+    this.counterHouseSendAgree = Number(localStorage.getItem('counterHouseSendAgree'));
+    this.counterHouseConcludedAgree = Number(localStorage.getItem('counterHouseConcludedAgree'));
+
+    const houseConcludedAgreeIds = localStorage.getItem('houseConcludedAgreeIds');
+    if (houseConcludedAgreeIds) {
+      this.houseConcludedAgreeIds = JSON.parse(houseConcludedAgreeIds);
+    }
+    const actExistsArray = localStorage.getItem('actExistsArray');
+    if (actExistsArray) {
+      this.actExistsArray = JSON.parse(actExistsArray);
     }
   }
 
-  // перевірка підписників оселі
-  async getHouseSubscribersCount() {
-    // await this.counterService.getHouseSubscribersCount(0);
-    this.subscriptions.push(
-      this.counterService.counterHouseSubscribers$.subscribe(data => {
-        this.counterHouseSubscribers = Number(data);
-      })
-    );
-  }
-
-  // перевірка підписок оселі
-  async getHouseSubscriptionsCount() {
-    // await this.counterService.getHouseSubscriptionsCount(0);
-    this.subscriptions.push(
-      this.counterService.counterHouseSubscriptions$.subscribe(data => {
-        this.counterHouseSubscriptions = Number(data);
-      })
-    );
-  }
-
-  // перевірка дискусій оселі
-  async getHouseDiscussioCount() {
-    // await this.counterService.getHouseDiscussioCount(0);
-    this.subscriptions.push(
-      this.counterService.counterHouseDiscussio$.subscribe(data => {
-        this.counterHouseDiscussio = Number(data);
-      })
-    );
-  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

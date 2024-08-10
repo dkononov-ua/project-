@@ -7,7 +7,8 @@
   <div [@right1] class="item-box">
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 1 Створення угоди</div>
-      <div class="t-med t-c p-1">Угоду можна сформувати лише з орендарями з якими у вас є дискусія.</div>
+      <div class="t-med t-c p-1">Угоду можна сформувати з орендарями з якими у вас є дискусія або мешканцями. Після
+        створення угода відправляється орендарю на погодження.</div>
     </div>
 
     <button [disabled]="counterHouseDiscussio === 0" class="link-t w-30 flex-column" (click)="goToAgreeCreate()">
@@ -19,9 +20,9 @@
   <div [@right2] class="item-box">
 
     <div class="item-d w-70">
-      <div class="t-med gray bold">Крок 2 Надсилаємо угоду</div>
-      <div class="t-med t-c p-1">Очікуємо підтвердження умов угоди від орендаря. Її можна скасувати в надісланих
-        угодах.</div>
+      <div class="t-med gray bold">Крок 2 Очікуємо підтвердження</div>
+      <div class="t-med t-c p-1">Орендарь перевіряє умови запропонованої угоди. Та дає вам знати що його влаштовує або
+        ні. Після погодження орендарем угоди, вам стане доступним формування акту прийому-передачі оселі.</div>
     </div>
 
     <button [disabled]="counterHouseSendAgree === 0" (click)="goToAgreeReview()" class="link-t w-30 flex-column">
@@ -34,7 +35,9 @@
 
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 3 Формування акту</div>
-      <div class="t-med t-c p-1">На основі ухваленої угоди формуємо акт прийому-передачі оселі.</div>
+      <div class="t-med t-c p-1">На основі ухваленої угоди та внесеного наповнення оселі ми формуємо акт
+        прийому-передачі оселі.
+      </div>
     </div>
 
     <button [disabled]="counterHouseConcludedAgree === 0" class="link-t w-30 flex-column" (click)="goToConcluded()">
@@ -47,8 +50,8 @@
 
     <div class="item-d w-70">
       <div class="t-med gray bold">Крок 4 Мешканець</div>
-      <div class="t-med t-c p-1">Після формування акту можна додати мешканців, тим самим надати доступ
-        до інформації про оселю</div>
+      <div class="t-med t-c p-1">Після формування акту прийому-передачі оселі орендаря можна додати до мешканців. В меню
+        "мешканці" орендарю можна відкривати доступи до різних функцій оселі а також залишати відгуки та оцінювати.</div>
     </div>
 
     <button [disabled]="counterHouseConcludedAgree === 0" class="link-t w-30 flex-column" (click)="goToConcluded()">

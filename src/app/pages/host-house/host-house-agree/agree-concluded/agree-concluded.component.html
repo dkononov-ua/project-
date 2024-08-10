@@ -1,4 +1,4 @@
-<div [@top2] class="content-child">
+<div [@top2] class="content-child" *ngIf="agreements">
   <div class="card-agree m-2 p-2" *ngFor="let agree of agreements">
     <div class="t-lar gray">ID угоди: <span class="t-lar bold accent" *ngIf="agree.flat">
         {{agree.flat.agreement_id}}

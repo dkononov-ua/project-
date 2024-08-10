@@ -88,10 +88,13 @@ export class SharedService {
   }
 
   async setServerPath(path: string): Promise<any> {
-    localStorage.removeItem('savedServerPath');
-    // console.log('Передаю всім компонентам шлях', path);
-    this.checkServerPathSubject.next(this.serverPath);
-    localStorage.setItem('savedServerPath', path);
+    // console.log(path);
+    if (path) {
+      localStorage.removeItem('savedServerPath');
+      // console.log('Передаю всім компонентам шлях', path);
+      this.checkServerPathSubject.next(this.serverPath);
+      localStorage.setItem('savedServerPath', path);
+    }
   }
 
   getSelectedFlatId() {
@@ -214,7 +217,7 @@ export class SharedService {
   getAuthorizationHouse() {
     this.statusMessageService.setStatusMessage('Для цього потрібно створити або обрати оселю');
     setTimeout(() => {
-      this.router.navigate(['/house/house-control/add-house']);
+      this.router.navigate(['/house/control/add']);
       this.statusMessageService.setStatusMessage('');
     }, 3000);
   }
@@ -243,12 +246,17 @@ export class SharedService {
   }
 
   logoutHouse() {
-    this.statusMessageService.setStatusMessage('Потрібно обрати оселю');
-    this.clearCacheHouse();
+    this.statusMessageService.setStatusMessage('');
+    this.loaderService.setLoading(true)
     setTimeout(() => {
-      this.router.navigate(['/house/control/selection']);
-      this.statusMessageService.setStatusMessage('');
-    }, 1500);
+      this.statusMessageService.setStatusMessage('Потрібно обрати оселю');
+      this.clearCacheHouse();
+      setTimeout(() => {
+        this.router.navigate(['/house/control/add']);
+        this.statusMessageService.setStatusMessage('');
+        this.loaderService.setLoading(false)
+      }, 1500);
+    }, 200);
   }
 
   getlogoutHouse() {
@@ -364,7 +372,6 @@ export class SharedService {
       return { ratingTenant: 0, numberOfReviewsTenant: 0, reviews: undefined };
     }
   }
-
 
   // Копіювання параметрів
   copyToClipboard(textToCopy: string, message: string) {

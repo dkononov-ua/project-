@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
-import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { DataService } from 'src/app/services/data.service';
 import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
@@ -18,7 +17,6 @@ const month = today.getMonth();
 const year = today.getFullYear();
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
-import { cities } from 'src/app/data/data-city';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -81,10 +79,6 @@ interface Subscribers {
 })
 export class AgreeCreateComponent implements OnInit {
 
-  goBack(): void {
-    this.location.back();
-  }
-
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -99,10 +93,8 @@ export class AgreeCreateComponent implements OnInit {
   message: string = '';
   phonePattern = '^[0-9]{10}$';
 
-  houseData: any;
   userData: any;
   subscribers: Subscribers[] = [];
-  selectedFlatId: string | any;
   selectedSubscriber: any;
 
   isCityDisabled: boolean = true;
@@ -118,10 +110,7 @@ export class AgreeCreateComponent implements OnInit {
   formSubmitted: boolean = false;
   agreementCreated: boolean = false;
 
-  currentStep: number = 1;
   statusMessage: string | undefined;
-
-
   rentPrice: number = 0;
 
   // дата створення угоди
@@ -155,101 +144,141 @@ export class AgreeCreateComponent implements OnInit {
   // тип угоди місяць/день треба для угоди подобово поки не використовуємо
   agreement_type: number = 0;
 
-  changeStep(step: number): void {
-    this.currentStep = step;
-  }
-
-  openContainer() {
-    this.isContainerVisible = true;
-  }
-
-  closeContainer() {
-    this.isContainerVisible = false;
-  }
-
   campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
   });
 
   offs: number = 0;
-  startX = 0;
+
+  acces_added: number = 1;
+  acces_admin: number = 1;
+  acces_agent: number = 1;
+  acces_agreement: number = 1;
+  acces_citizen: number = 1;
+  acces_comunal: number = 1;
+  acces_comunal_indexes: number = 1;
+  acces_discuss: number = 1;
+  acces_filling: number = 1;
+  acces_flat_chats: number = 1;
+  acces_flat_features: number = 1;
+  acces_services: number = 1;
+  acces_subs: number = 1;
+
+  houseData: any;
+  isMobile: boolean = false;
+  subscriptions: any[] = [];
+  selectedFlatId!: string | null;
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
     private http: HttpClient,
-    private choseSubscribersService: ChoseSubscribersService,
     private dataService: DataService,
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder,
     private location: Location,
     private sharedService: SharedService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
     this.campaignOne = new FormGroup({
       start: new FormControl(new Date(year, month)),
       end: new FormControl(new Date(year, month))
     });
     const currentDate = new Date();
     this.rentDueDate = currentDate.getDate();
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-      if (this.selectedFlatId) {
-        try {
-          await this.getAgent();
-          await this.getHouse();
-          await this.getSubs();
-          await this.getCitizen();
-          this.route.params.subscribe(params => {
-            this.selectedSubscriber = params['selectedSubscriber?.user_id'] || null;
-            this.foundSubscriber(this.selectedSubscriber);
-          });
-          this.loading = false;
-        } catch (error) {
-          console.error(error);
-          this.loading = false;
+
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.getSelectedFlatId();
+    this.checkUserAuthorization();
+  }
+
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        if (flatId) {
+          this.selectedFlatId = flatId || this.selectedFlatId || null;
+        } else {
+          this.sharedService.logoutHouse();
         }
-      }
-    });
+      })
+    );
   }
 
-  // відправляю event початок свайпу
-  onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  // Реалізація обробки завершення панорамування
-  onPanEnd(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwiped('right');
-      } else {
-        this.onSwiped('left');
-      }
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      this.checkHouseAuthorization();
+    } else {
+      this.authorization = false;
     }
   }
-  // оброблюю свайп
-  onSwiped(direction: string | undefined) {
-    // console.log(direction)
-    if (direction === 'right') {
-      if (this.currentStep !== 1) {
-        this.currentStep--;
-      } else {
-        this.router.navigate(['/house/agree-menu']);
+
+  // Перевірка на авторизацію оселі
+  async checkHouseAuthorization() {
+    const houseData = localStorage.getItem('houseData');
+    if (this.selectedFlatId && houseData) {
+      this.authorizationHouse = true;
+      const parsedHouseData = JSON.parse(houseData);
+      this.houseData = parsedHouseData;
+      this.getHouseAcces();
+    }
+  }
+
+  // перевірка на доступи якщо немає необхідних доступів приховую розділи меню
+  async getHouseAcces(): Promise<void> {
+    if (this.houseData.acces) {
+      this.acces_added = this.houseData.acces.acces_added;
+      this.acces_admin = this.houseData.acces.acces_admin;
+      this.acces_agent = this.houseData.acces.acces_agent;
+      this.acces_citizen = this.houseData.acces.acces_citizen;
+      this.acces_comunal = this.houseData.acces.acces_comunal;
+      this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
+      this.acces_discuss = this.houseData.acces.acces_discuss;
+      this.acces_filling = this.houseData.acces.acces_filling;
+      this.acces_flat_chats = this.houseData.acces.acces_flat_chats;
+      this.acces_flat_features = this.houseData.acces.acces_flat_features;
+      this.acces_services = this.houseData.acces.acces_services;
+      this.acces_subs = this.houseData.acces.acces_subs;
+
+      this.acces_agreement = this.houseData.acces.acces_agreement;
+      if (this.acces_agreement === 1) {
+        await this.getAgent();
+        await this.getHouse();
+        await this.getSubs();
+        await this.getCitizen();
       }
+
     } else {
-      if (this.currentStep !== 2 && !this.selectedSubscriber) {
-        this.currentStep++;
-      } else if (this.selectedSubscriber && this.currentStep <= 2) {
-        this.currentStep++;
-      }
+      await this.getAgent();
+      await this.getHouse();
+      await this.getSubs();
+      await this.getCitizen();
     }
   }
 
@@ -302,6 +331,10 @@ export class AgreeCreateComponent implements OnInit {
       // console.log(response)
       if (response) {
         this.subscribers = response;
+        this.route.params.subscribe(params => {
+          this.selectedSubscriber = params['selectedSubscriber?.user_id'] || null;
+          this.foundSubscriber(this.selectedSubscriber);
+        });
       }
       else { this.subscribers = []; }
     } catch (error) { console.error(error); }

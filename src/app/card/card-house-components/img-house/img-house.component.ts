@@ -104,8 +104,6 @@ export class ImgHouseComponent implements OnInit, OnDestroy {
       } else {
         this.photoExists = false;
       }
-    } else {
-      console.log('Авторизуйтесь')
     }
   }
 

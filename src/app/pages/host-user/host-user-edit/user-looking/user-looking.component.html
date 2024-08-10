@@ -574,17 +574,16 @@
     </mat-form-field>
 
   </div>
+</div>
 
-  <div class="btn-group mt-2 p-2">
+<div [@top2] class="btn-group">
 
-    <button class="btn white" (click)="clearAll()">
-      <i class="icon fa-solid fa-eraser white pr-2"></i> Очистити
-    </button>
+  <button class="btn white" (click)="clearAll()">
+    <i class="icon fa-solid fa-eraser white pr-2"></i> Очистити
+  </button>
 
-    <button *ngIf="authorization" class="btn white" (click)="saveInfo()">
-      <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
-    </button>
-
-  </div>
+  <button *ngIf="authorization" class="btn white" (click)="saveInfo()">
+    <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
+  </button>
 
 </div>

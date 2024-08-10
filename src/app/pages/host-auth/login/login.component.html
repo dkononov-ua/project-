@@ -1,96 +1,57 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
+<div [@appearance] class="logo-box">
+  <img class="logoMin" src="{{path_logo}}" alt="logo">
+  <h2 class="t-lar-x dark t-c">Discussio</h2>
+</div>
 
-<ng-template #content>
-  <div class="card-box">
+<h2 [@appearance] class="bold t-c m-2">Вхід в аккаунт</h2>
 
-    <div [@appearance] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-greeting">
-        <div class="card-box-logo">
-          <div class="logo-box">
-            <img class="logo" src="{{path_logo}}" alt="logo">
-          </div>
-        </div>
-        <div class="flex-column">
-          <h1 class="bold dark t-c"><strong>Discussio</strong></h1>
-          <h2 class="t-lar t-c p-2"><strong>Ми об'єднуємо орендодавців та орендарів!</strong></h2>
-          <div class="t-med t-c p-2">Надаємо зручний <strong>пошук оселі</strong> та <strong> пошук
-              орендаря</strong>. Інструменти для <strong> управління нерухомістью</strong></div>
-        </div>
-      </div>
-    </div>
+<div [@appearance] class="form" *ngIf="!logForm">
 
-    <div [@top1] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card-animation">
-        <div class="card-content1">
-
-          <div class="logo-box">
-            <img class="logoMin" src="{{path_logo}}" alt="logo">
-            <h2 class="t-lar-x dark t-c">Discussio</h2>
-          </div>
-
-          <h2 class="t-lar-xx bold t-c dark w-100">Вхід в аккаунт</h2>
-
-          <div class="googleForm" *ngIf="!logForm">
-
-            <div class="t-med t-c mt-3">Якщо у вас є Google аккаунт увійдіть за допомогою його
-            </div>
-
-            <button class="btn btn-secondary mt-2 w-100" (click)="openGoogleAuth()">
-              Увійти з гугл <i class="fa-brands fa-google"></i>
-            </button>
-
-            <div class="t-med t-c mt-3">
-              Якщо немає то увійдіть через форму
-            </div>
-
-            <button class="btn btn-secondary mt-2 w-100" (click)="toogleForm()">
-              Вхід через форму <i class="fa-solid fa-right-to-bracket pl-2"></i>
-            </button>
-          </div>
-
-          <form class="form" [formGroup]="loginForm" *ngIf="logForm">
-
-            <div *ngIf="timeLeft > 0" class="accent t-c t-med">
-              Ви перевисили ліміт введення неправильного коду!
-              Форма буде розблокована через {{ timeLeft }} секунд
-            </div>
-
-            <mat-form-field class="inputbox" appearance="fill">
-              <mat-label>Email</mat-label>
-              <input matInput class="input-field" id="email" placeholder="Введіть Email" type="text"
-                formControlName="email" placeholder="email" required>
-              <mat-hint align="start" class="alert alert-danger"
-                *ngIf="formErrors.email">{{formErrors.email}}</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field class="inputbox" appearance="fill">
-              <mat-label>Пароль</mat-label>
-              <input matInput class="input-field" id="password" [type]="passwordType" name="password"
-                formControlName="password" placeholder="Введіть пароль" required maxlength="25" minlength="7">
-              <button type="button" (click)="togglePasswordVisibility()" class="see">
-                <i class="icon"
-                  [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-              </button>
-              <mat-hint align="start" class="alert alert-danger"
-                *ngIf="formErrors.password">{{formErrors.password}}</mat-hint>
-            </mat-form-field>
-
-            <button class="btn btn-primary mt-2" [disabled]="!loginForm.valid"
-              [ngClass]="{'disabled-button': !loginForm.valid}" (click)="login()">Увійти <i
-                class="fa-solid fa-arrow-right-from-bracket"></i>
-            </button>
-
-
-
-          </form>
-
-        </div>
-        <app-footer></app-footer>
-
-      </div>
-    </div>
-
+  <div class="t-med t-c mt-3">Якщо у вас є Google аккаунт увійдіть за допомогою його
   </div>
-</ng-template>
+
+  <button class="b-primary mt-2 w-100" (click)="openGoogleAuth()">
+    Увійти з гугл <i class="fa-brands fa-google pl-2"></i>
+  </button>
+
+  <div class="t-med t-c mt-3">
+    Якщо немає то увійдіть через форму
+  </div>
+
+  <button class="b-primary mt-2 w-100" (click)="toogleForm()">
+    Вхід через форму <i class="fa-solid fa-right-to-bracket pl-2"></i>
+  </button>
+</div>
+
+<form [@appearance] class="form" [formGroup]="loginForm" *ngIf="logForm">
+
+  <div *ngIf="timeLeft > 0" class="accent t-c t-med">
+    Ви перевисили ліміт введення неправильного коду!
+    Форма буде розблокована через {{ timeLeft }} секунд
+  </div>
+
+  <mat-form-field class="inputbox" appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput class="input-field" id="email" placeholder="Введіть Email" type="text" formControlName="email"
+      placeholder="email" required>
+    <mat-hint align="start" class="alert alert-danger" *ngIf="formErrors.email">{{formErrors.email}}</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field class="inputbox" appearance="fill">
+    <mat-label>Пароль</mat-label>
+    <input matInput class="input-field" id="password" [type]="passwordType" name="password" formControlName="password"
+      placeholder="Введіть пароль" required maxlength="25" minlength="7">
+    <button type="button" (click)="togglePasswordVisibility()" class="see">
+      <i class="icon" [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+    </button>
+    <mat-hint align="start" class="alert alert-danger" *ngIf="formErrors.password">{{formErrors.password}}</mat-hint>
+  </mat-form-field>
+
+  <button class="b-primary mt-2" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid}"
+    (click)="login()">
+    <i class="fa-solid fa-arrow-right-from-bracket pr-2"></i>Увійти
+  </button>
+
+
+
+</form>

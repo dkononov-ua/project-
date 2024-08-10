@@ -110,7 +110,11 @@ export class AgreeReviewComponent implements OnInit {
   getSelectParam() {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
-        this.selectedFlatId = flatId || this.selectedFlatId;
+        if (flatId) {
+          this.selectedFlatId = flatId || this.selectedFlatId || null;
+        } else {
+          this.sharedService.logoutHouse();
+        }
       })
     );
   }

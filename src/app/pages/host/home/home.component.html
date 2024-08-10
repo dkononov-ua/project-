@@ -1,27 +1,31 @@
 <app-navbar></app-navbar>
 <main class="main">
-  <header [@bot3] class="header t-c p-2 mt-2">
+  <header [@bot3] class="header t-c">
     <p class="t-lar-xx bold">Привіт я Discussio!</p>
     <h1 class="t-lar-xx"><strong>Пошук житла та оренда, пошук орендарів або сусідів.</strong></h1>
     <h2 class="t-lar-x">Все це ми хочемо зробити комфортним для Вас!</h2>
     <div class="btn-group">
 
-      <a class="b-primary m-2 jc-se" [routerLinkActive]="'active'" [routerLink]="'/looking'" *ngIf="!authorization">
+      <a class="b-primary m-2 jc-se" [routerLink]="'/looking'" *ngIf="!authorization">
         <i class="fa-solid fa-bullhorn"></i>
         <div class="flex-column pl-2 t-e">
-          <p class="t-med white">Шукаю житло</p>
-          <p class="t-min white">Розмістити оголошення</p>
+          <p class="t-med">Шукаю житло</p>
+          <p class="t-min">Розмістити оголошення</p>
         </div>
+      </a>
+
+      <a class="b-primary m-2" [routerLink]="'/auth/registration'" *ngIf="!authorization">
+        Зареєструватись
+        <i class="fa-solid fa-right-to-bracket pl-2"></i>
       </a>
 
       <a class="b-primary m-2" [routerLink]="'/about-project'">
         Про Discussio
         <i class="fa-regular fa-circle-right pl-2"></i>
       </a>
-      <a class="b-primary m-2" [routerLink]="'/blog'">
-        Останні новини
-        <i class="fa-solid fa-blog pl-2"></i>
-      </a>
+
+
+
     </div>
   </header>
 
@@ -41,12 +45,10 @@
         Наразі проєкт є цілком <strong>безкоштовний!</strong>
       </p>
 
-      <div class="btn-group">
-        <a class="b-primary m-2" [routerLink]="'/auth/registration'" *ngIf="!authorization">
-          Зареєструватись
-          <i class="fa-solid fa-right-to-bracket pl-2"></i>
-        </a>
-      </div>
+      <a class="b-primary m-2" [routerLink]="'/blog'">
+        Останні новини
+        <i class="fa-solid fa-blog pl-2"></i>
+      </a>
 
       <p class="t-med mt-2">Приєднуйтесь та <strong>підтримайте нас в соціальних мережах</strong>, це дуже важливо!
       </p>

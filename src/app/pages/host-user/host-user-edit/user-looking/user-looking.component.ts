@@ -65,6 +65,7 @@ interface UserInfo {
     animations.right4,
     animations.swichCard,
     animations.top1,
+    animations.top2,
   ],
 })
 

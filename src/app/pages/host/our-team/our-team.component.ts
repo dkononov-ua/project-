@@ -101,7 +101,7 @@ export class OurTeamComponent {
   teamMembers = [
     {
       name: 'Denys Kononov',
-      position: 'CEO, Frontend, Design, User Interface, Quality Assurance',
+      position: 'CEO, Frontend, UX/UI',
       description: 'Автор та засновник Discussio. Активно працює над створенням нового соціального сервісу для нерухомості. Завжди відкритий до спілкування і готовий ділитися своїм багатим досвідом з колегами та друзями, сприяючи розвитку команди та підвищенню якості сервісу.',
       image: '../../../assets/developers/photo2.jpg',
       social: {
@@ -145,10 +145,10 @@ export class OurTeamComponent {
       }
     },
     {
-      name: 'Volodymyr',
+      name: 'Volodymyr Sova',
       position: 'Marketing Director, Brand management',
       description: 'Відповідальний за управління та розвиток бренду компанії. Volodymyr – досвідчений маркетолог та таргетолог, який спеціалізується на створенні і реалізації ефективних маркетингових стратегій. Він має глибоке розуміння ринку та споживачів, що дозволяє йому точно визначати цільову аудиторію і розробляти кампанії, які забезпечують максимальний результат. ',
-      image: '../../../assets/logo/discussio.png',
+      image: '../../../assets/developers/photo6.jpg',
       social: {
         telegram: 'https://t.me/sovaWeb',
         instagram: '',

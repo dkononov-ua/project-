@@ -113,16 +113,10 @@ export class AgreeConcludedComponent implements OnInit {
   getSelectParam() {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
-        this.selectedFlatId = flatId || this.selectedFlatId;
-        if (this.selectedFlatId) {
+        if (flatId) {
+          this.selectedFlatId = flatId || this.selectedFlatId || null;
         } else {
-          setTimeout(() => {
-            this.statusMessageService.setStatusMessage('Немає доступу до угод оселі');
-            setTimeout(() => {
-              this.router.navigate(['/house/agree/about']);
-              this.statusMessageService.setStatusMessage('');
-            }, 1500);
-          }, 100);
+          this.sharedService.logoutHouse();
         }
       })
     );

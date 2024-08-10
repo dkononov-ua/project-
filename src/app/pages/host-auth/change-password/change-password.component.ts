@@ -87,7 +87,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   subscriptions: any[] = [];
   authorization: boolean = false;
-
+  userAuth: any;
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -101,22 +101,28 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.initializeForm();
     this.getCheckDevice();
     this.getServerPath();
-    this.checkUserAuthorization();
-    this.initializeForm();
     this.calcWrongPass();
+    this.checkUserAuthorization();
   }
 
   // Перевірка на авторизацію користувача
-  async checkUserAuthorization() {
+  async checkUserAuthorization(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
+      const userObject = JSON.parse(userJson);
+      this.userAuth = userObject;
+      if (this.userAuth?.email && this.changePassForm?.get('email')) {
+        this.changePassForm.get('email')?.setValue(this.userAuth.email);
+      }
       this.authorization = true;
     } else {
       this.authorization = false;
     }
   }
+
 
   // Перевірка на пристрій
   async getCheckDevice() {

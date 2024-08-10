@@ -1,3 +1,48 @@
-<p>
-  house-agree-progress works!
-</p>
+<div [@top3] class="progress-content">
+  <div class="progress-wrapper">
+    <h2 class="bold t-med m-2 border-bottom t-c"><strong>Послідовність як за допомогою наповнення створити акт прийому-передачі оселі</strong></h2>
+    <div class="switch-container">
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/objects/add'">
+          <i class="fa-solid fa-boxes-packing"></i>
+          <div class="t-min bold">Додати Наповнення</div>
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
+          [routerLink]="'/house/agree/about'">
+          <i class="fa-solid fa-hourglass-half"></i>
+          <div class="t-min bold">Пропозиція Угоди</div>
+          <div class="status status1" *ngIf="counterHouseSendAgree">
+            {{counterHouseSendAgree}} </div>
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
+          [routerLink]="'/house/agree/concluded'">
+          <i class="fa-solid fa-file-circle-check"></i>
+          <div class="t-min bold">Ухвалення Угоди</div>
+          <div class="status status1" *ngIf="counterHouseConcludedAgree">
+            {{counterHouseConcludedAgree}} </div>
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/discus/subscriptions'">
+          <i class="fa-solid fa-people-carry-box"></i>
+          <div class="t-min bold">Створення Акту</div>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

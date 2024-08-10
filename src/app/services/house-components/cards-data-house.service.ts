@@ -113,8 +113,6 @@ export class CardsDataHouseService {
         this.statusDataService.setStatusData(chosenUser);
         this.statusDataService.setUserData(chosenUser, 2);
         this.sharedService.getRatingOwner(chosenUser.user_id);
-      } else {
-        console.log('Немає інформації');
       }
     }
   }
@@ -186,7 +184,6 @@ export class CardsDataHouseService {
         return null;
       }
     } else {
-      console.log('Авторизуйтесь');
       return null;
     }
   };

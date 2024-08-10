@@ -59,7 +59,7 @@
 
       <div class="card-wrapper col-lg-5 col-md-5 col-sm-12 col-12" *ngIf="!isMobile">
         <div [@top2] class="card-animation">
-          <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container p-2"
+          <div class="cards-chat-container p-2"
             *ngIf="chats.length !== 0">
             <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
               [ngClass]="{ 'selected': chat.isSelected}">
@@ -123,7 +123,7 @@
 
             </div>
           </div>
-          <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container"
+          <div class="cards-chat-container"
             *ngIf="chats.length === 0">
             <div class="flex-column p-2">
               <h3>Тут будуть чати</h3>
@@ -135,7 +135,7 @@
 
       <div class="card-wrapper col-lg-7 col-md-7 col-sm-12 col-12">
         <div [@top2] class="card-animation" *ngIf="indexPage === 0 && isMobile">
-          <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container p-2"
+          <div class="cards-chat-container p-2"
             *ngIf="chats.length !== 0">
 
             <div class="card-mini mb-2" *ngFor="let chat of chats" (click)="selectChat(chat)"
@@ -199,7 +199,7 @@
             </div>
 
           </div>
-          <div (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" class="cards-chat-container"
+          <div class="cards-chat-container"
             *ngIf="chats.length === 0">
             <div class="flex-column p-2">
               <h3>Тут будуть чати</h3>

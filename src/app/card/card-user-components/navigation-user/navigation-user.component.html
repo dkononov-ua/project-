@@ -51,7 +51,7 @@
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
+      <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
         <div class="item-description pl-2">
@@ -61,6 +61,15 @@
       </a>
 
       <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
+        [routerLink]="'/auth/change-password'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-key"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Пароль</p>
+          <p class="t-min">Зміна паролю</p>
+        </div>
+      </button>
+
+      <button *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         (click)="logout()">
         <i class="fa-solid fa-door-open"></i>
         <div class="item-description pl-2">

@@ -144,7 +144,7 @@ export class AgreeStepComponent implements OnInit, OnDestroy {
     this.getStorageHouseCounter();
   }
 
-  // Перевірка на авторизацію користувача
+  // Отримання лічильників по угодам
   async getStorageHouseCounter() {
     this.counterHouseSubscribers = Number(localStorage.getItem('counterHouseSubscribers'));
     this.counterHouseSubscriptions = Number(localStorage.getItem('counterHouseSubscriptions'));

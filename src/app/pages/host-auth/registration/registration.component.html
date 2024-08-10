@@ -1,152 +1,113 @@
-<ng-container *ngIf="loading; else content">
-  <app-loader></app-loader>
-</ng-container>
+<div [@appearance] class="logo-box">
+  <img class="logoMin" src="{{path_logo}}" alt="logo">
+  <div class="t-lar-x dark t-c">Discussio</div>
+</div>
 
-<ng-template #content>
-  <div class="card-box">
-    <div [@appearance] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
-      <div class="card-greeting">
-        <div class="card-box-logo">
-          <div class="logo-box">
-            <img class="logo" src="{{path_logo}}" alt="logo">
-          </div>
-        </div>
-        <div class="flex-column">
-          <h1 class="bold dark t-c"><strong>Discussio</strong></h1>
-          <h2 class="t-lar t-c p-2"><strong>Ми об'єднуємо орендодавців та орендарів!</strong></h2>
-          <div class="t-med t-c p-2">Надаємо зручний <strong>пошук оселі</strong> та <strong> пошук
-              орендаря</strong>. Інструменти для <strong> управління нерухомістью</strong></div>
-        </div>
-        <div [@top2] class="btn-group" *ngIf="indexCard === 3">
-          <button class="btn m-2 b-primary" (click)="indexCard = 0">РЕЄСТРАЦІЯ</button>
-          <button class="btn m-2 b-primary" (click)="indexCard = 1">ВХІД</button>
-        </div>
-      </div>
-    </div>
+<div [@appearance] *ngIf="indexBtn === 1">
+  <h2 class="bold t-c m-2">Реєстрація</h2>
+  <p class="t-med p-2 t-c">Реєструючись ви погоджуєтесь з <a class="bold" [routerLinkActive]="'active'"
+      [routerLink]="'/user-licence'">угодою користувача</a></p>
 
-    <div [@top1] class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12">
-      <div class="card-animation">
-        <div class="card-content1">
+</div>
 
-          <div class="logo-box">
-            <img class="logoMin" src="{{path_logo}}" alt="logo">
-            <div class="t-lar-x dark t-c">Discussio</div>
-          </div>
+<div [@appearance] class="googleForm" *ngIf="!regForm">
 
-          <div *ngIf="indexBtn === 1">
-            <div class="t-lar-xx bold t-c dark w-100">Реєстрація</div>
-            <p class="t-med p-2 t-c">Реєструючись ви погоджуєтесь з <a class="bold" [routerLinkActive]="'active'"
-                [routerLink]="'/home/user-licence'">угодою користувача</a></p>
+  <div class="t-med t-c mt-2" *ngIf="indexBtn === 1">
+    Якщо є Google аккаунт зареєструйтесь за допомогою його
+  </div>
 
-          </div>
+  <button class="b-primary mt-2 w-100" (click)="openGoogleAuth()" *ngIf="indexBtn === 1">
+    Зареєструватись з гугл <i class="fa-brands fa-google pl-2"></i>
+  </button>
 
-          <div class="googleForm" *ngIf="!regForm">
-
-            <div class="t-med t-c mt-2" *ngIf="indexBtn === 1">
-              Якщо є Google аккаунт зареєструйтесь за допомогою його
-            </div>
-
-            <button class="btn btn-secondary mt-2 w-100" (click)="openGoogleAuth()" *ngIf="indexBtn === 1">
-              Зареєструватись з гугл <i class="fa-brands fa-google"></i>
-            </button>
-
-            <div class="box-agree p-2" *ngIf="indexBtn === 1">
-              <!-- <label class="checkBox">
+  <div class="box-agree p-2" *ngIf="indexBtn === 1">
+    <!-- <label class="checkBox">
               <input type="checkbox" [disabled]="timeLeft > 0" [(ngModel)]="agreementAccepted" name="agreementAccepted">
               <div class="transition"></div>
             </label> -->
-            </div>
+  </div>
 
-            <div class="t-med t-c mt-2" *ngIf="indexBtn === 1">
-              Якщо немає то зареєструйтесь через форму
-            </div>
+  <div class="t-med t-c mt-2" *ngIf="indexBtn === 1">
+    Якщо немає то зареєструйтесь через форму
+  </div>
 
-            <button class="btn btn-secondary mt-2 w-100" (click)="toogleRegForm()" *ngIf="indexBtn === 1">
-              Реєстрація через форму <i class="fa-solid fa-envelope-circle-check pl-2"></i>
-            </button>
+  <button class="b-primary mt-2 w-100" (click)="toogleRegForm()" *ngIf="indexBtn === 1">
+    Реєстрація через форму <i class="fa-solid fa-envelope-circle-check pl-2"></i>
+  </button>
 
-          </div>
+</div>
 
-          <div class="regForm w-100" *ngIf="regForm">
+<div [@appearance] class="form w-100" *ngIf="regForm">
 
-            <div *ngIf="indexBtn === 2">
-              <div class="t-lar-xx bold t-c dark border-bottom w-100">Перевірка пошти</div>
-              <button (click)="indexCard = 1" class="btn-none t-lar mb-2">вхід в аккаунт тут</button>
-              <div class="t-med dark t-c mt-2 mb-2">
-                Якщо ви є власником пошти введіть код підтвердження який ми вам надіслали
-              </div>
-            </div>
+  <div *ngIf="indexBtn === 2">
+    <div class="t-lar-xx bold t-c dark border-bottom w-100">Перевірка пошти</div>
+    <button (click)="indexCard = 1" class="btn-none t-lar mb-2">вхід в аккаунт тут</button>
+    <div class="t-med dark t-c mt-2 mb-2">
+      Якщо ви є власником пошти введіть код підтвердження який ми вам надіслали
+    </div>
+  </div>
 
-            <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
+  <form class="form" (ngSubmit)="registration()" [formGroup]="registrationForm">
 
-              <div *ngIf="timeLeft > 0" class="accent t-c t-med">
-                Ви перевисили ліміт введення неправильного коду!
-                Форма буде розблокована через {{ timeLeft }} секунд
-              </div>
+    <div *ngIf="timeLeft > 0" class="accent t-c t-med">
+      Ви перевисили ліміт введення неправильного коду!
+      Форма буде розблокована через {{ timeLeft }} секунд
+    </div>
 
-              <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
-                <mat-label>Дата народження</mat-label>
-                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
-                  placeholder="Оберіть дату з календаря" id="dob" formControlName="dob">
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
-              </mat-form-field>
+    <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
+      <mat-label>Дата народження</mat-label>
+      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
+        placeholder="Оберіть дату з календаря" id="dob" formControlName="dob">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>
+    </mat-form-field>
 
-              <mat-form-field class="inputbox" appearance="fill" *ngIf="indexBtn === 1">
-                <mat-label>Email</mat-label>
-                <input matInput id="email" placeholder="Вкажіть ваш Email" type="email" formControlName="email"
-                  minlength="7" maxlength="30" required class="input-field">
-                <!-- <mat-hint align="start" class="alert alert-danger"
+    <mat-form-field class="inputbox" appearance="fill" *ngIf="indexBtn === 1">
+      <mat-label>Email</mat-label>
+      <input matInput id="email" placeholder="Вкажіть ваш Email" type="email" formControlName="email" minlength="7"
+        maxlength="30" required class="input-field">
+      <!-- <mat-hint align="start" class="alert alert-danger"
                 *ngIf="formErrors.email">{{formErrors.email}}</mat-hint> -->
-                <div *ngIf="formErrors.email" class="error-message">
-                  {{formErrors.email}}
-                </div>
-              </mat-form-field>
+      <div *ngIf="formErrors.email" class="error-message">
+        {{formErrors.email}}
+      </div>
+    </mat-form-field>
 
-              <mat-form-field class="inputbox " appearance="fill" *ngIf="indexBtn === 1">
-                <mat-label>Пароль</mat-label>
-                <input matInput id="regPassword" placeholder="Вкажіть надійний пароль" type="password"
-                  formControlName="regPassword" minlength="7" maxlength="25" required class="input-field"
-                  [type]="passwordType">
-                <button type="button" (click)="togglePasswordVisibility()" class="see">
-                  <i class="icon"
-                    [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
-                </button>
-                <!-- <mat-hint align="start" class="alert alert-danger"
+    <mat-form-field class="inputbox " appearance="fill" *ngIf="indexBtn === 1">
+      <mat-label>Пароль</mat-label>
+      <input matInput id="regPassword" placeholder="Вкажіть надійний пароль" type="password"
+        formControlName="regPassword" minlength="7" maxlength="25" required class="input-field" [type]="passwordType">
+      <button type="button" (click)="togglePasswordVisibility()" class="see">
+        <i class="icon" [class]="passwordType === 'password' ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+      </button>
+      <!-- <mat-hint align="start" class="alert alert-danger"
                 *ngIf="passStrengthMessage && passStrengthMessage !== 'ok'">{{passStrengthMessage}}
               </mat-hint> -->
 
-                <div *ngIf="passStrengthMessage && passStrengthMessage !== 'ok'" class="error-message">
-                  {{passStrengthMessage}}</div>
-              </mat-form-field>
+      <div *ngIf="passStrengthMessage && passStrengthMessage !== 'ok'" class="error-message">
+        {{passStrengthMessage}}</div>
+    </mat-form-field>
 
-            </form>
+  </form>
 
-            <button class="btn btn-primary" [disabled]="!registrationForm.valid"
-              [ngClass]="{'disabled-button': formErrors.email || !registrationForm.valid || !validateAgeDate}"
-              (click)="registrationCheck()" *ngIf="indexBtn === 1">
-              Зареєструватись <i class="fa-solid fa-person-walking-dashed-line-arrow-right pl-2"></i>
-            </button>
+  <button class="b-primary m-2" [disabled]="!registrationForm.valid"
+    [ngClass]="{'disabled-button': formErrors.email || !registrationForm.valid || !validateAgeDate}"
+    (click)="registrationCheck()" *ngIf="indexBtn === 1">
+    <i class="fa-solid fa-person-walking-dashed-line-arrow-right pr-2"></i> Зареєструватись
+  </button>
 
-            <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="indexBtn === 2">
-              <mat-label>Код підтвердження пошти</mat-label>
-              <div class="mat-input-container">
-                <input matInput [disabled]="timeLeft > 0" type="password" id="passwordCheck"
-                  [(ngModel)]="emailCheckCode" name="passwordCheck" placeholder="Введіть код який прийшов вам на email">
-              </div>
-            </mat-form-field>
-
-            <div class="btn-group" *ngIf="indexBtn === 2">
-              <button class="btn m-2" (click)="indexBtn = 1">Назад</button>
-              <button class="btn m-2" [disabled]="!emailCheckCode" (click)="registration()">Підтвердити</button>
-            </div>
-
-          </div>
-
-        </div>
-        <app-footer></app-footer>
-      </div>
+  <mat-form-field class="form-field item-select p-1 w-100" appearance="outline" *ngIf="indexBtn === 2">
+    <mat-label>Код підтвердження пошти</mat-label>
+    <div class="mat-input-container">
+      <input matInput [disabled]="timeLeft > 0" type="password" id="passwordCheck" [(ngModel)]="emailCheckCode"
+        name="passwordCheck" placeholder="Введіть код який прийшов вам на email">
     </div>
+  </mat-form-field>
+
+  <div class="btn-group" *ngIf="indexBtn === 2">
+    <button class="b-primary m-2" (click)="indexBtn = 1">Назад</button>
+    <button class="b-primary m-2" [disabled]="!emailCheckCode" (click)="registration()">Підтвердити</button>
   </div>
-</ng-template>
+
+</div>

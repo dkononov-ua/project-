@@ -155,7 +155,6 @@ textarea {
     position: absolute;
     right: 0;
     top: 20px;
-    z-index: 300;
     .btn-close-box {
       @include flex-box-column;
       align-items: flex-end;
@@ -199,11 +198,17 @@ li {
 .box-filling {
   display: flex;
   flex-wrap: wrap;
-  height: 100%;
   width: 100%;
-  overflow: auto;
   align-content: flex-start;
   justify-content: center;
+  @include s3-s6-max {
+    overflow: auto;
+    height: calc(100vh - 200px - 1rem);
+  }
+  @include s1-s3 {
+    height: auto;
+    bottom: 0;
+  }
 }
 
 .box-filling::-webkit-scrollbar {
@@ -217,12 +222,11 @@ li {
   height: 130px;
   display: flex;
   border-radius: 10px;
-  justify-content: space-between;
+  justify-content: flex-start;
   transition: 1s;
   position: relative;
   .box-img {
     @include flex-box;
-    width: 50%;
     position: relative;
     overflow: hidden;
     justify-content: flex-start;
@@ -267,7 +271,7 @@ li {
   border-radius: 50%;
   border: 1px solid $color-accent;
   padding: 5px;
-  z-index: 20;
+  z-index: 10;
 }
 
 .btn-delete {
@@ -279,7 +283,7 @@ li {
   width: 40px;
   height: 40px;
   padding: 5px;
-  z-index: 20;
+  z-index: 10;
   background-color: $color-white;
 
   .fa-solid {

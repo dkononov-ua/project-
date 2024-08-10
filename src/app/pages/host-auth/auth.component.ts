@@ -3,11 +3,18 @@ import { Router } from '@angular/router';
 import { SelectedFlatService } from '../../services/selected-flat.service';
 import { SharedService } from '../../services/shared.service';
 import * as ServerConfig from 'src/app/config/path-config';
+import { animations } from '../../interface/animation';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
+  animations: [
+    animations.appearance,
+    animations.swichCard,
+    animations.bot3,
+    animations.top3,
+  ],
 })
 export class AuthComponent implements OnInit, OnDestroy {
 

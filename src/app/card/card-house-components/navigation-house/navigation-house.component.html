@@ -42,11 +42,11 @@
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!houseData" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" *ngIf="!houseData" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
         <div class="item-description pl-2">
           <p class="t-med">Вхід</p>
-          <p class="t-min">Увійти в аккаунт</p>
+          <p class="t-min">Увійти в профіль</p>
         </div>
       </a>
 
@@ -59,7 +59,7 @@
         </div>
       </a>
 
-      <button [disabled]="!houseData" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}"
+      <button *ngIf="houseData" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}"
         class="link-item subcategory" (click)="logoutHouse()">
         <i class="fa-solid fa-door-open"></i>
         <div class="item-description pl-2">

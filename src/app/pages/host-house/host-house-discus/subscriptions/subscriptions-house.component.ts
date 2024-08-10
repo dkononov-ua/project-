@@ -94,7 +94,11 @@ export class SubscriptionsHouseComponent implements OnInit, OnDestroy {
   async getSelectedFlat() {
     this.subscriptions.push(
       this.selectedFlatService.selectedFlatId$.subscribe(async (flatId: string | null) => {
-        this.selectedFlatId = Number(flatId);
+        if (flatId) {
+          this.selectedFlatId = Number(flatId);
+        } else {
+          this.sharedService.logoutHouse();
+        }
       })
     )
   }

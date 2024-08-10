@@ -47,7 +47,6 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit, OnDestroy 
   indexPage: number = 0;
   chatSelected: boolean = false;
   isLoadingImg: boolean = false;
-  startX = 0;
   userID: number | undefined;
   choseUserId: any;
   subscriptions: any[] = [];
@@ -123,39 +122,14 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  // відправляю event початок свайпу
-  onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  // Реалізація обробки завершення панорамування
-  onPanEnd(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwiped('right');
-      } else {
-        this.onSwiped('left');
-      }
-    }
-  }
-  // оброблюю свайп
-  onSwiped(direction: string | undefined) {
-    if (direction === 'right') {
-      if (this.indexPage !== 0) {
-        this.indexPage--;
-      } else {
-        this.router.navigate(['/house/house-info']);
-      }
-    } else {
-      this.indexPage = 0;
-    }
-  }
-
   getSelectedFlatId() {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-        this.selectedFlatId = selectedFlatId;
+        if (selectedFlatId) {
+          this.selectedFlatId = selectedFlatId;
+        } else {
+          this.sharedService.logoutHouse();
+        }
       })
     );
   }
@@ -178,14 +152,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit, OnDestroy 
         if (houseData) {
           const parsedHouseData = JSON.parse(houseData);
           this.houseData = parsedHouseData;
-        } else {
-          console.log('Інформація оселі відсутня')
         }
-      } else {
-        console.log('Інформація користувача відсутня')
       }
-    } else {
-      console.log('Авторизуйтесь')
     }
   }
 
@@ -234,9 +202,8 @@ export class ChatHostHouseComponent implements OnInit, AfterViewInit, OnDestroy 
             console.error(error);
           });
       } catch (error) {
+        console.error(error);
       }
-    } else {
-      console.log('chat not found');
     }
   }
 

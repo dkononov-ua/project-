@@ -11,13 +11,14 @@
   flex-direction: column;
   overflow: auto;
   background-color: $color-white;
+  padding: 10px;
   @include box-shadow;
-  padding-bottom: 80px;
   @include s3-s6-max {
-    height: calc(100vh - 100px - 1rem);
+    height: calc(100vh - 80px - 1rem);
   }
   @include s1-s3 {
     height: auto;
+    padding: 10px 10px 80px 10px;
   }
 }
 

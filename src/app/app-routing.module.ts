@@ -32,7 +32,6 @@ const routes: Routes = [
   {
     path: 'house',
     loadChildren: () => import('./pages/host-house/house-routing.module').then(m => m.HouseRoutingModule),
-    canActivate: [CanActivateGuard]
   },
   {
     path: 'search',

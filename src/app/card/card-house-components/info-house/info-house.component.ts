@@ -125,10 +125,8 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
 
   // Підписка на отримання даних обраної оселі
   async getCardsData() {
-    // console.log('getCardsData')
     this.subscriptions.push(
       this.cardsDataService.cardData$.subscribe(async (data: any) => {
-        // console.log(data)
         if (data) {
           this.house = data.flat;
           this.locationLink = await this.locationHouseService.generateLocationUrl(this.house);
@@ -148,10 +146,7 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
       // console.log(parsedHouseData);
       this.house = this.house || {};
       Object.assign(this.house, parsedHouseData.flat, parsedHouseData.about, parsedHouseData.param);
-      // console.log(this.house);
       this.locationLink = await this.locationHouseService.generateLocationUrl(this.house);
-    } else {
-      console.log('Авторизуйтесь');
     }
   }
 
@@ -175,12 +170,10 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
 
   async getAdditionalHouseInfo(): Promise<any> {
     this.additionalHouseInfo = await this.cardsDataHouseService.getAdditionalHouseInfo();
-    // console.log(this.additionalHouseInfo)
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    // console.log(this.subscriptions)
   }
 
 }

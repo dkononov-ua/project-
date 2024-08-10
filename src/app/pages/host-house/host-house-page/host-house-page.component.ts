@@ -99,7 +99,11 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
   async getSelectedFlatId() {
     this.subscriptions.push(
       this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
-        this.selectedFlatId = flatId || this.selectedFlatId || null;
+        if (flatId) {
+          this.selectedFlatId = flatId || this.selectedFlatId || null;
+        } else {
+          this.sharedService.logoutHouse();
+        }
       })
     );
   }

@@ -2,6 +2,44 @@
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss";
 
+.header {
+  padding: 20px 10px 10px 10px;
+
+  @include s1-s3 {
+    @include box-shadow;
+    border-radius: 0px 0px 20px 20px;
+    background-color: $color-accent;
+    .t-lar-xx,
+    .t-lar-x {
+      color: $color-white;
+    }
+  }
+  .b-primary {
+    font-weight: 600;
+    .flex-column {
+      .t-med,
+      .t-min {
+        font-weight: 600;
+        color: $color-white;
+      }
+    }
+    @include s1-s3 {
+      color: $color-accent;
+      background-color: $color-white;
+      .fa-regular,
+      .fa-solid {
+        color: $color-accent;
+      }
+      .flex-column {
+        .t-med,
+        .t-min {
+          color: $color-accent;
+        }
+      }
+    }
+  }
+}
+
 .main {
   height: auto;
   position: relative;
