@@ -14,6 +14,7 @@ import { RentalAgreementComponent } from './components/agreements/rental-agreeme
 import { ActTransferComponent } from './components/agreements/act-transfer/act-transfer.component';
 import { HomeComponent } from './pages/host/home/home.component';
 import { NotFoundComponent } from './pages/host/not-found/not-found.component';
+import { ProjectContactsComponent } from './pages/host/project-contacts/project-contacts.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
   {
     path: 'blog',
     component: PostsComponent
+  },
+  {
+    path: 'contacts',
+    component: ProjectContactsComponent
   },
   {
     path: 'support-us',

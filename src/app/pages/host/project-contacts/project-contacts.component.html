@@ -1,0 +1,91 @@
+<div class="container-info p-2">
+  <div [@bot3] class="content-wrapper mt-2">
+
+    <header #contentWrapper id="conteiner0" class="header t-c p-2 mt-2">
+      <div class="logo-box">
+        <img class="logoMin" src="{{path_logo}}" alt="logo">
+      </div>
+      <p class="t-lar-xx bold pb-3 gray">Дякуємо за Вашу цікавість до нашого проекту!</p>
+      <h1><strong>Ми відкриті новим можливостям та кооперації!</strong></h1>
+      <p class="t-med p-2">Ми впроваджуємо багато корисних та зручних функції для облегшення процесу оренди осель.
+        Ознайомитись з цим ви можете перейти за цим посиланням</p>
+      <a class="b-primary m-2" [routerLink]="'/about-project'">
+        Про Discussio
+        <i class="fa-regular fa-circle-right pl-2"></i>
+      </a>
+    </header>
+
+
+    <div class="section-conteiner">
+      <section class="section-gif t-c col-lg-6 col-md-6 col-sm-12 col-12">
+        <img class="gif" src="../../../assets/gif/contacts.gif" alt="Team Discussio gif">
+      </section>
+      <section class="section-text jc-c pb-3 col-lg-6 col-md-6 col-sm-12 col-12">
+        <h3 class="p-2">Приєднуйтесь до розвитку нашого проекту!</h3>
+
+        <a class="b-primary m-2" [routerLink]="'/our-team'">
+          Команда Discussio
+          <i class="fa-solid fa-hand-fist pl-2"></i>
+        </a>
+
+        <p class="p-2">Якщо у вас є цікаві ідеї або пропозиції щодо співпраці чи інтеграції в наш продукт, ми будемо
+          раді обговорити їх з вами. Ви можете легко спланувати нашу зустріч, обравши зручний час та дату в нашому
+          розкладі.</p>
+        <a class="b-primary m-2" href=""
+          onclick="Calendly.initPopupWidget({url: 'https://calendly.com/discussio-inc'});return false;">Спланувати
+          зустріч <i class="fa-solid fa-calendar-check pl-2"></i></a>
+
+      </section>
+    </div>
+
+    <h4 class="t-lar mt-2 t-c">Приєднуйтесь та <strong>підтримайте Discussio в соціальних мережах</strong>, це дуже
+      важливо!
+    </h4>
+    <div class="social-link-container p-2 pb-4">
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://t.me/discussio_inc">
+          <i class="fab fa-brands fa-telegram"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.instagram.com/discussio.inc">
+          <i class="fab fa-brands fa-instagram"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.tiktok.com/@discussio.official">
+          <i class="fab fa-brands fa-tiktok"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.facebook.com/discussio.inc">
+          <i class="fab fa-brands fa-facebook"></i>
+        </a>
+      </div>
+
+      <div class="social-link-box">
+        <a class="social-link-icon" target="_blank" href="https://www.youtube.com/@discussio.ukraine">
+          <i class="fab fa-brands fa-youtube"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="w-100 mb-4">
+      <app-contacts></app-contacts>
+    </div>
+
+    <app-footer></app-footer>
+
+  </div>
+
+  <div [@top1] class="btn-group">
+    <a class="btn" [routerLink]="'/'">
+      <i class="fa-solid fa-arrow-left white pr-2"></i>
+      <div class="t-min white">Назад</div>
+    </a>
+  </div>
+</div>

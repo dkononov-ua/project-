@@ -3,16 +3,25 @@
 @use "../../../../style/shared.scss" as *;
 @use "../../../../style/radio.scss";
 
+.content-component {
+  @include s3-s6-max {
+    height: 100%;
+  }
+  @include s1-s3 {
+    height: auto;
+  }
+}
+
+.card-container {
+  display: flex;
+}
+
 mat-select,
 input,
 mat-hint,
 mat-label,
 mat-form-field {
   color: $color-text !important;
-}
-
-.card-content-static {
-  background-color: transparent !important;
 }
 
 .img-wrapper {
@@ -127,8 +136,13 @@ mat-form-field {
 }
 
 .card-content {
-  align-items: center !important;
-  justify-content: space-between !important;
+  padding-bottom: 70px;
+  @include s3-s6-max {
+    height: 100%;
+  }
+  @include s1-s3 {
+    overflow: auto;
+  }
 }
 
 .btn-help {
@@ -154,9 +168,23 @@ mat-form-field {
 }
 
 .btn-group {
-  justify-content: center;
-  border-radius: 20px;
+  @include flex-box-center;
+  width: 100%;
+  @include s3-s6-max {
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+    padding: 10px;
+  }
   .btn {
+    @include flex-box-center;
+    flex: 1;
+    height: 60px;
+    background-color: $color-accent;
+    width: 250px;
     .fa-solid,
     .fa-regular,
     .t-min,

@@ -60,6 +60,7 @@ import { UserModule } from './pages/host-user/user.module';
 import { HouseModule } from './pages/host-house/house.module';
 import { AuthModule } from './pages/host-auth/auth.module';
 import { SearchModule } from './pages/host-search/search.module';
+import { ProjectContactsComponent } from './pages/host/project-contacts/project-contacts.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { SearchModule } from './pages/host-search/search.module';
     PostsComponent,
     SearchUserHostComponent,
     SearchHousePageComponent,
+    ProjectContactsComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
