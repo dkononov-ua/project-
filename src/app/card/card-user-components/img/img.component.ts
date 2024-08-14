@@ -91,46 +91,70 @@ export class ImgComponent implements OnInit, OnDestroy {
   }
 
   checkLocation() {
-    // Якщо я в меню користувача
-    if (
-      this.currentLocation === '/user/discus/discussion' ||
-      this.currentLocation === '/user/discus/subscribers-user' ||
-      this.currentLocation === '/user/discus/subscriptions-user'
-    ) {
-      this.subscriptions.push(
-        this.cardsDataService.cardData$.subscribe(async (data: any) => {
-          this.user.img = data.owner.img;
-        })
-      );
-      // Якщо я в меню оселі
-    } else if (
-      this.currentLocation === '/house/discus/discussion' ||
-      this.currentLocation === '/house/discus/subscribers' ||
-      this.currentLocation === '/house/discus/subscriptions'
-    ) {
-      this.subscriptions.push(
-        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-          this.user = data;
-        })
-      );
-    } else if (this.currentLocation === '/user/info') {
+    // Перевірка поточного шляху для вибору відповідного сервісу
+    if (this.isUserRoute()) {
+      this.subscriptionsCardsDataService();
+    } else if (this.isHouseRoute()) {
+      this.subscriptionsDataHouseService();
+    } else if (this.isUserProfile()) {
       this.getInfoUser();
-    } else if (this.currentLocation === '/search/tenant') {
-      this.subscriptions.push(
-        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-          this.user = data;
-        })
-      );
+    } else if (this.isTenantSearch()) {
+      this.subscriptionsDataHouseService();
+    } else if (this.isResidentsOwner()) {
+      this.subscriptionsDataHouseService();
     }
   }
 
-  // Якщо я на сторінці профілю
+  // Перевіряє, чи поточний шлях належить до роутів користувача
+  private isUserRoute(): boolean {
+    return ['/user/discus/discussion', '/user/discus/subscribers-user', '/user/discus/subscriptions-user'].includes(this.currentLocation);
+  }
+
+  // Перевіряє, чи поточний шлях належить до роутів оселі
+  private isHouseRoute(): boolean {
+    return ['/house/discus/discussion', '/house/discus/subscribers', '/house/discus/subscriptions', '/house/residents/resident'].includes(this.currentLocation);
+  }
+
+  // Перевіряє, чи поточний шлях належить до сторінки профілю користувача
+  private isUserProfile(): boolean {
+    return this.currentLocation === '/user/info';
+  }
+
+  // Перевіряє, чи поточний шлях належить до пошуку орендарів
+  private isTenantSearch(): boolean {
+    return this.currentLocation === '/search/tenant';
+  }
+
+  // Перевіряє, чи поточний шлях належить до сторінки власника
+  private isResidentsOwner(): boolean {
+    return this.currentLocation === '/house/residents/owner';
+  }
+
+  // Підписка на інформацію про власника
+  subscriptionsCardsDataService() {
+    this.subscriptions.push(
+      this.cardsDataService.cardData$.subscribe(async (data: any) => {
+        this.user.img = data.owner.img;
+      })
+    );
+  }
+
+  // Підписка на інформацію про користувача
+  subscriptionsDataHouseService() {
+    this.subscriptions.push(
+      this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+        this.user = data;
+      })
+    );
+  }
+
+  // Отримання інформації про користувача з локального сховища
   async getInfoUser() {
     const userData = localStorage.getItem('userData');
     if (userData) {
       const userObject = JSON.parse(userData);
       this.user.img = userObject.img[0].img;
-    } else if (!userData) {
+    } else {
       setTimeout(() => {
         this.getInfoUser();
       }, 100);

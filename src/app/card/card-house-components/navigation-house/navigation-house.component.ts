@@ -102,7 +102,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   selectedFlatId!: string | null;
   authorization: boolean = false;
   authorizationHouse: boolean = false;
-  section: boolean[] = [false, false, false, false, false, false, false, false, false];
+  section: boolean[] = [false, false, false, false, false, false, false, false, false, false, false ];
   currentLocation: string = '';
   imgFlat: string = '';
   // відкриття меню через сервіс
@@ -155,6 +155,10 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
       this.setSection(7);
     } else if (this.currentLocation.includes('/house/objects')) {
       this.setSection(8);
+    } else if (this.currentLocation.includes('/house/residents')) {
+      this.setSection(9);
+    } else if (this.currentLocation.includes('/house/communal')) {
+      this.setSection(10);
     } else {
 
       this.setSection(-1); // вимикає всі секції, якщо шлях не відповідає жодному з умов

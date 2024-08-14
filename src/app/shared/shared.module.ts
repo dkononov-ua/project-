@@ -10,7 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -61,6 +61,24 @@ import { ChatUserComponent } from '../pages/host-user/host-user-chat/chat-user/c
 import { ChatHostComponent } from '../pages/host-user/host-user-chat/chat-host.component';
 import { ChatHouseComponent } from '../pages/host-house/host-house-chat/chat-house/chat-house.component';
 import { ChatHostHouseComponent } from '../pages/host-house/host-house-chat/chat-host-house.component';
+import { ProjectNavigationComponent } from '../components/project-navigation/project-navigation.component';
+import { AddAccessComponent } from '../components/add-access/add-access.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableModule } from '@angular/material/table';
+import { HammerModule, BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddRatingComponent } from '../components/add-rating/add-rating.component';
+import { AgreeDetailsComponent } from '../card/card-user-components/agree-details/agree-details.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +122,11 @@ import { ChatHostHouseComponent } from '../pages/host-house/host-house-chat/chat
     ActionDeleteSubComponent,
     DeleteHouseComponent,
     HouseAgreeProgressComponent,
+    ProjectNavigationComponent,
+    AddAccessComponent,
+    AddRatingComponent,
+    AgreeDetailsComponent,
+
   ],
   exports: [
     FooterComponent,
@@ -142,7 +165,10 @@ import { ChatHostHouseComponent } from '../pages/host-house/host-house-chat/chat
     ActionComponent,
     ActionDeleteSubComponent,
     HouseAgreeProgressComponent,
-
+    ProjectNavigationComponent,
+    AddAccessComponent,
+    AddRatingComponent,
+    AgreeDetailsComponent,
   ],
   providers: [
     UpdateComponentService,
@@ -173,6 +199,30 @@ import { ChatHostHouseComponent } from '../pages/host-house/host-house-chat/chat
     LyDialogModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
+
+    MatRadioModule,
+
+    MatSnackBarModule,
+    MatPaginatorModule,
+    MatSliderModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatStepperModule,
+    MatNativeDateModule,
+    RouterModule,
+    MatCheckboxModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    NgbModule,
+    DragDropModule,
+    MatTableModule,
+    BrowserAnimationsModule,
+    MatStepperModule,
+    HammerModule,
+    BrowserModule,
+    NgbTypeaheadModule,
+
+
   ]
 })
 export class SharedModule { }

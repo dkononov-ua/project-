@@ -134,6 +134,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.cardsDataHouseService.cardsData$.subscribe(data => {
         this.allCards = data;
+        // console.log(this.allCards)
       })
     );
   }

@@ -108,15 +108,22 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     } else if (
       this.currentLocation === '/house/discus/discussion' ||
       this.currentLocation === '/house/discus/subscribers' ||
-      this.currentLocation === '/house/discus/subscriptions'
+      this.currentLocation === '/house/discus/subscriptions' ||
+      this.currentLocation === '/house/residents/resident' ||
+      this.currentLocation === '/house/residents/owner'
     ) {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;
+          console.log(data)
           // console.log(this.user)
           if (this.user) {
             // Запитую рейтинг власника
-            await this.getRatingTenant(this.user.user_id);
+            if (this.currentLocation === '/house/residents/owner') {
+              await this.getRatingOwner(this.user.user_id);
+            } else {
+              await this.getRatingTenant(this.user.user_id);
+            }
           }
         })
       );

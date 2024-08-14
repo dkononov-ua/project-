@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -36,13 +36,26 @@ export class SupportUsComponent implements OnInit {
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
   // ***
+
+  scrollToAnchor(anchor: number): void {
+    setTimeout(() => {
+      const element = this.el.nativeElement.querySelector(`#conteiner${anchor}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+  }
+
+
   constructor(
+    private el: ElementRef,
     private sharedService: SharedService,
     private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   ngOnInit() {
     this.updateMetaTagsInService();
+    this.scrollToAnchor(0);
   }
 
   private updateMetaTagsInService(): void {

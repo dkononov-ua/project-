@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <div class="box-1 w-100">
+    <div class="box-1 w-100" *ngIf="userData">
       <div class="t-lar bold">{{ userData.inf?.lastName }} {{ userData.inf?.firstName }} {{ userData.inf?.surName
         }}
       </div>
@@ -331,7 +331,7 @@
       <div class="t-med dark bold p-2">Надіслати</div>
     </button>
   </div>
-  
+
   <div *ngIf="message" class="error-message">{{ message }}</div>
 
 </div>

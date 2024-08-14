@@ -1,0 +1,68 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
+
+.checkbox-name {
+  font-family: $font-main !important;
+}
+
+.checkbox-group {
+  @include flex-box;
+  padding: 0 10px;
+  width: 100%;
+  font-family: $font-main;
+  justify-content: space-between;
+  .checkbox-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid $color-primary;
+    background-color: transparent;
+  }
+}
+
+h3 {
+  text-align: center;
+}
+
+.accent {
+  font-weight: 600;
+}
+
+.btn {
+  width: 100%;
+  background-color: $color-accent;
+}
+
+.text1 {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.text {
+  font-size: 14px;
+  text-align: center;
+  color: $color-gray;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  @include s1-s3 {
+    flex-direction: column;
+  }
+}
+
+.accent {
+  text-align: center;
+  color: $color-accent;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.description {
+  font-size: 12px;
+}

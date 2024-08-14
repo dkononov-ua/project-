@@ -94,6 +94,7 @@ export class AboutProjectComponent implements OnInit {
     } else {
       this.authorization = false;
     }
+    this.scrollToAnchor(0);
   }
 
   private updateMetaTagsInService(): void {

@@ -8,66 +8,95 @@
       *ngIf="linkOpen[1]">Дії з користувачем
     </div>
 
-    <button [disabled]="currentLocation !== '/house/discus/subscribers'" *ngIf="linkOpen[1]"
+    <button [disabled]="currentLocation !== '/house/discus/subscribers'" *ngIf="linkOpen[1] && !checkResidentsDiscus"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link"
       (click)="approveSubscriber(user)">
       <i class="fa-regular fa-thumbs-up"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/discus/subscribers'">Доступно в
             Підписниках </span>Дискусія</p>
-        <p class="t-min">Ухвалити користувача до Дискусії</p>
+        <p class="t-min">Ухвалити до Дискусії</p>
       </div>
     </button>
 
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link" (click)="reportUser(user)"
-      *ngIf="linkOpen[1]">
+    <button [disabled]="selectMyPage" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link"
+      (click)="reportUser(user)" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-masks-theater"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Скарга</p>
-        <p class="t-min">Відправити скаргу на користувача</p>
+        <p class="t-min">Відправити скаргу</p>
       </div>
     </button>
 
     <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link" (click)="deleteUser(user)"
-      *ngIf="linkOpen[1] && currentLocation !== '/search-tenants'">
+      *ngIf="linkOpen[1] && currentLocation !== '/search-tenants' && currentLocation !== '/house/residents/owner'">
       <i class="fa-solid fa-user-xmark"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Видалити</p>
-        <p class="t-min">Видалити користувача з меню</p>
+        <p class="t-min">Видалити з меню</p>
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/house/discus/discussion'"
+    <button
+      [disabled]="currentLocation !== '/house/discus/discussion' && currentLocation !== '/house/residents/resident'"
       [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link"
-      [routerLink]="['/agree-create', user.user_id]" *ngIf="linkOpen[1]">
+      [routerLink]="['/house/agree/create', user.user_id]" *ngIf="linkOpen[1]">
       <i class="fa-solid fa-file-contract"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/discus/discussion'">Доступно в
-            Дискусії </span>Угода</p>
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="!checkResidentsDiscus">
+            Доступно з Дискусії </span>Угода</p>
         <p class="t-min">Створити угоду оренди</p>
       </div>
     </button>
 
-    <button [disabled]="currentLocation !== '/house/discus/discussion'"
-      [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="createChat()"
-      *ngIf="linkOpen[1] && !chatExists">
+    <button [disabled]="selectMyPage" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link"
+      (click)="addUserAccess(user)" *ngIf="linkOpen[1] && currentLocation === '/house/residents/resident'">
+      <i class="fa-solid fa-unlock-keyhole"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/residents/resident'">
+            Доступно з Мешканців </span>Доступи</p>
+        <p class="t-min">Надати доступи</p>
+      </div>
+    </button>
+
+    <button [disabled]="selectMyPage" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link"
+      (click)="addUserRating(user)" *ngIf="linkOpen[1] && currentLocation === '/house/residents/resident'">
+      <i class="fa-solid fa-ranking-star"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/residents/resident'">
+            Доступно з Мешканців </span>Відгук на орендаря</p>
+        <p class="t-min">Оцінити мешканця</p>
+      </div>
+    </button>
+
+    <button [disabled]="selectMyPage" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link"
+      (click)="addOwnerRating(user)" *ngIf="linkOpen[1] && currentLocation === '/house/residents/owner'">
+      <i class="fa-solid fa-ranking-star"></i>
+      <div class="flex-column pl-2 t-e">
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/residents/owner'">
+            Доступно з Мешканців </span>Відгук на власника</p>
+        <p class="t-min">Оцінити власника</p>
+      </div>
+    </button>
+
+    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="createChat()"
+      *ngIf="linkOpen[1] && !chatExists && checkResidentsDiscus">
       <i class="fa-solid fa-message"></i>
       <div class="flex-column pl-2 t-e">
-        <p class="t-lar-x"><span class="t-min accent" *ngIf="currentLocation !== '/house/discus/discussion'">Доступно в
+        <p class="t-lar-x"><span class="t-min accent" *ngIf="!checkResidentsDiscus">Доступно з
             Дискусії </span>Чат</p>
         <p class="t-min">Створити чат</p>
       </div>
     </button>
 
-    <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link" (click)="openChat()"
-      *ngIf="linkOpen[1] && chatExists && currentLocation === '/house/discus/discussion'">
+    <button [disabled]="selectMyPage" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link"
+      (click)="openChat()" *ngIf="linkOpen[1] && chatExists && checkResidentsDiscus">
       <i class="fa-solid fa-message"></i>
       <div class="flex-column pl-2 t-e">
         <p class="t-lar-x">Написати</p>
         <p class="t-min">Написати повідомлення</p>
       </div>
     </button>
-
 
 
   </div>

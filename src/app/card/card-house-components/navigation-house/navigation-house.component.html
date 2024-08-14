@@ -42,7 +42,8 @@
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" *ngIf="!houseData" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" *ngIf="!houseData"
+        (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
         <div class="item-description pl-2">
           <p class="t-med">Вхід</p>
@@ -264,7 +265,7 @@
       </button>
     </div>
 
-   <div class="subcategory-container" *ngIf="section[7]">
+    <div class="subcategory-container" *ngIf="section[7]">
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/search/tenant'" (click)="closeToogleMenu(2)">
@@ -404,22 +405,22 @@
   <!-- <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/communal'" (click)="closeToogleMenu(8)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-chart-pie"></i>
         <div class="item-description pl-2">
           <p class="t-med">Статистика</p>
           <p class="t-min">Комунальні</p>
         </div>
       </a>
-      <button *ngIf="!section[8]" [@appearance] [ngClass]="{'active': section[8]}" class="link-btn"
-        (click)="setSection(8)">
-        <i [ngClass]="section[8] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+      <button *ngIf="!section[10]" [@appearance] [ngClass]="{'active': section[10]}" class="link-btn"
+        (click)="setSection(10)">
+        <i [ngClass]="section[10] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
-    <div class="subcategory-container" *ngIf="section[8]">
+    <div class="subcategory-container" *ngIf="section[10]">
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu(8)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
         <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
@@ -428,7 +429,7 @@
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu(8)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-boxes-stacked"></i>
         <div class="item-description pl-2">
           <p class="t-med">Додати</p>
@@ -437,7 +438,7 @@
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu(8)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-dolly"></i>
         <div class="item-description pl-2">
           <p class="t-med">Керування</p>
@@ -448,6 +449,65 @@
 
     </div>
   </div> -->
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-people-roof"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Мешканці</p>
+          <p class="t-min">Доступ, відгуки</p>
+        </div>
+      </a>
+      <button *ngIf="!section[9]" [@appearance] [ngClass]="{'active': section[9]}" class="link-btn"
+        (click)="setSection(9)">
+        <i [ngClass]="section[9] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+      </button>
+    </div>
+    <div class="subcategory-container" *ngIf="section[9]">
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/about'" (click)="closeToogleMenu(2)">
+        <i class="fa-regular fa-circle-question"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Що це таке?</p>
+          <p class="t-min">Про функцію</p>
+        </div>
+      </a>
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-person-shelter"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Мешканці</p>
+          <p class="t-min">Список</p>
+        </div>
+      </a>
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-user-plus"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Додати</p>
+          <p class="t-min">Мешканця</p>
+        </div>
+      </a>
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-id-card-clip"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Власник</p>
+          <p class="t-min">Інформація Контакти</p>
+        </div>
+      </a>
+
+
+    </div>
+  </div>
+
+
 
 
 

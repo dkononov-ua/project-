@@ -18,13 +18,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterModule } from '@angular/router';
 import { HouseComponent } from './house.component';
-import { HouseRoutingModule } from './house-routing.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ResidentComponent } from './host-house-resident/resident.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { HouseResidentsComponent } from './host-house-resident/house-residents/house-residents.component';
-import { ResidentAccessComponent } from './host-house-resident/resident-access/resident-access.component';
 import { ResidentOwnerComponent } from './host-house-resident/resident-owner/resident-owner.component';
 import { ResidentPageComponent } from './host-house-resident/resident-page/resident-page.component';
 import { HouseControlComponent } from './host-house-control/house-control.component';
@@ -113,9 +110,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     AgreeHostComponent,
     AgreeStepComponent,
 
-    HouseResidentsComponent,
     ResidentComponent,
-    ResidentAccessComponent,
     ResidentOwnerComponent,
     ResidentPageComponent,
     ResidentMenuComponent,

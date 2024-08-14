@@ -1,80 +1,14 @@
 <div class="menu-container">
+
   <div class="menu-content" [ngClass]="{'active': menu[1]}" (click)="closeToogleMenu(1)" *ngIf="menu[1]">
     <div appClickOutside (clickOutside)="onClickedOutside(1)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
 
-      <div class="wrapper-img">
-        <img [@top4] class="img-fluid" src="./../../assets/logo/discussio.png" alt="logo discussio">
+      <div class="w-100">
+        <app-project-navigation></app-project-navigation>
       </div>
-
-      <div class="menu_title t-lar-xx bold t-c">
-        Меню Discussio<i class="fa-regular fa-compass pl-2"></i>
-      </div>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/home'" *ngIf="linkOpen[1]">
-        <img class="logo-img" src="./../../assets/logo/discussio.png" alt="logo discussio">
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Головна сторінка</p>
-          <p class="t-min">Домашня сторінка Discussio</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/about-project'" *ngIf="linkOpen[1]">
-        <i class="fa-solid fa-barcode"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Про Проект</p>
-          <p class="t-min">Інформація про Discussio</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user-licence'" *ngIf="linkOpen[1]">
-        <i class="fa-solid fa-book-open-reader"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Угода користувача</p>
-          <p class="t-min">Правила користування сайтом</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/support-us'" *ngIf="linkOpen[1]">
-        <i class="fa-solid fa-hands-holding-child"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Підтримати</p>
-          <p class="t-min">Підтримати наш проект</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/our-team'" *ngIf="linkOpen[1]">
-        <i class="fa-solid fa-brain"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Команда</p>
-          <p class="t-min">Люди які займаються проектом</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/blog'" *ngIf="linkOpen[1]">
-        <i class="fa-solid fa-blog pl-2"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Блог</p>
-          <p class="t-min">Корисні поради та оновлення</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/auth/registration'" *ngIf="linkOpen[1]">
-        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-lar-x">Реєстрація</p>
-          <p class="t-min">Зареєструвати новий аккаунт</p>
-        </div>
-      </a>
 
       <div [@appearance] class="btn-group">
-        <button class="btn" (click)="closeToogleMenu(1)">
+        <button class="btn" (click)="closeToogleMenu(2)">
           <i class="fa-solid fa-circle-chevron-up white pr-2"></i>
           <div class="t-med white">ЗГОРНУТИ</div>
         </button>
@@ -82,6 +16,7 @@
 
     </div>
   </div>
+
   <div class="menu-content" [ngClass]="{'active': menu[2]}" *ngIf="menu[2]">
 
     <div appClickOutside (clickOutside)="onClickedOutside(2)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">

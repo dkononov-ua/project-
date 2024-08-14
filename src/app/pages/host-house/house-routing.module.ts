@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { AgreeDeleteComponent } from './host-house-agree/agree-delete/agree-delete.component';
 import { AgreeMenuComponent } from './host-house-agree/agree-menu/agree-menu.component';
-import { HouseResidentsComponent } from './host-house-resident/house-residents/house-residents.component';
 import { HouseControlComponent } from './host-house-control/house-control.component';
 import { ResidentComponent } from './host-house-resident/resident.component';
 import { AgreeConcludedComponent } from './host-house-agree/agree-concluded/agree-concluded.component';
@@ -83,11 +81,10 @@ const routes: Routes = [
       {
         path: 'residents', component: ResidentComponent, canActivate: [CanActivateGuard],
         children: [
-          { path: '', redirectTo: 'all-residents', pathMatch: 'full' },
-          { path: 'all-residents', component: HouseResidentsComponent, canActivate: [CanActivateGuard] },
+          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: 'about', component: ResidentMenuComponent },
           { path: 'resident', component: ResidentPageComponent, canActivate: [CanActivateGuard] },
           { path: 'owner', component: ResidentOwnerComponent, canActivate: [CanActivateGuard] },
-          { path: 'menu', component: ResidentMenuComponent, canActivate: [CanActivateGuard] },
           { path: 'add', component: UserSearchComponent, canActivate: [CanActivateGuard] },
         ],
       },

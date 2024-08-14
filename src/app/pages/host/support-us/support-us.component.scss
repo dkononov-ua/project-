@@ -63,10 +63,15 @@
   border-radius: 20px;
 }
 
-.logoMin {
-  height: 100px;
-  width: 100%;
-  filter: drop-shadow(0px 10px 25px rgb(41, 41, 41));
+.logo-box {
+  position: relative;
+  width: auto;
+  height: 100%;
+  .logoMin {
+    height: 100px;
+    width: 100%;
+    filter: drop-shadow(0px 10px 25px rgb(41, 41, 41));
+  }
 }
 
 .btn {

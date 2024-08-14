@@ -1,0 +1,116 @@
+<div *ngIf="user && agreeDetails" class="content-info w-100">
+
+  <div [@top4] class="main-param mb-2">
+    <div class="left">
+      <p class="t-c t-min"><i class="fa-solid fa-clipboard-check"></i> <br> Деталі <br> Угоди </p>
+    </div>
+    <div class="right">
+
+      <div class="flex-box">
+        <div class="flex-box w-80 jc-c wrap">
+          <p class="t-c t-med thin gray p-2">ID угоди: {{ agreeDetails.selectedSubAgree.agreement_id }}
+          </p>
+
+          <div class="item-box" *ngIf="agreeDetails.selectedSubAgree && agreeDetails.selectedSubAgree.rent_due_data">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom">
+                <i class="fa-regular fa-calendar-check"></i>
+                {{agreeDetails.selectedSubAgree.rent_due_data}} число
+              </div>
+              <div class="t-min">Дата оплати</div>
+            </div>
+          </div>
+
+          <div class="item-box" *ngIf="agreeDetails.selectedSubAgree && agreeDetails.selectedSubAgree.price">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom">
+                <i class="fa-solid fa-sack-dollar"></i>
+                {{agreeDetails.selectedSubAgree.price | number:'1.0-0'}}₴
+              </div>
+              <div class="t-min">Орендна Плата</div>
+            </div>
+          </div>
+
+          <div class="item-box" *ngIf="agreeDetails.timeToOpenRating > 0">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="t-lar bold border-bottom">
+                <i class="fa-regular fa-calendar"></i>
+                через {{agreeDetails.timeToOpenRating}} дн.
+              </div>
+              <div class="t-min">Відгук</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex-box flex-column w-20">
+          <button
+            [disabled]="!agreeDetails.statusPermitCreate || !agreeDetails.statusPermitStart || !agreeDetails.statusPermitEnd"
+            class="btn-open" (click)="addUserRating(user)">
+            <i class="fa-solid fa-pen-nib" matTooltip="Залишити відгук"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="statusUserBox p-2">
+
+        <div class="statusBox" *ngIf="agreeDetails.selectedSubAgree.data">
+          <div class="statusValue">Дата створення угоди: <span class="bold"> {{agreeDetails.selectedSubAgree.data |
+              date:
+              'dd-MM-yy'}}</span></div>
+          <div class="flex-box">
+            <div *ngIf="agreeDetails.statusPermitCreate"><i class="fa-regular fa-circle-check"
+                style="color: #63E6BE;"></i>
+            </div>
+            <div *ngIf="!agreeDetails.statusPermitCreate"><i class="fa-regular fa-circle-xmark"
+                style="color: #e60f0f;"></i>
+            </div>
+            <div *ngIf="agreeDetails.statusPermitCreateMsg" class="statusMsg pl-2">
+              {{agreeDetails.statusPermitCreateMsg}}</div>
+          </div>
+        </div>
+
+        <div class="statusBox" *ngIf="agreeDetails.selectedSubAgree.dateAgreeStart">
+          <div class="statusValue">Дія угоди з: <span class="bold">{{agreeDetails.selectedSubAgree.dateAgreeStart |
+              date:
+              'dd-MM-yy'}}</span> </div>
+          <div class="flex-box">
+            <div *ngIf="agreeDetails.statusPermitStart"><i class="fa-regular fa-circle-check"
+                style="color: #63E6BE;"></i>
+            </div>
+            <div *ngIf="!agreeDetails.statusPermitStart"><i class="fa-regular fa-circle-xmark"
+                style="color: #e60f0f;"></i>
+            </div>
+            <div *ngIf="agreeDetails.statusPermitStartMsg" class="statusMsg pl-2">{{agreeDetails.statusPermitStartMsg}}
+            </div>
+          </div>
+        </div>
+
+        <div class="statusBox" *ngIf="agreeDetails.selectedSubAgree.dateAgreeEnd">
+          <div class="statusValue">Дія угоди до: <span class="bold">{{agreeDetails.selectedSubAgree.dateAgreeEnd | date:
+              'dd-MM-yy'}}</span> </div>
+          <div class="flex-box">
+            <div *ngIf="agreeDetails.statusPermitEnd"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
+            </div>
+            <div *ngIf="!agreeDetails.statusPermitEnd"><i class="fa-regular fa-circle-xmark"
+                style="color: #e60f0f;"></i>
+            </div>
+            <div *ngIf="agreeDetails.statusPermitEndMsg" class="statusMsg pl-2">{{agreeDetails.statusPermitEndMsg}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div [@fadeIn] class="detail" *ngIf="detail">
+    <div class="detail-wrapper t-c">
+      <button class="btn-close bg-white p-2" (click)="toogleOpen()"></button>
+      <div class="t-lar-x white p-2">Відгуки про користувача</div>
+      <app-reviews></app-reviews>
+    </div>
+  </div>
+</div>

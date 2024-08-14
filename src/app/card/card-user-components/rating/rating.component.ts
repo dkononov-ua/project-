@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
@@ -32,7 +32,7 @@ import { Location } from '@angular/common';
     animations.fadeIn,
   ],
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent implements OnInit, OnDestroy {
   numberOfReviewsTenant: any;
   numberOfReviewsOwner: any;
   ratingTenant: number | undefined;
@@ -106,20 +106,31 @@ export class RatingComponent implements OnInit {
   getDataUser() {
     this.subscriptions.push(
       this.statusDataService.userData$.subscribe((data: any) => {
-        this.user = data.data;
-        this.indexParam = data.index;
-        if (this.user && this.indexParam === 0) {
-          this.getRatingTenant();
-          this.getRatingOwner();
-        }
-        if (this.user && this.indexParam === 1) {
-          this.getRatingOwner();
-        }
-        if (this.user && this.indexParam === 2 || this.indexParam === 3) {
-          this.getRatingTenant();
+        if (data) {
+          this.user = data.data;
+          this.indexParam = data.index;
+          this.ifChangeUser(this.user, this.indexParam);
         }
       })
     );
+  }
+
+  ifChangeUser(user: any, indexParam: number) {
+    if (user) {
+      if (indexParam === 0) {
+        this.getRatingTenant();
+        this.getRatingOwner();
+      }
+      if (indexParam === 1) {
+        this.getRatingOwner();
+      }
+      if (indexParam === 2) {
+        this.getRatingTenant();
+      }
+      if (indexParam === 3) {
+        this.getRatingTenant();
+      }
+    }
   }
 
   // Копіювання параметрів
@@ -139,7 +150,7 @@ export class RatingComponent implements OnInit {
   async getRatingTenant(): Promise<any> {
     const response = await this.sharedService.getRatingTenant(this.user.user_id);
     // console.log(response);
-    this.ratingTenant = response.ratingTenant;
+    this.ratingTenant = parseFloat(response.ratingTenant.toFixed(2));
     this.numberOfReviewsTenant = response.numberOfReviewsTenant;
   }
 
@@ -147,8 +158,17 @@ export class RatingComponent implements OnInit {
   async getRatingOwner(): Promise<any> {
     const response = await this.sharedService.getRatingOwner(this.user.user_id);
     // console.log(response);
-    this.ratingOwner = response.ratingOwner;
+    this.ratingOwner = parseFloat(response.ratingOwner.toFixed(2));
     this.numberOfReviewsOwner = response.numberOfReviewsOwner;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.ratingOwner = undefined;
+    this.numberOfReviewsOwner = undefined;
+    this.ratingTenant = undefined;
+    this.numberOfReviewsTenant = undefined;
+    // console.log(this.subscriptions)
   }
 
 }

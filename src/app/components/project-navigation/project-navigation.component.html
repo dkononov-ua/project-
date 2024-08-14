@@ -1,0 +1,121 @@
+<div class="menu home">
+
+  <a [routerLinkActive]="'active'" [routerLink]="'/house/info'"
+    [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2">
+    <img class="img-fluid" src="./../../assets/logo/discussio.png" alt="logo discussio">
+    <div class="userName pl-2">
+      <p class="t-lar bold">Discussio</p>
+      <p class="t-min">Соціальна платформа для нерухомості</p>
+    </div>
+  </a>
+
+  <div *ngIf="isMobile" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="menu_title">
+    Меню Discussio<i class="fa-regular fa-compass pl-2"></i>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/home'" (click)="closeToogleMenu(2)">
+        <img class="logo-img" src="./../../assets/logo/discussio.png" alt="logo discussio">
+        <div class="item-description pl-2">
+          <p class="t-med">Головна сторінка</p>
+          <p class="t-min">Домашня сторінка Discussio</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeToogleMenu(3)">
+        <i class="fa-solid fa-barcode"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Про Проект</p>
+          <p class="t-min">Інформація про Discussio</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/user-licence'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-book-open-reader"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Угода користувача</p>
+          <p class="t-min">Правила користування сайтом</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/support-us'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-hands-holding-child"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Підтримати</p>
+          <p class="t-min">Підтримати наш проект</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/our-team'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-hand-fist"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Команда</p>
+          <p class="t-min">Люди які займаються проектом</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/blog'" (click)="closeToogleMenu(7)">
+        <i class="fa-solid fa-blog"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Блог</p>
+          <p class="t-min">Корисні поради та оновлення</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/auth/registration'" (click)="closeToogleMenu(8)">
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Реєстрація</p>
+          <p class="t-min">Зареєструвати новий аккаунт</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <div class="category">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/contacts'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-briefcase"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Співпраця</p>
+          <p class="t-min">Та наші контакти</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+</div>

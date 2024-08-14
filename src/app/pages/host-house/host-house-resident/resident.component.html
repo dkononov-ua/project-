@@ -1,97 +1,44 @@
-<div class="content-component">
+<div class="switch-container" *ngIf="isMobile">
 
-  <div class="switch-container">
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLink]="'/house'">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Назад</div>
-      </button>
-    </div>
-
-    <div class="menu-box hide-mobile">
-      <div class="menu-lable">Меню</div>
-      <div class="menu-name">Мешканці Оселі</div>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="isMobile">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/menu'">
-        <i class="fa-solid fa-circle-info"></i>
-        <div class="t-min dark bold">Інфо</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="iResident === 'true'">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'">
-        <i class="fa-solid fa-id-card-clip"></i>
-        <div class="t-min dark bold">Власник.</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/all-residents'">
-        <i class="fa-solid fa-people-roof"></i>
-        <div class="t-min dark bold">Мешканці</div>
-      </button>
-    </div>
-
-    <!-- <div class="switch-btn-group">
-      <button [disabled]="!iPickUser" class="btn" [routerLinkActive]="'active'"
-        [routerLink]="'/house/residents/resident'">
-        <i class="fa-solid fa-person"></i>
-        <div class="t-min dark bold">Мешканець</div>
-      </button>
-    </div> -->
-
-    <div class="switch-btn-group">
-      <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'">
-        <i class="fa-solid fa-user-plus"></i>
-        <div class="t-min dark bold">Додати</div>
-      </button>
-    </div>
+  <div class="switch-btn-group">
+    <button class="btn" [routerLink]="'/house'">
+      <i class="fa-solid fa-arrow-left"></i>
+      <div class="t-min">Назад</div>
+    </button>
   </div>
 
-  <div class="main-container">
-
-    <div class="col-lg-3 col-md-3 col-sm-12 col-12 hide-mobile">
-      <div class="card-wrapper">
-        <div [@right1] class="card-content-static w-100">
-          <div class="card-group">
-            <div class="flex-box-center t-c p-2 mt-2 w-100">
-              <i class="fa-solid fa-people-roof"></i>
-              <p class="t-lar-xx bold mb-2 t-c">Мешканці Оселі</p>
-              <p class="t-min bold mb-2">Користувачі які мають доступ до оселі. </p>
-            </div>
-
-            <ul class="t-med mt-2 t-s">
-              <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-              <li class="mt-2">Перегляд контактної інформації.</li>
-              <li>Перегляд рейтингу та відгуків.</li>
-              <li>Можливість залишити відгук та оцінку.</li>
-              <li>Створення чату.</li>
-              <li>Створення шаблону угоди.</li>
-              <li>Перегляд інформації по угоді.</li>
-              <li>Надання доступів.</li>
-              <li>Додавання мешканців по ID.</li>
-            </ul>
-
-            <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
-              Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-            </button>
-
-            <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
-              <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-9 col-md-9 col-sm-12 col-12">
-      <router-outlet></router-outlet>
-    </div>
-
+  <div class="menu-box hide-mobile">
+    <div class="menu-lable">Меню</div>
+    <div class="menu-name">Мешканці Оселі</div>
   </div>
 
+  <div class="switch-btn-group" *ngIf="isMobile">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/about'">
+      <i class="fa-solid fa-circle-info"></i>
+      <div class="t-min">Інфо</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'">
+      <i class="fa-solid fa-id-card-clip"></i>
+      <div class="t-min">Власник.</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'">
+      <i class="fa-solid fa-people-roof"></i>
+      <div class="t-min">Мешканці</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group">
+    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'">
+      <i class="fa-solid fa-user-plus"></i>
+      <div class="t-min">Додати</div>
+    </button>
+  </div>
 </div>
+
+<router-outlet></router-outlet>

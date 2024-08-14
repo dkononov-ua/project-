@@ -1,0 +1,88 @@
+<div class="message-box">
+
+  <mat-dialog-content>
+
+    <div class="flex-column bold t-c p-2 mt-3" *ngIf="selectedSubscriber">
+      <i class="fa-solid fa-ranking-star pl-2 gray"></i>
+      <div class="t-lar bold gray t-с">
+        Оцінити {{ selectedSubscriber.type === 'tenant' ? 'мешканця' : 'власника' }}
+      </div>
+      <div class="t-lar-x bold t-с">{{ selectedSubscriber.user.lastName }} {{ selectedSubscriber.user.firstName }}</div>
+    </div>
+
+    <div class="flex-column t-c p-2">
+      <mat-form-field class="w-100">
+        <mat-label>Дата відгуку</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
+          name="ratingDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-label class="t-med t-c accent bold">Ваша оцінка орендарю</mat-label>
+      <mat-radio-group class="radio-group w-100 p-2" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
+
+        <div class="radio-btn">
+          <label class="radio-label">
+            <input type="radio" name="ratingValue" value="1" [(ngModel)]="rating.ratingValue" hidden>
+            <i class="fa-regular fa-face-angry abs" [ngClass]="{ 'active': rating.ratingValue === '1' }"></i>
+          </label>
+        </div>
+
+        <div class="radio-btn">
+          <label class="radio-label">
+            <input type="radio" name="ratingValue" value="2" [(ngModel)]="rating.ratingValue" hidden>
+            <i class="fa-regular fa-face-frown abs" [ngClass]="{ 'active': rating.ratingValue === '2' }"></i>
+          </label>
+        </div>
+
+        <div class="radio-btn">
+          <label class="radio-label">
+            <input type="radio" name="ratingValue" value="3" [(ngModel)]="rating.ratingValue" hidden>
+            <i class="fa-regular fa-face-meh abs" [ngClass]="{ 'active': rating.ratingValue === '3' }"></i>
+          </label>
+        </div>
+
+        <div class="radio-btn">
+          <label class="radio-label">
+            <input type="radio" name="ratingValue" value="4" [(ngModel)]="rating.ratingValue" hidden>
+            <i class="fa-regular fa-face-grin abs" [ngClass]="{ 'active': rating.ratingValue === '4' }"></i>
+          </label>
+        </div>
+
+        <div class="radio-btn">
+          <label class="radio-label">
+            <input type="radio" name="ratingValue" value="5" [(ngModel)]="rating.ratingValue" hidden>
+            <i class="fa-regular fa-face-smile-beam abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
+          </label>
+        </div>
+      </mat-radio-group>
+    </div>
+
+    <mat-label class="t-med t-c accent bold">Розширений відгук</mat-label>
+    <mat-form-field class="form-field w-100 p-2">
+      <mat-label>Відгук</mat-label>
+      <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
+        placeholder="Опишіть що вплинуло на вашу оцінку."></textarea>
+    </mat-form-field>
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="box" align="end">
+
+    <div class="btn-group mt-2">
+      <button class="btn white" [mat-dialog-close]="0">
+        <i class="fa-solid fa-arrow-left pr-2 white"></i> Назад
+      </button>
+
+      <button [disabled]="!rating.ratingDate || !rating.ratingValue" class="btn white" [mat-dialog-close]=""
+        (click)="sendRating(selectedSubscriber)">
+        <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
+      </button>
+
+    </div>
+
+  </mat-dialog-actions>
+
+</div>

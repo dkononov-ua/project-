@@ -36,6 +36,12 @@
       <p class="text">Для повернення після видалення, його треба буде додавати через підписки.</p>
     </div>
 
+    <div *ngIf="data.flatSub === 'residentHouse'">
+      <div class="text1">Видалити мешканця</div>
+      <p class="accent">{{data.firstName}} {{data.lastName}}?</p>
+      <p class="text">Для повернення його треба буде додавати через ухвалені угоди.</p>
+    </div>
+
   </mat-dialog-content>
   <mat-dialog-actions class="box" align="end">
     <button class="btn m-2" mat-button mat-dialog-close>Ні</button>

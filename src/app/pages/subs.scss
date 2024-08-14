@@ -26,7 +26,7 @@
   @include box-shadow;
   @include s3-s6-max {
     height: auto;
-    max-height: 750px;
+    max-height: calc(100vh - 100px);
     overflow: auto;
   }
   @include s1-s3 {

@@ -21,6 +21,14 @@
   }
 }
 
+.icon-box {
+  .fa-magnifying-glass {
+    font-size: 16px !important;
+    color: $color-gray;
+  }
+}
+
+
 .item-group {
   @include flex-box-column;
   margin: 0;

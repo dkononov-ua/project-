@@ -13,6 +13,9 @@ import { Location } from '@angular/common';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { CreateChatService } from 'src/app/services/chat/create-chat.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddAccessComponent } from 'src/app/components/add-access/add-access.component';
+import { AddRatingComponent } from 'src/app/components/add-rating/add-rating.component';
 
 @Component({
   selector: 'app-functions',
@@ -69,6 +72,8 @@ export class FunctionsComponent implements OnInit, OnDestroy {
   selectedFlatId: any;
   isMobile: boolean = false;
   authorization: boolean = false;
+  selectMyPage: boolean = false;
+  checkResidentsDiscus: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -81,6 +86,8 @@ export class FunctionsComponent implements OnInit, OnDestroy {
     private cardsDataHouseService: CardsDataHouseService,
     private cardsDataService: CardsDataService,
     private createChatService: CreateChatService,
+    private dialog: MatDialog,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -88,6 +95,7 @@ export class FunctionsComponent implements OnInit, OnDestroy {
     await this.getCheckDevice();
     await this.getServerPath();
     this.checkUserAuthorization();
+    this.checkResidentsDiscus = this.isResidentsDiscus();
   }
 
   // перевірка на девайс
@@ -130,52 +138,96 @@ export class FunctionsComponent implements OnInit, OnDestroy {
   }
 
   checkLocation() {
-    // Якщо я в меню користувача
-    if (
-      this.currentLocation === '/user/discus/discussion' ||
-      this.currentLocation === '/user/discus/subscribers-user' ||
-      this.currentLocation === '/user/discus/subscriptions-user'
-    ) {
-      this.subscriptions.push(
-        this.cardsDataService.cardData$.subscribe(async (data: any) => {
-          // console.log(data)
-          this.user = data.owner;
-          this.checkChatExistence();
-        })
-      );
-      // Якщо я в меню оселі
-    } else if (
-      this.currentLocation === '/house/discus/discussion' ||
-      this.currentLocation === '/house/discus/subscribers' ||
-      this.currentLocation === '/house/discus/subscriptions'
-    ) {
-      this.subscriptions.push(
-        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-          const user = data;
-          if (user) {
-            this.user = user;
-            this.checkChatExistence();
-          }
-        })
-      );
-    } else if (this.currentLocation === '/user/info') {
+    // Перевірка поточного шляху для вибору відповідного сервісу
+    if (this.isUserRoute()) {
+      this.subscriptionsCardsDataService();
+    } else if (this.isHouseRoute()) {
+      this.subscriptionsDataHouseService();
+    } else if (this.isUserProfile()) {
       this.getInfoUser();
-    } else if (this.currentLocation === '/search/tenant') {
-      this.subscriptions.push(
-        this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-          this.user = data;
-          // console.log(this.user)
-        })
-      );
+    } else if (this.isTenantSearch()) {
+      this.subscriptionsDataHouseService();
+    } else if (this.isResidentsOwner()) {
+      this.subscriptionsDataHouseService();
     }
   }
 
+  // Перевіряє, чи поточний шлях належить до роутів користувача
+  private isUserRoute(): boolean {
+    return ['/user/discus/discussion', '/user/discus/subscribers-user', '/user/discus/subscriptions-user'].includes(this.currentLocation);
+  }
+
+  // Перевіряє, чи поточний шлях належить до роутів оселі
+  private isHouseRoute(): boolean {
+    return ['/house/discus/discussion', '/house/discus/subscribers', '/house/discus/subscriptions', '/house/residents/resident'].includes(this.currentLocation);
+  }
+
+  // Перевіряє, чи поточний шлях належить до сторінки профілю користувача
+  private isUserProfile(): boolean {
+    return this.currentLocation === '/user/info';
+  }
+
+  // Перевіряє, чи поточний шлях належить до пошуку орендарів
+  private isTenantSearch(): boolean {
+    return this.currentLocation === '/search/tenant';
+  }
+
+  // Перевіряє, чи поточний шлях належить до сторінки власника
+  private isResidentsOwner(): boolean {
+    return this.currentLocation === '/house/residents/owner';
+  }
+
+  // Перевіряє, чи я знаходжусь в дискусії або в мешканцях
+  private isResidentsDiscus(): boolean {
+    return ['/house/residents/resident', '/house/residents/owner', '/house/discus/discussion'].includes(this.currentLocation);
+  }
+
+  // Підписка на інформацію про власника
+  subscriptionsCardsDataService() {
+    this.subscriptions.push(
+      this.cardsDataService.cardData$.subscribe(async (data: any) => {
+        // console.log(data)
+        this.user = data.owner;
+        this.checkChatExistence();
+        this.checkingСhooseMyself();
+      })
+    );
+  }
+
+  // Підписка на інформацію про користувача
+  subscriptionsDataHouseService() {
+    this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
+      const user = data;
+      if (user) {
+        this.user = user;
+        this.checkChatExistence();
+        this.checkingСhooseMyself();
+      }
+    })
+  }
+
+  // Отримання інформації про користувача з локального сховища
   getInfoUser() {
     const userData = localStorage.getItem('userData');
     if (userData) {
       const userObject = JSON.parse(userData);
       this.user = userObject.inf;
       // console.log(this.user)
+    }
+  }
+
+  checkingСhooseMyself() {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      const userObject = JSON.parse(userData);
+      const user_id = userObject.inf.user_id;
+      // перевіряю чи я обрав свою сторінку
+      if (user_id === this.user.user_id) {
+        this.selectMyPage = true;
+        // якщо так то закриваю деякі функції
+      } else {
+        this.selectMyPage = false;
+      }
     }
   }
 
@@ -192,6 +244,8 @@ export class FunctionsComponent implements OnInit, OnDestroy {
       this.cardsDataHouseService.deleteUser(user, 'subscribersHouse');
     } else if (this.currentLocation === '/house/discus/subscriptions') {
       this.cardsDataHouseService.deleteUser(user, 'subscriptionsHouse');
+    } else if (this.currentLocation === '/house/residents/resident') {
+      this.cardsDataHouseService.deleteUser(user, 'residentHouse');
     }
     this.cardsDataHouseService.getResultDeleteUserSubject().subscribe(result => {
       if (result.status === true) {
@@ -201,6 +255,8 @@ export class FunctionsComponent implements OnInit, OnDestroy {
           this.sharedService.setStatusMessage('Підписника видалено');
         } else if (this.currentLocation === '/house/discus/subscriptions') {
           this.sharedService.setStatusMessage('Підписку видалено');
+        } else if (this.currentLocation === '/house/residents/resident') {
+          this.sharedService.setStatusMessage('Мешканця видалено');
         }
         setTimeout(() => { this.sharedService.setStatusMessage('') }, 2000);
       } else {
@@ -212,7 +268,7 @@ export class FunctionsComponent implements OnInit, OnDestroy {
 
   // Перевіряємо в сервісі існування чату оселі з обраним користувачем
   async checkChatExistence(): Promise<any> {
-    if (this.currentLocation === '/house/discus/discussion' || this.currentLocation === '/house/residents') {
+    if (this.currentLocation === '/house/discus/discussion' || this.currentLocation === '/house/residents/resident') {
       const chatExists = await this.createChatService.checkChatExistence();
       this.chatExists = chatExists;
     }
@@ -222,8 +278,29 @@ export class FunctionsComponent implements OnInit, OnDestroy {
   openChat() {
     if (this.chatExists) {
       this.choseSubscribersService.setSelectedSubscriber(this.user.user_id);
-      this.router.navigate(['/chat-house']);
+      this.router.navigate(['/house/chat']);
     }
+  }
+
+  // Надати доступи користувачу
+  addUserAccess(user: any) {
+    const dialogRef = this.dialog.open(AddAccessComponent, {
+      data: { user }
+    });
+  }
+
+  // Надати доступи користувачу
+  addUserRating(user: any) {
+    const dialogRef = this.dialog.open(AddRatingComponent, {
+      data: { user, type:'tenant' }
+    });
+  }
+
+  // Надати доступи користувачу
+  addOwnerRating(user: any) {
+    const dialogRef = this.dialog.open(AddRatingComponent, {
+      data: { user, type:'owner' }
+    });
   }
 
   // Через сервіс створюємо чат

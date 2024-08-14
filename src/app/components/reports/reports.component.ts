@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as ServerConfig from 'src/app/config/path-config';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',

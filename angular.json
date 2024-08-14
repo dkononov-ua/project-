@@ -22,7 +22,8 @@
             },
             "index": "src/index.html",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -38,7 +39,9 @@
             "allowedCommonJsDependencies": [
               "lodash",
               "canvg",
-              "core-js/modules/es.promise"
+              "core-js/modules/es.promise",
+              "hammerjs",
+              "moment"
             ],
             "browser": "src/main.ts"
           },

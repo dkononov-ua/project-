@@ -43,7 +43,6 @@ export class CardsDataService {
     private locationHouseService: LocationHouseService,
     private dialog: MatDialog,
     private counterService: CounterService,
-
   ) {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
@@ -173,4 +172,6 @@ export class CardsDataService {
   getResultDeleteFlatSubject() {
     return this.reportResultDeleteFlatSubject.asObservable();
   }
+
+
 }

@@ -1,351 +1,44 @@
-<div class="content-child" *ngIf="selectedSubscriber">
-  <!-- інформація орендарь -->
-  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12"
-    *ngIf="indexPage === 1 || !isMobile && indexPage === 2 || !isMobile && indexPage === 3 || !isMobile && indexPage === 4">
-    <div class="card-animation" [@left1]>
-      <div class="card-content">
+<div class="main-container">
 
-        <div class="copyMessage-box" *ngIf="isCopiedMessage">
-          <div class="copyMessage-text">{{isCopiedMessage}}</div>
-          <i class="fa-regular fa-copy"></i>
-          <div class="t-lar dark bold">Discussio</div>
-        </div>
-
-        <div class="container-img">
-          <div class="wrapper-img">
-
-            <img class="img-fluid"
-              [src]="serverPath + pathPhotoUser + (selectedSubscriber?.img ? selectedSubscriber?.img : 'user_default.svg')"
-              alt="img">
-
-            <div class="info-panel">
-              <app-links-box></app-links-box>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="flex-box"
-          *ngIf="selectedSubscriber.lastName || selectedSubscriber.firstName || selectedSubscriber.surName">
-          <div class="flex-column p-2" *ngIf="selectedSubscriber.lastName">
-            <div class="t-lar bold">{{ selectedSubscriber.lastName }}</div>
-            <div class="t-min gray">Прізвище</div>
-          </div>
-          <div class="flex-column p-2" *ngIf="selectedSubscriber.firstName">
-            <div class="t-lar bold">{{ selectedSubscriber.firstName }}</div>
-            <div class="t-min gray">ім'я</div>
-          </div>
-          <div class="flex-column p-2" *ngIf="selectedSubscriber.surName">
-            <div class="t-lar bold">{{ selectedSubscriber.surName }}</div>
-            <div class="t-min gray">По батькові</div>
-          </div>
-        </div>
-
-        <nav class="navbar">
-
-          <button disabled *ngIf="selectedSubAgree && selectedSubAgree.rent_due_data" class="link-menu">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Дата оплати</p>
-              <p class="link-menu-t2">{{selectedSubAgree.rent_due_data}} число</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-regular fa-calendar"></i></div>
-          </button>
-
-          <button disabled *ngIf="selectedSubAgree && selectedSubAgree.price" class="link-menu">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Орендна Плата</p>
-              <p class="link-menu-t2">{{selectedSubAgree.price | number:'1.0-0'}}₴</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-sack-dollar"></i></div>
-          </button>
-
-          <button *ngIf="!selectMyPage && iResident === 'false'" class="link-menu"
-            (click)="reportUser(selectedSubscriber)">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Відправити</p>
-              <p class="link-menu-t2">Скаргу</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-masks-theater"></i></div>
-          </button>
-
-          <button [disabled]="numberOfReviews === 0" class="link-menu" (click)="onClickMenu(4)"
-            [ngClass]="{ 'active': indexPage === 4 }">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Відгуки</p>
-              <p class="link-menu-t2">Орендодавців</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-star-half-stroke"></i></div>
-          </button>
-
-          <button class="link-menu" (click)="onClickMenu(2)"
-            [ngClass]="{ 'active': indexPage === 2 }">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Надати</p>
-              <p class="link-menu-t2">Дозволи</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-unlock-keyhole"></i></div>
-          </button>
-
-          <button *ngIf="iResident === 'false'" class="link-menu" (click)="removeUser(selectedSubscriber)">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Видалити</p>
-              <p class="link-menu-t2">Мешканця</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-user-xmark"></i></div>
-          </button>
-
-          <button *ngIf="!selectMyPage && iResident === 'false'" class="link-menu"
-            [routerLink]="['/agree-create', selectedSubscriber.user_id]">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Створити</p>
-              <p class="link-menu-t2">Угоду</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-file-contract"></i></div>
-          </button>
-
-          <button class="link-menu" (click)="createChat(selectedSubscriber)">
-            <div class="flex-column pl-4 w-80">
-              <p class="link-menu-t1">Створити</p>
-              <p class="link-menu-t2">Чат</p>
-            </div>
-            <div class="link-icon w-20"><i class="fa-solid fa-message"></i></div>
-          </button>
-
-
-          <div class="flex-column ranking-box w-100">
-            <button disabled *ngIf="!statusPermitCreate || !statusPermitStart || !statusPermitEnd"
-              class="link-menu bg-warning">
-              <div class="flex-column pl-4 w-80">
-                <p class="link-menu-t1">Оцінювання</p>
-                <p class="link-menu-t2">закрито</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-ranking-star"></i></div>
-            </button>
-
-            <button *ngIf="statusPermitCreate && statusPermitStart && statusPermitEnd"
-              class="link-menu" (click)="onClickMenu(3)"
-              [ngClass]="{ 'active': indexPage === 3 }">
-              <div class="flex-column pl-4 w-80">
-                <p class="link-menu-t1">Залишити</p>
-                <p class="link-menu-t2">Відгук</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-solid fa-ranking-star"></i></div>
-            </button>
-
-            <button *ngIf="!selectMyPage && iResident === 'false' && timeToOpenRating > 0" class="link-menu"
-              (click)="reportUser(selectedSubscriber)">
-              <div class="flex-column pl-4 w-80">
-                <p class="link-menu-t1">Відгук</p>
-                <p class="link-menu-t2">через {{timeToOpenRating}} дн.</p>
-              </div>
-              <div class="link-icon w-20"><i class="fa-regular fa-calendar"></i></div>
-            </button>
-
-          </div>
-
-        </nav>
-
-        <div class="p-2" *ngIf="selectedSubscriber.about">
-          <div class="t-lar dark bold">Додаткова інформація:</div>
-          <div class="t-min ">{{selectedSubscriber.about}}</div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- орендарь доступ -->
-  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexPage === 1 && !isMobile || indexPage === 2">
-    <div class="card-animation" [@left]>
-      <div class="btn-close-container" *ngIf="isMobile">
-        <div class="btn-close-box">
-          <button class="btn-close" (click)="indexPage = 1"></button>
-        </div>
-      </div>
-      <div class="card-content">
-        <app-resident-access></app-resident-access>
-      </div>
-    </div>
-  </div>
-  <!-- орендарь оцінити -->
-  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexPage === 3">
-    <div [@left1] class="card-animation t-c">
-      <div class="btn-close-container" *ngIf="isMobile">
-        <div class="btn-close-box">
-          <button class="btn-close" (click)="indexPage = 1"></button>
-        </div>
-      </div>
-      <div class="card-content">
-
-        <div class="flex-column bold t-c p-2 mt-3">
-          <div class="t-lar bold gray t-с">Оцінити <br> мешканця <i class="fa-solid fa-ranking-star pl-2 gray"></i>
-          </div>
-          <div class="t-lar-x bold t-с">{{ selectedSubscriber.lastName }} {{ selectedSubscriber.firstName }}</div>
-        </div>
-
-        <div class="flex-column p-2">
-          <div class="t-lar bold t-c"> Забезпечення Зручності та Довіри </div>
-          <div class="t-med"><span class="accent bold">"Рейтинг орендаря"</span>дозволяє власникам нерухомості оцінювати
-            орендарів раз на місяць. Вони можуть редагувати свої оцінки протягом 35 днів після їх поставлення. Ця
-            система
-            допомагає створити довіру з самого початку до орендаря або застерегти власників від можливих проблем.
-            <span class="accent bold">Оцінити можна лише того орендаря з яким у вас є акт-прийому передачі
-              оселі.</span>
-          </div>
-        </div>
-
-        <div class="statusUserBox p-2" *ngIf="selectedSubAgree">
-
-          <div class="statusBox" *ngIf="selectedSubAgree.data">
-            <div class="statusValue">Дата створення угоди: <span class="bold"> {{selectedSubAgree.data | date:
-                'dd-MM-yy'}}</span></div>
-            <div class="flex-box">
-              <div *ngIf="statusPermitCreate"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-              </div>
-              <div *ngIf="!statusPermitCreate"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-              </div>
-              <div *ngIf="statusPermitCreateMsg" class="statusMsg pl-2">{{statusPermitCreateMsg}}</div>
-            </div>
-          </div>
-
-          <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeStart">
-            <div class="statusValue">Дія угоди з: <span class="bold">{{selectedSubAgree.dateAgreeStart | date:
-                'dd-MM-yy'}}</span> </div>
-            <div class="flex-box">
-              <div *ngIf="statusPermitStart"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-              </div>
-              <div *ngIf="!statusPermitStart"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-              </div>
-              <div *ngIf="statusPermitStartMsg" class="statusMsg pl-2">{{statusPermitStartMsg}}</div>
-            </div>
-          </div>
-
-          <div class="statusBox" *ngIf="selectedSubAgree.dateAgreeEnd">
-            <div class="statusValue">Дія угоди до: <span class="bold">{{selectedSubAgree.dateAgreeEnd | date:
-                'dd-MM-yy'}}</span> </div>
-            <div class="flex-box">
-              <div *ngIf="statusPermitEnd"><i class="fa-regular fa-circle-check" style="color: #63E6BE;"></i>
-              </div>
-              <div *ngIf="!statusPermitEnd"><i class="fa-regular fa-circle-xmark" style="color: #e60f0f;"></i>
-              </div>
-              <div *ngIf="statusPermitEndMsg" class="statusMsg pl-2">{{statusPermitEndMsg}}</div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="flex-column t-c p-2">
-          <mat-form-field class="w-100">
-            <mat-label>Дата відгуку</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="rating.ratingDate" [min]="minDate" [max]="maxDate"
-              name="ratingDate">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-label class="t-med t-c accent bold">Ваша оцінка орендарю</mat-label>
-          <mat-radio-group class="radio-group w-100 p-2" aria-label="Select an option" [(ngModel)]="rating.ratingValue">
-
-            <div class="radio-btn">
-              <label class="radio-label">
-                <input type="radio" name="ratingValue" value="1" [(ngModel)]="rating.ratingValue" hidden>
-                <i class="fa-regular fa-face-angry abs" [ngClass]="{ 'active': rating.ratingValue === '1' }"></i>
-              </label>
-            </div>
-
-            <div class="radio-btn">
-              <label class="radio-label">
-                <input type="radio" name="ratingValue" value="2" [(ngModel)]="rating.ratingValue" hidden>
-                <i class="fa-regular fa-face-frown abs" [ngClass]="{ 'active': rating.ratingValue === '2' }"></i>
-              </label>
-            </div>
-
-            <div class="radio-btn">
-              <label class="radio-label">
-                <input type="radio" name="ratingValue" value="3" [(ngModel)]="rating.ratingValue" hidden>
-                <i class="fa-regular fa-face-meh abs" [ngClass]="{ 'active': rating.ratingValue === '3' }"></i>
-              </label>
-            </div>
-
-            <div class="radio-btn">
-              <label class="radio-label">
-                <input type="radio" name="ratingValue" value="4" [(ngModel)]="rating.ratingValue" hidden>
-                <i class="fa-regular fa-face-grin abs" [ngClass]="{ 'active': rating.ratingValue === '4' }"></i>
-              </label>
-            </div>
-
-            <div class="radio-btn">
-              <label class="radio-label">
-                <input type="radio" name="ratingValue" value="5" [(ngModel)]="rating.ratingValue" hidden>
-                <i class="fa-regular fa-face-smile-beam abs" [ngClass]="{ 'active': rating.ratingValue === '5' }"></i>
-              </label>
-            </div>
-          </mat-radio-group>
-        </div>
-
-        <mat-label class="t-med t-c accent bold">Розширений відгук</mat-label>
-        <mat-form-field class="form-field w-100 p-2">
-          <mat-label>Відгук</mat-label>
-          <textarea [(ngModel)]="rating.ratingComment" name="menuComment" matInput
-            placeholder="Опишіть що вплинуло на вашу оцінку."></textarea>
-        </mat-form-field>
-
-        <div class="btn-group p-1 w-100">
-          <button [disabled]="!rating.ratingDate || !rating.ratingValue" class="btn w-100"
-            (click)="sendRating(selectedSubscriber)">
-            <i class="fa-solid fa-check-double"></i>Відправити
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- орендарь відгуки -->
-  <div class="card-wrapper col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="indexPage === 4">
-    <div [@swichCard] class="card-animation p-2">
+  <div class="width-param col-md-7 col-sm-12 col-12 p-1" *ngIf="!isMobile">
+    <div class="card-item" [@appearance] *ngIf="chosenUser">
       <div class="btn-close-container">
         <div class="btn-close-box">
-          <button class="btn-close" (click)="indexPage = 1"></button>
+          <button class="btn-close" (click)="close()"></button>
         </div>
       </div>
-
-      <div class="user-id-box mt-2 w-100">
-        <div class="flex-box t-lar-xx bold t-s">
-          <div>{{ selectedSubscriber.lastName }}</div>
-          <div class="pl-2">{{ selectedSubscriber.firstName }}</div>
-        </div>
+      <app-img></app-img>
+      <app-info></app-info>
+    </div>
+    <div class="status-subscription-wrapper h-100" *ngIf="!chosenUser">
+      <div [@appearance] class="status-subscription bg-transparent">
+        <div class="status-text p-2 t-c">Оберіть <br> мешканця</div>
       </div>
-
-      <div class="t-lar bold gray t-c m-2">Відгуки орендодавців</div>
-      <div class="reviews-card" *ngFor="let review of reviews">
-        <div class="reviews-group">
-          <div class="reviews-person w-70">
-            <div class="reviews-person-img">
-              <div *ngIf="review.reporter && review.reporter.img">
-                <img [src]="serverPath + pathPhotoUser + review.reporter.img" alt="img">
-              </div>
-              <div *ngIf="!review.reporter || !review.reporter.img">
-                <img src="../../../../assets/user_default.svg" alt="img">
-              </div>
-            </div>
-
-            <div class="reviews-person-info">
-              <p class="bold" *ngIf="review.reporter">{{review.reporter.lastName}}
-                {{review.reporter.firstName}} {{review.reporter.surName}}</p>
-              <p *ngIf="!review.reporter">Аккаунт видалено</p>
-              <p class="t-min gray">Дата відгуку: {{review.info.data |date}}</p>
-            </div>
-
-          </div>
-          <div class="review-mark w-30" *ngIf="review.info.mark">
-            <p class="review-mark-number">{{review.info.mark}} </p>
-            <i class="fa-regular fa-star"></i>
-          </div>
-        </div>
-        <div class="t-med bold mt-2" *ngIf="review.info.about">"{{review.info.about}}"</div>
-      </div>
-      <div *ngIf="!reviews">
-        <div class="t-lar">Відгуків ще немає...</div>
-      </div>
-
     </div>
   </div>
+
+  <div class="width-param col-lg-5 col-md-5 col-sm-12 col-12 p-1" *ngIf="!isMobile">
+    <app-cards-list-users></app-cards-list-users>
+  </div>
+
+  <div class="width-param col-12" *ngIf="isMobile">
+
+    <!-- всі картки -->
+    <div class="card-item" *ngIf="indexPage === 1">
+      <app-cards-list-users></app-cards-list-users>
+    </div>
+
+    <div class="card-item" *ngIf="chosenUser && indexPage === 2">
+      <div class="btn-close-container">
+        <div class="btn-close-box">
+          <button class="btn-close" (click)="close()"></button>
+        </div>
+      </div>
+      <app-img></app-img>
+      <app-info></app-info>
+    </div>
+
+  </div>
+
 </div>
+

@@ -1,17 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
-import { ActivatedRoute } from '@angular/router';
 import { animations } from '../../../interface/animation';
-import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
-import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 
 @Component({
   selector: 'app-resident',
   templateUrl: './resident.component.html',
-  styleUrls: ['./resident.component.scss'],
+  styleUrls: ['./../../pages.scss'],
   animations: [
     animations.right1,
     animations.left,
@@ -24,7 +20,7 @@ import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.serv
   ],
 })
 
-export class ResidentComponent implements OnInit {
+export class ResidentComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -34,106 +30,49 @@ export class ResidentComponent implements OnInit {
   serverPath: string = '';
   // ***
 
-  page: any;
-  card: any;
-
-  selectMyPage: boolean = false;
-
-  isCopiedMessage!: string;
-  indexPage: number = 0;
-  indexCard: number = 0;
-
   selectedFlatId: string | any;
-  loading = false;
-  ownerInfo: any
   statusMessage: string | undefined;
+
   iResident: string = '';
   iPickUser: boolean = false;
-
-  goBack(): void {
-    this.location.back();
-  }
   isMobile = false;
+  subscriptions: any[] = [];
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
-    private http: HttpClient,
-    private route: ActivatedRoute,
-    private location: Location,
     private sharedService: SharedService,
-    private choseSubscribersService: ChoseSubscribersService,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-      // isMobile: boolean = false;
-    });
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-      if (this.serverPath) {
-        await this.getSelectedFlat();
-      }
-    })
+    await this.getCheckDevice();
+    await this.getSelectedFlat();
   }
 
-  // Отримую обрану оселю і виконую запит по її власнику та мешкнцям
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
   async getSelectedFlat() {
-    // console.log('getSelectedFlat')
-    this.selectedFlatIdService.selectedFlatId$.subscribe(async selectedFlatId => {
-      this.selectedFlatId = selectedFlatId;
-      if (this.selectedFlatId) {
-        const offs = 0;
-        this.getOwner(this.selectedFlatId, offs);
-        this.selectResidents();
-      } else {
-        console.log('Оберіть оселю')
-      }
-    });
-  }
-
-  // Дії якщо я обрав мешканця
-  async selectResidents(): Promise<any> {
-    this.choseSubscribersService.selectedSubscriber$.subscribe(async subscriberId => {
-      const userData = localStorage.getItem('userData');
-      if (subscriberId && userData) {
-        this.iPickUser = true;
-      } else {
-        this.iPickUser = false;
-      }
-    });
-  }
-
-  // Отримую інформацію про власника
-  async getOwner(selectedFlatId: any, offs: number): Promise<any> {
-    const userData = localStorage.getItem('userData');
-    const userJson = localStorage.getItem('user');
-    if (userJson && userData) {
-      const userObject = JSON.parse(userData);
-      const user_id = userObject.inf.user_id;
-      const data = { auth: JSON.parse(userJson!), user_id: user_id, flat_id: selectedFlatId, offs: offs, };
-      try {
-        const response = await this.http.post(this.serverPath + '/citizen/get/ycitizen', data).toPromise() as any[];
-        const ownerInfo = response.find(item => item.flat.flat_id.toString() === selectedFlatId)?.owner;
-        if (ownerInfo) {
-          if (user_id === ownerInfo.user_id) {
-            this.iResident = 'false';
-            this.sharedService.setCheckOwnerPage(this.iResident);
-          } else {
-            this.iResident = 'true';
-            this.ownerInfo = ownerInfo;
-            this.sharedService.setCheckOwnerPage(this.iResident);
-            localStorage.setItem('ownerInfo', JSON.stringify(ownerInfo));
-          }
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        if (flatId) {
+          this.selectedFlatId = Number(flatId);
         } else {
-          this.iResident = 'false';
+          this.sharedService.logoutHouse();
         }
-        // console.log(this.iResident)
-      } catch (error) {
-        console.error(error);
-      }
-    }
+      })
+    )
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 }
 

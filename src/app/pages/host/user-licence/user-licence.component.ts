@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { Location } from '@angular/common';
 import { animations } from '../../../interface/animation';
@@ -35,7 +35,18 @@ export class UserLicenceComponent {
     this.location.back();
   }
 
+  scrollToAnchor(anchor: number): void {
+    setTimeout(() => {
+      const element = this.el.nativeElement.querySelector(`#conteiner${anchor}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+  }
+
+
   constructor(
+    private el: ElementRef,
     private location: Location,
     private sharedService: SharedService,
     private updateMetaTagsService: UpdateMetaTagsService,
@@ -43,6 +54,7 @@ export class UserLicenceComponent {
 
   ngOnInit() {
     this.updateMetaTagsInService();
+    this.scrollToAnchor(0);
   }
 
   private updateMetaTagsInService(): void {

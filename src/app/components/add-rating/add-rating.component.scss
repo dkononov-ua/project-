@@ -1,34 +1,7 @@
-@use "../../../../style/presets/" as *;
-@use "../../../../style/mixins/" as *;
-@use "../../../../style/shared.scss";
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss" as *;
 
-.content-child {
-  height: calc(100vh - 100px - 1rem);
-  justify-content: center !important ;
-  flex-wrap: nowrap !important;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.card-content {
-  align-items: stretch !important;
-  justify-content: space-between !important;
-}
-
-.card-animation {
-  @include s3-s6-max {
-    width: 98% !important;
-  }
-}
-
-.link-menu {
-  &:disabled {
-    &:hover {
-      color: $color-gray;
-    }
-  }
-}
 .statusUserBox {
   @include flex-box-column;
   width: 100%;
@@ -87,5 +60,3 @@
     }
   }
 }
-
-

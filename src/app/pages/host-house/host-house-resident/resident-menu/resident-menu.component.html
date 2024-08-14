@@ -1,41 +1,56 @@
-<!-- про меню -->
-<div class="content-child">
-  <div [@top1] class="card-wrapper col-12">
-    <div class="card-content-static">
-      <div class="card-group w-100 jc-c t-c">
+<div [@bot] class="container-info">
 
-        <div class="flex-box-center t-c p-2 mt-2 w-100">
-          <i class="fa-solid fa-people-roof"></i>
-          <p class="t-lar-x bold">Меню Мешканці Оселі</p>
-          <p class="link-menu-t2">Користувачі які мають доступ до оселі.</p>
-        </div>
+  <div class="info-content">
+    <div class="img-wrapper">
+      <img class="img" src="./../../../../assets/menu/resident.png" alt="Menu Image" loading="lazy">
+      <div class="blure"></div>
+    </div>
 
-        <ul class="t-med mt-2 t-s">
-          <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-          <li>Перегляд контактної інформації.</li>
-          <li>Перегляд рейтингу та відгуків.</li>
-          <li>Можливість залишити відгук та оцінку.</li>
-          <li>Створення чату.</li>
-          <li>Створення шаблону угоди.</li>
-          <li>Перегляд інформації по угоді.</li>
-          <li>Надання доступів.</li>
-          <li>Додавання мешканців по ID.</li>
-        </ul>
+    <div class="info-wrapper ">
+      <div class="info">
+        <i class="fa-solid fa-person-hiking"></i>
+        <p class="t-lar-x bold mb-2">Як це працює?</p>
 
-        <button class="btn-feedback" [routerLink]="'/feedback'" [queryParams]="{ category: 'Мешканці' }">
-          Є ідея <i class="fa-regular fa-lightbulb"></i> як зробити краще?<br>Можеш запропонувати!
-        </button>
+        <h1 class="t-c">Мешканці оселі</h1>
+        <h2 class="t-med bold mb-2 t-c mt-2">Доступ до інформації оселі та статистики, взаємодія між орендарями та
+          орендодавцем. Відгуки та рейтинг. Створення та контроль за угодами оренди.</h2>
 
-        <div class="btn-group jc-c">
-          <a class="b-primary w-90 mt-2" target="_blank" href="https://t.me/discussio_chat">
-            <i class="fa-solid fa-headset pr-2"></i> Техпідтримка
-          </a>
-        </div>
+        <a class="b-primary m-2" [routerLink]="'/house/residents/resident'">
+          <i class="fa-solid fa-person-shelter"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Список</p>
+            <p class="t-min white">Мешканців</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c">Функція надає можливість та інструменти взаємодії орендодавців та орендарів. Не потрібно
+          кожен раз пояснювати всю інформацію новим орендарям вона буде доступною після того як орендарь стане мешканцем
+          оселі.
+        </p>
+
+        <app-house-agree-progress></app-house-agree-progress>
+
+
+        <h2 class="t-med bold mb-2 t-c mt-2">
+          Додавати мешканців можна і напряму без створення угоди
+        </h2>
+
+        <a class="b-primary m-2" [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'">
+          <i class="fa-solid fa-user-plus"></i>
+          <div class="flex-column pl-2 jc-sa">
+            <p class="t-med white">Додати</p>
+            <p class="t-min white">Мешканця</p>
+          </div>
+        </a>
+
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Наповнення' }">
+          <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+          </div>
+        </a>
 
       </div>
-      <div class="card-background">
-        <img class="img" src="../../../../../assets/example-agree/man_and_agree1.jpg" alt="">
-      </div>
+      <app-footer></app-footer>
     </div>
   </div>
+
 </div>

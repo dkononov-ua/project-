@@ -1,47 +1,57 @@
-import { Component, OnInit } from '@angular/core';
-import { animations } from '../../../../interface/animation';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
-import * as ServerConfig from 'src/app/config/path-config';
+import { animations } from '../../../../interface/animation';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-resident-menu',
   templateUrl: './resident-menu.component.html',
-  styleUrls: ['./resident-menu.component.scss'],
+  styleUrls: ['./../../../pages.scss'],
   animations: [
-    animations.top1,
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.swichCard,
+    animations.right,
+    animations.right1,
+    animations.right2,
+    animations.right3,
+    animations.right4,
+    animations.bot,
   ],
 })
-export class ResidentMenuComponent implements OnInit {
-  isMobile = false;
+export class ResidentMenuComponent implements OnInit, OnDestroy {
 
-  // імпорт шляхів
-  pathPhotoUser = ServerConfig.pathPhotoUser;
-  pathPhotoFlat = ServerConfig.pathPhotoFlat;
-  pathPhotoComunal = ServerConfig.pathPhotoComunal;
-  path_logo = ServerConfig.pathLogo;
-  serverPath: string = '';
-  // ***
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
-    private sharedService: SharedService
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-      // isMobile: boolean = false;
-    });
+    private sharedService: SharedService,
+    private updateMetaTagsService: UpdateMetaTagsService,
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    this.updateMetaTagsInService();
+    this.getCheckDevice();
   }
 
-  ngOnInit() {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
+  private updateMetaTagsInService(): void {
+    const data = {
+      title: 'Система підписок та дискусій в Діскусіо',
+      description: 'Пояснення як працює система підписок та дискусій в Діскусіо',
+      keywords: 'підписка, підписники, дискусія, система дискусій, пояснення, послідовність',
+      // image: '/assets/blog/blog.png',
+      // url: 'https://discussio.site/blog',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }
