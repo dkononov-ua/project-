@@ -16,7 +16,7 @@ import { ViewComunService } from '../../host-user/host-user-discus/discus/view-c
 @Component({
   selector: 'app-housing-services',
   templateUrl: './housing-services.component.html',
-  styleUrls: ['./../../../style/comun/comun.scss'],
+  styleUrls: ['./../../pages.scss'],
   animations: [
     animations.right1,
     animations.left,

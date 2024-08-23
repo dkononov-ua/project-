@@ -1,53 +1,73 @@
-<div class="card-wrapper col-12">
-  <div [@top1] class="col-lg-6 col-md-6 col-sm-12 col-12">
-    <div class="card-content-static box-shadow">
-      <div class="card-group">
-        <div class="flex-box-center t-c p-2 mt-2 w-100">
-          <i class="fa-solid fa-chart-line"></i>
-          <p class="t-lar-x bold mb-2">Меню Статистика Оселі</p>
-          <p class="t-med bold mb-2">Вносіть та діліться інформацією про статистичні дані оселі.
-            Переглядайте стистику по споживанню та витратам</p>
-          <ul class="t-med mt-2 t-s">
-            <span class="t-lar bold p-3">Тут доступні такі можливості:</span>
-            <li class="mt-2">Створення послуг.</li>
-            <li>Внесення показників.</li>
-            <li>Місячний звіт.</li>
-            <li>Сезоний звіт.</li>
-            <li>Річний звіт.</li>
-            <li>Річний графік.</li>
-          </ul>
-        </div>
+<div [@bot] class="container-info">
 
-        <div class="btn-group mt-2">
-          <button class="btn btn-navigation" [routerLink]="'/feedback'" [queryParams]="{ category: 'Угоди' }">
-            <div class="t-med bold mr-2">Є ідея як зробити краще?</div>
-            <i class="fa-regular fa-lightbulb"></i>
-          </button>
-        </div>
-
-      </div>
-      <div class="card-background">
-        <img class="img" src="../../../assets/example-agree/stats1.jpg" alt="">
-      </div>
+  <div class="info-content">
+    <div class="img-wrapper">
+      <img class="img" src="../../../assets/example-agree/stats1.jpg" alt="Menu Image" loading="lazy">
+      <div class="blure"></div>
     </div>
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-12 col-12 hide-mobile">
-    <div class="card-content-static">
-      <div class="p-3 t-c">
-        <h3 class="bg-mob"><span class="bold"> Статистика оселі <i class="fa-solid fa-chart-pie pl-2"></i>. </span></h3>
-        <p class="text t-c">
-          Ви можете <strong>створювати комунальні послуги</strong> та вибирати різні варіанти розрахунку
-          витрат. Ви маєте можливість <strong>вести свою власну статистику</strong>, проводячи детальний розрахунок
-          використання
-          комунальних ресурсів. Ця функція сприяє обміну даними між орендарем
-          та орендодавцем, дозволяючи точно відслідковувати витрати та встановлювати звіти про споживання ресурсів
-          щомісяця. Це робить процес обліку комунальних послуг більш прозорим та допомагає уникнути спорів між
-          сторонами.
+
+    <div class="info-wrapper ">
+      <div class="info">
+        <i class="fa-solid fa-person-hiking"></i>
+        <p class="t-lar-x bold mb-2">Як це працює?</p>
+
+        <h1 class="t-c">Статистика оселі та комунальні</h1>
+
+        <h2 class="t-med bold mb-2 t-c mt-2">Ця функція спрощує обмін іфнормацією між орендарем
+          та орендодавцем, дозволяючи точно відслідковувати витрати на оселю та формувати звіти про споживання ресурсів.
+        </h2>
+
+        <p class="t-med t-c">
+          Це робить процес обліку як комунальних послуг так і облік всіх змін в вашій оселі більш прозорим та допомагає
+          уникнути спорів між сторонами.
         </p>
+
+        <p class="t-med t-c">
+          Ви можете <strong>створювати картки послуг</strong> з наданих шаблонів або свої власні, для того щоб почати
+          вести сатистику.
+        </p>
+
+        <a class="b-primary m-2" [routerLink]="'/house/communal/add'">
+          <i class="fa-solid fa-sliders"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Керування</p>
+            <p class="t-min white">Додати постачальника послуг</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c">
+          Обравши різні варіанти розрахунку
+          витрат, ви маєте можливість <strong>вести свою власну статистику</strong>, проводячи детальний розрахунок
+          використання комунальних ресурсів по місяцям.
+        </p>
+
+        <a class="b-primary m-2" [routerLink]="'/house/communal/stat-month'">
+          <i class="fa-solid fa-calendar-day"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Місяць</p>
+            <p class="t-min white">Звіт за місяць</p>
+          </div>
+        </a>
+
+        <p class="t-med t-c">Або за цілий рік, в якому будуть зазначені витрати на ремонт або поліпшення умов проживання
+        </p>
+
+        <a class="b-primary m-2" [routerLink]="'/house/communal/stat-year'">
+          <i class="fa-solid fa-chart-pie"></i>
+          <div class="flex-column pl-2 t-e">
+            <p class="t-med white">Рік</p>
+            <p class="t-min white">Звіт за рік</p>
+          </div>
+        </a>
+
+        <a class="t-c p-3" [routerLink]="'/feedback'" [queryParams]="{ category: 'Профіль орендаря' }">
+          <div class="t-med bold mr-2 accent">Є ідея як зробити краще? <i class="fa-regular fa-lightbulb accent"></i>
+          </div>
+        </a>
+
       </div>
-      <div class="gif-box t-c">
-        <img class="home-img" src="../../../assets/gif/stat.gif" alt="">
-      </div>
+      <app-footer></app-footer>
     </div>
   </div>
+
 </div>

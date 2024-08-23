@@ -18,6 +18,7 @@
   }
   .sticky-top {
     z-index: 10 !important;
+    flex-wrap: wrap;
     @include flex-box-center;
     background-image: linear-gradient(to top, transparent, $color-primary 20%);
     @include s1-s3 {

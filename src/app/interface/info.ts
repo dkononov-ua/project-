@@ -1,97 +1,95 @@
 // параметри користувача
 export interface UserInfo {
-  checked: number | 0;
-  realll: number | 0;
-  tell: any;
-  dob: any;
-  country: string | undefined;
-  firstName: string | undefined;
-  img: string | undefined;
-  lastName: string | undefined;
-  user_id: string;
-  surName: string;
-  instagram: string;
-  telegram: string;
-  viber: string;
-  facebook: string;
-  mail: any;
-  price_of: number | undefined;
-  price_to: number | undefined;
-  region: string | undefined;
-  city: string | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
+  about: string | undefined;
+  agree_search: number | undefined;
+  animals: string | undefined;
   area_of: string | undefined;
   area_to: string | undefined;
-  repair_status: string | undefined;
-  bunker: string | undefined;
   balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: number;
-  distance_stop: number;
-  distance_green: number;
-  distance_shop: number;
-  distance_parking: number;
-  option_pay: number | undefined;
-  day_counts: string | undefined;
-  purpose_rent: any;
-  house: number | undefined;
-  flat: number | undefined;
-  room: number | undefined;
-  looking_woman: boolean | undefined;
-  looking_man: boolean | undefined;
-  agree_search: number | undefined;
-  students: number | undefined;
-  woman: number | undefined;
-  man: number | undefined;
-  family: number | undefined;
-  days: number | undefined;
-  weeks: number | undefined;
-  mounths: number | undefined;
-  years: number | undefined;
-  about: string | undefined;
-  date: any;
-}
-
-export interface UserInfoSearch {
-  price: number | undefined;
-  region: string | undefined;
+  bunker: string | undefined;
+  checked: number | 0;
   city: string | undefined;
-  rooms: number | undefined;
-  area: string | undefined;
-  repair_status: string | undefined;
-  bunker: string | undefined;
-  balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: string | undefined;
-  distance_stop: string | undefined;
-  distance_green: string | undefined;
-  distance_shop: string | undefined;
-  distance_parking: string | undefined;
-  option_pay: any;
-  purpose_rent: string | undefined;
-  looking_woman: boolean | undefined;
-  looking_man: boolean | undefined;
-  students: number | undefined;
-  woman: number | undefined;
-  man: number | undefined;
-  family: number | undefined;
-  days: number | undefined;
-  weeks: number | undefined;
-  months: number | undefined;
-  years: number | undefined;
+  country: string | undefined;
+  date: any;
   day_counts: string | undefined;
-  room: boolean | undefined;
-  house: number | undefined;
+  days: number | undefined;
+  distance_green: number;
+  distance_metro: number;
+  distance_parking: number;
+  distance_shop: number;
+  distance_stop: number;
+  dob: any;
+  facebook: string;
+  family: number | undefined;
+  firstName: string | undefined;
   flat: number | undefined;
-  limit: number;
-  kitchen_area: number | undefined;
+  house: number | undefined;
+  img: string | undefined;
+  instagram: string;
+  lastName: string | undefined;
+  looking_man: boolean | undefined;
+  looking_woman: boolean | undefined;
+  mail: any;
+  man: number | undefined;
+  mounths: number | undefined;
+  option_pay: number | undefined;
+  price_of: number | undefined;
+  price_to: number | undefined;
+  purpose_rent: any;
+  realll: number | 0;
+  region: string | undefined;
+  repair_status: string | undefined;
+  room: number | undefined;
+  rooms_of: number | undefined;
+  rooms_to: number | undefined;
+  students: number | undefined;
+  surName: string;
+  telegram: string;
+  tell: any;
+  user_id: string;
+  viber: string;
+  weeks: number | undefined;
+  woman: number | undefined;
+  years: number | undefined;
 }
-
+export interface UserInfoSearch {
+  animals: string | undefined;
+  area: string | undefined;
+  balcony: string | undefined;
+  bunker: string | undefined;
+  city: string | undefined;
+  day_counts: string | undefined;
+  days: number | undefined;
+  distance_green: string | undefined;
+  distance_metro: string | undefined;
+  distance_parking: string | undefined;
+  distance_shop: string | undefined;
+  distance_stop: string | undefined;
+  family: number | undefined;
+  flat: number | undefined;
+  house: number | undefined;
+  kitchen_area: number | undefined;
+  limit: number;
+  looking_man: boolean | undefined;
+  looking_woman: boolean | undefined;
+  man: number | undefined;
+  months: number | undefined;
+  option_pay: any;
+  price: number | undefined;
+  purpose_rent: string | undefined;
+  region: string | undefined;
+  repair_status: string | undefined;
+  room: boolean | undefined;
+  rooms: number | undefined;
+  students: number | undefined;
+  weeks: number | undefined;
+  woman: number | undefined;
+  years: number | undefined;
+}
 export interface HouseInfo {
   about: string;
-  animals: any;
   agent_id: any;
+  animals: any;
   apartment: string;
   area: string;
   balcony: string;
@@ -103,9 +101,10 @@ export interface HouseInfo {
   distance_parking: any;
   distance_shop: any;
   distance_stop: any;
+  district: string;
   family: any;
   flat_id: string;
-  flat_index: string;
+  flat_index: any;
   floor: string;
   houseNumber: string;
   id: number;
@@ -114,20 +113,23 @@ export interface HouseInfo {
   limit: string;
   man: any;
   metro: string;
+  micro_district: string;
   name: string;
-  owner_id: any;
   option_flat: any;
   option_pay: number;
+  owner_id: any;
   photos: any[];
   price_d: any;
+  price_f: any;
   price_m: any;
+  price_s: any;
   price_y: string;
   private: number;
   region: string;
   repair_status: string;
   rent: any;
-  rooms: string;
   room: any;
+  rooms: string;
   selectedKitchen_area: string;
   street: string;
   students: any;
@@ -159,7 +161,6 @@ export interface Chat {
   viber: string;
   facebook: string;
 }
-
 export interface Agree {
   flat: {
     agreementDate: string;
@@ -196,7 +197,6 @@ export interface Agree {
   img: string[];
   exists: any;
 }
-
 export interface Subscriber {
   acces_flat_chats: boolean;
   acces_flat_features: boolean;
@@ -224,7 +224,6 @@ export interface Subscriber {
   facebook: string;
   mail: string;
 }
-
 // параметри користувача
 export interface StatusInfo {
   checked: number | 0;
@@ -241,7 +240,6 @@ export interface StatusInfo {
   family: number | undefined;
   date: any;
 }
-
 export interface HouseStatusInfo {
   checked: number | 0;
   realll: number | 0;

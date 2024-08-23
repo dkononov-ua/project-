@@ -35,10 +35,9 @@
         <div class="flex-box">
           <div class="switch-btn-group">
             <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/discus/subscriptions'">
-              <i class="fa-solid fa-people-pulling"></i>
+              <i class="fa-solid fa-people-pulling custom-badge" matBadge="{{counterHouseSubscriptions}}"
+              [matBadgeHidden]="counterHouseSubscriptions === 0"></i>
               <div class="t-min bold">Підписка</div>
-              <div class="status status1" *ngIf="counterHouseSubscriptions && counterHouseSubscriptions !== '0'">
-                {{counterHouseSubscriptions}} </div>
             </button>
           </div>
           <div class="flex-column-box">
@@ -49,10 +48,9 @@
         <div class="flex-box">
           <div class="switch-btn-group">
             <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/discus/subscribers'">
-              <i class="fa-solid fa-child-reaching"></i>
+              <i class="fa-solid fa-child-reaching custom-badge" matBadge="{{counterHouseSubscribers}}"
+              [matBadgeHidden]="counterHouseSubscribers === 0"></i>
               <div class="t-min bold">Підписник</div>
-              <div class="status status1" *ngIf="counterHouseSubscribers && counterHouseSubscribers !== '0'">
-                {{counterHouseSubscribers}}</div>
             </button>
           </div>
           <div class="flex-column-box">
@@ -64,11 +62,9 @@
 
       <div class="switch-btn-group">
         <button [disabled]="!houseData || acces_discuss !== 1" class="btn" [routerLink]="'/house/discus/discussion'">
-          <i class="fa-solid fa-person-walking-luggage"></i>
+          <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterHouseDiscussio}}"
+          [matBadgeHidden]="counterHouseDiscussio === 0"></i>
           <div class="t-min bold">Дискусія</div>
-          <div class="status status1" *ngIf="counterHouseDiscussio && counterHouseDiscussio !== '0'">
-            {{counterHouseDiscussio}}
-          </div>
         </button>
       </div>
 

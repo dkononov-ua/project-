@@ -45,29 +45,30 @@
 <div [@top1] class="info-card">
   <div class="param-wrapper p-2 mt-4">
 
-    <div class="flex-column t-c">
-      <div class="t-med bold">Тут можна вказати основні характеристики оселі</div>
-      <div class="t-med bold accent">Оберіть тип оселі</div>
-      <div class="t-min gray">Цей параметр обов'язковий, без нього оголошення не буде опубліковано.</div>
-    </div>
+    <div class="t-med bold">Тут можна вказати основні характеристики оселі</div>
 
-    <div class="group-item-1">
-      <div class="content">
-        <label class="checkBox">
-          <input id="looking_house" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=1>
-          <div class="transition"></div>
-        </label>
-        <span class="checkBox-span">Будинок <i class="fa-solid fa-house-chimney-window gray pr-2"></i></span>
-        <i></i>
-      </div>
+    <div class="mt-2 border-top w-100">
+      <mat-label class="label">Оберіть тип оселі*</mat-label>
+      <div class="t-min gray">Тип оселі це обов'язковий параметр</div>
 
-      <div class="content">
-        <label class="checkBox">
-          <input id="looking_flat" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=2>
-          <div class="transition"></div>
-        </label>
-        <span class="checkBox-span">Квартира <i class="fa-solid fa-building-circle-arrow-right gray pr-2"></i></span>
-        <i></i>
+      <div class="inputbox-group">
+        <div class="content">
+          <label class="checkBox">
+            <input id="looking_house" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=1>
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Будинок <i class="fa-solid fa-house-chimney-window gray pr-2"></i></span>
+          <i></i>
+        </div>
+
+        <div class="content">
+          <label class="checkBox">
+            <input id="looking_flat" type="radio" [(ngModel)]="flatInfo.option_flat" name="flat" [value]=2>
+            <div class="transition"></div>
+          </label>
+          <span class="checkBox-span">Квартира <i class="fa-solid fa-building-circle-arrow-right gray pr-2"></i></span>
+          <i></i>
+        </div>
       </div>
     </div>
 
@@ -105,7 +106,10 @@
       <mat-hint align="start" class="t-min gray">Кількість кімнат</mat-hint>
     </mat-form-field>
 
-    <div class="item-box w-100">
+    <div class="item-box w-100 mt-2">
+      <mat-label class="label action " (click)="openHelpRepair()">Оберіть стан оселі <i
+          class="fa-solid fa-circle-info"></i></mat-label>
+
       <mat-form-field class="item-select" appearance="outline">
         <mat-select [(ngModel)]="flatInfo.repair_status" name="repair_status">
           <mat-option value="">Приховати</mat-option>
@@ -117,10 +121,13 @@
         <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
         <mat-hint align="start" class="t-min gray">Стан оселі</mat-hint>
       </mat-form-field>
-      <button class="info-btn" (click)="openHelpRepair()">Допомога</button>
     </div>
 
-    <div class="item-box w-100">
+
+    <div class="item-box w-100 mt-2">
+      <mat-label class="label action " (click)="openHelpBalcony()">Оберіть тип балкону <i
+          class="fa-solid fa-circle-info"></i></mat-label>
+
       <mat-form-field class="item-select" appearance="outline">
         <mat-select [(ngModel)]="flatInfo.balcony" name="balcony">
           <mat-option value="">Приховати</mat-option>
@@ -133,12 +140,12 @@
         <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
         <mat-hint align="start" class="t-min gray">Тип балкону</mat-hint>
       </mat-form-field>
-      <button class="info-btn" (click)="openHelpBalcony()">Допомога</button>
     </div>
   </div>
+
   <div class="btn-group mt-2">
-    <button class="btn flex-box" (click)="clearInfo()">ОЧИСТИТИ<i class="icon fa-solid fa-eraser ml-2"></i></button>
     <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
         class="icon fa-regular fa-circle-check ml-2"></i></button>
   </div>
+
 </div>

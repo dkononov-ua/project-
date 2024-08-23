@@ -79,6 +79,9 @@ import { RouterModule } from '@angular/router';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddRatingComponent } from '../components/add-rating/add-rating.component';
 import { AgreeDetailsComponent } from '../card/card-user-components/agree-details/agree-details.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { HouseResidentProgressComponent } from '../card/card-house-components/house-resident-progress/house-resident-progress.component';
+import { AutoResizeTextareaDirective } from '../directive/auto-resize-textarea.directive';
 
 @NgModule({
   declarations: [
@@ -117,7 +120,6 @@ import { AgreeDetailsComponent } from '../card/card-user-components/agree-detail
     ContactsComponent,
     PostDetailComponent,
     NavbarComponent,
-    ClickOutsideDirective,
     ActionComponent,
     ActionDeleteSubComponent,
     DeleteHouseComponent,
@@ -126,7 +128,10 @@ import { AgreeDetailsComponent } from '../card/card-user-components/agree-detail
     AddAccessComponent,
     AddRatingComponent,
     AgreeDetailsComponent,
+    HouseResidentProgressComponent,
 
+    ClickOutsideDirective,
+    AutoResizeTextareaDirective,
   ],
   exports: [
     FooterComponent,
@@ -161,7 +166,6 @@ import { AgreeDetailsComponent } from '../card/card-user-components/agree-detail
     ContactsComponent,
     PostDetailComponent,
     NavbarComponent,
-    ClickOutsideDirective,
     ActionComponent,
     ActionDeleteSubComponent,
     HouseAgreeProgressComponent,
@@ -169,10 +173,13 @@ import { AgreeDetailsComponent } from '../card/card-user-components/agree-detail
     AddAccessComponent,
     AddRatingComponent,
     AgreeDetailsComponent,
+    HouseResidentProgressComponent,
+
+    ClickOutsideDirective,
+    AutoResizeTextareaDirective,
   ],
   providers: [
     UpdateComponentService,
-    SharedService,
     StatusDataService,
     StatusDataHouseComponent,
     CreateChatService,
@@ -201,7 +208,7 @@ import { AgreeDetailsComponent } from '../card/card-user-components/agree-detail
     MatSlideToggleModule,
 
     MatRadioModule,
-
+    MatBadgeModule,
     MatSnackBarModule,
     MatPaginatorModule,
     MatSliderModule,

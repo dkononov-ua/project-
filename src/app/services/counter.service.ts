@@ -186,7 +186,6 @@ export class CounterService {
     const data = { auth: JSON.parse(userJson!), flat_id: selectedFlatId, };
     try {
       const counterHouseNewMessage: any = await this.http.post(this.serverPath + '/chat/get/DontReadMessageFlat', data).toPromise();
-      // console.log(counterHouseNewMessage)
       if (counterHouseNewMessage.status !== 'Авторизуйтесь') {
         this.counterHouseNewMessageSubject.next(counterHouseNewMessage);
         // console.log('Запит на сервер Повідомлень оселі', counterHouseNewMessage)

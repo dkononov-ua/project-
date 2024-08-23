@@ -29,7 +29,7 @@
   <div class="item-group" *ngIf="!authorization">
     <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'">
       <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-      <div class="t-min">Реєстрація</div>
+      <div class="t-min">Реєстр.</div>
     </a>
   </div>
 
@@ -40,14 +40,14 @@
     </a>
   </div>
 
-  <div class="item-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(2)">
+  <div class="item-group" *ngIf="isMobile" (click)="toggleAllMenu(2)">
     <button class="nav-link">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
     </button>
   </div>
 
-  <div class="item-group" *ngIf="authorization && isMobile" (click)="toggleAllMenu(3)">
+  <div class="item-group" *ngIf="isMobile" (click)="toggleAllMenu(3)">
     <button class="nav-link">
       <i class="fa-solid fa-house"></i>
       <div class="t-min">Оселя</div>

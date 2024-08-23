@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
-import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
+import { CounterService } from 'src/app/services/counter.service';
+import { UpdateComponentService } from 'src/app/services/update-component.service';
+import { animations } from '../../../interface/animation';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-agree-menu',
-  templateUrl: './agree-menu.component.html',
-  styleUrls: ['./../../../pages.scss'],
+  selector: 'app-house-resident-progress',
+  templateUrl: './house-resident-progress.component.html',
+  styleUrls: ['./../../progress.scss'],
   animations: [
     animations.left,
     animations.left1,
@@ -17,15 +18,16 @@ import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
     animations.left3,
     animations.left4,
     animations.left5,
+    animations.right1,
     animations.swichCard,
     animations.top1,
+    animations.top2,
     animations.top3,
   ],
 })
 
-export class AgreeMenuComponent implements OnInit, OnDestroy {
+export class HouseResidentProgressComponent implements OnInit, OnDestroy {
 
-  offs: number = 0;
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -33,6 +35,15 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
   // ***
+
+  goBack(): void {
+    this.location.back();
+  }
+  selectedFlatId!: string | null;
+  statusMessage: string | undefined;
+  houseData: any;
+  authorization: boolean = false;
+  loading: boolean = false;
 
   counterHouseSubscribers: number = 0;
   counterHouseSubscriptions: number = 0;
@@ -57,36 +68,23 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
   acces_services: number = 1;
   acces_subs: number = 1;
 
-  houseData: any;
+  unreadHouseMessage: any;
+  iReadHouseMessage: boolean = false;
+  counterHouseNewMessage: any;
   isMobile: boolean = false;
   subscriptions: any[] = [];
-  selectedFlatId!: string | null;
-  authorization: boolean = false;
-  authorizationHouse: boolean = false;
 
   constructor(
-    private router: Router,
-    private selectedFlatIdService: SelectedFlatService,
+    private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
-    private updateMetaTagsService: UpdateMetaTagsService,
+    private counterService: CounterService,
+    private updateComponent: UpdateComponentService,
+    private location: Location,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.updateMetaTagsInService();
-    this.getCheckDevice();
-    this.getServerPath();
+    await this.getCheckDevice();
     this.checkUserAuthorization();
-  }
-
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Створення угод оренди житла',
-      description: 'Наша платформа дозволяє легко та швидко створювати угоди між орендарем та орендодавцем всього за кілька кліків.',
-      keywords: 'угода, оренда, укласти угоду, сформувати угоду, завантажити угоду оренди, надрукувати угоду',
-      // image: '/assets/blog/blog.png',
-      // url: 'https://discussio.site/blog',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // Перевірка на авторизацію користувача
@@ -109,22 +107,11 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
     );
   }
 
-  // підписка на шлях до серверу
-  async getServerPath() {
-    this.subscriptions.push(
-      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-        this.serverPath = serverPath;
-      })
-    );
-  }
-
   getSelectParam() {
     this.subscriptions.push(
-      this.selectedFlatIdService.selectedFlatId$.subscribe((flatId: string | null) => {
+      this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
         this.selectedFlatId = flatId || this.selectedFlatId;
-        if (this.selectedFlatId) {
-          this.loadDataFlat();
-        }
+        this.loadDataFlat();
       })
     );
   }
@@ -148,6 +135,9 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
       this.acces_admin = this.houseData.acces.acces_admin;
       this.acces_agent = this.houseData.acces.acces_agent;
       this.acces_agreement = this.houseData.acces.acces_agreement;
+      if (this.acces_agreement === 1) {
+        this.getStorageHouseCounter();
+      }
       this.acces_citizen = this.houseData.acces.acces_citizen;
       this.acces_comunal = this.houseData.acces.acces_comunal;
       this.acces_comunal_indexes = this.houseData.acces.acces_comunal_indexes;
@@ -161,7 +151,7 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
     this.getStorageHouseCounter();
   }
 
-  // Перевірка на авторизацію користувача
+  // Отримання лічильників по угодам
   async getStorageHouseCounter() {
     this.counterHouseSubscribers = Number(localStorage.getItem('counterHouseSubscribers'));
     this.counterHouseSubscriptions = Number(localStorage.getItem('counterHouseSubscriptions'));
@@ -177,49 +167,14 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
     if (actExistsArray) {
       this.actExistsArray = JSON.parse(actExistsArray);
     }
-
-    // console.log('counterHouseSubscribers:', this.counterHouseSubscribers);
-    // console.log('counterHouseSubscriptions:', this.counterHouseSubscriptions);
-    // console.log('counterHouseDiscussio:', this.counterHouseDiscussio);
-    // console.log('counterHouseSendAgree:', this.counterHouseSendAgree);
-    // console.log('counterHouseConcludedAgree:', this.counterHouseConcludedAgree);
-    // console.log('houseConcludedAgreeIds:', this.houseConcludedAgreeIds);
-    // console.log('actExistsArray:', this.actExistsArray);
   }
-
-  // Переходимо до створення угоди
-  goToAgreeCreate() {
-    if (this.counterHouseDiscussio !== 0) {
-      this.router.navigate(['/house/agree/create']);
-    }
-  }
-
-  // Переходимо до створення акту за угодою
-  goToActCreate() {
-    if (this.counterHouseConcludedAgree !== 0) {
-      this.router.navigate(['/house/act/create']);
-    }
-  }
-
-  // Переходимо до надісланих угод
-  goToAgreeReview() {
-    if (this.counterHouseSendAgree !== 0) {
-      this.router.navigate(['/house/agree/review']);
-    }
-  }
-
-  // Переходимо до укладених угод
-  goToConcluded() {
-    if (this.counterHouseConcludedAgree !== 0) {
-      this.router.navigate(['/house/agree/concluded']);
-    }
-  }
-
 
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
 }
+
+
+
 

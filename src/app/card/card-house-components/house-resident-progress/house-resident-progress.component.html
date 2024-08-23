@@ -1,0 +1,51 @@
+<div [@top3] class="progress-content">
+  <div class="progress-wrapper">
+    <h2 class="bold t-med m-2 border-bottom t-c"><strong>Послідовність як за допомогою акту
+        прийому-передачі оселі додавати мешканців</strong></h2>
+    <div class="switch-container">
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/agree/create'">
+          <i class="fa-solid fa-feather-pointed"></i>
+          <div class="t-min bold">Створення угоди</div>
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
+          [routerLink]="'/house/agree/review'">
+
+          <i class="fa-solid fa-hourglass-half custom-badge" matBadge="{{counterHouseSendAgree}}"
+            [matBadgeHidden]="counterHouseSendAgree === 0"></i>
+          <div class="t-min bold">Ухвалення Угоди</div>
+
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_subs !== 1" class="btn" [routerLink]="'/house/agree/concluded'">
+          <i class="fa-solid fa-people-carry-box"></i>
+          <div class="t-min bold">Створення Акту</div>
+        </button>
+      </div>
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+
+      <div class="switch-btn-group">
+        <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
+          [routerLink]="'/house/agree/concluded'">
+          <i class="fa-solid fa-people-roof custom-badge" matBadge="{{counterHouseConcludedAgree}}"
+            [matBadgeHidden]="counterHouseConcludedAgree === 0"></i>
+          <div class="t-min bold">Додавання Мешканців</div>
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+</div>

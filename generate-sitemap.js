@@ -17,16 +17,25 @@ const routes = [
   '/support-us',
   '/user-licence',
   '/our-team',
+
   '/auth/login',
   '/auth/registration',
 
   '/user/search/house',
-  '/user/search/tenant',
-  '/user/search/neighbor',
-
   '/user/agree/about',
   '/user/discus/about',
-  '/user/tenant',
+  '/user/tenant/about',
+  '/user/agree/step',
+
+  '/house/agree/about',
+  '/house/agree/step',
+  '/house/objects/about',
+  '/house/residents/about',
+  '/house/control/about',
+  '/house/discus/about',
+  '/house/search/tenant',
+  '/house/search/neighbor',
+
 ];
 
 console.log('Маршрути:', routes);

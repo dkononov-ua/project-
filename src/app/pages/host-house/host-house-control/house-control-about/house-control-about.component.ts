@@ -33,15 +33,14 @@ export class HouseControlAboutComponent implements OnInit, OnDestroy {
 
   private updateMetaTagsInService(): void {
     const data = {
-      title: 'Система підписок та дискусій в Діскусіо',
-      description: 'Пояснення як працює система підписок та дискусій в Діскусіо',
-      keywords: 'підписка, підписники, дискусія, система дискусій, пояснення, послідовність',
+      title: 'Профіль оселі',
+      description: 'В Діскусіо ви можете створювати профілі осель для їх керування.',
+      keywords: 'профіль оселі, керування оселями, створення профілю оселі, обрати профіль оселі, вибір оселі, додати оселю, створити багато оселей, зручне керування оселями, керування житлом',
       // image: '/assets/blog/blog.png',
       // url: 'https://discussio.site/blog',
     }
     this.updateMetaTagsService.updateMetaTags(data)
   }
-
   // підписка на шлях до серверу
   async getCheckDevice() {
     this.subscriptions.push(

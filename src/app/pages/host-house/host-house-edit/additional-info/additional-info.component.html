@@ -47,13 +47,13 @@
         <p class="t-min gray">вкажіть ваші застереження, інструкції абощо для ваших орендарів</p>
       </div>
     </div>
-    <div class="form-floating p-1 w-100">
-      <textarea #textArea class="form-control scrollable-textarea" id="floatingTextarea"
-        [(ngModel)]="flatInfo.info_about" name="info_about" (input)="onInput()"></textarea>
-      <label for="floatingTextarea">
+
+    <mat-form-field class="mt-2">
+      <textarea appAutoResizeTextarea matInput id="textArea" [(ngModel)]="flatInfo.info_about"></textarea>
+      <label for="textArea">
         <p>Додаткова інформація про оселю:</p>
       </label>
-    </div>
+    </mat-form-field>
 
   </div>
   <div class="btn-group">

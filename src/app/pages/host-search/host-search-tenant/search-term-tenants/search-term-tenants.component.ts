@@ -152,10 +152,10 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
       if (this.houseData) {
         this.myDataExist = true;
       } else {
-        this.myDataExist = false;
+        this.myDataExist = true;
       }
     } else {
-      this.myDataExist = false;
+      this.myDataExist = true;
     }
   }
 
@@ -314,35 +314,30 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
 
   // пошук
   async searchFilter(): Promise<void> {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        const response: any = await this.http.post(this.serverPath + '/search/user', { auth: JSON.parse(userJson), ...this.userInfo, flat_id: this.selectedFlatId }).toPromise();
-        // console.log(response.user_inf)
-        // console.log(this.filteredUsers)
-        if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && !this.addСardsToArray) {
-          // console.log('Запит на нові оголошення')
-          this.filteredUsers = response.user_inf;
-          this.optionsFound = response.search_count;
-          this.passInformationToService(this.filteredUsers, this.optionsFound);
-        } else if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && this.addСardsToArray) {
-          // console.log('Додавання нових оголошень до попередніх')
-          // this.filteredUsers.push(...response.user_inf);
-          this.filteredUsers = response.user_inf;
-          this.optionsFound = response.search_count;
-          this.passInformationToService(this.filteredUsers, this.optionsFound);
-        } else {
-          this.filteredUsers = [];
-          this.optionsFound = 0;
-          this.passInformationToService(this.filteredUsers, this.optionsFound);
-        }
-      } catch (error) {
-        console.error(error);
-        this.sharedService.setStatusMessage('Помилка пошуку');
-        setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
+    try {
+      const response: any = await this.http.post(this.serverPath + '/search/user', { ...this.userInfo, flat_id: this.selectedFlatId }).toPromise();
+      // console.log(response.user_inf)
+      // console.log(this.filteredUsers)
+      if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && !this.addСardsToArray) {
+        // console.log('Запит на нові оголошення')
+        this.filteredUsers = response.user_inf;
+        this.optionsFound = response.search_count;
+        this.passInformationToService(this.filteredUsers, this.optionsFound);
+      } else if (Array.isArray(response.user_inf) && response.user_inf.length > 0 && this.addСardsToArray) {
+        // console.log('Додавання нових оголошень до попередніх')
+        // this.filteredUsers.push(...response.user_inf);
+        this.filteredUsers = response.user_inf;
+        this.optionsFound = response.search_count;
+        this.passInformationToService(this.filteredUsers, this.optionsFound);
+      } else {
+        this.filteredUsers = [];
+        this.optionsFound = 0;
+        this.passInformationToService(this.filteredUsers, this.optionsFound);
       }
-    } else {
-      this.passInformationToService(this.filteredUsers, this.optionsFound)
+    } catch (error) {
+      console.error(error);
+      this.sharedService.setStatusMessage('Помилка пошуку');
+      setTimeout(() => { this.sharedService.setStatusMessage(''); }, 2000);
     }
   }
 

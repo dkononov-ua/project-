@@ -71,21 +71,16 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      if (this.authorization) {
-        this.getCheckDevice();
-        this.getServerPath();
-        this.getSelectedFlat();
-        this.getBtnStatus();
-        this.getHouseAcces();
-        this.getCounterFound();
-        this.getIndexPage();
-      }
     } else {
-      this.authorization = false;
-      setTimeout(() => {
-        this.sharedService.getAuthorization();
-      }, 100);
+      this.authorization = true;
     }
+    this.getCheckDevice();
+    this.getServerPath();
+    this.getSelectedFlat();
+    this.getBtnStatus();
+    this.getHouseAcces();
+    this.getCounterFound();
+    this.getIndexPage();
   }
 
   // підписка на перевірку девайсу
@@ -184,7 +179,7 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     // видаляю обраний айді користувача
     this.choseSubscribersService.removeChosenUserId();
     this.cardsDataHouseService.removeCardData(); // очищуємо дані про оселю
-    this.cardsDataHouseService.removeCardsData(); 
+    this.cardsDataHouseService.removeCardsData();
 
     // скидую в компоненті profile індекс сторінки щоб показувати всі картки при оновленні сторінки
     this.choseSubscribersService.setIndexPage(2);

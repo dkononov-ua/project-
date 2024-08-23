@@ -6,94 +6,16 @@ import { StatusMessageService } from './status-message.service';
 import { ActionComponent } from '../card/card-user-components/action/action.component';
 import { DataService } from './data.service';
 import { LoaderService } from './loader.service';
-
-interface UserInfo {
-  agree: boolean | false;
-  price_of: number | undefined;
-  price_to: number | undefined;
-  region: string | undefined;
-  city: string | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  area_of: string;
-  area_to: string;
-  repair_status: string | undefined;
-  bunker: string | undefined;
-  balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: string | undefined;
-  distance_stop: string | undefined;
-  distance_green: string | undefined;
-  distance_shop: string | undefined;
-  distance_parking: string | undefined;
-  option_pay: number | undefined;
-  day_counts: number | undefined;
-  purpose_rent: string | undefined;
-  house: boolean | undefined;
-  flat: boolean | undefined;
-  room: boolean | undefined;
-  looking_woman: number | undefined;
-  looking_man: number | undefined;
-  agree_search: number | undefined;
-  students: boolean | false;
-  woman: boolean | false;
-  man: boolean | false;
-  family: boolean | false;
-  days: number | undefined;
-  weeks: number | undefined;
-  mounths: number | undefined;
-  years: number | undefined;
-  about: string | undefined;
-  metro: string | undefined;
-}
+import { UserInfo } from 'src/app/interface/info';
+import { UsereSearchConfig } from 'src/app/interface/param-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageUserDataService implements OnDestroy {
-
   serverPath: string = '';
   userFeaturesData: any;
-
-  userInfo: UserInfo = {
-    agree: false,
-    price_of: 0,
-    price_to: 0,
-    region: '',
-    city: '',
-    rooms_of: 0,
-    rooms_to: 6,
-    area_of: '0.00',
-    area_to: '100000.00',
-    repair_status: 'Неважливо',
-    bunker: 'Неважливо',
-    balcony: 'Неважливо',
-    animals: '',
-    distance_metro: '',
-    distance_stop: '',
-    distance_green: '',
-    distance_shop: '',
-    distance_parking: '',
-    option_pay: 0,
-    house: false,
-    flat: false,
-    room: false,
-    day_counts: 0,
-    purpose_rent: 'Неважливо',
-    looking_woman: 0,
-    looking_man: 0,
-    agree_search: 0,
-    students: false,
-    woman: false,
-    man: false,
-    family: false,
-    days: 0,
-    weeks: 0,
-    mounths: 0,
-    years: 0,
-    about: '',
-    metro: '',
-  };
+  userInfo: UserInfo = UsereSearchConfig;
   subscriptions: any[] = [];
 
   constructor(
@@ -103,9 +25,7 @@ export class StorageUserDataService implements OnDestroy {
     private statusMessageService: StatusMessageService,
     private dataService: DataService,
     private loaderService: LoaderService,
-  ) {
-    this.getServerPath();
-  }
+  ) { this.getServerPath(); }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

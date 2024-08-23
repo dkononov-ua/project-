@@ -34,24 +34,16 @@ export class SelectYearComponent implements OnInit {
   constructor(
     private changeYearService: ChangeYearService,
     private sharedService: SharedService,
-  ) {
-    this.changeYearService.selectedYear$.subscribe(year => {
-      this.selectedYear = year;
-    });
-  }
+  ) {  }
 
   ngOnInit(): void {
-    // якщо рік не вибраний ставимо поточний
-    if (!this.selectedYear) {
-      this.getYearCurrent();
-    }
-  }
-
-  // ставимо поточний рік
-  getYearCurrent() {
-    const currentDate = new Date();
-    this.selectedYear = currentDate.getFullYear();
-    this.changeYearService.setSelectedYear(this.selectedYear);
+    this.changeYearService.selectedYear$.subscribe(year => {
+      if (year) {
+        this.selectedYear = year;
+      } else {
+        this.selectedYear = new Date().getFullYear();
+      }
+    });
   }
 
   toogleYear() {

@@ -9,7 +9,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { StorageUserDataService } from 'src/app/services/storageUserData.service';
 import { MenuService } from 'src/app/services/menu.service';
-
 @Component({
   selector: 'app-navigation-user',
   templateUrl: './navigation-user.component.html',
@@ -213,7 +212,13 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
     await this.counterService.getUserNewMessage();
     this.subscriptions.push(
       this.counterService.counterUserNewMessage$.subscribe(data => {
-        this.counterUserNewMessage = Number(data)
+        const counterUserNewMessage: any = data
+        if (counterUserNewMessage.status !== false) {
+          this.counterUserNewMessage = Number(counterUserNewMessage.status)
+          // console.log(data)
+        } else {
+          this.counterUserNewMessage = 0;
+        }
       })
     );
   }

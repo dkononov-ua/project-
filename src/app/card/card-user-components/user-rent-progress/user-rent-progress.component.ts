@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-user-rent-progress',
   templateUrl: './user-rent-progress.component.html',
-  styleUrls: ['./user-rent-progress.component.scss'],
+  styleUrls: ['./../../progress.scss'],
   animations: [animations.top3],
 })
 

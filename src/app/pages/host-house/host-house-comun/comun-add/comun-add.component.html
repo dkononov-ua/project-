@@ -1,91 +1,89 @@
-<div [@top1] class="card-wrapper w-100">
-  <div class="card-content-static p-2 w-100">
-    <div class="flex-column w-100">
-      <div *ngIf="selectedName" class="flex-column p-2">
-        <div class="text-min t-c gray">Вам надано доступ на перегляд статистики по оселі <span
-            class="accent t-lar">{{selectedName}}</span></div>
-      </div>
-      <div class="card-mini-box">
-        <div class="card-mini" [class.selected]="selectedComun === comunal.comunal_name"
-          *ngFor="let comunal of comunal_name; let i = index">
+<div [@top1] class="info-card">
+  <div class="flex-column w-100">
+    <div *ngIf="selectedName" class="flex-column p-2">
+      <div class="text-min t-c gray">Вам надано доступ на перегляд статистики по оселі <span
+          class="accent t-lar">{{selectedName}}</span></div>
+    </div>
+    <div class="card-mini-box">
+      <div class="card-mini" [class.selected]="selectedComun === comunal.comunal_name"
+        *ngFor="let comunal of comunal_name; let i = index">
 
-          <div class="card-mini-body  p-2">
-            <button class="item-box t-s w-50" (click)="selectComun(comunal.comunal_name)">
-              <div class="t-med bold" *ngIf="selectedComun === comunal.comunal_name">Обрана послуга</div>
-              <div class="t-lar bold">{{ comunal.comunal_name}}</div>
-              <div class="t-med" *ngIf="comunal.comunal_company">{{ comunal.comunal_company}} </div>
+        <div class="card-mini-body  p-2">
+          <button class="item-box t-s w-50" (click)="selectComun(comunal.comunal_name)">
+            <div class="t-med bold" *ngIf="selectedComun === comunal.comunal_name">Обрана послуга</div>
+            <div class="t-lar bold">{{ comunal.comunal_name}}</div>
+            <div class="t-med" *ngIf="comunal.comunal_company">{{ comunal.comunal_company}} </div>
+          </button>
+
+          <div class="btn-group-comun w-50">
+
+            <button class="btn-delete flex-box" (click)="goToStatSeason(comunal.comunal_name)">
+              <i class="fa-solid fa-chart-column"></i>
             </button>
 
-            <div class="btn-group-comun w-50">
+            <button class="btn-delete flex-box" (click)="goToHistory(comunal.comunal_name)" *ngIf="!selectedName">
+              <i class="fa-solid fa-pen"></i>
+            </button>
 
-              <button class="btn-delete flex-box" (click)="goToStatSeason(comunal.comunal_name)">
-                <i class="fa-solid fa-chart-column"></i>
-              </button>
+            <button class="btn-delete flex-box" (click)="deleteComun(comunal.comunal_name)" *ngIf="!selectedName">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
 
-              <button class="btn-delete flex-box" (click)="goToHistory(comunal.comunal_name)" *ngIf="!selectedName">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-
-              <button class="btn-delete flex-box" (click)="deleteComun(comunal.comunal_name)" *ngIf="!selectedName">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-
-              <button class="btn-delete flex-box" (click)="goToSetting(comunal.comunal_name)" *ngIf="!selectedName">
-                <i class="fa-solid fa-gear"></i>
-              </button>
-
-            </div>
+            <button class="btn-delete flex-box" (click)="goToSetting(comunal.comunal_name)" *ngIf="!selectedName">
+              <i class="fa-solid fa-gear"></i>
+            </button>
 
           </div>
 
-          <ng-container>
-            <div class="card-mini-img">
-              <img class="img" [src]="comunal.imageUrl ? comunal.imageUrl : defaultImageUrl" alt="img">
-            </div>
-          </ng-container>
-
         </div>
+
+        <ng-container>
+          <div class="card-mini-img">
+            <img class="img" [src]="comunal.imageUrl ? comunal.imageUrl : defaultImageUrl" alt="img">
+          </div>
+        </ng-container>
+
       </div>
-      <div *ngIf="!comunal_name && !selectedName" class="t-lar gray p-2 t-c">Послуги відсутні...</div>
+    </div>
+    <div *ngIf="!comunal_name && !selectedName" class="t-lar gray p-2 t-c">Послуги відсутні...</div>
+  </div>
+
+  <div class="sticky-bottom w-100" *ngIf="!selectedName">
+    <div class="flex-box" *ngIf="!showInput">
+      <div class="flex-column p-2">
+        <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+        <div class="t-min gray">Створити</div>
+      </div>
     </div>
 
-    <div class="sticky-bottom w-100" *ngIf="!selectedName">
-      <div class="flex-box" *ngIf="!showInput">
-        <div class="flex-column p-2">
-          <button class="btn-2" (click)="showInput = true" matTooltip="СТВОРИТИ ПОСЛУГУ" *ngIf="!showInput">
-            <i class="fa-solid fa-circle-plus"></i>
-          </button>
+    <div *ngIf="selectedName && !checkComun">Послуги відсутні...</div>
+
+    <div class="addComun flex-column p-3" *ngIf="showInput">
+      <mat-form-field class="w-100 mb-3" appearance="outline">
+        <mat-label>Оберіть або створіть нову</mat-label>
+        <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
+            {{ name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint align="end" class="gray t-min">Створення комунальної послуги</mat-hint>
+      </mat-form-field>
+
+      <div class="flex-box p-2">
+        <button class="btn-2 flex-column" (click)="createComunName()">
+          <i class="fa-solid fa-circle-check"></i>
           <div class="t-min gray">Створити</div>
-        </div>
+        </button>
+
+        <button class="btn-2 flex-column" (click)="showInput = false">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <div class="t-min gray">Відміна</div>
+        </button>
       </div>
 
-      <div *ngIf="selectedName && !checkComun">Послуги відсутні...</div>
-
-      <div class="addComun flex-column p-3" *ngIf="showInput">
-        <mat-form-field class="w-100 mb-3" appearance="outline">
-          <mat-label>Оберіть або створіть нову</mat-label>
-          <input matInput [(ngModel)]="newComun" placeholder="Виберіть або введіть послугу" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let name of popular_comunal_names" [value]="name">
-              {{ name }}
-            </mat-option>
-          </mat-autocomplete>
-          <mat-hint align="end" class="gray t-min">Створення комунальної послуги</mat-hint>
-        </mat-form-field>
-
-        <div class="flex-box p-2">
-          <button class="btn-2 flex-column" (click)="createComunName()">
-            <i class="fa-solid fa-circle-check"></i>
-            <div class="t-min gray">Створити</div>
-          </button>
-
-          <button class="btn-2 flex-column" (click)="showInput = false">
-            <i class="fa-solid fa-circle-xmark"></i>
-            <div class="t-min gray">Відміна</div>
-          </button>
-        </div>
-
-      </div>
     </div>
   </div>
 </div>

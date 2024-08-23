@@ -59,6 +59,7 @@ export class ImgComponent implements OnInit, OnDestroy {
     await this.getCheckDevice();
     await this.getServerPath();
     this.checkUserAuthorization();
+    this.checkLocation();
   }
 
   // перевірка на девайс
@@ -84,7 +85,6 @@ export class ImgComponent implements OnInit, OnDestroy {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       this.authorization = true;
-      this.checkLocation();
     } else {
       this.authorization = false;
     }

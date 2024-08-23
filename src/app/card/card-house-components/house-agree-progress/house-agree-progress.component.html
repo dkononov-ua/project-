@@ -15,10 +15,11 @@
       <div class="switch-btn-group">
         <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
           [routerLink]="'/house/agree/about'">
-          <i class="fa-solid fa-hourglass-half"></i>
+
+          <i class="fa-solid fa-hourglass-half custom-badge" matBadge="{{counterHouseSendAgree}}"
+          [matBadgeHidden]="counterHouseSendAgree === 0"></i>
           <div class="t-min bold">Пропозиція Угоди</div>
-          <div class="status status1" *ngIf="counterHouseSendAgree">
-            {{counterHouseSendAgree}} </div>
+
         </button>
       </div>
 
@@ -27,10 +28,11 @@
       <div class="switch-btn-group">
         <button [disabled]="!houseData || acces_agent !== 1 || acces_agreement !== 1" class="btn"
           [routerLink]="'/house/agree/concluded'">
-          <i class="fa-solid fa-file-circle-check"></i>
+
+          <i class="fa-solid fa-file-circle-check custom-badge" matBadge="{{counterHouseConcludedAgree}}"
+          [matBadgeHidden]="counterHouseConcludedAgree === 0"></i>
           <div class="t-min bold">Ухвалення Угоди</div>
-          <div class="status status1" *ngIf="counterHouseConcludedAgree">
-            {{counterHouseConcludedAgree}} </div>
+
         </button>
       </div>
 

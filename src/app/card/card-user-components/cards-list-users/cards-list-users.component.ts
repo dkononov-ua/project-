@@ -91,7 +91,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     if (userJson) {
       this.authorization = true;
     } else {
-      this.authorization = false;
+      this.authorization = true;
     }
   }
 

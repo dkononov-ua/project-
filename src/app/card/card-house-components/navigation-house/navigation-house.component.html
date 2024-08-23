@@ -114,11 +114,23 @@
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus'" (click)="closeToogleMenu(2)">
+
         <i class="fa-solid fa-signs-post"></i>
+
         <div class="item-description pl-2">
           <p class="t-med">Підписки</p>
           <p class="t-min">Та Дискусії</p>
         </div>
+
+        <div *ngIf="!section[4]">
+          <i *ngIf="counterHouseSubscriptions !== 0" class="fa-solid fa-people-pulling custom-badge"
+            matBadge="{{counterHouseSubscriptions}}"></i>
+          <i *ngIf="counterHouseSubscribers !== 0" class="fa-solid fa-child-reaching custom-badge pl-2"
+            matBadge="{{counterHouseSubscribers}}"></i>
+          <i *ngIf="counterHouseDiscussio !== 0" class="fa-solid fa-person-walking-luggage custom-badge pl-1"
+            matBadge="{{counterHouseDiscussio}}"></i>
+        </div>
+
       </a>
       <button *ngIf="!section[4]" [@appearance] [ngClass]="{'active': section[4]}" class="link-btn"
         (click)="setSection(4)">
@@ -138,16 +150,16 @@
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-people-pulling"></i>
+        <i class="fa-solid fa-people-pulling custom-badge" matBadge="{{counterHouseSubscriptions}}"></i>
         <div class="item-description pl-2">
-          <p class="t-med">Підписка</p>
+          <p class="t-med">Підписки</p>
           <p class="t-min">Мої підписки</p>
         </div>
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-child-reaching"></i>
+        <i class="fa-solid fa-child-reaching custom-badge" matBadge="{{counterHouseSubscribers}}"></i>
         <div class="item-description pl-2">
           <p class="t-med">Підписники</p>
           <p class="t-min">Вбодобали оселю</p>
@@ -156,7 +168,7 @@
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-person-walking-luggage"></i>
+        <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterHouseDiscussio}}"></i>
         <div class="item-description pl-2">
           <p class="t-med">Дискусії</p>
           <p class="t-min">Дискусії оселі</p>
@@ -234,7 +246,8 @@
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/chat'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-message"></i>
+        <i class="fa-solid fa-message custom-badge" matBadge="{{counterHouseNewMessage}}"
+          [matBadgeHidden]="counterHouseNewMessage === 0"></i>
         <div class="item-description pl-2">
           <p class="t-med">Повідомлення</p>
           <p class="t-min">Чати оселі</p>
@@ -402,7 +415,7 @@
     </div>
   </div>
 
-  <!-- <div class="category-container">
+  <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/communal'" (click)="closeToogleMenu(2)">
@@ -420,7 +433,7 @@
     <div class="subcategory-container" *ngIf="section[10]">
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/about'" (click)="closeToogleMenu(2)">
         <i class="fa-regular fa-circle-question"></i>
         <div class="item-description pl-2">
           <p class="t-med">Що це таке?</p>
@@ -429,26 +442,35 @@
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-boxes-stacked"></i>
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/add'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-sliders"></i>
         <div class="item-description pl-2">
-          <p class="t-med">Додати</p>
-          <p class="t-min">Наповнення</p>
+          <p class="t-med">Керування</p>
+          <p class="t-min">Статистикою</p>
         </div>
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-dolly"></i>
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-month'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-calendar-day"></i>
         <div class="item-description pl-2">
-          <p class="t-med">Керування</p>
-          <p class="t-min">Наповненням</p>
+          <p class="t-med">Місяць</p>
+          <p class="t-min">Звіт</p>
+        </div>
+      </a>
+
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-year'" (click)="closeToogleMenu(2)">
+        <i class="fa-solid fa-chart-pie"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Рік</p>
+          <p class="t-min">Звіт</p>
         </div>
       </a>
 
 
     </div>
-  </div> -->
+  </div>
 
   <div class="category-container">
     <div class="category">

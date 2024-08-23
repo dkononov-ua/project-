@@ -77,7 +77,7 @@ export class HostHouseObjectsComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.getCheckDevice();
+    this.getCheckDevice();
     this.checkUserAuthorization();
   }
 

@@ -1,7 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { DataService } from 'src/app/services/data.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { ChangeComunService } from '../../../../services/comun/change-comun.service';
@@ -10,37 +7,15 @@ import { ChangeYearService } from '../../../../services/comun/change-year.servic
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-
-interface ComunInfo {
-  comunal_company: string;
-  comunal_name: string;
-  comunal_address: string;
-  comunal_site: string;
-  comunal_phone: string;
-  iban: string;
-  edrpo: string;
-  personalAccount: string;
-  about_comun: string;
-}
+import * as ComunConfig from 'src/app/interface/comun';
+import { StatusMessageService } from 'src/app/services/status-message.service';
 @Component({
   selector: 'app-comun-company',
   templateUrl: './comun-company.component.html',
   styleUrls: ['./comun-company.component.scss'],
-  animations: [
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.right1,
-    animations.right2,
-    animations.right4,
-    animations.top1,
-    animations.swichCard,
-  ],
+  animations: [animations.top1],
 })
-export class ComunCompanyComponent implements OnInit {
+export class ComunCompanyComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -49,6 +24,11 @@ export class ComunCompanyComponent implements OnInit {
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
   // ***
+  // імпорт конфігу комунальної компанії
+  comunInfo: ComunConfig.HouseComunalCompanyInfo = ComunConfig.HouseComunalCompanyInfoConfig;
+  defaultImageUrl = ComunConfig.defaultImageUrl;
+  comunalServices = ComunConfig.comunalServices;
+  // ***
 
   showInput = false;
   isCopiedMessage: string = '';
@@ -56,104 +36,124 @@ export class ComunCompanyComponent implements OnInit {
     this.showInput = !this.showInput;
   }
 
-  comunInfo: ComunInfo = {
-    comunal_company: '',
-    comunal_name: '',
-    comunal_address: '',
-    comunal_site: '',
-    comunal_phone: '',
-    iban: '',
-    edrpo: '',
-    personalAccount: '',
-    about_comun: '',
-  };
-
-  defaultImageUrl: string = "../../../assets/example-comun/default_services.svg";
-  comunalServices = [
-    { name: "Опалення", imageUrl: "../../../assets/example-comun/comun_cat3.jpg" },
-    { name: "Водопостачання", imageUrl: "../../../assets/example-comun/water.jfif" },
-    { name: "Вивіз сміття", imageUrl: "../../../assets/example-comun/car_scavenging3.jpg" },
-    { name: "Електроенергія", imageUrl: "../../../assets/example-comun/comun_rozetka1.jpg" },
-    { name: "Газопостачання", imageUrl: "../../../assets/example-comun/gas_station4.jpg" },
-    { name: "Комунальна плата за утримання будинку", imageUrl: "../../../assets/example-comun/default_services.svg" },
-    { name: "Охорона будинку", imageUrl: "../../../assets/example-comun/ohorona.jpg" },
-    { name: "Ремонт під'їзду", imageUrl: "../../../assets/example-comun/default_services.svg" },
-    { name: "Ліфт", imageUrl: "../../../assets/example-comun/default_services.svg" },
-    { name: "Інтернет та телебачення", imageUrl: "../../../assets/example-comun/internet.jpg" },
-  ];
-
-  @ViewChild('textArea', { static: false })
-  textArea!: ElementRef;
-  comunalName: string = '';
   selectedImageUrl: string | null | undefined;
   selectedFlatId: string | null | undefined;
   selectedComun: any;
   selectedYear: any;
   selectedMonth: any;
-  disabled: boolean = true;
-  loading: boolean = true;
-  statusMessage: string | undefined;
 
   field: boolean = true;
   toggleField() {
     this.field = !this.field;
   }
 
-  help: boolean = false;
-  openHelp() {
-    this.help = !this.help;
-  }
   isMobile: boolean = false;
+  subscriptions: any[] = [];
+  authorization: boolean = false;
+  authorizationHouse: boolean = false;
+  houseData: any;
 
   constructor(
-    private dataService: DataService,
     private http: HttpClient,
-    private selectedFlatService: SelectedFlatService,
+    private selectedFlatIdService: SelectedFlatService,
     private changeComunService: ChangeComunService,
     private changeMonthService: ChangeMonthService,
     private changeYearService: ChangeYearService,
     private sharedService: SharedService,
-  ) {
-    this.sharedService.isMobile$.subscribe((status: boolean) => {
-      this.isMobile = status;
-      // isMobile: boolean = false;
-    });
+    private statusMessageService: StatusMessageService,
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getServerPath();
+    await this.checkUserAuthorization();
   }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.getSelectParam();
-    this.loading = false;
-    if (this.selectedFlatId !== null && this.selectedComun !== null && this.selectedComun !== null) {
-      this.getDefaultData();
-    }
-    else (!this.selectedFlatId); {
-      this.loading = false;
-    }
-  };
+  // перевірка на девайс
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
 
-  getSelectParam() {
-    this.selectedFlatService.selectedFlatId$.subscribe((flatId: string | null) => {
-      this.selectedFlatId = flatId || this.selectedFlatId;
-    });
+  // підписка на шлях до серверу
+  async getServerPath() {
+    this.subscriptions.push(
+      this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
+        this.serverPath = serverPath;
+      })
+    );
+  }
 
-    this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
-      this.selectedComun = selectedComun || this.selectedComun;
-      if (this.selectedFlatId && this.selectedComun && this.selectedComun !== 'undefined' && this.selectedComun) {
-        this.getComunalInfo();
-        this.getComunalImg();
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+      await this.getSelectedFlatId();
+      await this.checkHouseAuthorization();
+    } else {
+      this.authorization = false;
+    }
+  }
+
+  // Підписка на отримання айді моєї обраної оселі
+  async getSelectedFlatId() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        this.selectedFlatId = flatId || this.selectedFlatId || null;
+      })
+    );
+  }
+
+  async checkHouseAuthorization(): Promise<void> {
+    const houseData = localStorage.getItem('houseData');
+    if (houseData) {
+      this.authorizationHouse = true;
+      const parsedHouseData = JSON.parse(houseData);
+      if (this.selectedFlatId) {
+        this.getSelectedComun();
+        this.getSelectedYear();
+        this.getSelectedMonth();
+      } else {
+        this.sharedService.logoutHouse();
       }
-    });
+    }
+  }
 
-    this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
-      this.selectedYear = selectedYear || this.selectedYear;
-    });
+  // Підписка на обрану послугу
+  async getSelectedComun() {
+    this.subscriptions.push(
+      this.changeComunService.selectedComun$.subscribe((selectedComun: string | null) => {
+        this.selectedComun = selectedComun || this.selectedComun;
+        if (this.selectedFlatId && this.selectedComun) {
+          this.getComunalInfo();
+          this.getComunalImg();
+        } else {
+          this.getDefaultData();
+        }
+      })
+    );
+  }
 
-    this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
-      this.selectedMonth = selectedMonth || this.selectedMonth;
-    });
+  // Підписка на обраний рік
+  async getSelectedYear() {
+    this.subscriptions.push(
+      this.changeYearService.selectedYear$.subscribe((selectedYear: string | null) => {
+        this.selectedYear = selectedYear || this.selectedYear;
+      })
+    );
+  }
+
+  // Підписка на обраний місяць
+  async getSelectedMonth() {
+    this.subscriptions.push(
+      this.changeMonthService.selectedMonth$.subscribe((selectedMonth: string | null) => {
+        this.selectedMonth = selectedMonth || this.selectedMonth;
+      })
+    );
   }
 
   getDefaultData() {
@@ -166,30 +166,32 @@ export class ComunCompanyComponent implements OnInit {
     this.selectedImageUrl = selectedService?.imageUrl || this.defaultImageUrl;
   }
 
-  getComunalInfo(): void {
+  async getComunalInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
+    const data = {
+      auth: JSON.parse(userJson!),
+      flat_id: this.selectedFlatId,
+      comunal_name: this.selectedComun,
+    }
     if (userJson && this.selectedComun && this.selectedComun !== undefined && this.selectedComun !== null) {
-      this.http.post(this.serverPath + '/comunal/get/button', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId, comunal_name: this.selectedComun })
-        .subscribe(
-          (response: any) => {
-            if (response.status === false) {
-              return;
-            }
-            const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
-            if (filteredData.length > 0) {
-              this.comunInfo = filteredData[0];
-            } else {
-              console.log('No data found for the specified comunal_name.');
-            }
-          },
-          (error: any) => {
-            console.error(error);
-          }
-        );
+      try {
+        const response: any = await this.http.post(this.serverPath + '/comunal/get/button', data).toPromise();
+        if (response.status === false) {
+          return;
+        }
+        const filteredData = response.comunal.filter((item: any) => item.comunal_name === this.selectedComun);
+        if (filteredData.length > 0) {
+          this.comunInfo = filteredData[0];
+        } else {
+          console.log('No data found for the specified comunal_name.');
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
-  saveInfo(): void {
+  async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     const data = {
       auth: JSON.parse(userJson!),
@@ -199,32 +201,26 @@ export class ComunCompanyComponent implements OnInit {
       when_pay_m: this.selectedMonth,
       comunal: this.comunInfo,
     }
-
-    if (userJson && this.selectedFlatId !== undefined) {
-      this.http.post(this.serverPath + '/comunal/add/comunalCompany', data)
-        .subscribe((response: any) => {
-          console.log(response)
-          if (response.status === 'Данні по комуналці успішно змінені') {
+    if (userJson && data) {
+      try {
+        const response: any = await this.http.post(this.serverPath + '/comunal/add/comunalCompany', data).toPromise();
+        if (response.status === 'Данні по комуналці успішно змінені') {
+          setTimeout(() => {
+            this.statusMessageService.setStatusMessage('Дані збережено');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('Дані збережено');
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('');
-              }, 1500);
-            }, 200);
-          } else {
-            this.sharedService.setStatusMessage('Помилка збереження');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('');
+              this.statusMessageService.setStatusMessage('');
             }, 1500);
-          }
-        });
+          }, 200);
+        } else {
+          this.statusMessageService.setStatusMessage('Помилка збереження');
+          setTimeout(() => {
+            this.statusMessageService.setStatusMessage('');
+          }, 1500);
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }
-
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   clearInfo(): void {
@@ -266,4 +262,7 @@ export class ComunCompanyComponent implements OnInit {
   copyIban() { this.copyToClipboard(this.comunInfo.iban, 'IBAN скопійовано'); }
   copyEdrpo() { this.copyToClipboard(this.comunInfo.edrpo, 'ЄДРПОУ скопійовано'); }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }

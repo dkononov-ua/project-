@@ -71,7 +71,6 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private statusDataService: StatusDataService,
     private dialog: MatDialog,
-
   ) { }
 
   async ngOnInit(): Promise<void> {

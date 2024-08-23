@@ -51,8 +51,9 @@
         </div>
       </a>
 
-      <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu(2)">
+      <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
+        class="link-item subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/edit'"
+        (click)="closeToogleMenu(2)">
         <i class="fa-solid fa-gears"></i>
         <div class="item-description pl-2">
           <p class="t-med">Редагувати</p>
@@ -69,8 +70,8 @@
         </div>
       </button>
 
-      <button *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
-        (click)="logout()">
+      <button *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}"
+        class="link-item subcategory" (click)="logout()">
         <i class="fa-solid fa-door-open"></i>
         <div class="item-description pl-2">
           <p class="t-med">Вийти</p>
@@ -86,13 +87,18 @@
       <div class="w-100">
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item"
           [routerLinkActive]="'active'" [routerLink]="'/user/tenant'" (click)="closeToogleMenu(2)">
-          <i class="fa-solid fa-person-hiking"></i>
+
+          <i *ngIf="!authorization" class="fa-solid fa-person-hiking custom-badge"></i>
+
+          <i *ngIf="authorization" class="fa-solid fa-person-hiking custom-badge" matBadge="a"
+            [matBadgeHidden]="userFeaturesData && userFeaturesData.agree_search !== 1">
+          </i>
+
           <div class="item-description pl-2">
             <p class="t-med">Профіль</p>
             <p class="t-min">Орендаря</p>
-            <p class="t-min bold" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1"><i
-                class="fa-solid fa-circle-check t-min"></i> Активовано</p>
           </div>
+
         </a>
       </div>
 
@@ -148,6 +154,16 @@
           <p class="t-med">Підписки</p>
           <p class="t-min">Та Дискусії</p>
         </div>
+
+        <div *ngIf="!section[4] && userData">
+          <i *ngIf="counterUserSubscriptions !== 0" class="fa-regular fa-heart custom-badge"
+            matBadge="{{counterUserSubscriptions}}"></i>
+          <i *ngIf="counterUserSubscribers !== 0" class="fa-solid fa-house-fire custom-badge pl-1"
+            matBadge="{{counterUserSubscribers}}"></i>
+          <i *ngIf="counterUserDiscussio !== 0" class="fa-solid fa-person-walking-luggage custom-badge pl-1"
+            matBadge="{{counterUserDiscussio}}"></i>
+        </div>
+
       </a>
       <button *ngIf="!section[4]" [@appearance] [ngClass]="{'active': section[4]}" class="link-btn"
         (click)="setSection(4)">
@@ -167,16 +183,18 @@
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu(2)">
-        <i class="fa-regular fa-heart pl-2"></i>
+        <i class="fa-regular fa-heart custom-badge" matBadge="{{counterUserSubscriptions}}"></i>
+
         <div class="item-description pl-2">
           <p class="t-med">Вподобані</p>
           <p class="t-min">Мої підписки</p>
+          <span class="bage"></span>
         </div>
       </a>
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-house-fire pl-2"></i>
+        <i class="fa-solid fa-house-fire custom-badge" matBadge="{{counterUserSubscribers}}"></i>
         <div class="item-description pl-2">
           <p class="t-med">Запропоновані</p>
           <p class="t-min">Мої пропозиції</p>
@@ -185,7 +203,7 @@
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-person-walking-luggage"></i>
+        <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterUserDiscussio}}"></i>
         <div class="item-description pl-2">
           <p class="t-med">Дискусії</p>
           <p class="t-min">Мої дискусії</p>
@@ -198,7 +216,9 @@
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-envelope-open-text"></i>
+        <i *ngIf="!authorization" class="fa-solid fa-envelope-open-text "></i>
+        <i *ngIf="authorization && userData" class="fa-solid fa-envelope-open-text  custom-badge"
+          matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0 || section[2]"></i>
         <div class="item-description pl-2">
           <p class="t-med">Угоди</p>
           <p class="t-min">Орендаря</p>
@@ -231,7 +251,9 @@
 
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-hourglass-half"></i>
+        <i *ngIf="!authorization" class="fa-solid fa-hourglass-half fa-envelope-open-text "></i>
+        <i *ngIf="authorization" class="fa-solid fa-hourglass-half custom-badge" matBadge="{{userData.agree.total}}"
+          [matBadgeHidden]="userData.agree.total === 0 || section[2]"></i>
         <div class="item-description pl-2">
           <p class="t-med">Запропоновані</p>
           <p class="t-min">Угоди</p>
@@ -254,7 +276,8 @@
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-message"></i>
+        <i class="fa-solid fa-message custom-badge" matBadge="{{counterUserNewMessage}}"
+          [matBadgeHidden]="counterUserNewMessage === 0"></i>
         <div class="item-description pl-2">
           <p class="t-med">Повідомлення</p>
           <p class="t-min">Чати користувача</p>

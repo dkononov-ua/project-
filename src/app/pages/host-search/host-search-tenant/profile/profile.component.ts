@@ -301,7 +301,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.statusMessageService.setStatusMessage('');
         this.btnDisabled = false;
-        this.router.navigate(['/house/house-control/selection-house']);
+        this.router.navigate(['/house/control/add']);
       }, 2000);
     }
   }

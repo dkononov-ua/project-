@@ -48,11 +48,11 @@
       <mat-hint align="end" class="gray">Опишіть cтан об'єкту*</mat-hint>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width mt-2">
-      <mat-label>Опис вашого оголошення</mat-label>
-      <textarea #textArea matInput id="floatingTextarea"
-        placeholder="Тут Ви можете описати предмет, його характеристики, стан, правила користування, додати інструкції і т.д."
-        [(ngModel)]="objectInfo.about" (input)="onInput()"></textarea>
+    <mat-form-field class="mt-2">
+      <textarea appAutoResizeTextarea matInput id="textArea" [(ngModel)]="objectInfo.about"></textarea>
+      <label for="textArea">
+        <p>Опис предмету</p>
+      </label>
     </mat-form-field>
 
     <div class="add-photo-group">

@@ -30,25 +30,30 @@ export class HostUserPageComponent implements OnInit, OnDestroy {
   isMobile: boolean = false;
   authorization: boolean = false;
   subscriptions: any[] = [];
+  userData: any;
+  titleName: string = 'Профіль користувача Діскусіо';
 
   constructor(
     private sharedService: SharedService,
     private dataService: DataService,
     private location: Location,
     private updateMetaTagsService: UpdateMetaTagsService,
-
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
+    this.getUserData();
+    this.updateMetaTagsInService();
   }
 
   private updateMetaTagsInService(): void {
+    if (this.userData && this.userData.inf) {
+      this.titleName = `Профіль ${this.userData.inf.firstName} ${this.userData.inf.lastName}`;
+    }
     const data = {
-      title: 'Профіль користувача',
+      title: this.titleName,
       description: 'Переглядайте вашу інформацію та керуйте аккаунтом',
       keywords: 'акаунт, профіль користувача, моя сторінка, мій профіль, prifile',
       // image: '/assets/blog/blog.png',
@@ -74,6 +79,14 @@ export class HostUserPageComponent implements OnInit, OnDestroy {
         this.dataService.getInfoUser();
       })
     );
+  }
+
+  getUserData() {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      this.userData = JSON.parse(userData);
+      // console.log(this.userData)
+    }
   }
 
   // Перевірка на авторизацію користувача

@@ -2,17 +2,16 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
-.status1 {
-  // left: 0 !important;
-  // top: 40% !important;
-  right: 0;
+.custom-badge .mat-badge-content {
+  background-color: $color-accent;
+  color: $color-white;
 }
 
 .switch-btn-group {
   @include flex-box-column;
   justify-content: center;
   position: relative;
-  width: 80px;
+  width: 70px;
   height: 80px;
   margin: 0;
   padding: 0;
@@ -69,23 +68,24 @@
 
 .progress-content {
   display: flex;
+  position: relative;
   justify-content: space-evenly;
   flex-direction: row;
   width: 100%;
   align-items: stretch;
   align-content: stretch;
   flex-wrap: wrap;
+  background-color: $color-white;
+  z-index: 10;
   .progress-wrapper {
     display: flex;
-    // @include box-shadow;
     padding: 5px;
     width: calc(100% - 10px);
     border-radius: 20px;
     justify-content: space-around;
-    align-items: center;
+    align-items: stretch;
     height: 200px;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 }
 

@@ -8,6 +8,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { StatusMessageService } from 'src/app/services/status-message.service';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-host-house-page',
@@ -59,6 +60,7 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   authorization: boolean = false;
   authorizationHouse: boolean = false;
+  titleName: string = 'Профіль оселі';
 
   constructor(
     private http: HttpClient,
@@ -68,6 +70,7 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
     private router: Router,
     private statusDataService: StatusDataService,
     private statusMessageService: StatusMessageService,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -75,6 +78,22 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
     await this.getServerPath();
     await this.getSelectedFlatId();
     this.checkUserAuthorization();
+    this.updateMetaTagsInService();
+  }
+
+  private updateMetaTagsInService(): void {
+    if (this.houseData) {
+      this.titleName = `Профіль ${this.houseData.flat.flat_name}`;
+    }
+    const title = this.titleName;
+    const data = {
+      title: title,
+      description: 'В Діскусіо ви можете створювати профілі осель для їх керування.',
+      keywords: 'профіль оселі, керування оселями, створення профілю оселі, обрати профіль оселі, вибір оселі, додати оселю, створити багато оселей, зручне керування оселями, керування житлом',
+      // image: '/assets/blog/blog.png',
+      // url: 'https://discussio.site/blog',
+    }
+    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // перевірка на девайс
@@ -126,6 +145,7 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
       this.authorizationHouse = true;
       const parsedHouseData = JSON.parse(houseData);
       this.houseData = parsedHouseData;
+      // console.log(this.houseData)
       this.getHouseAcces();
       this.loadSearchDataFlat();
       this.getConcludedAgree();

@@ -2,13 +2,26 @@
 @use "./../../../../style/presets/" as *;
 @use "./../../../../style/mixins/" as *;
 
-.card-content-static {
-  justify-content: space-between !important;
-  width: 100% !important;
-  overflow: auto;
+.info-card {
+  @include box-shadow;
+  flex-direction: column;
+  position: relative;
+  display: flex;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   @include s3-s6-max {
-    background-color: $color-white !important;
-    @include box-shadow;
+    justify-content: space-between;
+    border-radius: 10px;
+    overflow: auto;
+    height: 90vh;
+    // padding: 10px;
+    background-color: $color-white;
+    max-width: 450px;
+  }
+  @include s1-s3 {
+    height: auto;
   }
 }
 
@@ -18,11 +31,22 @@
 }
 
 .btn-group {
-  position: sticky;
-  bottom: 0;
-  margin: 0;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+
+  @include s3-s6-max {
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+  }
   .btn {
+    @include flex-box-center;
     height: 60px;
+    background-color: $color-accent;
   }
 }
 

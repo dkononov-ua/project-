@@ -304,10 +304,15 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
 
   // перевірка на нові повідомлення оселі
   async getHouseNewMessage() {
-    // await this.counterService.getHouseNewMessage(0);
+    await this.counterService.getHouseNewMessage(this.selectedFlatId);
     this.subscriptions.push(
       this.counterService.counterHouseNewMessage$.subscribe(data => {
-        this.counterHouseNewMessage = Number(data)
+        const counterHouseNewMessage: any = data
+        if (counterHouseNewMessage.status !== false) {
+          this.counterHouseNewMessage = Number(counterHouseNewMessage.status)
+        } else {
+          this.counterHouseNewMessage = 0;
+        }
       })
     );
   }

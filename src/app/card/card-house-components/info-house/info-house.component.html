@@ -48,7 +48,8 @@
         </div>
         <div class="flex-box flex-column w-20">
 
-          <button class="btn-open" (click)="toogleAdditional()" *ngIf="currentLocation === '/house'">
+          <button class="btn-open" (click)="toogleAdditional()"
+            *ngIf="additionalHouseInfo && currentLocation === '/house/info'">
             <i class="fa-regular fa-address-book"></i>
             <!-- <div class="t-min">Більше</div> -->
           </button>
@@ -74,8 +75,9 @@
   <div [@top3] class="main-param">
     <div class="left">
       <p class="t-c t-min white"><i class="fa-solid fa-sign-hanging white"></i> <br> Профіль Оселі </p>
-      <p class="t-c t-min white" *ngIf=" house.rent === 1 && house.data"> <i class="fa-regular fa-clock white mt-2"></i> Активовано <br> {{house.data | date}}
-        </p>
+      <p class="t-c t-min white" *ngIf=" house.rent === 1 && house.data"> <i class="fa-regular fa-clock white mt-2"></i>
+        Активовано <br> {{house.data | date}}
+      </p>
     </div>
     <div class="right">
       <p class="t-c t-med bold mt-2">Основні характеристики:</p>
@@ -103,24 +105,39 @@
             </div>
           </div>
 
-          <div class="item-box m-1" *ngIf="house.price_m && house.option_pay === 0">
+          <div class="item-box m-1" *ngIf="house.option_pay === 0">
             <div mat-raised-button class="param-g flex-column">
-              <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_m |
-                number:'1.0-0'
-                }}</div>
+              <div class="bg-g t-lar-xx bold">
+                <i class="fa-solid fa-sack-dollar"></i>{{ house.price_m | number:'1.0-0' }}
+              </div>
               <div class="t-min bg-w">Ціна ₴/міс</div>
             </div>
           </div>
 
-          <div class="item-box m-1" *ngIf="house.price_d && house.option_pay !== 0">
+          <div class="item-box m-1" *ngIf="house.option_pay === 1">
             <div mat-raised-button class="param-g flex-column">
-              <div class="bg-g t-lar-xx bold"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_d |
-                number:'1.0-0'
-                }}</div>
+              <div class="bg-g t-lar-xx bold">
+                <i class="fa-solid fa-sack-dollar"></i>{{ house.price_d | number:'1.0-0' }}
+              </div>
               <div class="t-min bg-w">Ціна ₴/добу</div>
             </div>
           </div>
 
+          <div class="item-box m-1" *ngIf="house.option_pay === 2">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold"> <i class="fa-solid fa-sack-dollar"></i>0 </div>
+              <div class="t-min bg-w">Безкоштовно</div>
+            </div>
+          </div>
+
+          <div class="item-box m-1" *ngIf="house.option_pay === 3">
+            <div mat-raised-button class="param-g flex-column">
+              <div class="bg-g t-lar-xx bold">
+                <i class="fa-solid fa-sack-dollar"></i>{{ house.price_d | number:'1.0-0' }}
+              </div>
+              <div class="t-min bg-w">Продаж ₴</div>
+            </div>
+          </div>
 
         </div>
         <div class="flex-box flex-column w-20">
@@ -148,17 +165,35 @@
       <div class="param-box">
         <div class="param-label">Ціна:</div>
         <div class="param-group">
-          <div class="param-field" *ngIf="house.price_m && house.option_pay === 0">
-            Оплата за місяць. Ціна: <span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_m |
-              number:'1.0-0'
-              }} ₴/міс </span>
+
+          <div class="param-field" *ngIf="house.option_pay === 0">
+            Оплата за місяць. Ціна:
+            <span class="param-value">
+              <i class="fa-solid fa-sack-dollar"></i>{{ house.price_m | number:'1.0-0' }} ₴/міс
+            </span>
           </div>
 
-          <div class="param-field" *ngIf="house.price_d && house.option_pay !== 0">
-            Оплата за добу. Ціна: <span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ house.price_d |
-              number:'1.0-0'
-              }} ₴/добу</span>
+          <div class="param-field" *ngIf="house.option_pay === 1">
+            Оплата за добу. Ціна:
+            <span class="param-value">
+              <i class="fa-solid fa-sack-dollar"></i>{{ house.price_d | number:'1.0-0' }} ₴/добу
+            </span>
           </div>
+
+          <div class="param-field" *ngIf="house.option_pay === 2">
+            Безкоштовно:
+            <span class="param-value">
+              <i class="fa-solid fa-sack-dollar"></i>0 ₴/місяць
+            </span>
+          </div>
+
+          <div class="param-field" *ngIf="house.option_pay === 3">
+            Продаж. Ціна:
+            <span class="param-value">
+              <i class="fa-solid fa-sack-dollar"></i>{{ house.price_d | number:'1.0-0' }} ₴
+            </span>
+          </div>
+
         </div>
       </div>
 

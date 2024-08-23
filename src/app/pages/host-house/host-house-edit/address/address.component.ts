@@ -10,24 +10,9 @@ import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
 import { DataService } from 'src/app/services/data.service';
 import { LocationHouseService } from 'src/app/services/location-house.service';
-
-interface FlatInfo {
-  flat_id: string | undefined;
-  country: string | undefined;
-  region: string | any;
-  city: string | any;
-  street: string | undefined;
-  houseNumber: string | undefined;
-  apartment: number;
-  flat_index: any;
-  private: boolean;
-  rent: boolean;
-  distance_parking: number;
-  distance_metro: number;
-  distance_stop: number;
-  distance_green: number;
-  distance_shop: number;
-}
+import { HouseInfo } from 'src/app/interface/info';
+import { HouseConfig } from 'src/app/interface/param-config';
+import { CityDataService } from 'src/app/services/data/cityData.service';
 
 @Component({
   selector: 'app-address',
@@ -51,26 +36,11 @@ export class AddressComponent implements OnInit, OnDestroy {
   serverPath: string = '';
   // ***
 
-  flatInfo: FlatInfo = {
-    flat_id: '',
-    country: '',
-    region: '',
-    city: '',
-    street: '',
-    houseNumber: '',
-    apartment: 0,
-    flat_index: '',
-    private: false,
-    rent: false,
-    distance_parking: 0,
-    distance_metro: 0,
-    distance_stop: 0,
-    distance_green: 0,
-    distance_shop: 0,
-  };
-
-  filteredRegions: { id: number; name: string; cities: { id: number; name: string; postalCode: string; }[]; }[] | undefined;
-  filteredCities: { id: number; name: string; }[] | undefined;
+  flatInfo: HouseInfo = HouseConfig;
+  filteredRegions: any;
+  filteredCities: any;
+  filteredStreets: any;
+  filteredHouses: any;
   selectedRegion: any;
   selectedCity: any;
   regions = regions;
@@ -85,6 +55,10 @@ export class AddressComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   authorizationHouse: boolean = false;
   houseData: any;
+  debounceTimer: any;
+  cityData: any;
+  streetData: any;
+  houseNumberData: any;
 
   constructor(
     private http: HttpClient,
@@ -94,9 +68,8 @@ export class AddressComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private missingParamsService: MissingParamsService,
     private locationHouseService: LocationHouseService,
-  ) {
-    this.filteredRegions = [];
-  }
+    private cityDataService: CityDataService,
+  ) {   }
 
   async ngOnInit(): Promise<void> {
     await this.getCheckDevice();
@@ -170,6 +143,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
+        // console.log(response)
         if (response && response.flat) {
           this.flatInfo = response.flat;
           // Формую локацію на мапі
@@ -189,48 +163,15 @@ export class AddressComponent implements OnInit, OnDestroy {
     }
   };
 
-  loadCities() {
-    if (!this.flatInfo) return;
-    const searchTerm = this.flatInfo.region?.toLowerCase() || '';
-    this.filteredRegions = this.regions.filter(region =>
-      region.name.toLowerCase().includes(searchTerm)
-    );
-    const selectedRegionObj = this.filteredRegions.find(region =>
-      region.name === this.flatInfo.region
-    );
-    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-    this.flatInfo.city = '';
-  }
-
-  loadDistricts() {
-    if (!this.flatInfo) return;
-    const searchTerm = this.flatInfo.city.toLowerCase();
-    const selectedRegionObj = this.regions.find(region =>
-      region.name === this.flatInfo.region
-    );
-    this.filteredCities = selectedRegionObj
-      ? selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase().includes(searchTerm)
-      )
-      : [];
-
-    const selectedCityObj = this.filteredCities.find(city =>
-      city.name === this.flatInfo.city
-    );
-    if (selectedCityObj && 'postalCode' in selectedCityObj) {
-      this.flatInfo.flat_index = selectedCityObj.postalCode;
-    } else {
-      this.flatInfo.flat_index = '';
-    }
-  }
-
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
       const data = {
-        country: this.flatInfo.country || undefined,
+        country: this.flatInfo.country = 'Україна',
         region: this.flatInfo.region || undefined,
+        district: this.flatInfo.district || undefined,
         city: this.flatInfo.city || undefined,
+        micro_district: this.flatInfo.micro_district || undefined,
         street: this.flatInfo.street || undefined,
         houseNumber: this.flatInfo.houseNumber || undefined,
         apartment: this.flatInfo.apartment || undefined,
@@ -241,19 +182,21 @@ export class AddressComponent implements OnInit, OnDestroy {
         distance_green: this.flatInfo.distance_green || undefined,
         distance_shop: this.flatInfo.distance_shop || undefined,
       }
+      // console.log(data)
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
           new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
+        // console.log(response)
         if (response && response.status === 'Параметри успішно додані') {
           if (response && response.rent) {
             this.sharedService.setStatusMessage('Параметри успішно збережено');
             setTimeout(() => {
               this.missingParamsService.checkResponse(response);
               setTimeout(() => {
-                this.updateFlatInfo();
+                // this.updateFlatInfo();
               }, 2000);
             }, 1000);
           } else {
@@ -281,24 +224,96 @@ export class AddressComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearInfo(): void {
-    this.flatInfo = {
-      flat_id: '',
-      country: '',
-      region: '',
-      city: '',
-      street: '',
-      houseNumber: '',
-      apartment: 0,
-      flat_index: '',
-      private: false,
-      rent: false,
-      distance_parking: 0,
-      distance_metro: 0,
-      distance_stop: 0,
-      distance_green: 0,
-      distance_shop: 0,
-    };
+  ifSelectedCity(cityData: any) {
+    this.cityDataService.ifSelectedCity(cityData);
+    this.cityData = cityData;
+    // console.log(this.cityData)
+    if (this.cityData) {
+      this.flatInfo.region = cityData.regionUa;
+      this.flatInfo.city = cityData.cityUa;
+      this.flatInfo.district = cityData.districtUa;
+      this.flatInfo.micro_district = '';
+      this.flatInfo.street = '';
+      this.flatInfo.houseNumber = '';
+      this.flatInfo.flat_index = '';
+      this.flatInfo.apartment = '';
+    }
+  }
+
+  ifSelectedStreet(streetData: any) {
+    this.cityDataService.ifSelectedStreet(streetData);
+    this.streetData = streetData;
+    // console.log(this.streetData)
+    if (this.streetData) {
+      this.flatInfo.street = streetData.streetUa;
+      this.flatInfo.micro_district = '';
+      this.flatInfo.houseNumber = '';
+      this.flatInfo.flat_index = '';
+      this.flatInfo.apartment = '';
+    }
+  }
+
+  ifSelectedHouseNumber(houseNumberData: any) {
+    this.cityDataService.ifSelectedHouseNumber(houseNumberData);
+    this.houseNumberData = houseNumberData;
+    // console.log(this.houseNumberData)
+    if (this.houseNumberData) {
+      this.flatInfo.houseNumber = houseNumberData.houseNumber;
+      this.flatInfo.flat_index = houseNumberData.postcode;
+    }
+  }
+
+  // завантаження бази областей
+  async onRegionsInputChange(regions: string) {
+    this.filteredRegions = this.cityDataService.loadRegionsFromOwnDB(regions);
+  }
+  // завантаження бази міст областей районів
+  async onCityInputChange(city: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    if (city && city.length >= 3) {
+      const existingCity = this.filteredCities?.find((c: { cityUa: string; }) => c.cityUa === city);
+      if (existingCity) {
+        return;
+      }
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredCities = await this.cityDataService.onCityInputChange(city);
+        if (!this.filteredCities || this.filteredCities.length === 0) {
+          // якщо апі не відповідає або нічого не знайшло я шукаю у власній БД міст
+          this.filteredCities = await this.cityDataService.loadCitiesFromOwnDB(city);
+        }
+      }, 1000);
+    }
+  }
+  // завантаження бази вулиць
+  async onStreetInputChange(street: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    if (street && street.length >= 2) {
+      const existingStreet = this.filteredStreets?.find((s: { streetUa: string; }) => s.streetUa === street);
+      if (existingStreet) {
+        return; // Виходимо, щоб уникнути повторного запиту
+      }
+
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredStreets = await this.cityDataService.onStreetInputChange(street);
+        console.log(this.filteredStreets);
+      }, 500);
+    }
+  }
+  // завантаження бази номерів будинків та індексів
+  async onHouseNumberInputChange(houseNumber: string) {
+    if (houseNumber) {
+      const existingHouse = this.filteredHouses?.find((h: { houseNumberUa: string; }) => h.houseNumberUa === houseNumber);
+      if (existingHouse) {
+        return; // Виходимо, щоб уникнути повторного запиту
+      }
+      this.filteredHouses = await this.cityDataService.onHouseNumberInputChange(houseNumber);
+      // console.log(this.filteredHouses);
+    }
   }
 
   ngOnDestroy() {

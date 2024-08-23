@@ -33,9 +33,9 @@ export class UserDiscussPageComponent implements OnInit, OnDestroy {
 
   private updateMetaTagsInService(): void {
     const data = {
-      title: 'Система підписок та дискусій в Діскусіо',
+      title: 'Система підписок та дискусій в Діскусіо та як це працює для орендаря',
       description: 'Пояснення як працює система підписок та дискусій в Діскусіо',
-      keywords: 'підписка, підписники, дискусія, система дискусій, пояснення, послідовність',
+      keywords: 'вподобані, сподобалась оселя, запропоновані, запропонувати, підписка, підписники, дискусія, система дискусій, пояснення, послідовність',
       // image: '/assets/blog/blog.png',
       // url: 'https://discussio.site/blog',
     }

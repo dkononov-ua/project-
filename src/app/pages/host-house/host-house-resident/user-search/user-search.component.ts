@@ -1,7 +1,7 @@
 import { FormBuilder } from '@angular/forms';
 import { FilterService } from '../../../../services/search/filter.service';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
@@ -35,7 +35,7 @@ interface Subscriber {
     animations.swichCard,
   ],
 })
-export class UserSearchComponent implements OnInit {
+export class UserSearchComponent implements OnInit, OnDestroy {
 
   // імпорт шляхів
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -68,6 +68,8 @@ export class UserSearchComponent implements OnInit {
   acces_subs: number = 1;
   authorization: boolean = false;
   houseData: any;
+  subscriptions: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -75,17 +77,33 @@ export class UserSearchComponent implements OnInit {
     private sharedService: SharedService,
   ) { }
 
-  ngOnInit(): void {
-    this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-      this.serverPath = serverPath;
-    })
-    this.selectedFlatIdService.selectedFlatId$.subscribe(selectedFlatId => {
-      if (selectedFlatId) {
-        this.selectedFlatId = selectedFlatId;
-        this.loadDataFlat();
-      }
-    });
+  async ngOnInit(): Promise<void> {
+    await this.getCheckDevice();
+    await this.getSelectedFlat();
+    this.loadDataFlat();
+  }
 
+
+  // підписка на шлях до серверу
+  async getCheckDevice() {
+    this.subscriptions.push(
+      this.sharedService.isMobile$.subscribe((status: boolean) => {
+        this.isMobile = status;
+      })
+    );
+  }
+
+  // підписка на айді обраної оселі, перевіряю чи є в мене створена оселя щоб відкрити функції з орендарями
+  async getSelectedFlat() {
+    this.subscriptions.push(
+      this.selectedFlatIdService.selectedFlatId$.subscribe(async (flatId: string | null) => {
+        if (flatId) {
+          this.selectedFlatId = Number(flatId);
+        } else {
+          this.sharedService.logoutHouse();
+        }
+      })
+    )
   }
 
   loadDataFlat(): void {
@@ -168,6 +186,10 @@ export class UserSearchComponent implements OnInit {
         console.log('User not found');
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   isValidSearchQuery(): any {

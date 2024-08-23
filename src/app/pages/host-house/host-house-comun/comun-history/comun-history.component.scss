@@ -3,14 +3,55 @@
 @use "./../../../../style/presets/" as *;
 @use "./../../../../style/mixins/" as *;
 
-.sticky-top {
-  background-image: linear-gradient(to top, rgba(255, 255, 255, 0), white 20%);
-}
-
 .date-control {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
+  .app-wrapper {
+    @include s1-s3 {
+      width: 100%;
+    }
+  }
+}
+
+.btn-group {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  z-index: 5;
+  @include s3-s6-max {
+    position: sticky;
+    bottom: 0;
+  }
+  @include s1-s3 {
+    position: fixed !important;
+    bottom: 0;
+  }
+  .btn {
+    @include flex-box-center;
+    height: 60px;
+    background-color: $color-accent;
+  }
+}
+
+.container-info {
+  position: relative;
+  overflow: auto;
+  display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  @include s3-s6-max {
+    height: 100%;
+  }
+  @include s1-s3 {
+    height: auto;
+  }
+  .wrapper-form {
+    @include s1-s3 {
+      padding-bottom: 60px;
+    }
+  }
 }
 
 .year {
@@ -88,86 +129,37 @@
   }
 }
 
-.content-child {
-  justify-content: flex-start;
-  height: calc(100vh - 100px - 1rem - 10px);
+.card-comun {
+  height: 100%;
   position: relative;
-  overflow: visible;
 
-  @include s1-s3 {
-    height: calc(100vh - 100px - 1rem);
+  @include s3-s6-max {
+    background-color: $color-white;
+    @include box-shadow;
+    border-radius: 20px;
   }
 
-  .card-box {
-    @include flex-box-column;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wrapper-comun {
+    height: 80%;
+    z-index: 5;
     position: relative;
-    align-items: flex-start;
-    height: 100%;
-    align-items: stretch;
-    overflow: auto;
-    padding: 10px;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    @include s1-s3 {
-      width: 100%;
-      padding: 0px;
-      border-radius: 0px;
-    }
-    .card-group {
-      padding: 10px;
-      z-index: 10;
-      background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 60%);
-    }
-    .card-background {
+    border-radius: 20px;
+
+    .slide-card {
+      @include flex-box-center;
+      height: 100%;
+      flex-direction: column;
       position: absolute;
-      overflow: hidden;
-      border-radius: 20px;
-      height: 100%;
+      justify-content: flex-start;
+      top: 0;
+      left: 0;
+      z-index: 100;
       width: 100%;
-      .img {
-        width: 100%;
-        object-fit: cover;
-        height: 100%;
-      }
-      @include s1-s3 {
-        border-radius: 0px;
-      }
-    }
-    .card-comun {
-      height: 100%;
-      position: relative;
-      overflow: auto;
-
-      @include s3-s6-max {
-        background-color: $color-white;
-        @include box-shadow;
-        border-radius: 20px;
-      }
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      .wrapper-comun {
-        height: 80%;
-        z-index: 5;
-        position: relative;
-        border-radius: 20px;
-
-        .slide-card {
-          @include flex-box-center;
-          height: 100%;
-          flex-direction: column;
-          position: absolute;
-          justify-content: flex-start;
-          top: 0;
-          left: 0;
-          z-index: 100;
-          width: 100%;
-          align-items: stretch;
-        }
-      }
+      align-items: stretch;
     }
   }
 }
@@ -187,13 +179,6 @@
       color: $color-white;
     }
   }
-}
-
-.border-left {
-  // border: 1px solid $color-light;
-  border-radius: 50% !important;
-  background-color: rgb(229, 235, 54) !important;
-  @include box-shadow-a;
 }
 
 .radio-btn {
@@ -257,10 +242,6 @@
   }
 }
 
-.switch-content {
-  height: 8vh;
-  justify-content: space-evenly;
-}
 .btn-calc {
   width: 40px;
   height: 40px;
@@ -269,18 +250,6 @@
 
 .flex-box {
   display: flex;
-}
-
-.btn-group {
-  position: sticky;
-  bottom: 0;
-  margin: 0;
-  z-index: 200;
-  border-radius: 20px !important;
-
-  .btn {
-    height: 60px;
-  }
 }
 
 .card-1 {
@@ -376,31 +345,6 @@
   align-items: center;
 }
 
-.card {
-  align-items: stretch;
-  justify-content: space-between;
-  overflow: auto;
-  position: relative;
-}
-
-.about {
-  font-size: 13px;
-}
-
-.description {
-  font-size: 13px;
-  font-style: italic;
-}
-
-.formula {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.name {
-  text-align: center;
-}
-
 .card-btn-container {
   border-radius: 10px;
 }
@@ -468,10 +412,6 @@
   }
 }
 
-.wrap {
-  flex-wrap: wrap;
-}
-
 .item {
   @include flex-box;
   margin: 2px;
@@ -504,9 +444,6 @@
   height: 100px;
   width: 100%;
   justify-content: space-around;
-  z-index: 50;
-  position: sticky;
-  top: 0;
   @include s1-s3 {
     border: none;
   }

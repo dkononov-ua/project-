@@ -83,7 +83,6 @@ export class ComunAddComponent implements OnInit {
   }
   checkComun: boolean = false;
 
-
   // показ карток
   indexMenu: number = 0;
   indexPage: number = -1;
@@ -136,7 +135,7 @@ export class ComunAddComponent implements OnInit {
             if (response.status === 'Данні по комуналці успішно змінені') {
               setTimeout(() => {
                 this.sharedService.setStatusMessage('Послуга створена');
-                this.router.navigate(['/communal']);
+                this.router.navigate(['/house/communal']);
                 setTimeout(() => {
                   this.sharedService.setStatusMessage('');
                   location.reload();
@@ -265,7 +264,7 @@ export class ComunAddComponent implements OnInit {
     this.changeComunService.setSelectedComun(comunal_name);
     this.sharedService.setStatusMessage('Налаштування послуги ' + comunal_name);
     setTimeout(() => {
-      this.router.navigate(['/communal/company']);
+      this.router.navigate(['/house/communal/company']);
       this.sharedService.setStatusMessage('');
     }, 1000);
   }
@@ -276,7 +275,7 @@ export class ComunAddComponent implements OnInit {
     // console.log(comunal_name)
     if (comunal_name) {
       setTimeout(() => {
-        this.router.navigate(['/communal/history']);
+        this.router.navigate(['/house/communal/history']);
         this.sharedService.setStatusMessage('');
       }, 1000);
     }
@@ -290,7 +289,7 @@ export class ComunAddComponent implements OnInit {
     this.changeComunService.setSelectedComun(comunal_name);
     this.sharedService.setStatusMessage('Сезонна статистика ' + comunal_name);
     setTimeout(() => {
-      this.router.navigate(['/communal/stat-season']);
+      this.router.navigate(['/house/communal/stat-season']);
       this.sharedService.setStatusMessage('');
     }, 1000);
   }

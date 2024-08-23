@@ -43,6 +43,7 @@ export const OptionPay: { [key: number]: string } = {
   0: 'Щомісяця',
   1: 'Подобово',
   2: 'Безкоштовно',
+  3: 'Продаж нерухомості',
 }
 
 export const Purpose: { [key: number]: string } = {

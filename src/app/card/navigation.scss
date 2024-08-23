@@ -2,6 +2,11 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.custom-badge .mat-badge-content {
+  background-color: $color-accent;
+  color: $color-white;
+}
+
 .logo-img {
   width: 30px;
   height: 30px;
@@ -154,7 +159,7 @@
   }
 
   &:hover {
-    transform: scale(0.9);
+    transform: none;
     background-color: $color-gray;
     @include box-shadow-i;
     .fa-solid,
@@ -219,7 +224,7 @@
     .fa-regular,
     .t-med,
     .t-min {
-      color: $color-white;
+      color: $color-dark;
     }
   }
   &.active {

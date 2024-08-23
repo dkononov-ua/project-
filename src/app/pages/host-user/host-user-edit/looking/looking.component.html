@@ -797,10 +797,11 @@
               </mat-form-field>
             </div>
 
-            <mat-form-field class="w-100 mt-2">
-              <mat-label>Додаткова інформація</mat-label>
-              <textarea #textArea id="floatingTextarea" [(ngModel)]="userInfo.about" matInput
-                placeholder="Введіть додаткову інформацію."></textarea>
+            <mat-form-field class="mt-2">
+              <textarea appAutoResizeTextarea matInput id="textArea" [(ngModel)]="userInfo.about"></textarea>
+              <label for="textArea">
+                <p>Опис вашого оголошення</p>
+              </label>
             </mat-form-field>
 
           </div>

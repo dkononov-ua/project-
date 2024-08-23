@@ -31,9 +31,27 @@ mat-form-field {
 mat-select,
 input,
 mat-hint,
-mat-label,
 span {
   color: $color-text !important;
+}
+
+.label {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  &.action {
+    cursor: pointer;
+    color: $color-accent !important;
+    .fa-solid {
+      color: $color-accent;
+      font-size: 14px;
+    }
+  }
+}
+
+.label-for {
+  color: $color-gray;
+  font-size: 14px;
 }
 
 .btn-group {
@@ -53,6 +71,11 @@ span {
     @include flex-box-center;
     height: 60px;
     background-color: $color-accent;
+    color: $color-white;
+    .fa-solid,
+    .fa-regular {
+      color: $color-white;
+    }
   }
 }
 
@@ -134,12 +157,13 @@ span {
 
 .param-wrapper {
   @include flex-box-center;
+  padding: 10px;
   flex-direction: column;
   @include s3-s6-max {
     padding-bottom: 0px;
   }
   @include s1-s3 {
-    padding-bottom: 80px;
+    padding: 10px 10px 80px 10px;
   }
 }
 
@@ -148,6 +172,7 @@ span {
   flex-direction: column;
   position: relative;
   display: flex;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -190,7 +215,6 @@ span {
 .item-select {
   flex-direction: column-reverse;
   width: 100%;
-  padding: 0 10px 0 10px;
 }
 
 .card-box {
@@ -217,16 +241,6 @@ span {
   }
 }
 
-textarea {
-  height: auto;
-  min-height: 200px;
-}
-
-.scrollable-textarea {
-  height: auto;
-  overflow: auto;
-}
-
 .img-wrapper {
   width: 100%;
   position: relative;
@@ -242,7 +256,6 @@ textarea {
 .btn-control {
   z-index: 20;
 }
-
 
 .card-1 {
   @include flex-box-center;

@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,28 +5,12 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { LyDialog } from '@alyle/ui/dialog';
-import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
-import { ImgCropperEvent } from '@alyle/ui/image-cropper';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
 import { DataService } from 'src/app/services/data.service';
+import { HouseInfo } from 'src/app/interface/info';
+import { HouseConfig } from 'src/app/interface/param-config';
 
-interface FlatInfo {
-  students: boolean;
-  woman: boolean;
-  man: boolean;
-  family: boolean;
-  bunker: string | undefined;
-  animals: string | undefined;
-  option_pay: number;
-  price_d: number;
-  price_m: number;
-  about: string | undefined;
-  private: boolean;
-  rent: number;
-  room: number;
-  price_f: number;
-}
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -41,8 +24,6 @@ interface FlatInfo {
 })
 
 export class AboutComponent implements OnInit, OnDestroy {
-  @ViewChild('textArea', { static: false })
-  textArea!: ElementRef;
   minValue: number = 0;
   maxValue: number = 1000000;
   loading = false;
@@ -55,22 +36,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   serverPath: string = '';
   // ***
 
-  flatInfo: FlatInfo = {
-    students: false,
-    woman: false,
-    man: false,
-    family: false,
-    bunker: undefined,
-    animals: 'Неважливо',
-    option_pay: 1,
-    price_d: 0,
-    price_m: 0,
-    price_f: 0.1,
-    about: undefined,
-    private: false,
-    rent: 0,
-    room: 0,
-  };
+  flatInfo: HouseInfo = HouseConfig;
 
   selectedFlatId!: string | null;
   descriptionVisibility: { [key: string]: boolean } = {};
@@ -86,6 +52,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   helpPhoto: boolean = false;
   helpPriority: boolean = false;
   statusMessage: string | undefined;
+
   openHelpRent() {
     this.helpRent = !this.helpRent;
   }
@@ -96,10 +63,6 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   openHelpPriority() {
     this.helpPriority = !this.helpPriority;
-  }
-
-  openHelpPhoto() {
-    this.helpPhoto = !this.helpPhoto;
   }
 
   isMobile = false;
@@ -203,17 +166,20 @@ export class AboutComponent implements OnInit, OnDestroy {
         option_pay: this.flatInfo.option_pay || 0,
         price_d: this.flatInfo.price_d,
         price_m: this.flatInfo.price_m,
+        price_s: this.flatInfo.price_s || undefined,
         about: this.flatInfo.about || undefined,
         private: this.flatInfo.private || false,
         rent: rent,
         room: this.flatInfo.room || 0,
       }
+      console.log(data)
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
           flat: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
+        // console.log(response)
         if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
           this.missingParamsService.checkResponse(response);
           setTimeout(() => {
@@ -228,7 +194,7 @@ export class AboutComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оновлюємо інформацію');
               setTimeout(() => {
-                this.router.navigate(['/house']);
+                this.router.navigate(['/house/edit/about']);
                 this.sharedService.setStatusMessage('');
               }, 1000);
             }, 1500);
@@ -240,7 +206,7 @@ export class AboutComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оновлюємо інформацію');
               setTimeout(() => {
-                // this.router.navigate(['/house']);
+                this.router.navigate(['/house/edit/about']);
                 this.sharedService.setStatusMessage('');
                 location.reload();
               }, 1000);
@@ -251,7 +217,7 @@ export class AboutComponent implements OnInit, OnDestroy {
             this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
               this.sharedService.setStatusMessage('');
-              location.reload();
+              // location.reload();
             }, 1500);
           }, 500);
         }
@@ -266,42 +232,12 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngAfterViewInit() {
-    this.textArea.nativeElement.style.height = 'auto';
-    this.textArea.nativeElement.style.height = this.textArea.nativeElement.scrollHeight + 'px';
-  }
-
-  onInput() {
-    const textarea = this.textArea.nativeElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-  clearInfo(): void {
-    this.flatInfo = {
-      students: false,
-      woman: false,
-      man: false,
-      family: false,
-      bunker: '',
-      animals: 'Неважливо',
-      option_pay: 0,
-      price_d: 0,
-      price_m: 0,
-      price_f: 0,
-      about: '',
-      private: false,
-      rent: 0,
-      room: 0,
-
-    };
-  }
-
   async getInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
+        // console.log(response)
         if (response && response.about) {
           this.flatInfo = response.about;
         } else {

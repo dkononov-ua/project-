@@ -7,15 +7,9 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { MissingParamsService } from '../missing-params.service';
 import { DataService } from 'src/app/services/data.service';
-interface FlatInfo {
-  rooms: number | null;
-  repair_status: string | undefined;
-  area: number | null;
-  kitchen_area: number | null;
-  balcony: string | undefined;
-  floor: number | null;
-  option_flat: number;
-}
+import { HouseInfo } from 'src/app/interface/info';
+import { HouseConfig } from 'src/app/interface/param-config';
+
 @Component({
   selector: 'app-param',
   templateUrl: './param.component.html',
@@ -46,16 +40,7 @@ export class ParamComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  flatInfo: FlatInfo = {
-    rooms: null,
-    repair_status: '',
-    area: null,
-    kitchen_area: null,
-    balcony: '',
-    floor: null,
-    option_flat: 2,
-  };
-
+  flatInfo: HouseInfo = HouseConfig;
   selectedFlatId!: string | null;
   minValue: number = 0;
   maxValue: number = 1000;
@@ -90,7 +75,6 @@ export class ParamComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private sharedService: SharedService,
     private missingParamsService: MissingParamsService,
-
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -216,7 +200,7 @@ export class ParamComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.sharedService.setStatusMessage('Оголошення можна активувати!');
               setTimeout(() => {
-                this.router.navigate(['/edit-house/about']);
+                this.router.navigate(['/house/edit/about']);
                 this.sharedService.setStatusMessage('');
               }, 1000);
             }, 1500);
@@ -230,18 +214,6 @@ export class ParamComponent implements OnInit, OnDestroy {
     } else {
       this.loading = false;
     }
-  }
-
-  clearInfo(): void {
-    this.flatInfo = {
-      rooms: null,
-      repair_status: '',
-      area: null,
-      kitchen_area: null,
-      balcony: '',
-      floor: null,
-      option_flat: 2,
-    };
   }
 
   ngOnDestroy() {
