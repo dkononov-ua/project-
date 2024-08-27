@@ -8,10 +8,10 @@ export interface UserInfo {
   balcony: string | undefined;
   bunker: string | undefined;
   checked: number | 0;
-  city: string | undefined;
-  country: string | undefined;
+  city: string;
+  country: string;
   date: any;
-  day_counts: string | undefined;
+  day_counts: any;
   days: number | undefined;
   distance_green: number;
   distance_metro: number;
@@ -27,17 +27,18 @@ export interface UserInfo {
   img: string | undefined;
   instagram: string;
   lastName: string | undefined;
-  looking_man: boolean | undefined;
-  looking_woman: boolean | undefined;
+  looking_man: boolean;
+  looking_woman: boolean;
   mail: any;
   man: number | undefined;
+  metro: string;
   mounths: number | undefined;
   option_pay: number | undefined;
   price_of: number | undefined;
   price_to: number | undefined;
   purpose_rent: any;
   realll: number | 0;
-  region: string | undefined;
+  region: string;
   repair_status: string | undefined;
   room: number | undefined;
   rooms_of: number | undefined;
@@ -51,6 +52,10 @@ export interface UserInfo {
   weeks: number | undefined;
   woman: number | undefined;
   years: number | undefined;
+
+  street: string;
+  district: string;
+  micro_district: string;
 }
 export interface UserInfoSearch {
   animals: string | undefined;

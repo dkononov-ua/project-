@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { SharedService } from './shared.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { timeout } from 'rxjs';
-import { Router } from '@angular/router';
-import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +14,12 @@ export class CheckBackendService {
 
   firstPath: string = ServerConfig.firstPath;
   secondPath: string = ServerConfig.secondPath;
+  thirdPath: string = ServerConfig.thirdPath;
   savedServerPath: string = '';
 
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
-    private router: Router,
-    private loaderService: LoaderService,
   ) {
     this.sharedService.statusServer$.subscribe((status: string) => {
       this.statusServer = status;
@@ -54,10 +51,25 @@ export class CheckBackendService {
           localStorage.setItem('savedServerPath', this.serverPath);
           this.sharedService.setServerPath(this.serverPath);
           this.sharedService.setStatusServer('Задіяний резервний інтернет');
+        } else {
+          throw new Error('Second path check failed');
         }
       } catch {
-        if (this.statusServer !== 'Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.') {
-          this.sharedService.setStatusServer('Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.');
+        try {
+          const response: any = await this.http.get(`${this.thirdPath}/serv/chech`).pipe(timeout(5000)).toPromise();
+
+          if (response.serb === true && this.savedServerPath !== this.thirdPath) {
+            this.serverPath = this.thirdPath;
+            localStorage.setItem('savedServerPath', this.serverPath);
+            this.sharedService.setServerPath(this.serverPath);
+            this.sharedService.setStatusServer('Задіяний другий резервний інтернет');
+          } else {
+            throw new Error('Third path check failed');
+          }
+        } catch {
+          if (this.statusServer !== 'Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.') {
+            this.sharedService.setStatusServer('Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.');
+          }
         }
       }
     }

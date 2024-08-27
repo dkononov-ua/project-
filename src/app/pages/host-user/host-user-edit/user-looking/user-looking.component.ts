@@ -9,44 +9,11 @@ import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { Location } from '@angular/common';
 import { StorageUserDataService } from 'src/app/services/storageUserData.service';
-interface UserInfo {
-  price_of: number | undefined;
-  price_to: number | undefined;
-  region: string | undefined;
-  city: string | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  area_of: string;
-  area_to: string;
-  repair_status: string | undefined;
-  bunker: string | undefined;
-  balcony: string | undefined;
-  animals: string | undefined;
-  distance_metro: string | undefined;
-  distance_stop: string | undefined;
-  distance_green: string | undefined;
-  distance_shop: string | undefined;
-  distance_parking: string | undefined;
-  option_pay: number | undefined;
-  day_counts: number | undefined;
-  purpose_rent: string | undefined;
-  house: boolean | undefined;
-  flat: boolean | undefined;
-  room: boolean | undefined;
-  looking_woman: number | undefined;
-  looking_man: number | undefined;
-  agree_search: number | undefined;
-  students: boolean | false;
-  woman: boolean | false;
-  man: boolean | false;
-  family: boolean | false;
-  days: number | undefined;
-  weeks: number | undefined;
-  mounths: number | undefined;
-  years: number | undefined;
-  about: string | undefined;
-  metro: string | undefined;
-}
+import { CityDataService } from 'src/app/services/data/cityData.service';
+import { UserInfo } from 'src/app/interface/info';
+import { UsereSearchConfig } from 'src/app/interface/param-config';
+import { StatusMessageService } from 'src/app/services/status-message.service';
+
 @Component({
   selector: 'app-user-looking',
   templateUrl: './user-looking.component.html',
@@ -80,44 +47,8 @@ export class UserLookingComponent implements OnInit, OnDestroy {
 
   @ViewChild('cityInput') cityInput: ElementRef | undefined;
   @ViewChild('regionInput') regionInput: ElementRef | undefined;
-  userInfo: UserInfo = {
-    price_of: 0,
-    price_to: 0,
-    region: '',
-    city: '',
-    rooms_of: 0,
-    rooms_to: 6,
-    area_of: '0.00',
-    area_to: '100000.00',
-    repair_status: 'Неважливо',
-    bunker: 'Неважливо',
-    balcony: 'Неважливо',
-    animals: '',
-    distance_metro: '',
-    distance_stop: '',
-    distance_green: '',
-    distance_shop: '',
-    distance_parking: '',
-    option_pay: 0,
-    house: false,
-    flat: false,
-    room: false,
-    day_counts: 0,
-    purpose_rent: 'Неважливо',
-    looking_woman: 0,
-    looking_man: 0,
-    agree_search: 0,
-    students: false,
-    woman: false,
-    man: false,
-    family: false,
-    days: 0,
-    weeks: 0,
-    mounths: 0,
-    years: 0,
-    about: '',
-    metro: '',
-  };
+
+  userInfo: UserInfo = UsereSearchConfig;
 
   filteredStations: any[] = [];
   filteredCities: any[] | undefined;
@@ -149,6 +80,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
   errorMessage: string | undefined;
   activationUserSearch: boolean = false;
   deactivation: boolean = false;
+  filteredStreets: any;
 
   changeStep(step: number): void {
     this.indexPage = step;
@@ -209,12 +141,18 @@ export class UserLookingComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   subscriptions: any[] = [];
 
+  debounceTimer: any;
+  cityData: any;
+  streetData: any;
+
   constructor(
     private http: HttpClient,
     private router: Router,
     private sharedService: SharedService,
     private location: Location,
     private storageUserDataService: StorageUserDataService,
+    private cityDataService: CityDataService,
+    private statusMessageService: StatusMessageService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -259,40 +197,8 @@ export class UserLookingComponent implements OnInit, OnDestroy {
 
   checkRooms() {
     if (this.userInfo.room) {
-      this.userInfo.looking_woman = 0;
-      this.userInfo.looking_man = 0;
-    }
-  }
-
-  // відправляю event початок свайпу
-  onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  // Реалізація обробки завершення панорамування
-  onPanEnd(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwiped('right');
-      } else {
-        this.onSwiped('left');
-      }
-    }
-  }
-
-  // оброблюю свайп
-  onSwiped(direction: string | undefined) {
-    if (direction === 'right') {
-      if (this.indexPage !== 0) {
-        this.indexPage--;
-      } else {
-        this.router.navigate(['/user/info']);
-      }
-    } else {
-      if (this.indexPage <= 2) {
-        this.indexPage++;
-      }
+      this.userInfo.looking_woman = false;
+      this.userInfo.looking_man = false;
     }
   }
 
@@ -302,6 +208,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        console.log(response)
         if (response.status === true) {
           this.userInfo = response.inf;
         }
@@ -312,6 +219,13 @@ export class UserLookingComponent implements OnInit, OnDestroy {
   }
 
   async saveInfo(): Promise<void> {
+
+    const isActivated = await this.checkAtivationUserSearch();
+
+    if (!isActivated) {
+      return
+    }
+
     if (this.userInfo.option_pay === 2) {
       this.userInfo.price_of = 0.01;
       this.userInfo.price_to = 0.01;
@@ -319,6 +233,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     const data = {
       agree_search: false,
       price_of: this.userInfo.price_of,
+      country: this.userInfo.country || 'Україна',
       price_to: this.userInfo.price_to,
       region: this.userInfo.region,
       city: this.userInfo.city,
@@ -354,113 +269,9 @@ export class UserLookingComponent implements OnInit, OnDestroy {
       about: this.userInfo.about,
       metro: this.userInfo.metro,
     };
+    // console.log(data)
     this.storageUserDataService.activateTenantProfile(data);
   }
-
-  clearAll() {
-    this.clearInfoCard1();
-    this.clearInfoCard2();
-    this.clearInfoCard3();
-  }
-
-  clearInfoCard1(): void {
-    this.userInfo.students = false;
-    this.userInfo.woman = false;
-    this.userInfo.man = false;
-    this.userInfo.family = false;
-    this.userInfo.region = '';
-    this.userInfo.city = '';
-    this.userInfo.house = false;
-    this.userInfo.flat = false;
-    this.userInfo.room = false;
-    this.userInfo.looking_woman = 0;
-    this.userInfo.looking_man = 0;
-    this.userInfo.purpose_rent = 'Неважливо';
-    this.userInfo.repair_status = 'Неважливо';
-  }
-
-  clearInfoCard2(): void {
-    this.userInfo.area_of = '0.00';
-    this.userInfo.area_to = '100000.00';
-    this.userInfo.rooms_of = 0;
-    this.userInfo.rooms_to = 6;
-    this.userInfo.distance_metro = undefined;
-    this.userInfo.distance_stop = undefined;
-    this.userInfo.distance_green = undefined;
-    this.userInfo.distance_shop = undefined;
-    this.userInfo.distance_parking = undefined;
-    this.userInfo.bunker = 'Неважливо';
-    this.userInfo.balcony = 'Неважливо';
-    this.userInfo.animals = 'Неважливо';
-  }
-
-  clearInfoCard3(): void {
-    this.userInfo.option_pay = 0;
-    this.userInfo.price_of = undefined;
-    this.userInfo.price_to = undefined;
-    this.userInfo.day_counts = 0;
-    this.userInfo.days = undefined;
-    this.userInfo.weeks = undefined;
-    this.userInfo.mounths = undefined;
-    this.userInfo.years = undefined;
-    this.userInfo.about = '';
-    this.userInfo.metro = '';
-  }
-
-  // завантаження бази областей
-  loadRegions() {
-    if (this.userInfo.region) {
-      const searchTerm = this.userInfo.region!.toLowerCase();
-      this.filteredRegions = this.regions.filter(region =>
-        region.name.toLowerCase().includes(searchTerm)
-      );
-      const selectedRegionObj = this.filteredRegions.find(region =>
-        region.name === this.userInfo.region
-      );
-      this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-      this.userInfo.city = '';
-      if (this.userInfo.region) {
-        this.loadCities();
-      }
-    }
-  }
-
-  // завантаження бази міст
-  loadCities() {
-    const searchTerm = this.userInfo.city!.toLowerCase();
-    const selectedRegionObj = this.regions.find(region =>
-      region.name === this.userInfo.region
-    );
-    if (selectedRegionObj) {
-      this.filteredCities = selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase().includes(searchTerm)
-      );
-      this.errorMessage = 'Оберіть місто';
-      // console.log(this.errorMessage)
-    } else {
-      // Якщо область не знайдена, показати повідомлення про помилку
-      this.errorMessage = 'Оберіть правильну область';
-      return;
-    }
-    const selectedCityObj = this.filteredCities.find(city =>
-      city.name === this.userInfo.city
-    );
-    if (!selectedCityObj) {
-      // Якщо місто не знайдено у вибраній області, показати повідомлення про помилку
-      this.errorMessage = 'Оберіть місто';
-      return;
-    }
-  }
-
-  // підвантажую станції метро з бази даних
-  // loadStations() {
-  //   if (!this.userInfo) return;
-  //   const searchTerm = this.userInfo.metro!.toLowerCase();
-  //   const subwayStations = subway.find(city => city.name === this.userInfo.city)?.lines;
-  //   this.filteredStations = subwayStations
-  //     ? subwayStations.flatMap(line => line.stations.filter(station => station.name.toLowerCase().includes(searchTerm)))
-  //     : [];
-  // }
 
   // робимо клік на поле там де треба вносити інформацію
   triggerInputClick(input: string): void {
@@ -474,36 +285,97 @@ export class UserLookingComponent implements OnInit, OnDestroy {
   // перевіряємо поля без яких оголошення не буде відображатись в пошуку
   async checkAtivationUserSearch(): Promise<boolean> {
     this.errorMessage = '';
-    if (!this.userInfo.region || this.userInfo.region === '') {
+    if (!this.userInfo.city || this.userInfo.city === '') {
       this.activationUserSearch = false;
-      this.sharedService.setStatusMessage('Треба вказати область');
-      this.indexPage = 2;
+      this.statusMessageService.setStatusMessage('Треба вказати місто');
       setTimeout(() => {
-        this.errorMessage = 'Оберіть правильну область';
-        this.sharedService.setStatusMessage('');
-        this.triggerInputClick('region');
-      }, 1500);
-    } else if (!this.userInfo.city || this.userInfo.city === '') {
-      this.indexPage = 2;
-      this.activationUserSearch = false;
-      this.sharedService.setStatusMessage('Треба вказати місто');
-      setTimeout(() => {
-        this.errorMessage = 'Оберіть місто';
         this.triggerInputClick('city');
-        this.sharedService.setStatusMessage('');
+        this.statusMessageService.setStatusMessage('');
       }, 1500);
+    } else if (!this.userInfo.region || this.userInfo.region === '') {
+      this.activationUserSearch = false;
+      this.statusMessageService.setStatusMessage('Треба вказати область');
+      setTimeout(() => {
+        this.statusMessageService.setStatusMessage('');
+        this.triggerInputClick('region');
+      }, 1500)
     } else if (this.userInfo.option_pay === undefined || this.userInfo.option_pay === null) {
       this.activationUserSearch = false;
-      this.sharedService.setStatusMessage('Треба вказати варіант оплати');
+      this.statusMessageService.setStatusMessage('Треба вказати варіант оплати');
       setTimeout(() => {
-        this.errorMessage = 'Оберіть варіант оплати';
-        this.sharedService.setStatusMessage('');
+        this.statusMessageService.setStatusMessage('');
       }, 1500);
     } else if (this.userInfo.region && this.userInfo.city && this.userInfo.option_pay !== undefined && this.userInfo.option_pay !== null) {
       this.activationUserSearch = true;
     }
     return this.activationUserSearch;
   }
+
+  ifSelectedCity(cityData: any) {
+    this.cityDataService.ifSelectedCity(cityData);
+    this.cityData = cityData;
+    // console.log(this.cityData)
+    if (this.cityData) {
+      this.userInfo.region = cityData.regionUa;
+      this.userInfo.city = cityData.cityUa;
+      // this.userInfo.district = cityData.districtUa;
+      // this.userInfo.micro_district = '';
+      // this.userInfo.street = '';
+    }
+  }
+
+  ifSelectedStreet(streetData: any) {
+    this.cityDataService.ifSelectedStreet(streetData);
+    this.streetData = streetData;
+    // console.log(this.streetData)
+    if (this.streetData) {
+      this.userInfo.street = streetData.streetUa;
+      this.userInfo.micro_district = '';
+    }
+  }
+
+  // завантаження бази областей
+  async onRegionsInputChange(regions: string) {
+    this.filteredRegions = this.cityDataService.loadRegionsFromOwnDB(regions);
+  }
+  // завантаження бази міст областей районів
+  async onCityInputChange(city: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    if (city && city.length >= 3) {
+      const existingCity = this.filteredCities?.find((c: { cityUa: string; }) => c.cityUa === city);
+      if (existingCity) {
+        return;
+      }
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredCities = await this.cityDataService.onCityInputChange(city);
+        if (!this.filteredCities || this.filteredCities.length === 0) {
+          // якщо апі не відповідає або нічого не знайшло я шукаю у власній БД міст
+          this.filteredCities = await this.cityDataService.loadCitiesFromOwnDB(city);
+        }
+      }, 1000);
+    }
+  }
+  // завантаження бази вулиць
+  async onStreetInputChange(street: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    if (street && street.length >= 2) {
+      const existingStreet = this.filteredStreets?.find((s: { streetUa: string; }) => s.streetUa === street);
+      if (existingStreet) {
+        return; // Виходимо, щоб уникнути повторного запиту
+      }
+
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredStreets = await this.cityDataService.onStreetInputChange(street);
+        console.log(this.filteredStreets);
+      }, 500);
+    }
+  }
+
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

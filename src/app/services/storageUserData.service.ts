@@ -111,6 +111,7 @@ export class StorageUserDataService implements OnDestroy {
         }
         const data = {
           agree_search: agree,
+          country: userData.country,
           price_of: userData.price_of.toString(),
           price_to: userData.price_to.toString(),
           region: userData.region,

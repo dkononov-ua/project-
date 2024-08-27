@@ -121,35 +121,77 @@
     </div>
 
 
-    <mat-label class="t-med t-c accent bold w-100">Область та місто</mat-label>
-    <mat-form-field class="item-select" appearance="outline" (click)="loadRegions()"
-      [ngClass]="{ 'error': errorMessage === 'Оберіть правильну область' }">
-      <input #regionInput name="flatInfo.region" matInput placeholder="Почніть вводити область"
-        [(ngModel)]="userInfo.region" (ngModelChange)="loadRegions()" [matAutocomplete]="autoRegion">
+
+    <mat-label class="t-med t-c accent bold w-100">Локація</mat-label>
+
+    <mat-form-field class="item-select" appearance="outline" *ngIf="userInfo.country">
+      <mat-label for="country">Країна</mat-label>
+      <input disabled name="userInfo.country" id="country" matInput [(ngModel)]="userInfo.country"
+        placeholder="Виберіть або введіть мікрорайон">
+      <mat-icon matSuffix><i class="fa-solid fa-flag gray"></i></mat-icon>
+      <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="item-select" appearance="outline">
+      <mat-label for="city">Місто</mat-label>
+      <input #cityInput name="userInfo.city" id="city" matInput [(ngModel)]="userInfo.city"
+        placeholder="Виберіть або введіть місто" (ngModelChange)="onCityInputChange(userInfo.city)"
+        [matAutocomplete]="autoCity">
+      <mat-autocomplete #autoCity="matAutocomplete">
+        <mat-option *ngFor="let city of filteredCities" [value]="city.cityUa"
+          (onSelectionChange)="ifSelectedCity(city)">
+          {{ city.shortCityTypeUa }} {{ city.cityUa }}, <span *ngIf="city.districtUa"> р-н {{ city.districtUa }},</span>
+          обл.{{ city.regionUa }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+      <mat-hint class="red" align="end" *ngIf="errorMessage">{{ errorMessage }}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field [@top1] class="item-select" appearance="outline"
+      *ngIf="cityData || userInfo.city || userInfo.region">
+      <mat-label for="city">Область</mat-label>
+      <input #regionInput name="userInfo.region" id="region" matInput placeholder="Почніть вводити область"
+        [(ngModel)]="userInfo.region" (ngModelChange)="onRegionsInputChange(userInfo.region)"
+        [matAutocomplete]="autoRegion">
       <mat-autocomplete #autoRegion="matAutocomplete">
         <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
           {{ region.name }}
         </mat-option>
       </mat-autocomplete>
       <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
-      <mat-hint class="gray" align="end" *ngIf="errorMessage === 'Оберіть місто'">
-        <i class="fa-regular fa-circle-check green"></i>Область вказана вірно</mat-hint>
-      <mat-hint align="end" *ngIf="errorMessage && errorMessage !== 'Оберіть місто'">
-        <i class="fa-solid fa-ban red"></i><span class="red">Область вказана невірно</span></mat-hint>
     </mat-form-field>
 
-    <mat-form-field class="item-select" appearance="outline" (click)="loadCities()"
-      [ngClass]="{ 'error': errorMessage === 'Оберіть місто' }">
-      <input #cityInput [disabled]="!userInfo.region || errorMessage === 'Оберіть правильну область'"
-        name="flatInfo.city" matInput placeholder="Місто" [(ngModel)]="userInfo.city"
-        placeholder="Почніть вводити місто" (ngModelChange)="loadCities()" [matAutocomplete]="autoCity">
-      <mat-autocomplete #autoCity="matAutocomplete">
-        <mat-option *ngFor="let city of filteredCities" [value]="city.name">
-          {{ city.name }}
+    <mat-form-field [@top1] class="item-select" appearance="outline">
+      <mat-label for="district">Район</mat-label>
+      <input disabled name="userInfo.district" id="district" matInput [(ngModel)]="userInfo.district"
+        placeholder="Виберіть або введіть район">
+      <mat-icon matSuffix><i class="fa-solid fa-mountain-city gray"></i></mat-icon>
+      <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field [@top1] class="item-select" appearance="outline"
+      *ngIf="cityData || userInfo.city ||  userInfo.street">
+      <mat-label for="city">Вулиця</mat-label>
+      <input disabled name="userInfo.street" id="street" matInput [(ngModel)]="userInfo.street"
+        placeholder="Введіть вулицю" (ngModelChange)="onStreetInputChange(userInfo.street)"
+        [matAutocomplete]="autoStreet">
+      <mat-autocomplete #autoStreet="matAutocomplete">
+        <mat-option *ngFor="let street of filteredStreets" [value]="street.streetUa"
+          (onSelectionChange)="ifSelectedStreet(street)">
+          {{ street.streetUa }} {{ street.cityUa }}
         </mat-option>
       </mat-autocomplete>
-      <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
-      <mat-hint class="red" align="end" *ngIf="errorMessage">{{ errorMessage }}</mat-hint>
+      <mat-icon matSuffix><i class="fa-solid fa-road gray"></i></mat-icon>
+      <mat-hint align="end" class="t-min">В розробці</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field [@top1] class="item-select" appearance="outline">
+      <mat-label for="micro_district">Мікрорайон</mat-label>
+      <input disabled name="userInfo.micro_district" id="micro_district" matInput [(ngModel)]="userInfo.micro_district"
+        placeholder="Введіть мікрорайон">
+      <mat-icon matSuffix><i class="fa-solid fa-building-flag gray"></i></mat-icon>
+      <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
     </mat-form-field>
 
     <mat-label class="t-med t-c accent bold">Формат оселі* </mat-label>
@@ -505,39 +547,58 @@
           </div>
         </div>
       </div>
+
+      <div class="inputbox-group pl-2">
+        <div class="content-group">
+          <label class="checkBox">
+            <input id="free" type="radio" [(ngModel)]="userInfo.option_pay" name="free" [value]="3">
+            <div class="transition"></div>
+          </label>
+          <div class="content-group ml-2">
+            <div class="status-static" [ngClass]="{ 'active': userInfo.option_pay === 3}">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <div class="ml-2">Купівля <span class="gray checkBox-text" *ngIf="userInfo.option_pay === 3">(Купую
+                нерухомість)</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <mat-label class="t-med t-c accent bold">Вкажіть термін оренди</mat-label>
-    <div class="t-med gray t-c">Не обов'язково детально щось вираховувати. Дні, тижні, місяці та роки додані
-      для зручності, в пошуку буде виводитись сумарна кількість днів, тому це все можна комбінувати.</div>
-    <div>
+    <div *ngIf="userInfo.option_pay !== 3">
+      <mat-label class="t-med t-c accent bold">Вкажіть термін оренди</mat-label>
 
-      <mat-form-field class="item-select w-25 p-1" appearance="outline">
-        <input type="number" name="days" placeholder="Дні" [maxLength]="2" (keypress)="onKeyPress($event, 2)"
-          [(ngModel)]="userInfo.days" [min]="minValueDays" [max]="maxValueDays" matInput>
-        <mat-hint>Дні</mat-hint>
-      </mat-form-field>
+      <div class="t-med gray t-c">Не обов'язково детально щось вираховувати. Дні, тижні, місяці та роки додані
+        для зручності, в пошуку буде виводитись сумарна кількість днів, тому це все можна комбінувати.</div>
+      <div>
 
-      <mat-form-field class="item-select w-25 p-1" appearance="outline">
-        <input type="number" name="weeks" placeholder="Тиж." [maxLength]="1" (keypress)="onKeyPress($event, 1)"
-          [(ngModel)]="userInfo.weeks" [min]="minValueWeeks" [max]="maxValueWeeks" matInput>
-        <mat-hint>Тижні</mat-hint>
-      </mat-form-field>
+        <mat-form-field class="item-select w-25 p-1" appearance="outline">
+          <input type="number" name="days" placeholder="Дні" [maxLength]="2" (keypress)="onKeyPress($event, 2)"
+            [(ngModel)]="userInfo.days" [min]="minValueDays" [max]="maxValueDays" matInput>
+          <mat-hint>Дні</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field class="item-select w-25 p-1" appearance="outline">
-        <input type="number" name="months" placeholder="Міс." [maxLength]="2" (keypress)="onKeyPress($event, 2)"
-          [(ngModel)]="userInfo.mounths" [min]="minValueMounths" [max]="maxValueMounths" matInput>
-        <mat-hint>Місяці</mat-hint>
-      </mat-form-field>
+        <mat-form-field class="item-select w-25 p-1" appearance="outline">
+          <input type="number" name="weeks" placeholder="Тиж." [maxLength]="1" (keypress)="onKeyPress($event, 1)"
+            [(ngModel)]="userInfo.weeks" [min]="minValueWeeks" [max]="maxValueWeeks" matInput>
+          <mat-hint>Тижні</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field class="item-select w-25 p-1" appearance="outline">
-        <input type="number" name="years" placeholder="Роки" [maxLength]="1" (keypress)="onKeyPress($event, 1)"
-          [(ngModel)]="userInfo.years" [min]="minValueYears" [max]="maxValueYears" matInput>
-        <mat-hint>Роки</mat-hint>
-      </mat-form-field>
+        <mat-form-field class="item-select w-25 p-1" appearance="outline">
+          <input type="number" name="months" placeholder="Міс." [maxLength]="2" (keypress)="onKeyPress($event, 2)"
+            [(ngModel)]="userInfo.mounths" [min]="minValueMounths" [max]="maxValueMounths" matInput>
+          <mat-hint>Місяці</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="item-select w-25 p-1" appearance="outline">
+          <input type="number" name="years" placeholder="Роки" [maxLength]="1" (keypress)="onKeyPress($event, 1)"
+            [(ngModel)]="userInfo.years" [min]="minValueYears" [max]="maxValueYears" matInput>
+          <mat-hint>Роки</mat-hint>
+        </mat-form-field>
 
 
-
+      </div>
     </div>
 
     <mat-label class="t-med t-c accent bold" *ngIf="userInfo.option_pay === 0 || userInfo.option_pay === 1">Визначить
@@ -578,10 +639,6 @@
 </div>
 
 <div [@top2] class="btn-group">
-
-  <button class="btn white" (click)="clearAll()">
-    <i class="icon fa-solid fa-eraser white pr-2"></i> Очистити
-  </button>
 
   <button *ngIf="authorization" class="btn white" (click)="saveInfo()">
     <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти

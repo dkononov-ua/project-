@@ -66,6 +66,7 @@ export const UsereSearchConfig = {
   looking_woman: false,
   mail: '',
   man: 0,
+  metro: '',
   mounths: 0,
   option_pay: 0,
   price_of: 0,
@@ -86,6 +87,10 @@ export const UsereSearchConfig = {
   weeks: 0,
   woman: 0,
   years: 0,
+
+  street: '',
+  district: '',
+  micro_district: '',
 
 }
 
